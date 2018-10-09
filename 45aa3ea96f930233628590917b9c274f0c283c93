@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "25f1d37c_f8bfdc22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T20:43:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa2b89eb_d4d12c17",
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8a49226_997cbe6a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 5
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "2893b5ac_ef4dc2d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T20:43:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb31830b_90ac182f",
+      "range": {
+        "startLine": 161,
+        "startChar": 42,
+        "endLine": 161,
+        "endChar": 60
+      },
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12cff892_3c252685",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 5
@@ -116,6 +158,24 @@
       "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d7d4650_06fa197e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T20:43:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1dfd72e3_c22a9dbd",
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
