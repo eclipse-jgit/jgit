@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abd0c67_578ea46f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-09T21:46:57Z",
+      "side": 1,
+      "message": "The existing code works with null options (as we can see from inspecting UserAgent#getAgent), but this will throw an NPE if there is no currentRequest. Should we pass null here if currentRequest is null to preserve existing behavior?",
+      "range": {
+        "startLine": 1347,
+        "startChar": 28,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "fe61450bb7f09011f9a2a02fe133df3e228dabf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
