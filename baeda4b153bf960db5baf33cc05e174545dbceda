@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d6f4be_dc3e586a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-09T21:23:46Z",
+      "side": 1,
+      "message": "This check is redundant, but this redundancy is already present, so I guess we can clean this up in a commit after this set is merged in.",
+      "range": {
+        "startLine": 1372,
+        "startChar": 8,
+        "endLine": 1372,
+        "endChar": 26
+      },
+      "revId": "baeda4b153bf960db5baf33cc05e174545dbceda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
