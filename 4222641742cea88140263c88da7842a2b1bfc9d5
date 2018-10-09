@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f785314c_95e9228a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "language nit: s/Throw always/Always throw/",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a51e075_fadfb287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "stray blank line",
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd24b51c_5bd481f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "optional: can import static for brevity",
+      "range": {
+        "startLine": 119,
+        "startChar": 5,
+        "endLine": 119,
+        "endChar": 44
+      },
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0d5d749_d9949638",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a41aba24_f827d921",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069aeecb_30c014d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:16:09Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "4222641742cea88140263c88da7842a2b1bfc9d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
