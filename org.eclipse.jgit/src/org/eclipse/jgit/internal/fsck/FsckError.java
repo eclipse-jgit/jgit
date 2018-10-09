@@ -61,7 +61,8 @@ public class FsckError {
 
 		final int type;
 
-		final @Nullable ObjectChecker.ErrorType errorType;
+		@Nullable
+		final ObjectChecker.ErrorType errorType;
 
 		/**
 		 * @param id
