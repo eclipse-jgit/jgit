@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cf784d0_8aa4a03a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T22:24:56Z",
+      "side": 1,
+      "message": "This touches an odd corner of the annotation processing world, which we have so far been avoiding[1]: e.g. checker-framework will consider this to be claiming that each byte is nullable.\n\n[1] https://eclipse.googlesource.com/jgit/jgit/+/39b27f7c7b99499702db6e86ccfacf448a3231bf/org.eclipse.jgit/src/org/eclipse/jgit/annotations/Nullable.java#82",
+      "range": {
+        "startLine": 410,
+        "startChar": 14,
+        "endLine": 410,
+        "endChar": 30
+      },
+      "revId": "559c68cb012b971bf506d12aaf0a0f0504c9780b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
