@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e59ecc39_448b34b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "optional: This could even go inside the checkPacks method (no need to change it, though).",
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a49226_997cbe6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "optional: Can import static",
+      "range": {
+        "startLine": 161,
+        "startChar": 42,
+        "endLine": 161,
+        "endChar": 60
+      },
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12cff892_3c252685",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "nit: add a period at end of sentence",
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a7fde0_e5d7f8fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "Please mention {@link #reset()} here. You can imitate the RevWalk javadoc for wording.",
+      "range": {
+        "startLine": 111,
+        "startChar": 52,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc80a78_20546d98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1263,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "invocation-specific\n\nPerhaps:\n\n Reset any invocation-specific state from this instance. Specifically, this clears\n the list of .gitmodules files encountered (see {@link #getGitsubmodules()}).",
+      "range": {
+        "startLine": 1263,
+        "startChar": 14,
+        "endLine": 1263,
+        "endChar": 33
+      },
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de239cc5_9b961cff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:42:52Z",
+      "side": 1,
+      "message": "@since 5.2",
+      "revId": "45aa3ea96f930233628590917b9c274f0c283c93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
