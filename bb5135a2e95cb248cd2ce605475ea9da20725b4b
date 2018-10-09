@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7bbd74f8_6cf07bfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "975a5454_aeedcec3",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21912206_5f2295e9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-08T23:26:04Z",
       "side": 1,
       "message": "In the spirit of defensive programming, I think it would be easiest to have this reset() call to right before checkPacks. (Fewer hard-to-reproduce issues due to a caller leaving some state in the objChecker.)",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f685ef3_7216a352",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21912206_5f2295e9",
       "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "728c9a89_59daa274",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ec24e7_d149551f",
+      "range": {
+        "startLine": 214,
+        "startChar": 21,
+        "endLine": 214,
+        "endChar": 26
+      },
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "953fddd8_37213257",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 4
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "d6afb84c_3f705e1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:50:03Z",
+      "side": 1,
+      "message": "Done. (These will be defined now in the patch for the SubmoduleValidatorException)",
+      "parentUuid": "953fddd8_37213257",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12c97f7f_49033d3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 4
@@ -87,6 +165,30 @@
       "writtenOn": "2018-10-08T23:26:04Z",
       "side": 1,
       "message": "What is meant by the OS here? Perhaps a link would make it clearer.",
+      "range": {
+        "startLine": 1266,
+        "startChar": 42,
+        "endLine": 1266,
+        "endChar": 48
+      },
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1419d898_a74d4bda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12c97f7f_49033d3d",
       "range": {
         "startLine": 1266,
         "startChar": 42,
