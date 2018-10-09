@@ -51,8 +51,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 class InternalPushConnection<C> extends BasePackPushConnection {
 	private Thread worker;
@@ -99,14 +97,11 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 				try {
 					final ReceivePack rp = receivePackFactory.create(req, remote);
 					rp.receive(out_r, in_w, System.err);
-				} catch (ServiceNotEnabledException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (ServiceNotAuthorizedException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (IOException err) {
-					// Client side of the pipes should report the problem.
-				} catch (RuntimeException err) {
-					// Clients side will notice we went away, and report.
+				} catch (Exception e) {
+					// Clients will notice we went away, but in tests it's
+					// hard to find out what is wrong, so write something to
+					// stderr.
+					System.err.println("Exception while receiving pack: " + e.toString());
 				} finally {
 					try {
 						out_r.close();
