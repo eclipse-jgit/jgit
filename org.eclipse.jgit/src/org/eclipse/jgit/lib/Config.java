@@ -62,7 +62,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
@@ -1158,7 +1157,6 @@ public class Config {
 	 *             if something went wrong while reading the config
 	 * @since 4.10
 	 */
-	@Nullable
 	protected byte[] readIncludedConfig(String relPath)
 			throws ConfigInvalidException {
 		return null;
