@@ -1158,7 +1158,6 @@ public class Config {
 	 *             if something went wrong while reading the config
 	 * @since 4.10
 	 */
-	@Nullable
 	protected byte[] readIncludedConfig(String relPath)
 			throws ConfigInvalidException {
 		return null;

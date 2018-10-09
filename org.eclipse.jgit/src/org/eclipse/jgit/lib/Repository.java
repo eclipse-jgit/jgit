@@ -1981,7 +1981,6 @@ public abstract class Repository implements AutoCloseable {
 	 *         empty
 	 * @throws IOException
 	 */
-	@Nullable
 	private byte[] readGitDirectoryFile(String filename) throws IOException {
 		File file = new File(getDirectory(), filename);
 		try {

@@ -281,7 +281,6 @@ public class FileBasedConfig extends StoredConfig {
 	 * @since 4.10
 	 */
 	@Override
-	@Nullable
 	protected byte[] readIncludedConfig(String relPath)
 			throws ConfigInvalidException {
 		final File file;
