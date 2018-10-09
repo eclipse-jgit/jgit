@@ -22,6 +22,30 @@
       "revId": "559c68cb012b971bf506d12aaf0a0f0504c9780b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17175df7_b13c69ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T22:41:47Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/130714/ to fix",
+      "parentUuid": "7cf784d0_8aa4a03a",
+      "range": {
+        "startLine": 410,
+        "startChar": 14,
+        "endLine": 410,
+        "endChar": 30
+      },
+      "revId": "559c68cb012b971bf506d12aaf0a0f0504c9780b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
