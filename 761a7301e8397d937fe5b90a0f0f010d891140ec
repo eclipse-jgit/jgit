@@ -1,0 +1,318 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad659fca_c9bd6b3f",
+        "filename": "org.eclipse.jgit.http.server/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "Does this need a version field?",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f253816_7c3ebca2",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44842adc_5f00995a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "testFirstWantWithCapabilities",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 36
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3166132_8463edde",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "Should we also check that it doesn\u0027t spuriously detect more capabilities?",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c0105e1_00043051",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "testFirstWantWithoutCapabilities",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05254974_adf45e6d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "unrelated change?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 41
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901701d2_c3ed10e5",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "Does this need a version field?",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e126888c_07a0f4b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "Since this class is parsing code, the reader would be more likely to be interested in the corresponding class from parsing code.\n\nIt appears to be handled inline in BasePackConnection#readAdvertisedRefsImpl, instead of having a dedicated parser. Maybe worth a TODO to pull it out?",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f7d4f69_5154eb95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "b8f7c471373b8583ced0025cfad8c9916c484b76 HEAD\\0 cap1 cap2 cap3",
+      "range": {
+        "startLine": 57,
+        "startChar": 19,
+        "endLine": 57,
+        "endChar": 52
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e01742_bbf8928a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "v0 and v1",
+      "range": {
+        "startLine": 68,
+        "startChar": 46,
+        "endLine": 68,
+        "endChar": 48
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8899ee3d_41d0a9dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "@return parsed line, separating capabilities from the rest of the \"want\" line",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ccafa9_59484009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "maybe: \"String wantLine;\"\n\nOr \"l\", or \"lineWithoutCaps\"",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ebf4575_e3f13658",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "style: missing braces (likewise below)",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a627acc_b8a2e9ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "What should happen if opt doesn\u0027t start with a space? Can this diagnose the protocol error?",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74a0c0dd_90019156",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "Very nice.",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecca7c13_c307daca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T20:43:09Z",
+      "side": 1,
+      "message": "nit: can fit on a single line",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
