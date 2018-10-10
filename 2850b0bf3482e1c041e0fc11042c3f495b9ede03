@@ -68,6 +68,24 @@
       "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e122d5_4068a6ec",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:04:59Z",
+      "side": 1,
+      "message": "I\u0027ve read the discussion, and I still don\u0027t understand it. David, any hints?",
+      "parentUuid": "e089e44d_a3946370",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
