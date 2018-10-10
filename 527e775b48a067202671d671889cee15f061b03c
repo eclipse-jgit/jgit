@@ -314,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "bf0dc886_11c301d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-10T16:33:56Z",
+      "side": 1,
+      "message": "Thanks for the composition tip (my mind was stuck in the inheritance idea)! I think now it looks much better.",
+      "parentUuid": "e0f8228c_cdcbbd8b",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66c67942_f4f3dfe8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
         "patchSetId": 2
