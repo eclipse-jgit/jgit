@@ -50,6 +50,24 @@
       "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e089e44d_a3946370",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-10T08:30:27Z",
+      "side": 1,
+      "message": "see the discussion in Ied575f3603a6be0d2dafc6c3329d685fc212c7a3",
+      "parentUuid": "11edb13a_4959228d",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
