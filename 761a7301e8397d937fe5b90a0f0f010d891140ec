@@ -318,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "af2f6aa1_7c2a7503",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "dcd78dcc_6ccc8ae7",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f7d4f69_5154eb95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
         "patchSetId": 12
@@ -570,6 +588,24 @@
       "side": 1,
       "message": "Do you mean an invalid character? something not in the \ncapability       \u003d  1*(LC_ALPHA / DIGIT / \"-\" / \"_\")\nIt should be checked here, I\u0027ll submit in a different change to keep this one about moving the code around.",
       "parentUuid": "3a627acc_b8a2e9ff",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0368db3_8834a0ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "I mean\n\n want 0000000000000000000000000000000000000000Capability stuck against the want\n\nBut you\u0027re right that this is just moving existing code, so such things are out of scope. Could be worth a TODO comment.",
+      "parentUuid": "d210da7c_90b2b2b6",
       "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
