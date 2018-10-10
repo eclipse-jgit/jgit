@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8143fe3_3fe8f35e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "nit: s/://",
+      "range": {
+        "startLine": 57,
+        "startChar": 42,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "061f3c5e4c8238775d54c0d6c6625de89bdb19b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e2a0861_c6cffb81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "nit: missing period at end of sentence",
+      "revId": "061f3c5e4c8238775d54c0d6c6625de89bdb19b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f28fa4d_de0246bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "capabilities",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 21
+      },
+      "revId": "061f3c5e4c8238775d54c0d6c6625de89bdb19b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21752c06_6166b7e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T23:22:23Z",
+      "side": 1,
+      "message": "optional: \"as an immutable set\"",
+      "revId": "061f3c5e4c8238775d54c0d6c6625de89bdb19b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
