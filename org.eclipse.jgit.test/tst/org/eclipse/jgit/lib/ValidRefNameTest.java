@@ -270,8 +270,8 @@ public class ValidRefNameTest {
 
 	@Test
 	public void testNormalizeBranchName() {
-		assertEquals(true, Repository.normalizeBranchName(null) == "");
-		assertEquals(true, Repository.normalizeBranchName("").equals(""));
+		assertEquals("", Repository.normalizeBranchName(null));
+		assertEquals("", Repository.normalizeBranchName(""));
 		assertNormalized("Bug 12345::::Hello World", "Bug_12345-Hello_World");
 		assertNormalized("Bug 12345 :::: Hello World", "Bug_12345_Hello_World");
 		assertNormalized("Bug 12345 :::: Hello::: World",
