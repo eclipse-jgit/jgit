@@ -22,6 +22,30 @@
       "revId": "baeda4b153bf960db5baf33cc05e174545dbceda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e9c4a21_cf4b2f2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-10T16:33:56Z",
+      "side": 1,
+      "message": "Agree. Lets do it in a different commit to keep this one about \"moving code out\"",
+      "parentUuid": "e7d6f4be_dc3e586a",
+      "range": {
+        "startLine": 1372,
+        "startChar": 8,
+        "endLine": 1372,
+        "endChar": 26
+      },
+      "revId": "baeda4b153bf960db5baf33cc05e174545dbceda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
