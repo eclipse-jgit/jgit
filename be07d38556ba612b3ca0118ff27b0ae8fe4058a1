@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0dd26033_aa2f4822",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-10T17:45:59Z",
+      "side": 1,
+      "message": "Sorry for the naming oversight. The misspelling was introduced already in FetchV2Request, released in 5.1 (and I assume we cannot change without proper API deprecations (correct?)).\n\nI rather keep the naming consistent between the classes (even if slightly misspelled). How do you see it?",
+      "parentUuid": "3e84d292_e012cb1d",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46ddacd5_8de8eb90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fef2950c_749328e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-10T17:45:59Z",
+      "side": 1,
+      "message": "Same case as above: consistency with v2 vs correctness. I am for consistency, but open to suggestions.",
+      "parentUuid": "46ddacd5_8de8eb90",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f78a2826_be305ac4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV1Parser.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-10-09T21:20:35Z",
       "side": 1,
       "message": "1. I think it\u0027s better to make it public when it is used. As it is, I don\u0027t see how another package can use it - there is no public constructor and no public static factory method.\n2. What do you mean by \"first line parsing is used in ...\"? I thought first line parsing was handled by FirstWantLine.",
+      "range": {
+        "startLine": 62,
+        "startChar": 17,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a21903_27a9423d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV1Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-10T17:45:59Z",
+      "side": 1,
+      "message": "Originally FirstWant was inside this class. The comment is outdated. I deleted it and made the class package-private.\nDone",
+      "parentUuid": "f78a2826_be305ac4",
       "range": {
         "startLine": 62,
         "startChar": 17,
