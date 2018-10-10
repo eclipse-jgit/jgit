@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d825b15f_5595ba8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-10T00:57:58Z",
+      "side": 1,
+      "message": "Correct change is https://git.eclipse.org/r/#/c/50783/\n\nI\u0027ll replace the links with Change-Ids.",
+      "parentUuid": "45ef3f58_5e879dd0",
+      "revId": "1b390dbe8cd689c6a75954dbf8fd035a37132f02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e878cd71_4a3875e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
         "patchSetId": 2
@@ -66,6 +84,30 @@
       "writtenOn": "2018-10-10T00:47:17Z",
       "side": 1,
       "message": "Please add more details to the comment --- e.g. what micro-benchmark can I run to reproduce the speedup?",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 44
+      },
+      "revId": "1b390dbe8cd689c6a75954dbf8fd035a37132f02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ecbdb12_5584ce05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-10T00:57:58Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t know.  In his comment on [1] Shawn only says that he benchmarked it, but not how.\n\n[1] https://git.eclipse.org/r/#/c/50783/",
+      "parentUuid": "e878cd71_4a3875e5",
       "range": {
         "startLine": 194,
         "startChar": 20,
