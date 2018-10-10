@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8b606c6_db14b807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T00:45:50Z",
+      "side": 1,
+      "message": "Can use a commit id instead of a link to make the context easier to find within a git repository",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b80aba99_006df163",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T00:45:50Z",
+      "side": 1,
+      "message": "not about this change: missing space after \"catch\"",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11edb13a_4959228d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-10T00:45:50Z",
+      "side": 1,
+      "message": "I don\u0027t understand this. Why is it in a finally block if we don\u0027t expect this to be triggered by an exception that would be swallowed?",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
