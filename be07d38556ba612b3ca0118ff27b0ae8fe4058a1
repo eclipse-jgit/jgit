@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "34bdb653_e67b6602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-11T03:38:32Z",
+      "side": 1,
+      "message": "I\u0027d rather it be wantIds. We can introduce FetchV2Request#getWantIds and make getWantsIds a temporary deprecated synonym.",
+      "parentUuid": "0dd26033_aa2f4822",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46ddacd5_8de8eb90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
         "patchSetId": 2
@@ -140,6 +164,30 @@
       "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3305e3b2_bbe1cafb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV1Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-11T03:38:32Z",
+      "side": 1,
+      "message": "Looks good. Sorry for the slow path to get there.",
+      "parentUuid": "97a21903_27a9423d",
+      "range": {
+        "startLine": 62,
+        "startChar": 17,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
