@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d1b9eb_7524d56f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-11T04:04:50Z",
+      "side": 1,
+      "message": "Can FetchRequest gain getDeepenSince and getDeepenNotRefs methods instead?",
+      "revId": "58ba29997dd3088570ff2f36787cb5cbbe90a7ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
