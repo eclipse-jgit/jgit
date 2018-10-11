@@ -118,6 +118,7 @@ public class ObjectDownloadListener implements WriteListener {
 			try {
 				buffer.clear();
 				if (in.read(buffer) < 0) {
+					in.close();
 					buffer = null;
 				} else {
 					buffer.flip();
