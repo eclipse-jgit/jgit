@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.transport.parser;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * In the pack negotiation phase (protocol v0/v1), the client sends a list of
@@ -74,18 +78,24 @@ public class FirstWant {
 	 * @param line
 	 *            line from the client.
 	 * @return an instance of FirstWant
+	 * @throws PackProtocolException
 	 */
-	public static FirstWant fromLine(String line) {
+	public static FirstWant fromLine(String line) throws PackProtocolException {
 		String wantLine;
 		Set<String> capabilities;
 
 		if (line.length() > 45) {
 			final HashSet<String> opts = new HashSet<>();
 			String opt = line.substring(45);
-			if (opt.startsWith(" ")) { //$NON-NLS-1$
-				opt = opt.substring(1);
+			if (!opt.startsWith(" ")) { //$NON-NLS-1$
+				throw new PackProtocolException(JGitText.get().wantNoSpaceWithCapabilities);
 			}
+			opt = opt.substring(1);
 			for (String c : opt.split(" ")) { //$NON-NLS-1$
+				if (!validCapability(c)) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().wantInvalidCapability, c));
+				}
 				opts.add(c);
 			}
 			wantLine = line.substring(0, 45);
@@ -96,6 +106,15 @@ public class FirstWant {
 		}
 
 		return new FirstWant(wantLine, capabilities);
+	}
+
+	private static boolean validCapabilityChar(int c) {
+		String validChars = "* -_.,?\\/{}[]()<>!@#$%^&*+=:;"; //$NON-NLS-1$
+		return Character.isAlphabetic(c) || Character.isDigit(c) || validChars.indexOf(c) != -1;
+	}
+
+	private static boolean validCapability(String cap) {
+		return cap.chars().allMatch(FirstWant::validCapabilityChar);
 	}
 
 	private FirstWant(String line, Set<String> capabilities) {
