@@ -69,6 +69,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -193,7 +194,11 @@ public class UploadPack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			firstWant = FirstWant.fromLine(line);
+			try {
+				firstWant = FirstWant.fromLine(line);
+			} catch (PackProtocolException e) {
+				throw new UncheckedIOException(e);
+			}
 		}
 
 		/** @return non-capabilities part of the line. */
