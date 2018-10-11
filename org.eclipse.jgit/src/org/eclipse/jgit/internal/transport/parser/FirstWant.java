@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.transport.parser;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * In the pack negotiation phase (protocol v0/v1), the client sends a list of
@@ -74,20 +78,21 @@ public class FirstWant {
 	 * @param line
 	 *            line from the client.
 	 * @return an instance of FirstWant
+	 * @throws PackProtocolException
+	 *             if the line doesn't follow the protocol format.
 	 */
-	public static FirstWant fromLine(String line) {
+	public static FirstWant fromLine(String line) throws PackProtocolException {
 		String wantLine;
 		Set<String> capabilities;
 
 		if (line.length() > 45) {
-			final HashSet<String> opts = new HashSet<>();
 			String opt = line.substring(45);
-			if (opt.startsWith(" ")) { //$NON-NLS-1$
-				opt = opt.substring(1);
+			if (!opt.startsWith(" ")) { //$NON-NLS-1$
+				throw new PackProtocolException(JGitText.get().wantNoSpaceWithCapabilities);
 			}
-			for (String c : opt.split(" ")) { //$NON-NLS-1$
-				opts.add(c);
-			}
+			opt = opt.substring(1);
+			HashSet<String> opts = new HashSet<>(
+					Arrays.asList(opt.split(" "))); //$NON-NLS-1$
 			wantLine = line.substring(0, 45);
 			capabilities = Collections.unmodifiableSet(opts);
 		} else {
