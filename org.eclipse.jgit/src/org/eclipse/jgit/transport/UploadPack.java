@@ -193,16 +193,38 @@ public class UploadPack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			firstWant = FirstWant.fromLine(line);
+			// This class didn't validate the input nor reported error.
+			// FirstWant does a stricter validation. Try the line, then try
+			// ignoring the capabilities (potential source of error) and finally
+			// default to ""/emptySet
+			FirstWant candidate = null;
+			try {
+				candidate = FirstWant.fromLine(line);
+			} catch (PackProtocolException e) {
+				try {
+					candidate = FirstWant.fromLine(line.substring(0, 45));
+				} catch (PackProtocolException e1) {
+					// Hopeless line
+				}
+			}
+
+			firstWant = candidate;
+
 		}
 
 		/** @return non-capabilities part of the line. */
 		public String getLine() {
+			if (firstWant == null) {
+				return null;
+			}
 			return firstWant.getLine();
 		}
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
+			if (firstWant == null) {
+				return Collections.emptySet();
+			}
 			return firstWant.getCapabilities();
 		}
 	}
