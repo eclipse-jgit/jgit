@@ -612,6 +612,24 @@
     },
     {
       "key": {
+        "uuid": "97e60ab6_869edff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-11T18:41:22Z",
+      "side": 1,
+      "message": "Tighter validation of this line (this specific case included) in https://git.eclipse.org/r/130820",
+      "parentUuid": "d0368db3_8834a0ee",
+      "revId": "761a7301e8397d937fe5b90a0f0f010d891140ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74a0c0dd_90019156",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 12
