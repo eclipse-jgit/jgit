@@ -193,16 +193,28 @@ public class UploadPack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			firstWant = FirstWant.fromLine(line);
+			FirstWant candidate = null;
+			try {
+				candidate = FirstWant.fromLine(line);
+			} catch (PackProtocolException e) {
+				// For API compatibility, this class cannot throw an exception.
+			}
+			firstWant = candidate;
 		}
 
 		/** @return non-capabilities part of the line. */
 		public String getLine() {
+			if (firstWant == null) {
+				return null;
+			}
 			return firstWant.getLine();
 		}
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
+			if (firstWant == null) {
+				return Collections.emptySet();
+			}
 			return firstWant.getCapabilities();
 		}
 	}

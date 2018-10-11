@@ -832,6 +832,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String userConfigFileInvalid;
 	/***/ public String validatingGitModules;
 	/***/ public String walkFailure;
+	/***/ public String wantNoSpaceWithCapabilities;
 	/***/ public String wantNotValid;
 	/***/ public String weeksAgo;
 	/***/ public String windowSizeMustBeLesserThanLimit;
