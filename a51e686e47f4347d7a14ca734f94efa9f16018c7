@@ -46,6 +46,30 @@
       "revId": "a51e686e47f4347d7a14ca734f94efa9f16018c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9477809_ba9ab6ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-12T02:22:59Z",
+      "side": 1,
+      "message": "Never mind.  I see now that Ref doesn\u0027t implement hashcode/equals, so this wouldn\u0027t work.",
+      "parentUuid": "9680b112_35a1bff9",
+      "range": {
+        "startLine": 427,
+        "startChar": 31,
+        "endLine": 428,
+        "endChar": 47
+      },
+      "revId": "a51e686e47f4347d7a14ca734f94efa9f16018c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
