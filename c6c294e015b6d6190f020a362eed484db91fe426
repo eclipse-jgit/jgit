@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdaaa9f4_d9d92e29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:22:14Z",
+      "side": 1,
+      "message": "strange formatting (space before period). Maybe use a link?\n\n parsed by {@link org.eclipse.jgit.transport.BasePackConnection#readAdvertisedRefs}.",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "c6c294e015b6d6190f020a362eed484db91fe426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
