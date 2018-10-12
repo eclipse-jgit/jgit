@@ -167,7 +167,7 @@ public class UnionInputStreamTest {
 
 		u.add(new ByteArrayInputStream(new byte[] { 20, 30 }) {
 			@Override
-			public long skip(long n) {
+			public synchronized long skip(long n) {
 				return 0;
 			}
 		});
