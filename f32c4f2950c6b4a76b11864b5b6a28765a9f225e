@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e69ed30a_b613cbbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T20:57:13Z",
+      "side": 1,
+      "message": "missing \"the\": parsed by the BasePackConnection#readAdvertisedRefs method.",
+      "revId": "f32c4f2950c6b4a76b11864b5b6a28765a9f225e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
