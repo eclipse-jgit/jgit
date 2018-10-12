@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "64e38429_9fbb5349",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T22:30:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "403a22aa_68bec438",
+      "range": {
+        "startLine": 113,
+        "startChar": 44,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "162449df_5762e034",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "551eecd9_140b6bd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T22:30:27Z",
+      "side": 1,
+      "message": "Done. (I kept it because it was in the original code... but this is a good chance to remote it)",
+      "parentUuid": "162449df_5762e034",
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11b71e89_b75e6918",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d9133e_b4f86028",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T22:30:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b71e89_b75e6918",
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
