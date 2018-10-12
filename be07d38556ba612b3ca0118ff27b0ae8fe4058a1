@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4d47b9b9_cd6015ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T19:15:21Z",
+      "side": 1,
+      "message": "Done. The rename in FetchV2Request will be done in the commit introducing the common superclass.",
+      "parentUuid": "34bdb653_e67b6602",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46ddacd5_8de8eb90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
         "patchSetId": 2
@@ -117,6 +141,30 @@
       "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ad850c_4daeaa0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV1Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T19:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef2950c_749328e5",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "Looks good. Sorry for the slow path to get there.",
       "parentUuid": "97a21903_27a9423d",
+      "range": {
+        "startLine": 62,
+        "startChar": 17,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "be07d38556ba612b3ca0118ff27b0ae8fe4058a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e47f76f2_8d30e6b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV1Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T19:15:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3305e3b2_bbe1cafb",
       "range": {
         "startLine": 62,
         "startChar": 17,
