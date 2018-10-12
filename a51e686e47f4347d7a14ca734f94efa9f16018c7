@@ -22,6 +22,30 @@
       "revId": "a51e686e47f4347d7a14ca734f94efa9f16018c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9680b112_35a1bff9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-12T02:17:19Z",
+      "side": 1,
+      "message": "Could we change this to return Set\u003cRef\u003e so that at least it doesn\u0027t contain duplicates?",
+      "parentUuid": "82f148f0_107d22a9",
+      "range": {
+        "startLine": 427,
+        "startChar": 31,
+        "endLine": 428,
+        "endChar": 47
+      },
+      "revId": "a51e686e47f4347d7a14ca734f94efa9f16018c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
