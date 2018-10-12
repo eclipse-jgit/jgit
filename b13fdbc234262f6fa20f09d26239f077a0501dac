@@ -16,6 +16,24 @@
       "revId": "b13fdbc234262f6fa20f09d26239f077a0501dac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5bb3d0_b2d655e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T22:08:22Z",
+      "side": 1,
+      "message": "I\u0027ve looked closer now. Validating that everything to the left of the \u0027\u003d\u0027 sign is [a-z0-9_-] and everything to the right of it is [chr(32)..chr(127)] should work.\n\nThat said, Git is not so strict. So probably safest to do that in a separate commit if we want to do it.\n\nThanks for your patience and help digging this all up.",
+      "parentUuid": "8033070b_a0328fae",
+      "revId": "b13fdbc234262f6fa20f09d26239f077a0501dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
