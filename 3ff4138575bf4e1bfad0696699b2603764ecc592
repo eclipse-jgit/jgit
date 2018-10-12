@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "403a22aa_68bec438",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T22:08:22Z",
+      "side": 1,
+      "message": "I don\u0027t think this example is valid.",
+      "range": {
+        "startLine": 113,
+        "startChar": 44,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "162449df_5762e034",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T22:08:22Z",
+      "side": 1,
+      "message": "style: JGit tends to prefer avoiding unnecessary use of final on local variables",
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b71e89_b75e6918",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T22:08:22Z",
+      "side": 1,
+      "message": "throw new UncheckedIOException(e);",
+      "revId": "3ff4138575bf4e1bfad0696699b2603764ecc592",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
