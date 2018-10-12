@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8033070b_a0328fae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T21:13:03Z",
+      "side": 1,
+      "message": "The spec says\n\n capability       \u003d  1*(LC_ALPHA / DIGIT / \"-\" / \"_\")\n\nThat clearly wasn\u0027t updated for capabilities like \"agent\u003d\u003cagent\u003e\", \"symref\u003d\u003csymref\u003e:\u003crefname\u003e\", and \"push-cert\u003d\u003cnonce\u003e\", though.\n\nGit permits \u003cagent\u003e values to contain any character in [chr(32)..chr(127)], inclusive.\n\nSafest would be to treat these as opaque and not validate the character set at all.",
+      "revId": "b13fdbc234262f6fa20f09d26239f077a0501dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
