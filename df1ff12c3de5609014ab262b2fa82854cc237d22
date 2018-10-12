@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efc2e887_8b09b7bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:28:25Z",
+      "side": 1,
+      "message": "Do you have more details about this one? I don\u0027t see it in the spec.",
+      "range": {
+        "startLine": 113,
+        "startChar": 44,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "464c3f66_149389f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:28:25Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. Can you summarize?",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 28
+      },
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c81df636_3185672a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:28:25Z",
+      "side": 1,
+      "message": "??",
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
