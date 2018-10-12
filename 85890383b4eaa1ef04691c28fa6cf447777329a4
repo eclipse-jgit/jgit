@@ -22,6 +22,29 @@
       "revId": "85890383b4eaa1ef04691c28fa6cf447777329a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72ffcec_1ac84606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:42:01Z",
+      "side": 1,
+      "message": "I\u0027d leave out this \"so unfortunately\" bit, unless we have plans for removing the request info later.\n\nMaybe this javadoc can link to the specific hooks that take an UploadPack argument to make the connection clearer.",
+      "range": {
+        "startLine": 324,
+        "startChar": 18,
+        "endLine": 324,
+        "endChar": 68
+      },
+      "revId": "85890383b4eaa1ef04691c28fa6cf447777329a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
