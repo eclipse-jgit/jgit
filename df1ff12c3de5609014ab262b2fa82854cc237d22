@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9fbe9449_f8436cbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T21:13:03Z",
+      "side": 1,
+      "message": "Yes, I think we should just fail on parse errors. If we find a client that passes invalid capabilities, we can update the spec and this logic at that point.",
+      "parentUuid": "37d30cce_d5350f08",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 28
+      },
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c81df636_3185672a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
