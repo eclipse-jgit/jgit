@@ -1,0 +1,255 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a62d1566_b156db2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "Upload-pack?",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 9
+      },
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f307fb9_7524d588",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "nit: @return this builder",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1590e670_2b010ef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "no need for `this.` qualifier here",
+      "range": {
+        "startLine": 116,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 8
+      },
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "252f6373_c67fa3a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "likewise (and likewise in the rest of the file)",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "928f7c38_91400746",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "nit: should be a noun phrase",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b640708_be7f5a6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "optional: Iterable\u003cString\u003e?",
+      "range": {
+        "startLine": 145,
+        "startChar": 24,
+        "endLine": 145,
+        "endChar": 40
+      },
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a818a45b_47cf5168",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "needs period at end of sentence",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93305b5_1f7d2966",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "wire",
+      "range": {
+        "startLine": 78,
+        "startChar": 59,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063afe1c_f1ef32b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "FetchV0Request",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 28
+      },
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e392b43a_61326f2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "nit: missing braces",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9c3c1e_873a534a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b04da1ee_6278218c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c44129_29a0a60c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T19:37:06Z",
+      "side": 1,
+      "message": "Remembering https://git.eclipse.org/r/c/128345, I wonder: should this use wantIds \u003d req.getWantIds()? The wantIds field should be gone soon, anyway.",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
