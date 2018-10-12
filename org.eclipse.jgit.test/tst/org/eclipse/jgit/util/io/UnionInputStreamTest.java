@@ -167,6 +167,8 @@ public class UnionInputStreamTest {
 
 		u.add(new ByteArrayInputStream(new byte[] { 20, 30 }) {
 			@Override
+			@SuppressWarnings("UnsynchronizedOverridesSynchronized")
+			// This is only used in tests and is thread-safe
 			public long skip(long n) {
 				return 0;
 			}
