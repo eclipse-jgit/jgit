@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a10c77f_df1a14b7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstWantTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T21:00:35Z",
+      "side": 1,
+      "message": "From the agent description: \"The [agent] strings may contain any printable ASCII characters except space (i.e., the byte range 32 \u003c x \u003c 127)\"\n\nhttps://github.com/git/git/blob/pu/Documentation/technical/protocol-capabilities.txt#L168\n\nMy understanding is that capabilities must accept that range (because of agent)",
+      "parentUuid": "efc2e887_8b09b7bc",
+      "range": {
+        "startLine": 113,
+        "startChar": 44,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "464c3f66_149389f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "37d30cce_d5350f08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T21:00:35Z",
+      "side": 1,
+      "message": "When the implementation was here, this class never reported any error. Now that there is some validation, this class needs to hide errors (if any).\n\nThis was an attempt of try to get something from the line even with errors: if the line failed parsing, it tries without the capabilities part. If it still fails, then give up (null line/emptySet of capabilities).\n\nMaybe this is overdoing it? and this should just fail on parsing? I will simplify it.",
+      "parentUuid": "464c3f66_149389f4",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 28
+      },
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81df636_3185672a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "345cc007_14b5f3ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-12T21:00:35Z",
+      "side": 1,
+      "message": "We tried parsing the line, we tried parsing only the \"want oid\" part, and we still see errors: nothing else we can do.\nSorry for the unfortunate comment.",
+      "parentUuid": "c81df636_3185672a",
+      "revId": "df1ff12c3de5609014ab262b2fa82854cc237d22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
