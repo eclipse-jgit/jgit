@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef3d4bea_7433e0f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-12T22:32:04Z",
+      "side": 1,
+      "message": "Now that we\u0027re not swallowing the exception, can simplify:\n\n  try {\n    firstWant \u003d ...;\n  } catch (...) {\n    throw ...\n  }\n\nAnd the other methods don\u0027t need to handle a null value any more.",
+      "revId": "3c546928b46ce38706adbaca8a725e5c49f600a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
