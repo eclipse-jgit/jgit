@@ -86,6 +86,24 @@
       "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "373caf6b_d8303c17",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-10-13T08:29:48Z",
+      "side": 1,
+      "message": "The whole story is in this GH issue, that linked in the commit message to the change that Matthias referenced: [1]. It appears to be not trivial to get this piece of code right because of error handling and endless loop problem, that was discovered during upgrade to recent Jetty version.\n\nTo exit from the \"while (out.isReady())\" loop, we need another indication. In older Jetty versions closing already closed stream was causing an exception and that\u0027s why the loop was exited (always with exception), while in newer Jetty versions this is not the case any more.\n\nIn this code version, that exit-loop-indication is re-setting ByteBuffer instance to null. And performing the clean-ups code in the finally block.\n\nNow, returning statement from the finally block made EP unhappy. We may be able to circumvent this by amending the loop condition to:\n\n  while (out.isReady() \u0026\u0026 buffer !\u003d null) {\n  [...]\n\nThat way we could entirely remove the return statement with the comment from the finally block.\n\n* [1] https://github.com/eclipse/jetty.project/issues/2911",
+      "parentUuid": "a2e122d5_4068a6ec",
+      "revId": "2850b0bf3482e1c041e0fc11042c3f495b9ede03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
