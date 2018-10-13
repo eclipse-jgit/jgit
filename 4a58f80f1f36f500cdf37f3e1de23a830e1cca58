@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "150df315_d622c4bf",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-10-13T06:54:24Z",
+      "side": 1,
+      "message": "The cleaning case is handled in buffer \u003d\u003d null branch on line 137 below. I would expect to add also closing of input stream  there, where the output stream is closed:\n\n  try {\n        in.close();\n        out.close();\n  } finally {\n  [...]",
+      "range": {
+        "startLine": 121,
+        "startChar": 5,
+        "endLine": 125,
+        "endChar": 6
+      },
+      "revId": "4a58f80f1f36f500cdf37f3e1de23a830e1cca58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a0f5633_6b855a41",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-10-13T06:54:24Z",
+      "side": 1,
+      "message": "Unrelated to this change: add a space before opening paren.",
+      "range": {
+        "startLine": 130,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "4a58f80f1f36f500cdf37f3e1de23a830e1cca58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
