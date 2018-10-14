@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2dc4376_d713dfbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-14T21:03:50Z",
+      "side": 1,
+      "message": "@param javadoc should be a noun phrase",
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8ffd21c_c6175b37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-14T21:03:50Z",
+      "side": 1,
+      "message": "optional: Ah, I missed that Set doesn\u0027t have an addAll that takes Iterable. Maybe this should take Collection\u003cString\u003e instead.\n\nAre these options client capabilities? It could make sense to call this something like addClientCapabilities, though I understand that this calls them options for consistency with old UploadPack code.",
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93a3a36_67cfb423",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-14T21:03:50Z",
+      "side": 1,
+      "message": "This is a class javadoc \u003chttps://www.oracle.com/technetwork/java/javase/documentation/index-142372.html#class\u003e, so maybe \"Parses\" or \"Parser for\" instead",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
