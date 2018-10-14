@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96cae84b_e3813ec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-14T21:29:26Z",
+      "side": 1,
+      "message": "UncheckedIOException",
+      "range": {
+        "startLine": 112,
+        "startChar": 15,
+        "endLine": 112,
+        "endChar": 31
+      },
+      "revId": "21f32f81944bea6185f2276eceb729abe76725f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
