@@ -514,6 +514,24 @@
       "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3c3285e_ee0ce6d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-14T21:03:50Z",
+      "side": 1,
+      "message": "Can you elaborate? E.g. what mostly unrelated lines do you mean? Do you mean removal of the \u0027final\u0027 qualifier?\n\nWhat would you change when removing the field? Once the field is gone, there\u0027s nothing left to change.\n\nI think I prefer assigning to wantIds since it avoids the possibility of the issues described at https://git.eclipse.org/r/c/128345.",
+      "parentUuid": "6218300d_779fc1bf",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
