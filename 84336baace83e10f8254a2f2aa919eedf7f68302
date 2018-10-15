@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0b5f1b0_c3956116",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:24:33Z",
+      "side": 1,
+      "message": "not about this patch: can be made final",
+      "revId": "84336baace83e10f8254a2f2aa919eedf7f68302",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
