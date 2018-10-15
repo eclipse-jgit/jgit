@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "49bf57c0_0cab0a57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-15T06:27:14Z",
+      "side": 1,
+      "message": "nit: space unintentionally added?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 1
+      },
+      "revId": "21f32f81944bea6185f2276eceb729abe76725f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96cae84b_e3813ec3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
         "patchSetId": 4
