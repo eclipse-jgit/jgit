@@ -104,7 +104,7 @@ final class ProtocolV2Parser {
 
 		// Packs are always sent multiplexed and using full 64K
 		// lengths.
-		reqBuilder.addOption(OPTION_SIDE_BAND_64K);
+		reqBuilder.addClientCapability(OPTION_SIDE_BAND_64K);
 
 		String line;
 
@@ -118,7 +118,7 @@ final class ProtocolV2Parser {
 		boolean filterReceived = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
-				reqBuilder.addWantsIds(ObjectId.fromString(line.substring(5)));
+				reqBuilder.addWantId(ObjectId.fromString(line.substring(5)));
 			} else if (transferConfig.isAllowRefInWant()
 					&& line.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
 				String refName = line.substring(OPTION_WANT_REF.length() + 1);
@@ -136,19 +136,19 @@ final class ProtocolV2Parser {
 							.format(JGitText.get().invalidRefName, refName));
 				}
 				reqBuilder.addWantedRef(refName, oid);
-				reqBuilder.addWantsIds(oid);
+				reqBuilder.addWantId(oid);
 			} else if (line.startsWith("have ")) { //$NON-NLS-1$
 				reqBuilder.addPeerHas(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) { //$NON-NLS-1$
 				reqBuilder.setDoneReceived();
 			} else if (line.equals(OPTION_THIN_PACK)) {
-				reqBuilder.addOption(OPTION_THIN_PACK);
+				reqBuilder.addClientCapability(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
-				reqBuilder.addOption(OPTION_NO_PROGRESS);
+				reqBuilder.addClientCapability(OPTION_NO_PROGRESS);
 			} else if (line.equals(OPTION_INCLUDE_TAG)) {
-				reqBuilder.addOption(OPTION_INCLUDE_TAG);
+				reqBuilder.addClientCapability(OPTION_INCLUDE_TAG);
 			} else if (line.equals(OPTION_OFS_DELTA)) {
-				reqBuilder.addOption(OPTION_OFS_DELTA);
+				reqBuilder.addClientCapability(OPTION_OFS_DELTA);
 			} else if (line.startsWith("shallow ")) { //$NON-NLS-1$
 				reqBuilder.addClientShallowCommit(
 						ObjectId.fromString(line.substring(8)));
@@ -175,7 +175,7 @@ final class ProtocolV2Parser {
 							JGitText.get().deepenNotWithDeepen);
 				}
 			} else if (line.equals(OPTION_DEEPEN_RELATIVE)) {
-				reqBuilder.addOption(OPTION_DEEPEN_RELATIVE);
+				reqBuilder.addClientCapability(OPTION_DEEPEN_RELATIVE);
 			} else if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
 				int ts = Integer.parseInt(line.substring(13));
 				if (ts <= 0) {

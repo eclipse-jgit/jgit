@@ -163,15 +163,15 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
-		assertTrue(request.getOptions()
+		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_THIN_PACK));
-		assertTrue(request.getOptions()
+		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_NO_PROGRESS));
-		assertTrue(request.getOptions()
+		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_INCLUDE_TAG));
-		assertTrue(request.getOptions()
+		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.CAPABILITY_OFS_DELTA));
-		assertThat(objIdsAsStrings(request.getWantsIds()),
+		assertThat(objIdsAsStrings(request.getWantIds()),
 				hasItems("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 		assertThat(objIdsAsStrings(request.getPeerHas()),
@@ -199,7 +199,7 @@ public class ProtocolV2ParserTest {
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
 		assertTrue(request.getDeepenNotRefs().isEmpty());
 		assertEquals(15, request.getDepth());
-		assertTrue(request.getOptions()
+		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_DEEPEN_RELATIVE));
 	}
 
@@ -308,8 +308,8 @@ public class ProtocolV2ParserTest {
 		assertEquals(1, request.getWantedRefs().size());
 		assertThat(request.getWantedRefs().keySet(),
 				hasItems("refs/heads/branchA"));
-		assertEquals(2, request.getWantsIds().size());
-		assertThat(objIdsAsStrings(request.getWantsIds()),
+		assertEquals(2, request.getWantIds().size());
+		assertThat(objIdsAsStrings(request.getWantIds()),
 				hasItems("e4980cdc48cfa1301493ca94eb70523f6788b819",
 						one.getName()));
 	}
