@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc0e5ec2_57c317b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-15T18:02:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2dc4376_d713dfbe",
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8ffd21c_c6175b37",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
         "patchSetId": 15
@@ -33,6 +51,24 @@
       "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a80fc0b_e0671950",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-15T18:02:54Z",
+      "side": 1,
+      "message": "Indeed, it was options because of the original naming in UploadPack but clientCapabilities is a much better name.\nRenaming it here.",
+      "parentUuid": "c8ffd21c_c6175b37",
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f98ea98c_322e894d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-15T18:02:54Z",
+      "side": 1,
+      "message": "Done. Thanks for the link!",
+      "parentUuid": "f93a3a36_67cfb423",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "92c389018cd37c0f0da451ea22bef94b929e36a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
