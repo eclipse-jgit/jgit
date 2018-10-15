@@ -76,14 +76,9 @@ abstract class FetchRequest {
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
 	 */
-	FetchRequest(Set<ObjectId> wantIds, int depth,
-			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
-			Set<String> clientCapabilities) {
-		if (wantIds == null || clientShallowCommits == null
-				|| clientCapabilities == null) {
-			throw new NullPointerException();
-		}
-
+	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
+			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
+			@NonNull Set<String> clientCapabilities) {
 		this.wantIds = wantIds;
 		this.depth = depth;
 		this.clientShallowCommits = clientShallowCommits;

@@ -71,11 +71,13 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean doneReceived;
 
-	private FetchV2Request(List<ObjectId> peerHas,
-			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantIds,
-			Set<ObjectId> clientShallowCommits, int deepenSince,
-			List<String> deepenNotRefs, int depth, long filterBlobLimit,
-			boolean doneReceived, Set<String> clientCapabilities) {
+	private FetchV2Request(@NonNull List<ObjectId> peerHas,
+			@NonNull TreeMap<String, ObjectId> wantedRefs,
+			@NonNull Set<ObjectId> wantIds,
+			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
+			@NonNull List<String> deepenNotRefs, int depth,
+			long filterBlobLimit,
+			boolean doneReceived, @NonNull Set<String> clientCapabilities) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit, clientCapabilities);
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
@@ -134,17 +136,17 @@ public final class FetchV2Request extends FetchRequest {
 
 	/** A builder for {@link FetchV2Request}. */
 	static final class Builder {
-		List<ObjectId> peerHas = new ArrayList<>();
+		final List<ObjectId> peerHas = new ArrayList<>();
 
-		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
+		final TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
 
-		Set<ObjectId> wantIds = new HashSet<>();
+		final Set<ObjectId> wantIds = new HashSet<>();
 
-		Set<ObjectId> clientShallowCommits = new HashSet<>();
+		final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		List<String> deepenNotRefs = new ArrayList<>();
+		final List<String> deepenNotRefs = new ArrayList<>();
 
-		Set<String> clientCapabilities = new HashSet<>();
+		final Set<String> clientCapabilities = new HashSet<>();
 
 		int depth;
 
