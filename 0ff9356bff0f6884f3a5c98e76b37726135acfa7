@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87ce4017_cba9d24d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-15T17:32:12Z",
+      "side": 1,
+      "message": "This must be\n\n  hostName(session.getHost(), session.getPort())\n\nnot the original host from the URI. If there is a ssh config mapping an alias to a real host name, the known_hosts file will contain the key with the _real_ host. For instance an\nssh config like\n\n  Host git\n  Hostname git.eclipse.org\n  Port 29418\n  User someone\n\nand a URI like ssh://git/jgit/jgit.\n\nWith that change this will work. (I know because for bug 520927 I\u0027m writing ssh tests against an sshd server, and I\u0027ve included tests for this now.)",
+      "range": {
+        "startLine": 257,
+        "startChar": 35,
+        "endLine": 257,
+        "endChar": 55
+      },
+      "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
