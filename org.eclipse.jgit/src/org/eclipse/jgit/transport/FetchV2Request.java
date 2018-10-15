@@ -53,7 +53,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * fetch protocol v2 request.
+ * Fetch request from git protocol v2.
  *
  * <p>
  * This is used as an input to {@link ProtocolV2Hook}.
@@ -65,7 +65,7 @@ public final class FetchV2Request {
 
 	private final TreeMap<String, ObjectId> wantedRefs;
 
-	private final Set<ObjectId> wantsIds;
+	private final Set<ObjectId> wantIds;
 
 	private final Set<ObjectId> clientShallowCommits;
 
@@ -77,37 +77,37 @@ public final class FetchV2Request {
 
 	private final long filterBlobLimit;
 
-	private final Set<String> options;
+	private final Set<String> clientCapabilities;
 
 	private final boolean doneReceived;
 
 	private FetchV2Request(List<ObjectId> peerHas,
-			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
+			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantIds,
 			Set<ObjectId> clientShallowCommits, int deepenSince,
 			List<String> deepenNotRefs, int depth, long filterBlobLimit,
-			boolean doneReceived, Set<String> options) {
+			boolean doneReceived, Set<String> clientCapabilities) {
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
-		this.wantsIds = wantsIds;
+		this.wantIds = wantIds;
 		this.clientShallowCommits = clientShallowCommits;
 		this.deepenSince = deepenSince;
 		this.deepenNotRefs = deepenNotRefs;
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
 		this.doneReceived = doneReceived;
-		this.options = options;
+		this.clientCapabilities = clientCapabilities;
 	}
 
 	/**
-	 * @return object ids in the "have" lines of the request
+	 * @return object ids received in the "have" lines
 	 */
 	@NonNull
 	List<ObjectId> getPeerHas() {
-		return this.peerHas;
+		return peerHas;
 	}
 
 	/**
-	 * @return list of references in the "want-ref" lines of the request
+	 * @return list of references received in "want-ref" lines
 	 */
 	@NonNull
 	Map<String, ObjectId> getWantedRefs() {
@@ -115,11 +115,11 @@ public final class FetchV2Request {
 	}
 
 	/**
-	 * @return object ids in the "want" (and "want-ref") lines of the request
+	 * @return object ids received in the "want" and "want-ref" lines
 	 */
 	@NonNull
-	Set<ObjectId> getWantsIds() {
-		return wantsIds;
+	Set<ObjectId> getWantIds() {
+		return wantIds;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public final class FetchV2Request {
 	}
 
 	/**
-	 * @return the refs in "deepen-not" lines in the request.
+	 * @return refs received in "deepen-not" lines.
 	 */
 	@NonNull
 	List<String> getDeepenNotRefs() {
@@ -184,8 +184,8 @@ public final class FetchV2Request {
 	 * @return options found in the request lines
 	 */
 	@NonNull
-	Set<String> getOptions() {
-		return options;
+	Set<String> getClientCapabilities() {
+		return clientCapabilities;
 	}
 
 	/** @return A builder of {@link FetchV2Request}. */
@@ -200,13 +200,13 @@ public final class FetchV2Request {
 
 		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
 
-		Set<ObjectId> wantsIds = new HashSet<>();
+		Set<ObjectId> wantIds = new HashSet<>();
 
 		Set<ObjectId> clientShallowCommits = new HashSet<>();
 
 		List<String> deepenNotRefs = new ArrayList<>();
 
-		Set<String> options = new HashSet<>();
+		Set<String> clientCapabilities = new HashSet<>();
 
 		int depth;
 
@@ -221,8 +221,8 @@ public final class FetchV2Request {
 
 		/**
 		 * @param objectId
-		 *            from a "have" line in a fetch request
-		 * @return the builder
+		 *            object id received in a "have" line
+		 * @return this builder
 		 */
 		Builder addPeerHas(ObjectId objectId) {
 			peerHas.add(objectId);
@@ -230,13 +230,13 @@ public final class FetchV2Request {
 		}
 
 		/**
-		 * From a "want-ref" line in a fetch request
+		 * Ref received in "want-ref" line and the object-id it refers to
 		 *
 		 * @param refName
 		 *            reference name
 		 * @param oid
-		 *            object id
-		 * @return the builder
+		 *            object id the reference is pointing at
+		 * @return this builder
 		 */
 		Builder addWantedRef(String refName, ObjectId oid) {
 			wantedRefs.put(refName, oid);
@@ -244,42 +244,42 @@ public final class FetchV2Request {
 		}
 
 		/**
-		 * @param option
-		 *            fetch request lines acting as options
-		 * @return the builder
+		 * @param clientCapability
+		 *            capability line sent by the client
+		 * @return this builder
 		 */
-		Builder addOption(String option) {
-			options.add(option);
+		Builder addClientCapability(String clientCapability) {
+			clientCapabilities.add(clientCapability);
 			return this;
 		}
 
 		/**
-		 * @param objectId
-		 *            from a "want" line in a fetch request
-		 * @return the builder
+		 * @param wantId
+		 *            object id received in a "want" line
+		 * @return this builder
 		 */
-		Builder addWantsIds(ObjectId objectId) {
-			wantsIds.add(objectId);
+		Builder addWantId(ObjectId wantId) {
+			wantIds.add(wantId);
 			return this;
 		}
 
 		/**
 		 * @param shallowOid
-		 *            from a "shallow" line in the fetch request
-		 * @return the builder
+		 *            object id received in a "shallow" line
+		 * @return this builder
 		 */
 		Builder addClientShallowCommit(ObjectId shallowOid) {
-			this.clientShallowCommits.add(shallowOid);
+			clientShallowCommits.add(shallowOid);
 			return this;
 		}
 
 		/**
 		 * @param d
-		 *            from a "deepen" line in the fetch request
-		 * @return the builder
+		 *            Depth received in a "deepen" line
+		 * @return this builder
 		 */
 		Builder setDepth(int d) {
-			this.depth = d;
+			depth = d;
 			return this;
 		}
 
@@ -288,32 +288,34 @@ public final class FetchV2Request {
 		 *         0 if not set.
 		 */
 		int getDepth() {
-			return this.depth;
+			return depth;
 		}
 
 		/**
-		 * @return if there has been any "deepen not" line in the request
+		 * @return true if there has been at least one "deepen not" line in the
+		 *         request so far
 		 */
 		boolean hasDeepenNotRefs() {
 			return !deepenNotRefs.isEmpty();
 		}
 
 		/**
-		 * @param deepenNotRef reference in a "deepen not" line
-		 * @return the builder
+		 * @param deepenNotRef
+		 *            reference received in a "deepen not" line
+		 * @return this builder
 		 */
 		Builder addDeepenNotRef(String deepenNotRef) {
-			this.deepenNotRefs.add(deepenNotRef);
+			deepenNotRefs.add(deepenNotRef);
 			return this;
 		}
 
 		/**
 		 * @param value
 		 *            Unix timestamp received in a "deepen since" line
-		 * @return the builder
+		 * @return this builder
 		 */
 		Builder setDeepenSince(int value) {
-			this.deepenSince = value;
+			deepenSince = value;
 			return this;
 		}
 
@@ -322,35 +324,36 @@ public final class FetchV2Request {
 		 *         by default.
 		 */
 		int getDeepenSince() {
-			return this.deepenSince;
+			return deepenSince;
 		}
 
 		/**
-		 * @param filterBlobLimit
+		 * @param filterBlobLim
 		 *            set in a "filter" line
-		 * @return the builder
+		 * @return this builder
 		 */
-		Builder setFilterBlobLimit(long filterBlobLimit) {
-			this.filterBlobLimit = filterBlobLimit;
+		Builder setFilterBlobLimit(long filterBlobLim) {
+			filterBlobLimit = filterBlobLim;
 			return this;
 		}
 
 		/**
 		 * Mark that the "done" line has been received.
 		 *
-		 * @return the builder
+		 * @return this builder
 		 */
 		Builder setDoneReceived() {
-			this.doneReceived = true;
+			doneReceived = true;
 			return this;
 		}
+
 		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
-			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
+			return new FetchV2Request(peerHas, wantedRefs, wantIds,
 					clientShallowCommits, deepenSince, deepenNotRefs,
-					depth, filterBlobLimit, doneReceived, options);
+					depth, filterBlobLimit, doneReceived, clientCapabilities);
 		}
 	}
 }
