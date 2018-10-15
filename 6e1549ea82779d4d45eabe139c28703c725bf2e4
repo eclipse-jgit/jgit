@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a49109_9eafe5f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:27:38Z",
+      "side": 1,
+      "message": "would be nice to make these @NonNull and check in the constructor:\n\n  if (wantIds \u003d\u003d null || clientShallowCommits \u003d\u003d null || clientCapabilities \u003d\u003d null) {\n    throw new NullPointerException();\n  }",
+      "revId": "6e1549ea82779d4d45eabe139c28703c725bf2e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30d664d_50d3e5f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:27:38Z",
+      "side": 1,
+      "message": "@NonNull",
+      "revId": "6e1549ea82779d4d45eabe139c28703c725bf2e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5c5b60_6889930d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:27:38Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "6e1549ea82779d4d45eabe139c28703c725bf2e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfed864a_6f9b8d46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:27:38Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "6e1549ea82779d4d45eabe139c28703c725bf2e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
