@@ -46,6 +46,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -53,9 +54,9 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 final class FetchV0Request extends FetchRequest {
 
-	FetchV0Request(Set<ObjectId> wantIds, int depth,
-			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
-			Set<String> clientCapabilities) {
+	FetchV0Request(@NonNull Set<ObjectId> wantIds, int depth,
+			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
+			@NonNull Set<String> clientCapabilities) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
 				clientCapabilities);
 	}
@@ -64,13 +65,13 @@ final class FetchV0Request extends FetchRequest {
 
 		int depth;
 
-		Set<ObjectId> wantIds = new HashSet<>();
+		final Set<ObjectId> wantIds = new HashSet<>();
 
-		Set<ObjectId> clientShallowCommits = new HashSet<>();
+		final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
 		long filterBlobLimit = -1;
 
-		Set<String> clientCaps = new HashSet<>();
+		final Set<String> clientCaps = new HashSet<>();
 
 		/**
 		 * @param objectId
