@@ -42,90 +42,94 @@
  */
 package org.eclipse.jgit.transport;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Fetch request in the V0/V1 protocol.
+ * Common fields between v0/v1/v2 fetch requests.
  */
-final class FetchV0Request extends FetchRequest {
+abstract class FetchRequest {
 
-	FetchV0Request(Set<ObjectId> wantIds, int depth,
+	final Set<ObjectId> wantIds;
+
+	final int depth;
+
+	final Set<ObjectId> clientShallowCommits;
+
+	final long filterBlobLimit;
+
+	final Set<String> clientCapabilities;
+
+	/**
+	 * Initialize the common fields of a fetch request.
+	 *
+	 * @param wantIds
+	 *            list of want ids
+	 * @param depth
+	 *            how deep to go in the tree
+	 * @param clientShallowCommits
+	 *            commits the client has without history
+	 * @param filterBlobLimit
+	 *            to exclude blobs on certain conditions
+	 * @param clientCapabilities
+	 *            capabilities sent in the request
+	 */
+	FetchRequest(Set<ObjectId> wantIds, int depth,
 			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			Set<String> clientCapabilities) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
-				clientCapabilities);
+		this.wantIds = wantIds;
+		this.depth = depth;
+		this.clientShallowCommits = clientShallowCommits;
+		this.filterBlobLimit = filterBlobLimit;
+		this.clientCapabilities = clientCapabilities;
 	}
 
-	static final class Builder {
+	/**
+	 * @return object ids in the "want" (and "want-ref") lines of the request
+	 */
+	Set<ObjectId> getWantIds() {
+		return wantIds;
+	}
 
-		int depth;
+	/**
+	 * @return the depth set in a "deepen" line. 0 by default.
+	 */
+	int getDepth() {
+		return depth;
+	}
 
-		Set<ObjectId> wantIds = new HashSet<>();
+	/**
+	 * Shallow commits the client already has.
+	 *
+	 * These are sent by the client in "shallow" request lines.
+	 *
+	 * @return set of commits the client has declared as shallow.
+	 */
+	Set<ObjectId> getClientShallowCommits() {
+		return clientShallowCommits;
+	}
 
-		Set<ObjectId> clientShallowCommits = new HashSet<>();
+	/**
+	 * @return the blob limit set in a "filter" line (-1 if not set)
+	 */
+	long getFilterBlobLimit() {
+		return filterBlobLimit;
+	}
 
-		long filterBlobLimit = -1;
-
-		Set<String> clientCaps = new HashSet<>();
-
-		/**
-		 * @param objectId
-		 *            object id received in a "want" line
-		 * @return this builder
-		 */
-		Builder addWantId(ObjectId objectId) {
-			wantIds.add(objectId);
-			return this;
-		}
-
-		/**
-		 * @param d
-		 *            depth set in a "deepen" line
-		 * @return this builder
-		 */
-		Builder setDepth(int d) {
-			depth = d;
-			return this;
-		}
-
-		/**
-		 * @param shallowOid
-		 *            object id received in a "shallow" line
-		 * @return this builder
-		 */
-		Builder addClientShallowCommit(ObjectId shallowOid) {
-			clientShallowCommits.add(shallowOid);
-			return this;
-		}
-
-		/**
-		 * @param clientCapabilities
-		 *            client capabilities sent by the client in the first want
-		 *            line of the request
-		 * @return this builder
-		 */
-		Builder addClientCapabilities(Collection<String> clientCapabilities) {
-			clientCaps.addAll(clientCapabilities);
-			return this;
-		}
-
-		/**
-		 * @param filterBlobLim
-		 *            blob limit set in a "filter" line
-		 * @return this builder
-		 */
-		Builder setFilterBlobLimit(long filterBlobLim) {
-			filterBlobLimit = filterBlobLim;
-			return this;
-		}
-
-		FetchV0Request build() {
-			return new FetchV0Request(wantIds, depth, clientShallowCommits,
-					filterBlobLimit, clientCaps);
-		}
+	/**
+	 * Capabilities that the client wants enabled from the server.
+	 *
+	 * Capabilities are options that tune the expected response from the server,
+	 * like "thin-pack", "no-progress" or "ofs-delta". This list should be a
+	 * subset of the capabilities announced by the server in its first response.
+	 *
+	 * These options are listed and well-defined in the git protocol
+	 * specification.
+	 *
+	 * @return capabilities sent by the client
+	 */
+	Set<String> getClientCapabilities() {
+		return clientCapabilities;
 	}
 }
