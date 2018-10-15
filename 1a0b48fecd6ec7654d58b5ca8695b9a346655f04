@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b6d5adb_1d2a554a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T23:41:29Z",
+      "side": 1,
+      "message": "@NonNull (etc)",
+      "range": {
+        "startLine": 79,
+        "startChar": 14,
+        "endLine": 79,
+        "endChar": 35
+      },
+      "revId": "1a0b48fecd6ec7654d58b5ca8695b9a346655f04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
