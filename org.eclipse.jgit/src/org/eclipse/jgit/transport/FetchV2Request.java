@@ -60,24 +60,14 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * @since 5.1
  */
-public final class FetchV2Request {
+public final class FetchV2Request extends FetchRequest {
 	private final List<ObjectId> peerHas;
 
 	private final TreeMap<String, ObjectId> wantedRefs;
 
-	private final Set<ObjectId> wantIds;
-
-	private final Set<ObjectId> clientShallowCommits;
-
 	private final int deepenSince;
 
 	private final List<String> deepenNotRefs;
-
-	private final int depth;
-
-	private final long filterBlobLimit;
-
-	private final Set<String> clientCapabilities;
 
 	private final boolean doneReceived;
 
@@ -86,16 +76,12 @@ public final class FetchV2Request {
 			Set<ObjectId> clientShallowCommits, int deepenSince,
 			List<String> deepenNotRefs, int depth, long filterBlobLimit,
 			boolean doneReceived, Set<String> clientCapabilities) {
+		super(wantIds, depth, clientShallowCommits, filterBlobLimit, clientCapabilities);
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
-		this.wantIds = wantIds;
-		this.clientShallowCommits = clientShallowCommits;
 		this.deepenSince = deepenSince;
 		this.deepenNotRefs = deepenNotRefs;
-		this.depth = depth;
-		this.filterBlobLimit = filterBlobLimit;
 		this.doneReceived = doneReceived;
-		this.clientCapabilities = clientCapabilities;
 	}
 
 	/**
@@ -111,27 +97,7 @@ public final class FetchV2Request {
 	 */
 	@NonNull
 	Map<String, ObjectId> getWantedRefs() {
-		return this.wantedRefs;
-	}
-
-	/**
-	 * @return object ids received in the "want" and "want-ref" lines
-	 */
-	@NonNull
-	Set<ObjectId> getWantIds() {
-		return wantIds;
-	}
-
-	/**
-	 * Shallow commits the client already has.
-	 *
-	 * These are sent by the client in "shallow" request lines.
-	 *
-	 * @return set of commits the client has declared as shallow.
-	 */
-	@NonNull
-	Set<ObjectId> getClientShallowCommits() {
-		return clientShallowCommits;
+		return wantedRefs;
 	}
 
 	/**
@@ -154,38 +120,10 @@ public final class FetchV2Request {
 	}
 
 	/**
-	 * @return the depth set in a "deepen" line. 0 by default.
-	 */
-	int getDepth() {
-		return depth;
-	}
-
-	/**
-	 * @return the blob limit set in a "filter" line (-1 if not set)
-	 */
-	long getFilterBlobLimit() {
-		return filterBlobLimit;
-	}
-
-	/**
 	 * @return true if the request had a "done" line
 	 */
 	boolean wasDoneReceived() {
 		return doneReceived;
-	}
-
-	/**
-	 * Options that tune the expected response from the server, like
-	 * "thin-pack", "no-progress" or "ofs-delta"
-	 *
-	 * These are options listed and well-defined in the git protocol
-	 * specification
-	 *
-	 * @return options found in the request lines
-	 */
-	@NonNull
-	Set<String> getClientCapabilities() {
-		return clientCapabilities;
 	}
 
 	/** @return A builder of {@link FetchV2Request}. */
