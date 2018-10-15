@@ -532,6 +532,24 @@
       "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b65122bf_20398d9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-15T18:02:54Z",
+      "side": 1,
+      "message": "My concern was with a similar line in fetch v2. This is a commit about protocol v0/v1, that shouldn\u0027t touch anything in v2.\n\nI will change to assignment in this code and leave v2 alone.",
+      "parentUuid": "f3c3285e_ee0ce6d9",
+      "revId": "0999ba5cfef79cc273cf2c984fac1822e014c835",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
