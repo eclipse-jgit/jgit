@@ -51,46 +51,13 @@ import org.eclipse.jgit.lib.ObjectId;
 /**
  * Fetch request in the V0/V1 protocol.
  */
-final class FetchV0Request {
-
-	final Set<ObjectId> wantIds;
-
-	final int depth;
-
-	final Set<ObjectId> clientShallowCommits;
-
-	final long filterBlobLimit;
-
-	final Set<String> clientCapabilities;
+final class FetchV0Request extends FetchRequest {
 
 	FetchV0Request(Set<ObjectId> wantIds, int depth,
 			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			Set<String> clientCapabilities) {
-		this.wantIds = wantIds;
-		this.depth = depth;
-		this.clientShallowCommits = clientShallowCommits;
-		this.filterBlobLimit = filterBlobLimit;
-		this.clientCapabilities = clientCapabilities;
-	}
-
-	Set<ObjectId> getWantIds() {
-		return wantIds;
-	}
-
-	int getDepth() {
-		return depth;
-	}
-
-	Set<ObjectId> getClientShallowCommits() {
-		return clientShallowCommits;
-	}
-
-	long getFilterBlobLimit() {
-		return filterBlobLimit;
-	}
-
-	Set<String> getClientCapabilities() {
-		return clientCapabilities;
+		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
+				clientCapabilities);
 	}
 
 	static final class Builder {
