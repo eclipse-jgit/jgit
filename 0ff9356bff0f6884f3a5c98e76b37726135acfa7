@@ -22,6 +22,29 @@
       "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea20c02_c21cd43a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-15T17:35:18Z",
+      "side": 1,
+      "message": "optional: can factor out a (local to the function) constant",
+      "range": {
+        "startLine": 262,
+        "startChar": 38,
+        "endLine": 262,
+        "endChar": 55
+      },
+      "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
