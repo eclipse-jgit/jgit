@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbea630f_2f2e1209",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T20:09:54Z",
+      "side": 1,
+      "message": "Can do this more cheaply:\n\n  String preferred \u003d\n    Stream.concat(\n      keyTypes.stream()\n      Stream.of(current.split(\",\")).filter(s -\u003e !keyTypes.contains(s)))\n    .collect(joining(\",\"));",
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
