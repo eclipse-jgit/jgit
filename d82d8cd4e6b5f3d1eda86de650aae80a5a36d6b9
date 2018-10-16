@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b41a862c_d7c127b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "@since 4.5.5",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05f90b23_f777f5a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "217589bf_fe0040b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Can you  say more about the semantics? Should I always call this instead of calling the File constructor, or are there cases where the File constructor is still appropriate?",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "899e6f7c_e9c245b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49658d95_8f9b7d02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3366d11_fec9b15d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "What Config is the caller supposed to provide? E.g. should it use the global config or do we want per-repo config here, too?\n\nIs the Config @Nullable? How about the pathname?",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0046f8_260a23ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Same doc questions for the other overloads.",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8665f35_0a4789cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Please add some brief docs about this field. What do true, false, and null mean here?",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce1e437_f3a0457f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "This caches the result --- does it mean that the order of calls matters if people pass different Configs across multiple calls?",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3f909a5_baa094cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "stray blank line",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82630370_f6cabffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "Please add a comment describing the semantics of this field.",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "953028bf_26248e52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "strange wrapping",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76aeaba8_37e115d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03231c8_0a642ea1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T04:55:41Z",
+      "side": 1,
+      "message": "optional: I think this comment would be easier to read if it came before the \u0027try\u0027 (since it\u0027s describing the \u0027try\u0027).",
+      "revId": "d82d8cd4e6b5f3d1eda86de650aae80a5a36d6b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
