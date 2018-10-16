@@ -311,13 +311,6 @@ public class UploadPack {
 	 */
 	private int shallowSince;
 
-	/**
-	 * (Possibly short) ref names, ancestors of which the client has asked us
-	 * not to send using --shallow-exclude. Cannot be non-empty if depth is
-	 * nonzero.
-	 */
-	private List<String> deepenNotRefs = new ArrayList<>();
-
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
 
@@ -847,7 +840,7 @@ public class UploadPack {
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
 			if (depth != 0 || shallowSince != 0) {
-				computeShallowsAndUnshallows(wantIds, shallow -> {
+				computeShallowsAndUnshallows(req, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
 				}, unshallow -> {
 					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
@@ -968,7 +961,6 @@ public class UploadPack {
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
 		shallowSince = req.getDeepenSince();
-		deepenNotRefs = req.getDeepenNotRefs();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -981,7 +973,7 @@ public class UploadPack {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (mayHaveShallow) {
-			computeShallowsAndUnshallows(req.getWantIds(),
+			computeShallowsAndUnshallows(req,
 					shallowCommit -> shallowCommits.add(shallowCommit),
 					unshallowCommit -> unshallowCommits.add(unshallowCommit));
 		}
@@ -1145,24 +1137,26 @@ public class UploadPack {
 	 * Determines what object ids must be marked as shallow or unshallow for the
 	 * client.
 	 */
-	private void computeShallowsAndUnshallows(Iterable<ObjectId> wants,
+	private void computeShallowsAndUnshallows(FetchRequest req,
 			IOConsumer<ObjectId> shallowFunc,
 			IOConsumer<ObjectId> unshallowFunc)
 			throws IOException {
-		if (options.contains(OPTION_DEEPEN_RELATIVE) || !deepenNotRefs.isEmpty()) {
+		if (req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)
+				|| !req.getDeepenNotRefs().isEmpty()) {
 			// TODO(jonathantanmy): Implement deepen-relative
 			// and deepen-not.
 			throw new UnsupportedOperationException();
 		}
 
-		int walkDepth = depth == 0 ? Integer.MAX_VALUE : depth - 1;
+		int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
+				: req.getDepth() - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
 				walk.getObjectReader(), walkDepth)) {
 
-			depthWalk.setDeepenSince(shallowSince);
+			depthWalk.setDeepenSince(req.getDeepenSince());
 
 			// Find all the commits which will be shallow
-			for (ObjectId o : wants) {
+			for (ObjectId o : req.getWantIds()) {
 				try {
 					depthWalk.markRoot(depthWalk.parseCommit(o));
 				} catch (IncorrectObjectTypeException notCommit) {
@@ -1178,13 +1172,13 @@ public class UploadPack {
 
 				// Commits at the boundary which aren't already shallow in
 				// the client need to be marked as such
-				if (isBoundary && !clientShallowCommits.contains(c)) {
+				if (isBoundary && !req.getClientShallowCommits().contains(c)) {
 					shallowFunc.accept(c.copy());
 				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
-				if (!isBoundary && clientShallowCommits.remove(c)) {
+				if (!isBoundary && req.getClientShallowCommits().remove(c)) {
 					unshallowFunc.accept(c.copy());
 				}
 			}
