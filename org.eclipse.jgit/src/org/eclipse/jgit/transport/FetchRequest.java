@@ -44,6 +44,7 @@ package org.eclipse.jgit.transport;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -64,6 +65,10 @@ abstract class FetchRequest {
 
 	final Set<String> clientCapabilities;
 
+	final int deepenSince;
+
+	final List<String> deepenNotRefs;
+
 	/**
 	 * Initialize the common fields of a fetch request.
 	 *
@@ -77,15 +82,24 @@ abstract class FetchRequest {
 	 *            to exclude blobs on certain conditions
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
+	 * @param deepenNotRefs
+	 *            Requests that the shallow clone/fetch should be cut at these
+	 *            specific revisions instead of a depth.
+	 * @param deepenSince
+	 *            Requests that the shallow clone/fetch should be cut at a
+	 *            specific time, instead of depth
 	 */
 	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
 			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
-			@NonNull Set<String> clientCapabilities) {
+			@NonNull Set<String> clientCapabilities, int deepenSince,
+			@NonNull List<String> deepenNotRefs) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
 		this.filterBlobLimit = filterBlobLimit;
 		this.clientCapabilities = requireNonNull(clientCapabilities);
+		this.deepenSince = deepenSince;
+		this.deepenNotRefs = requireNonNull(deepenNotRefs);
 	}
 
 	/**
@@ -137,5 +151,24 @@ abstract class FetchRequest {
 	@NonNull
 	Set<String> getClientCapabilities() {
 		return clientCapabilities;
+	}
+
+	/**
+	 * The value in a "deepen-since" line in the request, indicating the
+	 * timestamp where to stop fetching/cloning.
+	 *
+	 * @return timestamp in seconds since the epoch, where to stop the shallow
+	 *         fetch/clone. Defaults to 0 if not set in the request.
+	 */
+	int getDeepenSince() {
+		return deepenSince;
+	}
+
+	/**
+	 * @return refs received in "deepen-not" lines.
+	 */
+	@NonNull
+	List<String> getDeepenNotRefs() {
+		return deepenNotRefs;
 	}
 }
