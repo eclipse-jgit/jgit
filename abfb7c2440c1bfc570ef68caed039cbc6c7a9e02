@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb046f5b_b4fb8e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T22:09:53Z",
+      "side": 1,
+      "message": "optional: while we\u0027re here, can insert braces",
+      "revId": "abfb7c2440c1bfc570ef68caed039cbc6c7a9e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
