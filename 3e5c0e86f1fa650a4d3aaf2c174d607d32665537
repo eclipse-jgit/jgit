@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6dd97e12_a91ff84f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-16T23:58:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6741a601_ef85feee",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "3e5c0e86f1fa650a4d3aaf2c174d607d32665537",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f11aa3_ab571edc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "77ffb025_4a90cc86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-16T23:58:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23f11aa3_ab571edc",
+      "range": {
+        "startLine": 252,
+        "startChar": 28,
+        "endLine": 252,
+        "endChar": 53
+      },
+      "revId": "3e5c0e86f1fa650a4d3aaf2c174d607d32665537",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7245060_5414243f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "3e5c0e86f1fa650a4d3aaf2c174d607d32665537",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac2677cb_2537e01e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-16T23:58:14Z",
+      "side": 1,
+      "message": "IIRC the grammar allows to go straight to END but the code was relying on finding a DELIM?\n\nRemoving the comment as now this code follows the spec.",
+      "parentUuid": "e7245060_5414243f",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 49
+      },
+      "revId": "3e5c0e86f1fa650a4d3aaf2c174d607d32665537",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
