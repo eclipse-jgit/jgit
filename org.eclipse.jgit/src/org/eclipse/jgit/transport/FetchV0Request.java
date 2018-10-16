@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.transport;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,7 +59,7 @@ final class FetchV0Request extends FetchRequest {
 			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			@NonNull Set<String> clientCapabilities) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
-				clientCapabilities);
+				clientCapabilities, 0, new ArrayList<String>());
 	}
 
 	static final class Builder {

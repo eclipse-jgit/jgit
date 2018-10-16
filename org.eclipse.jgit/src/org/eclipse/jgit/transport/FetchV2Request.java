@@ -67,10 +67,6 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final TreeMap<String, ObjectId> wantedRefs;
 
-	private final int deepenSince;
-
-	private final List<String> deepenNotRefs;
-
 	private final boolean doneReceived;
 
 	FetchV2Request(@NonNull List<ObjectId> peerHas,
@@ -80,11 +76,10 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull List<String> deepenNotRefs, int depth,
 			long filterBlobLimit,
 			boolean doneReceived, @NonNull Set<String> clientCapabilities) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit, clientCapabilities);
+		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
+				clientCapabilities, deepenSince, deepenNotRefs);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
-		this.deepenSince = deepenSince;
-		this.deepenNotRefs = requireNonNull(deepenNotRefs);
 		this.doneReceived = doneReceived;
 	}
 
@@ -105,25 +100,6 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * The value in a "deepen-since" line in the request, indicating the
-	 * timestamp where to stop fetching/cloning.
-	 *
-	 * @return timestamp in seconds since the epoch, where to stop the shallow
-	 *         fetch/clone. Defaults to 0 if not set in the request.
-	 */
-	int getDeepenSince() {
-		return deepenSince;
-	}
-
-	/**
-	 * @return refs received in "deepen-not" lines.
-	 */
-	@NonNull
-	List<String> getDeepenNotRefs() {
-		return deepenNotRefs;
-	}
-
-	/**
 	 * @return true if the request had a "done" line
 	 */
 	boolean wasDoneReceived() {
@@ -134,7 +110,6 @@ public final class FetchV2Request extends FetchRequest {
 	static Builder builder() {
 		return new Builder();
 	}
-
 
 	/** A builder for {@link FetchV2Request}. */
 	static final class Builder {
