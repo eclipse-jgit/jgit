@@ -164,12 +164,7 @@ public class PrePushHook extends GitHook<String> {
 	 */
 	public void setRefs(Collection<RemoteRefUpdate> toRefs) {
 		StringBuilder b = new StringBuilder();
-		boolean first = true;
 		for (RemoteRefUpdate u : toRefs) {
-			if (!first)
-				b.append("\n"); //$NON-NLS-1$
-			else
-				first = false;
 			b.append(u.getSrcRef());
 			b.append(" "); //$NON-NLS-1$
 			b.append(u.getNewObjectId().getName());
@@ -179,6 +174,7 @@ public class PrePushHook extends GitHook<String> {
 			ObjectId ooid = u.getExpectedOldObjectId();
 			b.append((ooid == null) ? ObjectId.zeroId().getName() : ooid
 					.getName());
+			b.append("\n"); //$NON-NLS-1$
 		}
 		refs = b.toString();
 	}

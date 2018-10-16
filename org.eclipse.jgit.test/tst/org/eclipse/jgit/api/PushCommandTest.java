@@ -148,7 +148,7 @@ public class PushCommandTest extends RepositoryTestCase {
 			git1.push().setRemote("test").setRefSpecs(spec).call();
 			assertEquals("1:test, 2:" + uri + ", 3:\n" + "refs/heads/master "
 					+ commit.getName() + " refs/heads/x "
-					+ ObjectId.zeroId().name(), read(hookOutput));
+					+ ObjectId.zeroId().name() + "\n", read(hookOutput));
 		}
 	}
 
