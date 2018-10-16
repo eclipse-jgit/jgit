@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d6bb70e_2af2b786",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-16T15:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87ce4017_cba9d24d",
+      "range": {
+        "startLine": 257,
+        "startChar": 35,
+        "endLine": 257,
+        "endChar": 55
+      },
+      "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea20c02_c21cd43a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-15T17:35:18Z",
       "side": 1,
       "message": "optional: can factor out a (local to the function) constant",
+      "range": {
+        "startLine": 262,
+        "startChar": 38,
+        "endLine": 262,
+        "endChar": 55
+      },
+      "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0118c82c_6d279aad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-16T15:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea20c02_c21cd43a",
       "range": {
         "startLine": 262,
         "startChar": 38,
