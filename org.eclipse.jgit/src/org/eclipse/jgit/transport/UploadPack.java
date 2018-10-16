@@ -305,12 +305,6 @@ public class UploadPack {
 	/** Desired depth from the client on a shallow request. */
 	private int depth;
 
-	/**
-	 * Commit time of the newest objects the client has asked us using
-	 * --shallow-since not to send. Cannot be nonzero if depth is nonzero.
-	 */
-	private int shallowSince;
-
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
 
@@ -839,7 +833,7 @@ public class UploadPack {
 
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
-			if (depth != 0 || shallowSince != 0) {
+			if (depth != 0 || req.getDeepenSince() != 0) {
 				computeShallowsAndUnshallows(req, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
 				}, unshallow -> {
@@ -960,7 +954,6 @@ public class UploadPack {
 		wantIds = req.getWantIds();
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
-		shallowSince = req.getDeepenSince();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1929,11 +1922,11 @@ public class UploadPack {
 			}
 
 			RevWalk rw = walk;
-			if (depth > 0 || shallowSince != 0) {
+			if (depth > 0 || req.getDeepenSince() != 0) {
 				int walkDepth = depth == 0 ? Integer.MAX_VALUE : depth - 1;
 				pw.setShallowPack(depth, unshallowCommits);
 				rw = new DepthWalk.RevWalk(walk.getObjectReader(), walkDepth);
-				((DepthWalk.RevWalk) rw).setDeepenSince(shallowSince);
+				((DepthWalk.RevWalk) rw).setDeepenSince(req.getDeepenSince());
 				rw.assumeShallow(clientShallowCommits);
 			}
 
