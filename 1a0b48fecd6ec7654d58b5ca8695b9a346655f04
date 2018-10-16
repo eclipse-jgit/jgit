@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74f3e573_997a78c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T00:12:55Z",
+      "side": 0,
+      "message": "This check is still useful to keep since the compiler does not enforce @NonNull.",
+      "revId": "1a0b48fecd6ec7654d58b5ca8695b9a346655f04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

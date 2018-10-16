@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "983fa77c_6466acaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T00:12:55Z",
+      "side": 1,
+      "message": "I prefer to leave this as package-private to avoid a synthetic accessor.",
+      "revId": "96a8d1b0bc0bd09544a866c5e09b5e90d345b38d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9349359b_5ded682e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T00:12:55Z",
+      "side": 1,
+      "message": "likewise: can make package-private to avoid a synthetic accessor",
+      "range": {
+        "startLine": 74,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "96a8d1b0bc0bd09544a866c5e09b5e90d345b38d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
