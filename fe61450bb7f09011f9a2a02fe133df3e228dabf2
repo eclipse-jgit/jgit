@@ -22,6 +22,30 @@
       "revId": "fe61450bb7f09011f9a2a02fe133df3e228dabf2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ef2e6c_d82dac31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-16T23:38:41Z",
+      "side": 1,
+      "message": "Good catch! thanks!",
+      "parentUuid": "9abd0c67_578ea46f",
+      "range": {
+        "startLine": 1347,
+        "startChar": 28,
+        "endLine": 1347,
+        "endChar": 55
+      },
+      "revId": "fe61450bb7f09011f9a2a02fe133df3e228dabf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
