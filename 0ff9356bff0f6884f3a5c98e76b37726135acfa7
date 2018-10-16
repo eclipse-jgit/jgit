@@ -93,6 +93,30 @@
       "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ddfca84_2e850813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T20:09:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0118c82c_6d279aad",
+      "range": {
+        "startLine": 262,
+        "startChar": 38,
+        "endLine": 262,
+        "endChar": 55
+      },
+      "revId": "0ff9356bff0f6884f3a5c98e76b37726135acfa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
