@@ -16,6 +16,23 @@
       "revId": "dcb2400739b0812cab07a411096e32209a602388",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91560477_0ffea43f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-16T22:53:19Z",
+      "side": 1,
+      "message": "optional: This isn\u0027t really a protocol violation --- it\u0027s a well formed request, and we\u0027re reporting that the state of the repo doesn\u0027t let us provide a response to it. Is there an exception that indicates so?",
+      "revId": "dcb2400739b0812cab07a411096e32209a602388",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
