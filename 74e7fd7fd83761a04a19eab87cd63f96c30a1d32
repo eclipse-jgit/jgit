@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "afa5f4ec_e520c079",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:39:48Z",
+      "side": 1,
+      "message": "Can we turn off this warning in Eclipse? It seems useful in general for JGit to be able to use suppressions targeted at other checkers.",
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "505d4f63_b2bb99de",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
         "patchSetId": 2
