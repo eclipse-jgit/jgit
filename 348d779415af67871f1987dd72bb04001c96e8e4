@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c837ccf9_2e5e322a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:23:41Z",
+      "side": 1,
+      "message": "This comment is out of date",
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "562c36cc_3eec0b91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:23:41Z",
+      "side": 1,
+      "message": "optional: can take the opportunity to add braces",
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84080734_51d3e048",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:23:41Z",
+      "side": 1,
+      "message": "optional: maybe a name like \"caps\" would be clearer. The small scope makes it easy for the reader to see that they\u0027re client capabilities.",
+      "range": {
+        "startLine": 685,
+        "startChar": 14,
+        "endLine": 685,
+        "endChar": 16
+      },
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7839c6_8d6b4e3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:23:41Z",
+      "side": 1,
+      "message": "I\u0027d be tempted to go with\n\n  return currentRequest \u003d\u003d null ? userAgent : UserAgent.getAgent(currentRequest.getClientCapabilities(), userAgent);\n\nor the equivalent \"if\"",
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe74dc23_2366d62a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1788,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:23:41Z",
+      "side": 1,
+      "message": "maybe clientCaps or something.",
+      "range": {
+        "startLine": 1788,
+        "startChar": 14,
+        "endLine": 1788,
+        "endChar": 16
+      },
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
