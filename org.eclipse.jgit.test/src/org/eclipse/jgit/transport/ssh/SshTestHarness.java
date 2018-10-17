@@ -56,12 +56,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -420,15 +419,34 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			return true;
 		}
 
-		private Map<URIish, List<CredentialItem>> log = new LinkedHashMap<>();
+		private List<LogEntry> log = new ArrayList<>();
 
 		private void logItems(URIish uri, CredentialItem... items) {
-			log.put(uri, Arrays.asList(items));
+			log.add(new LogEntry(uri, Arrays.asList(items)));
 		}
 
-		public Map<URIish, List<CredentialItem>> getLog() {
+		public List<LogEntry> getLog() {
 			return log;
 		}
 	}
 
+	protected static class LogEntry {
+
+		private URIish uri;
+
+		private List<CredentialItem> items;
+
+		public LogEntry(URIish uri, List<CredentialItem> items) {
+			this.uri = uri;
+			this.items = items;
+		}
+
+		public URIish getURIish() {
+			return uri;
+		}
+
+		public List<CredentialItem> getItems() {
+			return items;
+		}
+	}
 }

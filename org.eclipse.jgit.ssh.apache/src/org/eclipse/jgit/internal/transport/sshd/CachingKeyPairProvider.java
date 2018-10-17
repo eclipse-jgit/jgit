@@ -56,20 +56,20 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CancellationException;
 
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.eclipse.jgit.transport.sshd.KeyCache;
 
 /**
- * A {@link FileKeyPairProvider} that uses an external {@link KeyCache}.
+ * A {@link EncryptedFileKeyPairProvider} that uses an external
+ * {@link KeyCache}.
  */
-public class CachingKeyPairProvider extends FileKeyPairProvider {
+public class CachingKeyPairProvider extends EncryptedFileKeyPairProvider {
 
 	private final KeyCache cache;
 
 	/**
 	 * Creates a new {@link CachingKeyPairProvider} using the given
 	 * {@link KeyCache}. If the cache is {@code null}, this is a simple
-	 * {@link FileKeyPairProvider}.
+	 * {@link EncryptedFileKeyPairProvider}.
 	 *
 	 * @param paths
 	 *            to load keys from

@@ -54,12 +54,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theory;
@@ -222,6 +220,45 @@ public abstract class SshTestBase extends SshTestHarness {
 	}
 
 	@Test(expected = TransportException.class)
+	public void testSshEncryptedUsedKeyWrongPassword() throws Exception {
+		File encryptedKey = new File(sshDir, "id_dsa_test_key");
+		copyTestResource("id_dsa_testpass", encryptedKey);
+		File encryptedPublicKey = new File(sshDir, "id_dsa_test_key.pub");
+		copyTestResource("id_dsa_testpass.pub", encryptedPublicKey);
+		server.setTestUserPublicKey(encryptedPublicKey.toPath());
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass");
+		cloneWith("ssh://localhost/doesntmatter", //
+				defaultCloneDir, provider, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"NumberOfPasswordPrompts 1", //
+				"IdentityFile " + encryptedKey.getAbsolutePath());
+	}
+
+	@Test
+	public void testSshEncryptedUsedKeySeveralPassword() throws Exception {
+		File encryptedKey = new File(sshDir, "id_dsa_test_key");
+		copyTestResource("id_dsa_testpass", encryptedKey);
+		File encryptedPublicKey = new File(sshDir, "id_dsa_test_key.pub");
+		copyTestResource("id_dsa_testpass.pub", encryptedPublicKey);
+		server.setTestUserPublicKey(encryptedPublicKey.toPath());
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass2", "testpass");
+		cloneWith("ssh://localhost/doesntmatter", //
+				defaultCloneDir, provider, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + encryptedKey.getAbsolutePath());
+		assertEquals("CredentialsProvider should have been called 3 times", 3,
+				provider.getLog().size());
+	}
+
+	@Test(expected = TransportException.class)
 	public void testSshWithoutKnownHosts() throws Exception {
 		assertTrue("Could not delete known_hosts", knownHosts.delete());
 		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
@@ -248,7 +285,7 @@ public abstract class SshTestBase extends SshTestHarness {
 				"Port " + testPort, //
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
-		Map<URIish, List<CredentialItem>> messages = provider.getLog();
+		List<LogEntry> messages = provider.getLog();
 		assertFalse("Expected user interaction", messages.isEmpty());
 		if (getSessionFactory() instanceof JschConfigSessionFactory) {
 			// JSch doesn't create a non-existing file.
@@ -361,8 +398,8 @@ public abstract class SshTestBase extends SshTestHarness {
 		} catch (Exception e) {
 			assertEquals("Expected to be told about the modified key", 1,
 					provider.getLog().size());
-			assertTrue("Only messages expected", provider.getLog().values()
-					.stream().flatMap(List::stream).allMatch(
+			assertTrue("Only messages expected", provider.getLog().stream()
+					.flatMap(l -> l.getItems().stream()).allMatch(
 							c -> c instanceof CredentialItem.InformationalMessage));
 			throw e;
 		}
