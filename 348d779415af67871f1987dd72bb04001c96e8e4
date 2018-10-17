@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0357549b_1ed68595",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:49:10Z",
+      "side": 1,
+      "message": "client capabilities",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "348d779415af67871f1987dd72bb04001c96e8e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c837ccf9_2e5e322a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
