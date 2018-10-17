@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "98722f1d_fba9058b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-17T01:29:00Z",
+      "side": 1,
+      "message": "Not sure if it can be disabled, but will check.",
+      "parentUuid": "6ec1b089_4638d001",
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505d4f63_b2bb99de",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
         "patchSetId": 2
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "Yes, my preference ordering is\n\n fixing the comment \u003e submitting with no change \u003e not submitting",
       "parentUuid": "34d5574c_436f43d6",
+      "range": {
+        "startLine": 170,
+        "startChar": 63,
+        "endLine": 170,
+        "endChar": 81
+      },
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ee8045_b345f8af",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-17T01:29:00Z",
+      "side": 1,
+      "message": "OK, will push a new patch.  To avoid confusion in future it would be better to vote +1 rather than +2 if changes are needed.",
+      "parentUuid": "4e0e4dfa_3d4be663",
       "range": {
         "startLine": 170,
         "startChar": 63,
