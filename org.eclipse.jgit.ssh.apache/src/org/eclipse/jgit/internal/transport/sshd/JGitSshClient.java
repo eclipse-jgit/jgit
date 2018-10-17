@@ -65,6 +65,7 @@ import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.future.DefaultConnectFuture;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.client.session.SessionFactory;
+import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoConnectFuture;
 import org.apache.sshd.common.io.IoSession;
@@ -75,6 +76,7 @@ import org.apache.sshd.common.util.ValidateUtils;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
+import org.eclipse.jgit.transport.sshd.RepeatingFilePasswordProvider;
 
 /**
  * Customized {@link SshClient} for JGit. It creates specialized
@@ -195,6 +197,11 @@ public class JGitSshClient extends SshClient {
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
 		session.getProperties().put(PASSWORD_PROMPTS,
 				Integer.valueOf(numberOfPasswordPrompts));
+		FilePasswordProvider provider = getFilePasswordProvider();
+		if (provider instanceof RepeatingFilePasswordProvider) {
+			((RepeatingFilePasswordProvider) provider)
+					.setAttempts(numberOfPasswordPrompts);
+		}
 		FileKeyPairProvider ourConfiguredKeysProvider = null;
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
