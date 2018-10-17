@@ -71,9 +71,6 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean doneReceived;
 
-	@Nullable
-	private final String agent;
-
 	@NonNull
 	private final List<String> serverOptions;
 
@@ -86,11 +83,10 @@ public final class FetchV2Request extends FetchRequest {
 			boolean doneReceived, @NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
-				clientCapabilities, deepenSince, deepenNotRefs);
+				clientCapabilities, deepenSince, deepenNotRefs, agent);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
-		this.agent = agent;
 		this.serverOptions = requireNonNull(serverOptions);
 	}
 
@@ -115,15 +111,6 @@ public final class FetchV2Request extends FetchRequest {
 	 */
 	boolean wasDoneReceived() {
 		return doneReceived;
-	}
-
-	/**
-	 * @return string identifying the agent (as sent in the request body by the
-	 *         client)
-	 */
-	@Nullable
-	String getAgent() {
-		return agent;
 	}
 
 	/**

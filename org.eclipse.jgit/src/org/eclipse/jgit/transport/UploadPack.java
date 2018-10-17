@@ -1373,8 +1373,11 @@ public class UploadPack {
 			return userAgent;
 		}
 
-		return UserAgent.getAgent(currentRequest.getClientCapabilities(),
-				userAgent);
+		if (currentRequest.getAgent() != null) {
+			return currentRequest.getAgent();
+		}
+
+		return userAgent;
 	}
 
 	private boolean negotiate(FetchRequest req,
