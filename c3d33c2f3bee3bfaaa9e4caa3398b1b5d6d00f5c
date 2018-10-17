@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1e2614e2_6c06c1b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T01:16:05Z",
+      "side": 1,
+      "message": "needs $NON-NLS$ comment.\n\nShould this be set up in DepthWalk.java like the other flags?",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
@@ -49,6 +66,29 @@
     },
     {
       "key": {
+        "uuid": "7ae21045_ed01804f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T01:16:05Z",
+      "side": 1,
+      "message": "could use a null check (Objects.checkNotNull)",
+      "range": {
+        "startLine": 228,
+        "startChar": 21,
+        "endLine": 228,
+        "endChar": 31
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb7e81e0_b2117fec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -93,6 +133,47 @@
       "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ed5d14_842e3579",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T01:16:05Z",
+      "side": 1,
+      "message": "Not about this change: I wonder if we can tighten that in protocol v2. Can the client do an initial ls-refs to disambiguate a ref?",
+      "parentUuid": "4c0a825d_dff9b57e",
+      "range": {
+        "startLine": 966,
+        "startChar": 40,
+        "endLine": 966,
+        "endChar": 41
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "548f7c64_8434dcc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2013,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T01:16:05Z",
+      "side": 1,
+      "message": "To avoid the casts, we could do\n\n  DepthWalk.RevWalk dw \u003d new DepthWalk.RevWalk(...);\n  dw.setDeepenSince(...);\n  dw.setDeepenNotes(...);\n  dw.assumeShallow(...);\n  rw \u003d dw;",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
