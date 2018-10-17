@@ -30,8 +30,13 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String gssapiInitFailure;
 	/***/ public String gssapiUnexpectedMechanism;
 	/***/ public String gssapiUnexpectedMessage;
+	/***/ public String identityFileCannotDecrypt;
+	/***/ public String identityFileNoKey;
+	/***/ public String identityFileMultipleKeys;
+	/***/ public String identityFileUnsupportedFormat;
 	/***/ public String keyEncryptedMsg;
 	/***/ public String keyEncryptedPrompt;
+	/***/ public String keyEncryptedRetry;
 	/***/ public String keyLoadFailed;
 	/***/ public String knownHostsCouldNotUpdate;
 	/***/ public String knownHostsFileLockedRead;
