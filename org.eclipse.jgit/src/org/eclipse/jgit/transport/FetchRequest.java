@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -69,6 +70,9 @@ abstract class FetchRequest {
 
 	final List<String> deepenNotRefs;
 
+	@Nullable
+	final String agent;
+
 	/**
 	 * Initialize the common fields of a fetch request.
 	 *
@@ -88,11 +92,13 @@ abstract class FetchRequest {
 	 * @param deepenSince
 	 *            Requests that the shallow clone/fetch should be cut at a
 	 *            specific time, instead of depth
+	 * @param agent
+	 *            agent as reported by the client in the request body
 	 */
 	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
 			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
-			@NonNull List<String> deepenNotRefs) {
+			@NonNull List<String> deepenNotRefs, @Nullable String agent) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
@@ -100,6 +106,7 @@ abstract class FetchRequest {
 		this.clientCapabilities = requireNonNull(clientCapabilities);
 		this.deepenSince = deepenSince;
 		this.deepenNotRefs = requireNonNull(deepenNotRefs);
+		this.agent = agent;
 	}
 
 	/**
@@ -146,7 +153,11 @@ abstract class FetchRequest {
 	 * These options are listed and well-defined in the git protocol
 	 * specification.
 	 *
-	 * @return capabilities sent by the client
+	 * The agent capability is not included in this set. It can be retrieved via
+	 * {@link #getAgent()}.
+	 *
+	 * @return capabilities sent by the client (excluding the "agent"
+	 *         capability)
 	 */
 	@NonNull
 	Set<String> getClientCapabilities() {
@@ -170,5 +181,14 @@ abstract class FetchRequest {
 	@NonNull
 	List<String> getDeepenNotRefs() {
 		return deepenNotRefs;
+	}
+
+	/**
+	 * @return string identifying the agent (as sent in the request body by the
+	 *         client)
+	 */
+	@Nullable
+	String getAgent() {
+		return agent;
 	}
 }
