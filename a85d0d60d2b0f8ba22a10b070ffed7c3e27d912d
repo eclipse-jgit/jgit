@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f88c4899_fb75c56a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T17:25:51Z",
+      "side": 1,
+      "message": "Maybe use static imports for these constants? (same in other files).",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "987ed307_db590e68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T17:25:51Z",
+      "side": 1,
+      "message": "These lines look too long for the usual style and there are trailing whitespaces.\n\nI rely on eclipse to do the formatting, but I guess the rule is:\n\"So lines won\u0027t wrap, limit any doc-comment lines to 80 characters.\"\n(From the Oracle\u0027s javadoc guidelines [1], linked in the eclipse coding conventions [2] page)\n\nAbout the trailing whitespaces, it seems they are not removed automatically by eclipse (again in [2] \n\"Removing trailing whitespace\nIn JGit and EGit we have enabled the save action \"Remove trailing white spaces on all lines\" for Java sources. This works except for empty comment lines, see bug 414421.)\"\n\n[1] https://www.oracle.com/technetwork/java/javase/documentation/index-137868.html\n[2] https://wiki.eclipse.org/Coding_Conventions",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
