@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505d4f63_b2bb99de",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:38:55Z",
+      "side": 1,
+      "message": "More importantly, this is thread-safe. :)",
+      "range": {
+        "startLine": 170,
+        "startChar": 63,
+        "endLine": 170,
+        "endChar": 81
+      },
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
