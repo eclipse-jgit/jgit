@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6ec1b089_4638d001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:52:26Z",
+      "side": 1,
+      "message": "Thanks. I agree with that issue, but given that, shouldn\u0027t we disable the \"Unsupported @SuppressWarnings\" warning altogether?\n\nMarking resolved since it\u0027s a separate topic from this change.",
+      "parentUuid": "fe429723_98827d9b",
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505d4f63_b2bb99de",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
         "patchSetId": 2
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Do you want me to fix this?  Not sure, since the vote was CR+2.",
       "parentUuid": "505d4f63_b2bb99de",
+      "range": {
+        "startLine": 170,
+        "startChar": 63,
+        "endLine": 170,
+        "endChar": 81
+      },
+      "revId": "74e7fd7fd83761a04a19eab87cd63f96c30a1d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e0e4dfa_3d4be663",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:52:26Z",
+      "side": 1,
+      "message": "Yes, my preference ordering is\n\n fixing the comment \u003e submitting with no change \u003e not submitting",
+      "parentUuid": "34d5574c_436f43d6",
       "range": {
         "startLine": 170,
         "startChar": 63,
