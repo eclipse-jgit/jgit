@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2f92d368_f92ee14e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e926c42_17932632",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35464e2c_cde63d46",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b65ff29a_97564792",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35464e2c_cde63d46",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "77411288_50b10a0f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d62901_df13f746",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d892c16_400189e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 7
@@ -67,6 +121,24 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2d732d7_7a011c1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d892c16_400189e3",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "db2c282c_d3cdfd3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44718c33_d19fc6bf",
+      "range": {
+        "startLine": 118,
+        "startChar": 42,
+        "endLine": 118,
+        "endChar": 63
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bf357c4_1f363634",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 7
@@ -113,6 +209,30 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acf47158_e2159fee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bf357c4_1f363634",
+      "range": {
+        "startLine": 126,
+        "startChar": 45,
+        "endLine": 127,
+        "endChar": 25
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "70df86ee_cd5945de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1352b25_1714a56a",
+      "range": {
+        "startLine": 306,
+        "startChar": 10,
+        "endLine": 306,
+        "endChar": 18
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1722a09_06cda5a0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 7
@@ -153,6 +297,24 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61316ed4_7c6d61c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1722a09_06cda5a0",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "3d4975b2_6d45840e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa8edaf5_ed313561",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af571815_1cde3456",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 7
@@ -187,6 +367,24 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64676120_818ce787",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done. Added also a @since.",
+      "parentUuid": "af571815_1cde3456",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "adcc3468_e143cd7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd8e4313_c91f23a6",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93b01d28_b64fccc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 7
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "a4442d3c_d635d78e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93b01d28_b64fccc9",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fc77d63_8fdef800",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 7
@@ -238,6 +472,24 @@
       "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40697501_e898a61d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-17T21:48:01Z",
+      "side": 1,
+      "message": "Done (with Consumer\u003c\u003e because the builders don\u0027t share a superclass/interface to pass them as param)",
+      "parentUuid": "4fc77d63_8fdef800",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
