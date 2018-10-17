@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e926c42_17932632",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "comment should be indented to match the code",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35464e2c_cde63d46",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d62901_df13f746",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d892c16_400189e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "optional: maybe mark this field @Nullable",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44718c33_d19fc6bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "as sent in the request body by the client\n\n(to distinguish from the HTTP user-agent string).",
+      "range": {
+        "startLine": 118,
+        "startChar": 42,
+        "endLine": 118,
+        "endChar": 63
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bf357c4_1f363634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "I think this means something like:\n\n The caller can choose to act on these in an application-specific way.",
+      "range": {
+        "startLine": 126,
+        "startChar": 45,
+        "endLine": 127,
+        "endChar": 25
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1352b25_1714a56a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "setAgent",
+      "range": {
+        "startLine": 306,
+        "startChar": 10,
+        "endLine": 306,
+        "endChar": 18
+      },
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1722a09_06cda5a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "@since 5.2",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa8edaf5_ed313561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "I think this wants to say something like\n\n Option for passing application-specific options to the server.",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af571815_1cde3456",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "Can you give an example?\n\nIf I run \"git fetch --server-option\u003dx --server-option\u003dy\", will this contain {x, y} or {server-option\u003dx, server-option\u003dy}?",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8e4313_c91f23a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "Should this use OPTION_SERVER_OPTION?",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b01d28_b64fccc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "Should this use OPTION_AGENT?",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc77d63_8fdef800",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T00:15:19Z",
+      "side": 1,
+      "message": "likewise (and likewise below).\n\nCan this share code with the client capability parsing in parseFetchRequest?",
+      "revId": "d270030286484596870c5379d8d7bc8dfa0e8d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
