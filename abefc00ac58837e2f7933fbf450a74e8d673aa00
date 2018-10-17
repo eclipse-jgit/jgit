@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f84ca6b_b9d4cde0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-17T01:31:26Z",
+      "side": 1,
+      "message": "It\u0027s not relevant in this example that it\u0027s only used in tests. The error-prone check is warning about possible thread-unsafety. If we were to reuse this code in a non-test context, that would still be fine, since it\u0027s thread-safe.",
+      "range": {
+        "startLine": 171,
+        "startChar": 11,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "abefc00ac58837e2f7933fbf450a74e8d673aa00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
