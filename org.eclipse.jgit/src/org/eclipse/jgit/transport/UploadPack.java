@@ -1369,12 +1369,11 @@ public class UploadPack {
 	 * @since 4.0
 	 */
 	public String getPeerUserAgent() {
-		if (currentRequest == null) {
-			return userAgent;
+		if (currentRequest != null && currentRequest.getAgent() != null) {
+			return currentRequest.getAgent();
 		}
 
-		return UserAgent.getAgent(currentRequest.getClientCapabilities(),
-				userAgent);
+		return userAgent;
 	}
 
 	private boolean negotiate(FetchRequest req,
