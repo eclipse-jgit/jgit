@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "80195664_71d16e6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-17T12:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47924666_21f73698",
+      "range": {
+        "startLine": 256,
+        "startChar": 2,
+        "endLine": 259,
+        "endChar": 3
+      },
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a4debf2_e39eb5c5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-17T05:02:53Z",
       "side": 1,
       "message": "Better:\n\n if (!keyTypes.isEmpty()) {",
+      "range": {
+        "startLine": 261,
+        "startChar": 2,
+        "endLine": 261,
+        "endChar": 26
+      },
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c6cea7e_139cd4f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-17T12:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a4debf2_e39eb5c5",
       "range": {
         "startLine": 261,
         "startChar": 2,
@@ -76,6 +124,42 @@
       "writtenOn": "2018-10-17T05:02:53Z",
       "side": 1,
       "message": "Also, can we add a comment here to explain what the code is doing?  As far as I understand, it\u0027s updating the configured server_host_key so that the preferred ones are first?",
+      "parentUuid": "dbea630f_2f2e1209",
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f1ae19_e1ebfafc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-17T12:18:39Z",
+      "side": 1,
+      "message": "I applied all the comments form this PS and also renamed this method and some variables in the hopes of making the intention more obvious.\nLet me know if the new PS is better or if you would still like to have a comment here.",
+      "parentUuid": "b7ca3868_34571d37",
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "757abc50_5a407166",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-17T12:18:39Z",
+      "side": 1,
+      "message": "Yes, this definitely looks more elegant.",
       "parentUuid": "dbea630f_2f2e1209",
       "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
