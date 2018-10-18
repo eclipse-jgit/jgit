@@ -43,6 +43,7 @@
 package org.eclipse.jgit.internal.transport.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -66,9 +67,9 @@ public class FirstWantTest {
 				r.getLine());
 		Set<String> capabilities = r.getCapabilities();
 		Set<String> expectedCapabilities = new HashSet<>(
-				Arrays.asList("no-progress", "include-tag", "ofs-delta",
-						"agent=JGit/unknown"));
+				Arrays.asList("no-progress", "include-tag", "ofs-delta"));
 		assertEquals(expectedCapabilities, capabilities);
+		assertEquals("JGit/unknown", r.getAgent());
 	}
 
 	@Test
@@ -79,6 +80,7 @@ public class FirstWantTest {
 		assertEquals("want b9d4d1eb2f93058814480eae9e1b67550f46ee38",
 				r.getLine());
 		assertTrue(r.getCapabilities().isEmpty());
+		assertNull(r.getAgent());
 	}
 
 	private String makeFirstWantLine(String capability) {
@@ -110,12 +112,19 @@ public class FirstWantTest {
 		List<String> validNames = Arrays.asList(
 				"c", "cap", "C", "CAP", "1", "1cap", "cap-64k_test",
 				"-", "-cap",
-				"_", "_cap", "agent=pack.age/Version");
+				"_", "_cap");
 
 		for (String capability: validNames) {
 			FirstWant r = FirstWant.fromLine(makeFirstWantLine(capability));
 			assertEquals(r.getCapabilities().size(), 1);
 			assertTrue(r.getCapabilities().contains(capability));
 		}
+	}
+
+	@Test
+	public void testFirstWantValidAgentName() throws PackProtocolException {
+		FirstWant r = FirstWant.fromLine(makeFirstWantLine("agent=pack.age/Version"));
+		assertEquals(r.getCapabilities().size(), 0);
+		assertEquals("pack.age/Version", r.getAgent());
 	}
 }

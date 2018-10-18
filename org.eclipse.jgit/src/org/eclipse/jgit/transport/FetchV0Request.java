@@ -114,14 +114,7 @@ final class FetchV0Request extends FetchRequest {
 		 * @return this builder
 		 */
 		Builder addClientCapabilities(Collection<String> clientCapabilities) {
-			for (String cap: clientCapabilities) {
-				// TODO(ifrade): Do this is done on parse time
-				if (cap.startsWith("agent=")) { //$NON-NLS-1$
-					agent = cap.substring("agent=".length()); //$NON-NLS-1$
-				} else {
-					clientCaps.add(cap);
-				}
-			}
+			clientCaps.addAll(clientCapabilities);
 			return this;
 		}
 
