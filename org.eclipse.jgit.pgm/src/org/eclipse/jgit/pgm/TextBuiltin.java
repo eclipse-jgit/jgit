@@ -66,8 +66,12 @@ import java.util.ResourceBundle;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.internal.SshDriver;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.sshd.JGitKeyCache;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.io.ThrowingPrintWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -88,6 +92,9 @@ public abstract class TextBuiltin {
 
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
+
+	@Option(name = "--ssh", usage = "usage_sshDriver")
+	private SshDriver sshDriver = SshDriver.JSCH;
 
 	/**
 	 * Input stream, typically this is standard input.
@@ -239,6 +246,20 @@ public abstract class TextBuiltin {
 	 */
 	public final void execute(String[] args) throws Exception {
 		parseArguments(args);
+		switch (sshDriver) {
+		case APACHE: {
+			SshdSessionFactory factory = new SshdSessionFactory(
+					new JGitKeyCache());
+			Runtime.getRuntime()
+					.addShutdownHook(new Thread(() -> factory.close()));
+			SshSessionFactory.setInstance(factory);
+			break;
+		}
+		case JSCH:
+		default:
+			SshSessionFactory.setInstance(null);
+			break;
+		}
 		run();
 	}
 
