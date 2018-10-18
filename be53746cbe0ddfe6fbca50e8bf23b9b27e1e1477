@@ -164,6 +164,24 @@
       "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "271d6292_e2431103",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T16:46:32Z",
+      "side": 1,
+      "message": "Thanks, I think the variable name clears it up.",
+      "parentUuid": "c1f1ae19_e1ebfafc",
+      "revId": "be53746cbe0ddfe6fbca50e8bf23b9b27e1e1477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
