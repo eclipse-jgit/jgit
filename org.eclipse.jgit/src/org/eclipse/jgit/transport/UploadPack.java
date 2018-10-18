@@ -207,7 +207,7 @@ public class UploadPack {
 		}
 
 		/** @return capabilities parsed from the line. */
-		public Set<String> getCapabilities() {
+		public Set<String> getOptions() {
 			return firstWant.getCapabilities();
 		}
 	}
