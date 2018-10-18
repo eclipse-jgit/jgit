@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "def26b53_38e8b88d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:01:17Z",
+      "side": 1,
+      "message": "can take the opportunity to pin this down: is this @Nullable or should we requireNonNull? (Either choice seems fine to me.)",
+      "range": {
+        "startLine": 309,
+        "startChar": 19,
+        "endLine": 309,
+        "endChar": 35
+      },
+      "revId": "933d9ec99fa6ba1f6893473983534b57276b5af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abccc2a_c576627d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:01:17Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "933d9ec99fa6ba1f6893473983534b57276b5af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09dc1f72_ff862582",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:01:17Z",
+      "side": 1,
+      "message": "static?\n\nWhat does the return value represent? (A brief comment could help.)",
+      "revId": "933d9ec99fa6ba1f6893473983534b57276b5af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d78e0e_6aca2b60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:01:17Z",
+      "side": 1,
+      "message": "May be worth a sanity-check that line \u003d\u003d DELIM here.\n\nconsumeCapabilities already guarantees that, but a check or comment here can be useful for readability.",
+      "revId": "933d9ec99fa6ba1f6893473983534b57276b5af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
