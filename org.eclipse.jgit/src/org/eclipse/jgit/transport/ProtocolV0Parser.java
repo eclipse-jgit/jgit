@@ -143,6 +143,7 @@ final class ProtocolV0Parser {
 				if (line.length() > 45) {
 					FirstWant firstLine = FirstWant.fromLine(line);
 					reqBuilder.addClientCapabilities(firstLine.getCapabilities());
+					reqBuilder.setAgent(firstLine.getAgent());
 					line = firstLine.getLine();
 				}
 			}
