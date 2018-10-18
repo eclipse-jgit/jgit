@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a1c06a4_f55bc441",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-18T20:15:20Z",
+      "side": 0,
+      "message": "* removing this public method is a breaking change\n* any arguments why this is not a problem ?",
+      "revId": "b3adaf7741094c30f77ea933e7faa3977291d870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
