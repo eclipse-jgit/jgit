@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "212af47e_1f053416",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:23:18Z",
+      "side": 1,
+      "message": "This is a little confusing --- when I hear \"content of server-option lines\" I would expect that this means the entire line.\n\nHow about something like the following?\n\n Get application-specific options provided by the client using --server-option.",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19890d93_9e192bd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:23:18Z",
+      "side": 1,
+      "message": "language nits: this is part of the sentence started with \"E.g.,\" so it should be lowercase. There also should not be a comma before \"returns\".",
+      "range": {
+        "startLine": 113,
+        "startChar": 74,
+        "endLine": 113,
+        "endChar": 75
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "070ab034_d21f0dd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:23:18Z",
+      "side": 1,
+      "message": "How about something like the following?\n\n @return application-specific options from the client, in the order provided by the client.\n\nDoes this return a mutable or an immutable list?",
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b9d659_47701d2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:23:18Z",
+      "side": 1,
+      "message": "style nit: no need to qualify with \"this.\"",
+      "range": {
+        "startLine": 178,
+        "startChar": 3,
+        "endLine": 178,
+        "endChar": 8
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f5fdf69_7618199d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T18:23:18Z",
+      "side": 1,
+      "message": "What happens to other client capabilities? Could make sense to have an explicit \u0027else\u0027, like\n\n } else {\n    // Unrecognized capability. Ignore it.\n }",
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
