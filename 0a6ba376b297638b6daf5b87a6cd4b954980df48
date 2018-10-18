@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a31b4c8e_fe6f8650",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T17:54:41Z",
+      "side": 1,
+      "message": "This means we can inline clientCapabilities:\n\n  return UserAgent.getAgent(currentRequest.getClientCapabilities(), userAgent);",
+      "revId": "0a6ba376b297638b6daf5b87a6cd4b954980df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
