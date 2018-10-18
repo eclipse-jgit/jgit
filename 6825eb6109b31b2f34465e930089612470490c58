@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc975ff_278e94e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T23:32:34Z",
+      "side": 1,
+      "message": "language nit: the noun is checkout, the verb \"check out\"",
+      "range": {
+        "startLine": 602,
+        "startChar": 33,
+        "endLine": 602,
+        "endChar": 41
+      },
+      "revId": "6825eb6109b31b2f34465e930089612470490c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34115662_9cb386ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-18T23:32:34Z",
+      "side": 1,
+      "message": "Not about this change: It looks like checkoutEntry is accumulating too many parameters to keep easily in one\u0027s head. Perhaps the deleteRecursive arg should be replaced with two methods or an enum (see Effective Java second edition p190 \"Prefer two-element enum types to boolean parameters\").",
+      "revId": "6825eb6109b31b2f34465e930089612470490c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
