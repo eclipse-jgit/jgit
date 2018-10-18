@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "230caf77_d3692691",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T23:43:40Z",
+      "side": 1,
+      "message": "Added more explanation (although this is the setter in the builder, for our implementation)\nDone",
+      "parentUuid": "30d1fe8a_3558087b",
+      "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad907adf_ee98a4bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83de2e98_7bb9f204",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T23:43:40Z",
+      "side": 1,
+      "message": "Right, it cannot be null, but it could be empty. Changed to @NonNull and removed the if.",
+      "parentUuid": "ad907adf_ee98a4bb",
+      "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "879e9641_5d1fb7e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T23:43:40Z",
+      "side": 1,
+      "message": "Done (replicated the FetchV2Request documentation and implementation)",
+      "parentUuid": "39219eda_d463e85b",
+      "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a9a0fb_de95dbe9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 14
@@ -67,6 +121,24 @@
       "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ddc3a7c_7dc81047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T23:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a9a0fb_de95dbe9",
+      "revId": "b2a65ed2f99b6efa5c35fe008405c0bc3fcd3de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
