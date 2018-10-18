@@ -33,6 +33,7 @@
    <requires>
       <import feature="org.eclipse.jgit" version="5.2.0" match="equivalent"/>
       <import feature="org.eclipse.jgit.lfs" version="5.2.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit.ssh.apache" version="5.2.0" match="equivalent"/>
    </requires>
 
    <plugin
