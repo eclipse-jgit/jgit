@@ -209,6 +209,11 @@ public class UploadPack {
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
+			if (firstWant.getAgent() != null) {
+				Set<String> caps = new HashSet<>(firstWant.getCapabilities());
+				caps.add(firstWant.getAgent());
+				return caps;
+			}
 			return firstWant.getCapabilities();
 		}
 	}
