@@ -16,6 +16,24 @@
       "revId": "b3adaf7741094c30f77ea933e7faa3977291d870",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f354c24d_5af7d6e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T22:21:10Z",
+      "side": 0,
+      "message": "This was an oversight. The intention was always to maintain this class API.\nFix here: https://git.eclipse.org/r/131162",
+      "parentUuid": "6a1c06a4_f55bc441",
+      "revId": "b3adaf7741094c30f77ea933e7faa3977291d870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
