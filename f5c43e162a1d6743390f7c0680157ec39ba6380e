@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "157a5fd6_53d87c1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T21:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "212af47e_1f053416",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19890d93_9e192bd9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c22b840e_1abe1845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T21:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19890d93_9e192bd9",
+      "range": {
+        "startLine": 113,
+        "startChar": 74,
+        "endLine": 113,
+        "endChar": 75
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "070ab034_d21f0dd2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 12
@@ -62,6 +110,24 @@
       "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0de777_dce81ebe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T21:07:49Z",
+      "side": 1,
+      "message": "Going for the immutable option. Although we don\u0027t use it consistently in these request classes, it makes sense.\nDone",
+      "parentUuid": "070ab034_d21f0dd2",
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "931f66d3_56ede39b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T21:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b9d659_47701d2e",
+      "range": {
+        "startLine": 178,
+        "startChar": 3,
+        "endLine": 178,
+        "endChar": 8
+      },
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f5fdf69_7618199d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 12
@@ -102,6 +192,24 @@
       "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d02699_56b9c134",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-18T21:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f5fdf69_7618199d",
+      "revId": "f5c43e162a1d6743390f7c0680157ec39ba6380e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
