@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4eee4f_885b613f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:43:34Z",
+      "side": 1,
+      "message": "no @since because not public.\n\nThe @since field names the first version where this method was made part of the public, stable API.",
+      "revId": "2e7d8b82303514bfee931defc0f881ca1812fdeb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
