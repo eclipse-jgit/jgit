@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3d9b781_3deb2bd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:16:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cce82f_c4195bd7",
+      "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49726f0_31cd8fd0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8241bcff_6f1fedc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:16:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f49726f0_31cd8fd0",
+      "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -86,6 +122,24 @@
       "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf72ef76_10af7fae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:16:49Z",
+      "side": 1,
+      "message": "This was a bug. The new code is replacing this line, but it still got around. Removed now.",
+      "parentUuid": "933c633a_9500e172",
+      "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
