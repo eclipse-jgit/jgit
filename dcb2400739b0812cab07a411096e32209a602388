@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4fb92377_e31c5e0d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:02:07Z",
+      "side": 1,
+      "message": "Yes - as long as it is greater than tooOld\u0027s time (which is specified in milliseconds).",
+      "parentUuid": "086ce3b8_95903271",
+      "revId": "dcb2400739b0812cab07a411096e32209a602388",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91560477_0ffea43f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-16T22:53:19Z",
       "side": 1,
       "message": "optional: This isn\u0027t really a protocol violation --- it\u0027s a well formed request, and we\u0027re reporting that the state of the repo doesn\u0027t let us provide a response to it. Is there an exception that indicates so?",
+      "revId": "dcb2400739b0812cab07a411096e32209a602388",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f14aaf6_f9985152",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:02:07Z",
+      "side": 1,
+      "message": "I don\u0027t think so - the others seem to be things like MissingObjectException or ServiceMayNotContinueException. There is a slight amount of precedence in that PackProtocolException is also used for \"want\" with invalid hashes not necessarily caused by protocol error (normally \"want\" must only be used with server-reported hashes, and violation of this is a violation of protocol, but it is also thrown when allowreachablesha1inwant is active - removing the condition that \"want\" must be with server-reported hashes), although it could be argued that that was more for consistency.",
+      "parentUuid": "91560477_0ffea43f",
       "revId": "dcb2400739b0812cab07a411096e32209a602388",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
