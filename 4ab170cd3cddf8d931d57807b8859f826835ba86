@@ -269,6 +269,24 @@
       "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe5ef9b2_44d5b07f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Good call on YAGNI. I was thinking it might be useful for e.g. tests that start with a builder and then modify it, but better to wait for a potential caller.",
+      "parentUuid": "39a42258_3b6554dd",
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
