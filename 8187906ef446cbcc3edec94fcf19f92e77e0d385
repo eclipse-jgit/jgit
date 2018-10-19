@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "512e2a26_67315605",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T21:57:32Z",
+      "side": 1,
+      "message": "I don\u0027t really like \"import static\", so I\u0027ll leave it as-is.",
+      "parentUuid": "e87e6dbe_abbb0574",
+      "range": {
+        "startLine": 155,
+        "startChar": 21,
+        "endLine": 155,
+        "endChar": 42
+      },
+      "revId": "8187906ef446cbcc3edec94fcf19f92e77e0d385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5f688a3_1f482d21",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9d9c5c05_730440ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T21:57:32Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "f5f688a3_1f482d21",
+      "range": {
+        "startLine": 229,
+        "startChar": 21,
+        "endLine": 229,
+        "endChar": 43
+      },
+      "revId": "8187906ef446cbcc3edec94fcf19f92e77e0d385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6d85eca_c3eb6316",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "8187906ef446cbcc3edec94fcf19f92e77e0d385",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caefcfe7_b7c75336",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T21:57:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d85eca_c3eb6316",
+      "revId": "8187906ef446cbcc3edec94fcf19f92e77e0d385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
