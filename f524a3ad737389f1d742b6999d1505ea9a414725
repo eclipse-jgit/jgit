@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af3b074_3d6a44a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:56:25Z",
+      "side": 1,
+      "message": "Does this mean something like\n\n UploadPack v0: Extract \"agent\" client capability at parse time\n\n?",
+      "revId": "f524a3ad737389f1d742b6999d1505ea9a414725",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
