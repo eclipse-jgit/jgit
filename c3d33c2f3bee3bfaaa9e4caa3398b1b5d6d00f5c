@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5c603a4d_5c2b5b59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T19:39:26Z",
+      "side": 1,
+      "message": "The same seems to be true of the other flags, like REINTERESTING. Should they be set up here as well?\n\nI don\u0027t have a strong opinion, as long as the code is consistent / predictable.",
+      "parentUuid": "0a1e95e8_7c70bbe2",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
