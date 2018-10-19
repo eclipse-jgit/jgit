@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "7d8794a5_dd1ba904",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:06:14Z",
+      "side": 1,
+      "message": "I\u0027m all for punting to a separate commit, but if you\u0027re saying that the existing code is bad, then that\u0027s great --- let\u0027s fix it. I never get things right the first time in my own code anyway.\n\nIf there\u0027s another commit in the series making the others consistent with this one, then sounds fine to me. Otherwise, please do make the new flag consistent with its neighbors. It\u0027s in the same package so we can make getDeepenNotFlag() package-private to avoid affecting the public API (and if we decide to remove it later, we can deprecate the others).",
+      "parentUuid": "d3b411ad_3b231199",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
