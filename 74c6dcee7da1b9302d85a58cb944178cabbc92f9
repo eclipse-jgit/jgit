@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c217103d_a29136ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:45:11Z",
+      "side": 1,
+      "message": "optional: would be more concise with an \"import static\"",
+      "range": {
+        "startLine": 79,
+        "startChar": 44,
+        "endLine": 79,
+        "endChar": 77
+      },
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423fa0f6_7cf6f069",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:45:11Z",
+      "side": 1,
+      "message": "probably worth saying something like \"(excluding agent)\" to avoid callers getting confused.",
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16c9925e_7e044ff2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:45:11Z",
+      "side": 1,
+      "message": "Perhaps something like\n\n @return client user agent parsed from the line.",
+      "range": {
+        "startLine": 137,
+        "startChar": 13,
+        "endLine": 137,
+        "endChar": 60
+      },
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30566ef7_938dd887",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:45:11Z",
+      "side": 1,
+      "message": "I think you mean (after String agent \u003d firstWant.getAgent()):\n\n if (agent !\u003d null) {\n    ... caps \u003d ...\n    caps.add(AGENT_PREFIX + agent);\n    return caps;\n }\n\n(i.e. including \"agent\u003d\" in the capability).",
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
