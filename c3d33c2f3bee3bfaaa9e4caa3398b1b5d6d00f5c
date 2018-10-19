@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "678f35a7_970d959b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T23:13:38Z",
+      "side": 1,
+      "message": "It is the same package, but we can\u0027t do that because DepthWalk is a public interface - so all methods in it are effectively public (unless there is some Java trick that I don\u0027t know of).\n\nThe way I see it, there are at least 3 possible solutions:\n(1) The way in my patch, with its inconsistency\n(2) Deprecating DepthWalk#getUnshallowFlag and #getReinterestingFlag\n(3) Adding a new public method DepthWalk#getDeepenNotFlag\n\nAs far I can tell, no other code in JGit (except DepthGenerator) uses getUnshallowFlag or getReinterestingFlag in DepthWalk or any of its implementations, but there could be code out there that uses those methods, hence me not going with (2).\n\nAs for (3), I see this flag as an implementation detail. For example, currently, DEEPEN_NOT is painted right down to the orphans (the commits with no parents) but there could conceivably be an implementation that optimizes it so that DEEPEN_NOT is painted only to where it\u0027s needed. So I don\u0027t want the flag to be available publicly. Hence me going with (1).\n\nI don\u0027t think any of these solutions are completely indefensible, though - if you feel strongly that we should do (2) or (3), I\u0027ll follow that. (Note that we can\u0027t follow your suggestion of making getDeepenNotFlag() package-private as stated in my first paragraph.)",
+      "parentUuid": "7d8794a5_dd1ba904",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
