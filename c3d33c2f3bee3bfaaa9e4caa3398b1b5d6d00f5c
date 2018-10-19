@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a1e95e8_7c70bbe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:26:32Z",
+      "side": 1,
+      "message": "NON-NLS done.\n\nI\u0027d rather not, because DEEPEN_NOT is only needed in this file so it\u0027s best to reduce its scope.",
+      "parentUuid": "1e2614e2_6c06c1b8",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
@@ -77,6 +95,30 @@
       "writtenOn": "2018-10-17T01:16:05Z",
       "side": 1,
       "message": "could use a null check (Objects.checkNotNull)",
+      "range": {
+        "startLine": 228,
+        "startChar": 21,
+        "endLine": 228,
+        "endChar": 31
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a083a4b7_b574d0d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:26:32Z",
+      "side": 1,
+      "message": "Done. In Java 7, it\u0027s called Objects.requireNonNull, so I used that.",
+      "parentUuid": "7ae21045_ed01804f",
       "range": {
         "startLine": 228,
         "startChar": 21,
@@ -160,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "3c3fd04c_24470c1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:26:32Z",
+      "side": 1,
+      "message": "That is possible, or maybe it\u0027s better to allow (or require) a SHA-1 instead.",
+      "parentUuid": "36ed5d14_842e3579",
+      "range": {
+        "startLine": 966,
+        "startChar": 40,
+        "endLine": 966,
+        "endChar": 41
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "548f7c64_8434dcc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -174,6 +240,24 @@
       "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f5f536_5b6f3b47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2013,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T19:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548f7c64_8434dcc3",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
