@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "5bae9503_5e47b3d8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:49:34Z",
+      "side": 1,
+      "message": "Something went wrong amending/rebasing (?!). Sorry about that.\nDone now.",
+      "parentUuid": "d31f2727_37b731b0",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88a13e44_41455a3d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 6
