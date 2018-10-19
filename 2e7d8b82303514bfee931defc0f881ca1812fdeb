@@ -16,6 +16,24 @@
       "revId": "2e7d8b82303514bfee931defc0f881ca1812fdeb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "174919cd_92f6a7ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:00:13Z",
+      "side": 1,
+      "message": "Indeed I missed this method is not public. Sorry about that.\nDone",
+      "parentUuid": "1b4eee4f_885b613f",
+      "revId": "2e7d8b82303514bfee931defc0f881ca1812fdeb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
