@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6de83f12_8a0e7f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "I\u0027m having trouble what this change will do from the subject line. Can you briefly describe what the effect will be, from a user-facing point of view?\n\nE.g. does this cause us to do a better job of respecting the agent\u003d\u003cagent\u003e capability? Does this apply to v0 requests, v2 requests, or both?",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b101e5cd_113be3d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "static",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88a13e44_41455a3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "optional: It\u0027s a good habit to try-with-resources even though we know that close() is a no-op here.",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f63ca8_dbae973c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "no @since since not public API",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6d4438e_8bcc61c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "Yes, please. :)",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65041e27_a60d49f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "Should this be called transportAgent or something, to convey that it\u0027s the User-Agent string from the transport instead of the application layer (e.g. HTTP User-Agent field instead of git agent\u003d\u003cagent\u003e capability)?",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bdbe1fd_02b9c7e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T20:54:59Z",
+      "side": 1,
+      "message": "Can make more concise, e.g.:\n\n  if (currentRequest !\u003d null \u0026\u0026 currentRequest.getAgent() !\u003d null) {\n    return currentRequest.getAgent();\n  }\n  return userAgent;",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
