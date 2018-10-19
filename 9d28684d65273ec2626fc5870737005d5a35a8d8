@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7426eedc_a590dfcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T19:44:03Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6831ab05_21f3e02d",
+      "revId": "9d28684d65273ec2626fc5870737005d5a35a8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77986351_6814e6ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 16
@@ -39,6 +57,30 @@
       "revId": "9d28684d65273ec2626fc5870737005d5a35a8d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8363ebe3_79824100",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T19:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77986351_6814e6ee",
+      "range": {
+        "startLine": 135,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 7
+      },
+      "revId": "9d28684d65273ec2626fc5870737005d5a35a8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
