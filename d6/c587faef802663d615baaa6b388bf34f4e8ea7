@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: CI Bot
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 19 Oct 2018 17:24:51 -0400
+Reviewed-on: https://git.eclipse.org/r/131220
+Project: jgit/jgit
+Branch: refs/heads/stable-4.7
