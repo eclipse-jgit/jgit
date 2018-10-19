@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3914b240_4ecdcccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "ls-refs",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "272023ce_a598e3de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "nit: I think this would be less confusing if it were called `agent` instead of `agentLine`",
+      "range": {
+        "startLine": 310,
+        "startChar": 29,
+        "endLine": 310,
+        "endChar": 45
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e840416d_fcd4a1b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "no need for \"this.\" here",
+      "range": {
+        "startLine": 324,
+        "startChar": 3,
+        "endLine": 324,
+        "endChar": 8
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10c73886_18da7ba7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "I wonder if there\u0027s a simpler way to describe this. E.g. maybe by referring to LsRefsV2Request#getServerOptions --- something like\n\n /**\n  * Records an application-specific option supplied in a server-option line,\n  * for later retrieval with {@link LsRefsV2Request#getServerOptions}.\n  *\n  * @param value the client-supplied server-option capability, without leading \"server-option\u003d\".\n  * @return this builder\n  * @since 5.2\n  */",
+      "range": {
+        "startLine": 176,
+        "startChar": 5,
+        "endLine": 176,
+        "endChar": 43
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0519a53_d1ca0132",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "Could call `value` for consistency with the other setters in this class",
+      "range": {
+        "startLine": 185,
+        "startChar": 49,
+        "endLine": 185,
+        "endChar": 53
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614209b1_baf7034e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T00:47:22Z",
+      "side": 1,
+      "message": "Should we also have a clearServerOptions() method?",
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
