@@ -298,6 +298,24 @@
       "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af96b9c4_702cf820",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:16:49Z",
+      "side": 1,
+      "message": "Done now. \nAs with the other \"missing fix\", I think I cancelled the rebase I was amending and they got lost. Sorry about that.",
+      "parentUuid": "e9205945_bf7dc88e",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
