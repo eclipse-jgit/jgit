@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "d32e1138_6f969120",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-19T23:33:32Z",
+      "side": 1,
+      "message": "OK, went with (3).",
+      "parentUuid": "cbb67eee_fb209dd9",
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619eb6d8_ae8ce9ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 2
