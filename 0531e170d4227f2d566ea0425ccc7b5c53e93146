@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47cce82f_c4195bd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:18:23Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f49726f0_31cd8fd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T22:18:23Z",
+      "side": 1,
+      "message": "This changes the meaning of req.getClientCapabilities(): before, it included the agent cap, and now it doesn\u0027t.\n\nPlease update the FetchRequest#getClientCapabilities javadoc to reflect that (that the return value doesn\u0027t include the \u0027agent\u003d\u003cagent\u003e\u0027 cap).",
+      "revId": "0531e170d4227f2d566ea0425ccc7b5c53e93146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
