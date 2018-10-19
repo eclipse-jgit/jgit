@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "e492ff71_e592f2f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T23:30:19Z",
+      "side": 1,
+      "message": "Thanks, makes sense.\n\nAlso this change doesn\u0027t touch the field, so it was more a thought while I was looking there (perhaps we\u0027d want to use a comment as a start, still not in this change.",
+      "parentUuid": "74d4ec9c_12e10eec",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bdbe1fd_02b9c7e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
