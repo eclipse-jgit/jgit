@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "888e3541_985baad7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c265d585_533ce009",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "062ea803_0a46edba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
         "patchSetId": 1
@@ -176,6 +200,24 @@
       "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97a4fa8_d057922c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0d64e446_c5b22f9b",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +268,30 @@
     },
     {
       "key": {
+        "uuid": "fe45a448_6b6baf73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf300413_810702a4",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8d2e128_529da412",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
         "patchSetId": 1
@@ -270,6 +336,30 @@
       "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d500619a_621a2790",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "f0fe276d_0fb64e98",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
