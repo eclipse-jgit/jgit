@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc498cd8_8f400c73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3914b240_4ecdcccb",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "272023ce_a598e3de",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 15
@@ -45,6 +69,30 @@
       "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01f1ac23_1fd29c13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "Renaming to \"agentValue\", to remove also the \"this.\" in the following line.\n\n(The other option is to make the argument \"agent\" but then use this.agent in the following line)",
+      "parentUuid": "272023ce_a598e3de",
+      "range": {
+        "startLine": 310,
+        "startChar": 29,
+        "endLine": 310,
+        "endChar": 45
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "77a493bd_6c77949d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e840416d_fcd4a1b1",
+      "range": {
+        "startLine": 324,
+        "startChar": 3,
+        "endLine": 324,
+        "endChar": 8
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c73886_18da7ba7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 15
@@ -91,6 +163,30 @@
       "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d09bf6_f0f962eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "10c73886_18da7ba7",
+      "range": {
+        "startLine": 176,
+        "startChar": 5,
+        "endLine": 176,
+        "endChar": 43
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +227,48 @@
       "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a26b0123_4db75c2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0519a53_d1ca0132",
+      "range": {
+        "startLine": 185,
+        "startChar": 49,
+        "endLine": 185,
+        "endChar": 53
+      },
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39a42258_3b6554dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:00:36Z",
+      "side": 1,
+      "message": "So far there is no need for it in the code, these options are never reset (this builder is created per-request). Did you have any use case in mind?",
+      "parentUuid": "614209b1_baf7034e",
+      "revId": "4ab170cd3cddf8d931d57807b8859f826835ba86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
