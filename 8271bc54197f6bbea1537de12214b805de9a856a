@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "523832de_34d99806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Good questions. Thanks. I wrote a new title and added more explanation in the first paragraph.",
+      "parentUuid": "6de83f12_8a0e7f12",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b101e5cd_113be3d5",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98207494_116203ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b101e5cd_113be3d5",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ed0db015_a05a4975",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88a13e44_41455a3d",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f63ca8_dbae973c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
         "patchSetId": 6
@@ -67,6 +121,24 @@
       "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d6a3863_490e89e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67f63ca8_dbae973c",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ad71bbac_bef7d4f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "In the following commit!. \n\nIt is a bit artificial, but helps making two smaller commits: this one about the fetch hierachy and another about FirstWant.",
+      "parentUuid": "e6d4438e_8bcc61c7",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65041e27_a60d49f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2018-10-19T20:54:59Z",
       "side": 1,
       "message": "Should this be called transportAgent or something, to convey that it\u0027s the User-Agent string from the transport instead of the application layer (e.g. HTTP User-Agent field instead of git agent\u003d\u003cagent\u003e capability)?",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74d4ec9c_12e10eec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Agree. \n\nThis renaming touches InternalHttpServerGlue and probably ReceivePack (which has the same property, and we want to keep in sync), so I would rather do it in a different change.",
+      "parentUuid": "65041e27_a60d49f0",
       "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -118,6 +226,24 @@
       "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c526eec2_97ce7d1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T21:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bdbe1fd_02b9c7e5",
+      "revId": "8271bc54197f6bbea1537de12214b805de9a856a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
