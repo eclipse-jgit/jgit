@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fbede7de_aac0c57a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-19T06:36:34Z",
+      "side": 1,
+      "message": "If you mean these:\nhttps://docs.oracle.com/javase/1.5.0/docs/guide/language/static-import.html\nI\u0027m not a friend of static imports, what are the benefits here? Polluting the namespace with all the static members you import sounds not right to me. It\u0027s clearer if i have qualifier \"Constants.\" before them.\n\nBut if you point me to a guideline or reason i will change.",
+      "parentUuid": "f88c4899_fb75c56a",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "987ed307_db590e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e14923a_3ee6c3da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-19T06:36:34Z",
+      "side": 1,
+      "message": "Ack. Thanks!",
+      "parentUuid": "987ed307_db590e68",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
