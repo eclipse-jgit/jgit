@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6831ab05_21f3e02d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "immutable list of server options received in the request\n\nCalling them server-option lines is confusing, as mentioned upthread.",
+      "revId": "9d28684d65273ec2626fc5870737005d5a35a8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77986351_6814e6ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-19T18:42:47Z",
+      "side": 1,
+      "message": "Needs @since.",
+      "range": {
+        "startLine": 135,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 7
+      },
+      "revId": "9d28684d65273ec2626fc5870737005d5a35a8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
