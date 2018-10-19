@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "124b9b79_33ea8cfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c217103d_a29136ef",
+      "range": {
+        "startLine": 79,
+        "startChar": 44,
+        "endLine": 79,
+        "endChar": 77
+      },
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "423fa0f6_7cf6f069",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "615fe757_f9d91400",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423fa0f6_7cf6f069",
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9d7a372d_683c3074",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c9925e_7e044ff2",
+      "range": {
+        "startLine": 137,
+        "startChar": 13,
+        "endLine": 137,
+        "endChar": 60
+      },
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30566ef7_938dd887",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 9
@@ -79,6 +145,24 @@
       "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225d14c5_d6c575af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T23:23:59Z",
+      "side": 1,
+      "message": "Good catch. Definitely. That was what the old code was returning.",
+      "parentUuid": "30566ef7_938dd887",
+      "revId": "74c6dcee7da1b9302d85a58cb944178cabbc92f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
