@@ -16,6 +16,24 @@
       "revId": "0a6ba376b297638b6daf5b87a6cd4b954980df48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf4c69bc_0e7d7bbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-19T18:39:23Z",
+      "side": 1,
+      "message": "Done.\n\nI have realized that this won\u0027t work as expected in protocol v2:\nIn protocol v2 the agent (if sent) is in currentRequest.getAgent()\nIn protocol v0/v1 the agent (if sent) is in the currentRequest.getClientCapabilities()\n\nFix for this (making agent a \"top-level\" property of the v0/v1 request) in two commits, starting here\nhttps://git.eclipse.org/r/c/131148/4",
+      "parentUuid": "a31b4c8e_fe6f8650",
+      "revId": "0a6ba376b297638b6daf5b87a6cd4b954980df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
