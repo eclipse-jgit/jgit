@@ -124,13 +124,18 @@ public class ObjectDownloadListener implements WriteListener {
 				} else {
 					buffer.flip();
 				}
-			} catch(Throwable t) {
+			} catch (Throwable t) {
 				LOG.log(Level.SEVERE, t.getMessage(), t);
 				buffer = null;
 			} finally {
 				if (buffer != null) {
 					outChannel.write(buffer);
 				} else {
+					try {
+						in.close();
+					} catch (IOException e) {
+						LOG.log(Level.SEVERE, e.getMessage(), e);
+					}
 					try {
 						out.close();
 					} finally {
