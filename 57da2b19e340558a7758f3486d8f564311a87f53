@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5679d059_ac56a827",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-20T00:00:54Z",
+      "side": 1,
+      "message": "static imports go in their own group at the top. I think Eclipse can do this formatting automatically, not sure if other tools do (I just grep around and imitate what I see ;-)).",
+      "revId": "57da2b19e340558a7758f3486d8f564311a87f53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "284d5876_984beace",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-20T00:00:54Z",
+      "side": 1,
+      "message": "missing blank line here",
+      "revId": "57da2b19e340558a7758f3486d8f564311a87f53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ddb94a5_4f1da37e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-20T00:00:54Z",
+      "side": 1,
+      "message": "yay!",
+      "revId": "57da2b19e340558a7758f3486d8f564311a87f53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
