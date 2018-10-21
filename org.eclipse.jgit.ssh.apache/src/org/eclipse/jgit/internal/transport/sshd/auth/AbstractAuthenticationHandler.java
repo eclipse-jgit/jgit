@@ -40,45 +40,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd.auth;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.net.InetSocketAddress;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+/**
+ * Abstract base class for {@link AuthenticationHandler}s encapsulating basic
+ * common things.
+ *
+ * @param <ParameterType>
+ *            defining the parameter type for the authentication
+ * @param <TokenType>
+ *            defining the token type for the authentication
+ */
+public abstract class AbstractAuthenticationHandler<ParameterType, TokenType>
+		implements AuthenticationHandler<ParameterType, TokenType> {
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
+	/** The {@link InetSocketAddress} or the proxy to connect to. */
+	protected InetSocketAddress proxy;
 
-	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+	/** The last set parameters. */
+	protected ParameterType params;
+
+	/** A flag telling whether this authentication is done. */
+	protected boolean done;
+
+	/**
+	 * Creates a new {@link AbstractAuthenticationHandler} to authenticate with
+	 * the given {@code proxy}.
+	 *
+	 * @param proxy
+	 *            the {@link InetSocketAddress} of the proxy to connect to
+	 */
+	public AbstractAuthenticationHandler(InetSocketAddress proxy) {
+		this.proxy = proxy;
 	}
 
 	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
+	public final void setParams(ParameterType input) {
+		params = input;
+	}
+
+	@Override
+	public final boolean isDone() {
+		return done;
 	}
 
 }
