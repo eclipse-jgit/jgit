@@ -40,45 +40,82 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd.auth;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.io.Closeable;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+/**
+ * An {@code AuthenticationHandler} encapsulates a possibly multi-step
+ * authentication protocol. Intended usage:
+ *
+ * <pre>
+ * setParams(something);
+ * start();
+ * sendToken(getToken());
+ * while (!isDone()) {
+ * 	setParams(receiveMessageAndExtractParams());
+ * 	process();
+ * 	Object t = getToken();
+ * 	if (t != null) {
+ * 		sendToken(t);
+ * 	}
+ * }
+ * </pre>
+ *
+ * An {@code AuthenticationHandler} may be stateful and therefore is a
+ * {@link Closeable}.
+ *
+ * @param <ParameterType>
+ *            defining the parameter type for {@link #setParams(Object)}
+ * @param <TokenType>
+ *            defining the token type for {@link #getToken()}
+ */
+public interface AuthenticationHandler<ParameterType, TokenType>
+		extends Closeable {
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
+	/**
+	 * Produces the initial authentication token that can be then retrieved via
+	 * {@link #getToken()}.
+	 *
+	 * @throws Exception
+	 *             if an error occurs
+	 */
+	void start() throws Exception;
+
+	/**
+	 * Produces the next authentication token, if any.
+	 *
+	 * @throws Exception
+	 *             if an error occurs
+	 */
+	void process() throws Exception;
+
+	/**
+	 * Sets the parameters for the next token generation via {@link #start()} or
+	 * {@link #process()}.
+	 *
+	 * @param input
+	 *            to set, may be {@code null}
+	 */
+	void setParams(ParameterType input);
+
+	/**
+	 * Retrieves the last token generated.
+	 *
+	 * @return the token, or {@code null} if there is none
+	 * @throws Exception
+	 *             if an error occurs
+	 */
+	TokenType getToken() throws Exception;
+
+	/**
+	 * Tells whether is authentication mechanism is done (successfully or
+	 * unsuccessfully).
+	 *
+	 * @return whether this authentication is done
+	 */
+	boolean isDone();
 
 	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
-	}
-
-	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
-	}
-
+	public void close();
 }

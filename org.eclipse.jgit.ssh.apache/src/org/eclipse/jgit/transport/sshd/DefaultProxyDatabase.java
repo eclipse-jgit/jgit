@@ -42,43 +42,68 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+import org.apache.sshd.client.config.hosts.HostConfigEntry;
+import org.eclipse.jgit.transport.sshd.proxy.HttpClientConnector;
+import org.eclipse.jgit.transport.sshd.proxy.Socks5ClientConnector;
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
-
-	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
-	}
+/**
+ * A default implementation of a {@link ProxyDatabase} based on the standard
+ * {@link java.net.ProxySelector}.
+ *
+ * @since 5.2
+ */
+public class DefaultProxyDatabase implements ProxyDatabase {
 
 	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
+	public ProxyData get(HostConfigEntry hostConfig,
+			InetSocketAddress remoteAddress) {
+		try {
+			List<Proxy> proxies = ProxySelector.getDefault()
+					.select(new URI(Proxy.Type.SOCKS.name(),
+							"//" + remoteAddress.getHostString(), null)); //$NON-NLS-1$
+			ProxyData data = getData(proxies, Proxy.Type.SOCKS, remoteAddress);
+			if (data == null) {
+				proxies = ProxySelector.getDefault()
+						.select(new URI(Proxy.Type.HTTP.name(),
+								"//" + remoteAddress.getHostString(), //$NON-NLS-1$
+								null));
+				data = getData(proxies, Proxy.Type.HTTP, remoteAddress);
 			}
+			return data;
+		} catch (URISyntaxException e) {
+			return null;
 		}
 	}
 
+	private ProxyData getData(List<Proxy> proxies, Proxy.Type type,
+			InetSocketAddress remoteAddress) {
+		Proxy proxy = proxies.stream().filter(p -> type == p.type()).findFirst()
+				.orElse(null);
+		if (proxy == null) {
+			return null;
+		}
+		SocketAddress address = proxy.address();
+		if (!(address instanceof InetSocketAddress)) {
+			return null;
+		}
+		InetSocketAddress proxyAddress = (InetSocketAddress) address;
+		switch (type) {
+		case HTTP:
+			return new ProxyData(proxyAddress,
+					new HttpClientConnector(proxyAddress, remoteAddress));
+		case SOCKS:
+			return new ProxyData(proxyAddress,
+					new Socks5ClientConnector(proxyAddress, remoteAddress));
+		default:
+			return null;
+		}
+	}
 }

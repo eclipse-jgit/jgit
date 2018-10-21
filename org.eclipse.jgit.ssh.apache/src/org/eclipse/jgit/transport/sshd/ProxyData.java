@@ -42,43 +42,73 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.net.InetSocketAddress;
+import java.util.Objects;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+import org.apache.sshd.client.session.ClientProxyConnector;
+import org.eclipse.jgit.annotations.NonNull;
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
+/**
+ * A DTO encapsulating the data needed to connect through a proxy server.
+ *
+ * @since 5.2
+ */
+public class ProxyData {
 
-	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+	private ClientProxyConnector connector;
+
+	private InetSocketAddress proxyAddress;
+
+	/**
+	 * Creates a new {@link ProxyData} instance.
+	 *
+	 * @param proxy
+	 *            to connect to
+	 * @param connector
+	 *            to use
+	 */
+	public ProxyData(InetSocketAddress proxy, ClientProxyConnector connector) {
+		this.proxyAddress = proxy;
+		this.connector = connector;
+	}
+
+	/**
+	 * Obtains a {@link ClientProxyConnector} implementing the protocol
+	 * needed for connecting to the proxy.
+	 *
+	 * @return the {@link ClientProxyConnector}
+	 */
+	@NonNull
+	public ClientProxyConnector getConnector() {
+		return connector;
+	}
+
+	/**
+	 * Obtains the remote {@link InetSocketAddress} of the proxy to connect to.
+	 *
+	 * @return the remote address of the proxy
+	 */
+	@NonNull
+	public InetSocketAddress getAddress() {
+		return proxyAddress;
 	}
 
 	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
 		}
+		if (obj != null && this.getClass().equals(obj.getClass())) {
+			ProxyData other = (ProxyData) obj;
+			return Objects.equals(proxyAddress, other.proxyAddress)
+					&& Objects.equals(connector, other.connector);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(proxyAddress, connector);
 	}
 
 }
