@@ -47,6 +47,7 @@ import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -73,9 +74,13 @@ import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.ValidateUtils;
+import org.eclipse.jgit.internal.transport.sshd.proxy.HttpClientConnector;
+import org.eclipse.jgit.internal.transport.sshd.proxy.Socks5ClientConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
+import org.eclipse.jgit.transport.sshd.ProxyData;
+import org.eclipse.jgit.transport.sshd.ProxyDataFactory;
 
 /**
  * Customized {@link SshClient} for JGit. It creates specialized
@@ -91,6 +96,8 @@ public class JGitSshClient extends SshClient {
 	 */
 	static final AttributeKey<HostConfigEntry> HOST_CONFIG_ENTRY = new AttributeKey<>();
 
+	static final AttributeKey<InetSocketAddress> ORIGINAL_REMOTE_ADDRESS = new AttributeKey<>();
+
 	/**
 	 * An attribute key for the comma-separated list of default preferred
 	 * authentication mechanisms.
@@ -100,6 +107,8 @@ public class JGitSshClient extends SshClient {
 	private KeyCache keyCache;
 
 	private CredentialsProvider credentialsProvider;
+
+	private ProxyDataFactory proxyDatabase;
 
 	@Override
 	protected SessionFactory createSessionFactory() {
@@ -133,6 +142,13 @@ public class JGitSshClient extends SshClient {
 						getAttribute(PREFERRED_AUTHENTICATIONS)),
 				PREFERRED_AUTHS);
 		setAttribute(HOST_CONFIG_ENTRY, hostConfig);
+		setAttribute(ORIGINAL_REMOTE_ADDRESS, address);
+		// Proxy support
+		ProxyData proxy = getProxyData(hostConfig, address);
+		if (proxy != null) {
+			address = configureProxy(proxy, address);
+			proxy.clearPassword();
+		}
 		connector.connect(address).addListener(listener);
 		return connectFuture;
 	}
@@ -140,6 +156,37 @@ public class JGitSshClient extends SshClient {
 	private void copyProperty(String value, String key) {
 		if (value != null && !value.isEmpty()) {
 			getProperties().put(key, value);
+		}
+	}
+
+	private ProxyData getProxyData(HostConfigEntry hostConfig,
+			InetSocketAddress remoteAddress) {
+		ProxyDataFactory factory = getProxyDatabase();
+		return factory == null ? null : factory.get(hostConfig, remoteAddress);
+	}
+
+	private InetSocketAddress configureProxy(ProxyData proxyData,
+			InetSocketAddress remoteAddress) {
+		Proxy proxy = proxyData.getProxy();
+		if (proxy.type() == Proxy.Type.DIRECT
+				|| !(proxy.address() instanceof InetSocketAddress)) {
+			return remoteAddress;
+		}
+		InetSocketAddress address = (InetSocketAddress) proxy.address();
+		switch (proxy.type()) {
+		case HTTP:
+			setClientProxyConnector(
+					new HttpClientConnector(address, remoteAddress,
+							proxyData.getUser(), proxyData.getPassword()));
+			return address;
+		case SOCKS:
+			setClientProxyConnector(
+					new Socks5ClientConnector(address, remoteAddress,
+							proxyData.getUser(), proxyData.getPassword()));
+			return address;
+		default:
+			// TODO: warn.
+			return remoteAddress;
 		}
 	}
 
@@ -258,6 +305,26 @@ public class JGitSshClient extends SshClient {
 	 */
 	public void setKeyCache(KeyCache cache) {
 		keyCache = cache;
+	}
+
+	/**
+	 * Sets a {@link ProxyDataFactory} for connecting through proxies.
+	 *
+	 * @param factory
+	 *            to use, or {@code null} if proxying is not desired or
+	 *            supported
+	 */
+	public void setProxyDatabase(ProxyDataFactory factory) {
+		proxyDatabase = factory;
+	}
+
+	/**
+	 * Retrieves the {@link ProxyDataFactory}.
+	 *
+	 * @return the factory, or {@code null} if none is set
+	 */
+	protected ProxyDataFactory getProxyDatabase() {
+		return proxyDatabase;
 	}
 
 	/**

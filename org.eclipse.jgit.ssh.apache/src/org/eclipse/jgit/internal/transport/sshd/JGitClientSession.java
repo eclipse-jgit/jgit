@@ -44,6 +44,8 @@ package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
 
+import java.io.IOException;
+import java.net.SocketAddress;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,10 +59,14 @@ import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryP
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.IoWriteFuture;
+import org.apache.sshd.common.util.Readable;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
+import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 
@@ -78,6 +84,8 @@ public class JGitClientSession extends ClientSessionImpl {
 	private HostConfigEntry hostConfig;
 
 	private CredentialsProvider credentialsProvider;
+
+	private StatefulProxyConnector proxyHandler;
 
 	/**
 	 * @param manager
@@ -125,6 +133,95 @@ public class JGitClientSession extends ClientSessionImpl {
 	 */
 	public CredentialsProvider getCredentialsProvider() {
 		return credentialsProvider;
+	}
+
+	/**
+	 * Sets a {@link StatefulProxyConnector} to handle proxy connection
+	 * protocols.
+	 *
+	 * @param handler
+	 *            to set
+	 */
+	public void setProxyHandler(StatefulProxyConnector handler) {
+		proxyHandler = handler;
+	}
+
+	@Override
+	protected IoWriteFuture sendIdentification(String ident)
+			throws IOException {
+		// Nothing; we do this below together with the KEX init in
+		// sendStartSsh(). Called only from the ClientSessionImpl constructor,
+		// where the return value is ignored.
+		return null;
+	}
+
+	@Override
+	protected byte[] sendKexInit() throws IOException {
+		StatefulProxyConnector proxy = proxyHandler;
+		if (proxy != null) {
+			try {
+				// We must not block here; the framework starts reading messages
+				// from the peer only once sendKexInit() has returned!
+				proxy.runWhenDone(() -> {
+					sendStartSsh();
+					return null;
+				});
+				// sendKexInit() is called only from the ClientSessionImpl
+				// constructor, where the return value is ignored.
+				return null;
+			} catch (IOException e) {
+				throw e;
+			} catch (Exception other) {
+				throw new IOException(other.getLocalizedMessage(), other);
+			}
+		} else {
+			return sendStartSsh();
+		}
+	}
+
+	/**
+	 * Sends the initial messages starting the ssh setup: the client
+	 * identification and the KEX init message.
+	 *
+	 * @return the client's KEX seed
+	 * @throws IOException
+	 *             if something goes wrong
+	 */
+	private byte[] sendStartSsh() throws IOException {
+		super.sendIdentification(clientVersion);
+		return super.sendKexInit();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * As long as we're still setting up the proxy connection, diverts messages
+	 * to the {@link StatefulProxyConnector}.
+	 */
+	@Override
+	public void messageReceived(Readable buffer) throws Exception {
+		StatefulProxyConnector proxy = proxyHandler;
+		if (proxy != null) {
+			proxy.messageReceived(getIoSession(), buffer);
+		} else {
+			super.messageReceived(buffer);
+		}
+	}
+
+	@Override
+	protected void checkKeys() throws SshException {
+		ServerKeyVerifier serverKeyVerifier = getServerKeyVerifier();
+		// The super implementation always uses
+		// getIoSession().getRemoteAddress(). In case of a proxy connection,
+		// that would be the address of the proxy!
+		SocketAddress remoteAddress = getConnectAddress();
+		PublicKey serverKey = getKex().getServerKey();
+		if (!serverKeyVerifier.verifyServerKey(this, remoteAddress,
+				serverKey)) {
+			throw new SshException(
+					org.apache.sshd.common.SshConstants.SSH2_DISCONNECT_HOST_KEY_NOT_VERIFIABLE,
+					SshdText.get().kexServerKeyInvalid);
+		}
 	}
 
 	@Override
@@ -175,8 +272,10 @@ public class JGitClientSession extends ClientSessionImpl {
 		// keys first.
 		ServerKeyVerifier verifier = getServerKeyVerifier();
 		if (verifier instanceof ServerKeyLookup) {
+			SocketAddress remoteAddress = resolvePeerAddress(
+					resolveAttribute(JGitSshClient.ORIGINAL_REMOTE_ADDRESS));
 			List<HostEntryPair> allKnownKeys = ((ServerKeyLookup) verifier)
-					.lookup(this, this.getIoSession().getRemoteAddress());
+					.lookup(this, remoteAddress);
 			Set<String> reordered = new LinkedHashSet<>();
 			for (HostEntryPair h : allKnownKeys) {
 				PublicKey key = h.getServerKey();
