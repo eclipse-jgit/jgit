@@ -40,22 +40,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd.auth;
+
+import java.net.InetSocketAddress;
 
 /**
- * A {@code SessionCloseListener} is invoked when a {@link SshdSession} is
- * closed.
+ * Abstract base class for {@link AuthenticationHandler}s encapsulating basic
+ * common things.
  *
- * @since 5.2
+ * @param <ParameterType>
+ *            defining the parameter type for the authentication
+ * @param <TokenType>
+ *            defining the token type for the authentication
  */
-@FunctionalInterface
-public interface SessionCloseListener {
+public abstract class AbstractAuthenticationHandler<ParameterType, TokenType>
+		implements AuthenticationHandler<ParameterType, TokenType> {
+
+	/** The {@link InetSocketAddress} or the proxy to connect to. */
+	protected InetSocketAddress proxy;
+
+	/** The last set parameters. */
+	protected ParameterType params;
+
+	/** A flag telling whether this authentication is done. */
+	protected boolean done;
 
 	/**
-	 * Invoked when a {@link SshdSession} has been closed.
+	 * Creates a new {@link AbstractAuthenticationHandler} to authenticate with
+	 * the given {@code proxy}.
 	 *
-	 * @param session
-	 *            that was closed.
+	 * @param proxy
+	 *            the {@link InetSocketAddress} of the proxy to connect to
 	 */
-	void sessionClosed(SshdSession session);
+	public AbstractAuthenticationHandler(InetSocketAddress proxy) {
+		this.proxy = proxy;
+	}
+
+	@Override
+	public final void setParams(ParameterType input) {
+		params = input;
+	}
+
+	@Override
+	public final boolean isDone() {
+		return done;
+	}
+
 }
