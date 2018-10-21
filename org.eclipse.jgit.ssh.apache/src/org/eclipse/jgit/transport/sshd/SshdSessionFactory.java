@@ -105,22 +105,25 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	private final KeyCache keyCache;
 
+	private final ProxyDatabase proxies;
+
 	private File sshDirectory;
 
 	private File homeDirectory;
 
 	/**
-	 * Creates a new {@link SshdSessionFactory} without {@link KeyCache}.
+	 * Creates a new {@link SshdSessionFactory} without key cache and a
+	 * {@link DefaultProxyDatabase}.
 	 */
 	public SshdSessionFactory() {
-		this(null);
+		this(null, new DefaultProxyDatabase());
 	}
 
 	/**
-	 * Creates a new {@link SshdSessionFactory} using the given
-	 * {@link KeyCache}. The {@code keyCache} is used for all sessions created
-	 * through this session factory; cached keys are destroyed when the session
-	 * factory is {@link #close() closed}.
+	 * Creates a new {@link SshdSessionFactory} using the given {@link KeyCache}
+	 * and {@link ProxyDatabase}. The {@code keyCache} is used for all sessions
+	 * created through this session factory; cached keys are destroyed when the
+	 * session factory is {@link #close() closed}.
 	 * <p>
 	 * Caching ssh keys in memory for an extended period of time is generally
 	 * considered bad practice, but there may be circumstances where using a
@@ -141,10 +144,15 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @param keyCache
 	 *            {@link KeyCache} to use for caching ssh keys, or {@code null}
 	 *            to not use a key cache
+	 * @param proxies
+	 *            {@link ProxyDatabase} to use, or {@code null} to not use a
+	 *            proxy database (in which case connections through proxies will
+	 *            not be possible)
 	 */
-	public SshdSessionFactory(KeyCache keyCache) {
+	public SshdSessionFactory(KeyCache keyCache, ProxyDatabase proxies) {
 		super();
 		this.keyCache = keyCache;
+		this.proxies = proxies;
 	}
 
 	/** A simple general map key. */
@@ -218,6 +226,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				JGitSshClient jgitClient = (JGitSshClient) client;
 				jgitClient.setKeyCache(getKeyCache());
 				jgitClient.setCredentialsProvider(credentialsProvider);
+				jgitClient.setProxyDatabase(proxies);
 				String defaultAuths = getDefaultPreferredAuthentications();
 				if (defaultAuths != null) {
 					jgitClient.setAttribute(
@@ -424,6 +433,16 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	protected FilePasswordProvider createFilePasswordProvider(
 			CredentialsProvider provider) {
 		return new IdentityPasswordProvider(provider);
+	}
+
+	/**
+	 * Creates a {@link ProxyDatabase} for connecting through proxies.
+	 *
+	 * @return a {@link ProxyDatabase}, or {@code null} if proxies are not
+	 *         supported.
+	 */
+	protected ProxyDatabase createProxyDatabase() {
+		return new DefaultProxyDatabase();
 	}
 
 	/**
