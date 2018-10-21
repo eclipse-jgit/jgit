@@ -109,6 +109,13 @@ public class GssApiWithMicAuthentication extends AbstractUserAuth {
 		}
 		state = ProtocolState.STARTED;
 		currentMechanism = nextMechanism.next();
+		// RFC 4462 states that SPNEGO must not be used with ssh
+		while (GssApiMechanisms.SPNEGO.equals(currentMechanism)) {
+			if (!nextMechanism.hasNext()) {
+				return false;
+			}
+			currentMechanism = nextMechanism.next();
+		}
 		try {
 			String hostName = getHostName(session);
 			context = GssApiMechanisms.createContext(currentMechanism,
