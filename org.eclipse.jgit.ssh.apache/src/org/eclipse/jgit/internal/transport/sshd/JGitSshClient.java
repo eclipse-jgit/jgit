@@ -76,6 +76,8 @@ import org.apache.sshd.common.util.ValidateUtils;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
+import org.eclipse.jgit.transport.sshd.ProxyData;
+import org.eclipse.jgit.transport.sshd.ProxyDatabase;
 import org.eclipse.jgit.transport.sshd.RepeatingFilePasswordProvider;
 
 /**
@@ -92,6 +94,8 @@ public class JGitSshClient extends SshClient {
 	 */
 	static final AttributeKey<HostConfigEntry> HOST_CONFIG_ENTRY = new AttributeKey<>();
 
+	static final AttributeKey<InetSocketAddress> ORIGINAL_REMOTE_ADDRESS = new AttributeKey<>();
+
 	/**
 	 * An attribute key for the comma-separated list of default preferred
 	 * authentication mechanisms.
@@ -101,6 +105,8 @@ public class JGitSshClient extends SshClient {
 	private KeyCache keyCache;
 
 	private CredentialsProvider credentialsProvider;
+
+	private ProxyDatabase proxyDatabase;
 
 	@Override
 	protected SessionFactory createSessionFactory() {
@@ -134,6 +140,13 @@ public class JGitSshClient extends SshClient {
 						getAttribute(PREFERRED_AUTHENTICATIONS)),
 				PREFERRED_AUTHS);
 		setAttribute(HOST_CONFIG_ENTRY, hostConfig);
+		setAttribute(ORIGINAL_REMOTE_ADDRESS, address);
+		// Proxy support
+		ProxyData proxy = getProxyData(hostConfig, address);
+		if (proxy != null) {
+			setClientProxyConnector(proxy.getConnector());
+			address = proxy.getAddress();
+		}
 		connector.connect(address).addListener(listener);
 		return connectFuture;
 	}
@@ -142,6 +155,12 @@ public class JGitSshClient extends SshClient {
 		if (value != null && !value.isEmpty()) {
 			getProperties().put(key, value);
 		}
+	}
+
+	private ProxyData getProxyData(HostConfigEntry hostConfig,
+			InetSocketAddress remoteAddress) {
+		ProxyDatabase factory = getProxyDatabase();
+		return factory == null ? null : factory.get(hostConfig, remoteAddress);
 	}
 
 	private SshFutureListener<IoConnectFuture> createConnectCompletionListener(
@@ -259,6 +278,26 @@ public class JGitSshClient extends SshClient {
 	 */
 	public void setKeyCache(KeyCache cache) {
 		keyCache = cache;
+	}
+
+	/**
+	 * Sets a {@link ProxyDatabase} for connecting through proxies.
+	 *
+	 * @param factory
+	 *            to use, or {@code null} if proxying is not desired or
+	 *            supported
+	 */
+	public void setProxyDatabase(ProxyDatabase factory) {
+		proxyDatabase = factory;
+	}
+
+	/**
+	 * Retrieves the {@link ProxyDatabase}.
+	 *
+	 * @return the factory, or {@code null} if none is set
+	 */
+	protected ProxyDatabase getProxyDatabase() {
+		return proxyDatabase;
 	}
 
 	/**
