@@ -40,45 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd.proxy;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+/**
+ * A very simple representation of a HTTP status line.
+ */
+public class StatusLine {
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+	private final String version;
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
+	private final int resultCode;
 
-	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+	private final String reason;
+
+	/**
+	 * Create a new {@link StatusLine} with the given response code and reason
+	 * string.
+	 *
+	 * @param version
+	 *            the version string (normally "HTTP/1.1" or "HTTP/1.0")
+	 * @param resultCode
+	 *            the HTTP response code (200, 401, etc.)
+	 * @param reason
+	 *            the reason phrase for the code
+	 */
+	public StatusLine(String version, int resultCode, String reason) {
+		this.version = version;
+		this.resultCode = resultCode;
+		this.reason = reason;
 	}
 
-	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
+	/**
+	 * Retrieves the version string.
+	 *
+	 * @return the version string
+	 */
+	public String getVersion() {
+		return version;
 	}
 
+	/**
+	 * Retrieves the HTTP response code.
+	 *
+	 * @return the code
+	 */
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	/**
+	 * Retrieves the HTTP reason phrase.
+	 *
+	 * @return the reason
+	 */
+	public String getReason() {
+		return reason;
+	}
 }

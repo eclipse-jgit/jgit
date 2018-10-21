@@ -42,43 +42,24 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.net.InetSocketAddress;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.FS;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
+import org.apache.sshd.client.config.hosts.HostConfigEntry;
 
-@RunWith(Theories.class)
-public class ApacheSshTest extends SshTestBase {
+/**
+ * Interface for obtaining {@link ProxyData} to connect through some proxy.
+ */
+public interface ProxyDatabase {
 
-	@Override
-	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
-	}
-
-	@Override
-	protected void installConfig(String... config) {
-		File configFile = new File(sshDir, Constants.CONFIG);
-		if (config != null) {
-			try {
-				Files.write(configFile.toPath(), Arrays.asList(config));
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
-	}
-
+	/**
+	 * Get the {@link ProxyData} to connect to a proxy.
+	 *
+	 * @param hostConfig
+	 *            from the ssh config that we're going to connect for
+	 * @param remoteAddress
+	 *            to connect to
+	 * @return the {@link ProxyData} or {@code null} if a direct connection is
+	 *         to be made
+	 */
+	ProxyData get(HostConfigEntry hostConfig, InetSocketAddress remoteAddress);
 }
