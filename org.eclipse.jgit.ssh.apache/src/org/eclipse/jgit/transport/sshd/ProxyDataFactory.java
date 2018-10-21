@@ -42,20 +42,29 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
+import java.net.InetSocketAddress;
+
+import org.apache.sshd.client.config.hosts.HostConfigEntry;
+
 /**
- * A {@code SessionCloseListener} is invoked when a {@link SshdSession} is
- * closed.
+ * Interface for obtaining {@link ProxyData} to connect through some proxy.
  *
  * @since 5.2
  */
-@FunctionalInterface
-public interface SessionCloseListener {
+public interface ProxyDataFactory {
 
 	/**
-	 * Invoked when a {@link SshdSession} has been closed.
+	 * Get the {@link ProxyData} to connect to a proxy. It should return a
+	 * <em>new</em> {@link ProxyData} instance every time; if the returned
+	 * {@link ProxyData} contains a password, the {@link SshdSession} will clear
+	 * it once it is no longer needed.
 	 *
-	 * @param session
-	 *            that was closed.
+	 * @param hostConfig
+	 *            from the ssh config that we're going to connect for
+	 * @param remoteAddress
+	 *            to connect to
+	 * @return the {@link ProxyData} or {@code null} if a direct connection is
+	 *         to be made
 	 */
-	void sessionClosed(SshdSession session);
+	ProxyData get(HostConfigEntry hostConfig, InetSocketAddress remoteAddress);
 }

@@ -40,22 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd.proxy;
 
 /**
- * A {@code SessionCloseListener} is invoked when a {@link SshdSession} is
- * closed.
- *
- * @since 5.2
+ * A very simple representation of a HTTP status line.
  */
-@FunctionalInterface
-public interface SessionCloseListener {
+public class StatusLine {
+
+	private final String version;
+
+	private final int resultCode;
+
+	private final String reason;
 
 	/**
-	 * Invoked when a {@link SshdSession} has been closed.
+	 * Create a new {@link StatusLine} with the given response code and reason
+	 * string.
 	 *
-	 * @param session
-	 *            that was closed.
+	 * @param version
+	 *            the version string (normally "HTTP/1.1" or "HTTP/1.0")
+	 * @param resultCode
+	 *            the HTTP response code (200, 401, etc.)
+	 * @param reason
+	 *            the reason phrase for the code
 	 */
-	void sessionClosed(SshdSession session);
+	public StatusLine(String version, int resultCode, String reason) {
+		this.version = version;
+		this.resultCode = resultCode;
+		this.reason = reason;
+	}
+
+	/**
+	 * Retrieves the version string.
+	 *
+	 * @return the version string
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Retrieves the HTTP response code.
+	 *
+	 * @return the code
+	 */
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	/**
+	 * Retrieves the HTTP reason phrase.
+	 *
+	 * @return the reason
+	 */
+	public String getReason() {
+		return reason;
+	}
 }

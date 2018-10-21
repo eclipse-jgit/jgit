@@ -74,7 +74,7 @@ public class GssApiMechanisms {
 	public static final Oid KERBEROS_5 = createOid("1.2.840.113554.1.2.2"); //$NON-NLS-1$
 
 	/** SGNEGO is not to be used with ssh. */
-	private static final Oid SPNEGO = createOid("1.3.6.1.5.5.2"); //$NON-NLS-1$
+	public static final Oid SPNEGO = createOid("1.3.6.1.5.5.2"); //$NON-NLS-1$
 
 	/** Protects {@link #supportedMechanisms}. */
 	private static final Object LOCK = new Object();
@@ -99,10 +99,7 @@ public class GssApiMechanisms {
 				Map<Oid, Boolean> mechanisms = new LinkedHashMap<>();
 				if (mechs != null) {
 					for (Oid oid : mechs) {
-						// RFC 4462 states that SPNEGO must not be used with ssh
-						if (!SPNEGO.equals(oid)) {
-							mechanisms.put(oid, Boolean.FALSE);
-						}
+						mechanisms.put(oid, Boolean.FALSE);
 					}
 				}
 				supportedMechanisms = mechanisms;

@@ -61,7 +61,8 @@ public class ApacheSshTest extends SshTestBase {
 
 	@Override
 	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache());
+		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
+				null);
 		// The home directory is mocked at this point!
 		result.setHomeDirectory(FS.DETECTED.userHome());
 		result.setSshDirectory(sshDir);
