@@ -119,7 +119,7 @@ public class JGitUserInteraction implements UserInteraction {
 			return prompt; // Is known to have length zero here
 		}
 		URIish uri = toURI(session.getUsername(),
-				(InetSocketAddress) session.getIoSession().getRemoteAddress());
+				(InetSocketAddress) session.getConnectAddress());
 		if (provider.get(uri, items)) {
 			return items.stream().map(i -> {
 				if (i instanceof CredentialItem.Password) {
