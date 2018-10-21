@@ -34,6 +34,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String identityFileNoKey;
 	/***/ public String identityFileMultipleKeys;
 	/***/ public String identityFileUnsupportedFormat;
+	/***/ public String kexServerKeyInvalid;
 	/***/ public String keyEncryptedMsg;
 	/***/ public String keyEncryptedPrompt;
 	/***/ public String keyEncryptedRetry;
@@ -55,9 +56,35 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String knownHostsUnknownKeyType;
 	/***/ public String knownHostsUserAskCreationMsg;
 	/***/ public String knownHostsUserAskCreationPrompt;
+	/***/ public String proxyCannotAuthenticate;
+	/***/ public String proxyHttpFailure;
+	/***/ public String proxyHttpInvalidUserName;
+	/***/ public String proxyHttpUnexpectedReply;
+	/***/ public String proxyHttpUnspecifiedFailureReason;
+	/***/ public String proxyPasswordPrompt;
+	/***/ public String proxySocksAuthenticationFailed;
+	/***/ public String proxySocksFailureForbidden;
+	/***/ public String proxySocksFailureGeneral;
+	/***/ public String proxySocksFailureHostUnreachable;
+	/***/ public String proxySocksFailureNetworkUnreachable;
+	/***/ public String proxySocksFailureRefused;
+	/***/ public String proxySocksFailureTTL;
+	/***/ public String proxySocksFailureUnspecified;
+	/***/ public String proxySocksFailureUnsupportedAddress;
+	/***/ public String proxySocksFailureUnsupportedCommand;
+	/***/ public String proxySocksGssApiFailure;
+	/***/ public String proxySocksGssApiMessageTooShort;
+	/***/ public String proxySocksGssApiUnknownMessage;
+	/***/ public String proxySocksGssApiVersionMismatch;
+	/***/ public String proxySocksNoRemoteHostName;
+	/***/ public String proxySocksPasswordTooLong;
+	/***/ public String proxySocksUnexpectedMessage;
+	/***/ public String proxySocksUnexpectedVersion;
+	/***/ public String proxySocksUsernameTooLong;
 	/***/ public String sessionCloseFailed;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;
+	/***/ public String unknownProxyProtocol;
 
 }
