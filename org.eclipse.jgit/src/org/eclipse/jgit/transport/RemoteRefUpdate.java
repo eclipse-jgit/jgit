@@ -521,7 +521,7 @@ public class RemoteRefUpdate {
 						: "(null)") + "..."
 				+ (newObjectId != null ? newObjectId.name() : "(null)")
 				+ (fastForward ? ", fastForward" : "")
- + ", srcRef=" + srcRef
+				+ ", srcRef=" + srcRef
 				+ (forceUpdate ? ", forceUpdate" : "") + ", message="
 				+ (message != null ? "\"" + message + "\"" : "null") + "]";
 	}
