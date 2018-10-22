@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e451778e_ea9b642b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-22T22:56:37Z",
+      "side": 1,
+      "message": "Thanks for the comment. Actually the check we want in the tests is more strict. \n\nI changed the name to \"hasOnlyObjectIds\" , made is stricter (sets have same cardinality and contents) and added javadoc explaining.",
+      "parentUuid": "7e2b8333_82dc4f2a",
+      "revId": "4b643d0ef739a1b494e7d6926d8d8ed80d35edf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e61e7c0_e3b48f0e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "4b643d0ef739a1b494e7d6926d8d8ed80d35edf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9a4bbe5_58a99918",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-22T22:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e61e7c0_e3b48f0e",
+      "range": {
+        "startLine": 85,
+        "startChar": 1,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "4b643d0ef739a1b494e7d6926d8d8ed80d35edf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
