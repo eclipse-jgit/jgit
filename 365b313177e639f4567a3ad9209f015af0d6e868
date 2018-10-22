@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c3ef847_6634f086",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-22T21:57:40Z",
+      "side": 1,
+      "message": "I know that almost all characters can be in *nix file paths, but  on Windows most of these characters can\u0027t be used in file paths\n\nI am surprised that anyone wants to use \\r in file names.",
+      "revId": "365b313177e639f4567a3ad9209f015af0d6e868",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
