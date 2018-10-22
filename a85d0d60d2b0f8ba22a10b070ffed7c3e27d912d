@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "055e236d_3c91099b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-22T22:32:02Z",
+      "side": 1,
+      "message": "I was thinking on readability. The \"Constants\" prefix doesn\u0027t add information to the identifier (it is already in capital letters), and a shorter line:\n\"FileUtils.mkdir(new File(getDirectory(), BRANCHES))\"\nis easier to read than:\n\"FileUtils.mkdir(new File(getDirectory(), Constants.BRANCHES)\"\n\nAlso, there is no need to import statically everything (*), but only the required constants.\n\nAnd finally, static imports are already used in RefDirectory. Although the use of static imports is not consistent in the code, I got the impression (for the reviews I received) that code was moving towards using them (again, for readability).\n\nI should have marked this issue as \"optional\". Static or not, either works for me.",
+      "parentUuid": "fbede7de_aac0c57a",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "987ed307_db590e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
