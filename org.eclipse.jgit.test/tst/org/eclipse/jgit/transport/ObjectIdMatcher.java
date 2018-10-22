@@ -54,15 +54,15 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * In multiple tests we need to check that a collection of ObjectIds contain
- * certain SHA (written as strings). This matcher hides the ObjectId to string
- * conversion, to make the assertion more readable:
+ * Multiple tests check that a collection of ObjectIds contain certain SHA1
+ * (written as strings). This matcher hides the ObjectId to string conversion to
+ * make the assertion more readable:
  *
- * assertThat(req.getWantsIds(), hasObjectIds("123123", "234234"));
+ * assertThat(req.getWantsIds(), hasOnlyObjectIds("123123", "234234"));
  */
 class ObjectIdMatcher extends TypeSafeMatcher<Collection<ObjectId>> {
 
-	private Set<String> expectedOids;
+	private final Set<String> expectedOids;
 
 	private ObjectIdMatcher(Set<String> oids) {
 		this.expectedOids = oids;
@@ -78,18 +78,19 @@ class ObjectIdMatcher extends TypeSafeMatcher<Collection<ObjectId>> {
 	protected boolean matchesSafely(Collection<ObjectId> objIds) {
 		Set<String> asStrings = objIds.stream().map(ObjectId::name)
 				.collect(Collectors.toSet());
-		return asStrings.containsAll(expectedOids)
-				&& expectedOids.containsAll(asStrings);
+		return expectedOids.equals(asStrings);
 	}
 
 	/**
-	 * Assert that the expected set of object ids (received in the constructor)
-	 * and the set here have the same cardinality and contents.
+	 * Assert that all and only the received {@link ObjectId object ids} are in
+	 * the expected set.
+	 * <p>
+	 * ObjectIds are compared by SHA1.
 	 *
 	 * @param oids
-	 *            Object ids received as result of an operation
-	 * @return true if sets of expected and result object ids are equal (same
-	 *         cardinality and contents)
+	 *            Object ids to examine.
+	 * @return true if examined and specified sets contains exactly the same
+	 *         elements.
 	 */
 	@Factory
 	static Matcher<Collection<ObjectId>> hasOnlyObjectIds(
