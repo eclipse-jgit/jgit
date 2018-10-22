@@ -355,6 +355,24 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testGetRefs_IgnoresGarbageRef5() throws IOException {
+		Map<String, Ref> heads;
+		Ref a;
+
+		writeLooseRef("refs/heads/A", A);
+		// more than 40 characters
+		write(new File(diskRepo.getDirectory(), "refs/heads/bad"),
+				"FAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAIL\n");
+
+		heads = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(1, heads.size());
+
+		a = heads.get("refs/heads/A");
+		assertEquals("refs/heads/A", a.getName());
+		assertEquals(A, a.getObjectId());
+	}
+
+	@Test
 	public void testFirstExactRef_IgnoresGarbageRef() throws IOException {
 		writeLooseRef("refs/heads/A", A);
 		write(new File(diskRepo.getDirectory(), "refs/heads/bad"), "FAIL\n");
@@ -1151,13 +1169,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		String name = "refs/heads/A";
 		String content = "zoo" + A.name();
 		writeLooseRef(name, content + "\n");
-		try {
-			refdir.getRef(name);
-			fail("read an invalid reference");
-		} catch (IOException err) {
-			String msg = err.getMessage();
-			assertEquals("Not a ref: " + name + ": " + content, msg);
-		}
+		assertEquals(null, refdir.getRef(name));
 	}
 
 	@Test

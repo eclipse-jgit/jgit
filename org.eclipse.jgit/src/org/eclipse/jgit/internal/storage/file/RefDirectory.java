@@ -1166,8 +1166,11 @@ public class RefDirectory extends RefDatabase {
 			return newSymbolicRef(otherSnapshot, name, target);
 		}
 
-		if (n < OBJECT_ID_STRING_LENGTH)
+		if (n < OBJECT_ID_STRING_LENGTH) {
+			LOG.warn("Invalid ref '" + name + "': '"
+					+ RawParseUtils.decode(buf, 0, n) + "'");
 			return null; // impossibly short object identifier; not a reference.
+		}
 
 		final ObjectId id;
 		try {
@@ -1180,12 +1183,9 @@ public class RefDirectory extends RefDatabase {
 			}
 
 		} catch (IllegalArgumentException notRef) {
-			while (0 < n && Character.isWhitespace(buf[n - 1]))
-				n--;
-			String content = RawParseUtils.decode(buf, 0, n);
-
-			throw new IOException(MessageFormat.format(JGitText.get().notARef,
-					name, content), notRef);
+			LOG.warn("Invalid ref '" + name + "': '"
+					+ RawParseUtils.decode(buf, 0, Math.min(n, 128)) + "'");
+			return null;
 		}
 		return new LooseUnpeeled(otherSnapshot, name, id);
 	}
