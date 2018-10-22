@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b8333_82dc4f2a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-22T21:58:25Z",
+      "side": 1,
+      "message": "Could use a javadoc describing the semantics. E.g. if the collection being matched has *more* objectIds than the list supplied here, does it match?",
+      "revId": "4b643d0ef739a1b494e7d6926d8d8ed80d35edf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e61e7c0_e3b48f0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-22T21:58:25Z",
+      "side": 1,
+      "message": "optional: can be package-private",
+      "range": {
+        "startLine": 85,
+        "startChar": 1,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "4b643d0ef739a1b494e7d6926d8d8ed80d35edf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
