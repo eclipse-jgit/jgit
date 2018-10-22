@@ -429,17 +429,7 @@ public class UploadPackTest {
 			RefFilter refFilter, ProtocolV2Hook hook, String... inputLines)
 			throws Exception {
 
-		ByteArrayOutputStream send = new ByteArrayOutputStream();
-		PacketLineOut pckOut = new PacketLineOut(send);
-		for (String line : inputLines) {
-			if (line == PacketLineIn.END) {
-				pckOut.end();
-			} else if (line == PacketLineIn.DELIM) {
-				pckOut.writeDelim();
-			} else {
-				pckOut.writeString(line);
-			}
-		}
+		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
 		server.getConfig().setString("protocol", null, "version", "2");
 		UploadPack up = new UploadPack(server);
@@ -453,9 +443,26 @@ public class UploadPackTest {
 		}
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(new ByteArrayInputStream(send.toByteArray()), recv, null);
+		up.upload(send, recv, null);
 
 		return new ByteArrayInputStream(recv.toByteArray());
+	}
+
+	private static ByteArrayInputStream linesAsInputStream(String... inputLines)
+			throws IOException {
+		try (ByteArrayOutputStream send = new ByteArrayOutputStream()) {
+			PacketLineOut pckOut = new PacketLineOut(send);
+			for (String line : inputLines) {
+				if (line == PacketLineIn.END) {
+					pckOut.end();
+				} else if (line == PacketLineIn.DELIM) {
+					pckOut.writeDelim();
+				} else {
+					pckOut.writeString(line);
+				}
+			}
+			return new ByteArrayInputStream(send.toByteArray());
+		}
 	}
 
 	/*
@@ -1550,6 +1557,45 @@ public class UploadPackTest {
 		assertTrue(client.hasObject(one.toObjectId()));
 		assertTrue(client.hasObject(two.toObjectId()));
 		assertTrue(client.hasObject(three.toObjectId()));
+	}
+
+	@Test
+	public void testGetPeerAgentProtocolV0() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		UploadPack up = new UploadPack(server);
+		ByteArrayInputStream send = linesAsInputStream(
+				"want " + one.getName() + " agent=JGit-test/1.2.3\n",
+				PacketLineIn.END,
+				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		up.upload(send, recv, null);
+
+		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+	}
+
+	@Test
+	public void testGetPeerAgentProtocolV2() throws Exception {
+		server.getConfig().setString("protocol", null, "version", "2");
+
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		UploadPack up = new UploadPack(server);
+		up.setExtraParameters(Sets.of("version=2"));
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"command=fetch\n", "agent=JGit-test/1.2.4\n",
+				PacketLineIn.DELIM, "want " + one.getName() + "\n",
+				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
+				PacketLineIn.END);
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		up.upload(send, recv, null);
+
+		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
