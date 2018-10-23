@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5a96f2aa_4461b888",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-23T07:02:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we have a project guideline for this, but I typically do use static imports.\n\nHaving said that, the convention in this file seems to be not to use them (see L295-296 for example) so I would say it\u0027s OK to also not use them here for consistency.",
+      "parentUuid": "055e236d_3c91099b",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "987ed307_db590e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
