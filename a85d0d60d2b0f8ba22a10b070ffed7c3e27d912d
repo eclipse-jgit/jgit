@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "5b7fdf4c_40ff14b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-23T09:26:06Z",
+      "side": 1,
+      "message": "Just my 2¢ on this static import business: my own approach is rather pragmatic. If it\u0027s only a few, I tend to use them; if I\u0027d end up with a whole slew of static imports possibly even from different classes, I prefer not to and prefix by the class/interface names.",
+      "parentUuid": "5a96f2aa_4461b888",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "987ed307_db590e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
