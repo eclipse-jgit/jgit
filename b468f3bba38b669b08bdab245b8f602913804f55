@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9416682_67984d32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-23T22:48:27Z",
+      "side": 1,
+      "message": "Not about this change, but perhaps worth a TODO: This requires walking from the deepen-not commit all the way to the root of history. Can the walk be terminated early? Can the DEEPEN_NOT painting happen at the same time as the main walk?\n\nIf we hit a commit with a bitmap, can we stop at that point as well?",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be6a823c_d393ad57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-23T22:48:27Z",
+      "side": 1,
+      "message": "When would a non-commit show up here? Should we diagnose it as a protocol error?",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad6f8ab_0597c851",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-23T22:48:27Z",
+      "side": 1,
+      "message": "optional: can this be local to the fetchV2 method, passed as a parameter to computeShallowsAndUnshallows and sendPack?",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
