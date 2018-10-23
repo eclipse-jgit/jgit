@@ -91,6 +91,60 @@
     },
     {
       "key": {
+        "uuid": "2c94bba7_ffdf31aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-23T18:57:33Z",
+      "side": 1,
+      "message": "OK, thanks.",
+      "parentUuid": "5b7fdf4c_40ff14b1",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d026b15_e45b6bc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-23T18:57:33Z",
+      "side": 1,
+      "message": "Yes, in this file static imports are not used. So i will do same for consintency...",
+      "parentUuid": "5a96f2aa_4461b888",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ba372a_fd947a86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-23T18:57:33Z",
+      "side": 1,
+      "message": "OK. I will use static includes where it\u0027s already used, but leave it without in this file for consistency.",
+      "parentUuid": "055e236d_3c91099b",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "987ed307_db590e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
@@ -123,6 +177,24 @@
       "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63101ce0_f661168b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2018-10-23T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "987ed307_db590e68",
+      "revId": "a85d0d60d2b0f8ba22a10b070ffed7c3e27d912d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
