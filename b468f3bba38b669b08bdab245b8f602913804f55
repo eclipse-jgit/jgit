@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "429248d7_ba9b1fc6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-24T00:13:52Z",
+      "side": 1,
+      "message": "Added TODO - I moved some of the description in the commit message here.\n\nAs for your questions:\n\nThe walk probably can be terminated early, but I couldn\u0027t figure out the conditions in which to do so. As for DEEPEN_NOT painting happening at the same time, it is difficult because DepthGenerator works with another generator (as you can see from the parameters of the constructor) which probably doesn\u0027t handle depth at all - we would have to make that generator emit DEEPEN_NOT (which is distinct from UNINTERESTING). Using bitmaps might be possible too - we would have to then test for bitmap presence instead of a DEEPEN_NOT flag, which might be faster or slower (we can\u0027t do a bitmap set operation because the candidate commits are now in a FIFORevQueue).",
+      "parentUuid": "d9416682_67984d32",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be6a823c_d393ad57",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "340db805_416760ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-24T00:13:52Z",
+      "side": 1,
+      "message": "After looking at the Git implementation, it silently allows non-commits (just passes them as \"--not\" to rev-list) so I\u0027ve added an explanatory comment.",
+      "parentUuid": "be6a823c_d393ad57",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad6f8ab_0597c851",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -50,6 +86,24 @@
       "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45cc5038_f5e0947d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-24T00:13:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad6f8ab_0597c851",
+      "revId": "b468f3bba38b669b08bdab245b8f602913804f55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
