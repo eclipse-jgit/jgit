@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "730fa5af_c2a7a1a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "JGit style is to capitlize here. Maybe:\n\n ObjectIdMatcher: Custom matcher for sets of ObjectIds",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cafd3d76_e5d03a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "represent objects?",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28bb20e_490e918a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "Tests",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1134ce66_f7782fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "Tests use strings for that purpose because they are easier to define, and convert [...]\n\nThat makes me wonder, though: why aren\u0027t we converting the other way around instead (String to ObjectId)? At first glance that would be a little simpler.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5f6e60_ee56864b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "stray blank line",
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a6af83_75e0fd29",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-24T19:23:02Z",
+      "side": 1,
+      "message": "hasOnlyObjectIds",
+      "range": {
+        "startLine": 61,
+        "startChar": 33,
+        "endLine": 61,
+        "endChar": 45
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
