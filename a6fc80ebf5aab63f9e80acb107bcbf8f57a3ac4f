@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b008dde_35f2229d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "730fa5af_c2a7a1a5",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cafd3d76_e5d03a2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "00d9aa18_15398b5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e28bb20e_490e918a",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa135605_fe3fcdaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Done (\"represent object ids (SHA1) in ObjectId instances\")",
+      "parentUuid": "cafd3d76_e5d03a2f",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1134ce66_f7782fb8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "123eac22_67b61d2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Changed to compare ObjectIds. It makes more sense.",
+      "parentUuid": "1134ce66_f7782fb8",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d5f6e60_ee56864b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -108,6 +204,24 @@
       "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5da6fa59_8df37ad6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Done (I think it was added to retrigger the build :$)",
+      "parentUuid": "1d5f6e60_ee56864b",
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +245,30 @@
       "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5903fe88_230198bd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectIdMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-25T23:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7a6af83_75e0fd29",
+      "range": {
+        "startLine": 61,
+        "startChar": 33,
+        "endLine": 61,
+        "endChar": 45
+      },
+      "revId": "a6fc80ebf5aab63f9e80acb107bcbf8f57a3ac4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
