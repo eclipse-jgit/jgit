@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf5fb296_702875d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1975,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-25T04:11:23Z",
+      "side": 1,
+      "message": "This causes a warning: \n\n  Resource leak: \u0027dw\u0027 is never closed",
+      "range": {
+        "startLine": 1974,
+        "startChar": 4,
+        "endLine": 1975,
+        "endChar": 41
+      },
+      "revId": "237abe6ab5908cc26211d5877bdd1b60d5158f0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
