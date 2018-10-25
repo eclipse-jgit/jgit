@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e0f8b87_33d49c9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-10-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f414daa_65853173",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 27
+      },
+      "revId": "688c12ca32ad31229d9f4177f533ef291011e820",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95f37abe_44381fba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "688c12ca32ad31229d9f4177f533ef291011e820",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a970e41f_9725cc6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-10-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95f37abe_44381fba",
+      "revId": "688c12ca32ad31229d9f4177f533ef291011e820",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
