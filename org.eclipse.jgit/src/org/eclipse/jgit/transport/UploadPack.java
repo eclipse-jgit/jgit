@@ -1808,7 +1808,7 @@ public class UploadPack {
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
 	 * @throws IOException
-	 *             if an error occured while generating or writing the pack.
+	 *             if an error occurred while generating or writing the pack.
 	 */
 	private void sendPack(PackStatistics.Accumulator accumulator,
 			FetchRequest req,
@@ -1880,7 +1880,7 @@ public class UploadPack {
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
 	 * @throws IOException
-	 *             if an error occured while generating or writing the pack.
+	 *             if an error occurred while generating or writing the pack.
 	 */
 	private void sendPack(final boolean sideband,
 			FetchRequest req,
