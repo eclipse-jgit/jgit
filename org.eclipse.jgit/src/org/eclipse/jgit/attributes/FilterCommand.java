@@ -95,7 +95,7 @@ public abstract class FilterCommand {
 	 *         -1. -1 means that the {@link java.io.InputStream} is completely
 	 *         processed.
 	 * @throws java.io.IOException
-	 *             when {@link java.io.IOException} occured while reading from
+	 *             when {@link java.io.IOException} occurred while reading from
 	 *             {@link #in} or writing to {@link #out}
 	 */
 	public abstract int run() throws IOException;
