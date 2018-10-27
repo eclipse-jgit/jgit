@@ -663,12 +663,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						builder.add(dcEntry);
 
 						for (CopyFile copyfile : proj.getCopyFiles()) {
-							byte[] src = callback.readFile(
+							RemoteFile rf = callback.readFileWithMode(
 								url, proj.getRevision(), copyfile.src);
-							objectId = inserter.insert(Constants.OBJ_BLOB, src);
+							objectId = inserter.insert(Constants.OBJ_BLOB,
+									rf.getContents());
 							dcEntry = new DirCacheEntry(copyfile.dest);
 							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(FileMode.REGULAR_FILE);
+							dcEntry.setFileMode(rf.getFileMode());
 							builder.add(dcEntry);
 						}
 						for (LinkFile linkfile : proj.getLinkFiles()) {

@@ -577,11 +577,67 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("The original file should exist", hello.exists());
+		assertFalse("The original file should not be executable",
+				hello.canExecute());
 		assertContents(hello.toPath(), "master world");
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file should exist", hello.exists());
+		assertFalse("The destination file should not be executable",
+				hello.canExecute());
 		assertContents(hello.toPath(), "master world");
+	}
+
+	@Test
+	public void testRepoManifestCopyFile_executable() throws Exception {
+		try (Git git = new Git(defaultDb)) {
+			git.checkout().setName("master").call();
+			File f = JGitTestUtil.writeTrashFile(defaultDb, "hello.sh",
+					"content of the executable file");
+			f.setExecutable(true);
+			git.add().addFilepattern("hello.sh").call();
+			git.commit().setMessage("Add binary file").call();
+		}
+
+		Repository localDb = createWorkRepository();
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"").append(defaultUri)
+				.append("\">")
+				.append("<copyfile src=\"hello.sh\" dest=\"copy-hello.sh\" />")
+				.append("</project>").append("</manifest>");
+		JGitTestUtil.writeTrashFile(localDb, "manifest.xml",
+				xmlContent.toString());
+		RepoCommand command = new RepoCommand(localDb);
+		command.setPath(
+				localDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).call();
+
+		// The original file should exist and be an executable
+		File hello = new File(localDb.getWorkTree(), "foo/hello.sh");
+		assertTrue("The original file should exist", hello.exists());
+		assertTrue("The original file must be executable", hello.canExecute());
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
+			String content = reader.readLine();
+			assertEquals("The original file should have expected content",
+					"content of the executable file", content);
+		}
+
+		// The destination file should also exist and be an executable
+		hello = new File(localDb.getWorkTree(), "copy-hello.sh");
+		assertTrue("The destination file should exist", hello.exists());
+		assertTrue("The destination file must be executable",
+				hello.canExecute());
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
+			String content = reader.readLine();
+			assertEquals("The destination file should have expected content",
+					"content of the executable file", content);
+		}
 	}
 
 	@Test
@@ -764,6 +820,68 @@ public class RepoCommandTest extends RepositoryTestCase {
 					foohello.exists());
 			// The content of Hello file should be expected
 			assertContents(hello.toPath(), "branch world");
+		}
+	}
+
+	@Test
+	public void testCopyFileBare_executable() throws Exception {
+		try (Git git = new Git(defaultDb)) {
+			git.checkout().setName(BRANCH).call();
+			File f = JGitTestUtil.writeTrashFile(defaultDb, "hello.sh",
+					"content of the executable file");
+			f.setExecutable(true);
+			git.add().addFilepattern("hello.sh").call();
+			git.commit().setMessage("Add binary file").call();
+		}
+
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"").append(defaultUri)
+				.append("\" revision=\"").append(BRANCH)
+				.append("\" >")
+				.append("<copyfile src=\"hello.txt\" dest=\"Hello\" />")
+				.append("<copyfile src=\"hello.txt\" dest=\"foo/Hello\" />")
+				.append("<copyfile src=\"hello.sh\" dest=\"copy-hello.sh\" />")
+				.append("</project>").append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).call();
+		// Clone it
+		File directory = createTempDirectory("testCopyFileBare");
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
+				.setURI(remoteDb.getDirectory().toURI().toString()).call()
+				.getRepository()) {
+			// The Hello file should exist
+			File hello = new File(localDb.getWorkTree(), "Hello");
+			assertTrue("The Hello file should exist", hello.exists());
+			// The foo/Hello file should be skipped.
+			File foohello = new File(localDb.getWorkTree(), "foo/Hello");
+			assertFalse("The foo/Hello file should be skipped",
+					foohello.exists());
+			// The content of Hello file should be expected
+			try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+					UTF_8)) {
+				String content = reader.readLine();
+				assertEquals("The Hello file should have expected content",
+						"branch world", content);
+			}
+
+			// The executable file must be there and preserve the executable bit
+			File helloSh = new File(localDb.getWorkTree(), "copy-hello.sh");
+			assertTrue("Destination file should exist", helloSh.exists());
+			assertContents(helloSh.toPath(), "content of the executable file");
+			assertTrue("Destination file should be executable",
+					helloSh.canExecute());
+
 		}
 	}
 
