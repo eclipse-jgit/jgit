@@ -135,6 +135,8 @@ public class RepoProject implements Comparable<RepoProject> {
 					FileOutputStream output = new FileOutputStream(destFile)) {
 				FileChannel channel = input.getChannel();
 				output.getChannel().transferFrom(channel, 0, channel.size());
+
+				destFile.setExecutable(srcFile.canExecute());
 			}
 		}
 	}
