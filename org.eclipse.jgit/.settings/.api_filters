@@ -17,6 +17,18 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/revwalk/DepthWalk.java" type="org.eclipse.jgit.revwalk.DepthWalk">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
+                <message_argument value="getDeepenNotFlag()"/>
+            </message_arguments>
+        </filter>
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
+                <message_argument value="getDeepenNots()"/>
+            </message_arguments>
+        </filter>
         <filter id="404000815">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
