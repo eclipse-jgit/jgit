@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb5bda15_220e8f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-29T20:00:30Z",
+      "side": 1,
+      "message": "Nits: this should be in the imperative mode, in the same style as a bug report title. JGit style also appears to be to capitalize it. So, something like:\n\n RepoCommand: Preserve executable bit in \u003ccopyfile\u003e",
+      "revId": "49a67c94b9b87e1722261293867a6968728d0d60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b42019_f6be90c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-29T20:00:30Z",
+      "side": 1,
+      "message": "This is a place to describe why the new behavior is more desirable. E.g. does this make the behavior more consistent with repo \u003chttps://gerrit.googlesource.com/git-repo\u003e?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "49a67c94b9b87e1722261293867a6968728d0d60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4cd542a_34fd7239",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-29T20:00:30Z",
+      "side": 1,
+      "message": "optional: this can be outside the try{} block",
+      "revId": "49a67c94b9b87e1722261293867a6968728d0d60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
