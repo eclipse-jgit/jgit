@@ -4,3 +4,4 @@
 infer-out
 bazel-*
 *~
+org.moreunit.prefs
