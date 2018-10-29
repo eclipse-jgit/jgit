@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a963bb31_30dd5d39",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.9.tpd",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-29T23:26:44Z",
+      "side": 1,
+      "message": "releases",
+      "range": {
+        "startLine": 6,
+        "startChar": 38,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "df7d39e1f2abbf03a97e7ad8fc4f64eea2bfed31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
