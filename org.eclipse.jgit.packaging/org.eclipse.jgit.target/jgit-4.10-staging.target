@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
-<!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.9-staging" sequenceNumber="1536522948">
+<!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
+<target name="jgit-4.9-staging" sequenceNumber="1540855334">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -66,11 +66,11 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="com.jcraft.jzlib" version="1.1.1.v201205102305"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20180905201904/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20181010170940/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/staging/2018-09/"/>
+      <repository location="http://download.eclipse.org/staging/2018-12/"/>
     </location>
   </locations>
 </target>
