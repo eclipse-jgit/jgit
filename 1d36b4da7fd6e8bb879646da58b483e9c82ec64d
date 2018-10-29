@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fbcf9f5_33927585",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-29T21:41:24Z",
+      "side": 1,
+      "message": "This also needs an update (and corresponding tests to catch it, I suppose).",
+      "revId": "1d36b4da7fd6e8bb879646da58b483e9c82ec64d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
