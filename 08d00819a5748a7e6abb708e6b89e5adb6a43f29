@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64100ee6_ba3e0e10",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-29T22:49:21Z",
+      "side": 1,
+      "message": "I think ignore rules for files to be ignored which are created by your favorite tools not commonly used by other jgit committers should go either in your local jgit/.git/info/exclude or in your global excludes file which you can configure e.g. like this:\n\n[core]\n\texcludesfile \u003d ~/.gitignore\n\nsee https://git-scm.com/docs/gitignore",
+      "revId": "08d00819a5748a7e6abb708e6b89e5adb6a43f29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
