@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -197,6 +198,15 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertFalse(r.isBare());
 		}
 		return r;
+	}
+
+	private static void assertContents(Path path, String expected)
+			throws IOException {
+		try (BufferedReader reader = Files.newBufferedReader(path, UTF_8)) {
+			String content = reader.readLine();
+			assertEquals("Unexpected content in " + path.getFileName(),
+					expected, content);
+		}
 	}
 
 	@Test
@@ -474,12 +484,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("submodule content should be as expected",
-					"master world", content);
-		}
+		assertContents(hello.toPath(), "master world");
 	}
 
 	@Test
@@ -565,21 +570,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("The original file should exist", hello.exists());
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("The original file should have expected content",
-					"master world", content);
-		}
+		assertContents(hello.toPath(), "master world");
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file should exist", hello.exists());
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("The destination file should have expected content",
-					"master world", content);
-		}
+		assertContents(hello.toPath(), "master world");
 	}
 
 	@Test
@@ -671,12 +666,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("submodule content should be as expected",
-					"branch world", content);
-		}
+		assertContents(hello.toPath(), "branch world");
 	}
 
 	@Test
@@ -698,12 +688,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("submodule content should be as expected",
-					"branch world", content);
-		}
+		assertContents(hello.toPath(), "branch world");
 	}
 
 	@Test
@@ -771,12 +756,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertFalse("The foo/Hello file should be skipped",
 					foohello.exists());
 			// The content of Hello file should be expected
-			try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-					UTF_8)) {
-				String content = reader.readLine();
-				assertEquals("The Hello file should have expected content",
-						"branch world", content);
-			}
+			assertContents(hello.toPath(), "branch world");
 		}
 	}
 
@@ -1143,12 +1123,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
-				UTF_8)) {
-			String content = reader.readLine();
-			assertEquals("submodule content should be as expected",
-					"branch world", content);
-		}
+		assertContents(hello.toPath(), "branch world");
 	}
 
 	@Test
