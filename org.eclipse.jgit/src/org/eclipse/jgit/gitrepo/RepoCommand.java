@@ -90,6 +90,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -144,7 +145,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @param uri
 		 *            The URI of the remote repository
 		 * @param ref
-		 *            The ref (branch/tag/etc.) to read
+		 *            Name of the ref to lookup. May be a short-hand form, e.g.
+		 *            "master" which is is automatically expanded to
+		 *            "refs/heads/master" if "refs/heads/master" already exists.
 		 * @return the sha1 of the remote repository, or null if the ref does
 		 *         not exist.
 		 * @throws GitAPIException
@@ -165,9 +168,77 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @throws GitAPIException
 		 * @throws IOException
 		 * @since 3.5
+		 *
+		 * @deprecated Use {@link #readFileWithMode(String, String, String)}
+		 *             instead
 		 */
-		public byte[] readFile(String uri, String ref, String path)
+		@Deprecated
+		default byte[] readFile(String uri, String ref, String path)
+				throws GitAPIException, IOException {
+			return readFileWithMode(uri, ref, path).getContents();
+		}
+
+		/**
+		 * Read contents and mode (i.e. permissions) of the file from a remote
+		 * repository.
+		 *
+		 * @param uri
+		 *            The URI of the remote repository
+		 * @param ref
+		 *            Name of the ref to lookup. May be a short-hand form, e.g.
+		 *            "master" which is is automatically expanded to
+		 *            "refs/heads/master" if "refs/heads/master" already exists.
+		 * @param path
+		 *            The relative path (inside the repo) to the file to read
+		 * @return the git file mode for that file in the given repository and
+		 *         branch
+		 * @throws GitAPIException
+		 *             if the ref have an invalid or ambiguous name, or it does
+		 *             not exist in the repository,
+		 * @throws IOException
+		 *             if the object does not exist or is too large
+		 * @since 5.2
+		 */
+		public RemoteFile readFileWithMode(String uri, String ref, String path)
 				throws GitAPIException, IOException;
+	}
+
+	/**
+	 * Contents and file mode (i.e. permissions) for a file in a remote
+	 * repository.
+	 *
+	 * @since 5.2
+	 */
+	public final static class RemoteFile {
+		private final byte[] contents;
+
+		private final FileMode fileMode;
+
+		/**
+		 * @param contents
+		 *            raw contents of the file
+		 * @param fileMode
+		 *            git file mode for this file (e.g. executable or regular)
+		 */
+		public RemoteFile(byte[] contents, FileMode fileMode) {
+			this.contents = contents;
+			this.fileMode = fileMode;
+		}
+
+		/**
+		 * @return raw contents of the file
+		 */
+		public byte[] getContents() {
+			return contents;
+		}
+
+		/**
+		 * @return git file mode for this file (e.g. executable or regular)
+		 */
+		public FileMode getFileMode() {
+			return fileMode;
+		}
+
 	}
 
 	/** A default implementation of {@link RemoteReader} callback. */
@@ -182,13 +253,29 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			return r != null ? r.getObjectId() : null;
 		}
 
+		@Deprecated
 		@Override
 		public byte[] readFile(String uri, String ref, String path)
+				throws GitAPIException, IOException {
+			return readFileWithMode(uri, ref, path).getContents();
+		}
+
+		@Override
+		public RemoteFile readFileWithMode(String uri, String ref, String path)
 				throws GitAPIException, IOException {
 			File dir = FileUtils.createTempDir("jgit_", ".git", null); //$NON-NLS-1$ //$NON-NLS-2$
 			try (Git git = Git.cloneRepository().setBare(true).setDirectory(dir)
 					.setURI(uri).call()) {
-				return readFileFromRepo(git.getRepository(), ref, path);
+				Repository repo = git.getRepository();
+
+				ObjectId refCommitId = sha1(uri, ref);
+				RevCommit commit = repo.parseCommit(refCommitId);
+				TreeWalk tw = TreeWalk.forPath(repo, path, commit.getTree());
+
+				return new RemoteFile(
+						tw.getObjectReader().open(tw.getObjectId(0)).getBytes(
+								Integer.MAX_VALUE),
+						tw.getFileMode(0));
 			} finally {
 				FileUtils.delete(dir, FileUtils.RECURSIVE);
 			}
@@ -207,7 +294,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @throws GitAPIException
 		 * @throws IOException
 		 * @since 3.5
+		 *
+		 * @deprecated
 		 */
+		@Deprecated
 		protected byte[] readFileFromRepo(Repository repo,
 				String ref, String path) throws GitAPIException, IOException {
 			try (ObjectReader reader = repo.newObjectReader()) {
