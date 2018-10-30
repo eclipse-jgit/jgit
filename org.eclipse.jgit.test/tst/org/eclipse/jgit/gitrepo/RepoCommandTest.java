@@ -62,7 +62,8 @@ import java.util.Map;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.gitrepo.RepoCommand.DefaultRemoteReader;
+import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -142,8 +143,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 	static class IndexedRepos implements RepoCommand.RemoteReader {
 		Map<String, Repository> uriRepoMap;
+
+		private final DefaultRemoteReader defaultReader;
+
 		IndexedRepos() {
 			uriRepoMap = new HashMap<>();
+			this.defaultReader = new DefaultRemoteReader();
 		}
 
 		void put(String u, Repository r) {
@@ -170,19 +175,10 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		@Override
-		public byte[] readFile(String uri, String refName, String path)
-			throws GitAPIException, IOException {
+		public RemoteFile readFileWithMode(String uri, String ref, String path)
+				throws GitAPIException, IOException {
 			Repository repo = uriRepoMap.get(uri);
-
-			String idStr = refName + ":" + path;
-			ObjectId id = repo.resolve(idStr);
-			if (id == null) {
-				throw new RefNotFoundException(
-					String.format("repo %s does not have %s", repo.toString(), idStr));
-			}
-			try (ObjectReader reader = repo.newObjectReader()) {
-				return reader.open(id).getCachedBytes(Integer.MAX_VALUE);
-			}
+			return defaultReader.readFileWithMode(repo, ref, path);
 		}
 	}
 
