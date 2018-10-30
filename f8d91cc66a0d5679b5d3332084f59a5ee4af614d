@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b4b0c8a_a2860b96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/GpgConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-10-30T13:03:34Z",
+      "side": 1,
+      "message": "If the snake case separator \u0027_\u0027 is unwanted, please suggest an alternative. I can go camel case all the way. My initial thought was that this separation is a bit more readable and maybe acceptable in test code. Should I spawn a discussion on the dev list?",
+      "revId": "f8d91cc66a0d5679b5d3332084f59a5ee4af614d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8223b7f_bbe24513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-10-30T13:03:34Z",
+      "side": 1,
+      "message": "Matthias, if the whole class has a @since ... do I still need @since in all the methods and the enum?",
+      "revId": "f8d91cc66a0d5679b5d3332084f59a5ee4af614d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
