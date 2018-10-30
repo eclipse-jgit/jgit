@@ -119,6 +119,36 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_FILTER_SECTION = "filter";
 
+	/**
+	 * The "gpg" section
+	 * @since 5.2
+	 */
+	public static final String CONFIG_GPG_SECTION = "gpg";
+
+	/**
+	 * The "format" key
+	 * @since 5.2
+	 */
+	public static final String CONFIG_KEY_FORMAT = "format";
+
+	/**
+	 * The "signingKey" key
+	 * @since 5.2
+	 */
+	public static final String CONFIG_KEY_SIGNINGKEY = "signingKey";
+
+	/**
+	 * The "commit" section
+	 * @since 5.2
+	 */
+	public static final String CONFIG_COMMIT_SECTION = "commit";
+
+	/**
+	 * The "gpgSign" key
+	 * @since 5.2
+	 */
+	public static final String CONFIG_KEY_GPGSIGN = "gpgSign";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
