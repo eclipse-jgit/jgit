@@ -56,13 +56,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -74,6 +77,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -142,6 +146,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 	static class IndexedRepos implements RepoCommand.RemoteReader {
 		Map<String, Repository> uriRepoMap;
+
 		IndexedRepos() {
 			uriRepoMap = new HashMap<>();
 		}
@@ -170,19 +175,21 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		@Override
-		public byte[] readFile(String uri, String refName, String path)
-			throws GitAPIException, IOException {
+		public RemoteFile readFileWithMode(String uri, String ref, String path)
+				throws GitAPIException, IOException {
 			Repository repo = uriRepoMap.get(uri);
+			ObjectId refCommitId = sha1(uri, ref);
+			if (refCommitId == null) {
+				throw new InvalidRefNameException(MessageFormat
+						.format(JGitText.get().refNotResolved, ref));
+			}
+			RevCommit commit = repo.parseCommit(refCommitId);
+			TreeWalk tw = TreeWalk.forPath(repo, path, commit.getTree());
 
-			String idStr = refName + ":" + path;
-			ObjectId id = repo.resolve(idStr);
-			if (id == null) {
-				throw new RefNotFoundException(
-					String.format("repo %s does not have %s", repo.toString(), idStr));
-			}
-			try (ObjectReader reader = repo.newObjectReader()) {
-				return reader.open(id).getCachedBytes(Integer.MAX_VALUE);
-			}
+			// TODO(ifrade): Cope better with big files (e.g. using InputStream
+			// instead of byte[])
+			return new RemoteFile(tw.getObjectReader().open(tw.getObjectId(0))
+					.getCachedBytes(Integer.MAX_VALUE), tw.getFileMode(0));
 		}
 	}
 
