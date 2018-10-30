@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0798ec52_68ea8325",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Can this get a default implementation that delegates to readFileWithMode?",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa10373_dbb12773",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Is this a full ref name like \"refs/heads/master\" or can it be abbreviated?",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c10f409_61fbcadc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Can this be final?",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3df970f9_e7782411",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Probably should be public",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3973759c_1078fdbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Likewise, to allow implementors to use it in tests (and likewise for getFileMode()).",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "771219a8_7d606772",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "no need --- TreeWalk.forPath already does the right thing",
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8fb94bc_4bce6e8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T20:58:05Z",
+      "side": 1,
+      "message": "Can this use tw.getObjectId?",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 55
+      },
+      "revId": "d24c41cbb5b29236233080399db32a882959371f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
