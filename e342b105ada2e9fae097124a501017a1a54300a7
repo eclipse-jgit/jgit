@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "0bb67bf4_7f77f935",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T23:37:52Z",
+      "side": 1,
+      "message": "No need to @Override, since the default implementation does the right thing.",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872d9f6a_ff17b118",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T23:37:52Z",
+      "side": 1,
+      "message": "should not be needed",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0103419e_e67c6769",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T23:37:52Z",
+      "side": 1,
+      "message": "Is there a straightforward way for this to share code with the DefaultRemoteReader?",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d951083_13334b15",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -19,6 +70,23 @@
         "endLine": 212,
         "endChar": 20
       },
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "358d4cbe_123b5faf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T23:37:52Z",
+      "side": 1,
+      "message": "Should not be needed since the default implementation takes care of it.",
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
