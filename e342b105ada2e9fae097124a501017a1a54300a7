@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d951083_13334b15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T22:49:15Z",
+      "side": 1,
+      "message": "static final, following the order from the Java Language Specification (e.g. see https://google.github.io/styleguide/javaguide.html#s4.8.7-modifiers)",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 20
+      },
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9126474e_0bc28a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T22:49:15Z",
+      "side": 1,
+      "message": "not a new issue: this can use a lot of memory, potentially producing denial of service\n\noptional: Can avoid a copy by using getCachedBytes, like some implementations of readFile do. Probably worth clarifying ownership in the javadoc.",
+      "range": {
+        "startLine": 276,
+        "startChar": 51,
+        "endLine": 277,
+        "endChar": 27
+      },
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8946b50_68d935df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-30T22:49:15Z",
+      "side": 1,
+      "message": "Why deprecated?\n\nIf this isn\u0027t used, we can just delete it.",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
