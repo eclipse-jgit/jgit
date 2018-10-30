@@ -63,6 +63,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -74,6 +75,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -172,17 +174,37 @@ public class RepoCommandTest extends RepositoryTestCase {
 		@Override
 		public byte[] readFile(String uri, String refName, String path)
 			throws GitAPIException, IOException {
+			return readFileWithMode(uri, refName, path).getContents();
+		}
+
+		@Override
+		public RemoteFile readFileWithMode(String uri, String ref, String path)
+				throws GitAPIException, IOException {
 			Repository repo = uriRepoMap.get(uri);
 
-			String idStr = refName + ":" + path;
-			ObjectId id = repo.resolve(idStr);
-			if (id == null) {
-				throw new RefNotFoundException(
-					String.format("repo %s does not have %s", repo.toString(), idStr));
-			}
+			ObjectId refCommitId = sha1(uri, ref);
+			RevCommit commit = repo.parseCommit(refCommitId);
+			TreeWalk tw = TreeWalk.forPath(repo, path, commit.getTree());
+			tw.setRecursive(true);
+
+			return new RemoteFile(
+					readContent(repo, ref, path),
+					tw.getFileMode(0));
+		}
+
+		protected byte[] readContent(Repository repo, String ref, String path)
+				throws IOException, RefNotFoundException {
 			try (ObjectReader reader = repo.newObjectReader()) {
-				return reader.open(id).getCachedBytes(Integer.MAX_VALUE);
+				String idStr = ref + ":" + path;
+				ObjectId blobId = repo.resolve(idStr);
+				if (blobId == null) {
+					throw new RefNotFoundException(
+							String.format("repo %s does not have %s",
+									repo.toString(), idStr));
+				}
+				return reader.open(blobId).getCachedBytes(Integer.MAX_VALUE);
 			}
+
 		}
 	}
 
