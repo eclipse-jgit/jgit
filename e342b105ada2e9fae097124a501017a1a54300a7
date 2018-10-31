@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed715795_5baf3045",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bb67bf4_7f77f935",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "872d9f6a_ff17b118",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ee38014d_04578369",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "872d9f6a_ff17b118",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0103419e_e67c6769",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da5648a2_3d4598be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Indeed. Sorry I didn\u0027t see this before.\n\nProbably more alignment could be done, but it is out of scope for this change.",
+      "parentUuid": "0103419e_e67c6769",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "e6e80728_ae157838",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d951083_13334b15",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 20
+      },
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "358d4cbe_123b5faf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -90,6 +168,24 @@
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b42511_1b343dd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "358d4cbe_123b5faf",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "4dfa8ad4_02377ea7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "Done. Changed to getCachedBytes and explanation in javadoc.",
+      "parentUuid": "9126474e_0bc28a1f",
+      "range": {
+        "startLine": 276,
+        "startChar": 51,
+        "endLine": 277,
+        "endChar": 27
+      },
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8946b50_68d935df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -127,6 +247,24 @@
       "writtenOn": "2018-10-30T22:49:15Z",
       "side": 1,
       "message": "Why deprecated?\n\nIf this isn\u0027t used, we can just delete it.",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84ec0da_6c6606fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T19:48:15Z",
+      "side": 1,
+      "message": "This class is not final and the method is protected. There could be a subclass out there using it.",
+      "parentUuid": "d8946b50_68d935df",
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
