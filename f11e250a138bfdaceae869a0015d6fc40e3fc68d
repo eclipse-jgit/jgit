@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a42cbbe_2b121086",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-31T21:47:15Z",
+      "side": 1,
+      "message": "What should happen if sha1(uri, ref) is null?",
+      "revId": "f11e250a138bfdaceae869a0015d6fc40e3fc68d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe461a8e_1e941c89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-31T21:47:15Z",
+      "side": 1,
+      "message": "Can use getCachedBytes(Integer.MAX_VALUE) to match the historical behavior of handling large files.\n\nProbably worth a TODO for having the ability to cope better with large files (e.g. using an InputStream instead of a byte[]).",
+      "range": {
+        "startLine": 275,
+        "startChar": 8,
+        "endLine": 275,
+        "endChar": 25
+      },
+      "revId": "f11e250a138bfdaceae869a0015d6fc40e3fc68d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
