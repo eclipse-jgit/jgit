@@ -268,6 +268,24 @@
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08db13d0_4f963ffa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-31T21:47:15Z",
+      "side": 1,
+      "message": "We follow the OSGi versioning convention, which lets us break ABI that affects implementers in minor releases (but not in micro releases).",
+      "parentUuid": "f84ec0da_6c6606fa",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
