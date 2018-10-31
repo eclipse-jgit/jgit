@@ -286,6 +286,24 @@
       "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50195252_c7815742",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T23:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08db13d0_4f963ffa",
+      "revId": "e342b105ada2e9fae097124a501017a1a54300a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
