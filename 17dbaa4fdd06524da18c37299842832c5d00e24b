@@ -22,6 +22,30 @@
       "revId": "17dbaa4fdd06524da18c37299842832c5d00e24b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4514bfc_ff36be15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-31T23:04:14Z",
+      "side": 0,
+      "message": "I was taking the chance to remove the redundant public. Agree on the global cleanup. Putting it back.",
+      "parentUuid": "e3aee331_abcfb67f",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "17dbaa4fdd06524da18c37299842832c5d00e24b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
