@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3aee331_abcfb67f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-31T22:28:14Z",
+      "side": 0,
+      "message": "Why the lost `public`? All methods on an interface are public automatically. JGit seems to be inconsistent about whether to declare it, and it\u0027s not important to me, but best to stay consistent within a file.\n\nThe Java Language Specification states\n\n\u003e It is permitted, but strongly discouraged as a matter of style, to redundantly specify the public modifier for interface methods.\n\nso perhaps we should clean this up globally in a separate change.",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "17dbaa4fdd06524da18c37299842832c5d00e24b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
