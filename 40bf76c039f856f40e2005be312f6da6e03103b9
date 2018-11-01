@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "59693154_db7962b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T19:04:21Z",
+      "side": 1,
+      "message": "why not 0.19.0 ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a24d0db5_0e698f41",
         "filename": "tools/bazlets.bzl",
         "patchSetId": 1
