@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9948f96b_cb294a73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-11-01T20:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59693154_db7962b2",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a24d0db5_0e698f41",
         "filename": "tools/bazlets.bzl",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-11-01T08:25:45Z",
       "side": 1,
       "message": "Is this now mandatory with 0.18.0?",
+      "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f780907d_97e99a9d",
+        "filename": "tools/bazlets.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-11-01T20:58:35Z",
+      "side": 1,
+      "message": "I don\u0027t think so. If I omit load statment line:\n\n  ERROR: /home/davido/projects/jgit/tools/bazlets.bzl:9:9: name \u0027git_repository\u0027 is not defined",
+      "parentUuid": "a24d0db5_0e698f41",
       "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
