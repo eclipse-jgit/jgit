@@ -81,6 +81,24 @@
       "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24cea32e_7ebd0c7f",
+        "filename": "tools/bazlets.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-01T23:15:34Z",
+      "side": 1,
+      "message": "What I meant is, in the latest version of bazel is the deprecated native.git_repository removed?\n\nI.e. would this change work without the modifications in this file?  Could this modification be done in a separate commit (like it was for the gerrit plugins for example)?",
+      "parentUuid": "f780907d_97e99a9d",
+      "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
