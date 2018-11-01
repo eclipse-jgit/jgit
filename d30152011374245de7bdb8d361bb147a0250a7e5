@@ -46,6 +46,30 @@
       "revId": "d30152011374245de7bdb8d361bb147a0250a7e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "846d31da_cdfed68b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-01T00:27:27Z",
+      "side": 1,
+      "message": "Oh! Sorry for the lack of clarity.\n\nI meant that you can inline the \"repo\" variable:\n\n return readFileWithMode(git.getRepository(), ref, path);\n\nI don\u0027t have a strong opinion either way about inlining that helper.",
+      "parentUuid": "d71085ff_85e66987",
+      "range": {
+        "startLine": 276,
+        "startChar": 28,
+        "endLine": 276,
+        "endChar": 32
+      },
+      "revId": "d30152011374245de7bdb8d361bb147a0250a7e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
