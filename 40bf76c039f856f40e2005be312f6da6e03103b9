@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a24d0db5_0e698f41",
+        "filename": "tools/bazlets.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-01T08:25:45Z",
+      "side": 1,
+      "message": "Is this now mandatory with 0.18.0?",
+      "revId": "40bf76c039f856f40e2005be312f6da6e03103b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
