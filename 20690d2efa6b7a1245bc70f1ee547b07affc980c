@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c689e26c_b98bf426",
+        "filename": "BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-11-01T07:26:54Z",
+      "side": 1,
+      "message": "Illegal ambiguous match on configurable attribute \"jvm_flags\" in //javatests/com/google/gerrit/server/rules:prolog_tests:\n\n  //:java10\n  //:java11\n  Multiple matches are not allowed unless one is unambiguously more specialized.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 1
+      },
+      "revId": "20690d2efa6b7a1245bc70f1ee547b07affc980c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
