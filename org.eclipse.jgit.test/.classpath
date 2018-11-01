@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="**/*.idx|**/*.pack" kind="src" path="tst">
+	<classpathentry excluding="**/*.idx|**/*.pack" kind="src" path="tst" output="bin-tst">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src">
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tst-rsrc" output="bin-tst">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="tst-rsrc">
-		<attributes>
-			<attribute name="test" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" path="exttst">
+	<classpathentry kind="src" path="exttst" output="bin-tst">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
