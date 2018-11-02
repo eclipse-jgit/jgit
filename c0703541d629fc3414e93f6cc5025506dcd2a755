@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "660018cd_56898071",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-02T00:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cafd40f_202eb726",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "c0703541d629fc3414e93f6cc5025506dcd2a755",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38f19038_ac3efd08",
         "filename": "tools/bazlets.bzl",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2018-11-01T23:51:52Z",
       "side": 1,
       "message": "the build works when this line isn\u0027t commented out",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "c0703541d629fc3414e93f6cc5025506dcd2a755",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30fb8eee_e4bd1f60",
+        "filename": "tools/bazlets.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-02T00:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f19038_ac3efd08",
       "range": {
         "startLine": 1,
         "startChar": 0,
