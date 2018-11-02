@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "132c1e17_bd28d4da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-02T12:48:45Z",
+      "side": 1,
+      "message": "This is the wrong license header. JGit is EDL, not EPL. EGit is EPL, but not 1.0; we\u0027ve migrated to EPL-2.0.\n\nPlease use the \"standard\" copyright headers as found on already existing files.",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 30
+      },
+      "revId": "f8d91cc66a0d5679b5d3332084f59a5ee4af614d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8223b7f_bbe24513",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgConfig.java",
         "patchSetId": 1
