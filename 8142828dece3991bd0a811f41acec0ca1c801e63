@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeaf5f44_6ea6b3b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-02T23:40:32Z",
+      "side": 1,
+      "message": "Something went wrong in one of my many rebases.\n\nThis should actually use the new OpenSshConfigFile.",
+      "revId": "8142828dece3991bd0a811f41acec0ca1c801e63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
