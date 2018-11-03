@@ -16,6 +16,24 @@
       "revId": "961854ca8a0d9993ec05a60433d421aa04b6052e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce1c9a52_b92ca74a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/SshDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-03T16:54:14Z",
+      "side": 1,
+      "message": "I chose \"apache\" because although the sshd project is Apache MINA sshd, it doesn\u0027t use MINA at all for I/O. It uses Nio2.",
+      "parentUuid": "a4810fc7_15ea6429",
+      "revId": "961854ca8a0d9993ec05a60433d421aa04b6052e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
