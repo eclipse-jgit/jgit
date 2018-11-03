@@ -16,6 +16,24 @@
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bea7030d_d92ac911",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-03T13:51:47Z",
+      "side": 1,
+      "message": "Yes. Otherwise these changes would never have built on Jenkins :-) It\u0027s already merged: https://git.eclipse.org/r/#/c/131875/",
+      "parentUuid": "cd5629ea_7969b33a",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
