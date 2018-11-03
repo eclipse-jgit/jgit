@@ -22,6 +22,86 @@
       "revId": "34fc6e753350d97d70a0d9bf25c9fa7e135862d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "281c480c_95623e8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:43:23Z",
+      "side": 1,
+      "message": "nit: should be ordered before RevWalk",
+      "revId": "34fc6e753350d97d70a0d9bf25c9fa7e135862d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd91958_aa8b5f0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:43:23Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 229,
+        "startChar": 44,
+        "endLine": 229,
+        "endChar": 46
+      },
+      "revId": "34fc6e753350d97d70a0d9bf25c9fa7e135862d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e50574e_5ea6547a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:43:23Z",
+      "side": 1,
+      "message": "This could be a constant, instantiated once rather than instantiated new on each tie break.",
+      "range": {
+        "startLine": 230,
+        "startChar": 1,
+        "endLine": 246,
+        "endChar": 2
+      },
+      "revId": "34fc6e753350d97d70a0d9bf25c9fa7e135862d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbeca41_6fdca1f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:43:23Z",
+      "side": 1,
+      "message": "Is this comment still accurate?",
+      "revId": "34fc6e753350d97d70a0d9bf25c9fa7e135862d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
