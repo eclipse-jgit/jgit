@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4810fc7_15ea6429",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/SshDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2018-11-03T16:51:31Z",
+      "side": 1,
+      "message": "\u0027apache\u0027 is too broad as for me, \u0027mina\u0027 looks much better.",
+      "revId": "961854ca8a0d9993ec05a60433d421aa04b6052e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
