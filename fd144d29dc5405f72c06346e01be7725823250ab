@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd5629ea_7969b33a",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-11-03T13:49:58Z",
+      "side": 1,
+      "message": "Did you also submit a commit for updating the JGit target definitions to consume SSHD from Orbit?",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
