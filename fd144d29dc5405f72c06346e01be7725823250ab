@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "15a35760_a88d2d75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2018-11-03T17:07:30Z",
+      "side": 1,
+      "message": "\u0027in new\u0027?",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5629ea_7969b33a",
         "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
         "patchSetId": 3
@@ -31,6 +48,23 @@
       "side": 1,
       "message": "Yes. Otherwise these changes would never have built on Jenkins :-) It\u0027s already merged: https://git.eclipse.org/r/#/c/131875/",
       "parentUuid": "cd5629ea_7969b33a",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e7e65d8_3848d098",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2018-11-03T17:07:30Z",
+      "side": 1,
+      "message": "I assume it will use port 22 by default and will fail if I have SSHd already running on 22 port. The port should be configurable",
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
