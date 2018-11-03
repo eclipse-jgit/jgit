@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0d6c9d2_06a4d38f",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-03T20:02:59Z",
+      "side": 1,
+      "message": "This is wrong, but we never hit this case. With sshd as server, the cwd doesn\u0027t have a trailing slash.\n\nOf course this should be\n\n  return cwd + path;",
+      "range": {
+        "startLine": 359,
+        "startChar": 23,
+        "endLine": 359,
+        "endChar": 35
+      },
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
