@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b1604a_991550de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:47:12Z",
+      "side": 1,
+      "message": "Should be in the footer",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f247fdf3_cf747974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:47:12Z",
+      "side": 1,
+      "message": "Should be before RevWalk",
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e61f337_489fd0e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:47:12Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 208,
+        "startChar": 44,
+        "endLine": 208,
+        "endChar": 46
+      },
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6574512_46892922",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:47:12Z",
+      "side": 1,
+      "message": "Make it a constant, rather than instantiating every time.",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 225,
+        "endChar": 2
+      },
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e61eac7d_05d99e66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-03T09:47:12Z",
+      "side": 1,
+      "message": "Is this comment still accurate?",
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
