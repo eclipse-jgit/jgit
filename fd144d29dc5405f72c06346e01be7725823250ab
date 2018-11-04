@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "837732bd_5261633c",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:31:09Z",
+      "side": 1,
+      "message": "I think we should move this to org.eclipse.jgit.junit since it could also serve as base for integration tests for EGit and other applications using JGit",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7e65d8_3848d098",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
@@ -83,6 +100,40 @@
       "side": 1,
       "message": "This is only a test server. (It\u0027s in the *test* bundle...) It uses a random free port, and returns that port here so that the tests can use it. It\u0027s the same mechanism as we\u0027ve used for the HTTP(S) test servers.\n\nIn any case this is not a production ssh server. Besides, port 22 is reserved; without root privileges a server cannot use it.",
       "parentUuid": "4e7e65d8_3848d098",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9920f645_95b4261f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:31:09Z",
+      "side": 1,
+      "message": "we need to get rid of this when we want to remove JSch\n\nhow about KeyPair KeyUtils.generateKeyPair(String keyType, int keySize):\n\nhttps://github.com/apache/mina-sshd/blob/sshd-2.0.0/sshd-core/src/main/java/org/apache/sshd/common/config/keys/KeyUtils.java#L257",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91d1d708_82548f14",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:31:09Z",
+      "side": 1,
+      "message": "use KeyPair AbstractGeneratorHostKeyProvider.generateKeyPair(String algorithm) via List\u003cKeyPair\u003e loadKeys() using one of the subclasses of AbstractGeneratorHostKeyProvider ?\n\nhttps://github.com/apache/mina-sshd/blob/sshd-2.0.0/sshd-core/src/main/java/org/apache/sshd/server/keyprovider/AbstractGeneratorHostKeyProvider.java#L276",
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
