@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8552308_50dd694e",
+        "filename": "org.eclipse.jgit.ssh.apache.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "what is this ? Looks like this was copied from another bundle",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b519ecaf_be79a2b6",
+        "filename": "org.eclipse.jgit.ssh.apache.test/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "use 1.59",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c709b09b_e5beed97",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "if this is more or less a forked copy of upstream\u0027s UserAuthPublicKey I am not sure we can license this under EDL or if this needs to stay Apache 2.0",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aadf286_d0424927",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "can we in parallel try to fix this upstream to prevent we need to maintain a copy",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbf7d2c2_0119c141",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "see comments on previous class",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1702c211_7265862d",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T08:30:57Z",
+      "side": 1,
+      "message": "same comments as on previous class forked from mina-sshd",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0d6c9d2_06a4d38f",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
         "patchSetId": 3
