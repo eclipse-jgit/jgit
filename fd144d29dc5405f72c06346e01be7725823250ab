@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "337ed996_6e351954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:27:14Z",
+      "side": 1,
+      "message": "Yes. Will fix.",
+      "parentUuid": "15a35760_a88d2d75",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5629ea_7969b33a",
         "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
         "patchSetId": 3
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8f683ae4_cc17f5be",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:27:14Z",
+      "side": 1,
+      "message": "That\u0027s a good idea. Will do.",
+      "parentUuid": "837732bd_5261633c",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7e65d8_3848d098",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
@@ -117,6 +153,24 @@
       "writtenOn": "2018-11-04T08:31:09Z",
       "side": 1,
       "message": "we need to get rid of this when we want to remove JSch\n\nhow about KeyPair KeyUtils.generateKeyPair(String keyType, int keySize):\n\nhttps://github.com/apache/mina-sshd/blob/sshd-2.0.0/sshd-core/src/main/java/org/apache/sshd/common/config/keys/KeyUtils.java#L257",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f29b4a_0cff7415",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:27:14Z",
+      "side": 1,
+      "message": "And how to write the key then? I didn\u0027t see support for _writing_ key files, except as a serialized blob, but that\u0027s not very helpful here.\n\nThe alternative is to use pre-created keys so that we don\u0027t have to write keys at all in tests.\n\nBut for now I don\u0027t think we\u0027ll completely _remove_ JSch yet. Gerrit\u0027s replication uses JGit\u0027s TransportSsh, and I really want to avoid having to synchronize sshd versions between us and Gerrit.\n\nMay I suggest that we re-visit the complete removal of JSch from JGit after we have all this in?",
+      "parentUuid": "9920f645_95b4261f",
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
