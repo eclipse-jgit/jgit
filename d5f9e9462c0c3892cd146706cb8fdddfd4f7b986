@@ -16,6 +16,24 @@
       "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a5dbad_d693a30b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T23:05:32Z",
+      "side": 1,
+      "message": "No, it\u0027s going to be used in org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/JGitSshConfig.java in https://git.eclipse.org/r/#/c/131884/ .",
+      "parentUuid": "b7adf928_984c3b8f",
+      "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
