@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7adf928_984c3b8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T22:54:42Z",
+      "side": 1,
+      "message": "Looks like this class could be package private",
+      "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
