@@ -34,6 +34,24 @@
       "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b390b5b0_62825a91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T23:47:38Z",
+      "side": 1,
+      "message": "how about moving it to an internal package org.eclipse.jgit.internal.transport ?",
+      "parentUuid": "95a5dbad_d693a30b",
+      "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
