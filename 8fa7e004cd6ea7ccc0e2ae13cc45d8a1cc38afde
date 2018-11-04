@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ed340ec2_7f9d23af",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T17:17:42Z",
+      "side": 1,
+      "message": "nice",
+      "parentUuid": "abe1d3d8_59a180b6",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aadf286_d0424927",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
         "patchSetId": 3
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "I found a way to avoid the copy.\n\nYes, eventually I plan to file a number of bugs/enhancement requests upstream. But that\u0027ll take more time. I\u0027ll first have to create a reproducer using the normal sshd SshClient implementation.\n\nThere are other things that I\u0027d eventually like to see in upstream, for instance the whole gssapi-with-mic authentication (might be tough, though, since I can\u0027t test it), or improvements for client-side proxy support (that bit is really non-functional upstream; it lacks something like MINA\u0027s filter and filter chain concept -- also known from servlet programming and from MINA itself).\n\nBut again, this will take time, and will delay us much. Besides, it\u0027s always easier to get an upstream change if we can point to existing code that needs it, or show what contortions we had to go through to get it to work.",
       "parentUuid": "4aadf286_d0424927",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880902cd_793739c4",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T17:17:42Z",
+      "side": 1,
+      "message": "This comment wasn\u0027t meant to block or delay this series.\nI agree we should first land this work in jgit and then work with upstream to get rid of the workarounds currently needed",
+      "parentUuid": "322587f8_11b0b0b3",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -159,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "3369d108_ebaca6cc",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T17:17:42Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "e267fee4_5dffbb57",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1702c211_7265862d",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
         "patchSetId": 3
@@ -188,6 +242,41 @@
       "side": 1,
       "message": "Doesn\u0027t apply here. If you compare the code, I think it\u0027s clear that this is a completely new implementation.",
       "parentUuid": "1702c211_7265862d",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7052cc83_6744287b",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T17:17:42Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "3dc9028e_836e1f5c",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d98c92_a35a36c4",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T17:17:42Z",
+      "side": 1,
+      "message": "why do we need to override this ? Looks functionally equivalent to the method in UserAuthPublicKeyIterator",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
