@@ -90,6 +90,23 @@
     },
     {
       "key": {
+        "uuid": "7aa30f22_6fcd7393",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "move this to package o.e.j.junit.ssh ?",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "837732bd_5261633c",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
@@ -161,6 +178,93 @@
     },
     {
       "key": {
+        "uuid": "b689edae_d4a42c49",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "Maybe it\u0027s better to add this into a new bundle o.e.j.junit.ssh since this helps to avoid dependencies to sshd if an upstream application\u0027s tests don\u0027t need the test ssh server.\n\nCurrently gerrit tests use o.e.j.junit but not o.e.j.junit.http\n\nIf it helps to avoid nasty merge conflicts you could also do this refactoring in another change at the top of this series.\n\nWhen we move this to o.e.j.junit.ssh we should add javadoc for external consumers like we do in AppServer",
+      "parentUuid": "ae5606d0_cb7f4b93",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e18f9c4_678131f0",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "maybe extract this into a method setHostKey()",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 5
+      },
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be700ec0_763004fb",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "maybe extract this into a method configureSftp()",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 66
+      },
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "430637d3_ace56b27",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "maybe extract this into a method configureAuthentication()",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7e65d8_3848d098",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
@@ -214,6 +318,29 @@
     },
     {
       "key": {
+        "uuid": "fb3d0ec1_a23d96d6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "Sounds a bit strange that the TestBase actually implements the tests, maybe GenericSshTest is a better name ? \n\nAdd a comment explaining that subclasses decide which ssh implementation to use ?",
+      "range": {
+        "startLine": 77,
+        "startChar": 22,
+        "endLine": 77,
+        "endChar": 33
+      },
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9920f645_95b4261f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
         "patchSetId": 3
@@ -243,6 +370,24 @@
       "side": 1,
       "message": "And how to write the key then? I didn\u0027t see support for _writing_ key files, except as a serialized blob, but that\u0027s not very helpful here.\n\nThe alternative is to use pre-created keys so that we don\u0027t have to write keys at all in tests.\n\nBut for now I don\u0027t think we\u0027ll completely _remove_ JSch yet. Gerrit\u0027s replication uses JGit\u0027s TransportSsh, and I really want to avoid having to synchronize sshd versions between us and Gerrit.\n\nMay I suggest that we re-visit the complete removal of JSch from JGit after we have all this in?",
       "parentUuid": "9920f645_95b4261f",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b3dcafc_fa8a7461",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SshTestBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:01:53Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "30f29b4a_0cff7415",
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
