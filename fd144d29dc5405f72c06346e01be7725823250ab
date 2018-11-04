@@ -232,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "a896c121_1335d817",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T21:54:31Z",
+      "side": 1,
+      "message": "Ok. So let\u0027s do this (separate junit.ssh *bundle* and the other refactorings you mention below) at the top of the series.\n\nThe problem with doing it down here is that I refactored this anyway in later commits (adding push support, even later some limited testing for gssapi-with-mic, and for adding host keys), and moving things between bundles is a hassle with getting the bazel setup right. I don\u0027t normally use bazel at all; so I\u0027m not exactly fluent in it. I made sure that I can locally build \u0026 run the tests with bazel throughout the series.",
+      "parentUuid": "ec063d21_c3e2fb58",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e18f9c4_678131f0",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
