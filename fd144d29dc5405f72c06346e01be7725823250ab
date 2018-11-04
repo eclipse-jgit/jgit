@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "95654e2e_e54d8de2",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:09:09Z",
+      "side": 1,
+      "message": "done in new ps 4",
+      "parentUuid": "7aa30f22_6fcd7393",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "837732bd_5261633c",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
@@ -190,6 +208,24 @@
       "side": 1,
       "message": "Maybe it\u0027s better to add this into a new bundle o.e.j.junit.ssh since this helps to avoid dependencies to sshd if an upstream application\u0027s tests don\u0027t need the test ssh server.\n\nCurrently gerrit tests use o.e.j.junit but not o.e.j.junit.http\n\nIf it helps to avoid nasty merge conflicts you could also do this refactoring in another change at the top of this series.\n\nWhen we move this to o.e.j.junit.ssh we should add javadoc for external consumers like we do in AppServer",
       "parentUuid": "ae5606d0_cb7f4b93",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec063d21_c3e2fb58",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-04T21:09:09Z",
+      "side": 1,
+      "message": "we can still do this later if the need arises",
+      "parentUuid": "b689edae_d4a42c49",
       "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
