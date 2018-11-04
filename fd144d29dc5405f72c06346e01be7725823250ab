@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "ae5606d0_cb7f4b93",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:32:10Z",
+      "side": 1,
+      "message": "Actually... for HTTP, there\u0027s a separate o.e.j.junit.http bundle. Shall I put this ssh test server directly into o.e.j.junit, or do you prefer a new bundle o.e.j.junit.ssh?\n\nI\u0027d like to get this right the first time; this refactoring is going to give me some nasty merge/rebase conflicts.",
+      "parentUuid": "8f683ae4_cc17f5be",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7e65d8_3848d098",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
