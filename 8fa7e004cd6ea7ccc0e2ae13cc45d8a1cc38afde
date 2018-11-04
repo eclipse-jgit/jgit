@@ -283,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "2ab955dd_3c2b571e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T17:52:52Z",
+      "side": 1,
+      "message": "This is not an override. I can\u0027t subclass UserAuthPublickeyIterator since the stream stuff that ends up loading some keys prematurely occurs in its constructor. So if I want a functionally equivalent replacement, but use my own iterator implementation, I have to store the SshAgent locally, and then of course also close that local reference.\n\nBut it\u0027s rather moot anyway for now. To support ssh agents, we\u0027d need to have that tomcat dependency, too. I haven\u0027t looked at that yet.",
+      "parentUuid": "b5d98c92_a35a36c4",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0d6c9d2_06a4d38f",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
         "patchSetId": 3
