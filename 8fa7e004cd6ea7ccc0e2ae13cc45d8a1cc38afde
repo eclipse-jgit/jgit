@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4bb07d24_c871731e",
+        "filename": "org.eclipse.jgit.ssh.apache.test/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:35:23Z",
+      "side": 1,
+      "message": "Is another copy-paste error. The dependency isn\u0027t needed here at all.",
+      "parentUuid": "b519ecaf_be79a2b6",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c709b09b_e5beed97",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
         "patchSetId": 3
