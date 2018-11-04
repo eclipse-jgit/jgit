@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "abe1d3d8_59a180b6",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:03:25Z",
+      "side": 1,
+      "message": "Good point. That might be problematic. I have found a way to avoid all this copying, so I\u0027ll change this, and then this license problem will go away.",
+      "parentUuid": "c709b09b_e5beed97",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aadf286_d0424927",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
         "patchSetId": 3
@@ -64,6 +82,24 @@
       "writtenOn": "2018-11-04T08:30:57Z",
       "side": 1,
       "message": "can we in parallel try to fix this upstream to prevent we need to maintain a copy",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "322587f8_11b0b0b3",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:03:25Z",
+      "side": 1,
+      "message": "I found a way to avoid the copy.\n\nYes, eventually I plan to file a number of bugs/enhancement requests upstream. But that\u0027ll take more time. I\u0027ll first have to create a reproducer using the normal sshd SshClient implementation.\n\nThere are other things that I\u0027d eventually like to see in upstream, for instance the whole gssapi-with-mic authentication (might be tough, though, since I can\u0027t test it), or improvements for client-side proxy support (that bit is really non-functional upstream; it lacks something like MINA\u0027s filter and filter chain concept -- also known from servlet programming and from MINA itself).\n\nBut again, this will take time, and will delay us much. Besides, it\u0027s always easier to get an upstream change if we can point to existing code that needs it, or show what contortions we had to go through to get it to work.",
+      "parentUuid": "4aadf286_d0424927",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "e267fee4_5dffbb57",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:03:25Z",
+      "side": 1,
+      "message": "See below. This code is sufficiently original to not be considered a fork.",
+      "parentUuid": "dbf7d2c2_0119c141",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1702c211_7265862d",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
         "patchSetId": 3
@@ -98,6 +152,24 @@
       "writtenOn": "2018-11-04T08:30:57Z",
       "side": 1,
       "message": "same comments as on previous class forked from mina-sshd",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dc9028e_836e1f5c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T14:03:25Z",
+      "side": 1,
+      "message": "Doesn\u0027t apply here. If you compare the code, I think it\u0027s clear that this is a completely new implementation.",
+      "parentUuid": "1702c211_7265862d",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
