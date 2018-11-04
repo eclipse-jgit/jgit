@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2766d510_1a0f7332",
+        "filename": "org.eclipse.jgit.ssh.apache.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T20:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8552308_50dd694e",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b519ecaf_be79a2b6",
         "filename": "org.eclipse.jgit.ssh.apache.test/pom.xml",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Is another copy-paste error. The dependency isn\u0027t needed here at all.",
       "parentUuid": "b519ecaf_be79a2b6",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "439a9fc9_dc07555a",
+        "filename": "org.eclipse.jgit.ssh.apache.test/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T20:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb07d24_c871731e",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "9b2eecf3_d779d532",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T20:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed340ec2_7f9d23af",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aadf286_d0424927",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
         "patchSetId": 3
@@ -154,6 +208,24 @@
       "side": 1,
       "message": "This comment wasn\u0027t meant to block or delay this series.\nI agree we should first land this work in jgit and then work with upstream to get rid of the workarounds currently needed",
       "parentUuid": "322587f8_11b0b0b3",
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195930d7_8377775c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T20:14:32Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "880902cd_793739c4",
       "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -312,6 +384,30 @@
       "writtenOn": "2018-11-03T20:02:59Z",
       "side": 1,
       "message": "This is wrong, but we never hit this case. With sshd as server, the cwd doesn\u0027t have a trailing slash.\n\nOf course this should be\n\n  return cwd + path;",
+      "range": {
+        "startLine": 359,
+        "startChar": 23,
+        "endLine": 359,
+        "endChar": 35
+      },
+      "revId": "8fa7e004cd6ea7ccc0e2ae13cc45d8a1cc38afde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98bfe730_66de52ed",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-04T20:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0d6c9d2_06a4d38f",
       "range": {
         "startLine": 359,
         "startChar": 23,
