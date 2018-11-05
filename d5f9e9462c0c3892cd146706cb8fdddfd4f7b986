@@ -52,6 +52,24 @@
       "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767dc2a5_760e6859",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T07:16:17Z",
+      "side": 1,
+      "message": "Yes, will do. Will get an x-friends later then. But I\u0027d suggest o.e.j.internal.transport.ssh.",
+      "parentUuid": "b390b5b0_62825a91",
+      "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
