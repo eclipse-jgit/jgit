@@ -18,6 +18,7 @@ HELPERS = glob(["src/**/*.java"]) + [PKG + c for c in [
     "nls/NonTranslatedBundle.java",
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
+    "transport/ObjectIdMatcher.java",
     "transport/SpiTransport.java",
     "treewalk/FileTreeIteratorWithTimeControl.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
