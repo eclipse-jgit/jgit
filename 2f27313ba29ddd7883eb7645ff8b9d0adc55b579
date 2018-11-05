@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a1e157_def6d29f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-11-05T11:17:31Z",
+      "side": 1,
+      "message": "I filed this issue: [1] to consider to remove dependency on java.xml.bind module from JGit.\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d540790",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 49
+      },
+      "revId": "2f27313ba29ddd7883eb7645ff8b9d0adc55b579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
