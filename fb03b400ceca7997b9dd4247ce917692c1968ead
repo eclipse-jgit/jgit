@@ -69,6 +69,30 @@
       "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb90e81_be0d781c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-05T12:07:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5dcece86_44906c22",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 209,
+        "endChar": 15
+      },
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
