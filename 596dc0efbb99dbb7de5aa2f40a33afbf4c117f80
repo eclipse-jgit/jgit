@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2d0dbd6_5949699e",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/ApacheSshTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-05T00:45:01Z",
+      "side": 1,
+      "message": "where is this used ? There seem to be no @DataPoint and no @Theory",
+      "range": {
+        "startLine": 59,
+        "startChar": 9,
+        "endLine": 59,
+        "endChar": 23
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e11216e_d5d6fea2",
+        "filename": "org.eclipse.jgit.ssh.apache/META-INF/MANIFEST.MF",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-05T00:45:01Z",
+      "side": 1,
+      "message": "maybe it would make sense to declare this as a fragment enhancing the bundle org.eclipse.jgit ?",
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "188b3345_e4ad92f1",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-05T00:45:01Z",
+      "side": 1,
+      "message": "externalize error messages ?",
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf458eed_5405c80a",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-05T00:45:01Z",
+      "side": 1,
+      "message": "Newly",
+      "range": {
+        "startLine": 197,
+        "startChar": 33,
+        "endLine": 197,
+        "endChar": 36
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1451f5fb_11464e2e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-05T00:45:01Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 131,
+        "startChar": 70,
+        "endLine": 131,
+        "endChar": 74
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
