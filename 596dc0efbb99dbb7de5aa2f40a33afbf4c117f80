@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "562d8321_734afc04",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/ApacheSshTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T07:27:51Z",
+      "side": 1,
+      "message": "In the abstract super class SshTestBase.",
+      "parentUuid": "e2d0dbd6_5949699e",
+      "range": {
+        "startLine": 59,
+        "startChar": 9,
+        "endLine": 59,
+        "endChar": 23
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e11216e_d5d6fea2",
         "filename": "org.eclipse.jgit.ssh.apache/META-INF/MANIFEST.MF",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5753047b_6ff84ff8",
+        "filename": "org.eclipse.jgit.ssh.apache/META-INF/MANIFEST.MF",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T07:27:51Z",
+      "side": 1,
+      "message": "Maybe. Didn\u0027t think about this. What would be the implications? And how would that work with the source bundle?",
+      "parentUuid": "4e11216e_d5d6fea2",
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "188b3345_e4ad92f1",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
         "patchSetId": 4
@@ -53,6 +95,24 @@
       "writtenOn": "2018-11-05T00:45:01Z",
       "side": 1,
       "message": "externalize error messages ?",
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955d6b1f_db7013f4",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T07:27:51Z",
+      "side": 1,
+      "message": "I generally did not supply translations for internal errors. But if you want I can do so. The callers ensure that it\u0027s never null here. If it wasn\u0027t an override, I would have simply used \"@NonNull HostConfigEntry hostConfig\" for the parameter.",
+      "parentUuid": "188b3345_e4ad92f1",
       "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
