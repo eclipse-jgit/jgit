@@ -102,6 +102,24 @@
       "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2eaa482_e17f1795",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 210032
+      },
+      "writtenOn": "2018-11-05T11:34:11Z",
+      "side": 1,
+      "message": "I believe the comment is still accurate. This patch fixes tie-breaking per matcher, not the precedence of the matchers.",
+      "parentUuid": "e61eac7d_05d99e66",
+      "revId": "6d1d909fc0e8007082aaa2a3025c520cc8fc06a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
