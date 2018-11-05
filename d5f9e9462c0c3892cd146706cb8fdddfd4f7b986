@@ -70,6 +70,24 @@
       "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "533ecdde_8878e87d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T18:46:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "767dc2a5_760e6859",
+      "revId": "d5f9e9462c0c3892cd146706cb8fdddfd4f7b986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
