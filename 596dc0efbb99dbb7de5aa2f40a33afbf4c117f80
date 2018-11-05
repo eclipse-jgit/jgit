@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "2c8816f4_a3c67ec9",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T18:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf458eed_5405c80a",
+      "range": {
+        "startLine": 197,
+        "startChar": 33,
+        "endLine": 197,
+        "endChar": 36
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1451f5fb_11464e2e",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
         "patchSetId": 4
@@ -153,6 +177,30 @@
       "writtenOn": "2018-11-05T00:45:01Z",
       "side": 1,
       "message": "from",
+      "range": {
+        "startLine": 131,
+        "startChar": 70,
+        "endLine": 131,
+        "endChar": 74
+      },
+      "revId": "596dc0efbb99dbb7de5aa2f40a33afbf4c117f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2b79ed6_9f582671",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-05T18:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1451f5fb_11464e2e",
       "range": {
         "startLine": 131,
         "startChar": 70,
