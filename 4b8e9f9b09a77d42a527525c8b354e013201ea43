@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ec41931_0590e382",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-05T04:08:44Z",
+      "side": 1,
+      "message": "private static final",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 209,
+        "endChar": 8
+      },
+      "revId": "4b8e9f9b09a77d42a527525c8b354e013201ea43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960249e2_5be1189d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-05T04:08:44Z",
+      "side": 1,
+      "message": "This is not necessary; just pass tagTieBreaker at line 240",
+      "range": {
+        "startLine": 235,
+        "startChar": 3,
+        "endLine": 235,
+        "endChar": 46
+      },
+      "revId": "4b8e9f9b09a77d42a527525c8b354e013201ea43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
