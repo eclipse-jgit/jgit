@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14368a3e_d396349a",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/ssh/SshTestGitServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-06T22:08:05Z",
+      "side": 1,
+      "message": "Does this belong in org.eclipse.jgit.junit? It means a new dependency for that package, which is mostly about generic JUnit support for JGit repositories.",
+      "revId": "08b0a8632d54a24d92075b94d0b0134b69146ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
