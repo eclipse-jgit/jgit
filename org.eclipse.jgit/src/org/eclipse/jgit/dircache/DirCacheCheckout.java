@@ -157,7 +157,7 @@ public class DirCacheCheckout {
 
 	private ArrayList<String> toBeDeleted = new ArrayList<>();
 
-	private boolean emptyDirCache;
+	private boolean initialCheckout;
 
 	private boolean performingCheckout;
 
@@ -230,7 +230,7 @@ public class DirCacheCheckout {
 		this.headCommitTree = headCommitTree;
 		this.mergeCommitTree = mergeCommitTree;
 		this.workingTree = workingTree;
-		this.emptyDirCache = (dc == null) || (dc.getEntryCount() == 0);
+		this.initialCheckout = !repo.isBare() && !repo.getIndexFile().exists();
 	}
 
 	/**
@@ -961,7 +961,7 @@ public class DirCacheCheckout {
 				// called before). Ignore the cached deletion and use what we
 				// find in Merge. Potentially updates the file.
 				if (equalIdAndMode(hId, hMode, mId, mMode)) {
-					if (emptyDirCache)
+					if (initialCheckout)
 						update(name, mId, mMode);
 					else
 						keep(dce);
