@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d009c5_435b7fad",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-06T12:42:40Z",
+      "side": 1,
+      "message": "This issue is now reported upstream as SSHD-860: https://issues.apache.org/jira/browse/SSHD-860",
+      "revId": "9039309e5049641e07f5957203407bb3d4eb0779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
