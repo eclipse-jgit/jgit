@@ -250,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "9d73666e_4defd6c1",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-06T22:09:33Z",
+      "side": 1,
+      "message": "This is causing problems for us importing JGit snapshots. I think putting it in a new bundle makes sense.",
+      "parentUuid": "a896c121_1335d817",
+      "revId": "fd144d29dc5405f72c06346e01be7725823250ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e18f9c4_678131f0",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/SshGitServer.java",
         "patchSetId": 3
