@@ -44,8 +44,8 @@ java_library(
     srcs = HELPERS,
     resources = DATA,
     deps = [
-        "//lib:junit",
         "//lib:jsch",
+        "//lib:junit",
         "//lib:sshd-core",
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
