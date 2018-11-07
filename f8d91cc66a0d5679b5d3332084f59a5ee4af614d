@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7f7e8e2_6548c99c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/GpgConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-11-07T18:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa778ca_f430ed5c",
+      "revId": "f8d91cc66a0d5679b5d3332084f59a5ee4af614d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4b0c8a_a2860b96",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/GpgConfigTest.java",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2018-11-02T12:48:45Z",
       "side": 1,
       "message": "This is the wrong license header. JGit is EDL, not EPL. EGit is EPL, but not 1.0; we\u0027ve migrated to EPL-2.0.\n\nPlease use the \"standard\" copyright headers as found on already existing files.",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 30
+      },
+      "revId": "f8d91cc66a0d5679b5d3332084f59a5ee4af614d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165dc641_5301c552",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-11-07T18:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132c1e17_bd28d4da",
       "range": {
         "startLine": 6,
         "startChar": 3,
