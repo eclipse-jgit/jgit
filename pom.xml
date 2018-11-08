@@ -940,6 +940,7 @@
     <module>org.eclipse.jgit.lfs.server</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.junit.http</module>
+    <module>org.eclipse.jgit.junit.ssh</module>
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>

@@ -50,8 +50,6 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
-        "//lib:sshd-core",
-        "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
     ],
@@ -64,12 +62,13 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.test/resources",
     resources = RESOURCES,
     deps = [
-        "//lib:junit",
-        "//org.eclipse.jgit:jgit",
-        "//org.eclipse.jgit.junit:junit",
         "//lib:jsch",
+        "//lib:junit",
         "//lib:sshd-core",
         "//lib:sshd-sftp",
+        "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
+        "//org.eclipse.jgit.junit.ssh:junit-ssh",
     ],
     visibility = [
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
