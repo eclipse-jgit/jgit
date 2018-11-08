@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3a607ec_4e22dc91",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "resetting",
+      "range": {
+        "startLine": 344,
+        "startChar": 83,
+        "endLine": 344,
+        "endChar": 91
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16565a73_7cd471f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "5.2",
+      "range": {
+        "startLine": 669,
+        "startChar": 25,
+        "endLine": 669,
+        "endChar": 28
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09063f18_74f8c878",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "5.2",
+      "range": {
+        "startLine": 679,
+        "startChar": 11,
+        "endLine": 679,
+        "endChar": 14
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c89d6f_52730768",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "5.2",
+      "range": {
+        "startLine": 691,
+        "startChar": 25,
+        "endLine": 691,
+        "endChar": 28
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be6e332d_b3cbebcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "5.2",
+      "range": {
+        "startLine": 701,
+        "startChar": 11,
+        "endLine": 701,
+        "endChar": 14
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ba7117f_89a1b080",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "overridden",
+      "range": {
+        "startLine": 1273,
+        "startChar": 54,
+        "endLine": 1273,
+        "endChar": 64
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9030b355_c6f1e30a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "overridden",
+      "range": {
+        "startLine": 1274,
+        "startChar": 56,
+        "endLine": 1274,
+        "endChar": 65
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "654fb2c6_88f95e8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-08T05:30:02Z",
+      "side": 1,
+      "message": "5.2",
+      "range": {
+        "startLine": 1280,
+        "startChar": 11,
+        "endLine": 1280,
+        "endChar": 14
+      },
+      "revId": "04ad07b151478aa41c162aa4ad934b6d60d6eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
