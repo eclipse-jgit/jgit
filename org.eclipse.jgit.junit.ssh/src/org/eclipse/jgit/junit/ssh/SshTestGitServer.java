@@ -63,7 +63,6 @@ import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.security.SecurityUtils;
@@ -74,6 +73,7 @@ import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.command.AbstractCommandSupport;
+import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.UnknownCommand;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
@@ -95,21 +95,21 @@ import org.eclipse.jgit.transport.UploadPack;
 public class SshTestGitServer {
 
 	@NonNull
-	private String testUser;
+	protected final String testUser;
 
 	@NonNull
-	private PublicKey testKey;
+	protected final Repository repository;
 
 	@NonNull
-	private Repository repository;
+	protected final List<KeyPair> hostKeys = new ArrayList<>();
+
+	protected final SshServer server;
 
 	@NonNull
-	private List<KeyPair> hostKeys = new ArrayList<>();
+	protected PublicKey testKey;
 
 	private final ExecutorService executorService = Executors
 			.newFixedThreadPool(2);
-
-	private final SshServer server;
 
 	/**
 	 * Creates a ssh git <em>test</em> server. It serves one single repository,
@@ -140,45 +140,17 @@ public class SshTestGitServer {
 		} catch (IOException | GeneralSecurityException e) {
 			// Ignore.
 		}
-		server.setKeyPairProvider(new KeyPairProvider() {
+		server.setKeyPairProvider(() -> hostKeys);
 
-			@Override
-			public Iterable<KeyPair> loadKeys() {
-				return hostKeys;
-			}
+		configureAuthentication();
 
-		});
-		// SFTP.
-		server.setFileSystemFactory(new VirtualFileSystemFactory() {
+		List<NamedFactory<Command>> subsystems = configureSubsystems();
+		if (!subsystems.isEmpty()) {
+			server.setSubsystemFactories(subsystems);
+		}
 
-			@Override
-			protected Path computeRootDir(Session session) throws IOException {
-				return SshTestGitServer.this.repository.getDirectory()
-						.getParentFile().getAbsoluteFile().toPath();
-			}
-		});
-		server.setUserAuthFactories(getAuthFactories());
-		server.setSubsystemFactories(Collections
-				.singletonList((new SftpSubsystemFactory.Builder()).build()));
-		// No shell
-		server.setShellFactory(null);
-		// Disable some authentications
-		server.setPasswordAuthenticator(null);
-		server.setKeyboardInteractiveAuthenticator(null);
-		server.setHostBasedAuthenticator(null);
-		// Pretend we did gssapi-with-mic.
-		server.setGSSAuthenticator(new GSSAuthenticator() {
-			@Override
-			public boolean validateInitialUser(ServerSession session,
-					String user) {
-				return false;
-			}
-		});
-		// Accept only the test user/public key
-		server.setPublickeyAuthenticator((userName, publicKey, session) -> {
-			return SshTestGitServer.this.testUser.equals(userName) && KeyUtils
-					.compareKeys(SshTestGitServer.this.testKey, publicKey);
-		});
+		configureShell();
+
 		server.setCommandFactory(command -> {
 			if (command.startsWith(RemoteConfig.DEFAULT_UPLOAD_PACK)) {
 				return new GitUploadPackCommand(command, executorService);
@@ -224,8 +196,67 @@ public class SshTestGitServer {
 	}
 
 	/**
+	 * Configures the authentication mechanisms of this test server. Invoked
+	 * from the constructor. The default sets up public key authentication for
+	 * the test user, and a gssapi-with-mic authenticator that pretends to
+	 * support this mechanism, but that then refuses to authenticate anyone.
+	 */
+	protected void configureAuthentication() {
+		server.setUserAuthFactories(getAuthFactories());
+		// Disable some authentications
+		server.setPasswordAuthenticator(null);
+		server.setKeyboardInteractiveAuthenticator(null);
+		server.setHostBasedAuthenticator(null);
+		// Pretend we did gssapi-with-mic.
+		server.setGSSAuthenticator(new GSSAuthenticator() {
+			@Override
+			public boolean validateInitialUser(ServerSession session,
+					String user) {
+				return false;
+			}
+		});
+		// Accept only the test user/public key
+		server.setPublickeyAuthenticator((userName, publicKey, session) -> {
+			return SshTestGitServer.this.testUser.equals(userName) && KeyUtils
+					.compareKeys(SshTestGitServer.this.testKey, publicKey);
+		});
+	}
+
+	/**
+	 * Configures the test server's subsystems (sftp, scp). Invoked from the
+	 * constructor. The default provides a simple SFTP setup with the root
+	 * directory as the given repository's .git directory's parent. (I.e., at
+	 * the directory containing the .git directory.)
+	 *
+	 * @return A possibly empty collection of subsystems.
+	 */
+	@NonNull
+	protected List<NamedFactory<Command>> configureSubsystems() {
+		// SFTP.
+		server.setFileSystemFactory(new VirtualFileSystemFactory() {
+
+			@Override
+			protected Path computeRootDir(Session session) throws IOException {
+				return SshTestGitServer.this.repository.getDirectory()
+						.getParentFile().getAbsoluteFile().toPath();
+			}
+		});
+		return Collections
+				.singletonList((new SftpSubsystemFactory.Builder()).build());
+	}
+
+	/**
+	 * Configures shell access for the test server. The default provides no
+	 * shell at all.
+	 */
+	protected void configureShell() {
+		// No shell
+		server.setShellFactory(null);
+	}
+
+	/**
 	 * Adds an additional host key to the server.
-	 * 
+	 *
 	 * @param key
 	 *            path to the private key file; should not be encrypted
 	 * @param inFront
