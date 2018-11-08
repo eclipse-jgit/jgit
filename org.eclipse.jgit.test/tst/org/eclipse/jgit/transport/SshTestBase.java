@@ -392,7 +392,7 @@ public abstract class SshTestBase extends RepositoryTestCase {
 		}
 	}
 
-	private class TestCredentialsProvider extends CredentialsProvider {
+	private static class TestCredentialsProvider extends CredentialsProvider {
 
 		private final List<String> stringStore;
 
