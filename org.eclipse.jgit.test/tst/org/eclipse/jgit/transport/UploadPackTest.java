@@ -1280,6 +1280,48 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchShallowSince_excludedParentWithMultipleChildren() throws Exception {
+		PersonIdent person = new PersonIdent(remote.getRepository());
+
+		RevCommit base = remote.commit()
+			.committer(new PersonIdent(person, 1500000000, 0)).create();
+		RevCommit child1 = remote.commit().parent(base)
+			.committer(new PersonIdent(person, 1510000000, 0)).create();
+		RevCommit child2 = remote.commit().parent(base)
+			.committer(new PersonIdent(person, 1520000000, 0)).create();
+
+		remote.update("branch1", child1);
+		remote.update("branch2", child2);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"deepen-since 1510000\n",
+			"want " + child1.toObjectId().getName() + "\n",
+			"want " + child2.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("shallow-info"));
+
+		// "base" is excluded, so its children are shallow.
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			hasItems(
+				"shallow " + child1.toObjectId().getName(),
+				"shallow " + child2.toObjectId().getName()));
+
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		// Only the children are sent.
+		assertFalse(client.hasObject(base.toObjectId()));
+		assertTrue(client.hasObject(child1.toObjectId()));
+		assertTrue(client.hasObject(child2.toObjectId()));
+	}
+
+	@Test
 	public void testV2FetchShallowSince_noCommitsSelected() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
@@ -1403,6 +1445,49 @@ public class UploadPackTest {
 		assertFalse(client.hasObject(two.toObjectId()));
 		assertTrue(client.hasObject(three.toObjectId()));
 		assertTrue(client.hasObject(four.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchDeepenNot_excludedParentWithMultipleChildren() throws Exception {
+		PersonIdent person = new PersonIdent(remote.getRepository());
+
+		RevCommit base = remote.commit()
+			.committer(new PersonIdent(person, 1500000000, 0)).create();
+		RevCommit child1 = remote.commit().parent(base)
+			.committer(new PersonIdent(person, 1510000000, 0)).create();
+		RevCommit child2 = remote.commit().parent(base)
+			.committer(new PersonIdent(person, 1520000000, 0)).create();
+
+		remote.update("base", base);
+		remote.update("branch1", child1);
+		remote.update("branch2", child2);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"deepen-not base\n",
+			"want " + child1.toObjectId().getName() + "\n",
+			"want " + child2.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("shallow-info"));
+
+		// "base" is excluded, so its children are shallow.
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			hasItems(
+				"shallow " + child1.toObjectId().getName(),
+				"shallow " + child2.toObjectId().getName()));
+
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		// Only the children are sent.
+		assertFalse(client.hasObject(base.toObjectId()));
+		assertTrue(client.hasObject(child1.toObjectId()));
+		assertTrue(client.hasObject(child2.toObjectId()));
 	}
 
 	@Test

@@ -208,8 +208,12 @@ class DepthGenerator extends Generator {
 							!p.has(DEEPEN_NOT)) {
 						pending.add(p);
 					} else {
-						c.isBoundary = true;
+						dp.makesChildBoundary = true;
 					}
+				}
+
+				if (dp.makesChildBoundary) {
+					c.isBoundary = true;
 				}
 
 				// If the current commit has become unshallowed, everything

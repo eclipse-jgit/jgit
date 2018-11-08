@@ -112,14 +112,20 @@ public interface DepthWalk {
 
 		boolean isBoundary;
 
+		/**
+		 * True if this commit was excluded due to a shallow fetch
+		 * setting. All its children are thus boundary commits.
+		 */
+		boolean makesChildBoundary;
+
 		/** @return depth of this commit, as found by the shortest path. */
 		public int getDepth() {
 			return depth;
 		}
 
 		/**
-		 * @return true if at least one of this commit's children was excluded
-		 *         due to a depth or shallow-since restriction, false otherwise
+		 * @return true if at least one of this commit's parents was excluded
+		 *         due to a shallow fetch setting, false otherwise
 		 * @since 5.2
 		 */
 		public boolean isBoundary() {
