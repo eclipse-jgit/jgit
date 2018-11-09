@@ -1356,10 +1356,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		final RevCommit first;
 		try {
 			first = RevWalk.this.next();
-		} catch (MissingObjectException e) {
-			throw new RevWalkException(e);
-		} catch (IncorrectObjectTypeException e) {
-			throw new RevWalkException(e);
 		} catch (IOException e) {
 			throw new RevWalkException(e);
 		}
@@ -1378,10 +1374,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 					final RevCommit r = next;
 					next = RevWalk.this.next();
 					return r;
-				} catch (MissingObjectException e) {
-					throw new RevWalkException(e);
-				} catch (IncorrectObjectTypeException e) {
-					throw new RevWalkException(e);
 				} catch (IOException e) {
 					throw new RevWalkException(e);
 				}
