@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "77ac2184_be0f18eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-09T00:20:30Z",
+      "side": 1,
+      "message": "I think this comment is unnecessary since this is already explained in the commit message which can be shown next to the code using git blame",
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9ac7261_28a238ac",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -84,6 +101,54 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "5dcece86_44906c22",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 209,
+        "endChar": 15
+      },
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "550cff71_403945d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-09T00:20:30Z",
+      "side": 1,
+      "message": "yes, constants should be all caps e.g. TAG_TIE_BREAKER",
+      "parentUuid": "f9ac7261_28a238ac",
+      "range": {
+        "startLine": 209,
+        "startChar": 31,
+        "endLine": 209,
+        "endChar": 44
+      },
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4576b35_eb129e33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-09T00:20:30Z",
+      "side": 1,
+      "message": "missing @Override\n\nstyle nit: add a blank line after line 209",
+      "parentUuid": "1eb90e81_be0d781c",
       "range": {
         "startLine": 209,
         "startChar": 1,
