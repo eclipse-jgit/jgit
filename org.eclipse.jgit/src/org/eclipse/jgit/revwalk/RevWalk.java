@@ -1336,6 +1336,20 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Like {@link next()}, but if a checked exception is thrown during the
+	 * walk it is rethrown as a {@link RevWalkException}.
+	 *
+	 * @throws RevWalkException if an {@link IOException} was thrown.
+	 */
+	private RevCommit nextForIterator() {
+		try {
+			return next();
+		} catch (IOException e) {
+			throw new RevWalkException(e);
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Returns an Iterator over the commits of this walker.
@@ -1353,12 +1367,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	@Override
 	public Iterator<RevCommit> iterator() {
-		final RevCommit first;
-		try {
-			first = RevWalk.this.next();
-		} catch (IOException e) {
-			throw new RevWalkException(e);
-		}
+		RevCommit first = nextForIterator();
 
 		return new Iterator<RevCommit>() {
 			RevCommit next = first;
@@ -1370,13 +1379,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 			@Override
 			public RevCommit next() {
-				try {
-					final RevCommit r = next;
-					next = RevWalk.this.next();
-					return r;
-				} catch (IOException e) {
-					throw new RevWalkException(e);
-				}
+				RevCommit r = next;
+				next = nextForIterator();
+				return r;
 			}
 
 			@Override
