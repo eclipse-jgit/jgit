@@ -43,18 +43,12 @@
 
 package org.eclipse.jgit.http.server;
 
-import static org.eclipse.jgit.http.server.ServletUtils.isChunked;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Parses Git client User-Agent strings.
  */
 public class ClientVersionUtil {
-	private static final int[] v1_7_5 = { 1, 7, 5 };
-	private static final int[] v1_7_8_6 = { 1, 7, 8, 6 };
-	private static final int[] v1_7_9 = { 1, 7, 9 };
-
 	/**
 	 * An invalid version of Git
 	 *
@@ -174,17 +168,11 @@ public class ClientVersionUtil {
 	 * @param version
 	 *            parsed version of the Git client software.
 	 * @return true if the bug is present.
+	 * @deprecated no widely used Git versions need this any more
 	 */
+	@Deprecated
 	public static boolean hasPushStatusBug(int[] version) {
-		int cmp = compare(version, v1_7_8_6);
-		if (cmp < 0)
-			return true; // Everything before 1.7.8.6 is known broken.
-		else if (cmp == 0)
-			return false; // 1.7.8.6 contained the bug fix.
-
-		if (compare(version, v1_7_9) <= 0)
-			return true; // 1.7.9 shipped before 1.7.8.6 and has the bug.
-		return false; // 1.7.9.1 and later are fixed.
+		return false;
 	}
 
 	/**
@@ -198,10 +186,12 @@ public class ClientVersionUtil {
 	 * @param request
 	 *            incoming HTTP request.
 	 * @return true if the client has the chunked encoding bug.
+	 * @deprecated no widely used Git versions need this any more
 	 */
+	@Deprecated
 	public static boolean hasChunkedEncodingRequestBug(
 			int[] version, HttpServletRequest request) {
-		return compare(version, v1_7_5) == 0 && isChunked(request);
+		return false;
 	}
 
 	private ClientVersionUtil() {
