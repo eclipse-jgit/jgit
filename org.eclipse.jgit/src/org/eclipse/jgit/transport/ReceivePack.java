@@ -261,28 +261,34 @@ public class ReceivePack extends BaseReceivePack {
 		recvCommands();
 		if (hasCommands()) {
 			Throwable unpackError = null;
-			if (needPack()) {
-				try {
-					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException | Error err) {
-					unpackError = err;
+			try {
+				if (needPack()) {
+					try {
+						receivePackAndCheckConnectivity();
+					} catch (IOException | RuntimeException | Error err) {
+						unpackError = err;
+					}
 				}
+
+				if (unpackError == null) {
+					boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
+					setAtomic(atomic);
+
+					validateCommands();
+					if (atomic && anyRejects()) {
+						failPendingCommands();
+					}
+
+					preReceive.onPreReceive(
+							this, filterCommands(Result.NOT_ATTEMPTED));
+					if (atomic && anyRejects()) {
+						failPendingCommands();
+					}
+					executeCommands();
+				}
+			} finally {
+				unlockPack();
 			}
-
-			if (unpackError == null) {
-				boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
-				setAtomic(atomic);
-
-				validateCommands();
-				if (atomic && anyRejects())
-					failPendingCommands();
-
-				preReceive.onPreReceive(this, filterCommands(Result.NOT_ATTEMPTED));
-				if (atomic && anyRejects())
-					failPendingCommands();
-				executeCommands();
-			}
-			unlockPack();
 
 			if (reportStatus) {
 				if (echoCommandFailures && msgOut != null) {
