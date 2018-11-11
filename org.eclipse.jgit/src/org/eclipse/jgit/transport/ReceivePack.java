@@ -269,20 +269,26 @@ public class ReceivePack extends BaseReceivePack {
 				}
 			}
 
-			if (unpackError == null) {
-				boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
-				setAtomic(atomic);
+			try {
+				if (unpackError == null) {
+					boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
+					setAtomic(atomic);
 
-				validateCommands();
-				if (atomic && anyRejects())
-					failPendingCommands();
+					validateCommands();
+					if (atomic && anyRejects()) {
+						failPendingCommands();
+					}
 
-				preReceive.onPreReceive(this, filterCommands(Result.NOT_ATTEMPTED));
-				if (atomic && anyRejects())
-					failPendingCommands();
-				executeCommands();
+					preReceive.onPreReceive(
+							this, filterCommands(Result.NOT_ATTEMPTED));
+					if (atomic && anyRejects()) {
+						failPendingCommands();
+					}
+					executeCommands();
+				}
+			} finally {
+				unlockPack();
 			}
-			unlockPack();
 
 			if (reportStatus) {
 				if (echoCommandFailures && msgOut != null) {
