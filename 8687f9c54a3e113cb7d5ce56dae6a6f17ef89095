@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c545fd7_a808a0e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-11T21:00:41Z",
+      "side": 1,
+      "message": "I assume this is about\n\n\u003e Check for these bad versions and send errors as messages before the status report, enabling users to see the failures on their terminal.\n\nI wonder if we can revert https://git.eclipse.org/r/c/6531 altogether. In that change, Shawn explains:\n\n\u003e Servers aren\u0027t supposed to try and work around client bugs. Clients are just supposed to fail randomly and email Shawn Pearce with their woes.\n\u003e\n\u003e Shawn wants to stop certain emails from arriving in his inbox every day. So... we violate the Git conventions and try and test for versions on HTTP that we know are bad.\n\nNowadays the relevant Git versions are not in wide use, so we shouldn\u0027t need that workaround any more.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
