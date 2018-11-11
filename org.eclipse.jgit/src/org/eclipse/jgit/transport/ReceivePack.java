@@ -293,11 +293,6 @@ public class ReceivePack extends BaseReceivePack {
 						}
 					});
 					msgOut.flush();
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException wakeUp) {
-						// Ignore an early wake up.
-					}
 				}
 				sendStatusReport(true, unpackError, new Reporter() {
 					@Override
