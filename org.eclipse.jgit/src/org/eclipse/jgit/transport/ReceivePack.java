@@ -76,8 +76,6 @@ public class ReceivePack extends BaseReceivePack {
 	/** If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled. */
 	private boolean reportStatus;
 
-	private boolean echoCommandFailures;
-
 	/** Whether the client intends to use push options. */
 	private boolean usePushOptions;
 	private List<String> pushOptions;
@@ -191,9 +189,12 @@ public class ReceivePack extends BaseReceivePack {
 	 *            messages before sending the command results. This is usually
 	 *            not necessary, but may help buggy Git clients that discard the
 	 *            errors when all branches fail.
+	 * @deprecated Since 5.2. This was a fix for C Git clients prior to version
+	 *            1.7, and those versions are no longer supported.
 	 */
+	@Deprecated
 	public void setEchoCommandFailures(boolean echo) {
-		echoCommandFailures = echo;
+		// No-op.
 	}
 
 	/**
@@ -285,20 +286,6 @@ public class ReceivePack extends BaseReceivePack {
 			unlockPack();
 
 			if (reportStatus) {
-				if (echoCommandFailures && msgOut != null) {
-					sendStatusReport(false, unpackError, new Reporter() {
-						@Override
-						void sendString(String s) throws IOException {
-							msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
-						}
-					});
-					msgOut.flush();
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException wakeUp) {
-						// Ignore an early wake up.
-					}
-				}
 				sendStatusReport(true, unpackError, new Reporter() {
 					@Override
 					void sendString(String s) throws IOException {

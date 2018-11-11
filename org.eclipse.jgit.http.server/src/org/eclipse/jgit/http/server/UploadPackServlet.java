@@ -43,13 +43,10 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
-import static org.eclipse.jgit.http.server.ClientVersionUtil.hasChunkedEncodingRequestBug;
-import static org.eclipse.jgit.http.server.ClientVersionUtil.parseVersion;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_REQUEST_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_RESULT_TYPE;
@@ -190,13 +187,6 @@ class UploadPackServlet extends HttpServlet {
 			final HttpServletResponse rsp) throws IOException {
 		if (!UPLOAD_PACK_REQUEST_TYPE.equals(req.getContentType())) {
 			rsp.sendError(SC_UNSUPPORTED_MEDIA_TYPE);
-			return;
-		}
-
-		int[] version = parseVersion(req.getHeader(HDR_USER_AGENT));
-		if (hasChunkedEncodingRequestBug(version, req)) {
-			GitSmartHttpTools.sendError(req, rsp, SC_BAD_REQUEST, "\n\n"
-					+ HttpServerText.get().clientHas175ChunkedEncodingBug);
 			return;
 		}
 

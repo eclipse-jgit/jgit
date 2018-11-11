@@ -174,7 +174,9 @@ public class ClientVersionUtil {
 	 * @param version
 	 *            parsed version of the Git client software.
 	 * @return true if the bug is present.
+	 * @deprecated Since 5.2. This is no longer used.
 	 */
+	@Deprecated
 	public static boolean hasPushStatusBug(int[] version) {
 		int cmp = compare(version, v1_7_8_6);
 		if (cmp < 0)
@@ -198,7 +200,9 @@ public class ClientVersionUtil {
 	 * @param request
 	 *            incoming HTTP request.
 	 * @return true if the client has the chunked encoding bug.
+	 * @deprecated Since 5.2. This is no longer used.
 	 */
+	@Deprecated
 	public static boolean hasChunkedEncodingRequestBug(
 			int[] version, HttpServletRequest request) {
 		return compare(version, v1_7_5) == 0 && isChunked(request);
