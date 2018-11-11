@@ -43,14 +43,10 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
-import static org.eclipse.jgit.http.server.ClientVersionUtil.hasChunkedEncodingRequestBug;
-import static org.eclipse.jgit.http.server.ClientVersionUtil.hasPushStatusBug;
-import static org.eclipse.jgit.http.server.ClientVersionUtil.parseVersion;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_REQUEST_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE;
@@ -174,13 +170,6 @@ class ReceivePackServlet extends HttpServlet {
 			return;
 		}
 
-		int[] version = parseVersion(req.getHeader(HDR_USER_AGENT));
-		if (hasChunkedEncodingRequestBug(version, req)) {
-			GitSmartHttpTools.sendError(req, rsp, SC_BAD_REQUEST, "\n\n"
-					+ HttpServerText.get().clientHas175ChunkedEncodingBug);
-			return;
-		}
-
 		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
 			@Override
 			public void flush() throws IOException {
@@ -191,7 +180,6 @@ class ReceivePackServlet extends HttpServlet {
 		ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
 			rp.setBiDirectionalPipe(false);
-			rp.setEchoCommandFailures(hasPushStatusBug(version));
 			rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
 
 			rp.receive(getInputStream(req), out, null);
