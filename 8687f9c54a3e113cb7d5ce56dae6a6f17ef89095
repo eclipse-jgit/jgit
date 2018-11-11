@@ -22,6 +22,30 @@
       "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c098c10b_5aeaf5e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-11T21:41:11Z",
+      "side": 1,
+      "message": "Ah. Then, this sleep was meant for the old git clients that might not be able to see the errors due to the race (I guess if those clients would exit before processing the error messages). By waiting 500ms on the server-side, they might be able to see the errors.\n\n+1 for reverting the change.",
+      "parentUuid": "5c545fd7_a808a0e1",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
