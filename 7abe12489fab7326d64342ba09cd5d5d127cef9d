@@ -52,6 +52,24 @@
       "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a139ebc_66f987b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-12T01:29:14Z",
+      "side": 1,
+      "message": "OK. I thought you were saying:\n\n    try {\n      receivePackAndConnectivity();\n    } (IOException | RuntimeException | Error err) {\n      unpackError \u003d err;\n    } finally {\n      unlockPack();\n    }\n\nI think both A and B are fine.",
+      "parentUuid": "42b55dd1_d34d3e9c",
+      "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
