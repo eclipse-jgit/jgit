@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "accc1fa2_e9d9b84b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-12T23:15:42Z",
+      "side": 1,
+      "message": "to connect",
+      "range": {
+        "startLine": 237,
+        "startChar": 5,
+        "endLine": 237,
+        "endChar": 12
+      },
+      "revId": "292d43b7601a032cccd6a8faebd010d8e62a1d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6616c1f6_a64dd6bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-12T23:15:42Z",
+      "side": 1,
+      "message": "interaction",
+      "range": {
+        "startLine": 246,
+        "startChar": 29,
+        "endLine": 246,
+        "endChar": 39
+      },
+      "revId": "292d43b7601a032cccd6a8faebd010d8e62a1d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
