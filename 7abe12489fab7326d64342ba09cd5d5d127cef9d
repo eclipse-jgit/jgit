@@ -16,6 +16,24 @@
       "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e7fed2_b81b26ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-12T00:53:40Z",
+      "side": 1,
+      "message": "That\u0027ll probably break the code and the API behavior. After receivePackAndCheckConnectivity, various calls inside \"if (unpackError \u003d\u003d null)\" are made. These calls can make an assumption that lock is obtained.",
+      "parentUuid": "6107aaea_8581eb3b",
+      "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
