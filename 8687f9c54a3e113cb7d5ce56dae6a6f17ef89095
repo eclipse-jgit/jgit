@@ -70,6 +70,30 @@
       "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bffe3db2_c58bdca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-12T01:33:14Z",
+      "side": 1,
+      "message": "Uploaded a new PS to revert that change. Left ClientVersionUtil\u0027s parsing part as-is. Should I deprecate all methods?",
+      "parentUuid": "1e3a5552_89156f20",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
