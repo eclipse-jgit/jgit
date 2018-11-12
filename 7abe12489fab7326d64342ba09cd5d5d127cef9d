@@ -34,6 +34,24 @@
       "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b55dd1_d34d3e9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-12T00:56:20Z",
+      "side": 1,
+      "message": "I don\u0027t follow. Which of the two suggestions are you saying would break code?\n\nA.\n\n  if (hasCommands()) {\n    Throwable unpackError \u003d null;\n    if (needPack()) {\n      ... receivePackAndCheckConnectivity(); ...\n    }\n    try {\n      ...\n    } finally {\n      unlockPack();\n    }\n    ...\n  }\n\nB. No change to ReceivePack. In BaseReceivePack:\n\n  protected void release() throws IOException {\n     ... unlockPack(); ...\n  }",
+      "parentUuid": "60e7fed2_b81b26ef",
+      "revId": "7abe12489fab7326d64342ba09cd5d5d127cef9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
