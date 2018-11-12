@@ -46,6 +46,30 @@
       "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3a5552_89156f20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-12T00:03:27Z",
+      "side": 1,
+      "message": "\u003e I wonder if we can revert https://git.eclipse.org/r/c/6531 altogether.\n\nThat will break API, so we can do it in multiple steps:\n\n1. Deprecate hasPushStatusBug and make it always return false.\n2. Deprecate setEchoCommandFailures and make it a no-op\n3. Deprecate hasChunkedEncodingRequestBug and make it always return false.\n4. Deprecate no longer used ClientVersionUtil.\n5. Remove the deprecated APIs and celebrate.\n\nInternally we\u0027ve needed something like ClientVersionUtil so I know it\u0027s potentially useful. But the parsing in JGit\u0027s ClientVersionUtil is lacking, so I think if we want to add back such an API then it\u0027s okay to start from scratch.",
+      "parentUuid": "c098c10b_5aeaf5e7",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "8687f9c54a3e113cb7d5ce56dae6a6f17ef89095",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
