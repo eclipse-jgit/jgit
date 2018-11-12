@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a793e61a_dcdc76ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-12T19:56:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this exception be public ? Otherwise code using this interface cannot handle this new exception type if it resides in a different package",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0ae0a68_a32c8604",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-12T19:56:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this interface be public since it\u0027s exposed in the return type of the public ls(String) method ?",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4547557a_c14d41fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-12T19:56:43Z",
+      "side": 1,
+      "message": "silence API error on this new interface method which could break implementors which we tolerate in minor versions following OSGi semantic versioning",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
