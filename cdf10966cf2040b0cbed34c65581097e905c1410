@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7508b625_f31154b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-12T20:57:12Z",
+      "side": 1,
+      "message": "I think it _is_ public. We\u0027re in an interface here. Otherwise I would have never been able to use it in SshdSession in https://git.eclipse.org/r/#/c/131884/ .",
+      "parentUuid": "a793e61a_dcdc76ae",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0ae0a68_a32c8604",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "293ac3e4_92c00b18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-12T20:57:12Z",
+      "side": 1,
+      "message": "I think it _is_ public. We\u0027re in an interface here.",
+      "parentUuid": "c0ae0a68_a32c8604",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4547557a_c14d41fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2018-11-12T19:56:43Z",
       "side": 1,
       "message": "silence API error on this new interface method which could break implementors which we tolerate in minor versions following OSGi semantic versioning",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2009714b_14e512f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-12T20:57:12Z",
+      "side": 1,
+      "message": "I see no API error here in either of my development Eclipses (one is Neon.3, the other 2018-09, both with JDK 8)?",
+      "parentUuid": "4547557a_c14d41fd",
       "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
