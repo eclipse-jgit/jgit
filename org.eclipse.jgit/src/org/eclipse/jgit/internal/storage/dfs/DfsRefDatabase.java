@@ -152,6 +152,32 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new RefMap(prefix, packed, loose, sym.toRefList());
 	}
 
+	/**
+	 * Check if the current reference table can meet the expectations.
+	 *
+	 * Expectations are pairs of fully qualified references (e.g. HEAD,
+	 * refs/heads/master, refs/heads/branchX) and a freshness mark (e.g. a
+	 * timestamp or a version number).
+	 *
+	 * This implementation ignores the freshness and checks only the existence
+	 * of the references. Subclasses can do a more strict check.
+	 *
+	 * @param expectations
+	 *            Map of fully qualified reference names and freshness marks
+	 * @return true if all references in {@code expectations} exist in the
+	 *         reference table (freshness is ignored)
+	 * @throws IOException
+	 * @since 5.2
+	 */
+	public boolean hasRefs(Map<String, Long> expectations) throws IOException {
+		for (String refName : expectations.keySet()) {
+			if (exactRef(refName) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private Ref resolve(Ref ref, int depth, RefList<Ref> loose)
 			throws IOException {
 		if (!ref.isSymbolic())

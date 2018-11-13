@@ -281,6 +281,36 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return Collections.unmodifiableList(all);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * This implementation takes into account the staleness: the references must
+	 * exist in the table and have a last update mark in the reftable equal or
+	 * more recent than the expectation.
+	 */
+	@Override
+	public boolean hasRefs(Map<String, Long> expectations) {
+		try {
+			Reftable table = reader();
+			for (Map.Entry<String, Long> expectation : expectations
+					.entrySet()) {
+				RefCursor refCursor = table.seekRef(expectation.getKey());
+				if (!refCursor.next()) {
+					return false;
+				}
+
+				if (refCursor.getUpdateIndex() < expectation.getValue()
+						.longValue()) {
+					return false;
+				}
+			}
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+
 	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
