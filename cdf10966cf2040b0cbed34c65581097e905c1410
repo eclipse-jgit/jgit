@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "709afb48_365d4ddd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T00:25:24Z",
+      "side": 1,
+      "message": "ack, I am jetlagged",
+      "parentUuid": "7508b625_f31154b2",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0ae0a68_a32c8604",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
         "patchSetId": 6
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3f78082c_e86e9a85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FtpChannel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T00:25:24Z",
+      "side": 1,
+      "message": "ack, it\u0027s public since this interface is a member of the outer interface",
+      "parentUuid": "293ac3e4_92c00b18",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4547557a_c14d41fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
         "patchSetId": 6
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "I see no API error here in either of my development Eclipses (one is Neon.3, the other 2018-09, both with JDK 8)?",
       "parentUuid": "4547557a_c14d41fd",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02338c9c_a07cc2f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T00:25:24Z",
+      "side": 1,
+      "message": "I reproducibly get the following errors:\n\nThe default method org.eclipse.jgit.transport.RemoteSession.getFtpChannel() in an interface has been added\n\nThe major version should be incremented in version 5.2.0, since API breakage occurred since version 5.1.0\n\nSometimes API errors are only discovered when running a clean build from scratch in Eclipse, not sure under which preconditions\n\nAlso tried with a fresh new workspace. I think this is shown as an error since we use this configuration:\n\nhttps://imgur.com/a/sllM92G",
+      "parentUuid": "2009714b_14e512f7",
       "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
