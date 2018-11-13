@@ -281,6 +281,36 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return Collections.unmodifiableList(all);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * This implementation takes into account the update index: the references
+	 * must exist in the reftable and their update index must be equal or bigger
+	 * than the expectated.
+	 */
+	@Override
+	public boolean hasRefs(Map<String, Long> expectations) {
+		try {
+			Reftable table = reader();
+			for (Map.Entry<String, Long> expectation : expectations
+					.entrySet()) {
+				RefCursor refCursor = table.seekRef(expectation.getKey());
+				if (!refCursor.next()) {
+					return false;
+				}
+
+				if (refCursor.getUpdateIndex() < expectation.getValue()
+						.longValue()) {
+					return false;
+				}
+			}
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+
 	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {

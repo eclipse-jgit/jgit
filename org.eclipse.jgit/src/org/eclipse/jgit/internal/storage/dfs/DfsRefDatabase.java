@@ -152,6 +152,38 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new RefMap(prefix, packed, loose, sym.toRefList());
 	}
 
+	/**
+	 * Check if the current reference table can meet the expectations.
+	 *
+	 * Expectations are pairs of symbolic or fully qualified references (e.g.
+	 * HEAD, refs/heads/master, refs/heads/branchX) and update indexes (a number
+	 * that can order reference updates).
+	 *
+	 * This implementation ignores the update indexes and checks only the
+	 * existence of the references. Subclasses can do a more strict check and
+	 * choose the interpretation of the update index.
+	 *
+	 * In reftable based implementations, it will correspond with the reftable
+	 * update index (see <a href=
+	 * "https://googlers.googlesource.com/sop/jgit/+/reftable/Documentation/technical/reftable.md#log-record">
+	 * </a>).
+	 *
+	 * @param expectations
+	 *            Map of fully qualified reference names and update indexes
+	 * @return true if all references in {@code expectations} exist in the
+	 *         reference table (update order is ignored)
+	 * @throws IOException
+	 *             the reference space cannot be accessed
+	 */
+	public boolean hasRefs(Map<String, Long> expectations) throws IOException {
+		for (String refName : expectations.keySet()) {
+			if (exactRef(refName) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private Ref resolve(Ref ref, int depth, RefList<Ref> loose)
 			throws IOException {
 		if (!ref.isSymbolic())
