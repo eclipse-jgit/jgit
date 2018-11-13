@@ -176,6 +176,24 @@
       "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7560052_f3c97ffa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T19:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02338c9c_a07cc2f3",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
