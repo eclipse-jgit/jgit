@@ -158,6 +158,24 @@
       "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9366f618_49d8ceb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-13T09:29:35Z",
+      "side": 1,
+      "message": "Done.\n\nIn my 2018-09 Eclipse, I have that setting, too. Also set to \"Error\". But the Oomph setup apparently went wrong; where the API baseline should have been I only had a file \"remoteURI.txt\". So I was building without API baseline all the time (and didn\u0027t notice it because \"Missing API baseline\" is a warning only, which gets lost among the other warnings we have).\n\nFixed my API baseline, got the error, too, and added the filter for it.\n\nAnd I guess I\u0027ll have to abandon my other setup with Neon.3; its PDE is too old and doesn\u0027t even have that \"default method added in interface\" setting.",
+      "parentUuid": "02338c9c_a07cc2f3",
+      "revId": "cdf10966cf2040b0cbed34c65581097e905c1410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
