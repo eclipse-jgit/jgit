@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ac07c4de_30c6c9c5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T19:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "accc1fa2_e9d9b84b",
+      "range": {
+        "startLine": 237,
+        "startChar": 5,
+        "endLine": 237,
+        "endChar": 12
+      },
+      "revId": "292d43b7601a032cccd6a8faebd010d8e62a1d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6616c1f6_a64dd6bb",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ssh/SshTestBase.java",
         "patchSetId": 6
@@ -81,6 +105,30 @@
         "id": 44628
       },
       "writtenOn": "2018-11-13T09:30:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6616c1f6_a64dd6bb",
+      "range": {
+        "startLine": 246,
+        "startChar": 29,
+        "endLine": 246,
+        "endChar": 39
+      },
+      "revId": "292d43b7601a032cccd6a8faebd010d8e62a1d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92adf805_6d774a60",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-13T19:22:16Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "6616c1f6_a64dd6bb",
