@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "459c8908_06facb03",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-13T23:25:57Z",
+      "side": 1,
+      "message": "Oops. This is a leftover from an earlier attempt. Should be removed. (The ProxyDatabase is passed in the constructor.)",
+      "revId": "5b003f8c3c75a22be0819c4742dc965ef87a42fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
