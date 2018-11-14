@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25364faf_a7664392",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-14T04:03:24Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7be5a0ab_49e14fd6",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-14T04:03:24Z",
+      "side": 1,
+      "message": "The implementation can just \"return false\".",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329c0b70_5f598e85",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-14T04:03:24Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1f29e5e_1ccfec78",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-14T04:03:24Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94141b0f_fc4a73be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-14T04:03:24Z",
+      "side": 1,
+      "message": "The @deprecated is supposed to point users to what to use instead. Here we want people to upgrade their client instead. :) So, I guess:\n\n @deprecated no widely used Git versions need this any more",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
