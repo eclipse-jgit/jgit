@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1656ebe_f6cccf8e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ProxyDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T18:13:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e290389c_efe66620",
+      "revId": "0dccab811bcf18ef6d9880314f8ebceb95e68f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
