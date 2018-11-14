@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "d5080c1f_7b8996ee",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/AbstractClientProxyConnector.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T18:11:16Z",
+      "side": 1,
+      "message": "We _could_ hide all three classes behind a factory instance. That adds a new public factory interface and the public factory instance, but allows us to move this class and its two concrete subclasses to internal space.",
+      "parentUuid": "4fa275dd_6885743f",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d01df3b_a3ecaee3",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/HttpClientConnector.java",
         "patchSetId": 12
