@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2b81aab0_7e6634c6",
+        "filename": "org.eclipse.jgit.ssh.apache/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T01:13:29Z",
+      "side": 1,
+      "message": "fixed in next commit and I failed to fix this using interactive rebase, I tried twice and both times ended up with\nerror: could not read orig-head",
+      "parentUuid": "532a8c1a_af77528a",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dc7daa9_ae1a2047",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitUserInteraction.java",
         "patchSetId": 9
