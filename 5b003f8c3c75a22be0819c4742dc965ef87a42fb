@@ -16,6 +16,24 @@
       "revId": "5b003f8c3c75a22be0819c4742dc965ef87a42fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26170104_10956c3c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T14:11:57Z",
+      "side": 1,
+      "message": "Done in PS 12.",
+      "parentUuid": "459c8908_06facb03",
+      "revId": "5b003f8c3c75a22be0819c4742dc965ef87a42fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
