@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77219f8d_1120ae80",
+        "filename": "org.eclipse.jgit.ssh.apache.test/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T00:35:28Z",
+      "side": 1,
+      "message": "can we move this to o.e.jgit.junit.ssh? see comments in bazel build files",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532a8c1a_af77528a",
+        "filename": "org.eclipse.jgit.ssh.apache/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T00:35:28Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc7daa9_ae1a2047",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitUserInteraction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T00:35:28Z",
+      "side": 1,
+      "message": "How about CancelledException ?",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef335256_f0dd422b",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T00:35:28Z",
+      "side": 1,
+      "message": "can we move these classes and test resources into org.eclipse.jgit.junit.ssh at the top of this series ?",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
