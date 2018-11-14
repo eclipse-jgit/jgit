@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "292160ae_55ac75ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T15:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "330661e6_6ef11d59",
+      "range": {
+        "startLine": 15,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1237f1a_f16fff7b",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
         "patchSetId": 11
@@ -36,6 +60,24 @@
       "writtenOn": "2018-11-14T14:45:46Z",
       "side": 1,
       "message": "instead of using instanceof we could rethrow it in an additional, earlier catch clause for IOException",
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1df51fe_32a6dffe",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T15:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1237f1a_f16fff7b",
       "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "4f0694af_75803c34",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/auth/AuthenticationHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T15:17:13Z",
+      "side": 1,
+      "message": "Done. Don\u0027t know why _sometimes_ these get left in the text. Perhaps when I edit in the compare editor?",
+      "parentUuid": "968d1d3f_557f6053",
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4627365_dfa87687",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ProxyDatabase.java",
         "patchSetId": 11
@@ -70,6 +130,24 @@
       "writtenOn": "2018-11-14T14:45:46Z",
       "side": 1,
       "message": "missing @since 5.2 tag ?",
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e290389c_efe66620",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ProxyDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T15:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4627365_dfa87687",
       "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
