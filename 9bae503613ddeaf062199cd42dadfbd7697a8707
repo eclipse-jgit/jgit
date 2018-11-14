@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "61a3fb3b_6277e407",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T18:13:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "292160ae_55ac75ca",
+      "range": {
+        "startLine": 15,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1237f1a_f16fff7b",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
         "patchSetId": 11
@@ -84,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "8f33029a_20f37c34",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T18:13:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d1df51fe_32a6dffe",
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "968d1d3f_557f6053",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/auth/AuthenticationHandler.java",
         "patchSetId": 11
@@ -116,6 +158,24 @@
       "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeb707b6_9302a0fe",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/auth/AuthenticationHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T18:13:43Z",
+      "side": 1,
+      "message": "either that or still some bug in Java formatter",
+      "parentUuid": "4f0694af_75803c34",
+      "revId": "9bae503613ddeaf062199cd42dadfbd7697a8707",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
