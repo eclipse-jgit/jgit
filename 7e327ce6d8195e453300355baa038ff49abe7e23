@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c77dec91_a0271a7e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ProxyData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T14:45:46Z",
+      "side": 1,
+      "message": "missing @since tag ?",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00945be8_46c0c185",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ProxyDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T14:45:46Z",
+      "side": 1,
+      "message": "@since 5.2",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f97df52_ed2b727d",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/AbstractClientProxyConnector.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T14:45:46Z",
+      "side": 1,
+      "message": "@since 5.2\n\ndoes this need to be public ?",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d01df3b_a3ecaee3",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/HttpClientConnector.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T14:45:46Z",
+      "side": 1,
+      "message": "@since 5.2",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2dc2b66_bdb8741c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/StatefulProxyConnector.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-14T14:45:46Z",
+      "side": 1,
+      "message": "@since 5.2",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
