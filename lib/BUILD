@@ -62,9 +62,9 @@ java_library(
     name = "sshd-core",
     visibility = [
         "//org.eclipse.jgit.junit:__pkg__",
-        "//org.eclipse.jgit.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@sshd-core//jar"],
 )
@@ -73,9 +73,9 @@ java_library(
     name = "sshd-sftp",
     visibility = [
         "//org.eclipse.jgit.junit:__pkg__",
-        "//org.eclipse.jgit.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@sshd-sftp//jar"],
 )

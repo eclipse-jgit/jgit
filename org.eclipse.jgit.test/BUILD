@@ -7,9 +7,9 @@ load(
 PKG = "tst/org/eclipse/jgit/"
 
 HELPERS = glob(
-		["src/**/*.java"],
-		exclude = ["src/org/eclipse/jgit/transport/ssh/*.java"]
-    ) + [PKG + c for c in [
+    ["src/**/*.java"],
+    exclude = ["src/org/eclipse/jgit/transport/ssh/*.java"],
+) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
     "diff/AbstractDiffTestCase.java",
     "internal/storage/file/GcTestCase.java",
@@ -63,16 +63,16 @@ java_library(
     srcs = glob(["src/org/eclipse/jgit/transport/ssh/*.java"]),
     resource_strip_prefix = "org.eclipse.jgit.test/resources",
     resources = RESOURCES,
-    deps = [
-        "//lib:junit",
-        "//org.eclipse.jgit:jgit",
-        "//org.eclipse.jgit.junit:junit",
-        "//lib:jsch",
-        "//lib:sshd-core",
-        "//lib:sshd-sftp",
-    ],
     visibility = [
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+    ],
+    deps = [
+        "//lib:jsch",
+        "//lib:junit",
+        "//lib:sshd-core",
+        "//lib:sshd-sftp",
+        "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
     ],
 )
 
