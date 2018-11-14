@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "83dfb34f_eb2158f8",
+        "filename": "org.eclipse.jgit.ssh.apache/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T07:13:01Z",
+      "side": 1,
+      "message": "Sorry about those tabs sneaking in.",
+      "parentUuid": "2b81aab0_7e6634c6",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dc7daa9_ae1a2047",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitUserInteraction.java",
         "patchSetId": 9
@@ -71,6 +89,47 @@
     },
     {
       "key": {
+        "uuid": "7314929c_4521467c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitUserInteraction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T07:13:01Z",
+      "side": 1,
+      "message": "I\u0027ll have to check where this is called and where it would be caught, and how it would be handled then.",
+      "parentUuid": "2dc7daa9_ae1a2047",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ff1d1a_fc21a041",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T07:13:01Z",
+      "side": 1,
+      "message": "Oh. These dependencies are _probably_ a left-over from an earlier attempt and can be removed. Only the sshd-helpers should depend on these.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef335256_f0dd422b",
         "filename": "org.eclipse.jgit.test/BUILD",
         "patchSetId": 9
@@ -85,6 +144,41 @@
       "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0797c370_b2c4a416",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T07:13:01Z",
+      "side": 1,
+      "message": "Not sure this is a good idea. Maybe the SshTestHarness, but I didn\u0027t write it with the same diligence as I write production code. Can\u0027t tell off-hand if the interfaces are all clean enough.\n\nThe SshTestBase contains the actual ssh test cases and should probably not be moved.",
+      "parentUuid": "ef335256_f0dd422b",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "086d54bd_5dd3a21f",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T07:13:01Z",
+      "side": 1,
+      "message": "Strange. I thought I _had_ ordered these alphabetically. Well, David fixed it in a clean-up commit.",
+      "revId": "488d95571fbe5b896c929dc3f65dc0c0a7161d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
