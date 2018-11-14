@@ -22,6 +22,30 @@
       "revId": "164a8a9431fc35e511590e7e201ac5a4afd39ffa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdda3422_fe5a7d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-14T15:17:13Z",
+      "side": 1,
+      "message": "Done in PS 13",
+      "parentUuid": "df9f47d2_f8e59022",
+      "range": {
+        "startLine": 23,
+        "startChar": 61,
+        "endLine": 23,
+        "endChar": 64
+      },
+      "revId": "164a8a9431fc35e511590e7e201ac5a4afd39ffa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
