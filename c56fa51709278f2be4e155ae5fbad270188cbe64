@@ -16,6 +16,24 @@
       "revId": "c56fa51709278f2be4e155ae5fbad270188cbe64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8a72ab_e0c0a8ed",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/RepeatingFilePasswordProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-15T16:25:26Z",
+      "side": 1,
+      "message": "Should be resolved with https://git.eclipse.org/r/#/c/132500/ , this is now internal and no longer API.",
+      "parentUuid": "197cc885_19d1362b",
+      "revId": "c56fa51709278f2be4e155ae5fbad270188cbe64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
