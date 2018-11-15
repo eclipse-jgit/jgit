@@ -77,8 +77,10 @@ import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
+import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
 import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
 import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyVerifier;
+import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
@@ -127,8 +129,8 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * {@link KeyCache} is still the right choice, for instance to avoid that a
 	 * user gets prompted several times for the same password for the same key.
 	 * In general, however, it is preferable <em>not</em> to use a key cache but
-	 * to use a {@link #createFilePasswordProvider(CredentialsProvider)
-	 * FilePasswordProvider} that has access to some secure storage and can save
+	 * to use a {@link #createKeyPasswordProvider(CredentialsProvider)
+	 * KeyPasswordProvider} that has access to some secure storage and can save
 	 * and retrieve passwords from there without user interaction. Another
 	 * approach is to use an ssh agent.
 	 * </p>
@@ -201,10 +203,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyPairProvider defaultKeysProvider = getDefaultKeysProvider(
 						sshDir);
+				KeyPasswordProvider passphrases = createKeyPasswordProvider(
+						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
 						.filePasswordProvider(
-								createFilePasswordProvider(credentialsProvider))
+								createFilePasswordProvider(passphrases))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(getServerKeyVerifier(home, sshDir))
 						.compressionFactories(
@@ -335,7 +339,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @return the resolver
 	 */
 	@NonNull
-	protected HostConfigEntryResolver getHostConfigEntryResolver(
+	private HostConfigEntryResolver getHostConfigEntryResolver(
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
 				new Tuple(homeDir, sshDir),
@@ -359,15 +363,26 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @return the resolver
 	 */
 	@NonNull
-	protected ServerKeyVerifier getServerKeyVerifier(@NonNull File homeDir,
+	private ServerKeyVerifier getServerKeyVerifier(@NonNull File homeDir,
 			@NonNull File sshDir) {
 		return defaultServerKeyVerifier.computeIfAbsent(
 				new Tuple(homeDir, sshDir),
 				t -> new OpenSshServerKeyVerifier(true,
-						Arrays.asList(
-								new File(sshDir, SshConstants.KNOWN_HOSTS),
-								new File(sshDir,
-										SshConstants.KNOWN_HOSTS + '2'))));
+						getDefaultKnownHostsFiles(sshDir)));
+	}
+
+	/**
+	 * Gets the list of default user known hosts files. The default returns
+	 * ~/.ssh/known_hosts and ~/.ssh/known_hosts2. The ssh config
+	 * {@code UserKnownHostsFile} overrides this default.
+	 *
+	 * @param sshDir
+	 * @return the possibly empty list of default known host file paths.
+	 */
+	@NonNull
+	protected List<Path> getDefaultKnownHostsFiles(@NonNull File sshDir) {
+		return Arrays.asList(sshDir.toPath().resolve(SshConstants.KNOWN_HOSTS),
+				sshDir.toPath().resolve(SshConstants.KNOWN_HOSTS + '2'));
 	}
 
 	/**
@@ -378,7 +393,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @return the {@link KeyPairProvider}
 	 */
 	@NonNull
-	protected KeyPairProvider getDefaultKeysProvider(@NonNull File sshDir) {
+	private KeyPairProvider getDefaultKeysProvider(@NonNull File sshDir) {
 		return defaultKeys.computeIfAbsent(new Tuple(sshDir),
 				t -> new CachingKeyPairProvider(getDefaultIdentities(sshDir),
 						getKeyCache()));
@@ -413,17 +428,30 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
+	 * Creates a {@link KeyPasswordProvider} for a new session.
+	 *
+	 * @param provider
+	 *            the {@link CredentialsProvider} to delegate to for user
+	 *            interactions
+	 * @return a new {@link KeyPasswordProvider}
+	 */
+	@NonNull
+	protected KeyPasswordProvider createKeyPasswordProvider(
+			CredentialsProvider provider) {
+		return new IdentityPasswordProvider(provider);
+	}
+
+	/**
 	 * Creates a {@link FilePasswordProvider} for a new session.
 	 *
 	 * @param provider
-	 *            the {@link CredentialsProvider} to delegate for for user
-	 *            interactions
+	 *            the {@link KeyPasswordProvider} to delegate to
 	 * @return a new {@link FilePasswordProvider}
 	 */
 	@NonNull
-	protected FilePasswordProvider createFilePasswordProvider(
-			CredentialsProvider provider) {
-		return new IdentityPasswordProvider(provider);
+	private FilePasswordProvider createFilePasswordProvider(
+			KeyPasswordProvider provider) {
+		return new PasswordProviderWrapper(provider);
 	}
 
 	/**
@@ -437,7 +465,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @return the non-empty list of factories.
 	 */
 	@NonNull
-	protected List<NamedFactory<UserAuth>> getUserAuthFactories() {
+	private List<NamedFactory<UserAuth>> getUserAuthFactories() {
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
 						JGitPublicKeyAuthFactory.INSTANCE,

@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport.sshd;
+package org.eclipse.jgit.internal.transport.sshd;
 
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.flag;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;

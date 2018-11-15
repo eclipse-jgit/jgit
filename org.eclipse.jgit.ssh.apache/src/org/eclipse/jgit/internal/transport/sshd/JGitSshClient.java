@@ -76,7 +76,6 @@ import org.apache.sshd.common.util.ValidateUtils;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
-import org.eclipse.jgit.transport.sshd.RepeatingFilePasswordProvider;
 
 /**
  * Customized {@link SshClient} for JGit. It creates specialized

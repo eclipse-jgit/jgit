@@ -45,7 +45,6 @@ package org.eclipse.jgit.transport.sshd;
 import static java.text.MessageFormat.format;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
@@ -62,12 +61,11 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
 /**
- * A {@link RepeatingFilePasswordProvider} based on a
- * {@link CredentialsProvider}.
+ * A {@link KeyPasswordProvider} based on a {@link CredentialsProvider}.
  *
  * @since 5.2
  */
-public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
+public class IdentityPasswordProvider implements KeyPasswordProvider {
 
 	private CredentialsProvider provider;
 
@@ -136,7 +134,7 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 	/**
 	 * Counts per resource key.
 	 */
-	private final Map<String, State> current = new HashMap<>();
+	private final Map<URIish, State> current = new HashMap<>();
 
 	/**
 	 * Creates a new {@link IdentityPasswordProvider} to get the passphrase for
@@ -151,8 +149,10 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 
 	@Override
 	public void setAttempts(int numberOfPasswordPrompts) {
-		RepeatingFilePasswordProvider.super.setAttempts(
-				numberOfPasswordPrompts);
+		if (numberOfPasswordPrompts <= 0) {
+			throw new IllegalArgumentException(
+					"Number of password prompts must be >= 1"); //$NON-NLS-1$
+		}
 		attempts = numberOfPasswordPrompts;
 	}
 
@@ -162,24 +162,18 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 	}
 
 	@Override
-	public String getPassword(String resourceKey) throws IOException {
-		char[] pass = getPassword(resourceKey,
-				current.computeIfAbsent(resourceKey, r -> new State()));
-		if (pass == null) {
-			return null;
-		}
-		try {
-			return new String(pass);
-		} finally {
-			Arrays.fill(pass, '\000');
-		}
+	public char[] getPassphrase(URIish uri, int attempt) throws IOException {
+		return getPassword(uri, attempt,
+				current.computeIfAbsent(uri, r -> new State()));
 	}
 
 	/**
 	 * Retrieves a password to decrypt a private key.
 	 *
-	 * @param resourceKey
+	 * @param uri
 	 *            identifying the resource to obtain a password for
+	 * @param attempt
+	 *            number of previous attempts to get a passphrase
 	 * @param state
 	 *            encapsulating state information about attempts to get the
 	 *            password
@@ -188,46 +182,29 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 	 * @throws IOException
 	 *             if an error occurs
 	 */
-	protected char[] getPassword(String resourceKey, @NonNull State state)
+	protected char[] getPassword(URIish uri, int attempt, @NonNull State state)
 			throws IOException {
 		state.setPassword(null);
 		state.incCount();
 		String message = state.count == 1 ? SshdText.get().keyEncryptedMsg
 				: SshdText.get().keyEncryptedRetry;
-		char[] pass = getPassword(resourceKey, message);
+		char[] pass = getPassword(uri, message);
 		state.setPassword(pass);
 		return pass;
 	}
 
-	/**
-	 * Creates a {@link URIish} from a given string. The
-	 * {@link CredentialsProvider} uses uris as resource identifications.
-	 *
-	 * @param resourceKey
-	 *            to convert
-	 * @return the uri
-	 */
-	protected URIish toUri(String resourceKey) {
-		try {
-			return new URIish(resourceKey);
-		} catch (URISyntaxException e) {
-			return new URIish().setPath(resourceKey); // Doesn't check!!
-		}
-	}
-
-	private char[] getPassword(String resourceKey, String message) {
+	private char[] getPassword(URIish uri, String message) {
 		if (provider == null) {
 			return null;
 		}
-		URIish file = toUri(resourceKey);
 		List<CredentialItem> items = new ArrayList<>(2);
 		items.add(new CredentialItem.InformationalMessage(
-				format(message, resourceKey)));
+				format(message, uri)));
 		CredentialItem.Password password = new CredentialItem.Password(
 				SshdText.get().keyEncryptedPrompt);
 		items.add(password);
 		try {
-			provider.get(file, items);
+			provider.get(uri, items);
 			char[] pass = password.getValue();
 			if (pass == null) {
 				throw new CancellationException(
@@ -242,8 +219,9 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 	/**
 	 * Invoked to inform the password provider about the decoding result.
 	 *
-	 * @param resourceKey
-	 *            the resource key
+	 * @param uri
+	 *            identifying the key resource the key was attempted to be
+	 *            loaded from
 	 * @param state
 	 *            associated with this key
 	 * @param password
@@ -253,18 +231,15 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 	 * @return how to proceed in case of error
 	 * @throws IOException
 	 * @throws GeneralSecurityException
-	 * @see #handleDecodeAttemptResult(String, String, Exception)
 	 */
-	protected ResourceDecodeResult handleDecodeAttemptResult(String resourceKey,
+	protected boolean keyLoaded(URIish uri,
 			State state, char[] password, Exception err)
 			throws IOException, GeneralSecurityException {
 		if (err == null) {
-			return null;
+			return false; // Success, don't retry
 		} else if (err instanceof GeneralSecurityException) {
 			throw new InvalidKeyException(
-					format(SshdText.get().identityFileCannotDecrypt,
-							resourceKey),
-					err);
+					format(SshdText.get().identityFileCannotDecrypt, uri), err);
 		} else {
 			// Unencrypted key (state == null && password == null), or exception
 			// before having asked for the password (state != null && password
@@ -272,30 +247,29 @@ public class IdentityPasswordProvider implements RepeatingFilePasswordProvider {
 			// attempts exhausted.
 			if (state == null || password == null
 					|| state.getCount() >= attempts) {
-				return ResourceDecodeResult.TERMINATE;
+				return false;
 			}
-			return ResourceDecodeResult.RETRY;
+			return true;
 		}
 	}
 
 	@Override
-	public ResourceDecodeResult handleDecodeAttemptResult(String resourceKey,
-			String password, Exception err)
+	public boolean keyLoaded(URIish uri, int attempt, Exception error)
 			throws IOException, GeneralSecurityException {
-		ResourceDecodeResult result = null;
 		State state = null;
+		boolean retry = false;
 		try {
-			state = current.get(resourceKey);
-			result = handleDecodeAttemptResult(resourceKey, state,
-					state == null ? null : state.getPassword(), err);
+			state = current.get(uri);
+			retry = keyLoaded(uri, state,
+					state == null ? null : state.getPassword(), error);
 		} finally {
 			if (state != null) {
 				state.setPassword(null);
 			}
-			if (result != ResourceDecodeResult.RETRY) {
-				current.remove(resourceKey);
+			if (!retry) {
+				current.remove(uri);
 			}
 		}
-		return result;
+		return retry;
 	}
 }
