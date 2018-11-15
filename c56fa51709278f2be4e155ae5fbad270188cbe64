@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "197cc885_19d1362b",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/RepeatingFilePasswordProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-15T09:51:58Z",
+      "side": 1,
+      "message": "I don\u0027t see how we can evolve this without breaking API in the future. The upstream APIs are evolving. When we switch to sshd \u003e 2.1.0, the enum will be in the super class, and Lyor keeps changing the super interface anyway. See for instance [1], where the handleDecodeAttempt() API changes.\n\nDoes anyone have a clever idea how we can avoid this? Do we really need our own interfaces for all upstream interfaces, and ensure that we don\u0027t leak any upstream interfaces out of the public API of this bundle?\n\nAs an aside, I\u0027m not too happy with the IGNORE enum constant; it doesn\u0027t make any sense. I included it here only because it got introduced upstream.\n\n[1] https://github.com/apache/mina-sshd/commit/750afe77c7",
+      "revId": "c56fa51709278f2be4e155ae5fbad270188cbe64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
