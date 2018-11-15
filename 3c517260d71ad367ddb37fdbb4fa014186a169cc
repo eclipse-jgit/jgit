@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "205d36d4_d172e496",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-15T23:46:53Z",
+      "side": 1,
+      "message": "Is this the same thing as a Reftable update index (see also https://eclipse.googlesource.com/jgit/jgit/+/master/Documentation/technical/reftable.md#log-record)?",
+      "range": {
+        "startLine": 159,
+        "startChar": 49,
+        "endLine": 159,
+        "endChar": 63
+      },
+      "revId": "3c517260d71ad367ddb37fdbb4fa014186a169cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864d3ad7_09baace1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-15T23:46:53Z",
+      "side": 1,
+      "message": "No @since needed, since this is an *.internal.* package.",
+      "revId": "3c517260d71ad367ddb37fdbb4fa014186a169cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
