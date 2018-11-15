@@ -45,76 +45,73 @@ package org.eclipse.jgit.transport.sshd;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-import org.apache.sshd.common.config.keys.FilePasswordProvider;
+import org.eclipse.jgit.transport.URIish;
 
 /**
- * A {@link FilePasswordProvider} augmented to support repeatedly asking for
- * passwords.
+ * A {@code KeyPasswordProvider} provides passwords for encrypted private keys.
  *
  * @since 5.2
  */
-public interface RepeatingFilePasswordProvider extends FilePasswordProvider {
+public interface KeyPasswordProvider {
 
 	/**
-	 * Define the maximum number of attempts to get a password that should be
-	 * attempted for one identity resource through this provider.
+	 * Obtains a passphrase to use to decrypt an ecrypted private key. Returning
+	 * {@code null} or an empty array will skip this key. To cancel completely,
+	 * the operation should raise
+	 * {@link java.util.concurrent.CancellationException}.
 	 *
-	 * @param numberOfPasswordPrompts
-	 *            number of times to ask for a password, >= 1.
+	 * @param uri
+	 *            identifying the key resource that is being attempted to be
+	 *            loaded
+	 * @param attempt
+	 *            the number of previous attempts to get a passphrase; >= 0
+	 * @return the passphrase
+	 * @throws IOException
+	 *             if no password can be obtained
 	 */
-	default void setAttempts(int numberOfPasswordPrompts) {
-		if (numberOfPasswordPrompts <= 0) {
-			throw new IllegalArgumentException(
-					"Number of password prompts must be >= 1"); //$NON-NLS-1$
-		}
-	}
+	char[] getPassphrase(URIish uri, int attempt) throws IOException;
 
 	/**
-	 * Gets the maximum number of attempts to get a password that should be
+	 * Define the maximum number of attempts to get a passphrase that should be
 	 * attempted for one identity resource through this provider.
 	 *
-	 * @return the maximum number of attempts to try, always >= 1.
+	 * @param maxNumberOfAttempts
+	 *            number of times to ask for a passphrase;
+	 *            {@link IllegalArgumentException} may be thrown if <= 0
+	 */
+	void setAttempts(int maxNumberOfAttempts);
+
+	/**
+	 * Gets the maximum number of attempts to get a passphrase that should be
+	 * attempted for one identity resource through this provider. The default
+	 * return 1.
+	 *
+	 * @return the number of times to ask for a passphrase; should be >= 1.
 	 */
 	default int getAttempts() {
 		return 1;
 	}
 
-	// The following part of this interface is from the upstream resolution of
-	// SSHD-850. See https://github.com/apache/mina-sshd/commit/f19bd2e34 .
-	// TODO: remove this once we move to sshd > 2.1.0
-
 	/**
-	 * Result value of
-	 * {@link RepeatingFilePasswordProvider#handleDecodeAttemptResult(String, String, Exception)}.
-	 */
-	public enum ResourceDecodeResult {
-		/** Re-throw the decoding exception. */
-		TERMINATE,
-		/** Retry the decoding process - including password prompt. */
-		RETRY,
-		/** Skip attempt and see if we can proceed without the key. */
-		IGNORE;
-	}
-
-	/**
-	 * Invoked to inform the password provider about the decoding result.
-	 * <b>Note:</b> any exception thrown from this method (including if called
-	 * to inform about success) will be propagated instead of the original (if
-	 * any was reported)
+	 * Invoked after a key has been loaded. If this raises an exception, the
+	 * original {@code error} is lost unless it is attached to that exception.
 	 *
-	 * @param resourceKey
-	 *            The resource key representing the <U>private</U> file
-	 * @param password
-	 *            The password that was attempted
-	 * @param err
-	 *            The attempt result - {@code null} for success
-	 * @return How to proceed in case of error - <u>ignored</u> if invoked in
-	 *         order to report success. <b>Note:</b> {@code null} is same as
-	 *         {@link ResourceDecodeResult#TERMINATE}.
+	 * @param uri
+	 *            identifying the key resource the key was attempted to be
+	 *            loaded from
+	 * @param attempt
+	 *            the number of times {@link #getPassphrase(URIish, int)} had
+	 *            been called; zero indicates that {@code uri} refers to a
+	 *            non-encrypted key
+	 * @param error
+	 *            {@code null} if the key was loaded successfully; otherwise an
+	 *            exception indicating why the key could not be loaded
+	 * @return {@code true} to re-try again; {@code false} to re-raise the
+	 *         {@code error} exception; Ignored if the key was loaded
+	 *         successfully, i.e., if {@code error == null}.
 	 * @throws IOException
 	 * @throws GeneralSecurityException
 	 */
-	ResourceDecodeResult handleDecodeAttemptResult(String resourceKey,
-			String password, Exception err)
+	boolean keyLoaded(URIish uri, int attempt, Exception error)
 			throws IOException, GeneralSecurityException;
 }
