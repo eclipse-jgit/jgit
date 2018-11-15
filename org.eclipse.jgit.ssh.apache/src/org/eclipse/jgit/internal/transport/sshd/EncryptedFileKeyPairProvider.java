@@ -63,8 +63,7 @@ import org.apache.sshd.common.config.keys.loader.KeyPairResourceParser;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.util.io.IoUtils;
 import org.apache.sshd.common.util.security.SecurityUtils;
-import org.eclipse.jgit.transport.sshd.RepeatingFilePasswordProvider;
-import org.eclipse.jgit.transport.sshd.RepeatingFilePasswordProvider.ResourceDecodeResult;
+import org.eclipse.jgit.internal.transport.sshd.RepeatingFilePasswordProvider.ResourceDecodeResult;
 
 /**
  * A {@link FileKeyPairProvider} that asks repeatedly for a passphrase for an

@@ -86,7 +86,6 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.sshd.JGitHostConfigEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,12 +180,12 @@ public class OpenSshServerKeyVerifier
 	 *            empty or {@code null}, in which case no default files are
 	 *            installed. The files need not exist.
 	 */
-	public OpenSshServerKeyVerifier(boolean askAboutNewFile, List<File> defaultFiles) {
+	public OpenSshServerKeyVerifier(boolean askAboutNewFile,
+			List<Path> defaultFiles) {
 		if (defaultFiles != null) {
-			for (File file : defaultFiles) {
-				Path p = file.toPath();
-				HostKeyFile newFile = new HostKeyFile(p);
-				knownHostsFiles.put(p, newFile);
+			for (Path file : defaultFiles) {
+				HostKeyFile newFile = new HostKeyFile(file);
+				knownHostsFiles.put(file, newFile);
 				this.defaultFiles.add(newFile);
 			}
 		}
