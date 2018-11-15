@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "ecbcccac_09495a92",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/AbstractClientProxyConnector.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-15T16:15:28Z",
+      "side": 1,
+      "message": "I\u0027ve refactored this and also the FilePasswordProvider stuff (see [1]) such that we don\u0027t leak upstream interfaces. I.e., no JGit API classes that are subclasses of upstream classes, or that implement upstream interfaces.\n\nAll these proxy classes have been moved to internal space.\n\n[1] https://git.eclipse.org/r/#/c/131890/10/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/RepeatingFilePasswordProvider.java@84",
+      "parentUuid": "d5080c1f_7b8996ee",
+      "revId": "7e327ce6d8195e453300355baa038ff49abe7e23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d01df3b_a3ecaee3",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/proxy/HttpClientConnector.java",
         "patchSetId": 12
