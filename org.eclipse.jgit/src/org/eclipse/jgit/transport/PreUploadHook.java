@@ -59,7 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public interface PreUploadHook {
 	/** A simple no-op hook. */
-	public static final PreUploadHook NULL = new PreUploadHook() {
+	PreUploadHook NULL = new PreUploadHook() {
 		@Override
 		public void onBeginNegotiateRound(UploadPack up,
 				Collection<? extends ObjectId> wants, int cntOffered)
@@ -96,7 +96,7 @@ public interface PreUploadHook {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
-	public void onBeginNegotiateRound(UploadPack up,
+	void onBeginNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntOffered)
 			throws ServiceMayNotContinueException;
 
@@ -120,7 +120,7 @@ public interface PreUploadHook {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
-	public void onEndNegotiateRound(UploadPack up,
+	void onEndNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntCommon,
 			int cntNotFound, boolean ready)
 			throws ServiceMayNotContinueException;
@@ -141,7 +141,7 @@ public interface PreUploadHook {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
-	public void onSendPack(UploadPack up, Collection<? extends ObjectId> wants,
+	void onSendPack(UploadPack up, Collection<? extends ObjectId> wants,
 			Collection<? extends ObjectId> haves)
 			throws ServiceMayNotContinueException;
 }

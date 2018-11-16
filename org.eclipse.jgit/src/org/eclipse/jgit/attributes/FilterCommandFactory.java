@@ -69,7 +69,7 @@ public interface FilterCommandFactory {
 	 *             thrown when the command constructor throws an
 	 *             java.io.IOException
 	 */
-	public FilterCommand create(Repository db, InputStream in,
-			OutputStream out) throws IOException;
+	FilterCommand create(Repository db, InputStream in, OutputStream out)
+			throws IOException;
 
 }

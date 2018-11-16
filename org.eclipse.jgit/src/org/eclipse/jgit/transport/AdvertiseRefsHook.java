@@ -55,7 +55,7 @@ public interface AdvertiseRefsHook {
 	 * {@link UploadPack#setAdvertisedRefs(java.util.Map)} and
 	 * {@link BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}.
 	 */
-	public static final AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
+	AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
 		@Override
 		public void advertiseRefs(UploadPack uploadPack) {
 			// Do nothing.
@@ -77,7 +77,7 @@ public interface AdvertiseRefsHook {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
-	public void advertiseRefs(UploadPack uploadPack)
+	void advertiseRefs(UploadPack uploadPack)
 			throws ServiceMayNotContinueException;
 
 	/**
@@ -90,6 +90,6 @@ public interface AdvertiseRefsHook {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
-	public void advertiseRefs(BaseReceivePack receivePack)
+	void advertiseRefs(BaseReceivePack receivePack)
 			throws ServiceMayNotContinueException;
 }

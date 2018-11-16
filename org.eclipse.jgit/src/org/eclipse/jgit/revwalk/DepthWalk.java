@@ -65,14 +65,14 @@ public interface DepthWalk {
 	 *
 	 * @return Depth to filter to.
 	 */
-	public int getDepth();
+	int getDepth();
 
 	/**
 	 * @return the deepen-since value; if not 0, this walk only returns commits
 	 *         whose commit time is at or after this limit
 	 * @since 5.2
 	 */
-	public default int getDeepenSince() {
+	default int getDeepenSince() {
 		return 0;
 	}
 
@@ -80,7 +80,7 @@ public interface DepthWalk {
 	 * @return the objects specified by the client using --shallow-exclude
 	 * @since 5.2
 	 */
-	public default List<ObjectId> getDeepenNots() {
+	default List<ObjectId> getDeepenNots() {
 		return Collections.emptyList();
 	}
 
@@ -90,20 +90,20 @@ public interface DepthWalk {
 	 *
 	 * @return flag marking commits that should become unshallow.
 	 */
-	public RevFlag getUnshallowFlag();
+	RevFlag getUnshallowFlag();
 
 	/**
 	 * Get flag marking commits that are interesting again.
 	 *
 	 * @return flag marking commits that are interesting again.
 	 */
-	public RevFlag getReinterestingFlag();
+	RevFlag getReinterestingFlag();
 
 	/**
 	 * @return flag marking commits that are to be excluded because of --shallow-exclude
 	 * @since 5.2
 	 */
-	public RevFlag getDeepenNotFlag();
+	RevFlag getDeepenNotFlag();
 
 	/** RevCommit with a depth (in commits) from a root. */
 	public static class Commit extends RevCommit {

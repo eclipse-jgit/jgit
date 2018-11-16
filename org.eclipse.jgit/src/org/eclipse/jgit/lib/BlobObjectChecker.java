@@ -55,7 +55,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
  */
 public interface BlobObjectChecker {
 	/** No-op implementation of {@link BlobObjectChecker}. */
-	public static final BlobObjectChecker NULL_CHECKER =
+	BlobObjectChecker NULL_CHECKER =
 			new BlobObjectChecker() {
 				@Override
 				public void update(byte[] in, int p, int len) {

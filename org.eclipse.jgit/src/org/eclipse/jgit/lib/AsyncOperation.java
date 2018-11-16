@@ -68,10 +68,10 @@ public interface AsyncOperation {
 	 * @return false if the task could not be cancelled, typically because it
 	 *         has already completed normally; true otherwise
 	 */
-	public boolean cancel(boolean mayInterruptIfRunning);
+	boolean cancel(boolean mayInterruptIfRunning);
 
 	/**
 	 * Release resources used by the operation, including cancellation.
 	 */
-	public void release();
+	void release();
 }

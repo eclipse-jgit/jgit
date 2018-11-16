@@ -61,7 +61,7 @@ import org.eclipse.jgit.annotations.Nullable;
  */
 public interface Ref {
 	/** Location where a {@link Ref} is stored. */
-	public static enum Storage {
+	enum Storage {
 		/**
 		 * The ref does not exist yet, updating it may create it.
 		 * <p>
@@ -131,7 +131,7 @@ public interface Ref {
 	 * @return name of this ref.
 	 */
 	@NonNull
-	public String getName();
+	String getName();
 
 	/**
 	 * Test if this reference is a symbolic reference.
@@ -144,7 +144,7 @@ public interface Ref {
 	 * @return true if this is a symbolic reference; false if this reference
 	 *         contains its own ObjectId.
 	 */
-	public abstract boolean isSymbolic();
+	boolean isSymbolic();
 
 	/**
 	 * Traverse target references until {@link #isSymbolic()} is false.
@@ -163,7 +163,7 @@ public interface Ref {
 	 * @return the reference that actually stores the ObjectId value.
 	 */
 	@NonNull
-	public abstract Ref getLeaf();
+	Ref getLeaf();
 
 	/**
 	 * Get the reference this reference points to, or {@code this}.
@@ -178,7 +178,7 @@ public interface Ref {
 	 * @return the target reference, or {@code this}.
 	 */
 	@NonNull
-	public abstract Ref getTarget();
+	Ref getTarget();
 
 	/**
 	 * Cached value of this ref.
@@ -188,7 +188,7 @@ public interface Ref {
 	 *         symbolic ref pointing to an unborn branch.
 	 */
 	@Nullable
-	public abstract ObjectId getObjectId();
+	ObjectId getObjectId();
 
 	/**
 	 * Cached value of <code>ref^{}</code> (the ref peeled to commit).
@@ -198,14 +198,14 @@ public interface Ref {
 	 *         does not refer to an annotated tag.
 	 */
 	@Nullable
-	public abstract ObjectId getPeeledObjectId();
+	ObjectId getPeeledObjectId();
 
 	/**
 	 * Whether the Ref represents a peeled tag.
 	 *
 	 * @return whether the Ref represents a peeled tag.
 	 */
-	public abstract boolean isPeeled();
+	boolean isPeeled();
 
 	/**
 	 * How was this ref obtained?
@@ -216,5 +216,5 @@ public interface Ref {
 	 * @return type of ref.
 	 */
 	@NonNull
-	public abstract Storage getStorage();
+	Storage getStorage();
 }

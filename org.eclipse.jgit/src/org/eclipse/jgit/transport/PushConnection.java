@@ -113,7 +113,7 @@ public interface PushConnection extends Connection {
 	 *             created. Non-critical errors concerning only isolated refs
 	 *             should be placed in refUpdates.
 	 */
-	public void push(final ProgressMonitor monitor,
+	void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
 			throws TransportException;
 
@@ -163,7 +163,7 @@ public interface PushConnection extends Connection {
 	 *             should be placed in refUpdates.
 	 * @since 3.0
 	 */
-	public void push(final ProgressMonitor monitor,
+	void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
 			throws TransportException;
 

@@ -61,7 +61,7 @@ public interface RefFilter {
 	/**
 	 * The default filter, allows all refs to be shown.
 	 */
-	public static final RefFilter DEFAULT = new RefFilter() {
+	RefFilter DEFAULT = new RefFilter() {
 		@Override
 		public Map<String, Ref> filter (Map<String, Ref> refs) {
 			return refs;
@@ -76,5 +76,5 @@ public interface RefFilter {
 	 * @return
 	 *            the filtered map of refs.
 	 */
-	public Map<String, Ref> filter(Map<String, Ref> refs);
+	Map<String, Ref> filter(Map<String, Ref> refs);
 }

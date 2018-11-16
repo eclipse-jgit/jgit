@@ -59,7 +59,7 @@ public interface ReflogReader {
 	 * @return the latest reflog entry, or null if no log
 	 * @throws java.io.IOException
 	 */
-	public abstract ReflogEntry getLastEntry() throws IOException;
+	ReflogEntry getLastEntry() throws IOException;
 
 	/**
 	 * Get all reflog entries in reverse order
@@ -67,7 +67,7 @@ public interface ReflogReader {
 	 * @return all reflog entries in reverse order
 	 * @throws java.io.IOException
 	 */
-	public abstract List<ReflogEntry> getReverseEntries() throws IOException;
+	List<ReflogEntry> getReverseEntries() throws IOException;
 
 	/**
 	 * Get specific entry in the reflog relative to the last entry which is
@@ -77,7 +77,7 @@ public interface ReflogReader {
 	 * @return reflog entry or null if not found
 	 * @throws java.io.IOException
 	 */
-	public abstract ReflogEntry getReverseEntry(int number) throws IOException;
+	ReflogEntry getReverseEntry(int number) throws IOException;
 
 	/**
 	 * Get all reflog entries in reverse order
@@ -87,7 +87,5 @@ public interface ReflogReader {
 	 * @return all reflog entries in reverse order
 	 * @throws java.io.IOException
 	 */
-	public abstract List<ReflogEntry> getReverseEntries(int max)
-			throws IOException;
-
+	List<ReflogEntry> getReverseEntries(int max) throws IOException;
 }

@@ -49,7 +49,7 @@ package org.eclipse.jgit.lib;
  */
 public interface ProgressMonitor {
 	/** Constant indicating the total work units cannot be predicted. */
-	public static final int UNKNOWN = 0;
+	int UNKNOWN = 0;
 
 	/**
 	 * Advise the monitor of the total number of subtasks.

@@ -68,7 +68,7 @@ public interface Connection extends AutoCloseable {
 	 *         modifiable. The collection can be empty if the remote side has no
 	 *         refs (it is an empty/newly created repository).
 	 */
-	public Map<String, Ref> getRefsMap();
+	Map<String, Ref> getRefsMap();
 
 	/**
 	 * Get the complete list of refs advertised as available for fetching or
@@ -82,7 +82,7 @@ public interface Connection extends AutoCloseable {
 	 *         collection can be empty if the remote side has no refs (it is an
 	 *         empty/newly created repository).
 	 */
-	public Collection<Ref> getRefs();
+	Collection<Ref> getRefs();
 
 	/**
 	 * Get a single advertised ref by name.
@@ -95,7 +95,7 @@ public interface Connection extends AutoCloseable {
 	 *            name of the ref to obtain.
 	 * @return the requested ref; null if the remote did not advertise this ref.
 	 */
-	public Ref getRef(String name);
+	Ref getRef(String name);
 
 	/**
 	 * {@inheritDoc}
@@ -115,7 +115,7 @@ public interface Connection extends AutoCloseable {
 	 * the signature to prevent them from doing so.
 	 */
 	@Override
-	public void close();
+	void close();
 
 	/**
 	 * Get the additional messages, if any, returned by the remote process.
@@ -132,7 +132,7 @@ public interface Connection extends AutoCloseable {
 	 *         newline (LF) character. The empty string is returned if the
 	 *         remote produced no additional messages.
 	 */
-	public String getMessages();
+	String getMessages();
 
 	/**
 	 * User agent advertised by the remote server.
@@ -141,5 +141,5 @@ public interface Connection extends AutoCloseable {
 	 *         server does not advertise this version.
 	 * @since 4.0
 	 */
-	public String getPeerUserAgent();
+	String getPeerUserAgent();
 }

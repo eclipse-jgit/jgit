@@ -62,7 +62,7 @@ public interface HttpConnectionFactory {
 	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
 	 * @throws java.io.IOException
 	 */
-	public HttpConnection create(URL url) throws IOException;
+	HttpConnection create(URL url) throws IOException;
 
 	/**
 	 * Creates a new connection to a destination defined by a
@@ -75,6 +75,6 @@ public interface HttpConnectionFactory {
 	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
 	 * @throws java.io.IOException
 	 */
-	public HttpConnection create(URL url, Proxy proxy)
+	HttpConnection create(URL url, Proxy proxy)
 			throws IOException;
 }

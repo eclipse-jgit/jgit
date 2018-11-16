@@ -109,7 +109,7 @@ public interface FetchConnection extends Connection {
 	 *             protocol error, or error on remote side, or connection was
 	 *             already used for fetch.
 	 */
-	public void fetch(final ProgressMonitor monitor,
+	void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
 			throws TransportException;
 
@@ -151,7 +151,7 @@ public interface FetchConnection extends Connection {
 	 *             already used for fetch.
 	 * @since 3.0
 	 */
-	public void fetch(final ProgressMonitor monitor,
+	void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
 			OutputStream out) throws TransportException;
 
@@ -173,7 +173,7 @@ public interface FetchConnection extends Connection {
 	 * @return true if the last fetch call implicitly included tag objects;
 	 *         false if tags were not implicitly obtained.
 	 */
-	public boolean didFetchIncludeTags();
+	boolean didFetchIncludeTags();
 
 	/**
 	 * Did the last {@link #fetch(ProgressMonitor, Collection, Set)} validate
@@ -196,7 +196,7 @@ public interface FetchConnection extends Connection {
 	 *         client side in order to succeed; false if the last fetch assumed
 	 *         the remote peer supplied a complete graph.
 	 */
-	public boolean didFetchTestConnectivity();
+	boolean didFetchTestConnectivity();
 
 	/**
 	 * Set the lock message used when holding a pack out of garbage collection.
@@ -208,7 +208,7 @@ public interface FetchConnection extends Connection {
 	 *
 	 * @param message message to use when holding a pack in place.
 	 */
-	public void setPackLockMessage(String message);
+	void setPackLockMessage(String message);
 
 	/**
 	 * All locks created by the last
@@ -218,5 +218,5 @@ public interface FetchConnection extends Connection {
 	 *         fetch. The caller must release these after refs are updated in
 	 *         order to safely permit garbage collection.
 	 */
-	public Collection<PackLock> getPackLocks();
+	Collection<PackLock> getPackLocks();
 }

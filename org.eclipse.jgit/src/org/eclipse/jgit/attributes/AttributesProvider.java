@@ -53,5 +53,5 @@ public interface AttributesProvider {
 	 *
 	 * @return the currently active attributes
 	 */
-	public Attributes getAttributes();
+	Attributes getAttributes();
 }

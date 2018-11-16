@@ -57,7 +57,7 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
  */
 public interface PostUploadHook {
 	/** A simple no-op hook. */
-	public static final PostUploadHook NULL = new PostUploadHook() {
+	PostUploadHook NULL = new PostUploadHook() {
 		@Override
 		public void onPostUpload(PackStatistics stats) {
 			// Do nothing.
@@ -72,5 +72,5 @@ public interface PostUploadHook {
 	 *            {@link org.eclipse.jgit.internal.storage.pack.PackWriter} for
 	 *            the uploaded pack
 	 */
-	public void onPostUpload(PackStatistics stats);
+	void onPostUpload(PackStatistics stats);
 }

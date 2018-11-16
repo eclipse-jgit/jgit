@@ -73,7 +73,7 @@ public interface AsyncObjectSizeQueue<T extends ObjectId> extends
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
-	public boolean next() throws MissingObjectException, IOException;
+	boolean next() throws MissingObjectException, IOException;
 
 	/**
 	 * <p>getCurrent.</p>
@@ -82,19 +82,19 @@ public interface AsyncObjectSizeQueue<T extends ObjectId> extends
 	 *         Implementations may for performance reasons discard the caller's
 	 *         ObjectId and provider their own through {@link #getObjectId()}.
 	 */
-	public T getCurrent();
+	T getCurrent();
 
 	/**
 	 * Get the ObjectId of the current object. Never null.
 	 *
 	 * @return the ObjectId of the current object. Never null.
 	 */
-	public ObjectId getObjectId();
+	ObjectId getObjectId();
 
 	/**
 	 * Get the size of the current object.
 	 *
 	 * @return the size of the current object.
 	 */
-	public long getSize();
+	long getSize();
 }

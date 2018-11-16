@@ -57,7 +57,7 @@ public interface RepositoryResolver<C> {
 	/**
 	 * Resolver configured to open nothing.
 	 */
-	public static final RepositoryResolver<?> NONE = new RepositoryResolver<Object>() {
+	RepositoryResolver<?> NONE = new RepositoryResolver<Object>() {
 		@Override
 		public Repository open(Object req, String name)
 				throws RepositoryNotFoundException {

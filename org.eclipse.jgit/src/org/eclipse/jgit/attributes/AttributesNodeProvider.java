@@ -63,7 +63,7 @@ public interface AttributesNodeProvider {
 	 * @throws java.io.IOException
 	 *             if an error is raised while parsing the attributes file
 	 */
-	public AttributesNode getInfoAttributesNode() throws IOException;
+	AttributesNode getInfoAttributesNode() throws IOException;
 
 	/**
 	 * Retrieve the {@link org.eclipse.jgit.attributes.AttributesNode} that
@@ -76,6 +76,6 @@ public interface AttributesNodeProvider {
 	 *             attributes file
 	 * @see CoreConfig#getAttributesFile()
 	 */
-	public AttributesNode getGlobalAttributesNode() throws IOException;
+	AttributesNode getGlobalAttributesNode() throws IOException;
 
 }

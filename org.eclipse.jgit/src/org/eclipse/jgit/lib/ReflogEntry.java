@@ -57,7 +57,7 @@ public interface ReflogEntry {
 	 *
 	 * @since 4.9
 	 */
-	public static final String PREFIX_CREATED = "created"; //$NON-NLS-1$
+	String PREFIX_CREATED = "created"; //$NON-NLS-1$
 
 	/**
 	 * Prefix used in reflog messages when the ref was updated with a fast
@@ -69,7 +69,7 @@ public interface ReflogEntry {
 	 *
 	 * @since 4.9
 	 */
-	public static final String PREFIX_FAST_FORWARD = "fast-forward"; //$NON-NLS-1$
+	String PREFIX_FAST_FORWARD = "fast-forward"; //$NON-NLS-1$
 
 	/**
 	 * Prefix used in reflog messages when the ref was force updated.
@@ -80,35 +80,35 @@ public interface ReflogEntry {
 	 *
 	 * @since 4.9
 	 */
-	public static final String PREFIX_FORCED_UPDATE = "forced-update"; //$NON-NLS-1$
+	String PREFIX_FORCED_UPDATE = "forced-update"; //$NON-NLS-1$
 
 	/**
 	 * Get the commit id before the change
 	 *
 	 * @return the commit id before the change
 	 */
-	public abstract ObjectId getOldId();
+	ObjectId getOldId();
 
 	/**
 	 * Get the commit id after the change
 	 *
 	 * @return the commit id after the change
 	 */
-	public abstract ObjectId getNewId();
+	ObjectId getNewId();
 
 	/**
 	 * Get user performing the change
 	 *
 	 * @return user performing the change
 	 */
-	public abstract PersonIdent getWho();
+	PersonIdent getWho();
 
 	/**
 	 * Get textual description of the change
 	 *
 	 * @return textual description of the change
 	 */
-	public abstract String getComment();
+	String getComment();
 
 	/**
 	 * Parse checkout
@@ -117,6 +117,6 @@ public interface ReflogEntry {
 	 *         information about a branch switch, or null if the entry is not a
 	 *         checkout
 	 */
-	public abstract CheckoutEntry parseCheckout();
+	CheckoutEntry parseCheckout();
 
 }

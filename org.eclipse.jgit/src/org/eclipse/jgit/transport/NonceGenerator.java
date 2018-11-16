@@ -66,7 +66,7 @@ public interface NonceGenerator {
 	 * @return The nonce to be signed by the pusher
 	 * @throws java.lang.IllegalStateException
 	 */
-	public String createNonce(Repository db, long timestamp)
+	String createNonce(Repository db, long timestamp)
 			throws IllegalStateException;
 
 	/**
@@ -91,6 +91,6 @@ public interface NonceGenerator {
 	 * @return a NonceStatus indicating the trustworthiness of the received
 	 *         nonce.
 	 */
-	public NonceStatus verify(String received, String sent,
+	NonceStatus verify(String received, String sent,
 			Repository db, boolean allowSlop, int slop);
 }
