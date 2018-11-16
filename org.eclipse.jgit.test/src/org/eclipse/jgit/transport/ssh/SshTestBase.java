@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -666,6 +667,137 @@ public abstract class SshTestBase extends SshTestHarness {
 				"Port " + testPort, //
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	@Test
+	public void testPasswordAuth() throws Exception {
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications password");
+	}
+
+	@Test
+	public void testPasswordAuthSeveralTimes() throws Exception {
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass", TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications password");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testPasswordAuthWrongPassword() throws Exception {
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass");
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications password");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testPasswordAuthNoPassword() throws Exception {
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider();
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications password");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testPasswordAuthCorrectPasswordTooLate() throws Exception {
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass", "wrongpass",
+				TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications password");
+	}
+
+	@Test
+	public void testKeyboardInteractiveAuth() throws Exception {
+		server.enableKeyboardInteractiveAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications keyboard-interactive");
+	}
+
+	@Test
+	public void testKeyboardInteractiveAuthSeveralTimes() throws Exception {
+		server.enableKeyboardInteractiveAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass", TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications keyboard-interactive");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testKeyboardInteractiveAuthWrongPassword() throws Exception {
+		server.enableKeyboardInteractiveAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass");
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications keyboard-interactive");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testKeyboardInteractiveAuthNoPassword() throws Exception {
+		server.enableKeyboardInteractiveAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider();
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications keyboard-interactive");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testKeyboardInteractiveAuthCorrectPasswordTooLate()
+			throws Exception {
+		server.enableKeyboardInteractiveAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass", "wrongpass",
+				TEST_USER.toUpperCase(Locale.ROOT));
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"PreferredAuthentications keyboard-interactive");
 	}
 
 	@Theory
