@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -72,6 +73,7 @@ import org.apache.sshd.server.auth.UserAuth;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
+import org.apache.sshd.server.auth.keyboard.DefaultKeyboardInteractiveAuthenticator;
 import org.apache.sshd.server.command.AbstractCommandSupport;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
@@ -184,14 +186,18 @@ public class SshTestGitServer {
 
 	private List<NamedFactory<UserAuth>> getAuthFactories() {
 		List<NamedFactory<UserAuth>> authentications = new ArrayList<>();
-		authentications.add(
-				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY);
 		authentications.add(new UserAuthGSSFactory() {
 			@Override
 			public UserAuth create() {
 				return new FakeUserAuthGSS();
 			}
 		});
+		authentications.add(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY);
+		authentications.add(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_KB_INTERACTIVE_FACTORY);
+		authentications.add(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_PASSWORD_FACTORY);
 		return authentications;
 	}
 
@@ -278,6 +284,30 @@ public class SshTestGitServer {
 				hostKeys.add(pair);
 			}
 		}
+	}
+
+	/**
+	 * Enable password authentication. The server will accept the test user's
+	 * name, converted to all upper-case, as password.
+	 */
+	public void enablePasswordAuthentication() {
+		server.setPasswordAuthenticator((user, pwd, session) -> {
+			return testUser.equals(user)
+					&& testUser.toUpperCase(Locale.ROOT).equals(pwd);
+		});
+	}
+
+	/**
+	 * Enable keyboard-interactive authentication. The server will accept the
+	 * test user's name, converted to all upper-case, as password.
+	 */
+	public void enableKeyboardInteractiveAuthentication() {
+		server.setPasswordAuthenticator((user, pwd, session) -> {
+			return testUser.equals(user)
+					&& testUser.toUpperCase(Locale.ROOT).equals(pwd);
+		});
+		server.setKeyboardInteractiveAuthenticator(
+				DefaultKeyboardInteractiveAuthenticator.INSTANCE);
 	}
 
 	/**

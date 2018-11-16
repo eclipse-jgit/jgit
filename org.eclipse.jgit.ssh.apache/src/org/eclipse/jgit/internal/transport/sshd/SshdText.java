@@ -56,6 +56,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String knownHostsUnknownKeyType;
 	/***/ public String knownHostsUserAskCreationMsg;
 	/***/ public String knownHostsUserAskCreationPrompt;
+	/***/ public String passwordPrompt;
 	/***/ public String proxyCannotAuthenticate;
 	/***/ public String proxyHttpFailure;
 	/***/ public String proxyHttpInvalidUserName;

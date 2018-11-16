@@ -63,7 +63,6 @@ import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.auth.UserAuth;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
-import org.apache.sshd.client.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
@@ -75,6 +74,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
+import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
@@ -465,21 +465,23 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	/**
 	 * Gets the user authentication mechanisms (or rather, factories for them).
-	 * By default this returns gssapi-with-mic, public-key,
-	 * keyboard-interactive, and password, in that order. The order is only
-	 * significant if the ssh config does <em>not</em> set
-	 * {@code PreferredAuthentications}; if it is set, the order defined there
-	 * will be taken.
+	 * By default this returns gssapi-with-mic, public-key, password, and
+	 * keyboard-interactive, in that order. The order is only significant if the
+	 * ssh config does <em>not</em> set {@code PreferredAuthentications}; if it
+	 * is set, the order defined there will be taken.
 	 *
 	 * @return the non-empty list of factories.
 	 */
 	@NonNull
 	private List<NamedFactory<UserAuth>> getUserAuthFactories() {
+		// About the order of password and keyboard-interactive, see upstream
+		// bug https://issues.apache.org/jira/projects/SSHD/issues/SSHD-866 .
+		// Password auth doesn't have this problem.
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
 						JGitPublicKeyAuthFactory.INSTANCE,
-						UserAuthKeyboardInteractiveFactory.INSTANCE,
-						UserAuthPasswordFactory.INSTANCE));
+						JGitPasswordAuthFactory.INSTANCE,
+						UserAuthKeyboardInteractiveFactory.INSTANCE));
 	}
 
 	/**

@@ -105,23 +105,6 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 			String username) throws IOException {
 		HostEntry entry = configFile.lookup(host, port, username);
 		JGitHostConfigEntry config = new JGitHostConfigEntry();
-		String hostName = entry.getValue(SshConstants.HOST_NAME);
-		if (hostName == null || hostName.isEmpty()) {
-			hostName = host;
-		}
-		config.setHostName(hostName);
-		config.setHost(SshdSocketAddress.isIPv6Address(hostName) ? "" : hostName); //$NON-NLS-1$
-		String user = username != null && !username.isEmpty() ? username
-				: entry.getValue(SshConstants.USER);
-		if (user == null || user.isEmpty()) {
-			user = configFile.getLocalUserName();
-		}
-		config.setUsername(user);
-		int p = port >= 0 ? port : positive(entry.getValue(SshConstants.PORT));
-		config.setPort(p >= 0 ? p : SshConstants.SSH_DEFAULT_PORT);
-		config.setIdentities(entry.getValues(SshConstants.IDENTITY_FILE));
-		config.setIdentitiesOnly(
-				flag(entry.getValue(SshConstants.IDENTITIES_ONLY)));
 		// Apache MINA conflates all keys, even multi-valued ones, in one map
 		// and puts multiple values separated by commas in one string. See
 		// the javadoc on HostConfigEntry.
@@ -135,6 +118,28 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 		config.setProperties(allOptions);
 		// The following is an extension from JGitHostConfigEntry
 		config.setMultiValuedOptions(entry.getMultiValuedOptions());
+		// Also make sure the underlying properties are set
+		String hostName = entry.getValue(SshConstants.HOST_NAME);
+		if (hostName == null || hostName.isEmpty()) {
+			hostName = host;
+		}
+		config.setHostName(hostName);
+		config.setProperty(SshConstants.HOST_NAME, hostName);
+		config.setHost(SshdSocketAddress.isIPv6Address(hostName) ? "" : hostName); //$NON-NLS-1$
+		String user = username != null && !username.isEmpty() ? username
+				: entry.getValue(SshConstants.USER);
+		if (user == null || user.isEmpty()) {
+			user = configFile.getLocalUserName();
+		}
+		config.setUsername(user);
+		config.setProperty(SshConstants.USER, user);
+		int p = port >= 0 ? port : positive(entry.getValue(SshConstants.PORT));
+		config.setPort(p >= 0 ? p : SshConstants.SSH_DEFAULT_PORT);
+		config.setProperty(SshConstants.PORT,
+				Integer.toString(config.getPort()));
+		config.setIdentities(entry.getValues(SshConstants.IDENTITY_FILE));
+		config.setIdentitiesOnly(
+				flag(entry.getValue(SshConstants.IDENTITIES_ONLY)));
 		return config;
 	}
 

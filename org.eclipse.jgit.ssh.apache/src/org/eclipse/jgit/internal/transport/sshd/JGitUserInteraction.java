@@ -45,9 +45,13 @@ package org.eclipse.jgit.internal.transport.sshd;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.sshd.client.auth.keyboard.UserInteraction;
 import org.apache.sshd.client.session.ClientSession;
+import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.SessionListener;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
@@ -62,6 +66,12 @@ public class JGitUserInteraction implements UserInteraction {
 	private final CredentialsProvider provider;
 
 	/**
+	 * We need to reset the JGit credentials provider if we have repeated
+	 * attempts.
+	 */
+	private final Map<Session, SessionListener> ongoing = new ConcurrentHashMap<>();
+
+	/**
 	 * Creates a new {@link JGitUserInteraction} for interactive password input
 	 * based on the given {@link CredentialsProvider}.
 	 *
@@ -74,13 +84,13 @@ public class JGitUserInteraction implements UserInteraction {
 
 	@Override
 	public boolean isInteractionAllowed(ClientSession session) {
-		return provider.isInteractive();
+		return provider != null && provider.isInteractive();
 	}
 
 	@Override
 	public String[] interactive(ClientSession session, String name,
 			String instruction, String lang, String[] prompt, boolean[] echo) {
-		// This is keyboard-interactive authentication
+		// This is keyboard-interactive or password authentication
 		List<CredentialItem> items = new ArrayList<>();
 		int numberOfHiddenInputs = 0;
 		for (int i = 0; i < prompt.length; i++) {
@@ -120,6 +130,19 @@ public class JGitUserInteraction implements UserInteraction {
 		}
 		URIish uri = toURI(session.getUsername(),
 				(InetSocketAddress) session.getConnectAddress());
+		// Reset the provider for this URI if it's not the first attempt and we
+		// have hidden inputs. Otherwise add a session listener that will remove
+		// itself once authenticated.
+		if (numberOfHiddenInputs > 0) {
+			SessionListener listener = ongoing.get(session);
+			if (listener != null) {
+				provider.reset(uri);
+			} else {
+				listener = new SessionAuthMarker(ongoing);
+				ongoing.put(session, listener);
+				session.addSessionListener(listener);
+			}
+		}
 		if (provider.get(uri, items)) {
 			return items.stream().map(i -> {
 				if (i instanceof CredentialItem.Password) {
@@ -165,5 +188,32 @@ public class JGitUserInteraction implements UserInteraction {
 				.setHost(host) //
 				.setPort(port) //
 				.setUser(userName);
+	}
+
+	/**
+	 * A {@link SessionListener} that removes itself from the session when
+	 * authentication is done or the session is closed.
+	 */
+	private static class SessionAuthMarker implements SessionListener {
+
+		private final Map<Session, SessionListener> registered;
+
+		public SessionAuthMarker(Map<Session, SessionListener> registered) {
+			this.registered = registered;
+		}
+
+		@Override
+		public void sessionEvent(Session session, SessionListener.Event event) {
+			if (event == SessionListener.Event.Authenticated) {
+				session.removeSessionListener(this);
+				registered.remove(session, this);
+			}
+		}
+
+		@Override
+		public void sessionClosed(Session session) {
+			session.removeSessionListener(this);
+			registered.remove(session, this);
+		}
 	}
 }
