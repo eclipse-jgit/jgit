@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea3a824d_daa7c861",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-16T00:29:19Z",
+      "side": 1,
+      "message": "I\u0027m still trying to wrap my head around this API. What would a caller look like? If the parameters are reftable update index values, would it make sense for this to be a method on DfsReftableDatabase only?",
+      "revId": "f1bb9c974d650fb68377f688a151822c17fa1ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
