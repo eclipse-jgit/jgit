@@ -16,6 +16,24 @@
       "revId": "f1bb9c974d650fb68377f688a151822c17fa1ea5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9682e4c8_62ee0812",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-16T02:59:21Z",
+      "side": 1,
+      "message": "Discussed in person, and I think we concluded that a Ref#getUpdateIndex accessor will be easier to use and understand.",
+      "parentUuid": "ea3a824d_daa7c861",
+      "revId": "f1bb9c974d650fb68377f688a151822c17fa1ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
