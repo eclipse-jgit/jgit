@@ -42,62 +42,59 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.CancellationException;
 
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
-import org.eclipse.jgit.annotations.NonNull;
+import org.apache.sshd.client.ClientAuthenticationManager;
+import org.apache.sshd.client.auth.keyboard.UserInteraction;
+import org.apache.sshd.client.auth.password.UserAuthPassword;
+import org.apache.sshd.client.session.ClientSession;
 
 /**
- * A {@link HostConfigEntry} that provides access to the multi-valued keys as
- * lists of strings. The super class treats them as single strings containing
- * comma-separated lists.
- *
- * @since 5.2
+ * A password authentication handler that uses the {@link JGitUserInteraction}
+ * to ask the user for the password. It also respects the
+ * {@code NumberOfPasswordPrompts} ssh config.
  */
-public class JGitHostConfigEntry extends HostConfigEntry {
+public class JGitPasswordAuthentication extends UserAuthPassword {
 
-	private Map<String, List<String>> multiValuedOptions;
+	private int maxAttempts;
+
+	private int attempts;
 
 	@Override
-	public String getProperty(String name, String defaultValue) {
-		// Upstream bug fix (SSHD-867): if there are _no_ properties at all, the
-		// super implementation returns always null even if a default value is
-		// given.
-		//
-		// See https://issues.apache.org/jira/projects/SSHD/issues/SSHD-867
-		//
-		// TODO: remove this override once we're based on sshd > 2.1.0
-		Map<String, String> properties = getProperties();
-		if (properties == null || properties.isEmpty()) {
-			return defaultValue;
+	public void init(ClientSession session, String service) throws Exception {
+		super.init(session, service);
+		maxAttempts = Math.max(1,
+				session.getIntProperty(
+						ClientAuthenticationManager.PASSWORD_PROMPTS,
+						ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS));
+		attempts = 0;
+	}
+
+	@Override
+	protected boolean sendAuthDataRequest(ClientSession session, String service)
+			throws Exception {
+		if (++attempts > maxAttempts) {
+			return false;
 		}
-		return super.getProperty(name, defaultValue);
-	}
-
-	/**
-	 * Sets the multi-valued options.
-	 *
-	 * @param options
-	 *            to set, may be {@code null} to set an empty map
-	 */
-	public void setMultiValuedOptions(Map<String, List<String>> options) {
-		multiValuedOptions = options;
-	}
-
-	/**
-	 * Retrieves all multi-valued options.
-	 *
-	 * @return an unmodifiable map
-	 */
-	@NonNull
-	public Map<String, List<String>> getMultiValuedOptions() {
-		Map<String, List<String>> options = multiValuedOptions;
-		if (options == null) {
-			return Collections.emptyMap();
+		UserInteraction interaction = session.getUserInteraction();
+		if (!interaction.isInteractionAllowed(session)) {
+			return false;
 		}
-		return Collections.unmodifiableMap(options);
+		String password = getPassword(session, interaction);
+		if (password == null) {
+			throw new CancellationException();
+		}
+		// sendPassword takes a buffer as first argument, but actually doesn't
+		// use it and creates its own buffer...
+		sendPassword(null, session, password, password);
+		return true;
 	}
 
+	private String getPassword(ClientSession session,
+			UserInteraction interaction) {
+		String[] results = interaction.interactive(session, null, null, "", //$NON-NLS-1$
+				new String[] { SshdText.get().passwordPrompt },
+				new boolean[] { false });
+		return (results == null || results.length == 0) ? null : results[0];
+	}
 }
