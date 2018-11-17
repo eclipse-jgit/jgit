@@ -50,8 +50,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
-
 /**
  * A default implementation of a {@link ProxyDataFactory} based on the standard
  * {@link java.net.ProxySelector}.
@@ -61,8 +59,7 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 public class DefaultProxyDataFactory implements ProxyDataFactory {
 
 	@Override
-	public ProxyData get(HostConfigEntry hostConfig,
-			InetSocketAddress remoteAddress) {
+	public ProxyData get(InetSocketAddress remoteAddress) {
 		try {
 			List<Proxy> proxies = ProxySelector.getDefault()
 					.select(new URI(Proxy.Type.SOCKS.name(),

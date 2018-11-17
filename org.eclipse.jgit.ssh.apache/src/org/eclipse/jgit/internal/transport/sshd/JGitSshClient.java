@@ -81,8 +81,6 @@ import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
 import org.eclipse.jgit.transport.sshd.ProxyData;
 import org.eclipse.jgit.transport.sshd.ProxyDataFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Customized {@link SshClient} for JGit. It creates specialized
@@ -90,7 +88,7 @@ import org.slf4j.LoggerFactory;
  * were created for, and it loads all KeyPair identities lazily.
  */
 public class JGitSshClient extends SshClient {
-	private static Logger LOG = LoggerFactory.getLogger(JGitSshClient.class);
+
 	/**
 	 * We need access to this during the constructor of the ClientSession,
 	 * before setConnectAddress() can have been called. So we have to remember
@@ -146,7 +144,7 @@ public class JGitSshClient extends SshClient {
 		setAttribute(HOST_CONFIG_ENTRY, hostConfig);
 		setAttribute(ORIGINAL_REMOTE_ADDRESS, address);
 		// Proxy support
-		ProxyData proxy = getProxyData(hostConfig, address);
+		ProxyData proxy = getProxyData(address);
 		if (proxy != null) {
 			address = configureProxy(proxy, address);
 			proxy.clearPassword();
@@ -161,10 +159,9 @@ public class JGitSshClient extends SshClient {
 		}
 	}
 
-	private ProxyData getProxyData(HostConfigEntry hostConfig,
-			InetSocketAddress remoteAddress) {
+	private ProxyData getProxyData(InetSocketAddress remoteAddress) {
 		ProxyDataFactory factory = getProxyDatabase();
-		return factory == null ? null : factory.get(hostConfig, remoteAddress);
+		return factory == null ? null : factory.get(remoteAddress);
 	}
 
 	private InetSocketAddress configureProxy(ProxyData proxyData,
@@ -187,7 +184,7 @@ public class JGitSshClient extends SshClient {
 							proxyData.getUser(), proxyData.getPassword()));
 			return address;
 		default:
-			LOG.warn(format(SshdText.get().unknownProxyProtocol,
+			log.warn(format(SshdText.get().unknownProxyProtocol,
 					proxy.type().name()));
 			return remoteAddress;
 		}
