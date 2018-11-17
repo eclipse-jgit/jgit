@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bf2cdc0_b01e4833",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitSshClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-17T16:43:22Z",
+      "side": 1,
+      "message": "In other places I had simply used the logger provided by sshd. (\"log.warn(...)\")",
+      "revId": "6c14d273faa89ab1657e818315b68f3bd672ff87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
