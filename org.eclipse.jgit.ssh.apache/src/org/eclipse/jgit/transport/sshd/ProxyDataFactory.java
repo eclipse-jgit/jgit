@@ -44,8 +44,6 @@ package org.eclipse.jgit.transport.sshd;
 
 import java.net.InetSocketAddress;
 
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
-
 /**
  * Interface for obtaining {@link ProxyData} to connect through some proxy.
  *
@@ -59,12 +57,10 @@ public interface ProxyDataFactory {
 	 * {@link ProxyData} contains a password, the {@link SshdSession} will clear
 	 * it once it is no longer needed.
 	 *
-	 * @param hostConfig
-	 *            from the ssh config that we're going to connect for
 	 * @param remoteAddress
 	 *            to connect to
 	 * @return the {@link ProxyData} or {@code null} if a direct connection is
 	 *         to be made
 	 */
-	ProxyData get(HostConfigEntry hostConfig, InetSocketAddress remoteAddress);
+	ProxyData get(InetSocketAddress remoteAddress);
 }
