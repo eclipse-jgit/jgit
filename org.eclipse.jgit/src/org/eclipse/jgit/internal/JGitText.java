@@ -267,9 +267,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotCheckOutBecauseOfConflicts;
 	/***/ public String couldNotDeleteLockFileShouldNotHappen;
 	/***/ public String couldNotDeleteTemporaryIndexFileShouldNotHappen;
+	/***/ public String couldNotFindTabInLine;
+	/***/ public String couldNotFindSixTabsInLine;
 	/***/ public String couldNotGetAdvertisedRef;
 	/***/ public String couldNotGetRepoStatistics;
 	/***/ public String couldNotLockHEAD;
+	/***/ public String couldNotPersistCookies;
+	/***/ public String couldNotReadCookieFile;
 	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotReadObjectWhileParsingCommit;
 	/***/ public String couldNotRenameDeleteOldIndex;
