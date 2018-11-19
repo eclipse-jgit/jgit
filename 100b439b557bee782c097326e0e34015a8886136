@@ -16,6 +16,24 @@
       "revId": "100b439b557bee782c097326e0e34015a8886136",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e15efd_5d1a4359",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a22b7535_63fe45c9",
+      "revId": "100b439b557bee782c097326e0e34015a8886136",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
