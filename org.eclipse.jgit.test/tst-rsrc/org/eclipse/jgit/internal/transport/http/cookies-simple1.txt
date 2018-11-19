@@ -1,0 +1,2 @@
+some-domain1	TRUE	/some/path1	FALSE	1893499200000	key1	valueFromSimple1
+some-domain1	TRUE	/some/path1	FALSE	1893499200000	key2	valueFromSimple1

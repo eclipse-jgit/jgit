@@ -30,4 +30,44 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/HttpConfig.java" type="org.eclipse.jgit.transport.HttpConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="COOKIE_FILE_CACHE_LIMIT_KEY"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="COOKIE_FILE_KEY"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="SAVE_COOKIES_KEY"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/HttpSupport.java" type="org.eclipse.jgit.util.HttpSupport">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.HttpSupport"/>
+                <message_argument value="HDR_COOKIE"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.HttpSupport"/>
+                <message_argument value="HDR_SET_COOKIE"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.HttpSupport"/>
+                <message_argument value="HDR_SET_COOKIE2"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
