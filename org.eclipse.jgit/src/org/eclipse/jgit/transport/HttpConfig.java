@@ -89,6 +89,12 @@ public class HttpConfig {
 	/** git config key for the "sslVerify" setting. */
 	public static final String SSL_VERIFY_KEY = "sslVerify"; //$NON-NLS-1$
 
+	/** git config key for the "cookieFile" setting. */
+	public static final String COOKIE_FILE_KEY = "cookieFile"; //$NON-NLS-1$
+
+	/** git config key for the "saveCookies" setting. */
+	public static final String SAVE_COOKIES_KEY = "saveCookies"; //$NON-NLS-1$
+
 	private static final String MAX_REDIRECT_SYSTEM_PROPERTY = "http.maxRedirects"; //$NON-NLS-1$
 
 	private static final int DEFAULT_MAX_REDIRECTS = 5;
@@ -153,6 +159,10 @@ public class HttpConfig {
 
 	private int maxRedirects;
 
+	private String cookieFile;
+
+	private boolean saveCookies;
+
 	/**
 	 * Get the "http.postBuffer" setting
 	 *
@@ -187,6 +197,24 @@ public class HttpConfig {
 	 */
 	public int getMaxRedirects() {
 		return maxRedirects;
+	}
+
+	/**
+	 * Get the "http.cookieFile" setting
+	 *
+	 * @return the value of the "http.cookieFile" setting
+	 */
+	public String getCookieFile() {
+		return cookieFile;
+	}
+
+	/**
+	 * Get the "http.saveCookies" setting
+	 *
+	 * @return the value of the "http.saveCookies" setting
+	 */
+	public boolean getSaveCookies() {
+		return saveCookies;
 	}
 
 	/**
@@ -251,6 +279,12 @@ public class HttpConfig {
 			if (newMaxRedirects >= 0) {
 				redirectLimit = newMaxRedirects;
 			}
+			cookieFile = config.getString(HTTP, match, COOKIE_FILE_KEY);
+			saveCookies = config.getBoolean(HTTP, match, SAVE_COOKIES_KEY,
+					false);
+		} else {
+			cookieFile = config.getString(HTTP, null, COOKIE_FILE_KEY);
+			saveCookies = config.getBoolean(HTTP, SAVE_COOKIES_KEY, false);
 		}
 		postBuffer = postBufferSize;
 		sslVerify = sslVerifyFlag;

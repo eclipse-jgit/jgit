@@ -169,6 +169,15 @@ public class HttpSupport {
 	/** The {@code WWW-Authenticate} header. */
 	public static final String HDR_WWW_AUTHENTICATE = "WWW-Authenticate"; //$NON-NLS-1$
 
+	/** The {@code Cookie} header. */
+	public static final String HDR_COOKIE = "Cookie"; //$NON-NLS-1$
+
+	/** The {@code Set-Cookie} header. */
+	public static final String HDR_SET_COOKIE = "Set-Cookie"; //$NON-NLS-1$
+
+	/** The {@code Set-Cookie2} header. */
+	public static final String HDR_SET_COOKIE2 = "Set-Cookie2"; //$NON-NLS-1$
+
 	/**
 	 * URL encode a value string into an output buffer.
 	 *

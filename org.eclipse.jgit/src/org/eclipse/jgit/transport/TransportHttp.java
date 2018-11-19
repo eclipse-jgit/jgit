@@ -54,8 +54,11 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_COOKIE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_LOCATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
+import static org.eclipse.jgit.util.HttpSupport.HDR_SET_COOKIE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_SET_COOKIE2;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
@@ -68,11 +71,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.cert.CertPathBuilderException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
@@ -81,9 +88,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -116,6 +126,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -274,6 +285,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean sslFailure = false;
 
+	/**
+	 * All stored cookies bound to this repo (independent of the baseUrl)
+	 */
+	private final Set<HttpCookie> cookies;
+
+	/**
+	 * The cookies to be send with each request to the given {@link #baseUrl}.
+	 * Filtered view on top of {@link #cookies} where only cookies which apply
+	 * to the current url are left. This set needs to be filtered for expired
+	 * entries each time prior to sending them.
+	 */
+	private final Set<HttpCookie> relevantCookies;
+
 	TransportHttp(Repository local, URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
@@ -281,6 +305,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		http = new HttpConfig(local.getConfig(), uri);
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
+		cookies = getCookiesFromConfig(http);
+		relevantCookies = filterCookies(cookies, baseUrl);
 	}
 
 	private URL toURL(URIish urish) throws MalformedURLException {
@@ -321,6 +347,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		http = new HttpConfig(uri);
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
+		cookies = getCookiesFromConfig(http);
+		relevantCookies = filterCookies(cookies, baseUrl);
 	}
 
 	/**
@@ -512,6 +540,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					conn.setRequestProperty(HDR_ACCEPT, "*/*"); //$NON-NLS-1$
 				}
 				final int status = HttpSupport.response(conn);
+				processResponseCookies(conn.getHeaderFields());
 				switch (status) {
 				case HttpConnection.HTTP_OK:
 					// Check if HttpConnection did some authentication in the
@@ -522,7 +551,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							&& conn.getHeaderField(HDR_WWW_AUTHENTICATE) != null)
 						authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
 					return conn;
-
 				case HttpConnection.HTTP_NOT_FOUND:
 					throw createNotFoundException(uri, u,
 							conn.getResponseMessage());
@@ -600,6 +628,51 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				throw new TransportException(uri, MessageFormat.format(JGitText.get().cannotOpenService, service), e);
 			}
 		}
+	}
+
+	private void processResponseCookies(Map<String, List<String>> headerFields) {
+		if (http.getCookieFile() != null && http.getSaveCookies()) {
+			List<HttpCookie> foundCookies = new LinkedList<>();
+
+			// go through all header to find the case-insensitive cookie headers
+			for (Map.Entry<String, List<String>> headerField : headerFields.entrySet()) {
+				// ignore headers not having a value
+				if (headerField.getValue() == null
+						|| headerField.getValue().size() == 0) {
+					continue;
+				}
+				if (headerField.getKey().equalsIgnoreCase(HDR_SET_COOKIE)) {
+					foundCookies.addAll(processCookieHeader(HDR_SET_COOKIE, headerField.getValue()));
+				} else if (headerField.getKey().equalsIgnoreCase(HDR_SET_COOKIE2)) {
+					foundCookies.addAll(processCookieHeader(HDR_SET_COOKIE2, headerField.getValue()));
+				}
+			}
+
+			if (foundCookies.size() > 0) {
+				// update cookie list with the newly received cookies!
+				cookies.addAll(foundCookies);
+				relevantCookies.addAll(foundCookies);
+				try {
+					// persist the cookie file containing all(!) cookies as we
+					// might overwrite existing entries
+					// according to {@link HttpCookie#equals(...)}
+					NetscapeCookieFile.write(Paths.get(http.getCookieFile()),
+							cookies, baseUrl, new Date());
+				} catch (IOException e) {
+					LOG.warn("Could not persist received cookies.", e); //$NON-NLS-1$
+				}
+			}
+		}
+	}
+
+	private List<HttpCookie> processCookieHeader(String headerKey,
+			List<String> headerValues) {
+		List<HttpCookie> foundCookies = new LinkedList<>();
+		for (String headerValue : headerValues) {
+			foundCookies
+					.addAll(HttpCookie.parse(headerKey + ":" + headerValue)); //$NON-NLS-1$
+		}
+		return foundCookies;
 	}
 
 	private static class CredentialItems {
@@ -853,6 +926,20 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
 		}
+		// set cookie header if necessary
+		StringBuilder cookieHeaderValue = new StringBuilder();
+		for (HttpCookie cookie : relevantCookies) {
+			if (!cookie.hasExpired()) {
+				if (cookieHeaderValue.length() > 0) {
+					cookieHeaderValue.append(";"); //$NON-NLS-1$
+				}
+				cookieHeaderValue.append(cookie.toString());
+			}
+		}
+		if (cookieHeaderValue.length() >= 0) {
+			conn.setRequestProperty(HDR_COOKIE, cookieHeaderValue.toString());
+		}
+
 		if (this.headers != null && !this.headers.isEmpty()) {
 			for (Map.Entry<String, String> entry : this.headers.entrySet())
 				conn.setRequestProperty(entry.getKey(), entry.getValue());
@@ -872,6 +959,52 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	IOException wrongContentType(String expType, String actType) {
 		final String why = MessageFormat.format(JGitText.get().expectedReceivedContentType, expType, actType);
 		return new TransportException(uri, why);
+	}
+
+	private static Set<HttpCookie> getCookiesFromConfig(HttpConfig config) {
+		if (!StringUtils.isEmptyOrNull(config.getCookieFile())) {
+			// is it a real file?
+			Path cookieFile = Paths.get(config.getCookieFile());
+			if (Files.exists(cookieFile)) {
+				try {
+					return NetscapeCookieFile.read(cookieFile, new Date());
+				} catch (IllegalArgumentException | IOException e) {
+					LOG.warn("Could not read cookie file '{}'", cookieFile, e); //$NON-NLS-1$
+				}
+			}
+		}
+		return Collections.emptySet();
+	}
+
+	private static Set<HttpCookie> filterCookies(Set<HttpCookie> allCookies,
+			URL url) {
+		Set<HttpCookie> filteredCookies = new HashSet<>();
+		// filter out the relevant ones
+		for (HttpCookie cookie : allCookies) {
+			if (cookie.hasExpired()) {
+				continue;
+			}
+			if (!HttpCookie.domainMatches(cookie.getDomain(), url.getHost())) {
+				continue;
+			}
+			// path matching according to
+			// https://tools.ietf.org/html/rfc6265#section-5.1.4
+			if (!cookie.getPath().equals(url.getPath())) {
+				// is cookie path ending with "/" and a prefix of url path?
+				String cookiePath = cookie.getPath();
+				if (!cookiePath.endsWith("/")) { //$NON-NLS-1$
+					cookiePath += "/"; //$NON-NLS-1$
+				}
+				if (!url.getPath().startsWith(cookiePath)) {
+					continue;
+				}
+			}
+			if (cookie.getSecure() && !"https".equals(url.getProtocol())) { //$NON-NLS-1$
+				continue;
+			}
+			filteredCookies.add(cookie);
+		}
+		return filteredCookies;
 	}
 
 	private boolean isSmartHttp(HttpConnection c, String service) {
