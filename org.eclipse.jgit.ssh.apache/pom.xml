@@ -63,6 +63,7 @@
   <properties>
     <translate-qualifier/>
     <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
+    <eddsa-version>0.3.0</eddsa-version>
   </properties>
 
   <dependencies>
@@ -82,6 +83,12 @@
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
       <version>${apache-sshd-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.i2p.crypto</groupId>
+      <artifactId>eddsa</artifactId>
+      <version>${eddsa-version}</version>
     </dependency>
 
     <dependency>

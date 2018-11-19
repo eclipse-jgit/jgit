@@ -31,7 +31,8 @@ Export-Package: org.eclipse.jgit.internal.transport.sshd;version="5.2.0";x-inter
    org.eclipse.jgit.util,
    org.apache.sshd.client.session,
    org.apache.sshd.client.keyverifier"
-Import-Package: org.apache.sshd.agent;version="[2.0.0,2.1.0)",
+Import-Package: net.i2p.crypto.eddsa;version="[0.3.0,0.4.0)",
+ org.apache.sshd.agent;version="[2.0.0,2.1.0)",
  org.apache.sshd.client;version="[2.0.0,2.1.0)",
  org.apache.sshd.client.auth;version="[2.0.0,2.1.0)",
  org.apache.sshd.client.auth.keyboard;version="[2.0.0,2.1.0)",
