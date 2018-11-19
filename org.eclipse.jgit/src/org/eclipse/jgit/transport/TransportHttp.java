@@ -54,8 +54,11 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_COOKIE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_LOCATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
+import static org.eclipse.jgit.util.HttpSupport.HDR_SET_COOKIE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_SET_COOKIE2;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
@@ -68,11 +71,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.cert.CertPathBuilderException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
@@ -84,6 +91,8 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -100,6 +109,8 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
+import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
+import org.eclipse.jgit.internal.transport.http.NetscapeCookieFileCache;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -116,6 +127,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -274,6 +286,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean sslFailure = false;
 
+	/**
+	 * All stored cookies bound to this repo (independent of the baseUrl)
+	 */
+	private final NetscapeCookieFile cookieFile;
+
+	/**
+	 * The cookies to be sent with each request to the given {@link #baseUrl}.
+	 * Filtered view on top of {@link #cookieFile} where only cookies which
+	 * apply to the current url are left. This set needs to be filtered for
+	 * expired entries each time prior to sending them.
+	 */
+	private final Set<HttpCookie> relevantCookies;
+
 	TransportHttp(Repository local, URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
@@ -281,6 +306,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		http = new HttpConfig(local.getConfig(), uri);
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
+		cookieFile = getCookieFileFromConfig(http);
+		relevantCookies = filterCookies(cookieFile, baseUrl);
 	}
 
 	private URL toURL(URIish urish) throws MalformedURLException {
@@ -321,6 +348,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		http = new HttpConfig(uri);
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
+		cookieFile = getCookieFileFromConfig(http);
+		relevantCookies = filterCookies(cookieFile, baseUrl);
 	}
 
 	/**
@@ -508,6 +537,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					conn.setRequestProperty(HDR_ACCEPT, "*/*"); //$NON-NLS-1$
 				}
 				final int status = HttpSupport.response(conn);
+				processResponseCookies(conn);
 				switch (status) {
 				case HttpConnection.HTTP_OK:
 					// Check if HttpConnection did some authentication in the
@@ -594,6 +624,57 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				throw new TransportException(uri, MessageFormat.format(JGitText.get().cannotOpenService, service), e);
 			}
 		}
+	}
+
+	void processResponseCookies(HttpConnection conn) {
+		if (cookieFile != null && http.getSaveCookies()) {
+			List<HttpCookie> foundCookies = new LinkedList<>();
+
+			List<String> cookieHeaderValues = conn
+					.getHeaderFields(HDR_SET_COOKIE);
+			if (!cookieHeaderValues.isEmpty()) {
+				foundCookies.addAll(
+						extractCookies(HDR_SET_COOKIE, cookieHeaderValues));
+			}
+			cookieHeaderValues = conn.getHeaderFields(HDR_SET_COOKIE2);
+			if (!cookieHeaderValues.isEmpty()) {
+				foundCookies.addAll(
+						extractCookies(HDR_SET_COOKIE2, cookieHeaderValues));
+			}
+			if (foundCookies.size() > 0) {
+				try {
+					// update cookie lists with the newly received cookies!
+					Set<HttpCookie> cookies = cookieFile.getCookies(false);
+					cookies.addAll(foundCookies);
+					cookieFile.write(baseUrl);
+					relevantCookies.addAll(foundCookies);
+				} catch (IOException | IllegalArgumentException
+						| InterruptedException e) {
+					LOG.warn(MessageFormat.format(
+							JGitText.get().couldNotPersistCookies,
+							cookieFile.getPath()), e);
+				}
+			}
+		}
+	}
+
+	private List<HttpCookie> extractCookies(String headerKey,
+			List<String> headerValues) {
+		List<HttpCookie> foundCookies = new LinkedList<>();
+		for (String headerValue : headerValues) {
+			foundCookies
+					.addAll(HttpCookie.parse(headerKey + ':' + headerValue));
+		}
+		// HttpCookies.parse(...) is only compliant with RFC 2965. Make it RFC
+		// 6265 compliant by applying the logic from
+		// https://tools.ietf.org/html/rfc6265#section-5.2.3
+		for (HttpCookie foundCookie : foundCookies) {
+			String domain = foundCookie.getDomain();
+			if (domain != null && domain.startsWith(".")) { //$NON-NLS-1$
+				foundCookie.setDomain(domain.substring(1));
+			}
+		}
+		return foundCookies;
 	}
 
 	private static class CredentialItems {
@@ -847,12 +928,33 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
 		}
+		// set cookie header if necessary
+		if (relevantCookies.size() > 0) {
+			setCookieHeader(conn);
+		}
+
 		if (this.headers != null && !this.headers.isEmpty()) {
-			for (Map.Entry<String, String> entry : this.headers.entrySet())
+			for (Map.Entry<String, String> entry : this.headers.entrySet()) {
 				conn.setRequestProperty(entry.getKey(), entry.getValue());
+			}
 		}
 		authMethod.configureRequest(conn);
 		return conn;
+	}
+
+	private void setCookieHeader(HttpConnection conn) {
+		StringBuilder cookieHeaderValue = new StringBuilder();
+		for (HttpCookie cookie : relevantCookies) {
+			if (!cookie.hasExpired()) {
+				if (cookieHeaderValue.length() > 0) {
+					cookieHeaderValue.append(';');
+				}
+				cookieHeaderValue.append(cookie.toString());
+			}
+		}
+		if (cookieHeaderValue.length() >= 0) {
+			conn.setRequestProperty(HDR_COOKIE, cookieHeaderValue.toString());
+		}
 	}
 
 	final InputStream openInputStream(HttpConnection conn)
@@ -866,6 +968,150 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	IOException wrongContentType(String expType, String actType) {
 		final String why = MessageFormat.format(JGitText.get().expectedReceivedContentType, expType, actType);
 		return new TransportException(uri, why);
+	}
+
+	private static NetscapeCookieFile getCookieFileFromConfig(
+			HttpConfig config) {
+		if (!StringUtils.isEmptyOrNull(config.getCookieFile())) {
+			try {
+				Path cookieFilePath = Paths.get(config.getCookieFile());
+				return NetscapeCookieFileCache.getInstance(config)
+						.getEntry(cookieFilePath);
+			} catch (InvalidPathException e) {
+				LOG.warn(MessageFormat.format(
+						JGitText.get().couldNotReadCookieFile,
+						config.getCookieFile()), e);
+			}
+		}
+		return null;
+	}
+
+	private static Set<HttpCookie> filterCookies(NetscapeCookieFile cookieFile,
+			URL url) {
+		if (cookieFile != null) {
+			return filterCookies(cookieFile.getCookies(true), url);
+		}
+		return Collections.emptySet();
+	}
+
+	/**
+	 *
+	 * @param allCookies
+	 *            a list of cookies.
+	 * @param url
+	 *            the url for which to filter the list of cookies.
+	 * @return only the cookies from {@code allCookies} which are relevant (i.e.
+	 *         are not expired, have a matching domain, have a matching path and
+	 *         have a matching secure attribute)
+	 */
+	private static Set<HttpCookie> filterCookies(Set<HttpCookie> allCookies,
+			URL url) {
+		Set<HttpCookie> filteredCookies = new HashSet<>();
+		for (HttpCookie cookie : allCookies) {
+			if (cookie.hasExpired()) {
+				continue;
+			}
+			if (!matchesCookieDomain(url.getHost(), cookie.getDomain())) {
+				continue;
+			}
+			if (!matchesCookiePath(url.getPath(), cookie.getPath())) {
+				continue;
+			}
+			if (cookie.getSecure() && !"https".equals(url.getProtocol())) { //$NON-NLS-1$
+				continue;
+			}
+			filteredCookies.add(cookie);
+		}
+		return filteredCookies;
+	}
+
+	/**
+	 *
+	 * The utility method to check whether a host name is in a cookie's domain
+	 * or not. Similar to {@link HttpCookie#domainMatches(String, String)} but
+	 * implements domain matching rules according to
+	 * <a href="https://tools.ietf.org/html/rfc6265#section-5.1.3">RFC 6265,
+	 * section 5.1.3</a> instead of the rules from
+	 * <a href="https://tools.ietf.org/html/rfc2965#section-3.3">RFC 2965,
+	 * section 3.3.1</a>.
+	 * <p>
+	 * The former rules are also used by libcurl internally.
+	 * <p>
+	 * The rules are as follows
+	 *
+	 * A string matches another domain string if at least one of the following
+	 * conditions holds:
+	 * <ul>
+	 * <li>The domain string and the string are identical. (Note that both the
+	 * domain string and the string will have been canonicalized to lower case
+	 * at this point.)</li>
+	 * <li>All of the following conditions hold
+	 * <ul>
+	 * <li>The domain string is a suffix of the string.</li>
+	 * <li>The last character of the string that is not included in the domain
+	 * string is a %x2E (".") character.</li>
+	 * <li>The string is a host name (i.e., not an IP address).</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @param host
+	 *            the host to compare against the cookieDomain
+	 * @param cookieDomain
+	 *            the domain to compare against
+	 * @return {@code true} if they domain-match; {@code false} if not
+	 *
+	 * @see <a href= "https://tools.ietf.org/html/rfc6265#section-5.1.3">RFC
+	 *      6265, section 5.1.3 (Domain Matching)</a>
+	 * @see <a href=
+	 *      "https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8206092">JDK-8206092
+	 *      : HttpCookie.domainMatches() does not match to sub-sub-domain</a>
+	 */
+	static boolean matchesCookieDomain(String host, String cookieDomain) {
+		cookieDomain = cookieDomain.toLowerCase(Locale.ROOT);
+		host = host.toLowerCase(Locale.ROOT);
+		if (host.equals(cookieDomain)) {
+			return true;
+		} else {
+			if (!host.endsWith(cookieDomain)) {
+				return false;
+			}
+			return host
+					.charAt(host.length() - cookieDomain.length() - 1) == '.';
+		}
+	}
+
+	/**
+	 * The utility method to check whether a path is matching a cookie path
+	 * domain or not. The rules are defined by
+	 * <a href="https://tools.ietf.org/html/rfc6265#section-5.1.4">RFC 6265,
+	 * section 5.1.4</a>:
+	 *
+	 * A request-path path-matches a given cookie-path if at least one of the
+	 * following conditions holds:
+	 * <ul>
+	 * <li>The cookie-path and the request-path are identical.</li>
+	 * <li>The cookie-path is a prefix of the request-path, and the last
+	 * character of the cookie-path is %x2F ("/").</li>
+	 * <li>The cookie-path is a prefix of the request-path, and the first
+	 * character of the request-path that is not included in the cookie- path is
+	 * a %x2F ("/") character.</li>
+	 * </ul>
+	 * @param path
+	 *            the path to check
+	 * @param cookiePath
+	 *            the cookie's path
+	 *
+	 * @return {@code true} if they path-match; {@code false} if not
+	 */
+	static boolean matchesCookiePath(String path, String cookiePath) {
+		if (cookiePath.equals(path)) {
+			return true;
+		}
+		if (!cookiePath.endsWith("/")) { //$NON-NLS-1$
+			cookiePath += "/"; //$NON-NLS-1$
+		}
+		return path.startsWith(cookiePath);
 	}
 
 	private boolean isSmartHttp(HttpConnection c, String service) {
