@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b207e784_75935a5f",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25364faf_a7664392",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7be5a0ab_49e14fd6",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1517ccf0_69b98652",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be5a0ab_49e14fd6",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fe9ef6c8_64281c1b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "329c0b70_5f598e85",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1f29e5e_1ccfec78",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9fdee415_793b8819",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1f29e5e_1ccfec78",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94141b0f_fc4a73be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
@@ -84,6 +156,24 @@
       "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9529b973_a32c54b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-11-19T20:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94141b0f_fc4a73be",
+      "revId": "9b3d952aee9de7ea896d6d80fec93f8330f9c988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
