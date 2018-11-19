@@ -1,0 +1,6 @@
+# first line is a comment
+
+some-domain1	TRUE	/some/path1	FALSE	0	key1	value1
+
+# expires date is 01/01/2030 @ 12:00am (UTC)
+#HttpOnly_some-domain2	TRUE	/some/path2	TRUE	1893456000000	key2	value2
