@@ -88,7 +88,8 @@ public abstract class SshTestBase extends SshTestHarness {
 			"id_rsa_4096_testpass", //
 			"id_ecdsa_256_testpass", //
 			"id_ecdsa_384_testpass", //
-			"id_ecdsa_521_testpass" };
+			"id_ecdsa_521_testpass", //
+			"id_ed25519" };
 
 	protected File defaultCloneDir;
 
@@ -805,7 +806,8 @@ public abstract class SshTestBase extends SshTestHarness {
 		// JSch fails on ECDSA 384/521 keys. Compare
 		// https://sourceforge.net/p/jsch/patches/10/
 		assumeTrue(!(getSessionFactory() instanceof JschConfigSessionFactory
-				&& (keyName.startsWith("id_ecdsa_384")
+				&& (keyName.contains("ed25519")
+						|| keyName.startsWith("id_ecdsa_384")
 						|| keyName.startsWith("id_ecdsa_521"))));
 		File cloned = new File(getTemporaryDirectory(), "cloned");
 		String keyFileName = keyName + "_key";

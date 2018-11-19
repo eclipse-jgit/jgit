@@ -8,6 +8,7 @@ junit_tests(
     srcs = glob(["tst/**/*.java"]),
     tags = ["sshd"],
     deps = [
+        "//lib:eddsa",
         "//lib:junit",
         "//lib:sshd-core",
         "//lib:sshd-sftp",

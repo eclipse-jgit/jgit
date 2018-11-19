@@ -53,6 +53,7 @@ import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.ssh.SshTestBase;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
+import org.junit.Test;
 import org.junit.experimental.theories.Theories;
 import org.junit.runner.RunWith;
 
@@ -79,6 +80,26 @@ public class ApacheSshTest extends SshTestBase {
 				throw new UncheckedIOException(e);
 			}
 		}
+	}
+
+	// Using an ed25519 (unencrypted) user key is tested in the super class in
+	// testSshKeys(). sshd 2.0.0 cannot yet read encrypted ed25519 keys.
+
+	@Test
+	public void testEd25519HostKey() throws Exception {
+		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
+		copyTestResource("id_ed25519", newHostKey);
+		server.addHostKey(newHostKey.toPath(), true);
+		File newHostKeyPub = new File(getTemporaryDirectory(),
+				"newhostkey.pub");
+		copyTestResource("id_ed25519.pub", newHostKeyPub);
+		createKnownHostsFile(knownHosts, "localhost", testPort, newHostKeyPub);
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
 }
