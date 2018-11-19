@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a22b7535_63fe45c9",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-11-19T20:27:49Z",
+      "side": 1,
+      "message": "[ERROR] /jobs/genie.jgit/jgit.gerrit/workspace@2/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java:[46,1989] The import org.eclipse.jgit.http.server.ServletUtils.isChunked is never used",
+      "revId": "100b439b557bee782c097326e0e34015a8886136",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
