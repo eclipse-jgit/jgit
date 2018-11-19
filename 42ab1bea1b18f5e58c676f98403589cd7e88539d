@@ -1,0 +1,336 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f961b86b_3a667ba3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Needs @since 5.2",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2270d308_52286bfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Needs @since 5.2",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c8cfd38_72eb85b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Needs @since 5.2",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cce9a97_879ec4ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Needs @since 5.2",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b3cf28b_b803185e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Class has only static methods. Could be final, and have a private constructor. Needs @since 5.2.",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 31
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "658f02e8_8e0da7a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Hmmm... native git just passes the file name on to libcurl. How are concurrent accesses handled? What if native git (or some other process) concurrently writes the file?",
+      "range": {
+        "startLine": 98,
+        "startChar": 15,
+        "endLine": 98,
+        "endChar": 27
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "932f2df7_afe3ccbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Externalize these strings.",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30cc38b1_2cc4c31a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be more consistent if all cookies written used the same creationDate?",
+      "range": {
+        "startLine": 214,
+        "startChar": 3,
+        "endLine": 216,
+        "endChar": 4
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0334bd0_c4c9ab7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Externalize string.",
+      "range": {
+        "startLine": 662,
+        "startChar": 14,
+        "endLine": 662,
+        "endChar": 51
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d5809d_60333a75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "+ \u0027:\u0027 + avoids the need for NON-NLS",
+      "range": {
+        "startLine": 673,
+        "startChar": 42,
+        "endLine": 673,
+        "endChar": 45
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95d5a411_58d26441",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "append(\u0027;\u0027); also avoids the need for NON-NLS",
+      "range": {
+        "startLine": 934,
+        "startChar": 23,
+        "endLine": 934,
+        "endChar": 34
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37ba4649_8553e853",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "This may throw InvalidPathException.",
+      "range": {
+        "startLine": 967,
+        "startChar": 21,
+        "endLine": 967,
+        "endChar": 30
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb73380b_f69ebe91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t really help; the file might get deleted before we read it. I think this can be omitted. If the file isn\u0027t there when we try to read it, we\u0027ll get a FileNotFoundException.",
+      "range": {
+        "startLine": 968,
+        "startChar": 7,
+        "endLine": 968,
+        "endChar": 31
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c44687_08370d62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Do we have to read the whole file on each request?",
+      "range": {
+        "startLine": 970,
+        "startChar": 31,
+        "endLine": 970,
+        "endChar": 35
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a06420_837e3b1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "Externalize string.",
+      "range": {
+        "startLine": 972,
+        "startChar": 14,
+        "endLine": 972,
+        "endChar": 47
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dadc1a23_c8f40e84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-19T19:41:45Z",
+      "side": 1,
+      "message": "These need @since 5.2",
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
