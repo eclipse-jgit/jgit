@@ -1,0 +1,1 @@
+some-domain1	TRUE	/some/path1	FALSE	0	key1	value1
