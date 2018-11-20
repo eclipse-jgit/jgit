@@ -157,6 +157,30 @@
     },
     {
       "key": {
+        "uuid": "3388ccc1_a38ca227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T07:03:56Z",
+      "side": 1,
+      "message": "At least the synchronization gives us in-process protection. I think we need this at least; otherwise concurrent operations from the same JGit process will run into trouble. For instance parallel pulls in EGit.",
+      "parentUuid": "4d29c468_f4b3e2de",
+      "range": {
+        "startLine": 98,
+        "startChar": 15,
+        "endLine": 98,
+        "endChar": 27
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df7895a7_f542906d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
         "patchSetId": 1
