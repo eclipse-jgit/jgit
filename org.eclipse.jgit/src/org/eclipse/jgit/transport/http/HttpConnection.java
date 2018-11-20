@@ -236,6 +236,21 @@ public interface HttpConnection {
 	String getHeaderField(String name);
 
 	/**
+	 * Get all values of given header field. According to
+	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
+	 * 2616</a>} header fields defined as a comma separated list can have
+	 * multiple header fields with the same field name where header field names
+	 * are compared case insensitive. This method does not validate if the given
+	 * header field is defined as a comma separated list.
+	 *
+	 * @param name
+	 *            the name of a header field.
+	 * @return the list of values of the named header field
+	 * @since 5.2
+	 */
+	List<String> getHeaderFields(String name);
+
+	/**
 	 * Get content length
 	 *
 	 * @see HttpURLConnection#getContentLength()

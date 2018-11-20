@@ -53,8 +53,10 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -172,6 +174,25 @@ public class JDKHttpConnection implements HttpConnection {
 	@Override
 	public String getHeaderField(String name) {
 		return wrappedUrlConnection.getHeaderField(name);
+	}
+
+	@Override
+	public List<String> getHeaderFields(String name) {
+		Map<String, List<String>> m = wrappedUrlConnection.getHeaderFields();
+		List<String> fields = mapValuesToListIgnoreCase(name, m);
+		return fields;
+	}
+
+	static List<String> mapValuesToListIgnoreCase(String keyName,
+			Map<String, List<String>> m) {
+		Set<String> keys = m.keySet();
+		List<String> fields = new LinkedList<>();
+		for (String k : keys) {
+			if (k.equalsIgnoreCase(keyName)) {
+				fields.addAll(m.get(k));
+			}
+		}
+		return fields;
 	}
 
 	/** {@inheritDoc} */
