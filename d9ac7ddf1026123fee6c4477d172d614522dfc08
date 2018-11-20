@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90380bc2_ece32005",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-20T01:45:29Z",
+      "side": 0,
+      "message": "unrelated formatting change",
+      "revId": "d9ac7ddf1026123fee6c4477d172d614522dfc08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
