@@ -284,7 +284,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private URL toURL(URIish urish) throws MalformedURLException {
-		String uriString = urish.toString();
+		String uriString = urish.toPrivateString();
 		if (!uriString.endsWith("/")) { //$NON-NLS-1$
 			uriString += '/';
 		}
