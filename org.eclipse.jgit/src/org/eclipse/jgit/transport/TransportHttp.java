@@ -68,11 +68,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertPathBuilderException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
@@ -93,6 +96,7 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.net.ssl.SSLHandshakeException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -112,6 +116,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
@@ -284,7 +289,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private URL toURL(URIish urish) throws MalformedURLException {
-		String uriString = urish.toString();
+		String uriString = urish.toPrivateString();
 		if (!uriString.endsWith("/")) { //$NON-NLS-1$
 			uriString += '/';
 		}
@@ -304,9 +309,48 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			currentUri = uri;
 			baseUrl = toURL(uri);
 			objectsUrl = new URL(baseUrl, "objects/"); //$NON-NLS-1$
+			authMethod = extractAuthMethodFromUrl(baseUrl);
 		} catch (MalformedURLException e) {
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
+	}
+
+	/**
+	 * The url might contain authentication information. This is not
+	 * automatically considered though by the underlying
+	 * {@link HttpConnectionFactory} therefore try to generate a basic
+	 * authentication header based on the userInfo part from the given url (in
+	 * case it is not empty)
+	 *
+	 * @param url
+	 *            the url from which to extract the authentication information.
+	 * @return the Basic Authentication HttpAuthMethod being initialized with
+	 *         the credentials from the given url or {@null} if
+	 */
+	private static @Nullable HttpAuthMethod extractAuthMethodFromUrl(URL url) {
+		if (url.getUserInfo() != null) {
+			HttpAuthMethod basicAuthentication = HttpAuthMethod.Type.BASIC
+					.method(null);
+			String[] userInfoArray = url.getUserInfo().split(":", 2); //$NON-NLS-1$
+			if (userInfoArray != null && userInfoArray.length == 2) {
+				try {
+					basicAuthentication.authorize(
+							URLDecoder.decode(userInfoArray[0],
+									StandardCharsets.US_ASCII.name()),
+							URLDecoder.decode(userInfoArray[1],
+									StandardCharsets.US_ASCII.name()));
+					return basicAuthentication;
+				} catch (UnsupportedEncodingException e) {
+					LOG.warn(
+							"Could not decode the user info information from the given url", //$NON-NLS-1$
+							e);
+				}
+			} else {
+				LOG.warn(
+						"User info from given URL does not contain the mandatory ':' character for splitting username from password"); //$NON-NLS-1$
+			}
+		}
+		return null;
 	}
 
 	/**
