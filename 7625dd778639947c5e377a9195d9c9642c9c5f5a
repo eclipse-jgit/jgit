@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "94117ab0_02308afa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-20T15:15:13Z",
+      "side": 1,
+      "message": "Then we would basically need to change the semantics of both String getHeaderField(String) and Map\u003cString, List\u003cString\u003e\u003e getHeaderFields();\n\nI would be fine with that but currently this is not part of this. Also in that case the javadoc of all methods must be adjusted to mention they are all case-insensitive now.",
+      "parentUuid": "cb3291bf_8ca50883",
+      "revId": "7625dd778639947c5e377a9195d9c9642c9c5f5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "188117f6_5051dd35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
         "patchSetId": 2
