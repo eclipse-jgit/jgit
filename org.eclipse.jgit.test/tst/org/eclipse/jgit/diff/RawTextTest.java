@@ -66,13 +66,16 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testBinary() {
+	public void testNul() {
 		String input = "foo-a\nf\0o-b\n";
 		byte[] data = Constants.encodeASCII(input);
 		final RawText a = new RawText(data);
 		assertArrayEquals(a.content, data);
-		assertEquals(a.size(), 1);
-		assertEquals(a.getString(0, 1, false), input);
+		assertEquals(2, a.size());
+		assertEquals("foo-a\n", a.getString(0, 1, false));
+		assertEquals("f\0o-b\n", a.getString(1, 2, false));
+		assertEquals("foo-a", a.getString(0, 1, true));
+		assertEquals("f\0o-b", a.getString(1, 2, true));
 	}
 
 	@Test
