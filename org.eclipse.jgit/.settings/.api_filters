@@ -66,4 +66,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="getHeaderFields(String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
