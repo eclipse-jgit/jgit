@@ -53,14 +53,20 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+
+import org.eclipse.jgit.annotations.NonNull;
 
 /**
  * A {@link org.eclipse.jgit.transport.http.HttpConnection} which simply
@@ -71,6 +77,11 @@ import javax.net.ssl.TrustManager;
  */
 public class JDKHttpConnection implements HttpConnection {
 	HttpURLConnection wrappedUrlConnection;
+
+	// used for mock testing
+	JDKHttpConnection(HttpURLConnection urlConnection) {
+		this.wrappedUrlConnection = urlConnection;
+	}
 
 	/**
 	 * Constructor for JDKHttpConnection.
@@ -123,7 +134,20 @@ public class JDKHttpConnection implements HttpConnection {
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, List<String>> getHeaderFields() {
-		return wrappedUrlConnection.getHeaderFields();
+		TreeMap<String, List<String>> ignoredCaseMap = new TreeMap<>(
+				String.CASE_INSENSITIVE_ORDER);
+		for (Entry<String, List<String>> e : wrappedUrlConnection
+				.getHeaderFields().entrySet()) {
+			List<String> values = ignoredCaseMap.get(e.getKey());
+			if (values == null) {
+				ignoredCaseMap.put(e.getKey(), e.getValue());
+			} else {
+				LinkedList<String> newValues = new LinkedList<>(values);
+				newValues.addAll(e.getValue());
+				ignoredCaseMap.put(e.getKey(), newValues);
+			}
+		}
+		return Collections.unmodifiableMap(ignoredCaseMap);
 	}
 
 	/** {@inheritDoc} */
@@ -170,8 +194,13 @@ public class JDKHttpConnection implements HttpConnection {
 
 	/** {@inheritDoc} */
 	@Override
-	public String getHeaderField(String name) {
+	public String getHeaderField(@NonNull String name) {
 		return wrappedUrlConnection.getHeaderField(name);
+	}
+
+	@Override
+	public List<String> getHeaderFields(@NonNull String name) {
+		return getHeaderFields().get(name);
 	}
 
 	/** {@inheritDoc} */
