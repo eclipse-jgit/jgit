@@ -58,6 +58,8 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.TrustManager;
 
+import org.eclipse.jgit.annotations.NonNull;
+
 /**
  * The interface of connections used during HTTP communication. This interface
  * is that subset of the interface exposed by {@link java.net.HttpURLConnection}
@@ -139,7 +141,7 @@ public interface HttpConnection {
 	String getResponseMessage() throws IOException;
 
 	/**
-	 * Get list of header fields
+	 * Get map of header fields
 	 *
 	 * @see HttpURLConnection#getHeaderFields()
 	 * @return a Map of header fields
@@ -225,7 +227,13 @@ public interface HttpConnection {
 	InputStream getInputStream() throws IOException;
 
 	/**
-	 * Get header field
+	 * Get header field. According to
+	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
+	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * as a comma separated list can have multiple header fields with the same
+	 * field name. This method only returns one of these header fields. If you
+	 * want the union of all values of all multiple header fields with the same
+	 * field name then use {@link #getHeaderFields(String)}
 	 *
 	 * @see HttpURLConnection#getHeaderField(String)
 	 * @param name
@@ -233,7 +241,22 @@ public interface HttpConnection {
 	 * @return the value of the named header field, or <code>null</code> if
 	 *         there is no such field in the header.
 	 */
-	String getHeaderField(String name);
+	String getHeaderField(@NonNull String name);
+
+	/**
+	 * Get all values of given header field. According to
+	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
+	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * as a comma separated list can have multiple header fields with the same
+	 * field name. This method does not validate if the given header field is
+	 * defined as a comma separated list.
+	 *
+	 * @param name
+	 *            the name of a header field.
+	 * @return the list of values of the named header field
+	 * @since 5.2
+	 */
+	List<String> getHeaderFields(@NonNull String name);
 
 	/**
 	 * Get content length

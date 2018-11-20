@@ -58,10 +58,13 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
@@ -90,6 +93,7 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -347,9 +351,15 @@ public class HttpClientConnection implements HttpConnection {
 	// will return only the first field
 	/** {@inheritDoc} */
 	@Override
-	public String getHeaderField(String name) {
+	public String getHeaderField(@NonNull String name) {
 		Header header = resp.getFirstHeader(name);
 		return (header == null) ? null : header.getValue();
+	}
+
+	@Override
+	public List<String> getHeaderFields(@NonNull String name) {
+		return Collections.unmodifiableList(Arrays.asList(resp.getHeaders(name))
+				.stream().map(Header::getValue).collect(Collectors.toList()));
 	}
 
 	/** {@inheritDoc} */
