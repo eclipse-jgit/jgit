@@ -1,0 +1,273 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02ce0bf_46db248e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "So if there is a http.\u003curl\u003e section, but it doesn\u0027t have a http.\u003curl\u003e.cookieFile setting, a possibly existing http.cookieFile setting is ignored. Is that correct? For the other keys the logic was that absent a URL-specific setting, an existing global setting would be taken.",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf393b5f_fa074a03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "@NonNull Date",
+      "range": {
+        "startLine": 108,
+        "startChar": 3,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5fea7fc_75d390f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "@NonNull Date",
+      "range": {
+        "startLine": 120,
+        "startChar": 50,
+        "endLine": 120,
+        "endChar": 54
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "954e146c_a98fee04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "If creationDate is @NonNull Date, this can be removed.",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 3
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681ade4b_c4cbec15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "Or return null? Why load expired cookies at all?",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e03033_8e585a38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "I think the temp file should be created in the same directory as the target file. ATOMIC_MOVE may fail if the system tmp directory and the target are on different filesystems.\n\nMaybe using JGit\u0027s LockFile mechanism is a good idea all the same, even if it doesn\u0027t prevent native git interfering, it will at least synchronize JGit instances in different threads or even different processes correctly.",
+      "range": {
+        "startLine": 185,
+        "startChar": 17,
+        "endLine": 185,
+        "endChar": 37
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a9b17cf_e9aee3a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "Something is wrong with the synchronization. If we have two parallel requests A and B, we may get\n\nA: read cookies\nB: read cookies\nA: update a cookie C1\nB: update another cookie C2\nA: Write temp file jgit-cookies-file-A\nB: Write temp file jgit-cookies-file-B\nA: Perform the move\nB: Perform the move: update of cookie C1 is lost.",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7926dd4_a916baa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "Why write expired cookies at all?",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "641eda6b_6f4b90d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "The way you use these dates will mean that a read-do something-write cycle will advance the expirationdate even for untouched cookies. I don\u0027t think that\u0027s correct.",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7f98263_3f9315a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "\u0027;\u0027 (character; single quotes; otherwise you\u0027ll need a NON-NLS again.",
+      "range": {
+        "startLine": 678,
+        "startChar": 42,
+        "endLine": 678,
+        "endChar": 45
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b40c90d8_7dd9f6d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "This is strange. Logging the exception will usually show its stack trace and also the cause, so there\u0027s no need to add the exception to the message.",
+      "range": {
+        "startLine": 977,
+        "startChar": 30,
+        "endLine": 977,
+        "endChar": 42
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a880a11_cbf7eb93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "This will take the current Locale. While it shouldn\u0027t matter since host names should be US-ASCII, it might be safer to use Locale.ROOT here.",
+      "range": {
+        "startLine": 1056,
+        "startChar": 30,
+        "endLine": 1056,
+        "endChar": 43
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a73142b7_7aee6c9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T21:12:04Z",
+      "side": 1,
+      "message": "You don\u0027t really need to take a substring here. This allocates a new object and copies bytes, and is called frequently, so I think optimizing this a bit is worth the trouble. How about\n\n  return host.charAt(host.length() - cookieDomain.length() - 1) \u003d\u003d \u0027.\u0027;",
+      "range": {
+        "startLine": 1064,
+        "startChar": 3,
+        "endLine": 1066,
+        "endChar": 30
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
