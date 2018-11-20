@@ -677,10 +677,6 @@ public final class RawParseUtils {
 	 * <p>
 	 * The last element (index <code>map.size()-1</code>) always contains
 	 * <code>end</code>.
-	 * <p>
-	 * If the data contains a '\0' anywhere, the whole region is considered
-	 * binary and a LineMap corresponding to a single line is returned.
-	 * </p>
 	 *
 	 * @param buf
 	 *            buffer to scan.
@@ -689,18 +685,15 @@ public final class RawParseUtils {
 	 *            line 1.
 	 * @param end
 	 *            1 past the end of the content within <code>buf</code>.
-	 * @return a line map indicating the starting position of each line, or a
-	 *         map representing the entire buffer as a single line if
-	 *         <code>buf</code> contains a NUL byte.
+	 * @return a line map indicating the starting position of each line.
 	 */
 	public static final IntList lineMap(byte[] buf, int ptr, int end) {
-		IntList map = lineMapOrNull(buf, ptr, end);
-		if (map == null) {
-			map = new IntList(3);
-			map.add(Integer.MIN_VALUE);
+		IntList map = new IntList((end - ptr) / 36);
+		map.fillTo(1, Integer.MIN_VALUE);
+		for (; ptr < end; ptr = nextLF(buf, ptr)) {
 			map.add(ptr);
-			map.add(end);
 		}
+		map.add(end);
 		return map;
 	}
 
