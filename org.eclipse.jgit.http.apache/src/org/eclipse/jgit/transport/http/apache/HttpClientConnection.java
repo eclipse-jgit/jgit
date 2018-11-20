@@ -58,10 +58,13 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
@@ -350,6 +353,12 @@ public class HttpClientConnection implements HttpConnection {
 	public String getHeaderField(String name) {
 		Header header = resp.getFirstHeader(name);
 		return (header == null) ? null : header.getValue();
+	}
+
+	@Override
+	public List<String> getHeaderFields(String name) {
+		return Collections.unmodifiableList(Arrays.asList(resp.getHeaders(name))
+				.stream().map(Header::getValue).collect(Collectors.toList()));
 	}
 
 	/** {@inheritDoc} */
