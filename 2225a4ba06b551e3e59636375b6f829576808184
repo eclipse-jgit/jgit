@@ -22,6 +22,30 @@
       "revId": "2225a4ba06b551e3e59636375b6f829576808184",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35930557_ec69dfff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-20T18:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b30182b5_c0c34f51",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "2225a4ba06b551e3e59636375b6f829576808184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
