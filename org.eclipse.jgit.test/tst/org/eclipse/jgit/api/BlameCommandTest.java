@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -489,4 +490,73 @@ public class BlameCommandTest extends RepositoryTestCase {
 			assertEquals(side, lines.getSourceCommit(2));
 		}
 	}
+
+	@Test
+	public void testBlameWithNulByteInHistory() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = { "First line", "Another line" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c1 = git.commit().setMessage("create file").call();
+
+			String[] content2 = { "First line", "Second line with NUL >\000<",
+					"Another line" };
+			assertTrue("Content should contain a NUL byte",
+					content2[1].indexOf(0) > 0);
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("add line with NUL").call();
+
+			String[] content3 = { "First line", "Second line with NUL >\000<",
+					"Third line" };
+			writeTrashFile("file.txt", join(content3));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c3 = git.commit().setMessage("change third line").call();
+
+			String[] content4 = { "First line", "Second line with NUL >\\000<",
+					"Third line" };
+			assertTrue("Content should not contain a NUL byte",
+					content4[1].indexOf(0) < 0);
+			writeTrashFile("file.txt", join(content4));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c4 = git.commit().setMessage("fix NUL line").call();
+
+			BlameResult lines = git.blame().setFilePath("file.txt").call();
+			assertEquals(3, lines.getResultContents().size());
+			assertEquals(c1, lines.getSourceCommit(0));
+			assertEquals(c4, lines.getSourceCommit(1));
+			assertEquals(c3, lines.getSourceCommit(2));
+		}
+	}
+
+	@Test
+	public void testBlameWithNulByteInTopRevision() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = { "First line", "Another line" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c1 = git.commit().setMessage("create file").call();
+
+			String[] content2 = { "First line", "Second line with NUL >\000<",
+					"Another line" };
+			assertTrue("Content should contain a NUL byte",
+					content2[1].indexOf(0) > 0);
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c2 = git.commit().setMessage("add line with NUL").call();
+
+			String[] content3 = { "First line", "Second line with NUL >\000<",
+					"Third line" };
+			writeTrashFile("file.txt", join(content3));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c3 = git.commit().setMessage("change third line").call();
+
+			BlameResult lines = git.blame().setFilePath("file.txt").call();
+			assertEquals(3, lines.getResultContents().size());
+			assertEquals(c1, lines.getSourceCommit(0));
+			assertEquals(c2, lines.getSourceCommit(1));
+			assertEquals(c3, lines.getSourceCommit(2));
+		}
+	}
+
 }

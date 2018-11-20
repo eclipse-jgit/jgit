@@ -85,10 +85,11 @@ public class RawParseUtils_LineMapTest {
 	}
 
 	@Test
-	public void testBinary() {
+	public void testNulByte() {
 		final byte[] buf = "xxxfoo\nb\0ar".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 3, buf.length);
-		assertArrayEquals(new int[]{Integer.MIN_VALUE, 3, buf.length}, asInts(map));
+		assertArrayEquals(new int[] { Integer.MIN_VALUE, 3, 7, buf.length },
+				asInts(map));
 	}
 
 	@Test
