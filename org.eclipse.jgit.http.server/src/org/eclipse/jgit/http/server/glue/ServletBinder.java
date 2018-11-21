@@ -57,7 +57,7 @@ public interface ServletBinder {
 	 *            the filter to trigger while processing the path.
 	 * @return {@code this}.
 	 */
-	public ServletBinder through(Filter filter);
+	ServletBinder through(Filter filter);
 
 	/**
 	 * Set the servlet to execute on this path
@@ -65,5 +65,5 @@ public interface ServletBinder {
 	 * @param servlet
 	 *            the servlet to execute on this path.
 	 */
-	public void with(HttpServlet servlet);
+	void with(HttpServlet servlet);
 }

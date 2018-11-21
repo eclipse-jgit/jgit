@@ -79,7 +79,7 @@ public interface ObjectReuseAsIs {
 	 *            the Git type of the object that will be packed.
 	 * @return a new instance for this object.
 	 */
-	public ObjectToPack newObjectToPack(AnyObjectId objectId, int type);
+	ObjectToPack newObjectToPack(AnyObjectId objectId, int type);
 
 	/**
 	 * Select the best object representation for a packer.
@@ -114,7 +114,7 @@ public interface ObjectReuseAsIs {
 	 * @throws java.io.IOException
 	 *             the repository cannot be accessed. Packing will abort.
 	 */
-	public void selectObjectRepresentation(PackWriter packer,
+	void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException;
 
@@ -155,7 +155,7 @@ public interface ObjectReuseAsIs {
 	 *             the stream cannot be written to, or one or more required
 	 *             objects cannot be accessed from the object database.
 	 */
-	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
+	void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException;
 
 	/**
@@ -200,7 +200,7 @@ public interface ObjectReuseAsIs {
 	 *             the stream's write method threw an exception. Packing will
 	 *             abort.
 	 */
-	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
+	void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
 			StoredObjectRepresentationNotAvailableException;
 
@@ -216,7 +216,7 @@ public interface ObjectReuseAsIs {
 	 * @throws java.io.IOException
 	 *             the pack cannot be read, or stream did not accept a write.
 	 */
-	public abstract void copyPackAsIs(PackOutputStream out, CachedPack pack)
+	void copyPackAsIs(PackOutputStream out, CachedPack pack)
 			throws IOException;
 
 	/**
@@ -234,6 +234,6 @@ public interface ObjectReuseAsIs {
 	 *             Callers may choose to ignore this and continue as-if there
 	 *             were no cached packs.
 	 */
-	public Collection<CachedPack> getCachedPacksAndUpdate(
+	Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException;
 }

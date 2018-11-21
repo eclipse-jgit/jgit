@@ -61,7 +61,7 @@ public interface LargeFileRepository {
 	 *            id of the object to download
 	 * @return Action for downloading the object
 	 */
-	public Response.Action getDownloadAction(AnyLongObjectId id);
+	Response.Action getDownloadAction(AnyLongObjectId id);
 
 	/**
 	 * Get upload action
@@ -72,7 +72,7 @@ public interface LargeFileRepository {
 	 *            size of the object to be uploaded
 	 * @return Action for uploading the object
 	 */
-	public Response.Action getUploadAction(AnyLongObjectId id, long size);
+	Response.Action getUploadAction(AnyLongObjectId id, long size);
 
 	/**
 	 * Get verify action
@@ -83,7 +83,7 @@ public interface LargeFileRepository {
 	 *         doesn't support or require verification
 	 */
 	@Nullable
-	public Response.Action getVerifyAction(AnyLongObjectId id);
+	Response.Action getVerifyAction(AnyLongObjectId id);
 
 	/**
 	 * Get size of an object
@@ -94,5 +94,5 @@ public interface LargeFileRepository {
 	 *         exist
 	 * @throws java.io.IOException
 	 */
-	public long getSize(AnyLongObjectId id) throws IOException;
+	long getSize(AnyLongObjectId id) throws IOException;
 }

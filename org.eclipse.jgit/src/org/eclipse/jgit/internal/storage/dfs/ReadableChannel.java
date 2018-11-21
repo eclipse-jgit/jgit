@@ -57,7 +57,7 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 * @throws java.io.IOException
 	 *             the channel's current position cannot be obtained.
 	 */
-	public long position() throws IOException;
+	long position() throws IOException;
 
 	/**
 	 * Seek the current position of the channel to a new offset.
@@ -70,7 +70,7 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 *             channel only supports block aligned IO and the current
 	 *             position is not block aligned.
 	 */
-	public void position(long newPosition) throws IOException;
+	void position(long newPosition) throws IOException;
 
 	/**
 	 * Get the total size of the channel.
@@ -83,7 +83,7 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 * @throws java.io.IOException
 	 *             the size cannot be determined.
 	 */
-	public long size() throws IOException;
+	long size() throws IOException;
 
 	/**
 	 * Get the recommended alignment for reads.
@@ -102,7 +102,7 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 * @return recommended alignment size for randomly positioned reads. Does
 	 *         not need to be a power of 2.
 	 */
-	public int blockSize();
+	int blockSize();
 
 	/**
 	 * Recommend the channel maintain a read-ahead buffer.
@@ -131,5 +131,5 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 * @throws java.io.IOException
 	 *             if the read ahead cannot be adjusted.
 	 */
-	public void setReadAheadBytes(int bufferSize) throws IOException;
+	void setReadAheadBytes(int bufferSize) throws IOException;
 }

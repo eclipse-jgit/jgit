@@ -117,5 +117,5 @@ public interface AuthenticationHandler<ParameterType, TokenType>
 	boolean isDone();
 
 	@Override
-	public void close();
+	void close();
 }

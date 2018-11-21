@@ -70,5 +70,5 @@ public interface KeyCache {
 	 * Removes all {@link KeyPair} from this cache and destroys their private
 	 * keys. This cache instance must not be used anymore thereafter.
 	 */
-	public void close();
+	void close();
 }
