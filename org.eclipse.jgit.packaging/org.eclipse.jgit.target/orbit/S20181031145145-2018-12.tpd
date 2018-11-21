@@ -1,7 +1,7 @@
-target "I20181102163257-2018-12" with source configurePhase
+target "S20181031145145-2018-12" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/I20181102163257/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/S20181031145145/repository" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
@@ -25,10 +25,10 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/I2018110216325
 	org.hamcrest.library.source [1.3.0.v20180524-2246,1.3.0.v20180524-2246]
 	javaewah [1.1.6.v20160919-1400,1.1.6.v20160919-1400]
 	javaewah.source [1.1.6.v20160919-1400,1.1.6.v20160919-1400]
-	org.objenesis [1.0.0.v201505121915,1.0.0.v201505121915]
-	org.objenesis.source [1.0.0.v201505121915,1.0.0.v201505121915]
-	org.mockito [1.8.4.v201303031500,1.8.4.v201303031500]
-	org.mockito.source [1.8.4.v201303031500,1.8.4.v201303031500]
+	org.objenesis [2.6.0.v20180420-1519,2.6.0.v20180420-1519]
+	org.objenesis.source [2.6.0.v20180420-1519,2.6.0.v20180420-1519]
+	org.mockito [2.13.0.v20180426-1843,2.13.0.v20180426-1843]
+	org.mockito.source [2.13.0.v20180426-1843,2.13.0.v20180426-1843]
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.54.v20170116-1932,0.1.54.v20170116-1932]
@@ -45,10 +45,10 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/I2018110216325
 	org.slf4j.impl.log4j12.source [1.7.2.v20131105-2200,1.7.2.v20131105-2200]
 	com.jcraft.jzlib [1.1.1.v201205102305,1.1.1.v201205102305]
 	com.jcraft.jzlib.source [1.1.1.v201205102305,1.1.1.v201205102305]
-	net.i2p.crypto.eddsa [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
-	net.i2p.crypto.eddsa.source [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
-	org.apache.sshd.core [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.core.source [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.sftp [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.sftp.source [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
+	net.i2p.crypto.eddsa [0.3.0.v20181031-0007,0.3.0.v20181031-0007]
+	net.i2p.crypto.eddsa.source [0.3.0.v20181031-0007,0.3.0.v20181031-0007]
+	org.apache.sshd.core [2.0.0.v20181026-1233,2.0.0.v20181026-1233]
+	org.apache.sshd.core.source [2.0.0.v20181026-1233,2.0.0.v20181026-1233]
+	org.apache.sshd.sftp [2.0.0.v20181026-1233,2.0.0.v20181026-1233]
+	org.apache.sshd.sftp.source [2.0.0.v20181026-1233,2.0.0.v20181026-1233]
 }
