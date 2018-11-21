@@ -22,6 +22,30 @@
       "revId": "9a28df5823bf9993c3755651e43037834e4a0163",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bebdcf5_4f91070e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-21T13:29:49Z",
+      "side": 1,
+      "message": "I can mention that it\u0027s a partial revert. (Fully reverts the changes in that method, but changes the test added in that commit.)\n\nDon\u0027t know if we should backport to 4.9. We certainly could do so... but then it took more than a year for this problem to surface, so maybe it\u0027s not that critical?",
+      "parentUuid": "972a82e2_abefd520",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "9a28df5823bf9993c3755651e43037834e4a0163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
