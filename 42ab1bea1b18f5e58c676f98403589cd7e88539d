@@ -504,6 +504,30 @@
     },
     {
       "key": {
+        "uuid": "b2325022_9bce7cac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-21T17:28:56Z",
+      "side": 1,
+      "message": "LRU cache of the last 10 used files in NetscapeCookieFile? Just an idea...",
+      "parentUuid": "68853821_b71258a2",
+      "range": {
+        "startLine": 970,
+        "startChar": 31,
+        "endLine": 970,
+        "endChar": 35
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a06420_837e3b1a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
