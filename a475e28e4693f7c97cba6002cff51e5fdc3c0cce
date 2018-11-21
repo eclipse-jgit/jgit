@@ -128,6 +128,30 @@
     },
     {
       "key": {
+        "uuid": "34894955_c1e95591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-21T13:55:25Z",
+      "side": 1,
+      "message": "I will look at that in detail but to me it is not clear for how long you want to lock the cookies file? I think even with locking it is impossible to prevent a race condition like outlined in the comment below.",
+      "parentUuid": "e4e03033_8e585a38",
+      "range": {
+        "startLine": 185,
+        "startChar": 17,
+        "endLine": 185,
+        "endChar": 37
+      },
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a9b17cf_e9aee3a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
         "patchSetId": 4
@@ -139,6 +163,24 @@
       "writtenOn": "2018-11-20T21:12:04Z",
       "side": 1,
       "message": "Something is wrong with the synchronization. If we have two parallel requests A and B, we may get\n\nA: read cookies\nB: read cookies\nA: update a cookie C1\nB: update another cookie C2\nA: Write temp file jgit-cookies-file-A\nB: Write temp file jgit-cookies-file-B\nA: Perform the move\nB: Perform the move: update of cookie C1 is lost.",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f2e679_85c9872d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-21T13:55:25Z",
+      "side": 1,
+      "message": "This is correct but I don\u0027t have a good idea on how to prevent that. Any idea how the other processes/threads could potentially be forced to reload the cookie files once it is touched by another process/thread. I think we just have to live with it.",
+      "parentUuid": "6a9b17cf_e9aee3a3",
       "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
