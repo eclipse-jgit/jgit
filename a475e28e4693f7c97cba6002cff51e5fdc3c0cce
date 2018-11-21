@@ -187,6 +187,24 @@
     },
     {
       "key": {
+        "uuid": "093091a0_c7bdd29c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-21T18:14:10Z",
+      "side": 1,
+      "message": "I disagree. You just need an object representing the cookie file. That can contain the FileSnapshot. It can use the LockFile mechanism to lock a file on disk and it can re-read the file after having locked it, but before writing, and merge the changes into that file if the file has changed since it was last read.\n\nIn the scenario I outlined above B would notice that A has modified the file since B read it, would reload it (including A\u0027s change), merge this with its own changes, write the file, and then unlock it.",
+      "parentUuid": "32f2e679_85c9872d",
+      "revId": "a475e28e4693f7c97cba6002cff51e5fdc3c0cce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7926dd4_a916baa2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetscapeCookieFile.java",
         "patchSetId": 4
