@@ -480,6 +480,30 @@
     },
     {
       "key": {
+        "uuid": "68853821_b71258a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-21T13:55:25Z",
+      "side": 1,
+      "message": "I am not sure about where to keep the reference of the FileSnapshot object. If this only lives within this class instance there is close to no benefit (as one instance of this class is only used for one request).",
+      "parentUuid": "1c9a59bb_b72e5b48",
+      "range": {
+        "startLine": 970,
+        "startChar": 31,
+        "endLine": 970,
+        "endChar": 35
+      },
+      "revId": "42ab1bea1b18f5e58c676f98403589cd7e88539d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a06420_837e3b1a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
