@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f202692_ffb27a2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-22T04:42:01Z",
+      "side": 1,
+      "message": "nit: remove this blank line so that the Bug: line is part of the footer block.",
+      "revId": "66dcacaad62fd4d1797b78d196d99ea014ffd7e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
