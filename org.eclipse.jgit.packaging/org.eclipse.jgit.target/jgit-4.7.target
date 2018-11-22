@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1542842022">
+<target name="jgit-4.7" sequenceNumber="1542844150">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -23,8 +23,8 @@
       <repository id="jetty-9.4.11" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.11.v20180605"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="org.apache.ant" version="1.9.6.v201510161327"/>
-      <unit id="org.apache.ant.source" version="1.9.6.v201510161327"/>
+      <unit id="org.apache.ant" version="1.10.5.v20180808-0324"/>
+      <unit id="org.apache.ant.source" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.codec.source" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.compress" version="1.15.0.v20180119-1613"/>
