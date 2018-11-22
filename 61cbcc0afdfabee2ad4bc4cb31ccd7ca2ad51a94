@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9e06ae_076981a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-22T04:40:36Z",
+      "side": 1,
+      "message": "On first pass, this sentence made me think that the described verification was done in tests added by this commit, rather than it being manual verification that you have done.\n\nSuggestion: reword this into a \"test plan\" section similar to what is used on the bazel and gerrit projects, or in some other way that makes it more immediately obvious that it refers to manual test steps.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "61cbcc0afdfabee2ad4bc4cb31ccd7ca2ad51a94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
