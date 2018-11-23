@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "416bb36d_617589f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 210032
+      },
+      "writtenOn": "2018-11-23T19:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ac2184_be0f18eb",
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9ac7261_28a238ac",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -149,6 +167,54 @@
       "side": 1,
       "message": "missing @Override\n\nstyle nit: add a blank line after line 209",
       "parentUuid": "1eb90e81_be0d781c",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 209,
+        "endChar": 15
+      },
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1123b6f8_0edbdef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 210032
+      },
+      "writtenOn": "2018-11-23T19:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "550cff71_403945d1",
+      "range": {
+        "startLine": 209,
+        "startChar": 31,
+        "endLine": 209,
+        "endChar": 44
+      },
+      "revId": "fb03b400ceca7997b9dd4247ce917692c1968ead",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cefea7b_3fe52d21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 210032
+      },
+      "writtenOn": "2018-11-23T19:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4576b35_eb129e33",
       "range": {
         "startLine": 209,
         "startChar": 1,
