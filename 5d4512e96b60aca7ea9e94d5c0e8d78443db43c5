@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c97f92c9_4b337f49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:48:22Z",
+      "side": 1,
+      "message": "Is this supposed to happen on redirects?",
+      "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1764da26_dede5c5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:48:22Z",
+      "side": 1,
+      "message": "Why package visibility?",
+      "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e7b477a_509e4f64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:48:22Z",
+      "side": 1,
+      "message": "Externalize string.",
+      "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
