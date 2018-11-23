@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cb29380_b3bad349",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportHttpTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "The test is correct for RFC 6265; but note that parsing a cookie according to RFC 6265 should remove a leading \u0027.\u0027. See https://tools.ietf.org/html/rfc6265#section-5.2.3.\n\nShould also have tests for \"example.com\" matching \"host.example.com\", and for \"something.example.com\" matching \"something.example.com\" and also \"host.something.example.com\".",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a04e6e_221b4e7e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/LRUMapTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "This does not verify the order. (The iteration order over expectedMap is undefined).",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10488c92_6ef97ebd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "This also implements the older RFC 2965. It does _not_ remove a leading \u0027.\u0027 from the domain, as it should per https://tools.ietf.org/html/rfc6265#section-5.2.3. This is crucial, since we use RFC 6265 domain matching. As a result a cookie received with domain \".a.org\" will still not match the hostname \"b.a.org\".",
+      "range": {
+        "startLine": 678,
+        "startChar": 24,
+        "endLine": 678,
+        "endChar": 29
+      },
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d42585c9_a3b250a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "A better reference is https://tools.ietf.org/html/rfc6265#section-5.1.3 .",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a94e06a_3cd6e244",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "kage",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3071ad1e_bbcd5411",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "Not necessary. It\u0027s no secret that LinkedHashMap can implement a LRU cache; even its javadoc says so: \"This kind of map is well-suited to building LRU caches.\"",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97700696_02e4b69d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "Empty javadoc can be removed.",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24db5a7f_4b571144",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "Missing period at end of sentence.",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722b2852_1bd58bf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:04:23Z",
+      "side": 1,
+      "message": "If we want this to be a generally useful class then allocating all limit entries up front is probably not that good. It still uses a table. Also, when we get near the limit, the table will resize (be doubled).\n\nLet the constructor have two arguments: initialSize and limit.",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 13
+      },
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
