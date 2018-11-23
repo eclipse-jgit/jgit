@@ -84,6 +84,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -844,7 +845,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		}
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
-		if (UserAgent.get() != null) {
+		if (http.getUserAgent() != null) {
+			conn.setRequestProperty(HDR_USER_AGENT, http.getUserAgent());
+		} else if (UserAgent.get() != null) {
 			conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
 		}
 		int timeOut = getTimeout();
@@ -853,12 +856,28 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
 		}
+		if (http.getExtraHeader() != null && http.getExtraHeader().size() > 0) {
+			addHeaders(conn, http.getExtraHeader());
+		}
 		if (this.headers != null && !this.headers.isEmpty()) {
 			for (Map.Entry<String, String> entry : this.headers.entrySet())
 				conn.setRequestProperty(entry.getKey(), entry.getValue());
 		}
 		authMethod.configureRequest(conn);
 		return conn;
+	}
+
+	static final void addHeaders(HttpConnection conn, List<String> headers) {
+		for (String header : headers) {
+			String[] headerParts = header.split(":", 2); //$NON-NLS-1$
+			if (headerParts.length != 2) {
+				LOG.warn(
+						"Invalid header format found: No separator ':' found in header '{}', therefore not adding it to request.", //$NON-NLS-1$
+						header);
+			} else {
+				conn.setRequestProperty(headerParts[0], headerParts[1]);
+			}
+		}
 	}
 
 	final InputStream openInputStream(HttpConnection conn)

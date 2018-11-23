@@ -47,6 +47,8 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -88,6 +90,18 @@ public class HttpConfig {
 
 	/** git config key for the "sslVerify" setting. */
 	public static final String SSL_VERIFY_KEY = "sslVerify"; //$NON-NLS-1$
+
+	/**
+	 * git config key for the "userAgent" setting.
+	 * @since 5.2
+	 */
+	public static final String USER_AGENT = "userAgent"; //$NON-NLS-1$
+
+	/**
+	 * git config key for the "extraHeader" setting.
+	 * @since 5.2
+	 */
+	public static final String EXTRA_HEADER = "extraHeader"; //$NON-NLS-1$
 
 	private static final String MAX_REDIRECT_SYSTEM_PROPERTY = "http.maxRedirects"; //$NON-NLS-1$
 
@@ -153,6 +167,10 @@ public class HttpConfig {
 
 	private int maxRedirects;
 
+	private String userAgent;
+
+	private List<String> extraHeaders;
+
 	/**
 	 * Get the "http.postBuffer" setting
 	 *
@@ -187,6 +205,26 @@ public class HttpConfig {
 	 */
 	public int getMaxRedirects() {
 		return maxRedirects;
+	}
+
+	/**
+	 * Get the "http.userAgent" setting
+	 *
+	 * @return the value of the "http.userAgent" setting
+	 * @since 5.2
+	 */
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	/**
+	 * Get the "http.extraHeader" setting
+	 *
+	 * @return the value of the "http.extraHeader" setting
+	 * @since 5.2
+	 */
+	public List<String> getExtraHeader() {
+		return extraHeaders;
 	}
 
 	/**
@@ -237,7 +275,11 @@ public class HttpConfig {
 		if (redirectLimit < 0) {
 			redirectLimit = MAX_REDIRECTS;
 		}
+		userAgent = config.getString(HTTP, null, USER_AGENT);
+		extraHeaders = Arrays
+				.asList(config.getStringList(HTTP, null, EXTRA_HEADER));
 		String match = findMatch(config.getSubsections(HTTP), uri);
+
 		if (match != null) {
 			// Override with more specific items
 			postBufferSize = config.getInt(HTTP, match, POST_BUFFER_KEY,
@@ -250,6 +292,16 @@ public class HttpConfig {
 					redirectLimit);
 			if (newMaxRedirects >= 0) {
 				redirectLimit = newMaxRedirects;
+			}
+			String uriSpecificUserAgent = config.getString(HTTP, match,
+					USER_AGENT);
+			if (uriSpecificUserAgent != null) {
+				userAgent = uriSpecificUserAgent;
+			}
+			String[] uriSpecificExtraHeaders = config.getStringList(HTTP, match,
+					EXTRA_HEADER);
+			if (uriSpecificExtraHeaders.length > 0) {
+				extraHeaders = Arrays.asList(uriSpecificExtraHeaders);
 			}
 		}
 		postBuffer = postBufferSize;
