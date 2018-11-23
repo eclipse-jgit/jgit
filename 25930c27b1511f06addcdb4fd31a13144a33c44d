@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "f9eb0ff0_fdf99205",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-23T14:06:20Z",
+      "side": 1,
+      "message": "Ignore; don\u0027t know where this comment came from. Gerrit acting up?",
+      "parentUuid": "7a94e06a_3cd6e244",
+      "revId": "25930c27b1511f06addcdb4fd31a13144a33c44d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3071ad1e_bbcd5411",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
         "patchSetId": 7
