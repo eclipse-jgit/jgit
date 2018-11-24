@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5b943807_74d0b015",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-24T13:59:57Z",
+      "side": 1,
+      "message": "This is not only stated for multiple headers with the same name but in general: \"Field names are case-insensitive.\" Maybe it would be good to mention both aspects but independent of each other.",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d34e81ec_a393e8cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
         "patchSetId": 4
