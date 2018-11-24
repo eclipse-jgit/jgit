@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30ae0fb4_f357a15d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-24T19:47:55Z",
+      "side": 1,
+      "message": "Sorry, I cannot follow. What exactly do you mean by \"this\"?",
+      "parentUuid": "c97f92c9_4b337f49",
+      "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1764da26_dede5c5f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-23T14:48:22Z",
       "side": 1,
       "message": "Why package visibility?",
+      "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d60ed9_20084f3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-11-24T19:47:55Z",
+      "side": 1,
+      "message": "the idea was to provide some unit test along with it. Will provide it with a subsequent commit.",
+      "parentUuid": "1764da26_dede5c5f",
       "revId": "5d4512e96b60aca7ea9e94d5c0e8d78443db43c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
