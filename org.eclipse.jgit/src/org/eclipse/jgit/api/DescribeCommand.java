@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -230,18 +231,15 @@ public class DescribeCommand extends GitCommand<String> {
 			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
 		} else {
-			// Find the first tag that matches one of the matchers; precedence according to matcher definition order
+			// Find the first tag that matches in the stream of all tags
+			// filtered by matchers ordered by tie break order
+			Stream<Ref> matchingTags = Stream.empty();
 			for (IMatcher matcher : matchers) {
-				Optional<Ref> match = tags.stream()
-						.filter(tag -> matcher.matches(tag.getName(), false,
-								false))
-						.sorted(TAG_TIE_BREAKER)
-						.findFirst();
-				if (match.isPresent()) {
-					return match;
-				}
+				Stream<Ref> m = tags.stream().filter(
+						tag -> matcher.matches(tag.getName(), false, false));
+				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}
-			return Optional.empty();
+			return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
 		}
 	}
 

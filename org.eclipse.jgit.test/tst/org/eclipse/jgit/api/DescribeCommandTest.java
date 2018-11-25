@@ -156,9 +156,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.1*"));
 
 			// Ensure that ordering of match precedence is preserved as per Git behaviour
-			assertEquals("v1.0.1", describe(c1, "v1.0*", "v1.1*"));
+			assertEquals("v1.1.1", describe(c1, "v1.0*", "v1.1*"));
 			assertEquals("v1.1.1", describe(c1, "v1.1*", "v1.0*"));
-			assertEquals("v1.0.1-1-gb89dead", describe(c2, "v1.0*", "v1.1*"));
+			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.0*", "v1.1*"));
 			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.1*", "v1.0*"));
 		} else {
 			// no timestamps so no guarantees on which tag is chosen
