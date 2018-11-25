@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "1b687886_698448fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "using a TreeMap in getHeaderFields() doesn\u0027t work since TreeMap doesn\u0027t allow entries with a null key which apparently is used to implement status line.",
+      "parentUuid": "7cb302e7_4b5e79df",
+      "revId": "7625dd778639947c5e377a9195d9c9642c9c5f5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "188117f6_5051dd35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
         "patchSetId": 2
@@ -149,6 +167,24 @@
       "writtenOn": "2018-11-20T07:25:06Z",
       "side": 1,
       "message": "https://ci.eclipse.org/jgit/job/jgit.gerrit/14897/findbugsResult/new/\n\nHow about\n\n  m.entrySet().stream()\n    .filter(e -\u003e keyName.equalsIgnoreCase(e.getKey())\n    .forEach(fields.addAll(e.getValue());\n\nOr with an iterator:\n\n  m.entrySet().iterator().forEachRemaining(e -\u003e\n    if (keyName.equalsIgnoreCase(e.getKey())) {\n      fields.addAll(e.getValue());\n    }\n  );",
+      "revId": "7625dd778639947c5e377a9195d9c9642c9c5f5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636ba35e_73656cc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d9602d_32639723",
       "revId": "7625dd778639947c5e377a9195d9c9642c9c5f5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
