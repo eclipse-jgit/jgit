@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ebecdcf5_daba862d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Then we unnecessarily sort the complete map which is only necessary for multi-valued header fields a caller is interested in. I guess that\u0027s the reason why HttpURLConnection also doesn\u0027t implement this.",
+      "parentUuid": "e08e50ee_7a2ea7fd",
+      "revId": "eb06c73b821f6288d5e16453faa6fd7924531645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb577876_097d7c60",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-25T16:35:23Z",
       "side": 1,
       "message": "Are we sure that we can never have e.getValue() \u003d\u003d null ?",
+      "revId": "eb06c73b821f6288d5e16453faa6fd7924531645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b596f5d8_ab147b86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb577876_097d7c60",
       "revId": "eb06c73b821f6288d5e16453faa6fd7924531645",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
