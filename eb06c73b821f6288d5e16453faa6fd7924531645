@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e08e50ee_7a2ea7fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-25T16:35:23Z",
+      "side": 1,
+      "message": "What was the problem with PS 4?\n\nIf I do\n\n  private Map\u003cString, List\u003cString\u003e\u003e headers;\n\n  ...\n\n  @Override\n  public Map\u003cString, List\u003cString\u003e\u003e getHeaderFields() {\n    if (headers \u003d\u003d null) {\n      Map\u003cString, List\u003cString\u003e\u003e map \u003d new TreeMap\u003c\u003e(\n          String.CASE_INSENSITIVE_ORDER);\n      for (int i \u003d 0; true; i++) {\n        String key \u003d wrappedUrlConnection.getHeaderFieldKey(i);\n        if (key \u003d\u003d null) {\n          if (i \u003d\u003d 0) {\n            continue; // Might be the status line; try one more\n          }\n          break;\n        }\n        String value \u003d wrappedUrlConnection.getHeaderField(i);\n        if (value \u003d\u003d null) {\n          if (i \u003d\u003d 0) {\n            continue; // Status line.\n          }\n          if (!map.containsKey(key)) {\n            map.put(key, null);\n          }\n        } else {\n          List\u003cString\u003e values \u003d map.get(key);\n          if (values \u003d\u003d null) {\n            values \u003d new LinkedList\u003c\u003e();\n            map.put(key, values);\n          }\n          values.add(0, value);\n        }\n      }\n      Set\u003cString\u003e keys \u003d new HashSet\u003c\u003e(map.keySet());\n      for (String s : keys) {\n        List\u003cString\u003e v \u003d map.get(s);\n        if (v !\u003d null) {\n          map.put(s, Collections.unmodifiableList(v));\n        }\n      }\n      headers \u003d Collections.unmodifiableMap(map);\n    }\n    return headers;\n  }\n\nthen SmartClientSmartServerTest passes. (Index zero is special since it might be the header line. The order in the lists is the same as in the JDK implementation; last header value first. Though perhaps that shouldn\u0027t matter -- the HttpClientConnection produces them in a different order.)\n\nAnd getHeaderFields(@NonNull String name) is then IMO not even needed, it\u0027s just a short-hand for getHeaderFields().get(name).",
+      "revId": "eb06c73b821f6288d5e16453faa6fd7924531645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb577876_097d7c60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-25T16:35:23Z",
+      "side": 1,
+      "message": "Are we sure that we can never have e.getValue() \u003d\u003d null ?",
+      "revId": "eb06c73b821f6288d5e16453faa6fd7924531645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
