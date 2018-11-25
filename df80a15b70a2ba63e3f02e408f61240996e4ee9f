@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2172be38_83fb780d",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "this method inherits javadoc from HttpConnection",
+      "parentUuid": "f5ff1dda_f011c420",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b943807_74d0b015",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-24T13:59:57Z",
       "side": 1,
       "message": "This is not only stated for multiple headers with the same name but in general: \"Field names are case-insensitive.\" Maybe it would be good to mention both aspects but independent of each other.",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac890003_8fe2bb96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b943807_74d0b015",
       "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "32a368ed_8ce0f4af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d34e81ec_a393e8cc",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60a41a70_e9e66490",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2018-11-24T13:53:42Z",
       "side": 1,
       "message": "This javadoc should explicitly state that the header name lookup is case-insensitive! Right now it only talks about the RFC but not how this mthod works.",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0dfdf9_faf335e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60a41a70_e9e66490",
       "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b1752bf0_aa5a36a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "313bba83_fa3f5fb5",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85175b76_d24c375b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2018-11-24T13:53:42Z",
       "side": 1,
       "message": "Is this really looking up the header in a case-insensitive way? The javadoc at https://docs.oracle.com/javase/8/docs/api/java/net/URLConnection.html#getHeaderField-java.lang.String- does not mention anything like this",
+      "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43a1ca88_b017fc1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:45:37Z",
+      "side": 1,
+      "message": "see\nhttp://hg.openjdk.java.net/jdk8/jdk8/jdk/file/484e16c0a040/src/share/classes/sun/net/www/protocol/http/HttpURLConnection.java#l2922\nhttp://hg.openjdk.java.net/jdk8/jdk8/jdk/file/484e16c0a040/src/share/classes/sun/net/www/MessageHeader.java#l78",
+      "parentUuid": "85175b76_d24c375b",
       "revId": "df80a15b70a2ba63e3f02e408f61240996e4ee9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
