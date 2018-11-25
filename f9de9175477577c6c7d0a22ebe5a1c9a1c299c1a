@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "776155a1_50f0dfa1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:19:21Z",
+      "side": 1,
+      "message": "fair enough, I pushed another fix for this issue\nhttps://git.eclipse.org/r/#/c/133039/",
+      "parentUuid": "022ff01d_bff138fa",
+      "range": {
+        "startLine": 159,
+        "startChar": 17,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "f9de9175477577c6c7d0a22ebe5a1c9a1c299c1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cc05627_80120828",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
         "patchSetId": 7
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Why is this reason for rejecting the change? This patch does not attempt to fix the order or match options. This is just keeping the existing behavior (see diff). What is fixed is tie-breakers for annotated tags (where a timestamp exists) according to native git behavior. That\u0027s an (incremental) improvement.",
       "parentUuid": "3cc05627_80120828",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "revId": "f9de9175477577c6c7d0a22ebe5a1c9a1c299c1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8c87259_1373af97",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T22:19:21Z",
+      "side": 1,
+      "message": "fair enough, I pushed another fix for this issue\nhttps://git.eclipse.org/r/#/c/133039/",
+      "parentUuid": "e0480a79_9057c717",
       "range": {
         "startLine": 161,
         "startChar": 17,
