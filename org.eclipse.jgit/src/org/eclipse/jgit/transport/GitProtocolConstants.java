@@ -59,14 +59,14 @@ public final class GitProtocolConstants {
 	public static final String OPTION_INCLUDE_TAG = "include-tag"; //$NON-NLS-1$
 
 	/**
-	 * Mutli-ACK support for improved negotiation.
+	 * Multi-ACK support for improved negotiation.
 	 *
 	 * @since 3.2
 	 */
 	public static final String OPTION_MULTI_ACK = "multi_ack"; //$NON-NLS-1$
 
 	/**
-	 * Mutli-ACK detailed support for improved negotiation.
+	 * Multi-ACK detailed support for improved negotiation.
 	 *
 	 * @since 3.2
 	 */

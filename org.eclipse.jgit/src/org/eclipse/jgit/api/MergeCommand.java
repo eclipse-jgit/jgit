@@ -459,8 +459,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
-	 * Use values from the configuation if they have not been explicitly defined
-	 * via the setters
+	 * Use values from the configuration if they have not been explicitly
+	 * defined via the setters
 	 */
 	private void fallBackToConfiguration() {
 		MergeConfig config = MergeConfig.getConfigForCurrentBranch(repo);

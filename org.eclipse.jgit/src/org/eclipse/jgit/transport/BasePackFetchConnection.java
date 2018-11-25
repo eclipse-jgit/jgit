@@ -129,13 +129,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	public static final String OPTION_INCLUDE_TAG = GitProtocolConstants.OPTION_INCLUDE_TAG;
 
 	/**
-	 * Mutli-ACK support for improved negotiation.
+	 * Multi-ACK support for improved negotiation.
 	 * @since 2.0
 	 */
 	public static final String OPTION_MULTI_ACK = GitProtocolConstants.OPTION_MULTI_ACK;
 
 	/**
-	 * Mutli-ACK detailed support for improved negotiation.
+	 * Multi-ACK detailed support for improved negotiation.
 	 * @since 2.0
 	 */
 	public static final String OPTION_MULTI_ACK_DETAILED = GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;
