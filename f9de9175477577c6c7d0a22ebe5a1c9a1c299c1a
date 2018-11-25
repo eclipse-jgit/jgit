@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8bf7bf9_1ab3d03c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T02:00:22Z",
+      "side": 1,
+      "message": "native git always returns v1.1.1 ignoring the order of --match options, tried this using git 2.19.1\n\n$ git describe --match v1.0* --match v1.1*\nv1.1.1\n$ git describe --match v1.1* --match v1.0*\nv1.1.1",
+      "range": {
+        "startLine": 159,
+        "startChar": 17,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "f9de9175477577c6c7d0a22ebe5a1c9a1c299c1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cc05627_80120828",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-25T02:00:22Z",
+      "side": 1,
+      "message": "native git always returns v1.1.1-1-gb89dead ignoring the order of --match options\n\n$ git describe --match v1.0* --match v1.1*\nv1.1.1-1-gb89dead\n\n$ git describe --match v1.1* --match v1.0*\nv1.1.1-1-gb89dead",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "revId": "f9de9175477577c6c7d0a22ebe5a1c9a1c299c1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
