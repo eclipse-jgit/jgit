@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff9afa8b_2f0efc62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-26T17:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a500cb82_22fd01a6",
+      "range": {
+        "startLine": 242,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 18
+      },
+      "revId": "b343a4f668e78b3ba9511c9d46b9e7ed4267d07a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92bab875_b93849d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-26T07:15:14Z",
       "side": 1,
       "message": "I don\u0027t understand that. Why not simply\n\n  return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();\n\n?",
+      "range": {
+        "startLine": 244,
+        "startChar": 3,
+        "endLine": 247,
+        "endChar": 27
+      },
+      "revId": "b343a4f668e78b3ba9511c9d46b9e7ed4267d07a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba3985b8_f67342c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-26T17:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92bab875_b93849d0",
       "range": {
         "startLine": 244,
         "startChar": 3,
