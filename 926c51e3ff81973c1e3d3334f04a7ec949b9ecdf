@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da064ac8_9a98c129",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-26T20:32:59Z",
+      "side": 1,
+      "message": "Integer.valueOf",
+      "range": {
+        "startLine": 196,
+        "startChar": 5,
+        "endLine": 196,
+        "endChar": 16
+      },
+      "revId": "926c51e3ff81973c1e3d3334f04a7ec949b9ecdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5da4545c_bf0197b1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
         "patchSetId": 10
@@ -30,6 +53,29 @@
       "writtenOn": "2018-11-26T20:23:31Z",
       "side": 1,
       "message": "Nit: stray empty line.",
+      "revId": "926c51e3ff81973c1e3d3334f04a7ec949b9ecdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd95c9da_7ce0107c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-26T20:32:59Z",
+      "side": 1,
+      "message": "Integer.valueOf",
+      "range": {
+        "startLine": 67,
+        "startChar": 52,
+        "endLine": 67,
+        "endChar": 63
+      },
       "revId": "926c51e3ff81973c1e3d3334f04a7ec949b9ecdf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
