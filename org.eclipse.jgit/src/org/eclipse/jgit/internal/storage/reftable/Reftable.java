@@ -54,6 +54,7 @@ import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.lib.VersionedRef;
 
 /**
  * Abstract table of references.
@@ -280,7 +281,8 @@ public abstract class Reftable implements AutoCloseable {
 		if (dst == null) {
 			return null; // claim it doesn't exist
 		}
-		return new SymbolicRef(ref.getName(), dst);
+		return new VersionedRef(new SymbolicRef(ref.getName(), dst),
+				ref.getVersion());
 	}
 
 	/** {@inheritDoc} */
