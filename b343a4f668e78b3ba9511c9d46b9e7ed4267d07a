@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a500cb82_22fd01a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-26T00:23:05Z",
+      "side": 1,
+      "message": "Is this line wrap necessary?",
+      "range": {
+        "startLine": 242,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 18
+      },
+      "revId": "b343a4f668e78b3ba9511c9d46b9e7ed4267d07a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
