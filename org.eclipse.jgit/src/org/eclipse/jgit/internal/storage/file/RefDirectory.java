@@ -261,6 +261,12 @@ public class RefDirectory extends RefDatabase {
 		clearReferences();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public boolean hasVersioning() {
+		return false;
+	}
+
 	private void clearReferences() {
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);

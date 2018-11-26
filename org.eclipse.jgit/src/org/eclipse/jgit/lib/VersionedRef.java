@@ -1,0 +1,122 @@
+/*
+ * Copyright (C) 2018, Google LLC.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.eclipse.jgit.lib;
+
+/**
+ * Decorates a reference adding the update index (version) property.
+ *
+ * Undecorated Refs throw {@link UnsupportedOperationException} on
+ * {@link #getUpdateIndex()}, while decorated instances return the value.
+ *
+ * The client is responsible to call {@link #getUpdateIndex()} only on refs
+ * obtained from {@link RefDatabase} implementations that support versioning
+ * (e.g. reftables). This can be checked via
+ * {@link RefDatabase#hasVersioning()}.
+ *
+ * @since 5.3
+ */
+public class VersionedRef implements Ref {
+
+	private Ref ref;
+
+	private long updateIndex;
+
+	/**
+	 * @param ref
+	 *            the Reference
+	 * @param updateIndex
+	 *            number assigned by the Reference database implementation
+	 *            indicating the relative order between to updates to the same
+	 *            reference.
+	 */
+	public VersionedRef(Ref ref, long updateIndex) {
+		this.ref = ref;
+		this.updateIndex = updateIndex;
+	}
+
+	@Override
+	public String getName() {
+		return ref.getName();
+	}
+
+	@Override
+	public boolean isSymbolic() {
+		return ref.isSymbolic();
+	}
+
+	@Override
+	public Ref getLeaf() {
+		return ref.getLeaf();
+	}
+
+	@Override
+	public Ref getTarget() {
+		return ref.getTarget();
+	}
+
+	@Override
+	public ObjectId getObjectId() {
+		return ref.getObjectId();
+	}
+
+	@Override
+	public ObjectId getPeeledObjectId() {
+		return ref.getPeeledObjectId();
+	}
+
+	@Override
+	public boolean isPeeled() {
+		return ref.isPeeled();
+	}
+
+	@Override
+	public Storage getStorage() {
+		return ref.getStorage();
+	}
+
+	@Override
+	public long getUpdateIndex() {
+		return updateIndex;
+	}
+
+}

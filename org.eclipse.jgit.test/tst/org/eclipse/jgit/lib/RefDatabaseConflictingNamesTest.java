@@ -113,6 +113,11 @@ public class RefDatabaseConflictingNamesTest {
 		public void close() {
 			// Not needed
 		}
+
+		@Override
+		public boolean hasVersioning() {
+			return false;
+		}
 	};
 
 	@Test
