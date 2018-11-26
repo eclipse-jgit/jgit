@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.VersionedRef;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.LongMap;
 import org.eclipse.jgit.util.NB;
@@ -519,7 +520,7 @@ public class ReftableReader extends Reftable {
 
 		@Override
 		public Ref getRef() {
-			return ref;
+			return new VersionedRef(ref, updateIndex);
 		}
 
 		@Override
@@ -691,7 +692,7 @@ public class ReftableReader extends Reftable {
 
 		@Override
 		public Ref getRef() {
-			return ref;
+			return new VersionedRef(ref, updateIndex);
 		}
 
 		@Override
