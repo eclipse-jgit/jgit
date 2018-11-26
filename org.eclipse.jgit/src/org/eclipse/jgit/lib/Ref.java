@@ -217,4 +217,19 @@ public interface Ref {
 	 */
 	@NonNull
 	Storage getStorage();
+
+	/**
+	 * Indicator of the relative order between updates of an specific reference
+	 * name.
+	 * <p>
+	 * A number that increases when a reference is updated. Implementations
+	 * define its meaning (e.g. version counter or timestamp). When the
+	 * implementation doesn't support versioning, it throws an
+	 * {@link UnsupportedOperationException}.
+	 *
+	 * @return the update index of this reference.
+	 */
+	default long getUpdateIndex() {
+		throw new UnsupportedOperationException();
+	}
 }

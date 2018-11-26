@@ -61,6 +61,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -132,6 +133,29 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(0, new File(d, "logs/refs/heads").list().length);
 
 		assertEquals("ref: refs/heads/master\n", read(new File(d, HEAD)));
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testUpdateIndexNotImplemented() throws IOException {
+		Ref exactRef = refdir.exactRef(HEAD);
+		assertNotNull(exactRef);
+		exactRef.getUpdateIndex(); // Not implemented on FS
+	}
+
+	@Test
+	public void testUpdateIndexNotImplemented2() throws Exception {
+		RevCommit C = repo.commit().parent(B).create();
+		repo.update("master", C);
+		List<Ref> refs = refdir.getRefs();
+
+		for (Ref ref: refs) {
+			try {
+				ref.getUpdateIndex();
+				fail("FS doesn't implement update index");
+			} catch (UnsupportedOperationException e) {
+				// ok
+			}
+		}
 	}
 
 	@Test
