@@ -128,6 +128,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, act.getVersion());
 			}
 			assertFalse(rc.next());
 		}
@@ -145,6 +146,7 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getVersion());
 			assertFalse(rc.next());
 		}
 	}
@@ -162,6 +164,7 @@ public class MergedReftableTest {
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
 			assertFalse(rc.next());
+			assertEquals(1, rc.getRef().getVersion());
 		}
 	}
 
@@ -177,6 +180,7 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getVersion());
 			assertFalse(rc.next());
 		}
 	}
@@ -212,6 +216,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, rc.getRef().getVersion());
 			}
 			assertFalse(rc.next());
 		}
@@ -231,9 +236,11 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/apple", rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
+			assertEquals(2000, rc.getRef().getVersion());
 			assertTrue(rc.next());
 			assertEquals("refs/heads/banana", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1000, rc.getRef().getVersion());
 			assertFalse(rc.next());
 		}
 	}
@@ -251,12 +258,14 @@ public class MergedReftableTest {
 			Ref r = rc.getRef();
 			assertEquals("refs/heads/master", r.getName());
 			assertEquals(id(8), r.getObjectId());
+			assertEquals(1, rc.getRef().getVersion());
 
 			assertTrue(rc.next());
 			r = rc.getRef();
 			assertEquals("refs/heads/next", r.getName());
 			assertEquals(NEW, r.getStorage());
 			assertNull(r.getObjectId());
+			assertEquals(1, rc.getRef().getVersion());
 
 			assertFalse(rc.next());
 		}
@@ -277,6 +286,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, act.getVersion());
 				assertFalse(rc.next());
 			}
 		}
@@ -303,16 +313,19 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/a", rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getVersion());
 			assertEquals(1, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/b", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(2, rc.getRef().getVersion());
 			assertEquals(2, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/c", rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
+			assertEquals(3, rc.getRef().getVersion());
 			assertEquals(3, rc.getUpdateIndex());
 		}
 	}
