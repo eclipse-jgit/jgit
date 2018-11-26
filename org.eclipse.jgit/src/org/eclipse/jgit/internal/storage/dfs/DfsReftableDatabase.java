@@ -99,6 +99,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public boolean hasVersioning() {
+		return true;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}

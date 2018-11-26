@@ -217,4 +217,25 @@ public interface Ref {
 	 */
 	@NonNull
 	Storage getStorage();
+
+	/**
+	 * Indicator of the relative order between updates of a specific reference
+	 * name.
+	 * <p>
+	 * A number that increases when a reference is updated. Implementations
+	 * define its value (e.g. version counter or timestamp).
+	 * <p>
+	 * By default this throws an {@link UnsupportedOperationException}. The
+	 * instantiator of the Ref must override this method (e.g. with the
+	 * {@link VersionedRef} decorator) if it can provide a version value.
+	 *
+	 * @return the version of this reference.
+	 * @throws UnsupportedOperationException
+	 *             if the creator of the instance (e.g. {@link RefDatabase})
+	 *             doesn't support versioning and doesn't override this method
+	 * @since 5.2
+	 */
+	default long getVersion() {
+		throw new UnsupportedOperationException();
+	}
 }

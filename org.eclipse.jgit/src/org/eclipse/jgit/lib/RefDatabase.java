@@ -111,6 +111,15 @@ public abstract class RefDatabase {
 	public abstract void close();
 
 	/**
+	 * With versioning, each reference has a version number that increases on
+	 * update.
+	 *
+	 * @return true when the implementation assigns version numbers to
+	 *         references.
+	 */
+	public abstract boolean hasVersioning();
+
+	/**
 	 * Determine if a proposed reference name overlaps with an existing one.
 	 * <p>
 	 * Reference names use '/' as a component separator, and may be stored in a
