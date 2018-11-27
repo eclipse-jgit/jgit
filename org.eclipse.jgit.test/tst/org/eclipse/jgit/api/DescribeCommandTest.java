@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
@@ -157,6 +158,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	public void testDescribeMultiMatch() throws Exception {
 		ObjectId c1 = modify("aaa");
 		tag("v1.0.0");
+		tick();
+		tag("v1.0.1");
+		tick();
+		tag("v1.1.0");
+		tick();
 		tag("v1.1.1");
 		ObjectId c2 = modify("bbb");
 
@@ -166,22 +172,39 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			return;
 		}
 
-		// Ensure that if we're interested in any tags, we get the first match
-		// as per Git behaviour
-		assertEquals("v1.0.0", describe(c1));
-		assertEquals("v1.0.0-1-g3747db3", describe(c2));
+		// Ensure that if we're interested in any tags, we get the most recent tag
+		// as per Git behaviour since 1.7.1.1
+		if (useAnnotatedTags) {
+			assertEquals("v1.1.1", describe(c1));
+			assertEquals("v1.1.1-1-gb89dead", describe(c2));
+			// Ensure that if we're only interested in one of multiple tags, we get the right match
+			assertEquals("v1.0.1", describe(c1, "v1.0*"));
+			assertEquals("v1.1.1", describe(c1, "v1.1*"));
+			assertEquals("v1.0.1-1-gb89dead", describe(c2, "v1.0*"));
+			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.1*"));
 
-		// Ensure that if we're only interested in one of multiple tags, we get the right match
-		assertEquals("v1.0.0", describe(c1, "v1.0*"));
-		assertEquals("v1.1.1", describe(c1, "v1.1*"));
-		assertEquals("v1.0.0-1-g3747db3", describe(c2, "v1.0*"));
-		assertEquals("v1.1.1-1-g3747db3", describe(c2, "v1.1*"));
+			// Ensure that ordering of match precedence is preserved as per Git behaviour
+			assertEquals("v1.1.1", describe(c1, "v1.0*", "v1.1*"));
+			assertEquals("v1.1.1", describe(c1, "v1.1*", "v1.0*"));
+			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.0*", "v1.1*"));
+			assertEquals("v1.1.1-1-gb89dead", describe(c2, "v1.1*", "v1.0*"));
+		} else {
+			// no timestamps so no guarantees on which tag is chosen
+			assertNotNull(describe(c1));
+			assertNotNull(describe(c2));
 
-		// Ensure that ordering of match precedence is preserved as per Git behaviour
-		assertEquals("v1.0.0", describe(c1, "v1.0*", "v1.1*"));
-		assertEquals("v1.1.1", describe(c1, "v1.1*", "v1.0*"));
-		assertEquals("v1.0.0-1-g3747db3", describe(c2, "v1.0*", "v1.1*"));
-		assertEquals("v1.1.1-1-g3747db3", describe(c2, "v1.1*", "v1.0*"));
+			assertNotNull(describe(c1, "v1.0*"));
+			assertNotNull(describe(c1, "v1.1*"));
+			assertNotNull(describe(c2, "v1.0*"));
+			assertNotNull(describe(c2, "v1.1*"));
+
+			// Ensure that ordering of match precedence is preserved as per Git behaviour
+			assertNotNull(describe(c1, "v1.0*", "v1.1*"));
+			assertNotNull(describe(c1, "v1.1*", "v1.0*"));
+			assertNotNull(describe(c2, "v1.0*", "v1.1*"));
+			assertNotNull(describe(c2, "v1.1*", "v1.0*"));
+
+		}
 	}
 
 	/**
