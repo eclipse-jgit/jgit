@@ -298,6 +298,30 @@
     },
     {
       "key": {
+        "uuid": "06903177_18a1dace",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-27T16:42:10Z",
+      "side": 1,
+      "message": "A gitlink must compare equal to a file, and it did so before my change. All I did is add an explicit test for this. And I think this is correct.",
+      "parentUuid": "36a727b9_d388fac3",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 49
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb86a7a7_f808eb01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
         "patchSetId": 1
