@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0108b0f_80af6c49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-27T08:47:12Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 222,
+        "startChar": 55,
+        "endLine": 222,
+        "endChar": 57
+      },
+      "revId": "f1dd73a4efe1950ae0abfadf69ce5b82cbc8e50a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "311b2e4c_3e80b26f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-27T08:47:12Z",
+      "side": 1,
+      "message": "Should this be mentioned in a @throws tag?  Or does that only work if the method is explicitly declared to throw it?",
+      "range": {
+        "startLine": 227,
+        "startChar": 47,
+        "endLine": 228,
+        "endChar": 42
+      },
+      "revId": "f1dd73a4efe1950ae0abfadf69ce5b82cbc8e50a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6081b5db_28e2f257",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-27T08:47:12Z",
+      "side": 1,
+      "message": "Missing @since tag for new public method.",
+      "revId": "f1dd73a4efe1950ae0abfadf69ce5b82cbc8e50a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "356fa016_47347fc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-27T08:47:12Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "f1dd73a4efe1950ae0abfadf69ce5b82cbc8e50a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
