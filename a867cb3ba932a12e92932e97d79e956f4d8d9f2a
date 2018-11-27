@@ -274,6 +274,30 @@
     },
     {
       "key": {
+        "uuid": "36a727b9_d388fac3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-11-27T12:25:42Z",
+      "side": 1,
+      "message": "I think we should only add tests for behaviour which we think is correct. Just adding tests for the current behaviour of JGit but not being sure whether its the correct behaviour does not make so much sense. I would simply remove this single test. We can add a test that a gitlink is different from a regular file path in a subsequent change and fix coding.",
+      "parentUuid": "8583b28d_b5bff75c",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 49
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb86a7a7_f808eb01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
         "patchSetId": 1
@@ -303,6 +327,24 @@
       "side": 1,
       "message": "\u003e If aMode\u003d\u003dFILE and bMode\u003d\u003dGITLINK shouldn\u0027t modeCompare return !\u003d0.\n\nIt didn\u0027t do so before. I kept that behavior. I think it\u0027s also correct. If we want to ignore such FILE-GITLINK conflicts when ignoreSubmodules\u003dall, I think we would need to add that case in IndexDiff somewhere.",
       "parentUuid": "fb86a7a7_f808eb01",
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21ea14a_ebe5a2ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-11-27T12:25:42Z",
+      "side": 1,
+      "message": "I still find it strange that the mode GITLINK should be compatible with the mode FILE. But since this isn\u0027t changed in this change and was like that before I give my +1 here.",
+      "parentUuid": "8f0b613a_0c59445d",
       "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
