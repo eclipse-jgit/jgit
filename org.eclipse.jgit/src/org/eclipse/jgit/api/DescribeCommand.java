@@ -50,10 +50,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -71,6 +73,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -224,24 +227,40 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	private final Comparator<Ref> TAG_TIE_BREAKER = new Comparator<Ref>() {
+
+		@Override
+		public int compare(Ref o1, Ref o2) {
+			try {
+				return tagDate(o2).compareTo(tagDate(o1));
+			} catch (IOException e) {
+				return 0;
+			}
+		}
+
+		private Date tagDate(Ref tag) throws IOException {
+			RevTag t = w.parseTag(tag.getObjectId());
+			w.parseBody(t);
+			return t.getTaggerIdent().getWhen();
+		}
+	};
+
 	private Optional<Ref> getBestMatch(List<Ref> tags) {
 		if (tags == null || tags.size() == 0) {
 			return Optional.empty();
 		} else if (matchers.size() == 0) {
-			// No matchers, simply return the first tag entry
+			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
 		} else {
-			// Find the first tag that matches one of the matchers; precedence according to matcher definition order
+			// Find the first tag that matches in the stream of all tags
+			// filtered by matchers ordered by tie break order
+			Stream<Ref> matchingTags = Stream.empty();
 			for (IMatcher matcher : matchers) {
-				Optional<Ref> match = tags.stream()
-						.filter(tag -> matcher.matches(tag.getName(), false,
-								false))
-						.findFirst();
-				if (match.isPresent()) {
-					return match;
-				}
+				Stream<Ref> m = tags.stream().filter(
+						tag -> matcher.matches(tag.getName(), false, false));
+				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}
-			return Optional.empty();
+			return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
 		}
 	}
 
