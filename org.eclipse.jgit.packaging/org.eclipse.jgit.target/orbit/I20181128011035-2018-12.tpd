@@ -1,13 +1,13 @@
-target "S20181120221132-2018-12" with source configurePhase
+target "I20181128011035-2018-12" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/S20181120221132/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/I20181128011035/repository" {
 	org.apache.ant [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
 	org.apache.ant.source [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
 	org.apache.commons.codec.source [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
-	org.apache.commons.compress [1.15.0.v20180119-1613,1.15.0.v20180119-1613]
-	org.apache.commons.compress.source [1.15.0.v20180119-1613,1.15.0.v20180119-1613s]
+	org.apache.commons.compress [1.18.0.v20181121-2221,1.18.0.v20181121-2221]
+	org.apache.commons.compress.source [1.18.0.v20181121-2221,1.18.0.v20181121-2221]
 	org.apache.commons.logging [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.httpcomponents.httpclient [4.5.5.v20180409-1525,4.5.5.v20180409-1525]

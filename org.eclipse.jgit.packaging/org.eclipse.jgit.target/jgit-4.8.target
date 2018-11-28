@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.8" sequenceNumber="1542844132">
+<target name="jgit-4.8" sequenceNumber="1543418240">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -27,8 +27,8 @@
       <unit id="org.apache.ant.source" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.codec.source" version="1.10.0.v20180409-1845"/>
-      <unit id="org.apache.commons.compress" version="1.15.0.v20180119-1613"/>
-      <unit id="org.apache.commons.compress.source" version="1.15.0.v20180119-1613"/>
+      <unit id="org.apache.commons.compress" version="1.18.0.v20181121-2221"/>
+      <unit id="org.apache.commons.compress.source" version="1.18.0.v20181121-2221"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.5.v20180409-1525"/>
@@ -76,7 +76,7 @@
       <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20181120221132/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20181128011035/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
