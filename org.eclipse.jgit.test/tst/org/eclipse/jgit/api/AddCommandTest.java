@@ -1245,7 +1245,8 @@ public class AddCommandTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_DIRNOGITLINKS, true);
 		config.save();
 
-		assert (db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
+		assertTrue(
+				db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("nested-repo").call();
