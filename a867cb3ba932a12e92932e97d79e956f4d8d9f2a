@@ -322,6 +322,30 @@
     },
     {
       "key": {
+        "uuid": "d970fea7_52981428",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-11-28T11:09:02Z",
+      "side": 1,
+      "message": "Ok, thats new info. Your previous comment made me think you just tested existing behaviour without having a specific demand for that behaviour. I you really need that regular files are compare equal to gitlinks ... then +1 for this test",
+      "parentUuid": "06903177_18a1dace",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 49
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb86a7a7_f808eb01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
         "patchSetId": 1
