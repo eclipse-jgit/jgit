@@ -159,6 +159,18 @@ java_library(
 )
 
 java_library(
+    name = "mockito",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = [
+        "@mockito//jar",
+        "@byte_buddy//jar",
+        "@byte_buddy_agent//jar",
+        "@objenesis//jar",
+    ],
+)
+
+java_library(
     name = "servlet-api",
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",

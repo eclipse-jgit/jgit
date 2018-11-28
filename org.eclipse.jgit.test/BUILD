@@ -50,6 +50,7 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
+        "//lib:mockito",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
     ],

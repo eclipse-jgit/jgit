@@ -131,6 +131,32 @@ maven_jar(
 )
 
 maven_jar(
+    name = "mockito",
+    artifact = "org.mockito:mockito-core:2.13.0",
+    sha1 = "8e372943974e4a121fb8617baced8ebfe46d54f0",
+)
+
+BYTE_BUDDY_VERSION = "1.7.9"
+
+maven_jar(
+    name = "byte_buddy",
+    artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
+    sha1 = "51218a01a882c04d0aba8c028179cce488bbcb58",
+)
+
+maven_jar(
+    name = "byte_buddy_agent",
+    artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
+    sha1 = "a6c65f9da7f467ee1f02ff2841ffd3155aee2fc9",
+)
+
+maven_jar(
+    name = "objenesis",
+    artifact = "org.objenesis:objenesis:2.6",
+    sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
+)
+
+maven_jar(
     name = "gson",
     artifact = "com.google.code.gson:gson:2.8.2",
     sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",

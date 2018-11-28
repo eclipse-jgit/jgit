@@ -49,6 +49,10 @@ def tests(tests):
                 "//lib:sshd-sftp",
                 ":sshd-helpers",
             ]
+        if src.endswith("JDKHttpConnectionTest.java"):
+            additional_deps = [
+                "//lib:mockito",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
