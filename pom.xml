@@ -205,7 +205,7 @@
     <junit-version>4.12</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
-    <commons-compress-version>1.15</commons-compress-version>
+    <commons-compress-version>1.18</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>3.1.0</servlet-api-version>
     <jetty-version>9.4.11.v20180605</jetty-version>
