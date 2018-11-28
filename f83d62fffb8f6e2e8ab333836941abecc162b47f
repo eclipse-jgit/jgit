@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c88939_cc4bd436",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-28T23:32:20Z",
+      "side": 1,
+      "message": "Wrap this line?",
+      "revId": "f83d62fffb8f6e2e8ab333836941abecc162b47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
