@@ -73,12 +73,10 @@
     </dependency>
 
     <!-- Optional security provider for encryption tests. -->
-    <!-- See https://dev.eclipse.org/ipzilla/show_bug.cgi?id=9554 -->
-    <!-- See https://bugs.eclipse.org/bugs/show_bug.cgi?id=467064 -->
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.52</version>
+      <version>1.59</version>
       <scope>test</scope>
      </dependency>
 
