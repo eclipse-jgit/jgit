@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f93fecd7_6364ac8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-28T23:35:18Z",
+      "side": 1,
+      "message": "nit: \"a\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "320bf721_700543b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-28T23:35:18Z",
+      "side": 1,
+      "message": "\"version\"?",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 43
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c823f84_772fc88d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-11-28T23:35:18Z",
+      "side": 1,
+      "message": "Should this be named \"version\" now?",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
