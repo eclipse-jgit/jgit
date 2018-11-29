@@ -16,6 +16,24 @@
       "revId": "f83d62fffb8f6e2e8ab333836941abecc162b47f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e8be13_4bb4d42f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-29T22:04:46Z",
+      "side": 1,
+      "message": "Ok, will do so once Matthias has answered my question.",
+      "parentUuid": "11c88939_cc4bd436",
+      "revId": "f83d62fffb8f6e2e8ab333836941abecc162b47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
