@@ -34,6 +34,24 @@
       "revId": "f83d62fffb8f6e2e8ab333836941abecc162b47f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22a159e0_89130035",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-11-29T23:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e8be13_4bb4d42f",
+      "revId": "f83d62fffb8f6e2e8ab333836941abecc162b47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
