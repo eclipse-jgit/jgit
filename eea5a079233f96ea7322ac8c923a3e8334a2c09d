@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "dfb518f0_21d01f40",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-11-29T04:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "320bf721_700543b4",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 43
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50acd1ab_93d024af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
         "patchSetId": 3
@@ -59,6 +83,24 @@
       "writtenOn": "2018-11-29T00:33:29Z",
       "side": 1,
       "message": "add another method to find out if this method is supported ?",
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1452a91_23f3a18a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-11-29T04:31:34Z",
+      "side": 1,
+      "message": "I was also thinking about it. I will add such method to the RefDatabase.",
+      "parentUuid": "50acd1ab_93d024af",
       "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d02d9a75_c28ab3f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-11-29T04:31:34Z",
+      "side": 1,
+      "message": "I think it makes sense. Adding a \"hasVersioning\" method.",
+      "parentUuid": "25b74cb1_54256ebe",
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c823f84_772fc88d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
         "patchSetId": 3
@@ -93,6 +153,30 @@
       "writtenOn": "2018-11-28T23:35:18Z",
       "side": 1,
       "message": "Should this be named \"version\" now?",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3613a_19785fd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-11-29T04:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c823f84_772fc88d",
       "range": {
         "startLine": 61,
         "startChar": 14,
