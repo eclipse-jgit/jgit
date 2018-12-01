@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.9-staging" sequenceNumber="1543679490">
+<target name="jgit-4.9-staging" sequenceNumber="1543686503">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -37,6 +37,12 @@
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.9.v20180409-1525"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
+      <unit id="org.bouncycastle.bcpg" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcpg.source" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcpkix" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcpkix.source" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcprov" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.60.0.v20181107-1520"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
