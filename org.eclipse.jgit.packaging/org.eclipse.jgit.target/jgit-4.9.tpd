@@ -1,7 +1,7 @@
 target "jgit-4.9" with source configurePhase
 
 include "projects/jetty-9.4.11.tpd"
-include "orbit/I20181128011035-2018-12.tpd"
+include "orbit/S20181128170323-2018-12.tpd"
 
 location "http://download.eclipse.org/releases/2018-09/" {
 	org.eclipse.osgi lazy
