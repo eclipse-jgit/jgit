@@ -53,6 +53,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
@@ -61,9 +62,11 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -240,7 +243,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 				DiffEntry subDiff = diffs.get(0);
 				assertEquals(FileMode.MISSING, subDiff.getOldMode());
 				assertEquals(FileMode.GITLINK, subDiff.getNewMode());
-				assertEquals(ObjectId.zeroId(), subDiff.getOldId().toObjectId());
+				assertEquals(ObjectId.zeroId(),
+						subDiff.getOldId().toObjectId());
 				assertEquals(commit, subDiff.getNewId().toObjectId());
 				assertEquals(path, subDiff.getNewPath());
 			}
@@ -278,8 +282,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			}
 			assertEquals(commit2, repo.resolve(Constants.HEAD));
 
-			RevCommit submoduleAddCommit = git.commit().setMessage("submodule add")
-					.setOnly(path).call();
+			RevCommit submoduleAddCommit = git.commit()
+					.setMessage("submodule add").setOnly(path).call();
 			assertNotNull(submoduleAddCommit);
 
 			RefUpdate update = repo.updateRef(Constants.HEAD);
@@ -318,7 +322,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertTrue(file3.setLastModified(file3.lastModified() - 5000));
 
 			assertNotNull(git.add().addFilepattern("file1.txt")
-					.addFilepattern("file2.txt").addFilepattern("file3.txt").call());
+					.addFilepattern("file2.txt").addFilepattern("file3.txt")
+					.call());
 			RevCommit commit = git.commit().setMessage("add files").call();
 			assertNotNull(commit);
 
@@ -351,8 +356,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 			write(file1, "content4");
 			assertTrue(file1.setLastModified(file1.lastModified() + 2500));
-			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
-					.call());
+			assertNotNull(git.commit().setMessage("edit file")
+					.setOnly("file1.txt").call());
 
 			cache = db.readDirCache();
 			assertEquals(file1Size, cache.getEntry("file1.txt").getLength());
@@ -405,8 +410,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			write(file1, "content5");
 			assertTrue(file1.setLastModified(file1.lastModified() + 1000));
 
-			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
-					.call());
+			assertNotNull(git.commit().setMessage("edit file")
+					.setOnly("file1.txt").call());
 
 			cache = db.readDirCache();
 			assertEquals(file1Size, cache.getEntry("file1.txt").getLength());
@@ -433,8 +438,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			checkoutBranch("refs/heads/master");
 
 			MergeResult result = git.merge()
-					.include(db.exactRef("refs/heads/branch1"))
-					.setSquash(true)
+					.include(db.exactRef("refs/heads/branch1")).setSquash(true)
 					.call();
 
 			assertTrue(new File(db.getWorkTree(), "file1").exists());
@@ -447,10 +451,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 			assertEquals(1, squashedCommit.getParentCount());
 			assertNull(db.readSquashCommitMsg());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(db.getBranch()).getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getReflogReader(Constants.HEAD).getLastEntry()
+							.getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getReflogReader(db.getBranch()).getLastEntry()
+							.getComment());
 		}
 	}
 
@@ -503,7 +509,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			final Date authorDate = new Date(1349621117000L);
 			PersonIdent firstAuthor = new PersonIdent(authorName, authorEmail,
 					authorDate, TimeZone.getTimeZone("UTC"));
-			git.commit().setMessage("initial commit").setAuthor(firstAuthor).call();
+			git.commit().setMessage("initial commit").setAuthor(firstAuthor)
+					.call();
 
 			RevCommit amended = git.commit().setAmend(true)
 					.setMessage("amend commit").call();
@@ -511,7 +518,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			PersonIdent amendedAuthor = amended.getAuthorIdent();
 			assertEquals(authorName, amendedAuthor.getName());
 			assertEquals(authorEmail, amendedAuthor.getEmailAddress());
-			assertEquals(authorDate.getTime(), amendedAuthor.getWhen().getTime());
+			assertEquals(authorDate.getTime(),
+					amendedAuthor.getWhen().getTime());
 		}
 	}
 
@@ -528,7 +536,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 			PersonIdent amendedAuthor = amended.getAuthorIdent();
 			assertEquals("New Author", amendedAuthor.getName());
-			assertEquals("newauthor@example.org", amendedAuthor.getEmailAddress());
+			assertEquals("newauthor@example.org",
+					amendedAuthor.getEmailAddress());
 		}
 	}
 
@@ -581,26 +590,28 @@ public class CommitCommandTest extends RepositoryTestCase {
 		writeTrashFile("unmerged2", "unmerged2 data");
 		writeTrashFile("other", "other data");
 
-		assertEquals("[other, mode:100644]"
-				+ "[unmerged1, mode:100644, stage:1]"
-				+ "[unmerged1, mode:100644, stage:2]"
-				+ "[unmerged1, mode:100644, stage:3]"
-				+ "[unmerged2, mode:100644, stage:1]"
-				+ "[unmerged2, mode:100644, stage:2]"
-				+ "[unmerged2, mode:100644, stage:3]",
+		assertEquals(
+				"[other, mode:100644]" + "[unmerged1, mode:100644, stage:1]"
+						+ "[unmerged1, mode:100644, stage:2]"
+						+ "[unmerged1, mode:100644, stage:3]"
+						+ "[unmerged2, mode:100644, stage:1]"
+						+ "[unmerged2, mode:100644, stage:2]"
+						+ "[unmerged2, mode:100644, stage:3]",
 				indexState(0));
 
 		try (Git git = new Git(db)) {
 			RevCommit commit = git.commit().setOnly("unmerged1")
 					.setMessage("Only one file").call();
 
-			assertEquals("[other, mode:100644]" + "[unmerged1, mode:100644]"
-					+ "[unmerged2, mode:100644, stage:1]"
-					+ "[unmerged2, mode:100644, stage:2]"
-					+ "[unmerged2, mode:100644, stage:3]",
+			assertEquals(
+					"[other, mode:100644]" + "[unmerged1, mode:100644]"
+							+ "[unmerged2, mode:100644, stage:1]"
+							+ "[unmerged2, mode:100644, stage:2]"
+							+ "[unmerged2, mode:100644, stage:3]",
 					indexState(0));
 
-			try (TreeWalk walk = TreeWalk.forPath(db, "unmerged1", commit.getTree())) {
+			try (TreeWalk walk = TreeWalk.forPath(db, "unmerged1",
+					commit.getTree())) {
 				assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
 			}
 		}
@@ -627,5 +638,101 @@ public class CommitCommandTest extends RepositoryTestCase {
 		builder.add(stage1);
 		builder.add(stage2);
 		builder.add(stage3);
+	}
+
+	@Test
+	public void callSignerWithProperSigningKey() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+
+			String[] signingKey = new String[1];
+			AtomicInteger callCount = new AtomicInteger();
+			GpgSigner.setDefault(new GpgSigner() {
+				@Override
+				public void sign(CommitBuilder commit, String gpgSigningKey) {
+					signingKey[0] = gpgSigningKey;
+					callCount.incrementAndGet();
+				}
+			});
+
+			// first call should use config, which is expected to be null at
+			// this time
+			git.commit().setSign(Boolean.TRUE).setMessage("initial commit")
+					.call();
+			assertNull(signingKey[0]);
+			assertEquals(1, callCount.get());
+
+			writeTrashFile("file2", "file2");
+			git.add().addFilepattern("file2").call();
+
+			// second commit applies config value
+			String expectedConfigSigningKey = "config-" + System.nanoTime();
+			StoredConfig config = git.getRepository().getConfig();
+			config.setString("user", null, "signingKey",
+					expectedConfigSigningKey);
+			config.save();
+
+			git.commit().setSign(Boolean.TRUE).setMessage("initial commit")
+					.call();
+			assertEquals(expectedConfigSigningKey, signingKey[0]);
+			assertEquals(2, callCount.get());
+
+			writeTrashFile("file3", "file3");
+			git.add().addFilepattern("file3").call();
+
+			// now use specific on api
+			String expectedSigningKey = "my-" + System.nanoTime();
+			git.commit().setSign(Boolean.TRUE).setSigningKey(expectedSigningKey)
+					.setMessage("initial commit").call();
+			assertEquals(expectedSigningKey, signingKey[0]);
+			assertEquals(3, callCount.get());
+		}
+	}
+
+	@Test
+	public void callSignerOnlyWhenSigning() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+
+			AtomicInteger callCount = new AtomicInteger();
+			GpgSigner.setDefault(new GpgSigner() {
+				@Override
+				public void sign(CommitBuilder commit, String gpgSigningKey) {
+					callCount.incrementAndGet();
+				}
+			});
+
+			// first call should use config, which is expected to be null at
+			// this time
+			git.commit().setMessage("initial commit").call();
+			assertEquals(0, callCount.get());
+
+			writeTrashFile("file2", "file2");
+			git.add().addFilepattern("file2").call();
+
+			// now force signing
+			git.commit().setSign(Boolean.TRUE).setMessage("commit").call();
+			assertEquals(1, callCount.get());
+
+			writeTrashFile("file3", "file3");
+			git.add().addFilepattern("file3").call();
+
+			// now rely on config
+			StoredConfig config = git.getRepository().getConfig();
+			config.setBoolean("commit", null, "gpgSign", true);
+			config.save();
+
+			git.commit().setMessage("commit").call();
+			assertEquals(2, callCount.get());
+
+			writeTrashFile("file4", "file4");
+			git.add().addFilepattern("file4").call();
+
+			// now force "no-sign" (even though config is true)
+			git.commit().setSign(Boolean.FALSE).setMessage("commit").call();
+			assertEquals(2, callCount.get());
+		}
 	}
 }
