@@ -1,0 +1,7 @@
+Verified+1: CI Bot
+Code-Review+2: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-by: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-at: Sun, 02 Dec 2018 06:12:48 -0500
+Reviewed-on: https://git.eclipse.org/r/132718
+Project: jgit/jgit
+Branch: refs/heads/stable-5.2
