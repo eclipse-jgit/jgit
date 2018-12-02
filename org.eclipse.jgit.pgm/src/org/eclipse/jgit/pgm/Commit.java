@@ -49,6 +49,7 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.opt.GpgSignHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.kohsuke.args4j.Argument;
@@ -62,7 +63,8 @@ class Commit extends TextBuiltin {
 	@Option(name = "--author", metaVar = "metaVar_author", usage = "usage_CommitAuthor")
 	private String author;
 
-	@Option(name = "--message", aliases = { "-m" }, metaVar = "metaVar_message", usage = "usage_CommitMessage", required = true)
+	@Option(name = "--message", aliases = {
+			"-m" }, metaVar = "metaVar_message", usage = "usage_CommitMessage", required = true)
 	private String message;
 
 	@Option(name = "--only", aliases = { "-o" }, usage = "usage_CommitOnly")
@@ -73,6 +75,13 @@ class Commit extends TextBuiltin {
 
 	@Option(name = "--amend", usage = "usage_CommitAmend")
 	private boolean amend;
+
+	@Option(name = "--gpg-sign", aliases = { "-S" }, forbids = {
+			"--no-gpg-sign" }, handler = GpgSignHandler.class)
+	private String gpgSigningKey;
+
+	@Option(name = "--no-gpg-sign", forbids = { "--gpg-sign" })
+	private boolean noGpgSign;
 
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
 	private List<String> paths = new ArrayList<>();
@@ -87,10 +96,19 @@ class Commit extends TextBuiltin {
 				commitCmd.setAuthor(RawParseUtils.parsePersonIdent(author));
 			if (message != null)
 				commitCmd.setMessage(message);
+			if (noGpgSign) {
+				commitCmd.setSign(Boolean.FALSE);
+			} else if (gpgSigningKey != null) {
+				commitCmd.setSign(Boolean.TRUE);
+				if (!gpgSigningKey.equals(GpgSignHandler.DEFAULT)) {
+					commitCmd.setSigningKey(gpgSigningKey);
+				}
+			}
 			if (only && paths.isEmpty())
 				throw die(CLIText.get().pathsRequired);
 			if (only && all)
-				throw die(CLIText.get().onlyOneOfIncludeOnlyAllInteractiveCanBeUsed);
+				throw die(CLIText
+						.get().onlyOneOfIncludeOnlyAllInteractiveCanBeUsed);
 			if (!paths.isEmpty())
 				for (String p : paths)
 					commitCmd.setOnly(p);
@@ -113,7 +131,8 @@ class Commit extends TextBuiltin {
 			else {
 				branchName = head.getTarget().getName();
 				if (branchName.startsWith(Constants.R_HEADS))
-					branchName = branchName.substring(Constants.R_HEADS.length());
+					branchName = branchName
+							.substring(Constants.R_HEADS.length());
 			}
 			outw.println("[" + branchName + " " + commit.name() + "] " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					+ commit.getShortMessage());
