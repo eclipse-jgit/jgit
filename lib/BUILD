@@ -172,9 +172,9 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@mockito//jar",
         "@byte_buddy//jar",
         "@byte_buddy_agent//jar",
+        "@mockito//jar",
         "@objenesis//jar",
     ],
 )
