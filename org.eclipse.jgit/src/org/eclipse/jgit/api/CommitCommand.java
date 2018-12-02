@@ -61,6 +61,7 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.UnsupportedGpgFormatException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -76,6 +77,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -99,9 +103,9 @@ import org.eclipse.jgit.util.ChangeIdUtil;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-commit.html"
- *      >Git documentation about Commit</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-commit.html" >Git
+ *      documentation about Commit</a>
  */
 public class CommitCommand extends GitCommand<RevCommit> {
 	private PersonIdent author;
@@ -139,6 +143,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private Boolean allowEmpty;
 
+	private Boolean signCommit;
+
+	private String signingKey;
+
+	private GpgSigner gpgSigner;
+
 	/**
 	 * Constructor for CommitCommand
 	 *
@@ -158,10 +168,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * call to {@link #call()})
 	 */
 	@Override
-	public RevCommit call() throws GitAPIException, NoHeadException,
-			NoMessageException, UnmergedPathsException,
-			ConcurrentRefUpdateException, WrongRepositoryStateException,
-			AbortedByHookException {
+	public RevCommit call()
+			throws GitAPIException, NoHeadException, NoMessageException,
+			UnmergedPathsException, ConcurrentRefUpdateException,
+			WrongRepositoryStateException, AbortedByHookException {
 		checkCallable();
 		Collections.sort(only);
 
@@ -181,8 +191,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			if (all && !repo.isBare()) {
 				try (Git git = new Git(repo)) {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
@@ -192,8 +201,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null)
-				throw new NoHeadException(
-						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+				throw new NoHeadException(JGitText
+						.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
 
 			// determine the current HEAD and the commit it is referring to
 			ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}"); //$NON-NLS-1$
@@ -251,6 +260,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 				commit.setParentIds(parents);
 				commit.setTreeId(indexTreeId);
+
+				if (signCommit.booleanValue()) {
+					gpgSigner.sign(commit, signingKey);
+				}
+
 				ObjectId commitId = odi.insert(commit);
 				odi.flush();
 
@@ -309,8 +323,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
-			throw new JGitInternalException(
-					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+			throw new JGitInternalException(JGitText
+					.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
 		}
 	}
 
@@ -323,13 +337,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		message = ChangeIdUtil.insertId(message, changeId);
 		if (changeId != null)
 			message = message.replaceAll("\nChange-Id: I" //$NON-NLS-1$
-					+ ObjectId.zeroId().getName() + "\n", "\nChange-Id: I" //$NON-NLS-1$ //$NON-NLS-2$
-					+ changeId.getName() + "\n"); //$NON-NLS-1$
+					+ ObjectId.zeroId().getName() + "\n", //$NON-NLS-1$
+					"\nChange-Id: I" //$NON-NLS-1$
+							+ changeId.getName() + "\n"); //$NON-NLS-1$
 	}
 
 	private DirCache createTemporaryIndex(ObjectId headId, DirCache index,
-			RevWalk rw)
-			throws IOException {
+			RevWalk rw) throws IOException {
 		ObjectInserter inserter = null;
 
 		// get DirCacheBuilder for existing index
@@ -469,7 +483,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 		// there must be at least one change
 		if (emptyCommit && !allowEmpty.booleanValue())
-			// Would like to throw a EmptyCommitException. But this would break the API
+			// Would like to throw a EmptyCommitException. But this would break
+			// the API
 			// TODO(ch): Change this in the next release
 			throw new JGitInternalException(JGitText.get().emptyCommit);
 
@@ -517,9 +532,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
+	 *             @throws UnsupportedGpgFormatException if the configured gpg.format is not supported
 	 */
 	private void processOptions(RepositoryState state, RevWalk rw)
-			throws NoMessageException {
+			throws NoMessageException, UnsupportedGpgFormatException {
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null && !amend)
@@ -572,6 +588,22 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// as long as we don't support -C option we have to have
 			// an explicit message
 			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
+
+		GpgConfig gpgConfig = new GpgConfig(repo.getConfig());
+		if (signCommit == null) {
+			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
+					: Boolean.FALSE;
+		}
+		if (signingKey == null) {
+			signingKey = gpgConfig.getSigningKey();
+		}
+		if (gpgSigner == null) {
+			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
+				throw new UnsupportedGpgFormatException(
+						JGitText.get().onlyOpenPgpSupportedForSigning);
+			}
+			gpgSigner = GpgSigner.getDefault();
+		}
 	}
 
 	private boolean isMergeDuringRebase(RepositoryState state) {
@@ -866,11 +898,48 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		if (!(PreCommitHook.NAME.equals(hookName)
 				|| CommitMsgHook.NAME.equals(hookName)
 				|| PostCommitHook.NAME.equals(hookName))) {
-			throw new IllegalArgumentException(
-					MessageFormat.format(JGitText.get().illegalHookName,
-							hookName));
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().illegalHookName, hookName));
 		}
 		hookOutRedirect.put(hookName, hookStdOut);
+		return this;
+	}
+
+	/**
+	 * Sets the signing key
+	 * <p>
+	 * Per spec of user.signingKey: this will be sent to the GPG program as is,
+	 * i.e. can be anything supported by the GPG program.
+	 * </p>
+	 * <p>
+	 * Note, if none was set or <code>null</code> is specified a default will be
+	 * obtained from the configuration.
+	 * </p>
+	 *
+	 * @param signingKey
+	 *            signing key (maybe <code>null</code>)
+	 * @return {@code this}
+	 * @since 5.2
+	 */
+	public CommitCommand setSigningKey(String signingKey) {
+		checkCallable();
+		this.signingKey = signingKey;
+		return this;
+	}
+
+	/**
+	 * Sets whether the commit should be signed.
+	 *
+	 * @param sign
+	 *            <code>true</code> to sign, <code>false</code> to not sign and
+	 *            <code>null</code> for default behavior (read from
+	 *            configuration)
+	 * @return {@code this}
+	 * @since 5.2
+	 */
+	public CommitCommand setSign(Boolean sign) {
+		checkCallable();
+		this.signCommit = sign;
 		return this;
 	}
 }
