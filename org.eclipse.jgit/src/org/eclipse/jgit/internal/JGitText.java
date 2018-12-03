@@ -284,6 +284,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String createNewFileFailed;
 	/***/ public String createRequiresZeroOldId;
 	/***/ public String credentialPassword;
+	/***/ public String credentialPassphrase;
 	/***/ public String credentialUsername;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String daysAgo;
