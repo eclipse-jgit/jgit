@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
+
 import java.io.Serializable;
 
 /**
@@ -53,13 +55,24 @@ public class GpgSignature implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private byte[] signature;
+
+	/**
+	 * Creates a new instance with the specified signature
+	 * 
+	 * @param signature
+	 */
+	public GpgSignature(byte[] signature) {
+		this.signature = signature;
+	}
+
 	/**
 	 * Format for Git storage.
 	 *
 	 * @return a string in the git format
 	 */
 	public String toExternalString() {
-		return null;
+		return new String(signature, US_ASCII);
 	}
 
 	/** {@inheritDoc} */
@@ -69,6 +82,7 @@ public class GpgSignature implements Serializable {
 		final StringBuilder r = new StringBuilder();
 
 		r.append("GpgSignature[");
+		r.append(signature.toString());
 		r.append("]");
 
 		return r.toString();

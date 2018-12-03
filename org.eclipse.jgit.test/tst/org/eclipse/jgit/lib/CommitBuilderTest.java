@@ -190,7 +190,7 @@ public class CommitBuilderTest {
 
 	@Test
 	public void setGpgSignature() throws Exception {
-		GpgSignature dummy = new GpgSignature();
+		GpgSignature dummy = new GpgSignature(new byte[0]);
 
 		CommitBuilder builder = new CommitBuilder();
 		assertNull(builder.getGpgSignature());
