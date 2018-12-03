@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4a0014e_e1fb7216",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this contain this.signingKey somehow?",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 33
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb119ca9_e3fdee85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Error messages should be externalized.",
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15d9b6fc_b704984c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Can\u0027t we use a CredentialItem.Password here? Otherwise the EGitCredentialProvider will need to be changed; IIRC it only stores Password items in the Eclipse secure store. We don\u0027t want to ask the user on each commit.",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eef91a10_b03a3935",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "You added a credentialPassphrase...",
+      "range": {
+        "startLine": 220,
+        "startChar": 19,
+        "endLine": 220,
+        "endChar": 37
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b766a3_85791188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "I\u0027d prefer passing through the CredentialsProvider from the CommitCommand. (Which would of course need a setter for this first.)",
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dac03c0_b82d0040",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Move this into a finally block.",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 23
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2236c563_6b1a0f26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Missing curly braces.",
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54dfec93_bfc2c3b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T21:30:04Z",
+      "side": 1,
+      "message": "Why does this have to be in chunks of at most 4k? Does update modify the array? Is\n\n  signature.update(originalData, 0, originalData.length);\n\nwrong?",
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
