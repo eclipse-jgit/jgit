@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2f209b08_b97dc188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T23:06:19Z",
+      "side": 1,
+      "message": "The URIish is used for two things:\n\n1. It is shown to the user; so it may tell him which key he\u0027s being asked a passphrase for.\n\n2. It is used as a key in Eclipse secure store to store and retrieve the passphrase.",
+      "parentUuid": "5f0fca3c_8d250ddd",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 33
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb119ca9_e3fdee85",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 4
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "I don\u0027t mind changing EGitCredentialProvider to also cache passphrases. Yes, it has to be properly stored in the secure store *or* cached for the duration of the Eclipse session. Similar to how Eclipse handles SSH keys right now, i.e. it only asks once until Eclipse is restarted.",
       "parentUuid": "15d9b6fc_b704984c",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae924398_4068b2f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T23:06:19Z",
+      "side": 1,
+      "message": "Eh -- unless I made a mistake, with the Apache MINA ssh client at least key passphrases should be stored in the Eclipse secure store, so the user should not get prompted at all once has has entered a correct passphrase for the first time. (Except being asked for the master password of the secure store, of course, or if he changes the passphrase on the key or replaces the key.)\n\nNow the JSch client may get it wrong; IIRC it even queries passphrases for keys using plain strings.",
+      "parentUuid": "290342ff_ee18d18b",
       "range": {
         "startLine": 219,
         "startChar": 2,
@@ -260,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "881bbaa8_1b426ff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T23:06:19Z",
+      "side": 1,
+      "message": "Ack. Had overlooked that.",
+      "parentUuid": "20900672_bf701f07",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 23
+      },
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2236c563_6b1a0f26",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 4
@@ -289,6 +361,24 @@
       "side": 1,
       "message": "Weird. I thought this would be handled by the Eclipse formatter?",
       "parentUuid": "2236c563_6b1a0f26",
+      "revId": "019037423e52118da61e2f2410a4557792cb1169",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22c5671b_1160d864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-03T23:06:19Z",
+      "side": 1,
+      "message": "No. Unfortunately there\u0027s no way to teach the Eclipse formatter to apply that setting only to changed lines. It always insists on doing it in the whole file, which frequently leads to many unrelated changes. So we don\u0027t have that option enabled and instead supply missing braces manually.\n\nThere\u0027s more above, BTW. (Lines 182, 187, 197)",
+      "parentUuid": "5803c040_fb2ccd0d",
       "revId": "019037423e52118da61e2f2410a4557792cb1169",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
