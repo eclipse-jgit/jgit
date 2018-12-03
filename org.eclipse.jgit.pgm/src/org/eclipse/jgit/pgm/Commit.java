@@ -120,7 +120,7 @@ class Commit extends TextBuiltin {
 			try {
 				commit = commitCmd.call();
 			} catch (JGitInternalException e) {
-				throw die(e.getMessage());
+				throw die(e.getMessage(), e);
 			}
 
 			String branchName;
