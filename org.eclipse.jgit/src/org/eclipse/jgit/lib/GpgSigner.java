@@ -93,8 +93,10 @@ public abstract class GpgSigner {
 	 *            complete to allow proper calculation of payload)
 	 * @param gpgSigningKey
 	 *            the signing key (passed as is to the GPG signing tool)
+	 * @param committer
+	 *            the signing identity (to help with key lookup)
 	 */
 	public abstract void sign(@NonNull CommitBuilder commit,
-			String gpgSigningKey);
+			String gpgSigningKey, @NonNull PersonIdent committer);
 
 }
