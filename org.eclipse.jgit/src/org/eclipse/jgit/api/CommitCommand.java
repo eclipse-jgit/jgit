@@ -88,10 +88,12 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -149,6 +151,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private GpgSigner gpgSigner;
 
+	private CredentialsProvider credentialsProvider;
+
 	/**
 	 * Constructor for CommitCommand
 	 *
@@ -157,6 +161,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	protected CommitCommand(Repository repo) {
 		super(repo);
+		this.credentialsProvider = CredentialsProvider.getDefault();
 	}
 
 	/**
@@ -263,7 +268,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				commit.setTreeId(indexTreeId);
 
 				if (signCommit.booleanValue()) {
-					gpgSigner.sign(commit, signingKey);
+					gpgSigner.sign(commit, signingKey, committer,
+							credentialsProvider);
 				}
 
 				ObjectId commitId = odi.insert(commit);
@@ -603,6 +609,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						JGitText.get().onlyOpenPgpSupportedForSigning);
 			}
 			gpgSigner = GpgSigner.getDefault();
+			if (gpgSigner == null) {
+				gpgSigner = new BouncyCastleGpgSigner();
+			}
 		}
 	}
 
@@ -942,5 +951,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		checkCallable();
 		this.signCommit = sign;
 		return this;
+	}
+
+	/**
+	 * Sets a {@link CredentialsProvider}
+	 *
+	 * @param credentialsProvider
+	 *            the provider to use when querying for credentials (eg., during
+	 *            signing)
+	 * @since 5.3
+	 */
+	public void setCredentialsProvider(
+			CredentialsProvider credentialsProvider) {
+		this.credentialsProvider = credentialsProvider;
 	}
 }

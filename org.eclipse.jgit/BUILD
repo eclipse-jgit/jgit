@@ -26,6 +26,9 @@ java_library(
         "//lib:jsch",
         "//lib:jzlib",
         "//lib:slf4j-api",
+        "//lib:bcpg",
+        "//lib:bcprov",
+        "//lib:bcpkix"
     ],
 )
 
