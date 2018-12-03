@@ -148,6 +148,33 @@ java_library(
 )
 
 java_library(
+    name = "bcpg",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@bcpg-jdk15on//jar"],
+)
+
+java_library(
+    name = "bcprov",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@bcprov-jdk15on//jar"],
+)
+
+java_library(
+    name = "bcpkix",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@bcpkix-jdk15on//jar"],
+)
+
+java_library(
     name = "jzlib",
     visibility = [
         "//org.eclipse.jgit:__pkg__",
