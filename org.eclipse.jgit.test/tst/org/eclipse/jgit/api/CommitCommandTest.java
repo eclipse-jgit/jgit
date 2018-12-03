@@ -642,7 +642,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			AtomicInteger callCount = new AtomicInteger();
 			GpgSigner.setDefault(new GpgSigner() {
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey) {
+				public void sign(CommitBuilder commit, String gpgSigningKey,
+						PersonIdent signingCommitter) {
 					signingKey[0] = gpgSigningKey;
 					callCount.incrementAndGet();
 				}
@@ -691,7 +692,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			AtomicInteger callCount = new AtomicInteger();
 			GpgSigner.setDefault(new GpgSigner() {
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey) {
+				public void sign(CommitBuilder commit, String gpgSigningKey,
+						PersonIdent signingCommitter) {
 					callCount.incrementAndGet();
 				}
 			});
