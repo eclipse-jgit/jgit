@@ -199,7 +199,8 @@ public class HookTest extends RepositoryTestCase {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
-				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\necho 1>&2 \"stderr\"");
+				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\n"
+						+ "echo $GIT_DIR\necho $GIT_WORK_TREE\necho 1>&2 \"stderr\"");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayOutputStream err = new ByteArrayOutputStream();
 		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
@@ -208,7 +209,9 @@ public class HookTest extends RepositoryTestCase {
 				"arg1", "arg2" },
 				new PrintStream(out), new PrintStream(err), "stdin");
 
-		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
+		assertEquals("unexpected hook output",
+				"test arg1 arg2\nstdin\n" + db.getDirectory().getAbsolutePath()
+						+ '\n' + db.getWorkTree().getAbsolutePath() + '\n',
 				out.toString("UTF-8"));
 		assertEquals("unexpected output on stderr stream", "stderr\n",
 				err.toString("UTF-8"));

@@ -197,6 +197,6 @@ public final class SshConstants {
 
 	/** All known default identity file names. */
 	public static final String[] DEFAULT_IDENTITIES = { //
-			ID_RSA, ID_DSA, ID_ECDSA // , ID_ED25519 // not yet...
+			ID_RSA, ID_DSA, ID_ECDSA, ID_ED25519
 	};
 }

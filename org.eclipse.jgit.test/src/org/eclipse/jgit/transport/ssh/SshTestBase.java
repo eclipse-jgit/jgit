@@ -80,6 +80,7 @@ public abstract class SshTestBase extends SshTestHarness {
 			"id_ecdsa_256", //
 			"id_ecdsa_384", //
 			"id_ecdsa_521", //
+			"id_ed25519", //
 			// And now encrypted. Passphrase is "testpass".
 			"id_dsa_testpass", //
 			"id_rsa_1024_testpass", //
@@ -805,7 +806,8 @@ public abstract class SshTestBase extends SshTestHarness {
 		// JSch fails on ECDSA 384/521 keys. Compare
 		// https://sourceforge.net/p/jsch/patches/10/
 		assumeTrue(!(getSessionFactory() instanceof JschConfigSessionFactory
-				&& (keyName.startsWith("id_ecdsa_384")
+				&& (keyName.contains("ed25519")
+						|| keyName.startsWith("id_ecdsa_384")
 						|| keyName.startsWith("id_ecdsa_521"))));
 		File cloned = new File(getTemporaryDirectory(), "cloned");
 		String keyFileName = keyName + "_key";
