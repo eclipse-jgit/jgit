@@ -43,6 +43,9 @@
 package org.eclipse.jgit.lib;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.errors.CanceledException;
+import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
+import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
  * Creates GPG signatures for Git objects.
@@ -51,7 +54,7 @@ import org.eclipse.jgit.annotations.NonNull;
  */
 public abstract class GpgSigner {
 
-	private static GpgSigner defaultSigner;
+	private static GpgSigner defaultSigner = new BouncyCastleGpgSigner();
 
 	/**
 	 * Get the default signer, or <code>null</code>.
@@ -93,8 +96,17 @@ public abstract class GpgSigner {
 	 *            complete to allow proper calculation of payload)
 	 * @param gpgSigningKey
 	 *            the signing key (passed as is to the GPG signing tool)
+	 * @param committer
+	 *            the signing identity (to help with key lookup)
+	 * @param credentialsProvider
+	 *            provider to use when querying for signing key credentials (eg.
+	 *            passphrase)
+	 * @throws CanceledException
+	 *             when signing was canceled (eg., user aborted when entering
+	 *             passphrase)
 	 */
 	public abstract void sign(@NonNull CommitBuilder commit,
-			String gpgSigningKey);
+			String gpgSigningKey, @NonNull PersonIdent committer,
+			CredentialsProvider credentialsProvider) throws CanceledException;
 
 }
