@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2018, Salesforce.
+/*-
+ * Copyright (C) 2019, Salesforce.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,68 +40,82 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.lib.internal;
 
-import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
+import java.text.MessageFormat;
+
+import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.util.encoders.Hex;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.CredentialItem.CharArrayType;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
 
 /**
- * Creates GPG signatures for Git objects.
- *
- * @since 5.3
+ * Prompts for a passphrase and caches it until {@link #clear() cleared}.
+ * <p>
+ * Implements {@link AutoCloseable} so it can be used within a
+ * try-with-resources block.
+ * </p>
  */
-public abstract class GpgSigner {
+class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 
-	private static GpgSigner defaultSigner = new BouncyCastleGpgSigner();
+	private CharArrayType passphrase;
 
-	/**
-	 * Get the default signer, or <code>null</code>.
-	 *
-	 * @return the default signer, or <code>null</code>.
-	 */
-	public static GpgSigner getDefault() {
-		return defaultSigner;
+	private CredentialsProvider credentialsProvider;
+
+	public BouncyCastleGpgKeyPassphrasePrompt(
+			CredentialsProvider credentialsProvider) {
+		this.credentialsProvider = credentialsProvider;
 	}
 
 	/**
-	 * Set the default signer.
-	 *
-	 * @param signer
-	 *            the new default signer, may be <code>null</code> to select no
-	 *            default.
+	 * Clears any cached passphrase
 	 */
-	public static void setDefault(GpgSigner signer) {
-		GpgSigner.defaultSigner = signer;
+	public void clear() {
+		if (passphrase != null) {
+			passphrase.clear();
+			passphrase = null;
+		}
+	}
+
+	@Override
+	public void close() {
+		clear();
+	}
+
+	private URIish createURI(byte[] keyFingerprint) {
+		URIish uri = new URIish();
+		uri = uri.setPath(MessageFormat.format(JGitText.get().gpgKeyUrish,
+				Hex.toHexString(keyFingerprint)));
+		return uri;
 	}
 
 	/**
-	 * Signs the specified commit.
+	 * Prompts use for a passphrase unless one was cached from a previous
+	 * prompt.
 	 *
-	 * <p>
-	 * Implementors should obtain the payload for signing from the specified
-	 * commit via {@link CommitBuilder#build()} and create a proper
-	 * {@link GpgSignature}. The generated signature must be set on the
-	 * specified {@code commit} (see
-	 * {@link CommitBuilder#setGpgSignature(GpgSignature)}).
-	 * </p>
-	 * <p>
-	 * Any existing signature on the commit must be discarded prior obtaining
-	 * the payload via {@link CommitBuilder#build()}.
-	 * </p>
-	 *
-	 * @param commit
-	 *            the commit to sign (must not be <code>null</code> and must be
-	 *            complete to allow proper calculation of payload)
-	 * @param gpgSigningKey
-	 *            the signing key (passed as is to the GPG signing tool)
-	 * @param committer
-	 *            the signing identity (to help with key lookup)
-	 * @param credentialsProvider
-	 *            provider to use when querying for signing key credentials (eg.
-	 *            passphrase)
+	 * @param keyFingerprint
+	 *            the fingerprint to show to the user during prompting
+	 * @return the passphrase (maybe <code>null</code>)
+	 * @throws PGPException
 	 */
-	public abstract void sign(@NonNull CommitBuilder commit,
-			String gpgSigningKey, @NonNull PersonIdent committer, CredentialsProvider credentialsProvider);
+	public char[] getPassphrase(byte[] keyFingerprint) throws PGPException {
+		if (passphrase == null) {
+			passphrase = new CharArrayType(JGitText.get().credentialPassphrase,
+					true);
+
+		}
+
+		if (credentialsProvider == null) {
+			throw new PGPException(JGitText.get().gpgNoCredentialsProvider);
+		}
+
+		if (passphrase.getValue() == null && !credentialsProvider
+				.get(createURI(keyFingerprint), passphrase)) {
+			return null;
+		}
+		return passphrase.getValue();
+	}
 
 }
