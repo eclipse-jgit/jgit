@@ -1110,6 +1110,13 @@ public abstract class FS {
 				hookPath);
 		ProcessBuilder hookProcess = runInShell(cmd, args);
 		hookProcess.directory(runDirectory);
+		Map<String, String> environment = hookProcess.environment();
+		environment.put(Constants.GIT_DIR_KEY,
+				repository.getDirectory().getAbsolutePath());
+		if (!repository.isBare()) {
+			environment.put(Constants.GIT_WORK_TREE_KEY,
+					repository.getWorkTree().getAbsolutePath());
+		}
 		try {
 			return new ProcessResult(runProcess(hookProcess, outRedirect,
 					errRedirect, stdinArgs), Status.OK);
