@@ -596,6 +596,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		}
 		if (signingKey == null) {
 			signingKey = gpgConfig.getSigningKey();
+			// when still null, default to the committer
+			if (signingKey == null || signingKey.isEmpty()) {
+				signingKey = committer.toExternalString();
+			}
 		}
 		if (gpgSigner == null) {
 			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
