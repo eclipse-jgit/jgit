@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7609b8a2_c6e33571",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-03T22:54:49Z",
+      "side": 1,
+      "message": "revert unrelated formatting changes",
+      "revId": "de067c6a985e7c159f87c82fa941f57c7a03c242",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54a9c0b6_f1133af3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/GpgSignHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-03T22:54:49Z",
+      "side": 1,
+      "message": "GpgSigningHandler",
+      "range": {
+        "startLine": 64,
+        "startChar": 13,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "de067c6a985e7c159f87c82fa941f57c7a03c242",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
