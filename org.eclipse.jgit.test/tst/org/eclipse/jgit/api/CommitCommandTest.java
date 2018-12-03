@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -639,21 +640,26 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file1").call();
 
 			String[] signingKey = new String[1];
+			PersonIdent[] signingCommitters = new PersonIdent[1];
 			AtomicInteger callCount = new AtomicInteger();
 			GpgSigner.setDefault(new GpgSigner() {
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey) {
+				public void sign(CommitBuilder commit, String gpgSigningKey,
+						PersonIdent signingCommitter) {
 					signingKey[0] = gpgSigningKey;
+					signingCommitters[0] = signingCommitter;
 					callCount.incrementAndGet();
 				}
 			});
 
 			// first call should use config, which is expected to be null at
 			// this time
-			git.commit().setSign(Boolean.TRUE).setMessage("initial commit")
+			git.commit().setCommitter(committer).setSign(Boolean.TRUE)
+					.setMessage("initial commit")
 					.call();
 			assertNull(signingKey[0]);
 			assertEquals(1, callCount.get());
+			assertSame(committer, signingCommitters[0]);
 
 			writeTrashFile("file2", "file2");
 			git.add().addFilepattern("file2").call();
@@ -665,20 +671,24 @@ public class CommitCommandTest extends RepositoryTestCase {
 					expectedConfigSigningKey);
 			config.save();
 
-			git.commit().setSign(Boolean.TRUE).setMessage("initial commit")
+			git.commit().setCommitter(committer).setSign(Boolean.TRUE)
+					.setMessage("initial commit")
 					.call();
 			assertEquals(expectedConfigSigningKey, signingKey[0]);
 			assertEquals(2, callCount.get());
+			assertSame(committer, signingCommitters[0]);
 
 			writeTrashFile("file3", "file3");
 			git.add().addFilepattern("file3").call();
 
 			// now use specific on api
 			String expectedSigningKey = "my-" + System.nanoTime();
-			git.commit().setSign(Boolean.TRUE).setSigningKey(expectedSigningKey)
+			git.commit().setCommitter(committer).setSign(Boolean.TRUE)
+					.setSigningKey(expectedSigningKey)
 					.setMessage("initial commit").call();
 			assertEquals(expectedSigningKey, signingKey[0]);
 			assertEquals(3, callCount.get());
+			assertSame(committer, signingCommitters[0]);
 		}
 	}
 
@@ -691,7 +701,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			AtomicInteger callCount = new AtomicInteger();
 			GpgSigner.setDefault(new GpgSigner() {
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey) {
+				public void sign(CommitBuilder commit, String gpgSigningKey,
+						PersonIdent signingCommitter) {
 					callCount.incrementAndGet();
 				}
 			});
