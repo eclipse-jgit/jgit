@@ -46,6 +46,8 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import java.io.Serializable;
 
+import org.eclipse.jgit.annotations.NonNull;
+
 /**
  * A structure for holding GPG signature together with additional related data.
  *
@@ -63,7 +65,7 @@ public class GpgSignature implements Serializable {
 	 * @param signature
 	 *            the signature
 	 */
-	public GpgSignature(byte[] signature) {
+	public GpgSignature(@NonNull byte[] signature) {
 		this.signature = signature;
 	}
 
@@ -83,7 +85,8 @@ public class GpgSignature implements Serializable {
 		final StringBuilder r = new StringBuilder();
 
 		r.append("GpgSignature[");
-		r.append(this.signature != null ? "size " + signature.length : "null");
+		r.append(
+				this.signature != null ? "length " + signature.length : "null");
 		r.append("]");
 
 		return r.toString();
