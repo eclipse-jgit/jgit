@@ -263,7 +263,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				commit.setTreeId(indexTreeId);
 
 				if (signCommit.booleanValue()) {
-					gpgSigner.sign(commit, signingKey);
+					gpgSigner.sign(commit, signingKey, committer);
 				}
 
 				ObjectId commitId = odi.insert(commit);
