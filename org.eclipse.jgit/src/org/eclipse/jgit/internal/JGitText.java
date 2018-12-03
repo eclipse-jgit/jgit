@@ -284,6 +284,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String createNewFileFailed;
 	/***/ public String createRequiresZeroOldId;
 	/***/ public String credentialPassword;
+	/***/ public String credentialPassphrase;
 	/***/ public String credentialUsername;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String daysAgo;
@@ -384,6 +385,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String gcLogExists;
 	/***/ public String gcTooManyUnpruned;
 	/***/ public String gitmodulesNotFound;
+	/***/ public String gpgFailedToParseSecretKey;
+	/***/ public String gpgMissingPassphrase;
+	/***/ public String gpgNoCredentialsProvider;
+	/***/ public String gpgNoKeyring;
+	/***/ public String gpgNoKeyInLegacySecring;
+	/***/ public String gpgNoPublicKeyFound;
+	/***/ public String gpgNoSecretKeyFound;
+	/***/ public String gpgNoSecretKeyForPublicKey;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
 	/***/ public String httpConfigCannotNormalizeURL;
