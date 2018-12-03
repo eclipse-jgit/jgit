@@ -1,0 +1,336 @@
+/*
+ * Copyright (C) 2018, Salesforce.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.eclipse.jgit.lib.internal;
+
+import static java.nio.file.Files.exists;
+import static java.nio.file.Files.newInputStream;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.bouncycastle.gpg.SExprParser;
+import org.bouncycastle.gpg.keybox.BlobType;
+import org.bouncycastle.gpg.keybox.KeyBlob;
+import org.bouncycastle.gpg.keybox.KeyBox;
+import org.bouncycastle.gpg.keybox.KeyInformation;
+import org.bouncycastle.gpg.keybox.PublicKeyRingBlob;
+import org.bouncycastle.gpg.keybox.UserID;
+import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPSecretKey;
+import org.bouncycastle.openpgp.PGPSecretKeyRing;
+import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
+import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.operator.PBEProtectionRemoverFactory;
+import org.bouncycastle.openpgp.operator.PGPDigestCalculatorProvider;
+import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBEProtectionRemoverFactory;
+import org.bouncycastle.util.encoders.Hex;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.CredentialItem.CharArrayType;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
+
+/**
+ * Locates GPG keys from either <code>~/.gnupg/private-keys-v1.d</code> or
+ * <code>~/.gnupg/secring.gpg</code>
+ */
+class BouncyCastleGpgKeyHelper {
+
+	private static final Path USER_KEYBOX_PATH = Paths
+			.get(System.getProperty("user.home"), ".gnupg", "pubring.kbx"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+	private static final Path USER_SECRET_KEY_DIR = Paths.get(
+			System.getProperty("user.home"), ".gnupg", "private-keys-v1.d"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+	private static final Path USER_PGP_LEGACY_SECRING_FILE = Paths
+			.get(System.getProperty("user.home"), ".gnupg", "secring.gpg"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+	private final String signingKey;
+
+	private CharArrayType cachedPassphrase;
+
+	/**
+	 * Creates a new key helper for the specified signing key.
+	 * <p>
+	 * The signing key must either be a hex representation of a specific key or
+	 * a user identity. All keys in the KeyBox will be looked at in the order as
+	 * returned by the KeyBox. A key id will be searched before attempting to
+	 * find a key by user id.
+	 * </p>
+	 *
+	 * @param signingKey
+	 *            the signing key to search for
+	 */
+	public BouncyCastleGpgKeyHelper(String signingKey) {
+		this.signingKey = signingKey;
+	}
+
+	private PGPSecretKey attemptParseSecretKey(Path keyFile,
+			PGPDigestCalculatorProvider calculatorProvider,
+			PBEProtectionRemoverFactory passphraseProvider,
+			PGPPublicKey publicKey) throws IOException {
+		try (InputStream in = newInputStream(keyFile)) {
+			return new SExprParser(calculatorProvider).parseSecretKey(
+					new BufferedInputStream(in), passphraseProvider, publicKey);
+		} catch (PGPException | ClassCastException e) {
+			// return null when secret key does not match public key
+			return null;
+		}
+	}
+
+	private URIish createURI() {
+		URIish uri = new URIish();
+		uri = uri.setPath("Signing Key"); //$NON-NLS-1$
+		return uri;
+	}
+
+	/**
+	 * Finds a public key associated with the signing key.
+	 *
+	 * @param keyboxFile
+	 *            the KeyBox file
+	 * @return publicKey the public key (maybe <code>null</code>)
+	 * @throws IOException
+	 *             in case of problems reading the file
+	 */
+	private PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile)
+			throws IOException {
+		KeyBox keyBox = readKeyBoxFile(keyboxFile);
+		for (KeyBlob keyBlob : keyBox.getKeyBlobs()) {
+			if (keyBlob.getType() == BlobType.OPEN_PGP_BLOB) {
+				// try key id
+				for (KeyInformation keyInfo : keyBlob.getKeyInformation()) {
+					if (signingKey
+							.equals(Hex.toHexString(keyInfo.getKeyID()))) {
+						return getFirstPublicKey(keyBlob);
+					}
+				}
+				// try email address
+				for (UserID userID : keyBlob.getUserIds()) {
+					if (signingKey.equalsIgnoreCase(userID.getUserIDAsString()))
+						return getFirstPublicKey(keyBlob);
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Use pubring.kbx when available, if not fallback to secring.gpg or secret
+	 * key path provided to parse and return secret key
+	 *
+	 * @return the secret key
+	 * @throws IOException
+	 *             in case of issues reading key files
+	 * @throws PGPException
+	 *             in case of issues finding a key
+	 */
+	public PGPSecretKey findSecretKey() throws IOException, PGPException {
+		if (exists(USER_KEYBOX_PATH)) {
+			PGPPublicKey publicKey = //
+					findPublicKeyInKeyBox(USER_KEYBOX_PATH);
+
+			if (publicKey == null)
+				throw new PGPException(
+						"no public-key with key or user id: " + signingKey); //$NON-NLS-1$
+
+			PGPSecretKey secretKey = findSecretKeyForKeyBoxPublicKey(publicKey);
+			if (secretKey != null)
+				return secretKey;
+
+			throw new PGPException(
+					"unable to find associated secret key for public key: " //$NON-NLS-1$
+							+ Long.toHexString(publicKey.getKeyID()));
+		} else if (exists(USER_PGP_LEGACY_SECRING_FILE)) {
+			PGPSecretKey secretKey = findSecretKeyInLegacySecring(signingKey,
+					USER_PGP_LEGACY_SECRING_FILE);
+
+			if (secretKey != null)
+				return secretKey;
+
+			throw new PGPException(
+					"no matching secret key found in legacy secring.gpg for key or user id: " //$NON-NLS-1$
+							+ signingKey);
+		}
+
+		throw new PGPException(
+				"neither pubring.kbx nor secring.gpg files found"); //$NON-NLS-1$
+	}
+
+	private PGPSecretKey findSecretKeyForKeyBoxPublicKey(PGPPublicKey publicKey)
+			throws PGPException {
+		/*
+		 * this is somewhat brute-force but there doesn't seem to be another
+		 * way; we have to walk all private key files we find and try to open
+		 * them
+		 */
+
+		PGPDigestCalculatorProvider calculatorProvider = new JcaPGPDigestCalculatorProviderBuilder()
+				.build();
+		CharArrayType passphrase = new CharArrayType(
+				JGitText.get().credentialPassphrase, true);
+		CredentialsProvider credentialsProvider = CredentialsProvider
+				.getDefault();
+		if (credentialsProvider == null)
+			throw new PGPException("missing credentials provider"); //$NON-NLS-1$
+
+		if (credentialsProvider.get(createURI(), passphrase)) {
+			PBEProtectionRemoverFactory passphraseProvider = new JcePBEProtectionRemoverFactory(
+					passphrase.getValue());
+
+			try (Stream<Path> keyFiles = Files.walk(USER_SECRET_KEY_DIR)) {
+				for (Path keyFile : keyFiles.filter(Files::isRegularFile)
+						.collect(Collectors.toList())) {
+					PGPSecretKey secretKey = attemptParseSecretKey(keyFile,
+							calculatorProvider, passphraseProvider, publicKey);
+					if (secretKey != null) {
+						// cache passphrase upon success only
+						cachedPassphrase = passphrase;
+						return secretKey;
+					}
+				}
+
+				passphrase.clear();
+				return null;
+			} catch (RuntimeException e) {
+				passphrase.clear();
+				throw e;
+			} catch (IOException e) {
+				passphrase.clear();
+				throw new PGPException(
+						"gpg failed to parse secret key file under directory " //$NON-NLS-1$
+								+ USER_SECRET_KEY_DIR.toAbsolutePath()
+										.toString(),
+						e);
+			}
+		} else {
+			throw new PGPException("missing passphrase"); //$NON-NLS-1$
+		}
+
+	}
+
+	/**
+	 * Return the first suitable key for signing in the key ring collection. For
+	 * this case we only expect there to be one key available for signing.
+	 * </p>
+	 *
+	 * @param signingkey
+	 * @param secringFile
+	 *
+	 * @return the first suitable PGP secret key found for signing
+	 * @throws IOException
+	 *             on I/O related errors
+	 * @throws PGPException
+	 *             on signing errors
+	 */
+	private PGPSecretKey findSecretKeyInLegacySecring(String signingkey,
+			Path secringFile) throws IOException, PGPException {
+
+		try (InputStream in = newInputStream(secringFile)) {
+			PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
+					PGPUtil.getDecoderStream(new BufferedInputStream(in)),
+					new JcaKeyFingerprintCalculator());
+
+			Iterator<PGPSecretKeyRing> keyrings = pgpSec.getKeyRings();
+			while (keyrings.hasNext()) {
+				PGPSecretKeyRing keyRing = keyrings.next();
+				Iterator<PGPSecretKey> keys = keyRing.getSecretKeys();
+				while (keys.hasNext()) {
+					PGPSecretKey key = keys.next();
+					// try key id
+					String fingerprint = Hex
+							.toHexString(key.getPublicKey().getFingerprint());
+					if (fingerprint.endsWith(signingkey)) {
+						return key;
+					}
+					// try user id
+					Iterator<String> userIDs = key.getUserIDs();
+					while (userIDs.hasNext()) {
+						String userId = userIDs.next();
+						if (signingkey.equals(userId)) {
+							return key;
+						}
+					}
+				}
+			}
+		}
+		throw new PGPException(
+				"gpg failed to find secret-key which matches provided keyID: " //$NON-NLS-1$
+						+ signingkey);
+	}
+
+	/**
+	 * Caches the passphrase in case a successful secure key was found
+	 *
+	 * @return the cached passphrase
+	 */
+	public CharArrayType getCachedPassphrase() {
+		return cachedPassphrase;
+	}
+
+	private PGPPublicKey getFirstPublicKey(KeyBlob keyBlob) throws IOException {
+		return ((PublicKeyRingBlob) keyBlob).getPGPPublicKeyRing()
+				.getPublicKey();
+	}
+
+	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException {
+		KeyBox keyBox;
+		try (InputStream in = new BufferedInputStream(
+				newInputStream(keyboxFile))) {
+			// note: KeyBox constructor reads in the whole InputStream at once
+			// this code will change in 1.61 to
+			// either 'new BcKeyBox(in)' or 'new JcaKeyBoxBuilder().build(in)'
+			keyBox = new KeyBox(in, new JcaKeyFingerprintCalculator());
+		}
+		return keyBox;
+	}
+}
