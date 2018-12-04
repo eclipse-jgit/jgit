@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451e632d_977c3cf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-04T07:36:16Z",
+      "side": 1,
+      "message": "Where? Apparently not in this commit. Don\u0027t see any Bazel changes in lib/BUILD or in org.eclipse.jgit.test/BUILD, for instance.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "42892015fdd64cbdce76d3c4e417f56291894b6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213e5a71_81726510",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/CommitBuilderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-04T07:36:16Z",
+      "side": 1,
+      "message": "What is this test testing? Why the Base64 encoding? Besides, there is a Base64 encoder in JGit already, no need for BC for that: org.eclipse.jgit.util.Base64.",
+      "revId": "42892015fdd64cbdce76d3c4e417f56291894b6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
