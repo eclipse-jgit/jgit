@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de4fb4dc_41103099",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89383ea7_44165ce6",
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ba7117_22df29cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-03T22:55:04Z",
       "side": 1,
       "message": "revert all these unrelated formatting changes",
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb30cebf_1f06b4ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ba7117_22df29cd",
       "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -168,6 +204,24 @@
     },
     {
       "key": {
+        "uuid": "c441673f_3e5f8bfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "It will be filled with content in a later commit. I\u0027ll bring the content into this one to give it more purpose.",
+      "parentUuid": "b82f33ba_79f59f28",
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e147d88_991e329b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
         "patchSetId": 3
@@ -179,6 +233,30 @@
       "writtenOn": "2018-12-03T22:55:04Z",
       "side": 1,
       "message": "this is too generic, what are the semantics of this string ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 20
+      },
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0c42f38_6cadf1b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e147d88_991e329b",
       "range": {
         "startLine": 59,
         "startChar": 12,
@@ -208,6 +286,24 @@
     },
     {
       "key": {
+        "uuid": "9e61468e_cd149b8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "should be obsolete",
+      "parentUuid": "01dfe5eb_50c20f4c",
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6c8e995_5ee7c16d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
         "patchSetId": 3
@@ -219,6 +315,24 @@
       "writtenOn": "2018-12-03T22:55:04Z",
       "side": 1,
       "message": "implementing toString() which doesn\u0027t return anything useful is pointless",
+      "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "640261fe_ff3df93d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "right, I\u0027ll update to bring in the content from later commit",
+      "parentUuid": "c6c8e995_5ee7c16d",
       "revId": "d417acebb10e2058b8035019671c6c93a7147f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
