@@ -211,7 +211,7 @@
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <repositories>
@@ -297,6 +297,7 @@
           <configuration>
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
+            <argLine>@{argLine}</argLine>
           </configuration>
         </plugin>
 
@@ -498,6 +499,7 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>default-prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
@@ -510,6 +512,38 @@
                 <exclude>**/*Test*.*</exclude>
               </excludes>
               <append>true</append>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+            <haltOnFailure>false</haltOnFailure>
+            <rules>
+              <rule>
+                <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>50%</minimum>
+                    </limit>
+                    <limit>
+                      <counter>CLASS</counter>
+                      <value>MISSEDCOUNT</value>
+                      <maximum>10</maximum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
             </configuration>
           </execution>
         </executions>
@@ -585,6 +619,24 @@
               <report>issue-management</report>
               <report>licenses</report>
               <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report-aggregate</report>
             </reports>
           </reportSet>
         </reportSets>
@@ -938,6 +990,8 @@
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
     <module>org.eclipse.jgit.ssh.apache.test</module>
+
+    <module>org.eclipse.jgit.coverage</module>
   </modules>
 
 </project>
