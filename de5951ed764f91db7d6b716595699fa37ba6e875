@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd841a51_7684489d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-05T22:55:34Z",
+      "side": 1,
+      "message": "5.3",
+      "range": {
+        "startLine": 939,
+        "startChar": 11,
+        "endLine": 939,
+        "endChar": 14
+      },
+      "revId": "de5951ed764f91db7d6b716595699fa37ba6e875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4b8edb_efb34951",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-05T22:55:34Z",
+      "side": 1,
+      "message": "we prefer to use primitive boolean in the API, see e.g. \n\n AddCommand.setUpdate(boolean)\n CommitCommand.setAllowEmpty(boolean)\n MergeCommand.setSquash(boolean)\n ...",
+      "range": {
+        "startLine": 941,
+        "startChar": 30,
+        "endLine": 941,
+        "endChar": 37
+      },
+      "revId": "de5951ed764f91db7d6b716595699fa37ba6e875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d4084f7_a6875ad7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-05T22:55:34Z",
+      "side": 1,
+      "message": "is this the ASCII armored representation of the binary signature as defined in https://tools.ietf.org/html/rfc4880#section-6.2 ? If yes, then I would explain that in the javadoc and add a link to the spec and I would expect that base64 encoding is used for the signature payload",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 31
+      },
+      "revId": "de5951ed764f91db7d6b716595699fa37ba6e875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27eca698_d5a43258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-05T22:55:34Z",
+      "side": 1,
+      "message": "duplicate \"via\"",
+      "range": {
+        "startLine": 81,
+        "startChar": 15,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "de5951ed764f91db7d6b716595699fa37ba6e875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ec62791_d44dbccd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-05T22:55:34Z",
+      "side": 1,
+      "message": "later for signing commits we add another method accepting a TagBuilder ?",
+      "revId": "de5951ed764f91db7d6b716595699fa37ba6e875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
