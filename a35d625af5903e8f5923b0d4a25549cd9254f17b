@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "939f6a36_670ccd73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05e62c7_b7790744",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49b1cba4_3abc15e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignature.java",
         "patchSetId": 5
@@ -82,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "7951443b_8f8a8097",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54a8034_38991790",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ea58174_868a85e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -93,6 +135,30 @@
       "writtenOn": "2018-12-03T22:54:18Z",
       "side": 1,
       "message": "use active voice \"Create\"",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 11
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91b64646_17b04b31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea58174_868a85e4",
       "range": {
         "startLine": 101,
         "startChar": 4,
@@ -128,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "73d6f834_0ed9abe3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a608b9a_bc0afebb",
+      "range": {
+        "startLine": 104,
+        "startChar": 59,
+        "endLine": 104,
+        "endChar": 61
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8723d881_e7423fb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -145,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "147b355e_da167c2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8723d881_e7423fb9",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5cac67_45a85acf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -156,6 +264,30 @@
       "writtenOn": "2018-12-03T22:54:18Z",
       "side": 1,
       "message": "declare a constant ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 32
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a42c58b1_5dce5db9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Potentially. I\u0027m not completely happy with that yet.",
+      "parentUuid": "bb5cac67_45a85acf",
       "range": {
         "startLine": 131,
         "startChar": 21,
@@ -191,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "78d6509c_443f6a78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "What is the benefit? Is there a convention to not use null but Optional?",
+      "parentUuid": "81354e63_f855f09e",
+      "range": {
+        "startLine": 144,
+        "startChar": 9,
+        "endLine": 144,
+        "endChar": 21
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164fe963_1c6cafd3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -202,6 +358,24 @@
       "writtenOn": "2018-12-03T22:54:18Z",
       "side": 1,
       "message": "extract this into a method explaining what it does instead of adding a comment",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a54a51ce_7680fc22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164fe963_1c6cafd3",
       "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -225,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "f559057b_9fbfb46c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4505d71_b883ed4a",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c69b3904_68dd0ed3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -242,6 +434,24 @@
     },
     {
       "key": {
+        "uuid": "5f1ad019_041bd658",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "even though they will only ever be logged but not shown?",
+      "parentUuid": "c69b3904_68dd0ed3",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aba7c373_346fbed7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -253,6 +463,24 @@
       "writtenOn": "2018-12-03T22:54:18Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca848257_957f9709",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba7c373_346fbed7",
       "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -316,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "ff9530ea_6430c975",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f57bb5e_7f2e8cca",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec6ff1b_98046fc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
         "patchSetId": 5
@@ -339,6 +585,30 @@
     },
     {
       "key": {
+        "uuid": "b172e1f7_a52e475b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cec6ff1b_98046fc3",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 11
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2aa5622_9ff07fea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
         "patchSetId": 5
@@ -350,6 +620,24 @@
       "writtenOn": "2018-12-03T22:54:18Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00a28288_355deae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T22:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2aa5622_9ff07fea",
       "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
