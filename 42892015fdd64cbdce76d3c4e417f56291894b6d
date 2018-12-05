@@ -39,6 +39,24 @@
       "revId": "42892015fdd64cbdce76d3c4e417f56291894b6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c38606a9_979e0b27",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/CommitBuilderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-12-05T21:47:51Z",
+      "side": 1,
+      "message": "Mostly the formatting as per spec. I supposed the encoding was used to avoid issue in the file. However, I agree it isn\u0027t necessary. I\u0027ll remove it.",
+      "parentUuid": "213e5a71_81726510",
+      "revId": "42892015fdd64cbdce76d3c4e417f56291894b6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
