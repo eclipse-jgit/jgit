@@ -347,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "663be54c_1a2312e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "We don\u0027t have a convention to use Optional, so far we use null in many places which is prone to NPEs if we are not very careful. Optional makes this more explicit and may help to avoid some NPEs. Gerrit has adopted this style. I don\u0027t insist we start this here in this change, maybe it\u0027s better to first discuss this topic on the mailing list.\n\nSee https://www.oracle.com/technetwork/articles/java/java8-optional-2175753.html",
+      "parentUuid": "78d6509c_443f6a78",
+      "range": {
+        "startLine": 144,
+        "startChar": 9,
+        "endLine": 144,
+        "endChar": 21
+      },
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164fe963_1c6cafd3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
         "patchSetId": 5
@@ -446,6 +470,24 @@
       "side": 1,
       "message": "even though they will only ever be logged but not shown?",
       "parentUuid": "c69b3904_68dd0ed3",
+      "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2def98_d5477731",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "JGit is a library so we are not sure what will be shown by applications. So far we externalize error messages but not trace logs",
+      "parentUuid": "5f1ad019_041bd658",
       "revId": "a35d625af5903e8f5923b0d4a25549cd9254f17b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
