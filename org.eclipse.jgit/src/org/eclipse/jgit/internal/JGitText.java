@@ -641,7 +641,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;
 	/***/ public String remoteHungUpUnexpectedly;
 	/***/ public String remoteNameCantBeNull;
-	/***/ public String renameBranchFailedBecauseTag;
+	/***/ public String renameBranchFailedAmbiguous;
+	/***/ public String renameBranchFailedNotABranch;
 	/***/ public String renameBranchFailedUnknownReason;
 	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renameCancelled;
