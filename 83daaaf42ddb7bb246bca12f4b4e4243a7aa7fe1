@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d66d7001_fc2ce6ca",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.10-staging.target",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "looks like you missed to resolve this conflict",
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c79af23_4b1d0c03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "what\u0027s the use-case for allowing a null gpgSigningKey ?",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 23
+      },
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94c9bf18_bbea5622",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "externalize error messages, also below",
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ab0487e_61185364",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "use Locale.ROOT to prevent surprises in Turkey\nhttps://garygregory.wordpress.com/2015/11/03/java-lowercase-conversion-turkey/",
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91117537_f512055a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "wouldn\u0027t it be sufficient to register the provider in a static initializer ?",
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e9a4fab_6fb2abef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "I\u0027d avoid manual formatting",
+      "range": {
+        "startLine": 102,
+        "startChar": 40,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6506c26b_faedd5c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "inline this statement ?",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c84700_21e6dbb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "remove unnecessary blank lines ?",
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce8bab92_2763c82c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-06T00:19:46Z",
+      "side": 1,
+      "message": "Why is that a helper method ? Isn\u0027t that a genuine part of a signing API ?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 18
+      },
+      "revId": "83daaaf42ddb7bb246bca12f4b4e4243a7aa7fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
