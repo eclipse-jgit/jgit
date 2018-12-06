@@ -49,14 +49,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Unit tests of {@link RenameBranchCommand}
@@ -69,6 +73,9 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 
 	private Git git;
 
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -78,6 +85,45 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(PATH).call();
 		head = git.commit().setMessage("add file").call();
 		assertNotNull(head);
+	}
+
+	@Test
+	public void renameToExisting() throws Exception {
+		assertNotNull(git.branchCreate().setName("foo").call());
+		thrown.expect(RefAlreadyExistsException.class);
+		git.branchRename().setOldName("master").setNewName("foo").call();
+	}
+
+	@Test
+	public void renameToTag() throws Exception {
+		Ref ref = git.tag().setName("foo").call();
+		assertNotNull(ref);
+		assertEquals("Unexpected tag name", Constants.R_TAGS + "foo",
+				ref.getName());
+		ref = git.branchRename().setNewName("foo").call();
+		assertNotNull(ref);
+		assertEquals("Unexpected ref name", Constants.R_HEADS + "foo",
+				ref.getName());
+		// Check that we can rename it back
+		ref = git.branchRename().setOldName("foo").setNewName(Constants.MASTER)
+				.call();
+		assertNotNull(ref);
+		assertEquals("Unexpected ref name",
+				Constants.R_HEADS + Constants.MASTER, ref.getName());
+	}
+
+	@Test
+	public void renameToStupidName() throws Exception {
+		Ref ref = git.branchRename().setNewName(Constants.R_HEADS + "foo")
+				.call();
+		assertEquals("Unexpected ref name",
+				Constants.R_HEADS + Constants.R_HEADS + "foo",
+				ref.getName());
+		// And check that we can rename it back to a sane name
+		ref = git.branchRename().setNewName("foo").call();
+		assertNotNull(ref);
+		assertEquals("Unexpected ref name", Constants.R_HEADS + "foo",
+				ref.getName());
 	}
 
 	@Test
