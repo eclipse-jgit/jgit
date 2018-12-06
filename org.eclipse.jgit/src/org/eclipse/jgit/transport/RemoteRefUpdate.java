@@ -293,7 +293,7 @@ public class RemoteRefUpdate {
 			final boolean forceUpdate, final String localName,
 			final ObjectId expectedOldObjectId) throws IOException {
 		if (remoteName == null)
-			throw new IllegalArgumentException(JGitText.get().remoteNameCantBeNull);
+			throw new IllegalArgumentException(JGitText.get().remoteNameCannotBeNull);
 		if (srcId == null && srcRef != null)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().sourceRefDoesntResolveToAnyObject, srcRef));
