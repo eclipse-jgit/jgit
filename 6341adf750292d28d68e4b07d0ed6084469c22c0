@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd7c0049_c3453e66",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-07T04:41:07Z",
+      "side": 1,
+      "message": "Rename this to \"Cannot\"?",
+      "range": {
+        "startLine": 582,
+        "startChar": 10,
+        "endLine": 582,
+        "endChar": 14
+      },
+      "revId": "6341adf750292d28d68e4b07d0ed6084469c22c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8fb91b_dbbbbc19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-07T04:41:07Z",
+      "side": 1,
+      "message": "Should this be separated into a one-line summary followed by a paragraph of further detail?",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 49
+      },
+      "revId": "6341adf750292d28d68e4b07d0ed6084469c22c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ab3a9e9_4bc48674",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-07T04:41:07Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 233,
+        "startChar": 1,
+        "endLine": 235,
+        "endChar": 12
+      },
+      "revId": "6341adf750292d28d68e4b07d0ed6084469c22c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
