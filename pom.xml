@@ -77,13 +77,10 @@
 
   <developers>
     <developer>
-      <name>Chris Aniszczyk</name>
+      <name>Andrey Loskutov</name>
     </developer>
     <developer>
       <name>Christian Halstrick</name>
-    </developer>
-    <developer>
-      <name>Colby Ranger</name>
     </developer>
     <developer>
       <name>Dave Borowitz</name>
@@ -98,28 +95,16 @@
       <name>Jonathan Nieder</name>
     </developer>
     <developer>
-      <name>Kevin Sawicki</name>
-    </developer>
-    <developer>
-      <name>Mathias Kinzler</name>
+      <name>Jonathan Tan</name>
     </developer>
     <developer>
       <name>Matthias Sohn</name>
     </developer>
     <developer>
-      <name>Robin Rosenberg</name>
-    </developer>
-    <developer>
-      <name>Robin Stocker</name>
-    </developer>
-    <developer>
       <name>Sasa Zivkov</name>
     </developer>
     <developer>
-      <name>Shawn Pearce</name>
-    </developer>
-    <developer>
-      <name>Stefan Lay</name>
+      <name>Terry Parker</name>
     </developer>
     <developer>
       <name>Thomas Wolf</name>
@@ -590,11 +575,15 @@
           <reportSet>
             <reports>
               <report>dependencies</report>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>cim</report>
-              <report>issue-tracking</report>
-              <report>license</report>
+              <report>dependency-convergence</report>
+              <report>dependency-management</report>
+              <report>index</report>
+              <report>summary</report>
+              <report>team</report>
+              <report>mailing-lists</report>
+              <report>ci-management</report>
+              <report>issue-management</report>
+              <report>licenses</report>
               <report>scm</report>
             </reports>
           </reportSet>
