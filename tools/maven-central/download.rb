@@ -15,9 +15,11 @@ artifacts = [group,
              group + '.http.server',
              group + '.junit',
              group + '.junit.http',
+             group + '.junit.ssh',
              group + '.lfs',
              group + '.lfs.server',
              group + '.pgm',
+             group + '.ssh.apache',
              group + '.ui']
 
 puts 'Deleting current files'
