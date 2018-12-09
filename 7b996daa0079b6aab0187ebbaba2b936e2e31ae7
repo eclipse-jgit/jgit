@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1924d7d4_08322afd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-09T21:51:48Z",
+      "side": 1,
+      "message": "The normal way to use LockFile is to write directly to the LockFile\u0027s OutputStream and then commit() the lockFile. Then you don\u0027t have to worry about creating a temporary file and renaming that; the LockFile does that for you.",
+      "revId": "7b996daa0079b6aab0187ebbaba2b936e2e31ae7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
