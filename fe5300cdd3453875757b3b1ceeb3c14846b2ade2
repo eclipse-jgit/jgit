@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bea5a441_63d77cb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-09T21:42:09Z",
+      "side": 1,
+      "message": "findSecretKeyInLegacySecring() either finds the non-null key or throws an exception. So this null check here is not needed, and the throw below is not reachable.",
+      "revId": "fe5300cdd3453875757b3b1ceeb3c14846b2ade2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
