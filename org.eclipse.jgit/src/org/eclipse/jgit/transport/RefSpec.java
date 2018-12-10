@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -410,6 +412,53 @@ public class RefSpec implements Serializable {
 	}
 
 	/**
+	 * Does this specification's destination description contain (is a superset
+	 * of) all the refs in the given ref pattern?
+	 * <p>
+	 * This can be useful when executing 2 or more pulls at the same time.
+	 * destinationContains will identify if the destination patterns will
+	 * overwrite each other.
+	 * <p>
+	 * For example, if this object has the destination "refs/remotes/origin/*",
+	 * then {@code this.destinationContains("refs/remotes/origin/master/*")} is
+	 * true. The operation is symmetric only if the two destination patterns are
+	 * equal.
+	 *
+	 * @param refPattern
+	 *            ref name or pattern that should be tested.
+	 * @return true if this specification's destination is a superset of the ref
+	 *         name; false otherwise.
+	 * @since 5.3
+	 *
+	 */
+	public boolean destinationContains(String refPattern) {
+		return destinationContains(getDestination(), refPattern);
+	}
+
+	/**
+	 * Does this specification's destination description contain (is a superset
+	 * of) all the refs in the given RefSpec's destination?
+	 * <p>
+	 * This can be useful when executing 2 or more pulls at the same time.
+	 * destinationContains will identify if the RefSpecs will overwrite each
+	 * other.
+	 * <p>
+	 * For example, if this object has the destination "refs/remotes/origin/*",
+	 * then {@code this.destinationContains(new RefSpec(
+	 * "refs/heads/*:refs/remotes/origin/master/*"))} is true. The operation is
+	 * symmetric only if the two destination patterns are equal.
+	 *
+	 * @param ref
+	 *            RefSpec whose detination should be tested
+	 * @return true if this specification's destination is a superset of the
+	 *         ref; false otherwise.
+	 * @since 5.3
+	 */
+	public boolean destinationContains(RefSpec ref) {
+		return destinationContains(getDestination(), ref.getDestination());
+	}
+
+	/**
 	 * Expand this specification to exactly match a ref name.
 	 * <p>
 	 * Callers must first verify the passed ref name matches this specification,
@@ -523,6 +572,92 @@ public class RefSpec implements Serializable {
 					&& name.startsWith(prefix) && name.endsWith(suffix);
 		}
 		return name.equals(s);
+	}
+
+	/**
+	 * Check if the destination of this RefSpec (thisDst) contains all the refs
+	 * in the destination of that RefSpec (thatDst).
+	 *
+	 * If thisDst is not a wildcard, it contains 1 ref so an equality check
+	 * suffices.
+	 * <p>
+	 * Otherwise, in order for thisDst to contain thatDst, they must have the
+	 * same prefix and suffix. Refs with more path components are more specific,
+	 * so if thisDst has extra components the answer is false. It looks
+	 * something like the example below.
+	 * <p>
+	 * this = path/to/*\/stuff
+	 * <p>
+	 * that = path/to/that/*\/more/stuff
+	 *
+	 * @param thisDstPattern
+	 *            the ref pattern that may contain {@code thatDst}
+	 * @param thatDstPattern
+	 *            the ref pattern that my be contained in {@code thisDst}
+	 * @return true if all refs matched by {@code thatDst} are also matched by
+	 *         {@code thisDst}.
+	 */
+	private static boolean destinationContains(String thisDstPattern,
+			String thatDstPattern) {
+		checkValid(thatDstPattern);
+		validatePartialWildcard(thisDstPattern);
+		validatePartialWildcard(thatDstPattern);
+		List<String> thisDst = Arrays.asList(thisDstPattern.split("/")); //$NON-NLS-1$
+		List<String> thatDst = Arrays.asList(thatDstPattern.split("/")); //$NON-NLS-1$
+		int thisWildcard = thisDst.indexOf("*"); //$NON-NLS-1$
+		if (thisWildcard == -1) {
+			return thisDst.equals(thatDst);
+		}
+		List<String> thisPrefix = thisDst.subList(0, thisWildcard);
+		List<String> thisSuffix = thisDst.subList(thisWildcard + 1,
+				thisDst.size());
+		return startsWith(thatDst, thisPrefix) && endsWith(thatDst, thisSuffix);
+	}
+
+	private static void validatePartialWildcard(String refPattern) {
+		int wildcardIndex = refPattern.indexOf('*');
+		if (wildcardIndex == -1) {
+			return;
+		}
+		boolean prefixIsValid = wildcardIndex == 0
+				|| refPattern.charAt(wildcardIndex - 1) == '/';
+		boolean suffixIsValid = wildcardIndex == refPattern.length() - 1
+				|| refPattern.charAt(wildcardIndex + 1) == '/';
+		if (!prefixIsValid || !suffixIsValid) {
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().invalidRefName, refPattern));
+		}
+	}
+
+	/* Does {@code list} start with {@code maybeStartsWith}? */
+	private static boolean startsWith(List<String> list,
+			List<String> maybeStartsWith) {
+		if (maybeStartsWith.size() > list.size()) {
+			return false;
+		}
+		for (int i = 0; i < maybeStartsWith.size(); i++) {
+			if (!maybeStartsWith.get(i).equals(list.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/* Does {@code list} end with {@code maybeEndsWith}? */
+	private static boolean endsWith(List<String> list,
+			List<String> maybeEndsWith) {
+		if (maybeEndsWith.size() > list.size()) {
+			return false;
+		}
+		int suffixSize = maybeEndsWith.size();
+		int listSize = list.size();
+		for (int i = 1; i <= maybeEndsWith.size(); i++) {
+			if (!maybeEndsWith.get(suffixSize - i)
+					.equals(list.get(listSize - i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static String expandWildcard(String name, String patternA,
