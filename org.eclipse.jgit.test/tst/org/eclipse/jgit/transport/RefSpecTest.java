@@ -342,6 +342,37 @@ public class RefSpecTest {
 	}
 
 	@Test
+	public void testDestinationContains() {
+		RefSpec a = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
+		assertTrue(a.destinationContains("refs/remotes/origin/master"));
+		assertTrue(a.destinationContains("refs/remotes/origin/master/*"));
+		assertTrue(a.destinationContains("refs/remotes/origin/*"));
+		assertTrue(a.destinationContains("refs/remotes/origin/foo/bar/baz"));
+
+		assertFalse(a.destinationContains("refs/heads/*"));
+		assertFalse(a.destinationContains("refs/heads/master"));
+		assertFalse(a.destinationContains("refs/remotes/*"));
+		assertFalse(a.destinationContains("refs/remotes2/*"));
+
+		RefSpec b = new RefSpec("+refs/heads/*:refs/remotes/origin/*/foo");
+		assertTrue(b.destinationContains("refs/remotes/origin/*/foo"));
+		assertTrue(b.destinationContains("refs/remotes/origin/*/bar/foo"));
+		assertTrue(b.destinationContains("refs/remotes/origin/baz/*/foo"));
+		assertTrue(b.destinationContains("refs/remotes/origin/baz/*/bar/foo"));
+
+		assertFalse(b.destinationContains("refs/remotes/origin/baz/*/foo/bar"));
+		assertFalse(b.destinationContains("refs/remotes/origin/baz/*"));
+		assertFalse(b.destinationContains("refs/remotes/origin/*/foo/bar"));
+		assertFalse(b.destinationContains("refs/remotes/origin/*/foobar"));
+		assertFalse(b.destinationContains("refs/remotes/origin/*"));
+		assertFalse(b.destinationContains("refs/remotes/origin"));
+
+		RefSpec c = new RefSpec("+refs/heads/*:refs/heads/foo/*/baz/baz");
+		assertFalse(c.destinationContains("refs/heads/*/baz/baz"));
+		assertFalse(c.destinationContains("refs/heads/foo/*/bar/baz"));
+	}
+
+	@Test
 	public void testWildcardAfterText1() {
 		RefSpec a = new RefSpec("refs/heads/*/for-linus:refs/remotes/mine/*-blah");
 		assertTrue(a.isWildcard());
