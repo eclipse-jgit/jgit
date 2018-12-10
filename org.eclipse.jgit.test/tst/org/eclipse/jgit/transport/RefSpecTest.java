@@ -342,6 +342,18 @@ public class RefSpecTest {
 	}
 
 	@Test
+	public void testDestinationContains() {
+		RefSpec a = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
+		assertTrue(a.destinationContains("refs/remotes/origin/master"));
+		assertTrue(a.destinationContains("refs/remotes/origin/master/*"));
+		assertTrue(a.destinationContains("refs/remotes/origin/*"));
+
+		assertFalse(a.destinationContains("refs/heads/*"));
+		assertFalse(a.destinationContains("refs/heads/master"));
+		assertFalse(a.destinationContains("refs/remotes/origin"));
+	}
+
+	@Test
 	public void testWildcardAfterText1() {
 		RefSpec a = new RefSpec("refs/heads/*/for-linus:refs/remotes/mine/*-blah");
 		assertTrue(a.isWildcard());

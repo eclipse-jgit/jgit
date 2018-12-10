@@ -373,7 +373,7 @@ public class RefSpec implements Serializable {
 	 * @return true if the names match; false otherwise.
 	 */
 	public boolean matchSource(String r) {
-		return match(r, getSource());
+		return match(r, getSource(), false);
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class RefSpec implements Serializable {
 	 * @return true if the names match; false otherwise.
 	 */
 	public boolean matchSource(Ref r) {
-		return match(r.getName(), getSource());
+		return match(r.getName(), getSource(), false);
 	}
 
 	/**
@@ -395,7 +395,7 @@ public class RefSpec implements Serializable {
 	 * @return true if the names match; false otherwise.
 	 */
 	public boolean matchDestination(String r) {
-		return match(r, getDestination());
+		return match(r, getDestination(), false);
 	}
 
 	/**
@@ -406,7 +406,36 @@ public class RefSpec implements Serializable {
 	 * @return true if the names match; false otherwise.
 	 */
 	public boolean matchDestination(Ref r) {
-		return match(r.getName(), getDestination());
+		return match(r.getName(), getDestination(), false);
+	}
+
+	/**
+	 * Does this specification's destination description contain (is a superset
+	 * of) the ref name?
+	 *
+	 * @param r
+	 *            ref name that should be tested.
+	 * @return true if this specification's destination is a superset of the ref
+	 *         name; false otherwise.
+	 * @since 5.3
+	 *
+	 */
+	public boolean destinationContains(String r) {
+		return match(r, getDestination(), true);
+	}
+
+	/**
+	 * Does this specification's destination description contain (is a superset
+	 * of) the ref?
+	 *
+	 * @param r
+	 *            ref name that should be tested.
+	 * @return true if this specification's destination is a superset of the
+	 *         ref; false otherwise.
+	 * @since 5.3
+	 */
+	public boolean destinationContains(Ref r) {
+		return match(r.getName(), getDestination(), true);
 	}
 
 	/**
@@ -512,15 +541,21 @@ public class RefSpec implements Serializable {
 		return expandFromDestination(r.getName());
 	}
 
-	private boolean match(String name, String s) {
+	private boolean match(String name, String s, boolean prefixMatch) {
 		if (s == null)
 			return false;
 		if (isWildcard(s)) {
 			int wildcardIndex = s.indexOf('*');
 			String prefix = s.substring(0, wildcardIndex);
+			if (!name.startsWith(prefix)) {
+				return false;
+			}
+			String nameSuffix = name.substring(wildcardIndex + 1);
 			String suffix = s.substring(wildcardIndex + 1);
-			return name.length() > prefix.length() + suffix.length()
-					&& name.startsWith(prefix) && name.endsWith(suffix);
+			if (prefixMatch) {
+				return nameSuffix.contains(suffix);
+			}
+			return nameSuffix.endsWith(suffix);
 		}
 		return name.equals(s);
 	}
