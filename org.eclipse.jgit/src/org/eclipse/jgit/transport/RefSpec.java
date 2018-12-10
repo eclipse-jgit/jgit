@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -58,6 +60,8 @@ import org.eclipse.jgit.lib.Ref;
  */
 public class RefSpec implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private static final String WILDCARD = "*"; //$NON-NLS-1$
 
 	/**
 	 * Suffix for wildcard ref spec component, that indicate matching all refs
@@ -410,6 +414,55 @@ public class RefSpec implements Serializable {
 	}
 
 	/**
+	 * Checks that this RefSpec's destination and the given ref pattern both
+	 * match at least one ref in common.
+	 * <p>
+	 * This can be useful when executing 2 or more fetches at the same time.
+	 * destinationIntersects will identify if the fetches will write the same
+	 * ref twice (possibly with different values).
+	 * <p>
+	 * For example, if this object has the destination "refs/remotes/origin/*",
+	 * then {@code this.destinationIntersection(
+	 * "refs/remotes/origin/master/*")} is true.
+	 *
+	 * The operation is symmetric.
+	 *
+	 * @param refPattern
+	 *            RefSpec whose detination should be tested
+	 * @return true if this specification's destination intersects the ref
+	 *         pattern; false otherwise.
+	 * @since 5.4
+	 */
+	public boolean destinationIntersects(String refPattern) {
+		checkValid(refPattern);
+		return destinationIntersects(getDestination(), refPattern);
+	}
+
+	/**
+	 * Checks that this RefSpec's destination and the given RefSpec's
+	 * destination both match at least one ref in common.
+	 * <p>
+	 * This can be useful when executing 2 or more fetches at the same time.
+	 * destinationIntersects will identify if the fetches will write the same
+	 * ref twice (possibly with different values).
+	 * <p>
+	 * For example, if this object has the destination "refs/remotes/origin/*",
+	 * then {@code this.destinationIntersection(new RefSpec(
+	 * "refs/heads/*:refs/remotes/origin/master/*"))} is true.
+	 *
+	 * The operation is symmetric.
+	 *
+	 * @param refSpec
+	 *            RefSpec whose detination should be tested
+	 * @return true if this specification's destination intersects the other
+	 *         specifications's destination; false otherwise.
+	 * @since 5.4
+	 */
+	public boolean destinationIntersects(RefSpec refSpec) {
+		return destinationIntersects(getDestination(), refSpec.getDestination());
+	}
+
+	/**
 	 * Expand this specification to exactly match a ref name.
 	 * <p>
 	 * Callers must first verify the passed ref name matches this specification,
@@ -523,6 +576,80 @@ public class RefSpec implements Serializable {
 					&& name.startsWith(prefix) && name.endsWith(suffix);
 		}
 		return name.equals(s);
+	}
+
+	/**
+	 * Given 2 ref patterns with optional wildcard, returns true if there is at
+	 * least one ref which is matched by both patterns.
+	 *
+	 * @param thisPattern
+	 *            a ref pattern
+	 * @param thatPattern
+	 *            a ref pattern
+	 * @return true if the patterns both match a common ref
+	 */
+	static boolean destinationIntersects(String thisPattern,
+			String thatPattern) {
+		validatePartialWildcard(thisPattern);
+		validatePartialWildcard(thatPattern);
+		List<String> thisPath = Arrays.asList(thisPattern.split("/")); //$NON-NLS-1$
+		List<String> thatPath = Arrays.asList(thatPattern.split("/")); //$NON-NLS-1$
+
+		int pathSize = Math.min(thisPath.size(), thatPath.size());
+		int commonPrefix;
+		for (commonPrefix = 0; commonPrefix < pathSize; commonPrefix++) {
+			String thisPiece = thisPath.get(commonPrefix);
+			if (thisPiece.equals(WILDCARD)) {
+				break;
+			}
+			if (!thisPiece.equals(thatPath.get(commonPrefix))) {
+				break;
+			}
+		}
+		int commonSuffix;
+		for (commonSuffix = 0; commonSuffix < pathSize; commonSuffix++) {
+			String thisPiece = thisPath.get(thisPath.size() - commonSuffix - 1);
+			String thatPiece = thatPath.get(thatPath.size() - commonSuffix - 1);
+			if (thisPiece.equals(WILDCARD)) {
+				break;
+			}
+			if (!thisPiece.equals(thatPiece)) {
+				break;
+			}
+		}
+		if (commonPrefix > thisPath.size() - commonSuffix - 1
+				|| commonPrefix > thatPath.size() - commonSuffix - 1) {
+			return thisPath.equals(thatPath);
+		}
+		thisPath = thisPath.subList(commonPrefix,
+				thisPath.size() - commonSuffix);
+		thatPath = thatPath.subList(commonPrefix,
+				thatPath.size() - commonSuffix);
+		if (!thisPath.get(0).equals(WILDCARD)
+				&& !thatPath.get(0).equals(WILDCARD)) {
+			return false;
+		}
+		if (!thisPath.get(thisPath.size() - 1).equals(WILDCARD)
+				&& !thatPath.get(thatPath.size() - 1).equals(WILDCARD)) {
+			return false;
+		}
+		return true;
+
+	}
+
+	private static void validatePartialWildcard(String refPattern) {
+		int wildcardIndex = refPattern.indexOf('*');
+		if (wildcardIndex == -1) {
+			return;
+		}
+		boolean prefixIsValid = wildcardIndex == 0
+				|| refPattern.charAt(wildcardIndex - 1) == '/';
+		boolean suffixIsValid = wildcardIndex == refPattern.length() - 1
+				|| refPattern.charAt(wildcardIndex + 1) == '/';
+		if (!prefixIsValid || !suffixIsValid) {
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().invalidRefName, refPattern));
+		}
 	}
 
 	private static String expandWildcard(String name, String patternA,

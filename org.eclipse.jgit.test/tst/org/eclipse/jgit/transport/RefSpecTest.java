@@ -342,6 +342,46 @@ public class RefSpecTest {
 	}
 
 	@Test
+	public void testDestinationIntersects() {
+		destinationIntersectsTestCase("a", "a", true);
+		destinationIntersectsTestCase("a/b/c", "a/b/c", true);
+
+		destinationIntersectsTestCase("a/*/z", "a/*/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/*", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "*/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "*", true);
+
+		destinationIntersectsTestCase("a", "*/a", false);
+		destinationIntersectsTestCase("a", "a/*", false);
+		destinationIntersectsTestCase("a", "a/*/a", false);
+
+		destinationIntersectsTestCase("a/b/c", "a/b/*", true);
+		destinationIntersectsTestCase("a/b/c", "*/b/c", true);
+		destinationIntersectsTestCase("a/b/c", "a/b", false);
+		destinationIntersectsTestCase("a/b/c", "a/b/c/*", false);
+		destinationIntersectsTestCase("a/b/c", "*/a/b/c", false);
+
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/*/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/*/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/*/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/*/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/*/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/*/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/c/*/x/y/z", false);
+
+		destinationIntersectsTestCase("a/b/*/y/z", "*/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "*/x/y/z", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/*", true);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/c/*", true);
+
+		destinationIntersectsTestCase("a/b/*/y/z", "a/b/*/x/z", false);
+		destinationIntersectsTestCase("a/b/*/y/z", "a/c/*/y/z", false);
+
+		destinationIntersectsTestCase("a/*/z", "*/y/z", true);
+	}
+
+	@Test
 	public void testWildcardAfterText1() {
 		RefSpec a = new RefSpec("refs/heads/*/for-linus:refs/remotes/mine/*-blah");
 		assertTrue(a.isWildcard());
@@ -498,5 +538,14 @@ public class RefSpecTest {
 		RefSpec a = new RefSpec("*", WildcardMode.ALLOW_MISMATCH);
 		assertTrue(a.matchSource("refs/heads/master"));
 		assertNull(a.getDestination());
+	}
+
+	private void destinationIntersectsTestCase(String x, String y,
+			Boolean expected) {
+		Boolean xIntersectsY = RefSpec.destinationIntersects(x, y);
+		Boolean yIntersectsX = RefSpec.destinationIntersects(y, x);
+		assertEquals(expected, xIntersectsY);
+		assertEquals(expected, yIntersectsX);
+		assertTrue(xIntersectsY == yIntersectsX);
 	}
 }
