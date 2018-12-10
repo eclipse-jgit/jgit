@@ -287,7 +287,13 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		boolean fetchAll = cloneAllBranches || branchesToClone == null
 				|| branchesToClone.isEmpty();
 
-		config.setFetchRefSpecs(calculateRefSpecs(fetchAll, dst));
+		List<RefSpec> specs = calculateRefSpecs(fetchAll, dst);
+		if (!fetchAll) {
+			calculateTagRefSpecs(specs);
+		}
+		if (!specs.isEmpty()) {
+			config.setFetchRefSpecs(specs);
+		}
 		config.update(clonedRepo.getConfig());
 
 		clonedRepo.getConfig().save();
@@ -303,20 +309,32 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private List<RefSpec> calculateRefSpecs(boolean fetchAll, String dst) {
-		RefSpec wcrs = new RefSpec();
-		wcrs = wcrs.setForceUpdate(true);
-		wcrs = wcrs.setSourceDestination(Constants.R_HEADS + '*', dst);
+		RefSpec heads = new RefSpec();
+		heads = heads.setForceUpdate(true);
+		heads = heads.setSourceDestination(Constants.R_HEADS + '*', dst);
 		List<RefSpec> specs = new ArrayList<>();
 		if (!fetchAll) {
 			for (String selectedRef : branchesToClone) {
-				if (wcrs.matchSource(selectedRef)) {
-					specs.add(wcrs.expandFromSource(selectedRef));
+				if (heads.matchSource(selectedRef)) {
+					specs.add(heads.expandFromSource(selectedRef));
 				}
 			}
 		} else {
-			specs.add(wcrs);
+			specs.add(heads);
 		}
 		return specs;
+	}
+
+	private void calculateTagRefSpecs(List<RefSpec> refSpecs) {
+		RefSpec tags = new RefSpec();
+		tags = tags.setForceUpdate(true);
+		tags = tags.setSourceDestination(Constants.R_TAGS + '*',
+				Constants.R_TAGS + '*');
+		for (String selectedRef : branchesToClone) {
+			if (tags.matchSource(selectedRef)) {
+				refSpecs.add(tags.expandFromSource(selectedRef));
+			}
+		}
 	}
 
 	private void checkout(Repository clonedRepo, FetchResult result)
@@ -590,11 +608,15 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	/**
-	 * Set whether all branches have to be fetched
+	 * Set whether all branches have to be fetched.
+	 * <p>
+	 * If {@code false}, use {@link #setBranchesToClone(Collection)} to define
+	 * what will be cloned. If neither are set, all branches will be cloned.
+	 * </p>
 	 *
 	 * @param cloneAllBranches
-	 *            true when all branches have to be fetched (indicates wildcard
-	 *            in created fetch refspec), false otherwise.
+	 *            {@code true} when all branches have to be fetched (indicates
+	 *            wildcard in created fetch refspec), {@code false} otherwise.
 	 * @return {@code this}
 	 */
 	public CloneCommand setCloneAllBranches(boolean cloneAllBranches) {
@@ -616,12 +638,17 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	/**
-	 * Set branches to clone
+	 * Set the branches or tags to clone.
+	 * <p>
+	 * This is ignored if {@link #setCloneAllBranches(boolean)
+	 * setCloneAllBranches(true)} is used. If {@code branchesToClone} is
+	 * {@code null} or empty, it's also ignored and all branches will be cloned.
+	 * </p>
 	 *
 	 * @param branchesToClone
-	 *            collection of branches to clone. Ignored when allSelected is
-	 *            true. Must be specified as full ref names (e.g.
-	 *            <code>refs/heads/master</code>).
+	 *            collection of branches to clone. Must be specified as full ref
+	 *            names (e.g. {@code refs/heads/master} or
+	 *            {@code refs/tags/v1.0.0}).
 	 * @return {@code this}
 	 */
 	public CloneCommand setBranchesToClone(Collection<String> branchesToClone) {
