@@ -22,6 +22,30 @@
       "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24b73810_3300c789",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-11T20:10:21Z",
+      "side": 1,
+      "message": "\u003e My finding was that a \"locked by other process\" issue would be\n \u003e signaled by a FileNotFoundException. And in that case this code\n \u003e still throws the noFile exception and does not continue with the\n \u003e while loop, right? Or do I read the control flow wrong?\n\nThat\u0027s quite right. However, all those FileNotFoundException we get look like \"the other process\" is Eclipse itself! So our threads stomp on each others feet. That alone would be handled by a synchronized block around reading the file.\n\nThe LockFile should handle multiple processes. So if we get a FileNotFoundException here while the file actually exists something is definitely wrong, like \"No permission\".\n\nExcept that the lockAndWait doesn\u0027t really work; a simple Thread.sleep() is probably not a good idea there. The build failed because it forks several tests that do not mock the user config, so they all failed because of contention on the real Jenkins user\u0027s .gitconfig!",
+      "parentUuid": "e7f622df_c39862d5",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
