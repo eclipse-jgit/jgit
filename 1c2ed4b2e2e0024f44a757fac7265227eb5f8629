@@ -46,6 +46,30 @@
       "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d49f6cc_d5bf0385",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-12-11T20:20:58Z",
+      "side": 1,
+      "message": "\u003e So if we get a\n \u003e FileNotFoundException here while the file actually exists something\n \u003e is definitely wrong, like \"No permission\".\n\nNo, sorry. We are on Windows in this scenario. A typical cause is a virus scanner, which will just deny access to the file as long as it has not scanned the content itself after the last change to the file. So the inaccessibility is really for a short time only, not permanent. That is why we need to retry.",
+      "parentUuid": "24b73810_3300c789",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
