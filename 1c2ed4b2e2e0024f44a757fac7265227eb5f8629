@@ -70,6 +70,30 @@
       "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c440e4c_40d55da2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-11T20:39:53Z",
+      "side": 1,
+      "message": "If you think it\u0027s a virus scanner, then let\u0027s not bother with mutual exclusion at all -- it won\u0027t help.\n\nIf you add a short sleep() before the retries in your attempt, we could use that, and I\u0027d abandon this one.\n\nIf we then still get bug reports about such exceptions, we can try this locking idea again.",
+      "parentUuid": "1d49f6cc_d5bf0385",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
