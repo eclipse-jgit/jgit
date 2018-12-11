@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f622df_c39862d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-12-11T20:01:48Z",
+      "side": 1,
+      "message": "I had done some experiments in this area in this change: https://git.eclipse.org/r/#/c/126730/2/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java\n\nMy finding was that a \"locked by other process\" issue would be signaled by a FileNotFoundException. And in that case this code still throws the noFile exception and does not continue with the while loop, right? Or do I read the control flow wrong?\n\nAt least that is how I remember why I had explicitly taken out the rethrowing in my experimental change linked above. I had forcefully locked the file from outside while debugging, and without my change there was no re-trying.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "1c2ed4b2e2e0024f44a757fac7265227eb5f8629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
