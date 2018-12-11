@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa7ac9f2_94dd5d6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-11T19:31:12Z",
+      "side": 1,
+      "message": "If I understand correctly, the expectation is that caller code would look like\n\n Ref x \u003d db.exactRef(\"refs/heads/master\");\n if (db.hasVersioning()) {\n   ... x.getUpdateIndex() ...\n }\n\nSo this VersionedRef decorator doesn\u0027t show up in calling code --- it\u0027s more for the convenience of implementors of the Ref interface. That leaves me vaguely uncomfortable with the compatibility guarantee --- can we put it in a *.internal.* package instead to make later refactoring easier, reflecting that its audience is implementors?",
+      "revId": "d71b6e837e478377a34b6ee547e94a8ea8f5f4a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
