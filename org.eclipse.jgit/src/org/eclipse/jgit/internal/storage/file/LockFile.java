@@ -59,6 +59,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -190,6 +191,48 @@ public class LockFile {
 			return false;
 		copyCurrentContent();
 		return true;
+	}
+
+	/**
+	 * Acquires the lock, waiting a short time and then retrying if the lock is
+	 * already held. Upon normal return, the caller holds the lock; otherwise an
+	 * exception is thrown and the caller does <em>not</em> hold the lock.
+	 *
+	 * @param retries
+	 *            maximum number of times to retry obtaining the lock; if <= 0,
+	 *            one attempt will be made nonetheless
+	 * @param forAppend
+	 *            whether or not to {@link #lockForAppend() lock for appending}
+	 * @return the number of attempts made to lock obtain the lock, always >= 1
+	 * @throws IOException
+	 *             if a temporary file could not be created.
+	 * @throws LockFailedException
+	 *             if the lock could not be acquired within {@code retries}
+	 *             attempts
+	 */
+	public int lockAndWait(int retries, boolean forAppend) throws IOException {
+		int attempts = 0;
+		while (true) {
+			attempts++;
+			if (lock()) {
+				break;
+			}
+			if (attempts < retries) {
+				try {
+					Thread.sleep(10);
+					continue;
+				} catch (InterruptedException e) {
+					// Re-set the interrupted flag.
+					Thread.currentThread().interrupt();
+					throw new LockFailedException(ref, e.getMessage(), e);
+				}
+			}
+			throw new LockFailedException(ref);
+		}
+		if (forAppend) {
+			copyCurrentContent();
+		}
+		return attempts;
 	}
 
 	/**

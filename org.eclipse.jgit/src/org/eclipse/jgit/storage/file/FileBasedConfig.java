@@ -58,7 +58,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -77,8 +76,11 @@ import org.slf4j.LoggerFactory;
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
+
 	private final static Logger LOG = LoggerFactory
 			.getLogger(FileBasedConfig.class);
+
+	private static int MAX_RETRIES = 5;
 
 	private final File configFile;
 
@@ -148,58 +150,69 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
-		final int maxStaleRetries = 5;
-		int retries = 0;
-		while (true) {
-			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
-			try {
-				final byte[] in = IO.readFully(getFile());
-				final ObjectId newHash = hash(in);
-				if (hash.equals(newHash)) {
-					if (oldSnapshot.equals(newSnapshot)) {
-						oldSnapshot.setClean(newSnapshot);
-					} else {
+		int retries = MAX_RETRIES;
+		FileSnapshot oldSnapshot = snapshot;
+		FileSnapshot newSnapshot = null;
+		try {
+			byte[] in = null;
+			LockFile lf = new LockFile(getFile());
+			while (in == null) {
+				synchronized (this) {
+					// Only try locking for reading if we can write there (it
+					// might be the system config, which typically is in a
+					// non-writeable directory).
+					if (getFile().getParentFile().canWrite()) {
+						retries -= lf.lockAndWait(retries, false);
+					}
+					newSnapshot = FileSnapshot.save(getFile());
+					try {
+						in = IO.readFully(getFile());
+					} catch (FileNotFoundException noFile) {
+						if (getFile().exists()) {
+							throw noFile;
+						}
+						clear();
 						snapshot = newSnapshot;
+						return;
+					} catch (IOException e) {
+						if (FileUtils.isStaleFileHandle(e) && retries >= 0) {
+							if (LOG.isDebugEnabled()) {
+								LOG.debug(MessageFormat.format(
+										JGitText.get().configHandleIsStale,
+										Integer.valueOf(retries)), e);
+							}
+							retries--;
+							continue;
+						}
+						throw new IOException(MessageFormat.format(
+								JGitText.get().cannotReadFile, getFile()), e);
+					} finally {
+						lf.unlock();
 					}
-				} else {
-					final String decoded;
-					if (isUtf8(in)) {
-						decoded = RawParseUtils.decode(UTF_8,
-								in, 3, in.length);
-						utf8Bom = true;
-					} else {
-						decoded = RawParseUtils.decode(in);
-					}
-					fromText(decoded);
-					snapshot = newSnapshot;
-					hash = newHash;
 				}
-				return;
-			} catch (FileNotFoundException noFile) {
-				if (configFile.exists()) {
-					throw noFile;
-				}
-				clear();
-				snapshot = newSnapshot;
-				return;
-			} catch (IOException e) {
-				if (FileUtils.isStaleFileHandle(e)
-						&& retries < maxStaleRetries) {
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(MessageFormat.format(
-								JGitText.get().configHandleIsStale,
-								Integer.valueOf(retries)), e);
-					}
-					retries++;
-					continue;
-				}
-				throw new IOException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
-			} catch (ConfigInvalidException e) {
-				throw new ConfigInvalidException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
 			}
+			final ObjectId newHash = hash(in);
+			if (hash.equals(newHash)) {
+				if (oldSnapshot.equals(newSnapshot)) {
+					oldSnapshot.setClean(newSnapshot);
+				} else {
+					snapshot = newSnapshot;
+				}
+			} else {
+				final String decoded;
+				if (isUtf8(in)) {
+					decoded = RawParseUtils.decode(UTF_8, in, 3, in.length);
+					utf8Bom = true;
+				} else {
+					decoded = RawParseUtils.decode(in);
+				}
+				fromText(decoded);
+				snapshot = newSnapshot;
+				hash = newHash;
+			}
+		} catch (ConfigInvalidException e) {
+			throw new ConfigInvalidException(MessageFormat
+					.format(JGitText.get().cannotReadFile, getFile()), e);
 		}
 	}
 
@@ -230,15 +243,18 @@ public class FileBasedConfig extends StoredConfig {
 		}
 
 		final LockFile lf = new LockFile(getFile());
-		if (!lf.lock())
-			throw new LockFailedException(getFile());
-		try {
-			lf.setNeedSnapshot(true);
-			lf.write(out);
-			if (!lf.commit())
-				throw new IOException(MessageFormat.format(JGitText.get().cannotCommitWriteTo, getFile()));
-		} finally {
-			lf.unlock();
+		synchronized (this) {
+			lf.lockAndWait(MAX_RETRIES, false);
+			try {
+				lf.setNeedSnapshot(true);
+				lf.write(out);
+				if (!lf.commit()) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().cannotCommitWriteTo, getFile()));
+				}
+			} finally {
+				lf.unlock();
+			}
 		}
 		snapshot = lf.getCommitSnapshot();
 		hash = hash(out);
