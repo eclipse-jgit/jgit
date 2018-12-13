@@ -113,19 +113,20 @@ public class DfsReftable extends BlockBasedFile {
 		private final DfsReftable file;
 		private final DfsBlockCache cache;
 		private final DfsReader ctx;
-		private ReadableChannel ch;
+		private final ReadableChannel ch;
 		private int readAhead;
 
 		CacheSource(DfsReftable file, DfsBlockCache cache, DfsReader ctx) {
 			this.file = file;
 			this.cache = cache;
 			this.ctx = ctx;
+			this.ch = new LazyReadableChannel(file, ctx);
 		}
 
 		@Override
 		public ByteBuffer read(long pos, int cnt) throws IOException {
-			if (ch == null && readAhead > 0 && notInCache(pos)) {
-				open().setReadAheadBytes(readAhead);
+			if (!ch.isOpen() && readAhead > 0 && notInCache(pos)) {
+				ch.setReadAheadBytes(readAhead);
 			}
 
 			DfsBlock block = cache.getOrLoad(file, pos, ctx, ch);
@@ -147,7 +148,7 @@ public class DfsReftable extends BlockBasedFile {
 		public long size() throws IOException {
 			long n = file.length;
 			if (n < 0) {
-				n = open().size();
+				n = ch.size();
 				file.length = n;
 			}
 			return n;
@@ -161,22 +162,80 @@ public class DfsReftable extends BlockBasedFile {
 			}
 		}
 
-		private ReadableChannel open() throws IOException {
-			if (ch == null) {
-				ch = ctx.db.openFile(file.desc, file.ext);
-			}
-			return ch;
-		}
-
 		@Override
 		public void close() {
-			if (ch != null) {
+			try {
+				ch.close();
+			} catch (IOException e) {
+				// Ignore read close failures.
+			}
+		}
+
+		private static final class LazyReadableChannel
+				implements ReadableChannel {
+			private final DfsReader ctx;
+			private final DfsReftable file;
+			private ReadableChannel ch;
+
+			LazyReadableChannel(DfsReftable file, DfsReader ctx) {
+				this.file = file;
+				this.ctx = ctx;
+			}
+
+			private ReadableChannel channel() throws IOException {
+				if (ch == null) {
+					ch = ctx.db.openFile(file.desc, file.ext);
+				}
+				return ch;
+			}
+
+			@Override
+			public int blockSize() {
 				try {
-					ch.close();
+					return channel().blockSize();
 				} catch (IOException e) {
-					// Ignore read close failures.
-				} finally {
-					ch = null;
+					return -1;
+				}
+			}
+
+			@Override
+			public long position() throws IOException {
+				return channel().position();
+			}
+
+			@Override
+			public void position(long newPosition) throws IOException {
+				channel().position(newPosition);
+			}
+
+			@Override
+			public void setReadAheadBytes(int bufferSize) throws IOException {
+				channel().setReadAheadBytes(bufferSize);
+			}
+
+			@Override
+			public long size() throws IOException {
+				return channel().size();
+			}
+
+			@Override
+			public int read(ByteBuffer dst) throws IOException {
+				return channel().read(dst);
+			}
+
+			@Override
+			public boolean isOpen() {
+				return ch != null;
+			}
+
+			@Override
+			public void close() throws IOException {
+				if (ch != null) {
+					try {
+						ch.close();
+					} finally {
+						ch = null;
+					}
 				}
 			}
 		}
