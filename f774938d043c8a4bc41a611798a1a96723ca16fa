@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1570fcb6_37508d10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Please fix the .gitconfig to use the full name",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 19
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fb35efd_83dae9ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ca76f8b_a143b8ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "452eb67b_0dad32a1",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Why is this added?",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e44dc5f_1ae0d549",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 7
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4eb367_36b9ddb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "specification\u0027s",
+      "range": {
+        "startLine": 414,
+        "startChar": 14,
+        "endLine": 414,
+        "endChar": 28
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68e4a21e_0f0565cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "specification\u0027s",
+      "range": {
+        "startLine": 419,
+        "startChar": 25,
+        "endLine": 419,
+        "endChar": 39
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d569571b_efa6d27a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Missing @since tag for new public API",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d353007b_c3165065",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "specification\u0027s",
+      "range": {
+        "startLine": 427,
+        "startChar": 14,
+        "endLine": 427,
+        "endChar": 28
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef52d035_a4835dc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "specification\u0027s",
+      "range": {
+        "startLine": 432,
+        "startChar": 25,
+        "endLine": 432,
+        "endChar": 39
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c120e2e_84482815",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-13T02:13:10Z",
+      "side": 1,
+      "message": "Missing @since tag for new public API",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
