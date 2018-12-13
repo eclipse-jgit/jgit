@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f410a84b_23cb6b46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-13T22:21:00Z",
+      "side": 1,
+      "message": "nit: I would call this method something like \"getChannel\".\n\nThe \"open().op()\" call in all the following methods, make it look like the channel is closed automatically.",
+      "revId": "e543ddb69f34b990840d07aec8cf4ea276cb356a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
