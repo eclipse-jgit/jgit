@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "e25b731e_b61441d0",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Not sure. Removed it.",
+      "parentUuid": "452eb67b_0dad32a1",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e44dc5f_1ae0d549",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 1
@@ -134,6 +152,30 @@
     },
     {
       "key": {
+        "uuid": "27e27adc_6f76fb4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4eb367_36b9ddb8",
+      "range": {
+        "startLine": 414,
+        "startChar": 14,
+        "endLine": 414,
+        "endChar": 28
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68e4a21e_0f0565cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 1
@@ -145,6 +187,30 @@
       "writtenOn": "2018-12-13T02:13:10Z",
       "side": 1,
       "message": "specification\u0027s",
+      "range": {
+        "startLine": 419,
+        "startChar": 25,
+        "endLine": 419,
+        "endChar": 39
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1293be1_87e4bf38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e4a21e_0f0565cc",
       "range": {
         "startLine": 419,
         "startChar": 25,
@@ -174,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "6fa32404_80d8016e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d569571b_efa6d27a",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d353007b_c3165065",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 1
@@ -185,6 +269,30 @@
       "writtenOn": "2018-12-13T02:13:10Z",
       "side": 1,
       "message": "specification\u0027s",
+      "range": {
+        "startLine": 427,
+        "startChar": 14,
+        "endLine": 427,
+        "endChar": 28
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04cb86ba_fe26cc74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d353007b_c3165065",
       "range": {
         "startLine": 427,
         "startChar": 14,
@@ -220,6 +328,30 @@
     },
     {
       "key": {
+        "uuid": "a02d1780_5397bf02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef52d035_a4835dc2",
+      "range": {
+        "startLine": 432,
+        "startChar": 25,
+        "endLine": 432,
+        "endChar": 39
+      },
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c120e2e_84482815",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 1
@@ -231,6 +363,24 @@
       "writtenOn": "2018-12-13T02:13:10Z",
       "side": 1,
       "message": "Missing @since tag for new public API",
+      "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005612ef_7e278991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2018-12-13T18:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c120e2e_84482815",
       "revId": "f774938d043c8a4bc41a611798a1a96723ca16fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
