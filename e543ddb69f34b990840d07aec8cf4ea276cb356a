@@ -16,6 +16,24 @@
       "revId": "e543ddb69f34b990840d07aec8cf4ea276cb356a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a76eb4_47fbf11f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-12-14T19:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f410a84b_23cb6b46",
+      "revId": "e543ddb69f34b990840d07aec8cf4ea276cb356a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
