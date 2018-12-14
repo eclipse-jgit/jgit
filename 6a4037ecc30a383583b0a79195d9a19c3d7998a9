@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51d70667_4d170577",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-14T07:11:44Z",
+      "side": 1,
+      "message": "This can fail. Is it OK to ignore this, or should we raise an IOE in that case? (if (!lockFile.commit()) { throw ... })",
+      "revId": "6a4037ecc30a383583b0a79195d9a19c3d7998a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
