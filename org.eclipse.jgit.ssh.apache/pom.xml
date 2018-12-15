@@ -195,7 +195,7 @@
                   <ignoreMissingClasses>false</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
-              <skip>true</skip><!-- TODO: Enable after the first release -->
+              <skip>false</skip>
           </configuration>
           <executions>
             <execution>
@@ -248,7 +248,7 @@
                   <ignoreMissingClasses>false</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
-              <skip>true</skip><!-- TODO: Enable after the first release -->
+              <skip>false</skip>
           </configuration>
       </plugin>
     </plugins>
