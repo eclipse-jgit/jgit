@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "490ae5ec_432e236f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "optional: Ref ref?",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 14
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b68695c_5e29c6f9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "style nit: whitespace doesn\u0027t look right",
+      "range": {
+        "startLine": 155,
+        "startChar": 7,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ad2cde1_d6e98f10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "If It use getLeaf() on this, will it return an unversioned ref?",
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f135d17_3dd90f3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "This potentially could have versioning (e.g. using commit timestamp), but I agree it\u0027s not worth the engineering effort.",
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9e5b68b_5b2e6148",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "This is imported only for the sake of javadoc. Could the javadoc use {@code} or the fully qualified name instead?",
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53072603_3171d04b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "nit: s/with/by using/",
+      "range": {
+        "startLine": 230,
+        "startChar": 60,
+        "endLine": 230,
+        "endChar": 64
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d69ac7d5_04925771",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "nit: s/when/whether/",
+      "range": {
+        "startLine": 117,
+        "startChar": 17,
+        "endLine": 117,
+        "endChar": 21
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29784d43_a0280fdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "nit: s/version numbers/sequencer numbers/, or update indices, or something like that.",
+      "range": {
+        "startLine": 117,
+        "startChar": 49,
+        "endLine": 117,
+        "endChar": 64
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47343f1_ed47607a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/VersionedRef.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-17T23:39:39Z",
+      "side": 1,
+      "message": "missing \u003cp\u003e tag",
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
