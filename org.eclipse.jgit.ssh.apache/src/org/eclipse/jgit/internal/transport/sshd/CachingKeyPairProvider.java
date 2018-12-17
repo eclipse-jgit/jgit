@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.transport.sshd;
 import static java.text.MessageFormat.format;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
@@ -92,6 +93,10 @@ public class CachingKeyPairProvider extends EncryptedFileKeyPairProvider {
 	@Override
 	protected KeyPair doLoadKey(Path resource)
 			throws IOException, GeneralSecurityException {
+		if (!Files.exists(resource)) {
+			log.warn(format(SshdText.get().identityFileNotFound, resource));
+			return null;
+		}
 		// By calling doLoadKey(String, Path, FilePasswordProvider) instead of
 		// super.doLoadKey(Path) we can bypass the key caching in
 		// AbstractResourceKeyPairProvider, over which we have no real control.
