@@ -186,6 +186,30 @@
       "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9dfeabe_a77b110f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/VersionedRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-17T23:08:16Z",
+      "side": 1,
+      "message": "I have moved this back to updateIndex, to keep it consistent with the naming in the reftable.",
+      "parentUuid": "8ae3613a_19785fd3",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "eea5a079233f96ea7322ac8c923a3e8334a2c09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
