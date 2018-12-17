@@ -161,7 +161,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private static final class Tuple {
 		private Object[] objects;
 
-		public Tuple(Object... objects) {
+		public Tuple(Object[] objects) {
 			this.objects = objects;
 		}
 
@@ -351,7 +351,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private HostConfigEntryResolver getHostConfigEntryResolver(
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
-				new Tuple(homeDir, sshDir),
+				new Tuple(new Object[] { homeDir, sshDir }),
 				t -> new JGitSshConfig(homeDir,
 						new File(sshDir, SshConstants.CONFIG),
 						getLocalUserName()));
@@ -375,7 +375,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private ServerKeyVerifier getServerKeyVerifier(@NonNull File homeDir,
 			@NonNull File sshDir) {
 		return defaultServerKeyVerifier.computeIfAbsent(
-				new Tuple(homeDir, sshDir),
+				new Tuple(new Object[] { homeDir, sshDir }),
 				t -> new OpenSshServerKeyVerifier(true,
 						getDefaultKnownHostsFiles(sshDir)));
 	}
@@ -403,8 +403,10 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 */
 	@NonNull
 	private KeyPairProvider getDefaultKeysProvider(@NonNull File sshDir) {
-		return defaultKeys.computeIfAbsent(new Tuple(sshDir),
-				t -> new CachingKeyPairProvider(getDefaultIdentities(sshDir),
+		List<Path> defaultIdentities = getDefaultIdentities(sshDir);
+		return defaultKeys.computeIfAbsent(
+				new Tuple(defaultIdentities.toArray(new Path[0])),
+				t -> new CachingKeyPairProvider(defaultIdentities,
 						getKeyCache()));
 	}
 
