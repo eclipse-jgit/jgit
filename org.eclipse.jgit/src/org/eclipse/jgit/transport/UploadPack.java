@@ -575,10 +575,8 @@ public class UploadPack {
 	 *            the hook; may be null to show all refs.
 	 */
 	public void setAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook) {
-		if (advertiseRefsHook != null)
-			this.advertiseRefsHook = advertiseRefsHook;
-		else
-			this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+		this.advertiseRefsHook = advertiseRefsHook != null ? advertiseRefsHook
+				: AdvertiseRefsHook.DEFAULT;
 	}
 
 	/**
