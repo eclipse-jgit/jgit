@@ -81,6 +81,7 @@ import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.junit.TestRepository;
@@ -101,19 +102,29 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.HttpTransport;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
+import org.eclipse.jgit.transport.resolver.UploadPackFactory;
+import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -121,6 +132,11 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class SmartClientSmartServerTest extends HttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
+
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
+	private AdvertiseRefsHook advertiseRefsHook;
 
 	private Repository remoteRepository;
 
@@ -130,7 +146,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	private RevBlob A_txt;
 
-	private RevCommit A, B;
+	private RevCommit A, B, unreachableCommit;
 
 	@Parameters
 	public static Collection<Object[]> data() {
@@ -158,6 +174,19 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new TestRepoResolver(src, srcName));
+		gs.setUploadPackFactory(new UploadPackFactory<HttpServletRequest>() {
+			@Override
+			public UploadPack create(HttpServletRequest req, Repository db)
+					throws ServiceNotEnabledException,
+					ServiceNotAuthorizedException {
+				DefaultUploadPackFactory f = new DefaultUploadPackFactory();
+				UploadPack up = f.create(req, db);
+				if (advertiseRefsHook != null) {
+					up.setAdvertiseRefsHook(advertiseRefsHook);
+				}
+				return up;
+			}
+		});
 		app.addServlet(new ServletHolder(gs), "/*");
 
 		ServletContextHandler broken = server.addContext("/bad");
@@ -194,6 +223,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		A = src.commit().add("A_txt", A_txt).create();
 		B = src.commit().parent(A).add("A_txt", "C").add("B", "B").create();
 		src.update(master, B);
+
+		unreachableCommit = src.commit().add("A_txt", A_txt).create();
 
 		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
 	}
@@ -269,6 +300,56 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testFetchBySHA1() throws Exception {
+		Repository dst = createBareRepository();
+		assertFalse(dst.hasObject(A_txt));
+
+		try (Transport t = Transport.open(dst, remoteURI)) {
+			t.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(B.name())));
+		}
+
+		assertTrue(dst.hasObject(A_txt));
+	}
+
+	@Test
+	public void testFetchBySHA1Unreachable() throws Exception {
+		Repository dst = createBareRepository();
+		assertFalse(dst.hasObject(A_txt));
+
+		try (Transport t = Transport.open(dst, remoteURI)) {
+			thrown.expect(TransportException.class);
+			thrown.expectMessage(Matchers.containsString(
+					"want " + unreachableCommit.name() + " not valid"));
+			t.fetch(NullProgressMonitor.INSTANCE, Collections
+					.singletonList(new RefSpec(unreachableCommit.name())));
+		}
+	}
+
+	@Test
+	public void testFetchBySHA1UnreachableByAdvertiseRefsHook()
+			throws Exception {
+		Repository dst = createBareRepository();
+		assertFalse(dst.hasObject(A_txt));
+
+		advertiseRefsHook = new AbstractAdvertiseRefsHook() {
+			@Override
+			protected Map<String, Ref> getAdvertisedRefs(Repository repository,
+					RevWalk revWalk) {
+				return Collections.emptyMap();
+			}
+		};
+
+		try (Transport t = Transport.open(dst, remoteURI)) {
+			thrown.expect(TransportException.class);
+			thrown.expectMessage(Matchers.containsString(
+					"want " + A.name() + " not valid"));
+			t.fetch(NullProgressMonitor.INSTANCE, Collections
+					.singletonList(new RefSpec(A.name())));
+		}
 	}
 
 	@Test
