@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f5a3ef3_ee1549d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T05:15:22Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be here",
+      "range": {
+        "startLine": 929,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 3
+      },
+      "revId": "c966722bde23d0c32c05b408c4ee124ddaec9013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
