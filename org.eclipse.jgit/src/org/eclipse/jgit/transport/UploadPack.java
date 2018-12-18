@@ -568,6 +568,8 @@ public class UploadPack {
 	 * call {@link #setAdvertisedRefs(Map)}, only refs set by this hook
 	 * <em>and</em> selected by the {@link org.eclipse.jgit.transport.RefFilter}
 	 * will be shown to the client.
+	 * <p>
+	 * <strong>The hook is not invoked when using protocol V2.</strong>
 	 *
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
