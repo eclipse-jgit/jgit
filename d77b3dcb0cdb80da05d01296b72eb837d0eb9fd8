@@ -34,6 +34,24 @@
       "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5103bc8c_50490f9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-18T03:48:53Z",
+      "side": 1,
+      "message": "\u003e\u003e Could use a @Nullable.\n\u003e\n\u003e I thought about doing that, but IIRC it will result in warnings about API changes.\n\nIt didn\u0027t do so the last time I tried it. What happens when you try?",
+      "parentUuid": "cb625da8_7b953045",
+      "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
