@@ -414,7 +414,7 @@ public class UploadPack {
 	 *            configured {@link #getRefFilter()}. If null, assumes all refs
 	 *            were advertised.
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
+	public void setAdvertisedRefs(@Nullable Map<String, Ref> allRefs) {
 		if (allRefs != null)
 			refs = allRefs;
 		else
@@ -538,7 +538,7 @@ public class UploadPack {
 	 *            custom validator for client want list.
 	 * @since 3.1
 	 */
-	public void setRequestValidator(RequestValidator validator) {
+	public void setRequestValidator(@Nullable RequestValidator validator) {
 		requestValidator = validator != null ? validator
 				: new AdvertisedRequestValidator();
 	}
@@ -572,7 +572,8 @@ public class UploadPack {
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
 	 */
-	public void setAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook) {
+	public void setAdvertiseRefsHook(
+			@Nullable AdvertiseRefsHook advertiseRefsHook) {
 		if (advertiseRefsHook != null)
 			this.advertiseRefsHook = advertiseRefsHook;
 		else
@@ -601,7 +602,7 @@ public class UploadPack {
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
 	 */
-	public void setRefFilter(RefFilter refFilter) {
+	public void setRefFilter(@Nullable RefFilter refFilter) {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
@@ -620,7 +621,7 @@ public class UploadPack {
 	 * @param hook
 	 *            the hook; if null no special actions are taken.
 	 */
-	public void setPreUploadHook(PreUploadHook hook) {
+	public void setPreUploadHook(@Nullable PreUploadHook hook) {
 		preUploadHook = hook != null ? hook : PreUploadHook.NULL;
 	}
 
@@ -641,7 +642,7 @@ public class UploadPack {
 	 *            the hook; if null no special actions are taken.
 	 * @since 4.1
 	 */
-	public void setPostUploadHook(PostUploadHook hook) {
+	public void setPostUploadHook(@Nullable PostUploadHook hook) {
 		postUploadHook = hook != null ? hook : PostUploadHook.NULL;
 	}
 
@@ -652,7 +653,7 @@ public class UploadPack {
 	 *            configuration controlling packing parameters. If null the
 	 *            source repository's settings will be used.
 	 */
-	public void setPackConfig(PackConfig pc) {
+	public void setPackConfig(@Nullable PackConfig pc) {
 		this.packConfig = pc;
 	}
 
@@ -664,7 +665,7 @@ public class UploadPack {
 	 *            repository's settings will be used.
 	 * @since 3.1
 	 */
-	public void setTransferConfig(TransferConfig tc) {
+	public void setTransferConfig(@Nullable TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
 		if (transferConfig.isAllowTipSha1InWant()) {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
