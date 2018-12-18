@@ -283,6 +283,9 @@ public class UploadPack {
 	/** Hook used while advertising the refs to the client. */
 	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 
+	/** Has the advertiseRefsHook been invoked from this UploadPack */
+	private boolean advertiseRefsHookCalled;
+
 	/** Filter used while advertising the refs to the client. */
 	private RefFilter refFilter = RefFilter.DEFAULT;
 
@@ -807,12 +810,18 @@ public class UploadPack {
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 		FetchRequest req;
 		try {
-			if (biDirectionalPipe)
+			if (biDirectionalPipe) {
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
-			else if (requestValidator instanceof AnyRequestValidator)
+			} else if (requestValidator instanceof AnyRequestValidator) {
 				advertised = Collections.emptySet();
-			else
+			} else {
+				// TODO(ifrade): Stopgap solution. Fix v0/v1/v2 invocation of
+				// the hook.
+				if (!advertiseRefsHookCalled) {
+					invokeAdvertiseRefsHook(this);
+				}
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			}
 
 			long negotiateStart = System.currentTimeMillis();
 			accumulator.advertised = advertised.size();
@@ -1255,6 +1264,12 @@ public class UploadPack {
 		sendAdvertisedRefs(adv, null);
 	}
 
+	private void invokeAdvertiseRefsHook(UploadPack up)
+			throws ServiceMayNotContinueException {
+		advertiseRefsHook.advertiseRefs(up);
+		advertiseRefsHookCalled = true;
+	}
+
 	/**
 	 * Generate an advertisement of available refs and capabilities.
 	 *
@@ -1287,7 +1302,7 @@ public class UploadPack {
 		}
 
 		try {
-			advertiseRefsHook.advertiseRefs(this);
+			invokeAdvertiseRefsHook(this);
 		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
 				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
