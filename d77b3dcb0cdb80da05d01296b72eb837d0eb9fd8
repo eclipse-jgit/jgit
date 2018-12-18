@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66826537_29a0455b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-18T03:26:30Z",
+      "side": 1,
+      "message": "Could use a @Nullable.\n\nAlternatively, could use requireNonNull.",
+      "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
