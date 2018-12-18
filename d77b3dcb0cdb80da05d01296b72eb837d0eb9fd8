@@ -70,6 +70,24 @@
       "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c91c17_7b999e86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T05:12:04Z",
+      "side": 1,
+      "message": "Done. I\u0027ve also added the annotations in the other places with a separate commit, underneath this one.",
+      "parentUuid": "fddeec60_bc3267a3",
+      "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
