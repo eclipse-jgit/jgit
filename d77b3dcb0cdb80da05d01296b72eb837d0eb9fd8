@@ -52,6 +52,24 @@
       "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fddeec60_bc3267a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T04:07:05Z",
+      "side": 1,
+      "message": "I can\u0027t check it because my Eclipse is still broken and Jgit doesn\u0027t build in it [1]. I can add the annotation anyway (also on the other places where null is allowed)\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d540764",
+      "parentUuid": "5103bc8c_50490f9e",
+      "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
