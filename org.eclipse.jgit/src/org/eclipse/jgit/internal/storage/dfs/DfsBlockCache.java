@@ -52,7 +52,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.stream.LongStream;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -375,13 +374,13 @@ public final class DfsBlockCache {
 	 * @param ctx
 	 *            current thread's reader.
 	 * @param fileChannel
-	 *            optional channel to read {@code pack}.
+	 *            supplier for channel to read {@code pack}.
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
 	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
-			@Nullable ReadableChannel fileChannel) throws IOException {
+			ReadableChannelSupplier fileChannel) throws IOException {
 		final long requestedPosition = position;
 		position = file.alignToBlock(position);
 
@@ -413,7 +412,8 @@ public final class DfsBlockCache {
 			getStat(statMiss, key).incrementAndGet();
 			boolean credit = true;
 			try {
-				v = file.readOneBlock(requestedPosition, ctx, fileChannel);
+				v = file.readOneBlock(requestedPosition, ctx,
+						fileChannel.get());
 				credit = false;
 			} finally {
 				if (credit) {
@@ -748,5 +748,17 @@ public final class DfsBlockCache {
 	@FunctionalInterface
 	interface RefLoader<T> {
 		Ref<T> load() throws IOException;
+	}
+
+	/**
+	 * Supplier for readable channel
+	 */
+	@FunctionalInterface
+	public interface ReadableChannelSupplier {
+		/**
+		 * @return ReadableChannel
+		 * @throws IOException
+		 */
+		ReadableChannel get() throws IOException;
 	}
 }
