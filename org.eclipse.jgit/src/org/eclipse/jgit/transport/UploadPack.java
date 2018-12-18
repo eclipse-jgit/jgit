@@ -573,10 +573,8 @@ public class UploadPack {
 	 */
 	public void setAdvertiseRefsHook(
 			@Nullable AdvertiseRefsHook advertiseRefsHook) {
-		if (advertiseRefsHook != null)
-			this.advertiseRefsHook = advertiseRefsHook;
-		else
-			this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+		this.advertiseRefsHook = advertiseRefsHook != null ? advertiseRefsHook
+				: AdvertiseRefsHook.DEFAULT;
 	}
 
 	/**
