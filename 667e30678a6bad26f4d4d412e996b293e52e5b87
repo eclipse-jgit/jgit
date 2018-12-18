@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65f3e7c1_918f211f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T03:09:43Z",
+      "side": 1,
+      "message": "Can you elaborate on this?  As far as I can see Gerrit does not have any custom implementation of RefDatabase.",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "667e30678a6bad26f4d4d412e996b293e52e5b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
