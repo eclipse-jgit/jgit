@@ -585,10 +585,11 @@ public class UploadPack {
 	 * Set the protocol V2 hook.
 	 *
 	 * @param hook
+	 *            the hook; if null no special actions are taken.
 	 * @since 5.1
 	 */
 	public void setProtocolV2Hook(ProtocolV2Hook hook) {
-		this.protocolV2Hook = hook;
+		this.protocolV2Hook = hook != null ? hook : ProtocolV2Hook.DEFAULT;
 	}
 
 	/**
