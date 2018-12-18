@@ -16,6 +16,24 @@
       "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb625da8_7b953045",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T03:39:38Z",
+      "side": 1,
+      "message": "\u003e Could use a @Nullable.\n\nI thought about doing that, but IIRC it will result in warnings about API changes.\n\n\u003e Alternatively, could use requireNonNull.\n\nrequireNonNull will make it throw an exception on null, which IMO is not much better than letting it be null and then throwing NPE later.\n\nI think it\u0027s better to make the behavior consistent with the others, i.e. falling back to a default.",
+      "parentUuid": "66826537_29a0455b",
+      "revId": "d77b3dcb0cdb80da05d01296b72eb837d0eb9fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
