@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d91952dd_affbaace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T03:25:47Z",
+      "side": 1,
+      "message": "In an email discussion Jonathan has suggested reverting this change.  I would be OK with that.",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "5f0613e5ddca4160572ef990307f68e2cd1ab74e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
