@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c16594fd_f3247ba0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-18T01:05:33Z",
+      "side": 1,
+      "message": "Would be interesting to cover also \"refs/remotes/*\"",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "800041d3_565f1fe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-18T01:05:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be \"ref pattern\" instead? It can contain the \"*\". Actually I learnt that while checking the test case, so I think an example here would be a good idea.",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c88ec8c_2588207a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-18T01:05:33Z",
+      "side": 1,
+      "message": "same here, \"ref pattern\" ?",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df25abd1_bede4c50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-18T01:05:33Z",
+      "side": 1,
+      "message": "I find it difficult to understand what \"prefixMatch\" does. In what case does it make a difference?\n\nThe name of the variable doesn\u0027t help, and a flag changing the behaviour of the method is a bit suspicious. Would be worthy to have two different methods: \"match\" and \"contains\"?\n\nIs match about an specific ref and contains about patterns?",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
