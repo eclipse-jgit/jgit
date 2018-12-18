@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cebd7c1e_3c7c78bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-18T05:18:46Z",
+      "side": 1,
+      "message": "I was playing around trying to fix the advertised ls-refs, and then went for lunch, but then forgot about it and did the annotations changes in the same workspace.\n\nDone.",
+      "parentUuid": "742781dd_0c2fd0fd",
+      "revId": "c966722bde23d0c32c05b408c4ee124ddaec9013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f5a3ef3_ee1549d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
