@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "742781dd_0c2fd0fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-18T05:15:32Z",
+      "side": 1,
+      "message": "Accidental squash?",
+      "revId": "c966722bde23d0c32c05b408c4ee124ddaec9013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f5a3ef3_ee1549d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
