@@ -438,99 +438,77 @@ public final class DfsPackFile extends BlockBasedFile {
 		return dstbuf;
 	}
 
-	void copyPackAsIs(PackOutputStream out, DfsReader ctx)
-			throws IOException {
+	void copyPackAsIs(PackOutputStream out, DfsReader ctx) throws IOException {
 		// If the length hasn't been determined yet, pin to set it.
 		if (length == -1) {
 			ctx.pin(this, 0);
 			ctx.unpin();
 		}
-		if (cache.shouldCopyThroughCache(length)) {
-			copyPackThroughCache(out, ctx);
-		} else {
-			copyPackBypassCache(out, ctx);
+		try (ReadableChannel rc = ctx.db.openFile(desc, PACK)) {
+			int sz = ctx.getOptions().getStreamPackBufferSize();
+			if (sz > 0) {
+				rc.setReadAheadBytes(sz);
+			}
+			if (cache.shouldCopyThroughCache(length)) {
+				copyPackThroughCache(out, ctx, rc);
+			} else {
+				copyPackBypassCache(out, rc);
+			}
 		}
 	}
 
-	private void copyPackThroughCache(PackOutputStream out, DfsReader ctx)
-			throws IOException {
-		@SuppressWarnings("resource") // Explicitly closed in finally block
-		ReadableChannel rc = null;
-		try {
-			long position = 12;
-			long remaining = length - (12 + 20);
-			while (0 < remaining) {
-				DfsBlock b;
-				if (rc != null) {
-					b = cache.getOrLoad(this, position, ctx, rc);
-				} else {
-					b = cache.get(key, alignToBlock(position));
-					if (b == null) {
-						rc = ctx.db.openFile(desc, PACK);
-						int sz = ctx.getOptions().getStreamPackBufferSize();
-						if (sz > 0) {
-							rc.setReadAheadBytes(sz);
-						}
-						b = cache.getOrLoad(this, position, ctx, rc);
-					}
-				}
+	private void copyPackThroughCache(PackOutputStream out, DfsReader ctx,
+			ReadableChannel rc) throws IOException {
+		long position = 12;
+		long remaining = length - (12 + 20);
+		while (0 < remaining) {
+			DfsBlock b = cache.getOrLoad(this, position, ctx, () -> rc);
+			int ptr = (int) (position - b.start);
+			int n = (int) Math.min(b.size() - ptr, remaining);
+			b.write(out, position, n);
+			position += n;
+			remaining -= n;
+		}
+	}
 
+	private long copyPackBypassCache(PackOutputStream out, ReadableChannel rc)
+			throws IOException {
+		ByteBuffer buf = newCopyBuffer(out, rc);
+		long position = 12;
+		long remaining = length - (12 + 20);
+		boolean packHeadSkipped = false;
+		while (0 < remaining) {
+			DfsBlock b = cache.get(key, alignToBlock(position));
+			if (b != null) {
 				int ptr = (int) (position - b.start);
 				int n = (int) Math.min(b.size() - ptr, remaining);
 				b.write(out, position, n);
 				position += n;
 				remaining -= n;
+				rc.position(position);
+				packHeadSkipped = true;
+				continue;
 			}
-		} finally {
-			if (rc != null) {
-				rc.close();
+
+			buf.position(0);
+			int n = read(rc, buf);
+			if (n <= 0) {
+				throw packfileIsTruncated();
+			} else if (n > remaining) {
+				n = (int) remaining;
 			}
+
+			if (!packHeadSkipped) {
+				// Need skip the 'PACK' header for the first read
+				out.write(buf.array(), 12, n - 12);
+				packHeadSkipped = true;
+			} else {
+				out.write(buf.array(), 0, n);
+			}
+			position += n;
+			remaining -= n;
 		}
-	}
-
-	private long copyPackBypassCache(PackOutputStream out, DfsReader ctx)
-			throws IOException {
-		try (ReadableChannel rc = ctx.db.openFile(desc, PACK)) {
-			ByteBuffer buf = newCopyBuffer(out, rc);
-			if (ctx.getOptions().getStreamPackBufferSize() > 0) {
-				rc.setReadAheadBytes(ctx.getOptions().getStreamPackBufferSize());
-			}
-			long position = 12;
-			long remaining = length - (12 + 20);
-			boolean packHeadSkipped = false;
-			while (0 < remaining) {
-				DfsBlock b = cache.get(key, alignToBlock(position));
-				if (b != null) {
-					int ptr = (int) (position - b.start);
-					int n = (int) Math.min(b.size() - ptr, remaining);
-					b.write(out, position, n);
-					position += n;
-					remaining -= n;
-					rc.position(position);
-					packHeadSkipped = true;
-					continue;
-				}
-
-				buf.position(0);
-				int n = read(rc, buf);
-				if (n <= 0) {
-					throw packfileIsTruncated();
-				} else if (n > remaining) {
-					n = (int) remaining;
-				}
-
-				if (!packHeadSkipped) {
-					// Need skip the 'PACK' header for the first read
-					out.write(buf.array(), 12, n - 12);
-					packHeadSkipped = true;
-				} else {
-					out.write(buf.array(), 0, n);
-				}
-				position += n;
-				remaining -= n;
-			}
-			return position;
-		}
+		return position;
 	}
 
 	private ByteBuffer newCopyBuffer(PackOutputStream out, ReadableChannel rc) {
