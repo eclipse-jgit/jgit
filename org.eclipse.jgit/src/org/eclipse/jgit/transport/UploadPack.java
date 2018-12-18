@@ -43,8 +43,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
@@ -261,11 +262,17 @@ public class UploadPack {
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
 
-	/** The refs we advertised as existing at the start of the connection. */
+	/**
+	 * Refs eligible for advertising to the client, set using
+	 * {@link #setAdvertisedRefs}.
+	 */
 	private Map<String, Ref> refs;
 
 	/** Hook used while advertising the refs to the client. */
 	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+
+	/** Whether the {@link #advertiseRefsHook} has been invoked. */
+	private boolean advertiseRefsHookCalled;
 
 	/** Filter used while advertising the refs to the client. */
 	private RefFilter refFilter = RefFilter.DEFAULT;
@@ -784,10 +791,45 @@ public class UploadPack {
 		}
 
 		advertiseRefsHook.advertiseRefs(this);
+		advertiseRefsHookCalled = true;
 		if (refs == null) {
-			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
+			// Fall back to all refs.
+			setAdvertisedRefs(
+					db.getRefDatabase().getRefs().stream()
+						.collect(toMap(Ref::getName, identity())));
 		}
 		return refs;
+	}
+
+	private Map<String, Ref> getFilteredRefs(Collection<String> refPrefixes)
+					throws IOException {
+		if (refPrefixes.isEmpty()) {
+			return getAdvertisedOrDefaultRefs();
+		}
+		if (refs == null && !advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null) {
+			// Fast path: the advertised refs hook did not set advertised refs.
+			Map<String, Ref> rs = new HashMap<>();
+			for (String p : refPrefixes) {
+				for (Ref r : db.getRefDatabase().getRefsByPrefix(p)) {
+					rs.put(r.getName(), r);
+				}
+			}
+			if (refFilter != RefFilter.DEFAULT) {
+				return refFilter.filter(rs);
+			}
+			return transferConfig.getRefFilter().filter(rs);
+		}
+
+		// Slow path: filter the refs provided by the advertised refs hook.
+		// refFilter has already been applied to refs.
+		return refs.values().stream()
+				.filter(ref -> refPrefixes.stream()
+						.anyMatch(ref.getName()::startsWith))
+				.collect(toMap(Ref::getName, identity()));
 	}
 
 	private void service() throws IOException {
@@ -913,17 +955,7 @@ public class UploadPack {
 		}
 		rawOut.stopBuffering();
 
-		Map<String, Ref> refsToSend;
-		if (refPrefixes.isEmpty()) {
-			refsToSend = getAdvertisedOrDefaultRefs();
-		} else {
-			refsToSend = new HashMap<>();
-			for (String refPrefix : refPrefixes) {
-				for (Ref ref : db.getRefDatabase().getRefsByPrefix(refPrefix)) {
-					refsToSend.put(ref.getName(), ref);
-				}
-			}
-		}
+		Map<String, Ref> refsToSend = getFilteredRefs(refPrefixes);
 
 		if (needToFindSymrefs) {
 			findSymrefs(adv, refsToSend);
