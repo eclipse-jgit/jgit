@@ -128,7 +128,13 @@ public class DfsReftable extends BlockBasedFile {
 				open().setReadAheadBytes(readAhead);
 			}
 
-			DfsBlock block = cache.getOrLoad(file, pos, ctx, ch);
+			DfsBlock block = cache.getOrLoad(file, pos, ctx, () -> {
+				try {
+					return open();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
 			if (block.start == pos && block.size() >= cnt) {
 				return block.zeroCopyByteBuffer(cnt);
 			}
