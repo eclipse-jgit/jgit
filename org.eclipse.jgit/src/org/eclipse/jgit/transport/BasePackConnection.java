@@ -56,6 +56,8 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -79,6 +81,8 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * @see BasePackPushConnection
  */
 abstract class BasePackConnection extends BaseConnection {
+	private static final Pattern ADVERTISED_REF_PATTERN = Pattern
+			.compile("^([a-fA-F0-9]{40}) (.*)"); //$NON-NLS-1$
 
 	/** The repository this transport fetches into, or pushes out of. */
 	protected final Repository local;
@@ -222,14 +226,19 @@ abstract class BasePackConnection extends BaseConnection {
 				}
 			}
 
-			String name = line.substring(41, line.length());
+			Matcher matcher = ADVERTISED_REF_PATTERN.matcher(line);
+			if (!matcher.matches()) {
+				// Skip anything that doesn't look like a ref advertisement
+				continue;
+			}
+			String name = matcher.group(2);
 			if (avail.isEmpty() && name.equals("capabilities^{}")) { //$NON-NLS-1$
 				// special line from git-receive-pack to show
 				// capabilities when there are no refs to advertise
 				continue;
 			}
 
-			final ObjectId id = ObjectId.fromString(line.substring(0, 40));
+			final ObjectId id = ObjectId.fromString(matcher.group(1));
 			if (name.equals(".have")) { //$NON-NLS-1$
 				additionalHaves.add(id);
 			} else if (name.endsWith("^{}")) { //$NON-NLS-1$
