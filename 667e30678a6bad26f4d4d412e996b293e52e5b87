@@ -22,6 +22,30 @@
       "revId": "667e30678a6bad26f4d4d412e996b293e52e5b87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4badc5f_4b698213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-18T03:15:11Z",
+      "side": 1,
+      "message": "Sorry about that. You are right: Gerrit uses AdvertiseRefsHook, and I was incorrectly remembering something else.",
+      "parentUuid": "65f3e7c1_918f211f",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "667e30678a6bad26f4d4d412e996b293e52e5b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
