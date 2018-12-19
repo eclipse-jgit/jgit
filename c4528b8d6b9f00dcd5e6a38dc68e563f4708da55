@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3109b0a_ac5cb604",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-19T17:13:31Z",
+      "side": 1,
+      "message": "Can we use a length check instead of a regex? I.e.\n\n  if (line.length() \u003c 41 || line.charAt(40) !\u003d \u0027 \u0027) {\n    ... report the error ...\n  }\n  String name \u003d line.substring(41, line.length());\n\n  ...\n  ObjectId id;\n  try {\n    id \u003d ObjectId.fromString(line.substring(0, 40));\n  } catch (InvalidObjectIdException e) {\n    ... report the error ...\n  }",
+      "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
