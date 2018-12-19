@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -160,8 +159,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertTrue(request.getOptions()
 				.contains(GitProtocolConstants.OPTION_THIN_PACK));
 		assertTrue(request.getOptions()
@@ -191,8 +189,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
 				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
@@ -211,8 +208,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
 				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
@@ -229,8 +225,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
 				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
@@ -244,8 +239,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(0, request.getFilterBlobLimit());
 	}
 
@@ -256,8 +250,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(15, request.getFilterBlobLimit());
 	}
 
@@ -270,8 +263,7 @@ public class ProtocolV2ParserTest {
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(0, request.getFilterBlobLimit());
 	}
 
@@ -282,8 +274,7 @@ public class ProtocolV2ParserTest {
 				"filter blob:limit=12", PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
-		parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		parser.parseFetchRequest(pckIn);
 	}
 
 	@Test
@@ -300,23 +291,16 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowRefInWant().done());
 
-
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(1, request.getWantedRefs().size());
-		assertThat(request.getWantedRefs().keySet(),
-				hasItems("refs/heads/branchA"));
-		assertEquals(2, request.getWantsIds().size());
+		assertThat(request.getWantedRefs(), hasItems("refs/heads/branchA"));
+		assertEquals(1, request.getWantsIds().size());
 		assertThat(objIdsAsStrings(request.getWantsIds()),
-				hasItems("e4980cdc48cfa1301493ca94eb70523f6788b819",
-						one.getName()));
+				hasItems("e4980cdc48cfa1301493ca94eb70523f6788b819"));
 	}
 
 	@Test
 	public void testFetchWithRefInWantUnknownRef() throws Exception {
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage(containsString("refs/heads/branchC"));
-
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
 				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
 				"want-ref refs/heads/branchC",
@@ -329,8 +313,9 @@ public class ProtocolV2ParserTest {
 		testRepo.update("branchA", one);
 		testRepo.update("branchB", two);
 
-		parser.parseFetchRequest(pckIn,
-				testRepo.getRepository().getRefDatabase());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
+		assertEquals(1, request.getWantedRefs().size());
+		assertThat(request.getWantedRefs(), hasItems("refs/heads/branchC"));
 	}
 
 }
