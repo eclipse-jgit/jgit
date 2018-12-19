@@ -45,9 +45,7 @@ package org.eclipse.jgit.transport;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.ObjectId;
@@ -63,7 +61,7 @@ import org.eclipse.jgit.lib.ObjectId;
 public final class FetchV2Request {
 	private final List<ObjectId> peerHas;
 
-	private final TreeMap<String, ObjectId> wantedRefs;
+	private final List<String> wantedRefs;
 
 	private final Set<ObjectId> wantsIds;
 
@@ -82,7 +80,7 @@ public final class FetchV2Request {
 	private final boolean doneReceived;
 
 	private FetchV2Request(List<ObjectId> peerHas,
-			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
+			List<String> wantedRefs, Set<ObjectId> wantsIds,
 			Set<ObjectId> clientShallowCommits, int deepenSince,
 			List<String> deepenNotRefs, int depth, long filterBlobLimit,
 			boolean doneReceived, Set<String> options) {
@@ -110,12 +108,12 @@ public final class FetchV2Request {
 	 * @return list of references in the "want-ref" lines of the request
 	 */
 	@NonNull
-	Map<String, ObjectId> getWantedRefs() {
-		return this.wantedRefs;
+	List<String> getWantedRefs() {
+		return wantedRefs;
 	}
 
 	/**
-	 * @return object ids in the "want" (and "want-ref") lines of the request
+	 * @return object ids in the "want" (but not "want-ref") lines of the request
 	 */
 	@NonNull
 	Set<ObjectId> getWantsIds() {
@@ -198,7 +196,7 @@ public final class FetchV2Request {
 	static final class Builder {
 		List<ObjectId> peerHas = new ArrayList<>();
 
-		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
+		List<String> wantedRefs = new ArrayList<>();
 
 		Set<ObjectId> wantsIds = new HashSet<>();
 
@@ -234,12 +232,10 @@ public final class FetchV2Request {
 		 *
 		 * @param refName
 		 *            reference name
-		 * @param oid
-		 *            object id
 		 * @return the builder
 		 */
-		Builder addWantedRef(String refName, ObjectId oid) {
-			wantedRefs.put(refName, oid);
+		Builder addWantedRef(String refName) {
+			wantedRefs.add(refName);
 			return this;
 		}
 
@@ -258,7 +254,7 @@ public final class FetchV2Request {
 		 *            from a "want" line in a fetch request
 		 * @return the builder
 		 */
-		Builder addWantsIds(ObjectId objectId) {
+		Builder addWantsId(ObjectId objectId) {
 			wantsIds.add(objectId);
 			return this;
 		}

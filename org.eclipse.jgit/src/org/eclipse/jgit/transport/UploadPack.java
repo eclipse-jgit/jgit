@@ -79,6 +79,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -994,8 +995,7 @@ public class UploadPack {
 		}
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn,
-				db.getRefDatabase());
+		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -1003,12 +1003,28 @@ public class UploadPack {
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
 		options = req.getOptions();
-		wantIds.addAll(req.getWantsIds());
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
 		shallowSince = req.getDeepenSince();
 		filterBlobLimit = req.getFilterBlobLimit();
 		deepenNotRefs = req.getDeepenNotRefs();
+
+		wantIds.addAll(req.getWantsIds());
+		Map<String, ObjectId> wantedRefs = new TreeMap<>();
+		for (String refName : req.getWantedRefs()) {
+			Ref ref = db.getRefDatabase().exactRef(refName);
+			if (ref == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			ObjectId oid = ref.getObjectId();
+			if (oid == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			wantIds.add(oid);
+			wantedRefs.put(refName, oid);
+		}
 
 		boolean sectionSent = false;
 		@Nullable List<ObjectId> shallowCommits = null;
@@ -1059,13 +1075,13 @@ public class UploadPack {
 				sectionSent = true;
 			}
 
-			if (!req.getWantedRefs().isEmpty()) {
+			if (!wantedRefs.isEmpty()) {
 				if (sectionSent) {
 					pckOut.writeDelim();
 				}
 				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
-				for (Map.Entry<String, ObjectId> entry : req.getWantedRefs()
-						.entrySet()) {
+				for (Map.Entry<String, ObjectId> entry :
+						wantedRefs.entrySet()) {
 					pckOut.writeString(entry.getValue().getName() + ' ' +
 							entry.getKey() + '\n');
 				}
