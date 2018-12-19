@@ -162,7 +162,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String PATCH = "patch"; //$NON-NLS-1$
 
-	private static final String REBASE_HEAD = "head"; //$NON-NLS-1$
+	private static final String REBASE_HEAD = "orig-head"; //$NON-NLS-1$
+
+	/** Pre git 1.7.6 file name for {@link #REBASE_HEAD}. */
+	private static final String REBASE_HEAD_LEGACY = "head"; //$NON-NLS-1$
 
 	private static final String AMEND = "amend"; //$NON-NLS-1$
 
@@ -1120,6 +1123,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		repo.writeOrigHead(headId);
 		rebaseState.createFile(REBASE_HEAD, headId.name());
+		rebaseState.createFile(REBASE_HEAD_LEGACY, headId.name());
 		rebaseState.createFile(HEAD_NAME, headName);
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
