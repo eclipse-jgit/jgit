@@ -1473,6 +1473,7 @@ public abstract class Repository implements AutoCloseable {
 			case '?':
 			case '*':
 			case '[':
+			case ']':
 			case '@':
 			case '<':
 			case '>':
