@@ -115,28 +115,50 @@ import org.eclipse.jgit.util.RawParseUtils;
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
  * <p>
+ * This implements rebasing via cherry-picking, like native git's rebase
+ * --interactive or rebase --preserve-merges, and uses that even for the
+ * equivalent of native git rebase --merge. There is no support for the default
+ * mode of native git's rebase, which is based on git-am (repeated application
+ * of patches).
+ * </p>
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html"
- *      >Git documentation about Rebase</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html" >Git
+ *      documentation about Rebase</a>
  */
 public class RebaseCommand extends GitCommand<RebaseResult> {
+
 	/**
-	 * The name of the "rebase-merge" folder for interactive rebases.
+	 * The name of the "rebase-merge" folder for merging rebases (all JGit
+	 * rebases, and native git's rebase --merge, rebase --interactive, and
+	 * rebase --preserve-merges).
 	 */
 	public static final String REBASE_MERGE = "rebase-merge"; //$NON-NLS-1$
 
 	/**
-	 * The name of the "rebase-apply" folder for non-interactive rebases.
+	 * The name of the "rebase-apply" folder for native git's rebase using
+	 * git-am (repeated patch application).
+	 * <p>
+	 * Note that this implementation is not compatible at all with that basic
+	 * native git mode, and a plain git rebase using git-am (which is the
+	 * default for native git) cannot be continued with JGit.
+	 * </p>
 	 */
 	private static final String REBASE_APPLY = "rebase-apply"; //$NON-NLS-1$
 
 	/**
-	 * The name of the "stopped-sha" file
+	 * The name of the "stopped-sha" file used to record the commit upon
+	 * conflicts in interactive rebases. See also {@link #CURRENT}.
 	 */
 	public static final String STOPPED_SHA = "stopped-sha"; //$NON-NLS-1$
 
 	private static final String AUTHOR_SCRIPT = "author-script"; //$NON-NLS-1$
+
+	/**
+	 * The name of the file used to record the current commit upon conflicts in
+	 * non-interactive rebases. See also {@link #STOPPED_SHA}.
+	 */
+	private static final String CURRENT = "current"; //$NON-NLS-1$
 
 	private static final String DONE = "done"; //$NON-NLS-1$
 
@@ -192,6 +214,24 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * is used.
 	 */
 	private static final String CURRENT_COMMIT = "current-commit"; //$NON-NLS-1$
+
+	/**
+	 * Native git rebase --merge records the commits not in a to-do list but in
+	 * individual "cmt.N" files, N >= 1. It also maintains {@link #MSGNUM} and
+	 * {@link #END} files.
+	 */
+	private static final String CMT_PREFIX = "cmt."; //$NON-NLS-1$
+
+	/**
+	 * Records the number of {@link #CMT_PREFIX cmt.N} files for git rebase
+	 * --merge.
+	 */
+	private static final String END = "end"; //$NON-NLS-1$
+
+	/**
+	 * Records the current commit index during git rebase --merge.
+	 */
+	private static final String MSGNUM = "msgnum"; //$NON-NLS-1$
 
 	private static final String REFLOG_PREFIX = "rebase:"; //$NON-NLS-1$
 
@@ -297,6 +337,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				this.upstreamCommit = walk.parseCommit(repo
 						.resolve(upstreamCommitId));
 				preserveMerges = rebaseState.getRewrittenDir().isDirectory();
+				convertMergingRebase();
 				break;
 			case BEGIN:
 				autoStash();
@@ -327,11 +368,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (monitor.isCancelled())
 				return abort(RebaseResult.ABORTED_RESULT);
 
+			int numberOfDoneSteps = 0;
 			if (operation == Operation.CONTINUE) {
-				newHead = continueRebase();
 				List<RebaseTodoLine> doneLines = repo.readRebaseTodo(
 						rebaseState.getPath(DONE), true);
-				RebaseTodoLine step = doneLines.get(doneLines.size() - 1);
+				numberOfDoneSteps = doneLines.size();
+				RebaseTodoLine step = catchUpWithMsgNum(numberOfDoneSteps);
+				if (step == null) {
+					// No catching up done.
+					step = doneLines.get(numberOfDoneSteps - 1);
+				}
+				newHead = continueRebase();
 				if (newHead != null
 						&& step.getAction() != Action.PICK) {
 					RebaseTodoLine newStep = new RebaseTodoLine(
@@ -376,6 +423,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				popSteps(1);
 				RebaseResult result = processStep(step, true);
 				if (result != null) {
+					rebaseState.createFile(MSGNUM,
+							Integer.toString(numberOfDoneSteps + i + 1));
 					return result;
 				}
 			}
@@ -385,6 +434,69 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private void convertMergingRebase() throws IOException {
+		File file = rebaseState.getDir();
+		if (REBASE_APPLY.equals(file.getName())) {
+			return;
+		}
+		file = rebaseState.getFile(GIT_REBASE_TODO);
+		if (file.exists()) {
+			return;
+		}
+		File done = rebaseState.getFile(DONE);
+		if (done.exists()) {
+			return;
+		}
+		int msgNum = -1;
+		int end = -1;
+		try {
+			msgNum = Integer.parseInt(rebaseState.readFile(MSGNUM));
+			end = Integer.parseInt(rebaseState.readFile(END));
+		} catch (IOException | NumberFormatException e) {
+			// Just don't do anything, we return below.
+		}
+		if (msgNum <= 0 || end <= 0) {
+			return;
+		}
+		// Create a DONE file from cmt.1 to cmt.msgNum, put all others in the
+		// to-do list.
+		List<RebaseTodoLine> lines = new ArrayList<>();
+		try {
+			for (int i = 1; i <= msgNum; i++) {
+				AbbreviatedObjectId id = AbbreviatedObjectId
+						.fromString(rebaseState.readFile(CMT_PREFIX + i));
+				lines.add(new RebaseTodoLine(Action.PICK, id, "")); //$NON-NLS-1$
+			}
+			repo.writeRebaseTodoFile(rebaseState.getPath(DONE), lines, false);
+			lines.clear();
+			lines.add(new RebaseTodoLine("# Created by JGit; conversion of cmt." //$NON-NLS-1$
+					+ msgNum + " to cmt." + end)); //$NON-NLS-1$
+			for (int i = msgNum + 1; i <= end; i++) {
+				AbbreviatedObjectId id = AbbreviatedObjectId
+						.fromString(rebaseState.readFile(CMT_PREFIX + i));
+				lines.add(new RebaseTodoLine(Action.PICK, id, "")); //$NON-NLS-1$
+			}
+			repo.writeRebaseTodoFile(rebaseState.getPath(GIT_REBASE_TODO),
+					lines, false);
+		} catch (IOException e) {
+			FileUtils.delete(file, FileUtils.IGNORE_ERRORS);
+			FileUtils.delete(done, FileUtils.IGNORE_ERRORS);
+		}
+	}
+
+	private RebaseTodoLine catchUpWithMsgNum(int doneCount) throws IOException {
+		int msgNum = -1;
+		try {
+			msgNum = Integer.parseInt(rebaseState.readFile(MSGNUM));
+		} catch (IOException | NumberFormatException e) {
+			// Just don't do anything, we return below.
+		}
+		if (msgNum <= doneCount) {
+			return null;
+		}
+		return popSteps(msgNum - doneCount);
 	}
 
 	private void autoStash() throws GitAPIException, IOException {
@@ -458,6 +570,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			throw new JGitInternalException(
 					JGitText.get().cannotResolveUniquelyAbbrevObjectId);
 		RevCommit commitToPick = walk.parseCommit(ids.iterator().next());
+		if (!isInteractive() && !preserveMerges) {
+			rebaseState.createFile(CURRENT, commitToPick.name());
+		}
 		if (shouldPick) {
 			if (monitor.isCancelled())
 				return RebaseResult.result(Status.STOPPED, commitToPick);
@@ -991,8 +1106,19 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (needsCommit) {
 			try (Git git = new Git(repo)) {
 				CommitCommand commit = git.commit();
-				commit.setMessage(rebaseState.readFile(MESSAGE));
-				commit.setAuthor(parseAuthor());
+				File messageFile = rebaseState.getFile(MESSAGE);
+				if (messageFile.exists()) {
+					commit.setMessage(RebaseState.readFile(messageFile));
+					commit.setAuthor(parseAuthor());
+				} else {
+					// Rebase started via native git rebase --merge doesn't use
+					// the MESSAGE file but the -C option with the commit ID of
+					// the current commit.
+					RevCommit current = walk.parseCommit(
+							repo.resolve(rebaseState.readFile(CURRENT)));
+					commit.setMessage(current.getFullMessage());
+					commit.setAuthor(current.getAuthorIdent());
+				}
 				return commit.call();
 			}
 		}
@@ -1025,10 +1151,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			df.format(commitToPick.getParent(0), commitToPick);
 		}
 		rebaseState.createFile(PATCH, new String(bos.toByteArray(), UTF_8));
-		rebaseState.createFile(STOPPED_SHA,
-				repo.newObjectReader()
-				.abbreviate(
-				commitToPick).name());
+		rebaseState.createFile(STOPPED_SHA, commitToPick.name());
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
@@ -1064,29 +1187,34 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * that can not be parsed as steps
 	 *
 	 * @param numSteps
+	 * @return the last line popped, or {@code null} if {@code numSteps == 0}
 	 * @throws IOException
 	 */
-	private void popSteps(int numSteps) throws IOException {
-		if (numSteps == 0)
-			return;
+	private RebaseTodoLine popSteps(int numSteps) throws IOException {
+		if (numSteps == 0) {
+			return null;
+		}
 		List<RebaseTodoLine> todoLines = new LinkedList<>();
 		List<RebaseTodoLine> poppedLines = new LinkedList<>();
-
+		RebaseTodoLine lastPopped = null;
 		for (RebaseTodoLine line : repo.readRebaseTodo(
 				rebaseState.getPath(GIT_REBASE_TODO), true)) {
 			if (poppedLines.size() >= numSteps
-					|| RebaseTodoLine.Action.COMMENT.equals(line.getAction()))
+					|| RebaseTodoLine.Action.COMMENT.equals(line.getAction())) {
 				todoLines.add(line);
-			else
+			} else {
+				lastPopped = line;
 				poppedLines.add(line);
+			}
 		}
 
 		repo.writeRebaseTodoFile(rebaseState.getPath(GIT_REBASE_TODO),
 				todoLines, false);
-		if (poppedLines.size() > 0) {
+		if (!poppedLines.isEmpty()) {
 			repo.writeRebaseTodoFile(rebaseState.getPath(DONE), poppedLines,
 					true);
 		}
+		return lastPopped;
 	}
 
 	private RebaseResult initFilesAndRewind() throws IOException,
@@ -1145,9 +1273,21 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// determine the commits to be applied
 		List<RevCommit> cherryPickList = calculatePickList(headCommit);
 		ObjectReader reader = walk.getObjectReader();
-		for (RevCommit commit : cherryPickList)
+		int n = 0;
+		for (RevCommit commit : cherryPickList) {
+			n++;
 			toDoSteps.add(new RebaseTodoLine(Action.PICK, reader
 					.abbreviate(commit), commit.getShortMessage()));
+			if (!isInteractive() && !preserveMerges) {
+				// Write the files native git expects
+				rebaseState.createFile(CMT_PREFIX + n, commit.name());
+			}
+		}
+		if (!isInteractive() && !preserveMerges) {
+			// Write the files native git expects
+			rebaseState.createFile(END, Integer.toString(n));
+			rebaseState.createFile(MSGNUM, "1"); //$NON-NLS-1$
+		}
 		repo.writeRebaseTodoFile(rebaseState.getPath(GIT_REBASE_TODO),
 				toDoSteps, false);
 
