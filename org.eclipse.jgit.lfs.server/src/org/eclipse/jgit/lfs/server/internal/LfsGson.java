@@ -53,8 +53,6 @@ import com.google.gson.JsonSyntaxException;
 
 /**
  * Wrapper for {@link com.google.gson.Gson} used by LFS servlets.
- *
- * @since 4.10.0
  */
 public class LfsGson {
 	private static final Gson gson = new GsonBuilder()
