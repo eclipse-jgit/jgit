@@ -847,6 +847,37 @@ public class UploadPack {
 				.collect(toMap(Ref::getName, identity()));
 	}
 
+	/**
+	 * Read a ref on behalf of the client.
+	 * <p>
+	 * This checks that the ref is present in the ref advertisement since
+	 * otherwise the client might not be supposed to be able to read it.
+	 *
+	 * @param name
+	 *            the unabbreviated name of the reference.
+	 * @return the requested Ref, or {@code null} if it is not visible or
+	 *         does not exist.
+	 * @throws java.io.IOException
+	 *            on failure to read the ref or check it for visibility.
+	 */
+	@Nullable
+	private Ref getRef(String name) throws IOException {
+		if (refs != null) {
+			return refs.get(name);
+		}
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null &&
+				refFilter == RefFilter.DEFAULT &&
+				transferConfig.hasDefaultRefFilter()) {
+			// Fast path: no ref filtering is needed.
+			return db.getRefDatabase().exactRef(name);
+		}
+		return getAdvertisedOrDefaultRefs().get(name);
+	}
+
 	private void service() throws IOException {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
@@ -1012,7 +1043,7 @@ public class UploadPack {
 		wantIds.addAll(req.getWantsIds());
 		Map<String, ObjectId> wantedRefs = new TreeMap<>();
 		for (String refName : req.getWantedRefs()) {
-			Ref ref = db.getRefDatabase().exactRef(refName);
+			Ref ref = getRef(refName);
 			if (ref == null) {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().invalidRefName, refName));
