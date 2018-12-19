@@ -158,7 +158,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String ONTO = "onto"; //$NON-NLS-1$
 
-	private static final String ONTO_NAME = "onto-name"; //$NON-NLS-1$
+	private static final String ONTO_NAME = "onto_name"; //$NON-NLS-1$
 
 	private static final String PATCH = "patch"; //$NON-NLS-1$
 
@@ -1123,7 +1123,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(HEAD_NAME, headName);
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
-		if (isInteractive()) {
+		if (isInteractive() || preserveMerges) {
+			// --preserve-merges is an interactive mode for native git. Without
+			// this, native git rebase --continue after a conflict would fall
+			// into merge mode.
 			rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
 		}
 		rebaseState.createFile(QUIET, ""); //$NON-NLS-1$
@@ -1706,7 +1709,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 
 		public String readFile(String name) throws IOException {
-			return readFile(getDir(), name);
+			try {
+				return readFile(getDir(), name);
+			} catch (FileNotFoundException e) {
+				if (ONTO_NAME.equals(name)) {
+					// Older JGit mistakenly wrote a file "onto-name" instead of
+					// "onto_name". Try that wrong name just in case somebody
+					// upgraded while a rebase started by JGit was in progress.
+					File oldFile = getFile(ONTO_NAME.replace('_', '-'));
+					if (oldFile.exists()) {
+						return readFile(oldFile);
+					}
+				}
+				throw e;
+			}
 		}
 
 		public void createFile(String name, String content) throws IOException {
@@ -1721,12 +1737,16 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return (getDir().getName() + "/" + name); //$NON-NLS-1$
 		}
 
-		private static String readFile(File directory, String fileName)
-				throws IOException {
-			byte[] content = IO.readFully(new File(directory, fileName));
+		private static String readFile(File file) throws IOException {
+			byte[] content = IO.readFully(file);
 			// strip off the last LF
 			int end = RawParseUtils.prevLF(content, content.length);
 			return RawParseUtils.decode(content, 0, end + 1);
+		}
+
+		private static String readFile(File directory, String fileName)
+				throws IOException {
+			return readFile(new File(directory, fileName));
 		}
 
 		private static void createFile(File parentDir, String name,
