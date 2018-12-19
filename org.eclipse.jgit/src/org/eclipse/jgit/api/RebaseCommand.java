@@ -180,6 +180,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * The folder containing the hashes of (potentially) rewritten commits when
 	 * --preserve-merges is used.
+	 * <p>
+	 * Native git rebase --merge uses a <em>file</em> of that name to record
+	 * commits to copy notes at the end of the whole rebase.
+	 * </p>
 	 */
 	private static final String REWRITTEN = "rewritten"; //$NON-NLS-1$
 
@@ -292,7 +296,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 				this.upstreamCommit = walk.parseCommit(repo
 						.resolve(upstreamCommitId));
-				preserveMerges = rebaseState.getRewrittenDir().exists();
+				preserveMerges = rebaseState.getRewrittenDir().isDirectory();
 				break;
 			case BEGIN:
 				autoStash();
