@@ -1340,8 +1340,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private RebaseResult abort(RebaseResult result) throws IOException,
 			GitAPIException {
+		ObjectId origHead = getOriginalHead();
 		try {
-			ObjectId origHead = repo.readOrigHead();
 			String commitId = origHead != null ? origHead.name() : null;
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().abortingRebase, commitId),
@@ -1380,7 +1380,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				// update the HEAD
 				res = refUpdate.link(headName);
 			} else {
-				refUpdate.setNewObjectId(repo.readOrigHead());
+				refUpdate.setNewObjectId(origHead);
 				res = refUpdate.forceUpdate();
 
 			}
@@ -1404,6 +1404,19 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		} finally {
 			monitor.endTask();
+		}
+	}
+
+	private ObjectId getOriginalHead() throws IOException {
+		try {
+			return ObjectId.fromString(rebaseState.readFile(REBASE_HEAD));
+		} catch (FileNotFoundException e) {
+			try {
+				return ObjectId
+						.fromString(rebaseState.readFile(REBASE_HEAD_LEGACY));
+			} catch (FileNotFoundException ex) {
+				return repo.readOrigHead();
+			}
 		}
 	}
 
