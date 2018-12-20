@@ -34,6 +34,24 @@
       "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cee3335_a67774d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T00:15:05Z",
+      "side": 1,
+      "message": "\u003e Is there any specific reason to not use regex?\n\nJust painful experience with debugging regexes. Regex matching also seems like overkill here.\n\n \u003e There are likely other parts of the client code that don\u0027t behave properly with v2.\n\nCan you elaborate? Are you saying RuntimeException doesn\u0027t get handled properly by the caller?",
+      "parentUuid": "e1f2b548_b0090fc4",
+      "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
