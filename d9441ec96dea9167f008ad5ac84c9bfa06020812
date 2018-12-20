@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9981be1_94fbb2a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T08:02:28Z",
+      "side": 1,
+      "message": "optional: may be easier to avoid the temporary variable:\n\n ref \u003d block.readRef(minUpdateIndex + ...);",
+      "revId": "d9441ec96dea9167f008ad5ac84c9bfa06020812",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74142e1d_fe5b8bf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T08:02:28Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "d9441ec96dea9167f008ad5ac84c9bfa06020812",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
