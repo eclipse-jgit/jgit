@@ -111,6 +111,19 @@ public abstract class RefDatabase {
 	public abstract void close();
 
 	/**
+	 * With versioning, each reference has a version number that increases on
+	 * update. See {@link Ref#getUpdateIndex()}.
+	 *
+	 * @implSpec This method returns false by default. Implementations
+	 *           supporting versioning must override it to return true.
+	 * @return true if the implementation assigns update indices to references.
+	 * @since 5.3
+	 */
+	public boolean hasVersioning() {
+		return false;
+	}
+
+	/**
 	 * Determine if a proposed reference name overlaps with an existing one.
 	 * <p>
 	 * Reference names use '/' as a component separator, and may be stored in a

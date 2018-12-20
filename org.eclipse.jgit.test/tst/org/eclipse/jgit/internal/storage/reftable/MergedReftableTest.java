@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
 public class MergedReftableTest {
@@ -128,6 +130,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, act.getUpdateIndex());
 			}
 			assertFalse(rc.next());
 		}
@@ -145,6 +148,7 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 	}
@@ -162,6 +166,7 @@ public class MergedReftableTest {
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
 			assertFalse(rc.next());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 		}
 	}
 
@@ -177,6 +182,7 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 	}
@@ -212,6 +218,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, rc.getRef().getUpdateIndex());
 			}
 			assertFalse(rc.next());
 		}
@@ -231,9 +238,11 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/apple", rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
+			assertEquals(2000, rc.getRef().getUpdateIndex());
 			assertTrue(rc.next());
 			assertEquals("refs/heads/banana", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1000, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 	}
@@ -251,12 +260,14 @@ public class MergedReftableTest {
 			Ref r = rc.getRef();
 			assertEquals("refs/heads/master", r.getName());
 			assertEquals(id(8), r.getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 
 			assertTrue(rc.next());
 			r = rc.getRef();
 			assertEquals("refs/heads/next", r.getName());
 			assertEquals(NEW, r.getStorage());
 			assertNull(r.getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
 		}
@@ -277,6 +288,7 @@ public class MergedReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(1, act.getUpdateIndex());
 				assertFalse(rc.next());
 			}
 		}
@@ -303,16 +315,19 @@ public class MergedReftableTest {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/a", rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 			assertEquals(1, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/b", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(2, rc.getRef().getUpdateIndex());
 			assertEquals(2, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/c", rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
+			assertEquals(3, rc.getRef().getUpdateIndex());
 			assertEquals(3, rc.getUpdateIndex());
 		}
 	}
@@ -344,6 +359,63 @@ public class MergedReftableTest {
 		}
 	}
 
+	@Test
+	public void versioningSymbolicReftargetMoves() throws IOException {
+		Ref master = ref(MASTER, 100);
+
+		List<Ref> delta1 = Arrays.asList(master, sym(HEAD, MASTER));
+		List<Ref> delta2 = Arrays.asList(ref(MASTER, 200));
+
+		MergedReftable mr = merge(write(delta1, 1), write(delta2, 2));
+		Ref head = mr.exactRef(HEAD);
+		assertEquals(head.getUpdateIndex(), 1);
+
+		Ref masterRef = mr.exactRef(MASTER);
+		assertEquals(masterRef.getUpdateIndex(), 2);
+	}
+
+	@Test
+	public void versioningSymbolicRefMoves() throws IOException {
+		Ref branchX = ref("refs/heads/branchX", 200);
+
+		List<Ref> delta1 = Arrays.asList(ref(MASTER, 100), branchX,
+				sym(HEAD, MASTER));
+		List<Ref> delta2 = Arrays.asList(sym(HEAD, "refs/heads/branchX"));
+		List<Ref> delta3 = Arrays.asList(sym(HEAD, MASTER));
+
+		MergedReftable mr = merge(write(delta1, 1), write(delta2, 2),
+				write(delta3, 3));
+		Ref head = mr.exactRef(HEAD);
+		assertEquals(head.getUpdateIndex(), 3);
+
+		Ref masterRef = mr.exactRef(MASTER);
+		assertEquals(masterRef.getUpdateIndex(), 1);
+
+		Ref branchRef = mr.exactRef(MASTER);
+		assertEquals(branchRef.getUpdateIndex(), 1);
+	}
+
+	@Test
+	public void versioningResolveRef() throws IOException {
+		List<Ref> delta1 = Arrays.asList(sym(HEAD, "refs/heads/tmp"),
+				sym("refs/heads/tmp", MASTER), ref(MASTER, 100));
+		List<Ref> delta2 = Arrays.asList(ref(MASTER, 200));
+		List<Ref> delta3 = Arrays.asList(ref(MASTER, 300));
+
+		MergedReftable mr = merge(write(delta1, 1), write(delta2, 2),
+				write(delta3, 3));
+		Ref head = mr.exactRef(HEAD);
+		Ref resolvedHead = mr.resolve(head);
+		assertEquals(resolvedHead.getObjectId(), id(300));
+		assertEquals("HEAD has not moved", resolvedHead.getUpdateIndex(), 1);
+
+		Ref master = mr.exactRef(MASTER);
+		Ref resolvedMaster = mr.resolve(master);
+		assertEquals(resolvedMaster.getObjectId(), id(300));
+		assertEquals("master also has update index",
+				resolvedMaster.getUpdateIndex(), 3);
+	}
+
 	private static MergedReftable merge(byte[]... table) {
 		List<Reftable> stack = new ArrayList<>(table.length);
 		for (byte[] b : table) {
@@ -358,6 +430,14 @@ public class MergedReftableTest {
 
 	private static Ref ref(String name, int id) {
 		return new ObjectIdRef.PeeledNonTag(PACKED, name, id(id));
+	}
+
+	private static Ref sym(String name, String target) {
+		return new SymbolicRef(name, newRef(target));
+	}
+
+	private static Ref newRef(String name) {
+		return new ObjectIdRef.Unpeeled(NEW, name, null);
 	}
 
 	private static Ref delete(String name) {
