@@ -170,24 +170,27 @@ class BlockReader {
 		return readVarint64();
 	}
 
-	Ref readRef() throws IOException {
+	Ref readRef(long minUpdateIndex) throws IOException {
+		long updateIndex = minUpdateIndex + readUpdateIndexDelta();
 		String name = RawParseUtils.decode(UTF_8, nameBuf, 0, nameLen);
 		switch (valueType & VALUE_TYPE_MASK) {
 		case VALUE_NONE: // delete
-			return newRef(name);
+			return newRef(name, updateIndex);
 
 		case VALUE_1ID:
-			return new ObjectIdRef.PeeledNonTag(PACKED, name, readValueId());
+			return new ObjectIdRef.PeeledNonTag(PACKED, name, readValueId(),
+					updateIndex);
 
 		case VALUE_2ID: { // annotated tag
 			ObjectId id1 = readValueId();
 			ObjectId id2 = readValueId();
-			return new ObjectIdRef.PeeledTag(PACKED, name, id1, id2);
+			return new ObjectIdRef.PeeledTag(PACKED, name, id1, id2,
+					updateIndex);
 		}
 
 		case VALUE_SYMREF: {
 			String val = readValueString();
-			return new SymbolicRef(name, newRef(val));
+			return new SymbolicRef(name, newRef(val, updateIndex), updateIndex);
 		}
 
 		default:
@@ -410,7 +413,7 @@ class BlockReader {
 	 * <ul>
 	 * <li>{@link #name()}
 	 * <li>{@link #match(byte[], boolean)}
-	 * <li>{@link #readRef()}
+	 * <li>{@link #readRef(long)}
 	 * <li>{@link #readLogUpdateIndex()}
 	 * <li>{@link #readLogEntry()}
 	 * <li>{@link #readBlockPositionList()}
@@ -575,8 +578,8 @@ class BlockReader {
 		return val;
 	}
 
-	private static Ref newRef(String name) {
-		return new ObjectIdRef.Unpeeled(NEW, name, null);
+	private static Ref newRef(String name, long updateIndex) {
+		return new ObjectIdRef.Unpeeled(NEW, name, null, updateIndex);
 	}
 
 	private static IOException invalidBlock() {

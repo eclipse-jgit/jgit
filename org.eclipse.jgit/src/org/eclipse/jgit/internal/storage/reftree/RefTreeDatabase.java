@@ -187,6 +187,12 @@ public class RefTreeDatabase extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public boolean hasVersioning() {
+		return false;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}
