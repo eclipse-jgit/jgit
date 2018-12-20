@@ -61,6 +61,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -132,6 +133,33 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(0, new File(d, "logs/refs/heads").list().length);
 
 		assertEquals("ref: refs/heads/master\n", read(new File(d, HEAD)));
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testVersioningNotImplemented_exactRef() throws IOException {
+		assertFalse(refdir.hasVersioning());
+
+		Ref ref = refdir.exactRef(HEAD);
+		assertNotNull(ref);
+		ref.getUpdateIndex(); // Not implemented on FS
+	}
+
+	@Test
+	public void testVersioningNotImplemented_getRefs() throws Exception {
+		assertFalse(refdir.hasVersioning());
+
+		RevCommit C = repo.commit().parent(B).create();
+		repo.update("master", C);
+		List<Ref> refs = refdir.getRefs();
+
+		for (Ref ref : refs) {
+			try {
+				ref.getUpdateIndex();
+				fail("FS doesn't implement ref versioning");
+			} catch (UnsupportedOperationException e) {
+				// ok
+			}
+		}
 	}
 
 	@Test
