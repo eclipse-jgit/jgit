@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "999e992d_871c28be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T01:16:22Z",
+      "side": 1,
+      "message": "Nice. (Confirmed this is exhaustive using a quick-and-dirty `git grep -e new.*Ref[^SLls]`.)",
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08ca7595_6423e11e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T01:16:22Z",
+      "side": 1,
+      "message": "As discussed in person: what is the right update index to put here? E.g. should it use something like min(ref.getUpdateIndex(), dst.getUpdateIndex()) to be conservative? Probably not --- that may be *too* conservative.\n\nIn general it\u0027s not clear to me what the right semantics are for the update index on a symref. Perhaps the javadoc for Ref#getUpdateIndex can cover this, so callers know how to interpret it.",
+      "range": {
+        "startLine": 283,
+        "startChar": 45,
+        "endLine": 283,
+        "endChar": 65
+      },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8b68e1_bc58c45f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T01:16:22Z",
+      "side": 1,
+      "message": "no longer exists",
+      "range": {
+        "startLine": 229,
+        "startChar": 54,
+        "endLine": 230,
+        "endChar": 35
+      },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
