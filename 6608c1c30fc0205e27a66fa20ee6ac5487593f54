@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6641642f_dc5f1e7f",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-20T06:54:26Z",
+      "side": 1,
+      "message": "Why not 5.1.3.201810200350-r?\n\nOr 5.2.0.201812061821-r which is the latest tagged release on stable-5.2",
+      "revId": "6608c1c30fc0205e27a66fa20ee6ac5487593f54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
