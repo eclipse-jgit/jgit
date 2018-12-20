@@ -316,19 +316,16 @@ public class MergedReftableTest {
 			assertEquals("refs/heads/a", rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
 			assertEquals(1, rc.getRef().getUpdateIndex());
-			assertEquals(1, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/b", rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
 			assertEquals(2, rc.getRef().getUpdateIndex());
-			assertEquals(2, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals("refs/heads/c", rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
 			assertEquals(3, rc.getRef().getUpdateIndex());
-			assertEquals(3, rc.getUpdateIndex());
 		}
 	}
 
