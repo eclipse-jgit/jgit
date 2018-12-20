@@ -217,4 +217,27 @@ public interface Ref {
 	 */
 	@NonNull
 	Storage getStorage();
+
+	/**
+	 * Indicator of the relative order between updates of a specific reference
+	 * name. A number that increases when a reference is updated.
+	 *
+	 * @implSpec The update index and its meaning are usually provided by the
+	 *           {@code RefDatabase} that instantiates the ref. By default this
+	 *           method throws an {@link UnsupportedOperationException}.
+	 *           Implementors must overrride it to return a useful value. In
+	 *           case of symbolic references, the update index refers to the
+	 *           update of the symbolic reference iself (e.g. if HEAD points to
+	 *           master, the HEAD update index will only increase when HEAD
+	 *           changes, regarless how many times master is updated).
+	 *
+	 * @return the update index (i.e. version) of this reference.
+	 * @throws UnsupportedOperationException
+	 *             if the creator of the instance (e.g. {@link RefDatabase})
+	 *             doesn't support versioning and doesn't override this method
+	 * @since 5.3
+	 */
+	default long getUpdateIndex() {
+		throw new UnsupportedOperationException();
+	}
 }

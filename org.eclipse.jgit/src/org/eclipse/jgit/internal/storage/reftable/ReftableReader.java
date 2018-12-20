@@ -509,7 +509,7 @@ public class ReftableReader extends Reftable {
 				}
 
 				updateIndex = minUpdateIndex + block.readUpdateIndexDelta();
-				ref = block.readRef();
+				ref = block.readRef(updateIndex);
 				if (!includeDeletes && wasDeleted()) {
 					continue;
 				}
@@ -680,7 +680,7 @@ public class ReftableReader extends Reftable {
 
 				block.parseKey();
 				updateIndex = minUpdateIndex + block.readUpdateIndexDelta();
-				ref = block.readRef();
+				ref = block.readRef(updateIndex);
 				ObjectId id = ref.getObjectId();
 				if (id != null && match.equals(id)
 						&& (includeDeletes || !wasDeleted())) {
