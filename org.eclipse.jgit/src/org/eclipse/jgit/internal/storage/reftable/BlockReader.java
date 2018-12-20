@@ -170,7 +170,8 @@ class BlockReader {
 		return readVarint64();
 	}
 
-	Ref readRef(long updateIndex) throws IOException {
+	Ref readRef(long minUpdateIndex) throws IOException {
+		long updateIndex = minUpdateIndex + readUpdateIndexDelta();
 		String name = RawParseUtils.decode(UTF_8, nameBuf, 0, nameLen);
 		switch (valueType & VALUE_TYPE_MASK) {
 		case VALUE_NONE: // delete
