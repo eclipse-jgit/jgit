@@ -134,12 +134,31 @@ public class TransferConfig {
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
-	TransferConfig(Repository db) {
+	/**
+	 * Create a configuration honoring the repository's settings.
+	 *
+	 * @param db
+	 *            the repository to read settings from. The repository is not
+	 *            retained by the new configuration, instead its settings are
+	 *            copied during the constructor.
+	 * @since 5.1.4
+	 */
+	public TransferConfig(Repository db) {
 		this(db.getConfig());
 	}
 
+	/**
+	 * Create a configuration honoring settings in a
+	 * {@link org.eclipse.jgit.lib.Config}.
+	 *
+	 * @param rc
+	 *            the source to read settings from. The source is not retained
+	 *            by the new configuration, instead its settings are copied
+	 *            during the constructor.
+	 * @since 5.1.4
+	 */
 	@SuppressWarnings("nls")
-	TransferConfig(Config rc) {
+	public TransferConfig(Config rc) {
 		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false);
 		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck);
 		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck);
