@@ -160,7 +160,6 @@ public class GC {
 	 *
 	 * @param e
 	 *            the executor to be used for running auto-gc
-	 * @since 4.8
 	 */
 	public static void setExecutor(ExecutorService e) {
 		executor = e;

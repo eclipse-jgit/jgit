@@ -67,7 +67,6 @@ import org.eclipse.jgit.internal.JGitText;
  * This class parses the input want line and holds the results: the actual want
  * line and the capabilities.
  *
- * @since 5.2
  */
 public class FirstWant {
 	private final String line;

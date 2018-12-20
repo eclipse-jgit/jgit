@@ -198,7 +198,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * <p>Getter for the field <code>packDirectory</code>.</p>
 	 *
 	 * @return the location of the <code>pack</code> directory.
-	 * @since 4.10
 	 */
 	public final File getPackDirectory() {
 		return packDirectory;

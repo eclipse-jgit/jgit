@@ -642,7 +642,6 @@ public class PackWriter implements AutoCloseable {
 
 	/**
 	 * @param bytes exclude blobs of size greater than this
-	 * @since 5.0
 	 */
 	public void setFilterBlobLimit(long bytes) {
 		filterBlobLimit = bytes;
