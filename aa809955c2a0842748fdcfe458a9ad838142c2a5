@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe9b2b45_dc283fa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T08:00:33Z",
+      "side": 1,
+      "message": "This information about symrefs is relevant to callers, not just implementors, so it should go outside the @implSpec.",
+      "range": {
+        "startLine": 228,
+        "startChar": 73,
+        "endLine": 228,
+        "endChar": 0
+      },
+      "revId": "aa809955c2a0842748fdcfe458a9ad838142c2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
