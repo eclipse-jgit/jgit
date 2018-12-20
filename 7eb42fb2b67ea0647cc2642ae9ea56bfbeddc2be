@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2050d3b1_6467c626",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T02:13:19Z",
+      "side": 1,
+      "message": "spaces should be tabs",
+      "revId": "7eb42fb2b67ea0647cc2642ae9ea56bfbeddc2be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
