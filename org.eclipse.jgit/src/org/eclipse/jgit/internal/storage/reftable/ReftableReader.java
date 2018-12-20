@@ -521,11 +521,6 @@ public class ReftableReader extends Reftable {
 		}
 
 		@Override
-		public long getUpdateIndex() {
-			return ref.getUpdateIndex();
-		}
-
-		@Override
 		public void close() {
 			// Do nothing.
 		}
@@ -688,11 +683,6 @@ public class ReftableReader extends Reftable {
 		@Override
 		public Ref getRef() {
 			return ref;
-		}
-
-		@Override
-		public long getUpdateIndex() {
-			return ref.getUpdateIndex();
 		}
 
 		@Override
