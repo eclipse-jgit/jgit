@@ -16,6 +16,24 @@
       "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f2b548_b0090fc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-20T00:13:23Z",
+      "side": 1,
+      "message": "Is there any specific reason to not use regex?\n\nI was trying to avoid the use of magic numbers, so would rather not go with a solution that adds more of them.  When I initially read the code it wasn\u0027t immediately obvious what it was supposed to be doing.\n\nAlso, do we actually want to report an error here?  My intention was to skip over anything that isn\u0027t a sha1/name combination, so that it doesn\u0027t choke on the v2 response that has additional lines.\n\nThat said, it\u0027s probably not sufficient to only do this change. There are likely other parts of the client code that don\u0027t behave properly with v2.",
+      "parentUuid": "b3109b0a_ac5cb604",
+      "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
