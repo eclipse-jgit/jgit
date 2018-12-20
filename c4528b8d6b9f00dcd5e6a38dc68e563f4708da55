@@ -52,6 +52,24 @@
       "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee71f4d_56db68ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-20T00:57:56Z",
+      "side": 1,
+      "message": "\u003e Regex matching also seems like overkill here.\n\nI was going for readability, but point taken.\n\nI will rework this change to only check the length and fail if it\u0027s not the expected length,  i.e. per the suggested fix in your previous  comment.\n\n\u003e Can you elaborate? Are you saying RuntimeException doesn\u0027t get handled properly by the caller?\n\nNo, I mean that even after this fix, which allows it to return the advertised refs in v2, there is still something not working somewhere because in my test on gerrit it\u0027s not getting the expected refs.  I\u0027ve added you on the relevant change (which atm is a private change so I won\u0027t link it here).",
+      "parentUuid": "8cee3335_a67774d9",
+      "revId": "c4528b8d6b9f00dcd5e6a38dc68e563f4708da55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
