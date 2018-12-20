@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "85117faf_089d64c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-12-20T12:06:31Z",
+      "side": 1,
+      "message": "The change doesn\u0027t modify the validator; it changes the normalizer.",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "50bbcab5e6d5d9b0881f4a544d98bb8b12269929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23fd93f8_298ac6f3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
