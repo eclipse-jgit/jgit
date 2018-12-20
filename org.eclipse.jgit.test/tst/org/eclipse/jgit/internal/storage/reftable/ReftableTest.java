@@ -443,7 +443,6 @@ public class ReftableTest {
 			assertEquals(MASTER, rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
 			assertEquals(1, rc.getRef().getUpdateIndex());
-			assertEquals(1, rc.getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals(NEXT, rc.getRef().getName());
