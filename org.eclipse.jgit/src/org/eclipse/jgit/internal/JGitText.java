@@ -451,6 +451,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidPathSpaceAtEndWindows;
 	/***/ public String invalidPathReservedOnWindows;
 	/***/ public String invalidRedirectLocation;
+	/***/ public String invalidRefAdvertisementLine;
 	/***/ public String invalidReflogRevision;
 	/***/ public String invalidRefName;
 	/***/ public String invalidReftableBlock;
