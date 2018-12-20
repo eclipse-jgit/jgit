@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b911587b_6b8199b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-20T06:10:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "999e992d_871c28be",
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08ca7595_6423e11e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 10
@@ -36,6 +54,47 @@
         "endLine": 283,
         "endChar": 65
       },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c65959_1877d172",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-20T06:10:40Z",
+      "side": 1,
+      "message": "I have opted for keeping the last change in the symbolic ref itself as updateIndex. Tests cover this/\ne.g. \nAt t0: HEAD -\u003e master -\u003e objectX (update index 0)\nAt t1:                master -\u003e objectY (update index 1)\nAt this point HEAD has updateIndex 0\nAt t2: HEAD -\u003e branchY -\u003e objectZ (update index 2)\nNow HEAD has updateIndex 2\nAt t3: HEAD -\u003e master                    (update index 3)\nNow HEAD has updateIndex 3\n\nI will explain this in the Ref javadoc",
+      "parentUuid": "08ca7595_6423e11e",
+      "range": {
+        "startLine": 283,
+        "startChar": 45,
+        "endLine": 283,
+        "endChar": 65
+      },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec78e8fc_bb0d5df8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-20T06:10:40Z",
+      "side": 1,
+      "message": "mthai commented on this taking the value from block to send it back...\nIIUC, \"minUpdateIndex\" is for the whole reftable and the block doesn\u0027t know about it. \n\nWe could do block.readRef(minUpdateIndex) and do the addition with readUpdateIndexDelta inside readRef, but we would then calculate the updateIndex twice, here for the cursor, in readRef for the reference... \n\nActually, I suspect we don\u0027t need updateIndex in the cursor if the reference carries the value. This can be fixed in a follow up commit.",
       "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -62,6 +121,30 @@
       "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2864fc_81a85cc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-20T06:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8b68e1_bc58c45f",
+      "range": {
+        "startLine": 229,
+        "startChar": 54,
+        "endLine": 230,
+        "endChar": 35
+      },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
