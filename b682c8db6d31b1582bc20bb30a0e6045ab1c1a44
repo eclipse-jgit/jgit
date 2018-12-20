@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17513208_bdfd3aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T08:06:13Z",
+      "side": 1,
+      "message": "should be capitalized",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "b682c8db6d31b1582bc20bb30a0e6045ab1c1a44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f43af3cb_ad2e327f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-20T08:06:13Z",
+      "side": 1,
+      "message": "This triggers my sense of danger a bit --- the meaning of the argument changed but the signature didn\u0027t change. E.g. when backporting or merging with other patches, we may forget to update some caller.\n\nIn other words, if you have an idea for a better name for the method, now\u0027s a perfect time to rename it.",
+      "revId": "b682c8db6d31b1582bc20bb30a0e6045ab1c1a44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
