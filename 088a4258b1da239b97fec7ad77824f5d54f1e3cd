@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7f6fdc7_3ac9af08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T20:15:24Z",
+      "side": 1,
+      "message": "nit: \"In the case\", or just \"For symbolic references,\"",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 225,
+        "endChar": 11
+      },
+      "revId": "088a4258b1da239b97fec7ad77824f5d54f1e3cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d02fe4_b8299022",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T20:15:24Z",
+      "side": 1,
+      "message": "nit: to updates",
+      "range": {
+        "startLine": 225,
+        "startChar": 60,
+        "endLine": 225,
+        "endChar": 73
+      },
+      "revId": "088a4258b1da239b97fec7ad77824f5d54f1e3cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d28ceff1_9339ce2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T20:15:24Z",
+      "side": 1,
+      "message": "probably simplest to make this a separate sentence. Something like\n\n With symbolic references, the update index refers to updates of the symbolic reference\n itself. For example, if HEAD points to refs/heads/master, then the update index for\n exactRef(\"HEAD\") will only increase when HEAD changes to point to another ref,\n regardless of how many times refs/heads/master is updated.",
+      "range": {
+        "startLine": 226,
+        "startChar": 33,
+        "endLine": 226,
+        "endChar": 38
+      },
+      "revId": "088a4258b1da239b97fec7ad77824f5d54f1e3cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04a721f_26aed008",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T20:15:24Z",
+      "side": 1,
+      "message": "nit: itself",
+      "range": {
+        "startLine": 226,
+        "startChar": 27,
+        "endLine": 226,
+        "endChar": 32
+      },
+      "revId": "088a4258b1da239b97fec7ad77824f5d54f1e3cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3848e763_4adae1a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T20:15:24Z",
+      "side": 1,
+      "message": "I don\u0027t know what this means. Perhaps simpler to point to hasVersioning?\n\n Should not be used unless the {@code RefDatabase} that instantiated the ref\n supports versioning (see {@link RefDatabase#hasVersioning}).",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 36
+      },
+      "revId": "088a4258b1da239b97fec7ad77824f5d54f1e3cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
