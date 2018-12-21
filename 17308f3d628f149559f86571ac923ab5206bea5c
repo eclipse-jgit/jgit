@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73dca5d7_4b0bf4af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-12-21T22:04:40Z",
+      "side": 1,
+      "message": "It looks to me the base class marks this as package private. Why does this need to be public?",
+      "revId": "17308f3d628f149559f86571ac923ab5206bea5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
