@@ -838,7 +838,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				tmpIdx = File.createTempFile("jgit-walk-", ".idx"); //$NON-NLS-1$ //$NON-NLS-2$
 			else if (tmpIdx.isFile()) {
 				try {
-					index = PackIndex.open(tmpIdx);
+					index = PackIndex.getPackIndexFactory().open(tmpIdx);
 					return;
 				} catch (FileNotFoundException err) {
 					// Fall through and get the file.
@@ -871,7 +871,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			}
 
 			try {
-				index = PackIndex.open(tmpIdx);
+				index = PackIndex.getPackIndexFactory().open(tmpIdx);
 			} catch (IOException e) {
 				FileUtils.delete(tmpIdx);
 				throw e;

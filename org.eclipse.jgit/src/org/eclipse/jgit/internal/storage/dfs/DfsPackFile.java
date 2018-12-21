@@ -217,7 +217,7 @@ public final class DfsPackFile extends BlockBasedFile {
 						bs = (wantSize / bs) * bs;
 					else if (bs <= 0)
 						bs = wantSize;
-					idx = PackIndex.read(new BufferedInputStream(in, bs));
+					idx = PackIndex.getPackIndexFactory().read(new BufferedInputStream(in, bs));
 					ctx.stats.readIdxBytes += rc.position();
 				} finally {
 					ctx.stats.readIdxMicros += elapsedMicros(start);

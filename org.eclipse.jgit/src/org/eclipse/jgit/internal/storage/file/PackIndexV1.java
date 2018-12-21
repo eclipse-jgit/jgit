@@ -152,7 +152,7 @@ class PackIndexV1 extends PackIndex {
 	}
 
 	@Override
-	long getOffset(long nthPosition) {
+	public long getOffset(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int levelTwo = getLevelTwo(nthPosition, levelOne);
 		final int p = (4 + Constants.OBJECT_ID_LENGTH) * levelTwo;

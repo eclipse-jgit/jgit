@@ -65,8 +65,8 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		smallIdx = PackIndex.open(getFileForPack34be9032());
-		denseIdx = PackIndex.open(getFileForPackdf2982f28());
+		smallIdx = PackIndex.getPackIndexFactory().open(getFileForPack34be9032());
+		denseIdx = PackIndex.getPackIndexFactory().open(getFileForPackdf2982f28());
 	}
 
 	/**

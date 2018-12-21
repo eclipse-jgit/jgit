@@ -180,7 +180,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				throw new PackInvalidException(packFile);
 
 			try {
-				final PackIndex idx = PackIndex.open(extFile(INDEX));
+				final PackIndex idx = PackIndex.getPackIndexFactory().open(extFile(INDEX));
 
 				if (packChecksum == null) {
 					packChecksum = idx.packChecksum;
@@ -296,6 +296,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public void close() {
 		WindowCache.purge(this);
 		synchronized (this) {
+			if (loadedIdx != null)
+				loadedIdx.close();
 			loadedIdx = null;
 			reverseIdx = null;
 		}

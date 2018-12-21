@@ -508,7 +508,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		File indexFile = new File(packFile.getParentFile(), base + ".idx");
 
 		// Validate that IndexPack came up with the right CRC32 value.
-		final PackIndex idx1 = PackIndex.open(indexFile);
+		final PackIndex idx1 = PackIndex.getPackIndexFactory().open(indexFile);
 		assertTrue(idx1 instanceof PackIndexV2);
 		assertEquals(0x4743F1E4L, idx1.findCRC32(ObjectId
 				.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7")));
@@ -518,7 +518,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		try (FileOutputStream is = new FileOutputStream(idx2File)) {
 			writer.writeIndex(is);
 		}
-		final PackIndex idx2 = PackIndex.open(idx2File);
+		final PackIndex idx2 = PackIndex.getPackIndexFactory().open(idx2File);
 		assertTrue(idx2 instanceof PackIndexV2);
 		assertEquals(idx1.getObjectCount(), idx2.getObjectCount());
 		assertEquals(idx1.getOffset64Count(), idx2.getOffset64Count());
@@ -720,7 +720,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			try (FileOutputStream idxOS = new FileOutputStream(idxFile)) {
 				pw.writeIndex(idxOS);
 			}
-			return PackIndex.open(idxFile);
+			return PackIndex.getPackIndexFactory().open(idxFile);
 		}
 	}
 

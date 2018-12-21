@@ -333,7 +333,7 @@ public class DfsInserter extends ObjectInserter {
 				CountingOutputStream cnt = new CountingOutputStream(os)) {
 			if (buf != null) {
 				index(buf, packHash, list);
-				packIndex = PackIndex.read(buf.openInputStream());
+				packIndex = PackIndex.getPackIndexFactory().read(buf.openInputStream());
 				buf.writeTo(cnt, null);
 			} else {
 				index(cnt, packHash, list);

@@ -77,66 +77,30 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
  */
 public abstract class PackIndex
 		implements Iterable<PackIndex.MutableEntry>, ObjectIdSet {
+
+	private static PackIndexFactory DEFAULT_PACK_INDEX_FACTORY = new PackIndexFactory();
+
+	private static PackIndexFactory packIndexFactory = DEFAULT_PACK_INDEX_FACTORY;
+
 	/**
-	 * Open an existing pack <code>.idx</code> file for reading.
-	 * <p>
-	 * The format of the file will be automatically detected and a proper access
-	 * implementation for that format will be constructed and returned to the
-	 * caller. The file may or may not be held open by the returned instance.
-	 * </p>
+	 * Retrieve currently defined implementation to
+	 * create and load the {@link org.eclipse.jgit.internal.storage.file.PackIndex}
 	 *
-	 * @param idxFile
-	 *            existing pack .idx to read.
-	 * @return access implementation for the requested file.
-	 * @throws FileNotFoundException
-	 *             the file does not exist.
-	 * @throws java.io.IOException
-	 *             the file exists but could not be read due to security errors,
-	 *             unrecognized data version, or unexpected data corruption.
+	 * @return Factory to create and load {@link org.eclipse.jgit.internal.storage.file.PackIndex}
 	 */
-	public static PackIndex open(File idxFile) throws IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(
-				idxFile)) {
-				return read(fd);
-		} catch (IOException ioe) {
-			throw new IOException(
-					MessageFormat.format(JGitText.get().unreadablePackIndex,
-							idxFile.getAbsolutePath()),
-					ioe);
-		}
+	public static PackIndexFactory getPackIndexFactory() {
+		return packIndexFactory;
 	}
 
 	/**
-	 * Read an existing pack index file from a buffered stream.
-	 * <p>
-	 * The format of the file will be automatically detected and a proper access
-	 * implementation for that format will be constructed and returned to the
-	 * caller. The file may or may not be held open by the returned instance.
+	 * Globally sets a {@link PackIndexFactory} that is
+	 * subsequently used to create and load pack index implementation
 	 *
-	 * @param fd
-	 *            stream to read the index file from. The stream must be
-	 *            buffered as some small IOs are performed against the stream.
-	 *            The caller is responsible for closing the stream.
-	 * @return a copy of the index in-memory.
-	 * @throws java.io.IOException
-	 *             the stream cannot be read.
-	 * @throws org.eclipse.jgit.errors.CorruptObjectException
-	 *             the stream does not contain a valid pack index.
+	 * @param factory
+	 * 	           to use; if {@code null} use the default factory.
 	 */
-	public static PackIndex read(InputStream fd) throws IOException,
-			CorruptObjectException {
-		final byte[] hdr = new byte[8];
-		IO.readFully(fd, hdr, 0, hdr.length);
-		if (isTOC(hdr)) {
-			final int v = NB.decodeInt32(hdr, 4);
-			switch (v) {
-			case 2:
-				return new PackIndexV2(fd);
-			default:
-				throw new UnsupportedPackIndexVersionException(v);
-			}
-		}
-		return new PackIndexV1(fd, hdr);
+	public static void setPackIndexFactory(PackIndexFactory factory) {
+		packIndexFactory = factory == null ? DEFAULT_PACK_INDEX_FACTORY : factory;
 	}
 
 	private static boolean isTOC(byte[] h) {
@@ -260,7 +224,7 @@ public abstract class PackIndex
 	 *            etc. Positions past 2**31-1 are negative, but still valid.
 	 * @return the offset in a pack for the corresponding entry.
 	 */
-	abstract long getOffset(long nthPosition);
+	public abstract long getOffset(long nthPosition);
 
 	/**
 	 * Locate the file offset position for the requested object.
@@ -313,14 +277,28 @@ public abstract class PackIndex
 			int matchLimit) throws IOException;
 
 	/**
+	 * Close the resources utilized by this index.
+	 * Default implementation does nothing.
+	 *
+	 */
+	public void close() {
+	}
+
+	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
 	 * in pack (both mutable).
 	 *
 	 */
 	public static class MutableEntry {
-		final MutableObjectId idBuffer = new MutableObjectId();
+        /**
+         * Mutable buffer to hold current position' object id
+         */
+		protected final MutableObjectId idBuffer = new MutableObjectId();
 
-		long offset;
+        /**
+         * Current position offset
+         */
+		protected long offset;
 
 		/**
 		 * Returns offset for this index object entry
@@ -352,16 +330,33 @@ public abstract class PackIndex
 			return r;
 		}
 
-		void ensureId() {
+        /**
+         * Fill object id
+         */
+		protected void ensureId() {
 			// Override in implementations.
 		}
 	}
 
-	abstract class EntriesIterator implements Iterator<MutableEntry> {
+	/**
+	 * Represent base implementation for iterator over {@link MutableEntry}
+	 *
+	 */
+	protected abstract class EntriesIterator implements Iterator<MutableEntry> {
+		/**
+		 * Shared entry instance
+		 */
 		protected final MutableEntry entry = initEntry();
 
+        /**
+         * Number of processed records
+         */
 		protected long returnedNumber = 0;
 
+        /**
+         * Create {@link MutableEntry} implementation
+         * @return {@link MutableEntry} instance to be shared in iterator
+         */
 		protected abstract MutableEntry initEntry();
 
 		@Override
@@ -379,6 +374,73 @@ public abstract class PackIndex
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * Default implementation of {@link org.eclipse.jgit.internal.storage.file.PackIndex} factory.
+	 */
+	public static class PackIndexFactory {
+		/**
+		 * Open an existing pack <code>.idx</code> file for reading.
+		 * <p>
+		 * The format of the file will be automatically detected and a proper access
+		 * implementation for that format will be constructed and returned to the
+		 * caller. The file may or may not be held open by the returned instance.
+		 * </p>
+		 *
+		 * @param idxFile
+		 *            existing pack .idx to read.
+		 * @return access implementation for the requested file.
+		 * @throws FileNotFoundException
+		 *             the file does not exist.
+		 * @throws java.io.IOException
+		 *             the file exists but could not be read due to security errors,
+		 *             unrecognized data version, or unexpected data corruption.
+		 */
+		public PackIndex open(File idxFile) throws IOException {
+			try (SilentFileInputStream fd = new SilentFileInputStream(
+					idxFile)) {
+				return read(fd);
+			} catch (IOException ioe) {
+				throw new IOException(
+						MessageFormat.format(JGitText.get().unreadablePackIndex,
+								idxFile.getAbsolutePath()),
+						ioe);
+			}
+		}
+
+		/**
+		 * Read an existing pack index file from a buffered stream.
+		 * <p>
+		 * The format of the file will be automatically detected and a proper access
+		 * implementation for that format will be constructed and returned to the
+		 * caller. The file may or may not be held open by the returned instance.
+		 *
+		 * @param fd
+		 *            stream to read the index file from. The stream must be
+		 *            buffered as some small IOs are performed against the stream.
+		 *            The caller is responsible for closing the stream.
+		 * @return a copy of the index in-memory.
+		 * @throws java.io.IOException
+		 *             the stream cannot be read.
+		 * @throws org.eclipse.jgit.errors.CorruptObjectException
+		 *             the stream does not contain a valid pack index.
+		 */
+		public PackIndex read(InputStream fd) throws IOException,
+				CorruptObjectException {
+			final byte[] hdr = new byte[8];
+			IO.readFully(fd, hdr, 0, hdr.length);
+			if (isTOC(hdr)) {
+				final int v = NB.decodeInt32(hdr, 4);
+				switch (v) {
+					case 2:
+						return new PackIndexV2(fd);
+					default:
+						throw new UnsupportedPackIndexVersionException(v);
+				}
+			}
+			return new PackIndexV1(fd, hdr);
 		}
 	}
 }
