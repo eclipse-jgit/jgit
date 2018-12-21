@@ -79,7 +79,7 @@ public class NLS {
 	/**
 	 * Sets the locale for the calling thread.
 	 * <p>
-	 * The {@link #getBundleFor(Class)} method will honor this setting if if it
+	 * The {@link #getBundleFor(Class)} method will honor this setting if it
 	 * is supported by the provided resource bundle property files. Otherwise,
 	 * it will use a fall back locale as described in the
 	 * {@link TranslationBundle}

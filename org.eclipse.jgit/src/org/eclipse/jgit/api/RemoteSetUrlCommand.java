@@ -54,7 +54,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
 /**
- * Used to to change the URL of a remote.
+ * Used to change the URL of a remote.
  *
  * This class has setters for all supported options and arguments of this
  * command and a {@link #call()} method to finally execute the command.

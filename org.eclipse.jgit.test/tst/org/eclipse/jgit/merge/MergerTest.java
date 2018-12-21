@@ -1069,7 +1069,7 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("c.txt").call();
 		git.commit().setMessage("added c.txt").call();
 
-		// Get a handle to the the file so on windows it can't be deleted.
+		// Get a handle to the file so on windows it can't be deleted.
 		try (FileInputStream fis = new FileInputStream(
 				new File(db.getWorkTree(), "b.txt"))) {
 			MergeResult mergeRes = git.merge().setStrategy(strategy)

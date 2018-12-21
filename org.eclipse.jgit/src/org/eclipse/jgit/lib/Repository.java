@@ -297,7 +297,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * Get the used file system abstraction.
 	 *
-	 * @return the used file system abstraction, or or {@code null} if
+	 * @return the used file system abstraction, or {@code null} if
 	 *         repository isn't local.
 	 */
 	/*
@@ -1079,7 +1079,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @param name
 	 *            the name of the ref to lookup. May be a short-hand form, e.g.
-	 *            "master" which is is automatically expanded to
+	 *            "master" which is automatically expanded to
 	 *            "refs/heads/master" if "refs/heads/master" already exists.
 	 * @return the Ref with the given name, or {@code null} if it does not exist
 	 * @throws java.io.IOException

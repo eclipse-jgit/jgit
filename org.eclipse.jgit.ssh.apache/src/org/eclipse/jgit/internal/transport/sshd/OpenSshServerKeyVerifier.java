@@ -134,7 +134,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * Note that adding a key to the known hosts file may create the file. You can
  * specify in the constructor whether the user shall be asked about that, too.
- * If the the user declines updating the file, but the key was otherwise
+ * If the user declines updating the file, but the key was otherwise
  * accepted (user confirmed for "<b>ask</b>", or "no" or "accept-new" are
  * active), the key is accepted for this session only.
  * </p>

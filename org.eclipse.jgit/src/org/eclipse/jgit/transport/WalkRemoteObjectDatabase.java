@@ -348,7 +348,7 @@ abstract class WalkRemoteObjectDatabase {
 	/**
 	 * Open a buffered reader around a file.
 	 * <p>
-	 * This method is suitable for for reading line-oriented resources like
+	 * This method is suitable for reading line-oriented resources like
 	 * <code>info/packs</code>, <code>info/refs</code>, and the alternates list.
 	 *
 	 * @return a stream to read from the file. Never null.

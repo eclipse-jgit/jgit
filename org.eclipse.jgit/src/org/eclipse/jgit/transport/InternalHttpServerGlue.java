@@ -44,7 +44,7 @@
 package org.eclipse.jgit.transport;
 
 /**
- * Internal API to to assist {@code org.eclipse.jgit.http.server}.
+ * Internal API to assist {@code org.eclipse.jgit.http.server}.
  * <p>
  * <b>Do not call.</b>
  *

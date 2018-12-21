@@ -1237,7 +1237,7 @@ public abstract class PackParser {
 		bAvail -= cnt;
 	}
 
-	// Ensure at least need bytes are available in in {@link #buf}.
+	// Ensure at least need bytes are available in {@link #buf}.
 	int fill(Source src, int need) throws IOException {
 		while (bAvail < need) {
 			int next = bOffset + bAvail;
@@ -1568,7 +1568,7 @@ public abstract class PackParser {
 			long inflatedSize) throws IOException;
 
 	/**
-	 * Event notifying the the current object.
+	 * Event notifying the current object.
 	 *
 	 *@param info
 	 *            object information.
@@ -1616,7 +1616,7 @@ public abstract class PackParser {
 			AnyObjectId baseId, long inflatedSize) throws IOException;
 
 	/**
-	 * Event notifying the the current object.
+	 * Event notifying the current object.
 	 *
 	 *@return object information that must be populated with at least the
 	 *         offset.

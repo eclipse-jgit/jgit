@@ -147,7 +147,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 *            The URI of the remote repository
 		 * @param ref
 		 *            Name of the ref to lookup. May be a short-hand form, e.g.
-		 *            "master" which is is automatically expanded to
+		 *            "master" which is automatically expanded to
 		 *            "refs/heads/master" if "refs/heads/master" already exists.
 		 * @return the sha1 of the remote repository, or null if the ref does
 		 *         not exist.
@@ -187,7 +187,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 *            The URI of the remote repository
 		 * @param ref
 		 *            Name of the ref to lookup. May be a short-hand form, e.g.
-		 *            "master" which is is automatically expanded to
+		 *            "master" which is automatically expanded to
 		 *            "refs/heads/master" if "refs/heads/master" already exists.
 		 * @param path
 		 *            The relative path (inside the repo) to the file to read

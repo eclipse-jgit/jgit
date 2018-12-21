@@ -251,7 +251,7 @@ public class WindowCacheConfig {
 	 * Install this configuration as the live settings.
 	 * <p>
 	 * The new configuration is applied immediately. If the new limits are
-	 * smaller than what what is currently cached, older entries will be purged
+	 * smaller than what is currently cached, older entries will be purged
 	 * as soon as possible to allow the cache to meet the new limit.
 	 *
 	 * @since 3.0

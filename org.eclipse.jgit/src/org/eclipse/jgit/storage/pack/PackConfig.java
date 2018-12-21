@@ -1006,7 +1006,7 @@ public class PackConfig {
 	}
 
 	/**
-	 * Get the the age in days that marks a branch as "inactive".
+	 * Get the age in days that marks a branch as "inactive".
 	 *
 	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
 	 *
@@ -1018,7 +1018,7 @@ public class PackConfig {
 	}
 
 	/**
-	 * Set the the age in days that marks a branch as "inactive".
+	 * Set the age in days that marks a branch as "inactive".
 	 *
 	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
 	 *

@@ -330,11 +330,11 @@ public class ObjectWalk extends RevWalk {
 	 *
 	 * @return next most recent object; null if traversal is over.
 	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             one or or more of the next objects are not available from the
+	 *             one or more of the next objects are not available from the
 	 *             object database, but were thought to be candidates for
 	 *             traversal. This usually indicates a broken link.
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
-	 *             one or or more of the objects in a tree do not match the type
+	 *             one or more of the objects in a tree do not match the type
 	 *             indicated.
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
@@ -534,11 +534,11 @@ public class ObjectWalk extends RevWalk {
 	 * provides some detail about the connectivity failure.
 	 *
 	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             one or or more of the next objects are not available from the
+	 *             one or more of the next objects are not available from the
 	 *             object database, but were thought to be candidates for
 	 *             traversal. This usually indicates a broken link.
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
-	 *             one or or more of the objects in a tree do not match the type
+	 *             one or more of the objects in a tree do not match the type
 	 *             indicated.
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
