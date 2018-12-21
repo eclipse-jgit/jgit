@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2d7dfc_47c19452",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitHostConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T15:52:08Z",
+      "side": 1,
+      "message": "nit: would like to also remove this blank line. Is there a formatter that can do so automatically? If so, I can make a change that applies the change across the codebase.",
+      "revId": "e6b4ae2e14bf3227207222b6531f6db81b843354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
