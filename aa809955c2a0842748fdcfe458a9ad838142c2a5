@@ -22,6 +22,30 @@
       "revId": "aa809955c2a0842748fdcfe458a9ad838142c2a5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f51b0ff4_2526bd49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-21T19:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9b2b45_dc283fa2",
+      "range": {
+        "startLine": 228,
+        "startChar": 73,
+        "endLine": 228,
+        "endChar": 0
+      },
+      "revId": "aa809955c2a0842748fdcfe458a9ad838142c2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
