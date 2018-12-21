@@ -16,6 +16,24 @@
       "revId": "e6b4ae2e14bf3227207222b6531f6db81b843354",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3a62c0_a49cd60e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitHostConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-21T23:08:54Z",
+      "side": 1,
+      "message": "I did the removal with sed\u0027s /d command:\n\n git grep -l -e @since -- \u0027*/internal/*\u0027 | xargs sed -i \u0027/@since/d\u0027",
+      "parentUuid": "0f2d7dfc_47c19452",
+      "revId": "e6b4ae2e14bf3227207222b6531f6db81b843354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
