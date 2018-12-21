@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb03ae9_57e12ef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/JGitInternalException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-21T15:53:17Z",
+      "side": 1,
+      "message": "This should say \"that it is\".",
+      "range": {
+        "startLine": 47,
+        "startChar": 57,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "d09388e156fb0b69deb0f3da17b303a851825818",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
