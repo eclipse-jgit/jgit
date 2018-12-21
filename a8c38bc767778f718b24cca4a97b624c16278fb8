@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1033a64e_d2f84d6e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-21T00:45:16Z",
+      "side": 1,
+      "message": "Were these comparisons intentionally done with reference equality rather than value equality?  i.e. could this be changed to:\n\n  if (PacketLineIn.END.equals(line)) {\n\n?",
+      "range": {
+        "startLine": 129,
+        "startChar": 7,
+        "endLine": 129,
+        "endChar": 31
+      },
+      "revId": "a8c38bc767778f718b24cca4a97b624c16278fb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "609fc942_edacd873",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 8
