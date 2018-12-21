@@ -22,6 +22,30 @@
       "revId": "d09388e156fb0b69deb0f3da17b303a851825818",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6e4a01_e28bd92f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/JGitInternalException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-12-21T23:07:21Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/134426",
+      "parentUuid": "9eb03ae9_57e12ef8",
+      "range": {
+        "startLine": 47,
+        "startChar": 57,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "d09388e156fb0b69deb0f3da17b303a851825818",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
