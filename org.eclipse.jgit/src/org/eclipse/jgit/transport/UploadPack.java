@@ -98,6 +98,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
@@ -878,6 +879,38 @@ public class UploadPack {
 		return getAdvertisedOrDefaultRefs().get(name);
 	}
 
+	/**
+	 * Find a ref in the usual search path on behalf of the client.
+	 * <p>
+	 * This checks that the ref is present in the ref advertisement since
+	 * otherwise the client might not be supposed to be able to read it.
+	 *
+	 * @param name
+	 *            short name of the ref to find, e.g. "master" to find
+	 *            "refs/heads/master".
+	 * @return the requested Ref, or {@code null} if it is not visible or
+	 *         does not exist.
+	 * @throws java.io.IOException
+	 *            on failure to read the ref or check it for visibility.
+	 */
+	@Nullable
+	private Ref findRef(String name) throws IOException {
+		if (refs != null) {
+			return RefDatabase.findRef(refs, name);
+		}
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null &&
+				refFilter == RefFilter.DEFAULT &&
+				transferConfig.hasDefaultRefFilter()) {
+			// Fast path: no ref filtering is needed.
+			return db.getRefDatabase().getRef(name);
+		}
+		return RefDatabase.findRef(getAdvertisedOrDefaultRefs(), name);
+	}
+
 	private void service() throws IOException {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
@@ -1033,7 +1066,7 @@ public class UploadPack {
 		// copying data back to class fields
 		List<ObjectId> deepenNots = new ArrayList<>();
 		for (String s : req.getDeepenNotRefs()) {
-			Ref ref = db.getRefDatabase().getRef(s);
+			Ref ref = findRef(s);
 			if (ref == null) {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().invalidRefName, s));
