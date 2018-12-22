@@ -51,6 +51,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
 import java.text.MessageFormat;
+import java.util.function.Consumer;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
@@ -70,6 +71,8 @@ public class DfsBlockCacheConfig {
 	private int blockSize;
 	private double streamRatio;
 	private int concurrencyLevel;
+
+	private Consumer<Long> refLock;
 
 	/**
 	 * Create a default configuration.
@@ -190,6 +193,27 @@ public class DfsBlockCacheConfig {
 	 */
 	public DfsBlockCacheConfig setStreamRatio(double ratio) {
 		streamRatio = Math.max(0, Math.min(ratio, 1.0));
+		return this;
+	}
+
+	/**
+	 * Get the consumer of the object reference lock wait time in milliseconds.
+	 *
+	 * @return consumer of wait time in milliseconds.
+	 */
+	public Consumer<Long> getRefLockWaitTimeConsumer() {
+		return refLock;
+	}
+
+	/**
+	 * Set the consumer for lock wait time.
+	 *
+	 * @param c
+	 *            consumer of wait time in milliseconds.
+	 * @return {@code this}
+	 */
+	public DfsBlockCacheConfig setReflockWaitTimeConsumer(Consumer<Long> c) {
+		refLock = c;
 		return this;
 	}
 
