@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "206110a5_a539ad2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T22:25:56Z",
+      "side": 1,
+      "message": "stray blank line?",
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c5808a_90912ac0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T22:25:56Z",
+      "side": 1,
+      "message": "s/true whether/true if/ or s/true whether/whether/",
+      "range": {
+        "startLine": 117,
+        "startChar": 12,
+        "endLine": 117,
+        "endChar": 24
+      },
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40752d1f_fa06f1df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T22:25:56Z",
+      "side": 1,
+      "message": "Can this default to false? That would make it easier for implementers (since if they don\u0027t want to override that default they would have nothing to do).",
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
