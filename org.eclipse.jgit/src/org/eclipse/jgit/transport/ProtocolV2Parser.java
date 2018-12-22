@@ -62,8 +62,6 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 
 /**
  * Parse the incoming git protocol lines from the wire and translate them into a
@@ -113,24 +111,17 @@ final class ProtocolV2Parser {
 	 * Parse the incoming fetch request arguments from the wire. The caller must
 	 * be sure that what is comings is a fetch request before coming here.
 	 *
-	 * This operation requires the reference database to validate incoming
-	 * references.
-	 *
 	 * @param pckIn
 	 *            incoming lines
-	 * @param refdb
-	 *            reference database (to validate that received references exist
-	 *            and point to valid objects)
 	 * @return A FetchV2Request populated with information received from the
 	 *         wire.
 	 * @throws PackProtocolException
 	 *             incompatible options, wrong type of arguments or other issues
 	 *             where the request breaks the protocol.
 	 * @throws IOException
-	 *             an IO error prevented reading the incoming message or
-	 *             accessing the ref database.
+	 *             an IO error prevented reading the incoming message.
 	 */
-	FetchV2Request parseFetchRequest(PacketLineIn pckIn, RefDatabase refdb)
+	FetchV2Request parseFetchRequest(PacketLineIn pckIn)
 			throws PackProtocolException, IOException {
 		FetchV2Request.Builder reqBuilder = FetchV2Request.builder();
 
@@ -158,22 +149,7 @@ final class ProtocolV2Parser {
 				reqBuilder.addWantId(ObjectId.fromString(line.substring(5)));
 			} else if (transferConfig.isAllowRefInWant()
 					&& line.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
-				String refName = line.substring(OPTION_WANT_REF.length() + 1);
-				// TODO(ifrade): This validation should be done after the
-				// protocol parsing. It is not a protocol problem asking for an
-				// unexisting ref and we wouldn't need the ref database here
-				Ref ref = refdb.exactRef(refName);
-				if (ref == null) {
-					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().invalidRefName, refName));
-				}
-				ObjectId oid = ref.getObjectId();
-				if (oid == null) {
-					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().invalidRefName, refName));
-				}
-				reqBuilder.addWantedRef(refName, oid);
-				reqBuilder.addWantId(oid);
+				reqBuilder.addWantedRef(line.substring(OPTION_WANT_REF.length() + 1));
 			} else if (line.startsWith("have ")) { //$NON-NLS-1$
 				reqBuilder.addPeerHas(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) { //$NON-NLS-1$
