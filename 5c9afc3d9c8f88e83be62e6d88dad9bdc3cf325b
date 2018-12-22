@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a860bc45_2ea7dc4c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T00:16:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4909ee7_ae87ca93",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 14
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b68695c_5e29c6f9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 9
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b1bb744d_58551ef3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T00:16:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "78789fc2_713c8e56",
+      "range": {
+        "startLine": 155,
+        "startChar": 7,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ad2cde1_d6e98f10",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 9
@@ -110,6 +158,24 @@
       "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a832b4a_88f58f0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ad2cde1_d6e98f10",
+      "revId": "5c9afc3d9c8f88e83be62e6d88dad9bdc3cf325b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
