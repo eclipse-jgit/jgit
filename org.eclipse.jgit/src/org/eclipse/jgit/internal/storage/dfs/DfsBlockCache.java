@@ -45,6 +45,9 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -130,6 +133,9 @@ public final class DfsBlockCache {
 
 	/** Locks to prevent concurrent loads for same (PackFile,position). */
 	private final ReentrantLock[] loadLocks;
+
+	/** Locks to prevent concurrent loads for same PackFile ref. */
+	private final Map<Integer, SoftReference<ReentrantLock>> refLocks = new HashMap<>();
 
 	/** Maximum number of bytes the cache should hold. */
 	private final long maxBytes;
@@ -402,7 +408,6 @@ public final class DfsBlockCache {
 			}
 
 			Ref<DfsBlock> ref = new Ref<>(key, position, v.size(), v);
-			ref.hot = true;
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n))
@@ -488,6 +493,56 @@ public final class DfsBlockCache {
 		put(v.stream, v.start, v.size(), v);
 	}
 
+	/**
+	 * Lookup a cached object, creating and loading it if it doesn't exist.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param loader
+	 *            the function to load the reference.
+	 * @return the object reference.
+	 * @throws IOException
+	 *             the reference was not in the cache and could not be loaded.
+	 */
+	<T> Ref<T> getOrLoadRef(DfsStreamKey key, RefLoader<T> loader)
+			throws IOException {
+		int slot = slot(key, 0);
+		HashEntry e1 = table.get(slot);
+		Ref<T> ref = scanRef(e1, key, 0);
+		if (ref != null) {
+			getStat(statHit, key).incrementAndGet();
+			return ref;
+		}
+
+		ReentrantLock regionLock = lockRef(key);
+		regionLock.lock();
+		try {
+			HashEntry e2 = table.get(slot);
+			if (e2 != e1) {
+				ref = scanRef(e2, key, 0);
+				if (ref != null) {
+					getStat(statHit, key).incrementAndGet();
+					return ref;
+				}
+			}
+
+			getStat(statMiss, key).incrementAndGet();
+			ref = loader.load();
+			// Reserve after loading to get the size of the object
+			reserveSpace(ref.size, key);
+			for (;;) {
+				HashEntry n = new HashEntry(clean(e2), ref);
+				if (table.compareAndSet(slot, e2, n))
+					break;
+				e2 = table.get(slot);
+			}
+			addToClock(ref, 0);
+		} finally {
+			regionLock.unlock();
+		}
+		return ref;
+	}
+
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
 		return put(key, 0, (int) Math.min(size, Integer.MAX_VALUE), v);
 	}
@@ -513,7 +568,6 @@ public final class DfsBlockCache {
 			}
 
 			ref = new Ref<>(key, pos, size, v);
-			ref.hot = true;
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n))
@@ -546,15 +600,6 @@ public final class DfsBlockCache {
 		return r != null ? r.get() : null;
 	}
 
-	<T> Ref<T> getRef(DfsStreamKey key) {
-		Ref<T> r = scanRef(table.get(slot(key, 0)), key, 0);
-		if (r != null)
-			getStat(statHit, key).incrementAndGet();
-		else
-			getStat(statMiss, key).incrementAndGet();
-		return r;
-	}
-
 	@SuppressWarnings("unchecked")
 	private <T> Ref<T> scanRef(HashEntry n, DfsStreamKey key, long position) {
 		for (; n != null; n = n.next) {
@@ -571,6 +616,24 @@ public final class DfsBlockCache {
 
 	private ReentrantLock lockFor(DfsStreamKey key, long position) {
 		return loadLocks[(hash(key.hash, position) >>> 1) % loadLocks.length];
+	}
+
+	private ReentrantLock lockRef(DfsStreamKey key) {
+		Integer lockKey = Integer.valueOf(key.hash);
+		SoftReference<ReentrantLock> ref = refLocks.get(lockKey);
+		ReentrantLock lock = null;
+		if (ref != null && (lock = ref.get()) != null) {
+			return lock;
+		}
+		synchronized (refLocks) {
+			ref = refLocks.get(lockKey);
+			if (ref != null && (lock = ref.get()) != null) {
+				return lock;
+			}
+			lock = new ReentrantLock();
+			refLocks.put(lockKey, new SoftReference<>(lock));
+			return lock;
+		}
 	}
 
 	private static AtomicLong[] newCounters() {
@@ -645,6 +708,7 @@ public final class DfsBlockCache {
 			this.position = position;
 			this.size = size;
 			this.value = v;
+			this.hot = true;
 		}
 
 		T get() {
@@ -657,5 +721,10 @@ public final class DfsBlockCache {
 		boolean has() {
 			return value != null;
 		}
+	}
+
+	@FunctionalInterface
+	interface RefLoader<T> {
+		Ref<T> load() throws IOException;
 	}
 }
