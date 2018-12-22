@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "29493fe2_2ba90666",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T00:16:08Z",
+      "side": 1,
+      "message": "Ack. Makes sense.",
+      "parentUuid": "50c65959_1877d172",
+      "range": {
+        "startLine": 283,
+        "startChar": 45,
+        "endLine": 283,
+        "endChar": 65
+      },
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec78e8fc_bb0d5df8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10
@@ -98,6 +122,24 @@
       "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba68d40c_5474fc10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-22T00:16:08Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "ec78e8fc_bb0d5df8",
+      "revId": "01dc594e19613707c744020f520e0d0f8f883ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
