@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.5" sequenceNumber="1544018556">
+<target name="jgit-4.5" sequenceNumber="1545531390">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -62,8 +62,8 @@
       <unit id="org.junit.source" version="4.12.0.v201504281640"/>
       <unit id="javax.servlet" version="3.1.0.v201410161800"/>
       <unit id="javax.servlet.source" version="3.1.0.v201410161800"/>
-      <unit id="org.tukaani.xz" version="1.6.0.v20170629-1752"/>
-      <unit id="org.tukaani.xz.source" version="1.6.0.v20170629-1752"/>
+      <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
+      <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
       <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
       <unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
       <unit id="org.slf4j.impl.log4j12" version="1.7.2.v20131105-2200"/>

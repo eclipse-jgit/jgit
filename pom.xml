@@ -691,7 +691,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.6</version>
+        <version>1.8</version>
         <optional>true</optional>
       </dependency>
 
