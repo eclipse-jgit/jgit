@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57181d86_cfc8f60e",
+        "filename": "org.eclipse.jgit.http.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-24T23:17:29Z",
+      "side": 1,
+      "message": "This dependency was missing to compile this in OSGi environment. Need to use Require-Bundle here since org.hamcrest 1.3 is a split package and hence cannot be imported using Import-Package.",
+      "revId": "78b18dbb839b6ff41f199ee338e53610f3fe5be3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
