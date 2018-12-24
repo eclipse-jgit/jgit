@@ -7,6 +7,12 @@
                 <message_argument value="4.7.0"/>
             </message_arguments>
         </filter>
+        <filter id="924844039">
+            <message_arguments>
+                <message_argument value="4.7.8"/>
+                <message_argument value="4.7.0"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="336658481">
