@@ -43,8 +43,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
@@ -262,7 +263,10 @@ public class UploadPack {
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
 
-	/** The refs we advertised as existing at the start of the connection. */
+	/**
+	 * Refs eligible for advertising to the client, set using
+	 * {@link #setAdvertisedRefs}.
+	 */
 	private Map<String, Ref> refs;
 
 	/** Hook used while processing Git protocol v2 requests. */
@@ -270,6 +274,9 @@ public class UploadPack {
 
 	/** Hook used while advertising the refs to the client. */
 	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+
+	/** Whether the {@link #advertiseRefsHook} has been invoked. */
+	private boolean advertiseRefsHookCalled;
 
 	/** Filter used while advertising the refs to the client. */
 	private RefFilter refFilter = RefFilter.DEFAULT;
@@ -793,9 +800,50 @@ public class UploadPack {
 	}
 
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
-		if (refs == null)
-			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
+		if (refs != null) {
+			return refs;
+		}
+
+		advertiseRefsHook.advertiseRefs(this);
+		advertiseRefsHookCalled = true;
+		if (refs == null) {
+			// Fall back to all refs.
+			setAdvertisedRefs(
+					db.getRefDatabase().getRefs().stream()
+						.collect(toMap(Ref::getName, identity())));
+		}
 		return refs;
+	}
+
+	private Map<String, Ref> getFilteredRefs(Collection<String> refPrefixes)
+					throws IOException {
+		if (refPrefixes.isEmpty()) {
+			return getAdvertisedOrDefaultRefs();
+		}
+		if (refs == null && !advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null) {
+			// Fast path: the advertised refs hook did not set advertised refs.
+			Map<String, Ref> rs = new HashMap<>();
+			for (String p : refPrefixes) {
+				for (Ref r : db.getRefDatabase().getRefsByPrefix(p)) {
+					rs.put(r.getName(), r);
+				}
+			}
+			if (refFilter != RefFilter.DEFAULT) {
+				return refFilter.filter(rs);
+			}
+			return transferConfig.getRefFilter().filter(rs);
+		}
+
+		// Slow path: filter the refs provided by the advertised refs hook.
+		// refFilter has already been applied to refs.
+		return refs.values().stream()
+				.filter(ref -> refPrefixes.stream()
+						.anyMatch(ref.getName()::startsWith))
+				.collect(toMap(Ref::getName, identity()));
 	}
 
 	private void service() throws IOException {
@@ -923,17 +971,7 @@ public class UploadPack {
 		if (req.getPeel()) {
 			adv.setDerefTags(true);
 		}
-		Map<String, Ref> refsToSend;
-		if (req.getRefPrefixes().isEmpty()) {
-			refsToSend = getAdvertisedOrDefaultRefs();
-		} else {
-			refsToSend = new HashMap<>();
-			for (String refPrefix : req.getRefPrefixes()) {
-				for (Ref ref : db.getRefDatabase().getRefsByPrefix(refPrefix)) {
-					refsToSend.put(ref.getName(), ref);
-				}
-			}
-		}
+		Map<String, Ref> refsToSend = getFilteredRefs(req.getRefPrefixes());
 		if (req.getSymrefs()) {
 			findSymrefs(adv, refsToSend);
 		}
@@ -1281,15 +1319,7 @@ public class UploadPack {
 			return;
 		}
 
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
+		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 
 		if (serviceName != null) {
 			adv.writeOne("# service=" + serviceName + '\n'); //$NON-NLS-1$
@@ -1321,7 +1351,6 @@ public class UploadPack {
 			adv.advertiseCapability(OPTION_FILTER);
 		}
 		adv.setDerefTags(true);
-		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
 		advertised = adv.send(advertisedOrDefaultRefs);
 		if (adv.isEmpty())
