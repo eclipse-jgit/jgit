@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc89b754_e5f62df3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-24T10:19:26Z",
+      "side": 1,
+      "message": "ok, the exception is already handled in the service() method",
+      "revId": "61f0bd54d058789d73a8db0dfb8d23310aa8c411",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
