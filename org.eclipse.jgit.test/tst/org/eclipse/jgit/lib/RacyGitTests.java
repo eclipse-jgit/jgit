@@ -61,8 +61,8 @@ import org.junit.Test;
 
 public class RacyGitTests extends RepositoryTestCase {
 	@Test
-	public void testIterator() throws IllegalStateException, IOException,
-			InterruptedException {
+	public void testIterator()
+			throws IllegalStateException, IOException, InterruptedException {
 		TreeSet<Long> modTimes = new TreeSet<>();
 		File lastFile = null;
 		for (int i = 0; i < 10; i++) {
@@ -126,9 +126,6 @@ public class RacyGitTests extends RepositoryTestCase {
 
 	@Test
 	public void testRacyGitDetection() throws Exception {
-		TreeSet<Long> modTimes = new TreeSet<>();
-		File lastFile;
-
 		// Reset to force creation of index file
 		try (Git git = new Git(db)) {
 			git.reset().call();
@@ -136,42 +133,44 @@ public class RacyGitTests extends RepositoryTestCase {
 
 		// wait to ensure that modtimes of the file doesn't match last index
 		// file modtime
-		modTimes.add(valueOf(fsTick(db.getIndexFile())));
+		fsTick(db.getIndexFile());
 
 		// create two files
-		addToWorkDir("a", "a");
-		lastFile = addToWorkDir("b", "b");
+		File a = addToWorkDir("a", "a");
+		File b = addToWorkDir("b", "b");
+		assertTrue(a.setLastModified(b.lastModified()));
+		assertTrue(b.setLastModified(b.lastModified()));
 
 		// wait to ensure that file-modTimes and therefore index entry modTime
 		// doesn't match the modtime of index-file after next persistance
-		modTimes.add(valueOf(fsTick(lastFile)));
+		fsTick(b);
 
 		// now add both files to the index. No racy git expected
-		resetIndex(new FileTreeIteratorWithTimeControl(db, modTimes));
+		resetIndex(new FileTreeIterator(db));
 
 		assertEquals(
-				"[a, mode:100644, time:t0, length:1, content:a]" +
-				"[b, mode:100644, time:t0, length:1, content:b]",
+				"[a, mode:100644, time:t0, length:1, content:a]"
+						+ "[b, mode:100644, time:t0, length:1, content:b]",
 				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT));
 
-		// Remember the last modTime of index file. All modifications times of
-		// further modification are translated to this value so it looks that
-		// files have been modified in the same time slot as the index file
-		modTimes.add(Long.valueOf(db.getIndexFile().lastModified()));
+		// wait to ensure the file 'a' is updated at t1.
+		fsTick(db.getIndexFile());
 
-		// modify one file
-		addToWorkDir("a", "a2");
-		// now update the index the index. 'a' has to be racily clean -- because
-		// it's modification time is exactly the same as the previous index file
-		// mod time.
-		resetIndex(new FileTreeIteratorWithTimeControl(db, modTimes));
+		// Create a racy git situation. This is a situation that the index is
+		// updated and then a file is modified within a second. By changing the
+		// index file artificially, we create a fake racy situation.
+		File updatedA = addToWorkDir("a", "a2");
+		assertTrue(updatedA.setLastModified(updatedA.lastModified() + 100));
+		resetIndex(new FileTreeIterator(db));
+		assertTrue(db.getIndexFile()
+				.setLastModified(updatedA.lastModified() + 90));
 
 		db.readDirCache();
 		// although racily clean a should not be reported as being dirty
 		assertEquals(
-				"[a, mode:100644, time:t1, smudged, length:0, content:a2]" +
-				"[b, mode:100644, time:t0, length:1, content:b]",
-				indexState(SMUDGE|MOD_TIME|LENGTH|CONTENT));
+				"[a, mode:100644, time:t1, smudged, length:0, content:a2]"
+						+ "[b, mode:100644, time:t0, length:1, content:b]",
+				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT));
 	}
 
 	private File addToWorkDir(String path, String content) throws IOException {
