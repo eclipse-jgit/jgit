@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0407fc0_8cb75238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-24T21:57:23Z",
+      "side": 1,
+      "message": "This updates the API, so it would need a @since comment.\n\nhttps://docs.oracle.com/javase/specs/jls/se8/html/jls-13.html#jls-13.4.15 tells me this breaks ABI, so we might need to hold off on submitting this until 6.0.\n\nIf you have an idea for a better name for the applyIndex property, then we can do this in two steps: (1) add the new name now, with correct return value, and deprecate the old name, (2) remove the old name in 6.0.",
+      "revId": "c474e8339bfad08e0238b228f82cfceb84d9c43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0688ab8_d828736c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-24T21:57:23Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "c474e8339bfad08e0238b228f82cfceb84d9c43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
