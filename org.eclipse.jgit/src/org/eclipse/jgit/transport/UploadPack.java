@@ -83,7 +83,6 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.DepthWalk;
@@ -713,8 +712,14 @@ public class UploadPack {
 	}
 
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
-		if (refs == null)
-			setAdvertisedRefs(db.getRefDatabase().getRefs(RefDatabase.ALL));
+		if (refs != null) {
+			return refs;
+		}
+
+		advertiseRefsHook.advertiseRefs(this);
+		if (refs == null) {
+			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
+		}
 		return refs;
 	}
 
@@ -877,15 +882,7 @@ public class UploadPack {
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
+		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 
 		adv.init(db);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
@@ -910,7 +907,6 @@ public class UploadPack {
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.setDerefTags(true);
-		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
 		advertised = adv.send(advertisedOrDefaultRefs);
 		if (adv.isEmpty())
