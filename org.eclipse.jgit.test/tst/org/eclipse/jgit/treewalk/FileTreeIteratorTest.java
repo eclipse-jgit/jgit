@@ -48,9 +48,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNoException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
@@ -666,9 +668,23 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testFileModeSymLinkIsNotATree() throws IOException {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = db.getFS();
-		// mål = target in swedish, just to get som unicode in here
+		// mål = target in swedish, just to get some unicode in here
 		writeTrashFile("mål/data", "targetdata");
-		fs.createSymLink(new File(trash, "länk"), "mål");
+		File file = new File(trash, "länk");
+
+		try {
+			file.toPath();
+		} catch (InvalidPathException e) {
+			// When executing a test with LANG environment variable set to non
+			// UTF-8 encoding, it seems that JRE cannot handle Unicode file
+			// paths. This happens when this test is executed in Bazel as it
+			// unsets LANG
+			// (https://docs.bazel.build/versions/master/test-encyclopedia.html#initial-conditions).
+			// Skip the test if the runtime cannot handle Unicode characters.
+			assumeNoException(e);
+		}
+
+		fs.createSymLink(file, "mål");
 		FileTreeIterator fti = new FileTreeIterator(db);
 		assertFalse(fti.eof());
 		while (!fti.getEntryPathString().equals("länk")) {
