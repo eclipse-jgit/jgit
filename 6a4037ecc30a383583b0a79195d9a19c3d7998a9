@@ -16,6 +16,24 @@
       "revId": "6a4037ecc30a383583b0a79195d9a19c3d7998a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c06de74_f1f95c7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2018-12-25T16:25:07Z",
+      "side": 1,
+      "message": "Well, I looked for references and found e.g. https://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java?id\u003dec1116627f251dbc434111840111a417263403ee#n395 which does not check for the return value either. But you are probably right, instead of silently fail we should rather throw an exception here. It is unfortunate, though that the original reason is hidden in https://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java#n455.",
+      "parentUuid": "51d70667_4d170577",
+      "revId": "6a4037ecc30a383583b0a79195d9a19c3d7998a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
