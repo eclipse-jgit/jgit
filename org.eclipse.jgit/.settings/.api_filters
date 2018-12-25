@@ -3,7 +3,7 @@
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="5.1.3"/>
+                <message_argument value="5.1.4"/>
                 <message_argument value="5.1.0"/>
             </message_arguments>
         </filter>
@@ -21,6 +21,20 @@
             <message_arguments>
                 <message_argument value="4.7.5"/>
                 <message_argument value="getGitsubmodules()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig">
+        <filter id="1159725059">
+            <message_arguments>
+                <message_argument value="5.1.4"/>
+                <message_argument value="TransferConfig(Config)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1159725059">
+            <message_arguments>
+                <message_argument value="5.1.4"/>
+                <message_argument value="TransferConfig(Repository)"/>
             </message_arguments>
         </filter>
     </resource>
