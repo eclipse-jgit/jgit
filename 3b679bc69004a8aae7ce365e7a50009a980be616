@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ecdc884_0b956bf8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-25T21:53:11Z",
+      "side": 1,
+      "message": "See https://git.eclipse.org/r/c/134484/1/org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java#280: this would break ABI for callers, so we can\u0027t do it in a minor release.\n\nWhat would you think of renaming this to setRemoteName? That way, the new chained setter could be added and the old unchained setter deprecated, for removal in 6.0.",
+      "revId": "3b679bc69004a8aae7ce365e7a50009a980be616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d14c5a4_7f54b120",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-25T21:53:11Z",
+      "side": 1,
+      "message": "Likewise (and similarly for the others).",
+      "revId": "3b679bc69004a8aae7ce365e7a50009a980be616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
