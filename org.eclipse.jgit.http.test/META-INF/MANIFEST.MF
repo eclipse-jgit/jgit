@@ -50,5 +50,7 @@ Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
  org.hamcrest;version="[1.1.0,2.0.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)",
  org.junit;version="[4.12,5.0.0)",
+ org.junit.rules;version="[4.12,5.0.0)",
  org.junit.runner;version="[4.12,5.0.0)",
  org.junit.runners;version="[4.12,5.0.0)"
+Require-Bundle: org.hamcrest.library;bundle-version="[1.1.0,2.0.0)"
