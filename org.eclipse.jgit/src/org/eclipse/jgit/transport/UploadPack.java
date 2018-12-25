@@ -779,8 +779,14 @@ public class UploadPack {
 	}
 
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
-		if (refs == null)
+		if (refs != null) {
+			return refs;
+		}
+
+		advertiseRefsHook.advertiseRefs(this);
+		if (refs == null) {
 			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
+		}
 		return refs;
 	}
 
@@ -1305,15 +1311,7 @@ public class UploadPack {
 			return;
 		}
 
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
+		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 
 		if (serviceName != null) {
 			adv.writeOne("# service=" + serviceName + '\n'); //$NON-NLS-1$
@@ -1345,7 +1343,6 @@ public class UploadPack {
 			adv.advertiseCapability(OPTION_FILTER);
 		}
 		adv.setDerefTags(true);
-		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
 		advertised = adv.send(advertisedOrDefaultRefs);
 		if (adv.isEmpty())
