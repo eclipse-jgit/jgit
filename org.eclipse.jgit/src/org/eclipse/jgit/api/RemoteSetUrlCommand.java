@@ -89,9 +89,12 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param name
 	 *            a remote name
+	 * @return this instance
+	 * @since 5.3
 	 */
-	public void setName(String name) {
+	public RemoteSetUrlCommand setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	/**
@@ -99,9 +102,12 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param uri
 	 *            an URL for the remote
+	 * @return this instance
+	 * @since 5.3
 	 */
-	public void setUri(URIish uri) {
+	public RemoteSetUrlCommand setUri(URIish uri) {
 		this.uri = uri;
+		return this;
 	}
 
 	/**
@@ -110,9 +116,12 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 * @param push
 	 *            <code>true</code> to set the push url, <code>false</code> to
 	 *            set the fetch url
+	 * @return this instance
+	 * @since 5.3
 	 */
-	public void setPush(boolean push) {
+	public RemoteSetUrlCommand setPush(boolean push) {
 		this.push = push;
+		return this;
 	}
 
 	/**

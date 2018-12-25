@@ -84,9 +84,12 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param name
 	 *            a remote name
+	 * @return this instance
+	 * @since 5.3
 	 */
-	public void setName(String name) {
+	public RemoteRemoveCommand setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	/**
