@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "144dfcf2_3d37f0a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2018-12-26T20:14:58Z",
+      "side": 1,
+      "message": "\u003e This updates the API, so it would need a @since comment.\n \u003e \n \u003e https://docs.oracle.com/javase/specs/jls/se8/html/jls-13.html#jls-13.4.15\n \u003e tells me this breaks ABI, so we might need to hold off on\n \u003e submitting this until 6.0.\n \u003e \n \u003e If you have an idea for a better name for the applyIndex property,\n \u003e then we can do this in two steps: (1) add the new name now, with\n \u003e correct return value, and deprecate the old name, (2) remove the\n \u003e old name in 6.0.\n\nHi Jonathan, in the previous review (https://git.eclipse.org/r/#/c/134484/1/org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java), you mentioned about ABI. Could you explain more in detail about its impact? I feel very sad that the need of deprecating this method and use a similar one on the other side. For Java users, I expect that the upgrade of JGit will be transparent and painless, without changing any existing code. Their programs should continue to work with the new method `setName(String)` which returns `RemoteSetUrlCommand`, even though they won\u0027t automatically benefit from the chaining mechanism.",
+      "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
