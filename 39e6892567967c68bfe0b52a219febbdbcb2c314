@@ -16,6 +16,24 @@
       "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ff64c2b_0b9c65b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T20:22:26Z",
+      "side": 1,
+      "message": "\u003e Their programs should continue to work with the new method `setName(String)` which returns `RemoteSetUrlCommand`, even though they won\u0027t automatically benefit from the chaining mechanism.\n\nYou are describing source-level or API compatibility, or in other words the ability for a program to keep working after rebuilding it.\n\nI am describing binary or ABI compatibility, or in other words the ability to keep using a program without rebuilding.",
+      "parentUuid": "144dfcf2_3d37f0a3",
+      "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
