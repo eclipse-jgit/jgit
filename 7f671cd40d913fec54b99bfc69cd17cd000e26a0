@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4b41258_b2d2173f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefDatabaseConflictingNamesTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:20:42Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "7f671cd40d913fec54b99bfc69cd17cd000e26a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45150881_fdbaafdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:20:42Z",
+      "side": 1,
+      "message": "optional: add a link to Ref#getUpdateIndex somewhere?",
+      "revId": "7f671cd40d913fec54b99bfc69cd17cd000e26a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
