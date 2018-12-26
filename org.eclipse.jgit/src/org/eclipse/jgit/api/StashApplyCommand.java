@@ -288,6 +288,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *
 	 * @param restoreIndex
 	 *            true (default) if the command should restore the index state
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public StashApplyCommand setRestoreIndex(boolean restoreIndex) {
@@ -326,6 +327,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *
 	 * @param restoreUntracked
 	 *            true (default) if the command should restore untracked files
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public StashApplyCommand setRestoreUntracked(boolean restoreUntracked) {

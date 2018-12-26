@@ -95,6 +95,7 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param remoteName
 	 *            a remote name
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public RemoteRemoveCommand setRemoteName(String remoteName) {

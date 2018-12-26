@@ -100,6 +100,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param remoteName
 	 *            a remote remoteName
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public RemoteSetUrlCommand setRemoteName(String remoteName) {
@@ -123,6 +124,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param remoteUri
 	 *            an URL for the remote
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public RemoteSetUrlCommand setRemoteUri(URIish remoteUri) {
@@ -148,6 +150,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 * @param remotePush
 	 *            <code>true</code> to set the push url, <code>false</code> to
 	 *            set the fetch url
+	 * @return {@code this}
 	 * @since 5.3
 	 */
 	public RemoteSetUrlCommand setRemotePush(boolean remotePush) {
