@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57f3c518_638a6827",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-12-26T20:30:58Z",
+      "side": 1,
+      "message": "The getAdvertisedOrDefaultRefs() method doesn\u0027t have the advertiseRefsHookCalled guard, so the addition of this findRef method means that the hook could potentially be called twice. Should this guard be added there too?\n\nOther than that, the code looks good to me.",
+      "range": {
+        "startLine": 909,
+        "startChar": 29,
+        "endLine": 909,
+        "endChar": 55
+      },
+      "revId": "6d7e90fcd9392ea98f2fe0a25675745fa4402ba9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
