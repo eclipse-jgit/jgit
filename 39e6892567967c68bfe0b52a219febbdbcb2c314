@@ -70,6 +70,24 @@
       "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21e7c4b7_9881cf7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T20:50:33Z",
+      "side": 1,
+      "message": "Callers using OSGi to declare dependencies on JGit are relying on binary compatibility for clients in minor version updates.\n\nWith minor version bumps, we\u0027re able to break compatibility for implementers, and with major version bumps, we\u0027re able to break compatibility for clients.",
+      "parentUuid": "20ada828_605dba51",
+      "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
