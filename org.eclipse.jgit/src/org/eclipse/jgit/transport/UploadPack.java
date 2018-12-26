@@ -790,8 +790,10 @@ public class UploadPack {
 			return refs;
 		}
 
-		advertiseRefsHook.advertiseRefs(this);
-		advertiseRefsHookCalled = true;
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
 		if (refs == null) {
 			// Fall back to all refs.
 			setAdvertisedRefs(
