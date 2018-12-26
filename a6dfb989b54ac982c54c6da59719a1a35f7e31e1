@@ -116,6 +116,24 @@
       "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e524e61_9eb46fe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:20:42Z",
+      "side": 1,
+      "message": "Thanks. I like the smaller patch size. :)",
+      "parentUuid": "6cb6ad13_73ba301b",
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
