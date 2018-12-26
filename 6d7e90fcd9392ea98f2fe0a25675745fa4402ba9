@@ -70,6 +70,30 @@
       "revId": "6d7e90fcd9392ea98f2fe0a25675745fa4402ba9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f63985_a8c3bd89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T20:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88c6bf59_581ded89",
+      "range": {
+        "startLine": 909,
+        "startChar": 29,
+        "endLine": 909,
+        "endChar": 55
+      },
+      "revId": "6d7e90fcd9392ea98f2fe0a25675745fa4402ba9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
