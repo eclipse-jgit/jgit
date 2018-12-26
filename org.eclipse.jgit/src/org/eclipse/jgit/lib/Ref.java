@@ -217,4 +217,27 @@ public interface Ref {
 	 */
 	@NonNull
 	Storage getStorage();
+
+	/**
+	 * Indicator of the relative order between updates of a specific reference
+	 * name. A number that increases when a reference is updated.
+	 * <p>
+	 * With symbolic references, the update index refers to updates of the
+	 * symbolic reference itself. For example, if HEAD points to
+	 * refs/heads/master, then the update index for exactRef("HEAD") will only
+	 * increase when HEAD changes to point to another ref, regardless of how
+	 * many times refs/heads/master is updated.
+	 * <p>
+	 * Should not be used unless the {@code RefDatabase} that instantiated the
+	 * ref supports versioning (see {@link RefDatabase#hasVersioning()})
+	 *
+	 * @return the update index (i.e. version) of this reference.
+	 * @throws UnsupportedOperationException
+	 *             if the creator of the instance (e.g. {@link RefDatabase})
+	 *             doesn't support versioning and doesn't override this method
+	 * @since 5.3
+	 */
+	default long getUpdateIndex() {
+		throw new UnsupportedOperationException();
+	}
 }

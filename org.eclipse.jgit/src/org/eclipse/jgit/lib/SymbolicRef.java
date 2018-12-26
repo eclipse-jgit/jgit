@@ -58,6 +58,8 @@ public class SymbolicRef implements Ref {
 
 	private final Ref target;
 
+	private final long updateIndex;
+
 	/**
 	 * Create a new ref pairing.
 	 *
@@ -69,6 +71,24 @@ public class SymbolicRef implements Ref {
 	public SymbolicRef(@NonNull String refName, @NonNull Ref target) {
 		this.name = refName;
 		this.target = target;
+		this.updateIndex = -1;
+	}
+
+	/**
+	 * Create a new ref pairing.
+	 *
+	 * @param refName
+	 *            name of this ref.
+	 * @param target
+	 *            the ref we reference and derive our value from.
+	 * @param updateIndex
+	 *            index that increases with each update of the reference
+	 */
+	public SymbolicRef(@NonNull String refName, @NonNull Ref target,
+			long updateIndex) {
+		this.name = refName;
+		this.target = target;
+		this.updateIndex = updateIndex;
 	}
 
 	/** {@inheritDoc} */
@@ -129,6 +149,15 @@ public class SymbolicRef implements Ref {
 	}
 
 	/** {@inheritDoc} */
+	@Override
+	public long getUpdateIndex() {
+		if (updateIndex == -1) {
+			throw new UnsupportedOperationException();
+		}
+		return updateIndex;
+	}
+
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -143,7 +172,9 @@ public class SymbolicRef implements Ref {
 		r.append(cur.getName());
 		r.append('=');
 		r.append(ObjectId.toString(cur.getObjectId()));
-		r.append("]");
+		r.append("(");
+		r.append(updateIndex); // Print value, even if -1
+		r.append(")]");
 		return r.toString();
 	}
 }

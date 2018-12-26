@@ -108,7 +108,7 @@ public class ReftableCompactorTest {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
-			assertEquals(0, rc.getUpdateIndex());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 		}
 	}
 
@@ -155,7 +155,7 @@ public class ReftableCompactorTest {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
-			assertEquals(1, rc.getUpdateIndex());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 		}
 	}
 
@@ -203,12 +203,12 @@ public class ReftableCompactorTest {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
 			assertEquals(id(3), rc.getRef().getObjectId());
-			assertEquals(1, rc.getUpdateIndex());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals(NEXT, rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
-			assertEquals(0, rc.getUpdateIndex());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 		}
 	}
 

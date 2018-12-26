@@ -186,6 +186,7 @@ public class ReftableTest {
 			assertFalse(act.isSymbolic());
 			assertEquals(exp.getName(), act.getName());
 			assertEquals(exp.getObjectId(), act.getObjectId());
+			assertEquals(0, act.getUpdateIndex());
 			assertNull(act.getPeeledObjectId());
 			assertFalse(rc.wasDeleted());
 			assertFalse(rc.next());
@@ -195,6 +196,7 @@ public class ReftableTest {
 			Ref act = rc.getRef();
 			assertNotNull(act);
 			assertEquals(exp.getName(), act.getName());
+			assertEquals(0, act.getUpdateIndex());
 			assertFalse(rc.next());
 		}
 	}
@@ -216,6 +218,7 @@ public class ReftableTest {
 			assertEquals(exp.getName(), act.getName());
 			assertEquals(exp.getObjectId(), act.getObjectId());
 			assertEquals(exp.getPeeledObjectId(), act.getPeeledObjectId());
+			assertEquals(0, act.getUpdateIndex());
 		}
 	}
 
@@ -237,6 +240,7 @@ public class ReftableTest {
 			assertNotNull(act.getLeaf());
 			assertEquals(MASTER, act.getTarget().getName());
 			assertNull(act.getObjectId());
+			assertEquals(0, act.getUpdateIndex());
 		}
 	}
 
@@ -250,14 +254,17 @@ public class ReftableTest {
 		Ref head = t.exactRef(HEAD);
 		assertNull(head.getObjectId());
 		assertEquals("refs/heads/tmp", head.getTarget().getName());
+		assertEquals(0, head.getUpdateIndex());
 
 		head = t.resolve(head);
 		assertNotNull(head);
 		assertEquals(id(1), head.getObjectId());
+		assertEquals(0, head.getUpdateIndex());
 
 		Ref master = t.exactRef(MASTER);
 		assertNotNull(master);
 		assertSame(master, t.resolve(master));
+		assertEquals(0, master.getUpdateIndex());
 	}
 
 	@Test
@@ -335,14 +342,17 @@ public class ReftableTest {
 		try (RefCursor rc = t.seekRefsWithPrefix("refs/tags/")) {
 			assertTrue(rc.next());
 			assertEquals(V1_0, rc.getRef().getName());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.seekRefsWithPrefix("refs/heads/")) {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals(NEXT, rc.getRef().getName());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
 		}
@@ -432,11 +442,12 @@ public class ReftableTest {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
 			assertEquals(id(1), rc.getRef().getObjectId());
-			assertEquals(1, rc.getUpdateIndex());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 
 			assertTrue(rc.next());
 			assertEquals(NEXT, rc.getRef().getName());
 			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(1, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (LogCursor lc = t.allLogs()) {
@@ -569,6 +580,7 @@ public class ReftableTest {
 			assertTrue("has 42", rc.next());
 			assertEquals("refs/heads/42", rc.getRef().getName());
 			assertEquals(id(42), rc.getRef().getObjectId());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.byObjectId(id(100))) {
@@ -579,6 +591,7 @@ public class ReftableTest {
 			assertTrue("has master", rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
 		}
@@ -600,6 +613,7 @@ public class ReftableTest {
 			assertTrue("has 42", rc.next());
 			assertEquals("refs/heads/42", rc.getRef().getName());
 			assertEquals(id(42), rc.getRef().getObjectId());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.byObjectId(id(100))) {
@@ -610,6 +624,7 @@ public class ReftableTest {
 			assertTrue("has master", rc.next());
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
+			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
 		}
@@ -654,7 +669,6 @@ public class ReftableTest {
 		}
 	}
 
-
 	private static void assertScan(List<Ref> refs, Reftable t)
 			throws IOException {
 		try (RefCursor rc = t.allRefs()) {
@@ -663,6 +677,7 @@ public class ReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(0, rc.getRef().getUpdateIndex());
 			}
 			assertFalse(rc.next());
 		}
@@ -676,6 +691,7 @@ public class ReftableTest {
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertEquals(0, rc.getRef().getUpdateIndex());
 				assertFalse(rc.next());
 			}
 		}

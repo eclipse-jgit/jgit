@@ -48,6 +48,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -115,10 +119,43 @@ public class ObjectIdRefTest {
 	}
 
 	@Test
+	public void testUpdateIndex() {
+		ObjectIdRef r;
+
+		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A, 3);
+		assertTrue(r.getUpdateIndex() == 3);
+
+		r = new ObjectIdRef.PeeledTag(Ref.Storage.LOOSE, name, ID_A, ID_B, 4);
+		assertTrue(r.getUpdateIndex() == 4);
+
+		r = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, name, ID_A, 5);
+		assertTrue(r.getUpdateIndex() == 5);
+	}
+
+	@Test
+	public void testUpdateIndexNotSet() {
+		List<ObjectIdRef> r = Arrays.asList(
+				new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A),
+				new ObjectIdRef.PeeledTag(Ref.Storage.LOOSE, name, ID_A, ID_B),
+				new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, name, ID_A));
+
+		for (ObjectIdRef ref : r) {
+			try {
+				ref.getUpdateIndex();
+				fail("Update index wasn't set. It must throw");
+			} catch (UnsupportedOperationException u) {
+				// Ok
+			}
+		}
+	}
+
+
+	@Test
 	public void testToString() {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A);
-		assertEquals("Ref[" + name + "=" + ID_A.name() + "]", r.toString());
+		assertEquals("Ref[" + name + "=" + ID_A.name() + "(-1)]",
+				r.toString());
 	}
 }
