@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Tan <jonathantanmy@google.com>
+Verified+1: CI Bot
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Wed, 26 Dec 2018 16:27:11 -0500
+Reviewed-on: https://git.eclipse.org/r/134459
+Project: jgit/jgit
+Branch: refs/heads/stable-5.2
