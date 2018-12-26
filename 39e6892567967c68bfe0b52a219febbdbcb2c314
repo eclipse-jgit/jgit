@@ -88,6 +88,24 @@
       "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2426a38_6835e0e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2018-12-26T21:45:26Z",
+      "side": 1,
+      "message": "Thanks for the explanation, learnt new things tonight. :+1:",
+      "parentUuid": "21e7c4b7_9881cf7a",
+      "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
