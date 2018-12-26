@@ -93,6 +93,35 @@ public class ReceivePack extends BaseReceivePack {
 	}
 
 	/**
+	 * Get the push certificate used to verify the pusher's identity.
+	 * <p>
+	 * Only valid after commands are read from the wire.
+	 *
+	 * @return the parsed certificate, or null if push certificates are disabled
+	 *         or no cert was presented by the client.
+	 * @since 4.1
+	 */
+	@Override
+	public PushCertificate getPushCertificate() {
+		return pushCert;
+	}
+
+	/**
+	 * Set the push certificate used to verify the pusher's identity.
+	 * <p>
+	 * Should only be called if reconstructing an instance without going through
+	 * the normal {@link #recvCommands()} flow.
+	 *
+	 * @param cert
+	 *            the push certificate to set.
+	 * @since 4.1
+	 */
+	@Override
+	public void setPushCertificate(PushCertificate cert) {
+		pushCert = cert;
+	}
+
+	/**
 	 * Gets an unmodifiable view of the option strings associated with the push.
 	 *
 	 * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
