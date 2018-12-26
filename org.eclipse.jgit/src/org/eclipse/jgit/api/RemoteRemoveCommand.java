@@ -65,7 +65,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
  */
 public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 
-	private String name;
+	private String remoteName;
 
 	/**
 	 * <p>
@@ -84,9 +84,24 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param name
 	 *            a remote name
+	 * @deprecated use {@link #setRemoteName} instead
 	 */
+	@Deprecated
 	public void setName(String name) {
-		this.name = name;
+		this.remoteName = name;
+	}
+
+	/**
+	 * The name of the remote to remove.
+	 *
+	 * @param remoteName
+	 *            a remote name
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public RemoteRemoveCommand setRemoteName(String remoteName) {
+		this.remoteName = remoteName;
+		return this;
 	}
 
 	/**
@@ -101,8 +116,8 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 
 		try {
 			StoredConfig config = repo.getConfig();
-			RemoteConfig remote = new RemoteConfig(config, name);
-			config.unsetSection(ConfigConstants.CONFIG_KEY_REMOTE, name);
+			RemoteConfig remote = new RemoteConfig(config, remoteName);
+			config.unsetSection(ConfigConstants.CONFIG_KEY_REMOTE, remoteName);
 			config.save();
 			return remote;
 		} catch (IOException | URISyntaxException e) {
