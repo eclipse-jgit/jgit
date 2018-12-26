@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "939b027e_b14ea57d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "Please add a few more words here (e.g. explaining that this renames the setters to avoid breaking ABI).",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f2aafb7_0e3182a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "nit: This would be easier to read with full name spelled out.",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c6070b7_947a1e03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteRemoveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "Please add a @Deprecated annotation as well.",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57a6313d_05a7a88e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0fb929e_ebe1d834",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262e9e68_6c2a8417",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e174d34f_a41af096",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "This one seems a bit different. Maybe something like\n\n setUriType(UriType type)\n\n with enum UriType { FETCH, PUSH };\n\n?\n\nThat would make the behavior clearer on the calling side, by following effective java 2nd edition p190 \"Prefer two-element enum types to boolean parameters\".",
+      "range": {
+        "startLine": 153,
+        "startChar": 28,
+        "endLine": 153,
+        "endChar": 41
+      },
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84ce25c9_6ba14cbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cd97aae_16480043",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a3e435_15a66fa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:12:00Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "596920cec1433b6d21f8d8d6baa82751b8781e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
