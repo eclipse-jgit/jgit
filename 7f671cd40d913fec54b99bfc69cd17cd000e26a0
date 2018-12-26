@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dbb3daf1_44bee67b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefDatabaseConflictingNamesTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-26T17:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4b41258_b2d2173f",
+      "revId": "7f671cd40d913fec54b99bfc69cd17cd000e26a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45150881_fdbaafdf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 18
@@ -33,6 +51,24 @@
       "revId": "7f671cd40d913fec54b99bfc69cd17cd000e26a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188028c7_d39dbf3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-26T17:37:59Z",
+      "side": 1,
+      "message": "Added a direct \"See {@link Ref#getUpdateIndex}\".",
+      "parentUuid": "45150881_fdbaafdf",
+      "revId": "7f671cd40d913fec54b99bfc69cd17cd000e26a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
