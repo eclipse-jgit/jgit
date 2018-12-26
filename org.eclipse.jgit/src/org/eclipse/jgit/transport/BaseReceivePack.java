@@ -275,7 +275,7 @@ public abstract class BaseReceivePack {
 
 	private PushCertificateParser pushCertificateParser;
 	private SignedPushConfig signedPushConfig;
-	private PushCertificate pushCert;
+	PushCertificate pushCert;
 	private ReceivedPackStatistics stats;
 
 	/**
@@ -286,10 +286,10 @@ public abstract class BaseReceivePack {
 	 * @return the parsed certificate, or null if push certificates are disabled
 	 *         or no cert was presented by the client.
 	 * @since 4.1
+	 * @deprecated use {@link ReceivePack#getPushCertificate}.
 	 */
-	public PushCertificate getPushCertificate() {
-		return pushCert;
-	}
+	@Deprecated
+	public abstract PushCertificate getPushCertificate();
 
 	/**
 	 * Set the push certificate used to verify the pusher's identity.
@@ -300,10 +300,10 @@ public abstract class BaseReceivePack {
 	 * @param cert
 	 *            the push certificate to set.
 	 * @since 4.1
+	 * @deprecated use {@link ReceivePack#setPushCertificate(PushCertificate)}.
 	 */
-	public void setPushCertificate(PushCertificate cert) {
-		pushCert = cert;
-	}
+	@Deprecated
+	public abstract void setPushCertificate(PushCertificate cert);
 
 	/**
 	 * Create a new pack receive for an open repository.
