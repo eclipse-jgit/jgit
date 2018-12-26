@@ -52,6 +52,24 @@
       "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20ada828_605dba51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2018-12-26T20:42:11Z",
+      "side": 1,
+      "message": "Thanks. I understand that we\u0027re talking about different levels of compatibility: source vs binary level. Is it so important to keep the ABI compatibility? Breaking ABI compatibility means that clients will need to re-compile their source code due to JGit\u0027s changes, even if they didn\u0027t change anything. But I think it\u0027s acceptable, isn\u0027t it?",
+      "parentUuid": "1b5f43a5_1cb7f8ca",
+      "revId": "39e6892567967c68bfe0b52a219febbdbcb2c314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
