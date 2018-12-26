@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41a13367_9502a717",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-26T17:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "206110a5_a539ad2b",
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15c5808a_90912ac0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 17
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "18f52e25_27474bce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-26T17:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c5808a_90912ac0",
+      "range": {
+        "startLine": 117,
+        "startChar": 12,
+        "endLine": 117,
+        "endChar": 24
+      },
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40752d1f_fa06f1df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 17
@@ -56,6 +98,24 @@
       "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb6ad13_73ba301b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-26T17:12:57Z",
+      "side": 1,
+      "message": "Done. I have also removed the implementations that returned false from RefDirectory and RefTreeDatabase.",
+      "parentUuid": "40752d1f_fa06f1df",
+      "revId": "a6dfb989b54ac982c54c6da59719a1a35f7e31e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
