@@ -151,7 +151,7 @@ public abstract class BaseReceivePack {
 	}
 
 	/** Database we write the stored objects into. */
-	private final Repository db;
+	final Repository db;
 
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
@@ -421,10 +421,10 @@ public abstract class BaseReceivePack {
 	 * Get the repository this receive completes into.
 	 *
 	 * @return the repository this receive completes into.
+	 * @deprecated use {@link ReceivePack#getRepository}
 	 */
-	public final Repository getRepository() {
-		return db;
-	}
+	@Deprecated
+	public abstract Repository getRepository();
 
 	/**
 	 * Get the RevWalk instance used by this connection.
