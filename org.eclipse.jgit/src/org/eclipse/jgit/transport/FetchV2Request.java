@@ -48,9 +48,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -67,7 +65,7 @@ import org.eclipse.jgit.lib.ObjectId;
 public final class FetchV2Request extends FetchRequest {
 	private final List<ObjectId> peerHas;
 
-	private final TreeMap<String, ObjectId> wantedRefs;
+	private final List<String> wantedRefs;
 
 	private final boolean doneReceived;
 
@@ -75,7 +73,7 @@ public final class FetchV2Request extends FetchRequest {
 	private final List<String> serverOptions;
 
 	FetchV2Request(@NonNull List<ObjectId> peerHas,
-			@NonNull TreeMap<String, ObjectId> wantedRefs,
+			@NonNull List<String> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
 			@NonNull List<String> deepenNotRefs, int depth,
@@ -102,7 +100,7 @@ public final class FetchV2Request extends FetchRequest {
 	 * @return list of references received in "want-ref" lines
 	 */
 	@NonNull
-	Map<String, ObjectId> getWantedRefs() {
+	List<String> getWantedRefs() {
 		return wantedRefs;
 	}
 
@@ -135,7 +133,7 @@ public final class FetchV2Request extends FetchRequest {
 	static final class Builder {
 		final List<ObjectId> peerHas = new ArrayList<>();
 
-		final TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
+		final List<String> wantedRefs = new ArrayList<>();
 
 		final Set<ObjectId> wantIds = new HashSet<>();
 
@@ -176,12 +174,10 @@ public final class FetchV2Request extends FetchRequest {
 		 *
 		 * @param refName
 		 *            reference name
-		 * @param oid
-		 *            object id the reference is pointing at
 		 * @return this builder
 		 */
-		Builder addWantedRef(String refName, ObjectId oid) {
-			wantedRefs.put(refName, oid);
+		Builder addWantedRef(String refName) {
+			wantedRefs.add(refName);
 			return this;
 		}
 
