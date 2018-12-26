@@ -93,6 +93,16 @@ public class ReceivePack extends BaseReceivePack {
 	}
 
 	/**
+	 * Get the repository this receive completes into.
+	 *
+	 * @return the repository this receive completes into.
+	 */
+	@Override
+	public final Repository getRepository() {
+		return db;
+	}
+
+	/**
 	 * Get the push certificate used to verify the pusher's identity.
 	 * <p>
 	 * Only valid after commands are read from the wire.
