@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "232b2ec8_1e425480",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-26T17:36:01Z",
+      "side": 1,
+      "message": "should use \u003cp\u003e between paragraphs so javadoc can render it correctly.",
+      "revId": "f803505ed7dce60bb8055460e84131917d861c5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
