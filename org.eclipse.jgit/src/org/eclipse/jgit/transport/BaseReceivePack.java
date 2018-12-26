@@ -80,6 +80,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
+import org.eclipse.jgit.internal.transport.parser.FirstCommand;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -119,10 +120,14 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Subclasses compose these operations into full service implementations.
  */
 public abstract class BaseReceivePack {
-	/** Data in the first line of a request, the line itself plus capabilities. */
+	/**
+	 * Data in the first line of a request, the line itself plus capabilities.
+	 *
+	 * @deprecated Use {@link FirstCommand} instead.
+	 */
+	@Deprecated
 	public static class FirstLine {
-		private final String line;
-		private final Set<String> capabilities;
+		private final FirstCommand command;
 
 		/**
 		 * Parse the first line of a receive-pack request.
@@ -131,25 +136,17 @@ public abstract class BaseReceivePack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			final HashSet<String> caps = new HashSet<>();
-			final int nul = line.indexOf('\0');
-			if (nul >= 0) {
-				for (String c : line.substring(nul + 1).split(" ")) //$NON-NLS-1$
-					caps.add(c);
-				this.line = line.substring(0, nul);
-			} else
-				this.line = line;
-			this.capabilities = Collections.unmodifiableSet(caps);
+			command = FirstCommand.fromLine(line);
 		}
 
 		/** @return non-capabilities part of the line. */
 		public String getLine() {
-			return line;
+			return command.getLine();
 		}
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
-			return capabilities;
+			return command.getCapabilities();
 		}
 	}
 
@@ -1310,7 +1307,7 @@ public abstract class BaseReceivePack {
 
 				if (firstPkt) {
 					firstPkt = false;
-					FirstLine firstLine = new FirstLine(line);
+					FirstCommand firstLine = FirstCommand.fromLine(line);
 					enabledCapabilities = firstLine.getCapabilities();
 					line = firstLine.getLine();
 					enableCapabilities();
