@@ -16,6 +16,24 @@
       "revId": "37c58b4eb78b08167862d4f5360f6be7bec5ef45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53526928_761a4aa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-27T05:10:10Z",
+      "side": 1,
+      "message": "protected is wider scope than package-private: protected means package + subclasses, while package-private means package only.",
+      "parentUuid": "bae84906_5fcd3442",
+      "revId": "37c58b4eb78b08167862d4f5360f6be7bec5ef45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
