@@ -53,7 +53,7 @@ public interface AdvertiseRefsHook {
 	 * <p>
 	 * The method implementations do nothing to preserve the default behavior; see
 	 * {@link UploadPack#setAdvertisedRefs(java.util.Map)} and
-	 * {@link BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}.
+	 * {@link ReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}.
 	 */
 	AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
 		@Override
@@ -85,7 +85,7 @@ public interface AdvertiseRefsHook {
 	 *
 	 * @param receivePack
 	 *            instance on which to call
-	 *            {@link org.eclipse.jgit.transport.BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
+	 *            {@link org.eclipse.jgit.transport.ReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
 	 *            if necessary.
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
