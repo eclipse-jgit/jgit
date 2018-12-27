@@ -34,6 +34,24 @@
       "revId": "37c58b4eb78b08167862d4f5360f6be7bec5ef45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736ac8af_f10c2758",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-27T05:35:23Z",
+      "side": 1,
+      "message": "Sorry about that. Looks good to me then.",
+      "parentUuid": "53526928_761a4aa3",
+      "revId": "37c58b4eb78b08167862d4f5360f6be7bec5ef45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
