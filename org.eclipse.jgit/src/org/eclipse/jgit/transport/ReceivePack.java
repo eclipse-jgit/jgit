@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
@@ -53,12 +54,16 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -111,6 +116,57 @@ public class ReceivePack extends BaseReceivePack {
 	@Override
 	public final RevWalk getRevWalk() {
 		return walk;
+	}
+
+	/**
+	 * Get refs which were advertised to the client.
+	 *
+	 * @return all refs which were advertised to the client, or null if
+	 *         {@link #setAdvertisedRefs(Map, Set)} has not been called yet.
+	 */
+	@Override
+	public final Map<String, Ref> getAdvertisedRefs() {
+		return refs;
+	}
+
+	/**
+	 * Set the refs advertised by this ReceivePack.
+	 * <p>
+	 * Intended to be called from a
+	 * {@link org.eclipse.jgit.transport.PreReceiveHook}.
+	 *
+	 * @param allRefs
+	 *            explicit set of references to claim as advertised by this
+	 *            ReceivePack instance. This overrides any references that may
+	 *            exist in the source repository. The map is passed to the
+	 *            configured {@link #getRefFilter()}. If null, assumes all refs
+	 *            were advertised.
+	 * @param additionalHaves
+	 *            explicit set of additional haves to claim as advertised. If
+	 *            null, assumes the default set of additional haves from the
+	 *            repository.
+	 */
+	@Override
+	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
+		refs = allRefs != null ? allRefs : db.getAllRefs();
+		refs = refFilter.filter(refs);
+		advertisedHaves.clear();
+
+		Ref head = refs.get(HEAD);
+		if (head != null && head.isSymbolic()) {
+			refs.remove(HEAD);
+		}
+
+		for (Ref ref : refs.values()) {
+			if (ref.getObjectId() != null) {
+				advertisedHaves.add(ref.getObjectId());
+			}
+		}
+		if (additionalHaves != null) {
+			advertisedHaves.addAll(additionalHaves);
+		} else {
+			advertisedHaves.addAll(db.getAdditionalHaves());
+		}
 	}
 
 	/**
