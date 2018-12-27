@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c2ed8c1_27a2cfb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-27T05:31:50Z",
+      "side": 1,
+      "message": "As in other patches, maybe this field could be protected?\n\nI don\u0027t know well this code... does it make sense to offer the setter if the pushCert is overwritten in recvcommand? (not for this patch)",
+      "revId": "c3af2cd43be2179b0a3d5dcdee84a876cd09c786",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
