@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "561bbfb3_ee849ad3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-12-27T00:24:43Z",
+      "side": 1,
+      "message": "According to the configuration, there are by default 32 locks. When two threads call getOrLoadRef with a different key, and they get the same lock, one of the call has a lock overhead. Can you measure the time for this overhead so that we can tell if we should increase the bucket size? It should be just a duration between here and loader.load. If it hits the cache after acquiring the lock, it\u0027s not needed.",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43c80175_4c12660b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-12-27T00:24:43Z",
+      "side": 1,
+      "message": "It\u0027s a bit odd because for one getOrLoadRef call it increments both statHit and statMiss.",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
