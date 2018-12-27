@@ -66,11 +66,26 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 
+	/**
+	 * The available URI types for the remote.
+	 */
+	public enum UriType {
+		/**
+		 * Fetch URL for the remote.
+		 */
+		FETCH,
+		/**
+		 * Push URL for the remote.
+		 */
+		PUSH
+	}
+
+
 	private String remoteName;
 
 	private URIish remoteUri;
 
-	private boolean remotePush;
+	private UriType type;
 
 	/**
 	 * <p>
@@ -91,6 +106,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *            a remote name
 	 * @deprecated use {@link #setRemoteName} instead
 	 */
+	@Deprecated
 	public void setName(String name) {
 		this.remoteName = name;
 	}
@@ -115,6 +131,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *            an URL for the remote
 	 * @deprecated use {@link #setRemoteUri} instead
 	 */
+	@Deprecated
 	public void setUri(URIish uri) {
 		this.remoteUri = uri;
 	}
@@ -138,23 +155,27 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 * @param push
 	 *            <code>true</code> to set the push url, <code>false</code> to
 	 *            set the fetch url
-	 * @deprecated use {@link #setRemotePush} instead
+	 * @deprecated use {@link #setUriType} instead
 	 */
+	@Deprecated
 	public void setPush(boolean push) {
-		this.remotePush = push;
+		if (push) {
+			setUriType(UriType.PUSH);
+		} else {
+			setUriType(UriType.FETCH);
+		}
 	}
 
 	/**
 	 * Whether to change the push URL of the remote instead of the fetch URL.
 	 *
-	 * @param remotePush
-	 *            <code>true</code> to set the push url, <code>false</code> to
-	 *            set the fetch url
+	 * @param type
+	 *            the <code>UriType</code> value to set
 	 * @return {@code this}
 	 * @since 5.3
 	 */
-	public RemoteSetUrlCommand setRemotePush(boolean remotePush) {
-		this.remotePush = remotePush;
+	public RemoteSetUrlCommand setUriType(UriType type) {
+		this.type = type;
 		return this;
 	}
 
@@ -171,7 +192,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 		try {
 			StoredConfig config = repo.getConfig();
 			RemoteConfig remote = new RemoteConfig(config, remoteName);
-			if (remotePush) {
+			if (type == UriType.PUSH) {
 				List<URIish> uris = remote.getPushURIs();
 				if (uris.size() > 1) {
 					throw new JGitInternalException(

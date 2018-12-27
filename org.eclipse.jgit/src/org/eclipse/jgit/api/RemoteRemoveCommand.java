@@ -86,6 +86,7 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 	 *            a remote name
 	 * @deprecated use {@link #setRemoteName} instead
 	 */
+	@Deprecated
 	public void setName(String name) {
 		this.remoteName = name;
 	}

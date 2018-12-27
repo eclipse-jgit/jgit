@@ -279,6 +279,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *            true (default) if the command should restore the index state
 	 * @deprecated use {@link #setRestoreIndex} instead
 	 */
+	@Deprecated
 	public void setApplyIndex(boolean applyIndex) {
 		this.restoreIndex = applyIndex;
 	}
@@ -318,6 +319,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * @since 3.4
 	 * @deprecated use {@link #setRestoreUntracked} instead
 	 */
+	@Deprecated
 	public void setApplyUntracked(boolean applyUntracked) {
 		this.restoreUntracked = applyUntracked;
 	}
