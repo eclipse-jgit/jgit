@@ -204,7 +204,7 @@ public abstract class BaseReceivePack {
 	private AdvertiseRefsHook advertiseRefsHook;
 
 	/** Filter used while advertising the refs to the client. */
-	private RefFilter refFilter;
+	RefFilter refFilter;
 
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
@@ -239,10 +239,10 @@ public abstract class BaseReceivePack {
 	private PackParser parser;
 
 	/** The refs we advertised as existing at the start of the connection. */
-	private Map<String, Ref> refs;
+	Map<String, Ref> refs;
 
 	/** All SHA-1s shown to the client, which can be possible edges. */
-	private Set<ObjectId> advertisedHaves;
+	Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
@@ -440,10 +440,10 @@ public abstract class BaseReceivePack {
 	 *
 	 * @return all refs which were advertised to the client, or null if
 	 *         {@link #setAdvertisedRefs(Map, Set)} has not been called yet.
+	 * @deprecated use {@link ReceivePack#getAdvertisedRefs}
 	 */
-	public final Map<String, Ref> getAdvertisedRefs() {
-		return refs;
-	}
+	@Deprecated
+	public abstract Map<String, Ref> getAdvertisedRefs();
 
 	/**
 	 * Set the refs advertised by this ReceivePack.
@@ -461,25 +461,10 @@ public abstract class BaseReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @deprecated use {@link ReceivePack#setAdvertisedRefs}
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
-		refs = allRefs != null ? allRefs : db.getAllRefs();
-		refs = refFilter.filter(refs);
-		advertisedHaves.clear();
-
-		Ref head = refs.get(Constants.HEAD);
-		if (head != null && head.isSymbolic())
-			refs.remove(Constants.HEAD);
-
-		for (Ref ref : refs.values()) {
-			if (ref.getObjectId() != null)
-				advertisedHaves.add(ref.getObjectId());
-		}
-		if (additionalHaves != null)
-			advertisedHaves.addAll(additionalHaves);
-		else
-			advertisedHaves.addAll(db.getAdditionalHaves());
-	}
+	@Deprecated
+	public abstract void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves);
 
 	/**
 	 * Get objects advertised to the client.
