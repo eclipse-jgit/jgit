@@ -154,7 +154,7 @@ public abstract class BaseReceivePack {
 	final Repository db;
 
 	/** Revision traversal support over {@link #db}. */
-	private final RevWalk walk;
+	final RevWalk walk;
 
 	/**
 	 * Is the client connection a bi-directional socket or pipe?
@@ -430,10 +430,10 @@ public abstract class BaseReceivePack {
 	 * Get the RevWalk instance used by this connection.
 	 *
 	 * @return the RevWalk instance used by this connection.
+	 * @deprecated use {@link ReceivePack#getRevWalk}
 	 */
-	public final RevWalk getRevWalk() {
-		return walk;
-	}
+	@Deprecated
+	public abstract RevWalk getRevWalk();
 
 	/**
 	 * Get refs which were advertised to the client.

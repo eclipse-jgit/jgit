@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
@@ -100,6 +101,16 @@ public class ReceivePack extends BaseReceivePack {
 	@Override
 	public final Repository getRepository() {
 		return db;
+	}
+
+	/**
+	 * Get the RevWalk instance used by this connection.
+	 *
+	 * @return the RevWalk instance used by this connection.
+	 */
+	@Override
+	public final RevWalk getRevWalk() {
+		return walk;
 	}
 
 	/**
