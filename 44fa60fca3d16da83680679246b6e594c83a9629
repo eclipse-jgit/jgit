@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9c06e03_9afd5c0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-27T05:16:21Z",
+      "side": 1,
+      "message": "Previous code was using a Collections.unmodifiableSet(). Any reason to relax that condition? (And if it is immutable, maybe it should be mentioned also in its javadoc)",
+      "revId": "44fa60fca3d16da83680679246b6e594c83a9629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df5ece4f_d2be59a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-27T05:16:21Z",
+      "side": 1,
+      "message": "@NonNull for the return of both getters?",
+      "revId": "44fa60fca3d16da83680679246b6e594c83a9629",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
