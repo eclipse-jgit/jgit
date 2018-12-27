@@ -16,6 +16,24 @@
       "revId": "c3af2cd43be2179b0a3d5dcdee84a876cd09c786",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4a64a92_f4e1adba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-27T05:49:00Z",
+      "side": 1,
+      "message": "Re protected, see https://git.eclipse.org/r/c/134523/3/org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java#207. The endgame would be for these to be private in ReceivePack.java.",
+      "parentUuid": "5c2ed8c1_27a2cfb9",
+      "revId": "c3af2cd43be2179b0a3d5dcdee84a876cd09c786",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
