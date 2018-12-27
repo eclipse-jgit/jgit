@@ -46,6 +46,12 @@
         <filter id="421650549">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="getRevWalk()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
                 <message_argument value="setPushCertificate(PushCertificate)"/>
             </message_arguments>
         </filter>
