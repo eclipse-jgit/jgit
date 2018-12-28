@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dbd0566_c0d14300",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:51:05Z",
+      "side": 1,
+      "message": "push this down to ReceivePack ?",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db09a28_90f53df1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:51:05Z",
+      "side": 1,
+      "message": "I think we can delete these methods right away if ReceivePack implements them since this is an abstract base class with a single protected constructor so it can only break implementers",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "772fe881_d4c3f836",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:51:05Z",
+      "side": 1,
+      "message": "@since 5.3",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c08d7ab0_1b643b44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:51:05Z",
+      "side": 1,
+      "message": "@since 5.3",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
