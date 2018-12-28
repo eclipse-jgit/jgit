@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "253d0e48_c3761aca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:20:06Z",
+      "side": 1,
+      "message": "missing @since 5.3 tag",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be5b05d9_bd7f9a4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:20:06Z",
+      "side": 1,
+      "message": "missing @since 5.3 tag",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d5c3221_73b73021",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:20:06Z",
+      "side": 1,
+      "message": "missing @since 5.3 tag",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4e1b6e_d263abca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:20:06Z",
+      "side": 1,
+      "message": "* missing @since 5.3 tag\n* this breaks implementers which is ok in a minor release but we need to suppress the API error",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e618b509_4f063c5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SymbolicRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:20:06Z",
+      "side": 1,
+      "message": "missing @since 5.3 tag",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
