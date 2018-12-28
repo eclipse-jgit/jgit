@@ -82,6 +82,7 @@ public abstract class ObjectIdRef implements Ref {
 		 *            a ref that does not exist yet.
 		 * @param updateIndex
 		 *            number increasing with each update to the reference.
+		 * @since 5.3
 		 */
 		public Unpeeled(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id, long updateIndex) {
@@ -136,6 +137,7 @@ public abstract class ObjectIdRef implements Ref {
 		 *            the first non-tag object that tag {@code id} points to.
 		 * @param updateIndex
 		 *            number increasing with each update to the reference.
+		 * @since 5.3
 		 */
 		public PeeledTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id, @NonNull ObjectId p, long updateIndex) {
@@ -185,6 +187,7 @@ public abstract class ObjectIdRef implements Ref {
 		 *            a ref that does not exist yet.
 		 * @param updateIndex
 		 *            number increasing with each update to the reference.
+		 * @since 5.3
 		 */
 		public PeeledNonTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id, long updateIndex) {
@@ -224,6 +227,7 @@ public abstract class ObjectIdRef implements Ref {
 	 * @param updateIndex
 	 *            number that increases with each ref update. Set to -1 if the
 	 *            storage doesn't support versioning.
+	 * @since 5.3
 	 */
 	protected ObjectIdRef(@NonNull Storage st, @NonNull String name,
 			@Nullable ObjectId id, long updateIndex) {

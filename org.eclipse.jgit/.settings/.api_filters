@@ -38,6 +38,22 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectIdRef.java" type="org.eclipse.jgit.lib.ObjectIdRef">
+        <filter comment="removing protected constructor breaks implementers which is ok in a minor release following OSGi semantic versioning" id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectIdRef"/>
+                <message_argument value="ObjectIdRef(Ref.Storage, String, ObjectId)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/Ref.java" type="org.eclipse.jgit.lib.Ref">
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.Ref"/>
+                <message_argument value="getUpdateIndex()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
         <filter comment="class is extended by extenders but not clients of the API" id="421650549">
             <message_arguments>

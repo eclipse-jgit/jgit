@@ -83,6 +83,7 @@ public class SymbolicRef implements Ref {
 	 *            the ref we reference and derive our value from.
 	 * @param updateIndex
 	 *            index that increases with each update of the reference
+	 * @since 5.3
 	 */
 	public SymbolicRef(@NonNull String refName, @NonNull Ref target,
 			long updateIndex) {
