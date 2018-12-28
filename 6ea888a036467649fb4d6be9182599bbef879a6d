@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "3e45d72f_a1fd5692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-12-28T18:10:46Z",
+      "side": 1,
+      "message": "Sorry about this. The intention was to keep the previous API. I assumed that the audience of this protected constructor was only the subclasses defined above.\n\nWe can silence those errors, or bring back the constructor without updateIndex (which then defaults to -1).",
+      "parentUuid": "be4e1b6e_d263abca",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e618b509_4f063c5b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SymbolicRef.java",
         "patchSetId": 20
