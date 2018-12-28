@@ -69,10 +69,10 @@ public abstract class RefDatabase {
 	/**
 	 * Order of prefixes to search when using non-absolute references.
 	 * <p>
-	 * The implementation's {@link #getRef(String)} method must take this search
-	 * space into consideration when locating a reference by name. The first
-	 * entry in the path is always {@code ""}, ensuring that absolute references
-	 * are resolved without further mangling.
+	 * {@link #findRef(String)} takes this search space into consideration
+	 * when locating a reference by name. The first entry in the path is
+	 * always {@code ""}, ensuring that absolute references are resolved
+	 * without further mangling.
 	 */
 	protected static final String[] SEARCH_PATH = { "", //$NON-NLS-1$
 			Constants.R_REFS, //
@@ -257,6 +257,23 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Compatibility synonym for {@link #findRef(String)}.
+	 *
+	 * @param name
+	 *            the name of the reference. May be a short name which must be
+	 *            searched for using the standard {@link #SEARCH_PATH}.
+	 * @return the reference (if it exists); else {@code null}.
+	 * @throws IOException
+	 *             the reference space cannot be accessed.
+	 * @deprecated Use {@link #findRef(String)} instead.
+	 */
+	@Deprecated
+	@Nullable
+	public final Ref getRef(String name) throws IOException {
+		return findRef(name);
+	}
+
+	/**
 	 * Read a single reference.
 	 * <p>
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be
@@ -272,14 +289,21 @@ public abstract class RefDatabase {
 	 * @return the reference (if it exists); else {@code null}.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
+	 * @since 5.3
 	 */
 	@Nullable
-	public abstract Ref getRef(String name) throws IOException;
+	public final Ref findRef(String name) throws IOException {
+		String[] names = new String[SEARCH_PATH.length];
+		for (int i = 0; i < SEARCH_PATH.length; i++) {
+			names[i] = SEARCH_PATH[i] + name;
+		}
+		return firstExactRef(names);
+	}
 
 	/**
 	 * Read a single reference.
 	 * <p>
-	 * Unlike {@link #getRef}, this method expects an unshortened reference
+	 * Unlike {@link #findRef}, this method expects an unshortened reference
 	 * name and does not search using the standard {@link #SEARCH_PATH}.
 	 *
 	 * @param name
@@ -469,7 +493,7 @@ public abstract class RefDatabase {
 	 * <p>
 	 * The result list includes non-ref items such as MERGE_HEAD and
 	 * FETCH_RESULT cast to be refs. The names of these refs are not returned by
-	 * <code>getRefs()</code> but are accepted by {@link #getRef(String)}
+	 * <code>getRefs()</code> but are accepted by {@link #findRef(String)}
 	 * and {@link #exactRef(String)}.
 	 *
 	 * @return a list of additional refs

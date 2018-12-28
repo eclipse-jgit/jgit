@@ -74,6 +74,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -352,11 +353,31 @@ public class RefDirectory extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(String needle) throws IOException {
+	@NonNull
+	public Map<String, Ref> exactRef(String... refs) throws IOException {
 		try {
 			RefList<Ref> packed = getPackedRefs();
-			for (String prefix : SEARCH_PATH) {
-				Ref ref = readAndResolve(prefix + needle, packed);
+			Map<String, Ref> result = new HashMap<>(refs.length);
+			for (String name : refs) {
+				Ref ref = readAndResolve(name, packed);
+				if (ref != null) {
+					result.put(name, ref);
+				}
+			}
+			return result;
+		} finally {
+			fireRefsChanged();
+		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	@Nullable
+	public Ref firstExactRef(String... refs) throws IOException {
+		try {
+			RefList<Ref> packed = getPackedRefs();
+			for (String name : refs) {
+				Ref ref = readAndResolve(name, packed);
 				if (ref != null) {
 					return ref;
 				}

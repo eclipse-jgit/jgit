@@ -229,18 +229,6 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(String needle) throws IOException {
-		for (String prefix : SEARCH_PATH) {
-			Ref ref = exactRef(prefix + needle);
-			if (ref != null) {
-				return ref;
-			}
-		}
-		return null;
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		lock.lock();
