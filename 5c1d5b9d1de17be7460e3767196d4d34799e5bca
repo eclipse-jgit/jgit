@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d836bc73_40272dca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-28T02:55:33Z",
+      "side": 1,
+      "message": "delete this ? It\u0027s an abstract base class so this only breaks implementers if ReceivePack implements it",
+      "revId": "5c1d5b9d1de17be7460e3767196d4d34799e5bca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
