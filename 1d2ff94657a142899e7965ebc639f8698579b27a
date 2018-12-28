@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d9ac357d_770e24d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-28T03:23:36Z",
+      "side": 1,
+      "message": "Unfortunately clients are likely to use these via interfaces like AdvertiseRefsHook that provide a BaseReceivePack object.\n\nMy plan is to work on a few aspects in parallel:\n\n1. move all data and application logic to the subclass\n2. deprecate all methods in the superclass and update callers to use the subclass instead\n3. for interfaces like AdvertiseRefsHook: if we consider subclassing them to be something that only implementer do, switch in place to taking ReceivePack as parameter instead of BaseReceivePack. Otherwise, deprecate and replace with a better interface. I\u0027m leaning towards treating them as part of the implementer API, but maybe we\u0027ll want to replace the AdvertiseRefsHook to avoid wasted ref scans anyway.",
+      "parentUuid": "0db09a28_90f53df1",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "772fe881_d4c3f836",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 5
@@ -68,6 +86,24 @@
       "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2fc6e80_1dd5100b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-28T03:23:36Z",
+      "side": 1,
+      "message": "Hm. The function already exists before 5.3, inherited from BaseReceivePack. Does the API checker get confused by it?",
+      "parentUuid": "772fe881_d4c3f836",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     },
     {
       "key": {
