@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "525550c2_c082590d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-29T00:02:00Z",
+      "side": 1,
+      "message": "ok, I missed to consider AdvertiseRefsHook",
+      "parentUuid": "d9ac357d_770e24d8",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "772fe881_d4c3f836",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 5
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "6b67096f_76c909ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-29T00:02:00Z",
+      "side": 1,
+      "message": "you are right",
+      "parentUuid": "b2fc6e80_1dd5100b",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c08d7ab0_1b643b44",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 5
@@ -118,6 +154,24 @@
       "writtenOn": "2018-12-28T02:51:05Z",
       "side": 1,
       "message": "@since 5.3",
+      "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "673119e0_1210ac48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-29T00:02:00Z",
+      "side": 1,
+      "message": "I was wrong",
+      "parentUuid": "c08d7ab0_1b643b44",
       "revId": "1d2ff94657a142899e7965ebc639f8698579b27a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
