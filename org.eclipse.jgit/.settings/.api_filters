@@ -1,43 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/gitrepo/RepoCommand.java" type="org.eclipse.jgit.gitrepo.RepoCommand$DefaultRemoteReader">
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.DefaultRemoteReader"/>
-                <message_argument value="readFile(String, String, String)"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.DefaultRemoteReader"/>
-                <message_argument value="readFileFromRepo(Repository, String, String)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/gitrepo/RepoCommand.java" type="org.eclipse.jgit.gitrepo.RepoCommand$RemoteReader">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader"/>
-                <message_argument value="readFileWithMode(String, String, String)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/GitmoduleEntry.java" type="org.eclipse.jgit.lib.GitmoduleEntry">
-        <filter id="1109393411">
-            <message_arguments>
-                <message_argument value="4.7.5"/>
-                <message_argument value="org.eclipse.jgit.lib.GitmoduleEntry"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectChecker.java" type="org.eclipse.jgit.lib.ObjectChecker">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="4.7.5"/>
-                <message_argument value="getGitsubmodules()"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/ObjectIdRef.java" type="org.eclipse.jgit.lib.ObjectIdRef">
         <filter comment="removing protected constructor breaks implementers which is ok in a minor release following OSGi semantic versioning" id="338722907">
             <message_arguments>
@@ -68,34 +30,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/revwalk/DepthWalk.java" type="org.eclipse.jgit.revwalk.DepthWalk">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenNotFlag()"/>
-            </message_arguments>
-        </filter>
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenNots()"/>
-            </message_arguments>
-        </filter>
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenSince()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/RemoteSession.java" type="org.eclipse.jgit.transport.RemoteSession">
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.RemoteSession"/>
-                <message_argument value="getFtpChannel()"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig">
         <filter id="1159725059">
             <message_arguments>
@@ -107,14 +41,6 @@
             <message_arguments>
                 <message_argument value="5.1.4"/>
                 <message_argument value="TransferConfig(Repository)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="getHeaderFields(String)"/>
             </message_arguments>
         </filter>
     </resource>
