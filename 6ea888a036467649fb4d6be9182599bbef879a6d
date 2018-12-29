@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3dc543db_3b82a2fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-12-29T03:02:36Z",
+      "side": 1,
+      "message": "Sorry I missed this during review.\n\nI suppose this API is primarily for implementers (clients wouldn\u0027t construct their own Unpeeled refs etc), so we can make changes to it in minor releases if we need to. So it looks like an ok API but needs a @since tag.\n\nIs there an annotation or documentation we can use to pin down the set of methods intended for clients to call or override?",
+      "parentUuid": "253d0e48_c3761aca",
+      "revId": "6ea888a036467649fb4d6be9182599bbef879a6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be5b05d9_bd7f9a4f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdRef.java",
         "patchSetId": 20
