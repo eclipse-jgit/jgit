@@ -61,6 +61,12 @@
                 <message_argument value="exactRef(String)"/>
             </message_arguments>
         </filter>
+        <filter id="421654647">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
+                <message_argument value="getRef(String)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/revwalk/DepthWalk.java" type="org.eclipse.jgit.revwalk.DepthWalk">
         <filter id="403804204">
