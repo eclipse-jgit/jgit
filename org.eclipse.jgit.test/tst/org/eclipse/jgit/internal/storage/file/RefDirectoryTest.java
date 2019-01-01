@@ -421,15 +421,15 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testReadNotExistingBranchConfig() throws IOException {
-		assertNull("find branch config", refdir.getRef("config"));
-		assertNull("find branch config", refdir.getRef("refs/heads/config"));
+		assertNull("find branch config", refdir.findRef("config"));
+		assertNull("find branch config", refdir.findRef("refs/heads/config"));
 	}
 
 	@Test
 	public void testReadBranchConfig() throws IOException {
 		writeLooseRef("refs/heads/config", A);
 
-		assertNotNull("find branch config", refdir.getRef("config"));
+		assertNotNull("find branch config", refdir.findRef("config"));
 	}
 
 	@Test
@@ -672,7 +672,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_DiscoversModifiedLoose() throws IOException {
+	public void testFindRef_DiscoversModifiedLoose() throws IOException {
 		Map<String, Ref> all;
 
 		writeLooseRef("refs/heads/master", A);
@@ -681,7 +681,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 		writeLooseRef("refs/heads/master", B);
 
-		Ref master = refdir.getRef("refs/heads/master");
+		Ref master = refdir.findRef("refs/heads/master");
 		assertEquals(B, master.getObjectId());
 	}
 
@@ -716,7 +716,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_DiscoversDeletedLoose() throws IOException {
+	public void testFindRef_DiscoversDeletedLoose() throws IOException {
 		Map<String, Ref> all;
 
 		writeLooseRef("refs/heads/master", A);
@@ -724,7 +724,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(A, all.get(HEAD).getObjectId());
 
 		deleteLooseRef("refs/heads/master");
-		assertNull(refdir.getRef("refs/heads/master"));
+		assertNull(refdir.findRef("refs/heads/master"));
 		assertTrue(refdir.getRefs(RefDatabase.ALL).isEmpty());
 	}
 
@@ -884,7 +884,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_CycleInSymbolicRef() throws IOException {
+	public void testFindRef_CycleInSymbolicRef() throws IOException {
 		Ref r;
 
 		writeLooseRef("refs/1", "ref: refs/2\n");
@@ -894,7 +894,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		writeLooseRef("refs/5", "ref: refs/end\n");
 		writeLooseRef("refs/end", A);
 
-		r = refdir.getRef("1");
+		r = refdir.findRef("1");
 		assertEquals("refs/1", r.getName());
 		assertEquals(A, r.getObjectId());
 		assertTrue(r.isSymbolic());
@@ -902,12 +902,12 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		writeLooseRef("refs/5", "ref: refs/6\n");
 		writeLooseRef("refs/6", "ref: refs/end\n");
 
-		r = refdir.getRef("1");
+		r = refdir.findRef("1");
 		assertNull("missing 1 due to cycle", r);
 
 		writeLooseRef("refs/heads/1", B);
 
-		r = refdir.getRef("1");
+		r = refdir.findRef("1");
 		assertEquals("refs/heads/1", r.getName());
 		assertEquals(B, r.getObjectId());
 		assertFalse(r.isSymbolic());
@@ -948,16 +948,16 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_PackedNotPeeled_WrongSort() throws IOException {
+	public void testFindRef_PackedNotPeeled_WrongSort() throws IOException {
 		writePackedRefs("" + //
 				v1_0.name() + " refs/tags/v1.0\n" + //
 				B.name() + " refs/heads/other\n" + //
 				A.name() + " refs/heads/master\n");
 
-		final Ref head = refdir.getRef(HEAD);
-		final Ref master = refdir.getRef("refs/heads/master");
-		final Ref other = refdir.getRef("refs/heads/other");
-		final Ref tag = refdir.getRef("refs/tags/v1.0");
+		final Ref head = refdir.findRef(HEAD);
+		final Ref master = refdir.findRef("refs/heads/master");
+		final Ref other = refdir.findRef("refs/heads/other");
+		final Ref tag = refdir.findRef("refs/tags/v1.0");
 
 		assertEquals(A, master.getObjectId());
 		assertFalse(master.isPeeled());
@@ -1062,22 +1062,22 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_EmptyDatabase() throws IOException {
+	public void testFindRef_EmptyDatabase() throws IOException {
 		Ref r;
 
-		r = refdir.getRef(HEAD);
+		r = refdir.findRef(HEAD);
 		assertTrue(r.isSymbolic());
 		assertSame(LOOSE, r.getStorage());
 		assertEquals("refs/heads/master", r.getTarget().getName());
 		assertSame(NEW, r.getTarget().getStorage());
 		assertNull(r.getTarget().getObjectId());
 
-		assertNull(refdir.getRef("refs/heads/master"));
-		assertNull(refdir.getRef("refs/tags/v1.0"));
-		assertNull(refdir.getRef("FETCH_HEAD"));
-		assertNull(refdir.getRef("NOT.A.REF.NAME"));
-		assertNull(refdir.getRef("master"));
-		assertNull(refdir.getRef("v1.0"));
+		assertNull(refdir.findRef("refs/heads/master"));
+		assertNull(refdir.findRef("refs/tags/v1.0"));
+		assertNull(refdir.findRef("FETCH_HEAD"));
+		assertNull(refdir.findRef("NOT.A.REF.NAME"));
+		assertNull(refdir.findRef("master"));
+		assertNull(refdir.findRef("v1.0"));
 	}
 
 	@Test
@@ -1122,7 +1122,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_FetchHead() throws IOException {
+	public void testFindRef_FetchHead() throws IOException {
 		// This is an odd special case where we need to make sure we read
 		// exactly the first 40 bytes of the file and nothing further on
 		// that line, or the remainder of the file.
@@ -1130,7 +1130,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 				+ "\tnot-for-merge"
 				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
 
-		Ref r = refdir.getRef("FETCH_HEAD");
+		Ref r = refdir.findRef("FETCH_HEAD");
 		assertFalse(r.isSymbolic());
 		assertEquals(A, r.getObjectId());
 		assertEquals("FETCH_HEAD", r.getName());
@@ -1156,12 +1156,12 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_AnyHeadWithGarbage() throws IOException {
+	public void testFindRef_AnyHeadWithGarbage() throws IOException {
 		write(new File(diskRepo.getDirectory(), "refs/heads/A"), A.name()
 				+ "012345 . this is not a standard reference\n"
 				+ "#and even more junk\n");
 
-		Ref r = refdir.getRef("refs/heads/A");
+		Ref r = refdir.findRef("refs/heads/A");
 		assertFalse(r.isSymbolic());
 		assertEquals(A, r.getObjectId());
 		assertEquals("refs/heads/A", r.getName());
@@ -1177,11 +1177,11 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_CorruptSymbolicReference() throws IOException {
+	public void testFindRef_CorruptSymbolicReference() throws IOException {
 		String name = "refs/heads/A";
 		writeLooseRef(name, "ref: \n");
 		try {
-			refdir.getRef(name);
+			refdir.findRef(name);
 			fail("read an invalid reference");
 		} catch (IOException err) {
 			String msg = err.getMessage();
@@ -1198,12 +1198,12 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRef_CorruptObjectIdReference() throws IOException {
+	public void testFindRef_CorruptObjectIdReference() throws IOException {
 		String name = "refs/heads/A";
 		String content = "zoo" + A.name();
 		writeLooseRef(name, content + "\n");
 		try {
-			refdir.getRef(name);
+			refdir.findRef(name);
 			fail("read an invalid reference");
 		} catch (IOException err) {
 			String msg = err.getMessage();
@@ -1238,8 +1238,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		writeLooseRef("refs/tags/v1_0", v1_0);
 		writeLooseRef("refs/tags/current", "ref: refs/tags/v1_0\n");
 
-		final Ref tag = refdir.getRef("refs/tags/v1_0");
-		final Ref cur = refdir.getRef("refs/tags/current");
+		final Ref tag = refdir.findRef("refs/tags/v1_0");
+		final Ref cur = refdir.findRef("refs/tags/current");
 
 		assertEquals(v1_0, tag.getObjectId());
 		assertFalse(tag.isSymbolic());
@@ -1271,14 +1271,14 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 		// reuses cached peeling later, but not immediately due to
 		// the implementation so we have to fetch it once.
-		final Ref tag_p2 = refdir.getRef("refs/tags/v1_0");
+		final Ref tag_p2 = refdir.findRef("refs/tags/v1_0");
 		assertFalse(tag_p2.isSymbolic());
 		assertTrue(tag_p2.isPeeled());
 		assertEquals(v1_0, tag_p2.getObjectId());
 		assertEquals(v1_0.getObject(), tag_p2.getPeeledObjectId());
 
-		assertSame(tag_p2, refdir.getRef("refs/tags/v1_0"));
-		assertSame(tag_p2, refdir.getRef("refs/tags/current").getTarget());
+		assertSame(tag_p2, refdir.findRef("refs/tags/v1_0"));
+		assertSame(tag_p2, refdir.findRef("refs/tags/current").getTarget());
 		assertSame(tag_p2, refdir.peel(tag_p2));
 	}
 
@@ -1286,7 +1286,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	public void testPeelCommit() throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
-		Ref master = refdir.getRef("refs/heads/master");
+		Ref master = refdir.findRef("refs/heads/master");
 		assertEquals(A, master.getObjectId());
 		assertFalse(master.isPeeled());
 		assertNull(master.getPeeledObjectId());
@@ -1299,7 +1299,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 		// reuses cached peeling later, but not immediately due to
 		// the implementation so we have to fetch it once.
-		Ref master_p2 = refdir.getRef("refs/heads/master");
+		Ref master_p2 = refdir.findRef("refs/heads/master");
 		assertNotSame(master, master_p2);
 		assertEquals(A, master_p2.getObjectId());
 		assertTrue(master_p2.isPeeled());
@@ -1351,7 +1351,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		} finally {
 			myLock.unlock();
 		}
-		Ref ref = refdir.getRef("refs/heads/master");
+		Ref ref = refdir.findRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
