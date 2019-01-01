@@ -362,8 +362,8 @@ public class RefTreeDatabaseTest {
 
 	@Test
 	public void testGetRef_NonExistingBranchConfig() throws IOException {
-		assertNull("find branch config", refdb.getRef("config"));
-		assertNull("find branch config", refdb.getRef("refs/heads/config"));
+		assertNull("find branch config", refdb.findRef("config"));
+		assertNull("find branch config", refdb.findRef("refs/heads/config"));
 	}
 
 	@Test
@@ -371,7 +371,7 @@ public class RefTreeDatabaseTest {
 		update("refs/heads/config", A);
 
 		for (String t : new String[] { "config", "refs/heads/config" }) {
-			Ref r = refdb.getRef(t);
+			Ref r = refdb.findRef(t);
 			assertNotNull("find branch config (" + t + ")", r);
 			assertEquals("for " + t, "refs/heads/config", r.getName());
 			assertEquals("for " + t, A, r.getObjectId());

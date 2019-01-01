@@ -184,7 +184,7 @@ public abstract class RefRename {
 	 *             the current value of {@code HEAD} cannot be read.
 	 */
 	protected boolean needToUpdateHEAD() throws IOException {
-		Ref head = source.getRefDatabase().getRef(Constants.HEAD);
+		Ref head = source.getRefDatabase().exactRef(Constants.HEAD);
 		if (head != null && head.isSymbolic()) {
 			head = head.getTarget();
 			return head.getName().equals(source.getName());
