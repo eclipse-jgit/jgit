@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98062b2e_4a279f19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-02T17:17:10Z",
+      "side": 1,
+      "message": "RefDatabase",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "9ef607fda7b82f15ebccc8a2d458d52782c4be48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35ae58c2_561686d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-02T17:17:10Z",
+      "side": 1,
+      "message": "I think this one should be exactRef.",
+      "range": {
+        "startLine": 711,
+        "startChar": 36,
+        "endLine": 711,
+        "endChar": 43
+      },
+      "revId": "9ef607fda7b82f15ebccc8a2d458d52782c4be48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ecdeaca_e542f80e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-02T17:17:10Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 721,
+        "startChar": 36,
+        "endLine": 721,
+        "endChar": 43
+      },
+      "revId": "9ef607fda7b82f15ebccc8a2d458d52782c4be48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
