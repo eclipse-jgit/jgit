@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c71b51c_d6d61175",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-02T23:44:23Z",
+      "side": 1,
+      "message": "It\u0027s a bit tricky to export the lock wait time distribution, so I added the queue length metric instead.  The assumption is that long queue length implies not enough locks.",
+      "parentUuid": "561bbfb3_ee849ad3",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43c80175_4c12660b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-27T00:24:43Z",
       "side": 1,
       "message": "It\u0027s a bit odd because for one getOrLoadRef call it increments both statHit and statMiss.",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0a81fcf_9996e9f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-02T23:44:23Z",
+      "side": 1,
+      "message": "Good catch, thanks!",
+      "parentUuid": "43c80175_4c12660b",
       "revId": "310a1483d162423a26a53263b3388c6e932484bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
