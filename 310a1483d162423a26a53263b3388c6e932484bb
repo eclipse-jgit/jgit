@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c42e4899_5d136b46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-03T06:17:55Z",
+      "side": 1,
+      "message": "\u003e The assumption is that long queue length implies not enough locks.\n\nI don\u0027t think that assumption is correct. If there are many requests for the same repository and all of them try to read the same file, the queue length becomes long, but this doesn\u0027t mean we need to adjust the lock size.",
+      "parentUuid": "6c71b51c_d6d61175",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43c80175_4c12660b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 3
