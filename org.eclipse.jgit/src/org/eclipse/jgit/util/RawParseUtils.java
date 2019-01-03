@@ -57,6 +57,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -75,7 +76,9 @@ public final class RawParseUtils {
 	 * UTF-8 charset constant.
 	 *
 	 * @since 2.2
+	 * @deprecated use {@link StandardCharsets#UTF_8} instead
 	 */
+	@Deprecated
 	public static final Charset UTF8_CHARSET = UTF_8;
 
 	private static final byte[] digits10;
