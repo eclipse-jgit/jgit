@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71784745_d2702a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-03T01:17:07Z",
+      "side": 1,
+      "message": "Please state in the subject line what this change is going to do. \"Fix\" tells me that the state after this change is better than what\u0027s before it but little more.\n\nFor example:\n\n RenameBranchCommand: Pin down which short names to accept",
+      "revId": "63f790f5b44569c652b02103719f40e5229b313b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
