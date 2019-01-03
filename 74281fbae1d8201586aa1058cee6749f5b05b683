@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "437d3100_b9915c37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-03T23:53:19Z",
+      "side": 1,
+      "message": "Map",
+      "range": {
+        "startLine": 137,
+        "startChar": 15,
+        "endLine": 137,
+        "endChar": 22
+      },
+      "revId": "74281fbae1d8201586aa1058cee6749f5b05b683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
