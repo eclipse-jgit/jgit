@@ -67,6 +67,24 @@
       "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62841c72_b7bb2404",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-03T01:58:35Z",
+      "side": 1,
+      "message": "yep, boolean arguments smell, see https://martinfowler.com/bliki/FlagArgument.html",
+      "parentUuid": "df25abd1_bede4c50",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
