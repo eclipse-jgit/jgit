@@ -69,6 +69,30 @@
       "revId": "f7e4c6aef36f1cdc1bf737c72989c828096ea5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb420d8_2f27bcd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T02:27:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "59f1ac22_4e260df2",
+      "range": {
+        "startLine": 79,
+        "startChar": 16,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "f7e4c6aef36f1cdc1bf737c72989c828096ea5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
