@@ -1,4 +1,4 @@
-target "jgit-4.9-staging" with source configurePhase
+target "jgit-4.10-staging" with source configurePhase
 
 include "projects/jetty-9.4.11.tpd"
 include "orbit/R20181128170323-2018-12.tpd"
