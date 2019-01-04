@@ -34,6 +34,24 @@
       "revId": "fb879f642440ec24b5bfc98476f1453ffedbef6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72f0025e_8d0793be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T23:30:10Z",
+      "side": 1,
+      "message": "Should loadLocks use the same structure? If not, what accounts for the difference?\n\nI think some javadoc would help a lot in making this approachable to newcomers.",
+      "parentUuid": "66a208bf_e75f1389",
+      "revId": "fb879f642440ec24b5bfc98476f1453ffedbef6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
