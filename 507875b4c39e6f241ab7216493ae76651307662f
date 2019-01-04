@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d02bc502_3e9a467a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T00:22:43Z",
+      "side": 1,
+      "message": "opening",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 79
+      },
+      "revId": "507875b4c39e6f241ab7216493ae76651307662f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87509d0b_9cc40fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T00:22:43Z",
+      "side": 1,
+      "message": "Can this say a little more about the motivation?\n\nE.g. while reading it, I see that it makes better use of try-with-resources and is easier to understand. Above you mention that it also helps with reuse of channels. Is there any measurable effect (e.g. does this relate to any performance issues you\u0027ve been seeing in production)?\n\nProbably also worth mentioning that this will regress performance in one case: if copying an entire pack out of the cache, previously we could avoid opening it and now we don\u0027t. I think that\u0027s fine, since the file transfer will tend to dominate the open as far as latency goes anyway.",
+      "revId": "507875b4c39e6f241ab7216493ae76651307662f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
