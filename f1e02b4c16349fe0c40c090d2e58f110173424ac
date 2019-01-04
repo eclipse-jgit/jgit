@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "702aaf14_7a2eb5ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T00:22:43Z",
+      "side": 1,
+      "message": "Thanks.\n\nIf we want to optimize out the openFile call when the full pack is in cache, we can do that in a separate change.",
+      "parentUuid": "78ff886c_ce1dc763",
+      "revId": "f1e02b4c16349fe0c40c090d2e58f110173424ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac2edcc3_f566179c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
