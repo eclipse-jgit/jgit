@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00c6907e_4c5a6bfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-04T03:36:00Z",
+      "side": 1,
+      "message": "this method also needs to ask the user for the passphrase otherwise signing fails with a NPE since getCachedPassphrase() will then return null.",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85aabe9e_b962e76b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-04T03:36:00Z",
+      "side": 1,
+      "message": "when this method returns null the BouncyCastleGPGSigner fails with an NPE",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2713b2d5_2a1e92a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-04T03:36:00Z",
+      "side": 1,
+      "message": "I think we should use a checked exception here in order to enable applications like EGit to handle signing exceptions, e.g. if there is no secret key EGit could handle the exception by giving instructions to the user how to create keys or offer to directly create keys. \n\nAnother case from which the application can try to recover is a wrong passphrase. In this case it should probably ask again for the passphrase, maybe the user mistyped the passphrase.",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
