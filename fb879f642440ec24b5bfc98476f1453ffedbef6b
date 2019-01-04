@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87d25c92_ac9cdd97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T23:17:55Z",
+      "side": 1,
+      "message": "How does this relate to loadLocks? Can the javadocs say a bit more?",
+      "revId": "fb879f642440ec24b5bfc98476f1453ffedbef6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
