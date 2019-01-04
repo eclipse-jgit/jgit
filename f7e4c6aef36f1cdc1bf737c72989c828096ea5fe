@@ -22,6 +22,29 @@
       "revId": "f7e4c6aef36f1cdc1bf737c72989c828096ea5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7cb440_da937620",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-04T01:50:44Z",
+      "side": 1,
+      "message": "no need to name a version here --- even with older JGit it is better to use {@link UTF_8} directly",
+      "range": {
+        "startLine": 79,
+        "startChar": 16,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "f7e4c6aef36f1cdc1bf737c72989c828096ea5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
