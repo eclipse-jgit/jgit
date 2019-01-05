@@ -57,6 +57,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -326,8 +327,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getObjectDatabase().has(objectId);
 		} catch (IOException e) {
-			// Legacy API, assume error means "no"
-			return false;
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -1105,7 +1105,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(RefDatabase.ALL);
 		} catch (IOException e) {
-			return new HashMap<>();
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -1123,7 +1123,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
-			return new HashMap<>();
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -1322,9 +1322,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.MERGING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// Can't decide whether unmerged paths exists. Return
-				// MERGING state to be on the safe side (in state MERGING
-				// you are not allow to do anything)
+				throw new UncheckedIOException(e);
 			}
 			return RepositoryState.MERGING;
 		}
@@ -1339,7 +1337,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.CHERRY_PICKING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// fall through to CHERRY_PICKING
+				throw new UncheckedIOException(e);
 			}
 
 			return RepositoryState.CHERRY_PICKING;
@@ -1352,7 +1350,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.REVERTING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// fall through to REVERTING
+				throw new UncheckedIOException(e);
 			}
 
 			return RepositoryState.REVERTING;
