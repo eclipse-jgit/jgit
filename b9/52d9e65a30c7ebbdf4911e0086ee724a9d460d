@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: CI Bot
+Submitted-by: Dave Borowitz <dborowitz@google.com>
+Submitted-at: Fri, 04 Jan 2019 19:08:46 -0500
+Reviewed-on: https://git.eclipse.org/r/134668
+Project: jgit/jgit
+Branch: refs/heads/master
