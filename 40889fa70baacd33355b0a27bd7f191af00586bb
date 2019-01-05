@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32866794_14c6c006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-05T02:52:16Z",
+      "side": 1,
+      "message": "Please add a few more words here (e.g. explaining that this renames the setters to avoid breaking ABI).",
+      "revId": "40889fa70baacd33355b0a27bd7f191af00586bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "596822d5_ac15a791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-05T02:52:16Z",
+      "side": 1,
+      "message": "Needs @since",
+      "revId": "40889fa70baacd33355b0a27bd7f191af00586bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
