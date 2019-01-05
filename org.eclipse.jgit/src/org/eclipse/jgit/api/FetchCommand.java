@@ -193,7 +193,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 					// updated to an object that is not currently present in the
 					// submodule.
 					if ((recurseMode == FetchRecurseSubmodulesMode.ON_DEMAND
-							&& !submoduleRepo.hasObject(walk.getObjectId()))
+							&& !submoduleRepo.getObjectDatabase()
+									.has(walk.getObjectId()))
 							|| recurseMode == FetchRecurseSubmodulesMode.YES) {
 						FetchCommand f = new FetchCommand(submoduleRepo)
 								.setProgressMonitor(monitor)

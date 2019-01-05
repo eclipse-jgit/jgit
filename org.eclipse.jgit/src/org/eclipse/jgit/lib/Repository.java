@@ -319,7 +319,9 @@ public abstract class Repository implements AutoCloseable {
 	 *            a {@link org.eclipse.jgit.lib.AnyObjectId} object.
 	 * @return true if the specified object is stored in this repo or any of the
 	 *         known shared repositories.
+	 * @deprecated use {@code getObjectDatabase().has(objectId)}
 	 */
+	@Deprecated
 	public boolean hasObject(AnyObjectId objectId) {
 		try {
 			return getObjectDatabase().has(objectId);

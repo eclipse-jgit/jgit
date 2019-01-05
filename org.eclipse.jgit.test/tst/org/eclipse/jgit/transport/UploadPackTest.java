@@ -128,13 +128,13 @@ public class UploadPackTest {
 				}, null);
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(commit0.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(commit0.toObjectId()));
 
 		// Fetch of the parent of the shallow commit
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(commit0.name())));
-			assertTrue(client.hasObject(commit0.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(commit0.toObjectId()));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
@@ -168,12 +168,12 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(blob.name())));
-			assertTrue(client.hasObject(blob.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(blob.toObjectId()));
 		}
 	}
 
@@ -186,7 +186,7 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
@@ -227,9 +227,9 @@ public class UploadPackTest {
 			tn.setFilterBlobLimit(0);
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(commit.name())));
-			assertTrue(client.hasObject(tree.toObjectId()));
-			assertFalse(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(blob1.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
 		}
 	}
 
@@ -265,9 +265,9 @@ public class UploadPackTest {
 			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
 						new RefSpec(commit.name()),
 						new RefSpec(blob1.name())));
-			assertTrue(client.hasObject(tree.toObjectId()));
-			assertTrue(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
 		}
 	}
 
@@ -301,8 +301,8 @@ public class UploadPackTest {
 			tn.setFilterBlobLimit(5);
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.hasObject(longBlob.toObjectId()));
-			assertTrue(client.hasObject(shortBlob.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(longBlob.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(shortBlob.toObjectId()));
 		}
 	}
 
@@ -342,8 +342,8 @@ public class UploadPackTest {
 			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
 						new RefSpec(commit.name()),
 						new RefSpec(blob1.name())));
-			assertTrue(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
 		}
 	}
 
@@ -381,8 +381,8 @@ public class UploadPackTest {
 			tn.setFilterBlobLimit(5);
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.hasObject(longBlob.toObjectId()));
-			assertTrue(client.hasObject(shortBlob.toObjectId()));
+			assertFalse(client.getObjectDatabase().has(longBlob.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(shortBlob.toObjectId()));
 		}
 	}
 
@@ -965,10 +965,10 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(fooParent.toObjectId()));
-		assertTrue(client.hasObject(fooChild.toObjectId()));
-		assertFalse(client.hasObject(barParent.toObjectId()));
-		assertTrue(client.hasObject(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
 	}
 
 	@Test
@@ -992,10 +992,10 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(fooParent.toObjectId()));
-		assertTrue(client.hasObject(fooChild.toObjectId()));
-		assertTrue(client.hasObject(barParent.toObjectId()));
-		assertTrue(client.hasObject(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
 	}
 
 	@Test
@@ -1078,7 +1078,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(tag.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(tag.toObjectId()));
 
 		// With tag.
 		recvStream = uploadPackV2(
@@ -1091,7 +1091,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(tag.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(tag.toObjectId()));
 	}
 
 	@Test
@@ -1149,8 +1149,8 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(barChild.toObjectId()));
-		assertFalse(client.hasObject(commonParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(commonParent.toObjectId()));
 
 		// With shallow, the server knows that we don't have
 		// commonParent, so it sends it.
@@ -1165,7 +1165,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(commonParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(commonParent.toObjectId()));
 	}
 
 	@Test
@@ -1188,8 +1188,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(child.toObjectId()));
-		assertFalse(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(parent.toObjectId()));
 
 		// Without that, the parent is sent too.
 		recvStream = uploadPackV2(
@@ -1201,7 +1201,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(parent.toObjectId()));
 	}
 
 	@Test
@@ -1268,15 +1268,15 @@ public class UploadPackTest {
 
 		// The server does not send this because it is committed
 		// earlier than the given deepen-since time.
-		assertFalse(client.hasObject(tooOld.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(tooOld.toObjectId()));
 
 		// The server does not send this because the client claims to
 		// have it.
-		assertFalse(client.hasObject(boundary.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(boundary.toObjectId()));
 
 		// The server sends both these commits.
-		assertTrue(client.hasObject(beyondBoundary.toObjectId()));
-		assertTrue(client.hasObject(merge.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(beyondBoundary.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(merge.toObjectId()));
 	}
 
 	@Test
@@ -1316,9 +1316,9 @@ public class UploadPackTest {
 		parsePack(recvStream);
 
 		// Only the children are sent.
-		assertFalse(client.hasObject(base.toObjectId()));
-		assertTrue(client.hasObject(child1.toObjectId()));
-		assertTrue(client.hasObject(child2.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(base.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child1.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child2.toObjectId()));
 	}
 
 	@Test
@@ -1384,16 +1384,16 @@ public class UploadPackTest {
 
 		// The server does not send these because they are excluded by
 		// deepen-not.
-		assertFalse(client.hasObject(side.toObjectId()));
-		assertFalse(client.hasObject(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(side.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
 
 		// The server does not send this because the client claims to
 		// have it.
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 
 		// The server sends both these commits.
-		assertTrue(client.hasObject(merge.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(merge.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
 	}
 
 	@Test
@@ -1441,10 +1441,10 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(one.toObjectId()));
-		assertFalse(client.hasObject(two.toObjectId()));
-		assertTrue(client.hasObject(three.toObjectId()));
-		assertTrue(client.hasObject(four.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(four.toObjectId()));
 	}
 
 	@Test
@@ -1485,9 +1485,9 @@ public class UploadPackTest {
 		parsePack(recvStream);
 
 		// Only the children are sent.
-		assertFalse(client.hasObject(base.toObjectId()));
-		assertTrue(client.hasObject(child1.toObjectId()));
-		assertTrue(client.hasObject(child2.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(base.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child1.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child2.toObjectId()));
 	}
 
 	@Test
@@ -1538,8 +1538,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertFalse(client.hasObject(big.toObjectId()));
-		assertTrue(client.hasObject(small.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(big.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(small.toObjectId()));
 	}
 
 	@Test
@@ -1610,9 +1610,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test
@@ -1666,9 +1666,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test
@@ -1699,7 +1699,7 @@ public class UploadPackTest {
 		// ... but the client does not need the object itself.
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
 	}
 
 	@Test
@@ -1728,8 +1728,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(child.toObjectId()));
-		assertFalse(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(parent.toObjectId()));
 	}
 
 	@Test
@@ -1765,9 +1765,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertTrue(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test

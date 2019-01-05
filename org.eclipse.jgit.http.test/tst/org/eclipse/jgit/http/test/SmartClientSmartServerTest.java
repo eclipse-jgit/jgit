@@ -455,13 +455,13 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_Small() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -495,7 +495,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	private void initialClone_Redirect(int nofRedirects, int code)
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = redirectURI;
 		if (code != 301 || nofRedirects > 1) {
@@ -506,7 +506,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -584,7 +584,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		userConfig.setInt("http", null, "maxRedirects", 3);
 		userConfig.save();
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(redirectURI, "/response/4/302");
 		String remoteUri = cloneFrom.toString();
@@ -606,7 +606,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_RedirectLoop() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(redirectURI, "/loop");
 		try (Transport t = Transport.open(dst, cloneFrom)) {
@@ -624,14 +624,14 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		userConfig.setString("http", null, "followRedirects", "true");
 		userConfig.save();
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(remoteURI, "/post");
 		try (Transport t = Transport.open(dst, cloneFrom)) {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -669,7 +669,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_RedirectOnPostForbidden() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(remoteURI, "/post");
 		try (Transport t = Transport.open(dst, cloneFrom)) {
@@ -688,7 +688,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		userConfig.save();
 
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, redirectURI)) {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
@@ -702,14 +702,14 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_WithAuthentication() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, authURI)) {
 			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -748,7 +748,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	public void testInitialClone_WithAuthenticationNoCredentials()
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, authURI)) {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
@@ -770,7 +770,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	public void testInitialClone_WithAuthenticationWrongCredentials()
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, authURI)) {
 			t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
@@ -796,7 +796,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	public void testInitialClone_WithAuthenticationAfterRedirect()
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(redirectURI, "/target/auth");
 		CredentialsProvider uriSpecificCredentialsProvider = new UsernamePasswordCredentialsProvider(
@@ -820,7 +820,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -865,14 +865,14 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	public void testInitialClone_WithAuthenticationOnPostOnly()
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, authOnPostURI)) {
 			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -1042,7 +1042,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_BrokenServer() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, brokenURI)) {
 			try {
@@ -1201,7 +1201,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.push(NullProgressMonitor.INSTANCE, Collections.singleton(u));
 		}
 
-		assertTrue(remoteRepository.hasObject(Q_txt));
+		assertTrue(remoteRepository.getObjectDatabase().has(Q_txt));
 		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
 		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
@@ -1275,7 +1275,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.push(NullProgressMonitor.INSTANCE, Collections.singleton(u));
 		}
 
-		assertTrue(remoteRepository.hasObject(Q_bin));
+		assertTrue(remoteRepository.getObjectDatabase().has(Q_bin));
 		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
 		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
