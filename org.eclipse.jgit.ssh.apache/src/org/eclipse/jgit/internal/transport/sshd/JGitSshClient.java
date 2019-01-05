@@ -70,7 +70,7 @@ import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoConnectFuture;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.AbstractResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.ValidateUtils;
@@ -243,12 +243,11 @@ public class JGitSshClient extends SshClient {
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
 		session.getProperties().put(PASSWORD_PROMPTS,
 				Integer.valueOf(numberOfPasswordPrompts));
-		FilePasswordProvider provider = getFilePasswordProvider();
-		if (provider instanceof RepeatingFilePasswordProvider) {
-			((RepeatingFilePasswordProvider) provider)
+		FilePasswordProvider passwordProvider = getFilePasswordProvider();
+		if (passwordProvider instanceof RepeatingFilePasswordProvider) {
+			((RepeatingFilePasswordProvider) passwordProvider)
 					.setAttempts(numberOfPasswordPrompts);
 		}
-		FileKeyPairProvider ourConfiguredKeysProvider = null;
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -260,16 +259,16 @@ public class JGitSshClient extends SshClient {
 					}
 				}).filter(p -> p != null && Files.exists(p))
 				.collect(Collectors.toList());
-		ourConfiguredKeysProvider = new CachingKeyPairProvider(identities,
-				keyCache);
-		ourConfiguredKeysProvider.setPasswordFinder(getFilePasswordProvider());
+		CachingKeyPairProvider ourConfiguredKeysProvider = new CachingKeyPairProvider(
+				identities, keyCache);
+		ourConfiguredKeysProvider.setPasswordFinder(passwordProvider);
 		if (hostConfig.isIdentitiesOnly()) {
 			session.setKeyPairProvider(ourConfiguredKeysProvider);
 		} else {
 			KeyPairProvider defaultKeysProvider = getKeyPairProvider();
-			if (defaultKeysProvider instanceof FileKeyPairProvider) {
-				((FileKeyPairProvider) defaultKeysProvider)
-						.setPasswordFinder(getFilePasswordProvider());
+			if (defaultKeysProvider instanceof AbstractResourceKeyPairProvider<?>) {
+				((AbstractResourceKeyPairProvider<?>) defaultKeysProvider)
+						.setPasswordFinder(passwordProvider);
 			}
 			KeyPairProvider combinedProvider = new CombinedKeyPairProvider(
 					ourConfiguredKeysProvider, defaultKeysProvider);
