@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df8814b1_e3063477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-05T00:04:38Z",
+      "side": 1,
+      "message": "Can we do this now, or would it break anything?",
+      "revId": "765ea0ca4db4080b901a86187baf42f5e8a49b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
