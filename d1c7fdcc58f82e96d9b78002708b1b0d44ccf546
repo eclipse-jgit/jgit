@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8e7db6a_59bb28d0",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.pgm.feature/feature.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-06T21:17:43Z",
+      "side": 1,
+      "message": "This would cause the same issues like the same plugins in the other feature, the one using the pgm feature can decide on which logging implementation he wants to use.\n\nWe need to keep these dependencies in the jgit pgm pom.xml for the shaded build since otherwise the standalone jgit pgm cannot write logs.",
+      "revId": "d1c7fdcc58f82e96d9b78002708b1b0d44ccf546",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
