@@ -16,6 +16,24 @@
       "revId": "3f9a5ce13fd5e3cd49016db037e38417517aec36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22588985_c06b94f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-07T16:38:07Z",
+      "side": 1,
+      "message": "Ok. I figured that getObjectDatabase().has is a little more explicit, since it\u0027s a somewhat unusual operation (non low-level callers should perform a reachability check instead of just checking whether the odb contains an object). But it\u0027s pretty harmless to provide, and the javadoc can describe the caveats.",
+      "parentUuid": "28a5bb52_be37c430",
+      "revId": "3f9a5ce13fd5e3cd49016db037e38417517aec36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
