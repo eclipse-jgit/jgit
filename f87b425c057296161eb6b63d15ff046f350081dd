@@ -1,0 +1,277 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb82c748_1c703f89",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "maybe you can find a shorter name for this constant ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 27,
+        "endLine": 86,
+        "endChar": 74
+      },
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "342c6433_cfd60cc2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "looks like you didn\u0027t use UTC but your local timezone ?\n\nInstant.parse(\"2030-01-01T12:00:00.000Z\").toEpochMilli() yields 1893499200L\n\nHow about \n\n private static long JAN_01_2030_NOON \u003d Instant.parse(\"2030-01-01T12:00:00.000Z\").toEpochMilli();",
+      "range": {
+        "startLine": 86,
+        "startChar": 77,
+        "endLine": 86,
+        "endChar": 91
+      },
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d07f3c6_88090641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "suppress API compatibility error for new public constant",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6294b641_9e02b4e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "suppress API compatibility error for new public constant",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b40c9d6_fe0a4442",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "unnecessary comment, this is already explained in the javadoc above",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "609e3e45_8240fcde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "unnecessary comment",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b859f79_db5c1bb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "move this to org.eclipse.jgit.internal.transport.http in order to mark this class as internal API, then we also don\u0027t need @since tags",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53fbe069_f4c9501b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "I\u0027d implement these options as custom git config options",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b41827b_282d3842",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "Conceptually cookie files are extended git config hence these files should be handled in the same way like git config files.\n\nI think guarding against concurrent write by using a file lock should be sufficient in the same way FileBasedConfig implements this. This will avoid lock contention on reads. See how FileBasedConfig uses locks and content hashes in its load() and save() methods.\n\nKeep the retry logic, this will help when running JGit on NFS where problems with concurrent locks are more likely to occur due to NFS client caching. See FileBasedConfig.load().",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3888aca_d4a6e6bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "move this to org.eclipse.jgit.internal.transport.http in order to mark this class as internal API, then we also don\u0027t need @since tags",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a2a1cee_0292f852",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "5.3",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1024ac8f_fdfe7ee1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "I\u0027d implement this option as a custom git config option",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97a7306_90dcd247",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "suppress API compatibility error for new public constants",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f87286a_27c52661",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "nit: remove unnecessary blank line",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a6bdfb8_a06c2165",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LRUMap.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-07T10:24:36Z",
+      "side": 1,
+      "message": "should we also support unlimited number of entries?",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
