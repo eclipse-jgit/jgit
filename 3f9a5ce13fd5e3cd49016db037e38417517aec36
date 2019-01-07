@@ -34,6 +34,24 @@
       "revId": "3f9a5ce13fd5e3cd49016db037e38417517aec36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7eafd36_f99708c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2019-01-07T18:04:21Z",
+      "side": 1,
+      "message": "I\u0027m with Jonathan: I slightly prefer the more verbose option to discourage callers who should be thinking in terms of reachability, but I also don\u0027t feel too strongly.",
+      "parentUuid": "22588985_c06b94f9",
+      "revId": "3f9a5ce13fd5e3cd49016db037e38417517aec36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
