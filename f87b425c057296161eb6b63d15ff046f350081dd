@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "df7b7df2_7af717a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-07T11:05:26Z",
+      "side": 1,
+      "message": "Do you mean to ignore added fields in total for API compatibility? I couldn\u0027t find an option to only suppress static final fields or just this one!",
+      "parentUuid": "9d07f3c6_88090641",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6294b641_9e02b4e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 15
