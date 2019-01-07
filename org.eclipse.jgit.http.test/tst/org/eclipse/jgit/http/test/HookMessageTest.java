@@ -163,7 +163,7 @@ public class HookMessageTest extends HttpTestCase {
 					.singleton(update));
 		}
 
-		assertTrue(remoteRepository.hasObject(Q_txt));
+		assertTrue(remoteRepository.getObjectDatabase().has(Q_txt));
 		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
 		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);

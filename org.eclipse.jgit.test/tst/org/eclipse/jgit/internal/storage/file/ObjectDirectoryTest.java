@@ -126,7 +126,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			// scanning of the packs directory
 			ObjectId id = commitFile("file.txt", "test", "master").getId();
 			gc.gc();
-			assertFalse(receivingDB.hasObject(unknownID));
+			assertFalse(receivingDB.getObjectDatabase().has(unknownID));
 			assertTrue(receivingDB.getObjectDatabase().hasPackedObject(id));
 
 			// preparations
@@ -150,7 +150,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			// JGit will not rescan the packs folder later on and fails to see
 			// the pack file created during gc.
 			assertTrue(tmpFile.createNewFile());
-			assertFalse(receivingDB.hasObject(unknownID));
+			assertFalse(receivingDB.getObjectDatabase().has(unknownID));
 
 			// trigger a gc. This will create packfiles which have likely the
 			// same mtime than the packfolder
@@ -177,8 +177,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			Assume.assumeTrue(tmpFile.lastModified() == ret[0].lastModified());
 
 			// all objects are in a new packfile but we will not detect it
-			assertFalse(receivingDB.hasObject(unknownID));
-			assertTrue(receivingDB.hasObject(id2));
+			assertFalse(receivingDB.getObjectDatabase().has(unknownID));
+			assertTrue(receivingDB.getObjectDatabase().has(id2));
 		}
 	}
 

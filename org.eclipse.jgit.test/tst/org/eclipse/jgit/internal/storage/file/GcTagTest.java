@@ -60,7 +60,7 @@ public class GcTagTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertTrue(repo.hasObject(a));
+		assertTrue(repo.getObjectDatabase().has(a));
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class GcTagTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertTrue(repo.hasObject(t));
-		assertTrue(repo.hasObject(a));
+		assertTrue(repo.getObjectDatabase().has(t));
+		assertTrue(repo.getObjectDatabase().has(a));
 	}
 }

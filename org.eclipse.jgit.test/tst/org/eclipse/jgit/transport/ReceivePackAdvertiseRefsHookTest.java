@@ -236,7 +236,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		// Verify the only storage of b is our packed delta above.
 		//
 		ObjectDirectory od = (ObjectDirectory) src.getObjectDatabase();
-		assertTrue("has b", src.hasObject(b));
+		assertTrue("has b", od.has(b));
 		assertFalse("b not loose", od.fileFor(b).exists());
 
 		// Now use b but in a different commit than what is hidden.

@@ -163,7 +163,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testPackWithDuplicateBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789abcdefg");
 		TestRepository<Repository> d = new TestRepository<>(db);
-		assertTrue(db.hasObject(d.blob(data)));
+		assertTrue(db.getObjectDatabase().has(d.blob(data)));
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);

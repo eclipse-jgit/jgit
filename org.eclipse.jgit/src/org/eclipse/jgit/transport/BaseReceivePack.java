@@ -1588,7 +1588,7 @@ public abstract class BaseReceivePack {
 						throw new MissingObjectException(o, o.getType());
 				}
 
-				if (o instanceof RevBlob && !db.hasObject(o))
+				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
 					throw new MissingObjectException(o, Constants.TYPE_BLOB);
 			}
 			checking.endTask();
