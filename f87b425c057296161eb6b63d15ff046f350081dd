@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "831b932d_3371ab15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-07T10:52:54Z",
+      "side": 1,
+      "message": "Do you have any reference at hand on how to implement that? Are there any naming conventions for custom git config options?",
+      "parentUuid": "1024ac8f_fdfe7ee1",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97a7306_90dcd247",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
         "patchSetId": 15
