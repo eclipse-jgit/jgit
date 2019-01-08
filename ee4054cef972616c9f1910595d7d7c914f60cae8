@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "d7576606_2f807c87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-08T01:14:49Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0c64431_0333f1ea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 12
@@ -96,6 +113,40 @@
       "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e56ca7e9_12b6f983",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-08T01:14:49Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a64b105_1b5319c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-08T01:14:49Z",
+      "side": 1,
+      "message": "style nit: missing braces, more of them below",
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
