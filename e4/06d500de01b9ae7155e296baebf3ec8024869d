@@ -1,0 +1,8 @@
+Code-Review+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: CI Bot
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Tue, 08 Jan 2019 05:08:54 -0500
+Reviewed-on: https://git.eclipse.org/r/117181
+Project: jgit/jgit
+Branch: refs/heads/master
