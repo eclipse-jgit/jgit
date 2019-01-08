@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56928438_0198ad4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-08T12:24:05Z",
+      "side": 1,
+      "message": "I reworked the passphrase prompting into a separate class. This shouldn\u0027t require prompting here.",
+      "parentUuid": "00c6907e_4c5a6bfd",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85aabe9e_b962e76b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
         "patchSetId": 22
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "146576c4_25b72813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-08T12:24:05Z",
+      "side": 1,
+      "message": "I reworked the passphrase prompting into a separate class. This is now obsolete.",
+      "parentUuid": "85aabe9e_b962e76b",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2713b2d5_2a1e92a6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
         "patchSetId": 22
@@ -47,6 +83,24 @@
       "writtenOn": "2019-01-04T03:36:00Z",
       "side": 1,
       "message": "I think we should use a checked exception here in order to enable applications like EGit to handle signing exceptions, e.g. if there is no secret key EGit could handle the exception by giving instructions to the user how to create keys or offer to directly create keys. \n\nAnother case from which the application can try to recover is a wrong passphrase. In this case it should probably ask again for the passphrase, maybe the user mistyped the passphrase.",
+      "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b797ae6_7ca3e20c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-08T12:24:05Z",
+      "side": 1,
+      "message": "Can we improve this in a follow up commit/change or should it be added to this one?\n\nI refrained from creating checked exceptions because this class is internal. I also haven\u0027t check how difficult it is to translate some PGPExceptions. However, it might make sense to introduce them.",
+      "parentUuid": "2713b2d5_2a1e92a6",
       "revId": "cb54ec3b468be5ff6f10e78c3fb79db02d6aa9ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
