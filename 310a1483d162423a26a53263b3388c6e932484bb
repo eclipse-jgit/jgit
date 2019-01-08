@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "d41b8b23_2ba66d2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-08T18:05:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "816ad5b5_a8889daa",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43c80175_4c12660b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 3
@@ -105,6 +123,24 @@
       "revId": "310a1483d162423a26a53263b3388c6e932484bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12821f4f_1060d01e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-08T18:05:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a81fcf_9996e9f4",
+      "revId": "310a1483d162423a26a53263b3388c6e932484bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
