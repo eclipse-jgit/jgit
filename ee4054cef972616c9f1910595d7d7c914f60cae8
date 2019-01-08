@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "979917fb_84ea7822",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-08T18:03:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "90cd7bba_c7696cb5",
+      "range": {
+        "startLine": 528,
+        "startChar": 29,
+        "endLine": 528,
+        "endChar": 36
+      },
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e0003a_6d562169",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 12
@@ -201,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "9252aa8c_5b398134",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-08T18:03:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "492eeb69_eb29394b",
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "688a0396_605f686b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 12
@@ -233,6 +275,24 @@
       "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b507a6e7_21f02e11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-08T18:03:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ecc4493e_bac8534f",
+      "revId": "ee4054cef972616c9f1910595d7d7c914f60cae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
