@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2be6f85_021dd0a4",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "[5.3.0,5.4.0)",
+      "range": {
+        "startLine": 37,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 56
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c07741_7cefef51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "You are skipping checking content hash and updating the snapshot properly. I\u0027d start from a copy of FileBasedConfig.load(), skip the UTF8 handling in the first else and replace fromText(decoded) by the method parsing cookie file content.",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0f9a950_575596df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "like above start from a copy of FileBasedConfig.save(), replace the call to toText() by the method rendering the cookie file content and skip the utf8Bom handling.\n\nMaybe it makes sense to extract the code creating the file content to another method (equivalent to toText() in FileBasedConfig) in order to limit complexity of this method.",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9d48aa_0e8ecc1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "Looks like this is always empty since you ignore return value in lines 642 and 646. Seems we should add another test covering this response processing",
+      "range": {
+        "startLine": 648,
+        "startChar": 7,
+        "endLine": 648,
+        "endChar": 26
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1578881b_3f8df215",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "I think updating should only be done if http.saveCookies [1] is set\nto true\n\n[1] https://git-scm.com/docs/git-config#git-config-httpsaveCookies",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2114df25_4fac8029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "processCookieHeader is a pretty generic name. This method parses the given header values to get the cookies so how about naming this method getCookies or extractCookies ?",
+      "range": {
+        "startLine": 671,
+        "startChar": 26,
+        "endLine": 671,
+        "endChar": 45
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74b0aed0_308a3a07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "we can skip this if relevantCookies is empty, extract this into another method :\n\n if (relevantCookies.size() \u003e 0) {\n   setCookieHeader(conn);\n }",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d78e4dd2_2240890c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "did you mean: A string matches another domain string",
+      "range": {
+        "startLine": 1044,
+        "startChar": 4,
+        "endLine": 1044,
+        "endChar": 49
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d216595_0626a736",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "holds",
+      "range": {
+        "startLine": 1045,
+        "startChar": 25,
+        "endLine": 1045,
+        "endChar": 29
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e442dc_cc2c415e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "I\u0027d put the verb first: matchesCookieDomain\n\nI would flip the order of arguments since the method checks if the host matches the cookieDomain",
+      "range": {
+        "startLine": 1073,
+        "startChar": 16,
+        "endLine": 1073,
+        "endChar": 35
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ba754c_d63d6e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "like above matchesCookiePath and flip the order of arguments",
+      "range": {
+        "startLine": 1111,
+        "startChar": 16,
+        "endLine": 1111,
+        "endChar": 33
+      },
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
