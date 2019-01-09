@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "a460a425_78cc5561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "use the quick fix in Eclipse to filter each of these compatibility errors, we tolerate adding new constants in minor releases",
+      "parentUuid": "df7b7df2_7af717a0",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6294b641_9e02b4e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 15
@@ -254,6 +272,24 @@
       "side": 1,
       "message": "Do you have any reference at hand on how to implement that? Are there any naming conventions for custom git config options?",
       "parentUuid": "1024ac8f_fdfe7ee1",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57ce9051_072751f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-09T02:26:46Z",
+      "side": 1,
+      "message": "we put semantically related configurations in the same section, AFAIK there are no jgit specific naming conventions. Of course we need to avoid clashes with standard options defined by native git.\n\nHow about putting these options in section/subsection \"http\" / \"cookieFile\" and use the key names \"cacheLimit\", \"lockMaxRetries\", \"lockRetryInterval\"\n\nor section \"http\" and keys \"cookieFileCacheLimit\", \"cookieFileLockMaxRetries\", \"cookieFileLockRetryInterval\"\n\nDefine the new keys in ConfigConstants and use all lower case for the key and section names which are matched case-insensitive but written camel case in actual config files by convention to improve readability.\n\nYou can look at any of the *Config classes, e.g. DfsBlockCacheConfig, if you choose the second choice above (put the new options in the http section) I\u0027d implement the new options in HttpConfig, otherwise I\u0027d add a new CookieFileConfig",
+      "parentUuid": "831b932d_3371ab15",
       "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
