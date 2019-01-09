@@ -212,7 +212,7 @@ public class DfsBlockCacheConfig {
 	 *            consumer of wait time in milliseconds.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setReflockWaitTimeConsumer(Consumer<Long> c) {
+	public DfsBlockCacheConfig setRefLockWaitTimeConsumer(Consumer<Long> c) {
 		refLock = c;
 		return this;
 	}

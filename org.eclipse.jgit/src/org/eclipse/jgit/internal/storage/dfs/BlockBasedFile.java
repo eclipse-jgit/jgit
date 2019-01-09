@@ -129,8 +129,8 @@ abstract class BlockBasedFile {
 	}
 
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
-		try (ReadableChannel rc = ctx.db.openFile(desc, ext)) {
-			return cache.getOrLoad(this, pos, ctx, () -> rc);
+		try (LazyChannel c = new LazyChannel(ctx, desc, ext)) {
+			return cache.getOrLoad(this, pos, ctx, c);
 		}
 	}
 
@@ -202,5 +202,42 @@ abstract class BlockBasedFile {
 
 	static long elapsedMicros(long start) {
 		return (System.nanoTime() - start) / 1000L;
+	}
+
+	/**
+	 * A supplier of readable channel that opens the channel lazily.
+	 */
+	private static class LazyChannel
+			implements AutoCloseable, DfsBlockCache.ReadableChannelSupplier {
+		private final DfsReader ctx;
+		private final DfsPackDescription desc;
+		private final PackExt ext;
+
+		private ReadableChannel rc = null;
+
+		LazyChannel(DfsReader ctx, DfsPackDescription desc, PackExt ext) {
+			this.ctx = ctx;
+			this.desc = desc;
+			this.ext = ext;
+		}
+
+		@Override
+		public ReadableChannel get() throws IOException {
+			if (rc == null) {
+				synchronized (this) {
+					if (rc == null) {
+						rc = ctx.db.openFile(desc, ext);
+					}
+				}
+			}
+			return rc;
+		}
+
+		@Override
+		public void close() throws IOException {
+			if (rc != null) {
+				rc.close();
+			}
+		}
 	}
 }
