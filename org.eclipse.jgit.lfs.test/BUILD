@@ -1,9 +1,9 @@
-package(default_visibility = ["//visibility:public"])
-
 load(
     "@com_googlesource_gerrit_bazlets//tools:junit.bzl",
     "junit_tests",
 )
+
+package(default_visibility = ["//visibility:public"])
 
 junit_tests(
     name = "lfs",
