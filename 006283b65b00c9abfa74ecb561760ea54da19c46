@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b7261a5_ef70f342",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-01-10T20:55:07Z",
+      "side": 1,
+      "message": "static inner class",
+      "range": {
+        "startLine": 210,
+        "startChar": 1,
+        "endLine": 210,
+        "endChar": 14
+      },
+      "revId": "006283b65b00c9abfa74ecb561760ea54da19c46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
