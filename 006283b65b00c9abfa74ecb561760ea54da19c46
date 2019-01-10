@@ -46,6 +46,30 @@
       "revId": "006283b65b00c9abfa74ecb561760ea54da19c46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6a1bd42_4bb20eb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-10T21:21:32Z",
+      "side": 1,
+      "message": "Funny, I had a draft comment I had forgotten to send:\n\noptional: could make the state passing more explicit by making this static and passing desc and ext as constructor parameters.",
+      "parentUuid": "b678f872_dc6bc826",
+      "range": {
+        "startLine": 210,
+        "startChar": 1,
+        "endLine": 210,
+        "endChar": 14
+      },
+      "revId": "006283b65b00c9abfa74ecb561760ea54da19c46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
