@@ -296,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "d828052f_e61af7c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-11T16:04:48Z",
+      "side": 1,
+      "message": "This does IMHO not really work, if I have to deal with multiple repositories having different/conflicting configs with regard to this setting. Which config should then be taken? Or should this rather be a config which is only supported on a user(?) and system level but not on a repo level? This class is supposed to be singleton!\n\nI still think almost no one should be forced to tweak that setting, and even in FileBasedConfig.load() you hardcode the number of retries (with no possibility to overwrite that through any means)",
+      "parentUuid": "57ce9051_072751f8",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97a7306_90dcd247",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
         "patchSetId": 15
