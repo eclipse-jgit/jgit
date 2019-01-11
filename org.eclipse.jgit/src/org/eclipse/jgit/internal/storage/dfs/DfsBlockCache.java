@@ -754,7 +754,7 @@ public final class DfsBlockCache {
 	 * Supplier for readable channel
 	 */
 	@FunctionalInterface
-	public interface ReadableChannelSupplier {
+	interface ReadableChannelSupplier {
 		/**
 		 * @return ReadableChannel
 		 * @throws IOException
