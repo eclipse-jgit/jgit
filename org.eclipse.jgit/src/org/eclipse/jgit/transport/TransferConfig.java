@@ -327,6 +327,16 @@ public class TransferConfig {
 		};
 	}
 
+	/**
+	 * Like {@code getRefFilter() == RefFilter.DEFAULT}, but faster.
+	 *
+	 * @return {@code true} if no ref filtering is needed because there
+	 *         are no configured hidden refs.
+	 */
+	boolean hasDefaultRefFilter() {
+		return hideRefs.length == 0;
+	}
+
 	static class FsckKeyNameHolder {
 		private static final Map<String, ObjectChecker.ErrorType> errors;
 
