@@ -632,31 +632,27 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	private void processResponseCookies(HttpConnection conn) {
+	void processResponseCookies(HttpConnection conn) {
 		if (cookieFile != null && http.getSaveCookies()) {
 			List<HttpCookie> foundCookies = new LinkedList<>();
 
 			List<String> cookieHeaderValues = conn
 					.getHeaderFields(HDR_SET_COOKIE);
 			if (!cookieHeaderValues.isEmpty()) {
-				processCookieHeader(HDR_SET_COOKIE, cookieHeaderValues);
+				foundCookies.addAll(
+						extractCookies(HDR_SET_COOKIE, cookieHeaderValues));
 			}
 			cookieHeaderValues = conn.getHeaderFields(HDR_SET_COOKIE2);
 			if (!cookieHeaderValues.isEmpty()) {
-				processCookieHeader(HDR_SET_COOKIE2, cookieHeaderValues);
+				foundCookies.addAll(
+						extractCookies(HDR_SET_COOKIE2, cookieHeaderValues));
 			}
 			if (foundCookies.size() > 0) {
 				try {
 					// update cookie lists with the newly received cookies!
 					Set<HttpCookie> cookies = cookieFile.getCookies(false);
-					if (cookies != null) {
-						cookies.addAll(foundCookies);
-						cookieFile.write(baseUrl);
-					} else {
-						throw new IOException(MessageFormat.format(
-								JGitText.get().couldNotReadCookieFile,
-								cookieFile.getFile()));
-					}
+					cookies.addAll(foundCookies);
+					cookieFile.write(baseUrl);
 					relevantCookies.addAll(foundCookies);
 				} catch (IOException | IllegalArgumentException
 						| InterruptedException e) {
@@ -668,7 +664,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	private List<HttpCookie> processCookieHeader(String headerKey,
+	private List<HttpCookie> extractCookies(String headerKey,
 			List<String> headerValues) {
 		List<HttpCookie> foundCookies = new LinkedList<>();
 		for (String headerValue : headerValues) {
@@ -939,6 +935,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setReadTimeout(effTimeOut);
 		}
 		// set cookie header if necessary
+		if (relevantCookies.size() > 0) {
+			setCookieHeader(conn);
+		}
+
+		if (this.headers != null && !this.headers.isEmpty()) {
+			for (Map.Entry<String, String> entry : this.headers.entrySet())
+				conn.setRequestProperty(entry.getKey(), entry.getValue());
+		}
+		authMethod.configureRequest(conn);
+		return conn;
+	}
+
+	private void setCookieHeader(HttpConnection conn) {
 		StringBuilder cookieHeaderValue = new StringBuilder();
 		for (HttpCookie cookie : relevantCookies) {
 			if (!cookie.hasExpired()) {
@@ -951,13 +960,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		if (cookieHeaderValue.length() >= 0) {
 			conn.setRequestProperty(HDR_COOKIE, cookieHeaderValue.toString());
 		}
-
-		if (this.headers != null && !this.headers.isEmpty()) {
-			for (Map.Entry<String, String> entry : this.headers.entrySet())
-				conn.setRequestProperty(entry.getKey(), entry.getValue());
-		}
-		authMethod.configureRequest(conn);
-		return conn;
 	}
 
 	final InputStream openInputStream(HttpConnection conn)
@@ -1013,10 +1015,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			if (cookie.hasExpired()) {
 				continue;
 			}
-			if (!cookieDomainMatches(cookie.getDomain(), url.getHost())) {
+			if (!matchesCookieDomain(url.getHost(), cookie.getDomain())) {
 				continue;
 			}
-			if (!cookiePathMatches(cookie.getPath(), url.getPath())) {
+			if (!matchesCookiePath(url.getPath(), cookie.getPath())) {
 				continue;
 			}
 			if (cookie.getSecure() && !"https".equals(url.getProtocol())) { //$NON-NLS-1$
@@ -1041,8 +1043,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * <p>
 	 * The rules are as follows
 	 *
-	 * A string domain-matches a given domain string if at least one of the
-	 * following conditions hold:
+	 * A string matches another domain string if at least one of the following
+	 * conditions holds:
 	 * <ul>
 	 * <li>The domain string and the string are identical. (Note that both the
 	 * domain string and the string will have been canonicalized to lower case
@@ -1057,11 +1059,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * </li>
 	 * </ul>
 	 *
-	 *
-	 * @param cookieDomain
-	 *            the domain to compare against
 	 * @param host
 	 *            the host to compare against the cookieDomain
+	 * @param cookieDomain
+	 *            the domain to compare against
 	 * @return {@code true} if they domain-match; {@code false} if not
 	 *
 	 * @see <a href= "https://tools.ietf.org/html/rfc6265#section-5.1.3">RFC
@@ -1070,7 +1071,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 *      "https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8206092">JDK-8206092
 	 *      : HttpCookie.domainMatches() does not match to sub-sub-domain</a>
 	 */
-	static boolean cookieDomainMatches(String cookieDomain, String host) {
+	static boolean matchesCookieDomain(String host, String cookieDomain) {
 		cookieDomain = cookieDomain.toLowerCase(Locale.ROOT);
 		host = host.toLowerCase(Locale.ROOT);
 		if (host.equals(cookieDomain)) {
@@ -1100,15 +1101,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * character of the request-path that is not included in the cookie- path is
 	 * a %x2F ("/") character.</li>
 	 * </ul>
-	 *
-	 * @param cookiePath
-	 *            the cookie's path
 	 * @param path
 	 *            the path to check
+	 * @param cookiePath
+	 *            the cookie's path
 	 *
 	 * @return {@code true} if they path-match; {@code false} if not
 	 */
-	static boolean cookiePathMatches(String cookiePath, String path) {
+	static boolean matchesCookiePath(String path, String cookiePath) {
 		if (cookiePath.equals(path)) {
 			return true;
 		}

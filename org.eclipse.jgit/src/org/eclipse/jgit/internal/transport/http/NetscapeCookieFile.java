@@ -162,9 +162,10 @@ public final class NetscapeCookieFile {
 	 *         return a copy of the list but rather the original one. Every
 	 *         addition to the returned list can afterwards be persisted via
 	 *         {@link #write(URL)}. Errors in the underlying file will not lead
-	 *         to exceptions but rather to {@code null} being returned.
+	 *         to exceptions but rather to an empty set being returned and the
+	 *         underlying error being logged.
 	 */
-	public @Nullable Set<HttpCookie> getCookies(boolean refresh) {
+	public Set<HttpCookie> getCookies(boolean refresh) {
 		if (cookies == null
 				|| (refresh && snapshot.isModified(file.toFile()))) {
 			try {
@@ -196,6 +197,9 @@ public final class NetscapeCookieFile {
 						MessageFormat.format(
 								JGitText.get().couldNotReadCookieFile, file),
 						e);
+				if (cookies == null) {
+					cookies = new LinkedHashSet<>();
+				}
 			}
 		}
 		return cookies;

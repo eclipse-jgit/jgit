@@ -337,12 +337,18 @@ public class NetscapeCookieFileTest {
 		NetscapeCookieFile.read(tmpFile, creationDate);
 	}
 
-	private final static class HttpCookiesMatcher {
+	public final static class HttpCookiesMatcher {
 		public static Matcher<Iterable<? extends HttpCookie>> containsInOrder(
 				Iterable<HttpCookie> expectedCookies) {
+			return containsInOrder(expectedCookies, 0);
+		}
+
+		public static Matcher<Iterable<? extends HttpCookie>> containsInOrder(
+				Iterable<HttpCookie> expectedCookies, int allowedMaxAgeDelta) {
 			final List<Matcher<? super HttpCookie>> cookieMatchers = new LinkedList<>();
 			for (HttpCookie cookie : expectedCookies) {
-				cookieMatchers.add(new HttpCookieMatcher(cookie));
+				cookieMatchers
+						.add(new HttpCookieMatcher(cookie, allowedMaxAgeDelta));
 			}
 			return new IsIterableContainingInOrder<>(cookieMatchers);
 		}
@@ -359,13 +365,23 @@ public class NetscapeCookieFileTest {
 
 		private final HttpCookie cookie;
 
-		public HttpCookieMatcher(HttpCookie cookie) {
+		private final int allowedMaxAgeDelta;
+
+		public HttpCookieMatcher(HttpCookie cookie, int allowedMaxAgeDelta) {
 			this.cookie = cookie;
+			this.allowedMaxAgeDelta = allowedMaxAgeDelta;
 		}
 
 		@Override
 		public void describeTo(Description description) {
 			describeCookie(description, cookie);
+		}
+
+		@Override
+		protected void describeMismatchSafely(HttpCookie item,
+				Description mismatchDescription) {
+			mismatchDescription.appendText("was ");
+			describeCookie(mismatchDescription, item);
 		}
 
 		@Override
@@ -376,7 +392,10 @@ public class NetscapeCookieFileTest {
 					&& equals(cookie.getValue(), otherCookie.getValue())
 					&& equals(cookie.getDomain(), otherCookie.getDomain())
 					&& equals(cookie.getPath(), otherCookie.getPath())
-					&& cookie.getMaxAge() == otherCookie.getMaxAge()
+					&& (cookie.getMaxAge() >= otherCookie.getMaxAge()
+							- allowedMaxAgeDelta)
+					&& (cookie.getMaxAge() <= otherCookie.getMaxAge()
+							+ allowedMaxAgeDelta)
 					&& cookie.isHttpOnly() == otherCookie.isHttpOnly()
 					&& cookie.getSecure() == otherCookie.getSecure()
 					&& cookie.getVersion() == otherCookie.getVersion());
