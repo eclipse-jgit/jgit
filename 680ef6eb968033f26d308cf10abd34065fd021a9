@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76042a9f_2df7189e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-11T19:52:49Z",
+      "side": 1,
+      "message": "I think Objects::nonNull is the recommended predicate for this\n\nhttps://docs.oracle.com/javase/8/docs/api/java/util/Objects.html#nonNull-java.lang.Object-\nAPI Note:\nThis method exists to be used as a Predicate, filter(Objects::nonNull)",
+      "revId": "680ef6eb968033f26d308cf10abd34065fd021a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
