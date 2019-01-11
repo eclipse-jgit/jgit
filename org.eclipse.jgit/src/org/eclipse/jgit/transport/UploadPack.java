@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.unmodifiableMap;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -79,9 +80,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -849,22 +852,46 @@ public class UploadPack {
 	}
 
 	/**
-	 * Read a ref on behalf of the client.
+	 * Returns the specified references.
 	 * <p>
-	 * This checks that the ref is present in the ref advertisement since
-	 * otherwise the client might not be supposed to be able to read it.
+	 * This produces an immutable map containing whatever subset of the
+	 * refs named by the caller are present in the supplied {@code refs}
+	 * map.
 	 *
-	 * @param name
-	 *            the unabbreviated name of the reference.
-	 * @return the requested Ref, or {@code null} if it is not visible or
-	 *         does not exist.
-	 * @throws java.io.IOException
-	 *            on failure to read the ref or check it for visibility.
+	 * @param refs
+	 *            Map to search for refs to return.
+	 * @param names
+	 *            which refs to search for in {@code refs}.
+	 * @return the requested Refs, omitting any that are null or missing.
 	 */
-	@Nullable
-	private Ref getRef(String name) throws IOException {
+	@NonNull
+	private static Map<String, Ref> mapRefs(
+			Map<String, Ref> refs, List<String> names) {
+		return unmodifiableMap(
+				names.stream()
+					.map(refs::get)
+					.filter(Objects::nonNull)
+					.collect(toMap(Ref::getName, identity(), (a, b) -> b)));
+	}
+
+	/**
+	 * Read refs on behalf of the client.
+	 * <p>
+	 * This checks whether the refs are present in the ref advertisement
+	 * since otherwise the client might not be supposed to be able to
+	 * read them.
+	 *
+	 * @param names
+	 *            unabbreviated names of references.
+	 * @return the requested Refs, omitting any that are not visible or
+	 *         do not exist.
+	 * @throws java.io.IOException
+	 *            on failure to read a ref or check it for visibility.
+	 */
+	@NonNull
+	private Map<String, Ref> exactRefs(List<String> names) throws IOException {
 		if (refs != null) {
-			return refs.get(name);
+			return mapRefs(refs, names);
 		}
 		if (!advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
@@ -874,9 +901,10 @@ public class UploadPack {
 				refFilter == RefFilter.DEFAULT &&
 				transferConfig.hasDefaultRefFilter()) {
 			// Fast path: no ref filtering is needed.
-			return db.getRefDatabase().exactRef(name);
+			String[] ns = names.toArray(new String[0]);
+			return unmodifiableMap(db.getRefDatabase().exactRef(ns));
 		}
-		return getAdvertisedOrDefaultRefs().get(name);
+		return mapRefs(getAdvertisedOrDefaultRefs(), names);
 	}
 
 	/**
@@ -1042,6 +1070,31 @@ public class UploadPack {
 		adv.end();
 	}
 
+	// Resolves ref names from the request's want-ref lines to
+	// object ids, throwing PackProtocolException if any are missing.
+	private Map<String, ObjectId> wantedRefs(FetchV2Request req)
+			throws IOException {
+		Map<String, ObjectId> result = new TreeMap<>();
+
+		List<String> wanted = req.getWantedRefs();
+		Map<String, Ref> resolved = exactRefs(wanted);
+
+		for (String refName : wanted) {
+			Ref ref = resolved.get(refName);
+			if (ref == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			ObjectId oid = ref.getObjectId();
+			if (oid == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			result.put(refName, oid);
+		}
+		return result;
+	}
+
 	private void fetchV2() throws IOException {
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
@@ -1074,22 +1127,9 @@ public class UploadPack {
 			deepenNots.add(ref.getObjectId());
 		}
 
-		Map<String, ObjectId> wantedRefs = new TreeMap<>();
-		for (String refName : req.getWantedRefs()) {
-			Ref ref = getRef(refName);
-			if (ref == null) {
-				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidRefName, refName));
-			}
-			ObjectId oid = ref.getObjectId();
-			if (oid == null) {
-				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidRefName, refName));
-			}
-			// TODO(ifrade): Avoid mutating the parsed request.
-			req.getWantIds().add(oid);
-			wantedRefs.put(refName, oid);
-		}
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+		// TODO(ifrade): Avoid mutating the parsed request.
+		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
 
 		boolean sectionSent = false;
