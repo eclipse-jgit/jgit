@@ -99,6 +99,24 @@
     },
     {
       "key": {
+        "uuid": "3516a916_d0e91b6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-11T10:35:26Z",
+      "side": 1,
+      "message": "This is already checked in line #636!",
+      "parentUuid": "1578881b_3f8df215",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2114df25_4fac8029",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 16
