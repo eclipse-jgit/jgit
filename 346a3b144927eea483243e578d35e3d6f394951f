@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "8cf64bb6_a481a813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-11T15:42:49Z",
+      "side": 1,
+      "message": "Indeed I do not calculate the content hash. But the snapshot is properly updated in line 174, right?\nI don\u0027t like about the FileBasedConfig.load() method that everything is loaded into one String variable first. I would rather like to read based on a reader (i.e. in chunks).",
+      "parentUuid": "10c07741_7cefef51",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0f9a950_575596df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
         "patchSetId": 16
@@ -53,6 +71,24 @@
       "writtenOn": "2019-01-09T02:26:46Z",
       "side": 1,
       "message": "like above start from a copy of FileBasedConfig.save(), replace the call to toText() by the method rendering the cookie file content and skip the utf8Bom handling.\n\nMaybe it makes sense to extract the code creating the file content to another method (equivalent to toText() in FileBasedConfig) in order to limit complexity of this method.",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7be5163_8eee81de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-11T15:42:49Z",
+      "side": 1,
+      "message": "What exactly do you miss in this method? Again save() will first convert everything to one big String variable and persist it afterwards. My method uses a writer to persist in chunks which I like better.",
+      "parentUuid": "c0f9a950_575596df",
       "revId": "346a3b144927eea483243e578d35e3d6f394951f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
