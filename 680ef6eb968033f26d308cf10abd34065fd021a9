@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1e2c352_13584cf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-11T19:52:55Z",
+      "side": 1,
+      "message": "mapRefs?",
+      "range": {
+        "startLine": 867,
+        "startChar": 33,
+        "endLine": 867,
+        "endChar": 41
+      },
+      "revId": "680ef6eb968033f26d308cf10abd34065fd021a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76042a9f_2df7189e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -13,6 +36,29 @@
       "writtenOn": "2019-01-11T19:52:49Z",
       "side": 1,
       "message": "I think Objects::nonNull is the recommended predicate for this\n\nhttps://docs.oracle.com/javase/8/docs/api/java/util/Objects.html#nonNull-java.lang.Object-\nAPI Note:\nThis method exists to be used as a Predicate, filter(Objects::nonNull)",
+      "revId": "680ef6eb968033f26d308cf10abd34065fd021a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372c83dd_00d16a20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-11T19:52:55Z",
+      "side": 1,
+      "message": "exactRefs?",
+      "range": {
+        "startLine": 891,
+        "startChar": 26,
+        "endLine": 891,
+        "endChar": 34
+      },
       "revId": "680ef6eb968033f26d308cf10abd34065fd021a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
