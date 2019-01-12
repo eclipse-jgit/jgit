@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "253dc7f3_4f063bea",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 24
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-12T13:48:43Z",
+      "side": 1,
+      "message": "s/key/GPG key/\n\notherwise it\u0027s unclear what kind of key this is",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 15
+      },
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f039767_5363e84d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
         "patchSetId": 24
