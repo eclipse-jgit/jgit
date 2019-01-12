@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f039767_5363e84d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-12T13:36:31Z",
+      "side": 1,
+      "message": "that\u0027s misusing URI instead of adding an CredentialsItem.InformationalMessage. If you want to show a URI this would be the URI of the keybox or secring file the key is loaded from",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7f8c7dc_040e86c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-12T13:36:31Z",
+      "side": 1,
+      "message": "If CredentialsProvider.get() returns false the user canceled the dialog, this currently ends with a NPE, instead this should cancel the commit command if the key requires a passphrase",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
