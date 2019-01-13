@@ -314,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "fcffaa31_29f59877",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-13T01:30:59Z",
+      "side": 1,
+      "message": "We handle other global config options in the same way, e.g. all the options in WindowCacheConfig [1]. You are right it doesn\u0027t make sense to configure them per repository, they can be defined on user or system level or in a way defined by the application using JGit. E.g. Gerrit is creating a WindowCacheConfig from the core section of its own gerrit.config configuring the Gerrit server and then installs the configuration [2]. This configuration has an install method to allow changing the cache size at runtime.\n\nI think we could hardcode the number of retries, it seems reasonable to allow configuring the max size of the cache if it\u0027s a limited cache.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java#50\n[2] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java#70",
+      "parentUuid": "d828052f_e61af7c2",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97a7306_90dcd247",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
         "patchSetId": 15
