@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "246cd543_63497d67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-13T19:30:12Z",
+      "side": 1,
+      "message": "Thanks for the tip with InformationalMessage. Especially with the new keybox format there is no specific file path a key is loaded from.",
+      "parentUuid": "3f039767_5363e84d",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f8c7dc_040e86c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
         "patchSetId": 24
@@ -53,6 +71,24 @@
       "writtenOn": "2019-01-12T13:36:31Z",
       "side": 1,
       "message": "If CredentialsProvider.get() returns false the user canceled the dialog, this currently ends with a NPE, instead this should cancel the commit command if the key requires a passphrase",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9725810_7f98ac5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-13T19:30:12Z",
+      "side": 1,
+      "message": "Is there an exception I can use for this?",
+      "parentUuid": "c7f8c7dc_040e86c4",
       "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
