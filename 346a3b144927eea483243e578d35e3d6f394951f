@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "61aaf1f2_849b5e08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-13T01:30:59Z",
+      "side": 1,
+      "message": "yes, you are right regarding the snapshot\n\nReading and writing the complete file content in one go is done in FileBasedConfig in order to read and write the file as quickly as possible to reduce chances for races and filesystem level lock contention. Locking behaviour when accessing files depends on which filesystem and OS is used. You are using Files.readAllLines in the read method, this means you are also reading the complete file content in one shot so this is equivalent to what FileBasedConfig does using a byte array.\n\nFileBasedConfig uses LockFile to support atomic updates of the file content. This is implemented by writing the new content to a new temporary file and then atomically renaming the temporary file to the name of the configuration file in order to atomically replace the old file content by the new content. This works for both concurrent access from multiple threads and also from multiple processes.\n\nFileBasedConfig compares content hashes in order to avoid we change the file\u0027s timestamp unnecessarily. This helps to reduce the chance to hit the problem known in the git community as the racy git problem [1]. It is caused by the finite resolution of filesystem timestamps (many Linux filesystems have a resolution of 1 second). We use the file\u0027s modification timestamp to avoid unnecessary IO similar like git index does that. If one process tries to read a file and another process writes to the file within the same tick of the filesystem clock the first thread cannot rely on the modification timestamp to know if the file content changed or not while it is reading the file content. This may have the effect that the reading thread sees a partial update.\n\nAll this may be overkill for single-user tools like e.g. EGit, but JGit is also used in server applications like Gerrit where many threads and multiple processes (in case of a HA setup) may try to access the same file concurrently.\n\nThe same principle is used (also by native git) to ensure atomic content updates of files in the working tree and the git index file.\n\n[1] https://github.com/git/git/blob/master/Documentation/technical/racy-git.txt",
+      "parentUuid": "8cf64bb6_a481a813",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0f9a950_575596df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
         "patchSetId": 16
@@ -89,6 +107,24 @@
       "side": 1,
       "message": "What exactly do you miss in this method? Again save() will first convert everything to one big String variable and persist it afterwards. My method uses a writer to persist in chunks which I like better.",
       "parentUuid": "c0f9a950_575596df",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9995ece8_2d3aaa60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-13T01:30:59Z",
+      "side": 1,
+      "message": "I miss the hash handling and writing the file content to disk as fast as possible. If the implementation here is close enough to the one in FileBasedConfig we could try to factor out the common logic into another reusable class (maybe in another change).",
+      "parentUuid": "a7be5163_8eee81de",
       "revId": "346a3b144927eea483243e578d35e3d6f394951f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -147,6 +183,24 @@
       "side": 1,
       "message": "This is already checked in line #636!",
       "parentUuid": "1578881b_3f8df215",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b75ce_4fae6ad0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-13T01:30:59Z",
+      "side": 1,
+      "message": "yes, I missed this",
+      "parentUuid": "3516a916_d0e91b6c",
       "revId": "346a3b144927eea483243e578d35e3d6f394951f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
