@@ -213,7 +213,7 @@ abstract class BlockBasedFile {
 		private final DfsPackDescription desc;
 		private final PackExt ext;
 
-		private ReadableChannel rc = null;
+		private ReadableChannel rc;
 
 		LazyChannel(DfsReader ctx, DfsPackDescription desc, PackExt ext) {
 			this.ctx = ctx;
@@ -224,11 +224,7 @@ abstract class BlockBasedFile {
 		@Override
 		public ReadableChannel get() throws IOException {
 			if (rc == null) {
-				synchronized (this) {
-					if (rc == null) {
-						rc = ctx.db.openFile(desc, ext);
-					}
-				}
+				rc = ctx.db.openFile(desc, ext);
 			}
 			return rc;
 		}
