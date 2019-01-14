@@ -47,11 +47,13 @@ import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive
 
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
+import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
@@ -101,7 +103,8 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 
 	@Override
 	public HostConfigEntry resolveEffectiveHost(String host, int port,
-			String username) throws IOException {
+			SocketAddress localAddress, String username,
+			AttributeRepository attributes) throws IOException {
 		HostEntry entry = configFile.lookup(host, port, username);
 		JGitHostConfigEntry config = new JGitHostConfigEntry();
 		// Apache MINA conflates all keys, even multi-valued ones, in one map

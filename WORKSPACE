@@ -59,15 +59,15 @@ maven_jar(
 )
 
 maven_jar(
-    name = "sshd-core",
-    artifact = "org.apache.sshd:sshd-core:2.0.0",
-    sha1 = "f4275079a2463cfd2bf1548a80e1683288a8e86b",
+    name = "sshd-osgi",
+    artifact = "org.apache.sshd:sshd-osgi:2.2.0",
+    sha1 = "a45d48cb53678e699816e8e054e55fa33f5a4558",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.0.0",
-    sha1 = "a12d64dc2d5d23271a4dc58075e55f9c64a68494",
+    artifact = "org.apache.sshd:sshd-sftp:2.2.0",
+    sha1 = "3d011e00adf38e49bb8711a9dd762fe908a2170c",
 )
 
 maven_jar(

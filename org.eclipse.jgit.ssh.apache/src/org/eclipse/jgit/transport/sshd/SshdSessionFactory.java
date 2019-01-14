@@ -64,18 +64,18 @@ import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.auth.UserAuth;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
+import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
-import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
 import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
@@ -211,7 +211,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				}
 				HostConfigEntryResolver configFile = getHostConfigEntryResolver(
 						home, sshDir);
-				KeyPairProvider defaultKeysProvider = toKeyPairProvider(
+				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
 				KeyPasswordProvider passphrases = createKeyPasswordProvider(
 						credentialsProvider);
@@ -227,7 +227,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				client.setUserInteraction(
 						new JGitUserInteraction(credentialsProvider));
 				client.setUserAuthFactories(getUserAuthFactories());
-				client.setKeyPairProvider(defaultKeysProvider);
+				client.setKeyIdentityProvider(defaultKeysProvider);
 				// JGit-specific things:
 				JGitSshClient jgitClient = (JGitSshClient) client;
 				jgitClient.setKeyCache(getKeyCache());
@@ -438,17 +438,18 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	/**
 	 * Converts an {@link Iterable} of {link KeyPair}s into a
-	 * {@link KeyPairProvider}.
+	 * {@link KeyIdentityProvider}.
 	 *
 	 * @param keys
-	 *            to provide via the returned {@link KeyPairProvider}
-	 * @return a {@link KeyPairProvider} that provides the given {@code keys}
+	 *            to provide via the returned {@link KeyIdentityProvider}
+	 * @return a {@link KeyIdentityProvider} that provides the given
+	 *         {@code keys}
 	 */
-	private KeyPairProvider toKeyPairProvider(Iterable<KeyPair> keys) {
-		if (keys instanceof KeyPairProvider) {
-			return (KeyPairProvider) keys;
+	private KeyIdentityProvider toKeyIdentityProvider(Iterable<KeyPair> keys) {
+		if (keys instanceof KeyIdentityProvider) {
+			return (KeyIdentityProvider) keys;
 		}
-		return () -> keys;
+		return (session) -> keys;
 	}
 
 	/**
@@ -522,7 +523,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		// Password auth doesn't have this problem.
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
-						JGitPublicKeyAuthFactory.INSTANCE,
+						UserAuthPublicKeyFactory.INSTANCE,
 						JGitPasswordAuthFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE));
 	}

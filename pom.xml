@@ -183,7 +183,7 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.3.0.201903130848-r</jgit-last-release-version>
-    <apache-sshd-version>2.0.0</apache-sshd-version>
+    <apache-sshd-version>2.2.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
     <javaewah-version>1.1.6</javaewah-version>

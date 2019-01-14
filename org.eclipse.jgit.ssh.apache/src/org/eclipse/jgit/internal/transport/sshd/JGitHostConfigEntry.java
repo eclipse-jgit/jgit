@@ -53,27 +53,10 @@ import org.eclipse.jgit.annotations.NonNull;
  * A {@link HostConfigEntry} that provides access to the multi-valued keys as
  * lists of strings. The super class treats them as single strings containing
  * comma-separated lists.
- *
  */
 public class JGitHostConfigEntry extends HostConfigEntry {
 
 	private Map<String, List<String>> multiValuedOptions;
-
-	@Override
-	public String getProperty(String name, String defaultValue) {
-		// Upstream bug fix (SSHD-867): if there are _no_ properties at all, the
-		// super implementation returns always null even if a default value is
-		// given.
-		//
-		// See https://issues.apache.org/jira/projects/SSHD/issues/SSHD-867
-		//
-		// TODO: remove this override once we're based on sshd > 2.1.0
-		Map<String, String> properties = getProperties();
-		if (properties == null || properties.isEmpty()) {
-			return defaultValue;
-		}
-		return super.getProperty(name, defaultValue);
-	}
 
 	/**
 	 * Sets the multi-valued options.

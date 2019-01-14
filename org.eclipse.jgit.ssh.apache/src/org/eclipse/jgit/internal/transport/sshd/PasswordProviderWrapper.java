@@ -50,6 +50,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.session.SessionContext;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
@@ -83,10 +85,12 @@ public class PasswordProviderWrapper implements RepeatingFilePasswordProvider {
 	}
 
 	@Override
-	public String getPassword(String resourceKey) throws IOException {
+	public String getPassword(SessionContext session, NamedResource resource,
+			int attemptIndex) throws IOException {
+		String key = resource.getName();
 		int attempt = counts
-				.computeIfAbsent(resourceKey, k -> new AtomicInteger()).get();
-		char[] passphrase = delegate.getPassphrase(toUri(resourceKey), attempt);
+				.computeIfAbsent(key, k -> new AtomicInteger()).get();
+		char[] passphrase = delegate.getPassphrase(toUri(key), attempt);
 		if (passphrase == null) {
 			return null;
 		}
@@ -98,21 +102,23 @@ public class PasswordProviderWrapper implements RepeatingFilePasswordProvider {
 	}
 
 	@Override
-	public ResourceDecodeResult handleDecodeAttemptResult(String resourceKey,
+	public ResourceDecodeResult handleDecodeAttemptResult(
+			SessionContext session, NamedResource resource, int retryIndex,
 			String password, Exception err)
 			throws IOException, GeneralSecurityException {
-		AtomicInteger count = counts.get(resourceKey);
+		String key = resource.getName();
+		AtomicInteger count = counts.get(key);
 		int numberOfAttempts = count == null ? 0 : count.incrementAndGet();
 		ResourceDecodeResult result = null;
 		try {
-			if (delegate.keyLoaded(toUri(resourceKey), numberOfAttempts, err)) {
+			if (delegate.keyLoaded(toUri(key), numberOfAttempts, err)) {
 				result = ResourceDecodeResult.RETRY;
 			} else {
 				result = ResourceDecodeResult.TERMINATE;
 			}
 		} finally {
 			if (result != ResourceDecodeResult.RETRY) {
-				counts.remove(resourceKey);
+				counts.remove(key);
 			}
 		}
 		return result;

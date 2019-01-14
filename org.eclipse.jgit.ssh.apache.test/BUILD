@@ -10,7 +10,7 @@ junit_tests(
     deps = [
         "//lib:eddsa",
         "//lib:junit",
-        "//lib:sshd-core",
+        "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.ssh.apache:ssh-apache",

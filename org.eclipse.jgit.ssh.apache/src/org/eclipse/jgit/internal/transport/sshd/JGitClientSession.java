@@ -46,6 +46,7 @@ import static java.text.MessageFormat.format;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -173,7 +174,8 @@ public class JGitClientSession extends ClientSessionImpl {
 	}
 
 	@Override
-	protected byte[] sendKexInit() throws IOException {
+	protected byte[] sendKexInit()
+			throws IOException, GeneralSecurityException {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
 			try {
@@ -187,7 +189,7 @@ public class JGitClientSession extends ClientSessionImpl {
 				// This is called only from the ClientSessionImpl
 				// constructor, where the return value is ignored.
 				return null;
-			} catch (IOException e) {
+			} catch (IOException | GeneralSecurityException e) {
 				throw e;
 			} catch (Exception other) {
 				throw new IOException(other.getLocalizedMessage(), other);

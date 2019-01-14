@@ -672,7 +672,7 @@ public class OpenSshServerKeyVerifier
 						continue;
 					}
 					try {
-						PublicKey serverKey = keyPart.resolvePublicKey(
+						PublicKey serverKey = keyPart.resolvePublicKey(null,
 								PublicKeyEntryResolver.IGNORING);
 						if (serverKey == null) {
 							LOG.warn(format(
