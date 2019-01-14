@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "252f5adc_4640f6f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-14T18:30:48Z",
+      "side": 1,
+      "message": "JGit style is to avoid the \u0027\u003d null\u0027 here, since it\u0027s automatic.",
+      "range": {
+        "startLine": 216,
+        "startChar": 29,
+        "endLine": 216,
+        "endChar": 35
+      },
+      "revId": "513d80db1066beaa284c97b1515cd069049f6f05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b46a182_32f7ba3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-14T18:30:48Z",
+      "side": 1,
+      "message": "This idiom isn\u0027t safe unless rc is volatile.",
+      "revId": "513d80db1066beaa284c97b1515cd069049f6f05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
