@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "00d8e00b_9bede385",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-14T18:53:34Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/135055.",
+      "parentUuid": "252f5adc_4640f6f4",
+      "range": {
+        "startLine": 216,
+        "startChar": 29,
+        "endLine": 216,
+        "endChar": 35
+      },
+      "revId": "513d80db1066beaa284c97b1515cd069049f6f05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b46a182_32f7ba3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "513d80db1066beaa284c97b1515cd069049f6f05",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb481f7_33dbf3dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/BlockBasedFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-14T18:53:34Z",
+      "side": 1,
+      "message": "Done: https://git.eclipse.org/r/135055.",
+      "parentUuid": "9b46a182_32f7ba3c",
+      "revId": "513d80db1066beaa284c97b1515cd069049f6f05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
