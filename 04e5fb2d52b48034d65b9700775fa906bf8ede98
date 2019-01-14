@@ -128,6 +128,24 @@
       "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d6e3dd9_23779e12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-14T01:21:12Z",
+      "side": 1,
+      "message": "or maybe CancellationException\nhttps://docs.oracle.com/javase/8/docs/api/index.html?java/util/concurrent/CancellationException.html",
+      "parentUuid": "9a354989_e0603aba",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
