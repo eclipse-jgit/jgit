@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "a214b934_c6332ab3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-14T01:06:34Z",
+      "side": 1,
+      "message": "see https://lists.gnupg.org/pipermail/gnupg-users/2015-December/054881.html\n\nand this page\nhttps://www.gnupg.org/documentation/manuals/gnupg/kbxutil.html\nsays explicitly: \"The commonly used one is the file pubring.kbx in the .gnupg directory.\"",
+      "parentUuid": "246cd543_63497d67",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f8c7dc_040e86c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
         "patchSetId": 24
@@ -89,6 +107,24 @@
       "side": 1,
       "message": "Is there an exception I can use for this?",
       "parentUuid": "c7f8c7dc_040e86c4",
+      "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a354989_e0603aba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-14T01:06:34Z",
+      "side": 1,
+      "message": "org.eclipse.jgit.errors.CancelledException",
+      "parentUuid": "d9725810_7f98ac5c",
       "revId": "04e5fb2d52b48034d65b9700775fa906bf8ede98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
