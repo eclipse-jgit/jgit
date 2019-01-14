@@ -12,7 +12,7 @@ java_library(
     deps = [
         "//lib:eddsa",
         "//lib:slf4j-api",
-        "//lib:sshd-core",
+        "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
     ],

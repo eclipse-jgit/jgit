@@ -48,10 +48,12 @@ import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.SocketAddress;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -66,12 +68,14 @@ import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.future.DefaultConnectFuture;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.client.session.SessionFactory;
+import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoConnectFuture;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.keyprovider.AbstractResourceKeyPairProvider;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
+import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.ValidateUtils;
 import org.eclipse.jgit.internal.transport.sshd.proxy.HttpClientConnector;
@@ -117,7 +121,8 @@ public class JGitSshClient extends SshClient {
 	}
 
 	@Override
-	public ConnectFuture connect(HostConfigEntry hostConfig)
+	public ConnectFuture connect(HostConfigEntry hostConfig,
+			AttributeRepository context, SocketAddress localAddress)
 			throws IOException {
 		if (connector == null) {
 			throw new IllegalStateException("SshClient not started."); //$NON-NLS-1$
@@ -149,7 +154,7 @@ public class JGitSshClient extends SshClient {
 			address = configureProxy(proxy, address);
 			proxy.clearPassword();
 		}
-		connector.connect(address).addListener(listener);
+		connector.connect(address, this, localAddress).addListener(listener);
 		return connectFuture;
 	}
 
@@ -263,16 +268,16 @@ public class JGitSshClient extends SshClient {
 				identities, keyCache);
 		ourConfiguredKeysProvider.setPasswordFinder(passwordProvider);
 		if (hostConfig.isIdentitiesOnly()) {
-			session.setKeyPairProvider(ourConfiguredKeysProvider);
+			session.setKeyIdentityProvider(ourConfiguredKeysProvider);
 		} else {
-			KeyPairProvider defaultKeysProvider = getKeyPairProvider();
+			KeyIdentityProvider defaultKeysProvider = getKeyIdentityProvider();
 			if (defaultKeysProvider instanceof AbstractResourceKeyPairProvider<?>) {
 				((AbstractResourceKeyPairProvider<?>) defaultKeysProvider)
 						.setPasswordFinder(passwordProvider);
 			}
-			KeyPairProvider combinedProvider = new CombinedKeyPairProvider(
+			KeyIdentityProvider combinedProvider = new CombinedKeyIdentityProvider(
 					ourConfiguredKeysProvider, defaultKeysProvider);
-			session.setKeyPairProvider(combinedProvider);
+			session.setKeyIdentityProvider(combinedProvider);
 		}
 		return session;
 	}
@@ -363,39 +368,30 @@ public class JGitSshClient extends SshClient {
 	}
 
 	/**
-	 * A {@link KeyPairProvider} that iterates over the {@link Iterable}s
-	 * returned by other {@link KeyPairProvider}s.
+	 * A {@link KeyIdentityProvider} that iterates over the {@link Iterable}s
+	 * returned by other {@link KeyIdentityProvider}s.
 	 */
-	private static class CombinedKeyPairProvider implements KeyPairProvider {
+	private static class CombinedKeyIdentityProvider
+			implements KeyIdentityProvider {
 
-		private final List<KeyPairProvider> providers;
+		private final List<KeyIdentityProvider> providers;
 
-		public CombinedKeyPairProvider(KeyPairProvider... providers) {
+		public CombinedKeyIdentityProvider(KeyIdentityProvider... providers) {
 			this(Arrays.stream(providers).filter(Objects::nonNull)
 					.collect(Collectors.toList()));
 		}
 
-		public CombinedKeyPairProvider(List<KeyPairProvider> providers) {
+		public CombinedKeyIdentityProvider(
+				List<KeyIdentityProvider> providers) {
 			this.providers = providers;
 		}
 
 		@Override
-		public Iterable<String> getKeyTypes() {
-			throw new UnsupportedOperationException(
-					"Should not have been called in a ssh client"); //$NON-NLS-1$
-		}
-
-		@Override
-		public KeyPair loadKey(String type) {
-			throw new UnsupportedOperationException(
-					"Should not have been called in a ssh client"); //$NON-NLS-1$
-		}
-
-		@Override
-		public Iterable<KeyPair> loadKeys() {
+		public Iterable<KeyPair> loadKeys(SessionContext context) {
 			return () -> new Iterator<KeyPair>() {
 
-				private Iterator<KeyPairProvider> factories = providers.iterator();
+				private Iterator<KeyIdentityProvider> factories = providers
+						.iterator();
 				private Iterator<KeyPair> current;
 
 				private Boolean hasElement;
@@ -407,7 +403,12 @@ public class JGitSshClient extends SshClient {
 					}
 					while (current == null || !current.hasNext()) {
 						if (factories.hasNext()) {
-							current = factories.next().loadKeys().iterator();
+							try {
+								current = factories.next().loadKeys(context)
+										.iterator();
+							} catch (IOException | GeneralSecurityException e) {
+								throw new RuntimeException(e);
+							}
 						} else {
 							current = null;
 							hasElement = Boolean.FALSE;

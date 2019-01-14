@@ -1,7 +1,7 @@
-target "I20190404224055" with source configurePhase
+target "I20190425225339" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/I20190404224055/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/I20190425225339/repository" {
 	org.apache.ant [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
 	org.apache.ant.source [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
@@ -57,8 +57,8 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/I2019040422405
 	com.jcraft.jzlib.source [1.1.1.v201205102305,1.1.1.v201205102305]
 	net.i2p.crypto.eddsa [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
 	net.i2p.crypto.eddsa.source [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
-	org.apache.sshd.core [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.core.source [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.sftp [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
-	org.apache.sshd.sftp.source [2.0.0.v20181102-1323,2.0.0.v20181102-1323]
+	org.apache.sshd.osgi [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
+	org.apache.sshd.osgi.source [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
+	org.apache.sshd.sftp [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
+	org.apache.sshd.sftp.source [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
 }

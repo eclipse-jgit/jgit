@@ -45,7 +45,7 @@ def tests(tests):
             additional_deps = [
                 "//lib:jsch",
                 "//lib:jzlib",
-                "//lib:sshd-core",
+                "//lib:sshd-osgi",
                 "//lib:sshd-sftp",
                 ":sshd-helpers",
             ]

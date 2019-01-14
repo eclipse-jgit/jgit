@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.12-staging" sequenceNumber="1556213559">
+<target name="jgit-4.12-staging" sequenceNumber="1556260650">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -78,11 +78,11 @@
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
-      <unit id="org.apache.sshd.core" version="2.0.0.v20181102-1323"/>
-      <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
-      <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
-      <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20190404224055/repository"/>
+      <unit id="org.apache.sshd.osgi" version="2.2.0.v20190425-2127"/>
+      <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
+      <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
+      <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20190425225339/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

@@ -55,10 +55,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
@@ -67,6 +66,8 @@ import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.common.util.threads.CloseableExecutorService;
+import org.apache.sshd.common.util.threads.ThreadUtils;
 import org.apache.sshd.server.ServerAuthenticationManager;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
@@ -110,8 +111,8 @@ public class SshTestGitServer {
 	@NonNull
 	protected PublicKey testKey;
 
-	private final ExecutorService executorService = Executors
-			.newFixedThreadPool(2);
+	private final CloseableExecutorService executorService = ThreadUtils
+			.newFixedThreadPool("SshTestGitServerPool", 2);
 
 	/**
 	 * Creates a ssh git <em>test</em> server. It serves one single repository,
@@ -138,11 +139,12 @@ public class SshTestGitServer {
 		server = SshServer.setUpDefaultServer();
 		// Set host key
 		try (ByteArrayInputStream in = new ByteArrayInputStream(hostKey)) {
-			hostKeys.add(SecurityUtils.loadKeyPairIdentity("", in, null));
+			SecurityUtils.loadKeyPairIdentities(null, null, in, null)
+					.forEach((k) -> hostKeys.add(k));
 		} catch (IOException | GeneralSecurityException e) {
 			// Ignore.
 		}
-		server.setKeyPairProvider(() -> hostKeys);
+		server.setKeyPairProvider((session) -> hostKeys);
 
 		configureAuthentication();
 
@@ -276,8 +278,10 @@ public class SshTestGitServer {
 	public void addHostKey(@NonNull Path key, boolean inFront)
 			throws IOException, GeneralSecurityException {
 		try (InputStream in = Files.newInputStream(key)) {
-			KeyPair pair = SecurityUtils.loadKeyPairIdentity(key.toString(), in,
-					null);
+			KeyPair pair = SecurityUtils
+					.loadKeyPairIdentities(null,
+							NamedResource.ofName(key.toString()), in, null)
+					.iterator().next();
 			if (inFront) {
 				hostKeys.add(0, pair);
 			} else {
@@ -335,14 +339,14 @@ public class SshTestGitServer {
 	public void setTestUserPublicKey(Path key)
 			throws IOException, GeneralSecurityException {
 		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
-				.resolvePublicKey(PublicKeyEntryResolver.IGNORING);
+				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
 	}
 
 	private class GitUploadPackCommand extends AbstractCommandSupport {
 
 		protected GitUploadPackCommand(String command,
-				ExecutorService executorService) {
-			super(command, executorService, false);
+				CloseableExecutorService executorService) {
+			super(command, ThreadUtils.noClose(executorService));
 		}
 
 		@Override
@@ -370,8 +374,8 @@ public class SshTestGitServer {
 	private class GitReceivePackCommand extends AbstractCommandSupport {
 
 		protected GitReceivePackCommand(String command,
-				ExecutorService executorService) {
-			super(command, executorService, false);
+				CloseableExecutorService executorService) {
+			super(command, ThreadUtils.noClose(executorService));
 		}
 
 		@Override

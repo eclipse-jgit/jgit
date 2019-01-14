@@ -34,7 +34,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.sshd.core"
+         id="org.apache.sshd.osgi"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -7,7 +7,7 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.junit.ssh/resources",
     resources = glob(["resources/**"]),
     deps = [
-        "//lib:sshd-core",
+        "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",

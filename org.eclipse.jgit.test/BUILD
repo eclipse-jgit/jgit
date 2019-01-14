@@ -68,7 +68,7 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
-        "//lib:sshd-core",
+        "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
