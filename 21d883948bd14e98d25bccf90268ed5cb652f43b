@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03e38aca_17548b0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-14T11:22:25Z",
+      "side": 1,
+      "message": "Matthias, I\u0027m still using the fingerprint. I think that otherwise I need to \"leak\" the path into places where we don\u0027t deal with this at all. I didn\u0027t like passing the path around just for the purpose of displaying it.\n\nThe other alternative might be to create a wrapper object for the key with yet another abstraction. Do you think it\u0027s worth doing this?",
+      "revId": "21d883948bd14e98d25bccf90268ed5cb652f43b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
