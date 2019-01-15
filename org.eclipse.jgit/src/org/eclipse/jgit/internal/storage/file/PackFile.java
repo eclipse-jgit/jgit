@@ -139,7 +139,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private byte[] packChecksum;
 
-	private PackIndex loadedIdx;
+	private volatile PackIndex loadedIdx;
 
 	private PackReverseIndex reverseIdx;
 
@@ -174,35 +174,44 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		length = Long.MAX_VALUE;
 	}
 
-	private synchronized PackIndex idx() throws IOException {
-		if (loadedIdx == null) {
-			if (invalid)
-				throw new PackInvalidException(packFile);
+	private PackIndex idx() throws IOException {
+		PackIndex idx = loadedIdx;
+		if (idx == null) {
+			synchronized (this) {
+				idx = loadedIdx;
+				if (idx == null) {
+					if (invalid) {
+						throw new PackInvalidException(packFile);
+					}
+					try {
+						idx = PackIndex.open(extFile(INDEX));
 
-			try {
-				final PackIndex idx = PackIndex.open(extFile(INDEX));
-
-				if (packChecksum == null) {
-					packChecksum = idx.packChecksum;
-				} else if (!Arrays.equals(packChecksum, idx.packChecksum)) {
-					throw new PackMismatchException(MessageFormat.format(
-							JGitText.get().packChecksumMismatch,
-							packFile.getPath(),
-							ObjectId.fromRaw(packChecksum).name(),
-							ObjectId.fromRaw(idx.packChecksum).name()));
+						if (packChecksum == null) {
+							packChecksum = idx.packChecksum;
+						} else if (!Arrays.equals(packChecksum,
+								idx.packChecksum)) {
+							throw new PackMismatchException(MessageFormat
+									.format(JGitText.get().packChecksumMismatch,
+											packFile.getPath(),
+											ObjectId.fromRaw(packChecksum)
+													.name(),
+											ObjectId.fromRaw(idx.packChecksum)
+													.name()));
+						}
+						loadedIdx = idx;
+					} catch (InterruptedIOException e) {
+						// don't invalidate the pack, we are interrupted from
+						// another thread
+						throw e;
+					} catch (IOException e) {
+						invalid = true;
+						throw e;
+					}
 				}
-				loadedIdx = idx;
-			} catch (InterruptedIOException e) {
-				// don't invalidate the pack, we are interrupted from another thread
-				throw e;
-			} catch (IOException e) {
-				invalid = true;
-				throw e;
 			}
 		}
-		return loadedIdx;
+		return idx;
 	}
-
 	/** @return the File object which locates this pack on disk. */
 	public File getPackFile() {
 		return packFile;
