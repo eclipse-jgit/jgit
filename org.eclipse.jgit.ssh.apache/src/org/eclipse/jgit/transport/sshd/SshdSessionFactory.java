@@ -70,6 +70,7 @@ import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
+import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
@@ -157,6 +158,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		super();
 		this.keyCache = keyCache;
 		this.proxies = proxies;
+		// sshd limits the number of BCrypt KDF rounds to 255 by default.
+		// Decrypting such a key takes about two seconds on my machine.
+		// I consider this limit too low. The time increases linearly with the
+		// number of rounds.
+		BCryptKdfOptions.setMaxAllowedRounds(16384);
 	}
 
 	/** A simple general map key. */
