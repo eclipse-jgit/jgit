@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6b7d186_a49b6a84",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-15T00:37:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c16594fd_f3247ba0",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "800041d3_565f1fe7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3e6b6c7b_53528ade",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-15T00:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800041d3_565f1fe7",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c88ec8c_2588207a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-12-18T01:05:33Z",
       "side": 1,
       "message": "same here, \"ref pattern\" ?",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44bbb6af_5f53fe4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-15T00:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c88ec8c_2588207a",
       "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +136,24 @@
       "side": 1,
       "message": "yep, boolean arguments smell, see https://martinfowler.com/bliki/FlagArgument.html",
       "parentUuid": "df25abd1_bede4c50",
+      "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "184b09a8_f8889c30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-15T00:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62841c72_b7bb2404",
       "revId": "c989c9d026fa2cdd7b76bc4ea9bfc60eb86931a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
