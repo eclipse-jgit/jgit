@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5859cb5_1354a339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "For all javadoc in the patch:\n\"If you have more than one paragraph in the doc comment, separate the paragraphs with a \u003cp\u003e paragraph tag, as shown.\" [1]\n\n[1] https://www.oracle.com/technetwork/articles/java/index-137868.html",
+      "range": {
+        "startLine": 416,
+        "startChar": 46,
+        "endLine": 416,
+        "endChar": 0
+      },
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e74861a_ae816814",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we usually leave these empty lines around a {@code ... } tag, but I don\u0027t know if there is a guideline about it either.",
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af595a1_0df9db12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "The name of this parameter is confusing, as this refspec has its own \"destination\".",
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5c06dd_96aea4dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "Any reason to revert the \"this\" and \"that\" params? Usually the first argument of the functions refers to \"this\".",
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33061b1a_87117ca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "It took me a while to find out that \"prefix\" can be shorter than \"list\". \nThe parameter names could be more helpful (and maybe a comment in the code?)\nAlso, any reason then cannot be a specific List\u003cString\u003e?",
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bcaba5a_54ca3aee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-15T06:44:44Z",
+      "side": 1,
+      "message": "Do you mean \"listSize - i\" (there is a ONE instead or a letter \"i\")?\n(If so, this hints also a missing test case)",
+      "range": {
+        "startLine": 628,
+        "startChar": 63,
+        "endLine": 628,
+        "endChar": 64
+      },
+      "revId": "483bb59e5d3941c6cc3d0ccb53ab9e7adc2c8993",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
