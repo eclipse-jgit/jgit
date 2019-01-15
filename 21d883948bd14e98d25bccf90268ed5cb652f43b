@@ -16,6 +16,24 @@
       "revId": "21d883948bd14e98d25bccf90268ed5cb652f43b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79376a0_be18cc54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyPassphrasePrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-15T00:11:54Z",
+      "side": 1,
+      "message": "This gpg URI doesn\u0027t add any additional useful information to what is shown by the informational message in a nicer format. Hence I\u0027d either add a wrapper to pass the file path or set URI to null and skip adding the URI infoLabel in org.eclipse.egit.ui.internal.dialogs.CustomPromptDialog if the URI is null.",
+      "parentUuid": "03e38aca_17548b0e",
+      "revId": "21d883948bd14e98d25bccf90268ed5cb652f43b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
