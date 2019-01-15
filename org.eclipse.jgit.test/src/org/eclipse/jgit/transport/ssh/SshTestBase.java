@@ -89,7 +89,9 @@ public abstract class SshTestBase extends SshTestHarness {
 			"id_rsa_4096_testpass", //
 			"id_ecdsa_256_testpass", //
 			"id_ecdsa_384_testpass", //
-			"id_ecdsa_521_testpass" };
+			"id_ecdsa_521_testpass", //
+			"id_ed25519_testpass", //
+			"id_ed25519_expensive_testpass" };
 
 	protected File defaultCloneDir;
 
