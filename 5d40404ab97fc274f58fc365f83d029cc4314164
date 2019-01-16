@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cc98d5a_fe2135f0",
+        "filename": "org.eclipse.jgit.pgm/pom.xml",
+        "patchSetId": 30
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-16T09:57:32Z",
+      "side": 1,
+      "message": "this works nicely to create an executable including all the jars needed to run org.eclipse.jgit.pgm, but the spring boot loader start script is changing the current working directory to the directory where the generated executable resides, this has the following effect when I try to create a signed commit in a test repository:\n\n HelloWorld (master +)]$ pwd\n /Users/d0xxxxx/tmp/git/HelloWorld\n HelloWorld (master +)]$ ~/src/git/jgit/org.eclipse.jgit.pgm/target/jgit --show-stack-trace commit -S -m test\n GPG Key (fingerprint deadbeef...)\n Passphrase:\n [change/133417/30 5917bcb415aea6dc472b609f07940f7713c8c189] test\n\nthis last line already looks suspicious since the HelloWorld repository doesn\u0027t have that branch. Actually I found that change/133417/30 is the change I built the jgit executable from and that the \"jgit\" executable does change the current working directory to the directory the executable is located in. This has the effect that the command creates a signed commit in the jgit repository where I built the executable instead of creating a signed commit in the \"HelloWorld\" repository my current working directory was at when starting the jgit commit command. I found the spring-boot bug [1] which seems to match this problem. Looks like we need to roll our own start script to fix this problem.\n\nJust saw that you also hit this issue and changed back to the old start script. Will test this next.\n\n[1] https://github.com/spring-projects/spring-boot/issues/5164",
+      "revId": "5d40404ab97fc274f58fc365f83d029cc4314164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
