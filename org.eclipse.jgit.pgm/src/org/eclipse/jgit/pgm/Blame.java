@@ -65,6 +65,7 @@ import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -134,7 +135,7 @@ class Blame extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		if (file == null) {
 			if (revision == null)
 				throw die(CLIText.get().fileIsRequired);
@@ -244,6 +245,8 @@ class Blame extends TextBuiltin {
 					outw.print('\n');
 				} while (++line < end && blame.getSourceCommit(line) == c);
 			}
+		} catch (NoWorkTreeException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
