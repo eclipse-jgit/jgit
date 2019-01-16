@@ -110,7 +110,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 						Constants.OS_USER_DIR), localName);
 			} catch (IllegalArgumentException e) {
 				throw die(MessageFormat.format(
-						CLIText.get().cannotGuessLocalNameFrom, sourceUri));
+						CLIText.get().cannotGuessLocalNameFrom, sourceUri), e);
 			}
 		} else
 			localNameF = new File(localName);
