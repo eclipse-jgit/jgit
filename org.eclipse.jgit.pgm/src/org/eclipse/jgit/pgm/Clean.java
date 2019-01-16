@@ -43,10 +43,13 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Option;
 
@@ -64,7 +67,7 @@ class Clean extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			boolean requireForce = git.getRepository().getConfig()
 					.getBoolean("clean", "requireForce", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -82,6 +85,8 @@ class Clean extends TextBuiltin {
 				outw.println(MessageFormat.format(CLIText.get().removing,
 						removedFile));
 			}
+		} catch (NoWorkTreeException | GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }
