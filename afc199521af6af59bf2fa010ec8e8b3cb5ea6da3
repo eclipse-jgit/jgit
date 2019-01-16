@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d9dc97_d01b9218",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-16T00:38:42Z",
+      "side": 1,
+      "message": "the pgm commit command\n\n jgit commit -S -m test\n\nfails when using the shaded pgm jar since shading the jar to include all its dependencies in the same uber-jar breaks the JCE signatures of the Bouncycastle jar. WIth this fix this can be seen by adding the --show-stack-trace option:\n\n $ jgit --show-stack-trace commit -S -m test\n GPG Key (fingerprint deadbeef...)\n Passphrase:\n fatal: Exception decrypting key\n org.eclipse.jgit.pgm.Die: Exception decrypting key\n\tat org.eclipse.jgit.pgm.TextBuiltin.die(TextBuiltin.java:428)\n\tat org.eclipse.jgit.pgm.Commit.run(Commit.java:123)\n\tat org.eclipse.jgit.pgm.TextBuiltin.execute(TextBuiltin.java:264)\n\tat org.eclipse.jgit.pgm.Main.execute(Main.java:278)\n\tat org.eclipse.jgit.pgm.Main.run(Main.java:166)\n\tat org.eclipse.jgit.pgm.Main.main(Main.java:138)\n Caused by: org.eclipse.jgit.api.errors.JGitInternalException: Exception decrypting key\n\tat org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner.sign(BouncyCastleGpgSigner.java:132)\n\tat org.eclipse.jgit.api.CommitCommand.call(CommitCommand.java:271)\n\tat org.eclipse.jgit.pgm.Commit.run(Commit.java:121)\n\t... 4 more\n Caused by: org.bouncycastle.openpgp.PGPException: Exception decrypting key\n\tat org.bouncycastle.openpgp.PGPSecretKey.extractKeyData(Unknown Source)\n\tat org.bouncycastle.openpgp.PGPSecretKey.extractPrivateKey(Unknown Source)\n\tat org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner.sign(BouncyCastleGpgSigner.java:115)\n\t... 6 more\n Caused by: java.lang.SecurityException: JCE cannot authenticate the provider BC\n\tat javax.crypto.Cipher.getInstance(Cipher.java:656)\n\tat javax.crypto.Cipher.getInstance(Cipher.java:595)\n\tat org.bouncycastle.jcajce.util.NamedJcaJceHelper.createCipher(Unknown Source)\n\tat org.bouncycastle.openpgp.operator.jcajce.OperatorHelper.createCipher(Unknown Source)\n\tat org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder$1.recoverKeyData(Unknown Source)\n\t... 9 more\n Caused by: java.util.jar.JarException: file:/Users/d0xxxxx/src/git/jgit/org.eclipse.jgit.pgm/target/jgit-cli.jar has unsigned entries - about.html\n\tat javax.crypto.JarVerifier.verifySingleJar(JarVerifier.java:502)\n\tat javax.crypto.JarVerifier.verifyJars(JarVerifier.java:363)\n\tat javax.crypto.JarVerifier.verify(JarVerifier.java:289)\n\tat javax.crypto.JceSecurity.verifyProviderJar(JceSecurity.java:164)\n\tat javax.crypto.JceSecurity.getVerificationResult(JceSecurity.java:190)\n\tat javax.crypto.Cipher.getInstance(Cipher.java:652)\n\t... 13 more\n\nthis could be fixed by \n* JCE signing the shaded jar. This has the disadvantage that we need to add another signing step and then JCE sign a lot of classes which don\u0027t need a JCE signature (and probably shouldn\u0027t have a JCE signature to not unnecessarily enlarge the attack surface of JCE).\n* nesting dependencies instead of using the Maven shade plugin to create a flat uber-jar. Looks like Spring bootloaders JarLoader could be a good fit for this approach [1]\n\nI lean towards the nested jar solution.\n\n[1] https://docs.spring.io/spring-boot/docs/current/reference/html/executable-jar.html",
+      "revId": "afc199521af6af59bf2fa010ec8e8b3cb5ea6da3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
