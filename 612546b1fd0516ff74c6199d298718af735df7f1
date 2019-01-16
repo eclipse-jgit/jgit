@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3ab8268c_a8fb33ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-16T21:55:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea6a7ab3_ec612930",
+      "range": {
+        "startLine": 430,
+        "startChar": 46,
+        "endLine": 430,
+        "endChar": 47
+      },
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb269ea0_41a7e79c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2019-01-16T04:52:37Z",
       "side": 1,
       "message": "\u003cp\u003e between javadoc paragraphs also here",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11e4ab9_ae758c33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-16T21:55:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb269ea0_41a7e79c",
       "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6368a845_25cdb4b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-16T21:55:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c619ad7_7f52dfe3",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cc7876d_e5a8e616",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 5
@@ -70,6 +130,24 @@
       "writtenOn": "2019-01-16T04:52:37Z",
       "side": 1,
       "message": "Same here, @code maybeEndsWith?",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96227156_9edd7ce3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-16T21:55:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cc7876d_e5a8e616",
       "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
