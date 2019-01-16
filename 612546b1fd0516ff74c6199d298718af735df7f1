@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea6a7ab3_ec612930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-16T04:52:37Z",
+      "side": 1,
+      "message": "Definitely better name than before... maybe \"refPattern\" would be more accurate?",
+      "range": {
+        "startLine": 430,
+        "startChar": 46,
+        "endLine": 430,
+        "endChar": 47
+      },
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb269ea0_41a7e79c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-16T04:52:37Z",
+      "side": 1,
+      "message": "\u003cp\u003e between javadoc paragraphs also here",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c619ad7_7f52dfe3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-16T04:52:37Z",
+      "side": 1,
+      "message": "@code maybeStartsWith?",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc7876d_e5a8e616",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-01-16T04:52:37Z",
+      "side": 1,
+      "message": "Same here, @code maybeEndsWith?",
+      "revId": "612546b1fd0516ff74c6199d298718af735df7f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
