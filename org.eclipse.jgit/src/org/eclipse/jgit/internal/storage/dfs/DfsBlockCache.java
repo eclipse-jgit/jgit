@@ -52,6 +52,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.stream.LongStream;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -521,20 +522,23 @@ public final class DfsBlockCache {
 	 *
 	 * @param key
 	 *            the stream key of the pack.
+	 * @param checker
+	 *            the function to check the cached object.
 	 * @param loader
 	 *            the function to load the reference.
-	 * @return the object reference.
+	 * @return the object.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
-	<T> Ref<T> getOrLoadRef(DfsStreamKey key, RefLoader<T> loader)
-			throws IOException {
+	<T> T getOrLoadRef(DfsStreamKey key, RefValueChecker<T> checker,
+			RefLoader<T> loader) throws IOException {
 		int slot = slot(key, 0);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, 0);
-		if (ref != null) {
+		T val = null;
+		if (ref != null && checker.hasValue(val = ref.get())) {
 			getStat(statHit, key).incrementAndGet();
-			return ref;
+			return val;
 		}
 
 		ReentrantLock regionLock = lockForRef(key);
@@ -544,9 +548,9 @@ public final class DfsBlockCache {
 			HashEntry e2 = table.get(slot);
 			if (e2 != e1) {
 				ref = scanRef(e2, key, 0);
-				if (ref != null) {
+				if (ref != null && checker.hasValue(val = ref.get())) {
 					getStat(statHit, key).incrementAndGet();
-					return ref;
+					return val;
 				}
 			}
 
@@ -554,8 +558,20 @@ public final class DfsBlockCache {
 				refLockWaitTime.accept(
 						Long.valueOf(System.currentTimeMillis() - lockStart));
 			}
+
 			getStat(statMiss, key).incrementAndGet();
-			ref = loader.load();
+			Ref<T> newRef = loader.load(val);
+			if (ref != null) {
+				if (newRef.size > ref.size) {
+					reserveSpace(newRef.size - ref.size, key);
+				} else if (ref.size > newRef.size) {
+					creditSpace(ref.size - newRef.size, key);
+				}
+				ref.copyValue(newRef);
+				return ref.get();
+			}
+
+			ref = newRef;
 			ref.hot = true;
 			// Reserve after loading to get the size of the object
 			reserveSpace(ref.size, key);
@@ -570,7 +586,7 @@ public final class DfsBlockCache {
 		} finally {
 			regionLock.unlock();
 		}
-		return ref;
+		return ref.get();
 	}
 
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
@@ -720,7 +736,7 @@ public final class DfsBlockCache {
 	static final class Ref<T> {
 		final DfsStreamKey key;
 		final long position;
-		final int size;
+		volatile int size;
 		volatile T value;
 		Ref next;
 		volatile boolean hot;
@@ -743,11 +759,42 @@ public final class DfsBlockCache {
 		boolean has() {
 			return value != null;
 		}
+
+		/**
+		 * Copy object and size from another reference object.
+		 *
+		 * @param that
+		 *            Another reference object.
+		 * @return This reference object.
+		 */
+		Ref<T> copyValue(Ref<T> that) {
+			this.size = that.size;
+			this.value = that.value;
+			return this;
+		}
 	}
 
 	@FunctionalInterface
 	interface RefLoader<T> {
-		Ref<T> load() throws IOException;
+		/**
+		 * @param old
+		 *            Nullable old value the function might use when loading new
+		 *            value.
+		 * @return Reference to the loaded value.
+		 * @throws IOException
+		 */
+		Ref<T> load(@Nullable T old) throws IOException;
+	}
+
+	@FunctionalInterface
+	interface RefValueChecker<T> {
+		/**
+		 * @param val
+		 *            Value to be checked.
+		 * @return boolean Whether the value is loaded.
+		 * @throws IOException
+		 */
+		boolean hasValue(@Nullable T val) throws IOException;
 	}
 
 	/**
