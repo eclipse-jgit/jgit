@@ -51,6 +51,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -168,6 +169,8 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 				return;
 
 			showFetchResult(result);
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
