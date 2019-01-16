@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de2ca56b_2e9b646b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-16T00:22:43Z",
+      "side": 1,
+      "message": "Unintentionally added tab?",
+      "range": {
+        "startLine": 100,
+        "startChar": 3,
+        "endLine": 100,
+        "endChar": 4
+      },
+      "revId": "ab4535889bbbb5a49c8bb08648fe78df4a7f2d71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
