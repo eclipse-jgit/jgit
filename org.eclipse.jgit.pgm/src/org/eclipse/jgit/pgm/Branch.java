@@ -54,6 +54,7 @@ import java.util.Map.Entry;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -175,22 +176,23 @@ class Branch extends TextBuiltin {
 
 	private final Map<String, Ref> printRefs = new LinkedHashMap<>();
 
-	/** Only set for verbose branch listing at-the-moment */
 	private RevWalk rw;
 
 	private int maxNameLength;
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		if (delete != null || deleteForce != null) {
-			if (delete != null) {
-				delete(delete, false);
+	protected void run() {
+		try {
+			if (delete != null || deleteForce != null) {
+				if (delete != null) {
+					delete(delete, false);
+				}
+				if (deleteForce != null) {
+					delete(deleteForce, true);
+				}
+				return;
 			}
-			if (deleteForce != null) {
-				delete(deleteForce, true);
-			}
-		} else {
 			if (rename) {
 				String src, dst;
 				if (otherBranch == null) {
@@ -204,23 +206,31 @@ class Branch extends TextBuiltin {
 				} else {
 					src = branch;
 					final Ref old = db.findRef(src);
-					if (old == null)
-						throw die(MessageFormat.format(CLIText.get().doesNotExist, src));
-					if (!old.getName().startsWith(Constants.R_HEADS))
-						throw die(MessageFormat.format(CLIText.get().notABranch, src));
+					if (old == null) {
+						throw die(MessageFormat
+								.format(CLIText.get().doesNotExist, src));
+					}
+					if (!old.getName().startsWith(Constants.R_HEADS)) {
+						throw die(MessageFormat.format(CLIText.get().notABranch,
+								src));
+					}
 					src = old.getName();
 					dst = otherBranch;
 				}
 
-				if (!dst.startsWith(Constants.R_HEADS))
+				if (!dst.startsWith(Constants.R_HEADS)) {
 					dst = Constants.R_HEADS + dst;
-				if (!Repository.isValidRefName(dst))
-					throw die(MessageFormat.format(CLIText.get().notAValidRefName, dst));
+				}
+				if (!Repository.isValidRefName(dst)) {
+					throw die(MessageFormat
+							.format(CLIText.get().notAValidRefName, dst));
+				}
 
 				RefRename r = db.renameRef(src, dst);
-				if (r.rename() != Result.RENAMED)
-					throw die(MessageFormat.format(CLIText.get().cannotBeRenamed, src));
-
+				if (r.rename() != Result.RENAMED) {
+					throw die(MessageFormat
+							.format(CLIText.get().cannotBeRenamed, src));
+				}
 			} else if (createForce || branch != null) {
 				String newHead = branch;
 				String startBranch;
@@ -245,18 +255,23 @@ class Branch extends TextBuiltin {
 					newRefName = Constants.R_HEADS + newRefName;
 				}
 				if (!Repository.isValidRefName(newRefName)) {
-					throw die(MessageFormat.format(CLIText.get().notAValidRefName, newRefName));
+					throw die(MessageFormat.format(
+							CLIText.get().notAValidRefName, newRefName));
 				}
 				if (!createForce && db.resolve(newRefName) != null) {
-					throw die(MessageFormat.format(CLIText.get().branchAlreadyExists, newHead));
+					throw die(MessageFormat.format(
+							CLIText.get().branchAlreadyExists, newHead));
 				}
 				RefUpdate updateRef = db.updateRef(newRefName);
 				updateRef.setNewObjectId(startAt);
 				updateRef.setForceUpdate(createForce);
-				updateRef.setRefLogMessage(MessageFormat.format(CLIText.get().branchCreatedFrom, startBranch), false);
+				updateRef.setRefLogMessage(MessageFormat.format(
+						CLIText.get().branchCreatedFrom, startBranch), false);
 				Result update = updateRef.update();
 				if (update == Result.REJECTED) {
-					throw die(MessageFormat.format(CLIText.get().couldNotCreateBranch, newHead, update.toString()));
+					throw die(MessageFormat.format(
+							CLIText.get().couldNotCreateBranch, newHead,
+							update.toString()));
 				}
 			} else {
 				if (verbose) {
@@ -264,10 +279,12 @@ class Branch extends TextBuiltin {
 				}
 				list();
 			}
+		} catch (IOException | GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
-	private void list() throws Exception {
+	private void list() throws IOException, GitAPIException {
 		Ref head = db.exactRef(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {
@@ -316,7 +333,7 @@ class Branch extends TextBuiltin {
 	}
 
 	private void printHead(final ObjectReader reader, final String ref,
-			final boolean isCurrent, final Ref refObj) throws Exception {
+			final boolean isCurrent, final Ref refObj) throws IOException {
 		outw.print(isCurrent ? '*' : ' ');
 		outw.print(' ');
 		outw.print(ref);
