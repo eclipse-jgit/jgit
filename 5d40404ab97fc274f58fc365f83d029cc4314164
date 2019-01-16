@@ -16,6 +16,24 @@
       "revId": "5d40404ab97fc274f58fc365f83d029cc4314164",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7977da8_b3e518d4",
+        "filename": "org.eclipse.jgit.pgm/pom.xml",
+        "patchSetId": 30
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-16T10:30:24Z",
+      "side": 1,
+      "message": "I noticed that too. That\u0027s why the latest version of this change brings back the jgit.sh script.",
+      "parentUuid": "1cc98d5a_fe2135f0",
+      "revId": "5d40404ab97fc274f58fc365f83d029cc4314164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
