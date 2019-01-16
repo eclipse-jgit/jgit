@@ -34,6 +34,24 @@
       "revId": "afc199521af6af59bf2fa010ec8e8b3cb5ea6da3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6863d0bf_fd65e3a8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-16T08:48:24Z",
+      "side": 1,
+      "message": "yes, I think this will suffer from the same issue. Didn\u0027t try this yet.",
+      "parentUuid": "4f6664d7_05c92eb4",
+      "revId": "afc199521af6af59bf2fa010ec8e8b3cb5ea6da3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
