@@ -16,6 +16,24 @@
       "revId": "afc199521af6af59bf2fa010ec8e8b3cb5ea6da3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f6664d7_05c92eb4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-01-16T07:39:48Z",
+      "side": 1,
+      "message": "Interesting. Wouldn\u0027t we have the same problem already with net.i2p.crypto.eddsa? Fetching with jgit pgm with a ssh URI and a ssh config specifying an ed25519 key should have a similar problem, no?",
+      "parentUuid": "f2d9dc97_d01b9218",
+      "revId": "afc199521af6af59bf2fa010ec8e8b3cb5ea6da3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
