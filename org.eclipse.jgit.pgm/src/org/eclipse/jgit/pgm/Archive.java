@@ -97,10 +97,10 @@ class Archive extends TextBuiltin {
 					cmd.setFilename(output);
 				cmd.call();
 		} catch (GitAPIException e) {
-			throw die(e.getMessage());
+				throw die(e.getMessage(), e);
 		}
 		} catch (FileNotFoundException e) {
-			throw die(e.getMessage());
+			throw die(e.getMessage(), e);
 		} finally {
 			if (output != null && stream != null)
 				stream.close();
