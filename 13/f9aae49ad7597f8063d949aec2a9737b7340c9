@@ -1,0 +1,7 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 16 Jan 2019 22:22:57 -0500
+Reviewed-on: https://git.eclipse.org/r/135206
+Project: jgit/jgit
+Branch: refs/heads/stable-5.3
