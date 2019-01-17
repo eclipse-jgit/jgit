@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "71a681bc_4aee2cd3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-17T04:38:14Z",
+      "side": 1,
+      "message": "Should this refactoring to use try-with-resource be done in a separate change?  Or can\u0027t it be done without also handling the exceptions?",
+      "revId": "235920fccdbcef3a83e0c544e9ab118a823105e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f61d6d8d_7e769041",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
         "patchSetId": 1
