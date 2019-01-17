@@ -137,24 +137,29 @@ class Blame extends TextBuiltin {
 	@Override
 	protected void run() {
 		if (file == null) {
-			if (revision == null)
+			if (revision == null) {
 				throw die(CLIText.get().fileIsRequired);
+			}
 			file = revision;
 			revision = null;
 		}
 
 		boolean autoAbbrev = abbrev == 0;
-		if (abbrev == 0)
+		if (abbrev == 0) {
 			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
-		if (!showBlankBoundary)
+		}
+		if (!showBlankBoundary) {
 			root = db.getConfig().getBoolean("blame", "blankboundary", false); //$NON-NLS-1$ //$NON-NLS-2$
-		if (!root)
+		}
+		if (!root) {
 			root = db.getConfig().getBoolean("blame", "showroot", false); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
-		if (showRawTimestamp)
+		if (showRawTimestamp) {
 			dateFmt = new SimpleDateFormat("ZZZZ"); //$NON-NLS-1$
-		else
+		} else {
 			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
+		}
 
 		try (ObjectReader reader = db.newObjectReader();
 				BlameGenerator generator = new BlameGenerator(db, file)) {
@@ -165,10 +170,11 @@ class Blame extends TextBuiltin {
 				RevCommit rangeStart = null;
 				List<RevCommit> rangeEnd = new ArrayList<>(2);
 				for (RevCommit c : reverseRange) {
-					if (c.has(RevFlag.UNINTERESTING))
+					if (c.has(RevFlag.UNINTERESTING)) {
 						rangeStart = c;
-					else
+					} else {
 						rangeEnd.add(c);
+					}
 				}
 				generator.reverse(rangeStart, rangeEnd);
 			} else if (revision != null) {
@@ -178,20 +184,23 @@ class Blame extends TextBuiltin {
 				if (!db.isBare()) {
 					DirCache dc = db.readDirCache();
 					int entry = dc.findEntry(file);
-					if (0 <= entry)
+					if (0 <= entry) {
 						generator.push(null, dc.getEntry(entry).getObjectId());
+					}
 
 					File inTree = new File(db.getWorkTree(), file);
-					if (db.getFS().isFile(inTree))
+					if (db.getFS().isFile(inTree)) {
 						generator.push(null, new RawText(inTree));
+					}
 				}
 			}
 
 			blame = BlameResult.create(generator);
 			begin = 0;
 			end = blame.getResultContents().size();
-			if (rangeString != null)
+			if (rangeString != null) {
 				parseLineRangeOption();
+			}
 			blame.computeRange(begin, end);
 
 			int authorWidth = 8;
@@ -202,14 +211,16 @@ class Blame extends TextBuiltin {
 				RevCommit c = blame.getSourceCommit(line);
 				if (c != null && !c.has(scanned)) {
 					c.add(scanned);
-					if (autoAbbrev)
+					if (autoAbbrev) {
 						abbrev = Math.max(abbrev, uniqueAbbrevLen(reader, c));
+					}
 					authorWidth = Math.max(authorWidth, author(line).length());
 					dateWidth = Math.max(dateWidth, date(line).length());
 					pathWidth = Math.max(pathWidth, path(line).length());
 				}
-				while (line + 1 < end && blame.getSourceCommit(line + 1) == c)
+				while (line + 1 < end && blame.getSourceCommit(line + 1) == c) {
 					line++;
+				}
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
 			}
 
@@ -232,12 +243,15 @@ class Blame extends TextBuiltin {
 				}
 				do {
 					outw.print(commit);
-					if (showSourcePath)
+					if (showSourcePath) {
 						outw.format(pathFmt, path(line));
-					if (showSourceLine)
+					}
+					if (showSourceLine) {
 						outw.format(numFmt, valueOf(blame.getSourceLine(line) + 1));
-					if (!noAuthor)
+					}
+					if (!noAuthor) {
 						outw.format(authorFmt, author, date);
+					}
 					outw.format(lineFmt, valueOf(line + 1));
 					outw.flush();
 					blame.getResultContents().writeLine(outs, line);
