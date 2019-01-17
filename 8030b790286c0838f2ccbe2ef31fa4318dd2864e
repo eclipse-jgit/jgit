@@ -16,6 +16,24 @@
       "revId": "8030b790286c0838f2ccbe2ef31fa4318dd2864e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d002c1f3_34ba0994",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Branch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-17T22:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d567cd8_33d5bd08",
+      "revId": "8030b790286c0838f2ccbe2ef31fa4318dd2864e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
