@@ -50,6 +50,7 @@ package org.eclipse.jgit.transport;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -165,9 +166,13 @@ class BundleFetchConnection extends BaseFetchConnection {
 		while (!done) {
 			bin.mark(hdrbuf.length);
 			final int cnt = bin.read(hdrbuf);
+			if (cnt < 0) {
+				throw new EOFException(JGitText.get().shortReadOfBlock);
+			}
 			int lf = 0;
-			while (lf < cnt && hdrbuf[lf] != '\n')
+			while (lf < cnt && hdrbuf[lf] != '\n') {
 				lf++;
+			}
 			bin.reset();
 			IO.skipFully(bin, lf);
 			if (lf < cnt && hdrbuf[lf] == '\n') {
