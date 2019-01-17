@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "abba196e_6c65e92f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-17T22:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a681bc_4aee2cd3",
+      "revId": "235920fccdbcef3a83e0c544e9ab118a823105e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f61d6d8d_7e769041",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-01-17T00:43:08Z",
       "side": 1,
       "message": "What IOExceptions are expected here?",
+      "range": {
+        "startLine": 264,
+        "startChar": 33,
+        "endLine": 264,
+        "endChar": 44
+      },
+      "revId": "235920fccdbcef3a83e0c544e9ab118a823105e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f042782_930df623",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-01-17T22:58:26Z",
+      "side": 1,
+      "message": "object store cannot be read when abbreviating id or writing to output stream fails",
+      "parentUuid": "f61d6d8d_7e769041",
       "range": {
         "startLine": 264,
         "startChar": 33,
