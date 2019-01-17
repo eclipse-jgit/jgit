@@ -122,8 +122,6 @@ class Blame extends TextBuiltin {
 	@Argument(index = 1, required = false, metaVar = "metaVar_file")
 	private String file;
 
-	private ObjectReader reader;
-
 	private final Map<RevCommit, String> abbreviatedCommits = new HashMap<>();
 
 	private SimpleDateFormat dateFmt;
@@ -157,8 +155,8 @@ class Blame extends TextBuiltin {
 		else
 			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
 
-		reader = db.newObjectReader();
-		try (BlameGenerator generator = new BlameGenerator(db, file)) {
+		try (ObjectReader reader = db.newObjectReader();
+				BlameGenerator generator = new BlameGenerator(db, file)) {
 			RevFlag scanned = generator.newFlag("SCANNED"); //$NON-NLS-1$
 			generator.setTextComparator(comparator);
 
@@ -204,7 +202,7 @@ class Blame extends TextBuiltin {
 				if (c != null && !c.has(scanned)) {
 					c.add(scanned);
 					if (autoAbbrev)
-						abbrev = Math.max(abbrev, uniqueAbbrevLen(c));
+						abbrev = Math.max(abbrev, uniqueAbbrevLen(reader, c));
 					authorWidth = Math.max(authorWidth, author(line).length());
 					dateWidth = Math.max(dateWidth, date(line).length());
 					pathWidth = Math.max(pathWidth, path(line).length());
@@ -224,7 +222,7 @@ class Blame extends TextBuiltin {
 
 			for (int line = begin; line < end;) {
 				RevCommit c = blame.getSourceCommit(line);
-				String commit = abbreviate(c);
+				String commit = abbreviate(reader, c);
 				String author = null;
 				String date = null;
 				if (!noAuthor) {
@@ -246,12 +244,11 @@ class Blame extends TextBuiltin {
 					outw.print('\n');
 				} while (++line < end && blame.getSourceCommit(line) == c);
 			}
-		} finally {
-			reader.close();
 		}
 	}
 
-	private int uniqueAbbrevLen(RevCommit commit) throws IOException {
+	private int uniqueAbbrevLen(ObjectReader reader, RevCommit commit)
+			throws IOException {
 		return reader.abbreviate(commit, abbrev).length();
 	}
 
@@ -345,7 +342,8 @@ class Blame extends TextBuiltin {
 				dateFmt.format(author.getWhen()));
 	}
 
-	private String abbreviate(RevCommit commit) throws IOException {
+	private String abbreviate(ObjectReader reader, RevCommit commit)
+			throws IOException {
 		String r = abbreviatedCommits.get(commit);
 		if (r != null)
 			return r;
