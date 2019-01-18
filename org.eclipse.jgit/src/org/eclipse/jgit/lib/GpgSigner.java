@@ -97,7 +97,8 @@ public abstract class GpgSigner {
 	 * @param gpgSigningKey
 	 *            the signing key (passed as is to the GPG signing tool)
 	 * @param committer
-	 *            the signing identity (to help with key lookup)
+	 *            the signing identity (to help with key lookup in case signing
+	 *            key is not specified)
 	 * @param credentialsProvider
 	 *            provider to use when querying for signing key credentials (eg.
 	 *            passphrase)
@@ -107,6 +108,28 @@ public abstract class GpgSigner {
 	 */
 	public abstract void sign(@NonNull CommitBuilder commit,
 			String gpgSigningKey, @NonNull PersonIdent committer,
+			CredentialsProvider credentialsProvider) throws CanceledException;
+
+	/**
+	 * Indicates is a signing key is available for the specified committer
+	 * and/or signing key.
+	 *
+	 * @param gpgSigningKey
+	 *            the signing key (passed as is to the GPG signing tool)
+	 * @param committer
+	 *            the signing identity (to help with key lookup in case signing
+	 *            key is not specified)
+	 * @param credentialsProvider
+	 *            provider to use when querying for signing key credentials (eg.
+	 *            passphrase)
+	 * @return <code>true</code> if a signing key is available,
+	 *         <code>false</code> otherwise
+	 * @throws CanceledException
+	 *             when signing was canceled (eg., user aborted when entering
+	 *             passphrase)
+	 */
+	public abstract boolean canLocateSigningKey(String gpgSigningKey,
+			@NonNull PersonIdent committer,
 			CredentialsProvider credentialsProvider) throws CanceledException;
 
 }
