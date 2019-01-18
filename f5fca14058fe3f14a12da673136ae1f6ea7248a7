@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "868ba7be_d292c903",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-18T02:00:53Z",
+      "side": 1,
+      "message": "\"only the\"?",
+      "range": {
+        "startLine": 54,
+        "startChar": 30,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "f5fca14058fe3f14a12da673136ae1f6ea7248a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
