@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "def767bd_9ae4aac8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Branch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-18T01:58:45Z",
+      "side": 1,
+      "message": "Add the missing braces in a separate commit, like previously done for the Blame command?",
+      "range": {
+        "startLine": 209,
+        "startChar": 21,
+        "endLine": 209,
+        "endChar": 23
+      },
+      "revId": "9a3d6d72827a9f12c569f3ae651f75915916ff90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33a54d32_de493cdf",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Branch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-18T01:58:45Z",
+      "side": 1,
+      "message": "Unrelated formatting changes",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 27
+      },
+      "revId": "9a3d6d72827a9f12c569f3ae651f75915916ff90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
