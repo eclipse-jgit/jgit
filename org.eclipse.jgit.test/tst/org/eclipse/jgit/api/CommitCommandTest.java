@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -651,6 +652,14 @@ public class CommitCommandTest extends RepositoryTestCase {
 					signingCommitters[0] = signingCommitter;
 					callCount.incrementAndGet();
 				}
+
+				@Override
+				public boolean canLocateSigningKey(String gpgSigningKey,
+						PersonIdent signingCommitter,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException {
+					return false;
+				}
 			});
 
 			// first call should use config, which is expected to be null at
@@ -705,6 +714,14 @@ public class CommitCommandTest extends RepositoryTestCase {
 				public void sign(CommitBuilder commit, String gpgSigningKey,
 						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
 					callCount.incrementAndGet();
+				}
+
+				@Override
+				public boolean canLocateSigningKey(String gpgSigningKey,
+						PersonIdent signingCommitter,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException {
+					return false;
 				}
 			});
 
