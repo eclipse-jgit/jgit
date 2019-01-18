@@ -43,6 +43,7 @@
 package org.eclipse.jgit.lib;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -95,9 +96,11 @@ public abstract class GpgSigner {
 	 *            the commit to sign (must not be <code>null</code> and must be
 	 *            complete to allow proper calculation of payload)
 	 * @param gpgSigningKey
-	 *            the signing key (passed as is to the GPG signing tool)
+	 *            the signing key to locate (passed as is to the GPG signing
+	 *            tool as is; eg., value of <code>user.signingkey</code>)
 	 * @param committer
-	 *            the signing identity (to help with key lookup)
+	 *            the signing identity (to help with key lookup in case signing
+	 *            key is not specified)
 	 * @param credentialsProvider
 	 *            provider to use when querying for signing key credentials (eg.
 	 *            passphrase)
@@ -106,7 +109,30 @@ public abstract class GpgSigner {
 	 *             passphrase)
 	 */
 	public abstract void sign(@NonNull CommitBuilder commit,
-			String gpgSigningKey, @NonNull PersonIdent committer,
+			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
+			CredentialsProvider credentialsProvider) throws CanceledException;
+
+	/**
+	 * Indicates if a signing key is available for the specified committer
+	 * and/or signing key.
+	 *
+	 * @param gpgSigningKey
+	 *            the signing key to locate (passed as is to the GPG signing
+	 *            tool as is; eg., value of <code>user.signingkey</code>)
+	 * @param committer
+	 *            the signing identity (to help with key lookup in case signing
+	 *            key is not specified)
+	 * @param credentialsProvider
+	 *            provider to use when querying for signing key credentials (eg.
+	 *            passphrase)
+	 * @return <code>true</code> if a signing key is available,
+	 *         <code>false</code> otherwise
+	 * @throws CanceledException
+	 *             when signing was canceled (eg., user aborted when entering
+	 *             passphrase)
+	 */
+	public abstract boolean canLocateSigningKey(@Nullable String gpgSigningKey,
+			@NonNull PersonIdent committer,
 			CredentialsProvider credentialsProvider) throws CanceledException;
 
 }
