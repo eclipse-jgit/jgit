@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a7f3a5a_6bb432b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-19T05:08:58Z",
+      "side": 1,
+      "message": "Does this mean the gpgSigningKey parameter may be null?  If that\u0027s the case, should it be annotated @Nullable?",
+      "range": {
+        "startLine": 120,
+        "startChar": 61,
+        "endLine": 121,
+        "endChar": 35
+      },
+      "revId": "fe0fed0eba9056a14ed9ccdb2d6b059d75ca55d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
