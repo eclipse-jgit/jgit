@@ -84,13 +84,15 @@ class DiffTree extends TextBuiltin {
 
 			final int nTree = walk.getTreeCount();
 			while (walk.next()) {
-				for (int i = 1; i < nTree; i++)
+				for (int i = 1; i < nTree; i++) {
 					outw.print(':');
+				}
 				for (int i = 0; i < nTree; i++) {
 					final FileMode m = walk.getFileMode(i);
 					final String s = m.toString();
-					for (int pad = 6 - s.length(); pad > 0; pad--)
+					for (int pad = 6 - s.length(); pad > 0; pad--) {
 						outw.print('0');
+					}
 					outw.print(s);
 					outw.print(' ');
 				}
@@ -104,12 +106,13 @@ class DiffTree extends TextBuiltin {
 				if (nTree == 2) {
 					final int m0 = walk.getRawMode(0);
 					final int m1 = walk.getRawMode(1);
-					if (m0 == 0 && m1 != 0)
+					if (m0 == 0 && m1 != 0) {
 						chg = 'A';
-					else if (m0 != 0 && m1 == 0)
+					} else if (m0 != 0 && m1 == 0) {
 						chg = 'D';
-					else if (m0 != m1 && walk.idEqual(0, 1))
+					} else if (m0 != m1 && walk.idEqual(0, 1)) {
 						chg = 'T';
+					}
 				}
 				outw.print(chg);
 
