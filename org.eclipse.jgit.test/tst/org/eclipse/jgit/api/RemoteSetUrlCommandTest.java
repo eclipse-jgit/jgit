@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.jgit.api.RemoteSetUrlCommand.UriType;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
@@ -58,9 +59,9 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 		// execute the command to change the fetch url
 		RemoteSetUrlCommand cmd = Git.wrap(db).remoteSetUrl();
-		cmd.setName(REMOTE_NAME);
+		cmd.setRemoteName(REMOTE_NAME);
 		URIish newUri = new URIish("git://test.com/test");
-		cmd.setUri(newUri);
+		cmd.setRemoteUri(newUri);
 		RemoteConfig remote = cmd.call();
 
 		// assert that the changed remote has the new fetch url
@@ -79,10 +80,10 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 		// execute the command to change the push url
 		RemoteSetUrlCommand cmd = Git.wrap(db).remoteSetUrl();
-		cmd.setName(REMOTE_NAME);
+		cmd.setRemoteName(REMOTE_NAME);
 		URIish newUri = new URIish("git://test.com/test");
-		cmd.setUri(newUri);
-		cmd.setPush(true);
+		cmd.setRemoteUri(newUri);
+		cmd.setUriType(UriType.PUSH);
 		RemoteConfig remote = cmd.call();
 
 		// assert that the changed remote has the old fetch url and the new push

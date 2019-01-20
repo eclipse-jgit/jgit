@@ -56,7 +56,7 @@ public class RemoteDeleteCommandTest extends AbstractRemoteCommandTest {
 
 		// execute the command to remove the remote
 		RemoteRemoveCommand cmd = Git.wrap(db).remoteRemove();
-		cmd.setName(REMOTE_NAME);
+		cmd.setRemoteName(REMOTE_NAME);
 		RemoteConfig remote = cmd.call();
 
 		// assert that the removed remote is the initial remote

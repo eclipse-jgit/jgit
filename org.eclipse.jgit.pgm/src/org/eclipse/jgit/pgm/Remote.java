@@ -53,6 +53,7 @@ import org.eclipse.jgit.api.RemoteAddCommand;
 import org.eclipse.jgit.api.RemoteListCommand;
 import org.eclipse.jgit.api.RemoteRemoveCommand;
 import org.eclipse.jgit.api.RemoteSetUrlCommand;
+import org.eclipse.jgit.api.RemoteSetUrlCommand.UriType;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
@@ -99,13 +100,13 @@ class Remote extends TextBuiltin {
 				cmd.call();
 			} else if ("remove".equals(command) || "rm".equals(command)) { //$NON-NLS-1$ //$NON-NLS-2$
 				RemoteRemoveCommand cmd = git.remoteRemove();
-				cmd.setName(name);
+				cmd.setRemoteName(name);
 				cmd.call();
 			} else if ("set-url".equals(command)) { //$NON-NLS-1$
 				RemoteSetUrlCommand cmd = git.remoteSetUrl();
-				cmd.setName(name);
-				cmd.setUri(new URIish(uri));
-				cmd.setPush(push);
+				cmd.setRemoteName(name);
+				cmd.setRemoteUri(new URIish(uri));
+				cmd.setUriType(push ? UriType.PUSH : UriType.FETCH);
 				cmd.call();
 			} else if ("update".equals(command)) { //$NON-NLS-1$
 				// reuse fetch command for basic implementation of remote update
