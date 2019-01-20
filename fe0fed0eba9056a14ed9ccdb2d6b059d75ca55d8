@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5a674190_e775d4a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T02:48:40Z",
+      "side": 1,
+      "message": "I don\u0027t know if that\u0027s the case.  There seem to be quite a few usages of @Nullable throughout the code.",
+      "parentUuid": "a015066a_37ba125c",
+      "range": {
+        "startLine": 120,
+        "startChar": 61,
+        "endLine": 121,
+        "endChar": 35
+      },
+      "revId": "fe0fed0eba9056a14ed9ccdb2d6b059d75ca55d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15f36a21_6db57e3a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
         "patchSetId": 1
