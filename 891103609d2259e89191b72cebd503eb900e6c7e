@@ -22,6 +22,30 @@
       "revId": "891103609d2259e89191b72cebd503eb900e6c7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1155c4a8_1efea665",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/JschConfigSessionFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T05:52:03Z",
+      "side": 1,
+      "message": "The failure was with maven on the command line.  It passes with bazel and in Eclipse.",
+      "parentUuid": "8865e19a_41fd184f",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "891103609d2259e89191b72cebd503eb900e6c7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
