@@ -54,6 +54,7 @@ import java.util.Map.Entry;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -182,15 +183,17 @@ class Branch extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		if (delete != null || deleteForce != null) {
-			if (delete != null) {
-				delete(delete, false);
+	protected void run() {
+		try {
+			if (delete != null || deleteForce != null) {
+				if (delete != null) {
+					delete(delete, false);
+				}
+				if (deleteForce != null) {
+					delete(deleteForce, true);
+				}
+				return;
 			}
-			if (deleteForce != null) {
-				delete(deleteForce, true);
-			}
-		} else {
 			if (rename) {
 				String src, dst;
 				if (otherBranch == null) {
@@ -264,10 +267,12 @@ class Branch extends TextBuiltin {
 				}
 				list();
 			}
+		} catch (IOException | GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
-	private void list() throws Exception {
+	private void list() throws IOException, GitAPIException {
 		Ref head = db.exactRef(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {
@@ -316,7 +321,7 @@ class Branch extends TextBuiltin {
 	}
 
 	private void printHead(final ObjectReader reader, final String ref,
-			final boolean isCurrent, final Ref refObj) throws Exception {
+			final boolean isCurrent, final Ref refObj) throws IOException {
 		outw.print(isCurrent ? '*' : ' ');
 		outw.print(' ');
 		outw.print(ref);
