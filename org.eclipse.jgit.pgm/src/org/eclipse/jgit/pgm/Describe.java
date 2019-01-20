@@ -73,8 +73,9 @@ class Describe extends TextBuiltin {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			DescribeCommand cmd = git.describe();
-			if (tree != null)
+			if (tree != null) {
 				cmd.setTarget(tree);
+			}
 			cmd.setLong(longDesc);
 			cmd.setMatch(patterns.toArray(new String[0]));
 			String result = null;
@@ -83,8 +84,9 @@ class Describe extends TextBuiltin {
 			} catch (RefNotFoundException e) {
 				throw die(CLIText.get().noNamesFound, e);
 			}
-			if (result == null)
+			if (result == null) {
 				throw die(CLIText.get().noNamesFound);
+			}
 
 			outw.println(result);
 		} catch (IOException | InvalidPatternException | GitAPIException e) {
