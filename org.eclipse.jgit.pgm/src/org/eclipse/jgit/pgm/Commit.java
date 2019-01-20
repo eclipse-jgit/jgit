@@ -37,15 +37,14 @@
  */
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -87,8 +86,7 @@ class Commit extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws NoHeadException, NoMessageException,
-			ConcurrentRefUpdateException, JGitInternalException, Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			CommitCommand commitCmd = git.commit();
 			if (author != null)
@@ -119,7 +117,7 @@ class Commit extends TextBuiltin {
 			RevCommit commit;
 			try {
 				commit = commitCmd.call();
-			} catch (JGitInternalException e) {
+			} catch (JGitInternalException | GitAPIException e) {
 				throw die(e.getMessage(), e);
 			}
 
@@ -133,6 +131,8 @@ class Commit extends TextBuiltin {
 			}
 			outw.println("[" + branchName + " " + commit.name() + "] " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					+ commit.getShortMessage());
+		} catch (IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }
