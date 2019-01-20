@@ -44,6 +44,7 @@
 package org.eclipse.jgit.pgm;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Option;
 
@@ -60,11 +61,15 @@ class Gc extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		Git git = Git.wrap(db);
-		git.gc().setAggressive(aggressive)
-				.setPreserveOldPacks(preserveOldPacks)
-				.setPrunePreserved(prunePreserved)
-				.setProgressMonitor(new TextProgressMonitor(errw)).call();
+		try {
+			git.gc().setAggressive(aggressive)
+					.setPreserveOldPacks(preserveOldPacks)
+					.setPrunePreserved(prunePreserved)
+					.setProgressMonitor(new TextProgressMonitor(errw)).call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
+		}
 	}
 }
