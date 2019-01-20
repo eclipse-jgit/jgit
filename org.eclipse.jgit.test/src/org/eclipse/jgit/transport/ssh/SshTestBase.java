@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.transport.ssh;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -51,7 +52,6 @@ import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
@@ -409,8 +409,7 @@ public abstract class SshTestBase extends SshTestHarness {
 
 	private void checkKnownHostsModifiedHostKey(File backup, File newFile,
 			String wrongKey) throws IOException {
-		List<String> oldLines = Files.readAllLines(backup.toPath(),
-				StandardCharsets.UTF_8);
+		List<String> oldLines = Files.readAllLines(backup.toPath(), UTF_8);
 		// Find the original entry. We should have that again in known_hosts.
 		String oldKeyPart = null;
 		for (String oldLine : oldLines) {
@@ -424,8 +423,7 @@ public abstract class SshTestBase extends SshTestHarness {
 			}
 		}
 		assertNotNull("Old key not found", oldKeyPart);
-		List<String> newLines = Files.readAllLines(newFile.toPath(),
-				StandardCharsets.UTF_8);
+		List<String> newLines = Files.readAllLines(newFile.toPath(), UTF_8);
 		assertFalse("Old host key still found in known_hosts file" + newFile,
 				hasHostKey("localhost", testPort, wrongKey, newLines));
 		assertTrue("New host key not found in known_hosts file" + newFile,
@@ -448,10 +446,10 @@ public abstract class SshTestBase extends SshTestHarness {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		// File should not have been updated!
 		String[] oldLines = Files
-				.readAllLines(backup.toPath(), StandardCharsets.UTF_8)
+				.readAllLines(backup.toPath(), UTF_8)
 				.toArray(new String[0]);
 		String[] newLines = Files
-				.readAllLines(knownHosts.toPath(), StandardCharsets.UTF_8)
+				.readAllLines(knownHosts.toPath(), UTF_8)
 				.toArray(new String[0]);
 		assertArrayEquals("Known hosts file should not be modified", oldLines,
 				newLines);

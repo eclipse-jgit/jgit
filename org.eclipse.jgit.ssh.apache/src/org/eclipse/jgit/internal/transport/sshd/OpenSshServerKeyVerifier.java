@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.text.MessageFormat.format;
 
 import java.io.BufferedReader;
@@ -52,7 +53,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -386,7 +386,7 @@ public class OpenSshServerKeyVerifier
 			try {
 				try (BufferedWriter writer = new BufferedWriter(
 						new OutputStreamWriter(lock.getOutputStream(),
-								StandardCharsets.UTF_8))) {
+								UTF_8))) {
 					writer.newLine();
 					writer.write(entry.getConfigLine());
 					writer.newLine();
@@ -422,10 +422,9 @@ public class OpenSshServerKeyVerifier
 		if (lock.lock()) {
 			try {
 				try (BufferedWriter writer = new BufferedWriter(
-						new OutputStreamWriter(lock.getOutputStream(),
-								StandardCharsets.UTF_8));
+						new OutputStreamWriter(lock.getOutputStream(), UTF_8));
 						BufferedReader reader = Files.newBufferedReader(path,
-								StandardCharsets.UTF_8)) {
+								UTF_8)) {
 					boolean done = false;
 					String line;
 					while ((line = reader.readLine()) != null) {

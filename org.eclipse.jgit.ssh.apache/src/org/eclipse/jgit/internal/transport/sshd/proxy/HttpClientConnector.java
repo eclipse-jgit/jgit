@@ -42,12 +42,13 @@
  */
 package org.eclipse.jgit.internal.transport.sshd.proxy;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.text.MessageFormat.format;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -164,7 +165,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 	}
 
 	private void send(StringBuilder msg, IoSession session) throws Exception {
-		byte[] data = eol(msg).toString().getBytes(StandardCharsets.US_ASCII);
+		byte[] data = eol(msg).toString().getBytes(US_ASCII);
 		Buffer buffer = new ByteArrayBuffer(data.length, false);
 		buffer.putRawBytes(data);
 		session.writePacket(buffer).verify(getTimeout());
@@ -196,7 +197,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 			int length = buffer.available();
 			byte[] data = new byte[length];
 			buffer.getRawBytes(data, 0, length);
-			String[] reply = new String(data, StandardCharsets.US_ASCII)
+			String[] reply = new String(data, US_ASCII)
 					.split("\r\n"); //$NON-NLS-1$
 			handleMessage(session, Arrays.asList(reply));
 		} catch (Exception e) {
@@ -348,7 +349,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 				throw new IOException(format(
 						SshdText.get().proxyHttpInvalidUserName, proxy, user));
 			}
-			byte[] rawUser = user.getBytes(StandardCharsets.UTF_8);
+			byte[] rawUser = user.getBytes(UTF_8);
 			byte[] toEncode = new byte[rawUser.length + 1 + password.length];
 			System.arraycopy(rawUser, 0, toEncode, 0, rawUser.length);
 			toEncode[rawUser.length] = ':';
