@@ -22,6 +22,30 @@
       "revId": "9953d5af4e6911ab9f50e1c13deb2b5f080061b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46d2fd46_3184afb5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BundleWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T11:29:15Z",
+      "side": 1,
+      "message": "I found that there were only a few other cases where this is not static imported, and they are all in the recently added SSH code.\n\nThey are fixed in https://git.eclipse.org/r/135413",
+      "parentUuid": "07421a22_06033779",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 55
+      },
+      "revId": "9953d5af4e6911ab9f50e1c13deb2b5f080061b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
