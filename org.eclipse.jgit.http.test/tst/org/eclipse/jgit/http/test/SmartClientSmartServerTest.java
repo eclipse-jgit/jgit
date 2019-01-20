@@ -487,20 +487,20 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testFetchBySHA1() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
 			t.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(B.name())));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 	}
 
 	@Test
 	public void testFetchBySHA1Unreachable() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
 			thrown.expect(TransportException.class);
@@ -515,7 +515,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	public void testFetchBySHA1UnreachableByAdvertiseRefsHook()
 			throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		advertiseRefsHook = new AbstractAdvertiseRefsHook() {
 			@Override
