@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,7 @@ class DiffTree extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.setRecursive(recursive);
 			for (AbstractTreeIterator i : trees)
@@ -116,6 +117,8 @@ class DiffTree extends TextBuiltin {
 				outw.print(walk.getPathString());
 				outw.println();
 			}
+		} catch (IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }
