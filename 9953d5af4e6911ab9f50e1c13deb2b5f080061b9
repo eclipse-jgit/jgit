@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07421a22_06033779",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BundleWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T02:50:34Z",
+      "side": 1,
+      "message": "Import this static for consistency with the rest of the code base.",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 55
+      },
+      "revId": "9953d5af4e6911ab9f50e1c13deb2b5f080061b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
