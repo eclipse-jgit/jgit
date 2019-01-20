@@ -107,7 +107,7 @@ class Commit extends TextBuiltin {
 				throw die(CLIText.get().pathsRequired);
 			}
 			if (only && all) {
-				throw die(CLIText.get().onlyOneOfIncludeOnlyAllInteractiveCanBeUsed);
+				throw die(CLIText.get().onlyOneCommitOptionAllowed);
 			}
 			if (!paths.isEmpty()) {
 				for (String p : paths) {
@@ -133,10 +133,11 @@ class Commit extends TextBuiltin {
 			} else {
 				branchName = head.getTarget().getName();
 				if (branchName.startsWith(Constants.R_HEADS)) {
-					branchName = branchName.substring(Constants.R_HEADS.length());
+					branchName = branchName
+							.substring(Constants.R_HEADS.length());
 				}
 			}
-			outw.println("[" + branchName + " " + commit.name() + "] " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			outw.println('[' + branchName + ' ' + commit.name() + "] " //$NON-NLS-1$
 					+ commit.getShortMessage());
 		} catch (IOException e) {
 			throw die(e.getMessage(), e);

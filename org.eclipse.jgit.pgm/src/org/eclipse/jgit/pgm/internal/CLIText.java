@@ -278,7 +278,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String onBranchToBeBorn;
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
-	/***/ public String onlyOneOfIncludeOnlyAllInteractiveCanBeUsed;
+	/***/ public String onlyOneCommitOptionAllowed;
 	/***/ public String password;
 	/***/ public String pathspecDidNotMatch;
 	/***/ public String pushTo;
