@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "e43ceeea_2b58cd95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61aaf1f2_849b5e08",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0f9a950_575596df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
         "patchSetId": 16
@@ -125,6 +143,24 @@
       "side": 1,
       "message": "I miss the hash handling and writing the file content to disk as fast as possible. If the implementation here is close enough to the one in FileBasedConfig we could try to factor out the common logic into another reusable class (maybe in another change).",
       "parentUuid": "a7be5163_8eee81de",
+      "revId": "346a3b144927eea483243e578d35e3d6f394951f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1e5bb27_ff01de7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9995ece8_2d3aaa60",
       "revId": "346a3b144927eea483243e578d35e3d6f394951f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
