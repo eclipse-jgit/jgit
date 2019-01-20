@@ -137,7 +137,7 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			FetchCommand fetch = git.fetch();
 			if (fsck != null)
@@ -169,7 +169,7 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 				return;
 
 			showFetchResult(result);
-		} catch (GitAPIException e) {
+		} catch (GitAPIException | IOException e) {
 			throw die(e.getMessage(), e);
 		}
 	}
