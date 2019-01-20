@@ -197,8 +197,9 @@ class Log extends RevWalkTextBuiltin {
 		diffFmt.setRepository(db);
 		try {
 			diffFmt.setPathFilter(pathFilter);
-			if (detectRenames != null)
+			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			}
 			if (renameLimit != null && diffFmt.isDetectRenames()) {
 				RenameDetector rd = diffFmt.getRenameDetector();
 				rd.setRenameLimit(renameLimit.intValue());
@@ -220,10 +221,10 @@ class Log extends RevWalkTextBuiltin {
 				}
 			}
 
-			if (decorate)
+			if (decorate) {
 				allRefsByPeeledObjectId = getRepository()
 						.getAllRefsByPeeledObjectId();
-
+			}
 			super.run();
 		} catch (Exception e) {
 			throw die(e.getMessage(), e);
