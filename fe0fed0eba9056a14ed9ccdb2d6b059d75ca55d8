@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa7a94c0_bafac8f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-20T03:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bfbc718_26e3480d",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 16
+      },
+      "revId": "fe0fed0eba9056a14ed9ccdb2d6b059d75ca55d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da2eeb5b_27824cca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-20T01:33:38Z",
       "side": 1,
       "message": "I think you mean the ID of the signing key, right ?",
+      "range": {
+        "startLine": 117,
+        "startChar": 11,
+        "endLine": 117,
+        "endChar": 24
+      },
+      "revId": "fe0fed0eba9056a14ed9ccdb2d6b059d75ca55d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd8db073_2dbfba74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-20T03:27:05Z",
+      "side": 1,
+      "message": "Currently it\u0027s uses as ID with  a fallback to committer email address if null/empty. However, there is no limit. See the description of user.signingkey.",
+      "parentUuid": "da2eeb5b_27824cca",
       "range": {
         "startLine": 117,
         "startChar": 11,
@@ -107,6 +155,30 @@
       "side": 1,
       "message": "I don\u0027t know if that\u0027s the case.  There seem to be quite a few usages of @Nullable throughout the code.",
       "parentUuid": "a015066a_37ba125c",
+      "range": {
+        "startLine": 120,
+        "startChar": 61,
+        "endLine": 121,
+        "endChar": 35
+      },
+      "revId": "fe0fed0eba9056a14ed9ccdb2d6b059d75ca55d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5f4eed_ad55a5d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-01-20T03:27:05Z",
+      "side": 1,
+      "message": "Fair point, although it\u0027s unusual to mix and match both. Typically one would use NonNull as default (eg., at the package/class level) and then annotate individual members as @Nullable. Mix and match both within parameters of the same method doesn\u0027t make sense. But I\u0027ll add it nonetheless.",
+      "parentUuid": "5a674190_e775d4a0",
       "range": {
         "startLine": 120,
         "startChar": 61,
