@@ -48,11 +48,13 @@ import static org.eclipse.jgit.lib.FileMode.GITLINK;
 import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
 import static org.eclipse.jgit.lib.FileMode.SYMLINK;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -72,7 +74,7 @@ class LsFiles extends TextBuiltin {
 	private List<String> paths = new ArrayList<>();
 
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (RevWalk rw = new RevWalk(db);
 				TreeWalk tw = new TreeWalk(db)) {
 			final ObjectId head = db.resolve(Constants.HEAD);
@@ -96,6 +98,8 @@ class LsFiles extends TextBuiltin {
 							QuotedString.GIT_PATH.quote(tw.getPathString()));
 				}
 			}
+		} catch (RevisionSyntaxException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
