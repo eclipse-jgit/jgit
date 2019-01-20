@@ -189,7 +189,7 @@ class Merge extends TextBuiltin {
 			if (!isMergedInto(oldHead, src))
 				name = mergeStrategy.getName();
 			else
-				name = "recursive"; //$NON-NLS-1$
+				name = MergeStrategy.RECURSIVE.getName();
 			outw.println(MessageFormat.format(CLIText.get().mergeMadeBy, name));
 			break;
 		case MERGED_NOT_COMMITTED:
