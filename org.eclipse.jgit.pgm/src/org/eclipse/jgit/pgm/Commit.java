@@ -89,10 +89,12 @@ class Commit extends TextBuiltin {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			CommitCommand commitCmd = git.commit();
-			if (author != null)
+			if (author != null) {
 				commitCmd.setAuthor(RawParseUtils.parsePersonIdent(author));
-			if (message != null)
+			}
+			if (message != null) {
 				commitCmd.setMessage(message);
+			}
 			if (noGpgSign) {
 				commitCmd.setSign(Boolean.FALSE);
 			} else if (gpgSigningKey != null) {
@@ -101,13 +103,17 @@ class Commit extends TextBuiltin {
 					commitCmd.setSigningKey(gpgSigningKey);
 				}
 			}
-			if (only && paths.isEmpty())
+			if (only && paths.isEmpty()) {
 				throw die(CLIText.get().pathsRequired);
-			if (only && all)
+			}
+			if (only && all) {
 				throw die(CLIText.get().onlyOneOfIncludeOnlyAllInteractiveCanBeUsed);
-			if (!paths.isEmpty())
-				for (String p : paths)
+			}
+			if (!paths.isEmpty()) {
+				for (String p : paths) {
 					commitCmd.setOnly(p);
+				}
+			}
 			commitCmd.setAmend(amend);
 			commitCmd.setAll(all);
 			Ref head = db.exactRef(Constants.HEAD);
@@ -122,12 +128,13 @@ class Commit extends TextBuiltin {
 			}
 
 			String branchName;
-			if (!head.isSymbolic())
+			if (!head.isSymbolic()) {
 				branchName = CLIText.get().branchDetachedHEAD;
-			else {
+			} else {
 				branchName = head.getTarget().getName();
-				if (branchName.startsWith(Constants.R_HEADS))
+				if (branchName.startsWith(Constants.R_HEADS)) {
 					branchName = branchName.substring(Constants.R_HEADS.length());
+				}
 			}
 			outw.println("[" + branchName + " " + commit.name() + "] " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					+ commit.getShortMessage());
