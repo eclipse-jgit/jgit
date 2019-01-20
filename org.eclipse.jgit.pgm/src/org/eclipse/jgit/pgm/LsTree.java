@@ -76,15 +76,17 @@ class LsTree extends TextBuiltin {
 	protected void run() {
 		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.reset(); // drop the first empty tree, which we do not need here
-			if (paths.size() > 0)
+			if (paths.size() > 0) {
 				walk.setFilter(PathFilterGroup.createFromStrings(paths));
+			}
 			walk.setRecursive(recursive);
 			walk.addTree(tree);
 
 			while (walk.next()) {
 				final FileMode mode = walk.getFileMode(0);
-				if (mode == FileMode.TREE)
+				if (mode == FileMode.TREE) {
 					outw.print('0');
+				}
 				outw.print(mode);
 				outw.print(' ');
 				outw.print(Constants.typeString(mode.getObjectType()));
