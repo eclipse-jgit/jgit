@@ -469,10 +469,12 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testDeltaStatistics() throws Exception {
 		config.setDeltaCompress(true);
 		FileRepository repo = createBareRepository();
-		TestRepository<FileRepository> testRepo = new TestRepository<>(repo);
 		ArrayList<RevObject> blobs = new ArrayList<>();
-		blobs.add(testRepo.blob(genDeltableData(1000)));
-		blobs.add(testRepo.blob(genDeltableData(1005)));
+		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
+				repo)) {
+			blobs.add(testRepo.blob(genDeltableData(1000)));
+			blobs.add(testRepo.blob(genDeltableData(1005)));
+		}
 
 		try (PackWriter pw = new PackWriter(repo)) {
 			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
@@ -535,25 +537,23 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testExclude() throws Exception {
 		FileRepository repo = createBareRepository();
 
-		TestRepository<FileRepository> testRepo = new TestRepository<>(
-				repo);
-		BranchBuilder bb = testRepo.branch("refs/heads/master");
-		contentA = testRepo.blob("A");
-		c1 = bb.commit().add("f", contentA).create();
-		testRepo.getRevWalk().parseHeaders(c1);
-		PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET);
-		assertContent(
-				pf1,
-				Arrays.asList(c1.getId(), c1.getTree().getId(),
-						contentA.getId()));
-		contentB = testRepo.blob("B");
-		c2 = bb.commit().add("f", contentB).create();
-		testRepo.getRevWalk().parseHeaders(c2);
-		PackIndex pf2 = writePack(repo, wants(c2), Sets.of((ObjectIdSet) pf1));
-		assertContent(
-				pf2,
-				Arrays.asList(c2.getId(), c2.getTree().getId(),
-						contentB.getId()));
+		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
+				repo)) {
+			BranchBuilder bb = testRepo.branch("refs/heads/master");
+			contentA = testRepo.blob("A");
+			c1 = bb.commit().add("f", contentA).create();
+			testRepo.getRevWalk().parseHeaders(c1);
+			PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET);
+			assertContent(pf1, Arrays.asList(c1.getId(), c1.getTree().getId(),
+					contentA.getId()));
+			contentB = testRepo.blob("B");
+			c2 = bb.commit().add("f", contentB).create();
+			testRepo.getRevWalk().parseHeaders(c2);
+			PackIndex pf2 = writePack(repo, wants(c2),
+					Sets.of((ObjectIdSet) pf1));
+			assertContent(pf2, Arrays.asList(c2.getId(), c2.getTree().getId(),
+					contentB.getId()));
+		}
 	}
 
 	private static void assertContent(PackIndex pi, List<ObjectId> expected) {
@@ -660,20 +660,21 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private FileRepository setupRepoForShallowFetch() throws Exception {
 		FileRepository repo = createBareRepository();
-		TestRepository<Repository> r = new TestRepository<>(repo);
-		BranchBuilder bb = r.branch("refs/heads/master");
-		contentA = r.blob("A");
-		contentB = r.blob("B");
-		contentC = r.blob("C");
-		contentD = r.blob("D");
-		contentE = r.blob("E");
-		c1 = bb.commit().add("a", contentA).create();
-		c2 = bb.commit().add("b", contentB).create();
-		c3 = bb.commit().add("c", contentC).create();
-		c4 = bb.commit().add("d", contentD).create();
-		c5 = bb.commit().add("e", contentE).create();
-		r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
-		return repo;
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c3 = bb.commit().add("c", contentC).create();
+			c4 = bb.commit().add("d", contentD).create();
+			c5 = bb.commit().add("e", contentE).create();
+			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			return repo;
+		}
 	}
 
 	private static PackIndex writePack(FileRepository repo,
