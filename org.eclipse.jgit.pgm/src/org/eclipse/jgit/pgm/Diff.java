@@ -184,8 +184,9 @@ class Diff extends TextBuiltin {
 			if (cached) {
 				if (oldTree == null) {
 					ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
-					if (head == null)
+					if (head == null) {
 						die(MessageFormat.format(CLIText.get().notATree, HEAD));
+					}
 					CanonicalTreeParser p = new CanonicalTreeParser();
 					try (ObjectReader reader = db.newObjectReader()) {
 						p.reset(reader, head);
@@ -196,15 +197,17 @@ class Diff extends TextBuiltin {
 			} else if (oldTree == null) {
 				oldTree = new DirCacheIterator(db.readDirCache());
 				newTree = new FileTreeIterator(db);
-			} else if (newTree == null)
+			} else if (newTree == null) {
 				newTree = new FileTreeIterator(db);
+			}
 
 			TextProgressMonitor pm = new TextProgressMonitor(errw);
 			pm.setDelayStart(2, TimeUnit.SECONDS);
 			diffFmt.setProgressMonitor(pm);
 			diffFmt.setPathFilter(pathFilter);
-			if (detectRenames != null)
+			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			}
 			if (renameLimit != null && diffFmt.isDetectRenames()) {
 				RenameDetector rd = diffFmt.getRenameDetector();
 				rd.setRenameLimit(renameLimit.intValue());
@@ -213,7 +216,6 @@ class Diff extends TextBuiltin {
 			if (showNameAndStatusOnly) {
 				nameStatus(outw, diffFmt.scan(oldTree, newTree));
 				outw.flush();
-
 			} else {
 				diffFmt.format(oldTree, newTree);
 				diffFmt.flush();
