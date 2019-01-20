@@ -124,10 +124,12 @@ class Push extends TextBuiltin {
 			push.setProgressMonitor(new TextProgressMonitor(errw));
 			push.setReceivePack(receivePack);
 			push.setRefSpecs(refSpecs);
-			if (all)
+			if (all) {
 				push.setPushAll();
-			if (tags)
+			}
+			if (tags) {
 				push.setPushTags();
+			}
 			push.setRemote(remote);
 			push.setThin(thin);
 			push.setAtomic(atomic);
