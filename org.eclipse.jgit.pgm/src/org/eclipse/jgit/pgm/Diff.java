@@ -62,6 +62,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -177,7 +178,7 @@ class Diff extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		diffFmt.setRepository(db);
 		try {
 			if (cached) {
@@ -217,6 +218,8 @@ class Diff extends TextBuiltin {
 				diffFmt.format(oldTree, newTree);
 				diffFmt.flush();
 			}
+		} catch (RevisionSyntaxException | IOException e) {
+			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
 		}
