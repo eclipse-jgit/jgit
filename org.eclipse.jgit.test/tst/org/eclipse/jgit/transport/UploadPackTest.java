@@ -200,224 +200,233 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithBlobNoneFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
-			assertFalse(client.getObjectDatabase().has(blob1.toObjectId()));
-			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchExplicitBlobWithFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
-		remote2.update("a_blob", blob1);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
+			remote2.update("a_blob", blob1);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
-			assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
-			assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
-			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
+						new RefSpec(commit.name()), new RefSpec(blob1.name())));
+				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+				assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithBlobLimitFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob longBlob = remote2.blob("foobar");
-		RevBlob shortBlob = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", longBlob),
-				remote2.file("2", shortBlob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob longBlob = remote2.blob("foobar");
+			RevBlob shortBlob = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", longBlob),
+					remote2.file("2", shortBlob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(5);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.getObjectDatabase().has(longBlob.toObjectId()));
-			assertTrue(client.getObjectDatabase().has(shortBlob.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(5);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertFalse(
+						client.getObjectDatabase().has(longBlob.toObjectId()));
+				assertTrue(
+						client.getObjectDatabase().has(shortBlob.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchExplicitBlobWithFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
-		remote2.update("a_blob", blob1);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
+			remote2.update("a_blob", blob1);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		// generate bitmaps
-		new DfsGarbageCollector(server2).pack(null);
-		server2.scanForRepoChanges();
+			// generate bitmaps
+			new DfsGarbageCollector(server2).pack(null);
+			server2.scanForRepoChanges();
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
-			assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
-			assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
+						new RefSpec(commit.name()), new RefSpec(blob1.name())));
+				assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob longBlob = remote2.blob("foobar");
-		RevBlob shortBlob = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", longBlob),
-				remote2.file("2", shortBlob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob longBlob = remote2.blob("foobar");
+			RevBlob shortBlob = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", longBlob),
+					remote2.file("2", shortBlob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		// generate bitmaps
-		new DfsGarbageCollector(server2).pack(null);
-		server2.scanForRepoChanges();
+			// generate bitmaps
+			new DfsGarbageCollector(server2).pack(null);
+			server2.scanForRepoChanges();
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(5);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.getObjectDatabase().has(longBlob.toObjectId()));
-			assertTrue(client.getObjectDatabase().has(shortBlob.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(5);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertFalse(
+						client.getObjectDatabase().has(longBlob.toObjectId()));
+				assertTrue(
+						client.getObjectDatabase().has(shortBlob.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithNonSupportingServer() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob = remote2.blob("foo");
-		RevTree tree = remote2.tree(remote2.file("1", blob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob = remote2.blob("foo");
+			RevTree tree = remote2.tree(remote2.file("1", blob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					false);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
 
-			thrown.expect(TransportException.class);
-			thrown.expectMessage("filter requires server to advertise that capability");
+				thrown.expect(TransportException.class);
+				thrown.expectMessage(
+						"filter requires server to advertise that capability");
 
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+			}
 		}
 	}
 
