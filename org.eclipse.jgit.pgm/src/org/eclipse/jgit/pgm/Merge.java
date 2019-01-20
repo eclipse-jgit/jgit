@@ -105,23 +105,26 @@ class Merge extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		if (squash && ff == FastForwardMode.NO_FF)
+		if (squash && ff == FastForwardMode.NO_FF) {
 			throw die(CLIText.get().cannotCombineSquashWithNoff);
+		}
 		// determine the merge strategy
 		if (strategyName != null) {
 			mergeStrategy = MergeStrategy.get(strategyName);
-			if (mergeStrategy == null)
+			if (mergeStrategy == null) {
 				throw die(MessageFormat.format(
 						CLIText.get().unknownMergeStrategy, strategyName));
+			}
 		}
 
 		try {
 			// determine the other revision we want to merge with HEAD
 			final Ref srcRef = db.findRef(ref);
 			final ObjectId src = db.resolve(ref + "^{commit}"); //$NON-NLS-1$
-			if (src == null)
+			if (src == null) {
 				throw die(MessageFormat
 						.format(CLIText.get().refDoesNotExistOrNoCommit, ref));
+			}
 
 			Ref oldHead = getOldHead();
 			MergeResult result;
@@ -129,13 +132,15 @@ class Merge extends TextBuiltin {
 				MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
 						.setSquash(squash).setFastForward(ff)
 						.setCommit(!noCommit);
-				if (srcRef != null)
+				if (srcRef != null) {
 					mergeCmd.include(srcRef);
-				else
+				} else {
 					mergeCmd.include(src);
+				}
 
-				if (message != null)
+				if (message != null) {
 					mergeCmd.setMessage(message);
+				}
 
 				try {
 					result = mergeCmd.call();
@@ -146,8 +151,9 @@ class Merge extends TextBuiltin {
 
 			switch (result.getMergeStatus()) {
 			case ALREADY_UP_TO_DATE:
-				if (squash)
+				if (squash) {
 					outw.print(CLIText.get().nothingToSquash);
+				}
 				outw.println(CLIText.get().alreadyUpToDate);
 				break;
 			case FAST_FORWARD:
@@ -162,8 +168,9 @@ class Merge extends TextBuiltin {
 				break;
 			case CHECKOUT_CONFLICT:
 				outw.println(CLIText.get().mergeCheckoutConflict);
-				for (String collidingPath : result.getCheckoutConflicts())
+				for (String collidingPath : result.getCheckoutConflicts()) {
 					outw.println("\t" + collidingPath); //$NON-NLS-1$
+				}
 				outw.println(CLIText.get().mergeCheckoutFailed);
 				break;
 			case CONFLICTING:
@@ -189,10 +196,11 @@ class Merge extends TextBuiltin {
 				break;
 			case MERGED:
 				String name;
-				if (!isMergedInto(oldHead, src))
+				if (!isMergedInto(oldHead, src)) {
 					name = mergeStrategy.getName();
-				else
+				} else {
 					name = "recursive"; //$NON-NLS-1$
+				}
 				outw.println(
 						MessageFormat.format(CLIText.get().mergeMadeBy, name));
 				break;
