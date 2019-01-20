@@ -186,9 +186,10 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void fsck(Repository db, RevObject... tips)
 			throws Exception {
-		TestRepository<? extends Repository> tr =
-				new TestRepository<>(db);
-		tr.fsck(tips);
+		try (TestRepository<? extends Repository> tr =
+				new TestRepository<>(db)) {
+			tr.fsck(tips);
+		}
 	}
 
 	/**
