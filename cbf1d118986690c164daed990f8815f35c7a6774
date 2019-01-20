@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efc3e450_59c034cc",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-01-20T23:25:52Z",
+      "side": 1,
+      "message": "How about:\n\n MergeStrategy strategy \u003d isMergedInto(oldHead, src) ? RECURSIVE : mergeStrategy;\n outw.println(format(CLIText.get().mergeMadeBy, strategy.getName());\n\n?",
+      "revId": "cbf1d118986690c164daed990f8815f35c7a6774",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
