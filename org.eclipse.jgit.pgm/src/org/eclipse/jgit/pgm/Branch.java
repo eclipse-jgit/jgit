@@ -207,22 +207,27 @@ class Branch extends TextBuiltin {
 				} else {
 					src = branch;
 					final Ref old = db.findRef(src);
-					if (old == null)
+					if (old == null) {
 						throw die(MessageFormat.format(CLIText.get().doesNotExist, src));
-					if (!old.getName().startsWith(Constants.R_HEADS))
+					}
+					if (!old.getName().startsWith(Constants.R_HEADS)) {
 						throw die(MessageFormat.format(CLIText.get().notABranch, src));
+					}
 					src = old.getName();
 					dst = otherBranch;
 				}
 
-				if (!dst.startsWith(Constants.R_HEADS))
+				if (!dst.startsWith(Constants.R_HEADS)) {
 					dst = Constants.R_HEADS + dst;
-				if (!Repository.isValidRefName(dst))
+				}
+				if (!Repository.isValidRefName(dst)) {
 					throw die(MessageFormat.format(CLIText.get().notAValidRefName, dst));
+				}
 
 				RefRename r = db.renameRef(src, dst);
-				if (r.rename() != Result.RENAMED)
+				if (r.rename() != Result.RENAMED) {
 					throw die(MessageFormat.format(CLIText.get().cannotBeRenamed, src));
+				}
 
 			} else if (createForce || branch != null) {
 				String newHead = branch;
