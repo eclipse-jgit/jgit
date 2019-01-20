@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8865e19a_41fd184f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/JschConfigSessionFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T05:31:18Z",
+      "side": 1,
+      "message": "This is failing for me when I run the tests on the master branch.\n\n [ERROR] Failures:\n [ERROR]   JschConfigSessionFactoryTest.testNoConfigEntry:90 expected:\u003c[dpursehous]e\u003e but was:\u003c[user.nam]e\u003e",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "891103609d2259e89191b72cebd503eb900e6c7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
