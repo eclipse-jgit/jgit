@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "055c0d74_a840a1dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a460a425_78cc5561",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6294b641_9e02b4e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 15
@@ -112,6 +130,24 @@
       "writtenOn": "2019-01-07T10:24:36Z",
       "side": 1,
       "message": "suppress API compatibility error for new public constant",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd6853c5_d88f8ba7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6294b641_9e02b4e7",
       "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -243,6 +279,30 @@
     },
     {
       "key": {
+        "uuid": "75e2bd02_583b3c36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a2a1cee_0292f852",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1024ac8f_fdfe7ee1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
         "patchSetId": 15
@@ -326,6 +386,24 @@
       "side": 1,
       "message": "We handle other global config options in the same way, e.g. all the options in WindowCacheConfig [1]. You are right it doesn\u0027t make sense to configure them per repository, they can be defined on user or system level or in a way defined by the application using JGit. E.g. Gerrit is creating a WindowCacheConfig from the core section of its own gerrit.config configuring the Gerrit server and then installs the configuration [2]. This configuration has an install method to allow changing the cache size at runtime.\n\nI think we could hardcode the number of retries, it seems reasonable to allow configuring the max size of the cache if it\u0027s a limited cache.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java#50\n[2] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java#70",
       "parentUuid": "d828052f_e61af7c2",
+      "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f79dd1b_fa78fe48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NetscapeCookieFileCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-01-20T18:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcffaa31_29f59877",
       "revId": "f87b425c057296161eb6b63d15ff046f350081dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
