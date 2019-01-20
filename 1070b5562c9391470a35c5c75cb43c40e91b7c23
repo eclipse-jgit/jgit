@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2993b90d_d52a9f3e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T23:07:31Z",
+      "side": 1,
+      "message": "throw die(e.getMessage(), e);",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "1070b5562c9391470a35c5c75cb43c40e91b7c23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fad7de9_0938be5f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-20T23:07:31Z",
+      "side": 1,
+      "message": "Were the changes in this file intended to be in a separate commit?",
+      "revId": "1070b5562c9391470a35c5c75cb43c40e91b7c23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
