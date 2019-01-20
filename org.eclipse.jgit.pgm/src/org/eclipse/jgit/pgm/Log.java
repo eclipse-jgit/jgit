@@ -193,7 +193,7 @@ class Log extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		diffFmt.setRepository(db);
 		try {
 			diffFmt.setPathFilter(pathFilter);
@@ -225,6 +225,8 @@ class Log extends RevWalkTextBuiltin {
 						.getAllRefsByPeeledObjectId();
 
 			super.run();
+		} catch (Exception e) {
+			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
 		}
