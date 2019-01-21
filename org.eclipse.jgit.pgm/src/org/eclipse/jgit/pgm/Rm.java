@@ -65,8 +65,9 @@ class Rm extends TextBuiltin {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			RmCommand command = git.rm();
-			for (String p : paths)
+			for (String p : paths) {
 				command.addFilepattern(p);
+			}
 			command.call();
 		} catch (GitAPIException e) {
 			throw die(e.getMessage(), e);
