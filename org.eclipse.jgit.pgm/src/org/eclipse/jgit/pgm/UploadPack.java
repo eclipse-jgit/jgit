@@ -77,8 +77,9 @@ class UploadPack extends TextBuiltin {
 			db = key.open(true /* must exist */);
 			org.eclipse.jgit.transport.UploadPack up = new org.eclipse.jgit.transport.UploadPack(
 					db);
-			if (0 <= timeout)
+			if (0 <= timeout) {
 				up.setTimeout(timeout);
+			}
 			up.upload(ins, outs, errs);
 		} catch (RepositoryNotFoundException notFound) {
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository,
