@@ -54,6 +54,8 @@ import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.StatusCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.IndexDiff.StageState;
 import org.eclipse.jgit.lib.Ref;
@@ -88,7 +90,7 @@ class Status extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			StatusCommand statusCommand = git.status();
 			if (filterPaths != null && filterPaths.size() > 0)
@@ -96,6 +98,8 @@ class Status extends TextBuiltin {
 					statusCommand.addPath(path);
 			org.eclipse.jgit.api.Status status = statusCommand.call();
 			printStatus(status);
+		} catch (GitAPIException | NoWorkTreeException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
