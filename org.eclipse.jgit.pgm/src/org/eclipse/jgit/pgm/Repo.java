@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.pgm;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.gitrepo.RepoCommand;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -60,11 +61,15 @@ class Repo extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		new RepoCommand(db)
-			.setURI(uri)
-			.setPath(path)
-			.setGroups(groups)
-			.call();
+	protected void run() {
+		try {
+			new RepoCommand(db)
+				.setURI(uri)
+				.setPath(path)
+				.setGroups(groups)
+				.call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
+		}
 	}
 }
