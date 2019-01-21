@@ -208,7 +208,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 		ServletContextHandler app = addNormalContext(gs, src, srcName);
 
-		ServletContextHandler broken = addBrokenContext(gs, src, srcName);
+		ServletContextHandler broken = addBrokenContext(gs, srcName);
 
 		ServletContextHandler redirect = addRedirectContext(gs);
 
@@ -287,8 +287,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		return app;
 	}
 
-	@SuppressWarnings("unused")
-	private ServletContextHandler addBrokenContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
+	private ServletContextHandler addBrokenContext(GitServlet gs,
+			String srcName) {
 		ServletContextHandler broken = server.addContext("/bad");
 		broken.addFilter(new FilterHolder(new Filter() {
 
