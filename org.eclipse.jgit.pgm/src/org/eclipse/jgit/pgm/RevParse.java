@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,27 +70,31 @@ class RevParse extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		if (all) {
-			for (Ref r : db.getRefDatabase().getRefs()) {
-				ObjectId objectId = r.getObjectId();
-				// getRefs skips dangling symrefs, so objectId should never be
-				// null.
-				if (objectId == null) {
-					throw new NullPointerException();
+	protected void run() {
+		try {
+			if (all) {
+				for (Ref r : db.getRefDatabase().getRefs()) {
+					ObjectId objectId = r.getObjectId();
+					// getRefs skips dangling symrefs, so objectId should never
+					// be null.
+					if (objectId == null) {
+						throw new NullPointerException();
+					}
+					outw.println(objectId.name());
 				}
-				outw.println(objectId.name());
-			}
-		} else {
-			if (verify && commits.size() > 1) {
-				final CmdLineParser clp = new CmdLineParser(this);
-				throw new CmdLineException(clp,
-						CLIText.format(CLIText.get().needSingleRevision));
-			}
+			} else {
+				if (verify && commits.size() > 1) {
+					final CmdLineParser clp = new CmdLineParser(this);
+					throw new CmdLineException(clp,
+							CLIText.format(CLIText.get().needSingleRevision));
+				}
 
-			for (ObjectId o : commits) {
-				outw.println(o.name());
+				for (ObjectId o : commits) {
+					outw.println(o.name());
+				}
 			}
+		} catch (IOException | CmdLineException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }
