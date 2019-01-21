@@ -42,10 +42,12 @@
  */
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ReflogCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
@@ -59,7 +61,7 @@ class Reflog extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			ReflogCommand cmd = git.reflog();
 			if (ref != null)
@@ -69,6 +71,8 @@ class Reflog extends TextBuiltin {
 			for (ReflogEntry entry : entries) {
 				outw.println(toString(entry, i++));
 			}
+		} catch (GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
