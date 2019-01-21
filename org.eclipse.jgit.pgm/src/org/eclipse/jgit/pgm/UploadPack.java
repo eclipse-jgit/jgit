@@ -45,6 +45,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -70,20 +71,20 @@ class UploadPack extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		final org.eclipse.jgit.transport.UploadPack up;
-
+	protected void run() {
 		try {
 			FileKey key = FileKey.lenient(srcGitdir, FS.DETECTED);
 			db = key.open(true /* must exist */);
+			org.eclipse.jgit.transport.UploadPack up = new org.eclipse.jgit.transport.UploadPack(
+					db);
+			if (0 <= timeout)
+				up.setTimeout(timeout);
+			up.upload(ins, outs, errs);
 		} catch (RepositoryNotFoundException notFound) {
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository,
 					srcGitdir.getPath()));
+		} catch (IOException e) {
+			throw die(e.getMessage(), e);
 		}
-
-		up = new org.eclipse.jgit.transport.UploadPack(db);
-		if (0 <= timeout)
-			up.setTimeout(timeout);
-		up.upload(ins, outs, errs);
 	}
 }
