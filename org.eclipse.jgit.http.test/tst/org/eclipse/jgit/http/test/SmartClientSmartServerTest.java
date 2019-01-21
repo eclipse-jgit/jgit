@@ -416,12 +416,11 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testListRemote() throws IOException {
-		Repository dst = createBareRepository();
-
 		assertEquals("http", remoteURI.getScheme());
 
 		Map<String, Ref> map;
-		try (Transport t = Transport.open(dst, remoteURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI)) {
 			// I didn't make up these public interface names, I just
 			// approved them for inclusion into the code base. Sorry.
 			// --spearce
@@ -459,9 +458,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testListRemote_BadName() throws IOException, URISyntaxException {
-		Repository dst = createBareRepository();
 		URIish uri = new URIish(this.remoteURI.toString() + ".invalid");
-		try (Transport t = Transport.open(dst, uri)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, uri)) {
 			try {
 				t.openFetch();
 				fail("fetch connection opened");
@@ -486,23 +485,20 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testFetchBySHA1() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, remoteURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(B.name())));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
 	}
 
 	@Test
 	public void testFetchBySHA1Unreachable() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, remoteURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			thrown.expect(TransportException.class);
 			thrown.expectMessage(Matchers.containsString(
 					"want " + unreachableCommit.name() + " not valid"));
@@ -514,9 +510,6 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testFetchBySHA1UnreachableByAdvertiseRefsHook()
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
 		advertiseRefsHook = new AbstractAdvertiseRefsHook() {
 			@Override
 			protected Map<String, Ref> getAdvertisedRefs(Repository repository,
@@ -525,7 +518,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			}
 		};
 
-		try (Transport t = Transport.open(dst, remoteURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			thrown.expect(TransportException.class);
 			thrown.expectMessage(Matchers.containsString(
 					"want " + A.name() + " not valid"));
@@ -536,16 +531,14 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_Small() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, remoteURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(2, requests.size());
@@ -576,21 +569,20 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	private void initialClone_Redirect(int nofRedirects, int code)
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
 		URIish cloneFrom = redirectURI;
 		if (code != 301 || nofRedirects > 1) {
 			cloneFrom = extendPath(cloneFrom,
 					"/response/" + nofRedirects + "/" + code);
 		}
-		try (Transport t = Transport.open(dst, cloneFrom)) {
-			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
-		}
 
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(2 + nofRedirects, requests.size());
@@ -665,12 +657,12 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.openUserConfig(null, FS.DETECTED);
 		userConfig.setInt("http", null, "maxRedirects", 3);
 		userConfig.save();
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(redirectURI, "/response/4/302");
 		String remoteUri = cloneFrom.toString();
-		try (Transport t = Transport.open(dst, cloneFrom)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (too many redirects)");
 		} catch (TransportException e) {
@@ -687,11 +679,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectLoop() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
 		URIish cloneFrom = extendPath(redirectURI, "/loop");
-		try (Transport t = Transport.open(dst, cloneFrom)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (redirect loop)");
 		} catch (TransportException e) {
@@ -705,17 +696,16 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.openUserConfig(null, FS.DETECTED);
 		userConfig.setString("http", null, "followRedirects", "true");
 		userConfig.save();
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		URIish cloneFrom = extendPath(remoteURI, "/post");
-		try (Transport t = Transport.open(dst, cloneFrom)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(3, requests.size());
@@ -750,11 +740,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectOnPostForbidden() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
 		URIish cloneFrom = extendPath(remoteURI, "/post");
-		try (Transport t = Transport.open(dst, cloneFrom)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (redirect on POST)");
 		} catch (TransportException e) {
@@ -769,10 +758,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		userConfig.setString("http", null, "followRedirects", "false");
 		userConfig.save();
 
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, redirectURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, redirectURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (redirects forbidden)");
 		} catch (TransportException e) {
@@ -783,17 +771,15 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_WithAuthentication() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, authURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(3, requests.size());
@@ -829,10 +815,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_WithAuthenticationNoCredentials()
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, authURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should not have succeeded -- no authentication");
 		} catch (TransportException e) {
@@ -851,10 +836,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_WithAuthenticationWrongCredentials()
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, authURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
 					AppServer.username, "wrongpassword"));
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
@@ -877,9 +861,6 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_WithAuthenticationAfterRedirect()
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
 		URIish cloneFrom = extendPath(redirectURI, "/target/auth");
 		CredentialsProvider uriSpecificCredentialsProvider = new UsernamePasswordCredentialsProvider(
 				"unknown", "none") {
@@ -897,14 +878,15 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				return super.get(uri, items);
 			}
 		};
-		try (Transport t = Transport.open(dst, cloneFrom)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.setCredentialsProvider(uriSpecificCredentialsProvider);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(4, requests.size());
@@ -946,17 +928,15 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_WithAuthenticationOnPostOnly()
 			throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, authOnPostURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authOnPostURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
-
-		assertTrue(dst.getObjectDatabase().has(A_txt));
-		assertEquals(B, dst.exactRef(master).getObjectId());
-		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
 		assertEquals(3, requests.size());
@@ -1131,10 +1111,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_BrokenServer() throws Exception {
-		Repository dst = createBareRepository();
-		assertFalse(dst.getObjectDatabase().has(A_txt));
-
-		try (Transport t = Transport.open(dst, brokenURI)) {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, brokenURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
 			try {
 				t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 				fail("fetch completed despite upload-pack being broken");
@@ -1175,8 +1154,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 					"testInvalidWant".getBytes(UTF_8));
 		}
 
-		Repository dst = createBareRepository();
-		try (Transport t = Transport.open(dst, remoteURI);
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, remoteURI);
 				FetchConnection c = t.openFetch()) {
 			Ref want = new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(),
 					id);
@@ -1213,8 +1192,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			URIish badRefsURI = new URIish(noRefServer.getURI()
 					.resolve(app.getContextPath() + "/" + repoName).toString());
 
-			Repository dst = createBareRepository();
-			try (Transport t = Transport.open(dst, badRefsURI);
+			try (Repository dst = createBareRepository();
+					Transport t = Transport.open(dst, badRefsURI);
 					FetchConnection c = t.openFetch()) {
 				// We start failing here to exercise the post-advertisement
 				// upload pack handler.
