@@ -87,7 +87,7 @@ class Remote extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			if (command == null) {
 				RemoteListCommand cmd = git.remoteList();
@@ -142,6 +142,8 @@ class Remote extends TextBuiltin {
 				throw new JGitInternalException(MessageFormat
 						.format(CLIText.get().unknownSubcommand, command));
 			}
+		} catch (Exception e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
