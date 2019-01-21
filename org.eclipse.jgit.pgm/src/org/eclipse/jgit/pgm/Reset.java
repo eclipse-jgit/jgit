@@ -49,6 +49,7 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
@@ -74,7 +75,7 @@ class Reset extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			ResetCommand command = git.reset();
 			command.setRef(commit);
@@ -94,6 +95,8 @@ class Reset extends TextBuiltin {
 				command.setMode(mode);
 			}
 			command.call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
