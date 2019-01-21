@@ -180,18 +180,20 @@ class Show extends TextBuiltin {
 		diffFmt.setRepository(db);
 		try {
 			diffFmt.setPathFilter(pathFilter);
-			if (detectRenames != null)
+			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			}
 			if (renameLimit != null && diffFmt.isDetectRenames()) {
 				RenameDetector rd = diffFmt.getRenameDetector();
 				rd.setRenameLimit(renameLimit.intValue());
 			}
 
 			ObjectId objectId;
-			if (objectName == null)
+			if (objectName == null) {
 				objectId = db.resolve(Constants.HEAD);
-			else
+			} else {
 				objectId = db.resolve(objectName);
+			}
 
 			try (RevWalk rw = new RevWalk(db)) {
 				RevObject obj = rw.parseAny(objectId);
