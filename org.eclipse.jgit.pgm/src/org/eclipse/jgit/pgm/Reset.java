@@ -80,18 +80,23 @@ class Reset extends TextBuiltin {
 			ResetCommand command = git.reset();
 			command.setRef(commit);
 			if (paths.size() > 0) {
-				for (String path : paths)
+				for (String path : paths) {
 					command.addPath(path);
+				}
 			} else {
 				ResetType mode = null;
-				if (soft)
+				if (soft) {
 					mode = selectMode(mode, ResetType.SOFT);
-				if (mixed)
+				}
+				if (mixed) {
 					mode = selectMode(mode, ResetType.MIXED);
-				if (hard)
+				}
+				if (hard) {
 					mode = selectMode(mode, ResetType.HARD);
-				if (mode == null)
+				}
+				if (mode == null) {
 					throw die("no reset mode set"); //$NON-NLS-1$
+				}
 				command.setMode(mode);
 			}
 			command.call();
