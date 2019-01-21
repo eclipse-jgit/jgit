@@ -63,13 +63,15 @@ class Version extends TextBuiltin {
 
 		// if Implementation-Version is not available then try reading
 		// Bundle-Version
-		if (version == null)
+		if (version == null) {
 			version = getBundleVersion();
+		}
 
 		// if both Implementation-Version and Bundle-Version are not available
 		// then throw an exception
-		if (version == null)
+		if (version == null) {
 			throw die(CLIText.get().cannotReadPackageInformation);
+		}
 
 		try {
 			outw.println(
