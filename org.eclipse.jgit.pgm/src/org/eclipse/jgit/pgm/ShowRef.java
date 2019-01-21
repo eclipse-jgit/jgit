@@ -56,15 +56,19 @@ import org.eclipse.jgit.lib.RefComparator;
 class ShowRef extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
-		for (Ref r : getSortedRefs()) {
-			show(r.getObjectId(), r.getName());
-			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
+	protected void run() {
+		try {
+			for (Ref r : getSortedRefs()) {
+				show(r.getObjectId(), r.getName());
+				if (r.getPeeledObjectId() != null)
+					show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
+			}
+		} catch (IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 
-	private Iterable<Ref> getSortedRefs() throws Exception {
+	private Iterable<Ref> getSortedRefs() throws IOException {
 		List<Ref> all = db.getRefDatabase().getRefs();
 		// TODO(jrn) check if we can reintroduce fast-path by e.g. implementing
 		// SortedList
