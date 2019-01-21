@@ -1169,9 +1169,11 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInvalidWant() throws Exception {
-		@SuppressWarnings("resource")
-		ObjectId id = new ObjectInserter.Formatter().idFor(Constants.OBJ_BLOB,
-				"testInvalidWant".getBytes(UTF_8));
+		ObjectId id;
+		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			id = formatter.idFor(Constants.OBJ_BLOB,
+					"testInvalidWant".getBytes(UTF_8));
+		}
 
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, remoteURI);
