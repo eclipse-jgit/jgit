@@ -50,6 +50,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
@@ -95,7 +96,7 @@ class Reset extends TextBuiltin {
 					mode = selectMode(mode, ResetType.HARD);
 				}
 				if (mode == null) {
-					throw die("no reset mode set"); //$NON-NLS-1$
+					throw die(CLIText.get().resetNoMode);
 				}
 				command.setMode(mode);
 			}

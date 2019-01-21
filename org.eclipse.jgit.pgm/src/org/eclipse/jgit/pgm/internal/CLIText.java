@@ -290,6 +290,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String remoteSideDoesNotSupportDeletingRefs;
 	/***/ public String removing;
 	/***/ public String repaint;
+	/***/ public String resetNoMode;
 	/***/ public String s3InvalidBucket;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
