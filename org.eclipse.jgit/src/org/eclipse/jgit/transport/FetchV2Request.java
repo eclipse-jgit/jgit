@@ -72,6 +72,8 @@ public final class FetchV2Request extends FetchRequest {
 	@NonNull
 	private final List<String> serverOptions;
 
+	private final boolean sidebandAll;
+
 	FetchV2Request(@NonNull List<ObjectId> peerHas,
 			@NonNull List<String> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
@@ -79,13 +81,15 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull List<String> deepenNotRefs, int depth,
 			long filterBlobLimit,
 			boolean doneReceived, @NonNull Set<String> clientCapabilities,
-			@Nullable String agent, @NonNull List<String> serverOptions) {
+			@Nullable String agent, @NonNull List<String> serverOptions,
+			boolean sidebandAll) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
 				clientCapabilities, deepenSince, deepenNotRefs, agent);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
 		this.serverOptions = requireNonNull(serverOptions);
+		this.sidebandAll = sidebandAll;
 	}
 
 	/**
@@ -124,6 +128,13 @@ public final class FetchV2Request extends FetchRequest {
 		return serverOptions;
 	}
 
+	/**
+	 * @return true if "sideband-all" was received
+	 */
+	boolean getSidebandAll() {
+		return sidebandAll;
+	}
+
 	/** @return A builder of {@link FetchV2Request}. */
 	static Builder builder() {
 		return new Builder();
@@ -155,6 +166,8 @@ public final class FetchV2Request extends FetchRequest {
 		String agent;
 
 		final List<String> serverOptions = new ArrayList<>();
+
+		boolean sidebandAll;
 
 		private Builder() {
 		}
@@ -315,13 +328,23 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * @param value true if client sent "sideband-all"
+		 * @return this builder
+		 */
+		Builder setSidebandAll(boolean value) {
+			sidebandAll = value;
+			return this;
+		}
+
+		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
 					clientShallowCommits, deepenSince, deepenNotRefs,
 					depth, filterBlobLimit, doneReceived, clientCapabilities,
-					agent, Collections.unmodifiableList(serverOptions));
+					agent, Collections.unmodifiableList(serverOptions),
+					sidebandAll);
 		}
 	}
 }

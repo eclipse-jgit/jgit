@@ -63,6 +63,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
@@ -1113,6 +1114,10 @@ public class UploadPack {
 
 		protocolV2Hook.onFetch(req);
 
+		if (req.getSidebandAll()) {
+			pckOut.setUseSideband(true);
+		}
+
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
 		List<ObjectId> deepenNots = new ArrayList<>();
@@ -1254,6 +1259,7 @@ public class UploadPack {
 				COMMAND_FETCH + '=' +
 				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
 				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
+				(transferConfig.isAllowSidebandAll() ? OPTION_SIDEBAND_ALL + ' ' : "") + //$NON-NLS-1$
 				OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
