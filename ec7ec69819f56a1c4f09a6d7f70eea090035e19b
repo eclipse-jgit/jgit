@@ -22,6 +22,30 @@
       "revId": "ec7ec69819f56a1c4f09a6d7f70eea090035e19b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2e3b5e8_6cd4c6d3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-22T05:14:04Z",
+      "side": 1,
+      "message": "Answering my own question: we need to catch Exception here because that\u0027s what fetchArgs.execute (line 134) throws.",
+      "parentUuid": "6f1f6b33_9709f01a",
+      "range": {
+        "startLine": 145,
+        "startChar": 11,
+        "endLine": 145,
+        "endChar": 20
+      },
+      "revId": "ec7ec69819f56a1c4f09a6d7f70eea090035e19b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
