@@ -44,6 +44,7 @@
 package org.eclipse.jgit.lib;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 
@@ -468,6 +469,31 @@ public abstract class RefDatabase {
 			result.addAll(getRefsByPrefix(prefix));
 		}
 		return Collections.unmodifiableList(result);
+	}
+
+
+	/**
+	 * Returns all refs that resolve directly to the given {@link ObjectId}.
+	 * Includes peeled {@linkObjectId}s. This is the inverse lookup of
+	 * {@link #exactRef(String...)}.
+	 *
+	 * <p>
+	 * The default implementation uses a linear scan. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param id
+	 *            {@link ObjectId} to resolve
+	 * @return a {@link Set} of {@link Ref}s whose tips point to the provided
+	 *         id.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.3
+	 */
+	@NonNull
+	public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
+		return getRefs().stream().filter(r -> id.equals(r.getObjectId())
+				|| id.equals(r.getPeeledObjectId())).collect(toSet());
 	}
 
 	/**

@@ -58,8 +58,10 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.lib.Ref.Storage;
@@ -313,7 +315,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		assertEquals(dst.isPeeled(), ref.isPeeled());
 	}
 
-	private static void checkContainsRef(List<Ref> haystack, Ref needle) {
+	private static void checkContainsRef(Collection<Ref> haystack, Ref needle) {
 		for (Ref ref : haystack) {
 			if (ref.getName().equals(needle.getName()) &&
 					ref.getObjectId().equals(needle.getObjectId())) {
@@ -346,5 +348,18 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		checkContainsRef(refs, db.exactRef("refs/heads/pa"));
 		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
 		checkContainsRef(refs, db.exactRef("refs/tags/A"));
+	}
+
+	@Test
+	public void testResolveTipSha1() throws IOException {
+		ObjectId masterId = db.resolve("refs/heads/master");
+		Set<Ref> resolved = db.getRefDatabase().getTipsWithSha1(masterId);
+
+		assertEquals(2, resolved.size());
+		checkContainsRef(resolved, db.exactRef("refs/heads/master"));
+		checkContainsRef(resolved, db.exactRef("HEAD"));
+
+		assertEquals(db.getRefDatabase()
+				.getTipsWithSha1(ObjectId.zeroId()).size(), 0);
 	}
 }
