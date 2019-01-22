@@ -49,6 +49,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SERVER_OPTION;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
@@ -209,6 +210,9 @@ final class ProtocolV2Parser {
 				filterReceived = true;
 				reqBuilder.setFilterSpec(FilterSpec.fromFilterLine(
 						line.substring(OPTION_FILTER.length() + 1)));
+			} else if (transferConfig.isAllowSidebandAll()
+					&& line.equals(OPTION_SIDEBAND_ALL)) {
+				reqBuilder.setSidebandAll(true);
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line));
