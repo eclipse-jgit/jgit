@@ -174,6 +174,14 @@ public final class GitProtocolConstants {
 	public static final String OPTION_WANT_REF = "want-ref"; //$NON-NLS-1$
 
 	/**
+	 * The client requested that the whole response be multiplexed, with
+	 * each non-flush and non-delim pkt prefixed by a sideband designator.
+	 *
+	 * @since 5.5
+	 */
+	public static final String OPTION_SIDEBAND_ALL = "sideband-all"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
