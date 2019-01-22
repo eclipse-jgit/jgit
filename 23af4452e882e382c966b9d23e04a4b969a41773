@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ddcb490_caeb128d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-22T01:14:35Z",
+      "side": 1,
+      "message": "...in Reset command",
+      "revId": "23af4452e882e382c966b9d23e04a4b969a41773",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "316250d4_a752e0a4",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-22T01:14:35Z",
+      "side": 1,
+      "message": "\"noResetModeSet\"?",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "23af4452e882e382c966b9d23e04a4b969a41773",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
