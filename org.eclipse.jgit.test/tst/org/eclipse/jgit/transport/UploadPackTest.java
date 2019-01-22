@@ -595,6 +595,12 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2CapabilitiesAllowSidebandAll() throws Exception {
+		checkAdvertisedIfAllowed("uploadpack", "allowsidebandall", "sideband-all");
+		checkUnadvertisedIfUnallowed("sideband-all");
+	}
+
+	@Test
 	public void testV2CapabilitiesRefInWantNotAdvertisedIfAdvertisingForbidden() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
@@ -1875,6 +1881,13 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchSidebandAllIfNotAllowed() throws Exception {
+		checkV2FetchWhenNotAllowed(
+			"sideband-all\n",
+			"unexpected sideband-all");
+	}
+
+	@Test
 	public void testV2FetchWantRef() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		RevCommit two = remote.commit().message("2").create();
@@ -2055,6 +2068,51 @@ public class UploadPackTest {
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(three.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchSidebandAllNoPackfile() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+		remote.update("branch1", fooChild);
+		remote.update("branch2", barChild);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"sideband-all\n",
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("\001acknowledgments"));
+		assertThat(pckIn.readString(), is("\001ACK " + fooParent.getName()));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2FetchSidebandAllPackfile() throws Exception {
+		RevCommit commit = remote.commit().message("x").create();
+		remote.update("master", commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.DELIM,
+				"want " + commit.getName() + "\n",
+				"sideband-all\n",
+				"done\n",
+				PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("\001packfile"));
+		parsePack(recvStream);
 	}
 
 	@Test
