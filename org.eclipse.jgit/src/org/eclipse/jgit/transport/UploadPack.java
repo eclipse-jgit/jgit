@@ -1116,6 +1116,11 @@ public class UploadPack {
 
 		if (req.getSidebandAll()) {
 			pckOut.setUseSideband(true);
+			String motd = db.getConfig().getString("uploadpack", null, //$NON-NLS-1$
+					"motd"); //$NON-NLS-1$
+			if (motd != null) {
+				pckOut.writeSideband(2, motd);
+			}
 		}
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of

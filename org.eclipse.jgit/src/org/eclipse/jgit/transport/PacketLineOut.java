@@ -167,6 +167,26 @@ public class PacketLineOut {
 	}
 
 	/**
+	 * Writes a string to the given sideband.
+	 * @param sideband sideband (1, 2, 3) to write on
+	 * @param s what to write
+	 * @throws java.io.IOException
+	 *             the packet could not be written, the stream is corrupted as
+	 *             the packet may have been only partially written.
+	 * @since 5.3
+	 */
+	public void writeSideband(int sideband, String s) throws IOException {
+		if (!useSideband) {
+			return;
+		}
+		byte[] buf = Constants.encode(s);
+		formatLength(buf.length + 5);
+		out.write(lenbuffer, 0, 4);
+		out.write(sideband);
+		out.write(buf, 0, buf.length);
+	}
+
+	/**
 	 * Write a packet delim marker (0001).
 	 *
 	 * @throws java.io.IOException

@@ -1830,6 +1830,27 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchMotd() throws Exception {
+		RevCommit commit = remote.commit().message("x").create();
+		remote.update("master", commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		server.getConfig().setString("uploadpack", null, "motd", "This is the MOTD");
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.DELIM,
+				"want " + commit.getName() + "\n",
+				"sideband-all\n",
+				"done\n",
+				PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("\002This is the MOTD"));
+		assertThat(pckIn.readString(), is("\001packfile"));
+		parsePack(recvStream);
+	}
+
+	@Test
 	public void testGetPeerAgentProtocolV0() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
