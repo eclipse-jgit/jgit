@@ -74,6 +74,8 @@ public class PacketLineOut {
 
 	private boolean flushOnEnd;
 
+	private boolean useSideband;
+
 	/**
 	 * Create a new packet line writer.
 	 *
@@ -95,6 +97,16 @@ public class PacketLineOut {
 	 */
 	public void setFlushOnEnd(boolean flushOnEnd) {
 		this.flushOnEnd = flushOnEnd;
+	}
+
+	/**
+	 * @param useSideband
+	 *	if true, multiplex output by using the first byte of each
+	 *	non-flush and non-delim pkt as a sideband designator
+	 * @since 5.3
+	 */
+	public void setUseSideband(boolean useSideband) {
+		this.useSideband = useSideband;
 	}
 
 	/**
@@ -139,8 +151,14 @@ public class PacketLineOut {
 	 * @since 4.5
 	 */
 	public void writePacket(byte[] buf, int pos, int len) throws IOException {
-		formatLength(len + 4);
-		out.write(lenbuffer, 0, 4);
+		if (useSideband) {
+			formatLength(len + 5);
+			out.write(lenbuffer, 0, 4);
+			out.write(1);
+		} else {
+			formatLength(len + 4);
+			out.write(lenbuffer, 0, 4);
+		}
 		out.write(buf, pos, len);
 		if (log.isDebugEnabled()) {
 			String s = RawParseUtils.decode(UTF_8, buf, pos, len);
