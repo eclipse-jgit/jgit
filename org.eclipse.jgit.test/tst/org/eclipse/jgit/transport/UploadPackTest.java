@@ -1,5 +1,6 @@
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
@@ -16,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -541,54 +543,62 @@ public class UploadPackTest {
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
+	private void checkAdvertisedIfAllowed(String configSection, String configName,
+			String fetchCapability) throws Exception {
+		server.getConfig().setBoolean(configSection, null, configName, true);
+		ByteArrayInputStream recvStream =
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("version 2"));
+
+		ArrayList<String> lines = new ArrayList<>();
+		String line;
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.startsWith("fetch=")) {
+				assertThat(
+					Arrays.asList(line.substring(6).split(" ")),
+					containsInAnyOrder(fetchCapability, "shallow"));
+				lines.add("fetch");
+			} else {
+				lines.add(line);
+			}
+		}
+		assertThat(lines, containsInAnyOrder("ls-refs", "fetch", "server-option"));
+	}
+
+	private void checkUnadvertisedIfUnallowed(String fetchCapability) throws Exception {
+		ByteArrayInputStream recvStream =
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("version 2"));
+
+		ArrayList<String> lines = new ArrayList<>();
+		String line;
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.startsWith("fetch=")) {
+				assertThat(
+					Arrays.asList(line.substring(6).split(" ")),
+					hasItems("shallow"));
+				lines.add("fetch");
+			} else {
+				lines.add(line);
+			}
+		}
+		assertThat(lines, hasItems("ls-refs", "fetch", "server-option"));
+	}
+
 	@Test
 	public void testV2CapabilitiesAllowFilter() throws Exception {
-		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
-		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
-		PacketLineIn pckIn = new PacketLineIn(recvStream);
-
-		assertThat(pckIn.readString(), is("version 2"));
-		assertThat(
-				Arrays.asList(pckIn.readString(), pckIn.readString(),
-						pckIn.readString()),
-				// TODO(jonathantanmy) This check overspecifies the
-				// order of the capabilities of "fetch".
-				hasItems("ls-refs", "fetch=filter shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		checkAdvertisedIfAllowed("uploadpack", "allowfilter", "filter");
+		checkUnadvertisedIfUnallowed("filter");
 	}
 
 	@Test
-	public void testV2CapabilitiesRefInWant() throws Exception {
-		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
-		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
-		PacketLineIn pckIn = new PacketLineIn(recvStream);
-
-		assertThat(pckIn.readString(), is("version 2"));
-		assertThat(
-				Arrays.asList(pckIn.readString(), pckIn.readString(),
-						pckIn.readString()),
-				// TODO(jonathantanmy) This check overspecifies the
-				// order of the capabilities of "fetch".
-				hasItems("ls-refs", "fetch=ref-in-want shallow",
-						"server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
-	}
-
-	@Test
-	public void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
-		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", false);
-		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
-		PacketLineIn pckIn = new PacketLineIn(recvStream);
-
-		assertThat(pckIn.readString(), is("version 2"));
-		assertThat(
-				Arrays.asList(pckIn.readString(), pckIn.readString(),
-						pckIn.readString()),
-				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+	public void testV2CapabilitiesAllowRefInWant() throws Exception {
+		checkAdvertisedIfAllowed("uploadpack", "allowrefinwant", "ref-in-want");
+		checkUnadvertisedIfUnallowed("ref-in-want");
 	}
 
 	@Test
@@ -1551,43 +1561,34 @@ public class UploadPackTest {
 		assertTrue(client.getObjectDatabase().has(small.toObjectId()));
 	}
 
-	@Test
-	public void testV2FetchFilterWhenNotAllowed() throws Exception {
+	private void checkV2FetchWhenNotAllowed(String fetchLine, String expectedMessage)
+			throws Exception {
 		RevCommit commit = remote.commit().message("0").create();
 		remote.update("master", commit);
 
-		server.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
-
 		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("unexpected filter blob:limit=5");
+		thrown.expectMessage(expectedMessage);
 		uploadPackV2(
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + commit.toObjectId().getName() + "\n",
-			"filter blob:limit=5\n",
+			fetchLine,
 			"done\n",
 			PacketLineIn.END);
 	}
 
 	@Test
-	public void testV2FetchWantRefIfNotAllowed() throws Exception {
-		RevCommit one = remote.commit().message("1").create();
-		remote.update("one", one);
+	public void testV2FetchFilterWhenNotAllowed() throws Exception {
+		checkV2FetchWhenNotAllowed(
+			"filter blob:limit=5\n",
+			"unexpected filter blob:limit=5");
+	}
 
-		try {
-			uploadPackV2(
-				"command=fetch\n",
-				PacketLineIn.DELIM,
-				"want-ref refs/heads/one\n",
-				"done\n",
-				PacketLineIn.END);
-		} catch (PackProtocolException e) {
-			assertThat(
-				e.getMessage(),
-				containsString("unexpected want-ref refs/heads/one"));
-			return;
-		}
-		fail("expected PackProtocolException");
+	@Test
+	public void testV2FetchWantRefIfNotAllowed() throws Exception {
+		checkV2FetchWhenNotAllowed(
+			"want-ref refs/heads/one\n",
+			"unexpected want-ref refs/heads/one");
 	}
 
 	@Test
