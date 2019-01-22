@@ -47,8 +47,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -273,6 +275,25 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		}
 
 		return Collections.unmodifiableList(all);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
+		if (!getReftableConfig().isIndexObjects()) {
+			return super.getTipsWithSha1(id);
+		}
+		lock.lock();
+		try {
+			RefCursor cursor = reader().byObjectId(id);
+			Set<Ref> refs = new HashSet<>();
+			while (cursor.next()) {
+				refs.add(cursor.getRef());
+			}
+			return refs;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/** {@inheritDoc} */
