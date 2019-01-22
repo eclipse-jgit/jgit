@@ -278,8 +278,6 @@ public class UploadPack {
 
 	private PacketLineIn pckIn;
 
-	private PacketLineOut pckOut;
-
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
 
 	/**
@@ -753,6 +751,7 @@ public class UploadPack {
 	 */
 	public void upload(InputStream input, OutputStream output,
 			@Nullable OutputStream messages) throws IOException {
+		PacketLineOut pckOut = null;
 		try {
 			rawIn = input;
 			if (messages != null)
@@ -778,9 +777,9 @@ public class UploadPack {
 			pckIn = new PacketLineIn(rawIn);
 			pckOut = new PacketLineOut(rawOut);
 			if (useProtocolV2()) {
-				serviceV2();
+				serviceV2(pckOut);
 			} else {
-				service();
+				service(pckOut);
 			}
 		} catch (UploadPackInternalServerErrorException err) {
 			// UploadPackInternalServerErrorException is a special exception
@@ -972,7 +971,7 @@ public class UploadPack {
 		return RefDatabase.findRef(getAdvertisedOrDefaultRefs(), name);
 	}
 
-	private void service() throws IOException {
+	private void service(PacketLineOut pckOut) throws IOException {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
@@ -1028,7 +1027,7 @@ public class UploadPack {
 
 			if (!req.getClientShallowCommits().isEmpty())
 				walk.assumeShallow(req.getClientShallowCommits());
-			sendPack = negotiate(req, accumulator);
+			sendPack = negotiate(req, accumulator, pckOut);
 			accumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
 
@@ -1054,11 +1053,11 @@ public class UploadPack {
 
 		if (sendPack) {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
-					unshallowCommits, Collections.emptyList());
+					unshallowCommits, Collections.emptyList(), pckOut);
 		}
 	}
 
-	private void lsRefsV2() throws IOException {
+	private void lsRefsV2(PacketLineOut pckOut) throws IOException {
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
 		protocolV2Hook.onLsRefs(req);
@@ -1103,7 +1102,7 @@ public class UploadPack {
 		return result;
 	}
 
-	private void fetchV2() throws IOException {
+	private void fetchV2(PacketLineOut pckOut) throws IOException {
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
@@ -1214,7 +1213,7 @@ public class UploadPack {
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
-					unshallowCommits, deepenNots);
+					unshallowCommits, deepenNots, pckOut);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
@@ -1227,7 +1226,7 @@ public class UploadPack {
 	 * Returns true if this is the last command and we should tear down the
 	 * connection.
 	 */
-	private boolean serveOneCommandV2() throws IOException {
+	private boolean serveOneCommandV2(PacketLineOut pckOut) throws IOException {
 		String command;
 		try {
 			command = pckIn.readString();
@@ -1242,11 +1241,11 @@ public class UploadPack {
 			return true;
 		}
 		if (command.equals("command=" + COMMAND_LS_REFS)) { //$NON-NLS-1$
-			lsRefsV2();
+			lsRefsV2(pckOut);
 			return false;
 		}
 		if (command.equals("command=" + COMMAND_FETCH)) { //$NON-NLS-1$
-			fetchV2();
+			fetchV2(pckOut);
 			return false;
 		}
 		throw new PackProtocolException(MessageFormat
@@ -1269,7 +1268,7 @@ public class UploadPack {
 		return caps;
 	}
 
-	private void serviceV2() throws IOException {
+	private void serviceV2(PacketLineOut pckOut) throws IOException {
 		if (biDirectionalPipe) {
 			// Just like in service(), the capability advertisement
 			// is sent only if this is a bidirectional pipe. (If
@@ -1282,14 +1281,14 @@ public class UploadPack {
 			}
 			pckOut.end();
 
-			while (!serveOneCommandV2()) {
+			while (!serveOneCommandV2(pckOut)) {
 				// Repeat until an empty command or EOF.
 			}
 			return;
 		}
 
 		try {
-			serveOneCommandV2();
+			serveOneCommandV2(pckOut);
 		} finally {
 			while (0 < rawIn.skip(2048) || 0 <= rawIn.read()) {
 				// Discard until EOF.
@@ -1585,7 +1584,8 @@ public class UploadPack {
 	}
 
 	private boolean negotiate(FetchRequest req,
-			PackStatistics.Accumulator accumulator)
+			PackStatistics.Accumulator accumulator,
+			PacketLineOut pckOut)
 			throws IOException {
 		okToGiveUp = Boolean.FALSE;
 
@@ -2063,6 +2063,8 @@ public class UploadPack {
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
+	 * @param pckOut
+	 *            output writer
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
@@ -2070,14 +2072,15 @@ public class UploadPack {
 			FetchRequest req,
 			@Nullable Collection<Ref> allTags,
 			List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots) throws IOException {
+			List<ObjectId> deepenNots,
+			PacketLineOut pckOut) throws IOException {
 		Set<String> caps = req.getClientCapabilities();
 		boolean sideband = caps.contains(OPTION_SIDE_BAND)
 				|| caps.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
 				sendPack(true, req, accumulator, allTags, unshallowCommits,
-						deepenNots);
+						deepenNots, pckOut);
 			} catch (ServiceMayNotContinueException err) {
 				String message = err.getMessage();
 				if (message == null) {
@@ -2101,7 +2104,8 @@ public class UploadPack {
 				throw new UploadPackInternalServerErrorException(err);
 			}
 		} else {
-			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots);
+			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots,
+					pckOut);
 		}
 	}
 
@@ -2132,6 +2136,8 @@ public class UploadPack {
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
+	 * @param pckOut
+	 *            output writer
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
@@ -2140,7 +2146,8 @@ public class UploadPack {
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags,
 			List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots) throws IOException {
+			List<ObjectId> deepenNots,
+			PacketLineOut pckOut) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
