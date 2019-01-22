@@ -16,6 +16,24 @@
       "revId": "cced9395045664b13c76f547edfdd7451507230c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1b8eedf_5b3aa54c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-22T19:33:29Z",
+      "side": 0,
+      "message": "The dispatch was firing even when there was a cache hit.  This is more accurate.",
+      "parentUuid": "08cd1be3_b73258ed",
+      "revId": "cced9395045664b13c76f547edfdd7451507230c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
