@@ -34,6 +34,24 @@
       "revId": "cced9395045664b13c76f547edfdd7451507230c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1a150d_b4299ac4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-22T23:02:58Z",
+      "side": 0,
+      "message": "Can you mention that this is not a pure refactoring and includes a fix in the description?",
+      "parentUuid": "f1b8eedf_5b3aa54c",
+      "revId": "cced9395045664b13c76f547edfdd7451507230c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
