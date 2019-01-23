@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb6bda32_fbe2c032",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-23T05:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "437b4c42_d09ff8cf",
+      "range": {
+        "startLine": 551,
+        "startChar": 40,
+        "endLine": 551,
+        "endChar": 55
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "864721ad_7acb258e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-23T00:58:11Z",
       "side": 1,
       "message": "I think it\u0027s better fit to say \"set\".",
+      "range": {
+        "startLine": 770,
+        "startChar": 9,
+        "endLine": 770,
+        "endChar": 18
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f04780e_22763372",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-23T05:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "864721ad_7acb258e",
       "range": {
         "startLine": 770,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bad956ff_91f03fd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-23T05:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a55fd1e_1cc48438",
+      "range": {
+        "startLine": 797,
+        "startChar": 10,
+        "endLine": 797,
+        "endChar": 18
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6e073a5_b693af45",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7edc5f11_7025f21e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-23T05:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e073a5_b693af45",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 43
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c4050eb_e22ffe88",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2019-01-23T00:58:11Z",
       "side": 1,
       "message": "@Nullable",
+      "range": {
+        "startLine": 333,
+        "startChar": 3,
+        "endLine": 333,
+        "endChar": 16
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "184a8ea9_012fff0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-01-23T05:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4050eb_e22ffe88",
       "range": {
         "startLine": 333,
         "startChar": 3,
