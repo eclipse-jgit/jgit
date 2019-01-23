@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a567891_c8251099",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-23T12:41:13Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong preference, so I swapped these two here to be consistent.",
+      "parentUuid": "eadcef9e_89a83989",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 34
+      },
+      "revId": "b6667211fa156aa06891717b6a29233b2659a9a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd50eca_3f69df9b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e941d540_1b39347a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-23T12:41:13Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "7dd50eca_3f69df9b",
+      "range": {
+        "startLine": 476,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 3
+      },
+      "revId": "b6667211fa156aa06891717b6a29233b2659a9a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77bac3fc_03261c90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2019-01-23T08:28:49Z",
       "side": 1,
       "message": "Missing @since tag for new public API.",
+      "revId": "b6667211fa156aa06891717b6a29233b2659a9a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "804d5501_ecc5ea82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-23T12:41:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77bac3fc_03261c90",
       "revId": "b6667211fa156aa06891717b6a29233b2659a9a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
