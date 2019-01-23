@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "437b4c42_d09ff8cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-23T00:58:11Z",
+      "side": 1,
+      "message": "I think it\u0027s not common to do an assignment in the if-condition expression. JGit\u0027s coding convention doesn\u0027t explicitly prohibit that though (EGit usees http://web.archive.org/web/20090826082626/http://java.sun.com:80/docs/codeconv/html/CodeConventions.doc9.html#529, and it says avoid where it\u0027s confusing).",
+      "range": {
+        "startLine": 551,
+        "startChar": 40,
+        "endLine": 551,
+        "endChar": 55
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864721ad_7acb258e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-23T00:58:11Z",
+      "side": 1,
+      "message": "I think it\u0027s better fit to say \"set\".",
+      "range": {
+        "startLine": 770,
+        "startChar": 9,
+        "endLine": 770,
+        "endChar": 18
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a55fd1e_1cc48438",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-23T00:58:11Z",
+      "side": 1,
+      "message": "I think hasValue is confusing as it takes a value obviously, but somehow it checks whether value exists. As the Javadoc says, it actually checks if the value should be reloaded or not. Then, it\u0027s better to rename this method as \"shouldReload\".",
+      "range": {
+        "startLine": 797,
+        "startChar": 10,
+        "endLine": 797,
+        "endChar": 18
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e073a5_b693af45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-23T00:58:11Z",
+      "side": 1,
+      "message": "Why does this need to be outside of try-catch block? Looks like it makes it clear that bmidx is loaded if this is inside the try-block",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 43
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c4050eb_e22ffe88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-01-23T00:58:11Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 333,
+        "startChar": 3,
+        "endLine": 333,
+        "endChar": 16
+      },
+      "revId": "4f3f67f2402c10be07540f38a8db0918a560cbc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
