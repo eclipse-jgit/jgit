@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "123e1849_22d5b0ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-23T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cc7e29c_9336f18e",
+      "revId": "f87633b1b074b27329485b2ba1ea9f8b3eec13b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9f6ccff_7f0d64b0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2019-01-23T08:12:50Z",
       "side": 1,
       "message": "How would destinationContains() work with this destination?\n\nAs an aside: is this even allowed in canonical git? [1] says partial globs were not allowed... I\u0027m confused now.\n\n[1] https://git-scm.com/book/en/v2/Git-Internals-The-Refspec",
+      "range": {
+        "startLine": 376,
+        "startChar": 50,
+        "endLine": 376,
+        "endChar": 74
+      },
+      "revId": "f87633b1b074b27329485b2ba1ea9f8b3eec13b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8aee682_21a389f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-01-23T18:32:42Z",
+      "side": 1,
+      "message": "destinationContains() treats \"*-blah\" as a literal string and not a glob.  So it will return true if the input is exactly \"refs/remotes/mine/*-blah\" and false otherwise.\n\nI don\u0027t think this is a valid refspec, and the correct behavior is probably to throw an exception in checkValid. But that might break people\u0027s code.\n\nI opted to validate this case specially in destination contains, but am open to other suggestions.",
+      "parentUuid": "a9f6ccff_7f0d64b0",
       "range": {
         "startLine": 376,
         "startChar": 50,
