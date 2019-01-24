@@ -100,7 +100,7 @@ public final class FetchV2Request extends FetchRequest {
 	 * @return list of references received in "want-ref" lines
 	 */
 	@NonNull
-	List<String> getWantedRefs() {
+	public List<String> getWantedRefs() {
 		return wantedRefs;
 	}
 
