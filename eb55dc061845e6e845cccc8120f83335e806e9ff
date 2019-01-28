@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf9adb71_636b289d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-01-28T21:52:31Z",
+      "side": 1,
+      "message": "If the three stages here are always in order, then entry.getStage() \u003d\u003d STAGE_1 here, and getting \"ours\" would be as simple as\n\n  if (!dirCache.eof()) {\n    dirCache.next(1);\n    blobId \u003d dirCache.getEntryObjectId();\n    dirCache.back(1);\n  }\n\nBut neither the canonical git code in read-cache.c, function read_blob_data_from_index(), nor our own code in EGit\u0027s IndexFileRevision.locateBlobId() seem to make such an assumption.",
+      "revId": "eb55dc061845e6e845cccc8120f83335e806e9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
