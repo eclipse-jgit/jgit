@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ef7961d_29113c0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-29T00:59:58Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a225c26_4481a143",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-29T00:59:58Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 478,
+        "startChar": 65,
+        "endLine": 478,
+        "endChar": 67
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29bb210a_474cea03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-29T00:59:58Z",
+      "side": 1,
+      "message": "whose tips point",
+      "range": {
+        "startLine": 488,
+        "startChar": 42,
+        "endLine": 488,
+        "endChar": 58
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a745244f_ceadac78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-01-29T00:59:58Z",
+      "side": 1,
+      "message": "nit: import toSet static for consistency with toList (see L46).",
+      "range": {
+        "startLine": 499,
+        "startChar": 13,
+        "endLine": 499,
+        "endChar": 31
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
