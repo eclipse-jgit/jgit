@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -463,7 +464,8 @@ public class FS_POSIX extends FS {
 				supportsUnixNLink = false;
 			}
 			return token(true, link);
-		} catch (UnsupportedOperationException | IllegalArgumentException e) {
+		} catch (UnsupportedOperationException | IllegalArgumentException
+				| AccessDeniedException | SecurityException e) {
 			supportsUnixNLink = false;
 			return token(true, link);
 		}
