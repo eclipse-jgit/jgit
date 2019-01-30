@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2f79f9e_9752fa1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-30T12:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ef7961d_29113c0e",
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a225c26_4481a143",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2019-01-29T00:59:58Z",
       "side": 1,
       "message": "of",
+      "range": {
+        "startLine": 478,
+        "startChar": 65,
+        "endLine": 478,
+        "endChar": 67
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5555d673_6bf1e85e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-30T12:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a225c26_4481a143",
       "range": {
         "startLine": 478,
         "startChar": 65,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "641cb4fe_efce4eb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-30T12:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29bb210a_474cea03",
+      "range": {
+        "startLine": 488,
+        "startChar": 42,
+        "endLine": 488,
+        "endChar": 58
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a745244f_ceadac78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2019-01-29T00:59:58Z",
       "side": 1,
       "message": "nit: import toSet static for consistency with toList (see L46).",
+      "range": {
+        "startLine": 499,
+        "startChar": 13,
+        "endLine": 499,
+        "endChar": 31
+      },
+      "revId": "efaa2b812a38d0fb0b9c6700f46d28cb130fac3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d43822a1_eac7de5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2019-01-30T12:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a745244f_ceadac78",
       "range": {
         "startLine": 499,
         "startChar": 13,
