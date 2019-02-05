@@ -16,6 +16,24 @@
       "revId": "ea16e486cca50d40b742651dcfa57049deec4cd9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239df190_4f52f58d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-02-05T14:37:51Z",
+      "side": 1,
+      "message": "This is correct but I haven\u0027t touched those lines at all in this PR. Do you really want me to apply style fixes to untouched lines?",
+      "parentUuid": "77346fb5_31069c17",
+      "revId": "ea16e486cca50d40b742651dcfa57049deec4cd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
