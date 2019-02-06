@@ -838,7 +838,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private void removePack(PackFile deadPack) {
-		PackList o, n;
+		PackList o, n = null;
 		do {
 			o = packList.get();
 
@@ -853,6 +853,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 			n = new PackList(o.snapshot, newList);
 		} while (!packList.compareAndSet(o, n));
 		deadPack.close();
+
+		if ( n != null) {
+			// The deadPack is a symptom that the situation on the underlying storage
+			// is different than the one in-memory.
+			// It is best to double-check that no other packs are impacted and the in-memory
+			// pack list is aligned
+			searchPacksAgain(n);
+		}
 	}
 
 	private static int indexOf(PackFile[] list, PackFile pack) {
