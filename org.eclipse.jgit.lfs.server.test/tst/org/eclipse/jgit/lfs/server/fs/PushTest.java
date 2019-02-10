@@ -97,6 +97,7 @@ public class PushTest extends LfsServerTest {
 		StoredConfig cfg = db.getConfig();
 		cfg.setString("filter", "lfs", "usejgitbuiltin", "true");
 		cfg.setString("lfs", null, "url", server.getURI().toString() + "/lfs");
+		cfg.setString("push", null, "default", "current");
 		cfg.save();
 
 		localDb = new TestRepository<>(db);

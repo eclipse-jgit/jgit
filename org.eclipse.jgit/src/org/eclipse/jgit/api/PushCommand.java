@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -62,9 +63,12 @@ import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BranchConfig;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.PushConfig.PushMode;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
@@ -126,6 +130,7 @@ public class PushCommand extends
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public Iterable<PushResult> call() throws GitAPIException,
 			InvalidRemoteException,
@@ -141,9 +146,66 @@ public class PushCommand extends
 				refSpecs.addAll(config.getPushRefSpecs());
 			}
 			if (refSpecs.isEmpty()) {
-				Ref head = repo.exactRef(Constants.HEAD);
-				if (head != null && head.isSymbolic())
-					refSpecs.add(new RefSpec(head.getLeaf().getName()));
+				PushMode pushMode = getDefaultPushMode();
+
+				String branch = repo.getFullBranch();
+				BranchConfig branchConfig = new BranchConfig(repo.getConfig(),
+						repo.getBranch());
+
+				String fetchRemote = getRemote();
+				if (fetchRemote == null)
+					fetchRemote = Constants.DEFAULT_REMOTE_NAME;
+				boolean triangular = !remote.equals(fetchRemote);
+
+				switch (pushMode) {
+				case NOTHING:
+					throw new InvalidRefNameException(
+							JGitText.get().pushModeNoRefspec);
+				case MATCHING:
+					setPushAll();
+					break;
+				case CURRENT:
+					if (branch != null)
+						refSpecs.add(new RefSpec(branch));
+					break;
+				case TRACKING:
+				case UPSTREAM:
+					if (triangular)
+						throw new InvalidRefNameException(
+								MessageFormat.format(JGitText
+										.get().pushModeInvalidRemote,
+										remote, branch));
+					if (branch != null) {
+						String merge = branchConfig.getMerge();
+						if (merge == null)
+							throw new InvalidRefNameException(
+									MessageFormat.format(
+											JGitText.get().pushModeNoUpstream,
+											branch));
+						refSpecs.add(new RefSpec(branch + ":" + merge)); //$NON-NLS-1$
+					}
+					break;
+				case SIMPLE:
+					if (branch != null) {
+						if (!triangular) {
+							String merge = branchConfig.getMerge();
+							if (merge == null)
+								throw new InvalidRefNameException(
+										MessageFormat.format(JGitText
+												.get().pushModeNoUpstream,
+												branch));
+							if (!branch.equals(merge)) {
+								throw new InvalidRefNameException(
+								MessageFormat.format(JGitText
+										.get().pushModeNotMatchingBranches,
+												merge, branch));
+							}
+						}
+						refSpecs.add(new RefSpec(branch));
+					}
+					break;
+				}
+
 			}
 
 			if (force) {
@@ -554,5 +616,11 @@ public class PushCommand extends
 	public PushCommand setPushOptions(List<String> pushOptions) {
 		this.pushOptions = pushOptions;
 		return this;
+	}
+
+	private PushMode getDefaultPushMode() {
+		return repo.getConfig().getEnum(PushMode.values(),
+				ConfigConstants.CONFIG_SECTION_PUSH, null,
+				ConfigConstants.CONFIG_KEY_DEFAULT, PushMode.SIMPLE);
 	}
 }
