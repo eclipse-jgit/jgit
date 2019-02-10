@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2010, 2022 Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -29,11 +31,15 @@ import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BranchConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PushConfig;
+import org.eclipse.jgit.transport.PushConfig.PushDefault;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefLeaseSpec;
 import org.eclipse.jgit.transport.RefSpec;
@@ -71,6 +77,10 @@ public class PushCommand extends
 
 	private List<String> pushOptions;
 
+	// Legacy behavior as default. Use setPushDefault(null) to determine the
+	// value from the git config.
+	private PushDefault pushDefault = PushDefault.CURRENT;
+
 	/**
 	 * <p>
 	 * Constructor for PushCommand.
@@ -103,15 +113,14 @@ public class PushCommand extends
 		ArrayList<PushResult> pushResults = new ArrayList<>(3);
 
 		try {
+			Config config = repo.getConfig();
 			if (refSpecs.isEmpty()) {
-				RemoteConfig config = new RemoteConfig(repo.getConfig(),
+				RemoteConfig rc = new RemoteConfig(config,
 						getRemote());
-				refSpecs.addAll(config.getPushRefSpecs());
-			}
-			if (refSpecs.isEmpty()) {
-				Ref head = repo.exactRef(Constants.HEAD);
-				if (head != null && head.isSymbolic())
-					refSpecs.add(new RefSpec(head.getLeaf().getName()));
+				refSpecs.addAll(rc.getPushRefSpecs());
+				if (refSpecs.isEmpty()) {
+					determineDefaultRefSpecs(config);
+				}
 			}
 
 			if (force) {
@@ -119,8 +128,8 @@ public class PushCommand extends
 					refSpecs.set(i, refSpecs.get(i).setForceUpdate(true));
 			}
 
-			final List<Transport> transports;
-			transports = Transport.openAll(repo, remote, Transport.Operation.PUSH);
+			List<Transport> transports = Transport.openAll(repo, remote,
+					Transport.Operation.PUSH);
 			for (@SuppressWarnings("resource") // Explicitly closed in finally
 					final Transport transport : transports) {
 				transport.setPushThin(thin);
@@ -170,6 +179,74 @@ public class PushCommand extends
 		}
 
 		return pushResults;
+	}
+
+	private String getCurrentBranch()
+			throws IOException, DetachedHeadException {
+		Ref head = repo.exactRef(Constants.HEAD);
+		if (head != null && head.isSymbolic()) {
+			return head.getLeaf().getName();
+		}
+		throw new DetachedHeadException();
+	}
+
+	private void determineDefaultRefSpecs(Config config)
+			throws IOException, GitAPIException {
+		if (pushDefault == null) {
+			pushDefault = config.get(PushConfig::new).getPushDefault();
+		}
+		switch (pushDefault) {
+		case CURRENT:
+			refSpecs.add(new RefSpec(getCurrentBranch()));
+			break;
+		case MATCHING:
+			setPushAll();
+			break;
+		case NOTHING:
+			throw new InvalidRefNameException(
+					JGitText.get().pushDefaultNothing);
+		case SIMPLE:
+		case UPSTREAM:
+			String currentBranch = getCurrentBranch();
+			BranchConfig branchCfg = new BranchConfig(config,
+					Repository.shortenRefName(currentBranch));
+			String fetchRemote = branchCfg.getRemote();
+			if (fetchRemote == null) {
+				fetchRemote = Constants.DEFAULT_REMOTE_NAME;
+			}
+			boolean isTriangular = !fetchRemote.equals(remote);
+			if (isTriangular) {
+				if (PushDefault.UPSTREAM.equals(pushDefault)) {
+					throw new InvalidRefNameException(MessageFormat.format(
+							JGitText.get().pushDefaultTriangularUpstream,
+							remote, fetchRemote));
+				}
+				// Strange, but consistent with C git: "simple" doesn't even
+				// check whether there is a configured upstream, and if so, that
+				// it is equal to the local branch name. It just becomes
+				// "current".
+				refSpecs.add(new RefSpec(currentBranch));
+			} else {
+				String trackedBranch = branchCfg.getMerge();
+				if (branchCfg.isRemoteLocal() || trackedBranch == null
+						|| !trackedBranch.startsWith(Constants.R_HEADS)) {
+					throw new InvalidRefNameException(MessageFormat.format(
+							JGitText.get().pushDefaultNoUpstream,
+							currentBranch));
+				}
+				if (PushDefault.SIMPLE.equals(pushDefault)
+						&& !trackedBranch.equals(currentBranch)) {
+					throw new InvalidRefNameException(MessageFormat.format(
+							JGitText.get().pushDefaultSimple, currentBranch,
+							trackedBranch));
+				}
+				refSpecs.add(new RefSpec(currentBranch + ':' + trackedBranch));
+			}
+			break;
+		default:
+			throw new InvalidRefNameException(MessageFormat
+					.format(JGitText.get().pushDefaultUnknown, pushDefault));
+		}
 	}
 
 	/**
@@ -337,9 +414,37 @@ public class PushCommand extends
 	}
 
 	/**
+	 * Retrieves the {@link PushDefault} currently set.
+	 *
+	 * @return the {@link PushDefault}, or {@code null} if not set
+	 * @since 6.1
+	 */
+	public PushDefault getPushDefault() {
+		return pushDefault;
+	}
+
+	/**
+	 * Sets an explicit {@link PushDefault}. The default used if this is not
+	 * called is {@link PushDefault#CURRENT} for compatibility reasons with
+	 * earlier JGit versions.
+	 *
+	 * @param pushDefault
+	 *            {@link PushDefault} to set; if {@code null} the value defined
+	 *            in the git config will be used.
+	 *
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public PushCommand setPushDefault(PushDefault pushDefault) {
+		checkCallable();
+		this.pushDefault = pushDefault;
+		return this;
+	}
+
+	/**
 	 * Push all branches under refs/heads/*.
 	 *
-	 * @return {code this}
+	 * @return {@code this}
 	 */
 	public PushCommand setPushAll() {
 		refSpecs.add(Transport.REFSPEC_PUSH_ALL);
@@ -349,7 +454,7 @@ public class PushCommand extends
 	/**
 	 * Push all tags under refs/tags/*.
 	 *
-	 * @return {code this}
+	 * @return {@code this}
 	 */
 	public PushCommand setPushTags() {
 		refSpecs.add(Transport.REFSPEC_TAGS);

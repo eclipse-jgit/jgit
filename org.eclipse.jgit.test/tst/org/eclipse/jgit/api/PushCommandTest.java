@@ -11,6 +11,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -19,7 +20,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -32,6 +35,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushConfig.PushDefault;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefLeaseSpec;
 import org.eclipse.jgit.transport.RefSpec;
@@ -286,6 +290,565 @@ public class PushCommandTest extends RepositoryTestCase {
 			assertEquals(null, git2.getRepository()
 					.resolve("refs/heads/not-pushed"));
 			assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+		}
+	}
+
+	/**
+	 * Check that pushing from a detached HEAD without refspec throws a
+	 * DetachedHeadException.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultDetachedHead() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			final StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+			git.checkout().setName(commit.getName()).call();
+			String head = git.getRepository().getFullBranch();
+			assertTrue(ObjectId.isId(head));
+			assertEquals(commit.getName(), head);
+			assertThrows(DetachedHeadException.class,
+					() -> git.push().setRemote("test").call());
+		}
+	}
+
+	/**
+	 * Check that push.default=nothing without refspec throws an
+	 * InvalidRefNameException.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultNothing() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			final StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertThrows(InvalidRefNameException.class,
+					() -> git.push().setRemote("test")
+							.setPushDefault(PushDefault.NOTHING).call());
+		}
+	}
+
+	/**
+	 * Check that push.default=matching without refspec pushes all matching
+	 * branches.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultMatching() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			final StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("also-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/also-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			git.push().setRemote("test").setPushDefault(PushDefault.MATCHING)
+					.call();
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/also-pushed"));
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/also-pushed"));
+			assertEquals(commit.getId(),
+					git.getRepository().resolve("refs/remotes/origin/master"));
+		}
+	}
+
+	/**
+	 * Check that push.default=upstream without refspec pushes only the current
+	 * branch to the configured upstream.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultUpstream() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/upstreambranch");
+			config.save();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			git.push().setRemote("test").setPushDefault(PushDefault.UPSTREAM)
+					.call();
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/upstreambranch"));
+			assertEquals(null, git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+		}
+	}
+
+	/**
+	 * Check that push.default=upstream without refspec throws an
+	 * InvalidRefNameException if the current branch has no upstream.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultUpstreamNoTracking() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.save();
+
+			assertThrows(InvalidRefNameException.class,
+					() -> git.push().setRemote("test")
+							.setPushDefault(PushDefault.UPSTREAM).call());
+		}
+	}
+
+	/**
+	 * Check that push.default=upstream without refspec throws an
+	 * InvalidRefNameException if the push remote is not the same as the fetch
+	 * remote.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultUpstreamTriangular() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			// Don't configure a remote; it'll default to "origin".
+			config.setString("branch", "branchtopush", "merge",
+					"upstreambranch");
+			config.save();
+
+			assertThrows(InvalidRefNameException.class,
+					() -> git.push().setRemote("test")
+							.setPushDefault(PushDefault.UPSTREAM).call());
+		}
+	}
+
+	/**
+	 * Check that push.default=simple without refspec pushes only the current
+	 * branch to the configured upstream name.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultSimple() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/branchtopush");
+			config.save();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			git.push().setRemote("test").setPushDefault(PushDefault.SIMPLE)
+					.call();
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+		}
+	}
+
+	/**
+	 * Check that push.default=simple without refspec pushes only the current
+	 * branch to a branch with the same name in a triangular workflow.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultSimpleTriangular() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			// Don't set remote, it'll default to "origin". Configure a
+			// different
+			// branch name; should be ignored.
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/upstreambranch");
+			config.save();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			git.push().setRemote("test").setPushDefault(PushDefault.SIMPLE)
+					.call();
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+		}
+	}
+
+	/**
+	 * Check that push.default=simple without refspec throws an
+	 * InvalidRefNameException if the current branch has no upstream.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultSimpleNoTracking() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.save();
+
+			assertThrows(InvalidRefNameException.class,
+					() -> git.push().setRemote("test")
+							.setPushDefault(PushDefault.SIMPLE).call());
+		}
+	}
+
+	/**
+	 * Check that push.default=simple without refspec throws an
+	 * InvalidRefNameException if the current branch has an upstream with a
+	 * different name.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultSimpleDifferentTracking() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/upstreambranch");
+			config.save();
+
+			assertThrows(InvalidRefNameException.class,
+					() -> git.push().setRemote("test")
+							.setPushDefault(PushDefault.SIMPLE).call());
+		}
+	}
+
+	/**
+	 * Check that if no PushDefault is set, the value is read from the git
+	 * config.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultFromConfig() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.setString("push", null, "default", "upstream");
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/upstreambranch");
+			config.save();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			PushCommand cmd = git.push();
+			cmd.setRemote("test").setPushDefault(null).call();
+			assertEquals(PushDefault.UPSTREAM, cmd.getPushDefault());
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/upstreambranch"));
+			assertEquals(null, git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+		}
+	}
+
+	/**
+	 * Check that if no PushDefault is set and none is set in the git config, it
+	 * defaults to "simple".
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushDefaultFromConfigDefault() throws Exception {
+		try (Git git = new Git(db);
+				Git git2 = new Git(createBareRepository())) {
+			StoredConfig config = git.getRepository().getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+			URIish uri = new URIish(
+					git2.getRepository().getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.addFetchRefSpec(
+					new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			remoteConfig.update(config);
+			config.save();
+
+			writeTrashFile("f", "content of f");
+			git.add().addFilepattern("f").call();
+			RevCommit commit = git.commit().setMessage("adding f").call();
+
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
+			git.checkout().setName("branchtopush").setCreateBranch(true).call();
+
+			config = git.getRepository().getConfig();
+			config.setString("branch", "branchtopush", "remote", "test");
+			config.setString("branch", "branchtopush", "merge",
+					"refs/heads/branchtopush");
+			config.save();
+
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			PushCommand cmd = git.push();
+			cmd.setRemote("test").setPushDefault(null).call();
+			assertEquals(PushDefault.SIMPLE, cmd.getPushDefault());
+			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(commit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
 		}
 	}
 
