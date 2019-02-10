@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc8e35bd_b264e6e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "move the bug link down to the footer (last paragraph) in this format:\n\n Bug: 351314",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97186aa6_f4eee20f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "shorten the subject to one line, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8936f37_e0a31180",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d62f053_92b7e157",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80dd2164_6fa491f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab444_b682fd01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72032f0f_dea15618",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "expose this in PushConfig ?",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f4ff944_64e34eba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "move this enum to the PushConfig in org.eclipse.jgit.transport",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6a59ee_62bc8cfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "add missing javadoc, we want javadoc for all public API",
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8394a62_216ea230",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-10T21:54:01Z",
+      "side": 1,
+      "message": "I wouldn\u0027t implement an already deprecated synonym of UPSTREAM",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "c81a4dc45f48a6fc0cf1069b0737dfb86f6ca4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
