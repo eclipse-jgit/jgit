@@ -476,4 +476,19 @@ public final class ConfigConstants {
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_LOG_OUTPUT_ENCODING = "logOutputEncoding";
+
+	/**
+	 * The "push" section
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_SECTION_PUSH = "push";
+
+	/**
+	 * The "default" key
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_DEFAULT = "default";
+
 }
