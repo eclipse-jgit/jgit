@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03789049_393b14ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-02-11T10:08:04Z",
+      "side": 1,
+      "message": "Should the log message also mention that the pack file will be removed from the list?",
+      "revId": "02e7315a3c47efcdd3b78fd4c5f9bdca81acb5f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "067bfaff_6d73290b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-02-11T10:08:04Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "02e7315a3c47efcdd3b78fd4c5f9bdca81acb5f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
