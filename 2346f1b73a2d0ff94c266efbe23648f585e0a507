@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51163a0b_8d7fc371",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-02-13T20:40:54Z",
+      "side": 1,
+      "message": "nit: s/Need skip/Need to skip/\n\nOr s/Need skip/Skip/",
+      "range": {
+        "startLine": 499,
+        "startChar": 6,
+        "endLine": 499,
+        "endChar": 15
+      },
+      "revId": "2346f1b73a2d0ff94c266efbe23648f585e0a507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48b8df0b_361d005f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-02-13T20:40:54Z",
+      "side": 1,
+      "message": "Sanity check: it should not be possible for the pack to be exactly 12 bytes, even if it has zero objects, since the objects are followed by the 20-byte checksum trailer. Good.",
+      "revId": "2346f1b73a2d0ff94c266efbe23648f585e0a507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
