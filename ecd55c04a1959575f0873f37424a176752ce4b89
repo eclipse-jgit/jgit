@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8fbc9b6_00e33cea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-02-13T20:29:57Z",
+      "side": 1,
+      "message": "What if 0 \u003c bufLen \u003c\u003d ptr?",
+      "revId": "ecd55c04a1959575f0873f37424a176752ce4b89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
