@@ -491,22 +491,17 @@ public final class DfsPackFile extends BlockBasedFile {
 			}
 
 			buf.position(0);
-			int n = read(rc, buf);
-			if (n <= 0) {
+			int bufLen = read(rc, buf);
+			if (bufLen <= 0) {
 				throw packfileIsTruncated();
-			} else if (n > remaining) {
-				n = (int) remaining;
 			}
-
-			if (!packHeadSkipped) {
-				// Need skip the 'PACK' header for the first read
-				out.write(buf.array(), 12, n - 12);
-				packHeadSkipped = true;
-			} else {
-				out.write(buf.array(), 0, n);
-			}
+			// Need skip the 'PACK' header for the first read
+			int ptr = packHeadSkipped ? 0 : 12;
+			int n = (int) Math.min(bufLen - ptr, remaining);
+			out.write(buf.array(), ptr, n);
 			position += n;
 			remaining -= n;
+			packHeadSkipped = true;
 		}
 		return position;
 	}
