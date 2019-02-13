@@ -464,6 +464,9 @@ public final class DfsPackFile extends BlockBasedFile {
 		while (0 < remaining) {
 			DfsBlock b = cache.getOrLoad(this, position, ctx, () -> rc);
 			int ptr = (int) (position - b.start);
+			if (b.size() <= ptr) {
+				throw packfileIsTruncated();
+			}
 			int n = (int) Math.min(b.size() - ptr, remaining);
 			b.write(out, position, n);
 			position += n;
@@ -481,6 +484,9 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsBlock b = cache.get(key, alignToBlock(position));
 			if (b != null) {
 				int ptr = (int) (position - b.start);
+				if (b.size() <= ptr) {
+					throw packfileIsTruncated();
+				}
 				int n = (int) Math.min(b.size() - ptr, remaining);
 				b.write(out, position, n);
 				position += n;
@@ -490,23 +496,18 @@ public final class DfsPackFile extends BlockBasedFile {
 				continue;
 			}
 
+			// Need to skip the 'PACK' header for the first read
+			int ptr = packHeadSkipped ? 0 : 12;
 			buf.position(0);
-			int n = read(rc, buf);
-			if (n <= 0) {
+			int bufLen = read(rc, buf);
+			if (bufLen <= ptr) {
 				throw packfileIsTruncated();
-			} else if (n > remaining) {
-				n = (int) remaining;
 			}
-
-			if (!packHeadSkipped) {
-				// Need skip the 'PACK' header for the first read
-				out.write(buf.array(), 12, n - 12);
-				packHeadSkipped = true;
-			} else {
-				out.write(buf.array(), 0, n);
-			}
+			int n = (int) Math.min(bufLen - ptr, remaining);
+			out.write(buf.array(), ptr, n);
 			position += n;
 			remaining -= n;
+			packHeadSkipped = true;
 		}
 		return position;
 	}
