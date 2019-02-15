@@ -295,7 +295,9 @@ public class CommitBuilder {
 	 * @param encodingName
 	 *            the encoding name. See
 	 *            {@link java.nio.charset.Charset#forName(String)}.
+	 * @deprecated use {@link #setEncoding(Charset)} instead.
 	 */
+	@Deprecated
 	public void setEncoding(String encodingName) {
 		encoding = Charset.forName(encodingName);
 	}
