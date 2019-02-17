@@ -149,7 +149,10 @@ public class SymbolicRef implements Ref {
 		return getLeaf().isPeeled();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 * @since 5.3
+	 */
 	@Override
 	public long getUpdateIndex() {
 		if (updateIndex == -1) {
