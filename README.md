@@ -80,7 +80,7 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 - Native symbolic links are supported, provided the file system supports
   them. For Windows you must use a non-administrator account and have the SeCreateSymbolicLinkPrivilege.
 
-- Only the timestamp of the index is used by jgit if the index is
+- Only the timestamp of the index is used by JGit if the index is
   dirty.
 
 - JGit requires at least a Java 8 JDK.
@@ -158,7 +158,7 @@ to post. File bugs and enhancement requests in
 
 ## Contributing
 
-See the EGit Contributor Guide: http://wiki.eclipse.org/EGit/Contributor_Guide
+See the [EGit Contributor Guide](http://wiki.eclipse.org/EGit/Contributor_Guide).
 
 ## About Git
 
