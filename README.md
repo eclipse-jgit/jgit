@@ -1,15 +1,14 @@
-Java Git
-========
+# Java Git
 
 An implementation of the Git version control system in pure Java.
 
-This package is licensed under the EDL (Eclipse Distribution
+This project is licensed under the __EDL__ (Eclipse Distribution
 License).
 
 JGit can be imported straight into Eclipse, built and tested from
-there, but the automated builds use Maven.
+there, the automated builds use Maven or Bazel.
 
-- org.eclipse.jgit
+- __org.eclipse.jgit__
 
     A pure Java library capable of being run standalone, with no
     additional support libraries. It provides classes to read and
@@ -18,63 +17,71 @@ there, but the automated builds use Maven.
     All portions of JGit are covered by the EDL. Absolutely no GPL,
     LGPL or EPL contributions are accepted within this package.
 
-- org.eclipse.jgit.ant
+- __org.eclipse.jgit.ant__
 
     Ant tasks based on JGit.
 
-- org.eclipse.jgit.archive
+- __org.eclipse.jgit.archive__
 
     Support for exporting to various archive formats (zip etc).
 
-- org.eclipse.jgit.http.apache
+- __org.eclipse.jgit.http.apache__
 
-    Apache httpclient support
+    Apache httpclient support.
 
-- org.eclipse.jgit.http.server
+- __org.eclipse.jgit.http.server__
 
     Server for the smart and dumb Git HTTP protocol.
 
-- org.eclipse.jgit.pgm
+- __org.eclipse.jgit.lfs__
 
-    Command-line interface Git commands implemented using JGit
-    ("pgm" stands for program).
+    Support for [LFS](https://git-lfs.github.com/) (Large File Storage).
 
-- org.eclipse.jgit.packaging
+- __org.eclipse.jgit.lfs.server__
+
+    Basic LFS server support.
+
+- __org.eclipse.jgit.packaging__
 
     Production of Eclipse features and p2 repository for JGit. See the JGit
     Wiki on why and how to use this module.
 
-Tests
------
+- __org.eclipse.jgit.pgm__
 
-- org.eclipse.jgit.junit
+    Command-line interface Git commands implemented using JGit
+    ("pgm" stands for program).
 
-    Helpers for unit testing
+- __org.eclipse.jgit.ssh.apache__
 
-- org.eclipse.jgit.test
+    Client support for ssh protocol based on Apache Mina sshd.
 
-    Unit tests for org.eclipse.jgit
+- __org.eclipse.jgit.ui__
 
-- org.eclipse.jgit.ant.test
-- org.eclipse.jgit.pgm.test
-- org.eclipse.jgit.http.test
-- org.eclipse.jgit.junit.test
+    Simple UI for displaying git log.
 
-    No further description needed
+## Tests
 
-Warnings/Caveats
-----------------
+- __org.eclipse.jgit.junit__, __org.eclipse.jgit.junit.http__,
+__org.eclipse.jgit.junit.ssh__: Helpers for unit testing
+- __org.eclipse.jgit.ant.test__: Unit tests for org.eclipse.jgit.ant
+- __org.eclipse.jgit.http.test__: Unit tests for org.eclipse.jgit.http.server
+- __org.eclipse.jgit.lfs.server.test__: Unit tests for org.eclipse.jgit.lfs.server
+- __org.eclipse.jgit.lfs.test__: Unit tests for org.eclipse.jgit.lfs
+- __org.eclipse.jgit.pgm.test__: Unit tests for org.eclipse.jgit.pgm
+- __org.eclipse.jgit.ssh.apache.test__: Unit tests for org.eclipse.jgit.ssh.apache
+- __org.eclipse.jgit.test__: Unit tests for org.eclipse.jgit
 
-- Native smbolic links are supported, provided the file system supports
-  them. For Windows you must have Windows Vista/Windows 2008 or newer,
-  use a non-administrator account and have the SeCreateSymbolicLinkPrivilege.
+## Warnings/Caveats
+
+- Native symbolic links are supported, provided the file system supports
+  them. For Windows you must use a non-administrator account and have the SeCreateSymbolicLinkPrivilege.
 
 - Only the timestamp of the index is used by jgit if the index is
   dirty.
 
 - JGit requires at least a Java 8 JDK.
 
-- CRLF conversion is performed depending on the core.autocrlf setting,
+- CRLF conversion is performed depending on the `core.autocrlf` setting,
   however Git for Windows by default stores that setting during
   installation in the "system wide" configuration file. If Git is not
   installed, use the global or repository configuration for the
@@ -88,102 +95,67 @@ Warnings/Caveats
   is installed. Modifying PATH is the recommended option if C Git is
   installed.
 
-- We try to use the same notation of $HOME as C Git does. On Windows
-  this is often not the same value as the user.home system property.
+- We try to use the same notation of `$HOME` as C Git does. On Windows
+  this is often not the same value as the `user.home` system property.
 
+## Features
 
-Package Features
-----------------
-
-- org.eclipse.jgit/
-
-    * Read loose and packed commits, trees, blobs, including
-      deltafied objects.
-
-    * Read objects from shared repositories
-
-    * Write loose commits, trees, blobs.
-
-    * Write blobs from local files or Java InputStreams.
-
-    * Read blobs as Java InputStreams.
-
-    * Copy trees to local directory, or local directory to a tree.
-
-    * Lazily loads objects as necessary.
-
-    * Read and write .git/config files.
-
-    * Create a new repository.
-
-    * Read and write refs, including walking through symrefs.
-
-    * Read, update and write the Git index.
-
-    * Checkout in dirty working directory if trivial.
-
-    * Walk the history from a given set of commits looking for commits
+- __org.eclipse.jgit__
+  - Read loose and packed commits, trees, blobs, including
+    deltafied objects.
+  - Read objects from shared repositories
+  - Write loose commits, trees, blobs.
+  - Write blobs from local files or Java InputStreams.
+  - Read blobs as Java InputStreams.
+  - Copy trees to local directory, or local directory to a tree.
+  - Lazily loads objects as necessary.
+  - Read and write .git/config files.
+  - Create a new repository.
+  - Read and write refs, including walking through symrefs.
+  - Read, update and write the Git index.
+  - Checkout in dirty working directory if trivial.
+  - Walk the history from a given set of commits looking for commits
       introducing changes in files under a specified path.
+  - Object transport
 
-    * Object transport
       Fetch via ssh, git, http, Amazon S3 and bundles.
       Push via ssh, git and Amazon S3. JGit does not yet deltify
       the pushed packs so they may be a lot larger than C Git packs.
 
-    * Garbage collection
+  - Garbage collection
+  - Merge
+  - Rebase
+  - And much more
 
-    * Merge
-
-    * Rebase
-
-    * And much more
-
-- org.eclipse.jgit.pgm/
-
-    * Assorted set of command line utilities. Mostly for ad-hoc testing of jgit
+- __org.eclipse.jgit.pgm__
+  - Assorted set of command line utilities. Mostly for ad-hoc testing of jgit
       log, glog, fetch etc.
+- __org.eclipse.jgit.ant__
+  - Ant tasks
+- __org.eclipse.jgit.archive__
+  - Support for Zip/Tar and other formats
+- __org.eclipse.http__
+  - HTTP client and server support
 
-- org.eclipse.jgit.ant/
-
-    * Ant tasks
-
-- org.eclipse.jgit.archive/
-
-    * Support for Zip/Tar and other formats
-
-- org.eclipse.http.*/
-
-    * HTTP client and server support
-
-Missing Features
-----------------
+## Missing Features
 
 There are some missing features:
 
-- gitattributes support
+- verifying signed commits
+- signing tags
+- signing push
 
-
-Support
--------
+## Support
 
 Post question, comments or patches to the jgit-dev@eclipse.org mailing list.
 You need to be subscribed to post, see here:
-
 https://dev.eclipse.org/mailman/listinfo/jgit-dev
 
+## Contributing
 
-Contributing
-------------
+See the EGit Contributor Guide: http://wiki.eclipse.org/EGit/Contributor_Guide
 
-See the EGit Contributor Guide:
-
-http://wiki.eclipse.org/EGit/Contributor_Guide
-
-
-About Git
----------
+## About Git
 
 More information about Git, its repository format, and the canonical
-C based implementation can be obtained from the Git website:
-
-http://git-scm.com/
+C based implementation can be obtained from the Git website http://git-scm.com/
