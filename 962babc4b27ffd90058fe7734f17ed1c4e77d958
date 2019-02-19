@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "529bf0c9_fbf03830",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-19T22:55:16Z",
+      "side": 1,
+      "message": "* this is redundant to what is logged in line 675 when this logger is set to DEBUG level\n* messages should be externalized",
+      "revId": "962babc4b27ffd90058fe7734f17ed1c4e77d958",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
