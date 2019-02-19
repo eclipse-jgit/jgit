@@ -1,0 +1,8 @@
+Verified+1: CI Bot
+Code-Review+1: Ivan Frade <ifrade@google.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 19 Feb 2019 16:52:41 -0500
+Reviewed-on: https://git.eclipse.org/r/137167
+Project: jgit/jgit
+Branch: refs/heads/master
