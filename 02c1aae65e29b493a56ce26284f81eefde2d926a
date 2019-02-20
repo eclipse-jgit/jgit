@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a48d966a_432f0116",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "keep this at 5.3.0.qualifier\n\nwe globally increase bundle versions for each release and do not track which bundle APIs changed individually. So this will stay at 5.3.0 until we ship that version and then we increase to 5.4.0.qualifier",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d1711d_eb261ac1",
+        "filename": "org.eclipse.jgit/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "do not increase version numbers as we bump them globally when start development for the next version",
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7f95aa4_bce7129d",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "don\u0027t bump the version, we do this globally",
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "305d4db3_0efeb986",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "5.3, also all other occurrences below",
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d137a61_85d41f3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mergetool/MergeDiffTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "5.3",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afb5f3bf_53abe4f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mergetool/MergeDiffToolConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:51:10Z",
+      "side": 1,
+      "message": "5.3",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
