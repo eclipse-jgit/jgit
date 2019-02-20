@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3988884_2c54afb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-20T15:52:13Z",
+      "side": 1,
+      "message": "we link to the bug in a commit message footer immediately above the Change-Id and not in the subject\n\n Bug: 356832",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "02c1aae65e29b493a56ce26284f81eefde2d926a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a48d966a_432f0116",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 1
