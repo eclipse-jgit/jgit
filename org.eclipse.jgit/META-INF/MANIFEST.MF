@@ -106,6 +106,7 @@ Export-Package: org.eclipse.jgit.annotations;version="5.3.0",
    org.eclipse.jgit.diff,
    org.eclipse.jgit.dircache,
    org.eclipse.jgit.api",
+ org.eclipse.jgit.mergetool,
  org.eclipse.jgit.nls;version="5.3.0",
  org.eclipse.jgit.notes;version="5.3.0";
   uses:="org.eclipse.jgit.lib,

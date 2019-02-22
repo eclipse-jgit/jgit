@@ -126,7 +126,23 @@ public final class ConfigConstants {
 	public static final String CONFIG_GPG_SECTION = "gpg";
 
 	/**
+	 * The "mergetool" section
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_MERGETOOL_SECTION = "mergetool";
+
+	/**
+	 * The "difftool" section
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_DIFFTOOL_SECTION = "difftool";
+
+
+	/**
 	 * The "format" key
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_FORMAT = "format";
@@ -476,4 +492,39 @@ public final class ConfigConstants {
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_LOG_OUTPUT_ENCODING = "logOutputEncoding";
+
+	/**
+	 * The "tool" key.
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_TOOL = "tool";
+
+	/**
+	 * The "guitool" key.
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_GUITOOL = "guitool";
+
+	/**
+	 * The "cmd" key.
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_CMD = "cmd";
+
+	/**
+	 * The "trustExitCode" key.
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
+
+	/**
+	 * The "prompt " key.
+	 *
+	 * @since 5.3
+	 */
+	public static final String CONFIG_KEY_PROMPT = "prompt ";
 }
