@@ -151,12 +151,12 @@ class Diff extends TextBuiltin {
 		diffFmt.setAbbreviationLength(OBJECT_ID_STRING_LENGTH);
 	}
 
-	@Option(name = "--src-prefix", usage = "usage_srcPrefix")
+	@Option(name = "--src-prefix", metaVar = "metaVar_prefix", usage = "usage_srcPrefix")
 	void sourcePrefix(String path) {
 		diffFmt.setOldPrefix(path);
 	}
 
-	@Option(name = "--dst-prefix", usage = "usage_dstPrefix")
+	@Option(name = "--dst-prefix", metaVar = "metaVar_prefix", usage = "usage_dstPrefix")
 	void dstPrefix(String path) {
 		diffFmt.setNewPrefix(path);
 	}
