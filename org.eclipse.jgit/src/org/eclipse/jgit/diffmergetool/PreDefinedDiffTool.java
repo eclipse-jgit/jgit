@@ -44,29 +44,49 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The tool interface.
+ * The pre-defined diff tool.
  *
  */
-public interface ITool {
+public class PreDefinedDiffTool extends UserDefinedDiffTool {
 
 	/**
-	 * @return the tool name
+	 * Creates the pre-defined diff tool
+	 *
+	 * @param name
+	 *            the name
+	 * @param path
+	 *            the path
+	 * @param parameters
+	 *            the tool parameters that are used together with path as
+	 *            command
 	 */
-	abstract public String getName();
+	public PreDefinedDiffTool(final String name, final String path,
+			final String parameters) {
+		super(name, path, parameters);
+	}
 
 	/**
-	 * @return the tool path
+	 * @param path
 	 */
-	abstract String getPath();
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 	/**
-	 * @return the tool command
+	 * @param parameters
+	 *            the parameters that are added to the tool path (stored as cmd
+	 *            in extended class)
 	 */
-	abstract public String getCommand();
+	public void setParameters(String parameters) {
+		this.cmd = parameters;
+	}
 
 	/**
-	 * @return the tool "trust exit code" option
+	 * @return the diff tool command
 	 */
-	public boolean isTrustExitCode();
+	@Override
+	public String getCommand() {
+		return path + " " + cmd; //$NON-NLS-1$
+	}
 
 }

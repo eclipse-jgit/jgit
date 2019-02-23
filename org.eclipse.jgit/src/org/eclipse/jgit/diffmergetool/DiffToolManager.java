@@ -45,6 +45,7 @@ package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
 
@@ -54,15 +55,17 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class DiffToolManager {
 
-	private Map<String, ITool> predefinedTools;
+	private final DiffToolConfig config;
 
-	private Map<String, ITool> userDefinedTools;
+	private Map<String, IDiffTool> predefinedTools;
+
+	private Map<String, IDiffTool> userDefinedTools;
 
 	/**
 	 * @param db the repository database
 	 */
 	public DiffToolManager(Repository db) {
-		// TODO: read the config
+		config = db.getConfig().get(DiffToolConfig.KEY);
 		setupPredefinedTools();
 		setupUserDefinedTools();
 	}
@@ -93,16 +96,23 @@ public class DiffToolManager {
 	}
 
 	/**
+	 * @return the tool names
+	 */
+	public Set<String> getToolNames() {
+		return config.getToolNames();
+	}
+
+	/**
 	 * @return the user defined tools
 	 */
-	public Map<String, ITool> getUserDefinedTools() {
+	public Map<String, IDiffTool> getUserDefinedTools() {
 		return userDefinedTools;
 	}
 
 	/**
 	 * @return the available predefined tools
 	 */
-	public Map<String, ITool> getAvailableTools() {
+	public Map<String, IDiffTool> getAvailableTools() {
 		// TODO: change to return only available tools instead of all
 		return predefinedTools;
 	}
@@ -110,17 +120,39 @@ public class DiffToolManager {
 	/**
 	 * @return the NOT available predefined tools
 	 */
-	public Map<String, ITool> getNotAvailableTools() {
+	public Map<String, IDiffTool> getNotAvailableTools() {
 		// TODO: return not available tools
 		return new TreeMap<>();
 	}
 
 	private void setupPredefinedTools() {
 		predefinedTools = new TreeMap<>();
+		for (PreDefinedDiffTools tool : PreDefinedDiffTools.values()) {
+			predefinedTools
+					.put(tool.name(),
+							new PreDefinedDiffTool(tool.name(), tool.getPath(),
+									tool.getParameters()));
+		}
 	}
 
 	private void setupUserDefinedTools() {
 		userDefinedTools = new TreeMap<>();
+		Map<String, IDiffTool> userTools = config.getTools();
+		for (String name : userTools.keySet()) {
+			IDiffTool userTool = userTools.get(name);
+			// if difftool.<name>.cmd is defined we have user defined tool
+			if (userTool.getCommand() != null) {
+				userDefinedTools.put(name, userTool);
+			} else if (userTool.getPath() != null) {
+				// if difftool.<name>.path is defined we just overload the path
+				// of predefined tool
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefinedTools
+						.get(name);
+				if (predefTool != null) {
+					predefTool.setPath(userTool.getPath());
+				}
+			}
+		}
 	}
 
 }
