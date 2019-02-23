@@ -136,6 +136,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String dateInfo;
 	/***/ public String deletedBranch;
 	/***/ public String deletedRemoteBranch;
+	/***/ public String diffToolHelpSetToFollowing;
 	/***/ public String doesNotExist;
 	/***/ public String dontOverwriteLocalChanges;
 	/***/ public String everythingUpToDate;
