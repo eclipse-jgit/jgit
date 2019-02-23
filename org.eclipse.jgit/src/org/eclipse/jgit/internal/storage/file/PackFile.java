@@ -753,10 +753,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
 			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packObjectCountMismatch
-					, ObjectId.fromRaw(buf).name()
-					, ObjectId.fromRaw(idx.packChecksum).name()
-					, getPackFile()));
+					JGitText.get().packChecksumMismatchValues,
+					getPackFile(),
+					ObjectId.fromRaw(buf).name(),
+					ObjectId.fromRaw(idx.packChecksum).name()));
 		}
 	}
 

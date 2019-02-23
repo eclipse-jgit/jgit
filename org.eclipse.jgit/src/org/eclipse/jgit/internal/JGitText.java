@@ -571,6 +571,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String outputHasAlreadyBeenStarted;
 	/***/ public String overflowedReftableBlock;
 	/***/ public String packChecksumMismatch;
+	/***/ public String packChecksumMismatchValues;
 	/***/ public String packCorruptedWhileWritingToFilesystem;
 	/***/ public String packDoesNotMatchIndex;
 	/***/ public String packedRefsHandleIsStale;
