@@ -45,6 +45,7 @@ package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
 
@@ -54,6 +55,8 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class DiffToolManager {
 
+	private final DiffToolConfig config;
+
 	private Map<String, ITool> predefinedTools;
 
 	private Map<String, ITool> userDefinedTools;
@@ -62,7 +65,7 @@ public class DiffToolManager {
 	 * @param db the repository database
 	 */
 	public DiffToolManager(Repository db) {
-		// TODO: read the config
+		config = db.getConfig().get(DiffToolConfig.KEY);
 		setupPredefinedTools();
 		setupUserDefinedTools();
 	}
@@ -93,6 +96,13 @@ public class DiffToolManager {
 	}
 
 	/**
+	 * @return the tool names
+	 */
+	public Set<String> getToolNames() {
+		return config.getToolNames();
+	}
+
+	/**
 	 * @return the user defined tools
 	 */
 	public Map<String, ITool> getUserDefinedTools() {
@@ -117,10 +127,32 @@ public class DiffToolManager {
 
 	private void setupPredefinedTools() {
 		predefinedTools = new TreeMap<>();
+		for (PreDefinedDiffTools tool : PreDefinedDiffTools.values()) {
+			predefinedTools
+					.put(tool.name(),
+							new PreDefinedDiffTool(tool.name(), tool.getPath(),
+							tool.getParameters(), tool.isExitCodeTrustable()));
+		}
 	}
 
 	private void setupUserDefinedTools() {
 		userDefinedTools = new TreeMap<>();
+		Map<String, ITool> userTools = config.getTools();
+		for (String name : userTools.keySet()) {
+			ITool userTool = userTools.get(name);
+			// if difftool.<name>.cmd is defined we have user defined tool
+			if (userTool.getCommand() != null) {
+				userDefinedTools.put(name, userTool);
+			} else if (userTool.getPath() != null) {
+				// if difftool.<name>.path is defined we just overload the path
+				// of predefined tool
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefinedTools
+						.get(name);
+				if (predefTool != null) {
+					predefTool.setPath(userTool.getPath());
+				}
+			}
+		}
 	}
 
 }
