@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b47522d_620814e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-02-23T22:26:54Z",
+      "side": 0,
+      "message": "Ah, I believe I know what was the final intent of using this template: instead of just saying \"checksum mismatch\" the author wanted to display the checksums that did not match.\n\nWill need then to introduce a different template, packChecksumMismatchValues, which include the two values that are not matching",
+      "range": {
+        "startLine": 756,
+        "startChar": 5,
+        "endLine": 756,
+        "endChar": 43
+      },
+      "revId": "fafad4196d00d5f70adfea11508a297a158ffbce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
