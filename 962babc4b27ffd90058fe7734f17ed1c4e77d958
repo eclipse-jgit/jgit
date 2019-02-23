@@ -16,6 +16,24 @@
       "revId": "962babc4b27ffd90058fe7734f17ed1c4e77d958",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "424110ca_f7df4be8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-02-23T21:38:01Z",
+      "side": 1,
+      "message": "\u003e * this is redundant to what is logged in line 675 when this logger is set to DEBUG level\n\nThe issue is that normally at L675 the exception is not logged and thus it is not clear why the packfile is corrupted.\nYes, when debug is set then the exception is there, but typically you don\u0027t leave debug on in production because of the performance penalties involved.\n\nShould I then just include the exception also at L679?\n\n\u003e * messages should be externalized\n\nSure, I guess is the same as JGitText.get().corruptPack in this case.",
+      "parentUuid": "529bf0c9_fbf03830",
+      "revId": "962babc4b27ffd90058fe7734f17ed1c4e77d958",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
