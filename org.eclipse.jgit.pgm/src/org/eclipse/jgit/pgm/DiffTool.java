@@ -58,7 +58,7 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
 import org.eclipse.jgit.diffmergetool.BooleanOption;
 import org.eclipse.jgit.diffmergetool.DiffToolManager;
-import org.eclipse.jgit.diffmergetool.ITool;
+import org.eclipse.jgit.diffmergetool.IDiffTool;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
@@ -156,7 +156,7 @@ class DiffTool extends TextBuiltin {
 				}
 				outw.println(""); //$NON-NLS-1$
 				outw.println("\tuser-defined:"); //$NON-NLS-1$
-				Map<String, ITool> userTools = diffToolMgr
+				Map<String, IDiffTool> userTools = diffToolMgr
 						.getUserDefinedTools();
 				for (String name : userTools.keySet()) {
 					outw.println("\t\t" + name + ".cmd " //$NON-NLS-1$ //$NON-NLS-2$
@@ -212,16 +212,16 @@ class DiffTool extends TextBuiltin {
 			for (DiffEntry ent : files) {
 				switch (ent.getChangeType()) {
 				case MODIFY:
-					outw.println("M\t" + ent.getNewPath()
-							+ " (" + ent.getNewId().name() + ")"
-							+ "\t" + ent.getOldPath()
-							+ " (" + ent.getOldId().name() + ")");
-					outw.println("--- NEW-DATA ---");
+					outw.println("M\t" + ent.getNewPath() //$NON-NLS-1$
+							+ " (" + ent.getNewId().name() + ")" //$NON-NLS-1$ //$NON-NLS-2$
+							+ "\t" + ent.getOldPath() //$NON-NLS-1$
+							+ " (" + ent.getOldId().name() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+					outw.println("--- NEW-DATA ---"); //$NON-NLS-1$
 
 					ObjectStream newFileStream = sourcePair.open(Side.NEW, ent)
 							.openStream();
 					showStream(newFileStream);
-					outw.println("--- OLD-DATA ---");
+					outw.println("--- OLD-DATA ---"); //$NON-NLS-1$
 					ObjectStream oldFileStream = sourcePair.open(Side.OLD, ent)
 							.openStream();
 					showStream(oldFileStream);
