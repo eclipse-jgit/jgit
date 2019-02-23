@@ -12,6 +12,7 @@ org.eclipse.jgit.pgm.ConvertRefStorage
 org.eclipse.jgit.pgm.Daemon
 org.eclipse.jgit.pgm.Describe
 org.eclipse.jgit.pgm.Diff
+org.eclipse.jgit.pgm.DiffTool
 org.eclipse.jgit.pgm.DiffTree
 org.eclipse.jgit.pgm.Fetch
 org.eclipse.jgit.pgm.Gc
@@ -24,6 +25,7 @@ org.eclipse.jgit.pgm.LsRemote
 org.eclipse.jgit.pgm.LsTree
 org.eclipse.jgit.pgm.Merge
 org.eclipse.jgit.pgm.MergeBase
+org.eclipse.jgit.pgm.MergeTool
 org.eclipse.jgit.pgm.Push
 org.eclipse.jgit.pgm.ReceivePack
 org.eclipse.jgit.pgm.Reflog
