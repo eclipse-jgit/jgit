@@ -62,6 +62,24 @@ public final class ConfigConstants {
 	/** The "diff" section */
 	public static final String CONFIG_DIFF_SECTION = "diff";
 
+	/** The "tool" key within "diff" section */
+	public static final String CONFIG_KEY_TOOL = "tool";
+
+	/** The "guitool" key within "diff" section */
+	public static final String CONFIG_KEY_GUITOOL = "guitool";
+
+	/** The "difftool" section */
+	public static final String CONFIG_DIFFTOOL_SECTION = "difftool";
+
+	/** The "prompt" key within "difftool" section */
+	public static final String CONFIG_KEY_PROMPT = "prompt";
+
+	/** The "trustExitCode" key within "difftool" section */
+	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
+
+	/** The "cmd" key within "difftool.*." section */
+	public static final String CONFIG_KEY_CMD = "cmd";
+
 	/** The "dfs" section */
 	public static final String CONFIG_DFS_SECTION = "dfs";
 
