@@ -1,0 +1,411 @@
+/*
+ * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.pgm;
+
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.diff.ContentSource;
+import org.eclipse.jgit.diff.ContentSource.Pair;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.Side;
+import org.eclipse.jgit.diffmergetool.ToolException;
+import org.eclipse.jgit.diffmergetool.DiffToolManager;
+import org.eclipse.jgit.diffmergetool.FileElement;
+import org.eclipse.jgit.diffmergetool.IDiffTool;
+import org.eclipse.jgit.diffmergetool.PromptContinueHandler;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
+import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+
+@Command(name = "difftool", common = true, usage = "usage_DiffTool")
+class DiffTool extends TextBuiltin {
+	private DiffFormatter diffFmt;
+
+	private DiffToolManager diffToolMgr;
+
+	@Argument(index = 0, metaVar = "metaVar_treeish")
+	private AbstractTreeIterator oldTree;
+
+	@Argument(index = 1, metaVar = "metaVar_treeish")
+	private AbstractTreeIterator newTree;
+
+	private Optional<String> toolName = Optional.empty();
+
+	@Option(name = "--tool", aliases = {
+			"-t" }, metaVar = "metaVar_tool", usage = "usage_ToolForDiff")
+	void setToolName(String name) {
+		toolName = Optional.of(name);
+	}
+
+	@Option(name = "--cached", aliases = { "--staged" }, usage = "usage_cached")
+	private boolean cached;
+
+	private Optional<Boolean> prompt = Optional.empty();
+
+	@Option(name = "--prompt", usage = "usage_prompt")
+	void setPrompt(@SuppressWarnings("unused") boolean on) {
+		prompt = Optional.of(Boolean.TRUE);
+	}
+
+	@Option(name = "--no-prompt", aliases = { "-y" }, usage = "usage_noPrompt")
+	void noPrompt(@SuppressWarnings("unused") boolean on) {
+		prompt = Optional.of(Boolean.FALSE);
+	}
+
+	@Option(name = "--tool-help", usage = "usage_toolHelp")
+	private boolean toolHelp;
+
+	private boolean gui = false;
+
+	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
+	void setGui(@SuppressWarnings("unused") boolean on) {
+		gui = true;
+	}
+
+	@Option(name = "--no-gui", usage = "usage_noGui")
+	void noGui(@SuppressWarnings("unused") boolean on) {
+		gui = false;
+	}
+
+	private Optional<Boolean> trustExitCode = Optional.empty();
+
+	@Option(name = "--trust-exit-code", usage = "usage_trustExitCode")
+	void setTrustExitCode(@SuppressWarnings("unused") boolean on) {
+		trustExitCode = Optional.of(Boolean.TRUE);
+	}
+
+	@Option(name = "--no-trust-exit-code", usage = "usage_noTrustExitCode")
+	void noTrustExitCode(@SuppressWarnings("unused") boolean on) {
+		trustExitCode = Optional.of(Boolean.FALSE);
+	}
+
+	@Option(name = "--", metaVar = "metaVar_paths", handler = PathTreeFilterHandler.class)
+	private TreeFilter pathFilter = TreeFilter.ALL;
+
+	@Override
+	protected void init(Repository repository, String gitDir) {
+		super.init(repository, gitDir);
+		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
+		diffToolMgr = new DiffToolManager(repository);
+	}
+
+	@Override
+	protected void run() {
+		try {
+			if (toolHelp) {
+				showToolHelp();
+			} else {
+				// get the changed files
+				List<DiffEntry> files = getFiles();
+				if (files.size() > 0) {
+					compare(files);
+				}
+			}
+		} catch (RevisionSyntaxException | IOException e) {
+			throw die(e.getMessage(), e);
+		} finally {
+			diffFmt.close();
+		}
+	}
+
+	private void informUserNoTool(List<String> tools) {
+		try {
+			outw.println(
+					"This message is displayed because 'diff.tool' is not configured."); //$NON-NLS-1$
+			outw.println(
+					"See 'git difftool --tool-help' or 'git help config' for more details."); //$NON-NLS-1$
+			outw.println(
+					"'git difftool' will now attempt to use one of the following tools:"); //$NON-NLS-1$
+
+			for (String name : tools) {
+				outw.print(name + " "); //$NON-NLS-1$
+			}
+			outw.println();
+			outw.flush();
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
+		}
+	}
+
+	private class CountingPromptContinueHandler implements PromptContinueHandler {
+		private final int fileIndex;
+
+		private final int fileCount;
+
+		private final String fileName;
+
+		public CountingPromptContinueHandler(int fileIndex, int fileCount,
+				String fileName) {
+			this.fileIndex = fileIndex;
+			this.fileCount = fileCount;
+			this.fileName = fileName;
+		}
+
+		@Override
+		public boolean prompt(String toolToLaunchName) {
+			try {
+				boolean launchCompare = true;
+				outw.println("Viewing (" + fileIndex + "/" + fileCount //$NON-NLS-1$ //$NON-NLS-2$
+						+ "): '" + fileName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				outw.print("Launch '" + toolToLaunchName + "' [Y/n]? "); //$NON-NLS-1$ //$NON-NLS-2$
+				outw.flush();
+				BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+				String line = null;
+				if ((line = br.readLine()) != null) {
+					if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
+						launchCompare = false;
+					}
+				}
+				return launchCompare;
+			} catch (IOException e) {
+				throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	private void compare(List<DiffEntry> files) throws IOException {
+		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
+				source(newTree));
+		try {
+			for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
+				DiffEntry ent = files.get(fileIndex);
+
+				String filePath = ent.getNewPath();
+				if (filePath.equals(DiffEntry.DEV_NULL)) {
+					filePath = ent.getOldPath();
+				}
+
+				try {
+					FileElement local = createFileElement(
+							FileElement.Type.LOCAL, sourcePair, Side.OLD, ent);
+					FileElement remote = createFileElement(
+							FileElement.Type.REMOTE, sourcePair, Side.NEW, ent);
+
+					PromptContinueHandler promptContinueHandler = new CountingPromptContinueHandler(
+							fileIndex + 1, files.size(), filePath);
+
+					Optional<ExecutionResult> optionalResult = diffToolMgr
+							.compare(local, remote, toolName, prompt, gui,
+									trustExitCode, promptContinueHandler,
+									this::informUserNoTool);
+
+					if (optionalResult.isPresent()) {
+						ExecutionResult result = optionalResult.get();
+						// TODO: check how to return the exit-code of the tool
+						// to jgit / java runtime ?
+						// int rc =...
+						outw.println(
+								new String(result.getStdout().toByteArray()));
+						outw.flush();
+						errw.println(
+								new String(result.getStderr().toByteArray()));
+						errw.flush();
+					}
+				} catch (ToolException e) {
+					outw.println(e.getResultStdout());
+					outw.flush();
+					errw.println(e.getMessage());
+					errw.flush();
+					throw die("external diff died, stopping at " //$NON-NLS-1$
+							+ filePath, e);
+				}
+			}
+		} finally {
+			sourcePair.close();
+		}
+	}
+
+	private void showToolHelp() throws IOException {
+		outw.println(
+				"'git difftool --tool=<tool>' may be set to one of the following:"); //$NON-NLS-1$
+		Map<String, IDiffTool> predefTools = diffToolMgr
+				.getPredefinedTools(true);
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
+		}
+		outw.println(""); //$NON-NLS-1$
+		outw.println("\tuser-defined:"); //$NON-NLS-1$
+		Map<String, IDiffTool> userTools = diffToolMgr.getUserDefinedTools();
+		for (String name : userTools.keySet()) {
+			outw.println("\t\t" + name + ".cmd " //$NON-NLS-1$ //$NON-NLS-2$
+					+ userTools.get(name).getCommand());
+		}
+		outw.println(""); //$NON-NLS-1$
+		outw.println(
+				"The following tools are valid, but not currently available:"); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (!predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
+		}
+		outw.println(""); //$NON-NLS-1$
+		outw.println("Some of the tools listed above only work in a windowed"); //$NON-NLS-1$
+		outw.println(
+				"environment. If run in a terminal-only session, they will fail."); //$NON-NLS-1$
+		outw.flush();
+		return;
+	}
+
+	private List<DiffEntry> getFiles()
+			throws RevisionSyntaxException, AmbiguousObjectException,
+			IncorrectObjectTypeException, IOException {
+		diffFmt.setRepository(db);
+		if (cached) {
+			if (oldTree == null) {
+				ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
+				if (head == null) {
+					die(MessageFormat.format(CLIText.get().notATree, HEAD));
+				}
+				CanonicalTreeParser p = new CanonicalTreeParser();
+				try (ObjectReader reader = db.newObjectReader()) {
+					p.reset(reader, head);
+				}
+				oldTree = p;
+			}
+			newTree = new DirCacheIterator(db.readDirCache());
+		} else if (oldTree == null) {
+			oldTree = new DirCacheIterator(db.readDirCache());
+			newTree = new FileTreeIterator(db);
+		} else if (newTree == null) {
+			newTree = new FileTreeIterator(db);
+		}
+
+		TextProgressMonitor pm = new TextProgressMonitor(errw);
+		pm.setDelayStart(2, TimeUnit.SECONDS);
+		diffFmt.setProgressMonitor(pm);
+		diffFmt.setPathFilter(pathFilter);
+
+		List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
+		return files;
+	}
+
+	private FileElement createFileElement(FileElement.Type elementType,
+			Pair pair, Side side, DiffEntry entry)
+			throws NoWorkTreeException, CorruptObjectException, IOException,
+			ToolException {
+		String entryPath = side == Side.NEW ? entry.getNewPath()
+				: entry.getOldPath();
+		FileElement fileElement = new FileElement(entryPath, elementType,
+				db.getWorkTree());
+		if (!pair.isWorkingTreeSource(side) && !fileElement.isNullPath()) {
+			try (RevWalk revWalk = new RevWalk(db);
+					TreeWalk treeWalk = new TreeWalk(db,
+							revWalk.getObjectReader())) {
+				treeWalk.setFilter(
+						PathFilterGroup.createFromStrings(entryPath));
+				if (side == Side.NEW) {
+					newTree.reset();
+					treeWalk.addTree(newTree);
+				} else {
+					oldTree.reset();
+					treeWalk.addTree(oldTree);
+				}
+				if (treeWalk.next()) {
+					final EolStreamType eolStreamType = treeWalk
+							.getEolStreamType(CHECKOUT_OP);
+					final String filterCommand = treeWalk.getFilterCommand(
+							Constants.ATTR_FILTER_TYPE_SMUDGE);
+					WorkingTreeOptions opt = db.getConfig()
+							.get(WorkingTreeOptions.KEY);
+					CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
+							eolStreamType, filterCommand);
+					DirCacheCheckout.checkoutToFile(db, entryPath,
+							checkoutMetadata, pair.open(side, entry),
+							db.getFS(), opt, fileElement.createTempFile(null));
+				} else {
+					throw new ToolException("cannot find path '" + entryPath //$NON-NLS-1$
+							+ "' in staging area!", null); //$NON-NLS-1$
+				}
+			}
+		}
+		return fileElement;
+	}
+
+	private ContentSource source(AbstractTreeIterator iterator) {
+		if (iterator instanceof WorkingTreeIterator)
+			return ContentSource.create((WorkingTreeIterator) iterator);
+		return ContentSource.create(db.newObjectReader());
+	}
+
+}
