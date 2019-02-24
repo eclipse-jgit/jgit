@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "552be2c5_f12095d9",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-02-24T00:39:29Z",
+      "side": 1,
+      "message": "Can\u0027t we just add the extra information in the existing message?  Then the same detail will also be included in the other place in Packfile where it\u0027s thrown.",
+      "revId": "20b3d9ced27737c512ca82c015327bfa1417d452",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f1d1084_9cb4b438",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-02-24T00:39:29Z",
+      "side": 1,
+      "message": "Also include the values here?",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "20b3d9ced27737c512ca82c015327bfa1417d452",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
