@@ -48,8 +48,10 @@ import static java.lang.Integer.numberOfTrailingZeros;
 import static java.lang.Integer.rotateLeft;
 import static java.lang.Integer.rotateRight;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
@@ -497,7 +499,8 @@ public class SHA1 {
 
 		if (foundCollision) {
 			ObjectId id = h.toObjectId();
-			LOG.warn("possible SHA-1 collision " + id.name()); //$NON-NLS-1$
+			LOG.warn(MessageFormat.format(JGitText.get().sha1CollisionDetected,
+					id.name()));
 			throw new Sha1CollisionException(id);
 		}
 	}
