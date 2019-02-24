@@ -34,6 +34,24 @@
       "revId": "962babc4b27ffd90058fe7734f17ed1c4e77d958",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bc1c694_6fbfa544",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-02-24T23:37:14Z",
+      "side": 1,
+      "message": "Fixed in https://git.eclipse.org/r/137499",
+      "parentUuid": "424110ca_f7df4be8",
+      "revId": "962babc4b27ffd90058fe7734f17ed1c4e77d958",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
