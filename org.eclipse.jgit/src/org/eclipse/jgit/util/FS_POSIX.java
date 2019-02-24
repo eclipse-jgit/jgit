@@ -400,8 +400,9 @@ public class FS_POSIX extends FS {
 			Integer nlink = (Integer) (Files.getAttribute(lockPath,
 					"unix:nlink")); //$NON-NLS-1$
 			if (nlink > 2) {
-				LOG.warn("nlink of link to lock file {} was not 2 but {}", //$NON-NLS-1$
-						lock.getPath(), nlink);
+				LOG.warn(MessageFormat.format(
+						JGitText.get().unexpectedNlinkValue, lock.getPath(),
+						nlink));
 				return false;
 			} else if (nlink < 2) {
 				supportsUnixNLink = false;

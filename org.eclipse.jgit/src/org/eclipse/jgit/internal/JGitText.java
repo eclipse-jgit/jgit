@@ -795,6 +795,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unexpectedEndOfInput;
 	/***/ public String unexpectedEofInPack;
 	/***/ public String unexpectedHunkTrailer;
+	/***/ public String unexpectedNlinkValue;
 	/***/ public String unexpectedOddResult;
 	/***/ public String unexpectedPacketLine;
 	/***/ public String unexpectedRefReport;
