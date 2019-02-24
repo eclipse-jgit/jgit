@@ -234,6 +234,29 @@
       "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0096182_bb9f0c21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-24T22:12:02Z",
+      "side": 1,
+      "message": "style nit: use camel case instead of underscores",
+      "range": {
+        "startLine": 1510,
+        "startChar": 17,
+        "endLine": 1510,
+        "endChar": 34
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
