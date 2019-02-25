@@ -43,61 +43,51 @@
 
 package org.eclipse.jgit.diffmergetool;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+
 /**
- * The pre-defined diff tool.
+ * Runs a command with help of FS
  *
  */
-public class PreDefinedDiffTool extends UserDefinedDiffTool {
+public class CommandExecutor {
 
 	/**
-	 * Creates the pre-defined diff tool
 	 *
-	 * @param name
-	 *            the name
-	 * @param path
-	 *            the path
-	 * @param parameters
-	 *            the tool parameters that are used together with path as
-	 *            command
 	 */
-	public PreDefinedDiffTool(final String name, final String path,
-			final String parameters) {
-		super(name, path, parameters);
+	public CommandExecutor() {
 	}
 
 	/**
-	 * @param path
+	 * @param fs
+	 *            the file system
+	 * @param command
+	 *            the command string
+	 * @param workingDir
+	 *            the working directory
+	 * @param env
+	 *            the environment
+	 * @return the execution result
+	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
+	static public ExecutionResult run(FS fs, String command, File workingDir,
+			Map<String, String> env)
+			throws IOException, InterruptedException {
+		String[] args;
+		command = "\"" + command + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+		args = new String[0];
+		ProcessBuilder pb = fs.runInShell(command, args);
+		pb.directory(workingDir);
+		Map<String, String> envp = pb.environment();
+		if (env != null) {
+			envp.putAll(env);
 		}
-		this.path = path;
-	}
-
-	/**
-	 * @param parameters
-	 *            the parameters that are added to the tool path (stored as cmd
-	 *            in extended class)
-	 */
-	public void setParameters(String parameters) {
-		this.cmd = parameters;
-	}
-
-	/**
-	 * @return the diff tool command
-	 */
-	@Override
-	public String getCommand() {
-		return path + " " + cmd; //$NON-NLS-1$
+		ExecutionResult result = fs.execute(pb, null);
+		return result;
 	}
 
 }

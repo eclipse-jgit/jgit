@@ -44,60 +44,47 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The pre-defined diff tool.
+ * Difftool exception for differentiation.
  *
  */
-public class PreDefinedDiffTool extends UserDefinedDiffTool {
+public class DiffToolException extends Exception {
 
 	/**
-	 * Creates the pre-defined diff tool
+	 * the serial version UID
+	 */
+	private static final long serialVersionUID = 6618861799028752563L;
+
+	/**
 	 *
-	 * @param name
-	 *            the name
-	 * @param path
-	 *            the path
-	 * @param parameters
-	 *            the tool parameters that are used together with path as
-	 *            command
 	 */
-	public PreDefinedDiffTool(final String name, final String path,
-			final String parameters) {
-		super(name, path, parameters);
+	public DiffToolException() {
+		super();
 	}
 
 	/**
-	 * @param path
+	 * @param message
+	 *            the exception message
 	 */
-	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
-		}
-		this.path = path;
+	public DiffToolException(String message) {
+		super(message);
 	}
 
 	/**
-	 * @param parameters
-	 *            the parameters that are added to the tool path (stored as cmd
-	 *            in extended class)
+	 * @param message
+	 *            the exception message
+	 * @param cause
+	 *            the cause for throw
 	 */
-	public void setParameters(String parameters) {
-		this.cmd = parameters;
+	public DiffToolException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 	/**
-	 * @return the diff tool command
+	 * @param cause
+	 *            the cause for throw
 	 */
-	@Override
-	public String getCommand() {
-		return path + " " + cmd; //$NON-NLS-1$
+	public DiffToolException(Throwable cause) {
+		super(cause);
 	}
 
 }
