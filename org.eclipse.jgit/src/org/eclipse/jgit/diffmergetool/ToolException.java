@@ -43,61 +43,111 @@
 
 package org.eclipse.jgit.diffmergetool;
 
+import org.eclipse.jgit.util.FS.ExecutionResult;
+
 /**
- * The pre-defined diff tool.
+ * Tool exception for differentiation.
+ * 
+ * @since 5.3
  *
  */
-public class PreDefinedDiffTool extends UserDefinedDiffTool {
+public class ToolException extends Exception {
+
+	ExecutionResult result = null;
 
 	/**
-	 * Creates the pre-defined diff tool
+	 * the serial version UID
+	 */
+	private static final long serialVersionUID = 6618861799028752563L;
+
+	/**
 	 *
-	 * @param name
-	 *            the name
-	 * @param path
-	 *            the path
-	 * @param parameters
-	 *            the tool parameters that are used together with path as
-	 *            command
 	 */
-	public PreDefinedDiffTool(final String name, final String path,
-			final String parameters) {
-		super(name, path, parameters);
+	public ToolException() {
+		super();
 	}
 
 	/**
-	 * @param path
+	 * @param message
+	 *            the exception message
 	 */
-	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
+	public ToolException(String message) {
+		super(message);
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 * @param result
+	 *            the execution result
+	 */
+	public ToolException(String message, ExecutionResult result) {
+		super(message);
+		this.result = result;
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(Throwable cause) {
+		super(cause);
+	}
+
+	/**
+	 * @param result
+	 *            the execution result
+	 */
+	public void setResult(ExecutionResult result) {
+		this.result = result;
+	}
+
+	/**
+	 * @return true if result is valid, false else
+	 */
+	public boolean isResult() {
+		return result != null;
+	}
+
+	/**
+	 * @return the execution result
+	 */
+	public ExecutionResult getResult() {
+		return result;
+	}
+
+	/**
+	 * @return the result Stderr
+	 */
+	public String getResultStderr() {
+		try {
+			return new String(result.getStderr().toByteArray());
+		} catch (Exception e) {
+			// nop
 		}
-		this.path = path;
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
-	 * @param parameters
-	 *            the parameters that are added to the tool path (stored as cmd
-	 *            in extended class)
+	 * @return the result Stdout
 	 */
-	public void setParameters(String parameters) {
-		this.cmd = parameters;
-	}
-
-	/**
-	 * @return the diff tool command
-	 */
-	@Override
-	public String getCommand() {
-		return path + " " + cmd; //$NON-NLS-1$
+	public String getResultStdout() {
+		try {
+			return new String(result.getStdout().toByteArray());
+		} catch (Exception e) {
+			// nop
+		}
+		return ""; //$NON-NLS-1$
 	}
 
 }
