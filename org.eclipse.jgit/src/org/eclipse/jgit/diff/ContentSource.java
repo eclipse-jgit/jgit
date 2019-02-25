@@ -124,6 +124,11 @@ public abstract class ContentSource {
 	public abstract ObjectLoader open(String path, ObjectId id)
 			throws IOException;
 
+	/**
+	 * Closes the used resources like ObjectReader, TreeWalk etc.
+	 */
+	public abstract void close();
+
 	private static class ObjectReaderSource extends ContentSource {
 		private final ObjectReader reader;
 
@@ -143,6 +148,11 @@ public abstract class ContentSource {
 		@Override
 		public ObjectLoader open(String path, ObjectId id) throws IOException {
 			return reader.open(id, Constants.OBJ_BLOB);
+		}
+
+		@Override
+		public void close() {
+			reader.close();
 		}
 	}
 
@@ -217,6 +227,11 @@ public abstract class ContentSource {
 					throw new FileNotFoundException(path);
 			}
 		}
+
+		@Override
+		public void close() {
+			tw.close();
+		}
 	}
 
 	/** A pair of sources to access the old and new sides of a DiffEntry. */
@@ -283,6 +298,14 @@ public abstract class ContentSource {
 			default:
 				throw new IllegalArgumentException();
 			}
+		}
+
+		/**
+		 * Closes used resources.
+		 */
+		public void close() {
+			oldSource.close();
+			newSource.close();
 		}
 	}
 }
