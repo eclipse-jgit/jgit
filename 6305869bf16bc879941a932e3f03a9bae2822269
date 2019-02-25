@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e969915b_704fe3e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-02-25T10:52:29Z",
+      "side": 1,
+      "message": "This duplicates JGitText.get().failedAtomicFileCreation used in line 462 below.",
+      "revId": "6305869bf16bc879941a932e3f03a9bae2822269",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
