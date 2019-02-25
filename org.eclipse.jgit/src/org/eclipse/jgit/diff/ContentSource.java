@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2019, Andre Bossert <andre.bossert@siemens.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -124,6 +125,24 @@ public abstract class ContentSource {
 	public abstract ObjectLoader open(String path, ObjectId id)
 			throws IOException;
 
+	/**
+	 * Closes the used resources like ObjectReader, TreeWalk etc.
+	 *
+	 * @since 5.4
+	 */
+	public abstract void close();
+
+	/**
+	 * Checks if the source is from "working tree", so it can be accessed as a
+	 * file directly.
+	 *
+	 * @since 5.4
+	 *
+	 * @return true if working tree source and false otherwise (loader must be
+	 *         used)
+	 */
+	public abstract boolean isWorkingTreeSource();
+
 	private static class ObjectReaderSource extends ContentSource {
 		private final ObjectReader reader;
 
@@ -143,6 +162,16 @@ public abstract class ContentSource {
 		@Override
 		public ObjectLoader open(String path, ObjectId id) throws IOException {
 			return reader.open(id, Constants.OBJ_BLOB);
+		}
+
+		@Override
+		public void close() {
+			reader.close();
+		}
+
+		@Override
+		public boolean isWorkingTreeSource() {
+			return false;
 		}
 	}
 
@@ -217,6 +246,16 @@ public abstract class ContentSource {
 					throw new FileNotFoundException(path);
 			}
 		}
+
+		@Override
+		public void close() {
+			tw.close();
+		}
+
+		@Override
+		public boolean isWorkingTreeSource() {
+			return true;
+		}
 	}
 
 	/** A pair of sources to access the old and new sides of a DiffEntry. */
@@ -284,5 +323,37 @@ public abstract class ContentSource {
 				throw new IllegalArgumentException();
 			}
 		}
+
+		/**
+		 * Closes used resources.
+		 *
+		 * @since 5.4
+		 */
+		public void close() {
+			oldSource.close();
+			newSource.close();
+		}
+
+		/**
+		 * Checks if source (side) is a "working tree".
+		 *
+		 * @since 5.3
+		 *
+		 * @param side
+		 *            which side of the entry to read (OLD or NEW).
+		 * @return is the source a "working tree"
+		 *
+		 */
+		public boolean isWorkingTreeSource(DiffEntry.Side side) {
+			switch (side) {
+			case OLD:
+				return oldSource.isWorkingTreeSource();
+			case NEW:
+				return newSource.isWorkingTreeSource();
+			default:
+				throw new IllegalArgumentException();
+			}
+		}
+
 	}
 }
