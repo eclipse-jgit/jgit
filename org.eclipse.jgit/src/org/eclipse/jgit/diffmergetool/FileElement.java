@@ -43,72 +43,112 @@
 
 package org.eclipse.jgit.diffmergetool;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import org.eclipse.jgit.lib.ObjectStream;
+
 /**
- * The pre-defined diff tool.
+ * The element used as left or right file for compare.
  *
  */
-public class PreDefinedDiffTool extends UserDefinedDiffTool {
+public class FileElement {
+
+	private final String path;
+
+	private final String id;
+
+	private ObjectStream stream;
+
+	private File tempFile;
 
 	/**
-	 * Creates the pre-defined diff tool
-	 *
-	 * @param name
-	 *            the name
 	 * @param path
-	 *            the path
-	 * @param parameters
-	 *            the tool parameters that are used together with path as
-	 *            command
-	 *
-	 * @param trustExitCode
-	 *            the "trust exit code" flag
+	 *            the file path
+	 * @param id
+	 *            the file id
 	 */
-	public PreDefinedDiffTool(final String name, final String path,
-			final String parameters, final boolean trustExitCode) {
-		super(name, path, parameters, trustExitCode);
+	public FileElement(final String path, final String id) {
+		this(path, id, null);
 	}
 
 	/**
 	 * @param path
+	 *            the file path
+	 * @param id
+	 *            the file id
+	 * @param stream
+	 *            the object stream to load instead of file
 	 */
-	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
-		}
+	public FileElement(final String path, final String id,
+			ObjectStream stream) {
 		this.path = path;
+		this.id = id;
+		this.stream = stream;
 	}
 
 	/**
-	 * @param trustExitCode
-	 *            the "trust exit code" option
+	 * @return the file path
 	 */
-	public void setTrustExitCode(boolean trustExitCode) {
-		this.trustExitCode = trustExitCode;
+	public String getPath() {
+		return path;
 	}
 
 	/**
-	 * @param parameters
-	 *            the parameters that are added to the tool path (stored as cmd
-	 *            in extended class)
+	 * @return the file id
 	 */
-	public void setParameters(String parameters) {
-		this.cmd = parameters;
+	public String getId() {
+		return id;
 	}
 
 	/**
-	 * @return the diff tool command
+	 * @return the object stream
 	 */
-	@Override
-	public String getCommand() {
-		return path + " " + cmd; //$NON-NLS-1$
+	public ObjectStream getStream() {
+		return stream;
+	}
+
+	/**
+	 * @param stream
+	 *            the object stream
+	 */
+	public void setStream(ObjectStream stream) {
+		this.stream = stream;
+	}
+
+	/**
+	 * @param workingDir the working directory used if file cannot be found (e.g. /dev/null)
+	 * @return the object stream
+	 * @throws IOException
+	 */
+	public File getFile(File workingDir) throws IOException {
+		File file = new File(path);
+		String name = file.getName();
+		if (path.equals("/dev/null")) { //$NON-NLS-1$
+			file = new File(workingDir, "nul"); //$NON-NLS-1$
+		}
+		else if ((stream != null)) {
+			tempFile = File.createTempFile(".__", "__" + name); //$NON-NLS-1$ //$NON-NLS-2$
+			try (OutputStream outStream = new FileOutputStream(tempFile)) {
+				int read = 0;
+				byte[] bytes = new byte[8 * 1024];
+				while ((read = stream.read(bytes)) != -1) {
+					outStream.write(bytes, 0, read);
+				}
+			}
+			return tempFile;
+		}
+		return file;
+	}
+
+	/**
+	 * Deletes temporary file if necessary
+	 */
+	public void cleanTemporaries() {
+		if (tempFile != null && tempFile.exists())
+		tempFile.delete();
 	}
 
 }
