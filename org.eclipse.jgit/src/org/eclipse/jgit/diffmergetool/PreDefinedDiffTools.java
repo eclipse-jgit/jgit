@@ -79,6 +79,7 @@ package org.eclipse.jgit.diffmergetool;
  * xxdiff
  *
  * @formatter:on
+ * @since 5.3
  */
 public enum PreDefinedDiffTools {
 	/**
