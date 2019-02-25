@@ -1,0 +1,117 @@
+/*
+ * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+package org.eclipse.jgit.diffmergetool;
+
+import org.eclipse.jgit.util.FS.ExecutionResult;
+
+/**
+ * Tool exception for differentiation.
+ *
+ * @since 5.7
+ *
+ */
+public class ToolException extends Exception {
+
+	private final ExecutionResult result;
+
+	/**
+	 * the serial version UID
+	 */
+	private static final long serialVersionUID = 6618861799028752563L;
+
+	/**
+	 *
+	 */
+	public ToolException() {
+		super();
+		result = null;
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 */
+	public ToolException(String message) {
+		super(message);
+		result = null;
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 * @param result
+	 *            the execution result
+	 */
+	public ToolException(String message, ExecutionResult result) {
+		super(message);
+		this.result = result;
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(String message, Throwable cause) {
+		super(message, cause);
+		result = null;
+	}
+
+	/**
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(Throwable cause) {
+		super(cause);
+		result = null;
+	}
+
+	/**
+	 * @return true if result is valid, false else
+	 */
+	public boolean isResult() {
+		return result != null;
+	}
+
+	/**
+	 * @return the execution result
+	 */
+	public ExecutionResult getResult() {
+		return result;
+	}
+
+	/**
+	 * @return the result Stderr
+	 */
+	public String getResultStderr() {
+		try {
+			return new String(result.getStderr().toByteArray());
+		} catch (Exception e) {
+			// nop
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @return the result Stdout
+	 */
+	public String getResultStdout() {
+		try {
+			return new String(result.getStdout().toByteArray());
+		} catch (Exception e) {
+			// nop
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+}

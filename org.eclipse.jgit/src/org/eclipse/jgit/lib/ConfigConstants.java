@@ -1,7 +1,9 @@
 /*
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2012-2013, Robin Rosenberg and others
+ * Copyright (C) 2012-2013, Robin Rosenberg
+ * Copyright (C) 2019, Andre Bossert <andre.bossert@siemens.com>
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,6 +11,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 package org.eclipse.jgit.lib;
 
 /**
@@ -29,22 +32,46 @@ public final class ConfigConstants {
 	/** The "diff" section */
 	public static final String CONFIG_DIFF_SECTION = "diff";
 
-	/** The "tool" key within "diff" section */
+	/**
+	 * The "tool" key within "diff" section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_KEY_TOOL = "tool";
 
-	/** The "guitool" key within "diff" section */
+	/**
+	 * The "guitool" key within "diff" section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_KEY_GUITOOL = "guitool";
 
-	/** The "difftool" section */
+	/**
+	 * The "difftool" section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_DIFFTOOL_SECTION = "difftool";
 
-	/** The "prompt" key within "difftool" section */
+	/**
+	 * The "prompt" key within "difftool" section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_KEY_PROMPT = "prompt";
 
-	/** The "trustExitCode" key within "difftool" section */
+	/**
+	 * The "trustExitCode" key within "difftool" section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
 
-	/** The "cmd" key within "difftool.*." section */
+	/**
+	 * The "cmd" key within "difftool.*." section
+	 *
+	 * @since 5.7
+	 */
 	public static final String CONFIG_KEY_CMD = "cmd";
 
 	/** The "dfs" section */
