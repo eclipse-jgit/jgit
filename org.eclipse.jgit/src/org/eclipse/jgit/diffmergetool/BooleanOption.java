@@ -45,6 +45,8 @@ package org.eclipse.jgit.diffmergetool;
 
 /**
  * Optional boolean
+ * 
+ * @since 5.3
  *
  */
 public enum BooleanOption {
