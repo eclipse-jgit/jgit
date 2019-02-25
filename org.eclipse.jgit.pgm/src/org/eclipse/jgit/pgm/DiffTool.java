@@ -47,17 +47,19 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.diff.ContentSource;
+import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
 import org.eclipse.jgit.diffmergetool.BooleanOption;
+import org.eclipse.jgit.diffmergetool.DiffToolException;
 import org.eclipse.jgit.diffmergetool.DiffToolManager;
+import org.eclipse.jgit.diffmergetool.FileElement;
 import org.eclipse.jgit.diffmergetool.ITool;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -96,7 +98,7 @@ class DiffTool extends TextBuiltin {
 	@Option(name = "--cached", aliases = { "--staged" }, usage = "usage_cached")
 	private boolean cached;
 
-	private BooleanOption prompt = BooleanOption.notDefined;
+	private BooleanOption prompt = BooleanOption.notDefinedFalse;
 
 	@Option(name = "--prompt", usage = "usage_prompt")
 	void setPrompt(@SuppressWarnings("unused") boolean on) {
@@ -111,7 +113,7 @@ class DiffTool extends TextBuiltin {
 	@Option(name = "--tool-help", usage = "usage_toolHelp")
 	private boolean toolHelp;
 
-	private BooleanOption gui = BooleanOption.notDefined;
+	private BooleanOption gui = BooleanOption.notDefinedFalse;
 
 	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_Gui")
 	void setGui(@SuppressWarnings("unused") boolean on) {
@@ -123,7 +125,7 @@ class DiffTool extends TextBuiltin {
 		gui = BooleanOption.False;
 	}
 
-	private BooleanOption trustExitCode = BooleanOption.notDefined;
+	private BooleanOption trustExitCode = BooleanOption.notDefinedFalse;
 
 	@Option(name = "--trust-exit-code", usage = "usage_trustExitCode")
 	void setTrustExitCode(@SuppressWarnings("unused") boolean on) {
@@ -176,6 +178,7 @@ class DiffTool extends TextBuiltin {
 				return;
 			}
 			diffFmt.setRepository(db);
+			boolean newTreeTemp = false;
 			if (cached) {
 				if (oldTree == null) {
 					ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
@@ -189,6 +192,7 @@ class DiffTool extends TextBuiltin {
 					oldTree = p;
 				}
 				newTree = new DirCacheIterator(db.readDirCache());
+				newTreeTemp = true;
 			} else if (oldTree == null) {
 				oldTree = new DirCacheIterator(db.readDirCache());
 				newTree = new FileTreeIterator(db);
@@ -205,34 +209,54 @@ class DiffTool extends TextBuiltin {
 			ContentSource.Pair sourcePair = new ContentSource.Pair(
 					source(oldTree), source(newTree));
 
-			/*
-			 * TODO: this only is for prototyping and will be removed with next
-			 * commit:
-			 */
 			for (DiffEntry ent : files) {
 				switch (ent.getChangeType()) {
+				case ADD:
+					if (cached) {
+						newTreeTemp = false;
+					} else {
+						continue;
+					}
+					break;
 				case MODIFY:
-					outw.println("M\t" + ent.getNewPath()
-							+ " (" + ent.getNewId().name() + ")"
-							+ "\t" + ent.getOldPath()
-							+ " (" + ent.getOldId().name() + ")");
-					outw.println("--- NEW-DATA ---");
-
-					ObjectStream newFileStream = sourcePair.open(Side.NEW, ent)
-							.openStream();
-					showStream(newFileStream);
-					outw.println("--- OLD-DATA ---");
-					ObjectStream oldFileStream = sourcePair.open(Side.OLD, ent)
-							.openStream();
-					showStream(oldFileStream);
-
-					diffToolMgr.compare(ent.getNewPath(),
-							ent.getOldPath(), ent.getNewId().name(),
-							ent.getOldId().name(), toolName, prompt, gui,
-							trustExitCode);
+					break;
+				case DELETE:
+					if (cached) {
+						newTreeTemp = false;
+					} else {
+						continue;
+					}
+					break;
+				case RENAME:
+					break;
+				case COPY:
 					break;
 				default:
-					break;
+					continue;
+				}
+				String mergedFilePath = ent.getNewPath();
+				if (mergedFilePath.equals("/dev/null")) { //$NON-NLS-1$
+					mergedFilePath = ent.getOldPath();
+				}
+				FileElement local = new FileElement(ent.getOldPath(),
+						ent.getOldId().name(),
+						getObjectStream(sourcePair, Side.OLD, ent));
+				FileElement remote = new FileElement(ent.getNewPath(),
+						ent.getNewId().name(),
+						newTreeTemp
+								? getObjectStream(sourcePair, Side.NEW, ent)
+								: null);
+				try {
+					// TODO: check how to return the exit-code of the tool to
+					// jgit / java runtime ?
+					// int rc =...
+					diffToolMgr.compare(db, local, remote, mergedFilePath,
+							toolName, prompt,
+							gui, trustExitCode);
+				} catch (DiffToolException e) {
+					outw.println(e.getMessage());
+					throw die("external diff died, stopping at " //$NON-NLS-1$
+							+ mergedFilePath, e);
 				}
 			}
 
@@ -245,18 +269,20 @@ class DiffTool extends TextBuiltin {
 
 	}
 
+	private ObjectStream getObjectStream(Pair pair, Side side, DiffEntry ent) {
+		ObjectStream stream = null;
+		try {
+			stream = pair.open(side, ent).openStream();
+		} catch (Exception e) {
+			stream = null;
+		}
+		return stream;
+	}
+
 	private ContentSource source(AbstractTreeIterator iterator) {
 		if (iterator instanceof WorkingTreeIterator)
 			return ContentSource.create((WorkingTreeIterator) iterator);
 		return ContentSource.create(db.newObjectReader());
 	}
 
-	private void showStream(ObjectStream stream)
-			throws UnsupportedEncodingException, IOException {
-		int read = 0;
-		byte[] bytes = new byte[1024];
-		while ((read = stream.read(bytes)) != -1) {
-			outw.write(new String(bytes, "UTF-8").toCharArray(), 0, read); //$NON-NLS-1$
-		}
-	}
 }

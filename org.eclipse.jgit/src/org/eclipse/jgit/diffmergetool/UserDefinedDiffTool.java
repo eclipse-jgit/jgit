@@ -67,7 +67,7 @@ public class UserDefinedDiffTool implements ITool {
 	/**
 	 * the diff tool "trust exit code" option
 	 */
-	protected final boolean trustExitCode;
+	protected boolean trustExitCode;
 
 	/**
 	 * Creates the diff tool

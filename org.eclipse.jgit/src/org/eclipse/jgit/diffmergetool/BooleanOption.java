@@ -49,56 +49,71 @@ package org.eclipse.jgit.diffmergetool;
  */
 public enum BooleanOption {
 	/**
-	 * the option is not defined
+	 * the option is not defined and is default false
 	 */
-	notDefined(),
+	notDefinedFalse(),
 
 	/**
-	 * the option is enabled
+	 * the option is not defined and is default true
 	 */
-	True(),
+	notDefinedTrue(),
 
 	/**
 	 * the option is disabled
 	 */
-	False();
+	False(),
 
-	private boolean defaultValue;
+	/**
+	 * the option is enabled
+	 */
+	True();
 
 	BooleanOption() {
-		defaultValue = false;
     }
 
 	/**
-	 * @param defaultValue
-	 *            the default value
+	 * @return boolean value of the option
 	 */
-	public void setDefault(boolean defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-
-	/**
-	 * @return the default value
-	 */
-	public boolean getDefaultValue() {
-		return defaultValue;
-	}
-
-	/**
-	 * @param option
-	 *            the option
-	 * @return boolean option value or default
-	 */
-	static public boolean toBoolean(BooleanOption option) {
-		switch (option) {
+	public boolean toBoolean() {
+		switch (this) {
 		case True:
+		case notDefinedTrue:
 			return true;
-		case False:
-			return false;
-		case notDefined:
 		default:
-			return option.getDefaultValue();
+			return false;
 		}
+	}
+
+	/**
+	 * @return true if the the option was defined and false if not?
+	 */
+	public boolean isDefined() {
+		switch (this) {
+		case True:
+		case False:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	/**
+	 * @param value
+	 *            the boolean value as input
+	 * @return the defined boolean option
+	 */
+	static public BooleanOption defined(boolean value) {
+		return value ? BooleanOption.True : BooleanOption.False;
+	}
+
+	/**
+	 * @param value
+	 *            the boolean value as default input
+	 * @return the not defined boolean option
+	 */
+	static public BooleanOption notDefined(boolean value) {
+		return value ? BooleanOption.notDefinedTrue
+				: BooleanOption.notDefinedFalse;
 	}
 
 }

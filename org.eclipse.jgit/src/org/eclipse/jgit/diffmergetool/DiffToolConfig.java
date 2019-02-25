@@ -65,7 +65,7 @@ public class DiffToolConfig {
 
 	private final boolean prompt;
 
-	private final boolean trustExitCode;
+	private final BooleanOption trustExitCode;
 
 	private final Map<String, ITool> tools;
 
@@ -79,9 +79,15 @@ public class DiffToolConfig {
 		// get prompt option (difftool.prompt, default = true)
 		prompt = rc.getBoolean(ConfigConstants.CONFIG_DIFFTOOL_SECTION,
 				ConfigConstants.CONFIG_KEY_PROMPT, true);
-		// get trustExitCode option (difftool.trustExitCode, default = true)
-		trustExitCode = rc.getBoolean(ConfigConstants.CONFIG_DIFFTOOL_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE, true);
+		// get trustExitCode option (difftool.trustExitCode, default = false)
+		String trustStr = rc.getString(ConfigConstants.CONFIG_DIFFTOOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE);
+		if (trustStr != null) {
+			trustExitCode = BooleanOption
+					.defined(Boolean.parseBoolean(trustStr));
+		} else {
+			trustExitCode = BooleanOption.notDefined(false);
+		}
 		// get all diff tools
 		tools = new HashMap<>();
 		Set<String> subsections = rc
@@ -93,18 +99,19 @@ public class DiffToolConfig {
 			// get the difftool path (difftool.<name>.path)
 			String path = rc.getString(ConfigConstants.CONFIG_DIFFTOOL_SECTION,
 					name, ConfigConstants.CONFIG_KEY_PATH);
-			// get trustExitCode option (difftool.<name>.trustExitCode, default
-			// = difftool.trustExitCode)
-			boolean trust = trustExitCode;
-			String trustStr = rc.getString(
-					ConfigConstants.CONFIG_DIFFTOOL_SECTION,
-					name, ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE);
-			if (trustStr != null) {
-				trust = Boolean.getBoolean(trustStr);
+			// set trustExitCode for tool to difftool.trustExitCode first
+			boolean trustExitCodeTool = trustExitCode.toBoolean();
+			// read difftool.<name>.trustExitCode if difftool.trustExitCode not
+			// defined (default = false)
+			if (!trustExitCode.isDefined()) {
+				trustExitCodeTool = rc.getBoolean(
+						ConfigConstants.CONFIG_DIFFTOOL_SECTION, name,
+						ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE, false);
 			}
 			if ((cmd != null) || (path != null)) {
 				tools.put(name,
-						new UserDefinedDiffTool(name, path, cmd, trust));
+						new UserDefinedDiffTool(name, path, cmd,
+								trustExitCodeTool));
 			}
 		}
 	}
@@ -134,7 +141,7 @@ public class DiffToolConfig {
 	 * @return the diff tool "trust exit code" option (difftool.trustExitCode)
 	 */
 	public boolean isTrustExitCode() {
-		return trustExitCode;
+		return trustExitCode.toBoolean();
 	}
 
 	/**
