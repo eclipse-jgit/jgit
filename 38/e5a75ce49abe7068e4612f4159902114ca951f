@@ -1,0 +1,7 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: CI Bot
+Submitted-by: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-at: Tue, 26 Feb 2019 16:22:21 -0500
+Reviewed-on: https://git.eclipse.org/r/137341
+Project: jgit/jgit
+Branch: refs/heads/master
