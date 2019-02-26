@@ -46,10 +46,12 @@ import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newInputStream;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -81,6 +83,8 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Locates GPG keys from either <code>~/.gnupg/private-keys-v1.d</code> or
@@ -88,18 +92,47 @@ import org.eclipse.jgit.internal.JGitText;
  */
 class BouncyCastleGpgKeyLocator {
 
-	private static final Path USER_KEYBOX_PATH = Paths
-			.get(System.getProperty("user.home"), ".gnupg", "pubring.kbx"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final Path GPG_DIRECTORY = findGpgDirectory();
 
-	private static final Path USER_SECRET_KEY_DIR = Paths.get(
-			System.getProperty("user.home"), ".gnupg", "private-keys-v1.d"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final Path USER_KEYBOX_PATH = GPG_DIRECTORY
+			.resolve("pubring.kbx"); //$NON-NLS-1$
 
-	private static final Path USER_PGP_LEGACY_SECRING_FILE = Paths
-			.get(System.getProperty("user.home"), ".gnupg", "secring.gpg"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final Path USER_SECRET_KEY_DIR = GPG_DIRECTORY
+			.resolve("private-keys-v1.d"); //$NON-NLS-1$
+
+	private static final Path USER_PGP_LEGACY_SECRING_FILE = GPG_DIRECTORY
+			.resolve("secring.gpg"); //$NON-NLS-1$
 
 	private final String signingKey;
 
 	private BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt;
+
+	private static Path findGpgDirectory() {
+		SystemReader system = SystemReader.getInstance();
+		if (system.isWindows()) {
+			// On Windows prefer %APPDATA%\gnupg if it exists, even if Cygwin is
+			// used.
+			String appData = system.getenv("APPDATA"); //$NON-NLS-1$
+			if (appData != null && !appData.isEmpty()) {
+				try {
+					Path directory = Paths.get(appData).resolve("gnupg"); //$NON-NLS-1$
+					if (Files.isDirectory(directory)) {
+						return directory;
+					}
+				} catch (SecurityException | InvalidPathException e) {
+					// Ignore and return the default location below.
+				}
+			}
+		}
+		// All systems, including Cygwin and even Windows if
+		// %APPDATA%\gnupg doesn't exist: ~/.gnupg
+		File home = FS.DETECTED.userHome();
+		if (home == null) {
+			// Oops. What now?
+			home = new File(".").getAbsoluteFile(); //$NON-NLS-1$
+		}
+		return home.toPath().resolve(".gnupg"); //$NON-NLS-1$
+	}
 
 	/**
 	 * Create a new key locator for the specified signing key.
