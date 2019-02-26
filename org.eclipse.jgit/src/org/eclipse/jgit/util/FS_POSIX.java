@@ -401,7 +401,7 @@ public class FS_POSIX extends FS {
 					"unix:nlink")); //$NON-NLS-1$
 			if (nlink > 2) {
 				LOG.warn(MessageFormat.format(
-						JGitText.get().unexpectedNlinkValue, lock.getPath(),
+						JGitText.get().failedAtomicFileCreation, lockPath,
 						nlink));
 				return false;
 			} else if (nlink < 2) {
