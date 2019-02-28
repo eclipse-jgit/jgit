@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b574149_45327ffb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T11:49:52Z",
+      "side": 1,
+      "message": "cgit does not seem to have a per tool trustExitCode flag for difftools (just for mergetools). Do we want it?",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be66b4a1_bee6d4af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T11:49:52Z",
+      "side": 1,
+      "message": "I\u0027d say the first argument is not a path but rather a command",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
