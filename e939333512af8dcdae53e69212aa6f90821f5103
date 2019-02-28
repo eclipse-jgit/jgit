@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "9db20a56_39cc0650",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T14:47:20Z",
+      "side": 1,
+      "message": "Where did you get these commands and parameters?\nIf they are extracted from C-Git git-core\\mergetools\\ (https://github.com/git/git/tree/master/mergetools), we might have a problem, because C-Git is under GPL.\n\nIdea: have the user download the complete folder of c-git (automatically) and use the shell scripts of them. (Might be hard for windows)",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be66b4a1_bee6d4af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
         "patchSetId": 2
