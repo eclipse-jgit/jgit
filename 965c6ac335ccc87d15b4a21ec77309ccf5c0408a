@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e59195f_369ea352",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T14:19:44Z",
+      "side": 1,
+      "message": "Some of this is not PGM specific and could be included in the DiffToolManager, so no code duplicates are required for EGIT",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fb99a0d_124acfda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T14:19:44Z",
+      "side": 1,
+      "message": "This class could be in org.eclipse.jgit.util",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d255f32_20989ddf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-02-28T14:19:44Z",
+      "side": 1,
+      "message": "splitCommands is never true. Why have it?",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
