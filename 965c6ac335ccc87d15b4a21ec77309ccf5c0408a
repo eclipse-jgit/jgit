@@ -50,6 +50,23 @@
       "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa61f991_96d77571",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-01T16:26:02Z",
+      "side": 1,
+      "message": "This is never used.",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
