@@ -1526,6 +1526,20 @@ public class UploadPack {
 	}
 
 	/**
+	 * Returns the filter blob limit for the current request. Valid only after
+	 * calling recvWants(). A limit -1 means no limit.
+	 *
+	 * @return filter blob limit requested by the client, or -1 if no limit
+	 * @since 5.3
+	 */
+	public long getFilterBlobLimit() {
+		if (currentRequest == null) {
+			throw new RequestNotYetReadException();
+		}
+		return currentRequest.getFilterBlobLimit();
+	}
+
+	/**
 	 * Get the user agent of the client.
 	 * <p>
 	 * If the client is new enough to use {@code agent=} capability that value
