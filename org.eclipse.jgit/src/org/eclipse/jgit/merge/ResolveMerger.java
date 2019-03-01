@@ -1022,8 +1022,13 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private TemporaryBuffer doMerge(MergeResult<RawText> result)
 			throws IOException {
-		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
+		TemporaryBuffer buf;
+		if (inCore) {
+			buf = new TemporaryBuffer.Heap(inCoreLimit);
+		} else {
+			buf = new TemporaryBuffer.LocalFile(
+					db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
+		}
 		try {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), UTF_8);

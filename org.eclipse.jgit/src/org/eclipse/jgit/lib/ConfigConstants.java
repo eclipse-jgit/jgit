@@ -408,8 +408,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_RENAMES = "renames";
 
 	/**
-	 * The "inCoreLimit" key in the "merge section". It's a size limit (bytes) used to
-	 * control a file to be stored in {@code Heap} or {@code LocalFile} during the merge.
+	 * The "inCoreLimit" key in the "merge section".
+	 *
+	 * <p>This value limits the amount of memory used as a buffer during content
+	 * merge operations, in bytes. When the limit is exceeded, the buffer will
+	 * either spill to disk using a {@code TemporaryFile.LocalFile}, when {@code
+	 * inCore = false}, or throw an exception, when {@code inCore = true}.
+	 *
 	 * @since 4.9
 	 */
 	public static final String CONFIG_KEY_IN_CORE_LIMIT = "inCoreLimit";
