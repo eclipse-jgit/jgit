@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9ce8d26_f98386d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-02T00:08:03Z",
+      "side": 1,
+      "message": "optional: can this say a little about what a caller would use this method for?\n\nFor example:\n\n \u003cp\u003e\n This can be useful for determining whether a fetch can overwrite a given\n ref.\n\nI\u0027m wondering about the case of two patterns: can you say a little more about the use case?",
+      "revId": "7dffe2c08ae8fbac0c7d2825fda46ff875c28476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
