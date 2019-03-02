@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f549b507_79a65bee",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:54:56Z",
+      "side": 1,
+      "message": "OK, i will move parts to DiffToolManager if really same code is needed in EGit. Next commits will solve this as refactroring if it\u0027s OK. Otherwise to much logic will be moved in this change without a reason (add only code if needed, no forcast without need).",
+      "parentUuid": "2e59195f_369ea352",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fb99a0d_124acfda",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-28T14:19:44Z",
       "side": 1,
       "message": "This class could be in org.eclipse.jgit.util",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8077e45_5a0a95fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:54:56Z",
+      "side": 1,
+      "message": "May be, because next commits add more logic to this class. So not sure to put to much specific code to util class...",
+      "parentUuid": "9fb99a0d_124acfda",
       "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cf225544_526c0c0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:54:56Z",
+      "side": 1,
+      "message": "Yes, it\u0027s not needed here, it was part of the whole too big solution. I will remove this.",
+      "parentUuid": "7d255f32_20989ddf",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa61f991_96d77571",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-01T16:26:02Z",
       "side": 1,
       "message": "This is never used.",
+      "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f24edac6_2c25ec7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:54:56Z",
+      "side": 1,
+      "message": "It was used in the big change, but not yet needed --\u003e\nwill remove from this change.",
+      "parentUuid": "fa61f991_96d77571",
       "revId": "965c6ac335ccc87d15b4a21ec77309ccf5c0408a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
