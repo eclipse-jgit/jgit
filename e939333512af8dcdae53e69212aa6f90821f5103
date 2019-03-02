@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70ac5abe_8231b4d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:18:46Z",
+      "side": 1,
+      "message": "My investigations shows that CGit supports this for difftools too, but it\u0027s not documented. It\u0027s consistent to the fallback / merge of difftool to mergetool configuration decribed in CGit.",
+      "parentUuid": "0b574149_45327ffb",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db20a56_39cc0650",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2019-02-28T11:49:52Z",
       "side": 1,
       "message": "I\u0027d say the first argument is not a path but rather a command",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28fd051f_16bce379",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-02T17:18:46Z",
+      "side": 1,
+      "message": "The first parameter is not the whole command, it\u0027s the path to executable or script etc. You can overwrite the whole command \u003d \"path + parameters\" with \"difftool.\u003cname\u003e.cmd\" entry in your config. Or (exclusive) you can overload exactly the \"path\" with user-defined \"diffool.\u003cname\u003e.path\" entry. The predefined parameters are NOT overwritten in last case. To be consistent to the name i\u0027m using \"path\" here.",
+      "parentUuid": "be66b4a1_bee6d4af",
       "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
