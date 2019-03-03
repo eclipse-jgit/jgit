@@ -44,28 +44,19 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The user-defined diff tool.
+ * The user-defined merge tool.
  *
  */
-public class UserDefinedDiffTool implements IDiffTool {
+public class UserDefinedMergeTool extends UserDefinedDiffTool
+		implements IMergeTool {
 
 	/**
-	 * the tool name
+	 * the merge tool "trust exit code" option
 	 */
-	protected final String name;
+	protected final BooleanOption trustExitCode;
 
 	/**
-	 * the tool path
-	 */
-	protected String path;
-
-	/**
-	 * the tool command
-	 */
-	protected String cmd;
-
-	/**
-	 * Creates the diff tool
+	 * Creates the merge tool
 	 *
 	 * @param name
 	 *            the name
@@ -73,36 +64,28 @@ public class UserDefinedDiffTool implements IDiffTool {
 	 *            the path
 	 * @param cmd
 	 *            the command
+	 * @param trustExitCode
+	 *            the "trust exit code" option
 	 */
-	public UserDefinedDiffTool(final String name, final String path,
-			final String cmd) {
-		this.name = name;
-		this.path = path;
-		this.cmd = cmd;
+	public UserDefinedMergeTool(final String name, final String path,
+			final String cmd, final BooleanOption trustExitCode) {
+		super(name, path, cmd);
+		this.trustExitCode = trustExitCode;
 	}
 
 	/**
-	 * @return the tool name
+	 * @return the "trust exit code" flag
 	 */
 	@Override
-	public String getName() {
-		return name;
+	public boolean isTrustExitCode() {
+		return trustExitCode.toBoolean();
 	}
 
 	/**
-	 * @return the tool path
+	 * @return the "trust exit code" option
 	 */
-	@Override
-	public String getPath() {
-		return path;
-	}
-
-	/**
-	 * @return the tool command
-	 */
-	@Override
-	public String getCommand() {
-		return cmd;
+	public BooleanOption getTrustExitCode() {
+		return trustExitCode;
 	}
 
 }
