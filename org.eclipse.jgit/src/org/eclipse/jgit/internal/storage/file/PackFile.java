@@ -187,7 +187,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				} else if (!Arrays.equals(packChecksum, idx.packChecksum)) {
 					throw new PackMismatchException(MessageFormat.format(
 							JGitText.get().packChecksumMismatch,
-							packFile.getPath()));
+							packFile.getPath(), packChecksum,
+							idx.packChecksum));
 				}
 				loadedIdx = idx;
 			} catch (InterruptedIOException e) {
@@ -753,10 +754,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
 			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packObjectCountMismatch
-					, ObjectId.fromRaw(buf).name()
-					, ObjectId.fromRaw(idx.packChecksum).name()
-					, getPackFile()));
+					JGitText.get().packChecksumMismatch,
+					getPackFile(),
+					ObjectId.fromRaw(buf).name(),
+					ObjectId.fromRaw(idx.packChecksum).name()));
 		}
 	}
 
