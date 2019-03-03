@@ -491,6 +491,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
 	/***/ public String malformedpersonIdentString;
+	/***/ public String markPackInvalid;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
