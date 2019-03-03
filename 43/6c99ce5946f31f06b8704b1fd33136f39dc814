@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: CI Bot
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Sun, 03 Mar 2019 18:11:30 -0500
+Reviewed-on: https://git.eclipse.org/r/137483
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
