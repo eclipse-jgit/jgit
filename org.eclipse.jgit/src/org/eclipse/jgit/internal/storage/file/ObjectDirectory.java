@@ -490,10 +490,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 						p.resetTransientErrorCount();
 						if (ldr != null)
 							return ldr;
-					} catch (PackMismatchException e) {
+					} catch (PackMismatchException | FileNotFoundException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (searchPacksAgain(pList, true)) {
+							LOG.debug("packlist changed"); //$NON-NLS-1$
 							continue SEARCH;
+						} else {
+							handlePackError(e, p);
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -653,7 +657,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
-				|| (e instanceof PackInvalidException)) {
+				|| (e instanceof PackInvalidException)
+				|| (e instanceof PackMismatchException)) {
 			warnTmpl = JGitText.get().corruptPack;
 			LOG.warn(MessageFormat.format(warnTmpl,
 					p.getPackFile().getAbsolutePath()), e);
@@ -768,6 +773,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private boolean searchPacksAgain(PackList old) {
+		return searchPacksAgain(old, false);
+	}
+
+	private boolean searchPacksAgain(PackList old, boolean force) {
 		// Whether to trust the pack folder's modification time. If set
 		// to false we will always scan the .git/objects/pack folder to
 		// check for new pack files. If set to true (default) we use the
@@ -778,8 +787,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 
-		return ((!trustFolderStat) || old.snapshot.isModified(packDirectory))
-				&& old != scanPacks(old);
+		if (force || (!trustFolderStat)
+				|| old.snapshot.isModified(packDirectory)) {
+			PackList newList = scanPacks(old);
+			return old != newList;
+		}
+		return false;
 	}
 
 	@Override
