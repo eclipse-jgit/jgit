@@ -78,6 +78,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String archiveFormatAlreadyAbsent;
 	/***/ public String archiveFormatAlreadyRegistered;
 	/***/ public String argumentIsNotAValidCommentString;
+	/***/ public String assumePersistentPackProblem;
 	/***/ public String atLeastOnePathIsRequired;
 	/***/ public String atLeastOnePatternIsRequired;
 	/***/ public String atLeastTwoFiltersNeeded;
@@ -491,6 +492,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
 	/***/ public String malformedpersonIdentString;
+	/***/ public String markPackInvalid;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;

@@ -118,6 +118,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
+	/**
+	 * assume persistent problem after MAX_RESCANS consecutive unsuccessful
+	 * retries rescanning the pack list for problem with the same packfile
+	 */
+	private static final int MAX_RESCANS = 5;
+
 	private final AlternateHandle handle = new AlternateHandle(this);
 
 	private final Config config;
@@ -266,8 +272,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public Collection<PackFile> getPacks() {
 		PackList list = packList.get();
-		if (list == NO_PACKS)
-			list = scanPacks(list);
+		if (list == NO_PACKS) {
+			list = scanPacks(list, false);
+		}
 		PackFile[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
@@ -492,8 +499,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 							return ldr;
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (doRescanOnPackError(pList, p, e)) {
 							continue SEARCH;
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -502,6 +510,46 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		} while (searchPacksAgain(pList));
 		return null;
+	}
+
+	/**
+	 * Rescan pack list when pack error occurred, in case of MAX_RESCANS
+	 * consecutive unsuccessful retries rescanning the pack list for problem
+	 * with the same pack file give up and consider pack file permanently
+	 * corrupt and remove it from the pack list
+	 *
+	 * @param pList
+	 *            the pack list
+	 * @param p
+	 *            the pack showing a pack error
+	 * @param e
+	 *            the pack error
+	 * @return {@code true} if pack list was rescanned
+	 */
+	private boolean doRescanOnPackError(PackList pList, PackFile p,
+			IOException e) {
+		LOG.debug("rescan packlist due to error on pack file " //$NON-NLS-1$
+				+ p.getPackName());
+		if (searchPacksAgain(pList, true)) {
+			// assume persistent problem after MAX_RESCANS consecutive
+			// unsuccessful retries rescanning the pack list for
+			// problem with the same packfile
+			int transientErrorCount = p.incrementTransientErrorCount();
+			LOG.debug("found changed packlist, transientErrorCount=" //$NON-NLS-1$
+					+ transientErrorCount);
+			if (transientErrorCount <= MAX_RESCANS) {
+				return true;
+			} else {
+				LOG.error(MessageFormat.format(
+						JGitText.get().assumePersistentPackProblem,
+						Integer.valueOf(MAX_RESCANS),
+						p.getPackFile().getAbsolutePath()));
+				handlePackError(e, p);
+			}
+		} else {
+			handlePackError(e, p);
+		}
+		return false;
 	}
 
 	@Override
@@ -630,9 +678,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 						packer.select(otp, rep);
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
-					//
-					pList = scanPacks(pList);
-					continue SEARCH;
+					if (doRescanOnPackError(pList, p, e)) {
+						continue SEARCH;
+					}
 				} catch (IOException e) {
 					handlePackError(e, p);
 				}
@@ -653,7 +701,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
-				|| (e instanceof PackInvalidException)) {
+				|| (e instanceof PackInvalidException)
+				|| (e instanceof PackMismatchException)) {
 			warnTmpl = JGitText.get().corruptPack;
 			LOG.warn(MessageFormat.format(warnTmpl,
 					p.getPackFile().getAbsolutePath()), e);
@@ -768,6 +817,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private boolean searchPacksAgain(PackList old) {
+		return searchPacksAgain(old, false);
+	}
+
+	private boolean searchPacksAgain(PackList old, boolean force) {
 		// Whether to trust the pack folder's modification time. If set
 		// to false we will always scan the .git/objects/pack folder to
 		// check for new pack files. If set to true (default) we use the
@@ -778,8 +831,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 
-		return ((!trustFolderStat) || old.snapshot.isModified(packDirectory))
-				&& old != scanPacks(old);
+		if (force || (!trustFolderStat)
+				|| old.snapshot.isModified(packDirectory)) {
+			PackList newList = scanPacks(old, force);
+			return old != newList;
+		}
+		return false;
 	}
 
 	@Override
@@ -868,7 +925,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return -1;
 	}
 
-	private PackList scanPacks(PackList original) {
+	private PackList scanPacks(PackList original, boolean force) {
 		synchronized (packList) {
 			PackList o, n;
 			do {
@@ -879,7 +936,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 					//
 					return o;
 				}
-				n = scanPacksImpl(o);
+				n = scanPacksImpl(o, force);
 				if (n == o)
 					return n;
 			} while (!packList.compareAndSet(o, n));
@@ -887,7 +944,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	private PackList scanPacksImpl(PackList old) {
+	private PackList scanPacksImpl(PackList old, boolean force) {
 		final Map<String, PackFile> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(packDirectory);
 		final Set<String> names = listPackDirectory();
@@ -931,7 +988,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// the same as the set we were given. Instead of building a new object
 		// return the same collection.
 		//
-		if (!foundNew && forReuse.isEmpty() && snapshot.equals(old.snapshot)) {
+		if (!force && !foundNew && forReuse.isEmpty()
+				&& snapshot.equals(old.snapshot)) {
 			old.snapshot.setClean(snapshot);
 			return old;
 		}
