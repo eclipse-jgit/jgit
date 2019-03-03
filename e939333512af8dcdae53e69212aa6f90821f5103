@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "86ea1986_5bea0e1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-03T11:22:42Z",
+      "side": 1,
+      "message": "We are using some of the tools in our company and i\u0027ve extracted the command line parameters from official documentation of the tools. All others are from CGit to have similar list of supported tools. I can remove tools that have no documentation or different to CGit parameters. (P.S.: Reinventing the wheel because of license issues is annoying.)\n\nAbout the idea: we have similar solution: no download, just reuse the scripts from  already installed C-Git. At Windows the Git-Bash is used and it works. But i do not want tho have this solution in this change, i want to have JGit handle it standalone. If Shell-Scripts are used as difftool.cmd then sh.exe or bash.exe  from MSYS2 or C-Git with MSYS2 can be still used at WIndows too... But if we have license issues and want to have this extra step with download or setup before using difftools, we can do it... may other reviewers can help with decision...",
+      "parentUuid": "9db20a56_39cc0650",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be66b4a1_bee6d4af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
         "patchSetId": 2
