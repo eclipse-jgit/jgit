@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e64786f3_1d3a0100",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-03T11:33:34Z",
+      "side": 1,
+      "message": "I\u0027ve just verified with CGit 2.20.1 and it shows that this is NOT supported for difftool. \nYou are right, Thanks! I will remove this from difftool.",
+      "parentUuid": "70ac5abe_8231b4d8",
+      "revId": "e939333512af8dcdae53e69212aa6f90821f5103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db20a56_39cc0650",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
         "patchSetId": 2
