@@ -44,7 +44,7 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The tool interface.
+ * The diff tool interface.
  *
  */
 public interface IDiffTool {
