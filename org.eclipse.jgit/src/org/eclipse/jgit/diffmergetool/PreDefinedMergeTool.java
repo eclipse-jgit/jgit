@@ -44,47 +44,70 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * Difftool exception for differentiation.
+ * The pre-defined merge tool.
  *
  */
-public class DiffToolException extends Exception {
+public class PreDefinedMergeTool extends UserDefinedMergeTool {
 
 	/**
-	 * the serial version UID
-	 */
-	private static final long serialVersionUID = 6618861799028752563L;
-
-	/**
+	 * Creates the pre-defined merge tool
 	 *
+	 * @param name
+	 *            the name
+	 * @param path
+	 *            the path
+	 * @param parameters
+	 *            the tool parameters that are used together with path as
+	 *            command
+	 * @param trustExitCode
+	 *            the "trust exit code" option
 	 */
-	public DiffToolException() {
-		super();
+	public PreDefinedMergeTool(final String name, final String path,
+			final String parameters, final BooleanOption trustExitCode) {
+		super(name, path, parameters, trustExitCode);
 	}
 
 	/**
-	 * @param message
-	 *            the exception message
+	 * @param path
 	 */
-	public DiffToolException(String message) {
-		super(message);
+	public void setPath(String path) {
+		// handling of spaces in path
+		if (path.contains(" ")) { //$NON-NLS-1$
+			// add quotes before if needed
+			if (!path.startsWith("\"")) { //$NON-NLS-1$
+				path = "\"" + path; //$NON-NLS-1$
+			}
+			// add quotes after if needed
+			if (!path.endsWith("\"")) { //$NON-NLS-1$
+				path = path + "\""; //$NON-NLS-1$
+			}
+		}
+		this.path = path;
 	}
 
 	/**
-	 * @param message
-	 *            the exception message
-	 * @param cause
-	 *            the cause for throw
+	 * @param parameters
+	 *            the parameters that are added to the tool path (stored as cmd
+	 *            in extended class)
 	 */
-	public DiffToolException(String message, Throwable cause) {
-		super(message, cause);
+	public void setParameters(String parameters) {
+		this.cmd = parameters;
 	}
 
 	/**
-	 * @param cause
-	 *            the cause for throw
+	 * @param trustExitCode
+	 *            the "trust exit code" option
 	 */
-	public DiffToolException(Throwable cause) {
-		super(cause);
+	public void setTrustExitCode(BooleanOption trustExitCode) {
+		this.trustExitCode = trustExitCode;
+	}
+
+	/**
+	 * @return the tool command
+	 */
+	@Override
+	public String getCommand() {
+		return path + " " + cmd; //$NON-NLS-1$
 	}
 
 }

@@ -59,7 +59,7 @@ import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
 import org.eclipse.jgit.diffmergetool.BooleanOption;
-import org.eclipse.jgit.diffmergetool.DiffToolException;
+import org.eclipse.jgit.diffmergetool.ToolException;
 import org.eclipse.jgit.diffmergetool.DiffToolManager;
 import org.eclipse.jgit.diffmergetool.FileElement;
 import org.eclipse.jgit.diffmergetool.IDiffTool;
@@ -119,7 +119,7 @@ class DiffTool extends TextBuiltin {
 
 	private BooleanOption gui = BooleanOption.notDefinedFalse;
 
-	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_Gui")
+	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
 		gui = BooleanOption.True;
 	}
@@ -215,7 +215,7 @@ class DiffTool extends TextBuiltin {
 					// int rc =...
 					diffToolMgr.compare(db, local, remote, mergedFilePath,
 							toolName, prompt, gui, trustExitCode);
-				} catch (DiffToolException e) {
+				} catch (ToolException e) {
 					outw.println(e.getMessage());
 					throw die("external diff died, stopping at " //$NON-NLS-1$
 							+ mergedFilePath, e);

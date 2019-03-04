@@ -44,41 +44,47 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The user-defined merge tool.
+ * Exception for differentiation.
  *
  */
-public class UserDefinedMergeTool extends UserDefinedDiffTool
-		implements IMergeTool {
+public class ToolException extends Exception {
 
 	/**
-	 * the merge tool "trust exit code" option
+	 * the serial version UID
 	 */
-	protected BooleanOption trustExitCode;
+	private static final long serialVersionUID = 6618861799028752563L;
 
 	/**
-	 * Creates the merge tool
 	 *
-	 * @param name
-	 *            the name
-	 * @param path
-	 *            the path
-	 * @param cmd
-	 *            the command
-	 * @param trustExitCode
-	 *            the "trust exit code" option
 	 */
-	public UserDefinedMergeTool(final String name, final String path,
-			final String cmd, final BooleanOption trustExitCode) {
-		super(name, path, cmd);
-		this.trustExitCode = trustExitCode;
+	public ToolException() {
+		super();
 	}
 
 	/**
-	 * @return the "trust exit code" flag
+	 * @param message
+	 *            the exception message
 	 */
-	@Override
-	public BooleanOption getTrustExitCode() {
-		return trustExitCode;
+	public ToolException(String message) {
+		super(message);
+	}
+
+	/**
+	 * @param message
+	 *            the exception message
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * @param cause
+	 *            the cause for throw
+	 */
+	public ToolException(Throwable cause) {
+		super(cause);
 	}
 
 }
