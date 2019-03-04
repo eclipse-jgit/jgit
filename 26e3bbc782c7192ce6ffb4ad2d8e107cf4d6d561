@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84ed791e_927feffc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-04T16:19:31Z",
+      "side": 1,
+      "message": "This test shows pack mismatch errors but not the same problem we are experiencing on the openPackedObject",
+      "range": {
+        "startLine": 291,
+        "startChar": 13,
+        "endLine": 291,
+        "endChar": 37
+      },
+      "revId": "26e3bbc782c7192ce6ffb4ad2d8e107cf4d6d561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb98036_3052b820",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-04T16:19:31Z",
+      "side": 1,
+      "message": "If the packfile is *really* corrupted and thus the checksum would always fail, this is going into an infinite loop.\nWe should limit the searchPacksAgain call to a maximum number of times and then fail anyway.",
+      "revId": "26e3bbc782c7192ce6ffb4ad2d8e107cf4d6d561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "883d27ff_0d556887",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-04T16:19:31Z",
+      "side": 1,
+      "message": "The force flag needs to be propagated down to scanPacks and scanPacksImpl: inside the scanPacks there is a logic that is not reloading the list if the number and names of the files are the same.\n\nAdditionally, the scanPacks() will recycle existing packs in the packlist, which isn\u0027t good because the packfiles are in memory with the wrong checksum and *we have to* reload them forcibly.",
+      "range": {
+        "startLine": 793,
+        "startChar": 22,
+        "endLine": 793,
+        "endChar": 37
+      },
+      "revId": "26e3bbc782c7192ce6ffb4ad2d8e107cf4d6d561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
