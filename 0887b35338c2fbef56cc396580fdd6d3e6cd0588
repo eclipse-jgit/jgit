@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f26877d_8a702842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-04T15:05:18Z",
+      "side": 1,
+      "message": "As this is a commit in the jgit repo I think we don\u0027t need the word jgit again in the topic. \n\nTo be similar to other commit messages starting with a topic I suggest s/[jgit diff]/diff:/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "0887b35338c2fbef56cc396580fdd6d3e6cd0588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
