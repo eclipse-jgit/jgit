@@ -46,12 +46,21 @@ package org.eclipse.jgit.diffmergetool;
 /**
  * The merge tool interface.
  *
+ * @since 5.4
  */
 public interface IMergeTool extends IDiffTool {
 
 	/**
 	 * @return the tool "trust exit code" option
 	 */
-	public boolean isTrustExitCode();
+	public BooleanOption getTrustExitCode();
+
+	/**
+	 * @param withBase
+	 *            get command with base present (true) or without base present
+	 *            (false)
+	 * @return the tool command
+	 */
+	abstract public String getCommand(boolean withBase);
 
 }
