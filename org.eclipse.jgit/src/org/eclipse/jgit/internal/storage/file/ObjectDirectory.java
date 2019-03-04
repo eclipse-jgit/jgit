@@ -686,8 +686,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 				// Don't remove the pack from the list, as the error may be
 				// transient.
 				LOG.error(MessageFormat.format(errTmpl,
-						p.getPackFile().getAbsolutePath()),
-						Integer.valueOf(transientErrorCount), e);
+						p.getPackFile().getAbsolutePath(),
+						Integer.valueOf(transientErrorCount)), e);
 			}
 		}
 	}
