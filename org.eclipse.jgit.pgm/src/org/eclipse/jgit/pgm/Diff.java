@@ -87,7 +87,7 @@ class Diff extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator newTree;
 
-	@Option(name = "--cached", usage = "usage_cached")
+	@Option(name = "--cached", aliases = { "--staged" }, usage = "usage_cached")
 	private boolean cached;
 
 	@Option(name = "--", metaVar = "metaVar_paths", handler = PathTreeFilterHandler.class)
