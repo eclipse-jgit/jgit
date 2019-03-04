@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "169342c1_e41ba6c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-04T15:37:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0734f274_0f68fb9e",
+      "revId": "e324a1a700d855089664d9470ef11d1106303325",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7da3b1a2_1db2b998",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-04T15:36:16Z",
       "side": 1,
       "message": "externalize error message",
+      "revId": "e324a1a700d855089664d9470ef11d1106303325",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd772b8e_62594c1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-04T15:37:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da3b1a2_1db2b998",
       "revId": "e324a1a700d855089664d9470ef11d1106303325",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
