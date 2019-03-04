@@ -44,41 +44,70 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The user-defined merge tool.
+ * The pre-defined merge tool.
  *
  */
-public class UserDefinedMergeTool extends UserDefinedDiffTool
-		implements IMergeTool {
+public class PreDefinedMergeTool extends UserDefinedMergeTool {
 
 	/**
-	 * the merge tool "trust exit code" option
-	 */
-	protected BooleanOption trustExitCode;
-
-	/**
-	 * Creates the merge tool
+	 * Creates the pre-defined merge tool
 	 *
 	 * @param name
 	 *            the name
 	 * @param path
 	 *            the path
-	 * @param cmd
-	 *            the command
+	 * @param parameters
+	 *            the tool parameters that are used together with path as
+	 *            command
 	 * @param trustExitCode
 	 *            the "trust exit code" option
 	 */
-	public UserDefinedMergeTool(final String name, final String path,
-			final String cmd, final BooleanOption trustExitCode) {
-		super(name, path, cmd);
+	public PreDefinedMergeTool(final String name, final String path,
+			final String parameters, final BooleanOption trustExitCode) {
+		super(name, path, parameters, trustExitCode);
+	}
+
+	/**
+	 * @param path
+	 */
+	public void setPath(String path) {
+		// handling of spaces in path
+		if (path.contains(" ")) { //$NON-NLS-1$
+			// add quotes before if needed
+			if (!path.startsWith("\"")) { //$NON-NLS-1$
+				path = "\"" + path; //$NON-NLS-1$
+			}
+			// add quotes after if needed
+			if (!path.endsWith("\"")) { //$NON-NLS-1$
+				path = path + "\""; //$NON-NLS-1$
+			}
+		}
+		this.path = path;
+	}
+
+	/**
+	 * @param parameters
+	 *            the parameters that are added to the tool path (stored as cmd
+	 *            in extended class)
+	 */
+	public void setParameters(String parameters) {
+		this.cmd = parameters;
+	}
+
+	/**
+	 * @param trustExitCode
+	 *            the "trust exit code" option
+	 */
+	public void setTrustExitCode(BooleanOption trustExitCode) {
 		this.trustExitCode = trustExitCode;
 	}
 
 	/**
-	 * @return the "trust exit code" flag
+	 * @return the tool command
 	 */
 	@Override
-	public BooleanOption getTrustExitCode() {
-		return trustExitCode;
+	public String getCommand() {
+		return path + " " + cmd; //$NON-NLS-1$
 	}
 
 }
