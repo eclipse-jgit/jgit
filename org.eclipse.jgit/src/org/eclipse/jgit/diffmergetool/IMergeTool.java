@@ -52,6 +52,6 @@ public interface IMergeTool extends IDiffTool {
 	/**
 	 * @return the tool "trust exit code" option
 	 */
-	public boolean isTrustExitCode();
+	public BooleanOption getTrustExitCode();
 
 }
