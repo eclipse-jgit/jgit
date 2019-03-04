@@ -137,7 +137,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Djava.io.tmpdir=${project.build.directory}  -Xmx300m</argLine>
+          <argLine>@{argLine} -Djava.io.tmpdir=${project.build.directory}  -Xmx300m</argLine>
         </configuration>
       </plugin>
     </plugins>

@@ -394,11 +394,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *         <code>base</code> (and thus <code>base</code> is fully merged
 	 *         into <code>tip</code>); false otherwise.
 	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             one or or more of the next commit's parents are not available
+	 *             one or more of the next commit's parents are not available
 	 *             from the object database, but were thought to be candidates
 	 *             for traversal. This usually indicates a broken link.
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
-	 *             one or or more of the next commit's parents are not actually
+	 *             one or more of the next commit's parents are not actually
 	 *             commit objects.
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
@@ -431,11 +431,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @return next most recent commit; null if traversal is over.
 	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             one or or more of the next commit's parents are not available
+	 *             one or more of the next commit's parents are not available
 	 *             from the object database, but were thought to be candidates
 	 *             for traversal. This usually indicates a broken link.
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
-	 *             one or or more of the next commit's parents are not actually
+	 *             one or more of the next commit's parents are not actually
 	 *             commit objects.
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.

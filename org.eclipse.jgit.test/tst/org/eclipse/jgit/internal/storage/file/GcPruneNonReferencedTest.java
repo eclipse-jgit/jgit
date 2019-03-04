@@ -63,7 +63,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		RevBlob a = tr.blob("a");
 		gc.setExpire(new Date(lastModified(a)));
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertTrue(repo.hasObject(a));
+		assertTrue(repo.getObjectDatabase().has(a));
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertFalse(repo.hasObject(a));
+		assertFalse(repo.getObjectDatabase().has(a));
 	}
 
 	@Test
@@ -82,8 +82,8 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertFalse(repo.hasObject(t));
-		assertFalse(repo.hasObject(a));
+		assertFalse(repo.getObjectDatabase().has(t));
+		assertFalse(repo.getObjectDatabase().has(a));
 	}
 
 	@Test
@@ -95,8 +95,8 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		RevBlob b = tr.blob("b");
 
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertFalse(repo.hasObject(a));
-		assertTrue(repo.hasObject(b));
+		assertFalse(repo.getObjectDatabase().has(a));
+		assertTrue(repo.getObjectDatabase().has(b));
 	}
 
 	@Test

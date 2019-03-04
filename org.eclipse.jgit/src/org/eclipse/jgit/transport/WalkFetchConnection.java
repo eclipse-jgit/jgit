@@ -555,10 +555,10 @@ class WalkFetchConnection extends BaseFetchConnection {
 				continue;
 			} finally {
 				// If the pack was good its in the local repository
-				// and Repository.hasObject(id) will succeed in the
-				// future, so we do not need this data anymore. If
-				// it failed the index and pack are unusable and we
-				// shouldn't consult them again.
+				// and Repository.getObjectDatabase().has(id) will
+				// succeed in the future, so we do not need this
+				// data any more. If it failed the index and pack
+				// are unusable and we shouldn't consult them again.
 				//
 				try {
 					if (pack.tmpIdx != null)

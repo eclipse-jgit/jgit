@@ -216,15 +216,16 @@ public class PushConnectionTest {
 
 	@Test
 	public void commandOrder() throws Exception {
-		TestRepository<?> tr = new TestRepository<>(client);
 		List<RemoteRefUpdate> updates = new ArrayList<>();
-		// Arbitrary non-sorted order.
-		for (int i = 9; i >= 0; i--) {
-			String name = "refs/heads/b" + i;
-			tr.branch(name).commit().create();
-			RemoteRefUpdate rru = new RemoteRefUpdate(client, name, name, false, null,
-					ObjectId.zeroId());
-			updates.add(rru);
+		try (TestRepository<?> tr = new TestRepository<>(client)) {
+			// Arbitrary non-sorted order.
+			for (int i = 9; i >= 0; i--) {
+				String name = "refs/heads/b" + i;
+				tr.branch(name).commit().create();
+				RemoteRefUpdate rru = new RemoteRefUpdate(client, name, name,
+						false, null, ObjectId.zeroId());
+				updates.add(rru);
+			}
 		}
 
 		PushResult result;

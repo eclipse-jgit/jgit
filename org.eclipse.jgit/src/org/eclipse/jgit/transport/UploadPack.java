@@ -43,8 +43,10 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.unmodifiableMap;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
@@ -75,12 +77,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -97,6 +101,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
@@ -274,7 +279,10 @@ public class UploadPack {
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
 
-	/** The refs we advertised as existing at the start of the connection. */
+	/**
+	 * Refs eligible for advertising to the client, set using
+	 * {@link #setAdvertisedRefs}.
+	 */
 	private Map<String, Ref> refs;
 
 	/** Hook used while processing Git protocol v2 requests. */
@@ -282,6 +290,9 @@ public class UploadPack {
 
 	/** Hook used while advertising the refs to the client. */
 	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+
+	/** Whether the {@link #advertiseRefsHook} has been invoked. */
+	private boolean advertiseRefsHookCalled;
 
 	/** Filter used while advertising the refs to the client. */
 	private RefFilter refFilter = RefFilter.DEFAULT;
@@ -413,7 +424,7 @@ public class UploadPack {
 	 *            configured {@link #getRefFilter()}. If null, assumes all refs
 	 *            were advertised.
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
+	public void setAdvertisedRefs(@Nullable Map<String, Ref> allRefs) {
 		if (allRefs != null)
 			refs = allRefs;
 		else
@@ -537,7 +548,7 @@ public class UploadPack {
 	 *            custom validator for client want list.
 	 * @since 3.1
 	 */
-	public void setRequestValidator(RequestValidator validator) {
+	public void setRequestValidator(@Nullable RequestValidator validator) {
 		requestValidator = validator != null ? validator
 				: new AdvertisedRequestValidator();
 	}
@@ -571,21 +582,21 @@ public class UploadPack {
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
 	 */
-	public void setAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook) {
-		if (advertiseRefsHook != null)
-			this.advertiseRefsHook = advertiseRefsHook;
-		else
-			this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+	public void setAdvertiseRefsHook(
+			@Nullable AdvertiseRefsHook advertiseRefsHook) {
+		this.advertiseRefsHook = advertiseRefsHook != null ? advertiseRefsHook
+				: AdvertiseRefsHook.DEFAULT;
 	}
 
 	/**
 	 * Set the protocol V2 hook.
 	 *
 	 * @param hook
+	 *            the hook; if null no special actions are taken.
 	 * @since 5.1
 	 */
-	public void setProtocolV2Hook(ProtocolV2Hook hook) {
-		this.protocolV2Hook = hook;
+	public void setProtocolV2Hook(@Nullable ProtocolV2Hook hook) {
+		this.protocolV2Hook = hook != null ? hook : ProtocolV2Hook.DEFAULT;
 	}
 
 	/**
@@ -600,7 +611,7 @@ public class UploadPack {
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
 	 */
-	public void setRefFilter(RefFilter refFilter) {
+	public void setRefFilter(@Nullable RefFilter refFilter) {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
@@ -619,7 +630,7 @@ public class UploadPack {
 	 * @param hook
 	 *            the hook; if null no special actions are taken.
 	 */
-	public void setPreUploadHook(PreUploadHook hook) {
+	public void setPreUploadHook(@Nullable PreUploadHook hook) {
 		preUploadHook = hook != null ? hook : PreUploadHook.NULL;
 	}
 
@@ -640,7 +651,7 @@ public class UploadPack {
 	 *            the hook; if null no special actions are taken.
 	 * @since 4.1
 	 */
-	public void setPostUploadHook(PostUploadHook hook) {
+	public void setPostUploadHook(@Nullable PostUploadHook hook) {
 		postUploadHook = hook != null ? hook : PostUploadHook.NULL;
 	}
 
@@ -651,7 +662,7 @@ public class UploadPack {
 	 *            configuration controlling packing parameters. If null the
 	 *            source repository's settings will be used.
 	 */
-	public void setPackConfig(PackConfig pc) {
+	public void setPackConfig(@Nullable PackConfig pc) {
 		this.packConfig = pc;
 	}
 
@@ -663,7 +674,7 @@ public class UploadPack {
 	 *            repository's settings will be used.
 	 * @since 3.1
 	 */
-	public void setTransferConfig(TransferConfig tc) {
+	public void setTransferConfig(@Nullable TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
 		if (transferConfig.isAllowTipSha1InWant()) {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
@@ -794,9 +805,138 @@ public class UploadPack {
 	}
 
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
-		if (refs == null)
-			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
+		if (refs != null) {
+			return refs;
+		}
+
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null) {
+			// Fall back to all refs.
+			setAdvertisedRefs(
+					db.getRefDatabase().getRefs().stream()
+						.collect(toMap(Ref::getName, identity())));
+		}
 		return refs;
+	}
+
+	private Map<String, Ref> getFilteredRefs(Collection<String> refPrefixes)
+					throws IOException {
+		if (refPrefixes.isEmpty()) {
+			return getAdvertisedOrDefaultRefs();
+		}
+		if (refs == null && !advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null) {
+			// Fast path: the advertised refs hook did not set advertised refs.
+			String[] prefixes = refPrefixes.toArray(new String[0]);
+			Map<String, Ref> rs =
+					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
+						.collect(toMap(Ref::getName, identity(), (a, b) -> b));
+			if (refFilter != RefFilter.DEFAULT) {
+				return refFilter.filter(rs);
+			}
+			return transferConfig.getRefFilter().filter(rs);
+		}
+
+		// Slow path: filter the refs provided by the advertised refs hook.
+		// refFilter has already been applied to refs.
+		return refs.values().stream()
+				.filter(ref -> refPrefixes.stream()
+						.anyMatch(ref.getName()::startsWith))
+				.collect(toMap(Ref::getName, identity()));
+	}
+
+	/**
+	 * Returns the specified references.
+	 * <p>
+	 * This produces an immutable map containing whatever subset of the
+	 * refs named by the caller are present in the supplied {@code refs}
+	 * map.
+	 *
+	 * @param refs
+	 *            Map to search for refs to return.
+	 * @param names
+	 *            which refs to search for in {@code refs}.
+	 * @return the requested Refs, omitting any that are null or missing.
+	 */
+	@NonNull
+	private static Map<String, Ref> mapRefs(
+			Map<String, Ref> refs, List<String> names) {
+		return unmodifiableMap(
+				names.stream()
+					.map(refs::get)
+					.filter(Objects::nonNull)
+					.collect(toMap(Ref::getName, identity(), (a, b) -> b)));
+	}
+
+	/**
+	 * Read refs on behalf of the client.
+	 * <p>
+	 * This checks whether the refs are present in the ref advertisement
+	 * since otherwise the client might not be supposed to be able to
+	 * read them.
+	 *
+	 * @param names
+	 *            unabbreviated names of references.
+	 * @return the requested Refs, omitting any that are not visible or
+	 *         do not exist.
+	 * @throws java.io.IOException
+	 *            on failure to read a ref or check it for visibility.
+	 */
+	@NonNull
+	private Map<String, Ref> exactRefs(List<String> names) throws IOException {
+		if (refs != null) {
+			return mapRefs(refs, names);
+		}
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null &&
+				refFilter == RefFilter.DEFAULT &&
+				transferConfig.hasDefaultRefFilter()) {
+			// Fast path: no ref filtering is needed.
+			String[] ns = names.toArray(new String[0]);
+			return unmodifiableMap(db.getRefDatabase().exactRef(ns));
+		}
+		return mapRefs(getAdvertisedOrDefaultRefs(), names);
+	}
+
+	/**
+	 * Find a ref in the usual search path on behalf of the client.
+	 * <p>
+	 * This checks that the ref is present in the ref advertisement since
+	 * otherwise the client might not be supposed to be able to read it.
+	 *
+	 * @param name
+	 *            short name of the ref to find, e.g. "master" to find
+	 *            "refs/heads/master".
+	 * @return the requested Ref, or {@code null} if it is not visible or
+	 *         does not exist.
+	 * @throws java.io.IOException
+	 *            on failure to read the ref or check it for visibility.
+	 */
+	@Nullable
+	private Ref findRef(String name) throws IOException {
+		if (refs != null) {
+			return RefDatabase.findRef(refs, name);
+		}
+		if (!advertiseRefsHookCalled) {
+			advertiseRefsHook.advertiseRefs(this);
+			advertiseRefsHookCalled = true;
+		}
+		if (refs == null &&
+				refFilter == RefFilter.DEFAULT &&
+				transferConfig.hasDefaultRefFilter()) {
+			// Fast path: no ref filtering is needed.
+			return db.getRefDatabase().findRef(name);
+		}
+		return RefDatabase.findRef(getAdvertisedOrDefaultRefs(), name);
 	}
 
 	private void service() throws IOException {
@@ -921,22 +1061,38 @@ public class UploadPack {
 		if (req.getPeel()) {
 			adv.setDerefTags(true);
 		}
-		Map<String, Ref> refsToSend;
-		if (req.getRefPrefixes().isEmpty()) {
-			refsToSend = getAdvertisedOrDefaultRefs();
-		} else {
-			refsToSend = new HashMap<>();
-			String[] prefixes = req.getRefPrefixes().toArray(new String[0]);
-			for (Ref ref : db.getRefDatabase().getRefsByPrefix(prefixes)) {
-				refsToSend.put(ref.getName(), ref);
-			}
-		}
+		Map<String, Ref> refsToSend = getFilteredRefs(req.getRefPrefixes());
 		if (req.getSymrefs()) {
 			findSymrefs(adv, refsToSend);
 		}
 
 		adv.send(refsToSend);
 		adv.end();
+	}
+
+	// Resolves ref names from the request's want-ref lines to
+	// object ids, throwing PackProtocolException if any are missing.
+	private Map<String, ObjectId> wantedRefs(FetchV2Request req)
+			throws IOException {
+		Map<String, ObjectId> result = new TreeMap<>();
+
+		List<String> wanted = req.getWantedRefs();
+		Map<String, Ref> resolved = exactRefs(wanted);
+
+		for (String refName : wanted) {
+			Ref ref = resolved.get(refName);
+			if (ref == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			ObjectId oid = ref.getObjectId();
+			if (oid == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, refName));
+			}
+			result.put(refName, oid);
+		}
+		return result;
 	}
 
 	private void fetchV2() throws IOException {
@@ -953,8 +1109,7 @@ public class UploadPack {
 		}
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn,
-				db.getRefDatabase());
+		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
 		rawOut.stopBuffering();
 
@@ -962,17 +1117,20 @@ public class UploadPack {
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
-		wantIds = req.getWantIds();
-
 		List<ObjectId> deepenNots = new ArrayList<>();
 		for (String s : req.getDeepenNotRefs()) {
-			Ref ref = db.getRefDatabase().getRef(s);
+			Ref ref = findRef(s);
 			if (ref == null) {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().invalidRefName, s));
 			}
 			deepenNots.add(ref.getObjectId());
 		}
+
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+		// TODO(ifrade): Avoid mutating the parsed request.
+		req.getWantIds().addAll(wantedRefs.values());
+		wantIds = req.getWantIds();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1027,13 +1185,13 @@ public class UploadPack {
 				sectionSent = true;
 			}
 
-			if (!req.getWantedRefs().isEmpty()) {
+			if (!wantedRefs.isEmpty()) {
 				if (sectionSent) {
 					pckOut.writeDelim();
 				}
 				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
-				for (Map.Entry<String, ObjectId> entry : req.getWantedRefs()
-						.entrySet()) {
+				for (Map.Entry<String, ObjectId> entry :
+						wantedRefs.entrySet()) {
 					pckOut.writeString(entry.getValue().getName() + ' ' +
 							entry.getKey() + '\n');
 				}
@@ -1286,15 +1444,7 @@ public class UploadPack {
 			return;
 		}
 
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
+		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 
 		if (serviceName != null) {
 			adv.writeOne("# service=" + serviceName + '\n'); //$NON-NLS-1$
@@ -1326,7 +1476,6 @@ public class UploadPack {
 			adv.advertiseCapability(OPTION_FILTER);
 		}
 		adv.setDerefTags(true);
-		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
 		advertised = adv.send(advertisedOrDefaultRefs);
 		if (adv.isEmpty())
@@ -1374,6 +1523,20 @@ public class UploadPack {
 		if (currentRequest == null)
 			throw new RequestNotYetReadException();
 		return currentRequest.getDepth();
+	}
+
+	/**
+	 * Returns the filter blob limit for the current request. Valid only after
+	 * calling recvWants(). A limit -1 means no limit.
+	 *
+	 * @return filter blob limit requested by the client, or -1 if no limit
+	 * @since 5.3
+	 */
+	public long getFilterBlobLimit() {
+		if (currentRequest == null) {
+			throw new RequestNotYetReadException();
+		}
+		return currentRequest.getFilterBlobLimit();
 	}
 
 	/**
@@ -1971,6 +2134,7 @@ public class UploadPack {
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 
+				@SuppressWarnings("resource") // Ownership is transferred below
 				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
 						walk.getObjectReader(), walkDepth);
 				dw.setDeepenSince(req.getDeepenSince());

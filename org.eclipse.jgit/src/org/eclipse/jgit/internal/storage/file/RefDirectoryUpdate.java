@@ -87,7 +87,7 @@ class RefDirectoryUpdate extends RefUpdate {
 		String name = dst.getName();
 		lock = new LockFile(database.fileFor(name));
 		if (lock.lock()) {
-			dst = database.getRef(name);
+			dst = database.findRef(name);
 			setOldObjectId(dst != null ? dst.getObjectId() : null);
 			return true;
 		} else {

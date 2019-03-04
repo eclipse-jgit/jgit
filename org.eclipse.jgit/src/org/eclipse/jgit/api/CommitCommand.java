@@ -61,6 +61,7 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -76,6 +77,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -84,10 +88,12 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -139,6 +145,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private Boolean allowEmpty;
 
+	private Boolean signCommit;
+
+	private String signingKey;
+
+	private GpgSigner gpgSigner;
+
+	private CredentialsProvider credentialsProvider;
+
 	/**
 	 * Constructor for CommitCommand
 	 *
@@ -147,6 +161,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	protected CommitCommand(Repository repo) {
 		super(repo);
+		this.credentialsProvider = CredentialsProvider.getDefault();
 	}
 
 	/**
@@ -251,6 +266,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 				commit.setParentIds(parents);
 				commit.setTreeId(indexTreeId);
+
+				if (signCommit.booleanValue()) {
+					gpgSigner.sign(commit, signingKey, committer,
+							credentialsProvider);
+				}
+
 				ObjectId commitId = odi.insert(commit);
 				odi.flush();
 
@@ -517,9 +538,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
+	 * @throws UnsupportedSigningFormatException if the configured gpg.format is not supported
 	 */
 	private void processOptions(RepositoryState state, RevWalk rw)
-			throws NoMessageException {
+			throws NoMessageException, UnsupportedSigningFormatException {
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null && !amend)
@@ -572,6 +594,25 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// as long as we don't support -C option we have to have
 			// an explicit message
 			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
+
+		GpgConfig gpgConfig = new GpgConfig(repo.getConfig());
+		if (signCommit == null) {
+			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
+					: Boolean.FALSE;
+		}
+		if (signingKey == null) {
+			signingKey = gpgConfig.getSigningKey();
+		}
+		if (gpgSigner == null) {
+			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
+				throw new UnsupportedSigningFormatException(
+						JGitText.get().onlyOpenPgpSupportedForSigning);
+			}
+			gpgSigner = GpgSigner.getDefault();
+			if (gpgSigner == null) {
+				gpgSigner = new BouncyCastleGpgSigner();
+			}
+		}
 	}
 
 	private boolean isMergeDuringRebase(RepositoryState state) {
@@ -872,5 +913,56 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		}
 		hookOutRedirect.put(hookName, hookStdOut);
 		return this;
+	}
+
+	/**
+	 * Sets the signing key
+	 * <p>
+	 * Per spec of user.signingKey: this will be sent to the GPG program as is,
+	 * i.e. can be anything supported by the GPG program.
+	 * </p>
+	 * <p>
+	 * Note, if none was set or <code>null</code> is specified a default will be
+	 * obtained from the configuration.
+	 * </p>
+	 *
+	 * @param signingKey
+	 *            signing key (maybe <code>null</code>)
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public CommitCommand setSigningKey(String signingKey) {
+		checkCallable();
+		this.signingKey = signingKey;
+		return this;
+	}
+
+	/**
+	 * Sets whether the commit should be signed.
+	 *
+	 * @param sign
+	 *            <code>true</code> to sign, <code>false</code> to not sign and
+	 *            <code>null</code> for default behavior (read from
+	 *            configuration)
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public CommitCommand setSign(Boolean sign) {
+		checkCallable();
+		this.signCommit = sign;
+		return this;
+	}
+
+	/**
+	 * Sets a {@link CredentialsProvider}
+	 *
+	 * @param credentialsProvider
+	 *            the provider to use when querying for credentials (eg., during
+	 *            signing)
+	 * @since 5.3
+	 */
+	public void setCredentialsProvider(
+			CredentialsProvider credentialsProvider) {
+		this.credentialsProvider = credentialsProvider;
 	}
 }

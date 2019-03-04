@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -115,7 +116,7 @@ class Push extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			PushCommand push = git.push();
 			push.setDryRun(dryRun);
@@ -123,10 +124,12 @@ class Push extends TextBuiltin {
 			push.setProgressMonitor(new TextProgressMonitor(errw));
 			push.setReceivePack(receivePack);
 			push.setRefSpecs(refSpecs);
-			if (all)
+			if (all) {
 				push.setPushAll();
-			if (tags)
+			}
+			if (tags) {
 				push.setPushTags();
+			}
 			push.setRemote(remote);
 			push.setThin(thin);
 			push.setAtomic(atomic);
@@ -140,6 +143,8 @@ class Push extends TextBuiltin {
 					printPushResult(reader, result.getURI(), result);
 				}
 			}
+		} catch (GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 

@@ -160,7 +160,6 @@ public class GC {
 	 *
 	 * @param e
 	 *            the executor to be used for running auto-gc
-	 * @since 4.8
 	 */
 	public static void setExecutor(ExecutorService e) {
 		executor = e;
@@ -911,7 +910,8 @@ public class GC {
 		// Avoid deleting a folder that was created after the threshold so that concurrent
 		// operations trying to create a reference are not impacted
 		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
-		try (Stream<Path> entries = Files.list(refs)) {
+		try (Stream<Path> entries = Files.list(refs)
+				.filter(Files::isDirectory)) {
 			Iterator<Path> iterator = entries.iterator();
 			while (iterator.hasNext()) {
 				try (Stream<Path> s = Files.list(iterator.next())) {

@@ -95,7 +95,7 @@ public class RefDatabaseConflictingNamesTest {
 		}
 
 		@Override
-		public Ref getRef(String name) throws IOException {
+		public Ref exactRef(String name) throws IOException {
 			return null;
 		}
 

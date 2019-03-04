@@ -415,6 +415,10 @@ public class RefSpec implements Serializable {
 	 * Does this specification's destination description contain (is a superset
 	 * of) all the refs in the given ref pattern?
 	 * <p>
+	 * This can be useful when executing 2 or more pulls at the same time.
+	 * destinationContains will identify if the destination patterns will
+	 * overwrite each other.
+	 * <p>
 	 * For example, if this object has the destination "refs/remotes/origin/*",
 	 * then {@code this.destinationContains("refs/remotes/origin/master/*")} is
 	 * true. The operation is symmetric only if the two destination patterns are
@@ -434,6 +438,10 @@ public class RefSpec implements Serializable {
 	/**
 	 * Does this specification's destination description contain (is a superset
 	 * of) all the refs in the given RefSpec's destination?
+	 * <p>
+	 * This can be useful when executing 2 or more pulls at the same time.
+	 * destinationContains will identify if the RefSpecs will overwrite each
+	 * other.
 	 * <p>
 	 * For example, if this object has the destination "refs/remotes/origin/*",
 	 * then {@code this.destinationContains(new RefSpec(

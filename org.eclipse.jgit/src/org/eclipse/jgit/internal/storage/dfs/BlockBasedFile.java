@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -130,18 +129,18 @@ abstract class BlockBasedFile {
 	}
 
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
-		return cache.getOrLoad(this, pos, ctx, null);
+		try (LazyChannel c = new LazyChannel(ctx, desc, ext)) {
+			return cache.getOrLoad(this, pos, ctx, c);
+		}
 	}
 
-	DfsBlock readOneBlock(long pos, DfsReader ctx,
-			@Nullable ReadableChannel fileChannel) throws IOException {
+	DfsBlock readOneBlock(long pos, DfsReader ctx, ReadableChannel rc)
+			throws IOException {
 		if (invalid)
 			throw new PackInvalidException(getFileName());
 
 		ctx.stats.readBlock++;
 		long start = System.nanoTime();
-		ReadableChannel rc = fileChannel != null ? fileChannel
-				: ctx.db.openFile(desc, ext);
 		try {
 			int size = blockSize(rc);
 			pos = (pos / size) * size;
@@ -189,9 +188,6 @@ abstract class BlockBasedFile {
 
 			return new DfsBlock(key, pos, buf);
 		} finally {
-			if (rc != fileChannel) {
-				rc.close();
-			}
 			ctx.stats.readBlockMicros += elapsedMicros(start);
 		}
 	}
@@ -206,5 +202,38 @@ abstract class BlockBasedFile {
 
 	static long elapsedMicros(long start) {
 		return (System.nanoTime() - start) / 1000L;
+	}
+
+	/**
+	 * A supplier of readable channel that opens the channel lazily.
+	 */
+	private static class LazyChannel
+			implements AutoCloseable, DfsBlockCache.ReadableChannelSupplier {
+		private final DfsReader ctx;
+		private final DfsPackDescription desc;
+		private final PackExt ext;
+
+		private ReadableChannel rc;
+
+		LazyChannel(DfsReader ctx, DfsPackDescription desc, PackExt ext) {
+			this.ctx = ctx;
+			this.desc = desc;
+			this.ext = ext;
+		}
+
+		@Override
+		public ReadableChannel get() throws IOException {
+			if (rc == null) {
+				rc = ctx.db.openFile(desc, ext);
+			}
+			return rc;
+		}
+
+		@Override
+		public void close() throws IOException {
+			if (rc != null) {
+				rc.close();
+			}
+		}
 	}
 }

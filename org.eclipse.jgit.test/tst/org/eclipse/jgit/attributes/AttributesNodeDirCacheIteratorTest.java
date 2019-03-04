@@ -64,7 +64,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests attributes node behavior on the the index.
+ * Tests attributes node behavior on the index.
  */
 public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 

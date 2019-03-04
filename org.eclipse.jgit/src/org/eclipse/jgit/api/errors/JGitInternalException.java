@@ -44,7 +44,7 @@ package org.eclipse.jgit.api.errors;
  * <p>
  * During command execution a lot of exceptions may be thrown. Some of them
  * represent error situations which can be handled specifically by the caller of
- * the command. But a lot of exceptions are so low-level that is is unlikely
+ * the command. But a lot of exceptions are so low-level that it is unlikely
  * that the caller of the command can handle them effectively. The huge number
  * of these low-level exceptions which are thrown by the commands lead to a
  * complicated and wide interface of the commands. Callers of the API have to

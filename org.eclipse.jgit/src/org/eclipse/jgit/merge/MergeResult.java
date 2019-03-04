@@ -119,7 +119,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 
 	/**
 	 * Returns the common predecessor sequence and the merged sequence in one
-	 * list. The common predecessor is is the first element in the list
+	 * list. The common predecessor is the first element in the list
 	 *
 	 * @return the common predecessor at position 0 followed by the merged
 	 *         sequences.

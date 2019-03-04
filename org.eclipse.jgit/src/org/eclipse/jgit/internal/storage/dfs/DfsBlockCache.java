@@ -49,9 +49,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 import java.util.stream.LongStream;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -128,8 +128,17 @@ public final class DfsBlockCache {
 	/** Hash bucket directory; entries are chained below. */
 	private final AtomicReferenceArray<HashEntry> table;
 
-	/** Locks to prevent concurrent loads for same (PackFile,position). */
+	/**
+	 * Locks to prevent concurrent loads for same (PackFile,position) block. The
+	 * number of locks is {@link DfsBlockCacheConfig#getConcurrencyLevel()} to
+	 * cap the overall concurrent block loads.
+	 */
 	private final ReentrantLock[] loadLocks;
+
+	/**
+	 * A separate pool of locks to prevent concurrent loads for same index or bitmap from PackFile.
+	 */
+	private final ReentrantLock[] refLocks;
 
 	/** Maximum number of bytes the cache should hold. */
 	private final long maxBytes;
@@ -177,19 +186,30 @@ public final class DfsBlockCache {
 	/** Protects the clock and its related data. */
 	private final ReentrantLock clockLock;
 
+	/**
+	 * A consumer of object reference lock wait time milliseconds.  May be used to build a metric.
+	 */
+	private final Consumer<Long> refLockWaitTime;
+
 	/** Current position of the clock. */
 	private Ref clockHand;
 
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
 		tableSize = tableSize(cfg);
-		if (tableSize < 1)
+		if (tableSize < 1) {
 			throw new IllegalArgumentException(JGitText.get().tSizeMustBeGreaterOrEqual1);
+		}
 
 		table = new AtomicReferenceArray<>(tableSize);
 		loadLocks = new ReentrantLock[cfg.getConcurrencyLevel()];
-		for (int i = 0; i < loadLocks.length; i++)
+		for (int i = 0; i < loadLocks.length; i++) {
 			loadLocks[i] = new ReentrantLock(true /* fair */);
+		}
+		refLocks = new ReentrantLock[cfg.getConcurrencyLevel()];
+		for (int i = 0; i < refLocks.length; i++) {
+			refLocks[i] = new ReentrantLock(true /* fair */);
+		}
 
 		maxBytes = cfg.getBlockLimit();
 		maxStreamThroughCache = (long) (maxBytes * cfg.getStreamRatio());
@@ -207,6 +227,8 @@ public final class DfsBlockCache {
 		statMiss = new AtomicReference<>(newCounters());
 		statEvict = new AtomicReference<>(newCounters());
 		liveBytes = new AtomicReference<>(newCounters());
+
+		refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 	}
 
 	boolean shouldCopyThroughCache(long length) {
@@ -333,15 +355,17 @@ public final class DfsBlockCache {
 	private static int tableSize(DfsBlockCacheConfig cfg) {
 		final int wsz = cfg.getBlockSize();
 		final long limit = cfg.getBlockLimit();
-		if (wsz <= 0)
+		if (wsz <= 0) {
 			throw new IllegalArgumentException(JGitText.get().invalidWindowSize);
-		if (limit < wsz)
+		}
+		if (limit < wsz) {
 			throw new IllegalArgumentException(JGitText.get().windowSizeMustBeLesserThanLimit);
+		}
 		return (int) Math.min(5 * (limit / wsz) / 2, Integer.MAX_VALUE);
 	}
 
 	/**
-	 * Lookup a cached object, creating and loading it if it doesn't exist.
+	 * Look up a cached object, creating and loading it if it doesn't exist.
 	 *
 	 * @param file
 	 *            the pack that "contains" the cached object.
@@ -350,13 +374,13 @@ public final class DfsBlockCache {
 	 * @param ctx
 	 *            current thread's reader.
 	 * @param fileChannel
-	 *            optional channel to read {@code pack}.
+	 *            supplier for channel to read {@code pack}.
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
 	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
-			@Nullable ReadableChannel fileChannel) throws IOException {
+			ReadableChannelSupplier fileChannel) throws IOException {
 		final long requestedPosition = position;
 		position = file.alignToBlock(position);
 
@@ -388,11 +412,13 @@ public final class DfsBlockCache {
 			getStat(statMiss, key).incrementAndGet();
 			boolean credit = true;
 			try {
-				v = file.readOneBlock(requestedPosition, ctx, fileChannel);
+				v = file.readOneBlock(requestedPosition, ctx,
+						fileChannel.get());
 				credit = false;
 			} finally {
-				if (credit)
+				if (credit) {
 					creditSpace(blockSize, key);
+				}
 			}
 			if (position != v.start) {
 				// The file discovered its blockSize and adjusted.
@@ -405,8 +431,9 @@ public final class DfsBlockCache {
 			ref.hot = true;
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
-				if (table.compareAndSet(slot, e2, n))
+				if (table.compareAndSet(slot, e2, n)) {
 					break;
+				}
 				e2 = table.get(slot);
 			}
 			addToClock(ref, blockSize - v.size());
@@ -416,8 +443,9 @@ public final class DfsBlockCache {
 
 		// If the block size changed from the default, it is possible the block
 		// that was loaded is the wrong block for the requested position.
-		if (v.contains(file.key, requestedPosition))
+		if (v.contains(file.key, requestedPosition)) {
 			return v;
+		}
 		return getOrLoad(file, requestedPosition, ctx, fileChannel);
 	}
 
@@ -488,6 +516,63 @@ public final class DfsBlockCache {
 		put(v.stream, v.start, v.size(), v);
 	}
 
+	/**
+	 * Look up a cached object, creating and loading it if it doesn't exist.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param loader
+	 *            the function to load the reference.
+	 * @return the object reference.
+	 * @throws IOException
+	 *             the reference was not in the cache and could not be loaded.
+	 */
+	<T> Ref<T> getOrLoadRef(DfsStreamKey key, RefLoader<T> loader)
+			throws IOException {
+		int slot = slot(key, 0);
+		HashEntry e1 = table.get(slot);
+		Ref<T> ref = scanRef(e1, key, 0);
+		if (ref != null) {
+			getStat(statHit, key).incrementAndGet();
+			return ref;
+		}
+
+		ReentrantLock regionLock = lockForRef(key);
+		long lockStart = System.currentTimeMillis();
+		regionLock.lock();
+		try {
+			HashEntry e2 = table.get(slot);
+			if (e2 != e1) {
+				ref = scanRef(e2, key, 0);
+				if (ref != null) {
+					getStat(statHit, key).incrementAndGet();
+					return ref;
+				}
+			}
+
+			if (refLockWaitTime != null) {
+				refLockWaitTime.accept(
+						Long.valueOf(System.currentTimeMillis() - lockStart));
+			}
+			getStat(statMiss, key).incrementAndGet();
+			ref = loader.load();
+			ref.hot = true;
+			// Reserve after loading to get the size of the object
+			reserveSpace(ref.size, key);
+			for (;;) {
+				HashEntry n = new HashEntry(clean(e2), ref);
+				if (table.compareAndSet(slot, e2, n)) {
+					break;
+				}
+				e2 = table.get(slot);
+			}
+			addToClock(ref, 0);
+		} finally {
+			regionLock.unlock();
+		}
+		return ref;
+	}
+
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
 		return put(key, 0, (int) Math.min(size, Integer.MAX_VALUE), v);
 	}
@@ -496,8 +581,9 @@ public final class DfsBlockCache {
 		int slot = slot(key, pos);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, pos);
-		if (ref != null)
+		if (ref != null) {
 			return ref;
+		}
 
 		reserveSpace(size, key);
 		ReentrantLock regionLock = lockFor(key, pos);
@@ -516,8 +602,9 @@ public final class DfsBlockCache {
 			ref.hot = true;
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
-				if (table.compareAndSet(slot, e2, n))
+				if (table.compareAndSet(slot, e2, n)) {
 					break;
+				}
 				e2 = table.get(slot);
 			}
 			addToClock(ref, 0);
@@ -534,10 +621,11 @@ public final class DfsBlockCache {
 	@SuppressWarnings("unchecked")
 	<T> T get(DfsStreamKey key, long position) {
 		T val = (T) scan(table.get(slot(key, position)), key, position);
-		if (val == null)
+		if (val == null) {
 			getStat(statMiss, key).incrementAndGet();
-		else
+		} else {
 			getStat(statHit, key).incrementAndGet();
+		}
 		return val;
 	}
 
@@ -546,21 +634,13 @@ public final class DfsBlockCache {
 		return r != null ? r.get() : null;
 	}
 
-	<T> Ref<T> getRef(DfsStreamKey key) {
-		Ref<T> r = scanRef(table.get(slot(key, 0)), key, 0);
-		if (r != null)
-			getStat(statHit, key).incrementAndGet();
-		else
-			getStat(statMiss, key).incrementAndGet();
-		return r;
-	}
-
 	@SuppressWarnings("unchecked")
 	private <T> Ref<T> scanRef(HashEntry n, DfsStreamKey key, long position) {
 		for (; n != null; n = n.next) {
 			Ref<T> r = n.ref;
-			if (r.position == position && r.key.equals(key))
+			if (r.position == position && r.key.equals(key)) {
 				return r.get() != null ? r : null;
+			}
 		}
 		return null;
 	}
@@ -571,6 +651,10 @@ public final class DfsBlockCache {
 
 	private ReentrantLock lockFor(DfsStreamKey key, long position) {
 		return loadLocks[(hash(key.hash, position) >>> 1) % loadLocks.length];
+	}
+
+	private ReentrantLock lockForRef(DfsStreamKey key) {
+		return refLocks[(key.hash >>> 1) % refLocks.length];
 	}
 
 	private static AtomicLong[] newCounters() {
@@ -613,8 +697,9 @@ public final class DfsBlockCache {
 	private static HashEntry clean(HashEntry top) {
 		while (top != null && top.ref.next == null)
 			top = top.next;
-		if (top == null)
+		if (top == null) {
 			return null;
+		}
 		HashEntry n = clean(top.next);
 		return n == top.next ? top : new HashEntry(n, top.ref);
 	}
@@ -649,13 +734,31 @@ public final class DfsBlockCache {
 
 		T get() {
 			T v = value;
-			if (v != null)
+			if (v != null) {
 				hot = true;
+			}
 			return v;
 		}
 
 		boolean has() {
 			return value != null;
 		}
+	}
+
+	@FunctionalInterface
+	interface RefLoader<T> {
+		Ref<T> load() throws IOException;
+	}
+
+	/**
+	 * Supplier for readable channel
+	 */
+	@FunctionalInterface
+	interface ReadableChannelSupplier {
+		/**
+		 * @return ReadableChannel
+		 * @throws IOException
+		 */
+		ReadableChannel get() throws IOException;
 	}
 }

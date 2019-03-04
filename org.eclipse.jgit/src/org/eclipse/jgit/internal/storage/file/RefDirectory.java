@@ -74,6 +74,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -319,16 +320,14 @@ public class RefDirectory extends RefDatabase {
 		return loose;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public Ref exactRef(String name) throws IOException {
-		RefList<Ref> packed = getPackedRefs();
-		Ref ref;
+	@Nullable
+	private Ref readAndResolve(String name, RefList<Ref> packed) throws IOException {
 		try {
-			ref = readRef(name, packed);
+			Ref ref = readRef(name, packed);
 			if (ref != null) {
 				ref = resolve(ref, 0, null, null, packed);
 			}
+			return ref;
 		} catch (IOException e) {
 			if (name.contains("/") //$NON-NLS-1$
 					|| !(e.getCause() instanceof InvalidObjectIdException)) {
@@ -338,35 +337,55 @@ public class RefDirectory extends RefDatabase {
 			// While looking for a ref outside of refs/ (e.g., 'config'), we
 			// found a non-ref file (e.g., a config file) instead.  Treat this
 			// as a ref-not-found condition.
-			ref = null;
+			return null;
 		}
-		fireRefsChanged();
-		return ref;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(String needle) throws IOException {
-		final RefList<Ref> packed = getPackedRefs();
-		Ref ref = null;
-		for (String prefix : SEARCH_PATH) {
-			try {
-				ref = readRef(prefix + needle, packed);
+	public Ref exactRef(String name) throws IOException {
+		try {
+			return readAndResolve(name, getPackedRefs());
+		} finally {
+			fireRefsChanged();
+		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	@NonNull
+	public Map<String, Ref> exactRef(String... refs) throws IOException {
+		try {
+			RefList<Ref> packed = getPackedRefs();
+			Map<String, Ref> result = new HashMap<>(refs.length);
+			for (String name : refs) {
+				Ref ref = readAndResolve(name, packed);
 				if (ref != null) {
-					ref = resolve(ref, 0, null, null, packed);
-				}
-				if (ref != null) {
-					break;
-				}
-			} catch (IOException e) {
-				if (!(!needle.contains("/") && "".equals(prefix) && e //$NON-NLS-1$ //$NON-NLS-2$
-						.getCause() instanceof InvalidObjectIdException)) {
-					throw e;
+					result.put(name, ref);
 				}
 			}
+			return result;
+		} finally {
+			fireRefsChanged();
 		}
-		fireRefsChanged();
-		return ref;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	@Nullable
+	public Ref firstExactRef(String... refs) throws IOException {
+		try {
+			RefList<Ref> packed = getPackedRefs();
+			for (String name : refs) {
+				Ref ref = readAndResolve(name, packed);
+				if (ref != null) {
+					return ref;
+				}
+			}
+			return null;
+		} finally {
+			fireRefsChanged();
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -414,7 +433,7 @@ public class RefDirectory extends RefDatabase {
 	public List<Ref> getAdditionalRefs() throws IOException {
 		List<Ref> ret = new LinkedList<>();
 		for (String name : additionalRefsNames) {
-			Ref r = getRef(name);
+			Ref r = exactRef(name);
 			if (r != null)
 				ret.add(r);
 		}

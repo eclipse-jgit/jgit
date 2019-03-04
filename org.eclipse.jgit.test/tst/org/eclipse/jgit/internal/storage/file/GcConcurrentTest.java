@@ -169,7 +169,7 @@ public class GcConcurrentTest extends GcTestCase {
 		gc2.gc();
 
 		// Simulate parts of an UploadPack. This is the situation on
-		// server side (e.g. gerrit) when when clients are
+		// server side (e.g. gerrit) when clients are
 		// cloning/fetching while the server side repo's
 		// are gc'ed by an external process (e.g. scheduled
 		// native git gc)

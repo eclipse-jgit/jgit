@@ -51,7 +51,6 @@ import org.apache.sshd.common.config.keys.FilePasswordProvider;
  * A {@link FilePasswordProvider} augmented to support repeatedly asking for
  * passwords.
  *
- * @since 5.2
  */
 public interface RepeatingFilePasswordProvider extends FilePasswordProvider {
 

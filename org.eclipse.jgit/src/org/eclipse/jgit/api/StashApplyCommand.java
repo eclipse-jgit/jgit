@@ -96,9 +96,9 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private String stashRef;
 
-	private boolean applyIndex = true;
+	private boolean restoreIndex = true;
 
-	private boolean applyUntracked = true;
+	private boolean restoreUntracked = true;
 
 	private boolean ignoreRepositoryState;
 
@@ -196,7 +196,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					.getParent(1));
 			ObjectId stashHeadCommit = stashCommit.getParent(0);
 			ObjectId untrackedCommit = null;
-			if (applyUntracked && stashCommit.getParentCount() == 3)
+			if (restoreUntracked && stashCommit.getParentCount() == 3)
 				untrackedCommit = revWalk.parseCommit(stashCommit.getParent(2));
 
 			ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
@@ -216,7 +216,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 						dc, merger.getResultTreeId());
 				dco.setFailOnConflict(true);
 				dco.checkout(); // Ignoring failed deletes....
-				if (applyIndex) {
+				if (restoreIndex) {
 					ResolveMerger ixMerger = (ResolveMerger) strategy
 							.newMerger(repo, true);
 					ixMerger.setCommitNames(new String[] { "stashed HEAD", //$NON-NLS-1$
@@ -277,9 +277,24 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *
 	 * @param applyIndex
 	 *            true (default) if the command should restore the index state
+	 * @deprecated use {@link #setRestoreIndex} instead
 	 */
+	@Deprecated
 	public void setApplyIndex(boolean applyIndex) {
-		this.applyIndex = applyIndex;
+		this.restoreIndex = applyIndex;
+	}
+
+	/**
+	 * Whether to restore the index state
+	 *
+	 * @param restoreIndex
+	 *            true (default) if the command should restore the index state
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public StashApplyCommand setRestoreIndex(boolean restoreIndex) {
+		this.restoreIndex = restoreIndex;
+		return this;
 	}
 
 	/**
@@ -302,9 +317,24 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * @param applyUntracked
 	 *            true (default) if the command should restore untracked files
 	 * @since 3.4
+	 * @deprecated use {@link #setRestoreUntracked} instead
 	 */
+	@Deprecated
 	public void setApplyUntracked(boolean applyUntracked) {
-		this.applyUntracked = applyUntracked;
+		this.restoreUntracked = applyUntracked;
+	}
+
+	/**
+	 * Whether the command should restore untracked files
+	 *
+	 * @param restoreUntracked
+	 *            true (default) if the command should restore untracked files
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public StashApplyCommand setRestoreUntracked(boolean restoreUntracked) {
+		this.restoreUntracked = restoreUntracked;
+		return this;
 	}
 
 	private void resetIndex(RevTree tree) throws IOException {

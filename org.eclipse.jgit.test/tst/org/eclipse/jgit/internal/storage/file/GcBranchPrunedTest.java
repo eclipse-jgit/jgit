@@ -66,11 +66,11 @@ public class GcBranchPrunedTest extends GcTestCase {
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		do {
-			assertTrue(repo.hasObject(tip));
+			assertTrue(repo.getObjectDatabase().has(tip));
 			tr.parseBody(tip);
 			RevTree t = tip.getTree();
-			assertTrue(repo.hasObject(t));
-			assertTrue(repo.hasObject(tr.get(t, "a")));
+			assertTrue(repo.getObjectDatabase().has(t));
+			assertTrue(repo.getObjectDatabase().has(tr.get(t, "a")));
 			tip = tip.getParentCount() > 0 ? tip.getParent(0) : null;
 		} while (tip != null);
 	}
@@ -114,6 +114,6 @@ public class GcBranchPrunedTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
-		assertTrue(repo.hasObject(b2Tip));
+		assertTrue(repo.getObjectDatabase().has(b2Tip));
 	}
 }

@@ -162,7 +162,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private String name;
 
-	private boolean force = false;
+	private boolean forceRefUpdate = false;
+
+	private boolean forced = false;
 
 	private boolean createBranch = false;
 
@@ -269,7 +271,11 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			try {
 				dco = new DirCacheCheckout(repo, headTree, dc,
 						newCommit.getTree());
-				dco.setFailOnConflict(!force);
+				dco.setFailOnConflict(true);
+				dco.setForce(forced);
+				if (forced) {
+					dco.setFailOnConflict(false);
+				}
 				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
@@ -286,7 +292,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				ref = null;
 			String toName = Repository.shortenRefName(name);
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, ref == null);
-			refUpdate.setForceUpdate(force);
+			refUpdate.setForceUpdate(forceRefUpdate);
 			refUpdate.setRefLogMessage(refLogMessage + " to " + toName, false); //$NON-NLS-1$
 			Result updateResult;
 			if (ref != null)
@@ -666,10 +672,54 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *            set to a new start-point; if false, the existing branch will
 	 *            not be changed
 	 * @return this instance
+	 * @deprecated this method was badly named comparing its semantics to native
+	 *             git's checkout --force option, use
+	 *             {@link #setForceRefUpdate(boolean)} instead
 	 */
+	@Deprecated
 	public CheckoutCommand setForce(boolean force) {
+		return setForceRefUpdate(force);
+	}
+
+	/**
+	 * Specify to force the ref update in case of a branch switch.
+	 *
+	 * In releases prior to 5.2 this method was called setForce() but this name
+	 * was misunderstood to implement native git's --force option, which is not
+	 * true.
+	 *
+	 * @param forceRefUpdate
+	 *            if <code>true</code> and the branch with the given name
+	 *            already exists, the start-point of an existing branch will be
+	 *            set to a new start-point; if false, the existing branch will
+	 *            not be changed
+	 * @return this instance
+	 * @since 5.3
+	 */
+	public CheckoutCommand setForceRefUpdate(boolean forceRefUpdate) {
 		checkCallable();
-		this.force = force;
+		this.forceRefUpdate = forceRefUpdate;
+		return this;
+	}
+
+	/**
+	 * Allow a checkout even if the workingtree or index differs from HEAD. This
+	 * matches native git's '--force' option.
+	 *
+	 * JGit releases before 5.2 had a method <code>setForce()</code> offering
+	 * semantics different from this new <code>setForced()</code>. This old
+	 * semantic can now be found in {@link #setForceRefUpdate(boolean)}
+	 *
+	 * @param forced
+	 *            if set to <code>true</code> then allow the checkout even if
+	 *            workingtree or index doesn't match HEAD. Overwrite workingtree
+	 *            files and index content with the new content in this case.
+	 * @return this instance
+	 * @since 5.3
+	 */
+	public CheckoutCommand setForced(boolean forced) {
+		checkCallable();
+		this.forced = forced;
 		return this;
 	}
 

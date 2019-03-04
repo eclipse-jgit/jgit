@@ -47,11 +47,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeNoException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
@@ -92,16 +94,17 @@ public class FSTest {
 	public void testSymlinkAttributes() throws IOException, InterruptedException {
 		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = FS.DETECTED;
-		File link = new File(trash, "ä");
-		File target = new File(trash, "å");
-		fs.createSymLink(link, "å");
+		File link = new File(trash, "a");
+		File target = new File(trash, "b");
+		fs.createSymLink(link, "b");
 		assertTrue(fs.exists(link));
 		String targetName = fs.readSymLink(link);
-		assertEquals("å", targetName);
+		assertEquals("b", targetName);
 		assertTrue(fs.lastModified(link) > 0);
 		assertTrue(fs.exists(link));
 		assertFalse(fs.canExecute(link));
-		assertEquals(2, fs.length(link));
+		// The length of a symbolic link is a length of the target file path.
+		assertEquals(1, fs.length(link));
 		assertFalse(fs.exists(target));
 		assertFalse(fs.isFile(target));
 		assertFalse(fs.isDirectory(target));
@@ -118,6 +121,32 @@ public class FSTest {
 		assertFalse(fs.canExecute(link));
 		assumeTrue(fs.supportsExecute());
 		assertTrue(fs.canExecute(target));
+	}
+
+	@Test
+	public void testUnicodeFilePath() throws IOException {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		FS fs = FS.DETECTED;
+		File link = new File(trash, "ä");
+		File target = new File(trash, "å");
+
+		try {
+			// Check if the runtime can support Unicode file paths.
+			link.toPath();
+			target.toPath();
+		} catch (InvalidPathException e) {
+			// When executing a test with LANG environment variable set to non
+			// UTF-8 encoding, it seems that JRE cannot handle Unicode file
+			// paths. This happens when this test is executed in Bazel as it
+			// unsets LANG
+			// (https://docs.bazel.build/versions/master/test-encyclopedia.html#initial-conditions).
+			// Skip the test if the runtime cannot handle Unicode characters.
+			assumeNoException(e);
+		}
+
+		fs.createSymLink(link, "å");
+		assertTrue(fs.exists(link));
+		assertEquals("å", fs.readSymLink(link));
 	}
 
 	@Test

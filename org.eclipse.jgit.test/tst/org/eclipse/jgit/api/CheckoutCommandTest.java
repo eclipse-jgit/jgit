@@ -63,6 +63,7 @@ import java.net.URISyntaxException;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -109,7 +110,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("Test.txt").call();
 		initialCommit = git.commit().setMessage("Initial commit").call();
 
-		// create a master branch and switch to it
+		// create a test branch and switch to it
 		git.branchCreate().setName("test").call();
 		RefUpdate rup = db.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test");
@@ -135,6 +136,19 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 				indexState(CONTENT));
 		assertEquals("refs/heads/master", result.getName());
 		assertEquals("refs/heads/master", git.getRepository().getFullBranch());
+	}
+
+	@Test
+	public void testCheckoutForced() throws Exception {
+		writeTrashFile("Test.txt", "Garbage");
+		try {
+			git.checkout().setName("master").call().getObjectId();
+			fail("Expected CheckoutConflictException didn't occur");
+		} catch (CheckoutConflictException e) {
+			// Expected
+		}
+		assertEquals(initialCommit.getId(), git.checkout().setName("master")
+				.setForced(true).call().getObjectId());
 	}
 
 	@Test
@@ -165,7 +179,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			assertEquals(Status.CONFLICTS, co.getResult().getStatus());
 			assertTrue(co.getResult().getConflictList().contains("Test.txt"));
 		}
-		git.checkout().setName("master").setForce(true).call();
+		git.checkout().setName("master").setForced(true).call();
 		assertThat(read("Test.txt"), is("Hello world"));
 	}
 

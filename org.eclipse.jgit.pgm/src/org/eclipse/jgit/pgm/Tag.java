@@ -48,12 +48,14 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListTagCommand;
 import org.eclipse.jgit.api.TagCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -82,7 +84,7 @@ class Tag extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			if (tagName != null) {
 				if (delete) {
@@ -115,6 +117,8 @@ class Tag extends TextBuiltin {
 					outw.println(Repository.shortenRefName(ref.getName()));
 				}
 			}
+		} catch (GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }

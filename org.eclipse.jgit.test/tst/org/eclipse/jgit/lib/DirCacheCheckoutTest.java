@@ -267,10 +267,10 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testInitialCheckout() throws Exception {
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(db);
+				TestRepository<Repository> db_t = new TestRepository<>(db)) {
 			handle = db.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
-			TestRepository<Repository> db_t = new TestRepository<>(db);
 			BranchBuilder master = db_t.branch("master");
 			master.commit().add("f", "1").message("m0").create();
 			assertFalse(new File(db.getWorkTree(), "f").exists());

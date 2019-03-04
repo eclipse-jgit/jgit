@@ -57,6 +57,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -297,7 +298,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * Get the used file system abstraction.
 	 *
-	 * @return the used file system abstraction, or or {@code null} if
+	 * @return the used file system abstraction, or {@code null} if
 	 *         repository isn't local.
 	 */
 	/*
@@ -319,13 +320,14 @@ public abstract class Repository implements AutoCloseable {
 	 *            a {@link org.eclipse.jgit.lib.AnyObjectId} object.
 	 * @return true if the specified object is stored in this repo or any of the
 	 *         known shared repositories.
+	 * @deprecated use {@code getObjectDatabase().has(objectId)}
 	 */
+	@Deprecated
 	public boolean hasObject(AnyObjectId objectId) {
 		try {
 			return getObjectDatabase().has(objectId);
 		} catch (IOException e) {
-			// Legacy API, assume error means "no"
-			return false;
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -849,7 +851,7 @@ public abstract class Repository implements AutoCloseable {
 			return ObjectId.fromString(revstr);
 
 		if (Repository.isValidRefName("x/" + revstr)) { //$NON-NLS-1$
-			Ref r = getRefDatabase().getRef(revstr);
+			Ref r = getRefDatabase().findRef(revstr);
 			if (r != null)
 				return r.getObjectId();
 		}
@@ -1079,7 +1081,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @param name
 	 *            the name of the ref to lookup. May be a short-hand form, e.g.
-	 *            "master" which is is automatically expanded to
+	 *            "master" which is automatically expanded to
 	 *            "refs/heads/master" if "refs/heads/master" already exists.
 	 * @return the Ref with the given name, or {@code null} if it does not exist
 	 * @throws java.io.IOException
@@ -1087,7 +1089,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	@Nullable
 	public final Ref findRef(String name) throws IOException {
-		return getRefDatabase().getRef(name);
+		return getRefDatabase().findRef(name);
 	}
 
 	/**
@@ -1103,7 +1105,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(RefDatabase.ALL);
 		} catch (IOException e) {
-			return new HashMap<>();
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -1121,7 +1123,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
-			return new HashMap<>();
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -1320,9 +1322,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.MERGING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// Can't decide whether unmerged paths exists. Return
-				// MERGING state to be on the safe side (in state MERGING
-				// you are not allow to do anything)
+				throw new UncheckedIOException(e);
 			}
 			return RepositoryState.MERGING;
 		}
@@ -1337,7 +1337,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.CHERRY_PICKING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// fall through to CHERRY_PICKING
+				throw new UncheckedIOException(e);
 			}
 
 			return RepositoryState.CHERRY_PICKING;
@@ -1350,7 +1350,7 @@ public abstract class Repository implements AutoCloseable {
 					return RepositoryState.REVERTING_RESOLVED;
 				}
 			} catch (IOException e) {
-				// fall through to REVERTING
+				throw new UncheckedIOException(e);
 			}
 
 			return RepositoryState.REVERTING;

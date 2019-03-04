@@ -280,7 +280,7 @@ public abstract class Reftable implements AutoCloseable {
 		if (dst == null) {
 			return null; // claim it doesn't exist
 		}
-		return new SymbolicRef(ref.getName(), dst);
+		return new SymbolicRef(ref.getName(), dst, ref.getUpdateIndex());
 	}
 
 	/** {@inheritDoc} */

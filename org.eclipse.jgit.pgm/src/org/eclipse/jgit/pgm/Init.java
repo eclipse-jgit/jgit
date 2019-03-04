@@ -49,10 +49,12 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
@@ -74,7 +76,7 @@ class Init extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		InitCommand command = Git.init();
 		command.setBare(bare);
 		if (gitdir != null) {
@@ -83,9 +85,14 @@ class Init extends TextBuiltin {
 		if (directory != null) {
 			command.setDirectory(new File(directory));
 		}
-		Repository repository = command.call().getRepository();
-		outw.println(MessageFormat.format(
-				CLIText.get().initializedEmptyGitRepositoryIn, repository
-						.getDirectory().getAbsolutePath()));
+		Repository repository;
+		try {
+			repository = command.call().getRepository();
+			outw.println(MessageFormat.format(
+					CLIText.get().initializedEmptyGitRepositoryIn,
+					repository.getDirectory().getAbsolutePath()));
+		} catch (GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
+		}
 	}
 }

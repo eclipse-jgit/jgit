@@ -182,7 +182,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>4.11.0.201803080745-r</jgit-last-release-version>
+    <jgit-last-release-version>5.2.0.201812061821-r</jgit-last-release-version>
     <apache-sshd-version>2.0.0</apache-sshd-version>
     <jsch-version>0.1.54</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
@@ -193,16 +193,17 @@
     <commons-compress-version>1.18</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>3.1.0</servlet-api-version>
-    <jetty-version>9.4.11.v20180605</jetty-version>
+    <jetty-version>9.4.14.v20181114</jetty-version>
     <japicmp-version>0.13.0</japicmp-version>
-    <httpclient-version>4.5.5</httpclient-version>
-    <httpcore-version>4.4.9</httpcore-version>
+    <httpclient-version>4.5.6</httpclient-version>
+    <httpcore-version>4.4.10</httpcore-version>
     <slf4j-version>1.7.2</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
-    <tycho-extras-version>1.2.0</tycho-extras-version>
+    <tycho-extras-version>1.3.0</tycho-extras-version>
     <gson-version>2.8.2</gson-version>
-    <spotbugs-maven-plugin-version>3.1.9</spotbugs-maven-plugin-version>
+    <bouncycastle-version>1.60</bouncycastle-version>
+    <spotbugs-maven-plugin-version>3.1.11</spotbugs-maven-plugin-version>
     <maven-surefire-version>2.22.1</maven-surefire-version>
     <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
     <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
@@ -211,7 +212,7 @@
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <repositories>
@@ -238,7 +239,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -297,6 +298,7 @@
           <configuration>
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
+            <argLine>@{argLine}</argLine>
           </configuration>
         </plugin>
 
@@ -364,7 +366,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.2</version>
+          <version>0.8.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -374,7 +376,7 @@
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
               <artifactId>wagon-ssh</artifactId>
-              <version>3.2.0</version>
+              <version>3.3.2</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -392,6 +394,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>${maven-project-info-reports-plugin-version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>2.1.2.RELEASE</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -498,6 +506,7 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>default-prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
@@ -510,6 +519,38 @@
                 <exclude>**/*Test*.*</exclude>
               </excludes>
               <append>true</append>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+            <haltOnFailure>false</haltOnFailure>
+            <rules>
+              <rule>
+                <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>50%</minimum>
+                    </limit>
+                    <limit>
+                      <counter>CLASS</counter>
+                      <value>MISSEDCOUNT</value>
+                      <maximum>10</maximum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
             </configuration>
           </execution>
         </executions>
@@ -589,6 +630,24 @@
           </reportSet>
         </reportSets>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
     </plugins>
   </reporting>
 
@@ -639,7 +698,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.6</version>
+        <version>1.8</version>
         <optional>true</optional>
       </dependency>
 
@@ -708,6 +767,25 @@
         <artifactId>gson</artifactId>
         <version>${gson-version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpg-jdk15on</artifactId>
+        <version>${bouncycastle-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15on</artifactId>
+        <version>${bouncycastle-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpkix-jdk15on</artifactId>
+        <version>${bouncycastle-version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -783,14 +861,14 @@
               <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-compiler-javac-errorprone</artifactId>
-                <version>2.8.4</version>
+                <version>2.8.5</version>
               </dependency>
               <!-- override plexus-compiler-javac-errorprone's dependency on
                   Error Prone with the latest version -->
               <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <version>2.3.2</version>
+                <version>2.3.3</version>
               </dependency>
             </dependencies>
           </plugin>
@@ -823,12 +901,12 @@
               <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-compiler-eclipse</artifactId>
-                <version>2.8.4</version>
+                <version>2.8.5</version>
               </dependency>
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.15.0</version>
+                <version>3.16.0</version>
               </dependency>
             </dependencies>
           </plugin>
@@ -938,6 +1016,8 @@
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
     <module>org.eclipse.jgit.ssh.apache.test</module>
+
+    <module>org.eclipse.jgit.coverage</module>
   </modules>
 
 </project>

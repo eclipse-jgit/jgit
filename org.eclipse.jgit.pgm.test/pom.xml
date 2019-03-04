@@ -109,7 +109,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Djava.io.tmpdir=${project.build.directory}</argLine>
+          <argLine>@{argLine} -Djava.io.tmpdir=${project.build.directory}</argLine>
         </configuration>
       </plugin>
     </plugins>

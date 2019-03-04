@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.transport.ssh;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -54,7 +56,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,7 +151,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		knownHosts = new File(sshDir, "known_hosts");
 		Files.write(knownHosts.toPath(), Collections.singleton("[localhost]:"
 				+ testPort + ' '
-				+ publicHostKey.toString(StandardCharsets.US_ASCII.name())));
+				+ publicHostKey.toString(US_ASCII.name())));
 		factory = createSessionFactory();
 		SshSessionFactory.setInstance(factory);
 	}
@@ -200,8 +201,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 	 */
 	protected static String createKnownHostsFile(File file, String host,
 			int port, File publicKey) throws IOException {
-		List<String> lines = Files.readAllLines(publicKey.toPath(),
-				StandardCharsets.UTF_8);
+		List<String> lines = Files.readAllLines(publicKey.toPath(), UTF_8);
 		assertEquals("Public key has too many lines", 1, lines.size());
 		String pubKey = lines.get(0);
 		// Strip off the comment.

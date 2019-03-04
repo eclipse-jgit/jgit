@@ -67,7 +67,26 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public Unpeeled(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id) {
-			super(st, name, id);
+			super(st, name, id, -1);
+		}
+
+		/**
+		 * Create a new ref pairing with update index.
+		 *
+		 * @param st
+		 *            method used to store this ref.
+		 * @param name
+		 *            name of this ref.
+		 * @param id
+		 *            current value of the ref. May be {@code null} to indicate
+		 *            a ref that does not exist yet.
+		 * @param updateIndex
+		 *            number increasing with each update to the reference.
+		 * @since 5.3
+		 */
+		public Unpeeled(@NonNull Storage st, @NonNull String name,
+				@Nullable ObjectId id, long updateIndex) {
+			super(st, name, id, updateIndex);
 		}
 
 		@Override
@@ -100,7 +119,29 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public PeeledTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id, @NonNull ObjectId p) {
-			super(st, name, id);
+			super(st, name, id, -1);
+			peeledObjectId = p;
+		}
+
+		/**
+		 * Create a new ref pairing with update index.
+		 *
+		 * @param st
+		 *            method used to store this ref.
+		 * @param name
+		 *            name of this ref.
+		 * @param id
+		 *            current value of the ref. May be {@code null} to indicate
+		 *            a ref that does not exist yet.
+		 * @param p
+		 *            the first non-tag object that tag {@code id} points to.
+		 * @param updateIndex
+		 *            number increasing with each update to the reference.
+		 * @since 5.3
+		 */
+		public PeeledTag(@NonNull Storage st, @NonNull String name,
+				@Nullable ObjectId id, @NonNull ObjectId p, long updateIndex) {
+			super(st, name, id, updateIndex);
 			peeledObjectId = p;
 		}
 
@@ -131,7 +172,26 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public PeeledNonTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id) {
-			super(st, name, id);
+			super(st, name, id, -1);
+		}
+
+		/**
+		 * Create a new ref pairing with update index.
+		 *
+		 * @param st
+		 *            method used to store this ref.
+		 * @param name
+		 *            name of this ref.
+		 * @param id
+		 *            current value of the ref. May be {@code null} to indicate
+		 *            a ref that does not exist yet.
+		 * @param updateIndex
+		 *            number increasing with each update to the reference.
+		 * @since 5.3
+		 */
+		public PeeledNonTag(@NonNull Storage st, @NonNull String name,
+				@Nullable ObjectId id, long updateIndex) {
+			super(st, name, id, updateIndex);
 		}
 
 		@Override
@@ -152,6 +212,8 @@ public abstract class ObjectIdRef implements Ref {
 
 	private final ObjectId objectId;
 
+	private final long updateIndex;
+
 	/**
 	 * Create a new ref pairing.
 	 *
@@ -162,12 +224,17 @@ public abstract class ObjectIdRef implements Ref {
 	 * @param id
 	 *            current value of the ref. May be {@code null} to indicate a
 	 *            ref that does not exist yet.
+	 * @param updateIndex
+	 *            number that increases with each ref update. Set to -1 if the
+	 *            storage doesn't support versioning.
+	 * @since 5.3
 	 */
 	protected ObjectIdRef(@NonNull Storage st, @NonNull String name,
-			@Nullable ObjectId id) {
+			@Nullable ObjectId id, long updateIndex) {
 		this.name = name;
 		this.storage = st;
 		this.objectId = id;
+		this.updateIndex = updateIndex;
 	}
 
 	/** {@inheritDoc} */
@@ -211,6 +278,18 @@ public abstract class ObjectIdRef implements Ref {
 		return storage;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @since 5.3
+	 */
+	@Override
+	public long getUpdateIndex() {
+		if (updateIndex == -1) {
+			throw new UnsupportedOperationException();
+		}
+		return updateIndex;
+	}
+
 	/** {@inheritDoc} */
 	@NonNull
 	@Override
@@ -220,7 +299,9 @@ public abstract class ObjectIdRef implements Ref {
 		r.append(getName());
 		r.append('=');
 		r.append(ObjectId.toString(getObjectId()));
-		r.append(']');
+		r.append('(');
+		r.append(updateIndex); // Print value, even if -1
+		r.append(")]"); //$NON-NLS-1$
 		return r.toString();
 	}
 }

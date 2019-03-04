@@ -146,7 +146,7 @@ public class WindowCache {
 	 * Modify the configuration of the window cache.
 	 * <p>
 	 * The new configuration is applied immediately. If the new limits are
-	 * smaller than what what is currently cached, older entries will be purged
+	 * smaller than what is currently cached, older entries will be purged
 	 * as soon as possible to allow the cache to meet the new limit.
 	 *
 	 * @deprecated use {@code cfg.install()} to avoid internal reference.

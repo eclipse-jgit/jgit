@@ -106,7 +106,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djgit.test.long=true</argLine>
+              <argLine>@{argLine} -Djgit.test.long=true</argLine>
             </configuration>
           </plugin>
         </plugins>
@@ -133,7 +133,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx1024m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
+          <argLine>@{argLine} -Xmx1024m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>

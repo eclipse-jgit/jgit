@@ -84,7 +84,7 @@ public abstract class SequenceComparator<S extends Sequence> {
 	 * method must produce the same integer result for both items.
 	 *
 	 * It is not required for two items to have different hash values if they
-	 * are are unequal according to the {@code equals()} method.
+	 * are unequal according to the {@code equals()} method.
 	 *
 	 * @param seq
 	 *            the sequence.

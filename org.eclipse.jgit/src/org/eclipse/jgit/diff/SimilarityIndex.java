@@ -236,7 +236,7 @@ public class SimilarityIndex {
 	 * A region of a file is defined as a line in a text file or a fixed-size
 	 * block in a binary file. To prepare an index, each region in the file is
 	 * hashed; the values and counts of hashes are retained in a sorted table.
-	 * Define the similarity fraction F as the the count of matching regions
+	 * Define the similarity fraction F as the count of matching regions
 	 * between the two files divided between the maximum count of regions in
 	 * either file. The similarity score is F multiplied by the maxScore
 	 * constant, yielding a range [0, maxScore]. It is defined as maxScore for

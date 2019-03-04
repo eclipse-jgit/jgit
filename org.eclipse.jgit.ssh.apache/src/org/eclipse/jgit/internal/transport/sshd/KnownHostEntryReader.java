@@ -42,13 +42,13 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.text.MessageFormat.format;
 import static org.apache.sshd.client.config.hosts.HostPatternsHolder.NON_STANDARD_PORT_PATTERN_ENCLOSURE_END_DELIM;
 import static org.apache.sshd.client.config.hosts.HostPatternsHolder.NON_STANDARD_PORT_PATTERN_ENCLOSURE_START_DELIM;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -99,8 +99,7 @@ public class KnownHostEntryReader {
 	public static List<KnownHostEntry> readFromFile(Path path)
 			throws IOException {
 		List<KnownHostEntry> result = new LinkedList<>();
-		try (BufferedReader r = Files.newBufferedReader(path,
-				StandardCharsets.UTF_8)) {
+		try (BufferedReader r = Files.newBufferedReader(path, UTF_8)) {
 			r.lines().forEachOrdered(l -> {
 				if (l == null) {
 					return;

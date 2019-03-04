@@ -394,10 +394,11 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @return the newly created repository, opened for access
 	 * @throws IOException
 	 *             the repository could not be created in the temporary area
+	 * @since 5.3
 	 */
-	private FileRepository createRepository(boolean bare)
+	protected FileRepository createRepository(boolean bare)
 			throws IOException {
-		return createRepository(bare, true /* auto close */);
+		return createRepository(bare, false /* auto close */);
 	}
 
 	/**
@@ -407,11 +408,13 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            true to create a bare repository; false to make a repository
 	 *            within its working directory
 	 * @param autoClose
-	 *            auto close the repository in #tearDown
+	 *            auto close the repository in {@link #tearDown()}
 	 * @return the newly created repository, opened for access
 	 * @throws IOException
 	 *             the repository could not be created in the temporary area
+	 * @deprecated use {@link #createRepository(boolean)} instead
 	 */
+	@Deprecated
 	public FileRepository createRepository(boolean bare, boolean autoClose)
 			throws IOException {
 		File gitdir = createUniqueTestGitDir(bare);

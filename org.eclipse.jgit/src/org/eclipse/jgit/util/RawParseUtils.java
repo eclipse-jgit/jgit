@@ -75,7 +75,9 @@ public final class RawParseUtils {
 	 * UTF-8 charset constant.
 	 *
 	 * @since 2.2
+	 * @deprecated use {@link java.nio.charset.StandardCharsets#UTF_8} instead
 	 */
+	@Deprecated
 	public static final Charset UTF8_CHARSET = UTF_8;
 
 	private static final byte[] digits10;

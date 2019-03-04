@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.KeyPair;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,6 @@ import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
@@ -89,7 +89,9 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 
 /**
- * A {@link SshSessionFactory} that uses Apache MINA sshd.
+ * A {@link SshSessionFactory} that uses Apache MINA sshd. Classes from Apache
+ * MINA sshd are kept private to avoid API evolution problems when Apache MINA
+ * sshd interfaces change.
  *
  * @since 5.2
  */
@@ -103,7 +105,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	private final Map<Tuple, ServerKeyVerifier> defaultServerKeyVerifier = new ConcurrentHashMap<>();
 
-	private final Map<Tuple, FileKeyPairProvider> defaultKeys = new ConcurrentHashMap<>();
+	private final Map<Tuple, Iterable<KeyPair>> defaultKeys = new ConcurrentHashMap<>();
 
 	private final KeyCache keyCache;
 
@@ -161,7 +163,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private static final class Tuple {
 		private Object[] objects;
 
-		public Tuple(Object... objects) {
+		public Tuple(Object[] objects) {
 			this.objects = objects;
 		}
 
@@ -209,8 +211,8 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				}
 				HostConfigEntryResolver configFile = getHostConfigEntryResolver(
 						home, sshDir);
-				KeyPairProvider defaultKeysProvider = getDefaultKeysProvider(
-						sshDir);
+				KeyPairProvider defaultKeysProvider = toKeyPairProvider(
+						getDefaultKeys(sshDir));
 				KeyPasswordProvider passphrases = createKeyPasswordProvider(
 						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
@@ -351,7 +353,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private HostConfigEntryResolver getHostConfigEntryResolver(
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
-				new Tuple(homeDir, sshDir),
+				new Tuple(new Object[] { homeDir, sshDir }),
 				t -> new JGitSshConfig(homeDir,
 						new File(sshDir, SshConstants.CONFIG),
 						getLocalUserName()));
@@ -375,7 +377,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	private ServerKeyVerifier getServerKeyVerifier(@NonNull File homeDir,
 			@NonNull File sshDir) {
 		return defaultServerKeyVerifier.computeIfAbsent(
-				new Tuple(homeDir, sshDir),
+				new Tuple(new Object[] { homeDir, sshDir }),
 				t -> new OpenSshServerKeyVerifier(true,
 						getDefaultKnownHostsFiles(sshDir)));
 	}
@@ -395,17 +397,58 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
-	 * Determines a {@link KeyPairProvider} to use to load the default keys.
+	 * Determines the default keys. The default implementation will lazy load
+	 * the {@link #getDefaultIdentities(File) default identity files}.
+	 * <p>
+	 * Subclasses may override and return an {@link Iterable} of whatever keys
+	 * are appropriate. If the returned iterable lazily loads keys, it should be
+	 * an instance of
+	 * {@link org.apache.sshd.common.keyprovider.AbstractResourceKeyPairProvider
+	 * AbstractResourceKeyPairProvider} so that the session can later pass it
+	 * the {@link #createKeyPasswordProvider(CredentialsProvider) password
+	 * provider} wrapped as a {@link FilePasswordProvider} via
+	 * {@link org.apache.sshd.common.keyprovider.AbstractResourceKeyPairProvider#setPasswordFinder(FilePasswordProvider)
+	 * AbstractResourceKeyPairProvider#setPasswordFinder(FilePasswordProvider)}
+	 * so that encrypted, password-protected keys can be loaded.
+	 * </p>
+	 * <p>
+	 * The default implementation uses exactly this mechanism; class
+	 * {@link CachingKeyPairProvider} may serve as a model for a customized
+	 * lazy-loading {@link Iterable} implementation
+	 * </p>
+	 * <p>
+	 * If the {@link Iterable} returned has the keys already pre-loaded or
+	 * otherwise doesn't need to decrypt encrypted keys, it can be any
+	 * {@link Iterable}, for instance a simple {@link java.util.List List}.
+	 * </p>
 	 *
 	 * @param sshDir
 	 *            to look in for keys
-	 * @return the {@link KeyPairProvider}
+	 * @return an {@link Iterable} over the default keys
+	 * @since 5.3
 	 */
 	@NonNull
-	private KeyPairProvider getDefaultKeysProvider(@NonNull File sshDir) {
-		return defaultKeys.computeIfAbsent(new Tuple(sshDir),
-				t -> new CachingKeyPairProvider(getDefaultIdentities(sshDir),
+	protected Iterable<KeyPair> getDefaultKeys(@NonNull File sshDir) {
+		List<Path> defaultIdentities = getDefaultIdentities(sshDir);
+		return defaultKeys.computeIfAbsent(
+				new Tuple(defaultIdentities.toArray(new Path[0])),
+				t -> new CachingKeyPairProvider(defaultIdentities,
 						getKeyCache()));
+	}
+
+	/**
+	 * Converts an {@link Iterable} of {link KeyPair}s into a
+	 * {@link KeyPairProvider}.
+	 *
+	 * @param keys
+	 *            to provide via the returned {@link KeyPairProvider}
+	 * @return a {@link KeyPairProvider} that provides the given {@code keys}
+	 */
+	private KeyPairProvider toKeyPairProvider(Iterable<KeyPair> keys) {
+		if (keys instanceof KeyPairProvider) {
+			return (KeyPairProvider) keys;
+		}
+		return () -> keys;
 	}
 
 	/**

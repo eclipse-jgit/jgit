@@ -110,9 +110,9 @@ then
 	LESS=${LESS:-FSRX}
 	export LESS
 
-	"$java" $java_args org.eclipse.jgit.pgm.Main "$@" | $use_pager
+	"$java" $java_args org.springframework.boot.loader.JarLauncher "$@" | $use_pager
 	exit
 else
-  exec "$java" $java_args org.eclipse.jgit.pgm.Main "$@"
+  exec "$java" $java_args org.springframework.boot.loader.JarLauncher "$@"
   exit 1
 fi

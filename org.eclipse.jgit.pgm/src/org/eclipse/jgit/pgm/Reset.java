@@ -49,6 +49,8 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
@@ -74,26 +76,33 @@ class Reset extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			ResetCommand command = git.reset();
 			command.setRef(commit);
 			if (paths.size() > 0) {
-				for (String path : paths)
+				for (String path : paths) {
 					command.addPath(path);
+				}
 			} else {
 				ResetType mode = null;
-				if (soft)
+				if (soft) {
 					mode = selectMode(mode, ResetType.SOFT);
-				if (mixed)
+				}
+				if (mixed) {
 					mode = selectMode(mode, ResetType.MIXED);
-				if (hard)
+				}
+				if (hard) {
 					mode = selectMode(mode, ResetType.HARD);
-				if (mode == null)
-					throw die("no reset mode set"); //$NON-NLS-1$
+				}
+				if (mode == null) {
+					throw die(CLIText.get().resetNoMode);
+				}
 				command.setMode(mode);
 			}
 			command.call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 

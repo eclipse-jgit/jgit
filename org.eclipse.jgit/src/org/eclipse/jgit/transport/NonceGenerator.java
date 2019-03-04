@@ -81,7 +81,7 @@ public interface NonceGenerator {
 	 *            such that the pusher cannot forge nonces by pushing to another
 	 *            repository at the same time as well and reusing the nonce.
 	 * @param allowSlop
-	 *            If the receiving backend is is able to generate slop. This is
+	 *            If the receiving backend is able to generate slop. This is
 	 *            the case for serving via http protocol using more than one
 	 *            http frontend. The client would talk to different http
 	 *            frontends, which may have a slight difference of time due to

@@ -1069,7 +1069,7 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("c.txt").call();
 		git.commit().setMessage("added c.txt").call();
 
-		// Get a handle to the the file so on windows it can't be deleted.
+		// Get a handle to the file so on windows it can't be deleted.
 		try (FileInputStream fis = new FileInputStream(
 				new File(db.getWorkTree(), "b.txt"))) {
 			MergeResult mergeRes = git.merge().setStrategy(strategy)
@@ -1360,14 +1360,15 @@ public class MergerTest extends RepositoryTestCase {
 	}
 
 	private String readBlob(ObjectId treeish, String path) throws Exception {
-		TestRepository<?> tr = new TestRepository<>(db);
-		RevWalk rw = tr.getRevWalk();
-		RevTree tree = rw.parseTree(treeish);
-		RevObject obj = tr.get(tree, path);
-		if (obj == null) {
-			return null;
+		try (TestRepository<?> tr = new TestRepository<>(db)) {
+			RevWalk rw = tr.getRevWalk();
+			RevTree tree = rw.parseTree(treeish);
+			RevObject obj = tr.get(tree, path);
+			if (obj == null) {
+				return null;
+			}
+			return new String(
+					rw.getObjectReader().open(obj, OBJ_BLOB).getBytes(), UTF_8);
 		}
-		return new String(rw.getObjectReader().open(obj, OBJ_BLOB).getBytes(),
-				UTF_8);
 	}
 }

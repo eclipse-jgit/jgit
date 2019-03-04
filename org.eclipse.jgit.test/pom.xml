@@ -76,9 +76,20 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.59</version>
       <scope>test</scope>
      </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpg-jdk15on</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -134,7 +145,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djgit.test.long=true</argLine>
+              <argLine>@{argLine} -Djgit.test.long=true</argLine>
             </configuration>
           </plugin>
         </plugins>
@@ -179,7 +190,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx1024m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
+          <argLine>@{argLine} -Xmx1024m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>

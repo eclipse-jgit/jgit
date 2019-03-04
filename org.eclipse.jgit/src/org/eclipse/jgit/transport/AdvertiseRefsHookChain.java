@@ -52,7 +52,7 @@ import java.util.List;
  * Hooks are run in the order passed to the constructor. A hook may inspect or
  * modify the results of the previous hooks in the chain by calling
  * {@link org.eclipse.jgit.transport.UploadPack#getAdvertisedRefs()}, or
- * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedRefs()} or
+ * {@link org.eclipse.jgit.transport.ReceivePack#getAdvertisedRefs()} or
  * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedObjects()}.
  */
 public class AdvertiseRefsHookChain implements AdvertiseRefsHook {

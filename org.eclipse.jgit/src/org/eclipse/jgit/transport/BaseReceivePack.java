@@ -80,6 +80,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
+import org.eclipse.jgit.internal.transport.parser.FirstCommand;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -119,10 +120,14 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Subclasses compose these operations into full service implementations.
  */
 public abstract class BaseReceivePack {
-	/** Data in the first line of a request, the line itself plus capabilities. */
+	/**
+	 * Data in the first line of a request, the line itself plus capabilities.
+	 *
+	 * @deprecated Use {@link FirstCommand} instead.
+	 */
+	@Deprecated
 	public static class FirstLine {
-		private final String line;
-		private final Set<String> capabilities;
+		private final FirstCommand command;
 
 		/**
 		 * Parse the first line of a receive-pack request.
@@ -131,33 +136,25 @@ public abstract class BaseReceivePack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			final HashSet<String> caps = new HashSet<>();
-			final int nul = line.indexOf('\0');
-			if (nul >= 0) {
-				for (String c : line.substring(nul + 1).split(" ")) //$NON-NLS-1$
-					caps.add(c);
-				this.line = line.substring(0, nul);
-			} else
-				this.line = line;
-			this.capabilities = Collections.unmodifiableSet(caps);
+			command = FirstCommand.fromLine(line);
 		}
 
 		/** @return non-capabilities part of the line. */
 		public String getLine() {
-			return line;
+			return command.getLine();
 		}
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
-			return capabilities;
+			return command.getCapabilities();
 		}
 	}
 
 	/** Database we write the stored objects into. */
-	private final Repository db;
+	final Repository db;
 
 	/** Revision traversal support over {@link #db}. */
-	private final RevWalk walk;
+	final RevWalk walk;
 
 	/**
 	 * Is the client connection a bi-directional socket or pipe?
@@ -207,7 +204,7 @@ public abstract class BaseReceivePack {
 	private AdvertiseRefsHook advertiseRefsHook;
 
 	/** Filter used while advertising the refs to the client. */
-	private RefFilter refFilter;
+	RefFilter refFilter;
 
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
@@ -242,10 +239,10 @@ public abstract class BaseReceivePack {
 	private PackParser parser;
 
 	/** The refs we advertised as existing at the start of the connection. */
-	private Map<String, Ref> refs;
+	Map<String, Ref> refs;
 
 	/** All SHA-1s shown to the client, which can be possible edges. */
-	private Set<ObjectId> advertisedHaves;
+	Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
@@ -278,7 +275,7 @@ public abstract class BaseReceivePack {
 
 	private PushCertificateParser pushCertificateParser;
 	private SignedPushConfig signedPushConfig;
-	private PushCertificate pushCert;
+	PushCertificate pushCert;
 	private ReceivedPackStatistics stats;
 
 	/**
@@ -289,10 +286,10 @@ public abstract class BaseReceivePack {
 	 * @return the parsed certificate, or null if push certificates are disabled
 	 *         or no cert was presented by the client.
 	 * @since 4.1
+	 * @deprecated use {@link ReceivePack#getPushCertificate}.
 	 */
-	public PushCertificate getPushCertificate() {
-		return pushCert;
-	}
+	@Deprecated
+	public abstract PushCertificate getPushCertificate();
 
 	/**
 	 * Set the push certificate used to verify the pusher's identity.
@@ -303,10 +300,10 @@ public abstract class BaseReceivePack {
 	 * @param cert
 	 *            the push certificate to set.
 	 * @since 4.1
+	 * @deprecated use {@link ReceivePack#setPushCertificate(PushCertificate)}.
 	 */
-	public void setPushCertificate(PushCertificate cert) {
-		pushCert = cert;
-	}
+	@Deprecated
+	public abstract void setPushCertificate(PushCertificate cert);
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -424,29 +421,29 @@ public abstract class BaseReceivePack {
 	 * Get the repository this receive completes into.
 	 *
 	 * @return the repository this receive completes into.
+	 * @deprecated use {@link ReceivePack#getRepository}
 	 */
-	public final Repository getRepository() {
-		return db;
-	}
+	@Deprecated
+	public abstract Repository getRepository();
 
 	/**
 	 * Get the RevWalk instance used by this connection.
 	 *
 	 * @return the RevWalk instance used by this connection.
+	 * @deprecated use {@link ReceivePack#getRevWalk}
 	 */
-	public final RevWalk getRevWalk() {
-		return walk;
-	}
+	@Deprecated
+	public abstract RevWalk getRevWalk();
 
 	/**
 	 * Get refs which were advertised to the client.
 	 *
 	 * @return all refs which were advertised to the client, or null if
 	 *         {@link #setAdvertisedRefs(Map, Set)} has not been called yet.
+	 * @deprecated use {@link ReceivePack#getAdvertisedRefs}
 	 */
-	public final Map<String, Ref> getAdvertisedRefs() {
-		return refs;
-	}
+	@Deprecated
+	public abstract Map<String, Ref> getAdvertisedRefs();
 
 	/**
 	 * Set the refs advertised by this ReceivePack.
@@ -464,25 +461,10 @@ public abstract class BaseReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @deprecated use {@link ReceivePack#setAdvertisedRefs}
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
-		refs = allRefs != null ? allRefs : db.getAllRefs();
-		refs = refFilter.filter(refs);
-		advertisedHaves.clear();
-
-		Ref head = refs.get(Constants.HEAD);
-		if (head != null && head.isSymbolic())
-			refs.remove(Constants.HEAD);
-
-		for (Ref ref : refs.values()) {
-			if (ref.getObjectId() != null)
-				advertisedHaves.add(ref.getObjectId());
-		}
-		if (additionalHaves != null)
-			advertisedHaves.addAll(additionalHaves);
-		else
-			advertisedHaves.addAll(db.getAdditionalHaves());
-	}
+	@Deprecated
+	public abstract void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves);
 
 	/**
 	 * Get objects advertised to the client.
@@ -1310,7 +1292,7 @@ public abstract class BaseReceivePack {
 
 				if (firstPkt) {
 					firstPkt = false;
-					FirstLine firstLine = new FirstLine(line);
+					FirstCommand firstLine = FirstCommand.fromLine(line);
 					enabledCapabilities = firstLine.getCapabilities();
 					line = firstLine.getLine();
 					enableCapabilities();
@@ -1606,7 +1588,7 @@ public abstract class BaseReceivePack {
 						throw new MissingObjectException(o, o.getType());
 				}
 
-				if (o instanceof RevBlob && !db.hasObject(o))
+				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
 					throw new MissingObjectException(o, Constants.TYPE_BLOB);
 			}
 			checking.endTask();

@@ -49,10 +49,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.text.MessageFormat;
 import java.util.List;
+
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Mutable builder to construct a commit recording the state of a project.
@@ -76,6 +80,8 @@ public class CommitBuilder {
 
 	private static final byte[] hcommitter = Constants.encodeASCII("committer"); //$NON-NLS-1$
 
+	private static final byte[] hgpgsig = Constants.encodeASCII("gpgsig"); //$NON-NLS-1$
+
 	private static final byte[] hencoding = Constants.encodeASCII("encoding"); //$NON-NLS-1$
 
 	private ObjectId treeId;
@@ -85,6 +91,8 @@ public class CommitBuilder {
 	private PersonIdent author;
 
 	private PersonIdent committer;
+
+	private GpgSignature gpgSignature;
 
 	private String message;
 
@@ -108,7 +116,7 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the tree id for this commit object
+	 * Set the tree id for this commit object.
 	 *
 	 * @param id
 	 *            the tree identity.
@@ -146,13 +154,45 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the committer and commit time for this object
+	 * Set the committer and commit time for this object.
 	 *
 	 * @param newCommitter
 	 *            the committer information. Should not be null.
 	 */
 	public void setCommitter(PersonIdent newCommitter) {
 		committer = newCommitter;
+	}
+
+	/**
+	 * Set the GPG signature of this commit.
+	 * <p>
+	 * Note, the signature set here will change the payload of the commit, i.e.
+	 * the output of {@link #build()} will include the signature. Thus, the
+	 * typical flow will be:
+	 * <ol>
+	 * <li>call {@link #build()} without a signature set to obtain payload</li>
+	 * <li>create {@link GpgSignature} from payload</li>
+	 * <li>set {@link GpgSignature}</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @param newSignature
+	 *            the signature to set or <code>null</code> to unset
+	 * @since 5.3
+	 */
+	public void setGpgSignature(GpgSignature newSignature) {
+		gpgSignature = newSignature;
+	}
+
+	/**
+	 * Get the GPG signature of this commit.
+	 *
+	 * @return the GPG signature of this commit, maybe <code>null</code> if the
+	 *         commit is not to be signed
+	 * @since 5.3
+	 */
+	public GpgSignature getGpgSignature() {
+		return gpgSignature;
 	}
 
 	/**
@@ -250,18 +290,20 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the encoding for the commit information
+	 * Set the encoding for the commit information.
 	 *
 	 * @param encodingName
 	 *            the encoding name. See
 	 *            {@link java.nio.charset.Charset#forName(String)}.
+	 * @deprecated use {@link #setEncoding(Charset)} instead.
 	 */
+	@Deprecated
 	public void setEncoding(String encodingName) {
 		encoding = Charset.forName(encodingName);
 	}
 
 	/**
-	 * Set the encoding for the commit information
+	 * Set the encoding for the commit information.
 	 *
 	 * @param enc
 	 *            the encoding to use.
@@ -316,6 +358,13 @@ public class CommitBuilder {
 			w.flush();
 			os.write('\n');
 
+			if (getGpgSignature() != null) {
+				os.write(hgpgsig);
+				os.write(' ');
+				writeGpgSignatureString(getGpgSignature().toExternalString(), os);
+				os.write('\n');
+			}
+
 			if (getEncoding() != UTF_8) {
 				os.write(hencoding);
 				os.write(' ');
@@ -336,6 +385,50 @@ public class CommitBuilder {
 			throw new RuntimeException(err);
 		}
 		return os.toByteArray();
+	}
+
+	/**
+	 * Writes signature to output as per <a href=
+	 * "https://github.com/git/git/blob/master/Documentation/technical/signature-format.txt#L66,L89">gpgsig
+	 * header</a>.
+	 * <p>
+	 * CRLF and CR will be sanitized to LF and signature will have a hanging
+	 * indent of one space starting with line two.
+	 * </p>
+	 *
+	 * @param in
+	 *            signature string with line breaks
+	 * @param out
+	 *            output stream
+	 * @throws IOException
+	 *             thrown by the output stream
+	 * @throws IllegalArgumentException
+	 *             if the signature string contains non 7-bit ASCII chars
+	 */
+	static void writeGpgSignatureString(String in, OutputStream out)
+			throws IOException, IllegalArgumentException {
+		for (int i = 0; i < in.length(); ++i) {
+			char ch = in.charAt(i);
+			if (ch == '\r') {
+				if (i + 1 < in.length() && in.charAt(i + 1) == '\n') {
+					out.write('\n');
+					out.write(' ');
+					++i;
+				} else {
+					out.write('\n');
+					out.write(' ');
+				}
+			} else if (ch == '\n') {
+				out.write('\n');
+				out.write(' ');
+			} else {
+				// sanity check
+				if (ch > 127)
+					throw new IllegalArgumentException(MessageFormat
+							.format(JGitText.get().notASCIIString, in));
+				out.write(ch);
+			}
+		}
 	}
 
 	/**
@@ -375,6 +468,10 @@ public class CommitBuilder {
 
 		r.append("committer ");
 		r.append(committer != null ? committer.toString() : "NOT_SET");
+		r.append("\n");
+
+		r.append("gpgSignature ");
+		r.append(gpgSignature != null ? gpgSignature.toString() : "NOT_SET");
 		r.append("\n");
 
 		if (encoding != null && encoding != UTF_8) {

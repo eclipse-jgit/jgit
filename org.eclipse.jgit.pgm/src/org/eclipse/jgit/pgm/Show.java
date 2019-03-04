@@ -59,6 +59,7 @@ import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -175,22 +176,24 @@ class Show extends TextBuiltin {
 	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		diffFmt.setRepository(db);
 		try {
 			diffFmt.setPathFilter(pathFilter);
-			if (detectRenames != null)
+			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			}
 			if (renameLimit != null && diffFmt.isDetectRenames()) {
 				RenameDetector rd = diffFmt.getRenameDetector();
 				rd.setRenameLimit(renameLimit.intValue());
 			}
 
 			ObjectId objectId;
-			if (objectName == null)
+			if (objectName == null) {
 				objectId = db.resolve(Constants.HEAD);
-			else
+			} else {
 				objectId = db.resolve(objectName);
+			}
 
 			try (RevWalk rw = new RevWalk(db)) {
 				RevObject obj = rw.parseAny(objectId);
@@ -224,6 +227,8 @@ class Show extends TextBuiltin {
 							obj.getType()));
 				}
 			}
+		} catch (RevisionSyntaxException | IOException e) {
+			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
 		}
@@ -273,7 +278,7 @@ class Show extends TextBuiltin {
 		}
 	}
 
-	private void show(RevWalk rw, RevCommit c) throws Exception {
+	private void show(RevWalk rw, RevCommit c) throws IOException {
 		char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
 
 		outw.print(CLIText.get().commitLabel);

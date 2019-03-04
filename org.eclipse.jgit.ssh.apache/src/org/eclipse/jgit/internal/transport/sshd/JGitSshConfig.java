@@ -78,7 +78,6 @@ import org.eclipse.jgit.transport.SshConstants;
  * Therefore, this re-uses the parsing and caching from
  * {@link OpenSshConfigFile}.
  *
- * @since 5.2
  */
 public class JGitSshConfig implements HostConfigEntryResolver {
 

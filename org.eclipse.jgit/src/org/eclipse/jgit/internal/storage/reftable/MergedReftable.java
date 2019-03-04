@@ -168,7 +168,6 @@ public class MergedReftable extends Reftable {
 		private final PriorityQueue<RefQueueEntry> queue;
 		private RefQueueEntry head;
 		private Ref ref;
-		private long updateIndex;
 
 		MergedRefCursor() {
 			queue = new PriorityQueue<>(queueSize(), RefQueueEntry::compare);
@@ -206,7 +205,6 @@ public class MergedReftable extends Reftable {
 				}
 
 				ref = t.rc.getRef();
-				updateIndex = t.rc.getUpdateIndex();
 				boolean include = includeDeletes || !t.rc.wasDeleted();
 				add(t);
 				skipShadowedRefs(ref.getName());
@@ -239,11 +237,6 @@ public class MergedReftable extends Reftable {
 		@Override
 		public Ref getRef() {
 			return ref;
-		}
-
-		@Override
-		public long getUpdateIndex() {
-			return updateIndex;
 		}
 
 		@Override
@@ -285,7 +278,7 @@ public class MergedReftable extends Reftable {
 		}
 
 		long updateIndex() {
-			return rc.getUpdateIndex();
+			return rc.getRef().getUpdateIndex();
 		}
 	}
 

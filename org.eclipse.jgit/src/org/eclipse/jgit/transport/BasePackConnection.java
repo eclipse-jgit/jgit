@@ -57,6 +57,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -222,6 +223,10 @@ abstract class BasePackConnection extends BaseConnection {
 				}
 			}
 
+			// Expecting to get a line in the form "sha1 refname"
+			if (line.length() < 41 || line.charAt(40) != ' ') {
+				throw invalidRefAdvertisementLine(line);
+			}
 			String name = line.substring(41, line.length());
 			if (avail.isEmpty() && name.equals("capabilities^{}")) { //$NON-NLS-1$
 				// special line from git-receive-pack to show
@@ -229,7 +234,12 @@ abstract class BasePackConnection extends BaseConnection {
 				continue;
 			}
 
-			final ObjectId id = ObjectId.fromString(line.substring(0, 40));
+			final ObjectId id;
+			try {
+				id  = ObjectId.fromString(line.substring(0, 40));
+			} catch (InvalidObjectIdException e) {
+				throw invalidRefAdvertisementLine(line);
+			}
 			if (name.equals(".have")) { //$NON-NLS-1$
 				additionalHaves.add(id);
 			} else if (name.endsWith("^{}")) { //$NON-NLS-1$
@@ -316,6 +326,10 @@ abstract class BasePackConnection extends BaseConnection {
 
 	private PackProtocolException duplicateAdvertisement(String name) {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
+	}
+
+	private PackProtocolException invalidRefAdvertisementLine(String line) {
+		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().invalidRefAdvertisementLine, line));
 	}
 
 	/** {@inheritDoc} */

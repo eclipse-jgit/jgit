@@ -58,6 +58,7 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Ref;
@@ -682,6 +683,21 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 			assertEquals("[]", Arrays.toString(execute("git checkout -- a")));
 			assertEquals("link_a", FileUtils.readSymLink(path.toFile()));
 			assertTrue(Files.isSymbolicLink(path));
+		}
+	}
+
+	@Test
+	public void testCheckoutForce_Bug530771() throws Exception {
+		try (Git git = new Git(db)) {
+			File f = writeTrashFile("a", "Hello world");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("create a").call();
+			writeTrashFile("a", "Goodbye world");
+			assertEquals("[]",
+					Arrays.toString(execute("git checkout -f HEAD")));
+			assertEquals("Hello world", read(f));
+			assertEquals("[a, mode:100644, content:Hello world]",
+					indexState(db, LocalDiskRepositoryTestCase.CONTENT));
 		}
 	}
 }

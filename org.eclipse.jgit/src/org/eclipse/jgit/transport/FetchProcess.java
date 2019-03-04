@@ -181,7 +181,7 @@ class FetchProcess {
 					ObjectId id = r.getPeeledObjectId();
 					if (id == null)
 						id = r.getObjectId();
-					if (transport.local.hasObject(id))
+					if (localHasObject(id))
 						wantTag(r);
 				}
 
@@ -393,6 +393,18 @@ class FetchProcess {
 		}
 	}
 
+	private boolean localHasObject(ObjectId id) throws TransportException {
+		try {
+			return transport.local.getObjectDatabase().has(id);
+		} catch (IOException err) {
+			throw new TransportException(
+					MessageFormat.format(
+							JGitText.get().readingObjectsFromLocalRepositoryFailed,
+							err.getMessage()),
+					err);
+		}
+	}
+
 	private Collection<Ref> expandAutoFollowTags() throws TransportException {
 		final Collection<Ref> additionalTags = new ArrayList<>();
 		final Map<String, Ref> haveRefs = localRefs();
@@ -410,7 +422,7 @@ class FetchProcess {
 			if (obj == null)
 				obj = r.getObjectId();
 
-			if (askFor.containsKey(obj) || transport.local.hasObject(obj))
+			if (askFor.containsKey(obj) || localHasObject(obj))
 				wantTag(r);
 			else
 				additionalTags.add(r);

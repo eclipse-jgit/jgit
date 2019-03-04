@@ -73,7 +73,7 @@ public class DeltaEncoder {
 	/** Maximum number of bytes used by a copy instruction. */
 	private static final int MAX_COPY_CMD_SIZE = 8;
 
-	/** Maximum length that an an insert command can encode at once. */
+	/** Maximum length that an insert command can encode at once. */
 	private static final int MAX_INSERT_DATA_SIZE = 127;
 
 	private final OutputStream out;

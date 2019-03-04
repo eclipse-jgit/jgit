@@ -54,7 +54,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
 /**
- * Used to to change the URL of a remote.
+ * Used to change the URL of a remote.
  *
  * This class has setters for all supported options and arguments of this
  * command and a {@link #call()} method to finally execute the command.
@@ -66,11 +66,28 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 
-	private String name;
+	/**
+	 * The available URI types for the remote.
+	 *
+	 * @since 5.3
+	 */
+	public enum UriType {
+		/**
+		 * Fetch URL for the remote.
+		 */
+		FETCH,
+		/**
+		 * Push URL for the remote.
+		 */
+		PUSH
+	}
 
-	private URIish uri;
 
-	private boolean push;
+	private String remoteName;
+
+	private URIish remoteUri;
+
+	private UriType type;
 
 	/**
 	 * <p>
@@ -89,9 +106,24 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param name
 	 *            a remote name
+	 * @deprecated use {@link #setRemoteName} instead
 	 */
+	@Deprecated
 	public void setName(String name) {
-		this.name = name;
+		this.remoteName = name;
+	}
+
+	/**
+	 * The name of the remote to change the URL for.
+	 *
+	 * @param remoteName
+	 *            a remote remoteName
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public RemoteSetUrlCommand setRemoteName(String remoteName) {
+		this.remoteName = remoteName;
+		return this;
 	}
 
 	/**
@@ -99,9 +131,24 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 *
 	 * @param uri
 	 *            an URL for the remote
+	 * @deprecated use {@link #setRemoteUri} instead
 	 */
+	@Deprecated
 	public void setUri(URIish uri) {
-		this.uri = uri;
+		this.remoteUri = uri;
+	}
+
+	/**
+	 * The new URL for the remote.
+	 *
+	 * @param remoteUri
+	 *            an URL for the remote
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public RemoteSetUrlCommand setRemoteUri(URIish remoteUri) {
+		this.remoteUri = remoteUri;
+		return this;
 	}
 
 	/**
@@ -110,9 +157,28 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	 * @param push
 	 *            <code>true</code> to set the push url, <code>false</code> to
 	 *            set the fetch url
+	 * @deprecated use {@link #setUriType} instead
 	 */
+	@Deprecated
 	public void setPush(boolean push) {
-		this.push = push;
+		if (push) {
+			setUriType(UriType.PUSH);
+		} else {
+			setUriType(UriType.FETCH);
+		}
+	}
+
+	/**
+	 * Whether to change the push URL of the remote instead of the fetch URL.
+	 *
+	 * @param type
+	 *            the <code>UriType</code> value to set
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public RemoteSetUrlCommand setUriType(UriType type) {
+		this.type = type;
+		return this;
 	}
 
 	/**
@@ -127,8 +193,8 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 
 		try {
 			StoredConfig config = repo.getConfig();
-			RemoteConfig remote = new RemoteConfig(config, name);
-			if (push) {
+			RemoteConfig remote = new RemoteConfig(config, remoteName);
+			if (type == UriType.PUSH) {
 				List<URIish> uris = remote.getPushURIs();
 				if (uris.size() > 1) {
 					throw new JGitInternalException(
@@ -136,7 +202,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 				} else if (uris.size() == 1) {
 					remote.removePushURI(uris.get(0));
 				}
-				remote.addPushURI(uri);
+				remote.addPushURI(remoteUri);
 			} else {
 				List<URIish> uris = remote.getURIs();
 				if (uris.size() > 1) {
@@ -145,7 +211,7 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 				} else if (uris.size() == 1) {
 					remote.removeURI(uris.get(0));
 				}
-				remote.addURI(uri);
+				remote.addURI(remoteUri);
 			}
 
 			remote.update(config);

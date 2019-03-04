@@ -128,13 +128,13 @@ public class UploadPackTest {
 				}, null);
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(commit0.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(commit0.toObjectId()));
 
 		// Fetch of the parent of the shallow commit
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(commit0.name())));
-			assertTrue(client.hasObject(commit0.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(commit0.toObjectId()));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
@@ -168,12 +168,12 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(blob.name())));
-			assertTrue(client.hasObject(blob.toObjectId()));
+			assertTrue(client.getObjectDatabase().has(blob.toObjectId()));
 		}
 	}
 
@@ -186,7 +186,7 @@ public class UploadPackTest {
 		testProtocol = generateReachableCommitUploadPackProtocol();
 		uri = testProtocol.register(ctx, server);
 
-		assertFalse(client.hasObject(blob.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
@@ -200,224 +200,233 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithBlobNoneFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertTrue(client.hasObject(tree.toObjectId()));
-			assertFalse(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchExplicitBlobWithFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
-		remote2.update("a_blob", blob1);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
+			remote2.update("a_blob", blob1);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
-			assertTrue(client.hasObject(tree.toObjectId()));
-			assertTrue(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
+						new RefSpec(commit.name()), new RefSpec(blob1.name())));
+				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+				assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithBlobLimitFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob longBlob = remote2.blob("foobar");
-		RevBlob shortBlob = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", longBlob),
-				remote2.file("2", shortBlob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob longBlob = remote2.blob("foobar");
+			RevBlob shortBlob = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", longBlob),
+					remote2.file("2", shortBlob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(5);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.hasObject(longBlob.toObjectId()));
-			assertTrue(client.hasObject(shortBlob.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(5);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertFalse(
+						client.getObjectDatabase().has(longBlob.toObjectId()));
+				assertTrue(
+						client.getObjectDatabase().has(shortBlob.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchExplicitBlobWithFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob1 = remote2.blob("foobar");
-		RevBlob blob2 = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", blob1),
-				remote2.file("2", blob2));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
-		remote2.update("a_blob", blob1);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob1 = remote2.blob("foobar");
+			RevBlob blob2 = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", blob1),
+					remote2.file("2", blob2));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
+			remote2.update("a_blob", blob1);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		// generate bitmaps
-		new DfsGarbageCollector(server2).pack(null);
-		server2.scanForRepoChanges();
+			// generate bitmaps
+			new DfsGarbageCollector(server2).pack(null);
+			server2.scanForRepoChanges();
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
-			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
-			assertTrue(client.hasObject(blob1.toObjectId()));
-			assertFalse(client.hasObject(blob2.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
+				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
+						new RefSpec(commit.name()), new RefSpec(blob1.name())));
+				assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
+				assertFalse(client.getObjectDatabase().has(blob2.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob longBlob = remote2.blob("foobar");
-		RevBlob shortBlob = remote2.blob("fooba");
-		RevTree tree = remote2.tree(remote2.file("1", longBlob),
-				remote2.file("2", shortBlob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob longBlob = remote2.blob("foobar");
+			RevBlob shortBlob = remote2.blob("fooba");
+			RevTree tree = remote2.tree(remote2.file("1", longBlob),
+					remote2.file("2", shortBlob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
 
-		// generate bitmaps
-		new DfsGarbageCollector(server2).pack(null);
-		server2.scanForRepoChanges();
+			// generate bitmaps
+			new DfsGarbageCollector(server2).pack(null);
+			server2.scanForRepoChanges();
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(5);
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
-			assertFalse(client.hasObject(longBlob.toObjectId()));
-			assertTrue(client.hasObject(shortBlob.toObjectId()));
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(5);
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertFalse(
+						client.getObjectDatabase().has(longBlob.toObjectId()));
+				assertTrue(
+						client.getObjectDatabase().has(shortBlob.toObjectId()));
+			}
 		}
 	}
 
 	@Test
 	public void testFetchWithNonSupportingServer() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote2 =
-				new TestRepository<>(server2);
-		RevBlob blob = remote2.blob("foo");
-		RevTree tree = remote2.tree(remote2.file("1", blob));
-		RevCommit commit = remote2.commit(tree);
-		remote2.update("master", commit);
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob = remote2.blob("foo");
+			RevTree tree = remote2.tree(remote2.file("1", blob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
 
-		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					false);
 
-		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						return up;
-					}
-				}, null);
-		uri = testProtocol.register(ctx, server2);
+			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
+				@Override
+				public UploadPack create(Object req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					UploadPack up = new UploadPack(db);
+					return up;
+				}
+			}, null);
+			uri = testProtocol.register(ctx, server2);
 
-		try (Transport tn = testProtocol.open(uri, client, "server2")) {
-			tn.setFilterBlobLimit(0);
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterBlobLimit(0);
 
-			thrown.expect(TransportException.class);
-			thrown.expectMessage("filter requires server to advertise that capability");
+				thrown.expect(TransportException.class);
+				thrown.expectMessage(
+						"filter requires server to advertise that capability");
 
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+			}
 		}
 	}
 
@@ -965,10 +974,10 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(fooParent.toObjectId()));
-		assertTrue(client.hasObject(fooChild.toObjectId()));
-		assertFalse(client.hasObject(barParent.toObjectId()));
-		assertTrue(client.hasObject(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
 	}
 
 	@Test
@@ -992,10 +1001,10 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(fooParent.toObjectId()));
-		assertTrue(client.hasObject(fooChild.toObjectId()));
-		assertTrue(client.hasObject(barParent.toObjectId()));
-		assertTrue(client.hasObject(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
 	}
 
 	@Test
@@ -1078,7 +1087,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(tag.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(tag.toObjectId()));
 
 		// With tag.
 		recvStream = uploadPackV2(
@@ -1091,7 +1100,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(tag.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(tag.toObjectId()));
 	}
 
 	@Test
@@ -1149,8 +1158,8 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(barChild.toObjectId()));
-		assertFalse(client.hasObject(commonParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(barChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(commonParent.toObjectId()));
 
 		// With shallow, the server knows that we don't have
 		// commonParent, so it sends it.
@@ -1165,7 +1174,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(commonParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(commonParent.toObjectId()));
 	}
 
 	@Test
@@ -1188,8 +1197,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(child.toObjectId()));
-		assertFalse(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(parent.toObjectId()));
 
 		// Without that, the parent is sent too.
 		recvStream = uploadPackV2(
@@ -1201,7 +1210,7 @@ public class UploadPackTest {
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(parent.toObjectId()));
 	}
 
 	@Test
@@ -1268,15 +1277,15 @@ public class UploadPackTest {
 
 		// The server does not send this because it is committed
 		// earlier than the given deepen-since time.
-		assertFalse(client.hasObject(tooOld.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(tooOld.toObjectId()));
 
 		// The server does not send this because the client claims to
 		// have it.
-		assertFalse(client.hasObject(boundary.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(boundary.toObjectId()));
 
 		// The server sends both these commits.
-		assertTrue(client.hasObject(beyondBoundary.toObjectId()));
-		assertTrue(client.hasObject(merge.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(beyondBoundary.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(merge.toObjectId()));
 	}
 
 	@Test
@@ -1316,9 +1325,9 @@ public class UploadPackTest {
 		parsePack(recvStream);
 
 		// Only the children are sent.
-		assertFalse(client.hasObject(base.toObjectId()));
-		assertTrue(client.hasObject(child1.toObjectId()));
-		assertTrue(client.hasObject(child2.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(base.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child1.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child2.toObjectId()));
 	}
 
 	@Test
@@ -1384,16 +1393,16 @@ public class UploadPackTest {
 
 		// The server does not send these because they are excluded by
 		// deepen-not.
-		assertFalse(client.hasObject(side.toObjectId()));
-		assertFalse(client.hasObject(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(side.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
 
 		// The server does not send this because the client claims to
 		// have it.
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 
 		// The server sends both these commits.
-		assertTrue(client.hasObject(merge.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(merge.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
 	}
 
 	@Test
@@ -1441,10 +1450,10 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(one.toObjectId()));
-		assertFalse(client.hasObject(two.toObjectId()));
-		assertTrue(client.hasObject(three.toObjectId()));
-		assertTrue(client.hasObject(four.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(four.toObjectId()));
 	}
 
 	@Test
@@ -1485,9 +1494,9 @@ public class UploadPackTest {
 		parsePack(recvStream);
 
 		// Only the children are sent.
-		assertFalse(client.hasObject(base.toObjectId()));
-		assertTrue(client.hasObject(child1.toObjectId()));
-		assertTrue(client.hasObject(child2.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(base.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child1.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child2.toObjectId()));
 	}
 
 	@Test
@@ -1538,8 +1547,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertFalse(client.hasObject(big.toObjectId()));
-		assertTrue(client.hasObject(small.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(big.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(small.toObjectId()));
 	}
 
 	@Test
@@ -1610,9 +1619,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test
@@ -1666,9 +1675,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertFalse(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test
@@ -1699,7 +1708,7 @@ public class UploadPackTest {
 		// ... but the client does not need the object itself.
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertFalse(client.hasObject(one.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
 	}
 
 	@Test
@@ -1728,8 +1737,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
-		assertTrue(client.hasObject(child.toObjectId()));
-		assertFalse(client.hasObject(parent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(parent.toObjectId()));
 	}
 
 	@Test
@@ -1765,9 +1774,9 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
-		assertTrue(client.hasObject(one.toObjectId()));
-		assertTrue(client.hasObject(two.toObjectId()));
-		assertTrue(client.hasObject(three.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(three.toObjectId()));
 	}
 
 	@Test

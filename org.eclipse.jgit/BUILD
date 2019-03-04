@@ -22,6 +22,9 @@ java_library(
     resources = RESOURCES,
     deps = [
         ":insecure_cipher_factory",
+        "//lib:bcpg",
+        "//lib:bcpkix",
+        "//lib:bcprov",
         "//lib:javaewah",
         "//lib:jsch",
         "//lib:jzlib",

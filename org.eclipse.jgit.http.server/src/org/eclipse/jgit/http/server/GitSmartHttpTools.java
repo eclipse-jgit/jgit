@@ -63,6 +63,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.internal.transport.parser.FirstCommand;
 import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PacketLineIn;
@@ -287,7 +288,7 @@ public class GitSmartHttpTools {
 			// not have a ReceivePack, or it might not have read any of the request.
 			// So, cheat and read the first line.
 			String line = new PacketLineIn(req.getInputStream()).readString();
-			ReceivePack.FirstLine parsed = new ReceivePack.FirstLine(line);
+			FirstCommand parsed = FirstCommand.fromLine(line);
 			return parsed.getCapabilities().contains(CAPABILITY_SIDE_BAND_64K);
 		} catch (IOException e) {
 			// Probably the connection is closed and a subsequent write will fail, but
@@ -298,10 +299,11 @@ public class GitSmartHttpTools {
 
 	private static void writeSideBand(OutputStream out, String textForGit)
 			throws IOException {
-		@SuppressWarnings("resource" /* java 7 */)
-		OutputStream msg = new SideBandOutputStream(CH_ERROR, SMALL_BUF, out);
-		msg.write(Constants.encode("error: " + textForGit));
-		msg.flush();
+		try (OutputStream msg = new SideBandOutputStream(CH_ERROR, SMALL_BUF,
+				out)) {
+			msg.write(Constants.encode("error: " + textForGit));
+			msg.flush();
+		}
 	}
 
 	private static void writePacket(PacketLineOut pckOut, String textForGit)

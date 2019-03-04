@@ -54,7 +54,6 @@ import org.eclipse.jgit.annotations.NonNull;
  * lists of strings. The super class treats them as single strings containing
  * comma-separated lists.
  *
- * @since 5.2
  */
 public class JGitHostConfigEntry extends HostConfigEntry {
 

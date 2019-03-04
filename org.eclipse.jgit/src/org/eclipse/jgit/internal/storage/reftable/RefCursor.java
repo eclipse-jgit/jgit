@@ -69,13 +69,6 @@ public abstract class RefCursor implements AutoCloseable {
 	public abstract Ref getRef();
 
 	/**
-	 * Get updateIndex that last modified the current reference.
-	 *
-	 * @return updateIndex that last modified the current reference.
-	 */
-	public abstract long getUpdateIndex();
-
-	/**
 	 * Whether the current reference was deleted.
 	 *
 	 * @return {@code true} if the current reference was deleted.

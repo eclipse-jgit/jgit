@@ -196,7 +196,7 @@ public abstract class TextBuiltin {
 				try {
 					return Charset.forName(logOutputEncoding);
 				} catch (IllegalArgumentException e) {
-					throw die(CLIText.get().cannotCreateOutputStream);
+					throw die(CLIText.get().cannotCreateOutputStream, e);
 				}
 			}
 		}

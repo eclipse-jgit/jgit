@@ -11,6 +11,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  com.jcraft.jsch;version="[0.1.54,0.2.0)",
  net.bytebuddy.dynamic.loading;version="[1.7.0,2.0.0)",
+ org.bouncycastle.util.encoders;version="[1.60.0,2.0.0)",
  org.eclipse.jgit.annotations;version="[5.3.0,5.4.0)",
  org.eclipse.jgit.api;version="[5.3.0,5.4.0)",
  org.eclipse.jgit.api.errors;version="[5.3.0,5.4.0)",

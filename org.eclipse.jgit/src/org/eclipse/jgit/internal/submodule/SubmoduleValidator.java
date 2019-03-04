@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.ObjectChecker;
  * Validations for the git submodule fields (name, path, uri).
  *
  * Invalid values in these fields can cause security problems as reported in
- * CVE-2018-11235 and and CVE-2018-17456
+ * CVE-2018-11235 and CVE-2018-17456
  */
 public class SubmoduleValidator {
 

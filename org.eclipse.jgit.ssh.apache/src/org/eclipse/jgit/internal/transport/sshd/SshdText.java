@@ -33,6 +33,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String identityFileCannotDecrypt;
 	/***/ public String identityFileNoKey;
 	/***/ public String identityFileMultipleKeys;
+	/***/ public String identityFileNotFound;
 	/***/ public String identityFileUnsupportedFormat;
 	/***/ public String kexServerKeyInvalid;
 	/***/ public String keyEncryptedMsg;

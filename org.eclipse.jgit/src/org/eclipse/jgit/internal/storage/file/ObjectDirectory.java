@@ -198,7 +198,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * <p>Getter for the field <code>packDirectory</code>.</p>
 	 *
 	 * @return the location of the <code>pack</code> directory.
-	 * @since 4.10
 	 */
 	public final File getPackDirectory() {
 		return packDirectory;
@@ -360,6 +359,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 					// The hasObject call should have only touched the index,
 					// so any failure here indicates the index is unreadable
 					// by this process, and the pack is likewise not readable.
+					LOG.warn("Unable to read packfile " + p.getPackFile(), e);
 					removePack(p);
 				}
 			}
@@ -652,6 +652,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
 			warnTmpl = JGitText.get().corruptPack;
+			LOG.warn("Packfile " + p.getPackFile() + " is corrupted", e);
 			// Assume the pack is corrupted, and remove it from the list.
 			removePack(p);
 		} else if (e instanceof FileNotFoundException) {

@@ -112,7 +112,7 @@ import org.eclipse.jgit.util.FileUtils;
  * @param <R>
  *            type of Repository the test data is stored on.
  */
-public class TestRepository<R extends Repository> {
+public class TestRepository<R extends Repository> implements AutoCloseable {
 
 	/** Constant <code>AUTHOR="J. Author"</code> */
 	public static final String AUTHOR = "J. Author";
@@ -930,6 +930,23 @@ public class TestRepository<R extends Repository> {
 			odb.openPack(pack);
 			updateServerInfo();
 			prunePacked(odb);
+		}
+	}
+
+	/**
+	 * Closes the underlying {@link Repository} object and any other internal
+	 * resources.
+	 * <p>
+	 * {@link AutoCloseable} resources that may escape this object, such as
+	 * those returned by the {@link #git} and {@link #getRevWalk()} methods are
+	 * not closed.
+	 */
+	@Override
+	public void close() {
+		try {
+			inserter.close();
+		} finally {
+			db.close();
 		}
 	}
 

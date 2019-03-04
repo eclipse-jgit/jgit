@@ -193,14 +193,14 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_Small() throws Exception {
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
 		((TransportHttp) t).setUseSmartHttp(false);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
@@ -215,17 +215,20 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_Packed() throws Exception {
-		new TestRepository<>(remoteRepository).packAndPrune();
+		try (TestRepository<Repository> tr = new TestRepository<>(
+				remoteRepository)) {
+			tr.packAndPrune();
+		}
 
 		Repository dst = createBareRepository();
-		assertFalse(dst.hasObject(A_txt));
+		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
 			((TransportHttp) t).setUseSmartHttp(false);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
-		assertTrue(dst.hasObject(A_txt));
+		assertTrue(dst.getObjectDatabase().has(A_txt));
 		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 

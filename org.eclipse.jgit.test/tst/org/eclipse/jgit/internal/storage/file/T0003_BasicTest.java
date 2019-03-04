@@ -538,7 +538,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				4294967295000L, 60));
 		commit.setCommitter(new PersonIdent("Joe Hacker", "joe2@example.com",
 				4294967295000L, 60));
-		commit.setEncoding("ISO-8859-1");
+		commit.setEncoding(ISO_8859_1);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
 		assertEquals("2979b39d385014b33287054b87f77bcb3ecb5ebf", cid.name());

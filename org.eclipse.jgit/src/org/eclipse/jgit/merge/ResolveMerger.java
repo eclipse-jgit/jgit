@@ -1024,13 +1024,16 @@ public class ResolveMerger extends ThreeWayMerger {
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
 				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
+		boolean success = false;
 		try {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), UTF_8);
 			buf.close();
-		} catch (IOException e) {
-			buf.destroy();
-			throw e;
+			success = true;
+		} finally {
+			if (!success) {
+				buf.destroy();
+			}
 		}
 		return buf;
 	}

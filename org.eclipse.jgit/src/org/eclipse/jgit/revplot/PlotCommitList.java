@@ -141,7 +141,8 @@ public class PlotCommitList<L extends PlotLane> extends
 			final PlotCommit<L> c = currCommit.children[0];
 			currCommit.lane = c.lane;
 			Integer len = laneLength.get(currCommit.lane);
-			len = Integer.valueOf(len.intValue() + 1);
+			len = len != null ? Integer.valueOf(len.intValue() + 1)
+					: Integer.valueOf(0);
 			laneLength.put(currCommit.lane, len);
 		} else {
 			// More than one child, or our child is a merge.

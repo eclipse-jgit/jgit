@@ -1,8 +1,8 @@
-load(":tests.bzl", "tests")
 load(
     "@com_googlesource_gerrit_bazlets//tools:genrule2.bzl",
     "genrule2",
 )
+load(":tests.bzl", "tests")
 
 PKG = "tst/org/eclipse/jgit/"
 
