@@ -187,8 +187,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				} else if (!Arrays.equals(packChecksum, idx.packChecksum)) {
 					throw new PackMismatchException(MessageFormat.format(
 							JGitText.get().packChecksumMismatch,
-							packFile.getPath(), packChecksum,
-							idx.packChecksum));
+							packFile.getPath(),
+							ObjectId.fromRaw(packChecksum).name(),
+							ObjectId.fromRaw(idx.packChecksum).name()));
 				}
 				loadedIdx = idx;
 			} catch (InterruptedIOException e) {
