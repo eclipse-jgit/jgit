@@ -2078,12 +2078,22 @@ public class UploadPack {
 			try {
 				sendPack(true, req, accumulator, allTags, unshallowCommits,
 						deepenNots);
-			} catch (ServiceMayNotContinueException noPack) {
-				// This was already reported on (below).
-				throw noPack;
+			} catch (ServiceMayNotContinueException err) {
+				String message = err.getMessage();
+				if (message == null) {
+					message = JGitText.get().internalServerError;
+				}
+				try {
+					reportInternalServerErrorOverSideband(message);
+				} catch (IOException e) {
+					err.addSuppressed(e);
+					throw err;
+				}
+				throw new UploadPackInternalServerErrorException(err);
 			} catch (IOException | RuntimeException | Error err) {
 				try {
-					reportInternalServerErrorOverSideband();
+					reportInternalServerErrorOverSideband(
+							JGitText.get().internalServerError);
 				} catch (IOException e) {
 					err.addSuppressed(e);
 					throw err;
@@ -2095,12 +2105,13 @@ public class UploadPack {
 		}
 	}
 
-	private void reportInternalServerErrorOverSideband() throws IOException {
+	private void reportInternalServerErrorOverSideband(String message)
+			throws IOException {
 		@SuppressWarnings("resource" /* java 7 */)
 		SideBandOutputStream err = new SideBandOutputStream(
 				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
 				rawOut);
-		err.write(Constants.encode(JGitText.get().internalServerError));
+		err.write(Constants.encode(message));
 		err.flush();
 	}
 
@@ -2147,25 +2158,12 @@ public class UploadPack {
 			}
 		}
 
-		try {
-			if (wantAll.isEmpty()) {
-				preUploadHook.onSendPack(this, wantIds, commonBase);
-			} else {
-				preUploadHook.onSendPack(this, wantAll, commonBase);
-			}
-			msgOut.flush();
-		} catch (ServiceMayNotContinueException noPack) {
-			if (sideband && noPack.getMessage() != null) {
-				noPack.setOutput();
-				@SuppressWarnings("resource" /* java 7 */)
-				SideBandOutputStream err = new SideBandOutputStream(
-						SideBandOutputStream.CH_ERROR,
-						SideBandOutputStream.SMALL_BUF, rawOut);
-				err.write(Constants.encode(noPack.getMessage()));
-				err.flush();
-			}
-			throw noPack;
+		if (wantAll.isEmpty()) {
+			preUploadHook.onSendPack(this, wantIds, commonBase);
+		} else {
+			preUploadHook.onSendPack(this, wantAll, commonBase);
 		}
+		msgOut.flush();
 
 		PackConfig cfg = packConfig;
 		if (cfg == null)
