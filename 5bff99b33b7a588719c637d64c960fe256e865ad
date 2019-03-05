@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4ed211f_603408c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-05T23:14:09Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed3021f3_013058da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-05T23:14:09Z",
+      "side": 1,
+      "message": "Missing @since tag for new public API",
+      "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1970488b_1dab5978",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
         "patchSetId": 1
