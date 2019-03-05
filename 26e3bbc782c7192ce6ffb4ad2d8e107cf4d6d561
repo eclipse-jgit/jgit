@@ -80,6 +80,30 @@
       "revId": "26e3bbc782c7192ce6ffb4ad2d8e107cf4d6d561",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c60047aa_3be7a6f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-05T13:07:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883d27ff_0d556887",
+      "range": {
+        "startLine": 793,
+        "startChar": 22,
+        "endLine": 793,
+        "endChar": 37
+      },
+      "revId": "26e3bbc782c7192ce6ffb4ad2d8e107cf4d6d561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
