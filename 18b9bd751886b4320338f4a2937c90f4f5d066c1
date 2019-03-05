@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "b442e6a7_aae03f92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-05T23:48:15Z",
+      "side": 1,
+      "message": "refPattern",
+      "range": {
+        "startLine": 430,
+        "startChar": 11,
+        "endLine": 430,
+        "endChar": 14
+      },
+      "revId": "18b9bd751886b4320338f4a2937c90f4f5d066c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b70835d_b6638a89",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 12
