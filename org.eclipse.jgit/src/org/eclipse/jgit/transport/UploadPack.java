@@ -747,8 +747,8 @@ public class UploadPack {
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
 	 */
-	public void upload(final InputStream input, OutputStream output,
-			final OutputStream messages) throws IOException {
+	public void upload(InputStream input, OutputStream output,
+			@Nullable OutputStream messages) throws IOException {
 		try {
 			rawIn = input;
 			if (messages != null)
@@ -778,6 +778,26 @@ public class UploadPack {
 			} else {
 				service();
 			}
+		} catch (UploadPackInternalServerErrorException err) {
+			// UploadPackInternalServerErrorException is a special exception
+			// that indicates an error is already written to the client. Do
+			// nothing.
+			throw err;
+		} catch (ServiceMayNotContinueException err) {
+			if (!err.isOutput() && err.getMessage() != null && pckOut != null) {
+				pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				err.setOutput();
+			}
+			throw err;
+		} catch (IOException | RuntimeException | Error err) {
+			if (pckOut != null) {
+				String msg = err instanceof PackProtocolException
+						? err.getMessage()
+						: JGitText.get().internalServerError;
+				pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new UploadPackInternalServerErrorException(err);
+			}
+			throw err;
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -1009,17 +1029,6 @@ public class UploadPack {
 							"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
 				}
 			}
-		} catch (ServiceMayNotContinueException err) {
-			if (!err.isOutput() && err.getMessage() != null) {
-				pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-				err.setOutput();
-			}
-			throw err;
-		} catch (IOException | RuntimeException | Error err) {
-			String msg = err instanceof PackProtocolException ? err.getMessage()
-					: JGitText.get().internalServerError;
-			pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			throw new UploadPackInternalServerErrorException(err);
 		} finally {
 			if (!sendPack && !biDirectionalPipe) {
 				while (0 < rawIn.skip(2048) || 0 <= rawIn.read()) {
