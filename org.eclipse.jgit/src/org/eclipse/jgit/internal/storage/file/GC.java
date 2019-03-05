@@ -1270,7 +1270,7 @@ public class GC {
 	}
 
 	private void checkCancelled() throws CancelledException {
-		if (pm.isCancelled()) {
+		if (pm.isCancelled() || Thread.currentThread().isInterrupted()) {
 			throw new CancelledException(JGitText.get().operationCanceled);
 		}
 	}
