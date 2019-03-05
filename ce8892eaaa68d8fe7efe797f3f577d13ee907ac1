@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "8bf1abaa_2547063c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-05T15:49:26Z",
+      "side": 1,
+      "message": "This does not seem to work properly when comparing two old commits of the same branch. e.g difftool HEAD~3 HEAD~2.\n\nI\u0027ve a possible solution: https://git.eclipse.org/r/#/c/138080/\n\nI could also change that to return an ObjectStream like this method. But similar to now, the ObjectReader will never be closed. -\u003e ResourceLeak",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48227a5d_0c941d89",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-05T15:49:26Z",
+      "side": 1,
+      "message": "The ObjectReader is never closed. -\u003e ResourceLeak",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6730c2e2_1e2ac8a8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 4
