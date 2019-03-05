@@ -1994,36 +1994,34 @@ public class UploadPack {
 			try {
 				sendPack(true, req, accumulator, allTags, unshallowCommits,
 						deepenNots);
-			} catch (ServiceMayNotContinueException noPack) {
-				// This was already reported on (below).
-				throw noPack;
-			} catch (IOException err) {
-				if (reportInternalServerErrorOverSideband())
+			} catch (ServiceMayNotContinueException err) {
+				String message = err.getMessage();
+				if (message == null) {
+					message = JGitText.get().internalServerError;
+				}
+				if (reportInternalServerErrorOverSideband(message)) {
 					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
-			} catch (RuntimeException err) {
-				if (reportInternalServerErrorOverSideband())
+				}
+				throw err;
+			} catch (IOException | RuntimeException | Error err) {
+				if (reportInternalServerErrorOverSideband(
+						JGitText.get().internalServerError)) {
 					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
-			} catch (Error err) {
-				if (reportInternalServerErrorOverSideband())
-					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
+				}
+				throw err;
 			}
 		} else {
 			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots);
 		}
 	}
 
-	private boolean reportInternalServerErrorOverSideband() throws IOException {
+	private boolean reportInternalServerErrorOverSideband(String message)
+			throws IOException {
 		@SuppressWarnings("resource" /* java 7 */)
 		SideBandOutputStream err = new SideBandOutputStream(
 				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
 				rawOut);
-		err.write(Constants.encode(JGitText.get().internalServerError));
+		err.write(Constants.encode(message));
 		err.flush();
 		return true;
 	}
@@ -2071,25 +2069,12 @@ public class UploadPack {
 			}
 		}
 
-		try {
 			if (wantAll.isEmpty()) {
 				preUploadHook.onSendPack(this, wantIds, commonBase);
 			} else {
 				preUploadHook.onSendPack(this, wantAll, commonBase);
 			}
 			msgOut.flush();
-		} catch (ServiceMayNotContinueException noPack) {
-			if (sideband && noPack.getMessage() != null) {
-				noPack.setOutput();
-				@SuppressWarnings("resource" /* java 7 */)
-				SideBandOutputStream err = new SideBandOutputStream(
-						SideBandOutputStream.CH_ERROR,
-						SideBandOutputStream.SMALL_BUF, rawOut);
-				err.write(Constants.encode(noPack.getMessage()));
-				err.flush();
-			}
-			throw noPack;
-		}
 
 		PackConfig cfg = packConfig;
 		if (cfg == null)
