@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6730c2e2_1e2ac8a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-05T09:26:25Z",
+      "side": 1,
+      "message": "This breaks my tools. For example i have the tool:\n\ntestTool $LOCAL $REMOTE\n\nbut when trying to execute\n\n\"testTool \u003cfilename\u003e \u003cfilename\u003e\" \n\nshell obviously can\u0027t find the command. Without the quotation,\nit would find testTool as a command and use the filenames as arguments.\n\n(Im on linux)",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "873ce1fc_6f617640",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-05T09:26:25Z",
+      "side": 1,
+      "message": "Maybe we should also throw an exception for exit codes 126 (permission for executing command denied) and 127 (command not found), even if trust exit code is false.",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
