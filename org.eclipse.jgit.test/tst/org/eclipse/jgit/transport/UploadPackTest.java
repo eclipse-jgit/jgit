@@ -10,7 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +27,6 @@ import java.util.Map;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -734,11 +732,12 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2LsRefsUnrecognizedArgument() throws Exception {
-		PackProtocolException e = assertThrows(PackProtocolException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=ls-refs\n",
 						PacketLineIn.delimiter(), "invalid-argument\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("unexpected invalid-argument"));
 	}
 
@@ -791,12 +790,13 @@ public class UploadPackTest {
 				PacketLineIn.end());
 
 		// This doesn't
-		TransportException e = assertThrows(TransportException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(RequestPolicy.ADVERTISED, null, null,
 						"command=fetch\n", PacketLineIn.delimiter(),
 						"want " + unadvertized.name() + "\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("want " + unadvertized.name() + " not valid"));
 	}
 
@@ -814,12 +814,13 @@ public class UploadPackTest {
 				"want " + reachable.name() + "\n", PacketLineIn.end());
 
 		// This doesn't
-		TransportException e = assertThrows(TransportException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(RequestPolicy.REACHABLE_COMMIT, null, null,
 						"command=fetch\n", PacketLineIn.delimiter(),
 						"want " + unreachable.name() + "\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("want " + unreachable.name() + " not valid"));
 	}
 
@@ -836,12 +837,13 @@ public class UploadPackTest {
 				"want " + tip.name() + "\n", PacketLineIn.end());
 
 		// This doesn't
-		TransportException e = assertThrows(TransportException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(RequestPolicy.TIP, new RejectAllRefFilter(),
 						null, "command=fetch\n", PacketLineIn.delimiter(),
 						"want " + parentOfTip.name() + "\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("want " + parentOfTip.name() + " not valid"));
 	}
 
@@ -860,13 +862,14 @@ public class UploadPackTest {
 				PacketLineIn.end());
 
 		// This doesn't
-		TransportException e = assertThrows(TransportException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(RequestPolicy.REACHABLE_COMMIT_TIP,
 						new RejectAllRefFilter(), null, "command=fetch\n",
 						PacketLineIn.delimiter(),
 						"want " + unreachable.name() + "\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("want " + unreachable.name() + " not valid"));
 	}
 
@@ -1302,12 +1305,13 @@ public class UploadPackTest {
 
 		remote.update("branch1", tooOld);
 
-		PackProtocolException e = assertThrows(PackProtocolException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
 						"deepen-since 1510000\n",
 						"want " + tooOld.toObjectId().getName() + "\n",
 						"done\n", PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("No commits selected for shallow request"));
 	}
 
@@ -1377,12 +1381,13 @@ public class UploadPackTest {
 		remote.update("two", two);
 		remote.update("four", four);
 
-		PackProtocolException e = assertThrows(PackProtocolException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
 						"deepen-not four\n",
 						"want " + two.toObjectId().getName() + "\n", "done\n",
 						PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("No commits selected for shallow request"));
 	}
 
@@ -1461,10 +1466,11 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2FetchUnrecognizedArgument() throws Exception {
-		PackProtocolException e = assertThrows(PackProtocolException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
 						"invalid-argument\n", PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("unexpected invalid-argument"));
 	}
 
@@ -1834,11 +1840,12 @@ public class UploadPackTest {
 
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
 
-		PackProtocolException e = assertThrows(PackProtocolException.class,
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
 						"want " + commit.toObjectId().getName() + "\n",
 						"filter blob:limit=5\n", "done\n", PacketLineIn.end()));
-		assertThat(e.getMessage(),
+		assertThat(e.getCause().getMessage(),
 				containsString("unexpected filter blob:limit=5"));
 	}
 
@@ -1847,20 +1854,13 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		try {
-			uploadPackV2(
-				"command=fetch\n",
-				PacketLineIn.delimiter(),
-				"want-ref refs/heads/one\n",
-				"done\n",
-					PacketLineIn.end());
-		} catch (PackProtocolException e) {
-			assertThat(
-				e.getMessage(),
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"want-ref refs/heads/one\n", "done\n",
+						PacketLineIn.end()));
+		assertThat(e.getCause().getMessage(),
 				containsString("unexpected want-ref refs/heads/one"));
-			return;
-		}
-		fail("expected PackProtocolException");
 	}
 
 	@Test
@@ -1902,23 +1902,17 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
 
-		try {
-			uploadPackV2(
-				"command=fetch\n",
-				PacketLineIn.delimiter(),
-				"want-ref refs/heads/one\n",
-				"want-ref refs/heads/nonExistentRef\n",
-				"done\n",
-					PacketLineIn.end());
-		} catch (PackProtocolException e) {
-			assertThat(
-				e.getMessage(),
+		UploadPackInternalServerErrorException e = assertThrows(
+				UploadPackInternalServerErrorException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"want-ref refs/heads/one\n",
+						"want-ref refs/heads/nonExistentRef\n", "done\n",
+						PacketLineIn.end()));
+		assertThat(e.getCause().getMessage(),
 				containsString("Invalid ref name: refs/heads/nonExistentRef"));
-			return;
-		}
-		fail("expected PackProtocolException");
 	}
 
 	@Test
