@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b5a6d9e_b9473ebb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-05T10:07:42Z",
+      "side": 1,
+      "message": "Yes, this is only working at windows (our main OS at company), because it\u0027s running with FS_Win32 and \"cmd /c\" command needs this. I\u0027ve extracted only windows handling for this change, it\u0027s difficult to reduce changes to minimum for review out of big change, We have support for sh/bash (Windows MSYS2 and Linux / OS X). I want to push this as extra change if it\u0027s OK?\n\nsee: TODO:  \"using of external bash at Windows (MinGW) if shell-script is used as\ndifftool command\"",
+      "parentUuid": "6730c2e2_1e2ac8a8",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "873ce1fc_6f617640",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-05T09:26:25Z",
       "side": 1,
       "message": "Maybe we should also throw an exception for exit codes 126 (permission for executing command denied) and 127 (command not found), even if trust exit code is false.",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0676fa_9b42b994",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-05T10:07:42Z",
+      "side": 1,
+      "message": "Yes, i will check the codes for permission and command not found issues (check at Windows, Linux), They should be thrown always.",
+      "parentUuid": "873ce1fc_6f617640",
       "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
