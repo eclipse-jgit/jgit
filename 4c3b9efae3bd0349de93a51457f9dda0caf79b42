@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c358bc93_644dbbc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-05T23:16:17Z",
+      "side": 1,
+      "message": "refPattern\n\nThis is causing the build to fail with Javadoc errors:\n\n Javadoc: Parameter ref is not declared\n Javadoc: Missing tag for parameter refPattern",
+      "range": {
+        "startLine": 430,
+        "startChar": 11,
+        "endLine": 430,
+        "endChar": 14
+      },
+      "revId": "4c3b9efae3bd0349de93a51457f9dda0caf79b42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "531cc153_23cc1688",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-05T23:16:17Z",
+      "side": 1,
+      "message": "destination",
+      "range": {
+        "startLine": 431,
+        "startChar": 29,
+        "endLine": 431,
+        "endChar": 39
+      },
+      "revId": "4c3b9efae3bd0349de93a51457f9dda0caf79b42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
