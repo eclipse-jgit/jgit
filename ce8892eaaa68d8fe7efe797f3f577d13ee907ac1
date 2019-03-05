@@ -69,6 +69,23 @@
       "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ce5c61_81ffdb29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-05T14:43:04Z",
+      "side": 1,
+      "message": "This is also a problem on linux. When leaving /dev/null it works.",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
