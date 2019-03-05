@@ -16,6 +16,24 @@
       "revId": "7dffe2c08ae8fbac0c7d2825fda46ff875c28476",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf62f9e_fb5247ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-03-05T01:05:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ce8d26_f98386d9",
+      "revId": "7dffe2c08ae8fbac0c7d2825fda46ff875c28476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
