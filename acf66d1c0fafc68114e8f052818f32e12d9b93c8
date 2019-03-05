@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f4e8fe3_3a20bef5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-05T01:16:35Z",
+      "side": 1,
+      "message": "FileNotFoundException is already handled below in line 678",
+      "revId": "acf66d1c0fafc68114e8f052818f32e12d9b93c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
