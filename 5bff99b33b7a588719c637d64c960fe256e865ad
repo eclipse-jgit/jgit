@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1970488b_1dab5978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-05T17:54:08Z",
+      "side": 1,
+      "message": "Should mention that this gives the raw contents, without CR-LF or normal smudge filters applied.",
+      "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
