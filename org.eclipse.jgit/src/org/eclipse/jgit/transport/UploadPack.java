@@ -1011,29 +1011,15 @@ public class UploadPack {
 			}
 		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
-				try {
-					pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-					err.setOutput();
-				} catch (Throwable err2) {
-					// Ignore this secondary failure (and not mark output).
-				}
+				pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				err.setOutput();
 			}
 			throw err;
 		} catch (IOException | RuntimeException | Error err) {
-			boolean output = false;
-			try {
-				String msg = err instanceof PackProtocolException
-						? err.getMessage()
-						: JGitText.get().internalServerError;
-				pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-				output = true;
-			} catch (Throwable err2) {
-				// Ignore this secondary failure, leave output false.
-			}
-			if (output) {
-				throw new UploadPackInternalServerErrorException(err);
-			}
-			throw err;
+			String msg = err instanceof PackProtocolException ? err.getMessage()
+					: JGitText.get().internalServerError;
+			pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new UploadPackInternalServerErrorException(err);
 		} finally {
 			if (!sendPack && !biDirectionalPipe) {
 				while (0 < rawIn.skip(2048) || 0 <= rawIn.read()) {
@@ -2023,20 +2009,14 @@ public class UploadPack {
 		}
 	}
 
-	private boolean reportInternalServerErrorOverSideband() {
-		try {
-			@SuppressWarnings("resource" /* java 7 */)
-			SideBandOutputStream err = new SideBandOutputStream(
-					SideBandOutputStream.CH_ERROR,
-					SideBandOutputStream.SMALL_BUF,
-					rawOut);
-			err.write(Constants.encode(JGitText.get().internalServerError));
-			err.flush();
-			return true;
-		} catch (Throwable cannotReport) {
-			// Ignore the reason. This is a secondary failure.
-			return false;
-		}
+	private boolean reportInternalServerErrorOverSideband() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
+		SideBandOutputStream err = new SideBandOutputStream(
+				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
+				rawOut);
+		err.write(Constants.encode(JGitText.get().internalServerError));
+		err.flush();
+		return true;
 	}
 
 	/**
