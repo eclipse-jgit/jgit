@@ -98,13 +98,13 @@ public final class DfsPackFile extends BlockBasedFile {
 	private final Object initLock = new Object();
 
 	/** Index mapping {@link ObjectId} to position within the pack stream. */
-	private volatile PackIndex index;
+	private volatile DfsBlockCache.Ref<PackIndex> index;
 
 	/** Reverse version of {@link #index} mapping position to {@link ObjectId}. */
-	private volatile PackReverseIndex reverseIndex;
+	private volatile DfsBlockCache.Ref<PackReverseIndex> reverseIndex;
 
 	/** Index of compressed bitmap mapping entire object graph. */
-	private volatile PackBitmapIndex bitmapIndex;
+	private volatile DfsBlockCache.Ref<PackBitmapIndex> bitmapIndex;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -150,15 +150,15 @@ public final class DfsPackFile extends BlockBasedFile {
 	 * @return whether the pack index file is loaded and cached in memory.
 	 */
 	public boolean isIndexLoaded() {
-		return index != null;
+		DfsBlockCache.Ref<PackIndex> idxref = index;
+		return idxref != null && idxref.has();
 	}
 
 	void setPackIndex(PackIndex idx) {
 		long objCnt = idx.getObjectCount();
 		int recSize = Constants.OBJECT_ID_LENGTH + 8;
 		long sz = objCnt * recSize;
-		cache.putRef(desc.getStreamKey(INDEX), sz, idx);
-		index = idx;
+		index = cache.putRef(desc.getStreamKey(INDEX), sz, idx);
 	}
 
 	/**
@@ -176,8 +176,12 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	private PackIndex idx(DfsReader ctx) throws IOException {
-		if (index != null) {
-			return index;
+		DfsBlockCache.Ref<PackIndex> idxref = index;
+		if (idxref != null) {
+			PackIndex idx = idxref.get();
+			if (idx != null) {
+				return idx;
+			}
 		}
 
 		if (invalid) {
@@ -188,60 +192,59 @@ public final class DfsPackFile extends BlockBasedFile {
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
 
 		synchronized (initLock) {
-			if (index != null) {
-				return index;
+			idxref = index;
+			if (idxref != null) {
+				PackIndex idx = idxref.get();
+				if (idx != null) {
+					return idx;
+				}
 			}
 
+			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
 			try {
-				DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-				DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(idxKey,
-						() -> {
-							try {
-								ctx.stats.readIdx++;
-								long start = System.nanoTime();
-								try (ReadableChannel rc = ctx.db.openFile(desc,
-										INDEX)) {
-									InputStream in = Channels
-											.newInputStream(rc);
-									int wantSize = 8192;
-									int bs = rc.blockSize();
-									if (0 < bs && bs < wantSize) {
-										bs = (wantSize / bs) * bs;
-									} else if (bs <= 0) {
-										bs = wantSize;
-									}
-									PackIndex idx = PackIndex.read(
-											new BufferedInputStream(in, bs));
-									int sz = (int) Math.min(
-											idx.getObjectCount() * REC_SIZE,
-											Integer.MAX_VALUE);
-									ctx.stats.readIdxBytes += rc.position();
-									index = idx;
-									return new DfsBlockCache.Ref<>(idxKey, 0,
-											sz, idx);
-								} finally {
-									ctx.stats.readIdxMicros += elapsedMicros(
-											start);
-								}
-							} catch (EOFException e) {
-								throw new IOException(MessageFormat.format(
-										DfsText.get().shortReadOfIndex,
-										desc.getFileName(INDEX)), e);
-							} catch (IOException e) {
-								throw new IOException(MessageFormat.format(
-										DfsText.get().cannotReadIndex,
-										desc.getFileName(INDEX)), e);
+				idxref = cache.getOrLoadRef(idxKey, () -> {
+					try {
+						ctx.stats.readIdx++;
+						long start = System.nanoTime();
+						try (ReadableChannel rc = ctx.db.openFile(desc,
+								INDEX)) {
+							InputStream in = Channels.newInputStream(rc);
+							int wantSize = 8192;
+							int bs = rc.blockSize();
+							if (0 < bs && bs < wantSize) {
+								bs = (wantSize / bs) * bs;
+							} else if (bs <= 0) {
+								bs = wantSize;
 							}
-						});
-				PackIndex idx = idxref.get();
-				if (index == null && idx != null) {
-					index = idx;
-				}
-				return index;
+							PackIndex idx = PackIndex
+									.read(new BufferedInputStream(in, bs));
+							int sz = (int) Math.min(
+									idx.getObjectCount() * REC_SIZE,
+									Integer.MAX_VALUE);
+							ctx.stats.readIdxBytes += rc.position();
+							return new DfsBlockCache.Ref<>(idxKey, 0, sz, idx);
+						} finally {
+							ctx.stats.readIdxMicros += elapsedMicros(start);
+						}
+					} catch (EOFException e) {
+						throw new IOException(MessageFormat.format(
+								DfsText.get().shortReadOfIndex,
+								desc.getFileName(INDEX)), e);
+					} catch (IOException e) {
+						throw new IOException(MessageFormat.format(
+								DfsText.get().cannotReadIndex,
+								desc.getFileName(INDEX)), e);
+					}
+				});
 			} catch (IOException e) {
 				invalid = true;
 				throw e;
 			}
+			PackIndex idx = idxref.get();
+			if (idx != null) {
+				index = idxref;
+			}
+			return idx;
 		}
 	}
 
@@ -254,90 +257,102 @@ public final class DfsPackFile extends BlockBasedFile {
 			return null;
 		}
 
-		if (bitmapIndex != null) {
-			return bitmapIndex;
+		DfsBlockCache.Ref<PackBitmapIndex> idxref = bitmapIndex;
+		if (idxref != null) {
+			PackBitmapIndex bmidx = idxref.get();
+			if (bmidx != null) {
+				return bmidx;
+			}
 		}
 
 		synchronized (initLock) {
-			if (bitmapIndex != null) {
-				return bitmapIndex;
+			idxref = bitmapIndex;
+			if (idxref != null) {
+				PackBitmapIndex bmidx = idxref.get();
+				if (bmidx != null) {
+					return bmidx;
+				}
 			}
 
 			PackIndex idx = idx(ctx);
 			PackReverseIndex revidx = getReverseIdx(ctx);
 			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
-			DfsBlockCache.Ref<PackBitmapIndex> idxref = cache
-					.getOrLoadRef(bitmapKey, () -> {
-						ctx.stats.readBitmap++;
-						long start = System.nanoTime();
-						try (ReadableChannel rc = ctx.db.openFile(desc,
-								BITMAP_INDEX)) {
-							long size;
-							PackBitmapIndex bmidx;
-							try {
-								InputStream in = Channels.newInputStream(rc);
-								int wantSize = 8192;
-								int bs = rc.blockSize();
-								if (0 < bs && bs < wantSize) {
-									bs = (wantSize / bs) * bs;
-								} else if (bs <= 0) {
-									bs = wantSize;
-								}
-								in = new BufferedInputStream(in, bs);
-								bmidx = PackBitmapIndex.read(in, idx, revidx);
-							} finally {
-								size = rc.position();
-								ctx.stats.readIdxBytes += size;
-								ctx.stats.readIdxMicros += elapsedMicros(start);
-							}
-							int sz = (int) Math.min(size, Integer.MAX_VALUE);
-							bitmapIndex = bmidx;
-							return new DfsBlockCache.Ref<>(bitmapKey, 0, sz,
-									bmidx);
-						} catch (EOFException e) {
-							throw new IOException(MessageFormat.format(
-									DfsText.get().shortReadOfIndex,
-									desc.getFileName(BITMAP_INDEX)), e);
-						} catch (IOException e) {
-							throw new IOException(MessageFormat.format(
-									DfsText.get().cannotReadIndex,
-									desc.getFileName(BITMAP_INDEX)), e);
+			idxref = cache.getOrLoadRef(bitmapKey, () -> {
+				ctx.stats.readBitmap++;
+				long start = System.nanoTime();
+				try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
+					long size;
+					PackBitmapIndex bmidx;
+					try {
+						InputStream in = Channels.newInputStream(rc);
+						int wantSize = 8192;
+						int bs = rc.blockSize();
+						if (0 < bs && bs < wantSize) {
+							bs = (wantSize / bs) * bs;
+						} else if (bs <= 0) {
+							bs = wantSize;
 						}
-					});
+						in = new BufferedInputStream(in, bs);
+						bmidx = PackBitmapIndex.read(in, idx, revidx);
+					} finally {
+						size = rc.position();
+						ctx.stats.readIdxBytes += size;
+						ctx.stats.readIdxMicros += elapsedMicros(start);
+					}
+					int sz = (int) Math.min(size, Integer.MAX_VALUE);
+					return new DfsBlockCache.Ref<>(bitmapKey, 0, sz, bmidx);
+				} catch (EOFException e) {
+					throw new IOException(
+							MessageFormat.format(DfsText.get().shortReadOfIndex,
+									desc.getFileName(BITMAP_INDEX)),
+							e);
+				} catch (IOException e) {
+					throw new IOException(
+							MessageFormat.format(DfsText.get().cannotReadIndex,
+									desc.getFileName(BITMAP_INDEX)),
+							e);
+				}
+			});
 			PackBitmapIndex bmidx = idxref.get();
-			if (bitmapIndex == null && bmidx != null) {
-				bitmapIndex = bmidx;
+			if (bmidx != null) {
+				bitmapIndex = idxref;
 			}
-			return bitmapIndex;
+			return bmidx;
 		}
 	}
 
 	PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
-		if (reverseIndex != null) {
-			return reverseIndex;
+		DfsBlockCache.Ref<PackReverseIndex> revref = reverseIndex;
+		if (revref != null) {
+			PackReverseIndex revidx = revref.get();
+			if (revidx != null) {
+				return revidx;
+			}
 		}
 
 		synchronized (initLock) {
-			if (reverseIndex != null) {
-				return reverseIndex;
+			revref = reverseIndex;
+			if (revref != null) {
+				PackReverseIndex revidx = revref.get();
+				if (revidx != null) {
+					return revidx;
+				}
 			}
 
 			PackIndex idx = idx(ctx);
 			DfsStreamKey revKey = new DfsStreamKey.ForReverseIndex(
 					desc.getStreamKey(INDEX));
-			DfsBlockCache.Ref<PackReverseIndex> revref = cache
-					.getOrLoadRef(revKey, () -> {
-						PackReverseIndex revidx = new PackReverseIndex(idx);
-						int sz = (int) Math.min(idx.getObjectCount() * 8,
-								Integer.MAX_VALUE);
-						reverseIndex = revidx;
-						return new DfsBlockCache.Ref<>(revKey, 0, sz, revidx);
-					});
+			revref = cache.getOrLoadRef(revKey, () -> {
+				PackReverseIndex revidx = new PackReverseIndex(idx);
+				int sz = (int) Math.min(idx.getObjectCount() * 8,
+						Integer.MAX_VALUE);
+				return new DfsBlockCache.Ref<>(revKey, 0, sz, revidx);
+			});
 			PackReverseIndex revidx = revref.get();
-			if (reverseIndex == null && revidx != null) {
-				reverseIndex = revidx;
+			if (revidx != null) {
+				reverseIndex = revref;
 			}
-			return reverseIndex;
+			return revidx;
 		}
 	}
 
