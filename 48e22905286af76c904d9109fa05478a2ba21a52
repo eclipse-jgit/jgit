@@ -69,6 +69,30 @@
       "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "214b2ae0_33ffa78e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-05T02:26:26Z",
+      "side": 1,
+      "message": "\u003e As long as I\u0027m confident that this is every case, I will go ahead and rename the method destinationIntersects and add this logic.\n\nYay!\n\nOne possible rule would be:\n* if A or B has no wildcard, match it against the other one\n* otherwise, check whether \"A\u0027s prefix is a prefix of B\u0027s prefix, or vice versa, and A\u0027s suffix is a suffix of B\u0027s suffix, or vice versa\".\n\nFor example:\n\n  refs/heads/a*z, refs/heads/ab*yz: overlaps since A\u0027s prefix and suffix are a prefix and suffix of B\u0027s, respectively\n  refs/heads/abz, refs/heads/a*z: overlaps since A matches B\n  refs/heads/aba, refs/heads/ab*ba: does not overlap since A does not match B\n  refs/heads/ab*a, refs/heads/a*za: overlaps since B\u0027s prefix is a prefix of A\u0027s and A\u0027s suffix is a suffix of B\u0027s",
+      "parentUuid": "f03477e9_20678380",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
