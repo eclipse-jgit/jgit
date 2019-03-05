@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.11-staging" sequenceNumber="1550614637">
+<target name="jgit-4.11-staging" sequenceNumber="1551829209">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -82,7 +82,7 @@
       <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20190219190953/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
