@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "804fa068_82e70553",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-05T01:08:50Z",
+      "side": 1,
+      "message": "fetches (pull \u003d fetch + merge)",
+      "range": {
+        "startLine": 418,
+        "startChar": 48,
+        "endLine": 418,
+        "endChar": 53
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cadc5b66_90ff7bca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-05T01:08:50Z",
+      "side": 1,
+      "message": "I suspect \"contains\" semantics are not what we\u0027d want for this: what if the destination patterns *overlap* without one being a superset of the other?",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
