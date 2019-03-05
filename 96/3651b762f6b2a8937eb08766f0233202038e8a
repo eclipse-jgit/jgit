@@ -1,0 +1,8 @@
+Code-Review+1: Andre Bossert <andre.bossert@siemens.com>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Tue, 05 Mar 2019 08:50:42 -0500
+Reviewed-on: https://git.eclipse.org/r/137482
+Project: jgit/jgit
+Branch: refs/heads/master
