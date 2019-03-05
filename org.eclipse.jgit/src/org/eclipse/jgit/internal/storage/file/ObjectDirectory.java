@@ -56,16 +56,7 @@ import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -484,7 +475,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 		do {
 			SEARCH: for (;;) {
 				pList = packList.get();
+				LOG.info("Packlist has {} packs timestamp={}", pList.packs.length, pList.snapshot.lastModified());
 				for (PackFile p : pList.packs) {
+					LOG.info("Scanning pack {}:{}", p.getPackFile(), p.hashCode());
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
@@ -820,6 +813,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private void insertPack(PackFile pf) {
+		LOG.info("Inserting pack {}", pf.getPackFile());
 		PackList o, n;
 		do {
 			o = packList.get();
@@ -846,6 +840,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		PackList o, n;
 		do {
 			o = packList.get();
+			LOG.warn("About to update packList with {} elements and timestamp={}", o.packs.length, o.snapshot.lastModified());
+
 
 			final PackFile[] oldList = o.packs;
 			final int j = indexOf(oldList, deadPack);
@@ -856,6 +852,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			System.arraycopy(oldList, 0, newList, 0, j);
 			System.arraycopy(oldList, j + 1, newList, j, newList.length - j);
 			n = new PackList(o.snapshot, newList);
+			LOG.warn("Updating packList with {} elements and timestamp={}", n.packs.length, n.snapshot.lastModified());
 		} while (!packList.compareAndSet(o, n));
 		deadPack.close();
 	}
@@ -877,11 +874,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 					// Another thread did the scan for us, while we
 					// were blocked on the monitor above.
 					//
+					LOG.warn("Someone else modified the packlist: returning existing");
 					return o;
 				}
 				n = scanPacksImpl(o);
-				if (n == o)
+				if (n == o) {
+					LOG.warn("Packlist hasn't changed. Returning it.");
 					return n;
+				}
+				LOG.info("Returning new packlist of {} files and timestamp={}", n.packs.length, n.snapshot.lastModified());
 			} while (!packList.compareAndSet(o, n));
 			return n;
 		}
@@ -933,6 +934,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		//
 		if (!foundNew && forReuse.isEmpty() && snapshot.equals(old.snapshot)) {
 			old.snapshot.setClean(snapshot);
+			LOG.info("Returning old packlist");
 			return old;
 		}
 
@@ -945,6 +947,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		final PackFile[] r = list.toArray(new PackFile[0]);
 		Arrays.sort(r, PackFile.SORT);
+		LOG.info("Returning new packlist of {} elements and timestamp={}", r.length, snapshot.lastModified());
 		return new PackList(snapshot, r);
 	}
 

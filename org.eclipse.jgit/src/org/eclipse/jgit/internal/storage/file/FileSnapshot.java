@@ -51,6 +51,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Caches when a file was last read, making it possible to detect future edits.
@@ -77,6 +79,8 @@ public class FileSnapshot {
 	 * snapshot contains only invalid status information.
 	 */
 	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1);
+
+	private static final Logger LOG = LoggerFactory.getLogger(FileSnapshot.class);
 
 	/**
 	 * A FileSnapshot that is clean if the file does not exist.
@@ -250,8 +254,10 @@ public class FileSnapshot {
 	private boolean isModified(long currLastModified) {
 		// Any difference indicates the path was modified.
 		//
-		if (lastModified != currLastModified)
+		if (lastModified != currLastModified) {
+			LOG.info("Modified: lastModified={} currModified={}", lastModified, currLastModified);
 			return true;
+		}
 
 		// We have already determined the last read was far enough
 		// after the last modification that any new modifications

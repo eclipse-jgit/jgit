@@ -126,7 +126,12 @@ public abstract class LocalDiskRepositoryTestCase {
 		if (!tmp.delete() || !tmp.mkdir())
 			throw new IOException("Cannot create " + tmp);
 
-		mockSystemReader = new MockSystemReader();
+		mockSystemReader = new MockSystemReader() {
+			@Override
+			public long getCurrentTime() {
+				return System.currentTimeMillis();
+			}
+		};
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
 				"usergitconfig"), FS.DETECTED);
 		// We have to set autoDetach to false for tests, because tests expect to be able

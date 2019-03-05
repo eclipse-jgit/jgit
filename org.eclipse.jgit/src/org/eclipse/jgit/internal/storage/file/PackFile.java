@@ -93,6 +93,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Git version 2 pack file representation. A pack file contains Git objects in
@@ -145,6 +147,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private PackBitmapIndex bitmapIdx;
 
+	private static Logger LOG = LoggerFactory.getLogger(PackFile.class);
+
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
 	 * <p>
@@ -172,6 +176,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		//
 		hash = System.identityHashCode(this) * 31;
 		length = Long.MAX_VALUE;
+		LOG.info("Created packfile {}:{}", packFile, hashCode());
 	}
 
 	private synchronized PackIndex idx() throws IOException {
@@ -676,6 +681,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		activeWindows = 0;
 		activeCopyRawData = 0;
 		invalid = invalidate;
+		LOG.warn("Flagging packfile {}:{} as invalid", getPackFile(), hashCode());
 		doClose();
 	}
 
