@@ -45,6 +45,30 @@
       "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f03477e9_20678380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-03-05T02:16:20Z",
+      "side": 1,
+      "message": "I had concluded that was impossible, but I wasn\u0027t considering the case where 1 pattern has parts both before and after *, while the other pattern has only parts before or only after.\n\nA \u003d a/b/*/y/z   matches a/b/c/x/y/z and a/b/d/y/z\nB \u003d a/b/c/*      matches a/b/c/x/y/z and a/b/c/d\nC \u003d */x/y/z       matches a/b/c/x/y/z and w/x/y/z\n\nCan you think of another case that has partial intersection? I think I can recognize this case by observing that A and B share a prefix, B has a longer prefix before the *, and B has no suffix (similar for A and C). This will also identify that B and C overlap.\n\nAs long as I\u0027m confident that this is every case, I will go ahead and rename the method destinationIntersects and add this logic.",
+      "parentUuid": "cadc5b66_90ff7bca",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
