@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c39ab64a_bc8b544c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-06T08:02:45Z",
+      "side": 1,
+      "message": "I so often had to fight with racy git problems where two threads managed to update the same file within the same tick of the filesystem clock that I vote against a simple lastmodified check. You mentioned using FileSnapshot which helps a little bit. In this case where we look at Packfiles it is very unlikely that you produce a Packfile with same name (means: same objects included), with different checksum (e.g. compression rate was modified) but with the same file length. So checking that the length has changed could be added as a check.",
+      "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
