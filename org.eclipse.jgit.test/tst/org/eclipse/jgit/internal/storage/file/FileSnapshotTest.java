@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -99,6 +100,27 @@ public class FileSnapshotTest {
 	}
 
 	/**
+	 * Check that file is modified by looking at its size.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void tesIsModifiedBySameLastModifiedAndDifferentSize() throws Exception {
+		File f1 = createFile("foo", "lorem".getBytes());
+		File f2 = createFile("bar", "lorem ipsum".getBytes());
+
+		f1.setLastModified(f2.lastModified()); // Make sure f1 and f2 have the same lastModified
+		FileSnapshot save = FileSnapshot.save(f1);
+
+		// Make sure that the modified and read timestamps are far enough, so that
+		// check is done by size
+		Thread.sleep(3000L);
+
+		assertEquals(save.lastModified(), f2.lastModified());
+		assertTrue(save.isModified(f2));
+	}
+
+	/**
 	 * Create a file, wait long enough and verify that it has not been modified.
 	 * 3.5 seconds mean any difference between file system timestamp and system
 	 * clock should be significant.
@@ -152,10 +174,22 @@ public class FileSnapshotTest {
 		return f;
 	}
 
+	private File createFile(String string, byte[] content) throws IOException {
+		File f = createFile(string);
+		append(f, content);
+		return f;
+	}
+
 	private static void append(File f, byte b) throws IOException {
+		append(f, new byte[] { b });
+	}
+
+	private static void append(File f, byte[] content) throws IOException {
 		FileOutputStream os = new FileOutputStream(f, true);
 		try {
-			os.write(b);
+			for (byte b : content) {
+				os.write(b);
+			}
 		} finally {
 			os.close();
 		}

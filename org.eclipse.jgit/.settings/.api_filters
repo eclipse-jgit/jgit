@@ -22,4 +22,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="4.5.6"/>
+                <message_argument value="fileAttributes(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
