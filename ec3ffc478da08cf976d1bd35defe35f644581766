@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2da4e347_1c37b761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-06T00:41:12Z",
+      "side": 1,
+      "message": "This check is needed to make sure that one thread is not \"removing\" the packfile just reloaded from another thread, leaving effectively the JVM with an invalid packlist :-(",
+      "range": {
+        "startLine": 913,
+        "startChar": 23,
+        "endLine": 913,
+        "endChar": 77
+      },
+      "revId": "ec3ffc478da08cf976d1bd35defe35f644581766",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
