@@ -48,7 +48,7 @@
 	<parent>
 		<groupId>org.eclipse.jgit</groupId>
 		<artifactId>org.eclipse.jgit-parent</artifactId>
-		<version>5.3.0-SNAPSHOT</version>
+		<version>5.3.0.201903061415-rc1</version>
 	</parent>
 
 	<artifactId>org.eclipse.jgit.http.apache</artifactId>
