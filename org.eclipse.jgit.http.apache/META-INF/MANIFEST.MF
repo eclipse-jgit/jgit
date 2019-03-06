@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.http.apache
 Bundle-SymbolicName: org.eclipse.jgit.http.apache
-Bundle-Version: 5.3.0.qualifier
+Bundle-Version: 5.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider-Name
@@ -23,11 +23,11 @@ Import-Package: org.apache.http;version="[4.3.0,5.0.0)",
  org.apache.http.impl.client;version="[4.3.0,5.0.0)",
  org.apache.http.impl.conn;version="[4.3.0,5.0.0)",
  org.apache.http.params;version="[4.3.0,5.0.0)",
- org.eclipse.jgit.annotations;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.nls;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.transport.http;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.util;version="[5.3.0,5.4.0)"
-Export-Package: org.eclipse.jgit.transport.http.apache;version="5.3.0";
+ org.eclipse.jgit.annotations;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.nls;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.transport.http;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.util;version="[5.4.0,5.5.0)"
+Export-Package: org.eclipse.jgit.transport.http.apache;version="5.4.0";
   uses:="org.apache.http.client,
    org.eclipse.jgit.transport.http,
    org.apache.http.entity,
