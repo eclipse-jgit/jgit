@@ -145,6 +145,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			git.checkout().setName("master").call().getObjectId();
 			fail("Expected CheckoutConflictException didn't occur");
 		} catch (CheckoutConflictException e) {
+			// Expected
 		}
 		assertEquals(initialCommit.getId(), git.checkout().setName("master")
 				.setForced(true).call().getObjectId());

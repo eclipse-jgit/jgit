@@ -651,8 +651,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteDoesNotHaveSpec;
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;
 	/***/ public String remoteHungUpUnexpectedly;
-	/***/ public String remoteNameCantBeNull;
-	/***/ public String renameBranchFailedBecauseTag;
+	/***/ public String remoteNameCannotBeNull;
+	/***/ public String renameBranchFailedAmbiguous;
+	/***/ public String renameBranchFailedNotABranch;
 	/***/ public String renameBranchFailedUnknownReason;
 	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renameCancelled;
@@ -691,7 +692,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sequenceTooLargeForDiffAlgorithm;
 	/***/ public String serviceNotEnabledNoName;
 	/***/ public String serviceNotPermitted;
-	/***/ public String sha1CollisionDetected1;
+	/***/ public String sha1CollisionDetected;
 	/***/ public String shallowCommitsAlreadyInitialized;
 	/***/ public String shallowPacksRequireDepthWalk;
 	/***/ public String shortCompressedStreamAt;

@@ -165,6 +165,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String clonedEmptyRepository;
 	/***/ public String cloningInto;
 	/***/ public String commitLabel;
+	/***/ public String configOnlyListOptionSupported;
 	/***/ public String conflictingUsageOf_git_dir_andArguments;
 	/***/ public String couldNotCreateBranch;
 	/***/ public String dateInfo;
@@ -278,7 +279,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String onBranchToBeBorn;
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
-	/***/ public String onlyOneOfIncludeOnlyAllInteractiveCanBeUsed;
+	/***/ public String onlyOneCommitOptionAllowed;
 	/***/ public String password;
 	/***/ public String pathspecDidNotMatch;
 	/***/ public String pushTo;
@@ -289,6 +290,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String remoteSideDoesNotSupportDeletingRefs;
 	/***/ public String removing;
 	/***/ public String repaint;
+	/***/ public String resetNoMode;
 	/***/ public String s3InvalidBucket;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;

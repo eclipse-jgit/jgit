@@ -77,9 +77,37 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class BundleWriterTest extends SampleDataRepositoryTestCase {
+
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
+	@Test
+	public void testEmptyBundleFails() throws Exception {
+		Repository newRepo = createBareRepository();
+		thrown.expect(TransportException.class);
+		fetchFromBundle(newRepo, new byte[0]);
+	}
+
+	@Test
+	public void testNonBundleFails() throws Exception {
+		Repository newRepo = createBareRepository();
+		thrown.expect(TransportException.class);
+		fetchFromBundle(newRepo, "Not a bundle file".getBytes(UTF_8));
+	}
+
+	@Test
+	public void testGarbageBundleFails() throws Exception {
+		Repository newRepo = createBareRepository();
+		thrown.expect(TransportException.class);
+		fetchFromBundle(newRepo,
+				(TransportBundle.V2_BUNDLE_SIGNATURE + '\n' + "Garbage")
+						.getBytes(UTF_8));
+	}
 
 	@Test
 	public void testWriteSingleRef() throws Exception {

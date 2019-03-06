@@ -116,7 +116,7 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the tree id for this commit object
+	 * Set the tree id for this commit object.
 	 *
 	 * @param id
 	 *            the tree identity.
@@ -154,7 +154,7 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the committer and commit time for this object
+	 * Set the committer and commit time for this object.
 	 *
 	 * @param newCommitter
 	 *            the committer information. Should not be null.
@@ -164,7 +164,7 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the GPG signature of this commit
+	 * Set the GPG signature of this commit.
 	 * <p>
 	 * Note, the signature set here will change the payload of the commit, i.e.
 	 * the output of {@link #build()} will include the signature. Thus, the
@@ -290,18 +290,20 @@ public class CommitBuilder {
 	}
 
 	/**
-	 * Set the encoding for the commit information
+	 * Set the encoding for the commit information.
 	 *
 	 * @param encodingName
 	 *            the encoding name. See
 	 *            {@link java.nio.charset.Charset#forName(String)}.
+	 * @deprecated use {@link #setEncoding(Charset)} instead.
 	 */
+	@Deprecated
 	public void setEncoding(String encodingName) {
 		encoding = Charset.forName(encodingName);
 	}
 
 	/**
-	 * Set the encoding for the commit information
+	 * Set the encoding for the commit information.
 	 *
 	 * @param enc
 	 *            the encoding to use.

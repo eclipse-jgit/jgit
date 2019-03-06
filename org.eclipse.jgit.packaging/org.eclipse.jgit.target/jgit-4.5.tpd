@@ -1,8 +1,0 @@
-target "jgit-4.5" with source configurePhase
-
-include "projects/jetty-9.4.14.tpd"
-include "orbit/R20181128170323-2018-12.tpd"
-
-location "http://download.eclipse.org/releases/mars/" {
-	org.eclipse.osgi lazy
-}

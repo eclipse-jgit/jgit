@@ -70,7 +70,7 @@ import org.eclipse.jgit.internal.transport.sshd.RepeatingFilePasswordProvider.Re
  * encrypted private key if the {@link FilePasswordProvider} is a
  * {@link RepeatingFilePasswordProvider}.
  */
-public class EncryptedFileKeyPairProvider extends FileKeyPairProvider {
+public abstract class EncryptedFileKeyPairProvider extends FileKeyPairProvider {
 
 	// TODO: remove this class once we're based on sshd > 2.1.0. See upstream
 	// issue SSHD-850 https://issues.apache.org/jira/browse/SSHD-850 and commit

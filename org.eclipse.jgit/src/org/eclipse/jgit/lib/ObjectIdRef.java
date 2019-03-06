@@ -278,7 +278,10 @@ public abstract class ObjectIdRef implements Ref {
 		return storage;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 * @since 5.3
+	 */
 	@Override
 	public long getUpdateIndex() {
 		if (updateIndex == -1) {

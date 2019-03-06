@@ -48,6 +48,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -69,6 +70,8 @@ class Add extends TextBuiltin {
 			for (String p : filepatterns)
 				addCmd.addFilepattern(p);
 			addCmd.call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }

@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -399,8 +400,9 @@ public class FS_POSIX extends FS {
 			Integer nlink = (Integer) (Files.getAttribute(lockPath,
 					"unix:nlink")); //$NON-NLS-1$
 			if (nlink > 2) {
-				LOG.warn("nlink of link to lock file {} was not 2 but {}", //$NON-NLS-1$
-						lock.getPath(), nlink);
+				LOG.warn(MessageFormat.format(
+						JGitText.get().failedAtomicFileCreation, lockPath,
+						nlink));
 				return false;
 			} else if (nlink < 2) {
 				supportsUnixNLink = false;
@@ -463,7 +465,8 @@ public class FS_POSIX extends FS {
 				supportsUnixNLink = false;
 			}
 			return token(true, link);
-		} catch (UnsupportedOperationException | IllegalArgumentException e) {
+		} catch (UnsupportedOperationException | IllegalArgumentException
+				| AccessDeniedException | SecurityException e) {
 			supportsUnixNLink = false;
 			return token(true, link);
 		}

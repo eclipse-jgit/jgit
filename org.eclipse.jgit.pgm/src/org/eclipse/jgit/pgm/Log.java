@@ -193,12 +193,13 @@ class Log extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		diffFmt.setRepository(db);
 		try {
 			diffFmt.setPathFilter(pathFilter);
-			if (detectRenames != null)
+			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			}
 			if (renameLimit != null && diffFmt.isDetectRenames()) {
 				RenameDetector rd = diffFmt.getRenameDetector();
 				rd.setRenameLimit(renameLimit.intValue());
@@ -220,11 +221,13 @@ class Log extends RevWalkTextBuiltin {
 				}
 			}
 
-			if (decorate)
+			if (decorate) {
 				allRefsByPeeledObjectId = getRepository()
 						.getAllRefsByPeeledObjectId();
-
+			}
 			super.run();
+		} catch (Exception e) {
+			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
 		}

@@ -91,6 +91,20 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 		assertFalse(refDir02.getParent().getParent().toFile().exists());
 	}
 
+	@Test
+	public void emptyRefFoldersSkipFiles() throws Exception {
+		FileTime fileTime = FileTime.from(Instant.now().minusSeconds(31));
+		Path refFile = Files.createFile(refsDir.resolve(".DS_Store"));
+		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
+		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
+		setLastModifiedTime(fileTime, heads, REF_FOLDER_01);
+		setLastModifiedTime(fileTime, heads, REF_FOLDER_02);
+		assertTrue(refDir01.toFile().exists());
+		assertTrue(refDir02.toFile().exists());
+		gc.gc();
+		assertTrue(Files.exists(refFile));
+	}
+
 	private void setLastModifiedTime(FileTime fileTime, Path path, String folder) throws IOException {
 		long numParents = folder.chars().filter(c -> c == '/').count();
 		Path folderPath = path.resolve(folder);

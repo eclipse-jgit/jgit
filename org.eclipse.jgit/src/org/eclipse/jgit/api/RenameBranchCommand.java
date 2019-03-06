@@ -94,25 +94,38 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 			RefAlreadyExistsException, DetachedHeadException {
 		checkCallable();
 
-		if (newName == null)
+		if (newName == null) {
 			throw new InvalidRefNameException(MessageFormat.format(JGitText
 					.get().branchNameInvalid, "<null>")); //$NON-NLS-1$
-
+		}
 		try {
 			String fullOldName;
 			String fullNewName;
-			if (repo.findRef(newName) != null)
-				throw new RefAlreadyExistsException(MessageFormat.format(
-						JGitText.get().refAlreadyExists1, newName));
 			if (oldName != null) {
-				Ref ref = repo.findRef(oldName);
-				if (ref == null)
-					throw new RefNotFoundException(MessageFormat.format(
-							JGitText.get().refNotResolved, oldName));
-				if (ref.getName().startsWith(Constants.R_TAGS))
-					throw new RefNotFoundException(MessageFormat.format(
-							JGitText.get().renameBranchFailedBecauseTag,
-							oldName));
+				// Don't just rely on findRef -- if there are local and remote
+				// branches with the same name, and oldName is a short name, it
+				// does not uniquely identify the ref and we might end up
+				// renaming the wrong branch or finding a tag instead even
+				// if a unique branch for the name exists!
+				//
+				// OldName may be a either a short or a full name.
+				Ref ref = repo.exactRef(oldName);
+				if (ref == null) {
+					ref = repo.exactRef(Constants.R_HEADS + oldName);
+					Ref ref2 = repo.exactRef(Constants.R_REMOTES + oldName);
+					if (ref != null && ref2 != null) {
+						throw new RefNotFoundException(MessageFormat.format(
+								JGitText.get().renameBranchFailedAmbiguous,
+								oldName, ref.getName(), ref2.getName()));
+					} else if (ref == null) {
+						if (ref2 != null) {
+							ref = ref2;
+						} else {
+							throw new RefNotFoundException(MessageFormat.format(
+									JGitText.get().refNotResolved, oldName));
+						}
+					}
+				}
 				fullOldName = ref.getName();
 			} else {
 				fullOldName = repo.getFullBranch();
@@ -124,26 +137,34 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 					throw new DetachedHeadException();
 			}
 
-			if (fullOldName.startsWith(Constants.R_REMOTES))
+			if (fullOldName.startsWith(Constants.R_REMOTES)) {
 				fullNewName = Constants.R_REMOTES + newName;
-			else {
+			} else if (fullOldName.startsWith(Constants.R_HEADS)) {
 				fullNewName = Constants.R_HEADS + newName;
+			} else {
+				throw new RefNotFoundException(MessageFormat.format(
+						JGitText.get().renameBranchFailedNotABranch,
+						fullOldName));
 			}
 
-			if (!Repository.isValidRefName(fullNewName))
+			if (!Repository.isValidRefName(fullNewName)) {
 				throw new InvalidRefNameException(MessageFormat.format(JGitText
 						.get().branchNameInvalid, fullNewName));
-
+			}
+			if (repo.exactRef(fullNewName) != null) {
+				throw new RefAlreadyExistsException(MessageFormat
+						.format(JGitText.get().refAlreadyExists1, fullNewName));
+			}
 			RefRename rename = repo.renameRef(fullOldName, fullNewName);
 			Result renameResult = rename.rename();
 
 			setCallable(false);
 
-			if (Result.RENAMED != renameResult)
+			if (Result.RENAMED != renameResult) {
 				throw new JGitInternalException(MessageFormat.format(JGitText
 						.get().renameBranchUnexpectedResult, renameResult
 						.name()));
-
+			}
 			if (fullNewName.startsWith(Constants.R_HEADS)) {
 				String shortOldName = fullOldName.substring(Constants.R_HEADS
 						.length());
@@ -154,8 +175,9 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 					String[] values = repoConfig.getStringList(
 							ConfigConstants.CONFIG_BRANCH_SECTION,
 							shortOldName, name);
-					if (values.length == 0)
+					if (values.length == 0) {
 						continue;
+					}
 					// Keep any existing values already configured for the
 					// new branch name
 					String[] existing = repoConfig.getStringList(
@@ -180,10 +202,11 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 				repoConfig.save();
 			}
 
-			Ref resultRef = repo.findRef(newName);
-			if (resultRef == null)
+			Ref resultRef = repo.exactRef(fullNewName);
+			if (resultRef == null) {
 				throw new JGitInternalException(
 						JGitText.get().renameBranchFailedUnknownReason);
+			}
 			return resultRef;
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
@@ -191,7 +214,13 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * Set the new name of the branch
+	 * Sets the new short name of the branch.
+	 * <p>
+	 * The full name is constructed using the prefix of the branch to be renamed
+	 * defined by either {@link #setOldName(String)} or HEAD. If that old branch
+	 * is a local branch, the renamed branch also will be, and if the old branch
+	 * is a remote branch, so will be the renamed branch.
+	 * </p>
 	 *
 	 * @param newName
 	 *            the new name
@@ -204,7 +233,11 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * Set the old name of the branch
+	 * Sets the old name of the branch.
+	 * <p>
+	 * {@code oldName} may be a short or a full name. Using a full name is
+	 * recommended to unambiguously identify the branch to be renamed.
+	 * </p>
 	 *
 	 * @param oldName
 	 *            the name of the branch to rename; if not set, the currently

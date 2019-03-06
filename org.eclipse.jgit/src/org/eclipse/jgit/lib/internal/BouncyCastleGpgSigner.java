@@ -59,8 +59,10 @@ import org.bouncycastle.openpgp.PGPSignatureGenerator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.GpgSignature;
@@ -90,27 +92,50 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 	}
 
 	@Override
-	public void sign(@NonNull CommitBuilder commit, String gpgSigningKey,
-			@NonNull PersonIdent committer,
-			CredentialsProvider credentialsProvider) throws CanceledException {
+	public boolean canLocateSigningKey(@Nullable String gpgSigningKey,
+			PersonIdent committer, CredentialsProvider credentialsProvider)
+			throws CanceledException {
+		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
+				credentialsProvider)) {
+			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
+					committer, passphrasePrompt);
+			return gpgKey != null;
+		} catch (PGPException | IOException | URISyntaxException e) {
+			return false;
+		}
+	}
+
+	private BouncyCastleGpgKey locateSigningKey(@Nullable String gpgSigningKey,
+			PersonIdent committer,
+			BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt)
+			throws CanceledException, UnsupportedCredentialItem, IOException,
+			PGPException, URISyntaxException {
 		if (gpgSigningKey == null || gpgSigningKey.isEmpty()) {
 			gpgSigningKey = committer.getEmailAddress();
 		}
 
+		BouncyCastleGpgKeyLocator keyHelper = new BouncyCastleGpgKeyLocator(
+				gpgSigningKey, passphrasePrompt);
+
+		return keyHelper.findSecretKey();
+	}
+
+	@Override
+	public void sign(@NonNull CommitBuilder commit,
+			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
+			CredentialsProvider credentialsProvider) throws CanceledException {
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
 				credentialsProvider)) {
-			BouncyCastleGpgKeyLocator keyHelper = new BouncyCastleGpgKeyLocator(
-					gpgSigningKey, passphrasePrompt);
-
-			BouncyCastleGpgKey gpgKey = keyHelper.findSecretKey();
+			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
+					committer, passphrasePrompt);
 			PGPSecretKey secretKey = gpgKey.getSecretKey();
 			if (secretKey == null) {
 				throw new JGitInternalException(
 						JGitText.get().unableToSignCommitNoSecretKey);
 			}
-			char[] passphrase = passphrasePrompt
-					.getPassphrase(secretKey.getPublicKey().getFingerprint(),
-							gpgKey.getOrigin());
+			char[] passphrase = passphrasePrompt.getPassphrase(
+					secretKey.getPublicKey().getFingerprint(),
+					gpgKey.getOrigin());
 			PGPPrivateKey privateKey = secretKey
 					.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder()
 							.setProvider(BouncyCastleProvider.PROVIDER_NAME)

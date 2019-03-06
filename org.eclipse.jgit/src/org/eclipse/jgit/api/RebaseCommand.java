@@ -158,11 +158,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String ONTO = "onto"; //$NON-NLS-1$
 
-	private static final String ONTO_NAME = "onto-name"; //$NON-NLS-1$
+	private static final String ONTO_NAME = "onto_name"; //$NON-NLS-1$
 
 	private static final String PATCH = "patch"; //$NON-NLS-1$
 
-	private static final String REBASE_HEAD = "head"; //$NON-NLS-1$
+	private static final String REBASE_HEAD = "orig-head"; //$NON-NLS-1$
+
+	/** Pre git 1.7.6 file name for {@link #REBASE_HEAD}. */
+	private static final String REBASE_HEAD_LEGACY = "head"; //$NON-NLS-1$
 
 	private static final String AMEND = "amend"; //$NON-NLS-1$
 
@@ -177,6 +180,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * The folder containing the hashes of (potentially) rewritten commits when
 	 * --preserve-merges is used.
+	 * <p>
+	 * Native git rebase --merge uses a <em>file</em> of that name to record
+	 * commits to copy notes at the end of the whole rebase.
+	 * </p>
 	 */
 	private static final String REWRITTEN = "rewritten"; //$NON-NLS-1$
 
@@ -289,7 +296,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 				this.upstreamCommit = walk.parseCommit(repo
 						.resolve(upstreamCommitId));
-				preserveMerges = rebaseState.getRewrittenDir().exists();
+				preserveMerges = rebaseState.getRewrittenDir().isDirectory();
 				break;
 			case BEGIN:
 				autoStash();
@@ -1120,10 +1127,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		repo.writeOrigHead(headId);
 		rebaseState.createFile(REBASE_HEAD, headId.name());
+		rebaseState.createFile(REBASE_HEAD_LEGACY, headId.name());
 		rebaseState.createFile(HEAD_NAME, headName);
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
-		if (isInteractive()) {
+		if (isInteractive() || preserveMerges) {
+			// --preserve-merges is an interactive mode for native git. Without
+			// this, native git rebase --continue after a conflict would fall
+			// into merge mode.
 			rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
 		}
 		rebaseState.createFile(QUIET, ""); //$NON-NLS-1$
@@ -1333,8 +1344,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private RebaseResult abort(RebaseResult result) throws IOException,
 			GitAPIException {
+		ObjectId origHead = getOriginalHead();
 		try {
-			ObjectId origHead = repo.readOrigHead();
 			String commitId = origHead != null ? origHead.name() : null;
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().abortingRebase, commitId),
@@ -1373,7 +1384,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				// update the HEAD
 				res = refUpdate.link(headName);
 			} else {
-				refUpdate.setNewObjectId(repo.readOrigHead());
+				refUpdate.setNewObjectId(origHead);
 				res = refUpdate.forceUpdate();
 
 			}
@@ -1397,6 +1408,19 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		} finally {
 			monitor.endTask();
+		}
+	}
+
+	private ObjectId getOriginalHead() throws IOException {
+		try {
+			return ObjectId.fromString(rebaseState.readFile(REBASE_HEAD));
+		} catch (FileNotFoundException e) {
+			try {
+				return ObjectId
+						.fromString(rebaseState.readFile(REBASE_HEAD_LEGACY));
+			} catch (FileNotFoundException ex) {
+				return repo.readOrigHead();
+			}
 		}
 	}
 
@@ -1706,7 +1730,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 
 		public String readFile(String name) throws IOException {
-			return readFile(getDir(), name);
+			try {
+				return readFile(getDir(), name);
+			} catch (FileNotFoundException e) {
+				if (ONTO_NAME.equals(name)) {
+					// Older JGit mistakenly wrote a file "onto-name" instead of
+					// "onto_name". Try that wrong name just in case somebody
+					// upgraded while a rebase started by JGit was in progress.
+					File oldFile = getFile(ONTO_NAME.replace('_', '-'));
+					if (oldFile.exists()) {
+						return readFile(oldFile);
+					}
+				}
+				throw e;
+			}
 		}
 
 		public void createFile(String name, String content) throws IOException {
@@ -1721,12 +1758,16 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return (getDir().getName() + "/" + name); //$NON-NLS-1$
 		}
 
-		private static String readFile(File directory, String fileName)
-				throws IOException {
-			byte[] content = IO.readFully(new File(directory, fileName));
+		private static String readFile(File file) throws IOException {
+			byte[] content = IO.readFully(file);
 			// strip off the last LF
 			int end = RawParseUtils.prevLF(content, content.length);
 			return RawParseUtils.decode(content, 0, end + 1);
+		}
+
+		private static String readFile(File directory, String fileName)
+				throws IOException {
+			return readFile(new File(directory, fileName));
 		}
 
 		private static void createFile(File parentDir, String name,

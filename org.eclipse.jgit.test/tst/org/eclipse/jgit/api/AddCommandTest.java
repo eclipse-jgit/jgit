@@ -501,11 +501,11 @@ public class AddCommandTest extends RepositoryTestCase {
 					indexState(CONTENT));
 			db.getConfig().setString("core", null, "autocrlf", "true");
 			git.add().addFilepattern("a.txt").call();
-			assertEquals("[a.txt, mode:100644, content:row1\nrow2]",
+			assertEquals("[a.txt, mode:100644, content:row1\r\nrow2]",
 					indexState(CONTENT));
 			db.getConfig().setString("core", null, "autocrlf", "input");
 			git.add().addFilepattern("a.txt").call();
-			assertEquals("[a.txt, mode:100644, content:row1\nrow2]",
+			assertEquals("[a.txt, mode:100644, content:row1\r\nrow2]",
 					indexState(CONTENT));
 		}
 	}
@@ -523,19 +523,18 @@ public class AddCommandTest extends RepositoryTestCase {
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print(crData);
 		}
-		String lfData = data.toString().replaceAll("\r", "");
 		try (Git git = new Git(db)) {
 			db.getConfig().setString("core", null, "autocrlf", "false");
 			git.add().addFilepattern("a.txt").call();
-			assertEquals("[a.txt, mode:100644, content:" + data + "]",
+			assertEquals("[a.txt, mode:100644, content:" + crData + "]",
 					indexState(CONTENT));
 			db.getConfig().setString("core", null, "autocrlf", "true");
 			git.add().addFilepattern("a.txt").call();
-			assertEquals("[a.txt, mode:100644, content:" + lfData + "]",
+			assertEquals("[a.txt, mode:100644, content:" + crData + "]",
 					indexState(CONTENT));
 			db.getConfig().setString("core", null, "autocrlf", "input");
 			git.add().addFilepattern("a.txt").call();
-			assertEquals("[a.txt, mode:100644, content:" + lfData + "]",
+			assertEquals("[a.txt, mode:100644, content:" + crData + "]",
 					indexState(CONTENT));
 		}
 	}
