@@ -141,6 +141,30 @@
       "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "538bd39f_9c8f93f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-06T00:54:09Z",
+      "side": 1,
+      "message": "If you put slashes around the *, the same examples should still work:\n\n refs/heads/a/*/z, refs/heads/a/b/*/y/z: overlaps\n refs/heads/a/b/z, refs/heads/a/*/z: overlaps\n refs/heads/a/b/a, refs/heads/a/b/*/b/a: no overlap\n refs/heads/a/b/*/a, refs/heads/a/*/z/a: overlaps",
+      "parentUuid": "d9f69f0a_c4f24dbd",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
