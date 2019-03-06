@@ -643,9 +643,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private void doOpen() throws IOException {
+		if (invalid) {
+			throw new PackInvalidException(packFile);
+		}
 		try {
-			if (invalid)
-				throw new PackInvalidException(packFile);
 			synchronized (readLock) {
 				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
 				length = fd.length();
