@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4adfe17_dbd92515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-06T01:00:07Z",
+      "side": 1,
+      "message": "we still need real tests",
+      "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be55574d_5f37ba51",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcPackfileChecksumMismatchTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-06T01:00:07Z",
+      "side": 1,
+      "message": "wrong copyright and year",
+      "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71aa7de1_a97208ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-06T01:00:07Z",
+      "side": 1,
+      "message": "don\u0027t use wildcard imports",
+      "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
