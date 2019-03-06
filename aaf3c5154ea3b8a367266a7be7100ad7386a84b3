@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae823b09_c198e0d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-06T11:42:16Z",
+      "side": 1,
+      "message": "This is catching also the throw at L635, causing a *permanent invalid* packfile to be flagged as valid again, and open the door to having corrupted items in the packlist.\n\nSee Bug: 544199 (https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d544199)",
+      "range": {
+        "startLine": 659,
+        "startChar": 11,
+        "endLine": 659,
+        "endChar": 22
+      },
+      "revId": "aaf3c5154ea3b8a367266a7be7100ad7386a84b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
