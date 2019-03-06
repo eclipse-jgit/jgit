@@ -47,27 +47,35 @@ import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.EmptyProgressMonitor;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
 public class GcConcurrentTest extends GcTestCase {
@@ -220,5 +228,49 @@ public class GcConcurrentTest extends GcTestCase {
 		repository.getObjectDatabase().open(b).getSize();
 		assertEquals(getSinglePack(repository).getPackName(), newPackName);
 		assertNotNull(getSinglePack(repository).getBitmapIndex());
+	}
+
+	@Test
+	public void testInterruptGc() throws Exception {
+		FileBasedConfig c = repo.getConfig();
+		c.setInt(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOPACKLIMIT, 1);
+		c.save();
+		SampleDataRepositoryTestCase.copyCGitTestPacks(repo);
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		final CountDownLatch latch = new CountDownLatch(1);
+		Future<Collection<PackFile>> result = executor
+				.submit(new Callable<Collection<PackFile>>() {
+
+					@Override
+					public Collection<PackFile> call() throws Exception {
+						long start = System.currentTimeMillis();
+						System.out.println("starting gc");
+						latch.countDown();
+						Collection<PackFile> r = gc.gc();
+						System.out.println("gc took "
+								+ (System.currentTimeMillis() - start) + " ms");
+						return r;
+					}
+				});
+		try {
+			latch.await();
+			Thread.sleep(5);
+			executor.shutdownNow();
+			result.get();
+			fail("thread wasn't interrupted");
+		} catch (ExecutionException e) {
+			Throwable cause = e.getCause();
+			if (cause instanceof CancelledException) {
+				assertEquals(JGitText.get().operationCanceled,
+						cause.getMessage());
+			} else if (cause instanceof IOException) {
+				Throwable cause2 = cause.getCause();
+				assertTrue(cause2 instanceof InterruptedException
+						|| cause2 instanceof ExecutionException);
+			} else {
+				fail("unexpected exception " + e);
+			}
+		}
 	}
 }
