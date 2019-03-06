@@ -52,6 +52,24 @@
       "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "999caf22_b0297104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-06T08:45:49Z",
+      "side": 1,
+      "message": "Yes, opening the file, seeking to the end and reading the checksum is reliable but maybe too expensive. We can combine the checks to get a fast decision that a packfile is modified\n\n\tfinal String packName \u003d base + PACK.getExtension();\n\tfinal PackFile oldPack \u003d forReuse.remove(packName);\n\tPath packFilePath \u003d packDirectory.toPath().resolve(packName);\n\tBasicFileAttributes attr \u003d Files.readAttributes(packFilePath,\n\t\t\tBasicFileAttributes.class);\n\tif (oldPack !\u003d null\n\t\t\u0026\u0026 oldPack.packLastModified \u003d\u003d attr.lastModifiedTime().toMillis()\n\t\t\u0026\u0026 oldPack.length \u003d\u003d attr.size()\n\t\t\u0026\u0026 compareChecksum(oldPack, packFilePath))\n\t{\n\t\tlist.add(oldPack);\n\t\tcontinue;\n\t}\n\n... but still the decision that the Packfile has not changed would be (too?) slow. Maybe we skip the compareChecksum() test",
+      "parentUuid": "111ccbd0_51f1450b",
+      "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
