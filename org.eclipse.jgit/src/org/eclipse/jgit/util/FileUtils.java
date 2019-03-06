@@ -565,6 +565,17 @@ public class FileUtils {
 	}
 
 	/**
+	 * Return all the attributes of a file, without following symbolic links
+	 *
+	 * @param file
+	 * @return @{@link BasicFileAttributes} of the file
+	 * @throws IOException
+	 */
+	static BasicFileAttributes fileAttributes(File file) throws IOException {
+		return Files.readAttributes(file.toPath(), BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
 	 * @param file
 	 * @param time
 	 * @throws IOException
