@@ -16,6 +16,24 @@
       "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b45667d1_5fb5a6d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-06T08:05:51Z",
+      "side": 1,
+      "message": "Actually, we can directly verify the checksum (last 20 bytes of the file) to be 100% sure.",
+      "parentUuid": "c39ab64a_bc8b544c",
+      "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
