@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "847088f8_8d0d1d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-06T01:20:48Z",
+      "side": 1,
+      "message": "systematically",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4adfe17_dbd92515",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +53,29 @@
       "writtenOn": "2019-03-06T01:00:07Z",
       "side": 1,
       "message": "wrong copyright and year",
+      "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2fae9a_b327df7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcPackfileChecksumMismatchTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-06T01:20:48Z",
+      "side": 1,
+      "message": "Indentation should be with tabs.  Please format the file with the project\u0027s configuration in Eclipse.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 4
+      },
       "revId": "7ce7901fb4599b7c118e79f1d660c93505140420",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
