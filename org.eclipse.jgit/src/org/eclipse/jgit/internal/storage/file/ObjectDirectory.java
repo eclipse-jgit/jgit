@@ -913,13 +913,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 
 			final String packName = base + PACK.getExtension();
+			final File packFile = new File(packDirectory, packName);
 			final PackFile oldPack = forReuse.remove(packName);
-			if (oldPack != null) {
+			if (oldPack != null && oldPack.packLastModified == packFile.lastModified()) {
 				list.add(oldPack);
 				continue;
 			}
 
-			final File packFile = new File(packDirectory, packName);
 			list.add(new PackFile(packFile, extensions));
 			foundNew = true;
 		}
