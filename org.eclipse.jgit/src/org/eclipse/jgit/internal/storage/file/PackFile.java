@@ -129,6 +129,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	int packLastModified;
 
+	private FileSnapshot fileSnapshot;
+
 	private volatile boolean invalid;
 
 	private boolean invalidBitmap;
@@ -163,6 +165,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public PackFile(final File packFile, int extensions) {
 		this.packFile = packFile;
 		this.packLastModified = (int) (packFile.lastModified() >> 10);
+		this.fileSnapshot = FileSnapshot.save(packFile);
 		this.extensions = extensions;
 
 		// Multiply by 31 here so we can more directly combine with another
@@ -333,6 +336,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	ObjectId findObjectForOffset(final long offset) throws IOException {
 		return getReverseIdx().findObject(offset);
+	}
+
+	/**
+	 * Return the @{@link FileSnapshot} associated to the underlying packfile
+	 * that has been used when the object was created.
+	 *
+	 * @return the packfile @{@link FileSnapshot} that the object is loaded from.
+	 */
+	FileSnapshot getFileSnapshot() {
+		return fileSnapshot;
 	}
 
 	private final byte[] decompress(final long position, final int sz,
