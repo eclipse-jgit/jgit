@@ -70,6 +70,24 @@
       "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f275ae02_8774c7f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-06T10:19:09Z",
+      "side": 1,
+      "message": "I think we should not read the checksum since opening the file and reading the checksum will add a considerable performance penalty.\n\nI think we should use FileSnapshot and enhance that to also check file length. This would also improve other usages of FileSnapshot. BasicFileAttributeView.readAttributes() [1] allows to read all basic attributes in a single bulk operation.\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/nio/file/attribute/BasicFileAttributeView.html",
+      "parentUuid": "999caf22_b0297104",
+      "revId": "02bd492c5358295f59c2745202a0d7b298553ddf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
