@@ -757,6 +757,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	 */
 	int inflate(DfsPackFile pack, long position, byte[] dstbuf,
 			boolean headerOnly) throws IOException, DataFormatException {
+		long start = System.nanoTime();
 		prepareInflater();
 		pin(pack, position);
 		position += block.setInput(position, inf);
@@ -765,6 +766,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			dstoff += n;
 			if (inf.finished() || (headerOnly && dstoff == dstbuf.length)) {
 				stats.inflatedBytes += dstoff;
+				stats.inflationMicros += BlockBasedFile.elapsedMicros(start);
 				return dstoff;
 			} else if (inf.needsInput()) {
 				pin(pack, position);

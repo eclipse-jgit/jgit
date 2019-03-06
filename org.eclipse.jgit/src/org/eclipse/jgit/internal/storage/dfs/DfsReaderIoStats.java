@@ -85,6 +85,9 @@ public class DfsReaderIoStats {
 		/** Total number of bytes decompressed. */
 		long inflatedBytes;
 
+		/** Total microseconds spent inflating compressed bytes. */
+		long inflationMicros;
+
 		Accumulator() {
 		}
 	}
@@ -185,5 +188,14 @@ public class DfsReaderIoStats {
 	 */
 	public long getInflatedBytes() {
 		return stats.inflatedBytes;
+	}
+
+	/**
+	 * Get total microseconds spent inflating compressed bytes.
+	 *
+	 * @return total microseconds inflating compressed bytes.
+	 */
+	public long getInflationMicros() {
+		return stats.inflationMicros;
 	}
 }
