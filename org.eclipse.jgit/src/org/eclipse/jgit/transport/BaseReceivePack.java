@@ -314,6 +314,7 @@ public abstract class BaseReceivePack {
 	protected BaseReceivePack(Repository into) {
 		db = into;
 		walk = new RevWalk(db);
+		walk.setRetainBody(false);
 
 		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
 		objectChecker = tc.newReceiveObjectChecker();

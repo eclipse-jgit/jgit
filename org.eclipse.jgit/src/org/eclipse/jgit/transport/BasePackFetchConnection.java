@@ -272,6 +272,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		if (local != null) {
 			walk = new RevWalk(local);
+			walk.setRetainBody(false);
 			reachableCommits = new RevCommitList<>();
 			REACHABLE = walk.newFlag("REACHABLE"); //$NON-NLS-1$
 			COMMON = walk.newFlag("COMMON"); //$NON-NLS-1$

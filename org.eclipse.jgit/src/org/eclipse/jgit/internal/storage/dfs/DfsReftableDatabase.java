@@ -315,6 +315,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 			throws IOException {
 		ReceiveCommand cmd = toCommand(oldRef, newRef);
 		try (RevWalk rw = new RevWalk(getRepository())) {
+			rw.setRetainBody(false);
 			newBatchUpdate().setAllowNonFastForwards(true).addCommand(cmd)
 					.execute(rw, NullProgressMonitor.INSTANCE);
 		}

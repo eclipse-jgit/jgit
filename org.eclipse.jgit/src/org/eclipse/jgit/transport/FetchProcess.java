@@ -200,6 +200,7 @@ class FetchProcess {
 				.setAllowNonFastForwards(true)
 				.setRefLogMessage("fetch", true); //$NON-NLS-1$
 		try (RevWalk walk = new RevWalk(transport.local)) {
+			walk.setRetainBody(false);
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(
 						250, TimeUnit.MILLISECONDS);

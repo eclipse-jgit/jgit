@@ -599,6 +599,7 @@ public abstract class RefUpdate {
 	 */
 	public Result update() throws IOException {
 		try (RevWalk rw = new RevWalk(getRepository())) {
+			rw.setRetainBody(false);
 			return update(rw);
 		}
 	}
@@ -646,6 +647,7 @@ public abstract class RefUpdate {
 	 */
 	public Result delete() throws IOException {
 		try (RevWalk rw = new RevWalk(getRepository())) {
+			rw.setRetainBody(false);
 			return delete(rw);
 		}
 	}

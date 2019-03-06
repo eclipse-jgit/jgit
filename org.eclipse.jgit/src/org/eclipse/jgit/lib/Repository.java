@@ -489,6 +489,7 @@ public abstract class Repository implements AutoCloseable {
 			throws AmbiguousObjectException, IncorrectObjectTypeException,
 			RevisionSyntaxException, IOException {
 		try (RevWalk rw = new RevWalk(this)) {
+			rw.setRetainBody(false);
 			Object resolved = resolve(rw, revstr);
 			if (resolved instanceof String) {
 				final Ref ref = findRef((String) resolved);
@@ -515,6 +516,7 @@ public abstract class Repository implements AutoCloseable {
 	public String simplify(String revstr)
 			throws AmbiguousObjectException, IOException {
 		try (RevWalk rw = new RevWalk(this)) {
+			rw.setRetainBody(true);
 			Object resolved = resolve(rw, revstr);
 			if (resolved != null)
 				if (resolved instanceof String)
