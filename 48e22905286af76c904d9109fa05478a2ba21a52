@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55ee5542_cd46d1e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-03-06T00:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "804fa068_82e70553",
+      "range": {
+        "startLine": 418,
+        "startChar": 48,
+        "endLine": 418,
+        "endChar": 53
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cadc5b66_90ff7bca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 9
@@ -93,6 +117,30 @@
       "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f69f0a_c4f24dbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2019-03-06T00:51:47Z",
+      "side": 1,
+      "message": "Refspec doesn\u0027t allow wildcards in the middle of words, so we don\u0027t need to worry about  the examples you provide.\n\nI decided to strip the shared prefix/suffix from both patterns. Then I check that one of the stripped patterns has the wildcard as the prefix. If so, then that wildcard will match the prefix of the other pattern no matter what it is. I make the same check for the suffix. There\u0027s also an equals check for the non-wildcard case.",
+      "parentUuid": "214b2ae0_33ffa78e",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "48e22905286af76c904d9109fa05478a2ba21a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
