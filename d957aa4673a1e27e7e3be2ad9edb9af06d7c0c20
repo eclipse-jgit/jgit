@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8270acba_2adf1f7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-06T23:31:49Z",
+      "side": 1,
+      "message": "destinationIntersects",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "d957aa4673a1e27e7e3be2ad9edb9af06d7c0c20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
