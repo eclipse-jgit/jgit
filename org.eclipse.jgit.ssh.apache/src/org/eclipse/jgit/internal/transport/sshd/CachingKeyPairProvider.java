@@ -63,7 +63,8 @@ import org.eclipse.jgit.transport.sshd.KeyCache;
  * A {@link EncryptedFileKeyPairProvider} that uses an external
  * {@link KeyCache}.
  */
-public class CachingKeyPairProvider extends EncryptedFileKeyPairProvider {
+public class CachingKeyPairProvider extends EncryptedFileKeyPairProvider
+		implements Iterable<KeyPair> {
 
 	private final KeyCache cache;
 
@@ -83,11 +84,17 @@ public class CachingKeyPairProvider extends EncryptedFileKeyPairProvider {
 	}
 
 	@Override
-	protected Iterable<KeyPair> loadKeys(Collection<? extends Path> resources) {
+	public Iterator<KeyPair> iterator() {
+		Collection<? extends Path> resources = getPaths();
 		if (resources.isEmpty()) {
-			return Collections.emptyList();
+			return Collections.emptyListIterator();
 		}
-		return () -> new CancellingKeyPairIterator(resources);
+		return new CancellingKeyPairIterator(resources);
+	}
+
+	@Override
+	public Iterable<KeyPair> loadKeys() {
+		return this;
 	}
 
 	@Override

@@ -49,6 +49,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RmCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StopOptionHandler;
@@ -61,12 +62,15 @@ class Rm extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		try (Git git = new Git(db)) {
 			RmCommand command = git.rm();
-			for (String p : paths)
+			for (String p : paths) {
 				command.addFilepattern(p);
+			}
 			command.call();
+		} catch (GitAPIException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 }

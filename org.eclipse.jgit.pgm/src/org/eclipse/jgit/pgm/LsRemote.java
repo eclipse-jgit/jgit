@@ -51,6 +51,7 @@ import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.kohsuke.args4j.Argument;
@@ -72,7 +73,7 @@ class LsRemote extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
 				.setTimeout(timeout).setHeads(heads).setTags(tags);
 		TreeSet<Ref> refs = new TreeSet<>(new Comparator<Ref>() {
@@ -82,11 +83,16 @@ class LsRemote extends TextBuiltin {
 				return r1.getName().compareTo(r2.getName());
 			}
 		});
-		refs.addAll(command.call());
-		for (Ref r : refs) {
-			show(r.getObjectId(), r.getName());
-			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
+		try {
+			refs.addAll(command.call());
+			for (Ref r : refs) {
+				show(r.getObjectId(), r.getName());
+				if (r.getPeeledObjectId() != null) {
+					show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
+				}
+			}
+		} catch (GitAPIException | IOException e) {
+			throw die(e.getMessage(), e);
 		}
 	}
 

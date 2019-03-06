@@ -57,21 +57,28 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 class Version extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
-	protected void run() throws Exception {
+	protected void run() {
 		// read the Implementation-Version from Manifest
 		String version = getImplementationVersion();
 
 		// if Implementation-Version is not available then try reading
 		// Bundle-Version
-		if (version == null)
+		if (version == null) {
 			version = getBundleVersion();
+		}
 
 		// if both Implementation-Version and Bundle-Version are not available
 		// then throw an exception
-		if (version == null)
+		if (version == null) {
 			throw die(CLIText.get().cannotReadPackageInformation);
+		}
 
-		outw.println(MessageFormat.format(CLIText.get().jgitVersion, version));
+		try {
+			outw.println(
+					MessageFormat.format(CLIText.get().jgitVersion, version));
+		} catch (IOException e) {
+			throw die(e.getMessage(), e);
+		}
 	}
 
 	/** {@inheritDoc} */

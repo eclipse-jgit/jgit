@@ -221,10 +221,11 @@ class Scanner {
 		return new SymbolicRef(ref.getName(), dst);
 	}
 
-	@SuppressWarnings("resource")
 	private static RevTree toTree(ObjectReader reader, AnyObjectId id)
 			throws IOException {
-		return new RevWalk(reader).parseTree(id);
+		try (RevWalk rw = new RevWalk(reader)) {
+			return rw.parseTree(id);
+		}
 	}
 
 	private static boolean curElementHasPeelSuffix(AbstractTreeIterator itr) {

@@ -42,12 +42,13 @@
  */
 package org.eclipse.jgit.internal.transport.sshd.proxy;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.text.MessageFormat.format;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.io.IoSession;
@@ -295,8 +296,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		byte type;
 		int length = 0;
 		if (rawAddress == null) {
-			remoteName = remoteAddress.getHostString()
-					.getBytes(StandardCharsets.US_ASCII);
+			remoteName = remoteAddress.getHostString().getBytes(US_ASCII);
 			if (remoteName == null || remoteName.length == 0) {
 				throw new IOException(
 						format(SshdText.get().proxySocksNoRemoteHostName,
@@ -542,7 +542,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 				return null;
 			}
 			try {
-				byte[] rawUser = user.getBytes(StandardCharsets.UTF_8);
+				byte[] rawUser = user.getBytes(UTF_8);
 				if (rawUser.length > 255) {
 					throw new IOException(format(
 							SshdText.get().proxySocksUsernameTooLong, proxy,

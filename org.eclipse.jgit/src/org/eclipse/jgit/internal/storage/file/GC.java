@@ -910,7 +910,8 @@ public class GC {
 		// Avoid deleting a folder that was created after the threshold so that concurrent
 		// operations trying to create a reference are not impacted
 		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
-		try (Stream<Path> entries = Files.list(refs)) {
+		try (Stream<Path> entries = Files.list(refs)
+				.filter(Files::isDirectory)) {
 			Iterator<Path> iterator = entries.iterator();
 			while (iterator.hasNext()) {
 				try (Stream<Path> s = Files.list(iterator.next())) {
@@ -1269,7 +1270,7 @@ public class GC {
 	}
 
 	private void checkCancelled() throws CancelledException {
-		if (pm.isCancelled()) {
+		if (pm.isCancelled() || Thread.currentThread().isInterrupted()) {
 			throw new CancelledException(JGitText.get().operationCanceled);
 		}
 	}

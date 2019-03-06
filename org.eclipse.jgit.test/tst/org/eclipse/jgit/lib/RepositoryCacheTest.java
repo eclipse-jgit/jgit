@@ -110,7 +110,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testFileKeyOpenNew() throws IOException {
 		File gitdir;
-		try (Repository n = createRepository(true, false)) {
+		try (Repository n = createRepository(true)) {
 			gitdir = n.getDirectory();
 		}
 		recursiveDelete(gitdir);
@@ -192,7 +192,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryUsageCountWithRegisteredRepository()
 			throws IOException {
-		@SuppressWarnings("resource") // We are testing the close() method
+		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repo = createRepository(false, false);
 		assertEquals(1, repo.useCnt.get());
 		RepositoryCache.register(repo);
@@ -240,9 +240,9 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testRepositoryUnregisteringWhenExpired() throws Exception {
-		@SuppressWarnings("resource") // We are testing the close() method
+		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repoA = createRepository(true, false);
-		@SuppressWarnings("resource") // We are testing the close() method
+		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repoB = createRepository(true, false);
 		Repository repoC = createBareRepository();
 		RepositoryCache.register(repoA);
@@ -276,7 +276,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testReconfigure() throws InterruptedException, IOException {
-		@SuppressWarnings("resource") // We are testing the close() method
+		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repo = createRepository(false, false);
 		RepositoryCache.register(repo);
 		assertTrue(RepositoryCache.isCached(repo));

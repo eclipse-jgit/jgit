@@ -42,13 +42,14 @@
  */
 package org.eclipse.jgit.internal.transport.sshd.auth;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.net.Authenticator;
 import java.net.Authenticator.RequestorType;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
@@ -99,7 +100,7 @@ public abstract class BasicAuthentication<ParameterType, TokenType>
 		if (pass == null) {
 			return new byte[0];
 		}
-		ByteBuffer bytes = StandardCharsets.UTF_8.encode(CharBuffer.wrap(pass));
+		ByteBuffer bytes = UTF_8.encode(CharBuffer.wrap(pass));
 		byte[] pwd = new byte[bytes.remaining()];
 		bytes.get(pwd);
 		if (bytes.hasArray()) {

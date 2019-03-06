@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde?>
-<!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.10-staging" sequenceNumber="1547541125">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde?><!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl --><target name="jgit-4.10" sequenceNumber="1551829107">
   <locations>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.client.source" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.continuation" version="9.4.14.v20181114"/>
@@ -22,7 +19,7 @@
       <unit id="org.eclipse.jetty.util.source" version="9.4.14.v20181114"/>
       <repository id="jetty-9.4.14" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.14.v20181114"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.ant.source" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
@@ -31,18 +28,18 @@
       <unit id="org.apache.commons.compress.source" version="1.18.0.v20181121-2221"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.5.v20180409-1525"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.5.v20180409-1525"/>
-      <unit id="org.apache.httpcomponents.httpcore" version="4.4.9.v20180409-1525"/>
-      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.9.v20180409-1525"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.6.v20190213-1430"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.6.v20190213-1430"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="4.4.10.v20190123-2214"/>
+      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.10.v20190123-2214"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
-      <unit id="org.bouncycastle.bcpg" version="1.60.0.v20181107-1520"/>
-      <unit id="org.bouncycastle.bcpg.source" version="1.60.0.v20181107-1520"/>
-      <unit id="org.bouncycastle.bcpkix" version="1.60.0.v20181107-1520"/>
-      <unit id="org.bouncycastle.bcpkix.source" version="1.60.0.v20181107-1520"/>
-      <unit id="org.bouncycastle.bcprov" version="1.60.0.v20181107-1520"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.60.0.v20181107-1520"/>
+      <unit id="org.bouncycastle.bcpg" version="1.60.0.v20181210-2057"/>
+      <unit id="org.bouncycastle.bcpg.source" version="1.60.0.v20181210-2057"/>
+      <unit id="org.bouncycastle.bcpkix" version="1.60.0.v20181210-2057"/>
+      <unit id="org.bouncycastle.bcpkix.source" version="1.60.0.v20181210-2057"/>
+      <unit id="org.bouncycastle.bcprov" version="1.60.0.v20181210-2057"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.60.0.v20181210-2057"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
@@ -82,11 +79,11 @@
       <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/staging/2018-12/"/>
+      <repository location="http://download.eclipse.org/releases/2018-12/"/>
     </location>
   </locations>
 </target>

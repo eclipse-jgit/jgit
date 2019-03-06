@@ -145,7 +145,6 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertFalse(gen.next());
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleAbsoluteRef()
 			throws IOException, ConfigInvalidException {
@@ -189,17 +188,16 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertNull(gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertNull(gen.getModulesUrl());
-		Repository subRepo = gen.getRepository();
-		assertNotNull(subRepo);
-		assertEquals(modulesGitDir.getAbsolutePath(),
-				subRepo.getDirectory().getAbsolutePath());
-		assertEquals(new File(db.getWorkTree(), path).getAbsolutePath(),
-				subRepo.getWorkTree().getAbsolutePath());
-		subRepo.close();
+		try (Repository subRepo = gen.getRepository()) {
+			assertNotNull(subRepo);
+			assertEquals(modulesGitDir.getAbsolutePath(),
+					subRepo.getDirectory().getAbsolutePath());
+			assertEquals(new File(db.getWorkTree(), path).getAbsolutePath(),
+					subRepo.getWorkTree().getAbsolutePath());
+		}
 		assertFalse(gen.next());
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleRelativeRef()
 			throws IOException, ConfigInvalidException {
@@ -244,13 +242,14 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertNull(gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertNull(gen.getModulesUrl());
-		Repository subRepo = gen.getRepository();
-		assertNotNull(subRepo);
-		assertEqualsFile(modulesGitDir, subRepo.getDirectory());
-		assertEqualsFile(new File(db.getWorkTree(), path),
-				subRepo.getWorkTree());
-		subRepo.close();
-		assertFalse(gen.next());
+		try (Repository subRepo = gen.getRepository()) {
+			assertNotNull(subRepo);
+			assertEqualsFile(modulesGitDir, subRepo.getDirectory());
+			assertEqualsFile(new File(db.getWorkTree(), path),
+					subRepo.getWorkTree());
+			subRepo.close();
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
