@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "153bdb28_9381c663",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-07T10:54:53Z",
+      "side": 1,
+      "message": "I do not understand your solution exactly. I thought the problem is that i had a mistake, because only in case of \"cached\" the \"remote\" file opened a stream and in other cases it always passed null as stream --\u003e this was some some adapted code after refactorings. I\u0027ve fixed it now.",
+      "parentUuid": "e069756e_1e117216",
+      "revId": "ce8892eaaa68d8fe7efe797f3f577d13ee907ac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48227a5d_0c941d89",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 4
