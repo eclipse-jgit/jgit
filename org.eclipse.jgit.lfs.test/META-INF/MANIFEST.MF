@@ -3,23 +3,23 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Automatic-Module-Name: org.eclipse.jgit.lfs.test
 Bundle-SymbolicName: org.eclipse.jgit.lfs.test
-Bundle-Version: 5.3.0.qualifier
+Bundle-Version: 5.4.0.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.jgit.internal.storage.dfs;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.junit;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.lfs;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.lfs.errors;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.lfs.lib;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.lib;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.revwalk;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.treewalk;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.treewalk.filter;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.util;version="[5.3.0,5.4.0)",
+Import-Package: org.eclipse.jgit.internal.storage.dfs;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.junit;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.lfs;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.lfs.errors;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.lfs.lib;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.lib;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.revwalk;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.treewalk;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.treewalk.filter;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.util;version="[5.4.0,5.5.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)",
  org.junit;version="[4.12,5.0.0)",
  org.junit.runner;version="[4.12,5.0.0)",
  org.junit.runners;version="[4.12,5.0.0)"
-Export-Package: org.eclipse.jgit.lfs.test;version="5.3.0";x-friends:="org.eclipse.jgit.lfs.server.test"
+Export-Package: org.eclipse.jgit.lfs.test;version="5.4.0";x-friends:="org.eclipse.jgit.lfs.server.test"
 

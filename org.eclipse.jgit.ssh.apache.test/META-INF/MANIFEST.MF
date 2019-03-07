@@ -3,17 +3,17 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ssh.apache.test
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.test
-Bundle-Version: 5.3.0.qualifier
+Bundle-Version: 5.4.0.qualifier
 Bundle-Vendor: %Provider-Name
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.jgit.internal.transport.sshd.proxy;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.junit;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.junit.ssh;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.lib;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.transport;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.transport.ssh;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.transport.sshd;version="[5.3.0,5.4.0)",
- org.eclipse.jgit.util;version="[5.3.0,5.4.0)",
+Import-Package: org.eclipse.jgit.internal.transport.sshd.proxy;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.junit;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.junit.ssh;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.lib;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.transport;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.transport.ssh;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.transport.sshd;version="[5.4.0,5.5.0)",
+ org.eclipse.jgit.util;version="[5.4.0,5.5.0)",
  org.junit;version="[4.12,5.0.0)",
  org.junit.experimental.theories;version="[4.12,5.0.0)",
  org.junit.runner;version="[4.12,5.0.0)"
