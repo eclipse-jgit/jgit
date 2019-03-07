@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e59b4d85_8c982fac",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-07T08:06:54Z",
+      "side": 1,
+      "message": "I don\u0027t think that works on all platforms. Check [1]. If you call File.setLastModified(x) on a file it is not guaranteed f.getLastModified() returns x. It may return x truncated to fit the filesystem timer accuracy. Better read it back for the file like in\n\n   f1.setLastModified(System.currentTimeMillis());\n   long now\u003df1.getLastModified();\n   ...\n\n[1] https://docs.oracle.com/javase/7/docs/api/java/io/File.html#setLastModified(long)",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82fafb33_6fc833aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
