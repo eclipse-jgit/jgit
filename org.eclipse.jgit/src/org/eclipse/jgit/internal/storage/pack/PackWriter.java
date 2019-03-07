@@ -1605,10 +1605,18 @@ public class PackWriter implements AutoCloseable {
 		long beginOffset = out.length();
 
 		if (reuseSupport != null) {
-			reuseSupport.writeObjects(out, list);
+			reuseSupport.writeObjects(out, list, indexDisabled);
 		} else {
-			for (ObjectToPack otp : list)
-				out.writeObject(otp);
+			for (int i = 0; i < list.size(); i++) {
+				out.writeObject(list.get(i));
+				if (indexDisabled) {
+					list.set(i, null);
+				}
+			}
+		}
+
+		if (indexDisabled) {
+			list.clear();
 		}
 
 		typeStats.bytes += out.length() - beginOffset;

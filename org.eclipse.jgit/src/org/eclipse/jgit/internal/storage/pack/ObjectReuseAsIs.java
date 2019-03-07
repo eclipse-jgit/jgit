@@ -151,12 +151,14 @@ public interface ObjectReuseAsIs {
 	 *            the list of objects to write. Objects should be written in
 	 *            approximately this order. Implementors may resort the list
 	 *            elements in-place during writing if desired.
+	 * @param clearList
+	 *            whether the list can be cleared after objects are written out.
 	 * @throws java.io.IOException
 	 *             the stream cannot be written to, or one or more required
 	 *             objects cannot be accessed from the object database.
 	 */
-	void writeObjects(PackOutputStream out, List<ObjectToPack> list)
-			throws IOException;
+	void writeObjects(PackOutputStream out, List<ObjectToPack> list,
+			boolean clearList) throws IOException;
 
 	/**
 	 * Output a previously selected representation.

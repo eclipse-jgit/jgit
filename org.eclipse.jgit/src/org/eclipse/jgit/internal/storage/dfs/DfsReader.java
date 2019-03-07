@@ -677,10 +677,14 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	/** {@inheritDoc} */
 	@Override
-	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
-			throws IOException {
-		for (ObjectToPack otp : list)
-			out.writeObject(otp);
+	public void writeObjects(PackOutputStream out, List<ObjectToPack> list,
+			boolean clearList) throws IOException {
+		for (int i = 0; i < list.size(); i++) {
+			out.writeObject(list.get(i));
+			if (clearList) {
+				list.set(i, null);
+			}
+		}
 	}
 
 	/** {@inheritDoc} */
