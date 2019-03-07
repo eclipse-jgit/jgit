@@ -429,6 +429,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			ctx.pin(this, 0);
 			ctx.unpin();
 		}
+		clearIndices();
 		try (ReadableChannel rc = ctx.db.openFile(desc, PACK)) {
 			int sz = ctx.getOptions().getStreamPackBufferSize();
 			if (sz > 0) {
@@ -509,6 +510,8 @@ public final class DfsPackFile extends BlockBasedFile {
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
 			boolean validate, DfsReader ctx) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
+		clearIndices();
+
 		final CRC32 crc1 = validate ? new CRC32() : null;
 		final CRC32 crc2 = validate ? new CRC32() : null;
 		final byte[] buf = out.getCopyBuffer();
@@ -1086,6 +1089,14 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 		synchronized (list) {
 			list.add(offset);
+		}
+	}
+
+	private void clearIndices() {
+		if (index != null) {
+			index = null;
+			reverseIndex = null;
+			bitmapIndex = null;
 		}
 	}
 }
