@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c158a29_a448409c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "Should we be using this in tests?",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 117,
+        "endChar": 22
+      },
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82fafb33_6fc833aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "nit: Missing period at the end of the sentence.",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31b7f478_106a42b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "malformed tag",
+      "range": {
+        "startLine": 425,
+        "startChar": 12,
+        "endLine": 425,
+        "endChar": 19
+      },
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9f8b669_e2c0f957",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "Add description of the exception?",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "159e4f18_d0a5e619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5d770fb_117a37e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-07T02:07:16Z",
+      "side": 1,
+      "message": "Same comments here as in FS.java",
+      "range": {
+        "startLine": 567,
+        "startChar": 1,
+        "endLine": 573,
+        "endChar": 4
+      },
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
