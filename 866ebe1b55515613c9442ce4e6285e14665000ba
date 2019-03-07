@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abfa5986_ec5f9bb6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "There is an assertion in the code about a difference of 2.5s between the write and the read and, unfortunately, it uses the system\u0027s current time :-(\n\nI know it is not a good practice and you should rely on a \"fake time\" to be used in unit-tests to simulate time differences, however, it would be a much bigger refactoring of the existing code-base everywhere.",
+      "parentUuid": "1c158a29_a448409c",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 117,
+        "endChar": 22
+      },
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e59b4d85_8c982fac",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7bdafc25_38c2346a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e59b4d85_8c982fac",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82fafb33_6fc833aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2019-03-07T02:07:16Z",
       "side": 1,
       "message": "nit: Missing period at the end of the sentence.",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100ea57d_006f6430",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82fafb33_6fc833aa",
       "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "5ff07b22_f8413d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b7f478_106a42b6",
+      "range": {
+        "startLine": 425,
+        "startChar": 12,
+        "endLine": 425,
+        "endChar": 19
+      },
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9f8b669_e2c0f957",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "2f81028d_fa2d22e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9f8b669_e2c0f957",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "159e4f18_d0a5e619",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -110,6 +212,24 @@
       "writtenOn": "2019-03-07T02:07:16Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "287f2f62_1547e406",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-03-07T16:02:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "159e4f18_d0a5e619",
       "revId": "866ebe1b55515613c9442ce4e6285e14665000ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
