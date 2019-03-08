@@ -10,6 +10,11 @@
 package org.eclipse.jgit.internal.diffmergetool;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -48,7 +53,7 @@ public class MergeTools {
 	 * @param remoteFile
 	 *            the remote file element
 	 * @param baseFile
-	 *            the base file element
+	 *            the base file element (can be null)
 	 * @param mergedFilePath
 	 *            the path of 'merged' file
 	 * @param toolName
@@ -65,33 +70,72 @@ public class MergeTools {
 			String toolName, BooleanTriState prompt, BooleanTriState gui)
 			throws ToolException {
 		ExternalMergeTool tool = guessTool(toolName, gui);
+		FileElement backup = null;
+		File tempDir = null;
+		ExecutionResult result = null;
 		try {
 			File workingDir = repo.getWorkTree();
-			String localFilePath = localFile.getFile().getPath();
-			String remoteFilePath = remoteFile.getFile().getPath();
-			String baseFilePath = baseFile.getFile().getPath();
-			String command = tool.getCommand();
-			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
-			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
-			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
-			command = command.replace("$BASE", baseFilePath); //$NON-NLS-1$
-			Map<String, String> env = new TreeMap<>();
-			env.put(Constants.GIT_DIR_KEY,
-					repo.getDirectory().getAbsolutePath());
-			env.put("LOCAL", localFilePath); //$NON-NLS-1$
-			env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
-			env.put("MERGED", mergedFilePath); //$NON-NLS-1$
-			env.put("BASE", baseFilePath); //$NON-NLS-1$
+			// crate temp-directory or use working directory
+			tempDir = config.isWriteToTemp()
+					? Files.createTempDirectory("jgit-mergetool-").toFile() //$NON-NLS-1$
+					: workingDir;
+			// create additional backup file (copy worktree file)
+			backup = createBackupFile(mergedFilePath, tempDir);
+			// get local, remote and base file paths
+			String localFilePath = localFile.getFile(tempDir, "LOCAL") //$NON-NLS-1$
+					.getPath();
+			String remoteFilePath = remoteFile.getFile(tempDir, "REMOTE") //$NON-NLS-1$
+					.getPath();
+			String baseFilePath = ""; //$NON-NLS-1$
+			if (baseFile != null) {
+				baseFilePath = baseFile.getFile(tempDir, "BASE").getPath(); //$NON-NLS-1$
+			}
+			// prepare the command (replace the file paths)
 			boolean trust = tool.getTrustExitCode() == BooleanTriState.TRUE;
+			String command = prepareCommand(mergedFilePath, localFilePath,
+					remoteFilePath, baseFilePath,
+					tool.getCommand(baseFile != null));
+			// prepare the environment
+			Map<String, String> env = prepareEnvironment(repo, mergedFilePath,
+					localFilePath, remoteFilePath, baseFilePath);
 			CommandExecutor cmdExec = new CommandExecutor(repo.getFS(), trust);
-			return cmdExec.run(command, workingDir, env);
+			result = cmdExec.run(command, workingDir, env);
+			// keep backup as .orig file
+			keepBackupFile(mergedFilePath, backup);
+			return result;
 		} catch (Exception e) {
 			throw new ToolException(e);
 		} finally {
-			localFile.cleanTemporaries();
-			remoteFile.cleanTemporaries();
-			baseFile.cleanTemporaries();
+			// always delete backup file (ignore that it was may be already
+			// moved to keep-backup file)
+			if (backup != null) {
+				backup.cleanTemporaries();
+			}
+			// if the tool returns an error and keepTemporaries is set to true,
+			// then these temporary files will be preserved
+			if (!((result == null) && config.isKeepTemporaries())) {
+				// delete the files
+				localFile.cleanTemporaries();
+				remoteFile.cleanTemporaries();
+				if (baseFile != null) {
+					baseFile.cleanTemporaries();
+				}
+				// delete temporary directory if needed
+				if (config.isWriteToTemp() && (tempDir != null)
+						&& tempDir.exists()) {
+					tempDir.delete();
+				}
+			}
 		}
+	}
+
+	private FileElement createBackupFile(String mergedFilePath, File tempDir)
+			throws IOException {
+		FileElement backup = new FileElement(mergedFilePath, "NOID", null); //$NON-NLS-1$
+		Files.copy(Paths.get(mergedFilePath),
+				backup.getFile(tempDir, "BACKUP").toPath(), //$NON-NLS-1$
+				StandardCopyOption.REPLACE_EXISTING);
+		return backup;
 	}
 
 	/**
@@ -157,6 +201,38 @@ public class MergeTools {
 			tool = predefinedTools.get(name);
 		}
 		return tool;
+	}
+
+	private String prepareCommand(String mergedFilePath, String localFilePath,
+			String remoteFilePath, String baseFilePath, String command) {
+		command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
+		command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
+		command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
+		command = command.replace("$BASE", baseFilePath); //$NON-NLS-1$
+		return command;
+	}
+
+	private Map<String, String> prepareEnvironment(Repository repo,
+			String mergedFilePath, String localFilePath, String remoteFilePath,
+			String baseFilePath) {
+		Map<String, String> env = new TreeMap<>();
+		env.put(Constants.GIT_DIR_KEY, repo.getDirectory().getAbsolutePath());
+		env.put("LOCAL", localFilePath); //$NON-NLS-1$
+		env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
+		env.put("MERGED", mergedFilePath); //$NON-NLS-1$
+		env.put("BASE", baseFilePath); //$NON-NLS-1$
+		return env;
+	}
+
+	private void keepBackupFile(String mergedFilePath, FileElement backup)
+			throws IOException {
+		if (config.isKeepBackup()) {
+			Path backupPath = backup.getFile().toPath();
+			Files.move(backupPath,
+					backupPath.resolveSibling(
+							Paths.get(mergedFilePath).getFileName() + ".orig"), //$NON-NLS-1$
+					StandardCopyOption.REPLACE_EXISTING);
+		}
 	}
 
 	private Map<String, ExternalMergeTool> setupPredefinedTools() {

@@ -118,19 +118,21 @@ public class MergeToolTest extends ExternalToolTestCase {
 
 	private String[] getExpectedToolOutput() {
 		String[] mergeConflictFilenames = { "a", "b", };
-		List<String> expectedOutput = new ArrayList<>();
-		expectedOutput.add("Merging:");
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
 		for (String mergeConflictFilename : mergeConflictFilenames) {
-			expectedOutput.add(mergeConflictFilename);
+			expected.add(mergeConflictFilename);
 		}
-		for (String mergeConflictFilename : mergeConflictFilenames) {
-			expectedOutput.add("Normal merge conflict for '"
+		for (int i = 0; i < mergeConflictFilenames.length; ++i) {
+			String mergeConflictFilename = mergeConflictFilenames[i];
+			expected.add("Normal merge conflict for '"
 					+ mergeConflictFilename + "':");
-			expectedOutput.add("{local}: modified file");
-			expectedOutput.add("{remote}: modified file");
-			expectedOutput.add("TODO: Launch mergetool '" + TOOL_NAME
-					+ "' for path '" + mergeConflictFilename + "'...");
+			expected.add("{local}: modified file");
+			expected.add("{remote}: modified file");
+			if (i < mergeConflictFilenames.length - 1) {
+				expected.add("Continue merging other unresolved paths [y/n]?");
+			}
 		}
-		return expectedOutput.toArray(new String[0]);
+		return expected.toArray(new String[0]);
 	}
 }
