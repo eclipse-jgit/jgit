@@ -44,66 +44,14 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The user-defined diff tool.
+ * The merge tool interface.
  *
- * @since 5.4
  */
-public class UserDefinedDiffTool implements IDiffTool {
+public interface IMergeTool extends IDiffTool {
 
 	/**
-	 * the tool name
+	 * @return the tool "trust exit code" option
 	 */
-	private final String name;
-
-	/**
-	 * the tool path
-	 */
-	protected String path;
-
-	/**
-	 * the tool command
-	 */
-	private String cmd;
-
-	/**
-	 * Creates the diff tool
-	 *
-	 * @param name
-	 *            the name
-	 * @param path
-	 *            the path
-	 * @param cmd
-	 *            the command
-	 */
-	public UserDefinedDiffTool(final String name, final String path,
-			final String cmd) {
-		this.name = name;
-		this.path = path;
-		this.cmd = cmd;
-	}
-
-	/**
-	 * @return the tool name
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @return the tool path
-	 */
-	@Override
-	public String getPath() {
-		return path;
-	}
-
-	/**
-	 * @return the tool command
-	 */
-	@Override
-	public String getCommand() {
-		return cmd;
-	}
+	public boolean isTrustExitCode();
 
 }
