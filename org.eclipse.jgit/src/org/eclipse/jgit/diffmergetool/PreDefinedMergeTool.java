@@ -44,53 +44,85 @@
 package org.eclipse.jgit.diffmergetool;
 
 /**
- * The user-defined merge tool.
+ * The pre-defined merge tool.
  *
  * @since 5.4
  */
-public class UserDefinedMergeTool extends UserDefinedDiffTool
-		implements IMergeTool {
+@SuppressWarnings("nls")
+public class PreDefinedMergeTool extends UserDefinedMergeTool {
 
 	/**
-	 * the merge tool "trust exit code" option
+	 * the tool parameters without base
 	 */
-	protected BooleanOption trustExitCode;
+	protected String parametersWithoutBase;
 
 	/**
-	 * Creates the merge tool
+	 * Creates the pre-defined merge tool
 	 *
 	 * @param name
 	 *            the name
 	 * @param path
 	 *            the path
-	 * @param cmd
-	 *            the command
+	 * @param parametersWithBase
+	 *            the tool parameters that are used together with path as
+	 *            command and "base is present" ($BASE)
+	 * @param parametersWithoutBase
+	 *            the tool parameters that are used together with path as
+	 *            command and "base is present" ($BASE)
 	 * @param trustExitCode
 	 *            the "trust exit code" option
 	 */
-	public UserDefinedMergeTool(final String name, final String path,
-			final String cmd, final BooleanOption trustExitCode) {
-		super(name, path, cmd);
+	public PreDefinedMergeTool(final String name, final String path,
+			final String parametersWithBase, final String parametersWithoutBase,
+			final BooleanOption trustExitCode) {
+		super(name, path, parametersWithBase, trustExitCode);
+		this.parametersWithoutBase = parametersWithoutBase;
+	}
+
+	/**
+	 * @param path
+	 */
+	public void setPath(String path) {
+		// handling of spaces in path
+		if (path.contains(" ")) {
+			// add quotes before if needed
+			if (!path.startsWith("\"")) {
+				path = "\"" + path;
+			}
+			// add quotes after if needed
+			if (!path.endsWith("\"")) {
+				path = path + "\"";
+			}
+		}
+		this.path = path;
+	}
+
+	/**
+	 * @param trustExitCode
+	 *            the "trust exit code" option
+	 */
+	public void setTrustExitCode(BooleanOption trustExitCode) {
 		this.trustExitCode = trustExitCode;
 	}
 
 	/**
-	 * @return the "trust exit code" flag
+	 * @return the tool command (with base present)
 	 */
 	@Override
-	public BooleanOption getTrustExitCode() {
-		return trustExitCode;
+	public String getCommand() {
+		return getCommand(true);
 	}
 
 	/**
 	 * @param withBase
-	 *            not used, because user-defined merge tool can only define one
-	 *            cmd -> it must handle with and without base present (empty)
+	 *            get command with base present (true) or without base present
+	 *            (false)
 	 * @return the tool command
 	 */
 	@Override
 	public String getCommand(boolean withBase) {
-		return getCommand();
+		return path + " "
+				+ (withBase ? super.getCommand() : parametersWithoutBase);
 	}
 
 }
