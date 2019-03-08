@@ -64,14 +64,14 @@ public final class ConfigConstants {
 	public static final String CONFIG_DIFF_SECTION = "diff";
 
 	/**
-	 * The "tool" key within "diff" section
+	 * The "tool" key within "diff" or "merge" section
 	 *
 	 * @since 5.4
 	 */
 	public static final String CONFIG_KEY_TOOL = "tool";
 
 	/**
-	 * The "guitool" key within "diff" section
+	 * The "guitool" key within "diff" or "merge" section
 	 *
 	 * @since 5.4
 	 */
@@ -85,14 +85,14 @@ public final class ConfigConstants {
 	public static final String CONFIG_DIFFTOOL_SECTION = "difftool";
 
 	/**
-	 * The "prompt" key within "difftool" section
+	 * The "prompt" key within "difftool" or "mergetool" section
 	 *
 	 * @since 5.4
 	 */
 	public static final String CONFIG_KEY_PROMPT = "prompt";
 
 	/**
-	 * The "trustExitCode" key within "difftool" section
+	 * The "trustExitCode" key within "difftool" or "mergetool.<name>." section
 	 *
 	 * @since 5.4
 	 */
@@ -100,6 +100,8 @@ public final class ConfigConstants {
 
 	/**
 	 * The "cmd" key within "difftool.*." section
+	 *
+	 * The "cmd" key within "difftool.*." or "mergetool.*." section
 	 *
 	 * @since 5.4
 	 */
@@ -157,7 +159,36 @@ public final class ConfigConstants {
 	public static final String CONFIG_MERGE_SECTION = "merge";
 
 	/**
+	 * The "mergetool" section
+	 *
+	 * @since 5.4
+	 */
+	public static final String CONFIG_MERGETOOL_SECTION = "mergetool";
+
+	/**
+	 * The "keepBackup" key within "mergetool" section
+	 *
+	 * @since 5.4
+	 */
+	public static final String CONFIG_KEY_KEEP_BACKUP = "keepBackup";
+
+	/**
+	 * The "keepTemporaries" key within "mergetool" section
+	 *
+	 * @since 5.4
+	 */
+	public static final String CONFIG_KEY_KEEP_TEMPORARIES = "keepTemporaries";
+
+	/**
+	 * The "writeToTemp" key within "mergetool" section
+	 *
+	 * @since 5.4
+	 */
+	public static final String CONFIG_KEY_WRITE_TO_TEMP = "writeToTemp";
+
+	/**
 	 * The "filter" section
+	 *
 	 * @since 4.6
 	 */
 	public static final String CONFIG_FILTER_SECTION = "filter";
