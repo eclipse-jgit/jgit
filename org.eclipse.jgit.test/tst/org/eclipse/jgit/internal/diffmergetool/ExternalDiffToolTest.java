@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * Testing external diff tools.
  */
-public class ExternalDiffToolTest extends ExternalToolTest {
+public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 	@Test(expected = ToolException.class)
 	public void testUserToolWithError() throws Exception {

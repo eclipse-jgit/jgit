@@ -112,11 +112,14 @@ class DiffTool extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_paths", handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
+	private BufferedReader inputReader;
+
 	@Override
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 		diffTools = new DiffTools(repository);
+		inputReader = new BufferedReader(new InputStreamReader(ins));
 	}
 
 	@Override
@@ -207,9 +210,9 @@ class DiffTool extends TextBuiltin {
 			String fileName, String toolNamePrompt) throws IOException {
 		boolean launchCompare = true;
 		outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
-				fileIndex, fileCount, fileName, toolNamePrompt));
+				fileIndex, fileCount, fileName, toolNamePrompt) + " "); //$NON-NLS-1$
 		outw.flush();
-		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+		BufferedReader br = inputReader;
 		String line = null;
 		if ((line = br.readLine()) != null) {
 			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
@@ -222,17 +225,18 @@ class DiffTool extends TextBuiltin {
 	private void showToolHelp() throws IOException {
 		StringBuilder availableToolNames = new StringBuilder();
 		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames.append(String.format("\t\t%s\n", name)); //$NON-NLS-1$
+			availableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
 		}
 		StringBuilder notAvailableToolNames = new StringBuilder();
 		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames.append(String.format("\t\t%s\n", name)); //$NON-NLS-1$
+			notAvailableToolNames
+					.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
 		}
 		StringBuilder userToolNames = new StringBuilder();
 		Map<String, ExternalDiffTool> userTools = diffTools
 				.getUserDefinedTools();
 		for (String name : userTools.keySet()) {
-			userToolNames.append(String.format("\t\t%s.cmd %s\n", //$NON-NLS-1$
+			userToolNames.append(MessageFormat.format("\t\t{0}.cmd {1}\n", //$NON-NLS-1$
 					name, userTools.get(name).getCommand()));
 		}
 		outw.println(MessageFormat.format(
