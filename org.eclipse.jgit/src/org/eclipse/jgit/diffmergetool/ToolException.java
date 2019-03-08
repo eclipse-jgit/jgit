@@ -13,6 +13,9 @@ package org.eclipse.jgit.diffmergetool;
 
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Tool exception for differentiation.
  *
@@ -21,7 +24,12 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class ToolException extends Exception {
 
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ToolException.class);
+
 	private final ExecutionResult result;
+
+	private final boolean commandExecutionError;
 
 	/**
 	 * the serial version UID
@@ -32,8 +40,7 @@ public class ToolException extends Exception {
 	 *
 	 */
 	public ToolException() {
-		super();
-		result = null;
+		this(null, null, false);
 	}
 
 	/**
@@ -41,8 +48,7 @@ public class ToolException extends Exception {
 	 *            the exception message
 	 */
 	public ToolException(String message) {
-		super(message);
-		result = null;
+		this(message, null, false);
 	}
 
 	/**
@@ -50,10 +56,14 @@ public class ToolException extends Exception {
 	 *            the exception message
 	 * @param result
 	 *            the execution result
+	 * @param commandExecutionError
+	 *            is command execution error happened ?
 	 */
-	public ToolException(String message, ExecutionResult result) {
+	public ToolException(String message, ExecutionResult result,
+			boolean commandExecutionError) {
 		super(message);
 		this.result = result;
+		this.commandExecutionError = commandExecutionError;
 	}
 
 	/**
@@ -65,6 +75,7 @@ public class ToolException extends Exception {
 	public ToolException(String message, Throwable cause) {
 		super(message, cause);
 		result = null;
+		commandExecutionError = false;
 	}
 
 	/**
@@ -74,6 +85,7 @@ public class ToolException extends Exception {
 	public ToolException(Throwable cause) {
 		super(cause);
 		result = null;
+		commandExecutionError = false;
 	}
 
 	/**
@@ -91,13 +103,20 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * @return true if command execution error appears, false otherwise
+	 */
+	public boolean isCommandExecutionError() {
+		return commandExecutionError;
+	}
+
+	/**
 	 * @return the result Stderr
 	 */
 	public String getResultStderr() {
 		try {
 			return new String(result.getStderr().toByteArray());
 		} catch (Exception e) {
-			// nop
+			LOG.warn(e.getMessage());
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -109,7 +128,7 @@ public class ToolException extends Exception {
 		try {
 			return new String(result.getStdout().toByteArray());
 		} catch (Exception e) {
-			// nop
+			LOG.warn(e.getMessage());
 		}
 		return ""; //$NON-NLS-1$
 	}
