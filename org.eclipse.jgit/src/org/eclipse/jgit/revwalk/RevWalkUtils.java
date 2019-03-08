@@ -130,7 +130,7 @@ public final class RevWalkUtils {
 
 	/**
 	 * Find the list of branches a given commit is reachable from when following
-	 * parent.s
+	 * parents.
 	 * <p>
 	 * Note that this method calls
 	 * {@link org.eclipse.jgit.revwalk.RevWalk#reset()} at the beginning.
