@@ -82,7 +82,7 @@ public class MergeToolManager {
 	 * @param remoteFile
 	 *            the remote file element
 	 * @param baseFile
-	 *            the base file element
+	 *            the base file element (can be null)
 	 * @param mergedFilePath
 	 *            the path of 'merged' file
 	 * @param toolName
@@ -104,8 +104,11 @@ public class MergeToolManager {
 			File workingDir = db.getWorkTree();
 			String localFilePath = localFile.getFile().getPath();
 			String remoteFilePath = remoteFile.getFile().getPath();
-			String baseFilePath = baseFile.getFile().getPath();
-			String command = tool.getCommand();
+			String baseFilePath = ""; //$NON-NLS-1$
+			if (baseFile != null) {
+				baseFilePath = baseFile.getFile().getPath();
+			}
+			String command = tool.getCommand(baseFile != null);
 			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
 			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
 			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
@@ -124,7 +127,9 @@ public class MergeToolManager {
 		} finally {
 			localFile.cleanTemporaries();
 			remoteFile.cleanTemporaries();
-			baseFile.cleanTemporaries();
+			if (baseFile != null) {
+				baseFile.cleanTemporaries();
+			}
 		}
 	}
 
