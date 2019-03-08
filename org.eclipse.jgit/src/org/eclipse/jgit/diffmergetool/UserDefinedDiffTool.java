@@ -19,17 +19,17 @@ package org.eclipse.jgit.diffmergetool;
 public class UserDefinedDiffTool implements IDiffTool {
 
 	/**
-	 * the diff tool name
+	 * the tool name
 	 */
 	private final String name;
 
 	/**
-	 * the diff tool path
+	 * the tool path
 	 */
 	protected String path;
 
 	/**
-	 * the diff tool command
+	 * the tool command
 	 */
 	private String cmd;
 
@@ -51,7 +51,7 @@ public class UserDefinedDiffTool implements IDiffTool {
 	}
 
 	/**
-	 * @return the diff tool name
+	 * @return the tool name
 	 */
 	@Override
 	public String getName() {
@@ -59,7 +59,7 @@ public class UserDefinedDiffTool implements IDiffTool {
 	}
 
 	/**
-	 * @return the diff tool path
+	 * @return the tool path
 	 */
 	@Override
 	public String getPath() {
@@ -67,7 +67,7 @@ public class UserDefinedDiffTool implements IDiffTool {
 	}
 
 	/**
-	 * @return the diff tool command
+	 * @return the tool command
 	 */
 	@Override
 	public String getCommand() {
