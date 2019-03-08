@@ -108,10 +108,13 @@ public class CommandExecutor {
 			}
 			ExecutionResult result = fs.execute(pb, null);
 			int rc = result.getRc();
-			if ((rc != 0) && (checkExitCode
-					|| isCommandExecutionError(rc))) {
-				throw new ToolException(
-						new String(result.getStderr().toByteArray()), result);
+			if (rc != 0) {
+				boolean execError = isCommandExecutionError(rc);
+				if (checkExitCode || execError) {
+					throw new ToolException(
+							new String(result.getStderr().toByteArray()),
+							result, execError);
+				}
 			}
 			return result;
 		} finally {
