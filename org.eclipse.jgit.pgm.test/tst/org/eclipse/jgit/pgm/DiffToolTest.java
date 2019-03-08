@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.junit.Assert.fail;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ import org.junit.Test;
 /**
  * Testing the {@code difftool} command.
  */
-public class DiffToolTest extends ExternalToolTestCase {
+public class DiffToolTest extends ToolTestCase {
 
 	private static final String DIFF_TOOL = CONFIG_DIFFTOOL_SECTION;
 
@@ -39,6 +40,46 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		configureEchoTool(TOOL_NAME);
+	}
+
+	@Test
+	public void testToolWithPrompt() throws Exception {
+		String[] inputLines = {
+				"y", // accept launching diff tool
+				"y", // accept launching diff tool
+		};
+
+		RevCommit commit = createUnstagedChanges();
+		List<DiffEntry> changes = getRepositoryChanges(commit);
+		String[] expectedOutput = getExpectedCompareOutput(changes);
+
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(inputStream,
+						DIFF_TOOL, "--prompt", option, TOOL_NAME));
+	}
+
+	@Test
+	public void testToolAbortLaunch() throws Exception {
+		String[] inputLines = {
+				"y", // accept launching diff tool
+				"n", // don't launch diff tool
+		};
+
+		RevCommit commit = createUnstagedChanges();
+		List<DiffEntry> changes = getRepositoryChanges(commit);
+		int abortIndex = 1;
+		String[] expectedOutput = getExpectedAbortOutput(changes, abortIndex);
+
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput,
+				runAndCaptureUsingInitRaw(inputStream, DIFF_TOOL, "--prompt", option,
+						TOOL_NAME));
 	}
 
 	@Test(expected = Die.class)
@@ -53,7 +94,7 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void testTool() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
 
 		String[] options = {
 				"--tool",
@@ -72,7 +113,7 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void testToolTrustExitCode() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
 
 		String[] options = { "--tool", "-t", };
 
@@ -87,7 +128,7 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void testToolNoGuiNoPromptNoTrustExitcode() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
 
 		String[] options = { "--tool", "-t", };
 
@@ -103,7 +144,7 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void testToolCached() throws Exception {
 		RevCommit commit = createStagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
 
 		String[] options = { "--cached", "--staged", };
 
@@ -118,7 +159,8 @@ public class DiffToolTest extends ExternalToolTestCase {
 	public void testToolHelp() throws Exception {
 		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
 		List<String> expectedOutput = new ArrayList<>();
-		expectedOutput.add("git difftool --tool=<tool> may be set to one of the following:");
+		expectedOutput.add(
+				"'git difftool --tool=<tool>' may be set to one of the following:");
 		for (CommandLineDiffTool defaultTool : defaultTools) {
 			String toolName = defaultTool.name();
 			expectedOutput.add(toolName);
@@ -159,7 +201,7 @@ public class DiffToolTest extends ExternalToolTestCase {
 				String.valueOf(false));
 	}
 
-	private String[] getExpectedToolOutput(List<DiffEntry> changes) {
+	private static String[] getExpectedToolOutputNoPrompt(List<DiffEntry> changes) {
 		String[] expectedToolOutput = new String[changes.size()];
 		for (int i = 0; i < changes.size(); ++i) {
 			DiffEntry change = changes.get(i);
@@ -168,5 +210,37 @@ public class DiffToolTest extends ExternalToolTestCase {
 			expectedToolOutput[i] = expectedLine;
 		}
 		return expectedToolOutput;
+	}
+
+	private static String[] getExpectedCompareOutput(List<DiffEntry> changes) {
+		List<String> expected = new ArrayList<>();
+		int n = changes.size();
+		for (int i = 0; i < n; ++i) {
+			DiffEntry change = changes.get(i);
+			String newPath = change.getNewPath();
+			expected.add(
+					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
+			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");
+			expected.add(newPath);
+		}
+		return expected.toArray(new String[0]);
+	}
+
+	private static String[] getExpectedAbortOutput(List<DiffEntry> changes,
+			int abortIndex) {
+		List<String> expected = new ArrayList<>();
+		int n = changes.size();
+		for (int i = 0; i < n; ++i) {
+			DiffEntry change = changes.get(i);
+			String newPath = change.getNewPath();
+			expected.add(
+					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
+			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");
+			if (i == abortIndex) {
+				break;
+			}
+			expected.add(newPath);
+		}
+		return expected.toArray(new String[0]);
 	}
 }

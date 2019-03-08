@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * Testing external merge tools.
  */
-public class ExternalMergeToolTest extends ExternalToolTest {
+public class ExternalMergeToolTest extends ExternalToolTestCase {
 
 	@Test(expected = ToolException.class)
 	public void testUserToolWithError() throws Exception {
