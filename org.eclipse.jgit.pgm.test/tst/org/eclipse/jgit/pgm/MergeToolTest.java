@@ -15,6 +15,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,7 @@ import org.junit.Test;
 /**
  * Testing the {@code mergetool} command.
  */
-public class MergeToolTest extends ExternalToolTestCase {
+public class MergeToolTest extends ToolTestCase {
 
 	private static final String MERGE_TOOL = CONFIG_MERGETOOL_SECTION;
 
@@ -39,35 +40,119 @@ public class MergeToolTest extends ExternalToolTestCase {
 	}
 
 	@Test
-	public void testTool() throws Exception {
-		createMergeConflict();
-		String[] expectedOutput = getExpectedToolOutput();
-
-		String[] options = {
-				"--tool",
-				"-t",
+	public void testAbortMerge() throws Exception {
+		String[] inputLines = {
+				"y", // start tool for merge resolution
+				"n", // don't accept merge tool result
+				"n", // don't continue resolution
 		};
+		String[] conflictingFilenames = createMergeConflict();
+		int abortIndex = 1;
+		String[] expectedOutput = getExpectedAbortMergeOutput(
+				conflictingFilenames,
+				abortIndex);
 
-		for (String option : options) {
-			assertArrayOfLinesEquals("Incorrect output for option: " + option,
-					expectedOutput,
-					runAndCaptureUsingInitRaw(MERGE_TOOL, option,
-							TOOL_NAME));
-		}
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(inputStream,
+						MERGE_TOOL, "--prompt", option, TOOL_NAME));
 	}
 
 	@Test
-	public void testToolNoGuiNoPrompt() throws Exception {
-		createMergeConflict();
-		String[] expectedOutput = getExpectedToolOutput();
+	public void testAbortLaunch() throws Exception {
+		String[] inputLines = {
+				"n", // abort merge tool launch
+		};
+		String[] conflictingFilenames = createMergeConflict();
+		String[] expectedOutput = getExpectedAbortLaunchOutput(
+				conflictingFilenames);
+
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(inputStream,
+						MERGE_TOOL, "--prompt", option, TOOL_NAME));
+	}
+
+	@Test
+	public void testMergeConflict() throws Exception {
+		String[] inputLines = {
+				"y", // start tool for merge resolution
+				"y", // accept merge result as successful
+				"y", // start tool for merge resolution
+				"y", // accept merge result as successful
+		};
+		String[] conflictingFilenames = createMergeConflict();
+		String[] expectedOutput = getExpectedMergeConflictOutput(
+				conflictingFilenames);
+
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(inputStream,
+						MERGE_TOOL, "--prompt", option, TOOL_NAME));
+	}
+
+	@Test
+	public void testDeletedConflict() throws Exception {
+		String[] inputLines = {
+				"d", // choose delete option to resolve conflict
+				"m", // choose merge option to resolve conflict
+		};
+		String[] conflictingFilenames = createDeletedConflict();
+		String[] expectedOutput = getExpectedDeletedConflictOutput(
+				conflictingFilenames);
+
+		String option = "--tool";
+
+		InputStream inputStream = createInputStream(inputLines);
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(inputStream,
+						MERGE_TOOL, "--prompt", option, TOOL_NAME));
+	}
+
+	@Test
+	public void testNoConflict() throws Exception {
+		createStagedChanges();
+		String[] expectedOutput = { "No files need merging" };
 
 		String[] options = { "--tool", "-t", };
 
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
-					expectedOutput, runAndCaptureUsingInitRaw(MERGE_TOOL,
-							"--no-gui", "--no-prompt", option, TOOL_NAME));
+					expectedOutput,
+					runAndCaptureUsingInitRaw(MERGE_TOOL, option, TOOL_NAME));
 		}
+	}
+
+	@Test
+	public void testMergeConflictNoPrompt() throws Exception {
+		String[] conflictingFilenames = createMergeConflict();
+		String[] expectedOutput = getExpectedMergeConflictOutputNoPrompt(
+				conflictingFilenames);
+
+		String option = "--tool";
+
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput,
+				runAndCaptureUsingInitRaw(MERGE_TOOL, option, TOOL_NAME));
+	}
+
+	@Test
+	public void testMergeConflictNoGuiNoPrompt() throws Exception {
+		String[] conflictingFilenames = createMergeConflict();
+		String[] expectedOutput = getExpectedMergeConflictOutputNoPrompt(
+				conflictingFilenames);
+
+		String option = "--tool";
+
+		assertArrayOfLinesEquals("Incorrect output for option: " + option,
+				expectedOutput, runAndCaptureUsingInitRaw(MERGE_TOOL,
+						"--no-gui", "--no-prompt", option, TOOL_NAME));
 	}
 
 	@Test
@@ -87,8 +172,7 @@ public class MergeToolTest extends ExternalToolTestCase {
 		String[] userDefinedToolsHelp = {
 				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
-				"environment. If run in a terminal-only session, they will fail.",
-		};
+				"environment. If run in a terminal-only session, they will fail.", };
 		expectedOutput.addAll(Arrays.asList(userDefinedToolsHelp));
 
 		String option = "--tool-help";
@@ -116,21 +200,111 @@ public class MergeToolTest extends ExternalToolTestCase {
 				String.valueOf(false));
 	}
 
-	private String[] getExpectedToolOutput() {
-		String[] mergeConflictFilenames = { "a", "b", };
-		List<String> expectedOutput = new ArrayList<>();
-		expectedOutput.add("Merging:");
-		for (String mergeConflictFilename : mergeConflictFilenames) {
-			expectedOutput.add(mergeConflictFilename);
+	private static String[] getExpectedMergeConflictOutputNoPrompt(
+			String[] conflictFilenames) {
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
+		for (String conflictFilename : conflictFilenames) {
+			expected.add(conflictFilename);
 		}
-		for (String mergeConflictFilename : mergeConflictFilenames) {
-			expectedOutput.add("Normal merge conflict for '"
-					+ mergeConflictFilename + "':");
-			expectedOutput.add("{local}: modified file");
-			expectedOutput.add("{remote}: modified file");
-			expectedOutput.add("TODO: Launch mergetool '" + TOOL_NAME
-					+ "' for path '" + mergeConflictFilename + "'...");
+		for (String conflictFilename : conflictFilenames) {
+			expected.add("Normal merge conflict for '" + conflictFilename
+					+ "':");
+			expected.add("{local}: modified file");
+			expected.add("{remote}: modified file");
+			expected.add(conflictFilename);
+			expected.add(conflictFilename + " seems unchanged.");
 		}
-		return expectedOutput.toArray(new String[0]);
+		return expected.toArray(new String[0]);
+	}
+
+	private static String[] getExpectedAbortLaunchOutput(
+			String[] conflictFilenames) {
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
+		for (String conflictFilename : conflictFilenames) {
+			expected.add(conflictFilename);
+		}
+		if (conflictFilenames.length > 1) {
+			String conflictFilename = conflictFilenames[0];
+			expected.add(
+					"Normal merge conflict for '" + conflictFilename + "':");
+			expected.add("{local}: modified file");
+			expected.add("{remote}: modified file");
+			expected.add("Hit return to start merge resolution tool ("
+					+ TOOL_NAME + "):");
+		}
+		return expected.toArray(new String[0]);
+	}
+
+	private static String[] getExpectedAbortMergeOutput(
+			String[] conflictFilenames, int abortIndex) {
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
+		for (String conflictFilename : conflictFilenames) {
+			expected.add(conflictFilename);
+		}
+		for (int i = 0; i < conflictFilenames.length; ++i) {
+			if (i == abortIndex) {
+				break;
+			}
+
+			String conflictFilename = conflictFilenames[i];
+			expected.add(
+					"Normal merge conflict for '" + conflictFilename + "':");
+			expected.add("{local}: modified file");
+			expected.add("{remote}: modified file");
+			expected.add("Hit return to start merge resolution tool ("
+					+ TOOL_NAME + "): " + conflictFilename);
+			expected.add(conflictFilename + " seems unchanged.");
+			expected.add("Was the merge successful [y/n]?");
+			if (i < conflictFilenames.length - 1) {
+				expected.add(
+						"\tContinue merging other unresolved paths [y/n]?");
+			}
+		}
+		return expected.toArray(new String[0]);
+	}
+
+	private static String[] getExpectedMergeConflictOutput(
+			String[] conflictFilenames) {
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
+		for (String conflictFilename : conflictFilenames) {
+			expected.add(conflictFilename);
+		}
+		for (int i = 0; i < conflictFilenames.length; ++i) {
+			String conflictFilename = conflictFilenames[i];
+			expected.add("Normal merge conflict for '" + conflictFilename
+					+ "':");
+			expected.add("{local}: modified file");
+			expected.add("{remote}: modified file");
+			expected.add("Hit return to start merge resolution tool ("
+					+ TOOL_NAME + "): " + conflictFilename);
+			expected.add(conflictFilename + " seems unchanged.");
+			expected.add("Was the merge successful [y/n]?");
+			if (i < conflictFilenames.length - 1) {
+				// expected.add(
+				// "\tContinue merging other unresolved paths [y/n]?");
+			}
+		}
+		return expected.toArray(new String[0]);
+	}
+
+	private static String[] getExpectedDeletedConflictOutput(
+			String[] conflictFilenames) {
+		List<String> expected = new ArrayList<>();
+		expected.add("Merging:");
+		for (String mergeConflictFilename : conflictFilenames) {
+			expected.add(mergeConflictFilename);
+		}
+		for (int i = 0; i < conflictFilenames.length; ++i) {
+			String conflictFilename = conflictFilenames[i];
+			expected.add(conflictFilename + " seems unchanged.");
+			expected.add("{local}: deleted");
+			expected.add("{remote}: modified file");
+			expected.add("Use (m)odified or (d)eleted file, or (a)bort?");
+		}
+		return expected.toArray(new String[0]);
 	}
 }
