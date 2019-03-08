@@ -99,7 +99,7 @@ public final class FetchV2Request extends FetchRequest {
 	/**
 	 * @return list of references received in "want-ref" lines
 	 *
-	 * @since 5.3
+	 * @since 5.4
 	 */
 	@NonNull
 	public List<String> getWantedRefs() {
