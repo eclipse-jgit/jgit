@@ -44,6 +44,7 @@
 package org.eclipse.jgit.diffmergetool;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -115,35 +116,28 @@ public class FileElement {
 	}
 
 	/**
-	 * @param workingDir the working directory used if file cannot be found (e.g. /dev/null)
+	 * Returns a temporary file with in passed working directory and fills it
+	 * with stream if valid.
+	 *
+	 * @param workingDir
+	 *            the working directory where the temporary file is created
+	 * @param midName
+	 *            name added in the middle of generated temporary file name
 	 * @return the object stream
 	 * @throws IOException
 	 */
-	public File getFile(File workingDir) throws IOException {
+	public File getFile(File workingDir, String midName) throws IOException {
 		if (tempFile != null) {
 			return tempFile;
 		}
-		File file = new File(path);
-		String name = file.getName();
-		if (path.equals(DiffEntry.DEV_NULL)) {
-			file = new File(workingDir, "nul"); //$NON-NLS-1$
-		}
-		else if (stream != null) {
-			tempFile = File.createTempFile(".__", "__" + name); //$NON-NLS-1$ //$NON-NLS-2$
-			try (OutputStream outStream = new FileOutputStream(tempFile)) {
-				int read = 0;
-				byte[] bytes = new byte[8 * 1024];
-				while ((read = stream.read(bytes)) != -1) {
-					outStream.write(bytes, 0, read);
-				}
-			} finally {
-				// stream can only be consumed once --> close it
-				stream.close();
-				stream = null;
-			}
-			return tempFile;
-		}
-		return file;
+		String[] fileNameAndExtension = splitBaseFileNameAndExtension(
+				new File(path));
+		tempFile = File.createTempFile(
+				fileNameAndExtension[0] + "_" + midName + "_", //$NON-NLS-1$ //$NON-NLS-2$
+				fileNameAndExtension[1],
+				workingDir);
+		copyFromStream();
+		return tempFile;
 	}
 
 	/**
@@ -163,19 +157,7 @@ public class FileElement {
 		// temporary file
 		if ((stream != null) || path.equals(DiffEntry.DEV_NULL)) {
 			tempFile = File.createTempFile(".__", "__" + name); //$NON-NLS-1$ //$NON-NLS-2$
-			if (stream != null) {
-				try (OutputStream outStream = new FileOutputStream(tempFile)) {
-					int read = 0;
-					byte[] bytes = new byte[8 * 1024];
-					while ((read = stream.read(bytes)) != -1) {
-						outStream.write(bytes, 0, read);
-					}
-				} finally {
-					// stream can only be consumed once --> close it
-					stream.close();
-					stream = null;
-				}
-			}
+			copyFromStream();
 			return tempFile;
 		}
 		return file;
@@ -188,6 +170,36 @@ public class FileElement {
 		if (tempFile != null && tempFile.exists())
 		tempFile.delete();
 		tempFile = null;
+	}
+
+	private void copyFromStream() throws IOException, FileNotFoundException {
+		if (stream != null) {
+			try (OutputStream outStream = new FileOutputStream(tempFile)) {
+				int read = 0;
+				byte[] bytes = new byte[8 * 1024];
+				while ((read = stream.read(bytes)) != -1) {
+					outStream.write(bytes, 0, read);
+				}
+			} finally {
+				// stream can only be consumed once --> close it
+				stream.close();
+				stream = null;
+			}
+		}
+	}
+
+	private static String[] splitBaseFileNameAndExtension(File file) {
+		String[] result = new String[2];
+		result[0] = file.getName();
+		result[1] = ""; //$NON-NLS-1$
+		if (!result[0].startsWith(".")) { //$NON-NLS-1$
+			int idx = result[0].lastIndexOf("."); //$NON-NLS-1$
+			if (idx != -1) {
+				result[1] = result[0].substring(idx, result[0].length());
+				result[0] = result[0].substring(0, idx);
+			}
+		}
+		return result;
 	}
 
 }

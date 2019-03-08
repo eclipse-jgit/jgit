@@ -53,7 +53,9 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class ToolException extends Exception {
 
-	ExecutionResult result = null;
+	private ExecutionResult result = null;
+
+	private boolean commandExecutionError = false;
 
 	/**
 	 * the serial version UID
@@ -80,10 +82,14 @@ public class ToolException extends Exception {
 	 *            the exception message
 	 * @param result
 	 *            the execution result
+	 * @param commandExecutionError
+	 *            is command execution error happened ?
 	 */
-	public ToolException(String message, ExecutionResult result) {
+	public ToolException(String message, ExecutionResult result,
+			boolean commandExecutionError) {
 		super(message);
 		this.result = result;
+		this.commandExecutionError = commandExecutionError;
 	}
 
 	/**
@@ -124,6 +130,21 @@ public class ToolException extends Exception {
 	 */
 	public ExecutionResult getResult() {
 		return result;
+	}
+
+	/**
+	 * @param commandExecutionError
+	 *            is command execution error
+	 */
+	public void setCommandExecutionError(boolean commandExecutionError) {
+		this.commandExecutionError = commandExecutionError;
+	}
+
+	/**
+	 * @return true if command execution error appears, false otherwise
+	 */
+	public boolean isCommandExecutionError() {
+		return commandExecutionError;
 	}
 
 	/**
