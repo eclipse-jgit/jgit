@@ -1863,6 +1863,7 @@ public class UploadPack {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
 		try (RevWalk walk = new RevWalk(reader)) {
+			walk.setRetainBody(false);
 			AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
 			try {
 				RevObject obj;
