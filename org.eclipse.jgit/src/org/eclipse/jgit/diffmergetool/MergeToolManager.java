@@ -45,6 +45,9 @@ package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Set;
 
@@ -82,7 +85,7 @@ public class MergeToolManager {
 	 * @param remoteFile
 	 *            the remote file element
 	 * @param baseFile
-	 *            the base file element
+	 *            the base file element (can be null)
 	 * @param mergedFilePath
 	 *            the path of 'merged' file
 	 * @param toolName
@@ -100,12 +103,21 @@ public class MergeToolManager {
 			BooleanOption gui)
 			throws ToolException {
 		IMergeTool tool = guessTool(toolName, gui);
+		FileElement backup = new FileElement(mergedFilePath, "NOID", null); //$NON-NLS-1$
 		try {
 			File workingDir = db.getWorkTree();
-			String localFilePath = localFile.getFile().getPath();
-			String remoteFilePath = remoteFile.getFile().getPath();
-			String baseFilePath = baseFile.getFile().getPath();
-			String command = tool.getCommand();
+			Files.copy(Paths.get(mergedFilePath),
+					backup.getFile(workingDir, "BACKUP").toPath(), //$NON-NLS-1$
+					StandardCopyOption.REPLACE_EXISTING);
+			String localFilePath = localFile.getFile(workingDir, "LOCAL") //$NON-NLS-1$
+					.getPath();
+			String remoteFilePath = remoteFile.getFile(workingDir, "REMOTE") //$NON-NLS-1$
+					.getPath();
+			String baseFilePath = ""; //$NON-NLS-1$
+			if (baseFile != null) {
+				baseFilePath = baseFile.getFile(workingDir, "BASE").getPath(); //$NON-NLS-1$
+			}
+			String command = tool.getCommand(baseFile != null);
 			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
 			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
 			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
@@ -124,7 +136,10 @@ public class MergeToolManager {
 		} finally {
 			localFile.cleanTemporaries();
 			remoteFile.cleanTemporaries();
-			baseFile.cleanTemporaries();
+			if (baseFile != null) {
+				baseFile.cleanTemporaries();
+			}
+			backup.cleanTemporaries();
 		}
 	}
 
