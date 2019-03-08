@@ -164,18 +164,48 @@ class MergeTool extends TextBuiltin {
 					launch = isLaunch(toolNamePrompt);
 				}
 				if (launch) {
-					outw.println("TODO: Launch mergetool '" + toolNamePrompt //$NON-NLS-1$
+					outw.println("Launch mergetool '" + toolNamePrompt //$NON-NLS-1$
 							+ "' for path '" + fileName + "'..."); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
 					break;
 				}
 			} else if ((fileState == StageState.DELETED_BY_US) || (fileState == StageState.DELETED_BY_THEM)) {
 				outw.println("\nDeleted merge conflict for '" + fileName + "':"); //$NON-NLS-1$ //$NON-NLS-2$
+				if (fileState == StageState.DELETED_BY_US) {
+					outw.println("  {local}: deleted"); //$NON-NLS-1$
+					outw.println("  {remote}: modified file"); //$NON-NLS-1$
+				} else {
+					outw.println("  {local}: modified file"); //$NON-NLS-1$
+					outw.println("  {remote}: deleted"); //$NON-NLS-1$
+				}
+				int mergeDecision = getDeletedMergeDecision();
+				if (mergeDecision == 1) {
+					// add modified file
+					addFile(fileName);
+				} else if (mergeDecision == -1) {
+					// remove deleted file
+					rmFile(fileName);
+				} else {
+					// abort
+					break;
+				}
 			} else {
 				outw.println(
 						"\nUnknown merge conflict for '" + fileName + "':"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			}
+		}
+	}
+
+	private void addFile(String fileName) throws Exception {
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern(fileName).call();
+		}
+	}
+
+	private void rmFile(String fileName) throws Exception {
+		try (Git git = new Git(db)) {
+			git.rm().addFilepattern(fileName).call();
 		}
 	}
 
@@ -193,6 +223,29 @@ class MergeTool extends TextBuiltin {
 			}
 		}
 		return launch;
+	}
+
+	private int getDeletedMergeDecision()
+			throws IOException {
+		int ret = 0; // abort
+		outw.println("Use (m)odified or (d)eleted file, or (a)bort? "); //$NON-NLS-1$
+		outw.flush();
+		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+		String line = null;
+		while ((line = br.readLine()) != null) {
+			if (line.equalsIgnoreCase("m")) { //$NON-NLS-1$
+				ret = 1; // modified
+				break;
+			} else if (line.equalsIgnoreCase("d")) { //$NON-NLS-1$
+				ret = -1; // deleted
+				break;
+			} else if (line.equalsIgnoreCase("a")) { //$NON-NLS-1$
+				break;
+			}
+			outw.println("Use (m)odified or (d)eleted file, or (a)bort? "); //$NON-NLS-1$
+			outw.flush();
+		}
+		return ret;
 	}
 
 	private void showToolHelp() throws IOException {
