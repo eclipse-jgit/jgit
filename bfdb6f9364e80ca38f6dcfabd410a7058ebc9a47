@@ -22,6 +22,30 @@
       "revId": "bfdb6f9364e80ca38f6dcfabd410a7058ebc9a47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d460d396_be5322eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-09T12:02:16Z",
+      "side": 1,
+      "message": "Yes, i will move this to the parent change.",
+      "parentUuid": "7b718115_56fa6ee3",
+      "range": {
+        "startLine": 533,
+        "startChar": 5,
+        "endLine": 533,
+        "endChar": 22
+      },
+      "revId": "bfdb6f9364e80ca38f6dcfabd410a7058ebc9a47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
