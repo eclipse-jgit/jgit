@@ -59,9 +59,12 @@ import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -416,5 +419,65 @@ public class DiffEntryTest extends RepositoryTestCase {
 			assertEquals(FileMode.EXECUTABLE_FILE, diff.getNewMode());
 			assertEquals(FileMode.REGULAR_FILE, diff.getOldMode());
 		}
+	}
+
+	@Test
+	public void shouldReportSubmoduleReplacedByFileMove() throws Exception {
+		// Create a submodule
+		FileRepository submoduleStandalone = createWorkRepository();
+		JGitTestUtil.writeTrashFile(submoduleStandalone, "fileInSubmodule",
+				"submodule");
+		Git submoduleStandaloneGit = Git.wrap(submoduleStandalone);
+		submoduleStandaloneGit.add().addFilepattern("fileInSubmodule").call();
+		submoduleStandaloneGit.commit().setMessage("add file to submodule")
+				.call();
+
+		Repository submodule_db = Git.wrap(db).submoduleAdd()
+				.setPath("modules/submodule")
+				.setURI(submoduleStandalone.getDirectory().toURI().toString())
+				.call();
+		File submodule_trash = submodule_db.getWorkTree();
+		addRepoToClose(submodule_db);
+		writeTrashFile("fileInRoot", "root");
+		Git rootGit = Git.wrap(db);
+		rootGit.add().addFilepattern("fileInRoot").call();
+		rootGit.commit().setMessage("add submodule and root file").call();
+		// Dummy change on fileInRoot
+		writeTrashFile("fileInRoot", "changed");
+		rootGit.add().addFilepattern("fileInRoot").call();
+		RevCommit firstCommit = rootGit.commit().setMessage("change root file")
+				.call();
+		// Remove the submodule again and move fileInRoot into that subfolder
+		rootGit.rm().setCached(true).addFilepattern("modules/submodule").call();
+		recursiveDelete(submodule_trash);
+		JGitTestUtil.deleteTrashFile(db, "fileInRoot");
+		// Move the fileInRoot file
+		writeTrashFile("modules/submodule/fileInRoot", "changed");
+		rootGit.rm().addFilepattern("fileInRoot").addFilepattern("modules/")
+				.call();
+		rootGit.add().addFilepattern("modules/").call();
+		RevCommit secondCommit = rootGit.commit()
+				.setMessage("remove submodule and move root file")
+				.call();
+		// Diff should report submodule having been deleted and file moved
+		// (deleted and added)
+		try (TreeWalk walk = new TreeWalk(db)) {
+			walk.addTree(firstCommit.getTree());
+			walk.addTree(secondCommit.getTree());
+			walk.setRecursive(true);
+			List<DiffEntry> diffs = DiffEntry.scan(walk);
+			assertEquals(3, diffs.size());
+			DiffEntry e = diffs.get(0);
+			assertEquals(DiffEntry.ChangeType.DELETE, e.getChangeType());
+			assertEquals("fileInRoot", e.getOldPath());
+			e = diffs.get(1);
+			assertEquals(DiffEntry.ChangeType.DELETE, e.getChangeType());
+			assertEquals("modules/submodule", e.getOldPath());
+			assertEquals(FileMode.GITLINK, e.getOldMode());
+			e = diffs.get(2);
+			assertEquals(DiffEntry.ChangeType.ADD, e.getChangeType());
+			assertEquals("modules/submodule/fileInRoot", e.getNewPath());
+		}
+
 	}
 }
