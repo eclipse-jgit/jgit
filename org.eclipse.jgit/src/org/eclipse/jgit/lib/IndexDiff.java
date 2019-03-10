@@ -47,7 +47,11 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -260,6 +264,8 @@ public class IndexDiff {
 	private Set<String> removed = new HashSet<>();
 
 	private Set<String> missing = new HashSet<>();
+
+	private Set<String> missingSubmodules = new HashSet<>();
 
 	private Set<String> modified = new HashSet<>();
 
@@ -501,9 +507,15 @@ public class IndexDiff {
 				if (dirCacheIterator != null) {
 					if (workingTreeIterator == null) {
 						// in index, not in workdir => missing
-						if (!isEntryGitLink(dirCacheIterator)
-								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-							missing.add(treeWalk.getPathString());
+						boolean isGitLink = isEntryGitLink(dirCacheIterator);
+						if (!isGitLink
+								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL) {
+							String path = treeWalk.getPathString();
+							missing.add(path);
+							if (isGitLink) {
+								missingSubmodules.add(path);
+							}
+						}
 					} else {
 						if (workingTreeIterator.isModified(
 								dirCacheIterator.getDirCacheEntry(), true,
@@ -543,8 +555,8 @@ public class IndexDiff {
 							smw.getPath()), e);
 				}
 				try (Repository subRepo = smw.getRepository()) {
+					String subRepoPath = smw.getPath();
 					if (subRepo != null) {
-						String subRepoPath = smw.getPath();
 						ObjectId subHead = subRepo.resolve("HEAD"); //$NON-NLS-1$
 						if (subHead != null
 								&& !subHead.equals(smw.getObjectId())) {
@@ -573,6 +585,21 @@ public class IndexDiff {
 								recordFileMode(subRepoPath, FileMode.GITLINK);
 							}
 						}
+					} else if (missingSubmodules.remove(subRepoPath)) {
+						// If the directory is there and empty but the submodule
+						// repository in .git/modules doesn't exist yet it isn't
+						// "missing".
+						File gitDir = new File(
+								new File(repository.getDirectory(),
+										Constants.MODULES),
+								subRepoPath);
+						if (!gitDir.isDirectory()) {
+							File dir = SubmoduleWalk.getSubmoduleDirectory(
+									repository, subRepoPath);
+							if (dir.isDirectory() && !hasFiles(dir)) {
+								missing.remove(subRepoPath);
+							}
+						}
 					}
 				}
 			}
@@ -590,6 +617,15 @@ public class IndexDiff {
 			return false;
 		else
 			return true;
+	}
+
+	private boolean hasFiles(File directory) {
+		try (DirectoryStream<java.nio.file.Path> dir = Files
+				.newDirectoryStream(directory.toPath())) {
+			return dir.iterator().hasNext();
+		} catch (DirectoryIteratorException | IOException e) {
+			return false;
+		}
 	}
 
 	private void recordFileMode(String path, FileMode mode) {
