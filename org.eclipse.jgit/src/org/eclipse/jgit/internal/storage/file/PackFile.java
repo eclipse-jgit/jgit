@@ -702,6 +702,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	ByteArrayWindow read(final long pos, int size) throws IOException {
 		synchronized (readLock) {
+			if (invalid || fd == null) {
+				// Due to concurrency between a read and another packfile invalidation thread
+				// one thread could come up to this point and then fail with NPE.
+				// Detect the situation and throw a proper exception so that can be properly
+				// managed by the main packfile search loop and the Git client won't receive
+				// any failures.
+				throw new PackInvalidException(packFile);
+			}
 			if (length < pos + size)
 				size = (int) (length - pos);
 			final byte[] buf = new byte[size];
