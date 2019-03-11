@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc43358_cfc167f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-11T22:40:59Z",
+      "side": 1,
+      "message": "now is unused",
+      "revId": "c7acea6debeee888eaca30ebacd82e9426a62cd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7313a434_537bc7de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-11T22:40:59Z",
+      "side": 1,
+      "message": "add a getter for size analogous to lastModified() ?",
+      "revId": "c7acea6debeee888eaca30ebacd82e9426a62cd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
