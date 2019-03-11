@@ -1,0 +1,7 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: CI Bot
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Mon, 11 Mar 2019 18:14:57 -0400
+Reviewed-on: https://git.eclipse.org/r/138499
+Project: jgit/jgit
+Branch: refs/heads/stable-4.9
