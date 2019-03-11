@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d045c637_3eafc335",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcDeleteEmptyRefsFoldersTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:42:56Z",
+      "side": 1,
+      "message": "Unnecessary line wrap?",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d6e8e5_5322d43a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:42:56Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27ab1359_9a11b154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:42:56Z",
+      "side": 1,
+      "message": "nit: unrelated formatting changes here and below.",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
