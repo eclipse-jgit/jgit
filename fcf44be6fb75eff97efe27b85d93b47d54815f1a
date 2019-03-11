@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e29991b4_300a067a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcDeleteEmptyRefsFoldersTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:34:46Z",
+      "side": 1,
+      "message": "I do not see the point. It looks same like it was before, only the REFS is used instead of \"refs\". I did not changed the formatter settings for Java...",
+      "parentUuid": "d045c637_3eafc335",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d6e8e5_5322d43a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fb6e6aee_3a59541a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d6e8e5_5322d43a",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27ab1359_9a11b154",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2019-03-11T00:42:56Z",
       "side": 1,
       "message": "nit: unrelated formatting changes here and below.",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5acd3fdc_975261af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ab1359_9a11b154",
       "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
