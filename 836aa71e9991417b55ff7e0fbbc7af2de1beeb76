@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da5e326_d2ac64bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:38:49Z",
+      "side": 1,
+      "message": "Unrelated to this change, but I wonder why we use \"attrs\" here but \"attributes\" in the next file (AttributesHandlerTest)",
+      "range": {
+        "startLine": 582,
+        "startChar": 41,
+        "endLine": 582,
+        "endChar": 46
+      },
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8075b00_2ea2f28f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:38:49Z",
+      "side": 1,
+      "message": "nit: adding the parentheses is unrelated to this change",
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "862de476_d42c1881",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-11T00:38:49Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
