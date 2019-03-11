@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "423d6fbd_0c48700d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:54:28Z",
+      "side": 1,
+      "message": "Hm, yes it\u0027s strange. I cannot find any description about this \"global\" folder in\nhttps://git-scm.com/docs/gitrepository-layout\nhttps://git-scm.com/docs/gitattributes\n\nWhat does it mean? Global settings? Do you know about available docu?\n\nI also do not see that some code except the tests are using this folder and files...",
+      "parentUuid": "6da5e326_d2ac64bf",
+      "range": {
+        "startLine": 582,
+        "startChar": 41,
+        "endLine": 582,
+        "endChar": 46
+      },
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8075b00_2ea2f28f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "67b0c6c3_460170c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8075b00_2ea2f28f",
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "862de476_d42c1881",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 6
@@ -53,6 +95,24 @@
       "writtenOn": "2019-03-11T00:38:49Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7551060_18ed9cc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2019-03-11T20:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "862de476_d42c1881",
       "revId": "836aa71e9991417b55ff7e0fbbc7af2de1beeb76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
