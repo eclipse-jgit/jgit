@@ -3,7 +3,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.ant.test
-Bundle-Version: 4.5.6.qualifier
+Bundle-Version: 4.5.6.201903121547-r
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.apache.tools.ant,

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit
-Bundle-Version: 4.5.6.qualifier
+Bundle-Version: 4.5.6.201903121547-r
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
