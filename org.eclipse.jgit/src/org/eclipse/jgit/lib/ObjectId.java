@@ -49,6 +49,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -86,7 +87,10 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 *            the string to test.
 	 * @return true if the string can converted into an ObjectId.
 	 */
-	public static final boolean isId(String id) {
+	public static final boolean isId(@Nullable String id) {
+		if (id == null) {
+			return false;
+		}
 		if (id.length() != Constants.OBJECT_ID_STRING_LENGTH)
 			return false;
 		try {

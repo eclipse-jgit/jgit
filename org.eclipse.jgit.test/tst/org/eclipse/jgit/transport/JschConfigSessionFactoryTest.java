@@ -49,8 +49,11 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.jcraft.jsch.Session;
@@ -67,8 +70,14 @@ public class JschConfigSessionFactoryTest {
 
 	DefaultSshSessionFactory factory = new DefaultSshSessionFactory();
 
+	@Before
+	public void setup() {
+		SystemReader.setInstance(new MockSystemReader());
+	}
+
 	@After
 	public void removeTmpConfig() {
+		SystemReader.setInstance(null);
 		if (tmpConfigFile == null) {
 			return;
 		}
@@ -87,7 +96,8 @@ public class JschConfigSessionFactoryTest {
 		Session session = createSession("ssh://egit/egit/egit");
 		assertEquals("egit", session.getHost());
 		// No user in URI, none in ssh config: default is OS user name
-		assertEquals(System.getProperty("user.name"), session.getUserName());
+		assertEquals(SystemReader.getInstance().getProperty("user.name"),
+				session.getUserName());
 		assertEquals(22, session.getPort());
 	}
 
