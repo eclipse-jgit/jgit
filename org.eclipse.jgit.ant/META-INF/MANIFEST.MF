@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 4.5.6.201903121547-r
+Bundle-Version: 4.5.7.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.apache.tools.ant,
-  org.eclipse.jgit.storage.file;version="[4.5.6,4.6.0)"
+  org.eclipse.jgit.storage.file;version="[4.5.7,4.6.0)"
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider-Name
-Export-Package: org.eclipse.jgit.ant.tasks;version="4.5.6";
+Export-Package: org.eclipse.jgit.ant.tasks;version="4.5.7";
  uses:="org.apache.tools.ant.types,org.apache.tools.ant"
