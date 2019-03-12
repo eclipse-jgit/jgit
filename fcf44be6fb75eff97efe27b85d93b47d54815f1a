@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e68ba456_d030b0a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcDeleteEmptyRefsFoldersTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-12T06:51:48Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "e29991b4_300a067a",
+      "revId": "fcf44be6fb75eff97efe27b85d93b47d54815f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d6e8e5_5322d43a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 6
