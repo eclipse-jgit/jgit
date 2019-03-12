@@ -164,8 +164,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public PackFile(final File packFile, int extensions) {
 		this.packFile = packFile;
-		this.packLastModified = (int) (packFile.lastModified() >> 10);
 		this.fileSnapshot = FileSnapshot.save(packFile);
+		this.packLastModified = (int) (fileSnapshot.lastModified() >> 10);
 		this.extensions = extensions;
 
 		// Multiply by 31 here so we can more directly combine with another
