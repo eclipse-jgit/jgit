@@ -1,68 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/gitrepo/RepoCommand.java" type="org.eclipse.jgit.gitrepo.RepoCommand$DefaultRemoteReader">
-        <filter id="338792546">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="924844039">
             <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.DefaultRemoteReader"/>
-                <message_argument value="readFile(String, String, String)"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.DefaultRemoteReader"/>
-                <message_argument value="readFileFromRepo(Repository, String, String)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/gitrepo/RepoCommand.java" type="org.eclipse.jgit.gitrepo.RepoCommand$RemoteReader">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader"/>
-                <message_argument value="readFileWithMode(String, String, String)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/GitmoduleEntry.java" type="org.eclipse.jgit.lib.GitmoduleEntry">
-        <filter id="1109393411">
-            <message_arguments>
-                <message_argument value="4.7.5"/>
-                <message_argument value="org.eclipse.jgit.lib.GitmoduleEntry"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectChecker.java" type="org.eclipse.jgit.lib.ObjectChecker">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="4.7.5"/>
-                <message_argument value="getGitsubmodules()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/revwalk/DepthWalk.java" type="org.eclipse.jgit.revwalk.DepthWalk">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenNotFlag()"/>
-            </message_arguments>
-        </filter>
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenNots()"/>
-            </message_arguments>
-        </filter>
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.revwalk.DepthWalk"/>
-                <message_argument value="getDeepenSince()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/RemoteSession.java" type="org.eclipse.jgit.transport.RemoteSession">
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.RemoteSession"/>
-                <message_argument value="getFtpChannel()"/>
+                <message_argument value="5.2.2"/>
+                <message_argument value="5.2.0"/>
             </message_arguments>
         </filter>
     </resource>
@@ -80,11 +22,11 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
-        <filter id="403804204">
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1142947843">
             <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="getHeaderFields(String)"/>
+                <message_argument value="4.5.6"/>
+                <message_argument value="fileAttributes(File)"/>
             </message_arguments>
         </filter>
     </resource>
