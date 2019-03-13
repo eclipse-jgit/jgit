@@ -55,6 +55,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
@@ -429,6 +430,19 @@ public abstract class FS {
 	 * @return true if the caller should retry a failed rename of a lock file.
 	 */
 	public abstract boolean retryFailedLockFileCommit();
+
+	/**
+	 * Return all the attributes of a file, without following symbolic links.
+	 *
+	 * @param file
+	 * @return {@link BasicFileAttributes} of the file
+	 * @throws IOException in case of any I/O errors accessing the file
+	 *
+	 * @since 4.5.6
+	 */
+	public BasicFileAttributes fileAttributes(File file) throws IOException {
+		return FileUtils.fileAttributes(file);
+	}
 
 	/**
 	 * Determine the user's home directory (location where preferences are).
