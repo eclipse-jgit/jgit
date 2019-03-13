@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 4.9.9.qualifier
+Bundle-Version: 4.9.9.201903122025-r
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.tools.ant,
   org.eclipse.jgit.storage.file;version="[4.9.9,4.10.0)"
