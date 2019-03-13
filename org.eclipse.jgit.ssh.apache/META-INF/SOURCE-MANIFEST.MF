@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.ssh.apache - Sources
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 5.3.0.201903130848-r
-Eclipse-SourceBundle: org.eclipse.jgit.ssh.apache;version="5.3.0.201903130848-r";roots="."
+Bundle-Version: 5.3.1.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit.ssh.apache;version="5.3.1.qualifier";roots="."
