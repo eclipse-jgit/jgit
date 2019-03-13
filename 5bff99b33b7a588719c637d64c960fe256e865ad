@@ -56,6 +56,24 @@
       "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ce2f8e_91dd6366",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-13T13:24:45Z",
+      "side": 1,
+      "message": "Actually didn\u0027t think about that. Maybe we should apply them?\nAs this is a proposal to be used by the diff/mergetool manager, the resulting file from the output stream will be shown to the end user via the diff/mergetool.\n\nAs a user I\u0027d want my diff/mergetool to show me the files with these filters applied.",
+      "parentUuid": "1970488b_1dab5978",
+      "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
