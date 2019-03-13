@@ -74,6 +74,24 @@
       "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f04645ea_5036856b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntries.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-13T14:32:25Z",
+      "side": 1,
+      "message": "I suspected so. So you want to get the blob contents with CR/LF and smudge filters applied. Note that you can know only inside a TreeWalk what filters need to be applied. I suggest you look at EGit\u0027s CompareUtils.getFileRevision() and GitBlobStorage.open(). That gives you an InputStream with all those filters applied; it\u0027s what EGit uses to show a diff in the Eclipse compare editor.\n\nThen you\u0027d have to copy that InputStream into the OutputStream. Maybe simpler to have a function that returns the InputStream; then the caller can do with it whatever he wants.",
+      "parentUuid": "41ce2f8e_91dd6366",
+      "revId": "5bff99b33b7a588719c637d64c960fe256e865ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
