@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Automatic-Module-Name: org.eclipse.jgit.pgm.test
 Bundle-SymbolicName: org.eclipse.jgit.pgm.test
-Bundle-Version: 5.1.6.qualifier
+Bundle-Version: 5.1.6.201903130242-r
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
