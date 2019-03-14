@@ -1241,7 +1241,7 @@ public abstract class BaseReceivePack {
 			adv.advertiseCapability(CAPABILITY_PUSH_OPTIONS);
 		}
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
-		adv.send(getAdvertisedOrDefaultRefs());
+		adv.send(getAdvertisedOrDefaultRefs().values());
 		for (ObjectId obj : advertisedHaves)
 			adv.advertiseHave(obj);
 		if (adv.isEmpty())

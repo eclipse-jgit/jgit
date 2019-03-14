@@ -1066,7 +1066,7 @@ public class UploadPack {
 			findSymrefs(adv, refsToSend);
 		}
 
-		adv.send(refsToSend);
+		adv.send(refsToSend.values());
 		adv.end();
 	}
 
@@ -1477,7 +1477,8 @@ public class UploadPack {
 		}
 		adv.setDerefTags(true);
 		findSymrefs(adv, advertisedOrDefaultRefs);
-		advertised = adv.send(advertisedOrDefaultRefs);
+		advertised = adv.send(advertisedOrDefaultRefs.values());
+
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}"); //$NON-NLS-1$
 		adv.end();
