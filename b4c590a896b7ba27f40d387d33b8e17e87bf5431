@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48612dac_df337f4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-14T18:23:18Z",
+      "side": 1,
+      "message": "I think this can\u0027t be null.",
+      "revId": "b4c590a896b7ba27f40d387d33b8e17e87bf5431",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
