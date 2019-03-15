@@ -102,12 +102,12 @@ public class DescribeCommand extends GitCommand<String> {
 	private boolean longDesc;
 
 	/**
-	 * Pattern matchers to be applied to tags under consideration
+	 * Pattern matchers to be applied to tags under consideration.
 	 */
 	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
-	 * Whether to use all tags (incl. lightweight) or not
+	 * Whether to use all tags (incl. lightweight) or not.
 	 */
 	private boolean useTags = false;
 
