@@ -112,6 +112,11 @@ public class DescribeCommand extends GitCommand<String> {
 	private boolean useTags = false;
 
 	/**
+	 * Whether to show a uniquely abbreviated commit hash as a fallback or not.
+	 */
+	private boolean always = false;
+
+	/**
 	 * Constructor for DescribeCommand.
 	 *
 	 * @param repo
@@ -194,6 +199,21 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setTags(boolean tags) {
 		this.useTags = tags;
+		return this;
+	}
+
+	/**
+	 * Always describe the commit by eventually falling back to a uniquely
+	 * abbreviated commit hash if no other name matches.
+	 *
+	 * @param always
+	 *            <code>true</code> enables falling back to a uniquely
+	 *            abbreviated commit hash
+	 * @return {@code this}
+	 * @since 5.3
+	 */
+	public DescribeCommand setAlways(boolean always) {
+		this.always = always;
 		return this;
 	}
 
@@ -399,8 +419,9 @@ public class DescribeCommand extends GitCommand<String> {
 			}
 
 			// if all the nodes are dominated by all the tags, the walk stops
-			if (candidates.isEmpty())
-				return null;
+			if (candidates.isEmpty()) {
+				return always ? w.getObjectReader().abbreviate(target).name() : null;
+			}
 
 			Candidate best = Collections.min(candidates, new Comparator<Candidate>() {
 				@Override
