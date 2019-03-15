@@ -138,7 +138,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cacheTreePathInfo;
 	/***/ public String configFileNotFound;
 	/***/ public String cannotBeRenamed;
-	/***/ public String cannotChekoutNoHeadsAdvertisedByRemote;
 	/***/ public String cannotCombineSquashWithNoff;
 	/***/ public String cannotCreateCommand;
 	/***/ public String cannotCreateOutputStream;
