@@ -62,7 +62,7 @@ abstract class FetchRequest {
 
 	final Set<ObjectId> clientShallowCommits;
 
-	final long filterBlobLimit;
+	final FilterSpec filterSpec;
 
 	final Set<String> clientCapabilities;
 
@@ -82,8 +82,8 @@ abstract class FetchRequest {
 	 *            how deep to go in the tree
 	 * @param clientShallowCommits
 	 *            commits the client has without history
-	 * @param filterBlobLimit
-	 *            to exclude blobs on certain conditions
+	 * @param filterSpec
+	 *            the filter spec
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
 	 * @param deepenNotRefs
@@ -96,13 +96,14 @@ abstract class FetchRequest {
 	 *            agent as reported by the client in the request body
 	 */
 	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
-			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
+			@NonNull Set<ObjectId> clientShallowCommits,
+			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
 			@NonNull List<String> deepenNotRefs, @Nullable String agent) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
-		this.filterBlobLimit = filterBlobLimit;
+		this.filterSpec = filterSpec;
 		this.clientCapabilities = requireNonNull(clientCapabilities);
 		this.deepenSince = deepenSince;
 		this.deepenNotRefs = requireNonNull(deepenNotRefs);
@@ -137,10 +138,10 @@ abstract class FetchRequest {
 	}
 
 	/**
-	 * @return the blob limit set in a "filter" line (-1 if not set)
+	 * @return the filter spec given in a "filter" line
 	 */
-	long getFilterBlobLimit() {
-		return filterBlobLimit;
+	FilterSpec getFilterSpec() {
+		return filterSpec;
 	}
 
 	/**

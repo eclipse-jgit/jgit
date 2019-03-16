@@ -130,7 +130,7 @@ final class ProtocolV0Parser {
 				}
 				filterReceived = true;
 
-				reqBuilder.setFilterBlobLimit(FilterSpec.parseFilterLine(arg));
+				reqBuilder.setFilterSpec(FilterSpec.parseFilterLine(arg));
 				continue;
 			}
 

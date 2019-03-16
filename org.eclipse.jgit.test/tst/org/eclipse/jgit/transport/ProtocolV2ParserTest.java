@@ -232,7 +232,7 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
-		assertEquals(0, request.getFilterBlobLimit());
+		assertEquals(0, request.getFilterSpec().getBlobLimit());
 	}
 
 	@Test
@@ -243,7 +243,7 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
-		assertEquals(15, request.getFilterBlobLimit());
+		assertEquals(15, request.getFilterSpec().getBlobLimit());
 	}
 
 	@Test
