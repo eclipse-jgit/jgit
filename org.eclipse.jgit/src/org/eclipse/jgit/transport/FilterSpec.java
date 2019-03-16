@@ -49,24 +49,32 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Utility code for dealing with filter lines.
+ * Represents either a filter specified in a protocol "filter" line, or a
+ * placeholder to indicate no filtering.
+ *
+ * @since 5.4
  */
-final class FilterSpec {
+public final class FilterSpec {
 
-	private FilterSpec() {}
+	private final long blobLimit;
 
-	/*
+	private FilterSpec(long blobLimit) {
+		this.blobLimit = blobLimit;
+	}
+
+	/**
 	 * Process the content of "filter" line from the protocol. It has a shape
 	 * like "blob:none" or "blob:limit=N", with limit a positive number.
 	 *
 	 * @param filterLine
 	 *            the content of the "filter" line in the protocol
-	 * @return N, the limit, defaulting to 0 if "none"
+	 * @return a FilterSpec representing the given filter
 	 * @throws PackProtocolException
 	 *             invalid filter because due to unrecognized format or
 	 *             negative/non-numeric filter.
+	 * @since 5.4
 	 */
-	static long parseFilterLine(String filterLine)
+	public static FilterSpec fromFilterLine(String filterLine)
 			throws PackProtocolException {
 		long blobLimit = -1;
 
@@ -92,7 +100,40 @@ final class FilterSpec {
 							JGitText.get().invalidFilter, filterLine));
 		}
 
+		return new FilterSpec(blobLimit);
+	}
+
+	/**
+	 * @param blobLimit
+	 *            the blob limit in a "blob:[limit]" or "blob:none" filter line
+	 * @return a filter spec which filters blobs above a certain size
+	 */
+	static FilterSpec withBlobLimit(long blobLimit) {
+		if (blobLimit < 0) {
+			throw new IllegalArgumentException(
+					"blobLimit cannot be negative: " + blobLimit); //$NON-NLS-1$
+		}
+		return new FilterSpec(blobLimit);
+	}
+
+	/**
+	 * A placeholder that indicates no filtering.
+	 */
+	public static final FilterSpec NO_FILTER = new FilterSpec(-1);
+
+	/**
+	 * @return -1 if this filter does not filter blobs based on size, or a
+	 *         non-negative integer representing the max size of blobs to allow
+	 */
+	public long getBlobLimit() {
 		return blobLimit;
+	}
+
+	/**
+	 * @return true if this filter doesn't filter out anything
+	 */
+	public boolean isNoOp() {
+		return blobLimit == -1;
 	}
 
 }
