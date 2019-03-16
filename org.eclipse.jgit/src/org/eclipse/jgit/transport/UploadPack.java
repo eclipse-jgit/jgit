@@ -1537,7 +1537,7 @@ public class UploadPack {
 		if (currentRequest == null) {
 			throw new RequestNotYetReadException();
 		}
-		return currentRequest.getFilterBlobLimit();
+		return currentRequest.getFilterSpec().getBlobLimit();
 	}
 
 	/**
@@ -2099,11 +2099,11 @@ public class UploadPack {
 				accumulator);
 		try {
 			pw.setIndexDisabled(true);
-			if (req.getFilterBlobLimit() >= 0) {
-				pw.setFilterBlobLimit(req.getFilterBlobLimit());
-				pw.setUseCachedPacks(false);
-			} else {
+			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
+			} else {
+				pw.setFilterBlobLimit(req.getFilterSpec().getBlobLimit());
+				pw.setUseCachedPacks(false);
 			}
 			pw.setUseBitmaps(
 					req.getDepth() == 0
