@@ -207,7 +207,7 @@ final class ProtocolV2Parser {
 							JGitText.get().tooManyFilters);
 				}
 				filterReceived = true;
-				reqBuilder.setFilterBlobLimit(filterLine(
+				reqBuilder.setFilterSpec(parseFilterLine(
 						line.substring(OPTION_FILTER.length() + 1)));
 			} else {
 				throw new PackProtocolException(MessageFormat
@@ -273,25 +273,26 @@ final class ProtocolV2Parser {
 	 * Process the content of "filter" line from the protocol. It has a shape
 	 * like "blob:none" or "blob:limit=N", with limit a positive number.
 	 *
-	 * @param blobLine
+	 * @param filterLine
 	 *            the content of the "filter" line in the protocol
-	 * @return N, the limit, defaulting to 0 if "none"
+	 * @return a FilterSpec representing the given filter
 	 * @throws PackProtocolException
 	 *             invalid filter because due to unrecognized format or
 	 *             negative/non-numeric filter.
 	 */
-	static long filterLine(String blobLine) throws PackProtocolException {
+	static FilterSpec parseFilterLine(String filterLine)
+			throws PackProtocolException {
 		long blobLimit = -1;
 
-		if (blobLine.equals("blob:none")) { //$NON-NLS-1$
+		if (filterLine.equals("blob:none")) { //$NON-NLS-1$
 			blobLimit = 0;
-		} else if (blobLine.startsWith("blob:limit=")) { //$NON-NLS-1$
+		} else if (filterLine.startsWith("blob:limit=")) { //$NON-NLS-1$
 			try {
 				blobLimit = Long
-						.parseLong(blobLine.substring("blob:limit=".length())); //$NON-NLS-1$
+						.parseLong(filterLine.substring("blob:limit=".length())); //$NON-NLS-1$
 			} catch (NumberFormatException e) {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidFilter, blobLine));
+						.format(JGitText.get().invalidFilter, filterLine));
 			}
 		}
 		/*
@@ -301,10 +302,10 @@ final class ProtocolV2Parser {
 		 */
 		if (blobLimit < 0) {
 			throw new PackProtocolException(
-					MessageFormat.format(JGitText.get().invalidFilter, blobLine));
+					MessageFormat.format(JGitText.get().invalidFilter, filterLine));
 		}
 
-		return blobLimit;
+		return FilterSpec.blobFilter(blobLimit);
 	}
 
 }
