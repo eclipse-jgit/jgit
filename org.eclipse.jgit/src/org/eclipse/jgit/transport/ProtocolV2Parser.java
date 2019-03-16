@@ -207,7 +207,7 @@ final class ProtocolV2Parser {
 							JGitText.get().tooManyFilters);
 				}
 				filterReceived = true;
-				reqBuilder.setFilterBlobLimit(FilterSpec.parseFilterLine(
+				reqBuilder.setFilterSpec(FilterSpec.fromFilterLine(
 						line.substring(OPTION_FILTER.length() + 1)));
 			} else {
 				throw new PackProtocolException(MessageFormat
