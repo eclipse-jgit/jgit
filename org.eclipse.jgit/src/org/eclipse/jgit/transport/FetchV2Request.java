@@ -77,11 +77,12 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull Set<ObjectId> wantIds,
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
 			@NonNull List<String> deepenNotRefs, int depth,
-			long filterBlobLimit,
+			@NonNull FilterSpec filterSpec,
 			boolean doneReceived, @NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
-				clientCapabilities, deepenSince, deepenNotRefs, agent);
+		super(wantIds, depth, clientShallowCommits, filterSpec,
+				clientCapabilities, deepenSince,
+				deepenNotRefs, agent);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
@@ -149,7 +150,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		int deepenSince;
 
-		long filterBlobLimit = -1;
+		FilterSpec filterSpec = FilterSpec.NO_OP_FILTER;
 
 		boolean doneReceived;
 
@@ -268,12 +269,12 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * @param filterBlobLim
-		 *            set in a "filter" line
+		 * @param filter
+		 *            spec set in a "filter" line
 		 * @return this builder
 		 */
-		Builder setFilterBlobLimit(long filterBlobLim) {
-			filterBlobLimit = filterBlobLim;
+		Builder setFilterSpec(@NonNull FilterSpec filter) {
+			filterSpec = filter;
 			return this;
 		}
 
@@ -322,7 +323,7 @@ public final class FetchV2Request extends FetchRequest {
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
 					clientShallowCommits, deepenSince, deepenNotRefs,
-					depth, filterBlobLimit, doneReceived, clientCapabilities,
+					depth, filterSpec, doneReceived, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions));
 		}
 	}
