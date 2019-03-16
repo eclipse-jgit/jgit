@@ -57,10 +57,11 @@ import org.eclipse.jgit.lib.ObjectId;
 final class FetchV0Request extends FetchRequest {
 
 	FetchV0Request(@NonNull Set<ObjectId> wantIds, int depth,
-			@NonNull Set<ObjectId> clientShallowCommits, long filterBlobLimit,
+			@NonNull Set<ObjectId> clientShallowCommits,
+			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, @Nullable String agent) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
-				clientCapabilities, 0, Collections.emptyList(), agent);
+		super(wantIds, depth, clientShallowCommits, filterSpec,
+				clientCapabilities, 0, Collections.emptyList(),	agent);
 	}
 
 	static final class Builder {
@@ -71,7 +72,7 @@ final class FetchV0Request extends FetchRequest {
 
 		final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		long filterBlobLimit = -1;
+		FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 		final Set<String> clientCaps = new HashSet<>();
 
@@ -129,18 +130,18 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
-		 * @param filterBlobLim
-		 *            blob limit set in a "filter" line
+		 * @param filter
+		 *            the filter set in a filter line
 		 * @return this builder
 		 */
-		Builder setFilterBlobLimit(long filterBlobLim) {
-			filterBlobLimit = filterBlobLim;
+		Builder setFilterSpec(@NonNull FilterSpec filter) {
+			filterSpec = requireNonNull(filter);
 			return this;
 		}
 
 		FetchV0Request build() {
 			return new FetchV0Request(wantIds, depth, clientShallowCommits,
-					filterBlobLimit, clientCaps, agent);
+					filterSpec, clientCaps, agent);
 		}
 
 	}
