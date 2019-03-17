@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6395ea67_dfe99a0c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-17T21:43:05Z",
+      "side": 1,
+      "message": "What does the external mergetool expect? Unless I\u0027m missing something you\u0027re passing here the raw blobs. What about CR/LF and smudge filters?",
+      "revId": "f34a23f58759b820039ee98ae7e26d917e486205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
