@@ -203,7 +203,6 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertNotNull(describe(c1, "v1.1*", "v1.0*"));
 			assertNotNull(describe(c2, "v1.0*", "v1.1*"));
 			assertNotNull(describe(c2, "v1.1*", "v1.0*"));
-
 		}
 	}
 
