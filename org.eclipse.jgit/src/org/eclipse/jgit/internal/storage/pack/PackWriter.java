@@ -873,6 +873,21 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * A seen policy which causes objects to be visited repeatedly by making
+	 * {@code checkSeen} always return {@code false}.
+	 */
+	private static final ObjectWalk.SeenPolicy ALWAYS_VISIT_SEEN_POLICY =
+			new ObjectWalk.SeenPolicy() {
+		@Override
+		public boolean checkSeen(RevObject o) {
+			return false;
+		}
+
+		@Override
+		public void setSeen(RevObject o) {}
+	};
+
+	/**
 	 * Prepare the list of objects to be written to the pack stream.
 	 * <p>
 	 * Basing on these 2 sets, another set of objects to put in a pack file is
@@ -913,6 +928,9 @@ public class PackWriter implements AutoCloseable {
 		if (shallowPack && !(walk instanceof DepthWalk.ObjectWalk))
 			throw new IllegalArgumentException(
 					JGitText.get().shallowPacksRequireDepthWalk);
+		if (filterSpec.getTreeDepthLimit() >= 0) {
+			walk.setSeenPolicy(ALWAYS_VISIT_SEEN_POLICY);
+		}
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects, noBitmaps);
 	}
@@ -1972,7 +1990,8 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				filterAndAddObject(o, o.getType(), pathHash, want);
+				filterAndAddObject(o, o.getType(), pathHash, want,
+								   walker.getTreeDepth());
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1982,7 +2001,8 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				filterAndAddObject(o, o.getType(), walker.getPathHashCode(), want);
+				filterAndAddObject(o, o.getType(), walker.getPathHashCode(),
+								   want, walker.getTreeDepth());
 				countingMonitor.update(1);
 			}
 		}
@@ -2015,7 +2035,7 @@ public class PackWriter implements AutoCloseable {
 				needBitmap.remove(objectId);
 				continue;
 			}
-			filterAndAddObject(objectId, obj.getType(), 0, want);
+			filterAndAddObject(objectId, obj.getType(), 0, want, 0);
 		}
 
 		if (thin)
@@ -2077,18 +2097,32 @@ public class PackWriter implements AutoCloseable {
 	// Adds the given object as an object to be packed, first performing
 	// filtering on blobs at or exceeding a given size.
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
-			int pathHashCode, @NonNull Set<? extends AnyObjectId> want)
-			throws IOException {
+			int pathHashCode, @NonNull Set<? extends AnyObjectId> want,
+			long treeDepth)	throws IOException {
 
-		// Check if this object needs to be rejected, doing the cheaper
-		// checks first.
-		boolean reject = filterSpec.getBlobLimit() >= 0 &&
+		// Check if this object needs to be rejected because it is a blob over
+		// the size limit. Do the cheaper checks first.
+		if (filterSpec.getBlobLimit() >= 0 &&
 			type == OBJ_BLOB &&
 			!want.contains(src) &&
-			reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit();
-		if (!reject) {
-			addObject(src, type, pathHashCode);
+			reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit()) {
+			return;
 		}
+
+		// Check if this object needs to be rejected because it is a tree or
+		// blob that is too deep from the root tree.
+
+		// A blob is considered one level deeper than the tree that contains it.
+		if (type == OBJ_BLOB) {
+			treeDepth++;
+		}
+
+		if (filterSpec.getTreeDepthLimit() >= 0 &&
+			treeDepth > filterSpec.getTreeDepthLimit()) {
+			return;
+		}
+
+		addObject(src, type, pathHashCode);
 	}
 
 	private boolean exclude(AnyObjectId objectId) {
