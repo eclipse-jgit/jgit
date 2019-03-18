@@ -1526,17 +1526,30 @@ public class UploadPack {
 	}
 
 	/**
-	 * Returns the filter blob limit for the current request. Valid only after
-	 * calling recvWants(). A limit -1 means no limit.
+	 * Deprecated synonym for {@code getFilterSpec().getBlobLimit()}.
 	 *
 	 * @return filter blob limit requested by the client, or -1 if no limit
 	 * @since 5.3
+	 * @deprecated Use {@link #getFilterSpec()} instead
 	 */
-	public long getFilterBlobLimit() {
+	@Deprecated
+	public final long getFilterBlobLimit() {
+		return getFilterSpec().getBlobLimit();
+	}
+
+	/**
+	 * Returns the filter spec for the current request. Valid only after
+	 * calling recvWants(). This may be a no-op filter spec, but it won't be
+	 * null.
+	 *
+	 * @return filter requested by the client
+	 * @since 5.4
+	 */
+	public final FilterSpec getFilterSpec() {
 		if (currentRequest == null) {
 			throw new RequestNotYetReadException();
 		}
-		return currentRequest.getFilterSpec().getBlobLimit();
+		return currentRequest.getFilterSpec();
 	}
 
 	/**
@@ -2101,7 +2114,7 @@ public class UploadPack {
 			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
 			} else {
-				pw.setFilterBlobLimit(req.getFilterSpec().getBlobLimit());
+				pw.setFilterSpec(req.getFilterSpec());
 				pw.setUseCachedPacks(false);
 			}
 			pw.setUseBitmaps(
