@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
@@ -28,6 +31,8 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -1549,6 +1554,118 @@ public class UploadPackTest {
 
 		assertFalse(client.getObjectDatabase().has(big.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(small.toObjectId()));
+	}
+
+	class DeepTreePreparator {
+		RevBlob blobLowDepth = remote.blob("lo");
+		RevBlob blobHighDepth = remote.blob("hi");
+		RevTree subtree = remote.tree(remote.file("1", blobHighDepth));
+		RevTree rootTree;
+		RevCommit commit;
+
+		DeepTreePreparator() throws Exception {
+			DirCache dc = DirCache.newInCore();
+			DirCacheBuilder builder = dc.builder();
+			builder.add(remote.file("1", blobLowDepth));
+			builder.addTree(new byte[] {'2'}, DirCacheEntry.STAGE_0,
+					remote.getRevWalk().getObjectReader(), subtree);
+			builder.finish();
+			ObjectId root;
+			try (ObjectInserter ins = remote.getRepository().newObjectInserter()) {
+				root = dc.writeTree(ins);
+				ins.flush();
+			}
+			rootTree = remote.getRevWalk().parseTree(root);
+			commit = remote.commit(rootTree);
+		}
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth0() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + preparator.commit.toObjectId().getName() + "\n",
+			"filter tree:0\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth1_serverHasBitmap() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		// The bitmap should be ignored since we need to track the depth while
+		// traversing the trees.
+		generateBitmaps(server);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + preparator.commit.toObjectId().getName() + "\n",
+			"filter tree:1\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth2() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + preparator.commit.toObjectId().getName() + "\n",
+			"filter tree:2\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
 	}
 
 	@Test
