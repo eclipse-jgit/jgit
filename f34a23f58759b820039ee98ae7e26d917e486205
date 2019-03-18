@@ -34,6 +34,24 @@
       "revId": "f34a23f58759b820039ee98ae7e26d917e486205",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f321a402_3a949908",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-18T08:29:15Z",
+      "side": 1,
+      "message": "I suggest you look at EGit\u0027s CompareUtils.getFileRevision() and GitBlobStorage.open(). That\u0027s what EGit uses to show a diff in the Eclipse compare editor.",
+      "parentUuid": "44d0f707_42f4b165",
+      "revId": "f34a23f58759b820039ee98ae7e26d917e486205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
