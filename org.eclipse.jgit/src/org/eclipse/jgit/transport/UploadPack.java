@@ -1532,12 +1532,29 @@ public class UploadPack {
 	 *
 	 * @return filter blob limit requested by the client, or -1 if no limit
 	 * @since 5.3
+	 * @deprecated Use {@link #getFilterSpec()} instead
 	 */
+	@Deprecated
 	public long getFilterBlobLimit() {
 		if (currentRequest == null) {
 			throw new RequestNotYetReadException();
 		}
 		return currentRequest.getFilterSpec().getBlobLimit();
+	}
+
+	/**
+	 * Returns the filter spec for the current request. Valid only after
+	 * calling recvWants(). This may be a no-op filter spec, but it won't be
+	 * null.
+	 *
+	 * @return filter requested by the client
+	 * @since 5.3
+	 */
+	public FilterSpec getFilterSpec() {
+		if (currentRequest == null) {
+			throw new RequestNotYetReadException();
+		}
+		return currentRequest.getFilterSpec();
 	}
 
 	/**
@@ -2102,7 +2119,7 @@ public class UploadPack {
 			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
 			} else {
-				pw.setFilterBlobLimit(req.getFilterSpec().getBlobLimit());
+				pw.setFilterSpec(req.getFilterSpec());
 				pw.setUseCachedPacks(false);
 			}
 			pw.setUseBitmaps(
