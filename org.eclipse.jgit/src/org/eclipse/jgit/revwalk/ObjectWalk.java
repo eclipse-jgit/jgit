@@ -576,6 +576,16 @@ public class ObjectWalk extends RevWalk {
 	}
 
 	/**
+	 * @return the current traversal depth from the root tree object
+	 */
+	public int getTreeDepth() {
+		if (currVisit == null) {
+			return 0;
+		}
+		return currVisit.depth;
+	}
+
+	/**
 	 * Get the current object's path hash code.
 	 * <p>
 	 * This method computes a hash code on the fly for this path, the hash is
@@ -778,6 +788,11 @@ public class ObjectWalk extends RevWalk {
 		tv.buf = reader.open(obj, OBJ_TREE).getCachedBytes();
 		tv.parent = currVisit;
 		currVisit = tv;
+		if (tv.parent == null) {
+			tv.depth = 1;
+		} else {
+			tv.depth = tv.parent.depth + 1;
+		}
 
 		return obj;
 	}
@@ -809,5 +824,8 @@ public class ObjectWalk extends RevWalk {
 
 		/** Number of bytes in the path leading up to this tree. */
 		int pathLen;
+
+		/** Number of levels deep from the root tree. 0 for root tree. */
+		int depth;
 	}
 }
