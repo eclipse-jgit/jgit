@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb2e3660_b838975c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-18T08:56:42Z",
+      "side": 1,
+      "message": "Must be @since 5.4",
+      "revId": "6957faa60c37cc7d7a05accc759f708a62a07250",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
