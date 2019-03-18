@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 
@@ -135,4 +136,19 @@ public final class FilterSpec {
 		return blobLimit == -1;
 	}
 
+	/**
+	 * @return the filter line which describes this spec, e.g. "filter blob:limit=42"
+	 */
+	@Nullable
+	public String filterLine() {
+		if (blobLimit == 0) {
+			return GitProtocolConstants.OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+		}
+
+		if (blobLimit > 0) {
+			return GitProtocolConstants.OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
+		}
+
+		return null;
+	}
 }
