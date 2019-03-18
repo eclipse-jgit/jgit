@@ -16,6 +16,24 @@
       "revId": "f34a23f58759b820039ee98ae7e26d917e486205",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d0f707_42f4b165",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-18T08:23:51Z",
+      "side": 1,
+      "message": "It expects files that can be compared with working-tree file, so have the same format like the checkout file. You are right, the CRLF and smudge filters are missing here. The same problem exists for difftool too. In the EGit omplementation the file content was right, i think because if uses JGit with enabled filters.\n\nHow can i apply such filters to the stream in JGit internally? Is there an example (API)? I\u0027ve found only something not trivial looking in LFS related packages, but this should be not only for LFS specific smudge etc. !?",
+      "parentUuid": "6395ea67_dfe99a0c",
+      "revId": "f34a23f58759b820039ee98ae7e26d917e486205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
