@@ -385,15 +385,15 @@ public class ObjectWalk extends RevWalk {
 						obj = new RevTree(idBuffer);
 						obj.flags = SEEN;
 						objects.add(obj);
-						return enterTree(obj);
+						return pushTree(obj);
 					}
 					if (!(obj instanceof RevTree))
 						throw new IncorrectObjectTypeException(obj, OBJ_TREE);
 					obj.flags = flags = obj.flags | SEEN;
 					if ((flags & UNINTERESTING) == 0)
-						return enterTree(obj);
+						return pushTree(obj);
 					if (boundary)
-						return enterTree(obj);
+						return pushTree(obj);
 					continue;
 
 				case TYPE_GITLINK:
@@ -426,21 +426,12 @@ public class ObjectWalk extends RevWalk {
 			o.flags = flags;
 			if ((flags & UNINTERESTING) == 0 | boundary) {
 				if (o instanceof RevTree) {
-					tv = newTreeVisit(o);
-					tv.parent = null;
-					currVisit = tv;
+					currVisit = null;
+					pushTree(o);
 				}
 				return o;
 			}
 		}
-	}
-
-	private RevObject enterTree(RevObject obj) throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
-		TreeVisit tv = newTreeVisit(obj);
-		tv.parent = currVisit;
-		currVisit = tv;
-		return obj;
 	}
 
 	private static int findObjectId(byte[] buf, int ptr) {
@@ -768,7 +759,7 @@ public class ObjectWalk extends RevWalk {
 		}
 	}
 
-	private TreeVisit newTreeVisit(RevObject obj) throws LargeObjectException,
+	private RevObject pushTree(RevObject obj) throws LargeObjectException,
 			MissingObjectException, IncorrectObjectTypeException, IOException {
 		TreeVisit tv = freeVisit;
 		if (tv != null) {
@@ -782,7 +773,10 @@ public class ObjectWalk extends RevWalk {
 		}
 		tv.obj = obj;
 		tv.buf = reader.open(obj, OBJ_TREE).getCachedBytes();
-		return tv;
+		tv.parent = currVisit;
+		currVisit = tv;
+
+		return obj;
 	}
 
 	private void releaseTreeVisit(TreeVisit tv) {
