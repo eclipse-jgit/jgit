@@ -58,13 +58,22 @@ public final class FilterSpec {
 
 	private final long blobLimit;
 
-	private FilterSpec(long blobLimit) {
+	private final long treeDepthLimit;
+
+	private FilterSpec(long blobLimit, long treeDepthLimit) {
 		this.blobLimit = blobLimit;
+		this.treeDepthLimit = treeDepthLimit;
 	}
 
 	/*
 	 * Process the content of "filter" line from the protocol. It has a shape
-	 * like "blob:none" or "blob:limit=N", with limit a positive number.
+	 * like:
+	 *
+	 * <ul>
+	 *   <li>"blob:none"
+	 *   <li>"blob:limit=N", with N &gt;= 0
+	 *   <li>"tree:DEPTH", with DEPTH &gt;= 0
+	 * </ul>
 	 *
 	 * @param filterLine
 	 *            the content of the "filter" line in the protocol
@@ -75,31 +84,31 @@ public final class FilterSpec {
 	 */
 	static FilterSpec parseFilterLine(String filterLine)
 			throws PackProtocolException {
-		long blobLimit = -1;
-
 		if (filterLine.equals("blob:none")) { //$NON-NLS-1$
-			blobLimit = 0;
+			return FilterSpec.blobFilter(0);
 		} else if (filterLine.startsWith("blob:limit=")) { //$NON-NLS-1$
+			long blobLimit = -1;
 			try {
 				blobLimit = Long
 						.parseLong(filterLine.substring("blob:limit=".length())); //$NON-NLS-1$
-			} catch (NumberFormatException e) {
-				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidFilter, filterLine));
+			} catch (NumberFormatException e) {}
+			if (blobLimit >= 0) {
+				return FilterSpec.blobFilter(blobLimit);
+			}
+		} else if (filterLine.startsWith("tree:")) { //$NON-NLS-1$
+			long treeDepthLimit = -1;
+			try {
+				treeDepthLimit = Long
+						.parseLong(filterLine.substring("tree:".length())); //$NON-NLS-1$
+			} catch (NumberFormatException e) {}
+			if (treeDepthLimit >= 0) {
+				return FilterSpec.treeDepthFilter(treeDepthLimit);
 			}
 		}
-		/*
-		 * We must have (1) either "blob:none" or "blob:limit=" set (because we
-		 * only support blob size limits for now), and (2) if the latter, then
-		 * it must be nonnegative. Throw if (1) or (2) is not met.
-		 */
-		if (blobLimit < 0) {
-			throw new PackProtocolException(
-					MessageFormat.format(
-							JGitText.get().invalidFilter, filterLine));
-		}
 
-		return new FilterSpec(blobLimit);
+		// Did not match any known filter format.
+		throw new PackProtocolException(
+				MessageFormat.format(JGitText.get().invalidFilter, filterLine));
 	}
 
 	/**
@@ -112,13 +121,27 @@ public final class FilterSpec {
 			throw new IllegalArgumentException(
 					"blobLimit cannot be negative: " + blobLimit); //$NON-NLS-1$
 		}
-		return new FilterSpec(blobLimit);
+		return new FilterSpec(blobLimit, -1);
+	}
+
+	/**
+	 * @param treeDepthLimit
+	 *            the tree depth limit in a "tree:[depth]" filter line
+	 * @return a filter spec which filters blobs and trees beyond a certain tree
+	 *         depth
+	 */
+	public static FilterSpec treeDepthFilter(long treeDepthLimit) {
+		if (treeDepthLimit < 0) {
+			throw new IllegalArgumentException(
+					"treeDepthLimit cannot be negative: " + treeDepthLimit); //$NON-NLS-1$
+		}
+		return new FilterSpec(-1, treeDepthLimit);
 	}
 
 	/**
 	 * A placeholder that indicates no filtering.
 	 */
-	public static final FilterSpec NO_OP_FILTER = new FilterSpec(-1);
+	public static final FilterSpec NO_OP_FILTER = new FilterSpec(-1, -1);
 
 	/**
 	 * @return -1 if this filter does not filter blobs based on size, or a
@@ -129,10 +152,19 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * @return -1 if this filter does not filter blobs and trees based on depth,
+	 *         or a non-negative integer representing the max tree depth of
+	 *         blobs and trees to fetch
+	 */
+	public long getTreeDepthLimit() {
+		return treeDepthLimit;
+	}
+
+	/**
 	 * @return true if this filter doesn't filter out anything
 	 */
 	public boolean isNoOp() {
-		return blobLimit == -1;
+		return blobLimit == -1 && treeDepthLimit == -1;
 	}
 
 	/**
