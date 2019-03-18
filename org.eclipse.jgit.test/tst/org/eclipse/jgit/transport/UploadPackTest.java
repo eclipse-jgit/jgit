@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
@@ -28,6 +31,8 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -1549,6 +1554,166 @@ public class UploadPackTest {
 
 		assertFalse(client.getObjectDatabase().has(big.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(small.toObjectId()));
+	}
+
+	abstract class TreeBuilder {
+		abstract void addElements(DirCacheBuilder dcBuilder) throws Exception;
+
+		RevTree build() throws Exception {
+			DirCache dc = DirCache.newInCore();
+			DirCacheBuilder dcBuilder = dc.builder();
+			addElements(dcBuilder);
+			dcBuilder.finish();
+			ObjectId id;
+			try (ObjectInserter ins =
+					remote.getRepository().newObjectInserter()) {
+				id = dc.writeTree(ins);
+				ins.flush();
+			}
+			return remote.getRevWalk().parseTree(id);
+		}
+	}
+
+	class DeepTreePreparator {
+		RevBlob blobLowDepth = remote.blob("lo");
+		RevBlob blobHighDepth = remote.blob("hi");
+		RevTree subtree = remote.tree(remote.file("1", blobHighDepth));
+		RevTree rootTree = (new TreeBuilder() {
+				@Override
+				void addElements(DirCacheBuilder dcBuilder) throws Exception {
+					dcBuilder.add(remote.file("1", blobLowDepth));
+					dcBuilder.addTree(new byte[] {'2'}, DirCacheEntry.STAGE_0,
+							remote.getRevWalk().getObjectReader(), subtree);
+				}
+			}).build();
+		RevCommit commit = remote.commit(rootTree);
+
+		DeepTreePreparator() throws Exception {}
+	}
+
+	private void uploadV2WithTreeDepthFilter(RevCommit commit, long depth)
+			throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"filter tree:" + depth + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth0() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 0);
+
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth1_serverHasBitmap() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		// The bitmap should be ignored since we need to track the depth while
+		// traversing the trees.
+		generateBitmaps(server);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 1);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth2() throws Exception {
+		DeepTreePreparator preparator = new DeepTreePreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 2);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.rootTree.toObjectId()));
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.subtree.toObjectId()));
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.blobLowDepth.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.blobHighDepth.toObjectId()));
+	}
+
+	/**
+	 * Creates a commit with the following files:
+	 * <pre>
+	 * a/x/b/foo
+	 * x/b/foo
+	 * </pre>
+	 * which has an identical tree in two locations: once at / and once at /a
+	 */
+	class RepeatedSubtreePreparator {
+		RevBlob foo = remote.blob("foo");
+		RevTree subtree3 = remote.tree(remote.file("foo", foo));
+		RevTree subtree2 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree3);
+			}
+		}).build();
+		RevTree subtree1 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree2);
+			}
+		}).build();
+		RevTree rootTree = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree1);
+				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree2);
+			}
+		}).build();
+		RevCommit commit = remote.commit(rootTree);
+
+		RepeatedSubtreePreparator() throws Exception {}
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth_iterateOverTreeAtTwoLevels()
+			throws Exception {
+		// Test tree:<depth> where a tree is iterated to twice - once where a
+		// subentry is too deep to be included, and again where the blob inside it is
+		// shallow enough to be included.
+		RepeatedSubtreePreparator preparator = new RepeatedSubtreePreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 4);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.foo.toObjectId()));
 	}
 
 	@Test
