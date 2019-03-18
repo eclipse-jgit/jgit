@@ -119,6 +119,7 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.ObjectCountCallback;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
@@ -303,7 +304,7 @@ public class PackWriter implements AutoCloseable {
 
 	private ObjectCountCallback callback;
 
-	private long filterBlobLimit = -1;
+	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 	/**
 	 * Create writer for specified repository.
@@ -641,10 +642,11 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * @param bytes exclude blobs of size greater than this
+	 * @param filter the filter which indicates what and what not this writer
+	 *            should include
 	 */
-	public void setFilterBlobLimit(long bytes) {
-		filterBlobLimit = bytes;
+	public void setFilterSpec(@NonNull FilterSpec filter) {
+		filterSpec = filter;
 	}
 
 	/**
@@ -2079,10 +2081,10 @@ public class PackWriter implements AutoCloseable {
 
 		// Check if this object needs to be rejected, doing the cheaper
 		// checks first.
-		boolean reject = filterBlobLimit >= 0 &&
+		boolean reject = filterSpec.getBlobLimit() >= 0 &&
 			type == OBJ_BLOB &&
 			!want.contains(src) &&
-			reader.getObjectSize(src, OBJ_BLOB) > filterBlobLimit;
+			reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit();
 		if (!reject) {
 			addObject(src, type, pathHashCode);
 		}
