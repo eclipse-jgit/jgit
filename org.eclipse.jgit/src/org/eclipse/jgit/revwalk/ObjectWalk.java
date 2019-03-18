@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
@@ -97,6 +98,55 @@ public class ObjectWalk extends RevWalk {
 	 */
 	private static final int IN_PENDING = RevWalk.REWRITE;
 
+	/**
+	 * When walking over a tree and blob graph, objects are usually marked as
+	 * seen as they are visited and this "seen" status is checked upon the next
+	 * visit. If they are already "seen" then they are not processed (returned
+	 * by {@link ObjectWalk#nextObject()}) again. However, this behavior can be
+	 * overridden by supplying a different implementation of this class.
+	 *
+	 * @since 5.4
+	 */
+	public interface VisitationPolicy {
+		/**
+		 * Whenever the rev or object walk reaches a Git object, if that object
+		 * already exists as a RevObject, this method is called to determine if
+		 * that object should be visited.
+		 *
+		 * @param o
+		 *            the object to check if it should be visited
+		 * @return true if the object should be visited
+		 */
+		boolean shouldVisit(RevObject o);
+
+		/**
+		 * Called when an object is visited.
+		 *
+		 * @param o
+		 *            the object that was visited
+		 */
+		void visited(RevObject o);
+	}
+
+	/**
+	 * The default visitation policy: causes all objects to be visited exactly
+	 * once.
+	 *
+	 * @since 5.4
+	 */
+	public static final VisitationPolicy SIMPLE_VISITATION_POLICY =
+			new VisitationPolicy() {
+		@Override
+		public boolean shouldVisit(RevObject o) {
+			return (o.flags & SEEN) == 0;
+		}
+
+		@Override
+		public void visited(RevObject o) {
+			o.flags |= SEEN;
+		}
+	};
+
 	private List<RevObject> rootObjects;
 
 	private BlockObjQueue pendingObjects;
@@ -112,6 +162,8 @@ public class ObjectWalk extends RevWalk {
 	private int pathLen;
 
 	private boolean boundary;
+
+	private VisitationPolicy visitationPolicy = SIMPLE_VISITATION_POLICY;
 
 	/**
 	 * Create a new revision and object walker for a given repository.
@@ -299,6 +351,18 @@ public class ObjectWalk extends RevWalk {
 		objectFilter = newFilter != null ? newFilter : ObjectFilter.ALL;
 	}
 
+	/**
+	 * Sets the visitation policy to use during this walk.
+	 *
+	 * @param policy
+	 *            the {@code VisitationPolicy} to use
+	 * @since 5.4
+	 */
+	public void setVisitationPolicy(VisitationPolicy policy) {
+		assertNotStarted();
+		visitationPolicy = requireNonNull(policy);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() throws MissingObjectException,
@@ -357,24 +421,23 @@ public class ObjectWalk extends RevWalk {
 				}
 
 				RevObject obj = objects.get(idBuffer);
-				if (obj != null && (obj.flags & SEEN) != 0)
+				if (obj != null && !visitationPolicy.shouldVisit(obj))
 					continue;
 
 				int mode = parseMode(buf, startPtr, ptr, tv);
-				int flags;
 				switch (mode >>> TYPE_SHIFT) {
 				case TYPE_FILE:
 				case TYPE_SYMLINK:
 					if (obj == null) {
 						obj = new RevBlob(idBuffer);
-						obj.flags = SEEN;
+						visitationPolicy.visited(obj);
 						objects.add(obj);
 						return obj;
 					}
 					if (!(obj instanceof RevBlob))
 						throw new IncorrectObjectTypeException(obj, OBJ_BLOB);
-					obj.flags = flags = obj.flags | SEEN;
-					if ((flags & UNINTERESTING) == 0)
+					visitationPolicy.visited(obj);
+					if ((obj.flags & UNINTERESTING) == 0)
 						return obj;
 					if (boundary)
 						return obj;
@@ -383,14 +446,14 @@ public class ObjectWalk extends RevWalk {
 				case TYPE_TREE:
 					if (obj == null) {
 						obj = new RevTree(idBuffer);
-						obj.flags = SEEN;
+						visitationPolicy.visited(obj);
 						objects.add(obj);
 						return pushTree(obj);
 					}
 					if (!(obj instanceof RevTree))
 						throw new IncorrectObjectTypeException(obj, OBJ_TREE);
-					obj.flags = flags = obj.flags | SEEN;
-					if ((flags & UNINTERESTING) == 0)
+					visitationPolicy.visited(obj);
+					if ((obj.flags & UNINTERESTING) == 0)
 						return pushTree(obj);
 					if (boundary)
 						return pushTree(obj);
@@ -419,12 +482,11 @@ public class ObjectWalk extends RevWalk {
 			if (o == null) {
 				return null;
 			}
-			int flags = o.flags;
-			if ((flags & SEEN) != 0)
+			if (!visitationPolicy.shouldVisit(o)) {
 				continue;
-			flags |= SEEN;
-			o.flags = flags;
-			if ((flags & UNINTERESTING) == 0 | boundary) {
+			}
+			visitationPolicy.visited(o);
+			if ((o.flags & UNINTERESTING) == 0 | boundary) {
 				if (o instanceof RevTree) {
 					// The previous while loop should have exhausted the stack
 					// of trees.
@@ -573,6 +635,17 @@ public class ObjectWalk extends RevWalk {
 				return null;
 		}
 		return RawParseUtils.decode(pathBuf, 0, pathLen);
+	}
+
+	/**
+	 * @return the current traversal depth from the root tree object
+	 * @since 5.4
+	 */
+	public int getTreeDepth() {
+		if (currVisit == null) {
+			return 0;
+		}
+		return currVisit.depth;
 	}
 
 	/**
@@ -778,6 +851,11 @@ public class ObjectWalk extends RevWalk {
 		tv.buf = reader.open(obj, OBJ_TREE).getCachedBytes();
 		tv.parent = currVisit;
 		currVisit = tv;
+		if (tv.parent == null) {
+			tv.depth = 1;
+		} else {
+			tv.depth = tv.parent.depth + 1;
+		}
 
 		return obj;
 	}
@@ -809,5 +887,8 @@ public class ObjectWalk extends RevWalk {
 
 		/** Number of bytes in the path leading up to this tree. */
 		int pathLen;
+
+		/** Number of levels deep from the root tree. 0 for root tree. */
+		int depth;
 	}
 }

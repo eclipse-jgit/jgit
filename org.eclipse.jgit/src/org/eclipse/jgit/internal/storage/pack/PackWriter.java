@@ -873,6 +873,21 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * A visitation policy which causes objects to be visited repeatedly by
+	 * making {@code shouldVisit} always return {@code true}.
+	 */
+	private static final ObjectWalk.VisitationPolicy ALWAYS_VISIT_POLICY =
+			new ObjectWalk.VisitationPolicy() {
+		@Override
+		public boolean shouldVisit(RevObject o) {
+			return true;
+		}
+
+		@Override
+		public void visited(RevObject o) {}
+	};
+
+	/**
 	 * Prepare the list of objects to be written to the pack stream.
 	 * <p>
 	 * Basing on these 2 sets, another set of objects to put in a pack file is
@@ -913,6 +928,9 @@ public class PackWriter implements AutoCloseable {
 		if (shallowPack && !(walk instanceof DepthWalk.ObjectWalk))
 			throw new IllegalArgumentException(
 					JGitText.get().shallowPacksRequireDepthWalk);
+		if (filterSpec.getTreeDepthLimit() >= 0) {
+			walk.setVisitationPolicy(ALWAYS_VISIT_POLICY);
+		}
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects, noBitmaps);
 	}
@@ -1972,7 +1990,9 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				filterAndAddObject(o, o.getType(), pathHash, want);
+				if (!depthSkip(o, walker)) {
+					filterAndAddObject(o, o.getType(), pathHash, want);
+				}
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1982,7 +2002,10 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				filterAndAddObject(o, o.getType(), walker.getPathHashCode(), want);
+				if (!depthSkip(o, walker)) {
+					filterAndAddObject(o, o.getType(), walker.getPathHashCode(),
+									   want);
+				}
 				countingMonitor.update(1);
 			}
 		}
@@ -2072,6 +2095,33 @@ public class PackWriter implements AutoCloseable {
 		otp.setPathHash(pathHashCode);
 		objectsLists[type].add(otp);
 		objectsMap.add(otp);
+	}
+
+	/**
+	 * Determines if the object should be omitted from the pack as a result of
+	 * its depth (probably because of the tree:<depth> filter).
+	 *
+	 * @param obj
+	 *            the object to check whether it should be omitted.
+	 * @param walker
+	 *            the walker being used for traveresal.
+	 * @return whether the given object should be skipped.
+	 */
+	private boolean depthSkip(@NonNull RevObject obj, ObjectWalk walker) {
+		long treeDepth = walker.getTreeDepth();
+
+		// Check if this object needs to be rejected because it is a tree or
+		// blob that is too deep from the root tree.
+
+		// A blob is considered one level deeper than the tree that contains it.
+		if (obj.getType() == OBJ_BLOB) {
+			treeDepth++;
+		}
+
+		// TODO: Do not continue traversing the tree, since its children
+		// will also be too deep.
+		return filterSpec.getTreeDepthLimit() != -1 &&
+				treeDepth > filterSpec.getTreeDepthLimit();
 	}
 
 	// Adds the given object as an object to be packed, first performing
