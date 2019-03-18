@@ -135,4 +135,16 @@ public final class FilterSpec {
 		return blobLimit == -1;
 	}
 
+	/**
+	 * @return the filter line which describes this spec, e.g. "filter blob:limit=42"
+	 */
+	public String filterLine() {
+		if (blobLimit == 0)
+			return GitProtocolConstants.OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+
+		if (blobLimit > 0)
+			return GitProtocolConstants.OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
+
+		throw new UnsupportedOperationException();
+	}
 }
