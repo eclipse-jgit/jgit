@@ -65,6 +65,9 @@ class Describe extends TextBuiltin {
 	@Option(name = "--long", usage = "usage_LongFormat")
 	private boolean longDesc;
 
+	@Option(name = "--tags", usage = "usage_UseTags")
+	private boolean useTags;
+
 	@Option(name = "--match", usage = "usage_Match", metaVar = "metaVar_pattern")
 	private List<String> patterns = new ArrayList<>();
 
@@ -77,6 +80,7 @@ class Describe extends TextBuiltin {
 				cmd.setTarget(tree);
 			}
 			cmd.setLong(longDesc);
+			cmd.setTags(useTags);
 			cmd.setMatch(patterns.toArray(new String[0]));
 			String result = null;
 			try {
