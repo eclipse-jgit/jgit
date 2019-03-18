@@ -194,6 +194,7 @@ public class ProtocolV0ParserTest {
 				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 		assertEquals(13000, request.getFilterSpec().getBlobLimit());
+		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
 	}
 
 }
