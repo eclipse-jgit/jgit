@@ -2120,7 +2120,8 @@ public class UploadPack {
 			}
 			pw.setUseBitmaps(
 					req.getDepth() == 0
-							&& req.getClientShallowCommits().isEmpty());
+							&& req.getClientShallowCommits().isEmpty()
+							&& req.getFilterSpec().getTreeDepthLimit() == -1);
 			pw.setClientShallowCommits(req.getClientShallowCommits());
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(
