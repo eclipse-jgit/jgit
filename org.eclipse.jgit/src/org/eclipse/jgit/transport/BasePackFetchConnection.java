@@ -245,8 +245,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private PacketLineOut pckState;
 
-	/** If not -1, the maximum blob size to be sent to the server. */
-	private final long filterBlobLimit;
+	/**
+	 * Either FilterSpec.NO_FILTER for a filter that doesn't filter
+	 * anything, or a filter that indicates what and what not to send to the
+	 * server.
+	 */
+	private final FilterSpec filterSpec;
 
 	/**
 	 * Create a new connection to fetch using the native git transport.
@@ -268,7 +272,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
-		filterBlobLimit = transport.getFilterBlobLimit();
+		filterSpec = transport.getFilterSpec();
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -521,10 +525,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (first) {
 			return false;
 		}
-		if (filterBlobLimit == 0) {
-			p.writeString(OPTION_FILTER + " blob:none"); //$NON-NLS-1$
-		} else if (filterBlobLimit > 0) {
-			p.writeString(OPTION_FILTER + " blob:limit=" + filterBlobLimit); //$NON-NLS-1$
+		if (!filterSpec.isNoOp()) {
+			p.writeString(filterSpec.filterLine());
 		}
 		p.end();
 		outNeedsEnd = false;
@@ -566,7 +568,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					OPTION_MULTI_ACK_DETAILED));
 		}
 
-		if (filterBlobLimit >= 0 && !wantCapability(line, OPTION_FILTER)) {
+		if (!filterSpec.isNoOp() && !wantCapability(line, OPTION_FILTER)) {
 			throw new PackProtocolException(uri,
 					JGitText.get().filterRequiresCapability);
 		}

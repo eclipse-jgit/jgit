@@ -47,6 +47,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,6 +71,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
@@ -790,7 +792,7 @@ public abstract class Transport implements AutoCloseable {
 	/** Should refs no longer on the source be pruned from the destination? */
 	private boolean removeDeletedRefs;
 
-	private long filterBlobLimit = -1;
+	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 	/** Timeout in seconds to wait before aborting an IO read or write. */
 	private int timeout;
@@ -1067,20 +1069,42 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @return the last value passed to {@link #setFilterBlobLimit}, or -1 if
-	 *         it was never invoked.
+	 * @return the blob limit value set with {@link #setFilterBlobLimit} or
+	 *         {@link #setFilterSpec(FilterSpec)}, or -1 if no blob limit value
+	 *         was set
 	 * @since 5.0
+	 * @deprecated Use {@link #getFilterSpec()} instead
 	 */
-	public long getFilterBlobLimit() {
-		return filterBlobLimit;
+	@Deprecated
+	public final long getFilterBlobLimit() {
+		return filterSpec.getBlobLimit();
 	}
 
 	/**
 	 * @param bytes exclude blobs of size greater than this
 	 * @since 5.0
+	 * @deprecated Use {@link #setFilterSpec(FilterSpec)} instead
 	 */
-	public void setFilterBlobLimit(long bytes) {
-		filterBlobLimit = bytes;
+	@Deprecated
+	public final void setFilterBlobLimit(long bytes) {
+		setFilterSpec(FilterSpec.withBlobLimit(bytes));
+	}
+
+	/**
+	 * @return the last filter spec set with {@link #setFilterSpec(FilterSpec)},
+	 *         or {@link FilterSpec#NO_FILTER} if it was never invoked.
+	 * @since 5.4
+	 */
+	public final FilterSpec getFilterSpec() {
+		return filterSpec;
+	}
+
+	/**
+	 * @param filter a new filter to use for this transport
+	 * @since 5.4
+	 */
+	public final void setFilterSpec(@NonNull FilterSpec filter) {
+		filterSpec = requireNonNull(filter);
 	}
 
 	/**
