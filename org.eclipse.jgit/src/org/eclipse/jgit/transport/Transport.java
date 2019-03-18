@@ -790,7 +790,7 @@ public abstract class Transport implements AutoCloseable {
 	/** Should refs no longer on the source be pruned from the destination? */
 	private boolean removeDeletedRefs;
 
-	private long filterBlobLimit = -1;
+	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 	/** Timeout in seconds to wait before aborting an IO read or write. */
 	private int timeout;
@@ -1067,20 +1067,43 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @return the last value passed to {@link #setFilterBlobLimit}, or -1 if
-	 *         it was never invoked.
+	 * @return the blob limit value set with {@link #setFilterBlobLimit} or
+	 *         {@link #setFilterSpec(FilterSpec)}, or -1 if no blob limit value
+	 *         was set
 	 * @since 5.0
+	 * @deprecated Use {@link #getFilterSpec()} instead
 	 */
 	public long getFilterBlobLimit() {
-		return filterBlobLimit;
+		return filterSpec.getBlobLimit();
 	}
 
 	/**
 	 * @param bytes exclude blobs of size greater than this
 	 * @since 5.0
+	 * @deprecated Use {@link #setFilterSpec(FilterSpec)} instead
 	 */
 	public void setFilterBlobLimit(long bytes) {
-		filterBlobLimit = bytes;
+		filterSpec = FilterSpec.withBlobLimit(bytes);
+	}
+
+	/**
+	 * @return the last filter spec set with {@link #setFilterSpec(FilterSpec)},
+	 *         or {@link FilterSpec#NO_FILTER} if it was never invoked.
+	 * @since 5.3
+	 */
+	public FilterSpec getFilterSpec() {
+		return filterSpec;
+	}
+
+	/**
+	 * @param filter a new filter to use for this transport
+	 * @since 5.3
+	 */
+	public void setFilterSpec(FilterSpec filter) {
+		if (filter == null) {
+			throw new NullPointerException();
+		}
+		filterSpec = filter;
 	}
 
 	/**
