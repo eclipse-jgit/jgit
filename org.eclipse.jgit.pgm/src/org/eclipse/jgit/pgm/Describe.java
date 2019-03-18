@@ -68,6 +68,9 @@ class Describe extends TextBuiltin {
 	@Option(name = "--tags", usage = "usage_UseTags")
 	private boolean useTags;
 
+	@Option(name = "--always", usage = "usage_AlwaysFallback")
+	private boolean always;
+
 	@Option(name = "--match", usage = "usage_Match", metaVar = "metaVar_pattern")
 	private List<String> patterns = new ArrayList<>();
 
@@ -81,6 +84,7 @@ class Describe extends TextBuiltin {
 			}
 			cmd.setLong(longDesc);
 			cmd.setTags(useTags);
+			cmd.setAlways(always);
 			cmd.setMatch(patterns.toArray(new String[0]));
 			String result = null;
 			try {
