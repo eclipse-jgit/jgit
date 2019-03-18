@@ -233,6 +233,7 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(0, request.getFilterSpec().getBlobLimit());
+		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
 	}
 
 	@Test
@@ -244,6 +245,19 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
 		assertEquals(15, request.getFilterSpec().getBlobLimit());
+		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
+	}
+
+	@Test
+	public void testFetchWithTreeDepthFilter() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
+				"filter tree:3",
+				PacketLineIn.END);
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.start().allowFilter().done());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
+		assertEquals(-1, request.getFilterSpec().getBlobLimit());
+		assertEquals(3, request.getFilterSpec().getTreeDepthLimit());
 	}
 
 	@Test
