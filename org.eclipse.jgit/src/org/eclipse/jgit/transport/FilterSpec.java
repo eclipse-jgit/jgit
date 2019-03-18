@@ -51,8 +51,11 @@ public final class FilterSpec {
 
 	private final long blobLimit;
 
-	private FilterSpec(long blobLimit) {
+	private final long treeDepthLimit;
+
+	private FilterSpec(long blobLimit, long treeDepthLimit) {
 		this.blobLimit = blobLimit;
+		this.treeDepthLimit = treeDepthLimit;
 	}
 
 	/**
@@ -65,13 +68,27 @@ public final class FilterSpec {
 			throw new IllegalArgumentException(
 					"blobLimit cannot be negative: " + blobLimit); //$NON-NLS-1$
 		}
-		return new FilterSpec(blobLimit);
+		return new FilterSpec(blobLimit, -1);
+	}
+
+	/**
+	 * @param treeDepthLimit
+	 *            the tree depth limit in a "tree:[depth]" filter line
+	 * @return a filter spec which filters blobs and trees beyond a certain tree
+	 *         depth
+	 */
+	public static FilterSpec treeDepthFilter(long treeDepthLimit) {
+		if (treeDepthLimit < 0) {
+			throw new IllegalArgumentException(
+					"treeDepthLimit cannot be negative: " + treeDepthLimit); //$NON-NLS-1$
+		}
+		return new FilterSpec(-1, treeDepthLimit);
 	}
 
 	/**
 	 * A placeholder that indicates no filtering.
 	 */
-	public static final FilterSpec NO_OP_FILTER = new FilterSpec(-1);
+	public static final FilterSpec NO_OP_FILTER = new FilterSpec(-1, -1);
 
 	/**
 	 * @return -1 if this filter does not filter blobs based on size, or a
@@ -82,10 +99,19 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * @return -1 if this filter does not filter blobs and trees based on depth,
+	 *         or a non-negative integer representing the max tree depth of
+	 *         blobs and trees to fetch
+	 */
+	public long getTreeDepthLimit() {
+		return treeDepthLimit;
+	}
+
+	/**
 	 * @return true if this filter doesn't filter out anything
 	 */
 	public boolean isNoOp() {
-		return blobLimit == -1;
+		return blobLimit == -1 && treeDepthLimit == -1;
 	}
 
 	/**
