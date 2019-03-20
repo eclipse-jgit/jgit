@@ -22,6 +22,46 @@
       "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce30cfb_8515a78e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T20:52:10Z",
+      "side": 1,
+      "message": "It\u0027s a shame 5.3 is already released, since if it weren\u0027t we could delete this method right away.\n\nCan you make it \"final\" and make it call getFilterSpec? (I.e.\n\n  /**\n   * Deprecated synonym for {@code getFilterSpec().getBlobLimit()}.\n   *\n   * @return filter blob limit requested by the client, or -1 if no limit\n   * @since 5.3\n   * @deprecated Use {@link #getFilterSpec()} instead\n   */\n  @Deprecated\n  public final long getFilterBlobLimit() {\n    return getFilterSpec().getBlobLimit();\n  }",
+      "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5516a5b_558c2003",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T20:52:10Z",
+      "side": 1,
+      "message": "5.4",
+      "range": {
+        "startLine": 1551,
+        "startChar": 11,
+        "endLine": 1551,
+        "endChar": 14
+      },
+      "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
