@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a52f6025_4f0e5793",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T18:00:21Z",
+      "side": 1,
+      "message": "I traced the execution of both the old version and the new and they are the same, so the code change is correct. However, it seems too magical that we\u0027re setting currVisit here to null not because we want it to be null, but because we want the parent of the created TreeVisit to be null. Can we also make pushTree take an argument for the created TreeVisit\u0027s parent?\n\nAlso, the commit message could be clearer. Something like:\n\nInline newTreeVisit into enterTree and call the new method pushTree. Use pushTree both for pushing children of the existing currVisit and orphans; this necessitates the addition of a parent parameter to pushTree.",
+      "range": {
+        "startLine": 429,
+        "startChar": 5,
+        "endLine": 429,
+        "endChar": 14
+      },
+      "revId": "54c29d468a91cc209b1e7cd33ea5504a5cf72e57",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
