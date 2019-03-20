@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6677fb49_e3d086bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T21:48:20Z",
+      "side": 1,
+      "message": "nit: current jgit style is to always use braces around block bodies (https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements)",
+      "revId": "c24850aecd9dbcef1ee6248d5c76c273d203b955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e7ba00_b1d3d82a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T21:48:20Z",
+      "side": 1,
+      "message": "Should this return null or something (or perhaps an Optional\u003cString\u003e)?",
+      "revId": "c24850aecd9dbcef1ee6248d5c76c273d203b955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
