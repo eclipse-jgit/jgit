@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad54734_fc325fec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RefList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-20T17:04:46Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "7bda2dc91237aaae85e1f658d93af6ba3f448f85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c81041_52f6206a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RefList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-20T17:04:46Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "7bda2dc91237aaae85e1f658d93af6ba3f448f85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0145d5d_f49856cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RefMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-03-20T17:04:46Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "7bda2dc91237aaae85e1f658d93af6ba3f448f85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
