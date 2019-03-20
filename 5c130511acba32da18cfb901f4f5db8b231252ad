@@ -62,6 +62,23 @@
       "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44da14a1_3f229055",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1553,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T20:53:00Z",
+      "side": 1,
+      "message": "Also, can we make this \"final\", since it\u0027s not meant to be overridden? (I realize existing APIs aren\u0027t great about that, but no time like the present to start.)",
+      "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
