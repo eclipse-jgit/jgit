@@ -48,7 +48,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collector;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 
@@ -333,6 +336,32 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	}
 
 	/**
+	 * Create a {@link Collector} for {@link Ref}.
+	 *
+	 * @param mergeFunction
+	 *            if specified the result will be sorted and deduped.
+	 *
+	 * @return {@link Collector} for {@link Ref}
+	 */
+	public static <T extends Ref> Collector<T, ?, RefList<T>> toRefList(
+			@Nullable BinaryOperator<T> mergeFunction) {
+		return Collector.of(
+				() -> new Builder<>(),
+				Builder<T>::add, (b1, b2) -> {
+					Builder<T> b = new Builder<>();
+					b.addAll(b1);
+					b.addAll(b2);
+					return b;
+				}, (b) -> {
+					if (mergeFunction != null) {
+						b.sort();
+						b.dedupe(mergeFunction);
+					}
+					return b.toRefList();
+				});
+	}
+
+	/**
 	 * Builder to facilitate fast construction of an immutable RefList.
 	 *
 	 * @param <T>
@@ -405,6 +434,15 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		}
 
 		/**
+		 * Add all items from another builder.
+		 *
+		 * @param other
+		 */
+		public void addAll(Builder other) {
+			addAll(other.list, 0, other.size);
+		}
+
+		/**
 		 * Add all items from a source array.
 		 * <p>
 		 * References must be added in sort order, or the array must be sorted
@@ -442,6 +480,31 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		/** Sort the list's backing array in-place. */
 		public void sort() {
 			Arrays.sort(list, 0, size, RefComparator.INSTANCE);
+		}
+
+		/**
+		 * Dedupe the refs in place. Must be called after {@link #sort}.
+		 *
+		 * @param mergeFunction
+		 */
+		@SuppressWarnings("unchecked")
+		public void dedupe(BinaryOperator<T> mergeFunction) {
+			if (size == 0) {
+				return;
+			}
+			int lastElement = 0;
+			for (int i = 1; i < size; i++) {
+				if (RefComparator.INSTANCE.compare(list[lastElement],
+						list[i]) == 0) {
+					list[lastElement] = mergeFunction
+							.apply((T) list[lastElement], (T) list[i]);
+				} else {
+					list[lastElement + 1] = list[i];
+					lastElement++;
+				}
+			}
+			size = lastElement + 1;
+			Arrays.fill(list, size, list.length, null);
 		}
 
 		/** @return an unmodifiable list using this collection's backing array. */
