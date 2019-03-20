@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78cdc86d_752b5414",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RefList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-20T22:33:40Z",
+      "side": 1,
+      "message": "no need for @since since it\u0027s not public",
+      "revId": "360f370f7d086f7af4a05cf40f33e55521a93cb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
