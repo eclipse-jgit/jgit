@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d7ba89_4432a021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T19:24:45Z",
+      "side": 1,
+      "message": "Add more description to the commit message. In particular, that this happens during a fetch, exactly what the meaning is of \u003cdepth\u003e (filters on both trees and blobs; a blob\u0027s depth is the depth of its tree + 1), and that bitmaps are disabled when this parameter is specified.\n\nAlso worth mentioning the performance characteristics - I don\u0027t think that traversal is stopped when we exceed the depth.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "c12694311ec093397bcee655a67d1cd1b794e181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "985e0aa8_d6ad8783",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T19:24:45Z",
+      "side": 1,
+      "message": "Having to use DirCache just to make a nested tree is unfortunate, but I can\u0027t think of a better way to do it.",
+      "range": {
+        "startLine": 1567,
+        "startChar": 3,
+        "endLine": 1567,
+        "endChar": 11
+      },
+      "revId": "c12694311ec093397bcee655a67d1cd1b794e181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28781115_ccd4475a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2022,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T19:24:45Z",
+      "side": 1,
+      "message": "I think it\u0027s worth adding a comment here why we just say 0 (because this is not meant to be used when we\u0027re filtering on trees).",
+      "range": {
+        "startLine": 2022,
+        "startChar": 56,
+        "endLine": 2022,
+        "endChar": 57
+      },
+      "revId": "c12694311ec093397bcee655a67d1cd1b794e181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa91f785_9f1072cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2103,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T19:24:45Z",
+      "side": 1,
+      "message": "Add a TODO somewhere (maybe here) stating that we don\u0027t actually stop traversal when we reach a certain depth, so objects beyond that depth are needlessly visited.",
+      "range": {
+        "startLine": 2103,
+        "startChar": 2,
+        "endLine": 2103,
+        "endChar": 5
+      },
+      "revId": "c12694311ec093397bcee655a67d1cd1b794e181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
