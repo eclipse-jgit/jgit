@@ -49,6 +49,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -283,6 +286,21 @@ public class RefMap extends AbstractMap<String, Ref> {
 		}
 		r.append(']');
 		return r.toString();
+	}
+
+	/**
+	 * Create a {@link Collector} for {@link Ref}.
+	 *
+	 * @param mergeFunction
+	 * @return {@link Collector} for {@link Ref}
+	 * @since 5.4
+	 */
+	public static Collector<Ref, ?, RefMap> toRefMap(
+			BinaryOperator<Ref> mergeFunction) {
+		return Collectors.collectingAndThen(RefList.toRefList(mergeFunction),
+				(refs) -> new RefMap("", //$NON-NLS-1$
+							refs, RefList.emptyList(),
+						RefList.emptyList()));
 	}
 
 	private String toRefName(String name) {
