@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98eacdfb_e5215dbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-20T18:00:52Z",
+      "side": 1,
+      "message": "Less code, you mean?",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "5c130511acba32da18cfb901f4f5db8b231252ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
