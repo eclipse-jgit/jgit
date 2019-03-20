@@ -128,6 +128,41 @@ public class RefListTest {
 	}
 
 	@Test
+	public void testBuilder_AddThenDedupe() {
+		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
+		builder.add(REF_B);
+		builder.add(REF_A);
+		builder.add(REF_A);
+		builder.add(REF_B);
+		builder.add(REF_c);
+
+		builder.sort();
+		builder.dedupe((a, b) -> b);
+		RefList<Ref> list = builder.toRefList();
+
+		assertEquals(3, list.size());
+		assertSame(REF_A, list.get(0));
+		assertSame(REF_B, list.get(1));
+		assertSame(REF_c, list.get(2));
+	}
+
+	@Test
+	public void testBuilder_AddThenDedupe_Border() {
+		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
+		builder.sort();
+		builder.dedupe((a, b) -> b);
+		RefList<Ref> list = builder.toRefList();
+		assertTrue(list.isEmpty());
+
+		builder = new RefList.Builder<>(1);
+		builder.add(REF_A);
+		builder.sort();
+		builder.dedupe((a, b) -> b);
+		list = builder.toRefList();
+		assertEquals(1, list.size());
+	}
+
+	@Test
 	public void testBuilder_AddAll() {
 		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
 		Ref[] src = { REF_A, REF_B, REF_c, REF_A };

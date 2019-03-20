@@ -44,8 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.util.Collections.unmodifiableMap;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
+import static org.eclipse.jgit.util.RefMap.toRefMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
@@ -817,7 +816,7 @@ public class UploadPack {
 			// Fall back to all refs.
 			setAdvertisedRefs(
 					db.getRefDatabase().getRefs().stream()
-						.collect(toMap(Ref::getName, identity())));
+							.collect(toRefMap((a, b) -> b)));
 		}
 		return refs;
 	}
@@ -836,7 +835,7 @@ public class UploadPack {
 			String[] prefixes = refPrefixes.toArray(new String[0]);
 			Map<String, Ref> rs =
 					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
-						.collect(toMap(Ref::getName, identity(), (a, b) -> b));
+							.collect(toRefMap((a, b) -> b));
 			if (refFilter != RefFilter.DEFAULT) {
 				return refFilter.filter(rs);
 			}
@@ -848,7 +847,7 @@ public class UploadPack {
 		return refs.values().stream()
 				.filter(ref -> refPrefixes.stream()
 						.anyMatch(ref.getName()::startsWith))
-				.collect(toMap(Ref::getName, identity()));
+				.collect(toRefMap((a, b) -> b));
 	}
 
 	/**
@@ -871,7 +870,7 @@ public class UploadPack {
 				names.stream()
 					.map(refs::get)
 					.filter(Objects::nonNull)
-					.collect(toMap(Ref::getName, identity(), (a, b) -> b)));
+						.collect(toRefMap((a, b) -> b)));
 	}
 
 	/**
