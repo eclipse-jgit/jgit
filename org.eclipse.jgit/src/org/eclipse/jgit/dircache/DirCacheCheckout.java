@@ -1479,8 +1479,8 @@ public class DirCacheCheckout {
 		File tmpFile = File.createTempFile(
 				"._" + name, null, parentDir); //$NON-NLS-1$
 
-		checkoutToFile(repo, entry.getPathString(), checkoutMetadata, ol, fs,
-				opt, tmpFile);
+		checkoutToFile(repo, entry.getPathString(), checkoutMetadata, ol,
+				fs, opt, tmpFile);
 
 		// The entry needs to correspond to the on-disk filesize. If the content
 		// was filtered (either by autocrlf handling or smudge filters) ask the
@@ -1564,8 +1564,8 @@ public class DirCacheCheckout {
 					runBuiltinFilterCommand(repo, checkoutMetadata, ol,
 							channel);
 				} else {
-					runExternalFilterCommand(repo, path, checkoutMetadata, ol,
-							fs, channel);
+					runExternalFilterCommand(repo, path,
+							checkoutMetadata, ol, fs, channel);
 				}
 			} else {
 				ol.copyTo(channel);
