@@ -46,6 +46,30 @@
       "revId": "54c29d468a91cc209b1e7cd33ea5504a5cf72e57",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0af1064_b1520751",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-03-21T21:11:51Z",
+      "side": 1,
+      "message": "Ah, yes you\u0027re right. I missed that we return soon after this is run, and not repeat the \"for (;;)\" loop.",
+      "parentUuid": "3712a5d3_e346bab9",
+      "range": {
+        "startLine": 429,
+        "startChar": 5,
+        "endLine": 429,
+        "endChar": 14
+      },
+      "revId": "54c29d468a91cc209b1e7cd33ea5504a5cf72e57",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
