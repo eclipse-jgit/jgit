@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ec83dd83_57903198",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T16:10:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b479de3d_a0d89456",
+      "range": {
+        "startLine": 60,
+        "startChar": 48,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ac2820_c0c2455a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
         "patchSetId": 3
@@ -81,6 +105,24 @@
       "revId": "8e73d2534b30271806626a93634226ff225437ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb7c3d5_927132e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T16:10:46Z",
+      "side": 1,
+      "message": "Thanks, and no worries.",
+      "parentUuid": "1f4e6cd9_f1f2f465",
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +161,30 @@
       "side": 1,
       "message": "Changed to withBlobLimit and changed up the accessibility as suggested.\n\nI added @since 5.4 to parseFilterLine, but I wonder if I can leave it off the method since it\u0027s somewhat suggested by the class\u0027 @since anyway.",
       "parentUuid": "27436979_3d15caf0",
+      "range": {
+        "startLine": 110,
+        "startChar": 26,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeee4368_6b696aaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T16:10:46Z",
+      "side": 1,
+      "message": "Correct, the @since at the class level is enough.\n\nIf you\u0027re using Eclipse, you can use https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline to automatically check for these.",
+      "parentUuid": "9d75f332_26242170",
       "range": {
         "startLine": 110,
         "startChar": 26,
@@ -175,6 +241,30 @@
       "revId": "8e73d2534b30271806626a93634226ff225437ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f63c53da_492bb830",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T16:10:46Z",
+      "side": 1,
+      "message": "Marking resolved.\n\nYou can see the \"resolved\" state of comments using the new UI, accessible via the \"new UI\" link at the bottom of the page. I wish git.eclipse.org would update to a newer version of Gerrit (https://bugs.eclipse.org/541221).",
+      "parentUuid": "3b93f4d3_043ce87b",
+      "range": {
+        "startLine": 121,
+        "startChar": 32,
+        "endLine": 121,
+        "endChar": 44
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
