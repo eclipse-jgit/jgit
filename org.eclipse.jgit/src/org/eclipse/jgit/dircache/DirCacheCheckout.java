@@ -45,6 +45,7 @@ package org.eclipse.jgit.dircache;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1493,29 +1494,9 @@ public class DirCacheCheckout {
 		File tmpFile = File.createTempFile(
 				"._" + name, null, parentDir); //$NON-NLS-1$
 
-		EolStreamType nonNullEolStreamType;
-		if (checkoutMetadata.eolStreamType != null) {
-			nonNullEolStreamType = checkoutMetadata.eolStreamType;
-		} else if (opt.getAutoCRLF() == AutoCRLF.TRUE) {
-			nonNullEolStreamType = EolStreamType.AUTO_CRLF;
-		} else {
-			nonNullEolStreamType = EolStreamType.DIRECT;
-		}
-		try (OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
-				new FileOutputStream(tmpFile), nonNullEolStreamType)) {
-			if (checkoutMetadata.smudgeFilterCommand != null) {
-				if (FilterCommandRegistry
-						.isRegistered(checkoutMetadata.smudgeFilterCommand)) {
-					runBuiltinFilterCommand(repo, checkoutMetadata, ol,
-							channel);
-				} else {
-					runExternalFilterCommand(repo, entry, checkoutMetadata, ol,
-							fs, channel);
-				}
-			} else {
-				ol.copyTo(channel);
-			}
-		}
+		checkoutToTempFile(repo, entry.getPathString(), checkoutMetadata, ol,
+				fs, opt, tmpFile);
+
 		// The entry needs to correspond to the on-disk filesize. If the content
 		// was filtered (either by autocrlf handling or smudge filters) ask the
 		// filesystem again for the length. Otherwise the objectloader knows the
@@ -1554,9 +1535,65 @@ public class DirCacheCheckout {
 		entry.setLastModified(fs.lastModified(f));
 	}
 
+	/**
+	 * Checkouts to a given (temporary) file with content and mode from an entry
+	 * in the index. Needed for diff- and merge-tools that need the files
+	 * temporary checkout in working or temporary directory. The files are
+	 * normally deleted after tool execution.
+	 *
+	 * @param repo
+	 *            the repository
+	 * @param path
+	 *            the path of the checkout element
+	 * @param checkoutMetadata
+	 *            the metadata for checkout (eol handling, filters etc.)
+	 * @param ol
+	 *            the object loader to read raw content of the element
+	 * @param fs
+	 *            the file-system used for filter etc. execution
+	 * @param opt
+	 *            the working tree options (like autocrlf, filters etc.)
+	 * @param tmpFile
+	 *            the temporary file used as checkout
+	 * @throws MissingObjectException
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 *
+	 * @since 5.4
+	 */
+	public static void checkoutToTempFile(Repository repo, String path,
+			CheckoutMetadata checkoutMetadata, ObjectLoader ol, FS fs,
+			WorkingTreeOptions opt, File tmpFile)
+			throws MissingObjectException, IOException, FileNotFoundException {
+		EolStreamType nonNullEolStreamType;
+		if (checkoutMetadata.eolStreamType != null) {
+			nonNullEolStreamType = checkoutMetadata.eolStreamType;
+		} else if (opt.getAutoCRLF() == AutoCRLF.TRUE) {
+			nonNullEolStreamType = EolStreamType.AUTO_CRLF;
+		} else {
+			nonNullEolStreamType = EolStreamType.DIRECT;
+		}
+		try (OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
+				new FileOutputStream(tmpFile), nonNullEolStreamType)) {
+			if (checkoutMetadata.smudgeFilterCommand != null) {
+				if (FilterCommandRegistry
+						.isRegistered(checkoutMetadata.smudgeFilterCommand)) {
+					runBuiltinFilterCommand(repo, checkoutMetadata, ol,
+							channel);
+				} else {
+					runExternalFilterCommand(repo, path,
+							checkoutMetadata, ol,
+							fs, channel);
+				}
+			} else {
+				ol.copyTo(channel);
+			}
+		}
+	}
+
 	// Run an external filter command
 	private static void runExternalFilterCommand(Repository repo,
-			DirCacheEntry entry,
+			final String path,
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol, FS fs,
 			OutputStream channel) throws IOException {
 		ProcessBuilder filterProcessBuilder = fs.runInShell(
@@ -1577,12 +1614,12 @@ public class DirCacheCheckout {
 		} catch (IOException | InterruptedException e) {
 			throw new IOException(new FilterFailedException(e,
 					checkoutMetadata.smudgeFilterCommand,
-					entry.getPathString()));
+					path));
 		}
 		if (rc != 0) {
 			throw new IOException(new FilterFailedException(rc,
 					checkoutMetadata.smudgeFilterCommand,
-					entry.getPathString(),
+					path,
 					result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
 					RawParseUtils.decode(result.getStderr()
 							.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
