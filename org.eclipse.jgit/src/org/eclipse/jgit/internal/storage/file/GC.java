@@ -548,9 +548,12 @@ public class GC {
 				pm.update(1);
 				if (d.length() != 2)
 					continue;
-				File[] entries = new File(objects, d).listFiles();
-				if (entries == null)
+				File dir = new File(objects, d);
+				File[] entries = dir.listFiles();
+				if (entries == null || entries.length == 0) {
+					FileUtils.delete(dir, FileUtils.IGNORE_ERRORS);
 					continue;
+				}
 				for (File f : entries) {
 					checkCancelled();
 					String fName = f.getName();
