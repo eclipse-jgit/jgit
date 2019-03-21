@@ -47,10 +47,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.lib.ObjectStream;
 
 /**
  * The element used as left or right file for compare.
@@ -60,36 +61,67 @@ import org.eclipse.jgit.lib.ObjectStream;
  */
 public class FileElement {
 
+	/**
+	 * The file element type.
+	 *
+	 */
+	public enum Type {
+		/**
+		 * The local file element (ours).
+		 */
+		LOCAL,
+		/**
+		 * The remote file element (theirs).
+		 */
+		REMOTE,
+		/**
+		 * The merged file element (path in worktree).
+		 */
+		MERGED,
+		/**
+		 * The base file element (of ours and theirs).
+		 */
+		BASE,
+		/**
+		 * The backup file element (copy of merged / conflicted).
+		 */
+		BACKUP();
+	}
+
 	private final String path;
 
-	private final String id;
+	private final Type type;
 
-	private ObjectStream stream;
+	private InputStream stream;
 
-	private File tempFile = null;
+	private File tempFile;
 
 	/**
 	 * @param path
 	 *            the file path
-	 * @param id
-	 *            the file id
+	 * @param type
+	 *            the element type
 	 */
-	public FileElement(final String path, final String id) {
-		this(path, id, null);
+	public FileElement(final String path, final Type type) {
+		this(path, type, null, null);
 	}
 
 	/**
 	 * @param path
 	 *            the file path
-	 * @param id
-	 *            the file id
+	 * @param type
+	 *            the element type
+	 * @param tempFile
+	 *            the temporary file to be used (can be null and will be created
+	 *            then)
 	 * @param stream
 	 *            the object stream to load instead of file
 	 */
-	public FileElement(final String path, final String id,
-			ObjectStream stream) {
+	public FileElement(final String path, final Type type, final File tempFile,
+			InputStream stream) {
 		this.path = path;
-		this.id = id;
+		this.type = type;
+		this.tempFile = tempFile;
 		this.stream = stream;
 	}
 
@@ -101,18 +133,10 @@ public class FileElement {
 	}
 
 	/**
-	 * @return the file id
+	 * @return the element type
 	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param stream
-	 *            the object stream
-	 */
-	public void setStream(ObjectStream stream) {
-		this.stream = stream;
+	public Type getType() {
+		return type;
 	}
 
 	/**
@@ -127,17 +151,11 @@ public class FileElement {
 	 * @throws IOException
 	 */
 	public File getFile(File workingDir, String midName) throws IOException {
-		if (tempFile != null) {
+		if ((tempFile != null) && (stream == null)) {
 			return tempFile;
 		}
-		String[] fileNameAndExtension = splitBaseFileNameAndExtension(
-				new File(path));
-		tempFile = File.createTempFile(
-				fileNameAndExtension[0] + "_" + midName + "_", //$NON-NLS-1$ //$NON-NLS-2$
-				fileNameAndExtension[1],
-				workingDir);
-		copyFromStream();
-		return tempFile;
+		tempFile = getTempFile(path, workingDir, midName);
+		return copyFromStream(tempFile, stream);
 	}
 
 	/**
@@ -148,19 +166,60 @@ public class FileElement {
 	 * @throws IOException
 	 */
 	public File getFile() throws IOException {
-		if (tempFile != null) {
+		if ((tempFile != null) && (stream == null)) {
 			return tempFile;
 		}
 		File file = new File(path);
-		String name = file.getName();
 		// if we have a stream or file is missing ("/dev/null") then create
 		// temporary file
-		if ((stream != null) || path.equals(DiffEntry.DEV_NULL)) {
-			tempFile = File.createTempFile(".__", "__" + name); //$NON-NLS-1$ //$NON-NLS-2$
-			copyFromStream();
-			return tempFile;
+		if ((stream != null) || isNullPath()) {
+			tempFile = getTempFile(file);
+			return copyFromStream(tempFile, stream);
 		}
 		return file;
+	}
+
+	/**
+	 * @return true if path is "/dev/null"
+	 */
+	public boolean isNullPath() {
+		return path.equals(DiffEntry.DEV_NULL);
+	}
+
+	/**
+	 * @param workingDir
+	 *            the working directory for the file
+	 * @return temporary file in working directory or in the system temporary
+	 *         directory
+	 * @throws IOException
+	 */
+	public File createTempFile(final File workingDir) throws IOException {
+		if (tempFile == null) {
+			File file = new File(path);
+			if (workingDir != null) {
+				tempFile = getTempFile(file, workingDir, type.name());
+			} else {
+				tempFile = getTempFile(file);
+			}
+		}
+		return tempFile;
+	}
+
+	private static File getTempFile(final File file) throws IOException {
+		return File.createTempFile(".__", "__" + file.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private static File getTempFile(final File file, final File workingDir,
+			String midName) throws IOException {
+		String[] fileNameAndExtension = splitBaseFileNameAndExtension(file);
+		return File.createTempFile(
+				fileNameAndExtension[0] + "_" + midName + "_", //$NON-NLS-1$ //$NON-NLS-2$
+				fileNameAndExtension[1], workingDir);
+	}
+
+	private static File getTempFile(final String path, File workingDir,
+			String midName) throws IOException {
+		return getTempFile(new File(path), workingDir, midName);
 	}
 
 	/**
@@ -172,9 +231,11 @@ public class FileElement {
 		tempFile = null;
 	}
 
-	private void copyFromStream() throws IOException, FileNotFoundException {
+	private static File copyFromStream(final File file,
+			final InputStream stream)
+			throws IOException, FileNotFoundException {
 		if (stream != null) {
-			try (OutputStream outStream = new FileOutputStream(tempFile)) {
+			try (OutputStream outStream = new FileOutputStream(file)) {
 				int read = 0;
 				byte[] bytes = new byte[8 * 1024];
 				while ((read = stream.read(bytes)) != -1) {
@@ -183,9 +244,9 @@ public class FileElement {
 			} finally {
 				// stream can only be consumed once --> close it
 				stream.close();
-				stream = null;
 			}
 		}
+		return file;
 	}
 
 	private static String[] splitBaseFileNameAndExtension(File file) {
@@ -200,6 +261,25 @@ public class FileElement {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @param input
+	 *            the input string
+	 * @return the replaced input string
+	 * @throws IOException
+	 */
+	public String replaceVariable(String input) throws IOException {
+		return input.replace("$" + type.name(), getFile().getPath()); //$NON-NLS-1$
+	}
+
+	/**
+	 * @param env
+	 *            the environment where this element should be added
+	 * @throws IOException
+	 */
+	public void addToEnv(Map<String, String> env) throws IOException {
+		env.put(type.name(), getFile().getPath());
 	}
 
 }
