@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee1cf52d_0d08479d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T03:35:07Z",
+      "side": 1,
+      "message": "@NonNull?",
+      "range": {
+        "startLine": 60,
+        "startChar": 48,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ac2820_c0c2455a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T03:35:07Z",
+      "side": 1,
+      "message": "optional: how about fromFilterLine or fromString? That would match a common naming convention for factory methods, and it would provide good symmetry with toFilterLine / toString.",
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27436979_3d15caf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T03:35:07Z",
+      "side": 1,
+      "message": "something like blobLimit, perhaps?\n\nMight make sense to keep this method package-private and have the one that uses a string be the main public factory.",
+      "range": {
+        "startLine": 110,
+        "startChar": 26,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570a006f_3ea51201",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-21T03:35:07Z",
+      "side": 1,
+      "message": "optional: how about something like NO_FILTER or DEFAULT?\n\nnoop has two problems: (1) it\u0027s hard to remember whether there\u0027s a space between no and op ;-) and (2) the filter is operating, just by the identity function.",
+      "range": {
+        "startLine": 121,
+        "startChar": 32,
+        "endLine": 121,
+        "endChar": 44
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
