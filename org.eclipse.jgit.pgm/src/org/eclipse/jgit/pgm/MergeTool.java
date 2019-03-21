@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -59,17 +61,27 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.ContentSource;
 import org.eclipse.jgit.diffmergetool.BooleanOption;
 import org.eclipse.jgit.diffmergetool.FileElement;
+import org.eclipse.jgit.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.diffmergetool.IMergeTool;
 import org.eclipse.jgit.diffmergetool.MergeToolManager;
 import org.eclipse.jgit.diffmergetool.ToolException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.IndexDiff.StageState;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
@@ -215,32 +227,59 @@ class MergeTool extends TextBuiltin {
 		ContentSource baseSource = ContentSource.create(db.newObjectReader());
 		ContentSource localSource = ContentSource.create(db.newObjectReader());
 		ContentSource remoteSource = ContentSource.create(db.newObjectReader());
+		// temporary directory if mergetool.writeToTemp == true
+		File tempDir = mergeToolMgr.createTempDirectory();
+		// the parent directory for temp files (can be same as tempDir or just
+		// the worktree dir)
+		File tempFilesParent = tempDir != null ? tempDir : db.getWorkTree();
 		try {
 			FileElement base = null;
 			FileElement local = null;
 			FileElement remote = null;
+			FileElement merged = new FileElement(mergedFilePath,
+					Type.MERGED);
 			DirCache cache = db.readDirCache();
-			int firstIndex = cache.findEntry(mergedFilePath);
-			if (firstIndex >= 0) {
-				int nextIndex = cache.nextEntry(firstIndex);
-				for (; firstIndex < nextIndex; firstIndex++) {
-					DirCacheEntry entry = cache.getEntry(firstIndex);
+			try (RevWalk revWalk = new RevWalk(db);
+					TreeWalk treeWalk = new TreeWalk(db,
+							revWalk.getObjectReader())) {
+				treeWalk.setFilter(
+						PathFilterGroup.createFromStrings(mergedFilePath));
+				DirCacheIterator cacheIter = new DirCacheIterator(cache);
+				treeWalk.addTree(cacheIter);
+				while (treeWalk.next()) {
+					final EolStreamType eolStreamType = treeWalk
+							.getEolStreamType(CHECKOUT_OP);
+					final String filterCommand = treeWalk.getFilterCommand(
+							Constants.ATTR_FILTER_TYPE_SMUDGE);
+					WorkingTreeOptions opt = db.getConfig()
+							.get(WorkingTreeOptions.KEY);
+					CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
+							eolStreamType, filterCommand);
+					DirCacheEntry entry = treeWalk.getTree(DirCacheIterator.class).getDirCacheEntry();
 					ObjectId id = entry.getObjectId();
 					switch (entry.getStage()) {
 					case DirCacheEntry.STAGE_1:
-						base = new FileElement(mergedFilePath, id.name(),
-								baseSource.open(mergedFilePath, id)
-										.openStream());
+						base = new FileElement(mergedFilePath, Type.BASE);
+						DirCacheCheckout.checkoutToFile(db, mergedFilePath,
+								checkoutMetadata,
+								baseSource.open(mergedFilePath, id), db.getFS(),
+								opt, base.createTempFile(tempFilesParent));
 						break;
 					case DirCacheEntry.STAGE_2:
-						local = new FileElement(mergedFilePath, id.name(),
-								localSource.open(mergedFilePath, id)
-										.openStream());
+						local = new FileElement(mergedFilePath, Type.LOCAL);
+						DirCacheCheckout.checkoutToFile(db, mergedFilePath,
+								checkoutMetadata,
+								localSource.open(mergedFilePath, id),
+								db.getFS(), opt,
+								local.createTempFile(tempFilesParent));
 						break;
 					case DirCacheEntry.STAGE_3:
-						remote = new FileElement(mergedFilePath, id.name(),
-								remoteSource.open(mergedFilePath, id)
-										.openStream());
+						remote = new FileElement(mergedFilePath, Type.REMOTE);
+						DirCacheCheckout.checkoutToFile(db, mergedFilePath,
+								checkoutMetadata,
+								remoteSource.open(mergedFilePath, id),
+								db.getFS(), opt,
+								remote.createTempFile(tempFilesParent));
 						break;
 					}
 				}
@@ -250,14 +289,13 @@ class MergeTool extends TextBuiltin {
 						"local or remote cannot be found in cache, stopping at " //$NON-NLS-1$
 								+ mergedFilePath);
 			}
-			File merged = new File(mergedFilePath);
-			long modifiedBefore = merged.lastModified();
+			long modifiedBefore = merged.getFile().lastModified();
 			try {
 				// TODO: check how to return the exit-code of the
 				// tool to jgit / java runtime ?
 				// int rc =...
-				ExecutionResult executionResult = mergeToolMgr.merge(db, local,
-						remote, base, mergedFilePath, toolName, prompt, gui);
+				ExecutionResult executionResult = mergeToolMgr.merge(local,
+						remote, merged, base, tempDir, toolName, prompt, gui);
 				outw.println(
 						new String(executionResult.getStdout().toByteArray()));
 				outw.flush();
@@ -278,7 +316,7 @@ class MergeTool extends TextBuiltin {
 			}
 			// if merge was successful check file modified
 			if (isMergeSuccessful) {
-				long modifiedAfter = merged.lastModified();
+				long modifiedAfter = merged.getFile().lastModified();
 				if (modifiedBefore == modifiedAfter) {
 					outw.println(mergedFilePath + " seems unchanged."); //$NON-NLS-1$
 					isMergeSuccessful = isMergeSuccessful();
