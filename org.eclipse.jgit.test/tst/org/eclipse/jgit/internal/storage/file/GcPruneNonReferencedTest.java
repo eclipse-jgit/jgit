@@ -47,6 +47,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 
@@ -113,8 +114,24 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		fsTick();
 		gc.gc();
 		stats = gc.getStatistics();
+		assertNoEmptyFanoutDirectories();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
 		assertEquals(2, stats.numberOfPackFiles);
+	}
+
+	private void assertNoEmptyFanoutDirectories() {
+		File[] fanout = repo.getObjectsDirectory().listFiles();
+		for (File f : fanout) {
+			if (f.isDirectory()) {
+				String[] entries = f.list();
+				if (entries == null || entries.length == 0) {
+					assertFalse(
+							"Found empty fanout directory "
+									+ f.getAbsolutePath() + " after pruning",
+							f.getName().length() == 2);
+				}
+			}
+		}
 	}
 }
