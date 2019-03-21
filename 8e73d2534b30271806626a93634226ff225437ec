@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b479de3d_a0d89456",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-21T12:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee1cf52d_0d08479d",
+      "range": {
+        "startLine": 60,
+        "startChar": 48,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69ac2820_c0c2455a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2019-03-21T03:35:07Z",
       "side": 1,
       "message": "optional: how about fromFilterLine or fromString? That would match a common naming convention for factory methods, and it would provide good symmetry with toFilterLine / toString.",
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f4e6cd9_f1f2f465",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-21T12:11:35Z",
+      "side": 1,
+      "message": "Done. I was so interested in keeping the diff clean I tried to keep the method name :) But you\u0027re right that it\u0027s better to make the name more idiomatic.",
+      "parentUuid": "69ac2820_c0c2455a",
       "revId": "8e73d2534b30271806626a93634226ff225437ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9d75f332_26242170",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-21T12:11:35Z",
+      "side": 1,
+      "message": "Changed to withBlobLimit and changed up the accessibility as suggested.\n\nI added @since 5.4 to parseFilterLine, but I wonder if I can leave it off the method since it\u0027s somewhat suggested by the class\u0027 @since anyway.",
+      "parentUuid": "27436979_3d15caf0",
+      "range": {
+        "startLine": 110,
+        "startChar": 26,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "570a006f_3ea51201",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2019-03-21T03:35:07Z",
       "side": 1,
       "message": "optional: how about something like NO_FILTER or DEFAULT?\n\nnoop has two problems: (1) it\u0027s hard to remember whether there\u0027s a space between no and op ;-) and (2) the filter is operating, just by the identity function.",
+      "range": {
+        "startLine": 121,
+        "startChar": 32,
+        "endLine": 121,
+        "endChar": 44
+      },
+      "revId": "8e73d2534b30271806626a93634226ff225437ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b93f4d3_043ce87b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-21T12:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "570a006f_3ea51201",
       "range": {
         "startLine": 121,
         "startChar": 32,
