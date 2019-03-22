@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b206893_a1b1f026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T16:38:24Z",
+      "side": 1,
+      "message": "optional: Do you want to say that this extra check is only necessary when it is called from code that is not statically-checked for null correctness (or compiled without JDT), so is only necessary for public APIs?",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 479,
+        "endChar": 3
+      },
+      "revId": "3551e443fc0a2a587911ee88ed905501cad8e59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
