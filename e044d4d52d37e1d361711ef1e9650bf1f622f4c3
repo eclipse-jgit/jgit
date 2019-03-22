@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f842618_3f6cc130",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-22T01:42:46Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "e044d4d52d37e1d361711ef1e9650bf1f622f4c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
