@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa22cd4_ddffd29c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-22T19:59:22Z",
+      "side": 1,
+      "message": "Sorry I keep finding these only one at a time. requireNonNull?",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71cc4206_a3602bd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-22T19:59:22Z",
+      "side": 1,
+      "message": "optional: can annotate as @NonNull",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a6f406f_9d72e23e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-22T19:59:22Z",
+      "side": 1,
+      "message": "should this be @NonNull and requireNonNull to match FetchV2Request?",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
