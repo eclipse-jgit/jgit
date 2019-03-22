@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dad04a52_971f9b5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6677fb49_e3d086bd",
+      "revId": "c24850aecd9dbcef1ee6248d5c76c273d203b955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26e7ba00_b1d3d82a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "c24850aecd9dbcef1ee6248d5c76c273d203b955",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a1fa0c_54ca5fe8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FilterSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done. Returning null.",
+      "parentUuid": "26e7ba00_b1d3d82a",
+      "revId": "c24850aecd9dbcef1ee6248d5c76c273d203b955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
