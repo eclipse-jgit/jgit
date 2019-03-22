@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ecf217a3_14464c7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c19cbd1_1b969b0e",
+      "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "481c3102_d6f055c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9587241a_7e16102f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done. Also redefined it in terms of setFilterSpec",
+      "parentUuid": "481c3102_d6f055c7",
+      "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "96b9512d_2125fb41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9412e9a9_b7e9f717",
+      "range": {
+        "startLine": 1092,
+        "startChar": 11,
+        "endLine": 1092,
+        "endChar": 14
+      },
+      "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18dcf6c4_903c860b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 5
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "5ca58449_9fde3a4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18dcf6c4_903c860b",
+      "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7c86b64_800c23ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 5
@@ -90,6 +168,24 @@
       "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "099072ca_d8b99d80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T01:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7c86b64_800c23ff",
+      "revId": "1e6e2638f6df81fca2534c50ce53df0b31c6a457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
