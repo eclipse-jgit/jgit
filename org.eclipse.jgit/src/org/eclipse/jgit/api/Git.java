@@ -43,6 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.checkNotNull;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -220,9 +222,7 @@ public class Git implements AutoCloseable {
 	}
 
 	Git(Repository repo, boolean closeRepo) {
-		if (repo == null)
-			throw new NullPointerException();
-		this.repo = repo;
+		this.repo = checkNotNull(repo);
 		this.closeRepo = closeRepo;
 	}
 
