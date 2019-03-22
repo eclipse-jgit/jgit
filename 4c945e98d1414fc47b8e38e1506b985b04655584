@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91646a3f_0b31e76f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T21:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aa22cd4_ddffd29c",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71cc4206_a3602bd4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "790de951_079b38e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T21:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71cc4206_a3602bd4",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6f406f_9d72e23e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
         "patchSetId": 9
@@ -50,6 +86,24 @@
       "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c6cde3_7dc9c842",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV0Request.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-22T21:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6f406f_9d72e23e",
+      "revId": "4c945e98d1414fc47b8e38e1506b985b04655584",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
