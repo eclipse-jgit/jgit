@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2211389_0915e4ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 2098,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-23T06:25:07Z",
+      "side": 1,
+      "message": "style nit: missing braces, see https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements",
+      "revId": "01cd89ee9ecef04a60b378c48d192fc328f96ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4767f800_6eb1d170",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-23T06:25:07Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "01cd89ee9ecef04a60b378c48d192fc328f96ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a598a45_ed08f47f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-23T06:25:07Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "01cd89ee9ecef04a60b378c48d192fc328f96ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
