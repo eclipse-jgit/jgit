@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58978fc4_ff3af340",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-23T05:57:00Z",
+      "side": 1,
+      "message": "adding final breaks API and Eclipse emits:\n\nDescription\tResource\tPath\tLocation\tType\nThe \u0027final\u0027 keyword has been added for the method org.eclipse.jgit.transport.Transport.getFilterBlobLimit()\tTransport.java\t/org.eclipse.jgit/src/org/eclipse/jgit/transport\tline 1079\tCompatibility Problem\nThe \u0027final\u0027 keyword has been added for the method org.eclipse.jgit.transport.Transport.setFilterBlobLimit(long)\tTransport.java\t/org.eclipse.jgit/src/org/eclipse/jgit/transport\tline 1089\tCompatibility Problem\nThe \u0027final\u0027 keyword has been added for the method org.eclipse.jgit.transport.UploadPack.getFilterBlobLimit()\tUploadPack.java\t/org.eclipse.jgit/src/org/eclipse/jgit/transport\tline 1536\tCompatibility Problem\nThe major version should be incremented in version 5.4.0, since API breakage occurred since version 5.3.0\tMANIFEST.MF\t/org.eclipse.jgit/META-INF\tline 6\tVersion Numbering Problem\n\nif we really want this since this was just recently added in 5.3 and there was little chance to override this is sub-classes we should suppress the corresponding errors",
+      "range": {
+        "startLine": 1079,
+        "startChar": 8,
+        "endLine": 1079,
+        "endChar": 14
+      },
+      "revId": "4cd954856eb8bdbe651338e7a1e3a61dd13d4fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "937508d7_d880d9c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-23T05:57:00Z",
+      "side": 1,
+      "message": "adding final breaks API",
+      "range": {
+        "startLine": 1536,
+        "startChar": 8,
+        "endLine": 1536,
+        "endChar": 13
+      },
+      "revId": "4cd954856eb8bdbe651338e7a1e3a61dd13d4fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
