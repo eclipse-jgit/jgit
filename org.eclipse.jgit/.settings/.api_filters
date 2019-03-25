@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/transport/UploadPack.java" type="org.eclipse.jgit.transport.UploadPack">
+        <filter comment="API was only non-final for one version, so unlikely to be overridden" id="1141899266">
+            <message_arguments>
+                <message_argument value="5.3"/>
+                <message_argument value="5.4"/>
+                <message_argument value="getFilterBlobLimit()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
         <filter id="1142947843">
             <message_arguments>

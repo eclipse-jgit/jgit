@@ -1076,7 +1076,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @deprecated Use {@link #getFilterSpec()} instead
 	 */
 	@Deprecated
-	public final long getFilterBlobLimit() {
+	public long getFilterBlobLimit() {
 		return filterSpec.getBlobLimit();
 	}
 
@@ -1086,7 +1086,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @deprecated Use {@link #setFilterSpec(FilterSpec)} instead
 	 */
 	@Deprecated
-	public final void setFilterBlobLimit(long bytes) {
+	public void setFilterBlobLimit(long bytes) {
 		setFilterSpec(FilterSpec.withBlobLimit(bytes));
 	}
 
