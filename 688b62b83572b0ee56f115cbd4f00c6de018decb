@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcf2aed5_fadbfc7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-25T22:56:03Z",
+      "side": 1,
+      "message": "After some thought, I agree. It is unlikely that overriding a deprecated stub does anything correct. So I\u0027ve added an entry to .api_filters instead.",
+      "parentUuid": "f27a80d0_e2953606",
+      "revId": "688b62b83572b0ee56f115cbd4f00c6de018decb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f58843dc_28651dc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "688b62b83572b0ee56f115cbd4f00c6de018decb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d34772_daf16f0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-03-25T22:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58843dc_28651dc3",
+      "revId": "688b62b83572b0ee56f115cbd4f00c6de018decb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
