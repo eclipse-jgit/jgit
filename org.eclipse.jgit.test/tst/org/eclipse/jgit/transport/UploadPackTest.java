@@ -43,6 +43,7 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -73,6 +74,8 @@ public class UploadPackTest {
 	private InMemoryRepository client;
 
 	private TestRepository<InMemoryRepository> remote;
+
+	private PackStatistics stats;
 
 	@Before
 	public void setUp() throws Exception {
@@ -458,6 +461,7 @@ public class UploadPackTest {
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(send, recv, null);
+		stats = up.getStatistics();
 
 		return new ByteArrayInputStream(recv.toByteArray());
 	}
@@ -1622,6 +1626,7 @@ public class UploadPackTest {
 				.has(preparator.blobLowDepth.toObjectId()));
 		assertFalse(client.getObjectDatabase()
 				.has(preparator.blobHighDepth.toObjectId()));
+		assertEquals(1, stats.getTreesTraversed());
 	}
 
 	@Test
@@ -1643,6 +1648,7 @@ public class UploadPackTest {
 				.has(preparator.blobLowDepth.toObjectId()));
 		assertFalse(client.getObjectDatabase()
 				.has(preparator.blobHighDepth.toObjectId()));
+		assertEquals(1, stats.getTreesTraversed());
 	}
 
 	@Test
@@ -1660,6 +1666,7 @@ public class UploadPackTest {
 				.has(preparator.blobLowDepth.toObjectId()));
 		assertFalse(client.getObjectDatabase()
 				.has(preparator.blobHighDepth.toObjectId()));
+		assertEquals(2, stats.getTreesTraversed());
 	}
 
 	/**
