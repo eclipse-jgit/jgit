@@ -2108,20 +2108,24 @@ public class PackWriter implements AutoCloseable {
 	 * @return whether the given object should be skipped.
 	 */
 	private boolean depthSkip(@NonNull RevObject obj, ObjectWalk walker) {
-		long treeDepth = walker.getTreeDepth();
-
 		// Check if this object needs to be rejected because it is a tree or
 		// blob that is too deep from the root tree.
+		long treeDepth = walker.getTreeDepth();
 
 		// A blob is considered one level deeper than the tree that contains it.
 		if (obj.getType() == OBJ_BLOB) {
 			treeDepth++;
+		} else {
+			stats.treesTraversed++;
 		}
 
-		// TODO: Do not continue traversing the tree, since its children
-		// will also be too deep.
-		return filterSpec.getTreeDepthLimit() != -1 &&
-				treeDepth > filterSpec.getTreeDepthLimit();
+		if (filterSpec.getTreeDepthLimit() < 0 ||
+			treeDepth <= filterSpec.getTreeDepthLimit()) {
+			return false;
+		}
+
+		walker.skipTree();
+		return true;
 	}
 
 	// Adds the given object as an object to be packed, first performing
