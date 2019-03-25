@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f27a80d0_e2953606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-25T19:26:22Z",
+      "side": 1,
+      "message": "I think we can keep this \"final\".",
+      "revId": "688b62b83572b0ee56f115cbd4f00c6de018decb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f58843dc_28651dc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-25T19:26:22Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "688b62b83572b0ee56f115cbd4f00c6de018decb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
