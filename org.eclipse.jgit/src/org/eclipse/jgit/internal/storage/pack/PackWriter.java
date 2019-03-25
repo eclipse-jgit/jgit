@@ -2100,6 +2100,13 @@ public class PackWriter implements AutoCloseable {
 	/**
 	 * Determines if the object should be omitted from the pack as a result of
 	 * its depth (probably because of the tree:<depth> filter).
+	 * <p>
+	 * Causes {@code walker} to skip traversing the current tree, which ought to
+	 * have just started traversal, assuming this method is called as soon as a
+	 * new depth is reached.
+	 * <p>
+	 * This method increments the {@link PackStatistics#treesTraversed}
+	 * statistic.
 	 *
 	 * @param obj
 	 *            the object to check whether it should be omitted.
@@ -2116,12 +2123,17 @@ public class PackWriter implements AutoCloseable {
 		// A blob is considered one level deeper than the tree that contains it.
 		if (obj.getType() == OBJ_BLOB) {
 			treeDepth++;
+		} else {
+			stats.treesTraversed++;
 		}
 
-		// TODO: Do not continue traversing the tree, since its children
-		// will also be too deep.
-		return filterSpec.getTreeDepthLimit() != -1 &&
-				treeDepth > filterSpec.getTreeDepthLimit();
+		if (filterSpec.getTreeDepthLimit() < 0 ||
+			treeDepth <= filterSpec.getTreeDepthLimit()) {
+			return false;
+		}
+
+		walker.skipTree();
+		return true;
 	}
 
 	// Adds the given object as an object to be packed, first performing
