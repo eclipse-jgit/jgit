@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16ca9540_e2b532e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-25T08:43:25Z",
+      "side": 1,
+      "message": "Nit: I think \u0027diff: Add \u0027 or \u0027diff: add \u0027 would be more consistent",
+      "revId": "6537861f0105349c141381ec42a34835e1ca7c45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
