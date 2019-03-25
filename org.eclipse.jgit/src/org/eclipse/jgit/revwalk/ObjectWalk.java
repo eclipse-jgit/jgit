@@ -326,6 +326,16 @@ public class ObjectWalk extends RevWalk {
 	}
 
 	/**
+	 * Skips the current tree such that {@link #next()} does not return any
+	 * objects inside it. This can be called right after {@link #next()}
+	 * returns the tree or after it has returned any immediate blob child in
+	 * it.
+	 */
+	public void skipTree() {
+		currVisit.ptr = currVisit.buf.length;
+	}
+
+	/**
 	 * Pop the next most recent object.
 	 *
 	 * @return next most recent object; null if traversal is over.

@@ -1972,8 +1972,9 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				filterAndAddObject(o, o.getType(), pathHash, want,
-								   walker.getTreeDepth());
+				if (!depthSkip(o, want, walker)) {
+					filterAndAddObject(o, o.getType(), pathHash, want);
+				}
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1983,8 +1984,10 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				filterAndAddObject(o, o.getType(), walker.getPathHashCode(),
-								   want, walker.getTreeDepth());
+				if (!depthSkip(o, want, walker)) {
+					filterAndAddObject(o, o.getType(), walker.getPathHashCode(),
+									   want);
+				}
 				countingMonitor.update(1);
 			}
 		}
@@ -2017,7 +2020,7 @@ public class PackWriter implements AutoCloseable {
 				needBitmap.remove(objectId);
 				continue;
 			}
-			filterAndAddObject(objectId, obj.getType(), 0, want, 0);
+			filterAndAddObject(objectId, obj.getType(), 0, want);
 		}
 
 		if (thin)
@@ -2076,31 +2079,41 @@ public class PackWriter implements AutoCloseable {
 		objectsMap.add(otp);
 	}
 
+	private boolean depthSkip(@NonNull RevObject obj,
+			@NonNull Set<? extends AnyObjectId> want, ObjectWalk walker) {
+		// Check if this object needs to be rejected because it is a tree or
+		// blob that is too deep from the root tree.
+		long treeDepth = walker.getTreeDepth();
+		int type = obj.getType();
+
+		// A blob is considered one level deeper than the tree that contains it.
+		if (type == OBJ_BLOB) {
+			treeDepth++;
+		} else {
+			stats.treesTraversed++;
+		}
+
+		if (filterSpec.getTreeDepthLimit() < 0 ||
+			treeDepth <= filterSpec.getTreeDepthLimit() ||
+			want.contains(obj)) {
+			return false;
+		}
+
+		walker.skipTree();
+		return true;
+	}
+
 	// Adds the given object as an object to be packed, first performing
 	// filtering on blobs at or exceeding a given size.
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
-			int pathHashCode, @NonNull Set<? extends AnyObjectId> want,
-			long treeDepth)	throws IOException {
-
+			int pathHashCode, @NonNull Set<? extends AnyObjectId> want)
+			throws IOException {
 		// Check if this object needs to be rejected because it is a blob over
 		// the size limit. Do the cheaper checks first.
 		if (filterSpec.getBlobLimit() >= 0 &&
 			type == OBJ_BLOB &&
 			!want.contains(src) &&
 			reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit()) {
-			return;
-		}
-
-		// Check if this object needs to be rejected because it is a tree or
-		// blob that is too deep from the root tree.
-
-		// A blob is considered one level deeper than the tree that contains it.
-		if (type == OBJ_BLOB) {
-			treeDepth++;
-		}
-
-		if (filterSpec.getTreeDepthLimit() >= 0 &&
-			treeDepth > filterSpec.getTreeDepthLimit()) {
 			return;
 		}
 
