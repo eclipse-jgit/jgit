@@ -2116,12 +2116,17 @@ public class PackWriter implements AutoCloseable {
 		// A blob is considered one level deeper than the tree that contains it.
 		if (obj.getType() == OBJ_BLOB) {
 			treeDepth++;
+		} else {
+			stats.treesTraversed++;
 		}
 
-		// TODO: Do not continue traversing the tree, since its children
-		// will also be too deep.
-		return filterSpec.getTreeDepthLimit() != -1 &&
-				treeDepth > filterSpec.getTreeDepthLimit();
+		if (filterSpec.getTreeDepthLimit() < 0 ||
+			treeDepth <= filterSpec.getTreeDepthLimit()) {
+			return false;
+		}
+
+		walker.skipTree();
+		return true;
 	}
 
 	// Adds the given object as an object to be packed, first performing
