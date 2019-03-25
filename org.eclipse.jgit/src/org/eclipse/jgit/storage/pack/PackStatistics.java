@@ -266,6 +266,9 @@ public class PackStatistics {
 		/** Time in ms spent writing the pack. */
 		public long timeWriting;
 
+		/** Number of trees traversed in the walk when writing the pack. */
+		public long treesTraversed;
+
 		/**
 		 * Statistics about each object type in the pack (commits, tags, trees
 		 * and blobs.)
@@ -583,6 +586,14 @@ public class PackStatistics {
 	 */
 	public long getTimeWriting() {
 		return statistics.timeWriting;
+	}
+
+	/**
+	 * @return number of trees traversed in the walk when writing the pack.
+	 * @since 5.4
+	 */
+	public long getTreesTraversed() {
+		return statistics.treesTraversed;
 	}
 
 	/**
