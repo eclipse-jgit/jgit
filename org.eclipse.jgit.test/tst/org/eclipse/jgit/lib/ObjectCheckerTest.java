@@ -1678,7 +1678,6 @@ public class ObjectCheckerTest {
 		rejectName('>');
 		rejectName(':');
 		rejectName('"');
-		rejectName('/');
 		rejectName('\\');
 		rejectName('|');
 		rejectName('?');
@@ -1693,7 +1692,8 @@ public class ObjectCheckerTest {
 			checkOneName("te" + c + "st");
 			fail("incorrectly accepted with " + c);
 		} catch (CorruptObjectException e) {
-			assertEquals("name contains '" + c + "'", e.getMessage());
+
+			assertEquals("char '" + c + "' not allowed in Windows filename", e.getMessage());
 		}
 	}
 
@@ -1703,7 +1703,19 @@ public class ObjectCheckerTest {
 			checkOneName("te" + ((char) c) + "st");
 			fail("incorrectly accepted with 0x" + h);
 		} catch (CorruptObjectException e) {
-			assertEquals("name contains byte 0x" + h, e.getMessage());
+			assertEquals("byte 0x" + h + " not allowed in Windows filename", e.getMessage());
+		}
+	}
+
+
+	@Test
+	public void testRejectInvalidCharacter() {
+		try {
+			checkOneName("te/st");
+			fail("incorrectly accepted with /");
+		} catch (CorruptObjectException e) {
+
+			assertEquals("name contains '/'", e.getMessage());
 		}
 	}
 
