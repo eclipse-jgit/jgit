@@ -1,6 +1,9 @@
 /.project
 /target
-.DS_Store
 infer-out
 bazel-*
-*~
+
+# Do not add editor- and OS-specific files like *~ (Emacs) and .DS_Store
+# (macOS). Instead, add them to $XDG_CONFIG_HOME/git/ignore
+# (~/.config/git/ignore if $XDG_CONFIG_HOME is not set) or
+# $GIT_DIR/info/exclude. See "git help gitignore" for details.
