@@ -1,6 +1,8 @@
 /.project
 /target
-.DS_Store
 infer-out
 bazel-*
-*~
+
+# Do not add editor- and OS-specific files like *~ (Emacs) and .DS_Store
+# (macOS). Instead, add them to system-wide and repo-wide gitignore files. See
+# "git help gitignore".
