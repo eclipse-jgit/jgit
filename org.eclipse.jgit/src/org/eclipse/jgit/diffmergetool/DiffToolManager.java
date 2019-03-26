@@ -112,19 +112,39 @@ public class DiffToolManager {
 	}
 
 	/**
-	 * @return the available predefined tools
+	 * @param checkAvailability
+	 *            true: for checking if tools can be executed; ATTENTION: this
+	 *            check took some time, do not execute often (store the map for
+	 *            other actions); false: availability is NOT checked:
+	 *            isAvailable() returns default false is this case!
+	 * @return the predefined tools with optionally checked availability (long
+	 *         running operation)
 	 */
-	public Map<String, ExternalDiffTool> getAvailableTools() {
-		// TODO: change to return only available tools instead of all
+	public Map<String, ExternalDiffTool> getPredefinedTools(
+			boolean checkAvailability) {
+		if (checkAvailability) {
+			for (ExternalDiffTool tool : predefinedTools.values()) {
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) tool;
+				predefTool.setAvailable(
+						ExternalToolUtils.isToolAvailable(db,
+								predefTool.getPath()));
+			}
+		}
 		return predefinedTools;
 	}
 
 	/**
-	 * @return the NOT available predefined tools
+	 * @return the name of first available predefined tool or null
 	 */
-	public Map<String, ExternalDiffTool> getNotAvailableTools() {
-		// TODO: return not available tools
-		return new TreeMap<>();
+	public String getFirstAvailableTool() {
+		String name = null;
+		for (ExternalDiffTool tool : predefinedTools.values()) {
+			if (ExternalToolUtils.isToolAvailable(db, tool.getPath())) {
+				name = tool.getName();
+				break;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -149,9 +169,12 @@ public class DiffToolManager {
 		if ((toolName == null) || toolName.isEmpty()) {
 			toolName = getDefaultToolName(gui);
 		}
-		ExternalDiffTool tool = getTool(toolName);
+		ExternalDiffTool tool = null;
+		if ((toolName != null) && !toolName.isEmpty()) {
+			tool = getTool(toolName);
+		}
 		if (tool == null) {
-			throw new ToolException("Unknown diff tool " + toolName); //$NON-NLS-1$
+			throw new ToolException("Unknown diff tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return tool;
 	}
@@ -167,10 +190,8 @@ public class DiffToolManager {
 	private Map<String, ExternalDiffTool> setupPredefinedTools() {
 		Map<String, ExternalDiffTool> tools = new TreeMap<>();
 		for (PreDefinedDiffTools tool : PreDefinedDiffTools.values()) {
-			tools
-					.put(tool.name(),
-							new PreDefinedDiffTool(tool.name(), tool.getPath(),
-									tool.getParameters()));
+			tools.put(tool.name(), new PreDefinedDiffTool(tool.name(),
+					tool.getPath(), tool.getParameters()));
 		}
 		return tools;
 	}
