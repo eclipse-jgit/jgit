@@ -83,17 +83,6 @@ public class PreDefinedMergeTool extends UserDefinedMergeTool {
 	 * @param path
 	 */
 	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) {
-			// add quotes before if needed
-			if (!path.startsWith("\"")) {
-				path = "\"" + path;
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) {
-				path = path + "\"";
-			}
-		}
 		this.path = path;
 	}
 
@@ -121,7 +110,7 @@ public class PreDefinedMergeTool extends UserDefinedMergeTool {
 	 */
 	@Override
 	public String getCommand(boolean withBase) {
-		return path + " "
+		return Utils.quotePath(path) + " "
 				+ (withBase ? super.getCommand() : parametersWithoutBase);
 	}
 
