@@ -3,4 +3,8 @@
 .DS_Store
 infer-out
 bazel-*
+
+# Emacs backup files for historical reasons. Do not add editor-specific
+# files here. Instead, add them to system-wide and repo-wide gitignore
+# files. See "git help gitignore".
 *~
