@@ -173,19 +173,14 @@ class DiffTool extends TextBuiltin {
 				if (prompt.isDefined()) {
 					showPrompt = prompt.toBoolean();
 				}
-				String toolNamePrompt = toolName;
-				if (showPrompt) {
-					if ((toolNamePrompt == null) || toolNamePrompt.isEmpty()) {
-						toolNamePrompt = diffToolMgr.getDefaultToolName(gui);
-					}
-				}
+				// get passed or default tool name
+				String toolNameToUse = getToolNameToUse();
 				// get the changed files
 				List<DiffEntry> files = getFiles();
 				if (files.size() > 0) {
-					compare(files, showPrompt, toolNamePrompt);
+					compare(files, showPrompt, toolNameToUse);
 				}
 			}
-			outw.flush();
 		} catch (RevisionSyntaxException | IOException e) {
 			throw die(e.getMessage(), e);
 		} finally {
@@ -193,8 +188,35 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
+	private String getToolNameToUse() throws IOException {
+		String toolNameToUse = toolName;
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			toolNameToUse = diffToolMgr.getDefaultToolName(gui);
+		}
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			outw.println(
+					"This message is displayed because 'diff.tool' is not configured."); //$NON-NLS-1$
+			outw.println(
+					"See 'git difftool --tool-help' or 'git help config' for more details."); //$NON-NLS-1$
+			outw.println(
+					"'git difftool' will now attempt to use one of the following tools:"); //$NON-NLS-1$
+			Map<String, IDiffTool> predefTools = diffToolMgr
+					.getPredefinedTools(false);
+			for (String name : predefTools.keySet()) {
+				outw.print(name + " "); //$NON-NLS-1$
+			}
+			outw.println();
+			outw.flush();
+			toolNameToUse = diffToolMgr.getFirstAvailableTool();
+		}
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			throw new IOException("Unknown diff tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return toolNameToUse;
+	}
+
 	private void compare(List<DiffEntry> files, boolean showPrompt,
-			String toolNamePrompt) throws IOException {
+			String toolNameToUse) throws IOException {
 		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
 				source(newTree));
 		try {
@@ -208,7 +230,7 @@ class DiffTool extends TextBuiltin {
 				boolean launchCompare = true;
 				if (showPrompt) {
 					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-							mergedFilePath, toolNamePrompt);
+							mergedFilePath, toolNameToUse);
 				}
 				if (launchCompare) {
 					try {
@@ -224,11 +246,13 @@ class DiffTool extends TextBuiltin {
 						// to jgit / java runtime ?
 						// int rc =...
 						ExecutionResult result = diffToolMgr.compare(local,
-								remote, merged, toolName, prompt, gui,
+								remote, merged, toolNameToUse, prompt, gui,
 								trustExitCode);
 						outw.println(new String(result.getStdout().toByteArray()));
+						outw.flush();
 						errw.println(
 								new String(result.getStderr().toByteArray()));
+						errw.flush();
 					} catch (ToolException e) {
 						outw.println(e.getResultStdout());
 						outw.flush();
@@ -265,8 +289,12 @@ class DiffTool extends TextBuiltin {
 	private void showToolHelp() throws IOException {
 		outw.println(
 				"'git difftool --tool=<tool>' may be set to one of the following:"); //$NON-NLS-1$
-		for (String name : diffToolMgr.getAvailableTools().keySet()) {
-			outw.println("\t\t" + name); //$NON-NLS-1$
+		Map<String, IDiffTool> predefTools = diffToolMgr
+				.getPredefinedTools(true);
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
 		}
 		outw.println(""); //$NON-NLS-1$
 		outw.println("\tuser-defined:"); //$NON-NLS-1$
@@ -278,13 +306,16 @@ class DiffTool extends TextBuiltin {
 		outw.println(""); //$NON-NLS-1$
 		outw.println(
 				"The following tools are valid, but not currently available:"); //$NON-NLS-1$
-		for (String name : diffToolMgr.getNotAvailableTools().keySet()) {
-			outw.println("\t\t" + name); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (!predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
 		}
 		outw.println(""); //$NON-NLS-1$
 		outw.println("Some of the tools listed above only work in a windowed"); //$NON-NLS-1$
 		outw.println(
 				"environment. If run in a terminal-only session, they will fail."); //$NON-NLS-1$
+		outw.flush();
 		return;
 	}
 

@@ -65,4 +65,10 @@ public interface IDiffTool {
 	 */
 	abstract public String getCommand();
 
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	abstract public boolean isAvailable();
+
 }
