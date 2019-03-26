@@ -3,4 +3,9 @@
 .DS_Store
 infer-out
 bazel-*
+
+# Emacs backup files
 *~
+
+# Vim swap files
+.*.swp
