@@ -50,6 +50,8 @@ package org.eclipse.jgit.diffmergetool;
  */
 public class UserDefinedDiffTool implements IDiffTool {
 
+	private boolean available = false;
+
 	/**
 	 * the tool name
 	 */
@@ -104,6 +106,23 @@ public class UserDefinedDiffTool implements IDiffTool {
 	@Override
 	public String getCommand() {
 		return cmd;
+	}
+
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	@Override
+	public boolean isAvailable() {
+		return available;
+	}
+
+	/**
+	 * @param available
+	 *            true if tool can be found and false if not
+	 */
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 }
