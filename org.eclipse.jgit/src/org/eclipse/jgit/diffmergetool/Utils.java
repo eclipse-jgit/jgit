@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Repository;
  *
  * @since 5.4
  */
+@SuppressWarnings("nls")
 public class Utils {
 
 	/**
@@ -73,9 +74,15 @@ public class Utils {
 	public static String prepareCommand(String command, FileElement localFile,
 			FileElement remoteFile, FileElement mergedFile,
 			FileElement baseFile) throws IOException {
-		command = localFile.replaceVariable(command);
-		command = remoteFile.replaceVariable(command);
-		command = mergedFile.replaceVariable(command);
+		if (localFile != null) {
+			command = localFile.replaceVariable(command);
+		}
+		if (remoteFile != null) {
+			command = remoteFile.replaceVariable(command);
+		}
+		if (mergedFile != null) {
+			command = mergedFile.replaceVariable(command);
+		}
 		if (baseFile != null) {
 			command = baseFile.replaceVariable(command);
 		}
@@ -101,13 +108,58 @@ public class Utils {
 			FileElement mergedFile, FileElement baseFile) throws IOException {
 		Map<String, String> env = new TreeMap<>();
 		env.put(Constants.GIT_DIR_KEY, db.getDirectory().getAbsolutePath());
-		localFile.addToEnv(env);
-		remoteFile.addToEnv(env);
-		mergedFile.addToEnv(env);
+		if (localFile != null) {
+			localFile.addToEnv(env);
+		}
+		if (remoteFile != null) {
+			remoteFile.addToEnv(env);
+		}
+		if (mergedFile != null) {
+			mergedFile.addToEnv(env);
+		}
 		if (baseFile != null) {
 			baseFile.addToEnv(env);
 		}
 		return env;
+	}
+
+	/**
+	 * @param path
+	 *            the path to be quoted
+	 * @return quoted path if it contains spaces
+	 */
+	public static String quotePath(String path) {
+		// handling of spaces in path
+		if (path.contains(" ")) {
+			// add quotes before if needed
+			if (!path.startsWith("\"")) {
+				path = "\"" + path;
+			}
+			// add quotes after if needed
+			if (!path.endsWith("\"")) {
+				path = path + "\"";
+			}
+		}
+		return path;
+	}
+
+	/**
+	 * @param db
+	 *            the repository
+	 * @param path
+	 *            the tool path
+	 * @return true if tool available and false otherwise
+	 */
+	public static boolean isToolAvailable(Repository db, String path) {
+		boolean available = true;
+		try {
+			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), false);
+			available = cmdExec.checkExecutable(path, db.getWorkTree(),
+					prepareEnvironment(db, null, null, null, null));
+		} catch (Exception e) {
+			available = false;
+		}
+		return available;
 	}
 
 }
