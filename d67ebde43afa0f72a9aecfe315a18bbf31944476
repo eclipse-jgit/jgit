@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa340030_b5c36dca",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T09:41:39Z",
+      "side": 1,
+      "message": "Is this really needed? No other MANIFEST.MF of JGIT contains a Require-Bundle on org.eclipse.jgit.",
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e6645b_2cc4b68c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T09:41:39Z",
+      "side": 1,
+      "message": "If you keep this method definition on it\u0027s origin place behind the merge() method the diff would be smaller.",
+      "range": {
+        "startLine": 239,
+        "startChar": 70,
+        "endLine": 245,
+        "endChar": 16
+      },
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4535706_1ff415ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T09:41:39Z",
+      "side": 1,
+      "message": "I would just call it \u0027checkoutToFile\u0027. There is nothing in this method specific to writing to a temporary file. Since the method is static \u0026 public it may be used in other contexts to write to non-temp files.\nJavadoc should then also not mention \u0027temporary\u0027",
+      "range": {
+        "startLine": 1564,
+        "startChar": 20,
+        "endLine": 1564,
+        "endChar": 38
+      },
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
