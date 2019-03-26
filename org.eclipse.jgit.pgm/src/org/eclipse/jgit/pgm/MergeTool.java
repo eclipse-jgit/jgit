@@ -147,14 +147,11 @@ class MergeTool extends TextBuiltin {
 					showPrompt = prompt.toBoolean();
 				}
 				// get passed or default tool name
-				String toolNameSelected = toolName;
-				if ((toolNameSelected == null) || toolNameSelected.isEmpty()) {
-					toolNameSelected = mergeToolMgr.getDefaultToolName(gui);
-				}
+				String toolNameToUse = getToolNameToUse();
 				// get the changed files
 				Map<String, StageState> files = getFiles();
 				if (files.size() > 0) {
-					merge(files, showPrompt, toolNameSelected);
+					merge(files, showPrompt, toolNameToUse);
 				} else {
 					outw.println("No files need merging"); //$NON-NLS-1$
 				}
@@ -163,6 +160,33 @@ class MergeTool extends TextBuiltin {
 		} catch (Exception e) {
 			throw die(e.getMessage(), e);
 		}
+	}
+
+	private String getToolNameToUse() throws IOException {
+		String toolNameToUse = toolName;
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			toolNameToUse = mergeToolMgr.getDefaultToolName(gui);
+		}
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			outw.println(
+					"This message is displayed because 'merge.tool' is not configured."); //$NON-NLS-1$
+			outw.println(
+					"See 'git mergetool --tool-help' or 'git help config' for more details."); //$NON-NLS-1$
+			outw.println(
+					"'git mergetool' will now attempt to use one of the following tools:"); //$NON-NLS-1$
+			Map<String, IMergeTool> predefTools = mergeToolMgr
+					.getPredefinedTools(false);
+			for (String name : predefTools.keySet()) {
+				outw.print(name + " "); //$NON-NLS-1$
+			}
+			outw.println();
+			outw.flush();
+			toolNameToUse = mergeToolMgr.getFirstAvailableTool();
+		}
+		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+			throw new IOException("Unknown merge tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return toolNameToUse;
 	}
 
 	private void merge(Map<String, StageState> files, boolean showPrompt,
@@ -445,8 +469,12 @@ class MergeTool extends TextBuiltin {
 	private void showToolHelp() throws IOException {
 		outw.println(
 				"'git mergetool --tool=<tool>' may be set to one of the following:"); //$NON-NLS-1$
-		for (String name : mergeToolMgr.getAvailableTools().keySet()) {
-			outw.println("\t\t" + name); //$NON-NLS-1$
+		Map<String, IMergeTool> predefTools = mergeToolMgr
+				.getPredefinedTools(true);
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
 		}
 		outw.println(""); //$NON-NLS-1$
 		outw.println("\tuser-defined:"); //$NON-NLS-1$
@@ -458,8 +486,10 @@ class MergeTool extends TextBuiltin {
 		outw.println(""); //$NON-NLS-1$
 		outw.println(
 				"The following tools are valid, but not currently available:"); //$NON-NLS-1$
-		for (String name : mergeToolMgr.getNotAvailableTools().keySet()) {
-			outw.println("\t\t" + name); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (!predefTools.get(name).isAvailable()) {
+				outw.println("\t\t" + name); //$NON-NLS-1$
+			}
 		}
 		outw.println(""); //$NON-NLS-1$
 		outw.println("Some of the tools listed above only work in a windowed"); //$NON-NLS-1$
