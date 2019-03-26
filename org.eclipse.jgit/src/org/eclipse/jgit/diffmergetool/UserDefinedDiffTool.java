@@ -106,4 +106,13 @@ public class UserDefinedDiffTool implements IDiffTool {
 		return cmd;
 	}
 
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	@Override
+	public boolean isAvailable() {
+		return false;
+	}
+
 }

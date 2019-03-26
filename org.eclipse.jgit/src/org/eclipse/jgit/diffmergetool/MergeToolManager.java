@@ -184,19 +184,35 @@ public class MergeToolManager {
 	}
 
 	/**
+	 * @param checkAvailability
+	 *            true for checking if tools can be executed
 	 * @return the available predefined tools
 	 */
-	public Map<String, IMergeTool> getAvailableTools() {
-		// TODO: change to return only available tools instead of all
+	public Map<String, IMergeTool> getPredefinedTools(
+			boolean checkAvailability) {
+		if (checkAvailability) {
+			for (IMergeTool tool : predefinedTools.values()) {
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) tool;
+				predefTool.setAvailable(
+						Utils.isToolAvailable(db, predefTool.getPath()));
+			}
+		}
 		return predefinedTools;
 	}
 
 	/**
-	 * @return the NOT available predefined tools
+	 * @return the name of first available predefined tool or null
 	 */
-	public Map<String, IMergeTool> getNotAvailableTools() {
-		// TODO: return not available tools
-		return new TreeMap<>();
+	public String getFirstAvailableTool() {
+		String name = null;
+		for (IMergeTool tool : predefinedTools.values()) {
+			PreDefinedMergeTool predefTool = (PreDefinedMergeTool) tool;
+			if (Utils.isToolAvailable(db, predefTool.getPath())) {
+				name = predefTool.getName();
+				break;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -221,9 +237,12 @@ public class MergeToolManager {
 		if ((toolName == null) || toolName.isEmpty()) {
 			toolName = getDefaultToolName(gui);
 		}
-		IMergeTool tool = getTool(toolName);
+		IMergeTool tool = null;
+		if ((toolName != null) && !toolName.isEmpty()) {
+			tool = getTool(toolName);
+		}
 		if (tool == null) {
-			throw new ToolException("Unknown diff tool " + toolName); //$NON-NLS-1$
+			throw new ToolException("Unknown merge tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return tool;
 	}

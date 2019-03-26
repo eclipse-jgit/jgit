@@ -51,6 +51,8 @@ package org.eclipse.jgit.diffmergetool;
 @SuppressWarnings("nls")
 public class PreDefinedDiffTool extends UserDefinedDiffTool {
 
+	private boolean available = false;
+
 	/**
 	 * Creates the pre-defined diff tool
 	 *
@@ -71,17 +73,6 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	 * @param path
 	 */
 	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
-		}
 		this.path = path;
 	}
 
@@ -90,7 +81,24 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	 */
 	@Override
 	public String getCommand() {
-		return path + " " + super.getCommand();
+		return Utils.quotePath(path) + " " + super.getCommand();
+	}
+
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	@Override
+	public boolean isAvailable() {
+		return available;
+	}
+
+	/**
+	 * @param available
+	 *            true if tool can be found and false if not
+	 */
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 }

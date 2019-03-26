@@ -47,8 +47,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
+
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FS_POSIX;
@@ -120,6 +125,52 @@ public class CommandExecutor {
 		} finally {
 			deleteCommandArray();
 		}
+	}
+
+	/**
+	 * @param path
+	 *            the executable path
+	 * @param workingDir
+	 *            the working directory
+	 * @param env
+	 *            the environment
+	 * @return the execution result
+	 * @throws ToolException
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
+	public boolean checkExecutable(String path, File workingDir,
+			Map<String, String> env)
+			throws ToolException, IOException, InterruptedException {
+		isUseMsys2(path);
+		String command = null;
+		if (fs instanceof FS_Win32 && !useMsys2) {
+			Path p = Paths.get(path);
+			// Win32 (and not cygwin or MSYS2) where accepts only command / exe
+			// name as parameter
+			// so check if exists and executable in this case
+			if (p.isAbsolute() && Files.exists(p) && Files.isExecutable(p)) {
+				return true;
+			}
+			// try where command for all other cases
+			command = "where " + Utils.quotePath(path); //$NON-NLS-1$
+		} else {
+			command = "which " + Utils.quotePath(path); //$NON-NLS-1$
+		}
+		boolean available = true;
+		try {
+			ExecutionResult rc = run(command, workingDir, env);
+			if (rc.getRc() != 0) {
+				available = false;
+			}
+		} catch (IOException | InterruptedException | NoWorkTreeException e) {
+			// no op
+		} catch (ToolException e) {
+			if (e.isCommandExecutionError()) {
+				available = false;
+			}
+		}
+		return available;
 	}
 
 	private void deleteCommandArray() {
