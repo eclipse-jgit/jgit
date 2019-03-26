@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0238af2_84acdbbd",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-26T22:49:57Z",
+      "side": 1,
+      "message": "I think we can remove the *~ pattern (and .DS_Store, too).\n\nThat way it\u0027s simpler to reason about --- new contributors wouldn\u0027t have to worry about historical baggage.",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "ed7210f412e44209bdd5877290d106fa98fb9fbd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
