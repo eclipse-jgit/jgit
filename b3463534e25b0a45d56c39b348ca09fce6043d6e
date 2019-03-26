@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3177f7d_70ce3945",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T15:35:18Z",
+      "side": 1,
+      "message": "version range is missing",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d208551_cf0c7862",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T15:35:18Z",
+      "side": 1,
+      "message": "Do we really need all that code? Why don\u0027t we simply use standard boolean Options? I guess it\u0027s because sometimes you want to differentiate between explicitly set options and options having default values but I have not understood fully.\n\nLets take a concrete example:\n\nWhy not have in DiffTool.java instead of \n\n\tprivate BooleanOption gui \u003d BooleanOption.notDefinedFalse;\n\n\t@Option(name \u003d \"--gui\", aliases \u003d { \"-g\" }, usage \u003d \"usage_DiffGuiTool\")\n\tvoid setGui(@SuppressWarnings(\"unused\") boolean on) {\n\t\tgui \u003d BooleanOption.True;\n\t}\n\n\t@Option(name \u003d \"--no-gui\", usage \u003d \"usage_noGui\")\n\tvoid noGui(@SuppressWarnings(\"unused\") boolean on) {\n\t\tgui \u003d BooleanOption.False;\n\t}\n\njust this code\n  \n     \t@Option(name \u003d \"--gui\", aliases \u003d { \"-g\" }, usage \u003d \"usage_DiffGuiTool\")\n        boolean gui \u003d false;\n\nThat would mean only one text instead of two in CLIText.properties. We could throw away BooleanOption.java and setters and getters in DiffTool.java and would have less code. Am I missing something?",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd47299f_31afb92f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T15:35:18Z",
+      "side": 1,
+      "message": "indention wrong",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1a798c3_31a6eda6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-03-26T15:35:18Z",
+      "side": 1,
+      "message": "s/tool/difftool/",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
