@@ -126,6 +126,13 @@ public interface Ref {
 	}
 
 	/**
+	 * Update index value when a reference doesn't have one
+	 *
+	 * @since 5.4
+	 */
+	long UNDEFINED_UPDATE_INDEX = -1L;
+
+	/**
 	 * What this ref is called within the repository.
 	 *
 	 * @return name of this ref.

@@ -67,7 +67,7 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public Unpeeled(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id) {
-			super(st, name, id, -1);
+			super(st, name, id, UNDEFINED_UPDATE_INDEX);
 		}
 
 		/**
@@ -119,7 +119,7 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public PeeledTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id, @NonNull ObjectId p) {
-			super(st, name, id, -1);
+			super(st, name, id, UNDEFINED_UPDATE_INDEX);
 			peeledObjectId = p;
 		}
 
@@ -172,7 +172,7 @@ public abstract class ObjectIdRef implements Ref {
 		 */
 		public PeeledNonTag(@NonNull Storage st, @NonNull String name,
 				@Nullable ObjectId id) {
-			super(st, name, id, -1);
+			super(st, name, id, UNDEFINED_UPDATE_INDEX);
 		}
 
 		/**
@@ -284,7 +284,7 @@ public abstract class ObjectIdRef implements Ref {
 	 */
 	@Override
 	public long getUpdateIndex() {
-		if (updateIndex == -1) {
+		if (updateIndex == UNDEFINED_UPDATE_INDEX) {
 			throw new UnsupportedOperationException();
 		}
 		return updateIndex;
