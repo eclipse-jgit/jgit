@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -873,19 +874,35 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * A visitation policy which causes objects to be visited repeatedly by
-	 * making {@code shouldVisit} always return {@code true}.
+	 * A visitation policy which uses the depth at which the object is seen to
+	 * decide if re-traversal is necessary. In particular, if the object has
+	 * already been visited at this depth or shallower, it is not necessary to
+	 * re-visit at this depth.
 	 */
-	private static final ObjectWalk.VisitationPolicy ALWAYS_VISIT_POLICY =
-			new ObjectWalk.VisitationPolicy() {
-		@Override
-		public boolean shouldVisit(RevObject o) {
-			return true;
+	private class DepthAwareVisitationPolicy
+			implements ObjectWalk.VisitationPolicy {
+		private final Map<ObjectId, Long> lowestDepthVisited = new HashMap<>();
+
+		private final ObjectWalk walk;
+
+		DepthAwareVisitationPolicy(ObjectWalk walk) {
+			this.walk = requireNonNull(walk);
 		}
 
 		@Override
-		public void visited(RevObject o) {}
-	};
+		public boolean shouldVisit(RevObject o) {
+			Long lastDepth = lowestDepthVisited.get(o);
+			if (lastDepth == null) {
+				return true;
+			}
+			return walk.getTreeDepth() < lastDepth;
+		}
+
+		@Override
+		public void visited(RevObject o) {
+			lowestDepthVisited.put(o, (long) walk.getTreeDepth());
+		}
+	}
 
 	/**
 	 * Prepare the list of objects to be written to the pack stream.
@@ -929,7 +946,7 @@ public class PackWriter implements AutoCloseable {
 			throw new IllegalArgumentException(
 					JGitText.get().shallowPacksRequireDepthWalk);
 		if (filterSpec.getTreeDepthLimit() >= 0) {
-			walk.setVisitationPolicy(ALWAYS_VISIT_POLICY);
+			walk.setVisitationPolicy(new DepthAwareVisitationPolicy(walk));
 		}
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects, noBitmaps);
