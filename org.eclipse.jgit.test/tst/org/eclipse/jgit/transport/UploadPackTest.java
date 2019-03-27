@@ -1723,6 +1723,73 @@ public class UploadPackTest {
 				.has(preparator.foo.toObjectId()));
 	}
 
+	/**
+	 * Creates a commit with the following files:
+	 * <pre>
+	 * a/x/b/foo
+	 * y/x/b/foo
+	 * </pre>
+	 * which has an identical tree in two locations: once at /a and once at /y
+	 */
+	class RepeatedSubtreeAtSameLevelPreparator {
+		RevBlob foo = remote.blob("foo");
+		RevTree subtree3 = remote.tree(remote.file("foo", foo));
+		RevTree subtree2 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree3);
+			}
+		}).build();
+		RevTree subtree1 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree2);
+			}
+		}).build();
+		RevTree rootTree = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree1);
+				dcBuilder.addTree(new byte[] {'y'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree1);
+			}
+		}).build();
+		RevCommit commit = remote.commit(rootTree);
+
+		RepeatedSubtreeAtSameLevelPreparator() throws Exception {}
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelIncludeFile()
+			throws Exception {
+		RepeatedSubtreeAtSameLevelPreparator preparator =
+				new RepeatedSubtreeAtSameLevelPreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 5);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.foo.toObjectId()));
+		assertEquals(4, stats.getTreesTraversed());
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelExcludeFile()
+			throws Exception {
+		RepeatedSubtreeAtSameLevelPreparator preparator =
+				new RepeatedSubtreeAtSameLevelPreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 4);
+
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.foo.toObjectId()));
+		assertEquals(4, stats.getTreesTraversed());
+	}
+
 	@Test
 	public void testV2FetchFilterWhenNotAllowed() throws Exception {
 		RevCommit commit = remote.commit().message("0").create();
