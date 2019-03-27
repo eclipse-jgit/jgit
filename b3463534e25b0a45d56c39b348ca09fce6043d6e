@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d33fc2c_0cf0ec7a",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T19:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3177f7d_70ce3945",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d208551_cf0c7862",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-26T15:35:18Z",
       "side": 1,
       "message": "Do we really need all that code? Why don\u0027t we simply use standard boolean Options? I guess it\u0027s because sometimes you want to differentiate between explicitly set options and options having default values but I have not understood fully.\n\nLets take a concrete example:\n\nWhy not have in DiffTool.java instead of \n\n\tprivate BooleanOption gui \u003d BooleanOption.notDefinedFalse;\n\n\t@Option(name \u003d \"--gui\", aliases \u003d { \"-g\" }, usage \u003d \"usage_DiffGuiTool\")\n\tvoid setGui(@SuppressWarnings(\"unused\") boolean on) {\n\t\tgui \u003d BooleanOption.True;\n\t}\n\n\t@Option(name \u003d \"--no-gui\", usage \u003d \"usage_noGui\")\n\tvoid noGui(@SuppressWarnings(\"unused\") boolean on) {\n\t\tgui \u003d BooleanOption.False;\n\t}\n\njust this code\n  \n     \t@Option(name \u003d \"--gui\", aliases \u003d { \"-g\" }, usage \u003d \"usage_DiffGuiTool\")\n        boolean gui \u003d false;\n\nThat would mean only one text instead of two in CLIText.properties. We could throw away BooleanOption.java and setters and getters in DiffTool.java and would have less code. Am I missing something?",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7927e3a6_f71e58db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T19:55:13Z",
+      "side": 1,
+      "message": "Yes, we need to know if the opion was set to true or false explicitly (via command line) or not. We should handle default value in the second case. scalar type like boolean has only two states, so it is not usable here. I can use Boolean for this, e.g. set to null, but still have to implement the logic about default value in case of null later during the checking of the option. That is not clear for me  (i hate null values, also in C++ ;) So i want to define default value by defining the option and just use the boolean (default) value or check if it was defined with isDefined() and decide how to proceed. E.g. for \"prompt\" and \"trustExitCode\" it makes sense for me, because it can be defined in the config and overriden by command line.\n\nFor gui we can use just boolean, because there is no config value there.  Bu how should it work with one option for --gui and --no-gui ?",
+      "parentUuid": "1d208551_cf0c7862",
       "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f6188fb2_f9ed2b0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T19:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd47299f_31afb92f",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1a798c3_31a6eda6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-26T15:35:18Z",
       "side": 1,
       "message": "s/tool/difftool/",
+      "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4cca13_b8686f4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T19:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a798c3_31a6eda6",
       "revId": "b3463534e25b0a45d56c39b348ca09fce6043d6e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
