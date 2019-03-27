@@ -1723,6 +1723,128 @@ public class UploadPackTest {
 				.has(preparator.foo.toObjectId()));
 	}
 
+	/**
+	 * Creates a commit with the following files:
+	 * <pre>
+	 * a/x/b/foo
+	 * b/u/c/baz
+	 * y/x/b/foo
+	 * z/v/c/baz
+	 * </pre>
+	 * which has two pairs of identical trees:
+	 * <ul>
+	 * <li>one at /a and /y
+	 * <li>one at /b/u and /z/v
+	 * </ul>
+	 * Note that this class defines unique 8 trees (rootTree and subtree1-7)
+	 * which means PackStatistics should report having visited 8 trees.
+	 */
+	class RepeatedSubtreeAtSameLevelPreparator {
+		RevBlob foo = remote.blob("foo");
+
+		/** foo */
+		RevTree subtree1 = remote.tree(remote.file("foo", foo));
+
+		/** b/foo */
+		RevTree subtree2 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree1);
+			}
+		}).build();
+
+		/** x/b/foo */
+		RevTree subtree3 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree2);
+			}
+		}).build();
+
+		RevBlob baz = remote.blob("baz");
+
+		/** baz */
+		RevTree subtree4 = remote.tree(remote.file("baz", baz));
+
+		/** c/baz */
+		RevTree subtree5 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'c'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree4);
+			}
+		}).build();
+
+		/** u/c/baz */
+		RevTree subtree6 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'u'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree5);
+			}
+		}).build();
+
+		/** v/c/baz */
+		RevTree subtree7 = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'v'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree5);
+			}
+		}).build();
+
+		RevTree rootTree = (new TreeBuilder() {
+			@Override
+			void addElements(DirCacheBuilder dcBuilder) throws Exception {
+				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree3);
+				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree6);
+				dcBuilder.addTree(new byte[] {'y'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree3);
+				dcBuilder.addTree(new byte[] {'z'}, DirCacheEntry.STAGE_0,
+						remote.getRevWalk().getObjectReader(), subtree7);
+			}
+		}).build();
+		RevCommit commit = remote.commit(rootTree);
+
+		RepeatedSubtreeAtSameLevelPreparator() throws Exception {}
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelIncludeFile()
+			throws Exception {
+		RepeatedSubtreeAtSameLevelPreparator preparator =
+				new RepeatedSubtreeAtSameLevelPreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 5);
+
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.foo.toObjectId()));
+		assertTrue(client.getObjectDatabase()
+				.has(preparator.baz.toObjectId()));
+		assertEquals(8, stats.getTreesTraversed());
+	}
+
+	@Test
+	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelExcludeFile()
+			throws Exception {
+		RepeatedSubtreeAtSameLevelPreparator preparator =
+				new RepeatedSubtreeAtSameLevelPreparator();
+		remote.update("master", preparator.commit);
+
+		uploadV2WithTreeDepthFilter(preparator.commit, 4);
+
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.foo.toObjectId()));
+		assertFalse(client.getObjectDatabase()
+				.has(preparator.baz.toObjectId()));
+		assertEquals(8, stats.getTreesTraversed());
+	}
+
 	@Test
 	public void testV2FetchFilterWhenNotAllowed() throws Exception {
 		RevCommit commit = remote.commit().message("0").create();
