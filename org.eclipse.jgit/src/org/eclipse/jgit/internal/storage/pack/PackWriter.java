@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -873,19 +874,34 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * A seen policy which causes objects to be visited repeatedly by making
-	 * {@code checkSeen} always return {@code false}.
+	 * A seen policy which uses the depth at which the object is seen to decide
+	 * if re-traversal is necessary. In particular, if the object has already
+	 * been seen at this depth or shallower, it is not necessary to re-visit at
+	 * this depth.
 	 */
-	private static final ObjectWalk.SeenPolicy ALWAYS_VISIT_SEEN_POLICY =
-			new ObjectWalk.SeenPolicy() {
-		@Override
-		public boolean checkSeen(RevObject o) {
-			return false;
+	private class DepthAwareSeenPolicy implements ObjectWalk.SeenPolicy {
+		private final Map<ObjectId, Long> lowestDepthSeen = new HashMap<>();
+
+		private final ObjectWalk walk;
+
+		DepthAwareSeenPolicy(ObjectWalk walk) {
+			this.walk = requireNonNull(walk);
 		}
 
 		@Override
-		public void setSeen(RevObject o) {}
-	};
+		public boolean checkSeen(RevObject o) {
+			Long lastDepth = lowestDepthSeen.get(o);
+			if (lastDepth == null) {
+				return false;
+			}
+			return walk.getTreeDepth() >= lastDepth;
+		}
+
+		@Override
+		public void setSeen(RevObject o) {
+			lowestDepthSeen.put(o, (long) walk.getTreeDepth());
+		}
+	}
 
 	/**
 	 * Prepare the list of objects to be written to the pack stream.
@@ -929,7 +945,7 @@ public class PackWriter implements AutoCloseable {
 			throw new IllegalArgumentException(
 					JGitText.get().shallowPacksRequireDepthWalk);
 		if (filterSpec.getTreeDepthLimit() >= 0) {
-			walk.setSeenPolicy(ALWAYS_VISIT_SEEN_POLICY);
+			walk.setSeenPolicy(new DepthAwareSeenPolicy(walk));
 		}
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects, noBitmaps);
