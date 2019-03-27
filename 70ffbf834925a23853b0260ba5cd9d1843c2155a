@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "615118ae_063d2cf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-27T22:11:40Z",
+      "side": 1,
+      "message": "What is the connection with indexDisabled? This could use a comment.",
+      "revId": "70ffbf834925a23853b0260ba5cd9d1843c2155a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
