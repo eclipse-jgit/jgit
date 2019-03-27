@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ce655e61_faa75d74",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T20:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05fa3c6d_1d63f771",
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84e6645b_2cc4b68c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 5
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "3ae31d11_b043c069",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T20:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd36155_72100283",
+      "range": {
+        "startLine": 239,
+        "startChar": 70,
+        "endLine": 245,
+        "endChar": 16
+      },
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4535706_1ff415ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 5
@@ -119,6 +161,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "a4535706_1ff415ca",
+      "range": {
+        "startLine": 1564,
+        "startChar": 20,
+        "endLine": 1564,
+        "endChar": 38
+      },
+      "revId": "d67ebde43afa0f72a9aecfe315a18bbf31944476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6435111f_c42086bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-03-27T20:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c11dfd75_54f3877f",
       "range": {
         "startLine": 1564,
         "startChar": 20,
