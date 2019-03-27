@@ -240,4 +240,11 @@ public interface Ref {
 	default long getUpdateIndex() {
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * Update index value when a reference doesn't have one
+	 *
+	 * @since 5.4
+	 */
+	long UNDEFINED_UPDATE_INDEX = -1L;
 }

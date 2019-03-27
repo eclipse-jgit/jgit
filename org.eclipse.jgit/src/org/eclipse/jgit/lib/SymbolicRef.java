@@ -71,7 +71,7 @@ public class SymbolicRef implements Ref {
 	public SymbolicRef(@NonNull String refName, @NonNull Ref target) {
 		this.name = refName;
 		this.target = target;
-		this.updateIndex = -1;
+		this.updateIndex = UNDEFINED_UPDATE_INDEX;
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class SymbolicRef implements Ref {
 	 */
 	@Override
 	public long getUpdateIndex() {
-		if (updateIndex == -1) {
+		if (updateIndex == UNDEFINED_UPDATE_INDEX) {
 			throw new UnsupportedOperationException();
 		}
 		return updateIndex;
