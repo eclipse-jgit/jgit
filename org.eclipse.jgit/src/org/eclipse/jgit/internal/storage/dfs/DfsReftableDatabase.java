@@ -282,7 +282,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		if (oldLeaf.isPeeled() || oldLeaf.getObjectId() == null) {
 			return ref;
 		}
-		return recreate(ref, doPeel(oldLeaf));
+		return recreate(ref, doPeel(oldLeaf), hasVersioning());
 	}
 
 	@Override

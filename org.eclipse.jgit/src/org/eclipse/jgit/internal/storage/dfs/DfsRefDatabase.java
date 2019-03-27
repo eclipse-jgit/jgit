@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.lib.Ref.UNDEFINED_UPDATE_INDEX;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 
 import java.io.IOException;
@@ -175,7 +176,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 			cachePeeledState(oldLeaf, newLeaf);
 		}
 
-		return recreate(ref, newLeaf);
+		return recreate(ref, newLeaf, hasVersioning());
 	}
 
 	Ref doPeel(Ref leaf) throws MissingObjectException,
@@ -187,20 +188,26 @@ public abstract class DfsRefDatabase extends RefDatabase {
 						leaf.getStorage(),
 						leaf.getName(),
 						leaf.getObjectId(),
-						rw.peel(obj).copy());
+						rw.peel(obj).copy(),
+						hasVersioning() ? leaf.getUpdateIndex()
+								: UNDEFINED_UPDATE_INDEX);
 			} else {
 				return new ObjectIdRef.PeeledNonTag(
 						leaf.getStorage(),
 						leaf.getName(),
-						leaf.getObjectId());
+						leaf.getObjectId(),
+						hasVersioning() ? leaf.getUpdateIndex()
+								: UNDEFINED_UPDATE_INDEX);
 			}
 		}
 	}
 
-	static Ref recreate(Ref old, Ref leaf) {
+	static Ref recreate(Ref old, Ref leaf, boolean hasVersioning) {
 		if (old.isSymbolic()) {
-			Ref dst = recreate(old.getTarget(), leaf);
-			return new SymbolicRef(old.getName(), dst);
+			Ref dst = recreate(old.getTarget(), leaf, hasVersioning);
+			return new SymbolicRef(old.getName(), dst,
+					hasVersioning ? old.getUpdateIndex()
+							: UNDEFINED_UPDATE_INDEX);
 		}
 		return leaf;
 	}
