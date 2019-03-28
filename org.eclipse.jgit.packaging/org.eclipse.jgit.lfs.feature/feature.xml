@@ -23,7 +23,7 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.jgit"/>
+      <import plugin="org.eclipse.jgit" version="5.4.0" match="equivalent"/>
    </requires>
 
    <plugin

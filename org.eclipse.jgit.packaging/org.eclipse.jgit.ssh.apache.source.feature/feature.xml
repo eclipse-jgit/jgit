@@ -22,6 +22,10 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
+   <requires>
+      <import feature="org.eclipse.jgit.ssh.apache" version="5.4.0" match="equivalent"/>
+   </requires>
+
    <plugin
          id="org.eclipse.jgit.ssh.apache.source"
          download-size="0"

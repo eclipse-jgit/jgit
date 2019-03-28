@@ -131,7 +131,8 @@ perl -pi~ -e '
 		$seen_version = 1 if (!/<\?xml/ &&
 		s/(version=")[^"]*(")/${1}'"$OSGI_V"'${2}/);
 	}
-	s/(import feature="org\.eclipse\.jgit.*" version=")[^"]*(")/${1}'"$API_V"'${2}/;
+	s/(import feature="org\.eclipse\.jgit[^"]*" version=")[^"]*(")/${1}'"$API_V"'${2}/;
+	s/(import plugin="org\.eclipse\.jgit[^"]*" version=")[^"]*(")/${1}'"$API_V"'${2}/;
 	' org.eclipse.jgit.packaging/org.*.feature/feature.xml
 
 perl -pi~ -e '
@@ -139,22 +140,11 @@ perl -pi~ -e '
 		$seen_version = 0;
 		$old_argv = $ARGV;
 	}
-	if (!$seen_version) {
-		$seen_version = 1 if
+	if ($seen_version < 2) {
+		$seen_version++ if
 		s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
 	}
-	' org.eclipse.jgit.packaging/org.*.feature/pom.xml
-
-perl -pi~ -e '
-	if ($ARGV ne $old_argv) {
-		$seen_version = 0;
-		$old_argv = $ARGV;
-	}
-	if (!$seen_version) {
-		$seen_version = 1 if
-		s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
-	}
-	' org.eclipse.jgit.packaging/pom.xml
+	' org.eclipse.jgit.packaging/org.*.source.feature/pom.xml
 
 perl -pi~ -e '
 	if ($ARGV ne $old_argv) {
@@ -162,7 +152,7 @@ perl -pi~ -e '
 		$old_argv = $ARGV;
 	}
 	if ($seen_version < 18) {
-			$seen_version++ if
+		$seen_version++ if
 		s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
 	}
 	' org.eclipse.jgit.coverage/pom.xml
