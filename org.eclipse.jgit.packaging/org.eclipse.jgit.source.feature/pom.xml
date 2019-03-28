@@ -59,4 +59,12 @@
 
   <name>JGit Source Feature</name>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.jgit.feature</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>5.4.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
 </project>

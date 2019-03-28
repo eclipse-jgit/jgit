@@ -6,15 +6,15 @@
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
-     %description
+      %description
    </description>
 
    <copyright>
-     %copyright
+      %copyright
    </copyright>
 
    <license url="%licenseURL">
-     %license
+      %license
    </license>
 
    <url>
@@ -22,10 +22,15 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
+   <requires>
+      <import feature="org.eclipse.jgit.ssh.apache" version="5.4.0" match="equivalent"/>
+   </requires>
+
    <plugin
          id="org.eclipse.jgit.ssh.apache.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
 </feature>
