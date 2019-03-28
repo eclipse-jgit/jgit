@@ -30,6 +30,10 @@
          id="org.eclipse.jgit.lfs"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.jgit.ssh.apache"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.jgit" version="5.4.0" match="equivalent"/>
       <import feature="org.eclipse.jgit.lfs" version="5.4.0" match="equivalent"/>

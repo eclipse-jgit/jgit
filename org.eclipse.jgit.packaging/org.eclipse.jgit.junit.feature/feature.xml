@@ -24,6 +24,7 @@
 
    <requires>
       <import plugin="com.jcraft.jsch"/>
+      <import plugin="org.eclipse.jgit" version="5.4.0" match="equivalent"/>
    </requires>
 
    <plugin
