@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "335c7e1b_b53f61d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-28T21:57:46Z",
+      "side": 1,
+      "message": "nit: JGit style appears to be to capitalize this",
+      "revId": "4ec6beabc6995a78cac0cbab55d6b6efa79d71f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868a02ae_24b8a0f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-28T21:57:46Z",
+      "side": 1,
+      "message": "nit: s/while/when/",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "4ec6beabc6995a78cac0cbab55d6b6efa79d71f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "340adec8_3dcd2443",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-28T21:57:46Z",
+      "side": 1,
+      "message": "optional: import static?",
+      "range": {
+        "startLine": 192,
+        "startChar": 10,
+        "endLine": 192,
+        "endChar": 36
+      },
+      "revId": "4ec6beabc6995a78cac0cbab55d6b6efa79d71f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
