@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "bb99b76c_ba56099e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-03-28T22:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "868a02ae_24b8a0f6",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "4ec6beabc6995a78cac0cbab55d6b6efa79d71f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e4d853_8296d55f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-03-28T22:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335c7e1b_b53f61d1",
+      "revId": "4ec6beabc6995a78cac0cbab55d6b6efa79d71f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "340adec8_3dcd2443",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
         "patchSetId": 1
