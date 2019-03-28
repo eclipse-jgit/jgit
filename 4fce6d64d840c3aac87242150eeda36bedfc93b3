@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8b62069_9b9f7bfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-28T21:56:43Z",
+      "side": 1,
+      "message": "nit: JGit style appears to be to capitalize this",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "4fce6d64d840c3aac87242150eeda36bedfc93b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfccd836_9abd3a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-03-28T21:56:43Z",
+      "side": 1,
+      "message": "optional: put near top of class?",
+      "revId": "4fce6d64d840c3aac87242150eeda36bedfc93b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
