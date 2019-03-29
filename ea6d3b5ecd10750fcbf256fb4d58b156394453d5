@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95f7ee21_b3d7bbab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:01:20Z",
+      "side": 1,
+      "message": "This cast produces ClassCastException for me. You should either cast to UserDefinedDiffTool or even better add setAvailibility() to IDiffTool and don\u0027t cast at all.",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "785a6842_f749bfb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:01:20Z",
+      "side": 1,
+      "message": "This cast is totally unnecessary here.",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
