@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2025cb45_922df492",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T14:39:22Z",
+      "side": 1,
+      "message": "As in the case of no prompt the above output is not printed to console before the start of the tool, I would suggest adding a outw.flush() right here.",
+      "revId": "6b96eb973a12b1ad777c3a506d109532938370f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
