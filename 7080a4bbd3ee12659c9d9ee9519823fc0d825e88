@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4952cd65_4dbd48bf",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "maybe also print stderr?",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6626adb7_a1e6d95f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "As this method does not return boolean, I would rather name this method checkUseMsys2.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed842625_d7716f44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "I don\u0027t think postfix is the correct word here. Did you mean fileSuffix or fileExtension?",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a95e3d30_64d5cf91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "This variant with workingDir is never called. Is it still required?",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a62a2f2f_7ab30ee7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "I prefer the file names given by cgit: \u003cname\u003e_[LOCAL|REMOTE]_\u003c4 random digits\u003e.\u003cfile ending\u003e\n\nIt\u0027s easier to see which file is which in the diff viewer.\n\nAlso cgit put\u0027s them into the directory of the repository if possible. But I don\u0027t think we necessarily need that.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874ecd5e_5a0fd361",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "format (indentation)",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7663f3bc_412e9927",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "Should be private. Maybe also final.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35c1d09_acb67f38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-03-29T13:08:42Z",
+      "side": 1,
+      "message": "Changing of fields of a exception should not be possible. It does not make sense.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
