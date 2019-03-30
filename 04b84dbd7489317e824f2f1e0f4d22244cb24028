@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7069424c_4af3f315",
+        "filename": "tools/version.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-03-30T14:58:07Z",
+      "side": 0,
+      "message": "The packaging pom.xml is handled here.",
+      "revId": "04b84dbd7489317e824f2f1e0f4d22244cb24028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
