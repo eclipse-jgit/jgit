@@ -551,7 +551,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 * @param config
 	 *            to use
 	 */
-	void setConfig(OpenSshConfig config) {
+	void synchronized setConfig(OpenSshConfig config) {
 		this.config = config;
 	}
 }
