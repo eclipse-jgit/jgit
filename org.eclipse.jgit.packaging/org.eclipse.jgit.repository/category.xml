@@ -15,24 +15,32 @@
    <feature url="features/org.eclipse.jgit.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.source" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.pgm.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.pgm.source" version="0.0.0" patch="true">
-      <category name="JGit"/>
-   </feature>
-   <feature url="features/org.eclipse.jgit.ssh.apache.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.ssh.apache.source" version="0.0.0" patch="true">
-      <category name="JGit"/>
-   </feature>
    <feature url="features/org.eclipse.jgit.junit_0.0.0.qualifier.jar" id="org.eclipse.jgit.junit" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
    <feature url="features/org.eclipse.jgit.http.apache_0.0.0.qualifier.jar" id="org.eclipse.jgit.http.apache" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0">
+   <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
+   <bundle id="org.eclipse.jgit.ant" version="0.0.0">
+      <category name="JGit-additional-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jgit.archive" version="0.0.0">
+      <category name="JGit-additional-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jgit.ui" version="0.0.0">
+      <category name="JGit-additional-bundles"/>
+   </bundle>
    <category-def name="JGit" label="Java implementation of Git">
       <description>
          Java implementation of Git
+      </description>
+   </category-def>
+   <category-def name="JGit-additional-bundles" label="Java implementation of Git - additional bundles">
+      <description>
+         Java implementation of Git - additional bundles
       </description>
    </category-def>
 </site>
