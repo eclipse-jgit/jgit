@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f8a7369_35aa29c6",
+        "filename": "org.eclipse.jgit.http.apache/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-01T12:06:06Z",
+      "side": 1,
+      "message": "Inconsistent indentation.",
+      "revId": "6c29b0f94d0f82426f503bd48b67338b954ded9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a66c40_6deb47d4",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/category.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-01T12:06:06Z",
+      "side": 1,
+      "message": "Inconsistent indentation.",
+      "revId": "6c29b0f94d0f82426f503bd48b67338b954ded9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ec00db_829ecada",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-01T12:06:06Z",
+      "side": 1,
+      "message": "This one\u0027s duplicated now.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 17
+      },
+      "revId": "6c29b0f94d0f82426f503bd48b67338b954ded9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
