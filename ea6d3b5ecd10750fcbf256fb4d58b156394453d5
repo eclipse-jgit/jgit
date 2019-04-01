@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c44c4c1_5fc4a37b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:25:55Z",
+      "side": 1,
+      "message": "I\u0027ve no exceptions, but will move it to the IDiffTool interface.",
+      "parentUuid": "95f7ee21_b3d7bbab",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "785a6842_f749bfb4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-29T13:01:20Z",
       "side": 1,
       "message": "This cast is totally unnecessary here.",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4df713_997303b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:25:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "785a6842_f749bfb4",
       "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
