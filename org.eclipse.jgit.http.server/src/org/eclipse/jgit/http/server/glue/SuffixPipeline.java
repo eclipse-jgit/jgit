@@ -97,10 +97,15 @@ class SuffixPipeline extends UrlPipeline {
 	@Override
 	void service(HttpServletRequest req, HttpServletResponse rsp)
 			throws ServletException, IOException {
-		String curInfo = req.getPathInfo();
+		String curInfo = getPathInfo(req);
 		String newPath = req.getServletPath() + curInfo;
 		String newInfo = curInfo.substring(0, curInfo.length() - suffixLen);
 		super.service(new WrappedRequest(req, newPath, newInfo), rsp);
+	}
+
+	private String getPathInfo(HttpServletRequest req) {
+		return req.getPathInfo() != null ? req.getPathInfo() :
+				req.getRequestURI().substring(req.getContextPath().length());
 	}
 
 	/** {@inheritDoc} */
