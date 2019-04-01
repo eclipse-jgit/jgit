@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b759ba8b_ea59aed8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4952cd65_4dbd48bf",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6626adb7_a1e6d95f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-29T13:08:42Z",
       "side": 1,
       "message": "As this method does not return boolean, I would rather name this method checkUseMsys2.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "367f7c76_9a39f7d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6626adb7_a1e6d95f",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b8060c7f_a69a30c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ed842625_d7716f44",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a95e3d30_64d5cf91",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-29T13:08:42Z",
       "side": 1,
       "message": "This variant with workingDir is never called. Is it still required?",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2aeef1_238dfe68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "It will be used for MergeTools, because here we have \"mergetool.writeToTemp\" setting. So files are created in the worktree or in temp folder and in both cases workingDir parameter is needed. This class was refactrored with later changes. I will remove not used methods in the later changes.",
+      "parentUuid": "a95e3d30_64d5cf91",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b2168d54_f442daec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "createTempFile creates more random digits and i do not want to implement this by myself. I will check if it can be parametrized somehow. The firmat itselfs was adapted  later in the changes to same as in cgit...\n\nFor difftools it puts the files always to the temp dir and for mergetools you can configure this with \"mergetool.writeToTemp\".  So i\u0027ve implemented this in same way like cgit.",
+      "parentUuid": "a62a2f2f_7ab30ee7",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874ecd5e_5a0fd361",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2019-03-29T13:08:42Z",
       "side": 1,
       "message": "format (indentation)",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21c7d00e_abf5efa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "already fixed",
+      "parentUuid": "874ecd5e_5a0fd361",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "93627824_b74e62fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7663f3bc_412e9927",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c35c1d09_acb67f38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2019-03-29T13:08:42Z",
       "side": 1,
       "message": "Changing of fields of a exception should not be possible. It does not make sense.",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "131349c7_57e2f861",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c35c1d09_acb67f38",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
