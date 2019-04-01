@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d3214ad0_c4955088",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T20:48:10Z",
+      "side": 1,
+      "message": "ok, i see the exception too, it should be PreDefinedMergeTool",
+      "parentUuid": "6c44c4c1_5fc4a37b",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "785a6842_f749bfb4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "785a6842_f749bfb4",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b898cfa_460a9e72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T20:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a4df713_997303b4",
       "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
