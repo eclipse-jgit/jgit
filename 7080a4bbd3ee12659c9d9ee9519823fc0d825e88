@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9364e5dc_0d9c2902",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b759ba8b_ea59aed8",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6626adb7_a1e6d95f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 10
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "41f5b60d_0e668286",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "367f7c76_9a39f7d7",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed842625_d7716f44",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 10
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "ed842625_d7716f44",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "011eb066_8dd20206",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8060c7f_a69a30c1",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -177,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "020fcfe1_edcd150a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "There is no parametrization for the length of the postfix sting. We can use random and generate 4 or more (i\u0027ve also 5 digit numbers at my PC with cgit) or just use the long variant generated for us...",
+      "parentUuid": "b2168d54_f442daec",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874ecd5e_5a0fd361",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 10
@@ -206,6 +278,24 @@
       "side": 1,
       "message": "already fixed",
       "parentUuid": "874ecd5e_5a0fd361",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38ae604c_50a38b81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21c7d00e_abf5efa3",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -247,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "1e621bfb_0a0b636f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93627824_b74e62fe",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c35c1d09_acb67f38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
         "patchSetId": 10
@@ -276,6 +384,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "c35c1d09_acb67f38",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55d35148_132c49b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "131349c7_57e2f861",
       "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
