@@ -34,6 +34,24 @@
       "revId": "84ba7e044cd46559057bf4e40e245b6e01274e7d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa0af8e_95c52641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T19:11:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cb7247b_5a3cfb6c",
+      "revId": "84ba7e044cd46559057bf4e40e245b6e01274e7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
