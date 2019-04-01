@@ -16,6 +16,24 @@
       "revId": "b7511fa570bee4391372be9cb3941f8bb09dc5df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7e5a3b7_f7b3097f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-01T07:22:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d66ee144_52708f90",
+      "revId": "b7511fa570bee4391372be9cb3941f8bb09dc5df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
