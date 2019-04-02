@@ -214,6 +214,10 @@ final class ProtocolV2Parser {
 			} else if (transferConfig.isAllowSidebandAll()
 					&& line2.equals(OPTION_SIDEBAND_ALL)) {
 				reqBuilder.setSidebandAll(true);
+			} else if (line2.startsWith("packfile-uris ")) { //$NON-NLS-1$
+				for (String s : line2.substring(14).split(",")) {
+					reqBuilder.addPackfileUriProtocol(s);
+				}
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line2));
