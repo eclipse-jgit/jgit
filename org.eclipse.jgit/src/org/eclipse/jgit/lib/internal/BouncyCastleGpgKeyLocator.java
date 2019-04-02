@@ -85,12 +85,17 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Locates GPG keys from either <code>~/.gnupg/private-keys-v1.d</code> or
  * <code>~/.gnupg/secring.gpg</code>
  */
 class BouncyCastleGpgKeyLocator {
+
+	private static final Logger log = LoggerFactory
+			.getLogger(BouncyCastleGpgKeyLocator.class);
 
 	private static final Path GPG_DIRECTORY = findGpgDirectory();
 
@@ -157,11 +162,14 @@ class BouncyCastleGpgKeyLocator {
 	private PGPSecretKey attemptParseSecretKey(Path keyFile,
 			PGPDigestCalculatorProvider calculatorProvider,
 			PBEProtectionRemoverFactory passphraseProvider,
-			PGPPublicKey publicKey) throws IOException {
+			PGPPublicKey publicKey) {
 		try (InputStream in = newInputStream(keyFile)) {
 			return new SExprParser(calculatorProvider).parseSecretKey(
 					new BufferedInputStream(in), passphraseProvider, publicKey);
-		} catch (PGPException | ClassCastException e) {
+		} catch (IOException | PGPException | ClassCastException e) {
+			if (log.isDebugEnabled())
+				log.debug("Ignoring unreadable file '{}': {}", keyFile, //$NON-NLS-1$
+						e.getMessage(), e);
 			return null;
 		}
 	}
