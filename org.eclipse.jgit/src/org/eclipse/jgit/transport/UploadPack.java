@@ -91,6 +91,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.BitmapIndex;
@@ -354,6 +355,9 @@ public class UploadPack {
 	 * getDepth() to get information about the request.
 	 */
 	private FetchRequest currentRequest;
+
+	@Nullable
+	private CachedPackUriProvider cachedPackUriProvider;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -718,6 +722,13 @@ public class UploadPack {
 	 */
 	public void setExtraParameters(Collection<String> params) {
 		this.clientRequestedV2 = params.contains("version=2"); //$NON-NLS-1$
+	}
+
+	/**
+	 * @since 5.3
+	 */
+	public void setCachedPackUriProvider(@Nullable CachedPackUriProvider p) {
+		cachedPackUriProvider = p;
 	}
 
 	private boolean useProtocolV2() {
@@ -1261,6 +1272,7 @@ public class UploadPack {
 				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
 				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
 				(transferConfig.isAllowSidebandAll() ? OPTION_SIDEBAND_ALL + ' ' : "") + //$NON-NLS-1$
+				"packfile-uris " +
 				OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
@@ -2216,9 +2228,22 @@ public class UploadPack {
 			}
 
 			if (pckOut.getUseSideband()) {
-				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+				if (req instanceof FetchV2Request &&
+						cachedPackUriProvider != null &&
+						!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
+					FetchV2Request reqV2 = (FetchV2Request) req;
+					pw.writePack(pm, NullProgressMonitor.INSTANCE,
+							new PackWriter.PackfileUriConfig(pckOut,
+								reqV2.getPackfileUriProtocols(),
+								cachedPackUriProvider),
+							packOut);
+				} else {
+					pckOut.writeString("packfile\n"); //$NON-NLS-1$
+					pw.writePack(pm, NullProgressMonitor.INSTANCE, null, packOut);
+				}
+			} else {
+				pw.writePack(pm, NullProgressMonitor.INSTANCE, null, packOut);
 			}
-			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {
 				String msg = pw.getStatistics().getMessage() + '\n';
