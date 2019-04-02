@@ -89,6 +89,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.dfs.DfsCachedPack;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
@@ -122,6 +123,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.ObjectCountCallback;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -673,6 +675,27 @@ public class PackWriter implements AutoCloseable {
 		return stats.totalObjects;
 	}
 
+	private long getUnoffloadedObjectCount(PackfileUriConfig packfileUriConfig)
+			throws IOException {
+
+		long objCnt = 0;
+
+		objCnt += objectsLists[OBJ_COMMIT].size();
+		objCnt += objectsLists[OBJ_TREE].size();
+		objCnt += objectsLists[OBJ_BLOB].size();
+		objCnt += objectsLists[OBJ_TAG].size();
+
+		for (CachedPack pack : cachedPacks) {
+			String hashAndUri = packfileUriConfig.cachedPackUriProvider.getHashAndUri(
+					pack, packfileUriConfig.protocolsSupported);
+			if (hashAndUri == null) {
+				objCnt += pack.getObjectCount();
+			}
+		}
+
+		return objCnt;
+	}
+
 	/**
 	 * Returns the object ids in the pack file that was created by this writer.
 	 * <p>
@@ -1112,6 +1135,12 @@ public class PackWriter implements AutoCloseable {
 		monitor.endTask();
 	}
 
+	public void writePack(ProgressMonitor compressMonitor,
+			ProgressMonitor writeMonitor, OutputStream packStream)
+			throws IOException {
+		writePack(compressMonitor, writeMonitor, null, packStream);
+	}
+
 	/**
 	 * Write the prepared pack to the supplied stream.
 	 * <p>
@@ -1140,7 +1169,8 @@ public class PackWriter implements AutoCloseable {
 	 *             {@link org.eclipse.jgit.transport.ObjectCountCallback} .
 	 */
 	public void writePack(ProgressMonitor compressMonitor,
-			ProgressMonitor writeMonitor, OutputStream packStream)
+			ProgressMonitor writeMonitor, PackfileUriConfig packfileUriConfig,
+			OutputStream packStream)
 			throws IOException {
 		if (compressMonitor == null)
 			compressMonitor = NullProgressMonitor.INSTANCE;
@@ -1177,13 +1207,37 @@ public class PackWriter implements AutoCloseable {
 				: new CheckedOutputStream(packStream, crc32),
 			this);
 
-		long objCnt = getObjectCount();
+		long objCnt = packfileUriConfig == null ? getObjectCount() :
+			getUnoffloadedObjectCount(packfileUriConfig);
 		stats.totalObjects = objCnt;
 		if (callback != null)
 			callback.setObjectCount(objCnt);
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
+			List<CachedPack> unwrittenCachedPacks;
+
+			if (packfileUriConfig != null) {
+				unwrittenCachedPacks = new ArrayList<>();
+				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
+				PacketLineOut o = packfileUriConfig.pckOut;
+
+				o.writeString("packfile-uris\n");
+				for (CachedPack pack : cachedPacks) {
+					String hashAndUri = p.getHashAndUri(
+							pack, packfileUriConfig.protocolsSupported);
+					if (hashAndUri != null) {
+						o.writeString(hashAndUri + '\n');
+					} else {
+						unwrittenCachedPacks.add(pack);
+					}
+				}
+				packfileUriConfig.pckOut.writeDelim();
+				packfileUriConfig.pckOut.writeString("packfile\n");
+			} else {
+				unwrittenCachedPacks = cachedPacks;
+			}
+
 			out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 			out.flush();
 
@@ -1197,7 +1251,7 @@ public class PackWriter implements AutoCloseable {
 			}
 
 			stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
-			for (CachedPack pack : cachedPacks) {
+			for (CachedPack pack : unwrittenCachedPacks) {
 				long deltaCnt = pack.getDeltaCount();
 				stats.reusedObjects += pack.getObjectCount();
 				stats.reusedDeltas += deltaCnt;
@@ -2424,6 +2478,28 @@ public class PackWriter implements AutoCloseable {
 		@Override
 		public String toString() {
 			return "PackWriter.State[" + phase + ", memory=" + bytesUsed + "]";
+		}
+	}
+
+	/**
+	 * @since 5.4
+	 */
+	public static class PackfileUriConfig {
+		@NonNull
+		private final PacketLineOut pckOut;
+
+		@NonNull
+		private final Collection<String> protocolsSupported;
+
+		@NonNull
+		private final CachedPackUriProvider cachedPackUriProvider;
+
+		public PackfileUriConfig(@NonNull PacketLineOut pckOut,
+				@NonNull Collection<String> protocolsSupported,
+				@NonNull CachedPackUriProvider cachedPackUriProvider) {
+			this.pckOut = pckOut;
+			this.protocolsSupported = protocolsSupported;
+			this.cachedPackUriProvider = cachedPackUriProvider;
 		}
 	}
 }
