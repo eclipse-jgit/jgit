@@ -157,11 +157,11 @@ class BouncyCastleGpgKeyLocator {
 	private PGPSecretKey attemptParseSecretKey(Path keyFile,
 			PGPDigestCalculatorProvider calculatorProvider,
 			PBEProtectionRemoverFactory passphraseProvider,
-			PGPPublicKey publicKey) throws IOException {
+			PGPPublicKey publicKey) {
 		try (InputStream in = newInputStream(keyFile)) {
 			return new SExprParser(calculatorProvider).parseSecretKey(
 					new BufferedInputStream(in), passphraseProvider, publicKey);
-		} catch (PGPException | ClassCastException e) {
+		} catch (IOException | PGPException | ClassCastException e) {
 			return null;
 		}
 	}
