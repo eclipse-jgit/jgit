@@ -149,10 +149,27 @@ public class JGitClientSession extends ClientSessionImpl {
 	@Override
 	protected IoWriteFuture sendIdentification(String ident)
 			throws IOException {
-		// Nothing; we do this below together with the KEX init in
-		// sendStartSsh(). Called only from the ClientSessionImpl constructor,
-		// where the return value is ignored.
-		return null;
+		StatefulProxyConnector proxy = proxyHandler;
+		if (proxy != null) {
+			try {
+				// We must not block here; the framework starts reading messages
+				// from the peer only once the initial sendKexInit() following
+				// this call to sendIdentification() has returned!
+				proxy.runWhenDone(() -> {
+					JGitClientSession.super.sendIdentification(ident);
+					return null;
+				});
+				// Called only from the ClientSessionImpl constructor, where the
+				// return value is ignored.
+				return null;
+			} catch (IOException e) {
+				throw e;
+			} catch (Exception other) {
+				throw new IOException(other.getLocalizedMessage(), other);
+			}
+		} else {
+			return super.sendIdentification(ident);
+		}
 	}
 
 	@Override
@@ -161,12 +178,13 @@ public class JGitClientSession extends ClientSessionImpl {
 		if (proxy != null) {
 			try {
 				// We must not block here; the framework starts reading messages
-				// from the peer only once sendKexInit() has returned!
+				// from the peer only once the initial sendKexInit() has
+				// returned!
 				proxy.runWhenDone(() -> {
-					sendStartSsh();
+					JGitClientSession.super.sendKexInit();
 					return null;
 				});
-				// sendKexInit() is called only from the ClientSessionImpl
+				// This is called only from the ClientSessionImpl
 				// constructor, where the return value is ignored.
 				return null;
 			} catch (IOException e) {
@@ -175,21 +193,8 @@ public class JGitClientSession extends ClientSessionImpl {
 				throw new IOException(other.getLocalizedMessage(), other);
 			}
 		} else {
-			return sendStartSsh();
+			return super.sendKexInit();
 		}
-	}
-
-	/**
-	 * Sends the initial messages starting the ssh setup: the client
-	 * identification and the KEX init message.
-	 *
-	 * @return the client's KEX seed
-	 * @throws IOException
-	 *             if something goes wrong
-	 */
-	private byte[] sendStartSsh() throws IOException {
-		super.sendIdentification(clientVersion);
-		return super.sendKexInit();
 	}
 
 	/**
