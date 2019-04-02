@@ -122,6 +122,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.ObjectCountCallback;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -306,6 +307,8 @@ public class PackWriter implements AutoCloseable {
 	private ObjectCountCallback callback;
 
 	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
+
+	private PackfileUriConfig packfileUriConfig;
 
 	/**
 	 * Create writer for specified repository.
@@ -651,6 +654,14 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * @param config configuration related to packfile URIs	
+	 * @since 5.5
+	 */
+	public void setPackfileUriConfig(PackfileUriConfig config) {
+		packfileUriConfig = config;
+	}
+
+	/**
 	 * Returns objects number in a pack file that was created by this writer.
 	 *
 	 * @return number of objects in pack.
@@ -671,6 +682,26 @@ public class PackWriter implements AutoCloseable {
 			return objCnt;
 		}
 		return stats.totalObjects;
+	}
+
+	private long getUnoffloadedObjectCount() throws IOException {
+		long objCnt = 0;
+
+		objCnt += objectsLists[OBJ_COMMIT].size();
+		objCnt += objectsLists[OBJ_TREE].size();
+		objCnt += objectsLists[OBJ_BLOB].size();
+		objCnt += objectsLists[OBJ_TAG].size();
+
+		for (CachedPack pack : cachedPacks) {
+			CachedPackUriProvider.PackInfo packInfo =
+				packfileUriConfig.cachedPackUriProvider.getInfo(
+					pack, packfileUriConfig.protocolsSupported);
+			if (packInfo == null) {
+				objCnt += pack.getObjectCount();
+			}
+		}
+
+		return objCnt;
 	}
 
 	/**
@@ -1177,13 +1208,38 @@ public class PackWriter implements AutoCloseable {
 				: new CheckedOutputStream(packStream, crc32),
 			this);
 
-		long objCnt = getObjectCount();
+		long objCnt = packfileUriConfig == null ? getObjectCount() :
+			getUnoffloadedObjectCount();
 		stats.totalObjects = objCnt;
 		if (callback != null)
 			callback.setObjectCount(objCnt);
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
+			List<CachedPack> unwrittenCachedPacks;
+
+			if (packfileUriConfig != null) {
+				unwrittenCachedPacks = new ArrayList<>();
+				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
+				PacketLineOut o = packfileUriConfig.pckOut;
+
+				o.writeString("packfile-uris\n");
+				for (CachedPack pack : cachedPacks) {
+					CachedPackUriProvider.PackInfo packInfo = p.getInfo(
+							pack, packfileUriConfig.protocolsSupported);
+					if (packInfo != null) {
+						o.writeString(packInfo.getHash() + ' ' +
+								packInfo.getUri() + '\n');
+					} else {
+						unwrittenCachedPacks.add(pack);
+					}
+				}
+				packfileUriConfig.pckOut.writeDelim();
+				packfileUriConfig.pckOut.writeString("packfile\n");
+			} else {
+				unwrittenCachedPacks = cachedPacks;
+			}
+
 			out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 			out.flush();
 
@@ -1197,7 +1253,7 @@ public class PackWriter implements AutoCloseable {
 			}
 
 			stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
-			for (CachedPack pack : cachedPacks) {
+			for (CachedPack pack : unwrittenCachedPacks) {
 				long deltaCnt = pack.getDeltaCount();
 				stats.reusedObjects += pack.getObjectCount();
 				stats.reusedDeltas += deltaCnt;
@@ -2424,6 +2480,39 @@ public class PackWriter implements AutoCloseable {
 		@Override
 		public String toString() {
 			return "PackWriter.State[" + phase + ", memory=" + bytesUsed + "]";
+		}
+	}
+
+	/**
+	 * Configuration related to the packfile URI feature.
+	 *
+	 * @since 5.5
+	 */
+	public static class PackfileUriConfig {
+		@NonNull
+		private final PacketLineOut pckOut;
+
+		@NonNull
+		private final Collection<String> protocolsSupported;
+
+		@NonNull
+		private final CachedPackUriProvider cachedPackUriProvider;
+
+		/**
+		 * @param pckOut where to write "packfile-uri" lines to (should
+		 *     output to the same stream as the one passed to
+		 *     PackWriter#writePack)
+		 * @param protocolsSupported list of protocols supported (e.g. "https")
+		 * @param cachedPackUriProvider provider of URIs corresponding
+		 *     to cached packs
+		 * @since 5.5
+		 */
+		public PackfileUriConfig(@NonNull PacketLineOut pckOut,
+				@NonNull Collection<String> protocolsSupported,
+				@NonNull CachedPackUriProvider cachedPackUriProvider) {
+			this.pckOut = pckOut;
+			this.protocolsSupported = protocolsSupported;
+			this.cachedPackUriProvider = cachedPackUriProvider;
 		}
 	}
 }
