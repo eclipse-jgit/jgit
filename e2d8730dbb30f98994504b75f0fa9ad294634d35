@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f407b4_cc7d4de1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-02T22:38:35Z",
+      "side": 1,
+      "message": "Can you provide a test demonstrating the problem you are trying to solve ?",
+      "revId": "e2d8730dbb30f98994504b75f0fa9ad294634d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e843c12_9094691e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-02T22:38:35Z",
+      "side": 1,
+      "message": "why should this be implemented in JGit and not in Spring ?",
+      "revId": "e2d8730dbb30f98994504b75f0fa9ad294634d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
