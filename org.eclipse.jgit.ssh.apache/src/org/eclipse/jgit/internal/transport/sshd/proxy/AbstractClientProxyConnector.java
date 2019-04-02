@@ -43,7 +43,9 @@
 package org.eclipse.jgit.internal.transport.sshd.proxy;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -61,12 +63,12 @@ public abstract class AbstractClientProxyConnector
 	private static final long DEFAULT_PROXY_TIMEOUT_MILLIS = TimeUnit.SECONDS
 			.toMillis(30L);
 
-	/** Guards {@link #done} and {@link #startSsh}. */
+	/** Guards {@link #done} and {@link #bufferedCommands}. */
 	private Object lock = new Object();
 
 	private boolean done;
 
-	private Callable<Void> startSsh;
+	private List<Callable<Void>> bufferedCommands = new ArrayList<>();
 
 	private AtomicReference<Runnable> unregister = new AtomicReference<>();
 
@@ -173,18 +175,20 @@ public abstract class AbstractClientProxyConnector
 	 *             if starting ssh fails
 	 */
 	protected void setDone(boolean success) throws Exception {
-		Callable<Void> starter;
+		List<Callable<Void>> buffered;
 		Runnable unset = unregister.getAndSet(null);
 		if (unset != null) {
 			unset.run();
 		}
 		synchronized (lock) {
 			done = true;
-			starter = startSsh;
-			startSsh = null;
+			buffered = bufferedCommands;
+			bufferedCommands = null;
 		}
-		if (success && starter != null) {
-			starter.call();
+		if (success && buffered != null) {
+			for (Callable<Void> starter : buffered) {
+				starter.call();
+			}
 		}
 	}
 
@@ -192,7 +196,7 @@ public abstract class AbstractClientProxyConnector
 	public void runWhenDone(Callable<Void> starter) throws Exception {
 		synchronized (lock) {
 			if (!done) {
-				this.startSsh = starter;
+				bufferedCommands.add(starter);
 				return;
 			}
 		}
