@@ -313,6 +313,14 @@ public abstract class PackIndex
 			int matchLimit) throws IOException;
 
 	/**
+	 * @return the checksum of the pack; caller must not modify it
+	 * @since 5.5
+	 */
+	public byte[] getChecksum() {
+		return packChecksum;
+	}
+
+	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
 	 * in pack (both mutable).
 	 *
