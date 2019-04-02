@@ -74,6 +74,9 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean sidebandAll;
 
+	@NonNull
+	private final List<String> packfileUriProtocols;
+
 	FetchV2Request(@NonNull List<ObjectId> peerHas,
 			@NonNull List<String> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
@@ -82,7 +85,7 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull FilterSpec filterSpec,
 			boolean doneReceived, @NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions,
-			boolean sidebandAll) {
+			boolean sidebandAll, @NonNull List<String> packfileUriProtocols) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
 				clientCapabilities, deepenSince,
 				deepenNotRefs, agent);
@@ -91,6 +94,7 @@ public final class FetchV2Request extends FetchRequest {
 		this.doneReceived = doneReceived;
 		this.serverOptions = requireNonNull(serverOptions);
 		this.sidebandAll = sidebandAll;
+		this.packfileUriProtocols = packfileUriProtocols;
 	}
 
 	/**
@@ -138,6 +142,11 @@ public final class FetchV2Request extends FetchRequest {
 		return sidebandAll;
 	}
 
+	@NonNull
+	List<String> getPackfileUriProtocols() {
+		return packfileUriProtocols;
+	}
+
 	/** @return A builder of {@link FetchV2Request}. */
 	static Builder builder() {
 		return new Builder();
@@ -171,6 +180,8 @@ public final class FetchV2Request extends FetchRequest {
 		final List<String> serverOptions = new ArrayList<>();
 
 		boolean sidebandAll;
+
+		final List<String> packfileUriProtocols = new ArrayList<>();
 
 		private Builder() {
 		}
@@ -339,6 +350,11 @@ public final class FetchV2Request extends FetchRequest {
 			return this;
 		}
 
+		Builder addPackfileUriProtocol(@NonNull String value) {
+			packfileUriProtocols.add(value);
+			return this;
+		}
+
 		/**
 		 * @return Initialized fetch request
 		 */
@@ -347,7 +363,8 @@ public final class FetchV2Request extends FetchRequest {
 					clientShallowCommits, deepenSince, deepenNotRefs,
 					depth, filterSpec, doneReceived, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions),
-					sidebandAll);
+					sidebandAll,
+					Collections.unmodifiableList(packfileUriProtocols));
 		}
 	}
 }
