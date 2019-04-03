@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "147a3f03_33a19f04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-03T12:36:22Z",
+      "side": 1,
+      "message": "I think it is worth the effort to look into a solution with less digits. \nThe problem I see is, that the file names are displayed in many of the diff viewers and at least I use them to know which side is LOCAL/REMOTE. And for example in meld for me the file names are to long, so I don\u0027t see the important part (\"LOCAL\" vs \"REMOTE\") directly.\n\nWhat do the others think about this?",
+      "parentUuid": "020fcfe1_edcd150a",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874ecd5e_5a0fd361",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 10
