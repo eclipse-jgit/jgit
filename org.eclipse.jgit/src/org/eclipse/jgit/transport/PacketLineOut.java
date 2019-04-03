@@ -100,6 +100,14 @@ public class PacketLineOut {
 	}
 
 	/**
+	 * @return whether sideband is used
+	 * @since 5.4
+	 */
+	public boolean getUseSideband() {
+		return useSideband;
+	}
+
+	/**
 	 * @param useSideband
 	 *	if true, multiplex output by using the first byte of each
 	 *	non-flush and non-delim pkt as a sideband designator
