@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9eb6eff6_c05eea3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-03T12:51:38Z",
+      "side": 1,
+      "message": "Ah ok. Yes that should fix it too.",
+      "parentUuid": "d3214ad0_c4955088",
+      "revId": "ea6d3b5ecd10750fcbf256fb4d58b156394453d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "785a6842_f749bfb4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 2
