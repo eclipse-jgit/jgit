@@ -48,6 +48,7 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
@@ -193,31 +194,50 @@ public class FileUtils {
 		if ((options & EMPTY_DIRECTORIES_ONLY) != 0) {
 			if (f.isDirectory()) {
 				delete = true;
-			} else {
-				if ((options & IGNORE_ERRORS) == 0)
-					throw new IOException(MessageFormat.format(
-							JGitText.get().deleteFileFailed,
-							f.getAbsolutePath()));
+			} else if ((options & IGNORE_ERRORS) == 0) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().deleteFileFailed, f.getAbsolutePath()));
 			}
 		} else {
 			delete = true;
 		}
 
-		if (delete && !f.delete()) {
-			if ((options & RETRY) != 0 && fs.exists(f)) {
+		if (delete) {
+			Throwable t = null;
+			Path p = f.toPath();
+			try {
+				Files.delete(p);
+				return;
+			} catch (FileNotFoundException e) {
+				if ((options & (SKIP_MISSING | IGNORE_ERRORS)) == 0) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().deleteFileFailed,
+							f.getAbsolutePath()), e);
+				}
+				return;
+			} catch (IOException e) {
+				t = e;
+			}
+			if ((options & RETRY) != 0) {
 				for (int i = 1; i < 10; i++) {
 					try {
 						Thread.sleep(100);
-					} catch (InterruptedException e) {
+					} catch (InterruptedException ex) {
 						// ignore
 					}
-					if (f.delete())
+					try {
+						Files.deleteIfExists(p);
 						return;
+					} catch (IOException e) {
+						t = e;
+					}
 				}
 			}
-			if ((options & IGNORE_ERRORS) == 0)
+			if ((options & IGNORE_ERRORS) == 0) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().deleteFileFailed, f.getAbsolutePath()));
+						JGitText.get().deleteFileFailed, f.getAbsolutePath()),
+						t);
+			}
 		}
 	}
 
