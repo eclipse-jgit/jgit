@@ -16,6 +16,24 @@
       "revId": "ff18a66acfefe39ed81a489a4838c48a45197377",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91128f82_86595e9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-04-03T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4725f7c6_ba571280",
+      "revId": "ff18a66acfefe39ed81a489a4838c48a45197377",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
