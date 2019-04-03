@@ -1136,7 +1136,7 @@ public class UploadPack {
 		protocolV2Hook.onFetch(req);
 
 		if (req.getSidebandAll()) {
-			pckOut.useSidebandFormat();
+			pckOut.setUsingSideband(true);
 		}
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
@@ -1224,7 +1224,11 @@ public class UploadPack {
 
 			if (sectionSent)
 				pckOut.writeDelim();
-			pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			if (!pckOut.isUsingSideband()) {
+				// sendPack will write "packfile\n" for us if sideband-all is used.
+				// But sideband-all is not used, so we have to write it ourselves.
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			}
 			sendPack(new PackStatistics.Accumulator(),
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
@@ -2293,6 +2297,9 @@ public class UploadPack {
 				}
 			}
 
+			if (pckOut.isUsingSideband()) {
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			}
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {

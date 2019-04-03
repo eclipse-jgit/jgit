@@ -74,7 +74,7 @@ public class PacketLineOut {
 
 	private boolean flushOnEnd;
 
-	private boolean useSideband;
+	private boolean usingSideband;
 
 	/**
 	 * Create a new packet line writer.
@@ -100,13 +100,24 @@ public class PacketLineOut {
 	}
 
 	/**
-	 * When writing packet lines, use the first byte of each non-flush and
-	 * non-delim packet as a sideband designator.
-	 *
+	 * @return whether the sideband format is being used
+	 * @see #setUsingSideband
 	 * @since 5.5
 	 */
-	public void useSidebandFormat() {
-		this.useSideband = true;
+	public boolean isUsingSideband() {
+		return usingSideband;
+	}
+
+	/**
+	 * @param value If true, when writing packet lines, add, as the first
+	 *     byte, a sideband designator to each non-flush and non-delim
+	 *     packet. See pack-protocol.txt and protocol-v2.txt from the Git
+	 *     project for more information, specifically the "side-band" and
+	 *     "sideband-all" sections.
+	 * @since 5.5
+	 */
+	public void setUsingSideband(boolean value) {
+		this.usingSideband = value;
 	}
 
 	/**
@@ -151,7 +162,7 @@ public class PacketLineOut {
 	 * @since 4.5
 	 */
 	public void writePacket(byte[] buf, int pos, int len) throws IOException {
-		if (useSideband) {
+		if (usingSideband) {
 			formatLength(len + 5);
 			out.write(lenbuffer, 0, 4);
 			out.write(1);

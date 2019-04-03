@@ -2138,7 +2138,14 @@ public class UploadPackTest {
 				PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
-		assertThat(pckIn.readString(), is("\001packfile"));
+		String s;
+		// When sideband-all is used, object counting happens before
+		// "packfile" is written, and object counting outputs progress
+		// in sideband 2. Skip all these lines.
+		for (s = pckIn.readString(); s.startsWith("\002"); s = pckIn.readString()) {
+			// do nothing
+		}
+		assertThat(s, is("\001packfile"));
 		parsePack(recvStream);
 	}
 
