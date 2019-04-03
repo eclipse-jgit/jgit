@@ -1800,7 +1800,12 @@ public class UploadPackTest {
 				PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
-		assertThat(pckIn.readString(), is("\001packfile"));
+		String s;
+		// skip all \002 strings
+		for (s = pckIn.readString(); s.startsWith("\002"); s = pckIn.readString()) {
+			// do nothing
+		}
+		assertThat(s, is("\001packfile"));
 		parsePack(recvStream);
 	}
 
