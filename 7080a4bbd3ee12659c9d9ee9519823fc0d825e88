@@ -267,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "815440b2_ed31b104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2019-04-03T14:17:20Z",
+      "side": 1,
+      "message": "I agree with both of you. I see the value of short names, and I see the effort of re-implementing createTempFile(), collision check etc.\n\nI would put a TODO in the code that we should think how we can avoid that long random file names, but I don\u0027t think this should stop this patch from being merged once we decide to merge.",
+      "parentUuid": "147a3f03_33a19f04",
+      "revId": "7080a4bbd3ee12659c9d9ee9519823fc0d825e88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "874ecd5e_5a0fd361",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 10
