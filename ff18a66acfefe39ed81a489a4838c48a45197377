@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4725f7c6_ba571280",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-03T05:24:36Z",
+      "side": 1,
+      "message": "Should we log the failure?",
+      "revId": "ff18a66acfefe39ed81a489a4838c48a45197377",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
