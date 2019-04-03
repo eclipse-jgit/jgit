@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8943b5_e82773bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-03T05:17:11Z",
+      "side": 1,
+      "message": "Is the refactoring of tests necessary in this commit?  It looks to me like something that should be done separately.",
+      "revId": "8cacafcd71c0db573bf2b23b8a46eeb85102650c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
