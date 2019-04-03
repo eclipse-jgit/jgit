@@ -100,9 +100,17 @@ public class PacketLineOut {
 	}
 
 	/**
-	 * When writing packet lines, use the first byte of each non-flush and
-	 * non-delim packet as a sideband designator.
-	 *
+	 * @return whether the sideband format is used
+	 * @see #useSidebandFormat
+	 * @since 5.5
+	 */
+	public boolean sidebandFormatUsed() {
+		return useSideband;
+	}
+
+	/**
+	 * When writing packet lines, add, as the first byte, a sideband
+	 * designator to each non-flush and non-delim packet.
 	 * @since 5.5
 	 */
 	public void useSidebandFormat() {
