@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0606381f_fed308fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 240651
+      },
+      "writtenOn": "2019-04-03T16:31:12Z",
+      "side": 1,
+      "message": "some code requires to setup this: https://github.com/eclipse/jgit/pull/85#issue-266384794",
+      "parentUuid": "e106bf52_0f2f1c06",
+      "revId": "e2d8730dbb30f98994504b75f0fa9ad294634d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e843c12_9094691e",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java",
         "patchSetId": 2
