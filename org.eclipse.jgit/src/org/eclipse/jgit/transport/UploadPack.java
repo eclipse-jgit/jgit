@@ -1202,7 +1202,9 @@ public class UploadPack {
 
 			if (sectionSent)
 				pckOut.writeDelim();
-			pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			if (!pckOut.getUseSideband()) {
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			}
 			sendPack(new PackStatistics.Accumulator(),
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
@@ -2213,6 +2215,9 @@ public class UploadPack {
 				}
 			}
 
+			if (pckOut.getUseSideband()) {
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			}
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {
