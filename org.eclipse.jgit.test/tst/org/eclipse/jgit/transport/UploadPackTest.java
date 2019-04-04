@@ -224,7 +224,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(0);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((0)));
 				tn.fetch(NullProgressMonitor.INSTANCE,
 						Collections.singletonList(new RefSpec(commit.name())));
 				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
@@ -262,7 +262,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(0);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((0)));
 				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
 						new RefSpec(commit.name()), new RefSpec(blob1.name())));
 				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
@@ -299,7 +299,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(5);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((5)));
 				tn.fetch(NullProgressMonitor.INSTANCE,
 						Collections.singletonList(new RefSpec(commit.name())));
 				assertFalse(
@@ -342,7 +342,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(0);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((0)));
 				tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
 						new RefSpec(commit.name()), new RefSpec(blob1.name())));
 				assertTrue(client.getObjectDatabase().has(blob1.toObjectId()));
@@ -382,7 +382,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(5);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((5)));
 				tn.fetch(NullProgressMonitor.INSTANCE,
 						Collections.singletonList(new RefSpec(commit.name())));
 				assertFalse(
@@ -418,7 +418,7 @@ public class UploadPackTest {
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
-				tn.setFilterBlobLimit(0);
+				tn.setFilterSpec(FilterSpec.withBlobLimit((0)));
 
 				thrown.expect(TransportException.class);
 				thrown.expectMessage(
