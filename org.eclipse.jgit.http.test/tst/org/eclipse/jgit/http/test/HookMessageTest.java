@@ -93,124 +93,131 @@ public class HookMessageTest extends HttpTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		final TestRepository<Repository> src = createTestRepository();
-		final String srcName = src.getRepository().getDirectory().getName();
+		try (TestRepository<Repository> src = createTestRepository()) {
+			final String srcName = src.getRepository().getDirectory().getName();
 
-		ServletContextHandler app = server.addContext("/git");
-		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(srcName))
-					throw new RepositoryNotFoundException(name);
+			ServletContextHandler app = server.addContext("/git");
+			GitServlet gs = new GitServlet();
+			gs.setRepositoryResolver(
+					new RepositoryResolver<HttpServletRequest>() {
+						@Override
+						public Repository open(HttpServletRequest req,
+								String name) throws RepositoryNotFoundException,
+								ServiceNotEnabledException {
+							if (!name.equals(srcName))
+								throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
-				db.incrementOpen();
-				return db;
-			}
-		});
-		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
-			@Override
-			public ReceivePack create(HttpServletRequest req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				ReceivePack recv = super.create(req, db);
-				recv.setPreReceiveHook(new PreReceiveHook() {
-					@Override
-					public void onPreReceive(ReceivePack rp,
-							Collection<ReceiveCommand> commands) {
-						rp.sendMessage("message line 1");
-						rp.sendError("no soup for you!");
-						rp.sendMessage("come back next year!");
-					}
-				});
-				return recv;
-			}
+							final Repository db = src.getRepository();
+							db.incrementOpen();
+							return db;
+						}
+					});
+			gs.setReceivePackFactory(new DefaultReceivePackFactory() {
+				@Override
+				public ReceivePack create(HttpServletRequest req, Repository db)
+						throws ServiceNotEnabledException,
+						ServiceNotAuthorizedException {
+					ReceivePack recv = super.create(req, db);
+					recv.setPreReceiveHook(new PreReceiveHook() {
+						@Override
+						public void onPreReceive(ReceivePack rp,
+								Collection<ReceiveCommand> commands) {
+							rp.sendMessage("message line 1");
+							rp.sendError("no soup for you!");
+							rp.sendMessage("come back next year!");
+						}
+					});
+					return recv;
+				}
 
-		});
-		app.addServlet(new ServletHolder(gs), "/*");
+			});
+			app.addServlet(new ServletHolder(gs), "/*");
 
-		server.setUp();
+			server.setUp();
 
-		remoteRepository = src.getRepository();
-		remoteURI = toURIish(app, srcName);
+			remoteRepository = src.getRepository();
+			remoteURI = toURIish(app, srcName);
 
-		StoredConfig cfg = remoteRepository.getConfig();
-		cfg.setBoolean("http", null, "receivepack", true);
-		cfg.save();
+			StoredConfig cfg = remoteRepository.getConfig();
+			cfg.setBoolean("http", null, "receivepack", true);
+			cfg.save();
+		}
 	}
 
 	@Test
 	public void testPush_CreateBranch() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevBlob Q_txt = src.blob("new text");
-		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
-		final String dstName = Constants.R_HEADS + "new.branch";
-		PushResult result;
+		try (TestRepository src = createTestRepository()) {
+			final RevBlob Q_txt = src.blob("new text");
+			final RevCommit Q = src.commit().add("Q", Q_txt).create();
+			final Repository db = src.getRepository();
+			final String dstName = Constants.R_HEADS + "new.branch";
+			PushResult result;
 
-		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
-			final boolean forceUpdate = false;
-			final String localName = null;
-			final ObjectId oldId = null;
+			try (Transport t = Transport.open(db, remoteURI)) {
+				final String srcExpr = Q.name();
+				final boolean forceUpdate = false;
+				final String localName = null;
+				final ObjectId oldId = null;
 
-			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
-					srcExpr, dstName, forceUpdate, localName, oldId);
-			result = t.push(NullProgressMonitor.INSTANCE, Collections
-					.singleton(update));
+				RemoteRefUpdate update = new RemoteRefUpdate(
+						src.getRepository(), srcExpr, dstName, forceUpdate,
+						localName, oldId);
+				result = t.push(NullProgressMonitor.INSTANCE,
+						Collections.singleton(update));
+			}
+
+			assertTrue(remoteRepository.getObjectDatabase().has(Q_txt));
+			assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
+			assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
+			fsck(remoteRepository, Q);
+
+			List<AccessEvent> requests = getRequests();
+			assertEquals(2, requests.size());
+
+			AccessEvent service = requests.get(1);
+			assertEquals("POST", service.getMethod());
+			assertEquals(join(remoteURI, "git-receive-pack"),
+					service.getPath());
+			assertEquals(200, service.getStatus());
+
+			assertEquals("message line 1\n" //
+					+ "error: no soup for you!\n" //
+					+ "come back next year!\n", //
+					result.getMessages());
 		}
-
-		assertTrue(remoteRepository.getObjectDatabase().has(Q_txt));
-		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
-		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
-		fsck(remoteRepository, Q);
-
-		List<AccessEvent> requests = getRequests();
-		assertEquals(2, requests.size());
-
-		AccessEvent service = requests.get(1);
-		assertEquals("POST", service.getMethod());
-		assertEquals(join(remoteURI, "git-receive-pack"), service.getPath());
-		assertEquals(200, service.getStatus());
-
-		assertEquals("message line 1\n" //
-				+ "error: no soup for you!\n" //
-				+ "come back next year!\n", //
-				result.getMessages());
 	}
 
 	@Test
 	public void testPush_HookMessagesToOutputStream() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevBlob Q_txt = src.blob("new text");
-		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
-		final String dstName = Constants.R_HEADS + "new.branch";
-		PushResult result;
+		try (TestRepository src = createTestRepository()) {
+			final RevBlob Q_txt = src.blob("new text");
+			final RevCommit Q = src.commit().add("Q", Q_txt).create();
+			final Repository db = src.getRepository();
+			final String dstName = Constants.R_HEADS + "new.branch";
+			PushResult result;
 
-		OutputStream out = new ByteArrayOutputStream();
-		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
-			final boolean forceUpdate = false;
-			final String localName = null;
-			final ObjectId oldId = null;
+			OutputStream out = new ByteArrayOutputStream();
+			try (Transport t = Transport.open(db, remoteURI)) {
+				final String srcExpr = Q.name();
+				final boolean forceUpdate = false;
+				final String localName = null;
+				final ObjectId oldId = null;
 
-			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
-					srcExpr, dstName, forceUpdate, localName, oldId);
-			result = t.push(NullProgressMonitor.INSTANCE,
-					Collections.singleton(update), out);
+				RemoteRefUpdate update = new RemoteRefUpdate(
+						src.getRepository(), srcExpr, dstName, forceUpdate,
+						localName, oldId);
+				result = t.push(NullProgressMonitor.INSTANCE,
+						Collections.singleton(update), out);
+			}
+
+			String expectedMessage = "message line 1\n" //
+					+ "error: no soup for you!\n" //
+					+ "come back next year!\n";
+			assertEquals(expectedMessage, //
+					result.getMessages());
+
+			assertEquals(expectedMessage, out.toString());
 		}
-
-		String expectedMessage = "message line 1\n" //
-				+ "error: no soup for you!\n" //
-				+ "come back next year!\n";
-		assertEquals(expectedMessage, //
-				result.getMessages());
-
-		assertEquals(expectedMessage, out.toString());
 	}
 
 }
