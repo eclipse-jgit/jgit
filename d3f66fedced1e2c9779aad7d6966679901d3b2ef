@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ab3e42b_4920beee",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-04T11:29:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct. The test server is going to use that repo later; see lines 110f.\n\nThis is going to be ugly and will need individual solutions for all tests. Check the callers of HttpTestCase.createRepository(), and then for instance: SmartClientSmartServerTest.testFetch_FewLocalCommits(): that last test closes remoteRepository during the test, so adding it in setUp to addRepoToClose() would then try to close it twice. Yuck.\n\nAlso, I fear we\u0027ll have to have one huge change with all occurrences of this problem fixed to get a successful Jenkins build. :-(",
+      "revId": "d3f66fedced1e2c9779aad7d6966679901d3b2ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
