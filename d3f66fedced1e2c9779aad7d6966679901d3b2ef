@@ -16,6 +16,24 @@
       "revId": "d3f66fedced1e2c9779aad7d6966679901d3b2ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c99c444c_29fa4896",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-04T12:33:50Z",
+      "side": 1,
+      "message": "Ack.  I overlooked that this is the setUp method, and not a test method.",
+      "parentUuid": "5ab3e42b_4920beee",
+      "revId": "d3f66fedced1e2c9779aad7d6966679901d3b2ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
