@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feea2f98_12e896a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-05T11:25:59Z",
+      "side": 1,
+      "message": "As mergedFile is now also a FileElement, also it\u0027s temporaries should be cleaned. (Most of the time there should be none, but just in case)",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cca19a76_7f32670f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-05T11:25:59Z",
+      "side": 1,
+      "message": "Why don\u0027t have extensions for files, which start with \u0027.\u0027?\nWhat about .test.txt ? I think result[0] should be \".test\" and result[1] \"txt\".",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0ebb41_1d31a854",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-05T11:25:59Z",
+      "side": 1,
+      "message": "shouldn\u0027t the and be an or here?\nSo it only deletes temporaries if there was neither an error nor the user wants to keep temporaries.",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
