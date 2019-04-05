@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530762d5_f9c883e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-05T11:23:52Z",
+      "side": 1,
+      "message": "Add 2019",
+      "revId": "7310b269a6eafd7f0c99e447913cc16f5e9c8ea4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
