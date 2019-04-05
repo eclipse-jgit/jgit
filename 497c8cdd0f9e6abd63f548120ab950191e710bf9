@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d6f91c7_894c7e7e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-05T02:40:11Z",
+      "side": 1,
+      "message": "nit: should only have one set of parens here",
+      "range": {
+        "startLine": 227,
+        "startChar": 45,
+        "endLine": 227,
+        "endChar": 47
+      },
+      "revId": "497c8cdd0f9e6abd63f548120ab950191e710bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8df33b_c67d1850",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-05T02:40:11Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "497c8cdd0f9e6abd63f548120ab950191e710bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a15105da_1ac16150",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-05T02:40:11Z",
+      "side": 1,
+      "message": "Likewise (and for the rest)",
+      "revId": "497c8cdd0f9e6abd63f548120ab950191e710bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
