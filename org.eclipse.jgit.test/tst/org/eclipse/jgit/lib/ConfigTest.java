@@ -1450,6 +1450,27 @@ public class ConfigTest {
 		assertEquals("xt", parseEscapedSubsection("\"x\\t\""));
 	}
 
+	@Test
+	public void testCrLf() throws ConfigInvalidException {
+		assertEquals("true", parseEscapedValue("true\r\n"));
+	}
+
+	@Test
+	public void testLfContinuation() throws ConfigInvalidException {
+		assertEquals("true", parseEscapedValue("tr\\\nue"));
+	}
+
+	@Test
+	public void testCrLfContinuation() throws ConfigInvalidException {
+		assertEquals("true", parseEscapedValue("tr\\\r\nue"));
+	}
+
+	@Test
+	public void testWhitespaceContinuation() throws ConfigInvalidException {
+		assertEquals("tr   ue", parseEscapedValue("tr \\\n  ue"));
+		assertEquals("tr   ue", parseEscapedValue("tr \\\r\n  ue"));
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);

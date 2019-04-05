@@ -1413,11 +1413,18 @@ public class Config {
 				case '"':
 					value.append('"');
 					continue;
+				case '\r':
+					if (in.read() == '\n') {
+						continue; // CR-LF
+					}
+					in.reset();
+					break;
 				default:
-					throw new ConfigInvalidException(MessageFormat.format(
-							JGitText.get().badEscape,
-							Character.valueOf(((char) c))));
+					break;
 				}
+				throw new ConfigInvalidException(
+						MessageFormat.format(JGitText.get().badEscape,
+								Character.valueOf(((char) c))));
 			}
 
 			if ('"' == c) {
