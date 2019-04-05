@@ -1413,11 +1413,23 @@ public class Config {
 				case '"':
 					value.append('"');
 					continue;
-				default:
-					throw new ConfigInvalidException(MessageFormat.format(
-							JGitText.get().badEscape,
-							Character.valueOf(((char) c))));
+				case '\r': {
+					int next = in.read();
+					if (next == '\n') {
+						continue; // CR-LF
+					} else if (next >= 0) {
+						in.reset();
+					}
+					break;
 				}
+				default:
+					break;
+				}
+				throw new ConfigInvalidException(
+						MessageFormat.format(JGitText.get().badEscape,
+								Character.isAlphabetic(c)
+										? Character.valueOf(((char) c))
+										: toUnicodeLiteral(c)));
 			}
 
 			if ('"' == c) {
@@ -1428,6 +1440,11 @@ public class Config {
 			value.append(cc);
 		}
 		return value.length() > 0 ? value.toString() : null;
+	}
+
+	private static String toUnicodeLiteral(int c) {
+		return String.format("\\u%04x", //$NON-NLS-1$
+				Integer.valueOf(c));
 	}
 
 	/**
