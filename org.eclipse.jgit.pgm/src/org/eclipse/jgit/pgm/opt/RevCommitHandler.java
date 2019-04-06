@@ -130,10 +130,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		final RevCommit c;
 		try {
 			c = clp.getRevWalk().parseCommit(id);
-		} catch (MissingObjectException e) {
-			throw new CmdLineException(clp,
-					CLIText.format(CLIText.get().notACommit), name);
-		} catch (IncorrectObjectTypeException e) {
+		} catch (MissingObjectException | IncorrectObjectTypeException e) {
 			throw new CmdLineException(clp,
 					CLIText.format(CLIText.get().notACommit), name);
 		} catch (IOException e) {

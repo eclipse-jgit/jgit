@@ -73,8 +73,8 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 	 *             if any.
 	 */
 	public InternalFetchConnection(PackTransport transport,
-			final UploadPackFactory<C> uploadPackFactory,
-			final C req, final Repository remote) throws TransportException {
+			final UploadPackFactory<C> uploadPackFactory, final C req,
+			final Repository remote) throws TransportException {
 		super(transport);
 
 		final PipedInputStream in_r;
@@ -98,7 +98,8 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 			out_w = new PipedOutputStream(out_r);
 		} catch (IOException err) {
 			remote.close();
-			throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
+			throw new TransportException(uri, JGitText.get().cannotConnectPipes,
+					err);
 		}
 
 		worker = new Thread("JGit-Upload-Pack") { //$NON-NLS-1$
@@ -107,14 +108,12 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 				try {
 					final UploadPack rp = uploadPackFactory.create(req, remote);
 					rp.upload(out_r, in_w, null);
-				} catch (ServiceNotEnabledException e) {
+				} catch (ServiceNotEnabledException
+						| ServiceNotAuthorizedException e) {
 					// Ignored. Client cannot use this repository.
-				} catch (ServiceNotAuthorizedException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (IOException err) {
+				} catch (IOException | RuntimeException err) {
 					// Client side of the pipes should report the problem.
-					err.printStackTrace();
-				} catch (RuntimeException err) {
+					// or
 					// Client side will notice we went away, and report.
 					err.printStackTrace();
 				} finally {

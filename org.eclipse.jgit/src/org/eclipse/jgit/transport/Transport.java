@@ -180,13 +180,11 @@ public abstract class Transport implements AutoCloseable {
 				TransportProtocol proto;
 				try {
 					proto = (TransportProtocol) f.get(null);
-				} catch (IllegalArgumentException e) {
-					// If we cannot access the field, don't.
-					continue;
-				} catch (IllegalAccessException e) {
+				} catch (IllegalArgumentException | IllegalAccessException e) {
 					// If we cannot access the field, don't.
 					continue;
 				}
+                            // If we cannot access the field, don't.
 				if (proto != null)
 					register(proto);
 			}
