@@ -238,9 +238,7 @@ public class SubmoduleAddCommand extends
 			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 					name, ConfigConstants.CONFIG_KEY_URL, uri);
 			modulesConfig.save();
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 

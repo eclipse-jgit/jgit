@@ -486,9 +486,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 				git.branchCreate().setName(branch).setStartPoint(commit).call();
 
 			return commit;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (GitAPIException e) {
+		} catch (IOException | GitAPIException e) {
 			throw new RuntimeException(e);
 		}
 	}
