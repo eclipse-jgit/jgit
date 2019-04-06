@@ -282,7 +282,7 @@ class Status extends TextBuiltin {
 		if (!porcelain) {
 			outw.println(CLIText.formatLine(MessageFormat.format(pattern,
 					arguments)));
-			if (!pattern.equals("")) //$NON-NLS-1$
+			if (!pattern.isEmpty())
 				outw.println(CLIText.formatLine("")); //$NON-NLS-1$
 			outw.flush();
 		}

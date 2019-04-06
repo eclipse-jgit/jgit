@@ -608,7 +608,7 @@ public abstract class Repository implements AutoCloseable {
 								if (!(rev instanceof RevBlob))
 									throw new IncorrectObjectTypeException(rev,
 											Constants.TYPE_BLOB);
-							} else if (item.equals("")) { //$NON-NLS-1$
+							} else if (item.isEmpty()) {
 								rev = rw.peel(rev);
 							} else
 								throw new RevisionSyntaxException(revstr);
@@ -709,7 +709,7 @@ public abstract class Repository implements AutoCloseable {
 					if (time.equals("upstream")) { //$NON-NLS-1$
 						if (name == null)
 							name = new String(revChars, done, i);
-						if (name.equals("")) //$NON-NLS-1$
+						if (name.isEmpty())
 							// Currently checked out branch, HEAD if
 							// detached
 							name = Constants.HEAD;
@@ -764,7 +764,7 @@ public abstract class Repository implements AutoCloseable {
 					} else {
 						if (name == null)
 							name = new String(revChars, done, i);
-						if (name.equals("")) //$NON-NLS-1$
+						if (name.isEmpty())
 							name = Constants.HEAD;
 						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
 							throw new RevisionSyntaxException(MessageFormat
@@ -790,7 +790,7 @@ public abstract class Repository implements AutoCloseable {
 				if (rev == null) {
 					if (name == null)
 						name = new String(revChars, done, i);
-					if (name.equals("")) //$NON-NLS-1$
+					if (name.isEmpty())
 						name = Constants.HEAD;
 					rev = parseSimple(rw, name);
 					name = null;

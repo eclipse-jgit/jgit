@@ -295,14 +295,14 @@ class Blame extends TextBuiltin {
 			}
 		}
 
-		if (beginStr.equals("")) //$NON-NLS-1$
+		if (beginStr.isEmpty())
 			begin = 0;
 		else if (beginStr.startsWith("/")) //$NON-NLS-1$
 			begin = findLine(0, beginStr);
 		else
 			begin = Math.max(0, Integer.parseInt(beginStr) - 1);
 
-		if (endStr.equals("")) //$NON-NLS-1$
+		if (endStr.isEmpty())
 			end = blame.getResultContents().size();
 		else if (endStr.startsWith("/")) //$NON-NLS-1$
 			end = findLine(begin, endStr);
