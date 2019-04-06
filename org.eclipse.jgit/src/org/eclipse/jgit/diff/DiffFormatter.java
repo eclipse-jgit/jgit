@@ -1063,7 +1063,7 @@ public class DiffFormatter implements AutoCloseable {
 					entry.newId = id;
 					break;
 				}
-			} else if (ids.size() == 0)
+			} else if (ids.isEmpty())
 				throw new MissingObjectException(id, Constants.OBJ_BLOB);
 			else
 				throw new AmbiguousObjectException(id, ids);

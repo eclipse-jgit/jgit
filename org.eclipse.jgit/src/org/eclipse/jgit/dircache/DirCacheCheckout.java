@@ -632,7 +632,7 @@ public class DirCacheCheckout {
 			if (!builder.commit())
 				throw new IndexWriteException();
 		}
-		return toBeDeleted.size() == 0;
+		return toBeDeleted.isEmpty();
 	}
 
 	private void checkoutGitlink(String path, DirCacheEntry entry)
