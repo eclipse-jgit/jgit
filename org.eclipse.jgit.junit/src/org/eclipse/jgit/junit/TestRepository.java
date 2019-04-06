@@ -1235,7 +1235,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				firstParentId = parents.get(0);
 
 			ObjectId cid;
-			if (changeId.equals(""))
+			if (changeId.isEmpty())
 				cid = ChangeIdUtil.computeChangeId(c.getTreeId(), firstParentId,
 						c.getAuthor(), c.getCommitter(), message);
 			else
