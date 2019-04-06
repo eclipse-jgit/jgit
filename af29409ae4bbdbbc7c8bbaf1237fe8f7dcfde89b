@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d033f4a0_ca3b604b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:43:29Z",
+      "side": 1,
+      "message": "Unneeded parentheses should be removed.",
+      "revId": "af29409ae4bbdbbc7c8bbaf1237fe8f7dcfde89b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
