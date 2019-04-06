@@ -149,21 +149,19 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AnyObjectId treeId, String path) throws IOException {
-		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		try {
+		try (SubmoduleWalk generator = new SubmoduleWalk(repository)) {
 			generator.setTree(treeId);
 			PathFilter filter = PathFilter.create(path);
 			generator.setFilter(filter);
 			generator.setRootTree(treeId);
 			while (generator.next())
-				if (filter.isDone(generator.walk))
+				if (filter.isDone(generator.walk)) {
 					return generator;
+				}
+			return null;
 		} catch (IOException e) {
-			generator.close();
 			throw e;
 		}
-		generator.close();
-		return null;
 	}
 
 	/**
@@ -182,20 +180,20 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AbstractTreeIterator iterator, String path) throws IOException {
-		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		try {
-			generator.setTree(iterator);
-			PathFilter filter = PathFilter.create(path);
-			generator.setFilter(filter);
-			generator.setRootTree(iterator);
-			while (generator.next())
-				if (filter.isDone(generator.walk))
-					return generator;
-		} catch (IOException e) {
-			generator.close();
-			throw e;
+		try (SubmoduleWalk generator = new SubmoduleWalk(repository)) {
+			try {
+				generator.setTree(iterator);
+				PathFilter filter = PathFilter.create(path);
+				generator.setFilter(filter);
+				generator.setRootTree(iterator);
+				while (generator.next())
+					if (filter.isDone(generator.walk))
+						return generator;
+			} catch (IOException e) {
+				generator.close();
+				throw e;
+			}
 		}
-		generator.close();
 		return null;
 	}
 
@@ -381,8 +379,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	/**
 	 * Set the config used by this walk.
 	 *
-	 * This method need only be called if constructing a walk manually instead of
-	 * with one of the static factory methods above.
+	 * This method need only be called if constructing a walk manually instead
+	 * of with one of the static factory methods above.
 	 *
 	 * @param config
 	 *            .gitmodules config object
@@ -400,8 +398,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * The root tree is not read until the first submodule is encountered by the
 	 * walk.
 	 * <p>
-	 * This method need only be called if constructing a walk manually instead of
-	 * with one of the static factory methods above.
+	 * This method need only be called if constructing a walk manually instead
+	 * of with one of the static factory methods above.
 	 *
 	 * @param tree
 	 *            tree containing .gitmodules
@@ -420,8 +418,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * The root tree is not read until the first submodule is encountered by the
 	 * walk.
 	 * <p>
-	 * This method need only be called if constructing a walk manually instead of
-	 * with one of the static factory methods above.
+	 * This method need only be called if constructing a walk manually instead
+	 * of with one of the static factory methods above.
 	 *
 	 * @param id
 	 *            ID of a tree containing .gitmodules
@@ -450,7 +448,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *             if an error occurred, or if the repository is bare
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 */
-	public SubmoduleWalk loadModulesConfig() throws IOException, ConfigInvalidException {
+	public SubmoduleWalk loadModulesConfig()
+			throws IOException, ConfigInvalidException {
 		if (rootTree == null) {
 			File modulesFile = new File(repository.getWorkTree(),
 					Constants.DOT_GIT_MODULES);
@@ -463,7 +462,8 @@ public class SubmoduleWalk implements AutoCloseable {
 			try (TreeWalk configWalk = new TreeWalk(repository)) {
 				configWalk.addTree(rootTree);
 
-				// The root tree may be part of the submodule walk, so we need to revert
+				// The root tree may be part of the submodule walk, so we need
+				// to revert
 				// it after this walk.
 				int idx;
 				for (idx = 0; !rootTree.first(); idx++) {
@@ -472,12 +472,13 @@ public class SubmoduleWalk implements AutoCloseable {
 
 				try {
 					configWalk.setRecursive(false);
-					PathFilter filter = PathFilter.create(Constants.DOT_GIT_MODULES);
+					PathFilter filter = PathFilter
+							.create(Constants.DOT_GIT_MODULES);
 					configWalk.setFilter(filter);
 					while (configWalk.next()) {
 						if (filter.isDone(configWalk)) {
-							modulesConfig = new BlobBasedConfig(null, repository,
-									configWalk.getObjectId(0));
+							modulesConfig = new BlobBasedConfig(null,
+									repository, configWalk.getObjectId(0));
 							loadPathNames();
 							return this;
 						}
@@ -513,11 +514,12 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @param repository
 	 *            the repository to check
-	 * @return <code>true</code> if the working tree contains a .gitmodules file,
-	 *         <code>false</code> otherwise. Always returns <code>false</code>
-	 *         for bare repositories.
+	 * @return <code>true</code> if the working tree contains a .gitmodules
+	 *         file, <code>false</code> otherwise. Always returns
+	 *         <code>false</code> for bare repositories.
 	 * @throws java.io.IOException
-	 * @throws CorruptObjectException if any.
+	 * @throws CorruptObjectException
+	 *             if any.
 	 * @since 3.6
 	 */
 	public static boolean containsGitModulesFile(Repository repository)
@@ -530,7 +532,8 @@ public class SubmoduleWalk implements AutoCloseable {
 		return (modulesFile.exists());
 	}
 
-	private void lazyLoadModulesConfig() throws IOException, ConfigInvalidException {
+	private void lazyLoadModulesConfig()
+			throws IOException, ConfigInvalidException {
 		if (modulesConfig == null) {
 			loadModulesConfig();
 		}
@@ -637,7 +640,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	}
 
 	/**
-	 * The module name for the current submodule entry (used for the section name of .git/config)
+	 * The module name for the current submodule entry (used for the section
+	 * name of .git/config)
+	 *
 	 * @since 4.10
 	 * @return name
 	 */
@@ -716,7 +721,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getModulesUpdate() throws IOException, ConfigInvalidException {
+	public String getModulesUpdate()
+			throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_UPDATE);
@@ -731,8 +737,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 3.6
 	 */
-	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
-			ConfigInvalidException {
+	public IgnoreSubmoduleMode getModulesIgnore()
+			throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getEnum(IgnoreSubmoduleMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(),
