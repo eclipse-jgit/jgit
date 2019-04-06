@@ -44,6 +44,7 @@
 package org.eclipse.jgit.revwalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -78,8 +79,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 */
 	public static RevFilter hasAll(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
-		for (RevFlag flag : a)
-			set.add(flag);
+		set.addAll(Arrays.asList(a));
 		return new HasAll(set);
 	}
 
@@ -103,8 +103,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 */
 	public static RevFilter hasAny(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
-		for (RevFlag flag : a)
-			set.add(flag);
+		set.addAll(Arrays.asList(a));
 		return new HasAny(set);
 	}
 
