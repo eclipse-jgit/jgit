@@ -188,12 +188,8 @@ class TransportLocal extends Transport implements PackTransport {
 				&& !"git upload-pack".equals(up)) //$NON-NLS-1$
 			return new ForkLocalFetchConnection();
 
-		UploadPackFactory<Void> upf = new UploadPackFactory<Void>() {
-			@Override
-			public UploadPack create(Void req, Repository db) {
-				return createUploadPack(db);
-			}
-		};
+		UploadPackFactory<Void> upf = (Void req,
+				Repository db) -> createUploadPack(db);
 		return new InternalFetchConnection<>(this, upf, null, openRepo());
 	}
 
@@ -205,12 +201,8 @@ class TransportLocal extends Transport implements PackTransport {
 				&& !"git receive-pack".equals(rp)) //$NON-NLS-1$
 			return new ForkLocalPushConnection();
 
-		ReceivePackFactory<Void> rpf = new ReceivePackFactory<Void>() {
-			@Override
-			public ReceivePack create(Void req, Repository db) {
-				return createReceivePack(db);
-			}
-		};
+		ReceivePackFactory<Void> rpf = (Void req,
+				Repository db) -> createReceivePack(db);
 		return new InternalPushConnection<>(this, rpf, null, openRepo());
 	}
 

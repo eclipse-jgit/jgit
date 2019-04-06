@@ -67,9 +67,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,27 +88,16 @@ public class PushConnectionTest {
 		server = newRepo("server");
 		client = newRepo("client");
 		processedRefs = new ArrayList<>();
-		testProtocol = new TestProtocol<>(
-				null,
-				new ReceivePackFactory<Object>() {
-					@Override
-					public ReceivePack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						ReceivePack rp = new ReceivePack(db);
-						rp.setPreReceiveHook(
-								new PreReceiveHook() {
-									@Override
-									public void onPreReceive(ReceivePack receivePack,
-											Collection<ReceiveCommand> cmds) {
-										for (ReceiveCommand cmd : cmds) {
-											processedRefs.add(cmd.getRefName());
-										}
-									}
-								});
-						return rp;
-					}
-				});
+		testProtocol = new TestProtocol<>(null, (Object req, Repository db) -> {
+			ReceivePack rp = new ReceivePack(db);
+			rp.setPreReceiveHook((ReceivePack receivePack,
+					Collection<ReceiveCommand> cmds) -> {
+				for (ReceiveCommand cmd : cmds) {
+					processedRefs.add(cmd.getRefName());
+				}
+			});
+			return rp;
+		});
 		uri = testProtocol.register(ctx, server);
 
 		try (ObjectInserter ins = server.newObjectInserter()) {

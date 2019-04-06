@@ -91,12 +91,9 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
-	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = new Comparator<RevCommit>() {
-		@Override
-		public int compare(RevCommit a, RevCommit b) {
-			return Integer.signum(b.getCommitTime() - a.getCommitTime());
-		}
-	};
+	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = (
+			RevCommit a, RevCommit b) -> Integer
+					.signum(b.getCommitTime() - a.getCommitTime());
 
 	private final ObjectReader reader;
 	private final ProgressMonitor pm;

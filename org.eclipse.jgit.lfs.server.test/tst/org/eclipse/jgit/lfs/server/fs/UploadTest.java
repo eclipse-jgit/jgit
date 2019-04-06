@@ -53,7 +53,6 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -123,13 +122,10 @@ public class UploadTest extends LfsServerTest {
 		ExecutorService e = Executors.newFixedThreadPool(count);
 		try {
 			for (Path p : paths) {
-				e.submit(new Callable<Void>() {
-					@Override
-					public Void call() throws Exception {
-						barrier.await();
-						putContent(p);
-						return null;
-					}
+				e.submit(() -> {
+					barrier.await();
+					putContent(p);
+					return null;
 				});
 			}
 		} finally {
