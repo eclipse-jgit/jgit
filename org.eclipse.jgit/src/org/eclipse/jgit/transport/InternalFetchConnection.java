@@ -73,8 +73,8 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 	 *             if any.
 	 */
 	public InternalFetchConnection(PackTransport transport,
-			final UploadPackFactory<C> uploadPackFactory,
-			final C req, final Repository remote) throws TransportException {
+			final UploadPackFactory<C> uploadPackFactory, final C req,
+			final Repository remote) throws TransportException {
 		super(transport);
 
 		final PipedInputStream in_r;
@@ -98,7 +98,8 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 			out_w = new PipedOutputStream(out_r);
 		} catch (IOException err) {
 			remote.close();
-			throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
+			throw new TransportException(uri, JGitText.get().cannotConnectPipes,
+					err);
 		}
 
 		worker = new Thread("JGit-Upload-Pack") { //$NON-NLS-1$

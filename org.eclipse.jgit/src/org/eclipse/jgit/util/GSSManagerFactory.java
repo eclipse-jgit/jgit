@@ -91,7 +91,9 @@ public abstract class GSSManagerFactory {
 
 	private static class SunGSSManagerFactory extends GSSManagerFactory {
 		private static boolean IS_SUPPORTED;
+
 		private static Constructor<?> HTTP_CALLER_INFO_CONSTRUCTOR;
+
 		private static Constructor<?> HTTP_CALLER_CONSTRUCTOR;
 
 		private static Constructor<?> GSS_MANAGER_IMPL_CONSTRUCTOR;
@@ -105,8 +107,8 @@ public abstract class GSSManagerFactory {
 			}
 		}
 
-		private static void init() throws ClassNotFoundException,
-				NoSuchMethodException {
+		private static void init()
+				throws ClassNotFoundException, NoSuchMethodException {
 			Class<?> httpCallerInfoClazz = Class
 					.forName("sun.net.www.protocol.http.HttpCallerInfo"); //$NON-NLS-1$
 			HTTP_CALLER_INFO_CONSTRUCTOR = httpCallerInfoClazz

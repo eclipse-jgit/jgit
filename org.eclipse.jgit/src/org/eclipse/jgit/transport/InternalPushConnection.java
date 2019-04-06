@@ -74,8 +74,8 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 	 *             if any.
 	 */
 	public InternalPushConnection(PackTransport transport,
-			final ReceivePackFactory<C> receivePackFactory,
-			final C req, final Repository remote) throws TransportException {
+			final ReceivePackFactory<C> receivePackFactory, final C req,
+			final Repository remote) throws TransportException {
 		super(transport);
 
 		final PipedInputStream in_r;
