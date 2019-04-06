@@ -214,7 +214,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected void assertStringArrayEquals(String expected, String[] actual) {
 		// if there is more than one line, ignore last one if empty
 		assertEquals(1,
-				actual.length > 1 && actual[actual.length - 1].equals("")
+				actual.length > 1 && actual[actual.length - 1].isEmpty()
 						? actual.length - 1 : actual.length);
 		assertEquals(expected, actual[0]);
 	}
