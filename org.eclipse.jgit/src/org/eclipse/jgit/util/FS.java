@@ -463,13 +463,9 @@ public abstract class FS {
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	protected File userHomeImpl() {
-		final String home = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					@Override
-					public String run() {
-						return System.getProperty("user.home"); //$NON-NLS-1$
-					}
-				});
+		final String home = AccessController.doPrivileged(
+				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
+		);
 		if (home == null || home.length() == 0)
 			return null;
 		return new File(home).getAbsoluteFile();

@@ -100,13 +100,9 @@ public abstract class SshSessionFactory {
 	 * @since 5.2
 	 */
 	public static String getLocalUserName() {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				return SystemReader.getInstance()
-						.getProperty(Constants.OS_USER_NAME_KEY);
-			}
-		});
+		return AccessController
+				.doPrivileged((PrivilegedAction<String>) () -> SystemReader
+						.getInstance().getProperty(Constants.OS_USER_NAME_KEY));
 	}
 
 	/**

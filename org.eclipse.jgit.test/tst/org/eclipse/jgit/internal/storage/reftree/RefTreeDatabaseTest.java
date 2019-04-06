@@ -633,35 +633,23 @@ public class RefTreeDatabaseTest {
 
 	private void symref(String name, String dst)
 			throws IOException {
-		commit(new Function() {
-			@Override
-			public boolean apply(ObjectReader reader, RefTree tree)
-					throws IOException {
-				Ref old = tree.exactRef(reader, name);
-				Command n = new Command(
-					old,
-					new SymbolicRef(
-						name,
-						new ObjectIdRef.Unpeeled(Ref.Storage.NEW, dst, null)));
-				return tree.apply(Collections.singleton(n));
-			}
+		commit((ObjectReader reader, RefTree tree) -> {
+			Ref old = tree.exactRef(reader, name);
+			Command n = new Command(old, new SymbolicRef(name,
+					new ObjectIdRef.Unpeeled(Ref.Storage.NEW, dst, null)));
+			return tree.apply(Collections.singleton(n));
 		});
 	}
 
 	private void update(String name, ObjectId id)
 			throws IOException {
-		commit(new Function() {
-			@Override
-			public boolean apply(ObjectReader reader, RefTree tree)
-					throws IOException {
-				Ref old = tree.exactRef(reader, name);
-				Command n;
-				try (RevWalk rw = new RevWalk(repo)) {
-					n = new Command(old,
-							Command.toRef(rw, id, null, name, true));
-				}
-				return tree.apply(Collections.singleton(n));
+		commit((ObjectReader reader, RefTree tree) -> {
+			Ref old = tree.exactRef(reader, name);
+			Command n;
+			try (RevWalk rw = new RevWalk(repo)) {
+				n = new Command(old, Command.toRef(rw, id, null, name, true));
 			}
+			return tree.apply(Collections.singleton(n));
 		});
 	}
 
