@@ -108,9 +108,7 @@ public class SubmoduleStatusCommand extends
 				statuses.put(status.getPath(), status);
 			}
 			return statuses;
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}

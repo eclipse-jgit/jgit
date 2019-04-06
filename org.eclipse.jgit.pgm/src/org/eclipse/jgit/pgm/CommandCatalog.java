@@ -163,16 +163,12 @@ public class CommandCatalog {
 		final Class<? extends TextBuiltin> clazz;
 		try {
 			clazz = Class.forName(cn, false, ldr).asSubclass(TextBuiltin.class);
-		} catch (ClassNotFoundException notBuiltin) {
+		} catch (ClassNotFoundException | ClassCastException notBuiltin) {
 			// Doesn't exist, even though the service entry is present.
-			//
-			return;
-		} catch (ClassCastException notBuiltin) {
+			// or
 			// Isn't really a builtin, even though its listed as such.
-			//
 			return;
 		}
-
 		final CommandRef cr;
 		final Command a = clazz.getAnnotation(Command.class);
 		if (a != null)
