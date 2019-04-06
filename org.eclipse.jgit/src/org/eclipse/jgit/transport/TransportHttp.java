@@ -779,7 +779,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		// git allows only rewriting the root, i.e., everything before INFO_REFS
 		// or the service name
-		if (next.indexOf(checkFor) < 0) {
+		if (!next.contains(checkFor)) {
 			return false;
 		}
 		// Basically we should test here that whatever follows INFO_REFS is
