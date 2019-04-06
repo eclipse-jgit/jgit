@@ -60,7 +60,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -139,9 +138,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		config = new PackConfig(db);
 
 		dst = createBareRepository();
-		File alt = new File(dst.getObjectDatabase().getDirectory(), "info/alternates");
+		File alt = new File(dst.getObjectDatabase().getDirectory(),
+				"info/alternates");
 		alt.getParentFile().mkdirs();
-		write(alt, db.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
+		write(alt,
+				db.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
 	}
 
 	@Override
@@ -202,8 +203,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		assertEquals(0, writer.getObjectCount());
 		assertEquals(0, pack.getObjectCount());
-		assertEquals("da39a3ee5e6b4b0d3255bfef95601890afd80709", writer
-				.computeName().name());
+		assertEquals("da39a3ee5e6b4b0d3255bfef95601890afd80709",
+				writer.computeName().name());
 	}
 
 	/**
@@ -260,8 +261,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 * @throws ParseException
 	 */
 	@Test
-	public void testIgnoreNonExistingObjectsWithBitmaps() throws IOException,
-			ParseException {
+	public void testIgnoreNonExistingObjectsWithBitmaps()
+			throws IOException, ParseException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		new GC(db).gc();
@@ -342,8 +343,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
 		final File crc32Idx = new File(packDir,
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idx");
-		copyFile(JGitTestUtil.getTestResourceFile(
-				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2"),
+		copyFile(
+				JGitTestUtil.getTestResourceFile(
+						"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2"),
 				crc32Idx);
 		db.openPack(crc32Pack);
 
@@ -366,8 +368,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("c59759f143fb1fe21c197981df75a7ee00290799"),
 				ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035"),
 				ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327"),
-				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3") ,
-				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
+				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3"),
+				ObjectId.fromString(
+						"5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
 		try (RevWalk parser = new RevWalk(db)) {
 			final RevObject forcedOrderRevs[] = new RevObject[forcedOrder.length];
 			for (int i = 0; i < forcedOrder.length; i++)
@@ -378,8 +381,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		assertEquals(forcedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(forcedOrder);
-		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86", writer
-				.computeName().name());
+		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86",
+				writer.computeName().name());
 	}
 
 	/**
@@ -407,8 +410,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	/**
 	 * Compare sizes of packs created using {@link #testWritePack2()} and
-	 * {@link #testWritePack2DeltasReuseRefs()}. The pack using deltas should
-	 * be smaller.
+	 * {@link #testWritePack2DeltasReuseRefs()}. The pack using deltas should be
+	 * smaller.
 	 *
 	 * @throws Exception
 	 */
@@ -490,14 +493,13 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	// Generate consistent junk data for building files that delta well
 	private String genDeltableData(int length) {
 		assertTrue("Generated data must have a length > 0", length > 0);
-		char[] data = {'a', 'b', 'c', '\n'};
+		char[] data = { 'a', 'b', 'c', '\n' };
 		StringBuilder builder = new StringBuilder(length);
 		for (int i = 0; i < length; i++) {
 			builder.append(data[i % 4]);
 		}
 		return builder.toString();
 	}
-
 
 	@Test
 	public void testWriteIndex() throws Exception {
@@ -672,14 +674,15 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			c3 = bb.commit().add("c", contentC).create();
 			c4 = bb.commit().add("d", contentD).create();
 			c5 = bb.commit().add("e", contentE).create();
-			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			r.getRevWalk().parseHeaders(c5); // fully initialize the tip
+												// RevCommit
 			return repo;
 		}
 	}
 
 	private static PackIndex writePack(FileRepository repo,
 			Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects)
-					throws IOException {
+			throws IOException {
 		RevWalk walk = new RevWalk(repo);
 		return writePack(repo, walk, 0, want, NONE, excludeObjects);
 	}
@@ -697,7 +700,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	private static PackIndex writePack(FileRepository repo, RevWalk walk,
 			int depth, Set<? extends ObjectId> want,
 			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects)
-					throws IOException {
+			throws IOException {
 		try (PackWriter pw = new PackWriter(repo)) {
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
@@ -742,12 +745,13 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327"),
 				ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"),
 				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3"),
-				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
+				ObjectId.fromString(
+						"5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
 
 		assertEquals(expectedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(expectedOrder);
-		assertEquals("34be9032ac282b11fa9babdc2b2a93ca996c9c2f", writer
-				.computeName().name());
+		assertEquals("34be9032ac282b11fa9babdc2b2a93ca996c9c2f",
+				writer.computeName().name());
 	}
 
 	private void writeVerifyPack2(boolean deltaReuse) throws IOException {
@@ -765,16 +769,17 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("c59759f143fb1fe21c197981df75a7ee00290799"),
 				ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035"),
 				ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327"),
-				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3") ,
-				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
+				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3"),
+				ObjectId.fromString(
+						"5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
 		if (!config.isReuseDeltas() && !config.isDeltaCompress()) {
 			// If no deltas are in the file the final two entries swap places.
 			swap(expectedOrder, 4, 5);
 		}
 		assertEquals(expectedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(expectedOrder);
-		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86", writer
-				.computeName().name());
+		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86",
+				writer.computeName().name());
 	}
 
 	private static void swap(ObjectId[] arr, int a, int b) {
@@ -795,7 +800,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId writtenObjects[] = new ObjectId[] {
 				ObjectId.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7"),
 				ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035"),
-				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
+				ObjectId.fromString(
+						"5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
 		assertEquals(writtenObjects.length, writer.getObjectCount());
 		ObjectId expectedObjects[];
 		if (thin) {
@@ -809,8 +815,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			expectedObjects = writtenObjects;
 		}
 		verifyObjectsOrder(expectedObjects);
-		assertEquals("cded4b74176b4456afa456768b2b5aafb41c44fc", writer
-				.computeName().name());
+		assertEquals("cded4b74176b4456afa456768b2b5aafb41c44fc",
+				writer.computeName().name());
 	}
 
 	private void createVerifyOpenPack(final Set<ObjectId> interestings,
@@ -860,7 +866,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			}
 		}
 
-		ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(packData);
+		ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(
+				packData);
 		p.setKeepEmpty(true);
 		p.setAllowThin(thin);
 		p.setIndexVersion(2);
@@ -881,12 +888,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : pack) {
 			entries.add(me.cloneEntry());
 		}
-		Collections.sort(entries, new Comparator<PackIndex.MutableEntry>() {
-			@Override
-			public int compare(MutableEntry o1, MutableEntry o2) {
-				return Long.signum(o1.getOffset() - o2.getOffset());
-			}
-		});
+		Collections.sort(entries, (MutableEntry o1, MutableEntry o2) -> Long
+				.signum(o1.getOffset() - o2.getOffset()));
 
 		int i = 0;
 		for (MutableEntry me : entries) {

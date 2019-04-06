@@ -106,13 +106,12 @@ class TransportLocal extends Transport implements PackTransport {
 		}
 
 		@Override
-		public boolean canHandle(URIish uri, Repository local, String remoteName) {
-			if (uri.getPath() == null
-					|| uri.getPort() > 0
-					|| uri.getUser() != null
-					|| uri.getPass() != null
-					|| uri.getHost() != null
-					|| (uri.getScheme() != null && !getSchemes().contains(uri.getScheme())))
+		public boolean canHandle(URIish uri, Repository local,
+				String remoteName) {
+			if (uri.getPath() == null || uri.getPort() > 0
+					|| uri.getUser() != null || uri.getPass() != null
+					|| uri.getHost() != null || (uri.getScheme() != null
+							&& !getSchemes().contains(uri.getScheme())))
 				return false;
 			return true;
 		}
@@ -120,7 +119,8 @@ class TransportLocal extends Transport implements PackTransport {
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NoRemoteRepositoryException {
-			File localPath = local.isBare() ? local.getDirectory() : local.getWorkTree();
+			File localPath = local.isBare() ? local.getDirectory()
+					: local.getWorkTree();
 			File path = local.getFS().resolve(localPath, uri.getPath());
 			// If the reference is to a local file, C Git behavior says
 			// assume this is a bundle, since repositories are directories.
@@ -129,13 +129,14 @@ class TransportLocal extends Transport implements PackTransport {
 
 			File gitDir = RepositoryCache.FileKey.resolve(path, local.getFS());
 			if (gitDir == null)
-				throw new NoRemoteRepositoryException(uri, JGitText.get().notFound);
+				throw new NoRemoteRepositoryException(uri,
+						JGitText.get().notFound);
 			return new TransportLocal(local, uri, gitDir);
 		}
 
 		@Override
-		public Transport open(URIish uri) throws NotSupportedException,
-				TransportException {
+		public Transport open(URIish uri)
+				throws NotSupportedException, TransportException {
 			File path = FS.DETECTED.resolve(new File("."), uri.getPath()); //$NON-NLS-1$
 			// If the reference is to a local file, C Git behavior says
 			// assume this is a bundle, since repositories are directories.
@@ -188,12 +189,8 @@ class TransportLocal extends Transport implements PackTransport {
 				&& !"git upload-pack".equals(up)) //$NON-NLS-1$
 			return new ForkLocalFetchConnection();
 
-		UploadPackFactory<Void> upf = new UploadPackFactory<Void>() {
-			@Override
-			public UploadPack create(Void req, Repository db) {
-				return createUploadPack(db);
-			}
-		};
+		UploadPackFactory<Void> upf = (Void req,
+				Repository db) -> createUploadPack(db);
 		return new InternalFetchConnection<>(this, upf, null, openRepo());
 	}
 
@@ -205,12 +202,8 @@ class TransportLocal extends Transport implements PackTransport {
 				&& !"git receive-pack".equals(rp)) //$NON-NLS-1$
 			return new ForkLocalPushConnection();
 
-		ReceivePackFactory<Void> rpf = new ReceivePackFactory<Void>() {
-			@Override
-			public ReceivePack create(Void req, Repository db) {
-				return createReceivePack(db);
-			}
-		};
+		ReceivePackFactory<Void> rpf = (Void req,
+				Repository db) -> createReceivePack(db);
 		return new InternalPushConnection<>(this, rpf, null, openRepo());
 	}
 
@@ -229,8 +222,7 @@ class TransportLocal extends Transport implements PackTransport {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             if any.
 	 */
-	protected Process spawn(String cmd)
-			throws TransportException {
+	protected Process spawn(String cmd) throws TransportException {
 		try {
 			String[] args = { "." }; //$NON-NLS-1$
 			ProcessBuilder proc = local.getFS().runInShell(cmd, args);

@@ -171,22 +171,19 @@ public class MockSystemReader extends SystemReader {
 	/** {@inheritDoc} */
 	@Override
 	public MonotonicClock getClock() {
-		return new MonotonicClock() {
-			@Override
-			public ProposedTimestamp propose() {
-				long t = getCurrentTime();
-				return new ProposedTimestamp() {
-					@Override
-					public long read(TimeUnit unit) {
-						return unit.convert(t, TimeUnit.MILLISECONDS);
-					}
+		return () -> {
+			long t = getCurrentTime();
+			return new ProposedTimestamp() {
+				@Override
+				public long read(TimeUnit unit) {
+					return unit.convert(t, TimeUnit.MILLISECONDS);
+				}
 
-					@Override
-					public void blockUntil(Duration maxWait) {
-						// Do not wait.
-					}
-				};
-			}
+				@Override
+				public void blockUntil(Duration maxWait) {
+					// Do not wait.
+				}
+			};
 		};
 	}
 
@@ -228,8 +225,8 @@ public class MockSystemReader extends SystemReader {
 	/** {@inheritDoc} */
 	@Override
 	public DateFormat getDateTimeInstance(int dateStyle, int timeStyle) {
-		return DateFormat
-				.getDateTimeInstance(dateStyle, timeStyle, getLocale());
+		return DateFormat.getDateTimeInstance(dateStyle, timeStyle,
+				getLocale());
 	}
 
 	/**

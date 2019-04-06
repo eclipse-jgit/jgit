@@ -46,7 +46,6 @@ package org.eclipse.jgit.internal.storage.pack;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,16 +62,25 @@ final class DeltaTask implements Callable<Object> {
 		private static final int MIN_TOP_PATH = 50 << 20;
 
 		final List<DeltaTask> tasks;
+
 		final int threads;
+
 		final PackConfig config;
+
 		final ObjectReader templateReader;
+
 		final DeltaCache dc;
+
 		final ThreadSafeProgressMonitor pm;
+
 		final ObjectToPack[] list;
+
 		final int beginIndex;
+
 		final int endIndex;
 
 		private long totalWeight;
+
 		long bytesPerUnit;
 
 		Block(int threads, PackConfig config, ObjectReader reader,
@@ -176,8 +184,7 @@ final class DeltaTask implements Callable<Object> {
 		}
 
 		private ArrayList<WeightedPath> computeTopPaths() {
-			ArrayList<WeightedPath> topPaths = new ArrayList<>(
-					threads);
+			ArrayList<WeightedPath> topPaths = new ArrayList<>(threads);
 			int cp = beginIndex;
 			int ch = list[cp].getPathHash();
 			long cw = getAdjustedWeight(list[cp]);
@@ -212,12 +219,8 @@ final class DeltaTask implements Callable<Object> {
 			}
 
 			// Sort by starting index to identify gaps later.
-			Collections.sort(topPaths, new Comparator<WeightedPath>() {
-				@Override
-				public int compare(WeightedPath a, WeightedPath b) {
-					return a.slice.beginIndex - b.slice.beginIndex;
-				}
-			});
+			Collections.sort(topPaths, (WeightedPath a,
+					WeightedPath b) -> a.slice.beginIndex - b.slice.beginIndex);
 
 			bytesPerUnit = 1;
 			while (MAX_METER <= (totalWeight / bytesPerUnit)) {
@@ -238,6 +241,7 @@ final class DeltaTask implements Callable<Object> {
 
 	static final class WeightedPath implements Comparable<WeightedPath> {
 		final long weight;
+
 		final Slice slice;
 
 		WeightedPath(long weight, Slice s) {
@@ -257,6 +261,7 @@ final class DeltaTask implements Callable<Object> {
 
 	static final class Slice {
 		final int beginIndex;
+
 		final int endIndex;
 
 		Slice(int b, int e) {
@@ -270,9 +275,11 @@ final class DeltaTask implements Callable<Object> {
 	}
 
 	private final Block block;
+
 	final LinkedList<Slice> slices;
 
 	private ObjectReader or;
+
 	private DeltaWindow dw;
 
 	DeltaTask(Block b) {
@@ -319,9 +326,8 @@ final class DeltaTask implements Callable<Object> {
 	}
 
 	DeltaWindow initWindow(Slice s) {
-		DeltaWindow w = new DeltaWindow(block.config, block.dc,
-				or, block.pm, block.bytesPerUnit,
-				block.list, s.beginIndex, s.endIndex);
+		DeltaWindow w = new DeltaWindow(block.config, block.dc, or, block.pm,
+				block.bytesPerUnit, block.list, s.beginIndex, s.endIndex);
 		synchronized (this) {
 			dw = w;
 		}

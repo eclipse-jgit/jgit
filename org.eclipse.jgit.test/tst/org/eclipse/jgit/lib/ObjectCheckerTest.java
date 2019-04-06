@@ -128,8 +128,7 @@ public class ObjectCheckerTest {
 	@Test
 	public void testInvalidType() {
 		String msg = MessageFormat.format(
-				JGitText.get().corruptObjectInvalidType2,
-				valueOf(OBJ_BAD));
+				JGitText.get().corruptObjectInvalidType2, valueOf(OBJ_BAD));
 		assertCorrupt(msg, OBJ_BAD, new byte[0]);
 	}
 
@@ -851,29 +850,18 @@ public class ObjectCheckerTest {
 	}
 
 	/*
-	 * Windows case insensitivity and long file name handling
-	 * means that .gitmodules has many synonyms.
+	 * Windows case insensitivity and long file name handling means that
+	 * .gitmodules has many synonyms.
 	 *
-	 * Examples inspired by git.git's t/t0060-path-utils.sh, by
-	 * Johannes Schindelin and Congyi Wu.
+	 * Examples inspired by git.git's t/t0060-path-utils.sh, by Johannes
+	 * Schindelin and Congyi Wu.
 	 */
 	@Test
 	public void testNTFSGitmodules() throws CorruptObjectException {
-		for (String gitmodules : new String[] {
-			".GITMODULES",
-			".gitmodules",
-			".Gitmodules",
-			".gitmoduleS",
-			"gitmod~1",
-			"GITMOD~1",
-			"gitmod~4",
-			"GI7EBA~1",
-			"gi7eba~9",
-			"GI7EB~10",
-			"GI7E~123",
-			"~1000000",
-			"~9999999"
-		}) {
+		for (String gitmodules : new String[] { ".GITMODULES", ".gitmodules",
+				".Gitmodules", ".gitmoduleS", "gitmod~1", "GITMOD~1",
+				"gitmod~4", "GI7EBA~1", "gi7eba~9", "GI7EB~10", "GI7E~123",
+				"~1000000", "~9999999" }) {
 			checker = new ObjectChecker(); // Reset the ObjectChecker state.
 			checker.setSafeForWindows(true);
 			ObjectId treeId = ObjectId
@@ -891,10 +879,8 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testNotGitmodules() throws CorruptObjectException {
-		for (String notGitmodules : new String[] {
-			".gitmodu",
-			".gitmodules oh never mind",
-		}) {
+		for (String notGitmodules : new String[] { ".gitmodu",
+				".gitmodules oh never mind", }) {
 			checker = new ObjectChecker(); // Reset the ObjectChecker state.
 			checker.setSafeForWindows(true);
 			ObjectId treeId = ObjectId
@@ -944,8 +930,7 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testNullSha1InTreeEntry() throws CorruptObjectException {
-		byte[] data = concat(
-				encodeASCII("100644 A"), new byte[] { '\0' },
+		byte[] data = concat(encodeASCII("100644 A"), new byte[] { '\0' },
 				new byte[OBJECT_ID_LENGTH]);
 		assertCorrupt("entry points to null SHA-1", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1229,13 +1214,10 @@ public class ObjectCheckerTest {
 		checker.checkTree(data);
 	}
 
-
-
 	@Test
 	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd()
 			throws CorruptObjectException {
-		byte[] data = concat(encode("100644 .git"),
-				new byte[] { (byte) 0xef });
+		byte[] data = concat(encode("100644 .git"), new byte[] { (byte) 0xef });
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
 		data = concat(data, encode(b.toString()));
@@ -1255,8 +1237,7 @@ public class ObjectCheckerTest {
 	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd2()
 			throws CorruptObjectException {
 		byte[] data = concat(encode("100644 .git"),
-				new byte[] {
-				(byte) 0xe2, (byte) 0xab });
+				new byte[] { (byte) 0xe2, (byte) 0xab });
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
 		data = concat(data, encode(b.toString()));
@@ -1555,8 +1536,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames5()
-			throws CorruptObjectException {
+	public void testInvalidTreeDuplicateNames5() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
@@ -1569,8 +1549,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames6()
-			throws CorruptObjectException {
+	public void testInvalidTreeDuplicateNames6() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
@@ -1583,8 +1562,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames7()
-			throws CorruptObjectException {
+	public void testInvalidTreeDuplicateNames7() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u0065\u0301");
 		entry(b, "100644 \u00e9");
@@ -1597,8 +1575,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames8()
-			throws CorruptObjectException {
+	public void testInvalidTreeDuplicateNames8() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		checker.setSafeForMacOS(true);
@@ -1693,7 +1670,8 @@ public class ObjectCheckerTest {
 			fail("incorrectly accepted with " + c);
 		} catch (CorruptObjectException e) {
 
-			assertEquals("char '" + c + "' not allowed in Windows filename", e.getMessage());
+			assertEquals("char '" + c + "' not allowed in Windows filename",
+					e.getMessage());
 		}
 	}
 
@@ -1703,10 +1681,10 @@ public class ObjectCheckerTest {
 			checkOneName("te" + ((char) c) + "st");
 			fail("incorrectly accepted with 0x" + h);
 		} catch (CorruptObjectException e) {
-			assertEquals("byte 0x" + h + " not allowed in Windows filename", e.getMessage());
+			assertEquals("byte 0x" + h + " not allowed in Windows filename",
+					e.getMessage());
 		}
 	}
-
 
 	@Test
 	public void testRejectInvalidCharacter() {
@@ -1775,16 +1753,13 @@ public class ObjectCheckerTest {
 	}
 
 	private static ObjectIdSet set(ObjectId... ids) {
-		return new ObjectIdSet() {
-			@Override
-			public boolean contains(AnyObjectId objectId) {
-				for (ObjectId id : ids) {
-					if (id.equals(objectId)) {
-						return true;
-					}
+		return (AnyObjectId objectId) -> {
+			for (ObjectId id : ids) {
+				if (id.equals(objectId)) {
+					return true;
 				}
-				return false;
 			}
+			return false;
 		};
 	}
 

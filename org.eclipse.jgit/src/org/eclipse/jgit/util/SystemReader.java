@@ -66,9 +66,9 @@ import org.eclipse.jgit.util.time.MonotonicSystemClock;
 /**
  * Interface to read values from the system.
  * <p>
- * When writing unit tests, extending this interface with a custom class
- * permits to simulate an access to a system variable or property and
- * permits to control the user's global configuration.
+ * When writing unit tests, extending this interface with a custom class permits
+ * to simulate an access to a system variable or property and permits to control
+ * the user's global configuration.
  * </p>
  */
 public abstract class SystemReader {
@@ -120,7 +120,8 @@ public abstract class SystemReader {
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			return new FileBasedConfig(parent, new File(home, ".gitconfig"), //$NON-NLS-1$
+					fs);
 		}
 
 		@Override
@@ -193,9 +194,8 @@ public abstract class SystemReader {
 	 * @since 3.6
 	 */
 	protected final void setPlatformChecker() {
-		platformChecker = new ObjectChecker()
-			.setSafeForWindows(isWindows())
-			.setSafeForMacOS(isMacOS());
+		platformChecker = new ObjectChecker().setSafeForWindows(isWindows())
+				.setSafeForMacOS(isMacOS());
 	}
 
 	/**
@@ -368,12 +368,9 @@ public abstract class SystemReader {
 	}
 
 	private String getOsName() {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				return getProperty("os.name"); //$NON-NLS-1$
-			}
-		});
+		return AccessController.doPrivileged(
+				(PrivilegedAction<String>) () -> getProperty("os.name") //$NON-NLS-1$
+		);
 	}
 
 	/**
@@ -381,8 +378,10 @@ public abstract class SystemReader {
 	 * <p>
 	 * Scans a multi-directory path string such as {@code "src/main.c"}.
 	 *
-	 * @param path path string to scan.
-	 * @throws org.eclipse.jgit.errors.CorruptObjectException path is invalid.
+	 * @param path
+	 *            path string to scan.
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             path is invalid.
 	 * @since 3.6
 	 */
 	public void checkPath(String path) throws CorruptObjectException {

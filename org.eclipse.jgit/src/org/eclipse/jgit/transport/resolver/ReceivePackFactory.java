@@ -57,12 +57,8 @@ public interface ReceivePackFactory<C> {
 	/**
 	 * A factory disabling the ReceivePack service for all repositories
 	 */
-	ReceivePackFactory<?> DISABLED = new ReceivePackFactory<Object>() {
-		@Override
-		public ReceivePack create(Object req, Repository db)
-				throws ServiceNotEnabledException {
-			throw new ServiceNotEnabledException();
-		}
+	ReceivePackFactory<?> DISABLED = (Object req, Repository db) -> {
+		throw new ServiceNotEnabledException();
 	};
 
 	/**
@@ -81,6 +77,6 @@ public interface ReceivePackFactory<C> {
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
 	 */
-	ReceivePack create(C req, Repository db) throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException;
+	ReceivePack create(C req, Repository db)
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

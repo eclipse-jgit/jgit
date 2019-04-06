@@ -90,9 +90,8 @@ public class DescribeCommand extends GitCommand<String> {
 	private RevCommit target;
 
 	/**
-	 * How many tags we'll consider as candidates.
-	 * This can only go up to the number of flags JGit can support in a walk,
-	 * which is 24.
+	 * How many tags we'll consider as candidates. This can only go up to the
+	 * number of flags JGit can support in a walk, which is 24.
 	 */
 	private int maxCandidates = 10;
 
@@ -127,7 +126,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Sets the commit to be described.
 	 *
 	 * @param target
-	 * 		A non-null object ID to be described.
+	 *            A non-null object ID to be described.
 	 * @return {@code this}
 	 * @throws MissingObjectException
 	 *             the supplied commit does not exist.
@@ -156,11 +155,12 @@ public class DescribeCommand extends GitCommand<String> {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public DescribeCommand setTarget(String rev) throws IOException,
-			RefNotFoundException {
+	public DescribeCommand setTarget(String rev)
+			throws IOException, RefNotFoundException {
 		ObjectId id = repo.resolve(rev);
 		if (id == null)
-			throw new RefNotFoundException(MessageFormat.format(JGitText.get().refNotResolved, rev));
+			throw new RefNotFoundException(
+					MessageFormat.format(JGitText.get().refNotResolved, rev));
 		return setTarget(id);
 	}
 
@@ -171,8 +171,8 @@ public class DescribeCommand extends GitCommand<String> {
 	 * @param longDesc
 	 *            <code>true</code> if always the long format should be used.
 	 * @return {@code this}
-	 * @see <a
-	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 * @see <a href=
+	 *      "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
 	 *      >Git documentation about describe</a>
 	 * @since 4.0
 	 */
@@ -199,10 +199,10 @@ public class DescribeCommand extends GitCommand<String> {
 
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
-		return String.format(
-				"%s-%d-g%s", tag.getName().substring(R_TAGS.length()), //$NON-NLS-1$
-				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip)
-						.name());
+		return String.format("%s-%d-g%s", //$NON-NLS-1$
+				tag.getName().substring(R_TAGS.length()),
+				Integer.valueOf(depth),
+				w.getObjectReader().abbreviate(tip).name());
 	}
 
 	/**
@@ -220,7 +220,8 @@ public class DescribeCommand extends GitCommand<String> {
 	 *      >Git documentation about describe</a>
 	 * @since 4.9
 	 */
-	public DescribeCommand setMatch(String... patterns) throws InvalidPatternException {
+	public DescribeCommand setMatch(String... patterns)
+			throws InvalidPatternException {
 		for (String p : patterns) {
 			matchers.add(PathMatcher.createPathMatcher(p, null, false));
 		}
@@ -304,6 +305,7 @@ public class DescribeCommand extends GitCommand<String> {
 			 */
 			class Candidate {
 				final Ref tag;
+
 				final RevFlag flag;
 
 				/**
@@ -315,13 +317,17 @@ public class DescribeCommand extends GitCommand<String> {
 				Candidate(RevCommit commit, Ref tag) {
 					this.tag = tag;
 					this.flag = w.newFlag(tag.getName());
-					// we'll mark all the nodes reachable from this tag accordingly
+					// we'll mark all the nodes reachable from this tag
+					// accordingly
 					allFlags.add(flag);
 					w.carry(flag);
 					commit.add(flag);
-					// As of this writing, JGit carries a flag from a child to its parents
-					// right before RevWalk.next() returns, so all the flags that are added
-					// must be manually carried to its parents. If that gets fixed,
+					// As of this writing, JGit carries a flag from a child to
+					// its parents
+					// right before RevWalk.next() returns, so all the flags
+					// that are added
+					// must be manually carried to its parents. If that gets
+					// fixed,
 					// this will be unnecessary.
 					commit.carry(flag);
 				}
@@ -338,18 +344,21 @@ public class DescribeCommand extends GitCommand<String> {
 				}
 
 			}
-			List<Candidate> candidates = new ArrayList<>();    // all the candidates we find
+			List<Candidate> candidates = new ArrayList<>(); // all the
+															// candidates we
+															// find
 
-			// is the target already pointing to a suitable tag? if so, we are done!
+			// is the target already pointing to a suitable tag? if so, we are
+			// done!
 			Optional<Ref> bestMatch = getBestMatch(tags.get(target));
 			if (bestMatch.isPresent()) {
-				return longDesc ? longDescription(bestMatch.get(), 0, target) :
-						bestMatch.get().getName().substring(R_TAGS.length());
+				return longDesc ? longDescription(bestMatch.get(), 0, target)
+						: bestMatch.get().getName().substring(R_TAGS.length());
 			}
 
 			w.markStart(target);
 
-			int seen = 0;   // commit seen thus far
+			int seen = 0; // commit seen thus far
 			RevCommit c;
 			while ((c = w.next()) != null) {
 				if (!c.hasAny(allFlags)) {
@@ -364,7 +373,8 @@ public class DescribeCommand extends GitCommand<String> {
 					}
 				}
 
-				// if the newly discovered commit isn't reachable from a tag that we've seen
+				// if the newly discovered commit isn't reachable from a tag
+				// that we've seen
 				// it counts toward the total depth.
 				for (Candidate cd : candidates) {
 					if (!cd.reaches(c))
@@ -378,7 +388,8 @@ public class DescribeCommand extends GitCommand<String> {
 					break;
 
 				// TODO: if all the commits in the queue of RevWalk has allFlags
-				// there's no point in continuing search as we'll not discover any more
+				// there's no point in continuing search as we'll not discover
+				// any more
 				// tags. But RevWalk doesn't expose this.
 				seen++;
 			}
@@ -387,7 +398,8 @@ public class DescribeCommand extends GitCommand<String> {
 			// but we still need to count all the depths correctly.
 			while ((c = w.next()) != null) {
 				if (c.hasAll(allFlags)) {
-					// no point in visiting further from here, so cut the search here
+					// no point in visiting further from here, so cut the search
+					// here
 					for (RevCommit p : c.getParents())
 						p.add(RevFlag.SEEN);
 				} else {
@@ -402,12 +414,8 @@ public class DescribeCommand extends GitCommand<String> {
 			if (candidates.isEmpty())
 				return null;
 
-			Candidate best = Collections.min(candidates, new Comparator<Candidate>() {
-				@Override
-				public int compare(Candidate o1, Candidate o2) {
-					return o1.depth - o2.depth;
-				}
-			});
+			Candidate best = Collections.min(candidates,
+					(Candidate o1, Candidate o2) -> o1.depth - o2.depth);
 
 			return best.describe(target);
 		} catch (IOException e) {

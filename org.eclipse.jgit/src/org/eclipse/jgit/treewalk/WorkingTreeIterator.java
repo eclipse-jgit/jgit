@@ -317,7 +317,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			// its idBuffer, but only if we appear to be clean against
 			// the cached index information for the path.
 			DirCacheIterator i = state.walk.getTree(state.dirCacheTree,
-							DirCacheIterator.class);
+					DirCacheIterator.class);
 			if (i != null) {
 				DirCacheEntry ent = i.getDirCacheEntry();
 				if (ent != null && compareMetadata(ent) == MetadataDiff.EQUAL
@@ -450,12 +450,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		if (getCleanFilterCommand() == null && isBinary(e)) {
-				canonLen = len;
-				return is;
-			}
+			canonLen = len;
+			return is;
+		}
 
-		final InputStream lenIs = filterClean(e.openInputStream(),
-				opType);
+		final InputStream lenIs = filterClean(e.openInputStream(), opType);
 		try {
 			canonLen = computeLength(lenIs);
 		} finally {
@@ -632,8 +631,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			InputStream is = current().openInputStream();
 			try {
 				// canonLen gets updated here
-				possiblyFilteredInputStream(current(), is, current()
-						.getLength());
+				possiblyFilteredInputStream(current(), is,
+						current().getLength());
 			} finally {
 				safeClose(is);
 			}
@@ -711,8 +710,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @throws IOException
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
-	private boolean isEntryIgnored(int pLen, int fileMode)
-			throws IOException {
+	private boolean isEntryIgnored(int pLen, int fileMode) throws IOException {
 		// The ignore code wants path to start with a '/' if possible.
 		// If we have the '/' in our path buffer because we are inside
 		// a sub-directory include it in the range we convert to string.
@@ -774,14 +772,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return attributesNode;
 	}
 
-	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
-		@Override
-		public int compare(Entry a, Entry b) {
-			return Paths.compare(
-					a.encodedName, 0, a.encodedNameLen, a.getMode().getBits(),
-					b.encodedName, 0, b.encodedNameLen, b.getMode().getBits());
-		}
-	};
+	private static final Comparator<Entry> ENTRY_CMP = (Entry a,
+			Entry b) -> Paths.compare(a.encodedName, 0, a.encodedNameLen,
+					a.getMode().getBits(), b.encodedName, 0, b.encodedNameLen,
+					b.getMode().getBits());
 
 	/**
 	 * Constructor helper.
@@ -1032,7 +1026,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return wtMode;
 		}
 		final FileMode iMode = indexIter.getEntryFileMode();
-		if (getOptions().isFileMode() && iMode != FileMode.GITLINK && iMode != FileMode.TREE) {
+		if (getOptions().isFileMode() && iMode != FileMode.GITLINK
+				&& iMode != FileMode.TREE) {
 			return wtMode;
 		}
 		if (!getOptions().isFileMode()) {
@@ -1045,12 +1040,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				return iMode;
 			}
 		}
-		if (FileMode.GITLINK == iMode
-				&& FileMode.TREE == wtMode && !getOptions().isDirNoGitLinks()) {
+		if (FileMode.GITLINK == iMode && FileMode.TREE == wtMode
+				&& !getOptions().isDirNoGitLinks()) {
 			return iMode;
 		}
-		if (FileMode.TREE == iMode
-				&& FileMode.GITLINK == wtMode) {
+		if (FileMode.TREE == iMode && FileMode.GITLINK == wtMode) {
 			return iMode;
 		}
 		return wtMode;
@@ -1223,8 +1217,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				b = enc.encode(CharBuffer.wrap(getName()));
 			} catch (CharacterCodingException e) {
 				// This should so never happen.
-				throw new RuntimeException(MessageFormat.format(
-						JGitText.get().unencodeableFile, getName()));
+				throw new RuntimeException(MessageFormat
+						.format(JGitText.get().unencodeableFile, getName()));
 			}
 
 			encodedNameLen = b.limit();
@@ -1391,7 +1385,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return r.getRules().isEmpty() ? null : r;
 		}
 	}
-
 
 	private static final class IteratorState {
 		/** Options used to process the working tree. */

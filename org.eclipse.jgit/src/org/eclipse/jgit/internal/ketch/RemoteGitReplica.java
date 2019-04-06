@@ -87,6 +87,7 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class RemoteGitReplica extends KetchReplica {
 	private final URIish uri;
+
 	private final RemoteConfig remoteConfig;
 
 	/**
@@ -139,19 +140,16 @@ public class RemoteGitReplica extends KetchReplica {
 	/** {@inheritDoc} */
 	@Override
 	protected void startPush(ReplicaPushRequest req) {
-		getSystem().getExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				try (Repository git = getLeader().openRepository()) {
-					try {
-						push(git, req);
-						req.done(git);
-					} catch (Throwable err) {
-						req.setException(git, err);
-					}
-				} catch (IOException err) {
-					req.setException(null, err);
+		getSystem().getExecutor().execute(() -> {
+			try (Repository git = getLeader().openRepository()) {
+				try {
+					push(git, req);
+					req.done(git);
+				} catch (Throwable err) {
+					req.setException(git, err);
 				}
+			} catch (IOException err) {
+				req.setException(null, err);
 			}
 		});
 	}
@@ -179,13 +177,15 @@ public class RemoteGitReplica extends KetchReplica {
 		Map<String, RemoteRefUpdate> updates = asUpdateMap(cmds);
 		try (PushConnection connection = transport.openPush()) {
 			Map<String, Ref> adv = connection.getRefsMap();
-			RemoteRefUpdate accepted = updates.get(getSystem().getTxnAccepted());
+			RemoteRefUpdate accepted = updates
+					.get(getSystem().getTxnAccepted());
 			if (accepted != null && !isExpectedValue(adv, accepted)) {
 				abort(cmds);
 				return adv;
 			}
 
-			RemoteRefUpdate committed = updates.get(getSystem().getTxnCommitted());
+			RemoteRefUpdate committed = updates
+					.get(getSystem().getTxnCommitted());
 			if (committed != null && !isExpectedValue(adv, committed)) {
 				abort(cmds);
 				return adv;
@@ -290,10 +290,8 @@ public class RemoteGitReplica extends KetchReplica {
 		final ReceiveCommand cmd;
 
 		RemoteCommand(ReceiveCommand cmd) throws IOException {
-			super(null, null,
-					cmd.getNewId(), cmd.getRefName(),
-					true /* force update */,
-					null /* no local tracking ref */,
+			super(null, null, cmd.getNewId(), cmd.getRefName(),
+					true /* force update */, null /* no local tracking ref */,
 					cmd.getOldId());
 			this.cmd = cmd;
 		}

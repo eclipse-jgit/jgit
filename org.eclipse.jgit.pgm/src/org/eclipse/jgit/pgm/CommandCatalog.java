@@ -52,7 +52,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,12 +114,8 @@ public class CommandCatalog {
 
 	private static CommandRef[] toSortedArray(Collection<CommandRef> c) {
 		final CommandRef[] r = c.toArray(new CommandRef[0]);
-		Arrays.sort(r, new Comparator<CommandRef>() {
-			@Override
-			public int compare(CommandRef o1, CommandRef o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		Arrays.sort(r, (CommandRef o1, CommandRef o2) -> o1.getName()
+				.compareTo(o2.getName()));
 		return r;
 	}
 
@@ -168,8 +163,8 @@ public class CommandCatalog {
 			//
 			return;
 		}
-            // Isn't really a builtin, even though its listed as such.
-            //
+		// Isn't really a builtin, even though its listed as such.
+		//
 
 		final CommandRef cr;
 		final Command a = clazz.getAnnotation(Command.class);

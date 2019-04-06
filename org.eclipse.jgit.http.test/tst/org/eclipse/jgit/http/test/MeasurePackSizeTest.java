@@ -63,14 +63,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
@@ -93,18 +91,13 @@ public class MeasurePackSizeTest extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(srcName))
-					throw new RepositoryNotFoundException(name);
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			if (!name.equals(srcName))
+				throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
-				db.incrementOpen();
-				return db;
-			}
+			final Repository db = src.getRepository();
+			db.incrementOpen();
+			return db;
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
 			@Override
@@ -112,13 +105,9 @@ public class MeasurePackSizeTest extends HttpTestCase {
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
-				recv.setPostReceiveHook(new PostReceiveHook() {
-
-					@Override
-					public void onPostReceive(ReceivePack rp,
-							Collection<ReceiveCommand> commands) {
-						packSize = rp.getPackSize();
-					}
+				recv.setPostReceiveHook((ReceivePack rp,
+						Collection<ReceiveCommand> commands) -> {
+					packSize = rp.getPackSize();
 				});
 				return recv;
 			}
@@ -157,8 +146,8 @@ public class MeasurePackSizeTest extends HttpTestCase {
 			result = t.push(NullProgressMonitor.INSTANCE,
 					Collections.singleton(update));
 		}
-		assertEquals("expected 1 RemoteUpdate", 1, result.getRemoteUpdates()
-				.size());
+		assertEquals("expected 1 RemoteUpdate", 1,
+				result.getRemoteUpdates().size());
 		assertEquals("unexpected pack size", 1398, packSize);
 	}
 

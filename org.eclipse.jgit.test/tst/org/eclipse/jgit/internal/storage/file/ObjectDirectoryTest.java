@@ -47,7 +47,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
@@ -80,9 +79,10 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	public void testConcurrentInsertionOfBlobsToTheSameNewFanOutDirectory()
 			throws Exception {
 		ExecutorService e = Executors.newCachedThreadPool();
-		for (int i=0; i < 100; ++i) {
+		for (int i = 0; i < 100; ++i) {
 			ObjectDirectory dir = createBareRepository().getObjectDatabase();
-			for (Future f : e.invokeAll(blobInsertersForTheSameFanOutDir(dir))) {
+			for (Future f : e
+					.invokeAll(blobInsertersForTheSameFanOutDir(dir))) {
 				f.get();
 			}
 		}
@@ -167,12 +167,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			// Bug. To show the bug we sleep for more than 2500ms
 			Thread.sleep(2600);
 
-			File[] ret = packsFolder.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.endsWith(".pack");
-				}
-			});
+			File[] ret = packsFolder.listFiles(
+					(File dir, String name) -> name.endsWith(".pack"));
 			assertTrue(ret != null && ret.length == 1);
 			Assume.assumeTrue(tmpFile.lastModified() == ret[0].lastModified());
 
@@ -183,8 +179,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFile()
-			throws Exception {
+	public void testShallowFile() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
 
@@ -200,8 +195,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFileCorrupt()
-			throws Exception {
+	public void testShallowFileCorrupt() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
 
@@ -213,19 +207,15 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		}
 
 		expectedEx.expect(IOException.class);
-		expectedEx.expectMessage(MessageFormat
-				.format(JGitText.get().badShallowLine, commit));
+		expectedEx.expectMessage(
+				MessageFormat.format(JGitText.get().badShallowLine, commit));
 		dir.getShallowCommits();
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(
 			final ObjectDirectory dir) {
-		Callable<ObjectId> callable = new Callable<ObjectId>() {
-			@Override
-			public ObjectId call() throws Exception {
-				return dir.newInserter().insert(Constants.OBJ_BLOB, new byte[0]);
-			}
-		};
+		Callable<ObjectId> callable = () -> dir.newInserter()
+				.insert(Constants.OBJ_BLOB, new byte[0]);
 		return Collections.nCopies(4, callable);
 	}
 
