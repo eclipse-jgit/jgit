@@ -71,8 +71,6 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.NB;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,18 +92,13 @@ public class ProtocolErrorTest extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(srcName))
-					throw new RepositoryNotFoundException(name);
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			if (!name.equals(srcName))
+				throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
-				db.incrementOpen();
-				return db;
-			}
+			final Repository db = src.getRepository();
+			db.incrementOpen();
+			return db;
 		});
 		app.addServlet(new ServletHolder(gs), "/*");
 

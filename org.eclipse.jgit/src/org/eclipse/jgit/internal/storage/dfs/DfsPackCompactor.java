@@ -469,12 +469,7 @@ public class DfsPackCompactor {
 					continue SCAN;
 			want.add(new ObjectIdWithOffset(id, ent.getOffset()));
 		}
-		Collections.sort(want, new Comparator<ObjectIdWithOffset>() {
-			@Override
-			public int compare(ObjectIdWithOffset a, ObjectIdWithOffset b) {
-				return Long.signum(a.offset - b.offset);
-			}
-		});
+		Collections.sort(want, (ObjectIdWithOffset a, ObjectIdWithOffset b) -> Long.signum(a.offset - b.offset));
 		return want;
 	}
 

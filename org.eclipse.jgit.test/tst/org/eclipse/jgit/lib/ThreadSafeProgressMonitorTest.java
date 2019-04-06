@@ -61,29 +61,26 @@ public class ThreadSafeProgressMonitorTest {
 		final MockProgressMonitor mock = new MockProgressMonitor();
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
 
-		runOnThread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					pm.start(1);
-					fail("start did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+		runOnThread(() -> {
+			try {
+				pm.start(1);
+				fail("start did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
+			}
 
-				try {
-					pm.beginTask("title", 1);
-					fail("beginTask did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+			try {
+				pm.beginTask("title", 1);
+				fail("beginTask did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
+			}
 
-				try {
-					pm.endTask();
-					fail("endTask did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+			try {
+				pm.endTask();
+				fail("endTask did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
 			}
 		});
 

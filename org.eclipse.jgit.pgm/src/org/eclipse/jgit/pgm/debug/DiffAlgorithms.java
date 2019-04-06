@@ -52,7 +52,6 @@ import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffAlgorithm;
@@ -235,15 +234,12 @@ class DiffAlgorithms extends TextBuiltin {
 			}
 		}
 
-		Collections.sort(all, new Comparator<Test>() {
-			@Override
-			public int compare(Test a, Test b) {
-				int result = Long.signum(a.runningTimeNanos - b.runningTimeNanos);
-				if (result == 0) {
-					result = a.algorithm.name.compareTo(b.algorithm.name);
-				}
-				return result;
+		Collections.sort(all, (Test a, Test b) -> {
+			int result = Long.signum(a.runningTimeNanos - b.runningTimeNanos);
+			if (result == 0) {
+				result = a.algorithm.name.compareTo(b.algorithm.name);
 			}
+			return result;
 		});
 
 		File directory = repo.getDirectory();

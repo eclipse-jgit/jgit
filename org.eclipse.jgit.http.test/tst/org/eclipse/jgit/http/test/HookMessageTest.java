@@ -70,14 +70,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
@@ -98,18 +96,13 @@ public class HookMessageTest extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(srcName))
-					throw new RepositoryNotFoundException(name);
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			if (!name.equals(srcName))
+				throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
-				db.incrementOpen();
-				return db;
-			}
+			final Repository db = src.getRepository();
+			db.incrementOpen();
+			return db;
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
 			@Override
@@ -117,14 +110,11 @@ public class HookMessageTest extends HttpTestCase {
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
-				recv.setPreReceiveHook(new PreReceiveHook() {
-					@Override
-					public void onPreReceive(ReceivePack rp,
-							Collection<ReceiveCommand> commands) {
-						rp.sendMessage("message line 1");
-						rp.sendError("no soup for you!");
-						rp.sendMessage("come back next year!");
-					}
+				recv.setPreReceiveHook((ReceivePack rp,
+						Collection<ReceiveCommand> commands) -> {
+					rp.sendMessage("message line 1");
+					rp.sendError("no soup for you!");
+					rp.sendMessage("come back next year!");
 				});
 				return recv;
 			}

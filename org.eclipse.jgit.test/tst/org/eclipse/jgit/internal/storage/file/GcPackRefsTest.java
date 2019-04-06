@@ -155,38 +155,32 @@ public class GcPackRefsTest extends GcTestCase {
 		final CyclicBarrier packRefsDone = new CyclicBarrier(2);
 		ExecutorService pool = Executors.newFixedThreadPool(2);
 		try {
-			Future<Result> result = pool.submit(new Callable<Result>() {
-
-				@Override
-				public Result call() throws Exception {
-					RefUpdate update = new RefDirectoryUpdate(
-							(RefDirectory) repo.getRefDatabase(),
-							repo.exactRef("refs/tags/t")) {
-						@Override
-						public boolean isForceUpdate() {
-							try {
-								refUpdateLockedRef.await();
-								packRefsDone.await();
-							} catch (InterruptedException | BrokenBarrierException e) {
-								Thread.currentThread().interrupt();
-							}
-							return super.isForceUpdate();
+			Future<Result> result = pool.submit(() -> {
+				RefUpdate update = new RefDirectoryUpdate(
+						(RefDirectory) repo.getRefDatabase(),
+						repo.exactRef("refs/tags/t")) {
+					@Override
+					public boolean isForceUpdate() {
+						try {
+							refUpdateLockedRef.await();
+							packRefsDone.await();
+						} catch (InterruptedException
+								| BrokenBarrierException e) {
+							Thread.currentThread().interrupt();
 						}
-					};
-					update.setForceUpdate(true);
-					update.setNewObjectId(b);
-					return update.update();
-				}
+						return super.isForceUpdate();
+					}
+				};
+				update.setForceUpdate(true);
+				update.setNewObjectId(b);
+				return update.update();
 			});
 
-			pool.submit(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					refUpdateLockedRef.await();
-					gc.packRefs();
-					packRefsDone.await();
-					return null;
-				}
+			pool.submit(() -> {
+				refUpdateLockedRef.await();
+				gc.packRefs();
+				packRefsDone.await();
+				return null;
 			});
 
 			assertSame(result.get(), Result.FORCED);

@@ -287,14 +287,11 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return Collections.emptySet();
 	}
 
-	private static final Comparator<FoundObject<?>> FOUND_OBJECT_SORT = new Comparator<FoundObject<?>>() {
-		@Override
-		public int compare(FoundObject<?> a, FoundObject<?> b) {
-			int cmp = a.packIndex - b.packIndex;
-			if (cmp == 0)
-				cmp = Long.signum(a.offset - b.offset);
-			return cmp;
-		}
+	private static final Comparator<FoundObject<?>> FOUND_OBJECT_SORT = (FoundObject<?> a, FoundObject<?> b) -> {
+		int cmp = a.packIndex - b.packIndex;
+		if (cmp == 0)
+			cmp = Long.signum(a.offset - b.offset);
+		return cmp;
 	};
 
 	private static class FoundObject<T extends ObjectId> {
@@ -565,12 +562,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return new DfsObjectToPack(objectId, type);
 	}
 
-	private static final Comparator<DfsObjectToPack> OFFSET_SORT = new Comparator<DfsObjectToPack>() {
-		@Override
-		public int compare(DfsObjectToPack a, DfsObjectToPack b) {
-			return Long.signum(a.getOffset() - b.getOffset());
-		}
-	};
+	private static final Comparator<DfsObjectToPack> OFFSET_SORT = (DfsObjectToPack a, DfsObjectToPack b) -> Long.signum(a.getOffset() - b.getOffset());
 
 	@Override
 	public void selectObjectRepresentation(PackWriter packer,
