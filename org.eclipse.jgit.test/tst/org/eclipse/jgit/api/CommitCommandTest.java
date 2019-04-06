@@ -485,7 +485,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	private static String reflogComments(List<ReflogEntry> entries) {
-		StringBuffer b = new StringBuffer();
+		StringBuilder b = new StringBuilder();
 		for (ReflogEntry e : entries) {
 			b.append(e.getComment()).append(";");
 		}
