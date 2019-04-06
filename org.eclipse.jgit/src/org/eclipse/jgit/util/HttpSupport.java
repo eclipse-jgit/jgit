@@ -303,9 +303,7 @@ public class HttpSupport {
 		try {
 			conn.configure(null, trustAllCerts, null);
 			conn.setHostnameVerifier(new DummyHostnameVerifier());
-		} catch (KeyManagementException e) {
-			throw new IOException(e.getMessage());
-		} catch (NoSuchAlgorithmException e) {
+		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 			throw new IOException(e.getMessage());
 		}
 	}
