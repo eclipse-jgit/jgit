@@ -1179,7 +1179,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *         fail.
 	 */
 	public Map<String, MergeFailureReason> getFailingPaths() {
-		return (failingPaths.size() == 0) ? null : failingPaths;
+		return (failingPaths.isEmpty()) ? null : failingPaths;
 	}
 
 	/**
