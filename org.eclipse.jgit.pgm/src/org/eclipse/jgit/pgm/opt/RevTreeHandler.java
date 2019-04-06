@@ -102,10 +102,7 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 		final RevTree c;
 		try {
 			c = clp.getRevWalk().parseTree(id);
-		} catch (MissingObjectException e) {
-			throw new CmdLineException(clp,
-					CLIText.format(CLIText.get().notATree), name);
-		} catch (IncorrectObjectTypeException e) {
+		} catch (MissingObjectException | IncorrectObjectTypeException e) {
 			throw new CmdLineException(clp,
 					CLIText.format(CLIText.get().notATree), name);
 		} catch (IOException e) {

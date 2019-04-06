@@ -239,13 +239,7 @@ public class LockFile {
 			// Don't worry about a file that doesn't exist yet, it
 			// conceptually has no current content to copy.
 			//
-		} catch (IOException ioe) {
-			unlock();
-			throw ioe;
-		} catch (RuntimeException ioe) {
-			unlock();
-			throw ioe;
-		} catch (Error ioe) {
+		} catch (IOException | RuntimeException | Error ioe) {
 			unlock();
 			throw ioe;
 		}
@@ -299,13 +293,7 @@ public class LockFile {
 			}
 			os.close();
 			os = null;
-		} catch (IOException ioe) {
-			unlock();
-			throw ioe;
-		} catch (RuntimeException ioe) {
-			unlock();
-			throw ioe;
-		} catch (Error ioe) {
+		} catch (IOException | RuntimeException | Error ioe) {
 			unlock();
 			throw ioe;
 		}
@@ -353,13 +341,7 @@ public class LockFile {
 						os.getChannel().force(true);
 					out.close();
 					os = null;
-				} catch (IOException ioe) {
-					unlock();
-					throw ioe;
-				} catch (RuntimeException ioe) {
-					unlock();
-					throw ioe;
-				} catch (Error ioe) {
+				} catch (IOException | RuntimeException | Error ioe) {
 					unlock();
 					throw ioe;
 				}
