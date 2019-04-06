@@ -128,7 +128,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		status = git.status().call();
 		files = status.getUntracked();
 
-		assertTrue(files.size() == 0);
+		assertTrue(files.isEmpty());
 		assertTrue(cleanedFiles.contains("File2.txt"));
 		assertTrue(cleanedFiles.contains("File3.txt"));
 		assertTrue(!cleanedFiles.contains("sub-noclean/File1.txt"));
