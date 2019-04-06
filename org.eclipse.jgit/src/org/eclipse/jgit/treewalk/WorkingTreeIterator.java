@@ -774,14 +774,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return attributesNode;
 	}
 
-	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
-		@Override
-		public int compare(Entry a, Entry b) {
-			return Paths.compare(
-					a.encodedName, 0, a.encodedNameLen, a.getMode().getBits(),
-					b.encodedName, 0, b.encodedNameLen, b.getMode().getBits());
-		}
-	};
+	private static final Comparator<Entry> ENTRY_CMP = (Entry a, Entry b) -> Paths.compare(
+                a.encodedName, 0, a.encodedNameLen, a.getMode().getBits(),
+                b.encodedName, 0, b.encodedNameLen, b.getMode().getBits());
 
 	/**
 	 * Constructor helper.

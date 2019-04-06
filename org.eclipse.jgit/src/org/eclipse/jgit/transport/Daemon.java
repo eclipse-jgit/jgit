@@ -115,37 +115,27 @@ public class Daemon {
 
 		repositoryResolver = (RepositoryResolver<DaemonClient>) RepositoryResolver.NONE;
 
-		uploadPackFactory = new UploadPackFactory<DaemonClient>() {
-			@Override
-			public UploadPack create(DaemonClient req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				UploadPack up = new UploadPack(db);
-				up.setTimeout(getTimeout());
-				up.setPackConfig(getPackConfig());
-				return up;
-			}
-		};
+		uploadPackFactory = (DaemonClient req, Repository db) -> {
+                    UploadPack up = new UploadPack(db);
+                    up.setTimeout(getTimeout());
+                    up.setPackConfig(getPackConfig());
+                    return up;
+                };
 
-		receivePackFactory = new ReceivePackFactory<DaemonClient>() {
-			@Override
-			public ReceivePack create(DaemonClient req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				ReceivePack rp = new ReceivePack(db);
-
-				InetAddress peer = req.getRemoteAddress();
-				String host = peer.getCanonicalHostName();
-				if (host == null)
-					host = peer.getHostAddress();
-				String name = "anonymous"; //$NON-NLS-1$
-				String email = name + "@" + host; //$NON-NLS-1$
-				rp.setRefLogIdent(new PersonIdent(name, email));
-				rp.setTimeout(getTimeout());
-
-				return rp;
-			}
-		};
+		receivePackFactory = (DaemonClient req, Repository db) -> {
+                    ReceivePack rp = new ReceivePack(db);
+                    
+                    InetAddress peer = req.getRemoteAddress();
+                    String host = peer.getCanonicalHostName();
+                    if (host == null)
+                        host = peer.getHostAddress();
+                    String name = "anonymous"; //$NON-NLS-1$
+                    String email = name + "@" + host; //$NON-NLS-1$
+                    rp.setRefLogIdent(new PersonIdent(name, email));
+                    rp.setTimeout(getTimeout());
+                    
+                    return rp;
+                };
 
 		services = new DaemonService[] {
 				new DaemonService("upload-pack", "uploadpack") { //$NON-NLS-1$ //$NON-NLS-2$

@@ -46,7 +46,6 @@ package org.eclipse.jgit.internal.storage.pack;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -212,12 +211,7 @@ final class DeltaTask implements Callable<Object> {
 			}
 
 			// Sort by starting index to identify gaps later.
-			Collections.sort(topPaths, new Comparator<WeightedPath>() {
-				@Override
-				public int compare(WeightedPath a, WeightedPath b) {
-					return a.slice.beginIndex - b.slice.beginIndex;
-				}
-			});
+			Collections.sort(topPaths, (WeightedPath a, WeightedPath b) -> a.slice.beginIndex - b.slice.beginIndex);
 
 			bytesPerUnit = 1;
 			while (MAX_METER <= (totalWeight / bytesPerUnit)) {

@@ -46,7 +46,6 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
@@ -76,13 +75,7 @@ class LsRemote extends TextBuiltin {
 	protected void run() {
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
 				.setTimeout(timeout).setHeads(heads).setTags(tags);
-		TreeSet<Ref> refs = new TreeSet<>(new Comparator<Ref>() {
-
-			@Override
-			public int compare(Ref r1, Ref r2) {
-				return r1.getName().compareTo(r2.getName());
-			}
-		});
+		TreeSet<Ref> refs = new TreeSet<>((Ref r1, Ref r2) -> r1.getName().compareTo(r2.getName()));
 		try {
 			refs.addAll(command.call());
 			for (Ref r : refs) {

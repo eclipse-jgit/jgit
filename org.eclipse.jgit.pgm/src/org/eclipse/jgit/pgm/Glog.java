@@ -47,7 +47,6 @@ package org.eclipse.jgit.pgm;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -87,12 +86,9 @@ class Glog extends RevWalkTextBuiltin {
 		final JPanel buttons = new JPanel(new FlowLayout());
 		final JButton repaint = new JButton();
 		repaint.setText(CLIText.get().repaint);
-		repaint.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				graphPane.repaint();
-			}
-		});
+		repaint.addActionListener((ActionEvent e) -> {
+                    graphPane.repaint();
+                });
 		buttons.add(repaint);
 
 		final JPanel world = new JPanel(new BorderLayout());
