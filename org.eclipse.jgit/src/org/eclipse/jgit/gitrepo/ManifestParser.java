@@ -80,19 +80,31 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class ManifestParser extends DefaultHandler {
 	private final String filename;
+
 	private final URI baseUrl;
+
 	private final String defaultBranch;
+
 	private final Repository rootRepo;
+
 	private final Map<String, Remote> remotes;
+
 	private final Set<String> plusGroups;
+
 	private final Set<String> minusGroups;
+
 	private final List<RepoProject> projects;
+
 	private final List<RepoProject> filteredProjects;
+
 	private final IncludedFileReader includedReader;
 
 	private String defaultRemote;
+
 	private String defaultRevision;
+
 	private int xmlInRead;
+
 	private RepoProject currentProject;
 
 	/**
@@ -184,86 +196,94 @@ public class ManifestParser extends DefaultHandler {
 
 	/** {@inheritDoc} */
 	@Override
-	public void startElement(
-			String uri,
-			String localName,
-			String qName,
+	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		if ("project".equals(qName)) { //$NON-NLS-1$
-			if (attributes.getValue("name") == null) { //$NON-NLS-1$
-				throw new SAXException(RepoText.get().invalidManifest);
-			}
-			currentProject = new RepoProject(
-					attributes.getValue("name"), //$NON-NLS-1$
-					attributes.getValue("path"), //$NON-NLS-1$
-					attributes.getValue("revision"), //$NON-NLS-1$
-					attributes.getValue("remote"), //$NON-NLS-1$
-					attributes.getValue("groups")); //$NON-NLS-1$
-			currentProject.setRecommendShallow(
-				attributes.getValue("clone-depth")); //$NON-NLS-1$
-		} else if ("remote".equals(qName)) { //$NON-NLS-1$
-			String alias = attributes.getValue("alias"); //$NON-NLS-1$
-			String fetch = attributes.getValue("fetch"); //$NON-NLS-1$
-			String revision = attributes.getValue("revision"); //$NON-NLS-1$
-			Remote remote = new Remote(fetch, revision);
-			remotes.put(attributes.getValue("name"), remote); //$NON-NLS-1$
-			if (alias != null)
-				remotes.put(alias, remote);
-		} else if ("default".equals(qName)) { //$NON-NLS-1$
-			defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
-			defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
-		} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
-			if (currentProject == null)
-				throw new SAXException(RepoText.get().invalidManifest);
-			currentProject.addCopyFile(new CopyFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
+		if (null != qName)
+			switch (qName) {
+			case "project": //$NON-NLS-1$
+				if (attributes.getValue("name") == null) { //$NON-NLS-1$
+					throw new SAXException(RepoText.get().invalidManifest);
+				}
+				currentProject = new RepoProject(attributes.getValue("name"), //$NON-NLS-1$
+						attributes.getValue("path"), //$NON-NLS-1$
+						attributes.getValue("revision"), //$NON-NLS-1$
+						attributes.getValue("remote"), //$NON-NLS-1$
+						attributes.getValue("groups")); //$NON-NLS-1$
+				currentProject.setRecommendShallow(
+						attributes.getValue("clone-depth")); //$NON-NLS-1$
+				break;
+			case "remote": //$NON-NLS-1$
+				String alias = attributes.getValue("alias"); //$NON-NLS-1$
+				String fetch = attributes.getValue("fetch"); //$NON-NLS-1$
+				String revision = attributes.getValue("revision"); //$NON-NLS-1$
+				Remote remote = new Remote(fetch, revision);
+				remotes.put(attributes.getValue("name"), remote); //$NON-NLS-1$
+				if (alias != null)
+					remotes.put(alias, remote);
+				break;
+			case "default": //$NON-NLS-1$
+				defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
+				defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
+				break;
+			case "copyfile": //$NON-NLS-1$
+				if (currentProject == null)
+					throw new SAXException(RepoText.get().invalidManifest);
+				currentProject.addCopyFile(new CopyFile(rootRepo,
+						currentProject.getPath(), attributes.getValue("src"), //$NON-NLS-1$
 						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("linkfile".equals(qName)) { //$NON-NLS-1$
-			if (currentProject == null) {
-				throw new SAXException(RepoText.get().invalidManifest);
-			}
-			currentProject.addLinkFile(new LinkFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
+				break;
+			case "linkfile": //$NON-NLS-1$
+				if (currentProject == null) {
+					throw new SAXException(RepoText.get().invalidManifest);
+				}
+				currentProject.addLinkFile(new LinkFile(rootRepo,
+						currentProject.getPath(), attributes.getValue("src"), //$NON-NLS-1$
 						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("include".equals(qName)) { //$NON-NLS-1$
-			String name = attributes.getValue("name"); //$NON-NLS-1$
-			if (includedReader != null) {
-				try (InputStream is = includedReader.readIncludeFile(name)) {
-					if (is == null) {
+				break;
+			case "include": { //$NON-NLS-1$
+				String name = attributes.getValue("name"); //$NON-NLS-1$
+				if (includedReader != null) {
+					try (InputStream is = includedReader
+							.readIncludeFile(name)) {
+						if (is == null) {
+							throw new SAXException(
+									RepoText.get().errorIncludeNotImplemented);
+						}
+						read(is);
+					} catch (Exception e) {
 						throw new SAXException(
-								RepoText.get().errorIncludeNotImplemented);
+								MessageFormat.format(
+										RepoText.get().errorIncludeFile, name),
+								e);
 					}
-					read(is);
-				} catch (Exception e) {
-					throw new SAXException(MessageFormat.format(
-							RepoText.get().errorIncludeFile, name), e);
+				} else if (filename != null) {
+					int index = filename.lastIndexOf('/');
+					String path = filename.substring(0, index + 1) + name;
+					try (InputStream is = new FileInputStream(path)) {
+						read(is);
+					} catch (IOException e) {
+						throw new SAXException(
+								MessageFormat.format(
+										RepoText.get().errorIncludeFile, path),
+								e);
+					}
 				}
-			} else if (filename != null) {
-				int index = filename.lastIndexOf('/');
-				String path = filename.substring(0, index + 1) + name;
-				try (InputStream is = new FileInputStream(path)) {
-					read(is);
-				} catch (IOException e) {
-					throw new SAXException(MessageFormat.format(
-							RepoText.get().errorIncludeFile, path), e);
-				}
+				break;
 			}
-		} else if ("remove-project".equals(qName)) { //$NON-NLS-1$
-			String name = attributes.getValue("name"); //$NON-NLS-1$
-			projects.removeIf((p) -> p.getName().equals(name));
-		}
+			case "remove-project": { //$NON-NLS-1$
+				String name = attributes.getValue("name"); //$NON-NLS-1$
+				projects.removeIf((p) -> p.getName().equals(name));
+				break;
+			}
+			default:
+				break;
+			}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void endElement(
-			String uri,
-			String localName,
-			String qName) throws SAXException {
+	public void endElement(String uri, String localName, String qName)
+			throws SAXException {
 		if ("project".equals(qName)) { //$NON-NLS-1$
 			projects.add(currentProject);
 			currentProject = null;
@@ -298,8 +318,7 @@ public class ManifestParser extends DefaultHandler {
 								RepoText.get().errorNoDefaultFilename,
 								filename));
 					else
-						throw new SAXException(
-								RepoText.get().errorNoDefault);
+						throw new SAXException(RepoText.get().errorNoDefault);
 				}
 				remote = defaultRemote;
 			} else {
@@ -319,7 +338,7 @@ public class ManifestParser extends DefaultHandler {
 				remoteUrls.put(remote, remoteUrl);
 			}
 			proj.setUrl(remoteUrl.resolve(proj.getName()).toString())
-				.setDefaultRevision(revision);
+					.setDefaultRevision(revision);
 		}
 
 		filteredProjects.addAll(projects);
@@ -331,12 +350,11 @@ public class ManifestParser extends DefaultHandler {
 		// URI.create("scheme://host").resolve("a/b") => "scheme://hosta/b"
 		// That seems like bug https://bugs.openjdk.java.net/browse/JDK-4666701.
 		// We workaround this by special casing the empty path case.
-		if (u.getHost() != null && !u.getHost().isEmpty() &&
-			(u.getPath() == null || u.getPath().isEmpty())) {
+		if (u.getHost() != null && !u.getHost().isEmpty()
+				&& (u.getPath() == null || u.getPath().isEmpty())) {
 			try {
-				return new URI(u.getScheme(),
-					u.getUserInfo(), u.getHost(), u.getPort(),
-						"/", u.getQuery(), u.getFragment()); //$NON-NLS-1$
+				return new URI(u.getScheme(), u.getUserInfo(), u.getHost(),
+						u.getPort(), "/", u.getQuery(), u.getFragment()); //$NON-NLS-1$
 			} catch (URISyntaxException x) {
 				throw new IllegalArgumentException(x.getMessage(), x);
 			}
@@ -445,6 +463,7 @@ public class ManifestParser extends DefaultHandler {
 
 	private static class Remote {
 		final String fetch;
+
 		final String revision;
 
 		Remote(String fetch, String revision) {

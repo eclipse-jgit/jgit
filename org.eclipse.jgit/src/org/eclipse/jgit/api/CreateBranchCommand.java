@@ -70,9 +70,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * Used to create a local branch.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-branch.html"
- *      >Git documentation about Branch</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-branch.html" >Git
+ *      documentation about Branch</a>
  */
 public class CreateBranchCommand extends GitCommand<Ref> {
 	private String name;
@@ -126,8 +126,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			boolean exists = refToCheck != null
 					&& refToCheck.getName().startsWith(R_HEADS);
 			if (!force && exists)
-				throw new RefAlreadyExistsException(MessageFormat.format(
-						JGitText.get().refAlreadyExists1, name));
+				throw new RefAlreadyExistsException(MessageFormat
+						.format(JGitText.get().refAlreadyExists1, name));
 
 			ObjectId startAt = getStartPointObjectId();
 			String startPointFullName = null;
@@ -146,8 +146,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				if (startCommit != null)
 					baseCommit = startCommit.getShortMessage();
 				else {
-					RevCommit commit = revWalk.parseCommit(repo
-							.resolve(getStartPointOrHead()));
+					RevCommit commit = revWalk
+							.parseCommit(repo.resolve(getStartPointOrHead()));
 					baseCommit = commit.getShortMessage();
 				}
 				if (exists)
@@ -200,9 +200,9 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			}
 
 			if (!ok)
-				throw new JGitInternalException(MessageFormat.format(JGitText
-						.get().createBranchUnexpectedResult, updateResult
-						.name()));
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().createBranchUnexpectedResult,
+						updateResult.name()));
 
 			Ref result = repo.findRef(name);
 			if (result == null)
@@ -247,10 +247,9 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				if (remoteName != null) {
 					String branchName = repo
 							.shortenRemoteBranchName(baseBranch);
-					config
-							.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
-									name, ConfigConstants.CONFIG_KEY_REMOTE,
-									remoteName);
+					config.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
+							name, ConfigConstants.CONFIG_KEY_REMOTE,
+							remoteName);
 					config.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
 							name, ConfigConstants.CONFIG_KEY_MERGE,
 							Constants.R_HEADS + branchName);
@@ -269,15 +268,15 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 		}
 	}
 
-	private ObjectId getStartPointObjectId() throws AmbiguousObjectException,
-			RefNotFoundException, IOException {
+	private ObjectId getStartPointObjectId()
+			throws AmbiguousObjectException, RefNotFoundException, IOException {
 		if (startCommit != null)
 			return startCommit.getId();
 		String startPointOrHead = getStartPointOrHead();
 		ObjectId result = repo.resolve(startPointOrHead);
 		if (result == null)
-			throw new RefNotFoundException(MessageFormat.format(
-					JGitText.get().refNotResolved, startPointOrHead));
+			throw new RefNotFoundException(MessageFormat
+					.format(JGitText.get().refNotResolved, startPointOrHead));
 		return result;
 	}
 
@@ -286,11 +285,11 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	private void processOptions() throws InvalidRefNameException {
-		if (name == null
-				|| !Repository.isValidRefName(R_HEADS + name)
+		if (name == null || !Repository.isValidRefName(R_HEADS + name)
 				|| !isValidBranchName(name))
-			throw new InvalidRefNameException(MessageFormat.format(JGitText
-					.get().branchNameInvalid, name == null ? "<null>" : name)); //$NON-NLS-1$
+			throw new InvalidRefNameException(
+					MessageFormat.format(JGitText.get().branchNameInvalid,
+							name == null ? "<null>" : name)); //$NON-NLS-1$
 	}
 
 	/**

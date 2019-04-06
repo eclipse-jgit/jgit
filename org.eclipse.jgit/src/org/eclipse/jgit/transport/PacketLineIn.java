@@ -70,17 +70,20 @@ import org.slf4j.LoggerFactory;
  * against the underlying InputStream.
  */
 public class PacketLineIn {
-	private static final Logger log = LoggerFactory.getLogger(PacketLineIn.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(PacketLineIn.class);
 
 	/** Magic return from {@link #readString()} when a flush packet is found. */
-	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
+	public static final String END = new StringBuilder(0)
+			.toString(); /* must not string pool */
 
 	/**
 	 * Magic return from {@link #readString()} when a delim packet is found.
 	 *
 	 * @since 5.0
 	 */
-	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
+	public static final String DELIM = new StringBuilder(0)
+			.toString(); /* must not string pool */
 
 	static enum AckNackResult {
 		/** NAK */
@@ -96,7 +99,9 @@ public class PacketLineIn {
 	}
 
 	private final byte[] lineBuffer = new byte[SideBandOutputStream.SMALL_BUF];
+
 	private final InputStream in;
+
 	private long limit;
 
 	/**
@@ -126,7 +131,8 @@ public class PacketLineIn {
 	AckNackResult readACK(MutableObjectId returnedId) throws IOException {
 		final String line = readString();
 		if (line.length() == 0)
-			throw new PackProtocolException(JGitText.get().expectedACKNAKFoundEOF);
+			throw new PackProtocolException(
+					JGitText.get().expectedACKNAKFoundEOF);
 		if ("NAK".equals(line)) //$NON-NLS-1$
 			return AckNackResult.NAK;
 		if (line.startsWith("ACK ")) { //$NON-NLS-1$
@@ -135,16 +141,21 @@ public class PacketLineIn {
 				return AckNackResult.ACK;
 
 			final String arg = line.substring(44);
-			if (arg.equals(" continue")) //$NON-NLS-1$
+			switch (arg) {
+			case " continue": //$NON-NLS-1$
 				return AckNackResult.ACK_CONTINUE;
-			else if (arg.equals(" common")) //$NON-NLS-1$
+			case " common": //$NON-NLS-1$
 				return AckNackResult.ACK_COMMON;
-			else if (arg.equals(" ready")) //$NON-NLS-1$
+			case " ready": //$NON-NLS-1$
 				return AckNackResult.ACK_READY;
+			default:
+				break;
+			}
 		}
 		if (line.startsWith("ERR ")) //$NON-NLS-1$
 			throw new PackProtocolException(line.substring(4));
-		throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedACKNAKGot, line));
+		throw new PackProtocolException(
+				MessageFormat.format(JGitText.get().expectedACKNAKGot, line));
 	}
 
 	/**
@@ -155,8 +166,7 @@ public class PacketLineIn {
 	 * use {@link #readStringRaw()} instead.
 	 *
 	 * @return the string. {@link #END} if the string was the magic flush
-	 *         packet, {@link #DELIM} if the string was the magic DELIM
-	 *         packet.
+	 *         packet, {@link #DELIM} if the string was the magic DELIM packet.
 	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 */
@@ -269,9 +279,10 @@ public class PacketLineIn {
 	}
 
 	private IOException invalidHeader() {
-		return new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
-				"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
-				+ (char) lineBuffer[2] + (char) lineBuffer[3]));
+		return new IOException(
+				MessageFormat.format(JGitText.get().invalidPacketLineHeader,
+						"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
+								+ (char) lineBuffer[2] + (char) lineBuffer[3]));
 	}
 
 	/**

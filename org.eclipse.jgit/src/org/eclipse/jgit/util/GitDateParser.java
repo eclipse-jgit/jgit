@@ -72,8 +72,7 @@ public class GitDateParser {
 	// Since SimpleDateFormat instances are expensive to instantiate they should
 	// be cached. Since they are also not threadsafe they are cached using
 	// ThreadLocal.
-	private static ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>> formatCache =
-			new ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>>() {
+	private static ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>> formatCache = new ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>>() {
 
 		@Override
 		protected Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>> initialValue() {
@@ -105,8 +104,8 @@ public class GitDateParser {
 	private static SimpleDateFormat getNewSimpleDateFormat(
 			ParseableSimpleDateFormat f, Locale locale,
 			Map<ParseableSimpleDateFormat, SimpleDateFormat> map) {
-		SimpleDateFormat df = SystemReader.getInstance().getSimpleDateFormat(
-				f.formatStr, locale);
+		SimpleDateFormat df = SystemReader.getInstance()
+				.getSimpleDateFormat(f.formatStr, locale);
 		map.put(f, df);
 		return df;
 	}
@@ -238,14 +237,15 @@ public class GitDateParser {
 		for (int i = 1; i < values.length; i++)
 			allFormats.append("\", \"").append(values[i].formatStr); //$NON-NLS-1$
 		allFormats.append("\""); //$NON-NLS-1$
-		throw new ParseException(MessageFormat.format(
-				JGitText.get().cannotParseDate, dateStr, allFormats.toString()), 0);
+		throw new ParseException(
+				MessageFormat.format(JGitText.get().cannotParseDate, dateStr,
+						allFormats.toString()),
+				0);
 	}
 
 	// tries to parse a string with the formats supported by SimpleDateFormat
 	private static Date parse_simple(String dateStr,
-			ParseableSimpleDateFormat f, Locale locale)
-			throws ParseException {
+			ParseableSimpleDateFormat f, Locale locale) throws ParseException {
 		SimpleDateFormat dateFormat = getDateFormat(f, locale);
 		dateFormat.setLenient(false);
 		return dateFormat.parse(dateStr);
@@ -258,8 +258,8 @@ public class GitDateParser {
 
 		// check for the static words "yesterday" or "now"
 		if ("now".equals(dateStr)) { //$NON-NLS-1$
-			return ((now == null) ? new Date(sysRead.getCurrentTime()) : now
-					.getTime());
+			return ((now == null) ? new Date(sysRead.getCurrentTime())
+					: now.getTime());
 		}
 
 		if (now == null) {
@@ -294,27 +294,41 @@ public class GitDateParser {
 			} catch (NumberFormatException e) {
 				return null;
 			}
-			if ("year".equals(parts[i + 1]) || "years".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.YEAR, -number);
-			else if ("month".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "months".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MONTH, -number);
-			else if ("week".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "weeks".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.WEEK_OF_YEAR, -number);
-			else if ("day".equals(parts[i + 1]) || "days".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.DATE, -number);
-			else if ("hour".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "hours".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.HOUR_OF_DAY, -number);
-			else if ("minute".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "minutes".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MINUTE, -number);
-			else if ("second".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "seconds".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.SECOND, -number);
-			else
+			if (null == parts[i + 1])
 				return null;
+			else
+				switch (parts[i + 1]) {
+				case "year": //$NON-NLS-1$
+				case "years": //$NON-NLS-1$
+					cal.add(Calendar.YEAR, -number);
+					break;
+				case "month": //$NON-NLS-1$
+				case "months": //$NON-NLS-1$
+					cal.add(Calendar.MONTH, -number);
+					break;
+				case "week": //$NON-NLS-1$
+				case "weeks": //$NON-NLS-1$
+					cal.add(Calendar.WEEK_OF_YEAR, -number);
+					break;
+				case "day": //$NON-NLS-1$
+				case "days": //$NON-NLS-1$
+					cal.add(Calendar.DATE, -number);
+					break;
+				case "hour": //$NON-NLS-1$
+				case "hours": //$NON-NLS-1$
+					cal.add(Calendar.HOUR_OF_DAY, -number);
+					break;
+				case "minute": //$NON-NLS-1$
+				case "minutes": //$NON-NLS-1$
+					cal.add(Calendar.MINUTE, -number);
+					break;
+				case "second": //$NON-NLS-1$
+				case "seconds": //$NON-NLS-1$
+					cal.add(Calendar.SECOND, -number);
+					break;
+				default:
+					return null;
+				}
 		}
 		return cal.getTime();
 	}
