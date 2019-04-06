@@ -76,12 +76,12 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 /**
  * A class used to execute a submodule update command.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
  *      >Git documentation about submodules</a>
  */
-public class SubmoduleUpdateCommand extends
-		TransportCommand<SubmoduleUpdateCommand, Collection<String>> {
+public class SubmoduleUpdateCommand
+		extends TransportCommand<SubmoduleUpdateCommand, Collection<String>> {
 
 	private ProgressMonitor monitor;
 
@@ -213,19 +213,7 @@ public class SubmoduleUpdateCommand extends
 							.parseCommit(generator.getObjectId());
 
 					String update = generator.getConfigUpdate();
-					if (ConfigConstants.CONFIG_KEY_MERGE.equals(update)) {
-						MergeCommand merge = new MergeCommand(submoduleRepo);
-						merge.include(commit);
-						merge.setProgressMonitor(monitor);
-						merge.setStrategy(strategy);
-						merge.call();
-					} else if (ConfigConstants.CONFIG_KEY_REBASE.equals(update)) {
-						RebaseCommand rebase = new RebaseCommand(submoduleRepo);
-						rebase.setUpstream(commit);
-						rebase.setProgressMonitor(monitor);
-						rebase.setStrategy(strategy);
-						rebase.call();
-					} else {
+					if (null == update) {
 						// Checkout commit referenced in parent repository's
 						// index as a detached HEAD
 						DirCacheCheckout co = new DirCacheCheckout(
@@ -234,15 +222,50 @@ public class SubmoduleUpdateCommand extends
 						co.setFailOnConflict(true);
 						co.setProgressMonitor(monitor);
 						co.checkout();
-						RefUpdate refUpdate = submoduleRepo.updateRef(
-								Constants.HEAD, true);
+						RefUpdate refUpdate = submoduleRepo
+								.updateRef(Constants.HEAD, true);
 						refUpdate.setNewObjectId(commit);
 						refUpdate.forceUpdate();
 						if (callback != null) {
-							callback.checkingOut(commit,
-									generator.getPath());
+							callback.checkingOut(commit, generator.getPath());
 						}
-					}
+					} else
+						switch (update) {
+						case ConfigConstants.CONFIG_KEY_MERGE:
+							MergeCommand merge = new MergeCommand(
+									submoduleRepo);
+							merge.include(commit);
+							merge.setProgressMonitor(monitor);
+							merge.setStrategy(strategy);
+							merge.call();
+							break;
+						case ConfigConstants.CONFIG_KEY_REBASE:
+							RebaseCommand rebase = new RebaseCommand(
+									submoduleRepo);
+							rebase.setUpstream(commit);
+							rebase.setProgressMonitor(monitor);
+							rebase.setStrategy(strategy);
+							rebase.call();
+							break;
+						default:
+							// Checkout commit referenced in parent repository's
+							// index as a detached HEAD
+							DirCacheCheckout co = new DirCacheCheckout(
+									submoduleRepo, submoduleRepo.lockDirCache(),
+									commit.getTree());
+							co.setFailOnConflict(true);
+							co.setProgressMonitor(monitor);
+							co.checkout();
+							RefUpdate refUpdate = submoduleRepo
+									.updateRef(Constants.HEAD, true);
+							refUpdate.setNewObjectId(commit);
+							refUpdate.forceUpdate();
+							if (callback != null) {
+								callback.checkingOut(commit,
+										generator.getPath());
+							}
+							break;
+						}
 				}
 				updated.add(generator.getPath());
 			}
