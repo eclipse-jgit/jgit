@@ -46,8 +46,11 @@ import org.junit.Test;
 /** Tests for pack creation and garbage expiration. */
 public class DfsGarbageCollectorTest {
 	private TestRepository<InMemoryRepository> git;
+
 	private InMemoryRepository repo;
+
 	private DfsObjDatabase odb;
+
 	private MockSystemReader mockSystemReader;
 
 	@Before
@@ -97,17 +100,12 @@ public class DfsGarbageCollectorTest {
 			msg.append(i).append(": i am a teapot\n");
 		}
 		RevBlob a = git.blob(msg.toString());
-		RevCommit c0 = git.commit()
-				.add("tea", a)
-				.message("0")
-				.create();
+		RevCommit c0 = git.commit().add("tea", a).message("0").create();
 
 		msg.append("short and stout\n");
 		RevBlob b = git.blob(msg.toString());
-		RevCommit c1 = git.commit().parent(c0).tick(1)
-				.add("tea", b)
-				.message("1")
-				.create();
+		RevCommit c1 = git.commit().parent(c0).tick(1).add("tea", b)
+				.message("1").create();
 		git.update("master", c1);
 
 		PackConfig cfg = new PackConfig();
@@ -133,11 +131,9 @@ public class DfsGarbageCollectorTest {
 		assertEquals(1, odb.getPacks().length);
 		DfsPackDescription small = odb.getPacks()[0].getPackDescription();
 		assertSame(PackSource.GC, small.getPackSource());
-		assertTrue(
-				"delta compression pack is smaller",
+		assertTrue("delta compression pack is smaller",
 				small.getFileSize(PACK) < large.getFileSize(PACK));
-		assertTrue(
-				"large pack is older",
+		assertTrue("large pack is older",
 				large.getLastModified() < small.getLastModified());
 
 		// Forcefully reinsert the older larger GC pack.
@@ -169,12 +165,16 @@ public class DfsGarbageCollectorTest {
 		DfsPackFile garbage = null;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gc = pack;
-			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				break;
+			case UNREACHABLE_GARBAGE:
 				garbage = pack;
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 
@@ -200,23 +200,28 @@ public class DfsGarbageCollectorTest {
 		boolean garbagePackFound = false;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gcPackFound = true;
 				assertTrue("has commit0", isObjectInPack(commit0, pack));
 				assertFalse("no commit1", isObjectInPack(commit1, pack));
-			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				break;
+			case UNREACHABLE_GARBAGE:
 				garbagePackFound = true;
 				assertFalse("no commit0", isObjectInPack(commit0, pack));
 				assertTrue("has commit1", isObjectInPack(commit1, pack));
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 		assertTrue("gc pack found", gcPackFound);
 		assertTrue("garbage pack found", garbagePackFound);
 
 		gcWithTtl();
-		// The gc operation should have removed UNREACHABLE_GARBAGE pack along with commit1.
+		// The gc operation should have removed UNREACHABLE_GARBAGE pack along
+		// with commit1.
 		DfsPackFile[] packs = odb.getPacks();
 		assertEquals(1, packs.length);
 
@@ -240,16 +245,20 @@ public class DfsGarbageCollectorTest {
 		boolean garbagePackFound = false;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gcPackFound = true;
 				assertTrue("has commit0", isObjectInPack(commit0, pack));
 				assertFalse("no commit1", isObjectInPack(commit1, pack));
-			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				break;
+			case UNREACHABLE_GARBAGE:
 				garbagePackFound = true;
 				assertFalse("no commit0", isObjectInPack(commit0, pack));
 				assertTrue("has commit1", isObjectInPack(commit1, pack));
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 		assertTrue("gc pack found", gcPackFound);
@@ -275,12 +284,14 @@ public class DfsGarbageCollectorTest {
 		RevCommit commit1 = commit().message("1").parent(commit0).create();
 
 		gcWithTtl();
-		// The repository should have a single UNREACHABLE_GARBAGE pack with commit0
+		// The repository should have a single UNREACHABLE_GARBAGE pack with
+		// commit0
 		// and commit1.
 		DfsPackFile[] packs = odb.getPacks();
 		assertEquals(1, packs.length);
 
-		assertEquals(UNREACHABLE_GARBAGE, packs[0].getPackDescription().getPackSource());
+		assertEquals(UNREACHABLE_GARBAGE,
+				packs[0].getPackDescription().getPackSource());
 		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
 		assertTrue("has commit1", isObjectInPack(commit1, packs[0]));
 
@@ -297,7 +308,8 @@ public class DfsGarbageCollectorTest {
 		RevCommit commit1 = commit().message("1").parent(commit0).create();
 
 		gcWithTtl();
-		// The repository should have a single UNREACHABLE_GARBAGE pack with commit0
+		// The repository should have a single UNREACHABLE_GARBAGE pack with
+		// commit0
 		// and commit1.
 		DfsPackFile[] packs = odb.getPacks();
 		assertEquals(1, packs.length);
@@ -448,12 +460,16 @@ public class DfsGarbageCollectorTest {
 		long inputPacksSize = 32;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gcPackFound = true;
-			} else if (d.getPackSource() == INSERT) {
+				break;
+			case INSERT:
 				insertPackFound = true;
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 			inputPacksSize += d.getFileSize(PACK) - 32;
 		}
@@ -512,12 +528,16 @@ public class DfsGarbageCollectorTest {
 		long inputPacksSize = 32;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC_REST) {
+			switch (d.getPackSource()) {
+			case GC_REST:
 				gcRestPackFound = true;
-			} else if (d.getPackSource() == INSERT) {
+				break;
+			case INSERT:
 				insertPackFound = true;
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 			inputPacksSize += d.getFileSize(PACK) - 32;
 		}
@@ -555,17 +575,22 @@ public class DfsGarbageCollectorTest {
 		long insertPackSize = 0;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gcPackFound = true;
 				gcPackSize = d.getFileSize(PACK);
-			} else if (d.getPackSource() == GC_REST) {
+				break;
+			case GC_REST:
 				gcRestPackFound = true;
 				gcRestPackSize = d.getFileSize(PACK);
-			} else if (d.getPackSource() == INSERT) {
+				break;
+			case INSERT:
 				insertPackFound = true;
 				insertPackSize = d.getFileSize(PACK);
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 		assertTrue(gcPackFound);
@@ -583,16 +608,20 @@ public class DfsGarbageCollectorTest {
 		gcRestPackFound = false;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				gcPackFound = true;
 				assertEquals(gcPackSize + insertPackSize - 32,
 						pack.getPackDescription().getEstimatedPackSize());
-			} else if (d.getPackSource() == GC_REST) {
+				break;
+			case GC_REST:
 				gcRestPackFound = true;
 				assertEquals(gcRestPackSize + insertPackSize - 32,
 						pack.getPackDescription().getEstimatedPackSize());
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 		assertTrue(gcPackFound);
@@ -629,18 +658,22 @@ public class DfsGarbageCollectorTest {
 		assertEquals(2, odb.getPacks().length);
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == GC) {
+			switch (d.getPackSource()) {
+			case GC:
 				// Even though just commit0 will end up in GC pack, because
 				// there is no good way to know that up front, both the pack
 				// sizes are considered while computing the estimated size of GC
 				// pack.
 				assertEquals(packSize0 + packSize1 - 32,
 						d.getEstimatedPackSize());
-			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				break;
+			case UNREACHABLE_GARBAGE:
 				// commit1 is moved to UNREACHABLE_GARBAGE pack.
 				assertEquals(packSize1, d.getEstimatedPackSize());
-			} else {
+				break;
+			default:
 				fail("unexpected " + d.getPackSource());
+				break;
 			}
 		}
 	}
@@ -848,7 +881,7 @@ public class DfsGarbageCollectorTest {
 	public void reftableWithoutTombstoneResurrected() throws Exception {
 		RevCommit commit0 = commit().message("0").create();
 		String NEXT = "refs/heads/next";
-		DfsRefDatabase refdb = (DfsRefDatabase)repo.getRefDatabase();
+		DfsRefDatabase refdb = (DfsRefDatabase) repo.getRefDatabase();
 		git.update(NEXT, commit0);
 		Ref next = refdb.exactRef(NEXT);
 		assertNotNull(next);
@@ -865,7 +898,7 @@ public class DfsGarbageCollectorTest {
 		run(gc);
 		assertEquals(1, odb.getReftables().length);
 		try (DfsReader ctx = odb.newReader();
-			 ReftableReader rr = odb.getReftables()[0].open(ctx)) {
+				ReftableReader rr = odb.getReftables()[0].open(ctx)) {
 			rr.setIncludeDeletes(true);
 			assertEquals(1, rr.minUpdateIndex());
 			assertEquals(2, rr.maxUpdateIndex());
@@ -898,7 +931,7 @@ public class DfsGarbageCollectorTest {
 	public void reftableWithTombstoneNotResurrected() throws Exception {
 		RevCommit commit0 = commit().message("0").create();
 		String NEXT = "refs/heads/next";
-		DfsRefDatabase refdb = (DfsRefDatabase)repo.getRefDatabase();
+		DfsRefDatabase refdb = (DfsRefDatabase) repo.getRefDatabase();
 		git.update(NEXT, commit0);
 		Ref next = refdb.exactRef(NEXT);
 		assertNotNull(next);
@@ -915,7 +948,7 @@ public class DfsGarbageCollectorTest {
 		run(gc);
 		assertEquals(1, odb.getReftables().length);
 		try (DfsReader ctx = odb.newReader();
-			 ReftableReader rr = odb.getReftables()[0].open(ctx)) {
+				ReftableReader rr = odb.getReftables()[0].open(ctx)) {
 			rr.setIncludeDeletes(true);
 			assertEquals(1, rr.minUpdateIndex());
 			assertEquals(2, rr.maxUpdateIndex());

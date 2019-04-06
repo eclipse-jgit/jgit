@@ -72,9 +72,9 @@ import org.eclipse.jgit.revwalk.RevWalkUtils;
  * In case HEAD is detached (it points directly to a commit), it is also
  * returned in the results.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-branch.html"
- *      >Git documentation about Branch</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-branch.html" >Git
+ *      documentation about Branch</a>
  */
 public class ListBranchCommand extends GitCommand<List<Ref>> {
 	private ListMode listMode;
@@ -120,20 +120,26 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 				refs.add(head);
 			}
 
-			if (listMode == null) {
+			if (null == listMode) {
 				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_HEADS));
-			} else if (listMode == ListMode.REMOTE) {
-				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_REMOTES));
-			} else {
-				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_HEADS,
-						R_REMOTES));
-			}
+			} else
+				switch (listMode) {
+				case REMOTE:
+					refs.addAll(
+							repo.getRefDatabase().getRefsByPrefix(R_REMOTES));
+					break;
+				default:
+					refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_HEADS,
+							R_REMOTES));
+					break;
+				}
 			resultRefs = new ArrayList<>(filterRefs(refs));
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 
-		Collections.sort(resultRefs, (Ref o1, Ref o2) -> o1.getName().compareTo(o2.getName()));
+		Collections.sort(resultRefs,
+				(Ref o1, Ref o2) -> o1.getName().compareTo(o2.getName()));
 		setCallable(false);
 		return resultRefs;
 	}

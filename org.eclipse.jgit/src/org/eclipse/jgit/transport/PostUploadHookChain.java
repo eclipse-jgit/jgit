@@ -56,6 +56,7 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
  */
 public class PostUploadHookChain implements PostUploadHook {
 	private final PostUploadHook[] hooks;
+
 	private final int count;
 
 	/**
@@ -65,18 +66,21 @@ public class PostUploadHookChain implements PostUploadHook {
 	 *            hooks to execute, in order.
 	 * @return a new chain of the given hooks.
 	 */
-	public static PostUploadHook newChain(List<? extends PostUploadHook> hooks) {
+	public static PostUploadHook newChain(
+			List<? extends PostUploadHook> hooks) {
 		PostUploadHook[] newHooks = new PostUploadHook[hooks.size()];
 		int i = 0;
 		for (PostUploadHook hook : hooks)
 			if (hook != PostUploadHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
+		switch (i) {
+		case 0:
 			return PostUploadHook.NULL;
-		else if (i == 1)
+		case 1:
 			return newHooks[0];
-		else
+		default:
 			return new PostUploadHookChain(newHooks, i);
+		}
 	}
 
 	/** {@inheritDoc} */
