@@ -80,12 +80,9 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	 */
 	public static boolean isCygwin() {
 		final String path = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					@Override
-					public String run() {
-						return System.getProperty("java.library.path"); //$NON-NLS-1$
-					}
-				});
+				.doPrivileged((PrivilegedAction<String>) () -> System
+						.getProperty("java.library.path") //$NON-NLS-1$
+				);
 		if (path == null)
 			return false;
 		File found = FS.searchPath(path, "cygpath.exe"); //$NON-NLS-1$
@@ -125,8 +122,8 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 			String w;
 			try {
 				w = readPipe(dir, //
-					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
-					UTF_8.name());
+						new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
+						UTF_8.name());
 			} catch (CommandFailedException e) {
 				LOG.warn(e.getMessage());
 				return null;
@@ -141,13 +138,9 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	/** {@inheritDoc} */
 	@Override
 	protected File userHomeImpl() {
-		final String home = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					@Override
-					public String run() {
-						return System.getenv("HOME"); //$NON-NLS-1$
-					}
-				});
+		final String home = AccessController.doPrivileged(
+				(PrivilegedAction<String>) () -> System.getenv("HOME") //$NON-NLS-1$
+		);
 		if (home == null || home.length() == 0)
 			return super.userHomeImpl();
 		return resolve(new File("."), home); //$NON-NLS-1$
@@ -176,9 +169,10 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 
 	/** {@inheritDoc} */
 	@Override
-	public ProcessResult runHookIfPresent(Repository repository, String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
-			String stdinArgs) throws JGitInternalException {
+	public ProcessResult runHookIfPresent(Repository repository,
+			String hookName, String[] args, PrintStream outRedirect,
+			PrintStream errRedirect, String stdinArgs)
+			throws JGitInternalException {
 		return internalRunHookIfPresent(repository, hookName, args, outRedirect,
 				errRedirect, stdinArgs);
 	}

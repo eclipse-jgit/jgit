@@ -75,16 +75,15 @@ import org.eclipse.jgit.util.Paths;
  * @see DirCacheBuilder
  */
 public class DirCacheEditor extends BaseDirCacheEditor {
-	private static final Comparator<PathEdit> EDIT_CMP = new Comparator<PathEdit>() {
-		@Override
-		public int compare(PathEdit o1, PathEdit o2) {
-			final byte[] a = o1.path;
-			final byte[] b = o2.path;
-			return cmp(a, a.length, b, b.length);
-		}
+	private static final Comparator<PathEdit> EDIT_CMP = (PathEdit o1,
+			PathEdit o2) -> {
+		final byte[] a = o1.path;
+		final byte[] b = o2.path;
+		return cmp(a, a.length, b, b.length);
 	};
 
 	private final List<PathEdit> edits;
+
 	private int editIdx;
 
 	/**
@@ -169,9 +168,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 							JGitText.get().fileModeNotSetForPath,
 							ent.getPathString()));
 				}
-				lastIdx = e.replace
-					? deleteOverlappingSubtree(ent, eIdx)
-					: eIdx;
+				lastIdx = e.replace ? deleteOverlappingSubtree(ent, eIdx)
+						: eIdx;
 				fastAdd(ent);
 			} else {
 				// Apply to all entries of the current path (different stages)
@@ -222,8 +220,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		}
 
 		DirCacheEntry next = cache.getEntry(eIdx);
-		if (Paths.compare(next.path, 0, next.path.length, 0,
-				entPath, 0, entLen, TYPE_TREE) < 0) {
+		if (Paths.compare(next.path, 0, next.path.length, 0, entPath, 0, entLen,
+				TYPE_TREE) < 0) {
 			// Next DirCacheEntry sorts before new entry as tree. Defer a
 			// DeleteTree command to delete any entries if they exist. This
 			// case only happens for A, A.c, A/c type of conflicts (rare).
@@ -296,6 +294,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	 */
 	public abstract static class PathEdit {
 		final byte[] path;
+
 		boolean replace = true;
 
 		/**
@@ -391,7 +390,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 
 		@Override
 		public void apply(DirCacheEntry ent) {
-			throw new UnsupportedOperationException(JGitText.get().noApplyInDelete);
+			throw new UnsupportedOperationException(
+					JGitText.get().noApplyInDelete);
 		}
 	}
 
@@ -420,8 +420,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		public DeleteTree(String entryPath) {
 			super(entryPath.isEmpty()
 					|| entryPath.charAt(entryPath.length() - 1) == '/'
-					? entryPath
-					: entryPath + '/');
+							? entryPath
+							: entryPath + '/');
 		}
 
 		DeleteTree(byte[] path) {
@@ -441,7 +441,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 
 		@Override
 		public void apply(DirCacheEntry ent) {
-			throw new UnsupportedOperationException(JGitText.get().noApplyInDelete);
+			throw new UnsupportedOperationException(
+					JGitText.get().noApplyInDelete);
 		}
 	}
 }

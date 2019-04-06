@@ -111,14 +111,12 @@ public class DirCache {
 
 	private static final byte[] NO_CHECKSUM = {};
 
-	static final Comparator<DirCacheEntry> ENT_CMP = new Comparator<DirCacheEntry>() {
-		@Override
-		public int compare(DirCacheEntry o1, DirCacheEntry o2) {
-			final int cr = cmp(o1, o2);
-			if (cr != 0)
-				return cr;
-			return o1.getStage() - o2.getStage();
-		}
+	static final Comparator<DirCacheEntry> ENT_CMP = (DirCacheEntry o1,
+			DirCacheEntry o2) -> {
+		final int cr = cmp(o1, o2);
+		if (cr != 0)
+			return cr;
+		return o1.getStage() - o2.getStage();
 	};
 
 	static int cmp(DirCacheEntry a, DirCacheEntry b) {
@@ -318,8 +316,7 @@ public class DirCache {
 	 */
 	public static DirCache lock(final File indexLocation, final FS fs,
 			IndexChangedListener indexChangedListener)
-			throws CorruptObjectException,
-			IOException {
+			throws CorruptObjectException, IOException {
 		DirCache c = lock(indexLocation, fs);
 		c.registerIndexChangedListener(indexChangedListener);
 		return c;
@@ -420,7 +417,8 @@ public class DirCache {
 	 */
 	public void read() throws IOException, CorruptObjectException {
 		if (liveFile == null)
-			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
+			throw new IOException(
+					JGitText.get().dirCacheDoesNotHaveABackingFile);
 		if (!liveFile.exists())
 			clear();
 		else if (snapshot == null || snapshot.isModified(liveFile)) {
@@ -467,8 +465,8 @@ public class DirCache {
 		readIndexChecksum = NO_CHECKSUM;
 	}
 
-	private void readFrom(InputStream inStream) throws IOException,
-			CorruptObjectException {
+	private void readFrom(InputStream inStream)
+			throws IOException, CorruptObjectException {
 		final BufferedInputStream in = new BufferedInputStream(inStream);
 		final MessageDigest md = Constants.newMessageDigest();
 
@@ -488,7 +486,8 @@ public class DirCache {
 					JGitText.get().unknownDIRCVersion, Integer.valueOf(ver)));
 		entryCnt = NB.decodeInt32(hdr, 8);
 		if (entryCnt < 0)
-			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
+			throw new CorruptObjectException(
+					JGitText.get().DIRCHasTooManyEntries);
 
 		snapshot = FileSnapshot.save(liveFile);
 		int smudge_s = (int) (snapshot.lastModified() / 1000);
@@ -502,7 +501,8 @@ public class DirCache {
 
 		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge_s, smudge_ns);
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md,
+					smudge_s, smudge_ns);
 
 		// After the file entries are index extensions, and then a footer.
 		//
@@ -546,15 +546,17 @@ public class DirCache {
 					// _required_ to understand this index format.
 					// Since we did not trap it above we must abort.
 					//
-					throw new CorruptObjectException(MessageFormat.format(JGitText.get().DIRCExtensionNotSupportedByThisVersion
-							, formatExtensionName(hdr)));
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().DIRCExtensionNotSupportedByThisVersion,
+							formatExtensionName(hdr)));
 				}
 			}
 		}
 
 		readIndexChecksum = md.digest();
 		if (!Arrays.equals(readIndexChecksum, hdr)) {
-			throw new CorruptObjectException(JGitText.get().DIRCChecksumMismatch);
+			throw new CorruptObjectException(
+					JGitText.get().DIRCChecksumMismatch);
 		}
 	}
 
@@ -565,10 +567,9 @@ public class DirCache {
 		while (0 < sz) {
 			int n = in.read(b, 0, (int) Math.min(b.length, sz));
 			if (n < 0) {
-				throw new EOFException(
-						MessageFormat.format(
-								JGitText.get().shortReadOfOptionalDIRCExtensionExpectedAnotherBytes,
-								formatExtensionName(hdr), Long.valueOf(sz)));
+				throw new EOFException(MessageFormat.format(JGitText
+						.get().shortReadOfOptionalDIRCExtensionExpectedAnotherBytes,
+						formatExtensionName(hdr), Long.valueOf(sz)));
 			}
 			md.update(b, 0, n);
 			sz -= n;
@@ -599,7 +600,8 @@ public class DirCache {
 	 */
 	public boolean lock() throws IOException {
 		if (liveFile == null)
-			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
+			throw new IOException(
+					JGitText.get().dirCacheDoesNotHaveABackingFile);
 		final LockFile tmp = new LockFile(liveFile);
 		if (tmp.lock()) {
 			tmp.setNeedStatInformation(true);
@@ -740,8 +742,9 @@ public class DirCache {
 		if (liveFile == null)
 			throw new IllegalStateException(JGitText.get().dirCacheIsNotLocked);
 		if (tmp == null)
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().dirCacheFileIsNotLocked
-					, liveFile.getAbsolutePath()));
+			throw new IllegalStateException(
+					MessageFormat.format(JGitText.get().dirCacheFileIsNotLocked,
+							liveFile.getAbsolutePath()));
 	}
 
 	/**

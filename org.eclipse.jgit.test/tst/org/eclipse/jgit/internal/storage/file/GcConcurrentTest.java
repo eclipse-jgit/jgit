@@ -83,8 +83,8 @@ public class GcConcurrentTest extends GcTestCase {
 	public void concurrentRepack() throws Exception {
 		final CyclicBarrier syncPoint = new CyclicBarrier(2);
 
-		class DoRepack extends EmptyProgressMonitor implements
-				Callable<Integer> {
+		class DoRepack extends EmptyProgressMonitor
+				implements Callable<Integer> {
 
 			@Override
 			public void beginTask(String title, int totalWork) {
@@ -130,7 +130,8 @@ public class GcConcurrentTest extends GcTestCase {
 			DoRepack repack2 = new DoRepack();
 			Future<Integer> result1 = pool.submit(repack1);
 			Future<Integer> result2 = pool.submit(repack2);
-			assertEquals(0, result1.get().intValue() + result2.get().intValue());
+			assertEquals(0,
+					result1.get().intValue() + result2.get().intValue());
 		} finally {
 			pool.shutdown();
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
@@ -210,7 +211,8 @@ public class GcConcurrentTest extends GcTestCase {
 		RevCommit b = test.commit().add("b", "b").create();
 
 		// start the garbage collection on a new repository instance,
-		FileRepository repository2 = new FileRepository(repository.getDirectory());
+		FileRepository repository2 = new FileRepository(
+				repository.getDirectory());
 		GC gc2 = new GC(repository2);
 		gc2.setPackExpireAgeMillis(0);
 		gc2.gc();
@@ -239,20 +241,15 @@ public class GcConcurrentTest extends GcTestCase {
 		SampleDataRepositoryTestCase.copyCGitTestPacks(repo);
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		final CountDownLatch latch = new CountDownLatch(1);
-		Future<Collection<PackFile>> result = executor
-				.submit(new Callable<Collection<PackFile>>() {
-
-					@Override
-					public Collection<PackFile> call() throws Exception {
-						long start = System.currentTimeMillis();
-						System.out.println("starting gc");
-						latch.countDown();
-						Collection<PackFile> r = gc.gc();
-						System.out.println("gc took "
-								+ (System.currentTimeMillis() - start) + " ms");
-						return r;
-					}
-				});
+		Future<Collection<PackFile>> result = executor.submit(() -> {
+			long start = System.currentTimeMillis();
+			System.out.println("starting gc");
+			latch.countDown();
+			Collection<PackFile> r = gc.gc();
+			System.out.println(
+					"gc took " + (System.currentTimeMillis() - start) + " ms");
+			return r;
+		});
 		try {
 			latch.await();
 			Thread.sleep(5);

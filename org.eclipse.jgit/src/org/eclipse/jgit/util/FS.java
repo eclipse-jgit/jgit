@@ -180,7 +180,10 @@ public abstract class FS {
 		}
 	}
 
-	/** The auto-detected implementation selected for this operating system and JRE. */
+	/**
+	 * The auto-detected implementation selected for this operating system and
+	 * JRE.
+	 */
 	public static final FS DETECTED = detect();
 
 	private volatile static FSFactory factory;
@@ -297,9 +300,9 @@ public abstract class FS {
 	 * Not all platforms and JREs support executable flags on files. If the
 	 * feature is unsupported this method will always return false.
 	 * <p>
-	 * <em>If the platform supports symbolic links and <code>f</code> is a symbolic link
-	 * this method returns false, rather than the state of the executable flags
-	 * on the target file.</em>
+	 * <em>If the platform supports symbolic links and <code>f</code> is a
+	 * symbolic link this method returns false, rather than the state of the
+	 * executable flags on the target file.</em>
 	 *
 	 * @param f
 	 *            abstract path to test.
@@ -449,7 +452,8 @@ public abstract class FS {
 	 *
 	 * @param file
 	 * @return {@link BasicFileAttributes} of the file
-	 * @throws IOException in case of any I/O errors accessing the file
+	 * @throws IOException
+	 *             in case of any I/O errors accessing the file
 	 *
 	 * @since 4.5.6
 	 */
@@ -463,13 +467,9 @@ public abstract class FS {
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	protected File userHomeImpl() {
-		final String home = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					@Override
-					public String run() {
-						return System.getProperty("user.home"); //$NON-NLS-1$
-					}
-				});
+		final String home = AccessController.doPrivileged(
+				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
+		);
 		if (home == null || home.length() == 0)
 			return null;
 		return new File(home).getAbsoluteFile();
@@ -610,10 +610,15 @@ public abstract class FS {
 		private static final int PROCESS_EXIT_TIMEOUT = 5;
 
 		private final Process p;
+
 		private final String desc;
+
 		private final String dir;
+
 		final AtomicBoolean fail = new AtomicBoolean();
+
 		final AtomicReference<String> errorMessage = new AtomicReference<>();
+
 		final AtomicReference<Throwable> exception = new AtomicReference<>();
 
 		GobblerThread(Process p, String[] command, File dir) {
@@ -635,7 +640,8 @@ public abstract class FS {
 					setError(e, e.getMessage(), p.exitValue());
 					fail.set(true);
 				} else {
-					// ignore. command terminated faster and stream was just closed
+					// ignore. command terminated faster and stream was just
+					// closed
 					// or the process didn't terminate within timeout
 				}
 			} finally {
@@ -659,8 +665,11 @@ public abstract class FS {
 					return false;
 				}
 			} catch (InterruptedException e) {
-				setError(originalError, MessageFormat.format(
-						JGitText.get().threadInterruptedWhileRunning, desc), -1);
+				setError(originalError,
+						MessageFormat.format(
+								JGitText.get().threadInterruptedWhileRunning,
+								desc),
+						-1);
 				fail.set(true);
 				return false;
 			}
@@ -701,8 +710,8 @@ public abstract class FS {
 		String v;
 		try {
 			v = readPipe(gitExe.getParentFile(),
-				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
-				Charset.defaultCharset().name());
+					new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
+					Charset.defaultCharset().name());
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
 			return null;
@@ -720,8 +729,8 @@ public abstract class FS {
 		String w;
 		try {
 			w = readPipe(gitExe.getParentFile(),
-				new String[] { "git", "config", "--system", "--edit" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				Charset.defaultCharset().name(), env);
+					new String[] { "git", "config", "--system", "--edit" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					Charset.defaultCharset().name(), env);
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
 			return null;
@@ -987,7 +996,8 @@ public abstract class FS {
 	 * @since 3.7
 	 */
 	public String relativize(String base, String other) {
-		return FileUtils.relativizePath(base, other, File.separator, this.isCaseSensitive());
+		return FileUtils.relativizePath(base, other, File.separator,
+				this.isCaseSensitive());
 	}
 
 	/**
@@ -1036,10 +1046,9 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
-			final String hookName,
-			String[] args) throws JGitInternalException {
-		return runHookIfPresent(repository, hookName, args, System.out, System.err,
-				null);
+			final String hookName, String[] args) throws JGitInternalException {
+		return runHookIfPresent(repository, hookName, args, System.out,
+				System.err, null);
 	}
 
 	/**
@@ -1071,9 +1080,9 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
-			final String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
-			String stdinArgs) throws JGitInternalException {
+			final String hookName, String[] args, PrintStream outRedirect,
+			PrintStream errRedirect, String stdinArgs)
+			throws JGitInternalException {
 		return new ProcessResult(Status.NOT_SUPPORTED);
 	}
 
@@ -1120,8 +1129,7 @@ public abstract class FS {
 			runDirectory = repository.getDirectory();
 		else
 			runDirectory = repository.getWorkTree();
-		final String cmd = relativize(runDirectory.getAbsolutePath(),
-				hookPath);
+		final String cmd = relativize(runDirectory.getAbsolutePath(), hookPath);
 		ProcessBuilder hookProcess = runInShell(cmd, args);
 		hookProcess.directory(runDirectory);
 		Map<String, String> environment = hookProcess.environment();
@@ -1140,11 +1148,10 @@ public abstract class FS {
 					hookName), e);
 		} catch (InterruptedException e) {
 			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().exceptionHookExecutionInterrupted,
-							hookName), e);
+					JGitText.get().exceptionHookExecutionInterrupted, hookName),
+					e);
 		}
 	}
-
 
 	/**
 	 * Tries to find a hook matching the given one in the given repository.
@@ -1161,8 +1168,8 @@ public abstract class FS {
 		File gitDir = repository.getDirectory();
 		if (gitDir == null)
 			return null;
-		final File hookFile = new File(new File(gitDir,
-				Constants.HOOKS), hookName);
+		final File hookFile = new File(new File(gitDir, Constants.HOOKS),
+				hookName);
 		return hookFile.isFile() ? hookFile : null;
 	}
 
@@ -1192,10 +1199,10 @@ public abstract class FS {
 	 * @since 4.2
 	 */
 	public int runProcess(ProcessBuilder processBuilder,
-			OutputStream outRedirect, OutputStream errRedirect, String stdinArgs)
-			throws IOException, InterruptedException {
-		InputStream in = (stdinArgs == null) ? null : new ByteArrayInputStream(
-						stdinArgs.getBytes(UTF_8));
+			OutputStream outRedirect, OutputStream errRedirect,
+			String stdinArgs) throws IOException, InterruptedException {
+		InputStream in = (stdinArgs == null) ? null
+				: new ByteArrayInputStream(stdinArgs.getBytes(UTF_8));
 		return runProcess(processBuilder, outRedirect, errRedirect, in);
 	}
 
@@ -1229,8 +1236,7 @@ public abstract class FS {
 	 */
 	public int runProcess(ProcessBuilder processBuilder,
 			OutputStream outRedirect, OutputStream errRedirect,
-			InputStream inRedirect) throws IOException,
-			InterruptedException {
+			InputStream inRedirect) throws IOException, InterruptedException {
 		final ExecutorService executor = Executors.newFixedThreadPool(2);
 		Process process = null;
 		// We'll record the first I/O exception that occurs, but keep on trying
@@ -1252,12 +1258,18 @@ public abstract class FS {
 				try {
 					outputStream.close();
 				} catch (IOException e) {
-					// When the process exits before consuming the input, the OutputStream
-					// is replaced with the null output stream. This null output stream
-					// throws IOException for all write calls. When StreamGobbler fails to
-					// flush the buffer because of this, this close call tries to flush it
-					// again. This causes another IOException. Since we ignore the
-					// IOException in StreamGobbler, we also ignore the exception here.
+					// When the process exits before consuming the input, the
+					// OutputStream
+					// is replaced with the null output stream. This null output
+					// stream
+					// throws IOException for all write calls. When
+					// StreamGobbler fails to
+					// flush the buffer because of this, this close call tries
+					// to flush it
+					// again. This causes another IOException. Since we ignore
+					// the
+					// IOException in StreamGobbler, we also ignore the
+					// exception here.
 				}
 			}
 			return process.waitFor();
@@ -1456,8 +1468,8 @@ public abstract class FS {
 
 		Attributes(FS fs, File file, boolean exists, boolean isDirectory,
 				boolean isExecutable, boolean isSymbolicLink,
-				boolean isRegularFile, long creationTime,
-				long lastModifiedTime, long length) {
+				boolean isRegularFile, long creationTime, long lastModifiedTime,
+				long length) {
 			this.fs = fs;
 			this.file = file;
 			this.exists = exists;

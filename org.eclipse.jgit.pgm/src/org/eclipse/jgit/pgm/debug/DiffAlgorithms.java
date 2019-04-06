@@ -52,7 +52,6 @@ import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffAlgorithm;
@@ -120,7 +119,8 @@ class DiffAlgorithms extends TextBuiltin {
 	@Option(name = "--text-limit", metaVar = "LIMIT", usage = "Maximum size in KiB to scan per file revision")
 	int textLimit = 15 * 1024; // 15 MiB as later we do * 1024.
 
-	@Option(name = "--repository", aliases = { "-r" }, metaVar = "GIT_DIR", usage = "Repository to scan")
+	@Option(name = "--repository", aliases = {
+			"-r" }, metaVar = "GIT_DIR", usage = "Repository to scan")
 	List<File> gitDirs = new ArrayList<>();
 
 	@Option(name = "--count", metaVar = "LIMIT", usage = "Number of file revisions to be compared")
@@ -176,7 +176,7 @@ class DiffAlgorithms extends TextBuiltin {
 
 		AbbreviatedObjectId startId;
 		try (ObjectReader or = repo.newObjectReader();
-			RevWalk rw = new RevWalk(or)) {
+				RevWalk rw = new RevWalk(or)) {
 			final MutableObjectId id = new MutableObjectId();
 			TreeWalk tw = new TreeWalk(or);
 			tw.setFilter(TreeFilter.ANY_DIFF);
@@ -235,15 +235,12 @@ class DiffAlgorithms extends TextBuiltin {
 			}
 		}
 
-		Collections.sort(all, new Comparator<Test>() {
-			@Override
-			public int compare(Test a, Test b) {
-				int result = Long.signum(a.runningTimeNanos - b.runningTimeNanos);
-				if (result == 0) {
-					result = a.algorithm.name.compareTo(b.algorithm.name);
-				}
-				return result;
+		Collections.sort(all, (Test a, Test b) -> {
+			int result = Long.signum(a.runningTimeNanos - b.runningTimeNanos);
+			if (result == 0) {
+				result = a.algorithm.name.compareTo(b.algorithm.name);
 			}
+			return result;
 		});
 
 		File directory = repo.getDirectory();
@@ -341,7 +338,7 @@ class DiffAlgorithms extends TextBuiltin {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw die("Cannot determine names", e); //$NON-NLS-1$
 		}
-            //$NON-NLS-1$
+		// $NON-NLS-1$
 
 		return all;
 	}

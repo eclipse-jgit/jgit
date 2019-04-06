@@ -68,12 +68,10 @@ public class ThrowingPrintWriter extends Writer {
 	 */
 	public ThrowingPrintWriter(Writer out) {
 		this.out = out;
-		LF = AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				return SystemReader.getInstance().getProperty("line.separator"); //$NON-NLS-1$
-			}
-		});
+		LF = AccessController
+				.doPrivileged((PrivilegedAction<String>) () -> SystemReader
+						.getInstance().getProperty("line.separator") //$NON-NLS-1$
+				);
 	}
 
 	/** {@inheritDoc} */
@@ -97,7 +95,8 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a string and terminate with a line feed.
 	 *
-	 * @param s a {@link java.lang.String} object.
+	 * @param s
+	 *            a {@link java.lang.String} object.
 	 * @throws java.io.IOException
 	 */
 	public void println(String s) throws IOException {
@@ -116,7 +115,8 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a char
 	 *
-	 * @param value a char.
+	 * @param value
+	 *            a char.
 	 * @throws java.io.IOException
 	 */
 	public void print(char value) throws IOException {
@@ -137,7 +137,8 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a long as string
 	 *
-	 * @param value a long.
+	 * @param value
+	 *            a long.
 	 * @throws java.io.IOException
 	 */
 	public void print(long value) throws IOException {
@@ -147,7 +148,8 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a short as string
 	 *
-	 * @param value a short.
+	 * @param value
+	 *            a short.
 	 * @throws java.io.IOException
 	 */
 	public void print(short value) throws IOException {

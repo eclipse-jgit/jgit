@@ -67,23 +67,29 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PushConnectionTest {
 	private URIish uri;
+
 	private TestProtocol<Object> testProtocol;
+
 	private Object ctx = new Object();
+
 	private InMemoryRepository server;
+
 	private InMemoryRepository client;
+
 	private List<String> processedRefs;
+
 	private ObjectId obj1;
+
 	private ObjectId obj2;
+
 	private ObjectId obj3;
+
 	private String refName = "refs/tags/blob";
 
 	@Before
@@ -91,27 +97,16 @@ public class PushConnectionTest {
 		server = newRepo("server");
 		client = newRepo("client");
 		processedRefs = new ArrayList<>();
-		testProtocol = new TestProtocol<>(
-				null,
-				new ReceivePackFactory<Object>() {
-					@Override
-					public ReceivePack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						ReceivePack rp = new ReceivePack(db);
-						rp.setPreReceiveHook(
-								new PreReceiveHook() {
-									@Override
-									public void onPreReceive(ReceivePack receivePack,
-											Collection<ReceiveCommand> cmds) {
-										for (ReceiveCommand cmd : cmds) {
-											processedRefs.add(cmd.getRefName());
-										}
-									}
-								});
-						return rp;
-					}
-				});
+		testProtocol = new TestProtocol<>(null, (Object req, Repository db) -> {
+			ReceivePack rp = new ReceivePack(db);
+			rp.setPreReceiveHook((ReceivePack receivePack,
+					Collection<ReceiveCommand> cmds) -> {
+				for (ReceiveCommand cmd : cmds) {
+					processedRefs.add(cmd.getRefName());
+				}
+			});
+			return rp;
+		});
 		uri = testProtocol.register(ctx, server);
 
 		try (ObjectInserter ins = server.newObjectInserter()) {
@@ -159,7 +154,8 @@ public class PushConnectionTest {
 	@Test
 	public void invalidCommand() throws IOException {
 		try (Transport tn = testProtocol.open(uri, client, "server");
-				InternalPushConnection c = (InternalPushConnection) tn.openPush()) {
+				InternalPushConnection c = (InternalPushConnection) tn
+						.openPush()) {
 			StringWriter msgs = new StringWriter();
 			PacketLineOut pckOut = c.pckOut;
 
@@ -195,9 +191,8 @@ public class PushConnectionTest {
 	public void limitCommandBytes() throws IOException {
 		Map<String, RemoteRefUpdate> updates = new HashMap<>();
 		for (int i = 0; i < 4; i++) {
-			RemoteRefUpdate rru = new RemoteRefUpdate(
-					null, null, obj2, "refs/test/T" + i,
-					false, null, ObjectId.zeroId());
+			RemoteRefUpdate rru = new RemoteRefUpdate(null, null, obj2,
+					"refs/test/T" + i, false, null, ObjectId.zeroId());
 			updates.put(rru.getRemoteName(), rru);
 		}
 
@@ -243,12 +238,12 @@ public class PushConnectionTest {
 		assertEquals(
 				"ref names processed by ReceivePack should match input ref names in order",
 				expected, processedRefs);
-		assertEquals(
-				"remote ref names should match input ref names in order",
+		assertEquals("remote ref names should match input ref names in order",
 				expected, remoteRefNames(result.getRemoteUpdates()));
 	}
 
-	private static List<String> remoteRefNames(Collection<RemoteRefUpdate> updates) {
+	private static List<String> remoteRefNames(
+			Collection<RemoteRefUpdate> updates) {
 		List<String> result = new ArrayList<>();
 		for (RemoteRefUpdate u : updates) {
 			result.add(u.getRemoteName());

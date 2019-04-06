@@ -57,7 +57,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,12 +101,13 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  */
 public class PushCertificateStore implements AutoCloseable {
 	/** Ref name storing push certificates. */
-	static final String REF_NAME =
-			Constants.R_REFS + "meta/push-certs"; //$NON-NLS-1$
+	static final String REF_NAME = Constants.R_REFS + "meta/push-certs"; //$NON-NLS-1$
 
 	private static class PendingCert {
 		PushCertificate cert;
+
 		PersonIdent ident;
+
 		Collection<ReceiveCommand> matching;
 
 		PendingCert(PushCertificate cert, PersonIdent ident,
@@ -119,8 +119,11 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	private final Repository db;
+
 	private final List<PendingCert> pending;
+
 	ObjectReader reader;
+
 	RevCommit commit;
 
 	/**
@@ -154,14 +157,14 @@ public class PushCertificateStore implements AutoCloseable {
 	/**
 	 * Get latest push certificate associated with a ref.
 	 * <p>
-	 * Lazily opens {@code refs/meta/push-certs} and reads from the repository as
-	 * necessary. The state is cached between calls to {@code get}; to reread the,
-	 * call {@link #close()} first.
+	 * Lazily opens {@code refs/meta/push-certs} and reads from the repository
+	 * as necessary. The state is cached between calls to {@code get}; to reread
+	 * the, call {@link #close()} first.
 	 *
 	 * @param refName
 	 *            the ref name to get the certificate for.
-	 * @return last certificate affecting the ref, or null if no cert was recorded
-	 *         for the last update to this ref.
+	 * @return last certificate affecting the ref, or null if no cert was
+	 *         recorded for the last update to this ref.
 	 * @throws java.io.IOException
 	 *             if a problem occurred reading the repository.
 	 */
@@ -182,10 +185,10 @@ public class PushCertificateStore implements AutoCloseable {
 	 * seen for this ref.
 	 * <p>
 	 * The returned iterable may be iterated multiple times, and push certs will
-	 * be re-read from the current state of the store on each call to {@link
-	 * Iterable#iterator()}. However, method calls on the returned iterator may
-	 * fail if {@code save} or {@code close} is called on the enclosing store
-	 * during iteration.
+	 * be re-read from the current state of the store on each call to
+	 * {@link Iterable#iterator()}. However, method calls on the returned
+	 * iterator may fail if {@code save} or {@code close} is called on the
+	 * enclosing store during iteration.
 	 *
 	 * @param refName
 	 *            the ref name to get certificates for.
@@ -193,81 +196,78 @@ public class PushCertificateStore implements AutoCloseable {
 	 *         close resources.
 	 */
 	public Iterable<PushCertificate> getAll(String refName) {
-		return new Iterable<PushCertificate>() {
-			@Override
-			public Iterator<PushCertificate> iterator() {
-				return new Iterator<PushCertificate>() {
-					private final String path = pathName(refName);
-					private PushCertificate next;
+		return () -> new Iterator<PushCertificate>() {
+			private final String path = pathName(refName);
 
-					private RevWalk rw;
-					{
+			private PushCertificate next;
+
+			private RevWalk rw;
+			{
+				try {
+					if (reader == null) {
+						load();
+					}
+					if (commit != null) {
+						rw = new RevWalk(reader);
+						rw.setTreeFilter(AndTreeFilter.create(
+								PathFilterGroup.create(Collections
+										.singleton(PathFilter.create(path))),
+								TreeFilter.ANY_DIFF));
+						rw.setRewriteParents(false);
+						rw.markStart(rw.parseCommit(commit));
+					} else {
+						rw = null;
+					}
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			@Override
+			public boolean hasNext() {
+				try {
+					if (next == null) {
+						if (rw == null) {
+							return false;
+						}
 						try {
-							if (reader == null) {
-								load();
-							}
-							if (commit != null) {
-								rw = new RevWalk(reader);
-								rw.setTreeFilter(AndTreeFilter.create(
-										PathFilterGroup.create(
-											Collections.singleton(PathFilter.create(path))),
-										TreeFilter.ANY_DIFF));
-								rw.setRewriteParents(false);
-								rw.markStart(rw.parseCommit(commit));
+							RevCommit c = rw.next();
+							if (c != null) {
+								try (TreeWalk tw = TreeWalk.forPath(
+										rw.getObjectReader(), path,
+										c.getTree())) {
+									next = read(tw);
+								}
 							} else {
-								rw = null;
+								next = null;
 							}
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 					}
-
-					@Override
-					public boolean hasNext() {
-						try {
-							if (next == null) {
-								if (rw == null) {
-									return false;
-								}
-								try {
-									RevCommit c = rw.next();
-									if (c != null) {
-										try (TreeWalk tw = TreeWalk.forPath(
-												rw.getObjectReader(), path, c.getTree())) {
-											next = read(tw);
-										}
-									} else {
-										next = null;
-									}
-								} catch (IOException e) {
-									throw new RuntimeException(e);
-								}
-							}
-							return next != null;
-						} finally {
-							if (next == null && rw != null) {
-								rw.close();
-								rw = null;
-							}
-						}
+					return next != null;
+				} finally {
+					if (next == null && rw != null) {
+						rw.close();
+						rw = null;
 					}
+				}
+			}
 
-					@Override
-					public PushCertificate next() {
-						hasNext();
-						PushCertificate n = next;
-						if (n == null) {
-							throw new NoSuchElementException();
-						}
-						next = null;
-						return n;
-					}
+			@Override
+			public PushCertificate next() {
+				hasNext();
+				PushCertificate n = next;
+				if (n == null) {
+					throw new NoSuchElementException();
+				}
+				next = null;
+				return n;
+			}
 
-					@Override
-					public void remove() {
-						throw new UnsupportedOperationException();
-					}
-				};
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
 			}
 		};
 	}
@@ -289,8 +289,8 @@ public class PushCertificateStore implements AutoCloseable {
 		if (tw == null || (tw.getRawMode(0) & TYPE_FILE) != TYPE_FILE) {
 			return null;
 		}
-		ObjectLoader loader =
-				tw.getObjectReader().open(tw.getObjectId(0), OBJ_BLOB);
+		ObjectLoader loader = tw.getObjectReader().open(tw.getObjectId(0),
+				OBJ_BLOB);
 		try (InputStream in = loader.openStream();
 				Reader r = new BufferedReader(
 						new InputStreamReader(in, UTF_8))) {
@@ -370,13 +370,13 @@ public class PushCertificateStore implements AutoCloseable {
 		try (ObjectInserter inserter = db.newObjectInserter()) {
 			RefUpdate.Result result = updateRef(newId);
 			switch (result) {
-				case FAST_FORWARD:
-				case NEW:
-				case NO_CHANGE:
-					pending.clear();
-					break;
-				default:
-					break;
+			case FAST_FORWARD:
+			case NEW:
+			case NO_CHANGE:
+				pending.clear();
+				break;
+			default:
+				break;
 			}
 			return result;
 		} finally {
@@ -414,8 +414,8 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	/**
-	 * Clear pending certificates added with {@link #put(PushCertificate,
-	 * PersonIdent)}.
+	 * Clear pending certificates added with
+	 * {@link #put(PushCertificate, PersonIdent)}.
 	 */
 	public void clear() {
 		pending.clear();
@@ -442,13 +442,8 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	private static void sortPending(List<PendingCert> pending) {
-		Collections.sort(pending, new Comparator<PendingCert>() {
-			@Override
-			public int compare(PendingCert a, PendingCert b) {
-				return Long.signum(
-						a.ident.getWhen().getTime() - b.ident.getWhen().getTime());
-			}
-		});
+		Collections.sort(pending, (PendingCert a, PendingCert b) -> Long.signum(
+				a.ident.getWhen().getTime() - b.ident.getWhen().getTime()));
 	}
 
 	private DirCache newDirCache() throws IOException {
@@ -474,10 +469,12 @@ public class PushCertificateStore implements AutoCloseable {
 
 		DirCacheEditor editor = dc.editor();
 		String certText = pc.cert.toText() + pc.cert.getSignature();
-		final ObjectId certId = inserter.insert(OBJ_BLOB, certText.getBytes(UTF_8));
+		final ObjectId certId = inserter.insert(OBJ_BLOB,
+				certText.getBytes(UTF_8));
 		boolean any = false;
 		for (ReceiveCommand cmd : pc.cert.getCommands()) {
-			if (byRef != null && !commandsEqual(cmd, byRef.get(cmd.getRefName()))) {
+			if (byRef != null
+					&& !commandsEqual(cmd, byRef.get(cmd.getRefName()))) {
 				continue;
 			}
 			any = true;
@@ -540,8 +537,7 @@ public class PushCertificateStore implements AutoCloseable {
 	private static String buildMessage(PushCertificate cert) {
 		StringBuilder sb = new StringBuilder();
 		if (cert.getCommands().size() == 1) {
-			sb.append(MessageFormat.format(
-					JGitText.get().storePushCertOneRef,
+			sb.append(MessageFormat.format(JGitText.get().storePushCertOneRef,
 					cert.getCommands().get(0).getRefName()));
 		} else {
 			sb.append(MessageFormat.format(

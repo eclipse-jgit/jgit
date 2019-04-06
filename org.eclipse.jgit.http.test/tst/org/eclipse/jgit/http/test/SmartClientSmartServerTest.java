@@ -124,9 +124,6 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
@@ -170,9 +167,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Parameters
 	public static Collection<Object[]> data() {
 		// run all tests with both connection factories we have
-		return Arrays.asList(new Object[][] {
-				{ new JDKHttpConnectionFactory() },
-				{ new HttpClientConnectionFactory() } });
+		return Arrays
+				.asList(new Object[][] { { new JDKHttpConnectionFactory() },
+						{ new HttpClientConnectionFactory() } });
 	}
 
 	public SmartClientSmartServerTest(HttpConnectionFactory cf) {
@@ -186,24 +183,18 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 		final TestRepository<Repository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
-		src.getRepository()
-				.getConfig()
-				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+		src.getRepository().getConfig().setBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
 
 		GitServlet gs = new GitServlet();
-		gs.setUploadPackFactory(new UploadPackFactory<HttpServletRequest>() {
-			@Override
-			public UploadPack create(HttpServletRequest req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				DefaultUploadPackFactory f = new DefaultUploadPackFactory();
-				UploadPack up = f.create(req, db);
-				if (advertiseRefsHook != null) {
-					up.setAdvertiseRefsHook(advertiseRefsHook);
-				}
-				return up;
+		gs.setUploadPackFactory((HttpServletRequest req, Repository db) -> {
+			DefaultUploadPackFactory f = new DefaultUploadPackFactory();
+			UploadPack up = f.create(req, db);
+			if (advertiseRefsHook != null) {
+				up.setAdvertiseRefsHook(advertiseRefsHook);
 			}
+			return up;
 		});
 
 		ServletContextHandler app = addNormalContext(gs, src, srcName);
@@ -235,7 +226,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
 	}
 
-	private ServletContextHandler addNormalContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
+	private ServletContextHandler addNormalContext(GitServlet gs,
+			TestRepository<Repository> src, String srcName) {
 		ServletContextHandler app = server.addContext("/git");
 		app.addFilter(new FilterHolder(new Filter() {
 
@@ -377,8 +369,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				int nofRedirects = 0;
 				Matcher matcher = responsePattern.matcher(urlString);
 				if (matcher.find()) {
-					nofRedirects = Integer
-							.parseUnsignedInt(matcher.group(1));
+					nofRedirects = Integer.parseUnsignedInt(matcher.group(1));
 					responseCode = Integer.parseUnsignedInt(matcher.group(2));
 					if (--nofRedirects <= 0) {
 						urlString = urlString.substring(0, matcher.start())
@@ -451,13 +442,14 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 	}
 
 	@Test
-	public void testListRemote_BadName() throws IOException, URISyntaxException {
+	public void testListRemote_BadName()
+			throws IOException, URISyntaxException {
 		URIish uri = new URIish(this.remoteURI.toString() + ".invalid");
 		try (Repository dst = createBareRepository();
 				Transport t = Transport.open(dst, uri)) {
@@ -522,10 +514,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				Transport t = Transport.open(dst, remoteURI)) {
 			assertFalse(dst.getObjectDatabase().has(A_txt));
 			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + A.name() + " not valid"));
-			t.fetch(NullProgressMonitor.INSTANCE, Collections
-					.singletonList(new RefSpec(A.name())));
+			thrown.expectMessage(
+					Matchers.containsString("want " + A.name() + " not valid"));
+			t.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(A.name())));
 		}
 	}
 
@@ -549,22 +541,22 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
 		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length", service
-				.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked", service
-				.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
 		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-upload-pack-result", service
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	private void initialClone_Redirect(int nofRedirects, int code)
@@ -1076,8 +1068,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 
 		// We should have needed two requests to perform the fetch
 		// due to the high number of local unknown commits.
@@ -1086,27 +1078,27 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length", service
-				.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked", service
-				.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
 		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-upload-pack-result", service
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 
 		service = requests.get(2);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length", service
-				.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked", service
-				.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
 		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-upload-pack-result", service
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
@@ -1134,8 +1126,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 
 		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
@@ -1179,7 +1171,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 			ServletContextHandler app = noRefServer.addContext("/git");
 			GitServlet gs = new GitServlet();
-			gs.setRepositoryResolver(new TestRepositoryResolver(repo, repoName));
+			gs.setRepositoryResolver(
+					new TestRepositoryResolver(repo, repoName));
 			app.addServlet(new ServletHolder(gs), "/*");
 			noRefServer.setUp();
 
@@ -1198,7 +1191,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				// We start failing here to exercise the post-advertisement
 				// upload pack handler.
 				badRefsRepo.startFailing();
-				// Need to flush caches because ref advertisement populated them.
+				// Need to flush caches because ref advertisement populated
+				// them.
 				badRefsRepo.getRefDatabase().refresh();
 				c.fetch(NullProgressMonitor.INSTANCE,
 						Collections.singleton(c.getRef(master)),
@@ -1291,7 +1285,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		// network interface.
 		//
 		final String clientHost = remoteURI.getHost();
-		assertEquals("anonymous@" + clientHost, last.getWho().getEmailAddress());
+		assertEquals("anonymous@" + clientHost,
+				last.getWho().getEmailAddress());
 		assertEquals("push: created", last.getComment());
 
 		List<AccessEvent> requests = getRequests();
@@ -1303,21 +1298,21 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-receive-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-receive-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-receive-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 
 		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-receive-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length", service
-				.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked", service
-				.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
 		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-receive-pack-result", service
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-receive-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
@@ -1360,20 +1355,21 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-receive-pack", info.getParameter("service"));
 		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-receive-pack-advertisement", info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-receive-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 
 		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-receive-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
-		assertNull("no content-length", service
-				.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertEquals("chunked", service.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertNull("no content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertEquals("chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
 		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-receive-pack-result", service
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-receive-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	private void enableReceivePack() throws IOException {

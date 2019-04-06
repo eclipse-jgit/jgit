@@ -100,13 +100,11 @@ import org.eclipse.jgit.util.RawParseUtils;
  * objects are similar.
  */
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
-	/** Sorts PackFiles to be most recently created to least recently created. */
-	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
-		@Override
-		public int compare(PackFile a, PackFile b) {
-			return b.packLastModified - a.packLastModified;
-		}
-	};
+	/**
+	 * Sorts PackFiles to be most recently created to least recently created.
+	 */
+	public static final Comparator<PackFile> SORT = (PackFile a,
+			PackFile b) -> b.packLastModified - a.packLastModified;
 
 	private final File packFile;
 
@@ -215,6 +213,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 		return idx;
 	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
@@ -293,8 +292,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the pack file or the index could not be read.
 	 */
-	ObjectLoader get(WindowCursor curs, AnyObjectId id)
-			throws IOException {
+	ObjectLoader get(WindowCursor curs, AnyObjectId id) throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
 	}
@@ -366,7 +364,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * Return the @{@link FileSnapshot} associated to the underlying packfile
 	 * that has been used when the object was created.
 	 *
-	 * @return the packfile @{@link FileSnapshot} that the object is loaded from.
+	 * @return the packfile @{@link FileSnapshot} that the object is loaded
+	 *         from.
 	 */
 	FileSnapshot getFileSnapshot() {
 		return fileSnapshot;
@@ -389,9 +388,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 
 		if (curs.inflate(this, position, dstbuf, false) != sz)
-			throw new EOFException(MessageFormat.format(
-					JGitText.get().shortCompressedStreamAt,
-					Long.valueOf(position)));
+			throw new EOFException(
+					MessageFormat.format(JGitText.get().shortCompressedStreamAt,
+							Long.valueOf(position)));
 		return dstbuf;
 	}
 
@@ -439,26 +438,26 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				c = buf[headerCnt++] & 0xff;
 			} while ((c & 128) != 0);
 			if (validate) {
-				assert(crc1 != null && crc2 != null);
+				assert (crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
 		} else if (typeCode == Constants.OBJ_REF_DELTA) {
 			if (validate) {
-				assert(crc1 != null && crc2 != null);
+				assert (crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
 
 			readFully(src.offset + headerCnt, buf, 0, 20, curs);
 			if (validate) {
-				assert(crc1 != null && crc2 != null);
+				assert (crc1 != null && crc2 != null);
 				crc1.update(buf, 0, 20);
 				crc2.update(buf, 0, 20);
 			}
 			headerCnt += 20;
 		} else if (validate) {
-			assert(crc1 != null && crc2 != null);
+			assert (crc1 != null && crc2 != null);
 			crc1.update(buf, 0, headerCnt);
 			crc2.update(buf, 0, headerCnt);
 		}
@@ -475,7 +474,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			quickCopy = curs.quickCopy(this, dataOffset, dataLength);
 
 			if (validate && idx().hasCRC32Support()) {
-				assert(crc1 != null);
+				assert (crc1 != null);
 				// Index has the CRC32 code cached, validate the object.
 				//
 				expectedCRC = idx().findCRC32(src);
@@ -508,7 +507,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				if (quickCopy != null) {
 					quickCopy.check(inf, tmp, dataOffset, (int) dataLength);
 				} else {
-					assert(crc1 != null);
+					assert (crc1 != null);
 					long pos = dataOffset;
 					long cnt = dataLength;
 					while (cnt > 0) {
@@ -528,7 +527,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 							JGitText.get().shortCompressedStreamAt,
 							Long.valueOf(src.offset)));
 				}
-				assert(crc1 != null);
+				assert (crc1 != null);
 				expectedCRC = crc1.getValue();
 			} else {
 				expectedCRC = -1;
@@ -552,7 +551,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 		if (quickCopy != null) {
 			// The entire object fits into a single byte array window slice,
-			// and we have it pinned.  Write this out without copying.
+			// and we have it pinned. Write this out without copying.
 			//
 			out.writeHeader(src, inflatedLength);
 			quickCopy.write(out, dataOffset, (int) dataLength);
@@ -585,7 +584,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				final int n = (int) Math.min(cnt, buf.length);
 				readFully(pos, buf, 0, n, curs);
 				if (validate) {
-					assert(crc2 != null);
+					assert (crc2 != null);
 					crc2.update(buf, 0, n);
 				}
 				out.write(buf, 0, n);
@@ -593,7 +592,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				cnt -= n;
 			}
 			if (validate) {
-				assert(crc2 != null);
+				assert (crc2 != null);
 				if (crc2.getValue() != expectedCRC) {
 					throw new CorruptObjectException(MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
@@ -619,9 +618,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		transientErrorCount.set(0);
 	}
 
-	private void readFully(final long position, final byte[] dstbuf,
-			int dstoff, final int cnt, final WindowCursor curs)
-			throws IOException {
+	private void readFully(final long position, final byte[] dstbuf, int dstoff,
+			final int cnt, final WindowCursor curs) throws IOException {
 		if (curs.copy(this, position, dstbuf, dstoff, cnt) != cnt)
 			throw new EOFException();
 	}
@@ -720,10 +718,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	ByteArrayWindow read(long pos, int size) throws IOException {
 		synchronized (readLock) {
 			if (invalid || fd == null) {
-				// Due to concurrency between a read and another packfile invalidation thread
-				// one thread could come up to this point and then fail with NPE.
-				// Detect the situation and throw a proper exception so that can be properly
-				// managed by the main packfile search loop and the Git client won't receive
+				// Due to concurrency between a read and another packfile
+				// invalidation thread
+				// one thread could come up to this point and then fail with
+				// NPE.
+				// Detect the situation and throw a proper exception so that can
+				// be properly
+				// managed by the main packfile search loop and the Git client
+				// won't receive
 				// any failures.
 				throw new PackInvalidException(packFile);
 			}
@@ -776,20 +778,19 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 
 		if (packCnt != idx.getObjectCount()) {
-			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packObjectCountMismatch,
-					Long.valueOf(packCnt), Long.valueOf(idx.getObjectCount()),
-					getPackFile()));
+			throw new PackMismatchException(
+					MessageFormat.format(JGitText.get().packObjectCountMismatch,
+							Long.valueOf(packCnt),
+							Long.valueOf(idx.getObjectCount()), getPackFile()));
 		}
 
 		fd.seek(length - 20);
 		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
-			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packChecksumMismatch,
-					getPackFile(),
-					ObjectId.fromRaw(buf).name(),
-					ObjectId.fromRaw(idx.packChecksum).name()));
+			throw new PackMismatchException(
+					MessageFormat.format(JGitText.get().packChecksumMismatch,
+							getPackFile(), ObjectId.fromRaw(buf).name(),
+							ObjectId.fromRaw(idx.packChecksum).name()));
 		}
 	}
 
@@ -849,7 +850,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					if (sz != delta.deltaSize)
 						break SEARCH;
 
-					DeltaBaseCache.Entry e = curs.getDeltaBaseCache().get(this, base);
+					DeltaBaseCache.Entry e = curs.getDeltaBaseCache().get(this,
+							base);
 					if (e != null) {
 						type = e.type;
 						data = e.data;
@@ -867,7 +869,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					if (sz != delta.deltaSize)
 						break SEARCH;
 
-					DeltaBaseCache.Entry e = curs.getDeltaBaseCache().get(this, base);
+					DeltaBaseCache.Entry e = curs.getDeltaBaseCache().get(this,
+							base);
 					if (e != null) {
 						type = e.type;
 						data = e.data;
@@ -889,15 +892,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// (Whole objects with no deltas to apply return early above.)
 
 			if (data == null)
-				throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
+				throw new IOException(
+						JGitText.get().inMemoryBufferLimitExceeded);
 
-			assert(delta != null);
+			assert (delta != null);
 			do {
 				// Cache only the base immediately before desired object.
 				if (cached)
 					cached = false;
 				else if (delta.next == null)
-					curs.getDeltaBaseCache().store(this, delta.basePos, data, type);
+					curs.getDeltaBaseCache().store(this, delta.basePos, data,
+							type);
 
 				pos = delta.deltaPos;
 
@@ -905,7 +910,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 						delta.deltaSize, curs);
 				if (cmds == null) {
 					data = null; // Discard base in case of OutOfMemoryError
-					throw new LargeObjectException.OutOfMemory(new OutOfMemoryError());
+					throw new LargeObjectException.OutOfMemory(
+							new OutOfMemoryError());
 				}
 
 				final long sz = BinaryDelta.getResultSize(cmds);
@@ -928,16 +934,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			return new ObjectLoader.SmallObject(type, data);
 
 		} catch (DataFormatException dfe) {
-			throw new CorruptObjectException(
-					MessageFormat.format(
-							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(pos), getPackFile()),
-					dfe);
+			throw new CorruptObjectException(MessageFormat.format(
+					JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
+					getPackFile()), dfe);
 		}
 	}
 
-	private long findDeltaBase(ObjectId baseId) throws IOException,
-			MissingObjectException {
+	private long findDeltaBase(ObjectId baseId)
+			throws IOException, MissingObjectException {
 		long ofs = idx().findOffset(baseId);
 		if (ofs < 0)
 			throw new MissingObjectException(baseId,
@@ -1029,14 +1033,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	long getObjectSize(WindowCursor curs, AnyObjectId id)
-			throws IOException {
+	long getObjectSize(WindowCursor curs, AnyObjectId id) throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset ? getObjectSize(curs, offset) : -1;
 	}
 
-	long getObjectSize(WindowCursor curs, long pos)
-			throws IOException {
+	long getObjectSize(WindowCursor curs, long pos) throws IOException {
 		final byte[] ib = curs.tempId;
 		readFully(pos, ib, 0, 20, curs);
 		int c = ib[0] & 0xff;
@@ -1149,10 +1151,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 						getReverseIdx());
 			} catch (FileNotFoundException e) {
 				// Once upon a time this bitmap file existed. Now it
-				// has been removed. Most likely an external gc  has
+				// has been removed. Most likely an external gc has
 				// removed this packfile and the bitmap
-				 invalidBitmap = true;
-				 return null;
+				invalidBitmap = true;
+				return null;
 			}
 
 			// At this point, idx() will have set packChecksum.

@@ -111,17 +111,12 @@ public class LockFile {
 	 * @return lock file
 	 */
 	static File getLockFile(File file) {
-		return new File(file.getParentFile(),
-				file.getName() + LOCK_SUFFIX);
+		return new File(file.getParentFile(), file.getName() + LOCK_SUFFIX);
 	}
 
 	/** Filter to skip over active lock files when listing a directory. */
-	static final FilenameFilter FILTER = new FilenameFilter() {
-		@Override
-		public boolean accept(File dir, String name) {
-			return !name.endsWith(LOCK_SUFFIX);
-		}
-	};
+	static final FilenameFilter FILTER = (File dir,
+			String name) -> !name.endsWith(LOCK_SUFFIX);
 
 	private final File ref;
 
@@ -319,8 +314,7 @@ public class LockFile {
 
 		return new OutputStream() {
 			@Override
-			public void write(byte[] b, int o, int n)
-					throws IOException {
+			public void write(byte[] b, int o, int n) throws IOException {
 				out.write(b, o, n);
 			}
 
@@ -352,7 +346,8 @@ public class LockFile {
 	void requireLock() {
 		if (os == null) {
 			unlock();
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
+			throw new IllegalStateException(
+					MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
 		}
 	}
 
@@ -425,7 +420,8 @@ public class LockFile {
 	public boolean commit() {
 		if (os != null) {
 			unlock();
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
+			throw new IllegalStateException(
+					MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
 		}
 
 		saveStatInformation();

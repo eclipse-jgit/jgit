@@ -88,8 +88,8 @@ public class RepositoryCache {
 	 * @throws org.eclipse.jgit.errors.RepositoryNotFoundException
 	 *             there is no repository at the given location.
 	 */
-	public static Repository open(Key location) throws IOException,
-			RepositoryNotFoundException {
+	public static Repository open(Key location)
+			throws IOException, RepositoryNotFoundException {
 		return open(location, true);
 	}
 
@@ -255,14 +255,11 @@ public class RepositoryCache {
 			if (delay == RepositoryCacheConfig.NO_CLEANUP) {
 				return;
 			}
-			cleanupTask = scheduler.scheduleWithFixedDelay(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						cache.clearAllExpired();
-					} catch (Throwable e) {
-						LOG.error(e.getMessage(), e);
-					}
+			cleanupTask = scheduler.scheduleWithFixedDelay(() -> {
+				try {
+					cache.clearAllExpired();
+				} catch (Throwable e) {
+					LOG.error(e.getMessage(), e);
 				}
 			}, delay, delay, TimeUnit.MILLISECONDS);
 		}
@@ -298,8 +295,8 @@ public class RepositoryCache {
 	}
 
 	private boolean isExpired(Repository db) {
-		return db != null && db.useCnt.get() <= 0
-			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
+		return db != null && db.useCnt.get() <= 0 && (System.currentTimeMillis()
+				- db.closedAt.get() > expireAfter);
 	}
 
 	private void unregisterAndCloseRepository(Key location) {
@@ -363,8 +360,8 @@ public class RepositoryCache {
 		 *             There is no repository at the given location, only thrown
 		 *             if {@code mustExist} is true.
 		 */
-		Repository open(boolean mustExist) throws IOException,
-				RepositoryNotFoundException;
+		Repository open(boolean mustExist)
+				throws IOException, RepositoryNotFoundException;
 	}
 
 	/** Location of a Repository, using the standard java.io.File API. */
@@ -412,6 +409,7 @@ public class RepositoryCache {
 		}
 
 		private final File path;
+
 		private final FS fs;
 
 		/**
@@ -529,7 +527,8 @@ public class RepositoryCache {
 
 			final String name = directory.getName();
 			final File parent = directory.getParentFile();
-			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT), fs))
+			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT),
+					fs))
 				return new File(parent, name + Constants.DOT_GIT_EXT);
 			return null;
 		}

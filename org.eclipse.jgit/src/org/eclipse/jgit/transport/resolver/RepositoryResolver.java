@@ -57,12 +57,8 @@ public interface RepositoryResolver<C> {
 	/**
 	 * Resolver configured to open nothing.
 	 */
-	RepositoryResolver<?> NONE = new RepositoryResolver<Object>() {
-		@Override
-		public Repository open(Object req, String name)
-				throws RepositoryNotFoundException {
-			throw new RepositoryNotFoundException(name);
-		}
+	RepositoryResolver<?> NONE = (Object req, String name) -> {
+		throw new RepositoryNotFoundException(name);
 	};
 
 	/**
@@ -84,14 +80,14 @@ public interface RepositoryResolver<C> {
 	 *             without authentication, i.e. this corresponds to an HTTP 401
 	 *             Unauthorized.
 	 * @throws ServiceNotEnabledException
-	 *             the repository may exist, but HTTP access is not allowed on the
-	 *             target repository, for the current user.
+	 *             the repository may exist, but HTTP access is not allowed on
+	 *             the target repository, for the current user.
 	 * @throws ServiceMayNotContinueException
 	 *             the repository may exist, but HTTP access is not allowed for
-	 *             the current request. The exception message contains a detailed
-	 *             message that should be shown to the user.
+	 *             the current request. The exception message contains a
+	 *             detailed message that should be shown to the user.
 	 */
-	Repository open(C req, String name) throws RepositoryNotFoundException,
-			ServiceNotAuthorizedException, ServiceNotEnabledException,
-			ServiceMayNotContinueException;
+	Repository open(C req, String name)
+			throws RepositoryNotFoundException, ServiceNotAuthorizedException,
+			ServiceNotEnabledException, ServiceMayNotContinueException;
 }
