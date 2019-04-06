@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8154f581_6bda0ae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:41:20Z",
+      "side": 1,
+      "message": "Must also remove the NON_NLS.",
+      "revId": "63a197d26ce6d7a454f57b633ebce4834e7705d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
