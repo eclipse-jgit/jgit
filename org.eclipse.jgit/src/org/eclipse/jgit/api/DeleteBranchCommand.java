@@ -46,6 +46,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -188,8 +189,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	public DeleteBranchCommand setBranchNames(String... branchnames) {
 		checkCallable();
 		this.branchNames.clear();
-		for (String branch : branchnames)
-			this.branchNames.add(branch);
+                this.branchNames.addAll(Arrays.asList(branchnames));
 		return this;
 	}
 
