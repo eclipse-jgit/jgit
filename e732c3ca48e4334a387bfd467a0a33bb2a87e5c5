@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cceaf343_f3a26aef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:22:46Z",
+      "side": 1,
+      "message": "The NON_NLS comments are in the wrong places and indentation is broken.",
+      "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
