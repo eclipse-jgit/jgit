@@ -1502,7 +1502,7 @@ public class PackWriter implements AutoCloseable {
 
 		Executor executor = config.getExecutor();
 		final List<Throwable> errors =
-				Collections.synchronizedList(new ArrayList<Throwable>(threads));
+				Collections.synchronizedList(new ArrayList<>(threads));
 		if (executor instanceof ExecutorService) {
 			// Caller supplied us a service, use it directly.
 			runTasks((ExecutorService) executor, pm, taskBlock, errors);
