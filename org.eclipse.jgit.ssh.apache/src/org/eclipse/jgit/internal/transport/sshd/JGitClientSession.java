@@ -235,38 +235,40 @@ public class JGitClientSession extends ClientSessionImpl {
 				.getProperty(SshConstants.HOST_KEY_ALGORITHMS);
 		if (hostKeyAlgorithms != null && !hostKeyAlgorithms.isEmpty()) {
 			char first = hostKeyAlgorithms.charAt(0);
-			if (first == '+') {
-				// Additions make not much sense -- it's either in
-				// defaultSignatures already, or we have no implementation for
-				// it. No point in proposing it.
-				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			} else if (first == '-') {
-				// This takes wildcard patterns!
-				removeFromList(defaultSignatures,
-						SshConstants.HOST_KEY_ALGORITHMS,
-						hostKeyAlgorithms.substring(1));
-				if (defaultSignatures.isEmpty()) {
-					// Too bad: user config error. Warn here, and then fail
-					// later.
-					log.warn(format(
-							SshdText.get().configNoRemainingHostKeyAlgorithms,
-							hostKeyAlgorithms));
-				}
-				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			} else {
-				// Default is overridden -- only accept the ones for which we do
-				// have an implementation.
-				List<String> newNames = filteredList(defaultSignatures,
-						hostKeyAlgorithms);
-				if (newNames.isEmpty()) {
-					log.warn(format(
-							SshdText.get().configNoKnownHostKeyAlgorithms,
-							hostKeyAlgorithms));
-					// Use the default instead.
-				} else {
-					return String.join(",", newNames); //$NON-NLS-1$
-				}
-			}
+                    switch (first) {
+                        case '+':
+                            // Additions make not much sense -- it's either in
+                            // defaultSignatures already, or we have no implementation for
+                            // it. No point in proposing it.
+                            return String.join(",", defaultSignatures); //$NON-NLS-1$
+                        case '-':
+                            // This takes wildcard patterns!
+                            removeFromList(defaultSignatures,
+                                    SshConstants.HOST_KEY_ALGORITHMS,
+                                    hostKeyAlgorithms.substring(1));
+                            if (defaultSignatures.isEmpty()) {
+                                // Too bad: user config error. Warn here, and then fail
+                                // later.
+                                log.warn(format(
+                                        SshdText.get().configNoRemainingHostKeyAlgorithms,
+                                        hostKeyAlgorithms));
+                            }
+                            return String.join(",", defaultSignatures); //$NON-NLS-1$
+                        default:
+                            // Default is overridden -- only accept the ones for which we do
+                            // have an implementation.
+                            List<String> newNames = filteredList(defaultSignatures,
+                                    hostKeyAlgorithms);
+                            if (newNames.isEmpty()) {
+                                log.warn(format(
+                                        SshdText.get().configNoKnownHostKeyAlgorithms,
+                                        hostKeyAlgorithms));
+                                // Use the default instead.
+                            } else {
+                                return String.join(",", newNames); //$NON-NLS-1$
+                            }
+                            break;
+                    }
 		}
 		// No HostKeyAlgorithms; using default -- change order to put existing
 		// keys first.

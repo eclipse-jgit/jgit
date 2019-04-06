@@ -69,12 +69,14 @@ public class PreReceiveHookChain implements PreReceiveHook {
 		for (PreReceiveHook hook : hooks)
 			if (hook != PreReceiveHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
-			return PreReceiveHook.NULL;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new PreReceiveHookChain(newHooks, i);
+            switch (i) {
+                case 0:
+                    return PreReceiveHook.NULL;
+                case 1:
+                    return newHooks[0];
+                default:
+                    return new PreReceiveHookChain(newHooks, i);
+            }
 	}
 
 	/** {@inheritDoc} */

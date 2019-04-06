@@ -70,12 +70,14 @@ public class PostReceiveHookChain implements PostReceiveHook {
 		for (PostReceiveHook hook : hooks)
 			if (hook != PostReceiveHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
-			return PostReceiveHook.NULL;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new PostReceiveHookChain(newHooks, i);
+            switch (i) {
+                case 0:
+                    return PostReceiveHook.NULL;
+                case 1:
+                    return newHooks[0];
+                default:
+                    return new PostReceiveHookChain(newHooks, i);
+            }
 	}
 
 	/** {@inheritDoc} */
