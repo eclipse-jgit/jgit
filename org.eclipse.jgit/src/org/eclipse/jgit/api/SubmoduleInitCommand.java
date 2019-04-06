@@ -128,9 +128,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 			if (!initialized.isEmpty())
 				config.save();
 			return initialized;
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}

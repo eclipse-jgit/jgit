@@ -162,9 +162,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 			if (!synced.isEmpty())
 				config.save();
 			return synced;
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
