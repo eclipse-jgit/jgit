@@ -294,27 +294,52 @@ public class GitDateParser {
 			} catch (NumberFormatException e) {
 				return null;
 			}
-			if ("year".equals(parts[i + 1]) || "years".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.YEAR, -number);
-			else if ("month".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "months".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MONTH, -number);
-			else if ("week".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "weeks".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.WEEK_OF_YEAR, -number);
-			else if ("day".equals(parts[i + 1]) || "days".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.DATE, -number);
-			else if ("hour".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "hours".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.HOUR_OF_DAY, -number);
-			else if ("minute".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "minutes".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MINUTE, -number);
-			else if ("second".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "seconds".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.SECOND, -number);
-			else
-				return null;
+			if (null == parts[i + 1]) 
+                            return null;
+			else switch (parts[i + 1]) {
+                    //$NON-NLS-1$ //$NON-NLS-2$
+                        case "year":
+                        case "years":
+                            cal.add(Calendar.YEAR, -number);
+                            break;
+                    //$NON-NLS-1$
+                    //$NON-NLS-1$
+                        case "month":
+                        case "months":
+                            cal.add(Calendar.MONTH, -number);
+                            break;
+                    //$NON-NLS-1$
+                    //$NON-NLS-1$
+                        case "week":
+                        case "weeks":
+                            cal.add(Calendar.WEEK_OF_YEAR, -number);
+                            break;
+                    //$NON-NLS-1$ //$NON-NLS-2$
+                        case "day":
+                        case "days":
+                            cal.add(Calendar.DATE, -number);
+                            break;
+                    //$NON-NLS-1$
+                    //$NON-NLS-1$
+                        case "hour":
+                        case "hours":
+                            cal.add(Calendar.HOUR_OF_DAY, -number);
+                            break;
+                    //$NON-NLS-1$
+                    //$NON-NLS-1$
+                        case "minute":
+                        case "minutes":
+                            cal.add(Calendar.MINUTE, -number);
+                            break;
+                    //$NON-NLS-1$
+                    //$NON-NLS-1$
+                        case "second":
+                        case "seconds":
+                            cal.add(Calendar.SECOND, -number);
+                            break;
+                        default:
+                            return null;
+                    }
 		}
 		return cal.getTime();
 	}
