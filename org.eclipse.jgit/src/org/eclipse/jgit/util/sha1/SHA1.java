@@ -325,13 +325,16 @@ public class SHA1 {
 
 	private void recompress(int t) {
 		State s;
-		if (t == 58) {
-			s = state58;
-		} else if (t == 65) {
-			s = state65;
-		} else {
-			throw new IllegalStateException();
-		}
+            switch (t) {
+                case 58:
+                    s = state58;
+                    break;
+                case 65:
+                    s = state65;
+                    break;
+                default:
+                    throw new IllegalStateException();
+            }
 		int a = s.a, b = s.b, c = s.c, d = s.d, e = s.e;
 
 		// @formatter:off

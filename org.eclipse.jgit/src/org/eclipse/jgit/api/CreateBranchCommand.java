@@ -217,23 +217,17 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			// if we need to configure upstream configuration: first check
 			// whether the setting was done explicitly
 			boolean doConfigure;
-			if (upstreamMode == SetupUpstreamMode.SET_UPSTREAM
-					|| upstreamMode == SetupUpstreamMode.TRACK)
-				// explicitly set to configure
-				doConfigure = true;
-			else if (upstreamMode == SetupUpstreamMode.NOTRACK)
-				// explicitly set to not configure
-				doConfigure = false;
-			else {
-				// if there was no explicit setting, check the configuration
-				String autosetupflag = repo.getConfig().getString(
-						ConfigConstants.CONFIG_BRANCH_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOSETUPMERGE);
-				if (null == autosetupflag) {
-                                    // in this case, the default is to configure
-                                    // only in case the base branch was a remote branch
-                                    doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
-                                } else switch (autosetupflag) {
+			if (null
+					== upstreamMode) {
+                            // if there was no explicit setting, check the configuration
+                            String autosetupflag = repo.getConfig().getString(
+                                    ConfigConstants.CONFIG_BRANCH_SECTION, null,
+                                    ConfigConstants.CONFIG_KEY_AUTOSETUPMERGE);
+                            if (null == autosetupflag) {
+                                // in this case, the default is to configure
+                                // only in case the base branch was a remote branch
+                                doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
+                            } else switch (autosetupflag) {
                                 case "false":
                                     //$NON-NLS-1$
                                     doConfigure = false;
@@ -248,7 +242,42 @@ public class CreateBranchCommand extends GitCommand<Ref> {
                                     doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
                                     break;
                             }
-			}
+                    } else switch (upstreamMode) {
+                        case SET_UPSTREAM:
+                        case TRACK:
+                            // explicitly set to configure
+                            doConfigure = true;
+                            break;
+                        case NOTRACK:
+                            // explicitly set to not configure
+                            doConfigure = false;
+                            break;
+                        default:
+                            // if there was no explicit setting, check the configuration
+                            String autosetupflag = repo.getConfig().getString(
+                                    ConfigConstants.CONFIG_BRANCH_SECTION, null,
+                                    ConfigConstants.CONFIG_KEY_AUTOSETUPMERGE);
+                            if (null == autosetupflag) {
+                                // in this case, the default is to configure
+                                // only in case the base branch was a remote branch
+                                doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
+                            } else switch (autosetupflag) {
+                                case "false":
+                                    //$NON-NLS-1$
+                                    doConfigure = false;
+                                    break;
+                                case "always":
+                                    //$NON-NLS-1$
+                                    doConfigure = true;
+                                    break;
+                                default:
+                                    // in this case, the default is to configure
+                                    // only in case the base branch was a remote branch
+                                    doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
+                                    break;
+                            }
+                            break;
+                    }
 
 			if (doConfigure) {
 				StoredConfig config = repo.getConfig();

@@ -102,35 +102,43 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 
 	private static PlotLane[] addLane(PlotLane l, PlotLane[] lanes) {
 		final int cnt = lanes.length;
-		if (cnt == 0)
-			lanes = new PlotLane[] { l };
-		else if (cnt == 1)
-			lanes = new PlotLane[] { lanes[0], l };
-		else {
-			final PlotLane[] n = new PlotLane[cnt + 1];
-			System.arraycopy(lanes, 0, n, 0, cnt);
-			n[cnt] = l;
-			lanes = n;
-		}
+            switch (cnt) {
+                case 0:
+                    lanes = new PlotLane[] { l };
+                    break;
+                case 1:
+                    lanes = new PlotLane[] { lanes[0], l };
+                    break;
+                default:
+                    final PlotLane[] n = new PlotLane[cnt + 1];
+                    System.arraycopy(lanes, 0, n, 0, cnt);
+                    n[cnt] = l;
+                    lanes = n;
+                    break;
+            }
 		return lanes;
 	}
 
 	void addChild(PlotCommit c) {
 		final int cnt = children.length;
-		if (cnt == 0)
-			children = new PlotCommit[] { c };
-		else if (cnt == 1) {
-			if (!c.getId().equals(children[0].getId()))
-				children = new PlotCommit[] { children[0], c };
-		} else {
-			for (PlotCommit pc : children)
-				if (c.getId().equals(pc.getId()))
-					return;
-			final PlotCommit[] n = new PlotCommit[cnt + 1];
-			System.arraycopy(children, 0, n, 0, cnt);
-			n[cnt] = c;
-			children = n;
-		}
+            switch (cnt) {
+                case 0:
+                    children = new PlotCommit[] { c };
+                    break;
+                case 1:
+                    if (!c.getId().equals(children[0].getId()))
+                        children = new PlotCommit[] { children[0], c };
+                    break;
+                default:
+                    for (PlotCommit pc : children)
+                        if (c.getId().equals(pc.getId()))
+                            return;
+                    final PlotCommit[] n = new PlotCommit[cnt + 1];
+                    System.arraycopy(children, 0, n, 0, cnt);
+                    n[cnt] = c;
+                    children = n;
+                    break;
+            }
 	}
 
 	/**

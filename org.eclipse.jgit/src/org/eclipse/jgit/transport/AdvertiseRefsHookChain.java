@@ -72,12 +72,14 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 		for (AdvertiseRefsHook hook : hooks)
 			if (hook != AdvertiseRefsHook.DEFAULT)
 				newHooks[i++] = hook;
-		if (i == 0)
-			return AdvertiseRefsHook.DEFAULT;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new AdvertiseRefsHookChain(newHooks, i);
+            switch (i) {
+                case 0:
+                    return AdvertiseRefsHook.DEFAULT;
+                case 1:
+                    return newHooks[0];
+                default:
+                    return new AdvertiseRefsHookChain(newHooks, i);
+            }
 	}
 
 	/** {@inheritDoc} */

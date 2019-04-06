@@ -1183,14 +1183,19 @@ public class ObjectChecker {
 			int dots = 0;
 			boolean space = false;
 			int p = end - 1;
-			for (; (ptr + 2) < p; p--) {
-				if (raw[p] == '.')
-					dots++;
-				else if (raw[p] == ' ')
-					space = true;
-				else
-					break;
-			}
+                    OUTER:
+                    for (; (ptr + 2) < p; p--) {
+                        switch (raw[p]) {
+                            case '.':
+                                dots++;
+                                break;
+                            case ' ':
+                                space = true;
+                                break;
+                            default:
+                                break OUTER;
+                        }
+                    }
 			return p == ptr + 2 && (dots == 1 || space);
 		}
 		return false;
