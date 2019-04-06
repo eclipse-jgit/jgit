@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public class PreUploadHookChain implements PreUploadHook {
 	private final PreUploadHook[] hooks;
+
 	private final int count;
 
 	/**
@@ -72,12 +73,14 @@ public class PreUploadHookChain implements PreUploadHook {
 		for (PreUploadHook hook : hooks)
 			if (hook != PreUploadHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
+		switch (i) {
+		case 0:
 			return PreUploadHook.NULL;
-		else if (i == 1)
+		case 1:
 			return newHooks[0];
-		else
+		default:
 			return new PreUploadHookChain(newHooks, i);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -96,13 +99,13 @@ public class PreUploadHookChain implements PreUploadHook {
 			int cntNotFound, boolean ready)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)
-			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
+			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound,
+					ready);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void onSendPack(UploadPack up,
-			Collection<? extends ObjectId> wants,
+	public void onSendPack(UploadPack up, Collection<? extends ObjectId> wants,
 			Collection<? extends ObjectId> haves)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)

@@ -54,6 +54,7 @@ import java.util.List;
  */
 public class PreReceiveHookChain implements PreReceiveHook {
 	private final PreReceiveHook[] hooks;
+
 	private final int count;
 
 	/**
@@ -63,18 +64,21 @@ public class PreReceiveHookChain implements PreReceiveHook {
 	 *            hooks to execute, in order.
 	 * @return a new hook chain of the given hooks.
 	 */
-	public static PreReceiveHook newChain(List<? extends PreReceiveHook> hooks) {
+	public static PreReceiveHook newChain(
+			List<? extends PreReceiveHook> hooks) {
 		PreReceiveHook[] newHooks = new PreReceiveHook[hooks.size()];
 		int i = 0;
 		for (PreReceiveHook hook : hooks)
 			if (hook != PreReceiveHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
+		switch (i) {
+		case 0:
 			return PreReceiveHook.NULL;
-		else if (i == 1)
+		case 1:
 			return newHooks[0];
-		else
+		default:
 			return new PreReceiveHookChain(newHooks, i);
+		}
 	}
 
 	/** {@inheritDoc} */

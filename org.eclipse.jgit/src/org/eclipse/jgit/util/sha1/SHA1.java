@@ -79,6 +79,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SHA1 {
 	private static Logger LOG = LoggerFactory.getLogger(SHA1.class);
+
 	private static final boolean DETECT_COLLISIONS;
 
 	static {
@@ -97,6 +98,7 @@ public class SHA1 {
 	}
 
 	private final State h = new State();
+
 	private final int[] w = new int[80];
 
 	/** Buffer to accumulate partial blocks to 64 byte alignment. */
@@ -106,12 +108,17 @@ public class SHA1 {
 	private long length;
 
 	private boolean detectCollision = DETECT_COLLISIONS;
+
 	private boolean foundCollision;
 
 	private final int[] w2 = new int[80];
+
 	private final State state58 = new State();
+
 	private final State state65 = new State();
+
 	private final State hIn = new State();
+
 	private final State hTmp = new State();
 
 	private SHA1() {
@@ -138,7 +145,8 @@ public class SHA1 {
 	/**
 	 * Update the digest computation by adding a byte.
 	 *
-	 * @param b a byte.
+	 * @param b
+	 *            a byte.
 	 */
 	public void update(byte b) {
 		int bufferLen = (int) (length & 63);
@@ -325,11 +333,14 @@ public class SHA1 {
 
 	private void recompress(int t) {
 		State s;
-		if (t == 58) {
+		switch (t) {
+		case 58:
 			s = state58;
-		} else if (t == 65) {
+			break;
+		case 65:
 			s = state65;
-		} else {
+			break;
+		default:
 			throw new IllegalStateException();
 		}
 		int a = s.a, b = s.b, c = s.c, d = s.d, e = s.e;
@@ -442,36 +453,29 @@ public class SHA1 {
 	private static int s1(int a, int b, int c, int d, int w_t) {
 		return rotateLeft(a, 5)
 				// f: 0 <= t <= 19
-				+ ((b & c) | ((~b) & d))
-				+ 0x5A827999 + w_t;
+				+ ((b & c) | ((~b) & d)) + 0x5A827999 + w_t;
 	}
 
 	private static int s2(int a, int b, int c, int d, int w_t) {
 		return rotateLeft(a, 5)
 				// f: 20 <= t <= 39
-				+ (b ^ c ^ d)
-				+ 0x6ED9EBA1 + w_t;
+				+ (b ^ c ^ d) + 0x6ED9EBA1 + w_t;
 	}
 
 	private static int s3(int a, int b, int c, int d, int w_t) {
 		return rotateLeft(a, 5)
 				// f: 40 <= t <= 59
-				+ ((b & c) | (b & d) | (c & d))
-				+ 0x8F1BBCDC + w_t;
+				+ ((b & c) | (b & d) | (c & d)) + 0x8F1BBCDC + w_t;
 	}
 
 	private static int s4(int a, int b, int c, int d, int w_t) {
 		return rotateLeft(a, 5)
 				// f: 60 <= t <= 79
-				+ (b ^ c ^ d)
-				+ 0xCA62C1D6 + w_t;
+				+ (b ^ c ^ d) + 0xCA62C1D6 + w_t;
 	}
 
 	private static boolean eq(State q, State r) {
-		return q.a == r.a
-				&& q.b == r.b
-				&& q.c == r.c
-				&& q.d == r.d
+		return q.a == r.a && q.b == r.b && q.c == r.c && q.d == r.d
 				&& q.e == r.e;
 	}
 
@@ -584,9 +588,13 @@ public class SHA1 {
 
 	private static final class State {
 		int a;
+
 		int b;
+
 		int c;
+
 		int d;
+
 		int e;
 
 		final void init() {

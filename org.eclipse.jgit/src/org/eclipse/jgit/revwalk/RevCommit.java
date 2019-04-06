@@ -188,18 +188,22 @@ public class RevCommit extends RevObject {
 				}
 				idBuffer.fromString(raw, ptr + 7);
 				final RevCommit p = walk.lookupCommit(idBuffer);
-				if (nParents == 0) {
+				switch (nParents) {
+				case 0:
 					pList[nParents++] = p;
-				} else if (nParents == 1) {
+					break;
+				case 1:
 					pList = new RevCommit[] { pList[0], p };
 					nParents = 2;
-				} else {
+					break;
+				default:
 					if (pList.length <= nParents) {
 						RevCommit[] old = pList;
 						pList = new RevCommit[pList.length + 32];
 						System.arraycopy(old, 0, pList, 0, nParents);
 					}
 					pList[nParents++] = p;
+					break;
 				}
 				ptr += 48;
 			}
@@ -239,7 +243,7 @@ public class RevCommit extends RevObject {
 	}
 
 	private static FIFORevQueue carryFlags1(RevCommit c, int carry, int depth) {
-		for(;;) {
+		for (;;) {
 			RevCommit[] pList = c.parents;
 			if (pList == null || pList.length == 0)
 				return null;
@@ -382,9 +386,9 @@ public class RevCommit extends RevObject {
 	 * this buffer should be very careful to ensure they do not modify its
 	 * contents during their use of it.
 	 *
-	 * @return the raw unparsed commit body. This is <b>NOT A COPY</b>.
-	 *         Altering the contents of this buffer may alter the walker's
-	 *         knowledge of this commit, and the results it produces.
+	 * @return the raw unparsed commit body. This is <b>NOT A COPY</b>. Altering
+	 *         the contents of this buffer may alter the walker's knowledge of
+	 *         this commit, and the results it produces.
 	 */
 	public final byte[] getRawBuffer() {
 		return buffer;
@@ -409,7 +413,7 @@ public class RevCommit extends RevObject {
 	 */
 	public final byte[] getRawGpgSignature() {
 		final byte[] raw = buffer;
-		final byte[] header = {'g', 'p', 'g', 's', 'i', 'g'};
+		final byte[] header = { 'g', 'p', 'g', 's', 'i', 'g' };
 		final int start = RawParseUtils.headerStart(header, raw, 0);
 		if (start < 0) {
 			return null;

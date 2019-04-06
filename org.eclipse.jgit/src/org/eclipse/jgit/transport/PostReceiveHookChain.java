@@ -54,6 +54,7 @@ import java.util.List;
  */
 public class PostReceiveHookChain implements PostReceiveHook {
 	private final PostReceiveHook[] hooks;
+
 	private final int count;
 
 	/**
@@ -70,12 +71,14 @@ public class PostReceiveHookChain implements PostReceiveHook {
 		for (PostReceiveHook hook : hooks)
 			if (hook != PostReceiveHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
+		switch (i) {
+		case 0:
 			return PostReceiveHook.NULL;
-		else if (i == 1)
+		case 1:
 			return newHooks[0];
-		else
+		default:
 			return new PostReceiveHookChain(newHooks, i);
+		}
 	}
 
 	/** {@inheritDoc} */

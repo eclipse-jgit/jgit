@@ -141,7 +141,8 @@ public class ObjectChecker {
 	public static final byte[] tagger = Constants.encodeASCII("tagger "); //$NON-NLS-1$
 
 	/** Path ".gitmodules" */
-	private static final byte[] dotGitmodules = Constants.encodeASCII(DOT_GIT_MODULES);
+	private static final byte[] dotGitmodules = Constants
+			.encodeASCII(DOT_GIT_MODULES);
 
 	/**
 	 * Potential issues identified by the checker.
@@ -205,12 +206,17 @@ public class ObjectChecker {
 	}
 
 	private final MutableObjectId tempId = new MutableObjectId();
+
 	private final MutableInteger bufPtr = new MutableInteger();
 
 	private EnumSet<ErrorType> errors = EnumSet.allOf(ErrorType.class);
+
 	private ObjectIdSet skipList;
+
 	private boolean allowInvalidPersonIdent;
+
 	private boolean windows;
+
 	private boolean macosx;
 
 	private final List<GitmoduleEntry> gitsubmodules = new ArrayList<>();
@@ -270,12 +276,13 @@ public class ObjectChecker {
 	 * <p>
 	 * Some broken Git libraries generated leading zeros in the mode part of
 	 * tree entries. This is technically incorrect but gracefully allowed by
-	 * git-core. JGit rejects such trees by default, but may need to accept
-	 * them on broken histories.
+	 * git-core. JGit rejects such trees by default, but may need to accept them
+	 * on broken histories.
 	 * <p>
 	 * Same as {@code setIgnore(ZERO_PADDED_FILEMODE, allow)}.
 	 *
-	 * @param allow allow leading zero mode.
+	 * @param allow
+	 *            allow leading zero mode.
 	 * @return {@code this}.
 	 * @since 3.4
 	 */
@@ -304,7 +311,8 @@ public class ObjectChecker {
 	 * <p>
 	 * Also rejects any mixed case forms of reserved names ({@code .git}).
 	 *
-	 * @param win true if Windows name checking should be performed.
+	 * @param win
+	 *            true if Windows name checking should be performed.
 	 * @return {@code this}.
 	 * @since 3.4
 	 */
@@ -316,10 +324,11 @@ public class ObjectChecker {
 	/**
 	 * Restrict trees to only names legal on Mac OS X platforms.
 	 * <p>
-	 * Rejects any mixed case forms of reserved names ({@code .git})
-	 * for users working on HFS+ in case-insensitive (default) mode.
+	 * Rejects any mixed case forms of reserved names ({@code .git}) for users
+	 * working on HFS+ in case-insensitive (default) mode.
 	 *
-	 * @param mac true if Mac OS X name checking should be performed.
+	 * @param mac
+	 *            true if Mac OS X name checking should be performed.
 	 * @return {@code this}.
 	 * @since 3.4
 	 */
@@ -341,8 +350,7 @@ public class ObjectChecker {
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if an error is identified.
 	 */
-	public void check(int objType, byte[] raw)
-			throws CorruptObjectException {
+	public void check(int objType, byte[] raw) throws CorruptObjectException {
 		check(idFor(objType, raw), objType, raw);
 	}
 
@@ -384,9 +392,10 @@ public class ObjectChecker {
 			}
 			break;
 		default:
-			report(UNKNOWN_TYPE, id, MessageFormat.format(
-					JGitText.get().corruptObjectInvalidType2,
-					Integer.valueOf(objType)));
+			report(UNKNOWN_TYPE, id,
+					MessageFormat.format(
+							JGitText.get().corruptObjectInvalidType2,
+							Integer.valueOf(objType)));
 		}
 	}
 
@@ -592,9 +601,8 @@ public class ObjectChecker {
 			if (nextNamePos + 1 == nextPtr)
 				return false;
 
-			int cmp = compareSameName(
-					raw, thisNamePos, thisNameEnd,
-					raw, nextNamePos, nextPtr - 1, nextMode);
+			int cmp = compareSameName(raw, thisNamePos, thisNameEnd, raw,
+					nextNamePos, nextPtr - 1, nextMode);
 			if (cmp < 0)
 				return false;
 			else if (cmp == 0)
@@ -632,9 +640,7 @@ public class ObjectChecker {
 		final int sz = raw.length;
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
-		Set<String> normalized = windows || macosx
-				? new HashSet<>()
-				: null;
+		Set<String> normalized = windows || macosx ? new HashSet<>() : null;
 
 		while (ptr < sz) {
 			int thisMode = 0;
@@ -682,9 +688,8 @@ public class ObjectChecker {
 			}
 
 			if (lastNameB != 0) {
-				int cmp = compare(
-						raw, lastNameB, lastNameE, lastMode,
-						raw, thisNameB, ptr, thisMode);
+				int cmp = compare(raw, lastNameB, lastNameE, lastMode, raw,
+						thisNameB, ptr, thisMode);
 				if (cmp > 0) {
 					report(TREE_NOT_SORTED, id,
 							JGitText.get().corruptObjectIncorrectSorting);
@@ -845,22 +850,24 @@ public class ObjectChecker {
 				break;
 			case 4:
 				if (isGit(raw, ptr + 1)) {
-					report(HAS_DOTGIT, id, String.format(
-							JGitText.get().corruptObjectInvalidName,
-							RawParseUtils.decode(raw, ptr, end)));
+					report(HAS_DOTGIT, id,
+							String.format(
+									JGitText.get().corruptObjectInvalidName,
+									RawParseUtils.decode(raw, ptr, end)));
 				}
 				break;
 			default:
 				if (end - ptr > 4 && isNormalizedGit(raw, ptr + 1, end)) {
-					report(HAS_DOTGIT, id, String.format(
-							JGitText.get().corruptObjectInvalidName,
-							RawParseUtils.decode(raw, ptr, end)));
+					report(HAS_DOTGIT, id,
+							String.format(
+									JGitText.get().corruptObjectInvalidName,
+									RawParseUtils.decode(raw, ptr, end)));
 				}
 			}
 		} else if (isGitTilde1(raw, ptr, end)) {
-			report(HAS_DOTGIT, id, String.format(
-					JGitText.get().corruptObjectInvalidName,
-					RawParseUtils.decode(raw, ptr, end)));
+			report(HAS_DOTGIT, id,
+					String.format(JGitText.get().corruptObjectInvalidName,
+							RawParseUtils.decode(raw, ptr, end)));
 		}
 		if (macosx && isMacHFSGit(raw, ptr, end, id)) {
 			report(HAS_DOTGIT, id, String.format(
@@ -871,9 +878,10 @@ public class ObjectChecker {
 		if (windows) {
 			// Windows ignores space and dot at end of file name.
 			if (raw[end - 1] == ' ' || raw[end - 1] == '.') {
-				report(WIN32_BAD_NAME, id, String.format(
-						JGitText.get().corruptObjectInvalidNameEnd,
-						Character.valueOf(((char) raw[end - 1]))));
+				report(WIN32_BAD_NAME, id,
+						String.format(
+								JGitText.get().corruptObjectInvalidNameEnd,
+								Character.valueOf(((char) raw[end - 1]))));
 			}
 			if (end - ptr >= 3) {
 				checkNotWindowsDevice(raw, ptr, end, id);
@@ -896,15 +904,16 @@ public class ObjectChecker {
 				switch (raw[ptr + 1]) {
 				case (byte) 0x80:
 					switch (raw[ptr + 2]) {
-					case (byte) 0x8c:	// U+200C 0xe2808c ZERO WIDTH NON-JOINER
-					case (byte) 0x8d:	// U+200D 0xe2808d ZERO WIDTH JOINER
-					case (byte) 0x8e:	// U+200E 0xe2808e LEFT-TO-RIGHT MARK
-					case (byte) 0x8f:	// U+200F 0xe2808f RIGHT-TO-LEFT MARK
-					case (byte) 0xaa:	// U+202A 0xe280aa LEFT-TO-RIGHT EMBEDDING
-					case (byte) 0xab:	// U+202B 0xe280ab RIGHT-TO-LEFT EMBEDDING
-					case (byte) 0xac:	// U+202C 0xe280ac POP DIRECTIONAL FORMATTING
-					case (byte) 0xad:	// U+202D 0xe280ad LEFT-TO-RIGHT OVERRIDE
-					case (byte) 0xae:	// U+202E 0xe280ae RIGHT-TO-LEFT OVERRIDE
+					case (byte) 0x8c: // U+200C 0xe2808c ZERO WIDTH NON-JOINER
+					case (byte) 0x8d: // U+200D 0xe2808d ZERO WIDTH JOINER
+					case (byte) 0x8e: // U+200E 0xe2808e LEFT-TO-RIGHT MARK
+					case (byte) 0x8f: // U+200F 0xe2808f RIGHT-TO-LEFT MARK
+					case (byte) 0xaa: // U+202A 0xe280aa LEFT-TO-RIGHT EMBEDDING
+					case (byte) 0xab: // U+202B 0xe280ab RIGHT-TO-LEFT EMBEDDING
+					case (byte) 0xac: // U+202C 0xe280ac POP DIRECTIONAL
+										// FORMATTING
+					case (byte) 0xad: // U+202D 0xe280ad LEFT-TO-RIGHT OVERRIDE
+					case (byte) 0xae: // U+202E 0xe280ae RIGHT-TO-LEFT OVERRIDE
 						ignorable = true;
 						ptr += 3;
 						continue;
@@ -913,12 +922,16 @@ public class ObjectChecker {
 					}
 				case (byte) 0x81:
 					switch (raw[ptr + 2]) {
-					case (byte) 0xaa:	// U+206A 0xe281aa INHIBIT SYMMETRIC SWAPPING
-					case (byte) 0xab:	// U+206B 0xe281ab ACTIVATE SYMMETRIC SWAPPING
-					case (byte) 0xac:	// U+206C 0xe281ac INHIBIT ARABIC FORM SHAPING
-					case (byte) 0xad:	// U+206D 0xe281ad ACTIVATE ARABIC FORM SHAPING
-					case (byte) 0xae:	// U+206E 0xe281ae NATIONAL DIGIT SHAPES
-					case (byte) 0xaf:	// U+206F 0xe281af NOMINAL DIGIT SHAPES
+					case (byte) 0xaa: // U+206A 0xe281aa INHIBIT SYMMETRIC
+										// SWAPPING
+					case (byte) 0xab: // U+206B 0xe281ab ACTIVATE SYMMETRIC
+										// SWAPPING
+					case (byte) 0xac: // U+206C 0xe281ac INHIBIT ARABIC FORM
+										// SHAPING
+					case (byte) 0xad: // U+206D 0xe281ad ACTIVATE ARABIC FORM
+										// SHAPING
+					case (byte) 0xae: // U+206E 0xe281ae NATIONAL DIGIT SHAPES
+					case (byte) 0xaf: // U+206F 0xe281af NOMINAL DIGIT SHAPES
 						ignorable = true;
 						ptr += 3;
 						continue;
@@ -969,9 +982,10 @@ public class ObjectChecker {
 	private boolean checkTruncatedIgnorableUTF8(byte[] raw, int ptr, int end,
 			@Nullable AnyObjectId id) throws CorruptObjectException {
 		if ((ptr + 2) >= end) {
-			report(BAD_UTF8, id, MessageFormat.format(
-					JGitText.get().corruptObjectInvalidNameInvalidUtf8,
-					toHexString(raw, ptr, end)));
+			report(BAD_UTF8, id,
+					MessageFormat.format(
+							JGitText.get().corruptObjectInvalidNameInvalidUtf8,
+							toHexString(raw, ptr, end)));
 			return false;
 		}
 		return true;
@@ -988,8 +1002,7 @@ public class ObjectChecker {
 			@Nullable AnyObjectId id) throws CorruptObjectException {
 		switch (toLower(raw[ptr])) {
 		case 'a': // AUX
-			if (end - ptr >= 3
-					&& toLower(raw[ptr + 1]) == 'u'
+			if (end - ptr >= 3 && toLower(raw[ptr + 1]) == 'u'
 					&& toLower(raw[ptr + 2]) == 'x'
 					&& (end - ptr == 3 || raw[ptr + 3] == '.')) {
 				report(WIN32_BAD_NAME, id,
@@ -998,39 +1011,37 @@ public class ObjectChecker {
 			break;
 
 		case 'c': // CON, COM[1-9]
-			if (end - ptr >= 3
-					&& toLower(raw[ptr + 2]) == 'n'
+			if (end - ptr >= 3 && toLower(raw[ptr + 2]) == 'n'
 					&& toLower(raw[ptr + 1]) == 'o'
 					&& (end - ptr == 3 || raw[ptr + 3] == '.')) {
 				report(WIN32_BAD_NAME, id,
 						JGitText.get().corruptObjectInvalidNameCon);
 			}
-			if (end - ptr >= 4
-					&& toLower(raw[ptr + 2]) == 'm'
+			if (end - ptr >= 4 && toLower(raw[ptr + 2]) == 'm'
 					&& toLower(raw[ptr + 1]) == 'o'
 					&& isPositiveDigit(raw[ptr + 3])
 					&& (end - ptr == 4 || raw[ptr + 4] == '.')) {
-				report(WIN32_BAD_NAME, id, String.format(
-						JGitText.get().corruptObjectInvalidNameCom,
-						Character.valueOf(((char) raw[ptr + 3]))));
+				report(WIN32_BAD_NAME, id,
+						String.format(
+								JGitText.get().corruptObjectInvalidNameCom,
+								Character.valueOf(((char) raw[ptr + 3]))));
 			}
 			break;
 
 		case 'l': // LPT[1-9]
-			if (end - ptr >= 4
-					&& toLower(raw[ptr + 1]) == 'p'
+			if (end - ptr >= 4 && toLower(raw[ptr + 1]) == 'p'
 					&& toLower(raw[ptr + 2]) == 't'
 					&& isPositiveDigit(raw[ptr + 3])
 					&& (end - ptr == 4 || raw[ptr + 4] == '.')) {
-				report(WIN32_BAD_NAME, id, String.format(
-						JGitText.get().corruptObjectInvalidNameLpt,
-						Character.valueOf(((char) raw[ptr + 3]))));
+				report(WIN32_BAD_NAME, id,
+						String.format(
+								JGitText.get().corruptObjectInvalidNameLpt,
+								Character.valueOf(((char) raw[ptr + 3]))));
 			}
 			break;
 
 		case 'n': // NUL
-			if (end - ptr >= 3
-					&& toLower(raw[ptr + 1]) == 'u'
+			if (end - ptr >= 3 && toLower(raw[ptr + 1]) == 'u'
 					&& toLower(raw[ptr + 2]) == 'l'
 					&& (end - ptr == 3 || raw[ptr + 3] == '.')) {
 				report(WIN32_BAD_NAME, id,
@@ -1039,8 +1050,7 @@ public class ObjectChecker {
 			break;
 
 		case 'p': // PRN
-			if (end - ptr >= 3
-					&& toLower(raw[ptr + 1]) == 'r'
+			if (end - ptr >= 3 && toLower(raw[ptr + 1]) == 'r'
 					&& toLower(raw[ptr + 2]) == 'n'
 					&& (end - ptr == 3 || raw[ptr + 3] == '.')) {
 				report(WIN32_BAD_NAME, id,
@@ -1067,8 +1077,7 @@ public class ObjectChecker {
 	}
 
 	private static boolean isGit(byte[] buf, int p) {
-		return toLower(buf[p]) == 'g'
-				&& toLower(buf[p + 1]) == 'i'
+		return toLower(buf[p]) == 'g' && toLower(buf[p + 1]) == 'i'
 				&& toLower(buf[p + 2]) == 't';
 	}
 
@@ -1099,16 +1108,16 @@ public class ObjectChecker {
 	 * @return true if the filename in buf could be a ".gitmodules" file
 	 * @throws CorruptObjectException
 	 */
-	private boolean isGitmodules(byte[] buf, int start, int end, @Nullable AnyObjectId id)
-			throws CorruptObjectException {
+	private boolean isGitmodules(byte[] buf, int start, int end,
+			@Nullable AnyObjectId id) throws CorruptObjectException {
 		// Simple cases first.
 		if (end - start < 8) {
 			return false;
 		}
 		return (end - start == dotGitmodules.length
 				&& RawParseUtils.match(buf, start, dotGitmodules) != -1)
-			|| (macosx && isMacHFSGitmodules(buf, start, end, id))
-			|| (windows && isNTFSGitmodules(buf, start, end));
+				|| (macosx && isMacHFSGitmodules(buf, start, end, id))
+				|| (windows && isNTFSGitmodules(buf, start, end));
 	}
 
 	private boolean matchLowerCase(byte[] b, int ptr, byte[] src) {
@@ -1134,11 +1143,11 @@ public class ObjectChecker {
 		}
 
 		// "gitmod" or a prefix of "gi7eba", followed by...
-		byte[] gitmod = new byte[]{'g', 'i', 't', 'm', 'o', 'd', '~'};
+		byte[] gitmod = new byte[] { 'g', 'i', 't', 'm', 'o', 'd', '~' };
 		if (matchLowerCase(buf, start, gitmod)) {
 			start += 6;
 		} else {
-			byte[] gi7eba = new byte[]{'g', 'i', '7', 'e', 'b', 'a'};
+			byte[] gi7eba = new byte[] { 'g', 'i', '7', 'e', 'b', 'a' };
 			for (int i = 0; i < gi7eba.length; i++, start++) {
 				byte c = (byte) toLower(buf[start]);
 				if (c == '~') {
@@ -1183,13 +1192,17 @@ public class ObjectChecker {
 			int dots = 0;
 			boolean space = false;
 			int p = end - 1;
-			for (; (ptr + 2) < p; p--) {
-				if (raw[p] == '.')
+			OUTER: for (; (ptr + 2) < p; p--) {
+				switch (raw[p]) {
+				case '.':
 					dots++;
-				else if (raw[p] == ' ')
-					space = true;
-				else
 					break;
+				case ' ':
+					space = true;
+					break;
+				default:
+					break OUTER;
+				}
 			}
 			return p == ptr + 2 && (dots == 1 || space);
 		}
