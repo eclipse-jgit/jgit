@@ -229,15 +229,25 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				String autosetupflag = repo.getConfig().getString(
 						ConfigConstants.CONFIG_BRANCH_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOSETUPMERGE);
-				if ("false".equals(autosetupflag)) { //$NON-NLS-1$
-					doConfigure = false;
-				} else if ("always".equals(autosetupflag)) { //$NON-NLS-1$
-					doConfigure = true;
-				} else {
-					// in this case, the default is to configure
-					// only in case the base branch was a remote branch
-					doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
-				}
+				if (null == autosetupflag) {
+                                    // in this case, the default is to configure
+                                    // only in case the base branch was a remote branch
+                                    doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
+                                } else switch (autosetupflag) {
+                                case "false":
+                                    //$NON-NLS-1$
+                                    doConfigure = false;
+                                    break;
+                                case "always":
+                                    //$NON-NLS-1$
+                                    doConfigure = true;
+                                    break;
+                                default:
+                                    // in this case, the default is to configure
+                                    // only in case the base branch was a remote branch
+                                    doConfigure = baseBranch.startsWith(Constants.R_REMOTES);
+                                    break;
+                            }
 			}
 
 			if (doConfigure) {
