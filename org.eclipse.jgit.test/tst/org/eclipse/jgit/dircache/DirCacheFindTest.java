@@ -66,8 +66,9 @@ public class DirCacheFindTest extends RepositoryTestCase {
 		final int aLast = 3;
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertEquals(paths.length, dc.getEntryCount());
