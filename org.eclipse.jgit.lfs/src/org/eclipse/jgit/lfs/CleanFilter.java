@@ -78,14 +78,7 @@ public class CleanFilter extends FilterCommand {
 	 * The factory is responsible for creating instances of
 	 * {@link org.eclipse.jgit.lfs.CleanFilter}
 	 */
-	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
-
-		@Override
-		public FilterCommand create(Repository db, InputStream in,
-				OutputStream out) throws IOException {
-			return new CleanFilter(db, in, out);
-		}
-	};
+	public final static FilterCommandFactory FACTORY = CleanFilter::new;
 
 	/**
 	 * Registers this filter by calling

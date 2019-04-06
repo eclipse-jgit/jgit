@@ -75,7 +75,6 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
@@ -117,18 +116,13 @@ public class GitServletResponseTests extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(repoName))
-					throw new RepositoryNotFoundException(name);
-
-				final Repository db = srv.getRepository();
-				db.incrementOpen();
-				return db;
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			if (!name.equals(repoName)) {
+				throw new RepositoryNotFoundException(name);
 			}
+			final Repository db = srv.getRepository();
+			db.incrementOpen();
+			return db;
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
 			@Override
@@ -179,12 +173,8 @@ public class GitServletResponseTests extends HttpTestCase {
 
 		maxPackSize = 0;
 		postHook = null;
-		preHook = new PreReceiveHook() {
-			@Override
-			public void onPreReceive(ReceivePack rp,
-					Collection<ReceiveCommand> commands) {
-				throw new IllegalStateException();
-			}
+		preHook = (ReceivePack rp, Collection<ReceiveCommand> commands) -> {
+			throw new IllegalStateException();
 		};
 
 		try (Transport t = Transport.open(clientRepo, srvURI)) {
@@ -263,15 +253,11 @@ public class GitServletResponseTests extends HttpTestCase {
 		maxPackSize = 100;
 		// this PostReceiveHook when called after an unsuccesfull unpack will
 		// lead to an IllegalStateException
-		postHook = new PostReceiveHook() {
-			@Override
-			public void onPostReceive(ReceivePack rp,
-					Collection<ReceiveCommand> commands) {
-				// the maxPackSize setting caused that the packfile couldn't be
-				// saved to disk. Calling getPackSize() now will lead to a
-				// IllegalStateException.
-				rp.getPackSize();
-			}
+		postHook = (ReceivePack rp, Collection<ReceiveCommand> commands) -> {
+			// the maxPackSize setting caused that the packfile couldn't be
+			// saved to disk. Calling getPackSize() now will lead to a
+			// IllegalStateException.
+			rp.getPackSize();
 		};
 
 		try (Transport t = Transport.open(clientRepo, srvURI)) {

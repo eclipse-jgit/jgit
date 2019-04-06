@@ -60,7 +60,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -703,15 +702,12 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	private static Future<Object> writeAsync(OutputStream stream, byte[] data) {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 
-		return executor.submit(new Callable<Object>() {
-			@Override
-			public Object call() throws IOException {
-				try {
-					stream.write(data);
-					return null;
-				} finally {
-					stream.close();
-				}
+		return executor.submit(() -> {
+			try {
+				stream.write(data);
+				return null;
+			} finally {
+				stream.close();
 			}
 		});
 	}
