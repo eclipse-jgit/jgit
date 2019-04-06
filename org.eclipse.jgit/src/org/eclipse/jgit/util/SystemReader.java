@@ -368,12 +368,8 @@ public abstract class SystemReader {
 	}
 
 	private String getOsName() {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				return getProperty("os.name"); //$NON-NLS-1$
-			}
-		});
+		return AccessController.doPrivileged((PrivilegedAction<String>) () -> getProperty("os.name") //$NON-NLS-1$
+                );
 	}
 
 	/**

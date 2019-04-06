@@ -101,12 +101,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	/** Sorts PackFiles to be most recently created to least recently created. */
-	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
-		@Override
-		public int compare(PackFile a, PackFile b) {
-			return b.packLastModified - a.packLastModified;
-		}
-	};
+	public static final Comparator<PackFile> SORT = (PackFile a, PackFile b) -> b.packLastModified - a.packLastModified;
 
 	private final File packFile;
 
