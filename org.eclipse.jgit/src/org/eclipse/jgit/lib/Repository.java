@@ -923,7 +923,7 @@ public abstract class Repository implements AutoCloseable {
 		AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
 		try (ObjectReader reader = newObjectReader()) {
 			Collection<ObjectId> matches = reader.resolve(id);
-			if (matches.size() == 0)
+			if (matches.isEmpty())
 				return null;
 			else if (matches.size() == 1)
 				return matches.iterator().next();

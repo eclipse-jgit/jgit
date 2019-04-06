@@ -506,7 +506,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 		if (sorting.size() > 1)
 			sorting.remove(RevSort.NONE);
-		else if (sorting.size() == 0)
+		else if (sorting.isEmpty())
 			sorting.add(RevSort.NONE);
 	}
 
