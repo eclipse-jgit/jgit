@@ -62,8 +62,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.events.ConfigChangedEvent;
-import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
@@ -206,12 +204,7 @@ public class FileRepository extends Repository {
 		loadUserConfig();
 		loadRepoConfig();
 
-		repoConfig.addChangeListener(new ConfigChangedListener() {
-			@Override
-			public void onConfigChanged(ConfigChangedEvent event) {
-				fireEvent(event);
-			}
-		});
+		repoConfig.addChangeListener(this::fireEvent);
 
 		final long repositoryFormatVersion = getConfig().getLong(
 				ConfigConstants.CONFIG_CORE_SECTION, null,

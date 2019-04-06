@@ -124,9 +124,6 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
@@ -192,18 +189,13 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
 
 		GitServlet gs = new GitServlet();
-		gs.setUploadPackFactory(new UploadPackFactory<HttpServletRequest>() {
-			@Override
-			public UploadPack create(HttpServletRequest req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				DefaultUploadPackFactory f = new DefaultUploadPackFactory();
-				UploadPack up = f.create(req, db);
-				if (advertiseRefsHook != null) {
-					up.setAdvertiseRefsHook(advertiseRefsHook);
-				}
-				return up;
+		gs.setUploadPackFactory((HttpServletRequest req, Repository db) -> {
+			DefaultUploadPackFactory f = new DefaultUploadPackFactory();
+			UploadPack up = f.create(req, db);
+			if (advertiseRefsHook != null) {
+				up.setAdvertiseRefsHook(advertiseRefsHook);
 			}
+			return up;
 		});
 
 		ServletContextHandler app = addNormalContext(gs, src, srcName);

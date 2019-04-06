@@ -239,20 +239,15 @@ public class GcConcurrentTest extends GcTestCase {
 		SampleDataRepositoryTestCase.copyCGitTestPacks(repo);
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		final CountDownLatch latch = new CountDownLatch(1);
-		Future<Collection<PackFile>> result = executor
-				.submit(new Callable<Collection<PackFile>>() {
-
-					@Override
-					public Collection<PackFile> call() throws Exception {
-						long start = System.currentTimeMillis();
-						System.out.println("starting gc");
-						latch.countDown();
-						Collection<PackFile> r = gc.gc();
-						System.out.println("gc took "
-								+ (System.currentTimeMillis() - start) + " ms");
-						return r;
-					}
-				});
+		Future<Collection<PackFile>> result = executor.submit(() -> {
+			long start = System.currentTimeMillis();
+			System.out.println("starting gc");
+			latch.countDown();
+			Collection<PackFile> r = gc.gc();
+			System.out.println(
+					"gc took " + (System.currentTimeMillis() - start) + " ms");
+			return r;
+		});
 		try {
 			latch.await();
 			Thread.sleep(5);
