@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f306bc39_c6219001",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T19:32:12Z",
+      "side": 1,
+      "message": "Duplicates too much code.",
+      "revId": "dd476d511e6fad5a3dd53300e90e8de1eaf12eaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
