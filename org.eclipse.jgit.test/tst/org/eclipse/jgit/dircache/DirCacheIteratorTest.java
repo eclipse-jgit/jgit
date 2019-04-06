@@ -94,8 +94,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
@@ -121,8 +122,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
@@ -154,8 +156,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		final String[] expPaths = { "a-", "a", "a0b" };
@@ -200,8 +203,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
@@ -236,8 +240,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		try (TreeWalk tw = new TreeWalk(db)) {
@@ -271,8 +276,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		DirCacheIterator dci = new DirCacheIterator(dc);
@@ -365,8 +371,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		DirCacheIterator dci = new DirCacheIterator(dc);
@@ -398,8 +405,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+            for (DirCacheEntry ent : ents) {
+                b.add(ent);
+            }
 		b.finish();
 
 		try (TreeWalk tw = new TreeWalk(db)) {
