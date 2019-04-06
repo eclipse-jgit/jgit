@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f1270e6_b64c6ce4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CommandCatalog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c0c096_1ee9b772",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "What about these?",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 3
+      },
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7ac588b_fd96244c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Spurious comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f305b9a_507d7a0a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "890c19ee_c6859669",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5bfcdf5_93c936d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind, wrong indentation, and IOE and RuntimeException could also be combined.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43214384_0008d50f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind and wrong indentation.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ffee0a_9b3334d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-06T17:16:45Z",
+      "side": 1,
+      "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
