@@ -188,19 +188,23 @@ public class RevCommit extends RevObject {
 				}
 				idBuffer.fromString(raw, ptr + 7);
 				final RevCommit p = walk.lookupCommit(idBuffer);
-				if (nParents == 0) {
-					pList[nParents++] = p;
-				} else if (nParents == 1) {
-					pList = new RevCommit[] { pList[0], p };
-					nParents = 2;
-				} else {
-					if (pList.length <= nParents) {
-						RevCommit[] old = pList;
-						pList = new RevCommit[pList.length + 32];
-						System.arraycopy(old, 0, pList, 0, nParents);
-					}
-					pList[nParents++] = p;
-				}
+                            switch (nParents) {
+                                case 0:
+                                    pList[nParents++] = p;
+                                    break;
+                                case 1:
+                                    pList = new RevCommit[] { pList[0], p };
+                                    nParents = 2;
+                                    break;
+                                default:
+                                    if (pList.length <= nParents) {
+                                        RevCommit[] old = pList;
+                                        pList = new RevCommit[pList.length + 32];
+                                        System.arraycopy(old, 0, pList, 0, nParents);
+                                    }
+                                    pList[nParents++] = p;
+                                    break;
+                            }
 				ptr += 48;
 			}
 			if (nParents != pList.length) {

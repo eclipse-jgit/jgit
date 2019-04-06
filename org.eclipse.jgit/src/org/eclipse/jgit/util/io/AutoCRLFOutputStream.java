@@ -129,20 +129,24 @@ public class AutoCRLFOutputStream extends OutputStream {
 		}
 		for (int i = off; i < off + len; ++i) {
 			final byte c = b[i];
-			if (c == '\r') {
-				buf = '\r';
-			} else if (c == '\n') {
-				if (buf != '\r') {
-					if (lastw < i) {
-						out.write(b, lastw, i - lastw);
-					}
-					out.write('\r');
-					lastw = i;
-				}
-				buf = -1;
-			} else {
-				buf = -1;
-			}
+                    switch (c) {
+                        case '\r':
+                            buf = '\r';
+                            break;
+                        case '\n':
+                            if (buf != '\r') {
+                                if (lastw < i) {
+                                    out.write(b, lastw, i - lastw);
+                                }
+                                out.write('\r');
+                                lastw = i;
+                            }
+                            buf = -1;
+                            break;
+                        default:
+                            buf = -1;
+                            break;
+                    }
 		}
 		if (lastw < off + len) {
 			out.write(b, lastw, off + len - lastw);

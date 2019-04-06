@@ -108,43 +108,42 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {
-		if (items.length == 0) {
-			return true;
-
-		} else if (items.length == 1) {
-			final CredentialItem item = items[0];
-
-			if (item instanceof CredentialItem.InformationalMessage) {
-				JOptionPane.showMessageDialog(null, item.getPromptText(),
-						UIText.get().warning, JOptionPane.INFORMATION_MESSAGE);
-				return true;
-
-			} else if (item instanceof CredentialItem.YesNoType) {
-				CredentialItem.YesNoType v = (CredentialItem.YesNoType) item;
-				int r = JOptionPane.showConfirmDialog(null, v.getPromptText(),
-						UIText.get().warning, JOptionPane.YES_NO_OPTION);
-				switch (r) {
-				case JOptionPane.YES_OPTION:
-					v.setValue(true);
-					return true;
-
-				case JOptionPane.NO_OPTION:
-					v.setValue(false);
-					return true;
-
-				case JOptionPane.CANCEL_OPTION:
-				case JOptionPane.CLOSED_OPTION:
-				default:
-					return false;
-				}
-
-			} else {
-				return interactive(uri, items);
-			}
-
-		} else {
-			return interactive(uri, items);
-		}
+            switch (items.length) {
+                case 0:
+                    return true;
+                case 1:
+                    final CredentialItem item = items[0];
+                    
+                    if (item instanceof CredentialItem.InformationalMessage) {
+                        JOptionPane.showMessageDialog(null, item.getPromptText(),
+                                UIText.get().warning, JOptionPane.INFORMATION_MESSAGE);
+                        return true;
+                        
+                    } else if (item instanceof CredentialItem.YesNoType) {
+                        CredentialItem.YesNoType v = (CredentialItem.YesNoType) item;
+                        int r = JOptionPane.showConfirmDialog(null, v.getPromptText(),
+                                UIText.get().warning, JOptionPane.YES_NO_OPTION);
+                        switch (r) {
+                            case JOptionPane.YES_OPTION:
+                                v.setValue(true);
+                                return true;
+                                
+                            case JOptionPane.NO_OPTION:
+                                v.setValue(false);
+                                return true;
+                                
+                            case JOptionPane.CANCEL_OPTION:
+                            case JOptionPane.CLOSED_OPTION:
+                            default:
+                                return false;
+                        }
+                        
+                    } else {
+                        return interactive(uri, items);
+                    }
+                default:
+                    return interactive(uri, items);
+            }
 	}
 
 	private static boolean interactive(URIish uri, CredentialItem[] items) {

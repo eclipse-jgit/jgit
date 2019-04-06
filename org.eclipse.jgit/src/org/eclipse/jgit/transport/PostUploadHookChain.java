@@ -71,12 +71,14 @@ public class PostUploadHookChain implements PostUploadHook {
 		for (PostUploadHook hook : hooks)
 			if (hook != PostUploadHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
-			return PostUploadHook.NULL;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new PostUploadHookChain(newHooks, i);
+            switch (i) {
+                case 0:
+                    return PostUploadHook.NULL;
+                case 1:
+                    return newHooks[0];
+                default:
+                    return new PostUploadHookChain(newHooks, i);
+            }
 	}
 
 	/** {@inheritDoc} */
