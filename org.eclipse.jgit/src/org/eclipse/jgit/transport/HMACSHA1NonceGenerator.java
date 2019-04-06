@@ -78,9 +78,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1"); //$NON-NLS-1$
 			mac = Mac.getInstance("HmacSHA1"); //$NON-NLS-1$
 			mac.init(signingKey);
-		} catch (InvalidKeyException e) {
-			throw new IllegalStateException(e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (InvalidKeyException | NoSuchAlgorithmException e) {
 			throw new IllegalStateException(e);
 		}
 	}

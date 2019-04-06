@@ -133,10 +133,7 @@ public class AbstractTreeIteratorHandler extends
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		try (ObjectReader curs = clp.getRepository().newObjectReader()) {
 			p.reset(curs, clp.getRevWalk().parseTree(id));
-		} catch (MissingObjectException e) {
-			throw new CmdLineException(clp,
-					CLIText.format(CLIText.get().notATree), name);
-		} catch (IncorrectObjectTypeException e) {
+		} catch (MissingObjectException | IncorrectObjectTypeException e) {
 			throw new CmdLineException(clp,
 					CLIText.format(CLIText.get().notATree), name);
 		} catch (IOException e) {

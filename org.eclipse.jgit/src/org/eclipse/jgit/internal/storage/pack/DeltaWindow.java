@@ -365,9 +365,7 @@ final class DeltaWindow {
 
 				resObj.setCachedDelta(deltaCache.cache(zbuf, len, deltaLen));
 				resObj.setCachedSize(deltaLen);
-			} catch (IOException err) {
-				deltaCache.credit(deltaLen);
-			} catch (OutOfMemoryError err) {
+			} catch (IOException | OutOfMemoryError err) {
 				deltaCache.credit(deltaLen);
 			}
 		}

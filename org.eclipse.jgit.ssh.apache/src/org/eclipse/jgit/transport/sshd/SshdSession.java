@@ -177,10 +177,7 @@ public class SshdSession implements RemoteSession {
 				timeoutMillis -= TimeUnit.NANOSECONDS
 						.toMillis(System.nanoTime() - start);
 			}
-		} catch (IOException e) {
-			exec.close(true);
-			throw e;
-		} catch (RuntimeException e) {
+		} catch (IOException | RuntimeException e) {
 			exec.close(true);
 			throw e;
 		}
