@@ -60,6 +60,7 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -134,9 +135,9 @@ import org.slf4j.LoggerFactory;
  * <p>
  * Note that adding a key to the known hosts file may create the file. You can
  * specify in the constructor whether the user shall be asked about that, too.
- * If the user declines updating the file, but the key was otherwise
- * accepted (user confirmed for "<b>ask</b>", or "no" or "accept-new" are
- * active), the key is accepted for this session only.
+ * If the user declines updating the file, but the key was otherwise accepted
+ * (user confirmed for "<b>ask</b>", or "no" or "accept-new" are active), the
+ * key is accepted for this session only.
  * </p>
  * <p>
  * If several known hosts files are specified, a new key is always added to the
@@ -347,8 +348,7 @@ public class OpenSshServerKeyVerifier
 						p -> new HostKeyFile(path));
 				userFiles.add(file);
 			} catch (InvalidPathException e) {
-				LOG.warn(format(SshdText.get().knownHostsInvalidPath,
-						name));
+				LOG.warn(format(SshdText.get().knownHostsInvalidPath, name));
 			}
 		}
 		return userFiles;
@@ -356,8 +356,7 @@ public class OpenSshServerKeyVerifier
 
 	private void updateKnownHostsFile(ClientSession clientSession,
 			SocketAddress remoteAddress, PublicKey serverKey, Path path,
-			HostKeyHelper updater)
-			throws IOException {
+			HostKeyHelper updater) throws IOException {
 		KnownHostEntry entry = updater.prepareKnownHostEntry(clientSession,
 				remoteAddress, serverKey);
 		if (entry == null) {
@@ -397,8 +396,7 @@ public class OpenSshServerKeyVerifier
 				throw e;
 			}
 		} else {
-			LOG.warn(format(SshdText.get().knownHostsFileLockedUpdate,
-					path));
+			LOG.warn(format(SshdText.get().knownHostsFileLockedUpdate, path));
 		}
 	}
 
@@ -448,8 +446,7 @@ public class OpenSshServerKeyVerifier
 				throw e;
 			}
 		} else {
-			LOG.warn(format(SshdText.get().knownHostsFileLockedUpdate,
-					path));
+			LOG.warn(format(SshdText.get().knownHostsFileLockedUpdate, path));
 		}
 	}
 
@@ -557,17 +554,15 @@ public class OpenSshServerKeyVerifier
 					remote);
 			String prompt = SshdText.get().knownHostsUnknownKeyPrompt;
 			return askUser(provider, uri, prompt, //
-					format(SshdText.get().knownHostsUnknownKeyMsg,
-							remoteHost),
+					format(SshdText.get().knownHostsUnknownKeyMsg, remoteHost),
 					format(SshdText.get().knownHostsKeyFingerprints,
 							keyAlgorithm),
 					md5, sha256);
 		}
 
 		public ModifiedKeyHandling acceptModifiedServerKey(
-				ClientSession clientSession,
-				SocketAddress remoteAddress, PublicKey expected,
-				PublicKey actual, Path path) {
+				ClientSession clientSession, SocketAddress remoteAddress,
+				PublicKey expected, PublicKey actual, Path path) {
 			Check check = checkMode(clientSession, remoteAddress, true);
 			if (check == Check.ALLOW) {
 				// Never auto-store on CHECK.ALLOW
@@ -579,16 +574,13 @@ public class OpenSshServerKeyVerifier
 			URIish uri = JGitUserInteraction.toURI(clientSession.getUsername(),
 					remote);
 			List<String> messages = new ArrayList<>();
-			String warning = format(
-					SshdText.get().knownHostsModifiedKeyWarning,
+			String warning = format(SshdText.get().knownHostsModifiedKeyWarning,
 					keyAlgorithm, expected.getAlgorithm(), remoteHost,
 					KeyUtils.getFingerPrint(BuiltinDigests.md5, expected),
 					KeyUtils.getFingerPrint(BuiltinDigests.sha256, expected),
 					KeyUtils.getFingerPrint(BuiltinDigests.md5, actual),
 					KeyUtils.getFingerPrint(BuiltinDigests.sha256, actual));
-			for (String line : warning.split("\n")) { //$NON-NLS-1$
-				messages.add(line);
-			}
+			messages.addAll(Arrays.asList(warning.split("\n"))); //$NON-NLS-1$
 
 			CredentialsProvider provider = getCredentialsProvider(
 					clientSession);

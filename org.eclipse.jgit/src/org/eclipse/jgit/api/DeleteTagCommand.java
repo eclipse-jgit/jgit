@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,8 +136,7 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 	public DeleteTagCommand setTags(String... tags) {
 		checkCallable();
 		this.tags.clear();
-		for (String tagName : tags)
-			this.tags.add(tagName);
+		this.tags.addAll(Arrays.asList(tags));
 		return this;
 	}
 }

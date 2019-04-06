@@ -46,6 +46,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,9 +75,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * Note that we don't have a setter corresponding to the -r option; remote
  * tracking branches are simply deleted just like local branches.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-branch.html"
- *      >Git documentation about Branch</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-branch.html" >Git
+ *      documentation about Branch</a>
  */
 public class DeleteBranchCommand extends GitCommand<List<String>> {
 	private final Set<String> branchNames = new HashSet<>();
@@ -95,8 +96,8 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 
 	/** {@inheritDoc} */
 	@Override
-	public List<String> call() throws GitAPIException,
-			NotMergedException, CannotDeleteCurrentBranchException {
+	public List<String> call() throws GitAPIException, NotMergedException,
+			CannotDeleteCurrentBranchException {
 		checkCallable();
 		List<String> result = new ArrayList<>();
 		if (branchNames.isEmpty())
@@ -133,11 +134,9 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 					continue;
 				String fullName = currentRef.getName();
 				if (fullName.equals(currentBranch))
-					throw new CannotDeleteCurrentBranchException(
-							MessageFormat
-									.format(
-											JGitText.get().cannotDeleteCheckedOutBranch,
-											branchName));
+					throw new CannotDeleteCurrentBranchException(MessageFormat
+							.format(JGitText.get().cannotDeleteCheckedOutBranch,
+									branchName));
 				RefUpdate update = repo.updateRef(fullName);
 				update.setRefLogMessage("branch deleted", false); //$NON-NLS-1$
 				update.setForceUpdate(true);
@@ -161,8 +160,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 								.substring(Constants.R_HEADS.length());
 						// remove upstream configuration if any
 						final StoredConfig cfg = repo.getConfig();
-						cfg.unsetSection(
-								ConfigConstants.CONFIG_BRANCH_SECTION,
+						cfg.unsetSection(ConfigConstants.CONFIG_BRANCH_SECTION,
 								shortenedName);
 						cfg.save();
 					}
@@ -188,8 +186,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	public DeleteBranchCommand setBranchNames(String... branchnames) {
 		checkCallable();
 		this.branchNames.clear();
-		for (String branch : branchnames)
-			this.branchNames.add(branch);
+		this.branchNames.addAll(Arrays.asList(branchnames));
 		return this;
 	}
 
