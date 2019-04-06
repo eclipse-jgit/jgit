@@ -97,9 +97,7 @@ class GlobalBundleCache {
 				bundles.put(type, bundle);
 			}
 			return (T) bundle;
-		} catch (InstantiationException e) {
-			throw new Error(e);
-		} catch (IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			throw new Error(e);
 		}
 	}
