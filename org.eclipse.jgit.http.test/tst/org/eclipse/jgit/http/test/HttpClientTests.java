@@ -87,8 +87,6 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,19 +139,14 @@ public class HttpClientTests extends HttpTestCase {
 
 	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				final Repository db = remoteRepository.getRepository();
-				if (!name.equals(nameOf(db)))
-					throw new RepositoryNotFoundException(name);
-
-				db.incrementOpen();
-				return db;
-			}
-		});
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+                    final Repository db = remoteRepository.getRepository();
+                    if (!name.equals(nameOf(db)))
+                        throw new RepositoryNotFoundException(name);
+                    
+                    db.incrementOpen();
+                    return db;
+                });
 
 		ServletContextHandler ctx = server.addContext(path);
 		ctx.addServlet(new ServletHolder(gs), "/*");

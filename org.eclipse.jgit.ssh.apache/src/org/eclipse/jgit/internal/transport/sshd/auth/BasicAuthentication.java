@@ -146,17 +146,11 @@ public abstract class BasicAuthentication<ParameterType, TokenType>
 	protected void askCredentials() {
 		clearPassword();
 		PasswordAuthentication auth = AccessController
-				.doPrivileged(new PrivilegedAction<PasswordAuthentication>() {
-
-					@Override
-					public PasswordAuthentication run() {
-						return Authenticator.requestPasswordAuthentication(
-								proxy.getHostString(), proxy.getAddress(),
-								proxy.getPort(), SshConstants.SSH_SCHEME,
-								SshdText.get().proxyPasswordPrompt, "Basic", //$NON-NLS-1$
-								null, RequestorType.PROXY);
-					}
-				});
+				.doPrivileged((PrivilegedAction<PasswordAuthentication>) () -> Authenticator.requestPasswordAuthentication(
+                                        proxy.getHostString(), proxy.getAddress(),
+                                        proxy.getPort(), SshConstants.SSH_SCHEME,
+                                        SshdText.get().proxyPasswordPrompt, "Basic", //$NON-NLS-1$
+                                        null, RequestorType.PROXY));
 		if (auth == null) {
 			user = ""; //$NON-NLS-1$
 			throw new CancellationException(

@@ -210,13 +210,9 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		boolean receivedEvent = false;
 
 		DirCache dc = db.lockDirCache();
-		IndexChangedListener listener = new IndexChangedListener() {
-
-			@Override
-			public void onIndexChanged(IndexChangedEvent event) {
-				throw new ReceivedEventMarkerException();
-			}
-		};
+		IndexChangedListener listener = (IndexChangedEvent event) -> {
+                    throw new ReceivedEventMarkerException();
+                };
 
 		ListenerList l = db.getListenerList();
 		l.addIndexChangedListener(listener);
@@ -238,13 +234,9 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		// do the same again, as this doesn't change index compared to first
 		// round we should get no event this time
 		dc = db.lockDirCache();
-		listener = new IndexChangedListener() {
-
-			@Override
-			public void onIndexChanged(IndexChangedEvent event) {
-				throw new ReceivedEventMarkerException();
-			}
-		};
+		listener = (IndexChangedEvent event) -> {
+                    throw new ReceivedEventMarkerException();
+                };
 
 		l = db.getListenerList();
 		l.addIndexChangedListener(listener);

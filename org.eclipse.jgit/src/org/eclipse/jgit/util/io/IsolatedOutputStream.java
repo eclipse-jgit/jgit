@@ -102,26 +102,20 @@ public class IsolatedOutputStream extends OutputStream {
 	public void write(byte[] buf, int pos, int cnt)
 			throws IOException {
 		checkClosed();
-		execute(new Callable<Void>() {
-			@Override
-			public Void call() throws IOException {
-				dst.write(buf, pos, cnt);
-				return null;
-			}
-		});
+		execute(() -> {
+                    dst.write(buf, pos, cnt);
+                    return null;
+                });
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		checkClosed();
-		execute(new Callable<Void>() {
-			@Override
-			public Void call() throws IOException {
-				dst.flush();
-				return null;
-			}
-		});
+		execute(() -> {
+                    dst.flush();
+                    return null;
+                });
 	}
 
 	/** {@inheritDoc} */
@@ -159,13 +153,10 @@ public class IsolatedOutputStream extends OutputStream {
 	}
 
 	private void cleanClose() throws IOException {
-		execute(new Callable<Void>() {
-			@Override
-			public Void call() throws IOException {
-				dst.close();
-				return null;
-			}
-		});
+		execute(() -> {
+                    dst.close();
+                    return null;
+                });
 	}
 
 	private void dirtyClose() throws IOException {
@@ -178,13 +169,10 @@ public class IsolatedOutputStream extends OutputStream {
 
 		Future<Void> close;
 		try {
-			close = copier.submit(new Callable<Void>() {
-				@Override
-				public Void call() throws IOException {
-					dst.close();
-					return null;
-				}
-			});
+			close = copier.submit(() -> {
+                            dst.close();
+                            return null;
+                        });
 		} catch (RejectedExecutionException e) {
 			throw new IOException(e);
 		}

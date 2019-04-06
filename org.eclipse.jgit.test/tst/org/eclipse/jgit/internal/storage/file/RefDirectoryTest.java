@@ -70,7 +70,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedEvent;
-import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -570,13 +569,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final int[] count = new int[1];
 
 		ListenerHandle listener = Repository.getGlobalListenerList()
-				.addRefsChangedListener(new RefsChangedListener() {
-
-					@Override
-					public void onRefsChanged(RefsChangedEvent event) {
-						count[0]++;
-					}
-				});
+				.addRefsChangedListener((RefsChangedEvent event) -> {
+                                    count[0]++;
+                });
 
 		refs = refdir.getRefs(RefDatabase.ALL);
 		refs = refdir.getRefs(RefDatabase.ALL);
@@ -1316,21 +1311,16 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final AtomicReference<StackOverflowError> error = new AtomicReference<>();
 		final AtomicReference<IOException> exception = new AtomicReference<>();
 		final AtomicInteger changeCount = new AtomicInteger();
-		newRepo.getListenerList().addRefsChangedListener(
-				new RefsChangedListener() {
-
-					@Override
-					public void onRefsChanged(RefsChangedEvent event) {
-						try {
-							refDb.getRefsByPrefix("ref");
-							changeCount.incrementAndGet();
-						} catch (StackOverflowError soe) {
-							error.set(soe);
-						} catch (IOException ioe) {
-							exception.set(ioe);
-						}
-					}
-				});
+		newRepo.getListenerList().addRefsChangedListener((RefsChangedEvent event) -> {
+                    try {
+                        refDb.getRefsByPrefix("ref");
+                        changeCount.incrementAndGet();
+                    } catch (StackOverflowError soe) {
+                        error.set(soe);
+                    } catch (IOException ioe) {
+                        exception.set(ioe);
+                    }
+                });
 		refDb.getRefsByPrefix("ref");
 		refDb.getRefsByPrefix("ref");
 		assertNull(error.get());
