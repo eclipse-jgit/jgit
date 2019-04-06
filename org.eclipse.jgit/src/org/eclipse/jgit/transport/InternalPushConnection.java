@@ -100,11 +100,11 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 				try {
 					final ReceivePack rp = receivePackFactory.create(req, remote);
 					rp.receive(out_r, in_w, System.err);
-				} catch (ServiceNotEnabledException e) {
+				} catch (ServiceNotEnabledException | ServiceNotAuthorizedException e) {
 					// Ignored. Client cannot use this repository.
-				} catch (ServiceNotAuthorizedException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (IOException e) {
+				}
+                            // Ignored. Client cannot use this repository.
+                             catch (IOException e) {
 					// Since the InternalPushConnection
 					// is used in tests, we want to avoid hiding exceptions
 					// because they can point to programming errors on the server

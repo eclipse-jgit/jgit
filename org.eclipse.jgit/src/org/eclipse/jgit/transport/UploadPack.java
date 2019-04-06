@@ -2002,17 +2002,7 @@ public class UploadPack {
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
-			} catch (IOException err) {
-				if (reportInternalServerErrorOverSideband())
-					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
-			} catch (RuntimeException err) {
-				if (reportInternalServerErrorOverSideband())
-					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
-			} catch (Error err) {
+			} catch (IOException | RuntimeException | Error err) {
 				if (reportInternalServerErrorOverSideband())
 					throw new UploadPackInternalServerErrorException(err);
 				else
