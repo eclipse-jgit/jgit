@@ -72,9 +72,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// written
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD still contain no entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 0);
+		assertTrue("Reflog for HEAD still contain no entry", db.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
 
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
