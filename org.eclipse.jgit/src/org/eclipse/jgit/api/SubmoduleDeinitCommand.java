@@ -173,9 +173,9 @@ public class SubmoduleDeinitCommand
 		}
 		final File[] ls = dir.listFiles();
 		if (ls != null) {
-			for (int i = 0; i < ls.length; i++) {
-				FileUtils.delete(ls[i], RECURSIVE);
-			}
+                    for (File l : ls) {
+                        FileUtils.delete(l, RECURSIVE);
+                    }
 		}
 	}
 
