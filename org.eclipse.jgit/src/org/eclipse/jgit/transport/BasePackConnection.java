@@ -182,10 +182,7 @@ abstract class BasePackConnection extends BaseConnection {
 		} catch (TransportException err) {
 			close();
 			throw err;
-		} catch (IOException err) {
-			close();
-			throw new TransportException(err.getMessage(), err);
-		} catch (RuntimeException err) {
+		} catch (IOException | RuntimeException err) {
 			close();
 			throw new TransportException(err.getMessage(), err);
 		}

@@ -363,9 +363,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			try (InputStream in = openInputStream(c)) {
 				return getConnection(c, in, service);
 			}
-		} catch (NotSupportedException err) {
-			throw err;
-		} catch (TransportException err) {
+		} catch (NotSupportedException | TransportException err) {
 			throw err;
 		} catch (IOException err) {
 			throw new TransportException(uri, JGitText.get().errorReadingInfoRefs, err);
@@ -449,9 +447,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					throw new NotSupportedException(msg);
 				}
 			}
-		} catch (NotSupportedException err) {
-			throw err;
-		} catch (TransportException err) {
+		} catch (NotSupportedException | TransportException err) {
 			throw err;
 		} catch (IOException err) {
 			throw new TransportException(uri, JGitText.get().errorReadingInfoRefs, err);
@@ -575,9 +571,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
 					throw new TransportException(uri, err);
 				}
-			} catch (NotSupportedException e) {
-				throw e;
-			} catch (TransportException e) {
+			} catch (NotSupportedException | TransportException e) {
 				throw e;
 			} catch (SSLHandshakeException e) {
 				handleSslFailure(e);

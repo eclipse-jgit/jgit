@@ -548,13 +548,7 @@ public abstract class LocalDiskRepositoryTestCase {
 		try {
 			write(f, body);
 			return f;
-		} catch (Error e) {
-			f.delete();
-			throw e;
-		} catch (RuntimeException e) {
-			f.delete();
-			throw e;
-		} catch (IOException e) {
+		} catch (Error | RuntimeException | IOException e) {
 			f.delete();
 			throw e;
 		}

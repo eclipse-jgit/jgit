@@ -330,13 +330,8 @@ public class Main {
 			install("org.eclipse.jgit.console.ConsoleAuthenticator"); //$NON-NLS-1$
 			install("org.eclipse.jgit.console.ConsoleCredentialsProvider"); //$NON-NLS-1$
 			return true;
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | NoClassDefFoundError | UnsupportedClassVersionError e) {
 			return false;
-		} catch (NoClassDefFoundError e) {
-			return false;
-		} catch (UnsupportedClassVersionError e) {
-			return false;
-
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		} catch (SecurityException e) {
