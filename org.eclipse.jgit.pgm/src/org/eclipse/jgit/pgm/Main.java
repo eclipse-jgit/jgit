@@ -330,22 +330,12 @@ public class Main {
 			install("org.eclipse.jgit.console.ConsoleAuthenticator"); //$NON-NLS-1$
 			install("org.eclipse.jgit.console.ConsoleCredentialsProvider"); //$NON-NLS-1$
 			return true;
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | NoClassDefFoundError
+				| UnsupportedClassVersionError e) {
 			return false;
-		} catch (NoClassDefFoundError e) {
-			return false;
-		} catch (UnsupportedClassVersionError e) {
-			return false;
-
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
-		} catch (SecurityException e) {
-			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
-		} catch (NoSuchMethodException e) {
+		} catch (IllegalArgumentException | SecurityException
+				| IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
 			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		}
 	}

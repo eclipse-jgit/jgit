@@ -107,15 +107,11 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 				try {
 					final UploadPack rp = uploadPackFactory.create(req, remote);
 					rp.upload(out_r, in_w, null);
-				} catch (ServiceNotEnabledException e) {
+				} catch (ServiceNotEnabledException
+						| ServiceNotAuthorizedException e) {
 					// Ignored. Client cannot use this repository.
-				} catch (ServiceNotAuthorizedException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (IOException err) {
+				} catch (IOException | RuntimeException err) {
 					// Client side of the pipes should report the problem.
-					err.printStackTrace();
-				} catch (RuntimeException err) {
-					// Client side will notice we went away, and report.
 					err.printStackTrace();
 				} finally {
 					try {

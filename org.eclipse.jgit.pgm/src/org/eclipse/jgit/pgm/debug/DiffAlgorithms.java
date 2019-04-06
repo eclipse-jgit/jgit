@@ -338,12 +338,9 @@ class DiffAlgorithms extends TextBuiltin {
 					}
 				}
 			}
-		} catch (IllegalArgumentException e) {
-			throw die("Cannot determine names", e); //$NON-NLS-1$
-		} catch (IllegalAccessException e) {
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw die("Cannot determine names", e); //$NON-NLS-1$
 		}
-
 		return all;
 	}
 

@@ -182,9 +182,7 @@ public abstract class TranslationBundle {
 					field.set(this, translatedText);
 				} catch (MissingResourceException e) {
 					throw new TranslationStringMissingException(bundleClass, locale, field.getName(), e);
-				} catch (IllegalArgumentException e) {
-					throw new Error(e);
-				} catch (IllegalAccessException e) {
+				} catch (IllegalArgumentException | IllegalAccessException e) {
 					throw new Error(e);
 				}
 			}

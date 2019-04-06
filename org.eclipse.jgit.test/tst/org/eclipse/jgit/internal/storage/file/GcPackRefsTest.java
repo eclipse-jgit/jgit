@@ -167,9 +167,7 @@ public class GcPackRefsTest extends GcTestCase {
 							try {
 								refUpdateLockedRef.await();
 								packRefsDone.await();
-							} catch (InterruptedException e) {
-								Thread.currentThread().interrupt();
-							} catch (BrokenBarrierException e) {
+							} catch (InterruptedException | BrokenBarrierException e) {
 								Thread.currentThread().interrupt();
 							}
 							return super.isForceUpdate();

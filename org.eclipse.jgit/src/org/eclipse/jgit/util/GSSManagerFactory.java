@@ -145,13 +145,8 @@ public abstract class GSSManagerFactory {
 
 				return (GSSManager) GSS_MANAGER_IMPL_CONSTRUCTOR
 						.newInstance(httpCaller);
-			} catch (InstantiationException e) {
-				throw new Error(e);
-			} catch (IllegalAccessException e) {
-				throw new Error(e);
-			} catch (IllegalArgumentException e) {
-				throw new Error(e);
-			} catch (InvocationTargetException e) {
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
 				throw new Error(e);
 			}
 		}

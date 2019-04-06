@@ -2002,21 +2002,12 @@ public class UploadPack {
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
-			} catch (IOException err) {
-				if (reportInternalServerErrorOverSideband())
+			} catch (IOException | RuntimeException | Error err) {
+				if (reportInternalServerErrorOverSideband()) {
 					throw new UploadPackInternalServerErrorException(err);
-				else
+				} else {
 					throw err;
-			} catch (RuntimeException err) {
-				if (reportInternalServerErrorOverSideband())
-					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
-			} catch (Error err) {
-				if (reportInternalServerErrorOverSideband())
-					throw new UploadPackInternalServerErrorException(err);
-				else
-					throw err;
+				}
 			}
 		} else {
 			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots);

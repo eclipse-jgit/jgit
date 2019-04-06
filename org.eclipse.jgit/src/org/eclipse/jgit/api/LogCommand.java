@@ -282,13 +282,11 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			RevCommit commit = null;
 			try {
 				commit = walk.parseCommit(objectId);
-			} catch (MissingObjectException e) {
-				// ignore: the ref points to an object that does not exist;
-				// it should be ignored as traversal starting point.
-			} catch (IncorrectObjectTypeException e) {
-				// ignore: the ref points to an object that is not a commit
-				// (e.g. a tree or a blob);
-				// it should be ignored as traversal starting point.
+			} catch (MissingObjectException | IncorrectObjectTypeException e) {
+				// ignore as traversal starting point:
+				// - the ref points to an object that does not exist
+				// - the ref points to an object that is not a commit (e.g. a
+				// tree or a blob)
 			}
 			if (commit != null)
 				add(commit);
@@ -348,9 +346,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			} else
 				walk.markUninteresting(walk.lookupCommit(start));
 			return this;
-		} catch (MissingObjectException e) {
-			throw e;
-		} catch (IncorrectObjectTypeException e) {
+		} catch (MissingObjectException | IncorrectObjectTypeException e) {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
