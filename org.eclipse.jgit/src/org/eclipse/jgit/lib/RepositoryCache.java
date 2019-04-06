@@ -255,14 +255,11 @@ public class RepositoryCache {
 			if (delay == RepositoryCacheConfig.NO_CLEANUP) {
 				return;
 			}
-			cleanupTask = scheduler.scheduleWithFixedDelay(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						cache.clearAllExpired();
-					} catch (Throwable e) {
-						LOG.error(e.getMessage(), e);
-					}
+			cleanupTask = scheduler.scheduleWithFixedDelay(() -> {
+				try {
+					cache.clearAllExpired();
+				} catch (Throwable e) {
+					LOG.error(e.getMessage(), e);
 				}
 			}, delay, delay, TimeUnit.MILLISECONDS);
 		}

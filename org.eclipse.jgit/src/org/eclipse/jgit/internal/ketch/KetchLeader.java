@@ -385,12 +385,7 @@ public abstract class KetchLeader {
 
 	private void scheduleLeader() {
 		idle = false;
-		system.getExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				runLeader();
-			}
-		});
+		system.getExecutor().execute(this::runLeader);
 	}
 
 	private void runLeader() {

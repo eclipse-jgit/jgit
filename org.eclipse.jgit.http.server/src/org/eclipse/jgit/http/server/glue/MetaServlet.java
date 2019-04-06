@@ -47,7 +47,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -140,14 +139,10 @@ public class MetaServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		filter.doFilter(req, res, new FilterChain() {
-			@Override
-			public void doFilter(ServletRequest request,
-					ServletResponse response) throws IOException,
-					ServletException {
-				((HttpServletResponse) response).sendError(SC_NOT_FOUND);
-			}
-		});
+		filter.doFilter(req, res,
+				(ServletRequest request, ServletResponse response) -> {
+					((HttpServletResponse) response).sendError(SC_NOT_FOUND);
+				});
 	}
 
 	/**

@@ -1775,16 +1775,13 @@ public class ObjectCheckerTest {
 	}
 
 	private static ObjectIdSet set(ObjectId... ids) {
-		return new ObjectIdSet() {
-			@Override
-			public boolean contains(AnyObjectId objectId) {
-				for (ObjectId id : ids) {
-					if (id.equals(objectId)) {
-						return true;
-					}
+		return (AnyObjectId objectId) -> {
+			for (ObjectId id : ids) {
+				if (id.equals(objectId)) {
+					return true;
 				}
-				return false;
 			}
+			return false;
 		};
 	}
 
