@@ -88,7 +88,7 @@ public class IsolatedOutputStream extends OutputStream {
 	public IsolatedOutputStream(OutputStream out) {
 		dst = out;
 		copier = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MILLISECONDS,
-				new ArrayBlockingQueue<Runnable>(1), new NamedThreadFactory());
+				new ArrayBlockingQueue<>(1), new NamedThreadFactory());
 	}
 
 	/** {@inheritDoc} */
