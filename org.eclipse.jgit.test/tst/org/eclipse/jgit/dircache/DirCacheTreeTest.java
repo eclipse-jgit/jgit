@@ -102,8 +102,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final int aLast = 3;
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertNull(dc.getCacheTree(false));
@@ -142,8 +143,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final int acLast = 3;
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertNull(dc.getCacheTree(false));
@@ -190,7 +192,8 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 
 		final String A = String.format("a%2000s", "a");
 		final String B = String.format("b%2000s", "b");
-		final String[] paths = { A + "-", A + "-" + B, A + "/" + B, A + "0" + B };
+		final String[] paths = { A + "-", A + "-" + B, A + "/" + B,
+				A + "0" + B };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -198,8 +201,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 
 		b.commit();
 		DirCache read = db.readDirCache();

@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-
 /**
  * Caches recently used objects for {@link DfsReader}.
  * <p>
@@ -59,11 +58,13 @@ final class DeltaBaseCache {
 	}
 
 	private int maxByteCount;
+
 	private int curByteCount;
 
 	private final Entry[] table;
 
 	private Entry lruHead;
+
 	private Entry lruTail;
 
 	DeltaBaseCache(DfsReader reader) {
@@ -125,9 +126,9 @@ final class DeltaBaseCache {
 			}
 		}
 
-		throw new IllegalStateException(String.format(
-				"entry for %s:%d not in table", //$NON-NLS-1$
-				e.pack, Long.valueOf(e.offset)));
+		throw new IllegalStateException(
+				String.format("entry for %s:%d not in table", //$NON-NLS-1$
+						e.pack, Long.valueOf(e.offset)));
 	}
 
 	private void moveToHead(Entry e) {
@@ -180,8 +181,8 @@ final class DeltaBaseCache {
 
 	int getMemoryUsedByTableForTest() {
 		int r = 0;
-		for (int i = 0; i < table.length; i++) {
-			for (Entry e = table[i]; e != null; e = e.tableNext) {
+		for (Entry table1 : table) {
+			for (Entry e = table1; e != null; e = e.tableNext) {
 				r += e.data.length;
 			}
 		}
@@ -190,12 +191,17 @@ final class DeltaBaseCache {
 
 	static class Entry {
 		final DfsStreamKey pack;
+
 		final long offset;
+
 		final int type;
+
 		final byte[] data;
 
 		Entry tableNext;
+
 		Entry lruPrev;
+
 		Entry lruNext;
 
 		Entry(DfsStreamKey key, long offset, int type, byte[] data) {

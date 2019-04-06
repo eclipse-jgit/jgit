@@ -96,8 +96,8 @@ import org.junit.Before;
  * descriptors or address space for the test process.
  */
 public abstract class LocalDiskRepositoryTestCase {
-	private static final boolean useMMAP = "true".equals(System
-			.getProperty("jgit.junit.usemmap"));
+	private static final boolean useMMAP = "true"
+			.equals(System.getProperty("jgit.junit.usemmap"));
 
 	/** A fake (but stable) identity for author fields in the test. */
 	protected PersonIdent author;
@@ -107,11 +107,13 @@ public abstract class LocalDiskRepositoryTestCase {
 
 	/**
 	 * A {@link SystemReader} used to coordinate time, envars, etc.
+	 * 
 	 * @since 4.2
 	 */
 	protected MockSystemReader mockSystemReader;
 
 	private final Set<Repository> toClose = new HashSet<>();
+
 	private File tmp;
 
 	/**
@@ -127,13 +129,16 @@ public abstract class LocalDiskRepositoryTestCase {
 			throw new IOException("Cannot create " + tmp);
 
 		mockSystemReader = new MockSystemReader();
-		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
-				"usergitconfig"), FS.DETECTED);
-		// We have to set autoDetach to false for tests, because tests expect to be able
-		// to clean up by recursively removing the repository, and background GC might be
+		mockSystemReader.userGitConfig = new FileBasedConfig(
+				new File(tmp, "usergitconfig"), FS.DETECTED);
+		// We have to set autoDetach to false for tests, because tests expect to
+		// be able
+		// to clean up by recursively removing the repository, and background GC
+		// might be
 		// in the middle of writing or deleting files, which would disrupt this.
-		mockSystemReader.userGitConfig.setBoolean(ConfigConstants.CONFIG_GC_SECTION,
-				null, ConfigConstants.CONFIG_KEY_AUTODETACH, false);
+		mockSystemReader.userGitConfig.setBoolean(
+				ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTODETACH, false);
 		mockSystemReader.userGitConfig.save();
 		ceilTestDirectories(getCeilings());
 		SystemReader.setInstance(mockSystemReader);
@@ -168,7 +173,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	}
 
 	private void ceilTestDirectories(List<File> ceilings) {
-		mockSystemReader.setProperty(Constants.GIT_CEILING_DIRECTORIES_KEY, makePath(ceilings));
+		mockSystemReader.setProperty(Constants.GIT_CEILING_DIRECTORIES_KEY,
+				makePath(ceilings));
 	}
 
 	private static String makePath(List<?> objects) {
@@ -229,15 +235,14 @@ public abstract class LocalDiskRepositoryTestCase {
 		recursiveDelete(dir, false, true);
 	}
 
-	private static boolean recursiveDelete(final File dir,
-			boolean silent, boolean failOnError) {
+	private static boolean recursiveDelete(final File dir, boolean silent,
+			boolean failOnError) {
 		assert !(silent && failOnError);
 		if (!dir.exists())
 			return silent;
 		final File[] ls = dir.listFiles();
 		if (ls != null)
-			for (int k = 0; k < ls.length; k++) {
-				final File e = ls[k];
+			for (File e : ls) {
 				if (e.isDirectory())
 					silent = recursiveDelete(e, silent, failOnError);
 				else if (!e.delete()) {
@@ -326,33 +331,35 @@ public abstract class LocalDiskRepositoryTestCase {
 
 		// iterate once over the dircache just to collect all time stamps
 		if (0 != (includedOptions & MOD_TIME)) {
-			for (int i=0; i<dc.getEntryCount(); ++i)
+			for (int i = 0; i < dc.getEntryCount(); ++i)
 				timeStamps.add(Long.valueOf(dc.getEntry(i).getLastModified()));
 		}
 
 		// iterate again, now produce the result string
-		for (int i=0; i<dc.getEntryCount(); ++i) {
+		for (int i = 0; i < dc.getEntryCount(); ++i) {
 			DirCacheEntry entry = dc.getEntry(i);
-			sb.append("["+entry.getPathString()+", mode:" + entry.getFileMode());
+			sb.append("[" + entry.getPathString() + ", mode:"
+					+ entry.getFileMode());
 			int stage = entry.getStage();
 			if (stage != 0)
 				sb.append(", stage:" + stage);
 			if (0 != (includedOptions & MOD_TIME)) {
-				sb.append(", time:t"+
-						timeStamps.headSet(Long.valueOf(entry.getLastModified())).size());
+				sb.append(", time:t" + timeStamps
+						.headSet(Long.valueOf(entry.getLastModified())).size());
 			}
 			if (0 != (includedOptions & SMUDGE))
 				if (entry.isSmudged())
 					sb.append(", smudged");
 			if (0 != (includedOptions & LENGTH))
-				sb.append(", length:"
-						+ Integer.toString(entry.getLength()));
+				sb.append(", length:" + Integer.toString(entry.getLength()));
 			if (0 != (includedOptions & CONTENT_ID))
 				sb.append(", sha1:" + ObjectId.toString(entry.getObjectId()));
 			if (0 != (includedOptions & CONTENT)) {
-				sb.append(", content:"
-						+ new String(repo.open(entry.getObjectId(),
-								Constants.OBJ_BLOB).getCachedBytes(), UTF_8));
+				sb.append(
+						", content:" + new String(
+								repo.open(entry.getObjectId(),
+										Constants.OBJ_BLOB).getCachedBytes(),
+								UTF_8));
 			}
 			if (0 != (includedOptions & ASSUME_UNCHANGED))
 				sb.append(", assume-unchanged:"
@@ -361,7 +368,6 @@ public abstract class LocalDiskRepositoryTestCase {
 		}
 		return sb.toString();
 	}
-
 
 	/**
 	 * Creates a new empty bare repository.
@@ -402,8 +408,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *             the repository could not be created in the temporary area
 	 * @since 5.3
 	 */
-	protected FileRepository createRepository(boolean bare)
-			throws IOException {
+	protected FileRepository createRepository(boolean bare) throws IOException {
 		return createRepository(bare, false /* auto close */);
 	}
 

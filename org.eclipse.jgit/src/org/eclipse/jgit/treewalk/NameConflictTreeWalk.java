@@ -323,8 +323,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	@Override
 	void popEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == ch) {
 				if (t.matchShift == 0)
 					t.next(1);
@@ -343,8 +342,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	@Override
 	void skipEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == ch) {
 				if (t.matchShift == 0)
 					t.skip();

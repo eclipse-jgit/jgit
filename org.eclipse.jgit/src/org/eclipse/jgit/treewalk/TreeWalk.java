@@ -125,7 +125,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 *            Type of operation you want to retrieve the git attributes for.
+	 * Type of operation you want to retrieve the git attributes for.
 	 */
 	private OperationType operationType = OperationType.CHECKOUT_OP;
 
@@ -210,9 +210,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public static TreeWalk forPath(final @Nullable Repository repo,
 			final ObjectReader reader, final String path,
-			final AnyObjectId... trees)
-					throws MissingObjectException, IncorrectObjectTypeException,
-					CorruptObjectException, IOException {
+			final AnyObjectId... trees) throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		TreeWalk tw = new TreeWalk(repo, reader);
 		PathFilter f = PathFilter.create(path);
 		tw.setFilter(f);
@@ -632,7 +631,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			return null;
 		return EolStreamTypeUtil.detectStreamType(
 				opType != null ? opType : operationType,
-					config.get(WorkingTreeOptions.KEY), getAttributes());
+				config.get(WorkingTreeOptions.KEY), getAttributes());
 	}
 
 	/**
@@ -976,8 +975,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public ObjectId getObjectId(int nth) {
 		final AbstractTreeIterator t = trees[nth];
-		return t.matches == currentHead ? t.getEntryObjectId() : ObjectId
-				.zeroId();
+		return t.matches == currentHead ? t.getEntryObjectId()
+				: ObjectId.zeroId();
 	}
 
 	/**
@@ -1095,22 +1094,22 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * Test if the supplied path matches the current entry's path.
 	 * <p>
 	 * This method detects if the supplied path is equal to, a subtree of, or
-	 * not similar at all to the current entry. It is faster to use this
-	 * method than to use {@link #getPathString()} to first create a String
-	 * object, then test <code>startsWith</code> or some other type of string
-	 * match function.
+	 * not similar at all to the current entry. It is faster to use this method
+	 * than to use {@link #getPathString()} to first create a String object,
+	 * then test <code>startsWith</code> or some other type of string match
+	 * function.
 	 * <p>
-	 * If the current entry is a subtree, then all paths within the subtree
-	 * are considered to match it.
+	 * If the current entry is a subtree, then all paths within the subtree are
+	 * considered to match it.
 	 *
 	 * @param p
 	 *            path buffer to test. Callers should ensure the path does not
 	 *            end with '/' prior to invocation.
 	 * @param pLen
 	 *            number of bytes from <code>buf</code> to test.
-	 * @return -1 if the current path is a parent to p; 0 if p matches the current
-	 *         path; 1 if the current path is different and will never match
-	 *         again on this tree walk.
+	 * @return -1 if the current path is a parent to p; 0 if p matches the
+	 *         current path; 1 if the current path is different and will never
+	 *         match again on this tree walk.
 	 * @since 4.7
 	 */
 	public int isPathMatch(byte[] p, int pLen) {
@@ -1154,17 +1153,17 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * object, then test <code>startsWith</code> or some other type of string
 	 * match function.
 	 * <p>
-	 * If the current entry is a subtree, then all paths within the subtree
-	 * are considered to match it.
+	 * If the current entry is a subtree, then all paths within the subtree are
+	 * considered to match it.
 	 *
 	 * @param p
 	 *            path buffer to test. Callers should ensure the path does not
 	 *            end with '/' prior to invocation.
 	 * @param pLen
 	 *            number of bytes from <code>buf</code> to test.
-	 * @return &lt; 0 if p is before the current path; 0 if p matches the current
-	 *         path; 1 if the current path is past p and p will never match
-	 *         again on this tree walk.
+	 * @return &lt; 0 if p is before the current path; 0 if p matches the
+	 *         current path; 1 if the current path is past p and p will never
+	 *         match again on this tree walk.
 	 */
 	public int isPathPrefix(byte[] p, int pLen) {
 		final AbstractTreeIterator t = currentHead;
@@ -1205,16 +1204,15 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * <p>
 	 * This method tests that the supplied path is exactly equal to the current
 	 * entry, or is relative to one of entry's parent directories. It is faster
-	 * to use this method then to use {@link #getPathString()} to first create
-	 * a String object, then test <code>endsWith</code> or some other type of
+	 * to use this method then to use {@link #getPathString()} to first create a
+	 * String object, then test <code>endsWith</code> or some other type of
 	 * string match function.
 	 *
 	 * @param p
 	 *            path buffer to test.
 	 * @param pLen
 	 *            number of bytes from <code>buf</code> to test.
-	 * @return true if p is suffix of the current path;
-	 *         false if otherwise
+	 * @return true if p is suffix of the current path; false if otherwise
 	 */
 	public boolean isPathSuffix(byte[] p, int pLen) {
 		final AbstractTreeIterator t = currentHead;
@@ -1295,11 +1293,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			final AbstractTreeIterator t = trees[i];
 			final AbstractTreeIterator n;
 			// If we find a GITLINK when attempting to enter a subtree, then the
-			// GITLINK must exist as a TREE in the index, meaning the working tree
+			// GITLINK must exist as a TREE in the index, meaning the working
+			// tree
 			// entry should be treated as a TREE
-			if (t.matches == ch && !t.eof() &&
-					(FileMode.TREE.equals(t.mode)
-							|| (FileMode.GITLINK.equals(t.mode) && t.isWorkTree())))
+			if (t.matches == ch && !t.eof() && (FileMode.TREE.equals(t.mode)
+					|| (FileMode.GITLINK.equals(t.mode) && t.isWorkTree())))
 				n = t.createSubtreeIterator(reader, idBuffer);
 			else
 				n = t.createEmptyTreeIterator();
@@ -1338,8 +1336,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	void popEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == ch) {
 				t.next(1);
 				t.matches = null;
@@ -1349,8 +1346,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	void skipEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == ch) {
 				t.skip();
 				t.matches = null;
@@ -1398,10 +1394,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param <T>
 	 *            a tree type.
 	 */
-	public <T extends AbstractTreeIterator> T getTree(
-			Class<T> type) {
-		for (int i = 0; i < trees.length; i++) {
-			AbstractTreeIterator tree = trees[i];
+	public <T extends AbstractTreeIterator> T getTree(Class<T> type) {
+		for (AbstractTreeIterator tree : trees) {
 			if (type.isInstance(tree)) {
 				return type.cast(tree);
 			}
@@ -1468,8 +1462,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		filterCommand = config.getString(ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, filterCommandType);
 		boolean useBuiltin = config.getBoolean(
-				ConfigConstants.CONFIG_FILTER_SECTION,
-				filterDriverName, ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false);
+				ConfigConstants.CONFIG_FILTER_SECTION, filterDriverName,
+				ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false);
 		if (useBuiltin) {
 			String builtinFilterCommand = Constants.BUILTIN_FILTER_PREFIX
 					+ filterDriverName + '/' + filterCommandType;

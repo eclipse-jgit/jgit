@@ -114,11 +114,10 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			drawLine(myColor, myLaneX, h, myLaneX, (h + dotSize) / 2,
 					LINE_WIDTH);
 
-			for (int i = 0; i < commit.mergingLanes.length; i++) {
-				final TLane pLane = (TLane) commit.mergingLanes[i];
+			for (PlotLane mergingLane : commit.mergingLanes) {
+				final TLane pLane = (TLane) mergingLane;
 				final TColor pColor = laneColor(pLane);
 				final int cx = laneC(pLane);
-
 				if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
 					final int ix;
 					if (myLaneX < cx)
@@ -130,15 +129,13 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 					drawLine(pColor, ix, h / 2, cx, h, LINE_WIDTH);
 				} else
 					drawLine(pColor, myLaneX, h / 2, cx, h, LINE_WIDTH);
-
 				maxCenter = Math.max(maxCenter, cx);
 			}
 		}
 
-
 		if (commit.getChildCount() > 0) {
-			for (int i = 0; i < commit.forkingOffLanes.length; i++) {
-				final TLane childLane = (TLane) commit.forkingOffLanes[i];
+			for (PlotLane forkingOffLane : commit.forkingOffLanes) {
+				final TLane childLane = (TLane) forkingOffLane;
 				final TColor cColor = laneColor(childLane);
 				final int cx = laneC(childLane);
 				if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
@@ -159,7 +156,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			int nonForkingChildren = commit.getChildCount()
 					- commit.forkingOffLanes.length;
 			if (nonForkingChildren > 0)
-						drawLine(myColor, myLaneX, 0, myLaneX, dotY, LINE_WIDTH);
+				drawLine(myColor, myLaneX, 0, myLaneX, dotY, LINE_WIDTH);
 		}
 
 		if (commit.has(RevFlag.UNINTERESTING))
@@ -170,7 +167,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 		int textx = Math.max(maxCenter + LANE_WIDTH / 2, dotX + dotSize) + 8;
 		int n = commit.refs.length;
 		for (int i = 0; i < n; ++i) {
-			textx += drawLabel(textx + dotSize, h/2, commit.refs[i]);
+			textx += drawLabel(textx + dotSize, h / 2, commit.refs[i]);
 		}
 
 		final String msg = commit.getShortMessage();
