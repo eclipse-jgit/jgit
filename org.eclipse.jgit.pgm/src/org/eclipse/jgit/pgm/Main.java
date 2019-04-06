@@ -385,7 +385,7 @@ public class Main {
 			if (s == null && protocol.equals("https")) { //$NON-NLS-1$
 				s = System.getenv("HTTPS_PROXY"); //$NON-NLS-1$
 			}
-			if (s == null || s.equals("")) { //$NON-NLS-1$
+			if (s == null || s.isEmpty()) { //$NON-NLS-1$
 				continue;
 			}
 
