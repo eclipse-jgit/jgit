@@ -66,7 +66,6 @@ import org.eclipse.jgit.transport.DaemonService;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
@@ -124,8 +123,7 @@ class Daemon extends TextBuiltin {
 
 		if (configFile != null) {
 			if (!configFile.exists()) {
-				throw die(MessageFormat.format(
-						CLIText.get().configFileNotFound, //
+				throw die(MessageFormat.format(CLIText.get().configFileNotFound, //
 						configFile.getAbsolutePath()));
 			}
 
@@ -143,7 +141,8 @@ class Daemon extends TextBuiltin {
 
 		final FileResolver<DaemonClient> resolver = new FileResolver<>();
 		for (File f : directory) {
-			outw.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
+			outw.println(MessageFormat.format(CLIText.get().exporting,
+					f.getAbsolutePath()));
 			resolver.exportDirectory(f);
 		}
 		resolver.setExportAll(exportAll);
@@ -170,15 +169,16 @@ class Daemon extends TextBuiltin {
 			startKetchLeader(d);
 		}
 		d.start();
-		outw.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
+		outw.println(MessageFormat.format(CLIText.get().listeningOn,
+				d.getAddress()));
 	}
 
 	private static DaemonService service(
-			final org.eclipse.jgit.transport.Daemon d,
-			final String n) {
+			final org.eclipse.jgit.transport.Daemon d, final String n) {
 		final DaemonService svc = d.getService(n);
 		if (svc == null)
-			throw die(MessageFormat.format(CLIText.get().serviceNotSupported, n));
+			throw die(
+					MessageFormat.format(CLIText.get().serviceNotSupported, n));
 		return svc;
 	}
 
@@ -188,22 +188,17 @@ class Daemon extends TextBuiltin {
 		final ReceivePackFactory<DaemonClient> factory;
 
 		factory = daemon.getReceivePackFactory();
-		daemon.setReceivePackFactory(new ReceivePackFactory<DaemonClient>() {
-			@Override
-			public ReceivePack create(DaemonClient req, Repository repo)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				ReceivePack rp = factory.create(req, repo);
-				KetchLeader leader;
-				try {
-					leader = leaders.get(repo);
-				} catch (URISyntaxException err) {
-					throw new ServiceNotEnabledException(
-							KetchText.get().invalidFollowerUri, err);
-				}
-				rp.setPreReceiveHook(new KetchPreReceive(leader));
-				return rp;
+		daemon.setReceivePackFactory((DaemonClient req, Repository repo) -> {
+			ReceivePack rp = factory.create(req, repo);
+			KetchLeader leader;
+			try {
+				leader = leaders.get(repo);
+			} catch (URISyntaxException err) {
+				throw new ServiceNotEnabledException(
+						KetchText.get().invalidFollowerUri, err);
 			}
+			rp.setPreReceiveHook(new KetchPreReceive(leader));
+			return rp;
 		});
 	}
 }

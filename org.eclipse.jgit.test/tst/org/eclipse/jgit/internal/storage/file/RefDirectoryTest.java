@@ -70,7 +70,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedEvent;
-import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -398,8 +397,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		writeLooseRef("refs/heads/A", A);
 		write(new File(diskRepo.getDirectory(), "refs/heads/bad"), "FAIL\n");
 
-		Map<String, Ref> refs =
-				refdir.exactRef("refs/heads/bad", "refs/heads/A");
+		Map<String, Ref> refs = refdir.exactRef("refs/heads/bad",
+				"refs/heads/A");
 
 		assertNull("no refs/heads/bad", refs.get("refs/heads/bad"));
 
@@ -570,12 +569,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final int[] count = new int[1];
 
 		ListenerHandle listener = Repository.getGlobalListenerList()
-				.addRefsChangedListener(new RefsChangedListener() {
-
-					@Override
-					public void onRefsChanged(RefsChangedEvent event) {
-						count[0]++;
-					}
+				.addRefsChangedListener((RefsChangedEvent event) -> {
+					count[0]++;
 				});
 
 		refs = refdir.getRefs(RefDatabase.ALL);
@@ -1038,8 +1033,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(5, all.size());
 		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
 		// Why isn't the next ref LOOSE_PACKED?
-		assertEquals(Storage.LOOSE, all.get("refs/heads/master")
-				.getStorage());
+		assertEquals(Storage.LOOSE, all.get("refs/heads/master").getStorage());
 		assertEquals(B.getId(), all.get("refs/heads/master").getObjectId());
 		assertEquals(Storage.PACKED, all.get("refs/heads/other").getStorage());
 		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
@@ -1126,9 +1120,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		// This is an odd special case where we need to make sure we read
 		// exactly the first 40 bytes of the file and nothing further on
 		// that line, or the remainder of the file.
-		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.name()
-				+ "\tnot-for-merge"
-				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
+		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"),
+				A.name() + "\tnot-for-merge"
+						+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
 
 		Ref r = refdir.findRef("FETCH_HEAD");
 		assertFalse(r.isSymbolic());
@@ -1143,9 +1137,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		// This is an odd special case where we need to make sure we read
 		// exactly the first 40 bytes of the file and nothing further on
 		// that line, or the remainder of the file.
-		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.name()
-				+ "\tnot-for-merge"
-				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
+		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"),
+				A.name() + "\tnot-for-merge"
+						+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
 
 		Ref r = refdir.exactRef("FETCH_HEAD");
 		assertFalse(r.isSymbolic());
@@ -1157,9 +1151,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testFindRef_AnyHeadWithGarbage() throws IOException {
-		write(new File(diskRepo.getDirectory(), "refs/heads/A"), A.name()
-				+ "012345 . this is not a standard reference\n"
-				+ "#and even more junk\n");
+		write(new File(diskRepo.getDirectory(), "refs/heads/A"),
+				A.name() + "012345 . this is not a standard reference\n"
+						+ "#and even more junk\n");
 
 		Ref r = refdir.findRef("refs/heads/A");
 		assertFalse(r.isSymbolic());
@@ -1316,19 +1310,15 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final AtomicReference<StackOverflowError> error = new AtomicReference<>();
 		final AtomicReference<IOException> exception = new AtomicReference<>();
 		final AtomicInteger changeCount = new AtomicInteger();
-		newRepo.getListenerList().addRefsChangedListener(
-				new RefsChangedListener() {
-
-					@Override
-					public void onRefsChanged(RefsChangedEvent event) {
-						try {
-							refDb.getRefsByPrefix("ref");
-							changeCount.incrementAndGet();
-						} catch (StackOverflowError soe) {
-							error.set(soe);
-						} catch (IOException ioe) {
-							exception.set(ioe);
-						}
+		newRepo.getListenerList()
+				.addRefsChangedListener((RefsChangedEvent event) -> {
+					try {
+						refDb.getRefsByPrefix("ref");
+						changeCount.incrementAndGet();
+					} catch (StackOverflowError soe) {
+						error.set(soe);
+					} catch (IOException ioe) {
+						exception.set(ioe);
 					}
 				});
 		refDb.getRefsByPrefix("ref");
@@ -1347,7 +1337,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 			refdir.pack(Arrays.asList("refs/heads/master"));
 			fail("expected LockFailedException");
 		} catch (LockFailedException e) {
-			assertEquals(refdir.packedRefsFile.getPath(), e.getFile().getPath());
+			assertEquals(refdir.packedRefsFile.getPath(),
+					e.getFile().getPath());
 		} finally {
 			myLock.unlock();
 		}
@@ -1363,7 +1354,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		write(new File(diskRepo.getDirectory(), name), content);
 	}
 
-	private void writePackedRef(String name, AnyObjectId id) throws IOException {
+	private void writePackedRef(String name, AnyObjectId id)
+			throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
 	}
 

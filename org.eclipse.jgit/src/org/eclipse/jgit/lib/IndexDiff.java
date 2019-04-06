@@ -218,8 +218,7 @@ public class IndexDiff {
 		}
 
 		@Override
-		public boolean include(TreeWalk walker)
-				throws MissingObjectException,
+		public boolean include(TreeWalk walker) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			count++;
 			if (count % stepSize == 0) {
@@ -233,9 +232,8 @@ public class IndexDiff {
 
 		@Override
 		public TreeFilter clone() {
-			throw new IllegalStateException(
-					"Do not clone this kind of filter: " //$NON-NLS-1$
-							+ getClass().getName());
+			throw new IllegalStateException("Do not clone this kind of filter: " //$NON-NLS-1$
+					+ getClass().getName());
 		}
 	}
 
@@ -335,6 +333,7 @@ public class IndexDiff {
 
 	/**
 	 * A factory to producing WorkingTreeIterators
+	 *
 	 * @since 3.6
 	 */
 	public interface WorkingTreeIteratorFactory {
@@ -346,12 +345,7 @@ public class IndexDiff {
 		public WorkingTreeIterator getWorkingTreeIterator(Repository repo);
 	}
 
-	private WorkingTreeIteratorFactory wTreeIt = new WorkingTreeIteratorFactory() {
-		@Override
-		public WorkingTreeIterator getWorkingTreeIterator(Repository repo) {
-			return new FileTreeIterator(repo);
-		}
-	};
+	private WorkingTreeIteratorFactory wTreeIt = FileTreeIterator::new;
 
 	/**
 	 * Allows higher layers to set the factory for WorkingTreeIterators.
@@ -402,13 +396,13 @@ public class IndexDiff {
 	 *            number or estimated files in the working tree
 	 * @param estIndexSize
 	 *            number of estimated entries in the cache
-	 * @param title a {@link java.lang.String} object.
+	 * @param title
+	 *            a {@link java.lang.String} object.
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws java.io.IOException
 	 */
 	public boolean diff(final ProgressMonitor monitor, int estWorkTreeSize,
-			int estIndexSize, final String title)
-			throws IOException {
+			int estIndexSize, final String title) throws IOException {
 		dirCache = repository.readDirCache();
 
 		try (TreeWalk treeWalk = new TreeWalk(repository)) {
@@ -551,12 +545,12 @@ public class IndexDiff {
 							modified.add(subRepoPath);
 							recordFileMode(subRepoPath, FileMode.GITLINK);
 						} else if (ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
-							IndexDiff smid = submoduleIndexDiffs.get(smw
-									.getPath());
+							IndexDiff smid = submoduleIndexDiffs
+									.get(smw.getPath());
 							if (smid == null) {
-								smid = new IndexDiff(subRepo,
-										smw.getObjectId(),
-										wTreeIt.getWorkingTreeIterator(subRepo));
+								smid = new IndexDiff(subRepo, smw.getObjectId(),
+										wTreeIt.getWorkingTreeIterator(
+												subRepo));
 								submoduleIndexDiffs.put(subRepoPath, smid);
 							}
 							if (smid.diff()) {
@@ -604,8 +598,8 @@ public class IndexDiff {
 	}
 
 	private boolean isEntryGitLink(AbstractTreeIterator ti) {
-		return ((ti != null) && (ti.getEntryRawMode() == FileMode.GITLINK
-				.getBits()));
+		return ((ti != null)
+				&& (ti.getEntryRawMode() == FileMode.GITLINK.getBits()));
 	}
 
 	private void addConflict(String path, int stage) {
@@ -739,7 +733,8 @@ public class IndexDiff {
 	/**
 	 * Get the file mode of the given path in the index
 	 *
-	 * @param path a {@link java.lang.String} object.
+	 * @param path
+	 *            a {@link java.lang.String} object.
 	 * @return file mode
 	 */
 	public FileMode getIndexMode(String path) {
@@ -751,7 +746,8 @@ public class IndexDiff {
 	 * Get the list of paths that IndexDiff has detected to differ and have the
 	 * given file mode
 	 *
-	 * @param mode a {@link org.eclipse.jgit.lib.FileMode} object.
+	 * @param mode
+	 *            a {@link org.eclipse.jgit.lib.FileMode} object.
 	 * @return the list of paths that IndexDiff has detected to differ and have
 	 *         the given file mode
 	 * @since 3.6

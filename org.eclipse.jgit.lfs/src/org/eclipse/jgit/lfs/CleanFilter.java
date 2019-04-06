@@ -78,25 +78,18 @@ public class CleanFilter extends FilterCommand {
 	 * The factory is responsible for creating instances of
 	 * {@link org.eclipse.jgit.lfs.CleanFilter}
 	 */
-	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
-
-		@Override
-		public FilterCommand create(Repository db, InputStream in,
-				OutputStream out) throws IOException {
-			return new CleanFilter(db, in, out);
-		}
-	};
+	public final static FilterCommandFactory FACTORY = CleanFilter::new;
 
 	/**
 	 * Registers this filter by calling
 	 * {@link FilterCommandRegistry#register(String, FilterCommandFactory)}
 	 */
 	static void register() {
-		FilterCommandRegistry
-				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
+		FilterCommandRegistry.register(
+				org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
 						+ Constants.ATTR_FILTER_DRIVER_PREFIX
 						+ org.eclipse.jgit.lib.Constants.ATTR_FILTER_TYPE_CLEAN,
-						FACTORY);
+				FACTORY);
 	}
 
 	// Used to compute the hash for the original content

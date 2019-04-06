@@ -57,12 +57,8 @@ public interface UploadPackFactory<C> {
 	/**
 	 * A factory disabling the UploadPack service for all repositories.
 	 */
-	UploadPackFactory<?> DISABLED = new UploadPackFactory<Object>() {
-		@Override
-		public UploadPack create(Object req, Repository db)
-				throws ServiceNotEnabledException {
-			throw new ServiceNotEnabledException();
-		}
+	UploadPackFactory<?> DISABLED = (Object req, Repository db) -> {
+		throw new ServiceNotEnabledException();
 	};
 
 	/**
@@ -81,6 +77,6 @@ public interface UploadPackFactory<C> {
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
 	 */
-	UploadPack create(C req, Repository db) throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException;
+	UploadPack create(C req, Repository db)
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

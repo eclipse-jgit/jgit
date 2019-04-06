@@ -92,23 +92,17 @@ public class SmudgeFilter extends FilterCommand {
 	 * The factory is responsible for creating instances of
 	 * {@link org.eclipse.jgit.lfs.SmudgeFilter}
 	 */
-	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
-		@Override
-		public FilterCommand create(Repository db, InputStream in,
-				OutputStream out) throws IOException {
-			return new SmudgeFilter(db, in, out);
-		}
-	};
+	public final static FilterCommandFactory FACTORY = SmudgeFilter::new;
 
 	/**
 	 * Register this filter in JGit
 	 */
 	static void register() {
-		FilterCommandRegistry
-				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
+		FilterCommandRegistry.register(
+				org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
 						+ Constants.ATTR_FILTER_DRIVER_PREFIX
 						+ org.eclipse.jgit.lib.Constants.ATTR_FILTER_TYPE_SMUDGE,
-						FACTORY);
+				FACTORY);
 	}
 
 	/**
@@ -173,22 +167,19 @@ public class SmudgeFilter extends FilterCommand {
 						.getBytes(UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
 		if (responseCode != HttpConnection.HTTP_OK) {
-			throw new IOException(
-					MessageFormat.format(LfsText.get().serverFailure,
-							lfsServerConn.getURL(),
-							Integer.valueOf(responseCode)));
+			throw new IOException(MessageFormat.format(
+					LfsText.get().serverFailure, lfsServerConn.getURL(),
+					Integer.valueOf(responseCode)));
 		}
 		try (JsonReader reader = new JsonReader(
-				new InputStreamReader(lfsServerConn.getInputStream(),
-						UTF_8))) {
+				new InputStreamReader(lfsServerConn.getInputStream(), UTF_8))) {
 			Protocol.Response resp = gson.fromJson(reader,
 					Protocol.Response.class);
 			for (Protocol.ObjectInfo o : resp.objects) {
 				if (o.error != null) {
-					throw new IOException(
-							MessageFormat.format(LfsText.get().protocolError,
-									Integer.valueOf(o.error.code),
-									o.error.message));
+					throw new IOException(MessageFormat.format(
+							LfsText.get().protocolError,
+							Integer.valueOf(o.error.code), o.error.message));
 				}
 				if (o.actions == null) {
 					continue;

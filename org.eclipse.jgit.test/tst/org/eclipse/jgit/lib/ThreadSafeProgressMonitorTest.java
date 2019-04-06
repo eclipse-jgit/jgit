@@ -59,31 +59,29 @@ public class ThreadSafeProgressMonitorTest {
 	public void testFailsMethodsOnBackgroundThread()
 			throws InterruptedException {
 		final MockProgressMonitor mock = new MockProgressMonitor();
-		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
+		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(
+				mock);
 
-		runOnThread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					pm.start(1);
-					fail("start did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+		runOnThread(() -> {
+			try {
+				pm.start(1);
+				fail("start did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
+			}
 
-				try {
-					pm.beginTask("title", 1);
-					fail("beginTask did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+			try {
+				pm.beginTask("title", 1);
+				fail("beginTask did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
+			}
 
-				try {
-					pm.endTask();
-					fail("endTask did not fail on background thread");
-				} catch (IllegalStateException notMainThread) {
-					// Expected result
-				}
+			try {
+				pm.endTask();
+				fail("endTask did not fail on background thread");
+			} catch (IllegalStateException notMainThread) {
+				// Expected result
 			}
 		});
 
@@ -95,7 +93,8 @@ public class ThreadSafeProgressMonitorTest {
 	@Test
 	public void testMethodsOkOnMainThread() {
 		final MockProgressMonitor mock = new MockProgressMonitor();
-		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
+		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(
+				mock);
 
 		pm.start(1);
 		assertEquals(1, mock.value);
@@ -120,7 +119,8 @@ public class ThreadSafeProgressMonitorTest {
 	@Test
 	public void testUpdateOnBackgroundThreads() throws InterruptedException {
 		final MockProgressMonitor mock = new MockProgressMonitor();
-		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
+		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(
+				mock);
 
 		pm.startWorker();
 
@@ -159,7 +159,8 @@ public class ThreadSafeProgressMonitorTest {
 
 	private static void await(CountDownLatch cdl) {
 		try {
-			assertTrue("latch released", cdl.await(1000, TimeUnit.MILLISECONDS));
+			assertTrue("latch released",
+					cdl.await(1000, TimeUnit.MILLISECONDS));
 		} catch (InterruptedException ie) {
 			fail("Did not expect to be interrupted");
 		}

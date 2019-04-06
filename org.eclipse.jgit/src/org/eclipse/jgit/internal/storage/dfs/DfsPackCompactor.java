@@ -97,18 +97,25 @@ import org.eclipse.jgit.util.io.CountingOutputStream;
  */
 public class DfsPackCompactor {
 	private final DfsRepository repo;
+
 	private final List<DfsPackFile> srcPacks;
+
 	private final List<DfsReftable> srcReftables;
+
 	private final List<ObjectIdSet> exclude;
 
 	private PackStatistics newStats;
+
 	private DfsPackDescription outDesc;
 
 	private int autoAddSize;
+
 	private ReftableConfig reftableConfig;
 
 	private RevWalk rw;
+
 	private RevFlag added;
+
 	private RevFlag isBase;
 
 	/**
@@ -348,21 +355,19 @@ public class DfsPackCompactor {
 	 * @return new packs created by this compaction.
 	 */
 	public List<DfsPackDescription> getNewPacks() {
-		return outDesc != null
-				? Collections.singletonList(outDesc)
+		return outDesc != null ? Collections.singletonList(outDesc)
 				: Collections.emptyList();
 	}
 
 	/**
-	 * Get statistics corresponding to the {@link #getNewPacks()}.
-	 * May be null if statistics are not available.
+	 * Get statistics corresponding to the {@link #getNewPacks()}. May be null
+	 * if statistics are not available.
 	 *
 	 * @return statistics corresponding to the {@link #getNewPacks()}.
 	 *
 	 */
 	public List<PackStatistics> getNewPackStatistics() {
-		return outDesc != null
-				? Collections.singletonList(newStats)
+		return outDesc != null ? Collections.singletonList(newStats)
 				: Collections.emptyList();
 	}
 
@@ -384,8 +389,8 @@ public class DfsPackCompactor {
 			}
 		}
 
-		for (Iterator<DfsPackDescription> i = reftables.iterator();
-				i.hasNext();) {
+		for (Iterator<DfsPackDescription> i = reftables.iterator(); i
+				.hasNext();) {
 			DfsPackDescription d = i.next();
 			if (d.hasFileExt(PACK) && !packs.contains(d)) {
 				i.remove();
@@ -399,15 +404,13 @@ public class DfsPackCompactor {
 	}
 
 	private void addObjectsToPack(PackWriter pw, DfsReader ctx,
-			ProgressMonitor pm) throws IOException,
-			IncorrectObjectTypeException {
+			ProgressMonitor pm)
+			throws IOException, IncorrectObjectTypeException {
 		// Sort packs by description ordering, this places newer packs before
 		// older packs, allowing the PackWriter to be handed newer objects
 		// first and older objects last.
-		Collections.sort(
-				srcPacks,
-				Comparator.comparing(
-						DfsPackFile::getPackDescription,
+		Collections.sort(srcPacks,
+				Comparator.comparing(DfsPackFile::getPackDescription,
 						DfsPackDescription.objectLookupComparator()));
 
 		rw = new RevWalk(ctx);
@@ -469,17 +472,12 @@ public class DfsPackCompactor {
 					continue SCAN;
 			want.add(new ObjectIdWithOffset(id, ent.getOffset()));
 		}
-		Collections.sort(want, new Comparator<ObjectIdWithOffset>() {
-			@Override
-			public int compare(ObjectIdWithOffset a, ObjectIdWithOffset b) {
-				return Long.signum(a.offset - b.offset);
-			}
-		});
+		Collections.sort(want, (ObjectIdWithOffset a,
+				ObjectIdWithOffset b) -> Long.signum(a.offset - b.offset));
 		return want;
 	}
 
-	private static void writePack(DfsObjDatabase objdb,
-			DfsPackDescription pack,
+	private static void writePack(DfsObjDatabase objdb, DfsPackDescription pack,
 			PackWriter pw, ProgressMonitor pm) throws IOException {
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
@@ -489,8 +487,7 @@ public class DfsPackCompactor {
 	}
 
 	private static void writeIndex(DfsObjDatabase objdb,
-			DfsPackDescription pack,
-			PackWriter pw) throws IOException {
+			DfsPackDescription pack, PackWriter pw) throws IOException {
 		try (DfsOutputStream out = objdb.writeFile(pack, INDEX)) {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);

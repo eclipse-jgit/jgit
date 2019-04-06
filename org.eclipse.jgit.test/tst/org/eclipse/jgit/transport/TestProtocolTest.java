@@ -72,12 +72,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestProtocolTest {
-	private static final RefSpec HEADS = new RefSpec("+refs/heads/*:refs/heads/*");
+	private static final RefSpec HEADS = new RefSpec(
+			"+refs/heads/*:refs/heads/*");
 
 	private static final RefSpec MASTER = new RefSpec(
 			"+refs/heads/master:refs/heads/master");
 
 	private static final int HAVES_PER_ROUND = 32;
+
 	private static final int MAX_HAVES = 256;
 
 	private static class User {
@@ -92,11 +94,8 @@ public class TestProtocolTest {
 		@Override
 		public UploadPack create(User req, Repository db) {
 			UploadPack up = new UploadPack(db);
-			up.setPostUploadHook(new PostUploadHook() {
-				@Override
-				public void onPostUpload(PackStatistics stats) {
-					havesCount = stats.getHaves();
-				}
+			up.setPostUploadHook((PackStatistics stats) -> {
+				havesCount = stats.getHaves();
 			});
 			return up;
 		}
@@ -112,17 +111,19 @@ public class TestProtocolTest {
 	private static long havesCount;
 
 	private List<TransportProtocol> protos;
+
 	private TestRepository<InMemoryRepository> local;
+
 	private TestRepository<InMemoryRepository> remote;
 
-  @Before
+	@Before
 	public void setUp() throws Exception {
 		protos = new ArrayList<>();
 		local = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("local")));
 		remote = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("remote")));
-  }
+	}
 
 	@After
 	public void tearDown() {
@@ -139,12 +140,9 @@ public class TestProtocolTest {
 		URIish uri = proto.register(new User("user"), remote.getRepository());
 
 		try (Git git = new Git(local.getRepository())) {
-			git.fetch()
-					.setRemote(uri.toString())
-					.setRefSpecs(HEADS)
-					.call();
-			assertEquals(master,
-					local.getRepository().exactRef("refs/heads/master").getObjectId());
+			git.fetch().setRemote(uri.toString()).setRefSpecs(HEADS).call();
+			assertEquals(master, local.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -156,12 +154,9 @@ public class TestProtocolTest {
 		URIish uri = proto.register(new User("user"), remote.getRepository());
 
 		try (Git git = new Git(local.getRepository())) {
-			git.push()
-					.setRemote(uri.toString())
-					.setRefSpecs(HEADS)
-					.call();
-			assertEquals(master,
-					remote.getRepository().exactRef("refs/heads/master").getObjectId());
+			git.push().setRemote(uri.toString()).setRefSpecs(HEADS).call();
+			assertEquals(master, remote.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -217,27 +212,23 @@ public class TestProtocolTest {
 		ObjectId master = remote.branch("master").commit().create();
 
 		final AtomicInteger rejected = new AtomicInteger();
-		TestProtocol<User> proto = registerProto(new UploadPackFactory<User>() {
-			@Override
-			public UploadPack create(User req, Repository db)
-					throws ServiceNotAuthorizedException {
-				if (!"user2".equals(req.name)) {
-					rejected.incrementAndGet();
-					throw new ServiceNotAuthorizedException();
-				}
-				return new UploadPack(db);
+		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
+			if (!"user2".equals(req.name)) {
+				rejected.incrementAndGet();
+				throw new ServiceNotAuthorizedException();
 			}
+			return new UploadPack(db);
 		}, new DefaultReceive());
 
 		// Same repository, different users.
-		URIish user1Uri = proto.register(new User("user1"), remote.getRepository());
-		URIish user2Uri = proto.register(new User("user2"), remote.getRepository());
+		URIish user1Uri = proto.register(new User("user1"),
+				remote.getRepository());
+		URIish user2Uri = proto.register(new User("user2"),
+				remote.getRepository());
 
 		try (Git git = new Git(local.getRepository())) {
 			try {
-				git.fetch()
-						.setRemote(user1Uri.toString())
-						.setRefSpecs(MASTER)
+				git.fetch().setRemote(user1Uri.toString()).setRefSpecs(MASTER)
 						.call();
 				fail("accepted not permitted fetch");
 			} catch (InvalidRemoteException expected) {
@@ -246,13 +237,11 @@ public class TestProtocolTest {
 			assertEquals(1, rejected.get());
 			assertNull(local.getRepository().exactRef("refs/heads/master"));
 
-			git.fetch()
-					.setRemote(user2Uri.toString())
-					.setRefSpecs(MASTER)
+			git.fetch().setRemote(user2Uri.toString()).setRefSpecs(MASTER)
 					.call();
 			assertEquals(1, rejected.get());
-			assertEquals(master,
-					local.getRepository().exactRef("refs/heads/master").getObjectId());
+			assertEquals(master, local.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -262,43 +251,36 @@ public class TestProtocolTest {
 
 		final AtomicInteger rejected = new AtomicInteger();
 		TestProtocol<User> proto = registerProto(new DefaultUpload(),
-				new ReceivePackFactory<User>() {
-					@Override
-					public ReceivePack create(User req, Repository db)
-							throws ServiceNotAuthorizedException {
-						if (!"user2".equals(req.name)) {
-							rejected.incrementAndGet();
-							throw new ServiceNotAuthorizedException();
-						}
-						return new ReceivePack(db);
+				(User req, Repository db) -> {
+					if (!"user2".equals(req.name)) {
+						rejected.incrementAndGet();
+						throw new ServiceNotAuthorizedException();
 					}
+					return new ReceivePack(db);
 				});
 
 		// Same repository, different users.
-		URIish user1Uri = proto.register(new User("user1"), remote.getRepository());
-		URIish user2Uri = proto.register(new User("user2"), remote.getRepository());
+		URIish user1Uri = proto.register(new User("user1"),
+				remote.getRepository());
+		URIish user2Uri = proto.register(new User("user2"),
+				remote.getRepository());
 
 		try (Git git = new Git(local.getRepository())) {
 			try {
-				git.push()
-						.setRemote(user1Uri.toString())
-						.setRefSpecs(HEADS)
+				git.push().setRemote(user1Uri.toString()).setRefSpecs(HEADS)
 						.call();
 				fail("accepted not permitted push");
 			} catch (TransportException expected) {
-				assertTrue(expected.getMessage().contains(
-						JGitText.get().pushNotPermitted));
+				assertTrue(expected.getMessage()
+						.contains(JGitText.get().pushNotPermitted));
 			}
 			assertEquals(1, rejected.get());
 			assertNull(remote.getRepository().exactRef("refs/heads/master"));
 
-			git.push()
-					.setRemote(user2Uri.toString())
-					.setRefSpecs(HEADS)
-					.call();
+			git.push().setRemote(user2Uri.toString()).setRefSpecs(HEADS).call();
 			assertEquals(1, rejected.get());
-			assertEquals(master,
-					remote.getRepository().exactRef("refs/heads/master").getObjectId());
+			assertEquals(master, remote.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
 		}
 	}
 

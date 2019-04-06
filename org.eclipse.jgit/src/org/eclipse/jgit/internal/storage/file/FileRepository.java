@@ -62,8 +62,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.events.ConfigChangedEvent;
-import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
@@ -102,26 +100,31 @@ import org.eclipse.jgit.util.SystemReader;
  *
  * <ul>
  * <li>GIT_DIR
- * 	<ul>
- * 		<li>objects/ - objects</li>
- * 		<li>refs/ - tags and heads</li>
- * 		<li>config - configuration</li>
- * 		<li>info/ - more configurations</li>
- * 	</ul>
+ * <ul>
+ * <li>objects/ - objects</li>
+ * <li>refs/ - tags and heads</li>
+ * <li>config - configuration</li>
+ * <li>info/ - more configurations</li>
+ * </ul>
  * </li>
  * </ul>
  * <p>
  * This class is thread-safe.
  * <p>
- * This implementation only handles a subtly undocumented subset of git features.
+ * This implementation only handles a subtly undocumented subset of git
+ * features.
  */
 public class FileRepository extends Repository {
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
 
 	private final FileBasedConfig systemConfig;
+
 	private final FileBasedConfig userConfig;
+
 	private final FileBasedConfig repoConfig;
+
 	private final RefDatabase refs;
+
 	private final ObjectDirectory objectDatabase;
 
 	private final Object snapshotLock = new Object();
@@ -179,8 +182,8 @@ public class FileRepository extends Repository {
 	public FileRepository(BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
-		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
-				Constants.GIT_CONFIG_NOSYSTEM_KEY)))
+		if (StringUtils.isEmptyOrNull(SystemReader.getInstance()
+				.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY)))
 			systemConfig = SystemReader.getInstance().openSystemConfig(null,
 					getFS());
 		else
@@ -198,27 +201,20 @@ public class FileRepository extends Repository {
 			};
 		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
 				getFS());
-		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
-				getDirectory(), Constants.CONFIG),
-				getFS());
+		repoConfig = new FileBasedConfig(userConfig,
+				getFS().resolve(getDirectory(), Constants.CONFIG), getFS());
 
 		loadSystemConfig();
 		loadUserConfig();
 		loadRepoConfig();
 
-		repoConfig.addChangeListener(new ConfigChangedListener() {
-			@Override
-			public void onConfigChanged(ConfigChangedEvent event) {
-				fireEvent(event);
-			}
-		});
+		repoConfig.addChangeListener(this::fireEvent);
 
 		final long repositoryFormatVersion = getConfig().getLong(
 				ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 
-		String reftype = repoConfig.getString(
-				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
+		String reftype = repoConfig.getString("extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (repositoryFormatVersion >= 1 && reftype != null) {
 			if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
 				refs = new RefTreeDatabase(this, new RefDirectory(this));
@@ -251,10 +247,10 @@ public class FileRepository extends Repository {
 		try {
 			systemConfig.load();
 		} catch (ConfigInvalidException e) {
-			throw new IOException(MessageFormat.format(JGitText
-					.get().systemConfigFileInvalid, systemConfig.getFile()
-							.getAbsolutePath(),
-					e), e);
+			throw new IOException(
+					MessageFormat.format(JGitText.get().systemConfigFileInvalid,
+							systemConfig.getFile().getAbsolutePath(), e),
+					e);
 		}
 	}
 
@@ -262,10 +258,10 @@ public class FileRepository extends Repository {
 		try {
 			userConfig.load();
 		} catch (ConfigInvalidException e) {
-			throw new IOException(MessageFormat.format(JGitText
-					.get().userConfigFileInvalid, userConfig.getFile()
-							.getAbsolutePath(),
-					e), e);
+			throw new IOException(
+					MessageFormat.format(JGitText.get().userConfigFileInvalid,
+							userConfig.getFile().getAbsolutePath(), e),
+					e);
 		}
 	}
 
@@ -337,8 +333,8 @@ public class FileRepository extends Repository {
 		}
 		if (symLinks != null)
 			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_SYMLINKS, symLinks.name()
-							.toLowerCase(Locale.ROOT));
+					ConfigConstants.CONFIG_KEY_SYMLINKS,
+					symLinks.name().toLowerCase(Locale.ROOT));
 		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -356,10 +352,10 @@ public class FileRepository extends Repository {
 			File workTree = getWorkTree();
 			if (!getDirectory().getParentFile().equals(workTree)) {
 				cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
-								.getAbsolutePath());
-				LockFile dotGitLockFile = new LockFile(new File(workTree,
-						Constants.DOT_GIT));
+						ConfigConstants.CONFIG_KEY_WORKTREE,
+						getWorkTree().getAbsolutePath());
+				LockFile dotGitLockFile = new LockFile(
+						new File(workTree, Constants.DOT_GIT));
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
@@ -413,11 +409,11 @@ public class FileRepository extends Repository {
 			}
 		}
 		if (repoConfig.isOutdated()) {
-				try {
-					loadRepoConfig();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+			try {
+				loadRepoConfig();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return repoConfig;
 	}
@@ -509,7 +505,8 @@ public class FileRepository extends Repository {
 		HashSet<ObjectId> r = new HashSet<>();
 		skips = objectDatabase.addMe(skips);
 		for (AlternateHandle d : objectDatabase.myAlternates()) {
-			if (d instanceof AlternateRepository && !skips.contains(d.getId())) {
+			if (d instanceof AlternateRepository
+					&& !skips.contains(d.getId())) {
 				FileRepository repo;
 
 				repo = ((AlternateRepository) d).repository;
@@ -595,8 +592,7 @@ public class FileRepository extends Repository {
 	 * @author <a href="mailto:arthur.daussy@obeo.fr">Arthur Daussy</a>
 	 *
 	 */
-	static class AttributesNodeProviderImpl implements
-			AttributesNodeProvider {
+	static class AttributesNodeProviderImpl implements AttributesNodeProvider {
 
 		private AttributesNode infoAttributesNode;
 

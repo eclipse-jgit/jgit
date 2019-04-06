@@ -115,36 +115,26 @@ public class Daemon {
 
 		repositoryResolver = (RepositoryResolver<DaemonClient>) RepositoryResolver.NONE;
 
-		uploadPackFactory = new UploadPackFactory<DaemonClient>() {
-			@Override
-			public UploadPack create(DaemonClient req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				UploadPack up = new UploadPack(db);
-				up.setTimeout(getTimeout());
-				up.setPackConfig(getPackConfig());
-				return up;
-			}
+		uploadPackFactory = (DaemonClient req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setTimeout(getTimeout());
+			up.setPackConfig(getPackConfig());
+			return up;
 		};
 
-		receivePackFactory = new ReceivePackFactory<DaemonClient>() {
-			@Override
-			public ReceivePack create(DaemonClient req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				ReceivePack rp = new ReceivePack(db);
+		receivePackFactory = (DaemonClient req, Repository db) -> {
+			ReceivePack rp = new ReceivePack(db);
 
-				InetAddress peer = req.getRemoteAddress();
-				String host = peer.getCanonicalHostName();
-				if (host == null)
-					host = peer.getHostAddress();
-				String name = "anonymous"; //$NON-NLS-1$
-				String email = name + "@" + host; //$NON-NLS-1$
-				rp.setRefLogIdent(new PersonIdent(name, email));
-				rp.setTimeout(getTimeout());
+			InetAddress peer = req.getRemoteAddress();
+			String host = peer.getCanonicalHostName();
+			if (host == null)
+				host = peer.getHostAddress();
+			String name = "anonymous"; //$NON-NLS-1$
+			String email = name + "@" + host; //$NON-NLS-1$
+			rp.setRefLogIdent(new PersonIdent(name, email));
+			rp.setTimeout(getTimeout());
 
-				return rp;
-			}
+			return rp;
 		};
 
 		services = new DaemonService[] {
@@ -157,8 +147,7 @@ public class Daemon {
 					protected void execute(final DaemonClient dc,
 							final Repository db,
 							@Nullable Collection<String> extraParameters)
-							throws IOException,
-							ServiceNotEnabledException,
+							throws IOException, ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						UploadPack up = uploadPackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
@@ -177,8 +166,7 @@ public class Daemon {
 					protected void execute(final DaemonClient dc,
 							final Repository db,
 							@Nullable Collection<String> extraParameters)
-							throws IOException,
-							ServiceNotEnabledException,
+							throws IOException, ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						ReceivePack rp = receivePackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
@@ -263,7 +251,8 @@ public class Daemon {
 	 * @param resolver
 	 *            the resolver instance.
 	 */
-	public void setRepositoryResolver(RepositoryResolver<DaemonClient> resolver) {
+	public void setRepositoryResolver(
+			RepositoryResolver<DaemonClient> resolver) {
 		repositoryResolver = resolver;
 	}
 
@@ -298,7 +287,8 @@ public class Daemon {
 	 *            the factory. If null receive-pack is disabled.
 	 */
 	@SuppressWarnings("unchecked")
-	public void setReceivePackFactory(ReceivePackFactory<DaemonClient> factory) {
+	public void setReceivePackFactory(
+			ReceivePackFactory<DaemonClient> factory) {
 		if (factory != null)
 			receivePackFactory = factory;
 		else
@@ -365,7 +355,8 @@ public class Daemon {
 	 */
 	public synchronized void start() throws IOException {
 		if (acceptThread != null) {
-			throw new IllegalStateException(JGitText.get().daemonAlreadyRunning);
+			throw new IllegalStateException(
+					JGitText.get().daemonAlreadyRunning);
 		}
 		ServerSocket socket = new ServerSocket();
 		socket.setReuseAddress(true);

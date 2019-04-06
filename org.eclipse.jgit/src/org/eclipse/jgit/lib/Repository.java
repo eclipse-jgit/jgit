@@ -1277,12 +1277,9 @@ public abstract class Repository implements AutoCloseable {
 			CorruptObjectException, IOException {
 		// we want DirCache to inform us so that we can inform registered
 		// listeners about index changes
-		IndexChangedListener l = new IndexChangedListener() {
-			@Override
-			public void onIndexChanged(IndexChangedEvent event) {
-				notifyIndexChanged(true);
-			}
-		};
+		IndexChangedListener l = (IndexChangedEvent event) -> {
+                    notifyIndexChanged(true);
+                };
 		return DirCache.lock(this, l);
 	}
 

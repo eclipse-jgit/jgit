@@ -87,8 +87,6 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,18 +139,13 @@ public class HttpClientTests extends HttpTestCase {
 
 	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				final Repository db = remoteRepository.getRepository();
-				if (!name.equals(nameOf(db)))
-					throw new RepositoryNotFoundException(name);
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			final Repository db = remoteRepository.getRepository();
+			if (!name.equals(nameOf(db)))
+				throw new RepositoryNotFoundException(name);
 
-				db.incrementOpen();
-				return db;
-			}
+			db.incrementOpen();
+			return db;
 		});
 
 		ServletContextHandler ctx = server.addContext(path);
@@ -362,7 +355,8 @@ public class HttpClientTests extends HttpTestCase {
 	@Test
 	public void testHttpClientWantsV2ButServerNotConfigured() throws Exception {
 		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		String url = smartAuthNoneURI.toString()
+				+ "/info/refs?service=git-upload-pack";
 		HttpConnection c = f.create(new URL(url));
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
@@ -379,11 +373,12 @@ public class HttpClientTests extends HttpTestCase {
 
 	@Test
 	public void testV2HttpFirstResponse() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 2);
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 2);
 
 		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		String url = smartAuthNoneURI.toString()
+				+ "/info/refs?service=git-upload-pack";
 		HttpConnection c = f.create(new URL(url));
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
@@ -403,14 +398,15 @@ public class HttpClientTests extends HttpTestCase {
 
 	@Test
 	public void testV2HttpSubsequentResponse() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 2);
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 2);
 
 		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
 		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
 		HttpConnection c = f.create(new URL(url));
 		c.setRequestMethod("POST");
-		c.setRequestProperty("Content-Type", "application/x-git-upload-pack-request");
+		c.setRequestProperty("Content-Type",
+				"application/x-git-upload-pack-request");
 		c.setRequestProperty("Git-Protocol", "version=2");
 		c.setDoOutput(true);
 		c.connect();

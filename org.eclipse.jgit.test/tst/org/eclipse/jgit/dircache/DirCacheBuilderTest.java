@@ -194,8 +194,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuildOneFile_Commit_IndexChangedEvent()
-			throws Exception {
+	public void testBuildOneFile_Commit_IndexChangedEvent() throws Exception {
 		final class ReceivedEventMarkerException extends RuntimeException {
 			private static final long serialVersionUID = 1L;
 			// empty
@@ -210,12 +209,8 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		boolean receivedEvent = false;
 
 		DirCache dc = db.lockDirCache();
-		IndexChangedListener listener = new IndexChangedListener() {
-
-			@Override
-			public void onIndexChanged(IndexChangedEvent event) {
-				throw new ReceivedEventMarkerException();
-			}
+		IndexChangedListener listener = (IndexChangedEvent event) -> {
+			throw new ReceivedEventMarkerException();
 		};
 
 		ListenerList l = db.getListenerList();
@@ -238,12 +233,8 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		// do the same again, as this doesn't change index compared to first
 		// round we should get no event this time
 		dc = db.lockDirCache();
-		listener = new IndexChangedListener() {
-
-			@Override
-			public void onIndexChanged(IndexChangedEvent event) {
-				throw new ReceivedEventMarkerException();
-			}
+		listener = (IndexChangedEvent event) -> {
+			throw new ReceivedEventMarkerException();
 		};
 
 		l = db.getListenerList();
@@ -301,9 +292,9 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-            for (DirCacheEntry ent : ents) {
-                b.add(ent);
-            }
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertEquals(paths.length, dc.getEntryCount());
@@ -352,9 +343,9 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 		{
 			final DirCacheBuilder b = dc.builder();
-                    for (DirCacheEntry ent : ents) {
-                        b.add(ent);
-                    }
+			for (DirCacheEntry ent : ents) {
+				b.add(ent);
+			}
 			b.finish();
 		}
 		assertEquals(paths.length, dc.getEntryCount());

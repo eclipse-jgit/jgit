@@ -95,12 +95,17 @@ import org.junit.Test;
 
 public class RefTreeDatabaseTest {
 	private InMemRefTreeRepo repo;
+
 	private RefTreeDatabase refdb;
+
 	private RefDatabase bootstrap;
 
 	private TestRepository<InMemRefTreeRepo> testRepo;
+
 	private RevCommit A;
+
 	private RevCommit B;
+
 	private RevTag v1_0;
 
 	@Before
@@ -503,10 +508,8 @@ public class RefTreeDatabaseTest {
 		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
 		assertEquals(txnId, getTxnCommitted());
 
-		assertEquals(REJECTED_NONFASTFORWARD,
-				commands.get(1).getResult());
-		assertEquals(REJECTED_OTHER_REASON,
-				commands.get(0).getResult());
+		assertEquals(REJECTED_NONFASTFORWARD, commands.get(1).getResult());
+		assertEquals(REJECTED_OTHER_REASON, commands.get(0).getResult());
 		assertEquals(JGitText.get().transactionAborted,
 				commands.get(0).getMessage());
 	}
@@ -529,8 +532,7 @@ public class RefTreeDatabaseTest {
 		Map<String, Ref> refs = refdb.getRefs(ALL);
 		assertEquals(OK, commands.get(0).getResult());
 		assertEquals(OK, commands.get(1).getResult());
-		assertEquals(
-				"[refs/heads/master, refs/heads/masters]",
+		assertEquals("[refs/heads/master, refs/heads/masters]",
 				refs.keySet().toString());
 		assertEquals(B.getId(), refs.get("refs/heads/master").getObjectId());
 		assertEquals(A.getId(), refs.get("refs/heads/masters").getObjectId());
@@ -542,8 +544,8 @@ public class RefTreeDatabaseTest {
 		update("refs/heads/master", B);
 		ObjectId txnId = getTxnCommitted();
 
-		List<ReceiveCommand> commands = Arrays.asList(
-				command(B, A, "refs/heads/master"));
+		List<ReceiveCommand> commands = Arrays
+				.asList(command(B, A, "refs/heads/master"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
@@ -609,8 +611,7 @@ public class RefTreeDatabaseTest {
 		assertEquals(OK, commands.get(2).getResult());
 
 		Map<String, Ref> refs = refdb.getRefs(ALL);
-		assertEquals(
-				"[refs/heads/master, refs/heads/masters/x]",
+		assertEquals("[refs/heads/master, refs/heads/masters/x]",
 				refs.keySet().toString());
 		assertEquals(A.getId(), refs.get("refs/heads/masters/x").getObjectId());
 	}
@@ -625,43 +626,27 @@ public class RefTreeDatabaseTest {
 
 	private static ReceiveCommand command(AnyObjectId a, AnyObjectId b,
 			String name) {
-		return new ReceiveCommand(
-				a != null ? a.copy() : ObjectId.zeroId(),
-				b != null ? b.copy() : ObjectId.zeroId(),
-				name);
+		return new ReceiveCommand(a != null ? a.copy() : ObjectId.zeroId(),
+				b != null ? b.copy() : ObjectId.zeroId(), name);
 	}
 
-	private void symref(String name, String dst)
-			throws IOException {
-		commit(new Function() {
-			@Override
-			public boolean apply(ObjectReader reader, RefTree tree)
-					throws IOException {
-				Ref old = tree.exactRef(reader, name);
-				Command n = new Command(
-					old,
-					new SymbolicRef(
-						name,
-						new ObjectIdRef.Unpeeled(Ref.Storage.NEW, dst, null)));
-				return tree.apply(Collections.singleton(n));
-			}
+	private void symref(String name, String dst) throws IOException {
+		commit((ObjectReader reader, RefTree tree) -> {
+			Ref old = tree.exactRef(reader, name);
+			Command n = new Command(old, new SymbolicRef(name,
+					new ObjectIdRef.Unpeeled(Ref.Storage.NEW, dst, null)));
+			return tree.apply(Collections.singleton(n));
 		});
 	}
 
-	private void update(String name, ObjectId id)
-			throws IOException {
-		commit(new Function() {
-			@Override
-			public boolean apply(ObjectReader reader, RefTree tree)
-					throws IOException {
-				Ref old = tree.exactRef(reader, name);
-				Command n;
-				try (RevWalk rw = new RevWalk(repo)) {
-					n = new Command(old,
-							Command.toRef(rw, id, null, name, true));
-				}
-				return tree.apply(Collections.singleton(n));
+	private void update(String name, ObjectId id) throws IOException {
+		commit((ObjectReader reader, RefTree tree) -> {
+			Ref old = tree.exactRef(reader, name);
+			Command n;
+			try (RevWalk rw = new RevWalk(repo)) {
+				n = new Command(old, Command.toRef(rw, id, null, name, true));
 			}
+			return tree.apply(Collections.singleton(n));
 		});
 	}
 

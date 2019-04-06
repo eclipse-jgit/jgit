@@ -69,21 +69,25 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PushOptionsTest extends RepositoryTestCase {
 	private URIish uri;
+
 	private TestProtocol<Object> testProtocol;
+
 	private Object ctx = new Object();
+
 	private InMemoryRepository server;
+
 	private InMemoryRepository client;
+
 	private ObjectId obj1;
+
 	private ObjectId obj2;
+
 	private ReceivePack receivePack;
 
 	@Override
@@ -95,16 +99,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 		client = newRepo("client");
 
 		testProtocol = new TestProtocol<>(null,
-				new ReceivePackFactory<Object>() {
-					@Override
-					public ReceivePack create(Object req, Repository git)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						receivePack = new ReceivePack(git);
-						receivePack.setAllowPushOptions(true);
-						receivePack.setAtomic(true);
-						return receivePack;
-					}
+				(Object req, Repository git) -> {
+					receivePack = new ReceivePack(git);
+					receivePack.setAllowPushOptions(true);
+					receivePack.setAtomic(true);
+					return receivePack;
 				});
 
 		uri = testProtocol.register(ctx, server);
@@ -257,9 +256,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 			RevCommit commit = addCommit(local);
 
 			local.checkout().setName("not-pushed").setCreateBranch(true).call();
-			local.checkout().setName("branchtopush").setCreateBranch(true).call();
+			local.checkout().setName("branchtopush").setCreateBranch(true)
+					.call();
 
-			assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(
+					remote.getRepository().resolve("refs/heads/branchtopush"));
 			assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
 			assertNull(remote.getRepository().resolve("refs/heads/master"));
 
@@ -286,8 +287,10 @@ public class PushOptionsTest extends RepositoryTestCase {
 			RevCommit commit = addCommit(local);
 
 			local.checkout().setName("not-pushed").setCreateBranch(true).call();
-			local.checkout().setName("branchtopush").setCreateBranch(true).call();
-			assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
+			local.checkout().setName("branchtopush").setCreateBranch(true)
+					.call();
+			assertNull(
+					remote.getRepository().resolve("refs/heads/branchtopush"));
 			assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
 			assertNull(remote.getRepository().resolve("refs/heads/master"));
 
@@ -316,9 +319,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 			RevCommit commit = addCommit(local);
 
 			local.checkout().setName("not-pushed").setCreateBranch(true).call();
-			local.checkout().setName("branchtopush").setCreateBranch(true).call();
+			local.checkout().setName("branchtopush").setCreateBranch(true)
+					.call();
 
-			assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(
+					remote.getRepository().resolve("refs/heads/branchtopush"));
 			assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
 			assertNull(remote.getRepository().resolve("refs/heads/master"));
 
@@ -346,9 +351,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 			addCommit(local);
 
 			local.checkout().setName("not-pushed").setCreateBranch(true).call();
-			local.checkout().setName("branchtopush").setCreateBranch(true).call();
+			local.checkout().setName("branchtopush").setCreateBranch(true)
+					.call();
 
-			assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(
+					remote.getRepository().resolve("refs/heads/branchtopush"));
 			assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
 			assertNull(remote.getRepository().resolve("refs/heads/master"));
 

@@ -123,7 +123,8 @@ import org.slf4j.LoggerFactory;
  * concurrent access by correctly obtaining the leader's lock.
  */
 public abstract class KetchLeader {
-	private static final Logger log = LoggerFactory.getLogger(KetchLeader.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(KetchLeader.class);
 
 	/** Current state of the leader instance. */
 	public static enum State {
@@ -144,7 +145,9 @@ public abstract class KetchLeader {
 
 	/** Leader's knowledge of replicas for this repository. */
 	private KetchReplica[] voters;
+
 	private KetchReplica[] followers;
+
 	private LocalReplica self;
 
 	/**
@@ -260,10 +263,9 @@ public abstract class KetchLeader {
 
 		Collection<Integer> validVoters = validVoterCounts();
 		if (!validVoters.contains(Integer.valueOf(v.size()))) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					KetchText.get().unsupportedVoterCount,
-					Integer.valueOf(v.size()),
-					validVoters));
+			throw new IllegalArgumentException(
+					MessageFormat.format(KetchText.get().unsupportedVoterCount,
+							Integer.valueOf(v.size()), validVoters));
 		}
 
 		LocalReplica me = findLocal(v);
@@ -385,12 +387,7 @@ public abstract class KetchLeader {
 
 	private void scheduleLeader() {
 		idle = false;
-		system.getExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				runLeader();
-			}
-		});
+		system.getExecutor().execute(this::runLeader);
 	}
 
 	private void runLeader() {
@@ -528,8 +525,7 @@ public abstract class KetchLeader {
 			committedIndex = headIndex;
 			if (log.isDebugEnabled()) {
 				log.debug("Committed {} in term {}", //$NON-NLS-1$
-						committedIndex.describeForLog(),
-						Long.valueOf(term));
+						committedIndex.describeForLog(), Long.valueOf(term));
 			}
 			nextRound();
 			commitAsync(replica);

@@ -91,39 +91,47 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
-	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = new Comparator<RevCommit>() {
-		@Override
-		public int compare(RevCommit a, RevCommit b) {
-			return Integer.signum(b.getCommitTime() - a.getCommitTime());
-		}
-	};
+	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = (
+			RevCommit a, RevCommit b) -> Integer
+					.signum(b.getCommitTime() - a.getCommitTime());
 
 	private final ObjectReader reader;
+
 	private final ProgressMonitor pm;
+
 	private final Set<? extends ObjectId> want;
+
 	private final PackBitmapIndexBuilder writeBitmaps;
+
 	private final BitmapIndexImpl commitBitmapIndex;
+
 	private final PackBitmapIndexRemapper bitmapRemapper;
+
 	private final BitmapIndexImpl bitmapIndex;
 
 	private final int contiguousCommitCount;
+
 	private final int recentCommitCount;
+
 	private final int recentCommitSpan;
+
 	private final int distantCommitSpan;
+
 	private final int excessiveBranchCount;
+
 	private final long inactiveBranchTimestamp;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
 			PackBitmapIndexBuilder writeBitmaps, ProgressMonitor pm,
 			Set<? extends ObjectId> want, PackConfig config)
-					throws IOException {
+			throws IOException {
 		this.reader = reader;
 		this.writeBitmaps = writeBitmaps;
 		this.pm = pm;
 		this.want = want;
 		this.commitBitmapIndex = new BitmapIndexImpl(writeBitmaps);
-		this.bitmapRemapper = PackBitmapIndexRemapper.newPackBitmapIndex(
-				reader.getBitmapIndex(), writeBitmaps);
+		this.bitmapRemapper = PackBitmapIndexRemapper
+				.newPackBitmapIndex(reader.getBitmapIndex(), writeBitmaps);
 		this.bitmapIndex = new BitmapIndexImpl(bitmapRemapper);
 		this.contiguousCommitCount = config.getBitmapContiguousCommitCount();
 		this.recentCommitCount = config.getBitmapRecentCommitCount();
@@ -344,11 +352,11 @@ class PackWriterBitmapPreparer {
 	 * A RevFilter that excludes the commits named in a bitmap from the walk.
 	 * <p>
 	 * If a commit is in {@code bitmap} then that commit is not emitted by the
-	 * walk and its parents are marked as SEEN so the walk can skip them.  The
+	 * walk and its parents are marked as SEEN so the walk can skip them. The
 	 * bitmaps passed in have the property that the parents of any commit in
-	 * {@code bitmap} are also in {@code bitmap}, so marking the parents as
-	 * SEEN speeds up the RevWalk by saving it from walking down blind alleys
-	 * and does not change the commits emitted.
+	 * {@code bitmap} are also in {@code bitmap}, so marking the parents as SEEN
+	 * speeds up the RevWalk by saving it from walking down blind alleys and
+	 * does not change the commits emitted.
 	 */
 	private static class NotInBitmapFilter extends RevFilter {
 		private final BitmapBuilder bitmap;
@@ -499,8 +507,7 @@ class PackWriterBitmapPreparer {
 	}
 
 	BitmapWalker newBitmapWalker() {
-		return new BitmapWalker(
-				new ObjectWalk(reader), bitmapIndex, null);
+		return new BitmapWalker(new ObjectWalk(reader), bitmapIndex, null);
 	}
 
 	/**
@@ -508,6 +515,7 @@ class PackWriterBitmapPreparer {
 	 */
 	static final class BitmapCommit extends ObjectId {
 		private final boolean reuseWalker;
+
 		private final int flags;
 
 		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
@@ -535,10 +543,12 @@ class PackWriterBitmapPreparer {
 	 * bitmaps. {@code commitStartPos} will contain a positive offset to either
 	 * the root commit or the oldest commit not covered by previous bitmaps.
 	 */
-	private static final class CommitSelectionHelper implements Iterable<RevCommit> {
+	private static final class CommitSelectionHelper
+			implements Iterable<RevCommit> {
 		final Set<? extends ObjectId> newWants;
 
 		final List<RevCommit> newWantsByNewest;
+
 		final BitmapBuilder reusedCommitsBitmap;
 
 		final List<BitmapCommit> reusedCommits;
@@ -550,8 +560,7 @@ class PackWriterBitmapPreparer {
 		CommitSelectionHelper(Set<? extends ObjectId> newWants,
 				RevCommit[] commitsByOldest, int commitStartPos,
 				List<RevCommit> newWantsByNewest,
-				BitmapBuilder reusedCommitsBitmap,
-				List<BitmapCommit> reuse) {
+				BitmapBuilder reusedCommitsBitmap, List<BitmapCommit> reuse) {
 			this.newWants = newWants;
 			this.newCommitsByOldest = commitsByOldest;
 			this.newCommitStartPos = commitStartPos;

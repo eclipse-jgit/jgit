@@ -110,34 +110,30 @@ public class LocalReplica extends KetchReplica {
 			String txnNamespace = getSystem().getTxnNamespace();
 			if (!txnNamespace.equals(treeDb.getTxnNamespace())) {
 				throw new IOException(MessageFormat.format(
-						KetchText.get().mismatchedTxnNamespace,
-						txnNamespace, treeDb.getTxnNamespace()));
+						KetchText.get().mismatchedTxnNamespace, txnNamespace,
+						treeDb.getTxnNamespace()));
 			}
 			refdb = treeDb.getBootstrap();
 		}
-		initialize(refdb.exactRef(
-				getSystem().getTxnAccepted(),
+		initialize(refdb.exactRef(getSystem().getTxnAccepted(),
 				getSystem().getTxnCommitted()));
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected void startPush(ReplicaPushRequest req) {
-		getSystem().getExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				MonotonicClock clk = getSystem().getClock();
-				try (Repository git = getLeader().openRepository();
-						ProposedTimestamp ts = clk.propose()) {
-					try {
-						update(git, req, ts);
-						req.done(git);
-					} catch (Throwable err) {
-						req.setException(git, err);
-					}
-				} catch (IOException err) {
-					req.setException(null, err);
+		getSystem().getExecutor().execute(() -> {
+			MonotonicClock clk = getSystem().getClock();
+			try (Repository git = getLeader().openRepository();
+					ProposedTimestamp ts = clk.propose()) {
+				try {
+					update(git, req, ts);
+					req.done(git);
+				} catch (Throwable err) {
+					req.setException(git, err);
 				}
+			} catch (IOException err) {
+				req.setException(null, err);
 			}
 		});
 	}
