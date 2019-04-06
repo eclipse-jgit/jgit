@@ -149,20 +149,20 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AnyObjectId treeId, String path) throws IOException {
-		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		try {
-			generator.setTree(treeId);
-			PathFilter filter = PathFilter.create(path);
-			generator.setFilter(filter);
-			generator.setRootTree(treeId);
-			while (generator.next())
-				if (filter.isDone(generator.walk))
-					return generator;
-		} catch (IOException e) {
-			generator.close();
-			throw e;
+		try (SubmoduleWalk generator = new SubmoduleWalk(repository)) {
+                    try {
+                        generator.setTree(treeId);
+                        PathFilter filter = PathFilter.create(path);
+                        generator.setFilter(filter);
+                        generator.setRootTree(treeId);
+                        while (generator.next())
+                            if (filter.isDone(generator.walk))
+                                return generator;
+                    } catch (IOException e) {
+                        generator.close();
+                        throw e;
+                    }
 		}
-		generator.close();
 		return null;
 	}
 
@@ -182,20 +182,20 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AbstractTreeIterator iterator, String path) throws IOException {
-		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		try {
-			generator.setTree(iterator);
-			PathFilter filter = PathFilter.create(path);
-			generator.setFilter(filter);
-			generator.setRootTree(iterator);
-			while (generator.next())
-				if (filter.isDone(generator.walk))
-					return generator;
-		} catch (IOException e) {
-			generator.close();
-			throw e;
+		try (SubmoduleWalk generator = new SubmoduleWalk(repository)) {
+                    try {
+                        generator.setTree(iterator);
+                        PathFilter filter = PathFilter.create(path);
+                        generator.setFilter(filter);
+                        generator.setRootTree(iterator);
+                        while (generator.next())
+                            if (filter.isDone(generator.walk))
+                                return generator;
+                    } catch (IOException e) {
+                        generator.close();
+                        throw e;
+                    }
 		}
-		generator.close();
 		return null;
 	}
 
