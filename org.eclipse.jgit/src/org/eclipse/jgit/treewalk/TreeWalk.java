@@ -1338,24 +1338,22 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	void popEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
-			if (t.matches == ch) {
-				t.next(1);
-				t.matches = null;
-			}
-		}
+            for (AbstractTreeIterator t : trees) {
+                if (t.matches == ch) {
+                    t.next(1);
+                    t.matches = null;
+                }
+            }
 	}
 
 	void skipEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
-			if (t.matches == ch) {
-				t.skip();
-				t.matches = null;
-			}
-		}
+            for (AbstractTreeIterator t : trees) {
+                if (t.matches == ch) {
+                    t.skip();
+                    t.matches = null;
+                }
+            }
 	}
 
 	void exitSubtree() {
@@ -1400,12 +1398,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public <T extends AbstractTreeIterator> T getTree(
 			Class<T> type) {
-		for (int i = 0; i < trees.length; i++) {
-			AbstractTreeIterator tree = trees[i];
-			if (type.isInstance(tree)) {
-				return type.cast(tree);
-			}
-		}
+            for (AbstractTreeIterator tree : trees) {
+                if (type.isInstance(tree)) {
+                    return type.cast(tree);
+                }
+            }
 		return null;
 	}
 

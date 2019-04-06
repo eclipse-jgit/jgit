@@ -323,18 +323,17 @@ public class NameConflictTreeWalk extends TreeWalk {
 	@Override
 	void popEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
-			if (t.matches == ch) {
-				if (t.matchShift == 0)
-					t.next(1);
-				else {
-					t.back(t.matchShift);
-					t.matchShift = 0;
-				}
-				t.matches = null;
-			}
-		}
+            for (AbstractTreeIterator t : trees) {
+                if (t.matches == ch) {
+                    if (t.matchShift == 0)
+                        t.next(1);
+                    else {
+                        t.back(t.matchShift);
+                        t.matchShift = 0;
+                    }
+                    t.matches = null;
+                }
+            }
 
 		if (ch == dfConflict)
 			dfConflict = null;
@@ -343,18 +342,17 @@ public class NameConflictTreeWalk extends TreeWalk {
 	@Override
 	void skipEntriesEqual() throws CorruptObjectException {
 		final AbstractTreeIterator ch = currentHead;
-		for (int i = 0; i < trees.length; i++) {
-			final AbstractTreeIterator t = trees[i];
-			if (t.matches == ch) {
-				if (t.matchShift == 0)
-					t.skip();
-				else {
-					t.back(t.matchShift);
-					t.matchShift = 0;
-				}
-				t.matches = null;
-			}
-		}
+            for (AbstractTreeIterator t : trees) {
+                if (t.matches == ch) {
+                    if (t.matchShift == 0)
+                        t.skip();
+                    else {
+                        t.back(t.matchShift);
+                        t.matchShift = 0;
+                    }
+                    t.matches = null;
+                }
+            }
 
 		if (ch == dfConflict)
 			dfConflict = null;
