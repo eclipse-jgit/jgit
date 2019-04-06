@@ -57,13 +57,9 @@ public interface RepositoryResolver<C> {
 	/**
 	 * Resolver configured to open nothing.
 	 */
-	RepositoryResolver<?> NONE = new RepositoryResolver<Object>() {
-		@Override
-		public Repository open(Object req, String name)
-				throws RepositoryNotFoundException {
-			throw new RepositoryNotFoundException(name);
-		}
-	};
+	RepositoryResolver<?> NONE = (Object req, String name) -> {
+            throw new RepositoryNotFoundException(name);
+        };
 
 	/**
 	 * Locate and open a reference to a {@link Repository}.

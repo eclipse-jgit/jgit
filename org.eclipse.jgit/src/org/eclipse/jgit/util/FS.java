@@ -464,12 +464,8 @@ public abstract class FS {
 	 */
 	protected File userHomeImpl() {
 		final String home = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					@Override
-					public String run() {
-						return System.getProperty("user.home"); //$NON-NLS-1$
-					}
-				});
+				.doPrivileged((PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
+                );
 		if (home == null || home.length() == 0)
 			return null;
 		return new File(home).getAbsoluteFile();

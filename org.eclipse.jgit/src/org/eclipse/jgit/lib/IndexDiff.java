@@ -346,12 +346,7 @@ public class IndexDiff {
 		public WorkingTreeIterator getWorkingTreeIterator(Repository repo);
 	}
 
-	private WorkingTreeIteratorFactory wTreeIt = new WorkingTreeIteratorFactory() {
-		@Override
-		public WorkingTreeIterator getWorkingTreeIterator(Repository repo) {
-			return new FileTreeIterator(repo);
-		}
-	};
+	private WorkingTreeIteratorFactory wTreeIt = FileTreeIterator::new;
 
 	/**
 	 * Allows higher layers to set the factory for WorkingTreeIterators.

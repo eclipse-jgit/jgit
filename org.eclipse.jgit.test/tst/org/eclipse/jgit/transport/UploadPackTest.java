@@ -39,9 +39,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -93,16 +90,11 @@ public class UploadPackTest {
 
 	private static TestProtocol<Object> generateReachableCommitUploadPackProtocol() {
 		return new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
-						return up;
-					}
-				}, null);
+				(Object req, Repository db) -> {
+                                    UploadPack up = new UploadPack(db);
+                                    up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+                                    return up;
+                }, null);
 	}
 
 	@Test
@@ -113,19 +105,14 @@ public class UploadPackTest {
 		remote.update("master", tip);
 
 		testProtocol = new TestProtocol<>(
-				new UploadPackFactory<Object>() {
-					@Override
-					public UploadPack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						UploadPack up = new UploadPack(db);
-						up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
-						// assume client has a shallow commit
-						up.getRevWalk().assumeShallow(
-								Collections.singleton(commit1.getId()));
-						return up;
-					}
-				}, null);
+				(Object req, Repository db) -> {
+                                    UploadPack up = new UploadPack(db);
+                                    up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+                                    // assume client has a shallow commit
+                                    up.getRevWalk().assumeShallow(
+                                            Collections.singleton(commit1.getId()));
+                                    return up;
+                }, null);
 		uri = testProtocol.register(ctx, server);
 
 		assertFalse(client.getObjectDatabase().has(commit0.toObjectId()));
@@ -212,15 +199,10 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
@@ -250,15 +232,10 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
@@ -287,15 +264,10 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
@@ -330,15 +302,10 @@ public class UploadPackTest {
 			new DfsGarbageCollector(server2).pack(null);
 			server2.scanForRepoChanges();
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
@@ -370,15 +337,10 @@ public class UploadPackTest {
 			new DfsGarbageCollector(server2).pack(null);
 			server2.scanForRepoChanges();
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
@@ -406,15 +368,10 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					false);
 
-			testProtocol = new TestProtocol<>(new UploadPackFactory<Object>() {
-				@Override
-				public UploadPack create(Object req, Repository db)
-						throws ServiceNotEnabledException,
-						ServiceNotAuthorizedException {
-					UploadPack up = new UploadPack(db);
-					return up;
-				}
-			}, null);
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+                            UploadPack up = new UploadPack(db);
+                            return up;
+                        }, null);
 			uri = testProtocol.register(ctx, server2);
 
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {

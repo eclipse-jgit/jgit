@@ -583,25 +583,22 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	private final FileTreeIterator.FileModeStrategy NO_GITLINKS_STRATEGY =
-			new FileTreeIterator.FileModeStrategy() {
-				@Override
-				public FileMode getMode(File f, FS.Attributes attributes) {
-					if (attributes.isSymbolicLink()) {
-						return FileMode.SYMLINK;
-					} else if (attributes.isDirectory()) {
-						// NOTE: in the production DefaultFileModeStrategy, there is
-						// a check here for a subdirectory called '.git', and if it
-						// exists, we create a GITLINK instead of recursing into the
-						// tree.  In this custom strategy, we ignore nested git dirs
-						// and treat all directories the same.
-						return FileMode.TREE;
-					} else if (attributes.isExecutable()) {
-						return FileMode.EXECUTABLE_FILE;
-					} else {
-						return FileMode.REGULAR_FILE;
-					}
-				}
-			};
+			(File f, FS.Attributes attributes) -> {
+                            if (attributes.isSymbolicLink()) {
+                                return FileMode.SYMLINK;
+                            } else if (attributes.isDirectory()) {
+                                // NOTE: in the production DefaultFileModeStrategy, there is
+                                // a check here for a subdirectory called '.git', and if it
+                                // exists, we create a GITLINK instead of recursing into the
+                                // tree.  In this custom strategy, we ignore nested git dirs
+                                // and treat all directories the same.
+                                return FileMode.TREE;
+                            } else if (attributes.isExecutable()) {
+                                return FileMode.EXECUTABLE_FILE;
+                            } else {
+                                return FileMode.REGULAR_FILE;
+                            }
+        };
 
 	private Repository createNestedRepo() throws IOException {
 		File gitdir = createUniqueTestGitDir(false);

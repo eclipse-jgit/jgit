@@ -60,7 +60,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -881,12 +880,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : pack) {
 			entries.add(me.cloneEntry());
 		}
-		Collections.sort(entries, new Comparator<PackIndex.MutableEntry>() {
-			@Override
-			public int compare(MutableEntry o1, MutableEntry o2) {
-				return Long.signum(o1.getOffset() - o2.getOffset());
-			}
-		});
+		Collections.sort(entries, (MutableEntry o1, MutableEntry o2) -> Long.signum(o1.getOffset() - o2.getOffset()));
 
 		int i = 0;
 		for (MutableEntry me : entries) {

@@ -92,12 +92,9 @@ public class TestProtocolTest {
 		@Override
 		public UploadPack create(User req, Repository db) {
 			UploadPack up = new UploadPack(db);
-			up.setPostUploadHook(new PostUploadHook() {
-				@Override
-				public void onPostUpload(PackStatistics stats) {
-					havesCount = stats.getHaves();
-				}
-			});
+			up.setPostUploadHook((PackStatistics stats) -> {
+                            havesCount = stats.getHaves();
+                        });
 			return up;
 		}
 	}
@@ -217,17 +214,13 @@ public class TestProtocolTest {
 		ObjectId master = remote.branch("master").commit().create();
 
 		final AtomicInteger rejected = new AtomicInteger();
-		TestProtocol<User> proto = registerProto(new UploadPackFactory<User>() {
-			@Override
-			public UploadPack create(User req, Repository db)
-					throws ServiceNotAuthorizedException {
-				if (!"user2".equals(req.name)) {
-					rejected.incrementAndGet();
-					throw new ServiceNotAuthorizedException();
-				}
-				return new UploadPack(db);
-			}
-		}, new DefaultReceive());
+		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
+                    if (!"user2".equals(req.name)) {
+                        rejected.incrementAndGet();
+                        throw new ServiceNotAuthorizedException();
+                    }
+                    return new UploadPack(db);
+                }, new DefaultReceive());
 
 		// Same repository, different users.
 		URIish user1Uri = proto.register(new User("user1"), remote.getRepository());
@@ -261,18 +254,13 @@ public class TestProtocolTest {
 		ObjectId master = local.branch("master").commit().create();
 
 		final AtomicInteger rejected = new AtomicInteger();
-		TestProtocol<User> proto = registerProto(new DefaultUpload(),
-				new ReceivePackFactory<User>() {
-					@Override
-					public ReceivePack create(User req, Repository db)
-							throws ServiceNotAuthorizedException {
-						if (!"user2".equals(req.name)) {
-							rejected.incrementAndGet();
-							throw new ServiceNotAuthorizedException();
-						}
-						return new ReceivePack(db);
-					}
-				});
+		TestProtocol<User> proto = registerProto(new DefaultUpload(), (User req, Repository db) -> {
+                    if (!"user2".equals(req.name)) {
+                        rejected.incrementAndGet();
+                        throw new ServiceNotAuthorizedException();
+                    }
+                    return new ReceivePack(db);
+                });
 
 		// Same repository, different users.
 		URIish user1Uri = proto.register(new User("user1"), remote.getRepository());

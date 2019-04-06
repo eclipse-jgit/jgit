@@ -69,9 +69,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,18 +91,12 @@ public class PushOptionsTest extends RepositoryTestCase {
 		server = newRepo("server");
 		client = newRepo("client");
 
-		testProtocol = new TestProtocol<>(null,
-				new ReceivePackFactory<Object>() {
-					@Override
-					public ReceivePack create(Object req, Repository git)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						receivePack = new ReceivePack(git);
-						receivePack.setAllowPushOptions(true);
-						receivePack.setAtomic(true);
-						return receivePack;
-					}
-				});
+		testProtocol = new TestProtocol<>(null, (Object req, Repository git) -> {
+                    receivePack = new ReceivePack(git);
+                    receivePack.setAllowPushOptions(true);
+                    receivePack.setAtomic(true);
+                    return receivePack;
+                });
 
 		uri = testProtocol.register(ctx, server);
 
