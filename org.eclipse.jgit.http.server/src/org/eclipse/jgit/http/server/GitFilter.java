@@ -202,7 +202,7 @@ public class GitFilter extends MetaFilter {
 		if (resolver == null) {
 			File root = getFile(filterConfig, "base-path");
 			boolean exportAll = getBoolean(filterConfig, "export-all");
-			setRepositoryResolver(new FileResolver<HttpServletRequest>(root, exportAll));
+			setRepositoryResolver(new FileResolver<>(root, exportAll));
 		}
 
 		initialized = true;
