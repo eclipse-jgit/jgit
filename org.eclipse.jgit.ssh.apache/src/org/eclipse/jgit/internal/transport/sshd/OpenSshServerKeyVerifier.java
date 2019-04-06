@@ -60,6 +60,7 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -586,9 +587,7 @@ public class OpenSshServerKeyVerifier
 					KeyUtils.getFingerPrint(BuiltinDigests.sha256, expected),
 					KeyUtils.getFingerPrint(BuiltinDigests.md5, actual),
 					KeyUtils.getFingerPrint(BuiltinDigests.sha256, actual));
-			for (String line : warning.split("\n")) { //$NON-NLS-1$
-				messages.add(line);
-			}
+                        messages.addAll(Arrays.asList(warning.split("\n"))); //$NON-NLS-1$
 
 			CredentialsProvider provider = getCredentialsProvider(
 					clientSession);
