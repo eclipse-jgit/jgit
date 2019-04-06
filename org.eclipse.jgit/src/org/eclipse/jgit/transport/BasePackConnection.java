@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -212,10 +213,9 @@ abstract class BasePackConnection extends BaseConnection {
 			if (avail.isEmpty()) {
 				final int nul = line.indexOf('\0');
 				if (nul >= 0) {
-					// The first line (if any) may contain "hidden"
-					// capability values after a NUL byte.
-					for (String c : line.substring(nul + 1).split(" ")) //$NON-NLS-1$
-						remoteCapablities.add(c);
+                                    // The first line (if any) may contain "hidden"
+                                    // capability values after a NUL byte.
+                                    remoteCapablities.addAll(Arrays.asList(line.substring(nul + 1).split(" "))); //$NON-NLS-1$
 					line = line.substring(0, nul);
 				}
 			}
