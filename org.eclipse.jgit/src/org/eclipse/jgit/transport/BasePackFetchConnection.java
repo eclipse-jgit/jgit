@@ -400,10 +400,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		} catch (CancelledException ce) {
 			close();
 			return; // Caller should test (or just know) this themselves.
-		} catch (IOException err) {
-			close();
-			throw new TransportException(err.getMessage(), err);
-		} catch (RuntimeException err) {
+		} catch (IOException | RuntimeException err) {
 			close();
 			throw new TransportException(err.getMessage(), err);
 		}

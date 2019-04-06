@@ -127,11 +127,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 				} else
 					throw new ServiceNotEnabledException();
 
-			} catch (RuntimeException e) {
-				db.close();
-				throw new RepositoryNotFoundException(name, e);
-
-			} catch (IOException e) {
+			} catch (RuntimeException | IOException e) {
 				db.close();
 				throw new RepositoryNotFoundException(name, e);
 
