@@ -49,6 +49,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -854,8 +855,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 
 	static Set<Attribute> asSet(Attribute... attrs) {
 		HashSet<Attribute> result = new HashSet<>();
-		for (Attribute attr : attrs)
-			result.add(attr);
+                result.addAll(Arrays.asList(attrs));
 		return result;
 	}
 
