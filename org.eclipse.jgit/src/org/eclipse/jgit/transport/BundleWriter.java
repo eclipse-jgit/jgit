@@ -229,7 +229,7 @@ public class BundleWriter {
 			packWriter.setDeltaBaseAsOffset(true);
 			packWriter.setThin(exc.size() > 0);
 			packWriter.setReuseValidatingObjects(false);
-			if (exc.size() == 0)
+			if (exc.isEmpty())
 				packWriter.setTagTargets(tagTargets);
 			packWriter.preparePack(monitor, inc, exc);
 
