@@ -253,13 +253,7 @@ public class DirCache {
 
 		try {
 			c.read();
-		} catch (IOException e) {
-			c.unlock();
-			throw e;
-		} catch (RuntimeException e) {
-			c.unlock();
-			throw e;
-		} catch (Error e) {
+		} catch (IOException | RuntimeException | Error e) {
 			c.unlock();
 			throw e;
 		}
@@ -636,13 +630,7 @@ public class DirCache {
 		try (OutputStream o = tmp.getOutputStream();
 				OutputStream bo = new BufferedOutputStream(o)) {
 			writeTo(liveFile.getParentFile(), bo);
-		} catch (IOException err) {
-			tmp.unlock();
-			throw err;
-		} catch (RuntimeException err) {
-			tmp.unlock();
-			throw err;
-		} catch (Error err) {
+		} catch (IOException | RuntimeException | Error err) {
 			tmp.unlock();
 			throw err;
 		}

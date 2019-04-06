@@ -74,8 +74,8 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 	 *             if any.
 	 */
 	public InternalPushConnection(PackTransport transport,
-			final ReceivePackFactory<C> receivePackFactory,
-			final C req, final Repository remote) throws TransportException {
+			final ReceivePackFactory<C> receivePackFactory, final C req,
+			final Repository remote) throws TransportException {
 		super(transport);
 
 		final PipedInputStream in_r;
@@ -91,23 +91,25 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 			out_w = new PipedOutputStream(out_r);
 		} catch (IOException err) {
 			remote.close();
-			throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
+			throw new TransportException(uri, JGitText.get().cannotConnectPipes,
+					err);
 		}
 
 		worker = new Thread("JGit-Receive-Pack") { //$NON-NLS-1$
 			@Override
 			public void run() {
 				try {
-					final ReceivePack rp = receivePackFactory.create(req, remote);
+					final ReceivePack rp = receivePackFactory.create(req,
+							remote);
 					rp.receive(out_r, in_w, System.err);
-				} catch (ServiceNotEnabledException e) {
-					// Ignored. Client cannot use this repository.
-				} catch (ServiceNotAuthorizedException e) {
+				} catch (ServiceNotEnabledException
+						| ServiceNotAuthorizedException e) {
 					// Ignored. Client cannot use this repository.
 				} catch (IOException e) {
 					// Since the InternalPushConnection
 					// is used in tests, we want to avoid hiding exceptions
-					// because they can point to programming errors on the server
+					// because they can point to programming errors on the
+					// server
 					// side. By rethrowing, the default handler will dump it
 					// to stderr.
 					throw new UncheckedIOException(e);

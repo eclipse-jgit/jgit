@@ -112,10 +112,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 		} catch (TransportException err) {
 			close();
 			throw err;
-		} catch (IOException err) {
-			close();
-			throw new TransportException(transport.uri, err.getMessage(), err);
-		} catch (RuntimeException err) {
+		} catch (IOException | RuntimeException err) {
 			close();
 			throw new TransportException(transport.uri, err.getMessage(), err);
 		}
@@ -205,10 +202,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 				packLock = parser.parse(NullProgressMonitor.INSTANCE);
 				ins.flush();
 			}
-		} catch (IOException err) {
-			close();
-			throw new TransportException(transport.uri, err.getMessage(), err);
-		} catch (RuntimeException err) {
+		} catch (IOException | RuntimeException err) {
 			close();
 			throw new TransportException(transport.uri, err.getMessage(), err);
 		}
