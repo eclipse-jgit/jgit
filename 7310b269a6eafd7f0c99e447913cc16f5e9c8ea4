@@ -16,6 +16,24 @@
       "revId": "7310b269a6eafd7f0c99e447913cc16f5e9c8ea4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f4f90e_77688de2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-07T21:45:22Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d576211f_6ba35e92",
+      "revId": "7310b269a6eafd7f0c99e447913cc16f5e9c8ea4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
