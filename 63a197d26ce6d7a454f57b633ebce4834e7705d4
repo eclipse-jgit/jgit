@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "0ba1c85b_86838cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:16:03Z",
+      "side": 1,
+      "message": "Use String.isEmpty() instead of comparing to \"\"",
+      "revId": "63a197d26ce6d7a454f57b633ebce4834e7705d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797f5680_0ae39582",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:16:03Z",
+      "side": 1,
+      "message": "Should be removed, here and in other places",
+      "range": {
+        "startLine": 298,
+        "startChar": 26,
+        "endLine": 298,
+        "endChar": 39
+      },
+      "revId": "63a197d26ce6d7a454f57b633ebce4834e7705d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8154f581_6bda0ae7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
