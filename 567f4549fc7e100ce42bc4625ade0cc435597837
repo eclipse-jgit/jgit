@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7bfc0113_0739518b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:11:45Z",
+      "side": 1,
+      "message": "\"Replace simple uses of Iterator with Java enhanced for-loop\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "567f4549fc7e100ce42bc4625ade0cc435597837",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acf91b4b_b1e33de6",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2019-04-06T17:19:25Z",
       "side": 1,
       "message": "Indentation broken (wrong level, tabs replaced by spaces).",
+      "revId": "567f4549fc7e100ce42bc4625ade0cc435597837",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee8a7a76_61330846",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:11:45Z",
+      "side": 1,
+      "message": "Seems to be the same in all changed files.",
+      "parentUuid": "acf91b4b_b1e33de6",
       "revId": "567f4549fc7e100ce42bc4625ade0cc435597837",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
