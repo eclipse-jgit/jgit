@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844bf32d_354bd2ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:08:19Z",
+      "side": 1,
+      "message": "Nit: the commit message should be in the imperative form, i.e. something like:\n\n\"Replace usage of String.indexOf with String.contains where possible\"",
+      "revId": "7f9a03b8a971f4c7e7fd99b7899afd418c24dab4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
