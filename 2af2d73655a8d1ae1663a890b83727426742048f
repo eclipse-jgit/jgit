@@ -76,6 +76,29 @@
     },
     {
       "key": {
+        "uuid": "b703132e_a5a39cdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:07:08Z",
+      "side": 1,
+      "message": "The comment from the other catch block should be incorporated here, i.e. \"that does not exist or is not a commit\"",
+      "range": {
+        "startLine": 286,
+        "startChar": 43,
+        "endLine": 286,
+        "endChar": 62
+      },
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "890c19ee_c6859669",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -138,6 +161,23 @@
       "writtenOn": "2019-04-06T17:16:45Z",
       "side": 1,
       "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "088ac87e_8daf92ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GSSManagerFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:07:08Z",
+      "side": 1,
+      "message": "This line should probably be wrapped.",
       "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
