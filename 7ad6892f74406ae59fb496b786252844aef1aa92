@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5715b4_4bd69e16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:13:05Z",
+      "side": 1,
+      "message": "nit: Remove this line and use line 9 as the commit subject.",
+      "revId": "7ad6892f74406ae59fb496b786252844aef1aa92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
