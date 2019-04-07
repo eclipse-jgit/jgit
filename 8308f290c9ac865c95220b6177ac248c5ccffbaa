@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0f989a_5885b3ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:18:31Z",
+      "side": 1,
+      "message": "Replace spaces with tabs",
+      "revId": "8308f290c9ac865c95220b6177ac248c5ccffbaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bfe4b1_ad854bdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:18:31Z",
+      "side": 1,
+      "message": "This try block is redundant",
+      "range": {
+        "startLine": 153,
+        "startChar": 20,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "8308f290c9ac865c95220b6177ac248c5ccffbaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73109ef4_9275395b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:18:31Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 161,
+        "startChar": 20,
+        "endLine": 164,
+        "endChar": 21
+      },
+      "revId": "8308f290c9ac865c95220b6177ac248c5ccffbaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "388d7fa7_dd32b125",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:18:31Z",
+      "side": 1,
+      "message": "This return can probably go inside the try-block",
+      "revId": "8308f290c9ac865c95220b6177ac248c5ccffbaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
