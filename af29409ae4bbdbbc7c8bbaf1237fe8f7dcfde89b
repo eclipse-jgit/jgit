@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "f49fdae4_dbe789b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:14:50Z",
+      "side": 1,
+      "message": "\"Use isEmpty() instead of size() where possible\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "af29409ae4bbdbbc7c8bbaf1237fe8f7dcfde89b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38b53f77_ac69e2c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-07T03:14:50Z",
+      "side": 1,
+      "message": "The wrapping of the line should not be removed.",
+      "revId": "af29409ae4bbdbbc7c8bbaf1237fe8f7dcfde89b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d033f4a0_ca3b604b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
