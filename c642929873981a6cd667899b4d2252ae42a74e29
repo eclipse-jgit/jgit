@@ -104,6 +104,24 @@
       "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e035d2b3_0fbfff06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-08T15:39:08Z",
+      "side": 1,
+      "message": "You are right. I thought cgit would behave differently here.\nSomething different I noticed: cgit also keeps the temporaries when no change detected and the user answers no to the question if the merge was successfull. This is not the case here. \nWe might want to consider changing this.\nIt may be more difficult, because the MergeToolManager does not do the user interaction. Maybe we need a callback method as a parameter for that.",
+      "parentUuid": "d483e782_7d95947b",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
