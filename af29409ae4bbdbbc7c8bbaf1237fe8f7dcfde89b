@@ -56,6 +56,23 @@
       "revId": "af29409ae4bbdbbc7c8bbaf1237fe8f7dcfde89b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c351789_206e7dc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:17:30Z",
+      "side": 1,
+      "message": "while you are changing this, also add missing braces for this if clause",
+      "revId": "af29409ae4bbdbbc7c8bbaf1237fe8f7dcfde89b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
