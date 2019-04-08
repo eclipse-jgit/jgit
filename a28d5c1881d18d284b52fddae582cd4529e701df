@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "724e4fe8_e809de67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-04-08T12:13:54Z",
+      "side": 1,
+      "message": "why do you introduce a new block here? It would be consistent with the other case blocks if the \u0027{\u0027 in this line and line 1424 would be deleted.",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3b5748d_c6218d51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-04-08T12:13:54Z",
+      "side": 1,
+      "message": "That block is not covered by ConfigTest. Maybe you could add a test.",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
