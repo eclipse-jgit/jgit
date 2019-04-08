@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba9350e7_6611a2b5",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/CLIRepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:26:53Z",
+      "side": 1,
+      "message": "we use tabs for indentation",
+      "revId": "dd476d511e6fad5a3dd53300e90e8de1eaf12eaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cd0dbfc_a5236de9",
+        "filename": "org.eclipse.jgit.ui/src/org/eclipse/jgit/awtui/AwtCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:26:53Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "dd476d511e6fad5a3dd53300e90e8de1eaf12eaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f306bc39_c6219001",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 1
