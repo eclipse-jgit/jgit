@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad03440a_a41dbc72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-08T09:32:25Z",
+      "side": 1,
+      "message": "OMG ... a negation is missing !!!\n\nInstead of reusing the packfile when they aren\u0027t modified on the filesystem, I do exactly the opposite, causing infinite loops when trustFolderStats is false.",
+      "range": {
+        "startLine": 825,
+        "startChar": 26,
+        "endLine": 825,
+        "endChar": 73
+      },
+      "revId": "fef782128d35777cc8e57dd13744e54689305089",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
