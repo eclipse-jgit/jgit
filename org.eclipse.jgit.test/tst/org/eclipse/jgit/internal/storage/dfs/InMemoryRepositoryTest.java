@@ -45,6 +45,8 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -89,6 +91,60 @@ public class InMemoryRepositoryTest {
 			Ref peeledRef = repo.getRefDatabase().peel(unpeeledRef);
 			assertTrue(peeledRef instanceof ObjectIdRef.PeeledNonTag);
 			assertEquals(1000, peeledRef.getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void sha1ToTip_ref() throws Exception {
+		InMemoryRepository repo = new InMemoryRepository(
+				new DfsRepositoryDescription());
+		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
+				repo)) {
+			RevCommit commit = git.branch("master").commit()
+					.message("first commit").create();
+
+			Set<Ref> tipsWithSha1 = repo.getRefDatabase()
+					.getTipsWithSha1(commit.getId());
+			assertEquals(1, tipsWithSha1.size());
+			Ref ref = tipsWithSha1.iterator().next();
+			assertEquals(ref.getName(), "refs/heads/master");
+			assertEquals(commit.getId(), ref.getObjectId());
+		}
+	}
+
+	@Test
+	public void sha1ToTip_annotatedTag() throws Exception {
+		InMemoryRepository repo = new InMemoryRepository(
+				new DfsRepositoryDescription());
+		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
+				repo)) {
+			RevCommit commit = git.commit()
+					.message("first commit").create();
+			RevTag tagObj = git.tag("v0.1", commit);
+			git.update("refs/tags/v0.1", tagObj);
+			Set<Ref> tipsWithSha1 = repo.getRefDatabase()
+					.getTipsWithSha1(commit.getId());
+			assertEquals(1, tipsWithSha1.size());
+			Ref ref = tipsWithSha1.iterator().next();
+			assertEquals(ref.getName(), "refs/tags/v0.1");
+			assertEquals(commit.getId(), ref.getPeeledObjectId());
+		}
+	}
+
+	@Test
+	public void sha1ToTip_tag() throws Exception {
+		InMemoryRepository repo = new InMemoryRepository(
+				new DfsRepositoryDescription());
+		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
+				repo)) {
+			RevCommit commit = git.commit().message("first commit").create();
+			git.update("refs/tags/v0.2", commit);
+			Set<Ref> tipsWithSha1 = repo.getRefDatabase()
+					.getTipsWithSha1(commit.getId());
+			assertEquals(1, tipsWithSha1.size());
+			Ref ref = tipsWithSha1.iterator().next();
+			assertEquals(ref.getName(), "refs/tags/v0.2");
+			assertEquals(commit.getId(), ref.getObjectId());
 		}
 	}
 }
