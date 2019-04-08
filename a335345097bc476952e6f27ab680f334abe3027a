@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b358bc8e_90e8f025",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Yes, here is some wortk todo, i will check the methods needed and how to do...",
+      "parentUuid": "204e4425_3669d4c0",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f4f4d8a_3b8284ff",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "Can\u0027t the parts which deal with creating the FileElements from the Content source be moved to DiffToolManager?\n\nI think otherwise there will be a lot of code duplication once  the EGIT part will be added.",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e1cae5c_501b09a9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "In EGit i used the file content from EGit API, so all this stuff like CR/LF and smudge, find the element etc. is done for me, so only FileElement is needed and i do not want to use more types like ContentSource.Pair / Side etc. in EGit. But i will check if reuse is possible...",
+      "parentUuid": "2f4f4d8a_3b8284ff",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f9ecb840_672d69c9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "see above...",
+      "parentUuid": "296f088c_b78156c8",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ff34fcd_9288b65f",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "Shouldn\u0027t these strings be externalized?",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "731d2fd1_eca33eb9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Yes, here is some wortk todo, i will check the methods needed and how to do...",
+      "parentUuid": "5ff34fcd_9288b65f",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "2438ac65_08955023",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "In EGit i used the file content from EGit API, so all this stuff like CR/LF and smudge, find the element etc. is done for me, so only FileElement is needed and i do not want to use more types like ContentSource.Pair / Side etc. in EGit. But i will check if reuse is possible...",
+      "parentUuid": "26d7c849_cd68aede",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3566fbe_1b57b4e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "In this case which or where could not be executed for some reason. So it might still be possible, that the tool itself can be executed. I think this case should be treated similar to the other exceptions. (Could not determine if tool is executable, because of some problem. Will return true to not hide possible tools from user.)",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d401a297_4fedde4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3566fbe_1b57b4e5",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "86152cb6_2b6ad6bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92383e19_79dd7614",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e22eaf79_34214f74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "I think we should do that check once for each tool in the constructor after setting up the predefined and user defined tools. Otherwise this may be done unnecessarily often.\nOr worse: not at all. Then getFirstAvailableTool() would return the first defined tool, which may not be available.",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c83e84_f338e3ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "No i don\u0027t think so: i\u0027ve checked the cgit behavior and it checks the availability of all tools only if you run \"--tool-help\" and it\u0027s done on demand. Here only if you set \"checkAvailability \u003d true\" it will do the check on demand, because it tooks some time and it\u0027s not needed if user configures or pass a tool! In PGM this method is called once and only for the \"--tool-help\" command.\n\nThe getFirstAvailableTool() is only called if there is no tool configured o passed and it ALWAYS checks the availability, it does not use the isAvailable() method and does not change this in the predefinedList. Thats how cgit also works...",
+      "parentUuid": "e22eaf79_34214f74",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "d8c94bc4_7f64a0b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Yes, it was done with extra change not pushed yet...",
+      "parentUuid": "beeeee49_d24e69ef",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc125c40_cde8014f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "All user defined merge tools should also be added (before the user defined diff tools)",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b07bf2d_2c351efd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Yes, it was done with extra change not pushed yet...",
+      "parentUuid": "cc125c40_cde8014f",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "95235753_826420ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8adefbe8_b0488843",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80d26c5c_832ebe22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2019-04-05T11:26:09Z",
       "side": 1,
       "message": "I think we should do that check once for each tool in the constructor after setting up the predefined and user defined tools. Otherwise this may be done unnecessarily often.\nOr worse: not at all. Then getFirstAvailableTool() would return the first defined tool, which may not be available.",
+      "revId": "a335345097bc476952e6f27ab680f334abe3027a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a14373_4efbd73b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T07:17:23Z",
+      "side": 1,
+      "message": "See my answer in DiffToolManager::getPredefinedTools()...",
+      "parentUuid": "80d26c5c_832ebe22",
       "revId": "a335345097bc476952e6f27ab680f334abe3027a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
