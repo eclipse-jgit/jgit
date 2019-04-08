@@ -93,6 +93,30 @@
       "revId": "92c69fe791ca72e2580d918b1288fef493a9be93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94595734_42524ca1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-08T21:21:56Z",
+      "side": 1,
+      "message": "Agreed: it\u0027s good to have a default implementation, I think.\n\nIt reminds me, though, should have have a separate hasTipSha1 method too, for when the caller doesn\u0027t care about the full set? (If you think we should, no need to do it in this change. An alternative in the future would be to have a custom Set implementation that is populated lazily, so this API doesn\u0027t close any doors.)",
+      "parentUuid": "580dacba_e6ecda0f",
+      "range": {
+        "startLine": 495,
+        "startChar": 2,
+        "endLine": 496,
+        "endChar": 58
+      },
+      "revId": "92c69fe791ca72e2580d918b1288fef493a9be93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
