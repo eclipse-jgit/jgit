@@ -1450,6 +1450,13 @@ public class ConfigTest {
 		assertEquals("xt", parseEscapedSubsection("\"x\\t\""));
 	}
 
+	@Test
+	public void testInvalidGroupHeader() throws ConfigInvalidException {
+		expectedEx.expect(ConfigInvalidException.class);
+		expectedEx.expectMessage(JGitText.get().badGroupHeader);
+		parse("[foo \"bar\" ]\nfoo=bar\n");
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);
