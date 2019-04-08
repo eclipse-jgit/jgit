@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "726b9dc5_c321c828",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AmazonS3Client.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:15:38Z",
+      "side": 1,
+      "message": "spaces replaced by blanks, also in other classes changed in this commit",
+      "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cceaf343_f3a26aef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 1
@@ -13,6 +30,57 @@
       "writtenOn": "2019-04-06T17:22:46Z",
       "side": 1,
       "message": "The NON_NLS comments are in the wrong places and indentation is broken.",
+      "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "547ba097_faebd794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:15:38Z",
+      "side": 1,
+      "message": "these comments should be placed at the end of the line containing string the comment should suppress the non-externalised string error for",
+      "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b2e3ebe_985c77bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:15:38Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd3e303c_586a18a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:15:38Z",
+      "side": 1,
+      "message": "comments in wrong line",
       "revId": "e732c3ca48e4334a387bfd467a0a33bb2a87e5c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
