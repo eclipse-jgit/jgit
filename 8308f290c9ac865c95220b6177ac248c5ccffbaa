@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "26164925_4dee8e8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:19:33Z",
+      "side": 1,
+      "message": "style nit: start subject with an uppercase letter",
+      "revId": "8308f290c9ac865c95220b6177ac248c5ccffbaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0f989a_5885b3ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
