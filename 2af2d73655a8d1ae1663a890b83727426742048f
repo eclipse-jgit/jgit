@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "bd4d2009_cca87992",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CommandRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:06:57Z",
+      "side": 1,
+      "message": "style nit: line is too wide",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c0c096_1ee9b772",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
         "patchSetId": 1
@@ -110,6 +127,23 @@
       "writtenOn": "2019-04-06T17:16:45Z",
       "side": 1,
       "message": "Comment left behind.",
+      "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c991ab65_4709ea8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:06:57Z",
+      "side": 1,
+      "message": "style nit: line is too wide, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide",
       "revId": "2af2d73655a8d1ae1663a890b83727426742048f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
