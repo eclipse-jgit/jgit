@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d00301c_15fa1103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-08T23:38:13Z",
+      "side": 1,
+      "message": "nit: we usually just use a Bug: footer, i.e.\n\n  Bug: 546190",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d011a0e6_5b03c01e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-08T23:38:13Z",
+      "side": 1,
+      "message": "nit: too many blank lines",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09f4a9f2_c3a48459",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-08T23:38:13Z",
+      "side": 1,
+      "message": "Will this cause the test to run with both 0 and 1 settings?",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0553611a_ef3cf910",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-08T23:38:13Z",
+      "side": 1,
+      "message": "\"timestamps are ... \"?",
+      "range": {
+        "startLine": 102,
+        "startChar": 5,
+        "endLine": 102,
+        "endChar": 52
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
