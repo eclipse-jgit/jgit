@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66b76c30_8fd5e70b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-04-08T15:17:40Z",
+      "side": 1,
+      "message": "You should not remove 2010. \nEither do something like Copyright 2010, 2019, Google\nOr add line for you, as you did in most other files ...",
+      "revId": "b0b31ce69a5a6274102a40d3d1235739308ed51e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
