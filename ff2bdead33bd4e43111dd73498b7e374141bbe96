@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fa56afb_3e9d4c84",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-04-08T17:46:24Z",
+      "side": 1,
+      "message": "I like the idea of your change. But you make it hard to review. There are 4 or 5 lines in this specific file which you want to change. They are associated to the topic of your commit message. And all the \u003e200 other changed line are just whitespace changes. If I would be you I would go through all the changed chunks of your commit and remove those which are unrelated. That\u0027s not so much work if you follow e.g. http://michaeljones.github.io/blog/posts/2014/09/09/remove-chunks-from-your-last-commit/.",
+      "revId": "ff2bdead33bd4e43111dd73498b7e374141bbe96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
