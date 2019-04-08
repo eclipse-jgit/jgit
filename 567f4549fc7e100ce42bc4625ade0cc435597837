@@ -57,6 +57,24 @@
       "revId": "567f4549fc7e100ce42bc4625ade0cc435597837",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "891a1bf9_c3377650",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 209389
+      },
+      "writtenOn": "2019-04-08T08:22:42Z",
+      "side": 1,
+      "message": "Refactoring has been done with Netbeans 10 built-in refactoring tools (https://twitter.com/errcraft/status/1078729057632583680). I did not realize that it changes the formatting beforehand. I expected that a fresh installation of Eclipse for Committers has already the formatting settings needed to fix all changes. It obviously has not. Sorry for that.\nTry to use EGerrit 1.4 to review commits but it seems to have serious problems. The task list can be pulled but then I get a \"unable to login to https://git.eclipse.org/r\" error. \nWill see when I find a way to solve that or find a different way to work on it.",
+      "parentUuid": "ee8a7a76_61330846",
+      "revId": "567f4549fc7e100ce42bc4625ade0cc435597837",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
