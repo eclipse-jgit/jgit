@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bebd4b7d_d041c258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-04-08T19:48:22Z",
+      "side": 1,
+      "message": "Renamed to getTipsWithSha1",
+      "parentUuid": "957e7720_4b4c18f4",
+      "range": {
+        "startLine": 494,
+        "startChar": 17,
+        "endLine": 494,
+        "endChar": 31
+      },
+      "revId": "92c69fe791ca72e2580d918b1288fef493a9be93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03e0b02a_3a67ad93",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "92c69fe791ca72e2580d918b1288fef493a9be93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "580dacba_e6ecda0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-04-08T19:48:22Z",
+      "side": 1,
+      "message": "The cost is documented and it is an easy default implementation. \n\nI don\u0027t think implementors would do anything more sophisticated than this until they see a performance issue.\n\nAnd for callers, the exception is a hassle. Their only alternative is to write these lines if they really need the functionality.",
+      "parentUuid": "03e0b02a_3a67ad93",
+      "range": {
+        "startLine": 495,
+        "startChar": 2,
+        "endLine": 496,
+        "endChar": 58
+      },
+      "revId": "92c69fe791ca72e2580d918b1288fef493a9be93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
