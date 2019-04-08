@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a10eb2f9_08a98225",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T06:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feea2f98_12e896a1",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cca19a76_7f32670f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f41bf738_3c1da2b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T06:38:38Z",
+      "side": 1,
+      "message": "Yes, you are right i\u0027ve checked only file that only starts with \u0027.\u0027 e.g. .\"gitignore\" and implemented same behavior like cgit --\u003e fixed.",
+      "parentUuid": "cca19a76_7f32670f",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b0ebb41_1d31a854",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2019-04-05T11:25:59Z",
       "side": 1,
       "message": "shouldn\u0027t the and be an or here?\nSo it only deletes temporaries if there was neither an error nor the user wants to keep temporaries.",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d483e782_7d95947b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-08T06:38:38Z",
+      "side": 1,
+      "message": "cgit only keeps temporaries if there was a tool error and keepTemporaries is true\nso you can write:\n...\nif ((result \u003d\u003d null) \u0026\u0026 config.isKeepTemporaries())\n  // nop\nelse\n  // clean\n...\n\nto avoid empty if case just negate the whole condition like i did :)\n\nor if you want: if no error or not keepTemporaries then clean:\n...\nif ( (result !\u003d null) || !config.isKeepTemporaries())\n  // clean\n...",
+      "parentUuid": "4b0ebb41_1d31a854",
       "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
