@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed658d03_6fc9f9f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:23:55Z",
+      "side": 1,
+      "message": "start subject with an uppercase letter",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "85421d1a873a5c81220fd56bfa1db9023fba4a7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "330a63e8_1119029a",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:23:55Z",
+      "side": 1,
+      "message": "add missing braces while you are changing this",
+      "revId": "85421d1a873a5c81220fd56bfa1db9023fba4a7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071fe44e_b6dd7174",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:23:55Z",
+      "side": 1,
+      "message": "trailing whitespace, tabs replaced by spaces",
+      "revId": "85421d1a873a5c81220fd56bfa1db9023fba4a7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dfaa232_9281d7d9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:23:55Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "85421d1a873a5c81220fd56bfa1db9023fba4a7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaea389c_fa4b5e60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-08T00:23:55Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "85421d1a873a5c81220fd56bfa1db9023fba4a7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
