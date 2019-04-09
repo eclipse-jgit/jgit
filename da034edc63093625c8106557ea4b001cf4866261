@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee586468_a3c6ccd5",
+        "filename": "org.eclipse.jgit.lfs.server/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T08:19:40Z",
+      "side": 1,
+      "message": "Was this intentionally removed?",
+      "revId": "da034edc63093625c8106557ea4b001cf4866261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
