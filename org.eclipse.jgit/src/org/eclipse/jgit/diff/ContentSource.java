@@ -341,7 +341,7 @@ public abstract class ContentSource {
 		/**
 		 * Checks if source (side) is a "working tree".
 		 *
-		 * @since 5.3
+		 * @since 5.6
 		 *
 		 * @param side
 		 *            which side of the entry to read (OLD or NEW).
