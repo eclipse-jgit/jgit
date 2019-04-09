@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bde00c9e_6111b33b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T05:35:18Z",
+      "side": 1,
+      "message": "Replace usage of String.indexOf with String.contains where possible",
+      "revId": "67a8a0d234225b76e6b926338b139002f80633b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
