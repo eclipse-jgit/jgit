@@ -53,7 +53,7 @@ package org.eclipse.jgit.diffmergetool;
  *
  */
 @SuppressWarnings("nls")
-public enum PreDefinedMergeTools {
+public enum CommandLineMergeTool {
 	/**
 	 * @see: https://www.araxis.com/merge/documentation-windows/command-line.en
 	 */
@@ -229,7 +229,7 @@ public enum PreDefinedMergeTools {
 			"-X -R 'Accel.SaveAsMerged: \"Ctrl+S\"' -R 'Accel.Search: \"Ctrl+F\"' -R 'Accel.SearchForward: \"Ctrl+G\"' --merged-file \"$MERGED\" \"$LOCAL\" \"$REMOTE\"",
 			false);
 
-	PreDefinedMergeTools(String path, String parametersWithBase,
+	CommandLineMergeTool(String path, String parametersWithBase,
 			String parametersWithoutBase,
 			boolean exitCodeTrustable) {
 		this.path = path;
@@ -238,12 +238,12 @@ public enum PreDefinedMergeTools {
 		this.exitCodeTrustable = exitCodeTrustable;
     }
 
-	PreDefinedMergeTools(PreDefinedMergeTools from) {
+	CommandLineMergeTool(CommandLineMergeTool from) {
 		this(from.getPath(), from.getParameters(true),
 				from.getParameters(false), from.isExitCodeTrustable());
 	}
 
-	PreDefinedMergeTools(String path, PreDefinedMergeTools from) {
+	CommandLineMergeTool(String path, CommandLineMergeTool from) {
 		this(path, from.getParameters(true), from.getParameters(false),
 				from.isExitCodeTrustable());
 	}

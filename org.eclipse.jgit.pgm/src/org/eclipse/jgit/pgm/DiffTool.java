@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2018-2020, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
+ * Copyright (C) 2020, Andre Bossert <andre.bossert@siemens.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
@@ -21,17 +23,18 @@ import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.diff.ContentSource;
 import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
-import org.eclipse.jgit.diffmergetool.BooleanOption;
 import org.eclipse.jgit.diffmergetool.ToolException;
 import org.eclipse.jgit.diffmergetool.DiffToolManager;
 import org.eclipse.jgit.diffmergetool.FileElement;
 import org.eclipse.jgit.diffmergetool.ExternalDiffTool;
+import org.eclipse.jgit.diffmergetool.PromptContinueHandler;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -74,50 +77,54 @@ class DiffTool extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator newTree;
 
+	private Optional<String> toolName = Optional.empty();
+
 	@Option(name = "--tool", aliases = {
 			"-t" }, metaVar = "metaVar_tool", usage = "usage_ToolForDiff")
-	private String toolName;
+	void setToolName(String name) {
+		toolName = Optional.of(name);
+	}
 
 	@Option(name = "--cached", aliases = { "--staged" }, usage = "usage_cached")
 	private boolean cached;
 
-	private BooleanOption prompt = BooleanOption.DEFAULT_FALSE;
+	private Optional<Boolean> prompt = Optional.empty();
 
 	@Option(name = "--prompt", usage = "usage_prompt")
 	void setPrompt(@SuppressWarnings("unused") boolean on) {
-		prompt = BooleanOption.TRUE;
+		prompt = Optional.of(Boolean.TRUE);
 	}
 
 	@Option(name = "--no-prompt", aliases = { "-y" }, usage = "usage_noPrompt")
 	void noPrompt(@SuppressWarnings("unused") boolean on) {
-		prompt = BooleanOption.FALSE;
+		prompt = Optional.of(Boolean.FALSE);
 	}
 
 	@Option(name = "--tool-help", usage = "usage_toolHelp")
 	private boolean toolHelp;
 
-	private BooleanOption gui = BooleanOption.DEFAULT_FALSE;
+	private boolean gui = false;
 
 	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanOption.TRUE;
+		gui = true;
 	}
 
 	@Option(name = "--no-gui", usage = "usage_noGui")
 	void noGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanOption.FALSE;
+		gui = false;
 	}
 
-	private BooleanOption trustExitCode = BooleanOption.DEFAULT_FALSE;
+	private Optional<Boolean> trustExitCode = Optional.empty();
 
 	@Option(name = "--trust-exit-code", usage = "usage_trustExitCode")
 	void setTrustExitCode(@SuppressWarnings("unused") boolean on) {
-		trustExitCode = BooleanOption.TRUE;
+		trustExitCode = Optional.of(Boolean.TRUE);
 	}
 
 	@Option(name = "--no-trust-exit-code", usage = "usage_noTrustExitCode")
 	void noTrustExitCode(@SuppressWarnings("unused") boolean on) {
-		trustExitCode = BooleanOption.FALSE;
+		trustExitCode = Optional.of(Boolean.FALSE);
 	}
 
 	@Option(name = "--", metaVar = "metaVar_paths", handler = PathTreeFilterHandler.class)
@@ -136,17 +143,10 @@ class DiffTool extends TextBuiltin {
 			if (toolHelp) {
 				showToolHelp();
 			} else {
-				// get prompt and tool name needed for prompt
-				boolean showPrompt = diffToolMgr.isPrompt();
-				if (prompt.isConfigured()) {
-					showPrompt = prompt.toBoolean();
-				}
-				// get passed or default tool name
-				String toolNameToUse = getToolNameToUse();
 				// get the changed files
 				List<DiffEntry> files = getFiles();
 				if (files.size() > 0) {
-					compare(files, showPrompt, toolNameToUse);
+					compare(files);
 				}
 			}
 		} catch (RevisionSyntaxException | IOException e) {
@@ -156,102 +156,113 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
-	private String getToolNameToUse() throws IOException {
-		String toolNameToUse = toolName;
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
-			toolNameToUse = diffToolMgr.getDefaultToolName(gui);
-		}
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+	private void informUserNoTool(List<String> tools) {
+		try {
 			outw.println(
 					"This message is displayed because 'diff.tool' is not configured."); //$NON-NLS-1$
 			outw.println(
 					"See 'git difftool --tool-help' or 'git help config' for more details."); //$NON-NLS-1$
 			outw.println(
 					"'git difftool' will now attempt to use one of the following tools:"); //$NON-NLS-1$
-			Map<String, ExternalDiffTool> predefTools = diffToolMgr
-					.getPredefinedTools(false);
-			for (String name : predefTools.keySet()) {
+
+			for (String name : tools) {
 				outw.print(name + " "); //$NON-NLS-1$
 			}
 			outw.println();
 			outw.flush();
-			toolNameToUse = diffToolMgr.getFirstAvailableTool();
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
 		}
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
-			throw new IOException("Unknown diff tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return toolNameToUse;
 	}
 
-	private void compare(List<DiffEntry> files, boolean showPrompt,
-			String toolNameToUse) throws IOException {
+	private class CountingPromptContinueHandler
+			implements PromptContinueHandler {
+		private final int fileIndex;
+
+		private final int fileCount;
+
+		private final String fileName;
+
+		public CountingPromptContinueHandler(int fileIndex, int fileCount,
+				String fileName) {
+			this.fileIndex = fileIndex;
+			this.fileCount = fileCount;
+			this.fileName = fileName;
+		}
+
+		@Override
+		public boolean prompt(String toolToLaunchName) {
+			try {
+				boolean launchCompare = true;
+				outw.println("Viewing (" + fileIndex + "/" + fileCount //$NON-NLS-1$ //$NON-NLS-2$
+						+ "): '" + fileName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				outw.print("Launch '" + toolToLaunchName + "' [Y/n]? "); //$NON-NLS-1$ //$NON-NLS-2$
+				outw.flush();
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(ins));
+				String line = null;
+				if ((line = br.readLine()) != null) {
+					if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
+						launchCompare = false;
+					}
+				}
+				return launchCompare;
+			} catch (IOException e) {
+				throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	private void compare(List<DiffEntry> files) throws IOException {
 		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
 				source(newTree));
 		try {
 			for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
 				DiffEntry ent = files.get(fileIndex);
-				String mergedFilePath = ent.getNewPath();
-				if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
-					mergedFilePath = ent.getOldPath();
+
+				String filePath = ent.getNewPath();
+				if (filePath.equals(DiffEntry.DEV_NULL)) {
+					filePath = ent.getOldPath();
 				}
-				// check if user wants to launch compare
-				boolean launchCompare = true;
-				if (showPrompt) {
-					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-							mergedFilePath, toolNameToUse);
-				}
-				if (launchCompare) {
-					try {
-						FileElement local = createFileElement(
-								FileElement.Type.LOCAL, sourcePair, Side.OLD,
-								ent);
-						FileElement remote = createFileElement(
-								FileElement.Type.REMOTE, sourcePair, Side.NEW,
-								ent);
-						FileElement merged = new FileElement(mergedFilePath,
-								FileElement.Type.MERGED);
+
+				try {
+					FileElement local = createFileElement(
+							FileElement.Type.LOCAL, sourcePair, Side.OLD, ent);
+					FileElement remote = createFileElement(
+							FileElement.Type.REMOTE, sourcePair, Side.NEW, ent);
+
+					PromptContinueHandler promptContinueHandler = new CountingPromptContinueHandler(
+							fileIndex + 1, files.size(), filePath);
+
+					Optional<ExecutionResult> optionalResult = diffToolMgr
+							.compare(local, remote, toolName, prompt, gui,
+									trustExitCode, promptContinueHandler,
+									this::informUserNoTool);
+
+					if (optionalResult.isPresent()) {
+						ExecutionResult result = optionalResult.get();
 						// TODO: check how to return the exit-code of the tool
 						// to jgit / java runtime ?
 						// int rc =...
-						ExecutionResult result = diffToolMgr.compare(local,
-								remote, merged, toolNameToUse, prompt, gui,
-								trustExitCode);
-						outw.println(new String(result.getStdout().toByteArray()));
+						outw.println(
+								new String(result.getStdout().toByteArray()));
 						outw.flush();
 						errw.println(
 								new String(result.getStderr().toByteArray()));
 						errw.flush();
-					} catch (ToolException e) {
-						outw.println(e.getResultStdout());
-						outw.flush();
-						errw.println(e.getMessage());
-						throw die("external diff died, stopping at " //$NON-NLS-1$
-								+ mergedFilePath, e);
 					}
-				} else {
-					break;
+				} catch (ToolException e) {
+					outw.println(e.getResultStdout());
+					outw.flush();
+					errw.println(e.getMessage());
+					errw.flush();
+					throw die("external diff died, stopping at " //$NON-NLS-1$
+							+ filePath, e);
 				}
 			}
 		} finally {
 			sourcePair.close();
 		}
-	}
-
-	private boolean isLaunchCompare(int fileIndex, int fileCount,
-			String fileName, String toolNamePrompt) throws IOException {
-		boolean launchCompare = true;
-		outw.println("Viewing (" + fileIndex + "/" + fileCount //$NON-NLS-1$ //$NON-NLS-2$
-				+ "): '" + fileName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		outw.print("Launch '" + toolNamePrompt + "' [Y/n]? "); //$NON-NLS-1$ //$NON-NLS-2$
-		outw.flush();
-		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
-		String line = null;
-		if ((line = br.readLine()) != null) {
-			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
-				launchCompare = false;
-			}
-		}
-		return launchCompare;
 	}
 
 	private void showToolHelp() throws IOException {
@@ -268,104 +279,111 @@ class DiffTool extends TextBuiltin {
 		outw.println("\tuser-defined:"); //$NON-NLS-1$
 		Map<String, ExternalDiffTool> userTools = diffToolMgr
 				.getUserDefinedTools();
-		for (String name : userTools.keySet()) {
-			outw.println("\t\t" + name + ".cmd " //$NON-NLS-1$ //$NON-NLS-2$
-					+ userTools.get(name).getCommand());
-		}
-		outw.println(""); //$NON-NLS-1$
-		outw.println(
-				"The following tools are valid, but not currently available:"); //$NON-NLS-1$
-		for (String name : predefTools.keySet()) {
-			if (!predefTools.get(name).isAvailable()) {
-				outw.println("\t\t" + name); //$NON-NLS-1$
+				for (String name : userTools.keySet()) {
+					outw.println("\t\t" + name + ".cmd " //$NON-NLS-1$ //$NON-NLS-2$
+							+ userTools.get(name).getCommand());
+				}
+				outw.println(""); //$NON-NLS-1$
+				outw.println(
+						"The following tools are valid, but not currently available:"); //$NON-NLS-1$
+				for (String name : predefTools.keySet()) {
+					if (!predefTools.get(name).isAvailable()) {
+						outw.println("\t\t" + name); //$NON-NLS-1$
+					}
+				}
+				outw.println(""); //$NON-NLS-1$
+				outw.println(
+						"Some of the tools listed above only work in a windowed"); //$NON-NLS-1$
+				outw.println(
+						"environment. If run in a terminal-only session, they will fail."); //$NON-NLS-1$
+				outw.flush();
+				return;
 			}
-		}
-		outw.println(""); //$NON-NLS-1$
-		outw.println("Some of the tools listed above only work in a windowed"); //$NON-NLS-1$
-		outw.println(
-				"environment. If run in a terminal-only session, they will fail."); //$NON-NLS-1$
-		outw.flush();
-		return;
-	}
 
-	private List<DiffEntry> getFiles()
-			throws RevisionSyntaxException, AmbiguousObjectException,
-			IncorrectObjectTypeException, IOException {
-		diffFmt.setRepository(db);
-		if (cached) {
-			if (oldTree == null) {
-				ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
-				if (head == null) {
-					die(MessageFormat.format(CLIText.get().notATree, HEAD));
+			private List<DiffEntry> getFiles()
+					throws RevisionSyntaxException, AmbiguousObjectException,
+					IncorrectObjectTypeException, IOException {
+				diffFmt.setRepository(db);
+				if (cached) {
+					if (oldTree == null) {
+						ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
+						if (head == null) {
+							die(MessageFormat.format(CLIText.get().notATree,
+									HEAD));
+						}
+						CanonicalTreeParser p = new CanonicalTreeParser();
+						try (ObjectReader reader = db.newObjectReader()) {
+							p.reset(reader, head);
+						}
+						oldTree = p;
+					}
+					newTree = new DirCacheIterator(db.readDirCache());
+				} else if (oldTree == null) {
+					oldTree = new DirCacheIterator(db.readDirCache());
+					newTree = new FileTreeIterator(db);
+				} else if (newTree == null) {
+					newTree = new FileTreeIterator(db);
 				}
-				CanonicalTreeParser p = new CanonicalTreeParser();
-				try (ObjectReader reader = db.newObjectReader()) {
-					p.reset(reader, head);
-				}
-				oldTree = p;
+
+				TextProgressMonitor pm = new TextProgressMonitor(errw);
+				pm.setDelayStart(2, TimeUnit.SECONDS);
+				diffFmt.setProgressMonitor(pm);
+				diffFmt.setPathFilter(pathFilter);
+
+				List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
+				return files;
 			}
-			newTree = new DirCacheIterator(db.readDirCache());
-		} else if (oldTree == null) {
-			oldTree = new DirCacheIterator(db.readDirCache());
-			newTree = new FileTreeIterator(db);
-		} else if (newTree == null) {
-			newTree = new FileTreeIterator(db);
-		}
 
-		TextProgressMonitor pm = new TextProgressMonitor(errw);
-		pm.setDelayStart(2, TimeUnit.SECONDS);
-		diffFmt.setProgressMonitor(pm);
-		diffFmt.setPathFilter(pathFilter);
-
-		List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
-		return files;
-	}
-
-	private FileElement createFileElement(FileElement.Type elementType,
-			Pair pair, Side side, DiffEntry entry)
-			throws NoWorkTreeException, CorruptObjectException, IOException,
-			ToolException {
-		String entryPath = side == Side.NEW ? entry.getNewPath()
-				: entry.getOldPath();
-		FileElement fileElement = new FileElement(entryPath, elementType);
-		if (!pair.isWorkingTreeSource(side) && !fileElement.isNullPath()) {
-			try (RevWalk revWalk = new RevWalk(db);
-					TreeWalk treeWalk = new TreeWalk(db,
-							revWalk.getObjectReader())) {
-				treeWalk.setFilter(
-						PathFilterGroup.createFromStrings(entryPath));
-				if (side == Side.NEW) {
-					newTree.reset();
-					treeWalk.addTree(newTree);
-				} else {
-					oldTree.reset();
-					treeWalk.addTree(oldTree);
-				}
-				if (treeWalk.next()) {
-					final EolStreamType eolStreamType = treeWalk
-							.getEolStreamType(CHECKOUT_OP);
-					final String filterCommand = treeWalk.getFilterCommand(
-							Constants.ATTR_FILTER_TYPE_SMUDGE);
-					WorkingTreeOptions opt = db.getConfig()
-							.get(WorkingTreeOptions.KEY);
-					CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
-							eolStreamType, filterCommand);
+			private FileElement createFileElement(FileElement.Type elementType,
+					Pair pair, Side side, DiffEntry entry)
+					throws NoWorkTreeException, CorruptObjectException,
+					IOException, ToolException {
+				String entryPath = side == Side.NEW ? entry.getNewPath()
+						: entry.getOldPath();
+				FileElement fileElement = new FileElement(entryPath,
+						elementType, db.getWorkTree());
+				if (!pair.isWorkingTreeSource(side)
+						&& !fileElement.isNullPath()) {
+					try (RevWalk revWalk = new RevWalk(db);
+							TreeWalk treeWalk = new TreeWalk(db,
+									revWalk.getObjectReader())) {
+						treeWalk.setFilter(
+								PathFilterGroup.createFromStrings(entryPath));
+						if (side == Side.NEW) {
+							newTree.reset();
+							treeWalk.addTree(newTree);
+						} else {
+							oldTree.reset();
+							treeWalk.addTree(oldTree);
+						}
+						if (treeWalk.next()) {
+							final EolStreamType eolStreamType = treeWalk
+									.getEolStreamType(CHECKOUT_OP);
+							final String filterCommand = treeWalk
+									.getFilterCommand(
+											Constants.ATTR_FILTER_TYPE_SMUDGE);
+							WorkingTreeOptions opt = db.getConfig()
+									.get(WorkingTreeOptions.KEY);
+							CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
+									eolStreamType, filterCommand);
 					DirCacheCheckout.checkoutToFile(db, entryPath,
 							checkoutMetadata, pair.open(side, entry), opt,
 							fileElement.createTempFile(null));
-				} else {
-					throw new ToolException("cannot find path '" + entryPath //$NON-NLS-1$
-							+ "' in staging area!", null); //$NON-NLS-1$
+						} else {
+							throw new ToolException(
+									"cannot find path '" + entryPath //$NON-NLS-1$
+											+ "' in staging area!", //$NON-NLS-1$
+									null);
+						}
+					}
 				}
+				return fileElement;
 			}
-		}
-		return fileElement;
-	}
 
-	private ContentSource source(AbstractTreeIterator iterator) {
-		if (iterator instanceof WorkingTreeIterator)
-			return ContentSource.create((WorkingTreeIterator) iterator);
-		return ContentSource.create(db.newObjectReader());
-	}
+			private ContentSource source(AbstractTreeIterator iterator) {
+				if (iterator instanceof WorkingTreeIterator)
+					return ContentSource.create((WorkingTreeIterator) iterator);
+				return ContentSource.create(db.newObjectReader());
+			}
 
 }

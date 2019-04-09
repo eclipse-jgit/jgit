@@ -36,6 +36,17 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	}
 
 	/**
+	 * Creates the pre-defined diff tool
+	 *
+	 * @param tool
+	 *            the command line diff tool
+	 *
+	 */
+	public PreDefinedDiffTool(final CommandLineDiffTool tool) {
+		this(tool.name(), tool.getPath(), tool.getParameters());
+	}
+
+	/**
 	 * @param path
 	 */
 	public void setPath(String path) {
