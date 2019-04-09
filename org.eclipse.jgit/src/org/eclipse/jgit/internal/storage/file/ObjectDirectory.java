@@ -581,13 +581,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			transientErrorCount = p.incrementTransientErrorCount();
 		}
 		if (warnTmpl != null) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()), e);
-			} else {
-				LOG.warn(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()));
-			}
+			LOG.warn(MessageFormat.format(warnTmpl,
+					p.getPackFile().getAbsolutePath()), e);
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
 				// Don't remove the pack from the list, as the error may be
