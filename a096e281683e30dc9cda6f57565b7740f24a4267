@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ece7856_b8d51ce9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T10:15:34Z",
+      "side": 1,
+      "message": "\"cause of the pack file becoming invalid\"",
+      "range": {
+        "startLine": 62,
+        "startChar": 15,
+        "endLine": 62,
+        "endChar": 62
+      },
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab9fe2c_06c934b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T10:15:34Z",
+      "side": 1,
+      "message": "Does this new constructor need a @since tag?",
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb64cc1c_a3d6a1d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T10:15:34Z",
+      "side": 1,
+      "message": "Same as L62",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 84,
+        "endChar": 63
+      },
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0945cc4b_bc12c72a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T10:15:34Z",
+      "side": 1,
+      "message": "This is now the same as the log in the previous condition, i.e. we log the same in both DEBUG and WARN levels.\n\nEither remove the exception added here, or remove the condition and make it always log at WARN.",
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
