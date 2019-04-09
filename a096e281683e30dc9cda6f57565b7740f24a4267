@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b613380f_59b0cbef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T13:37:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6ece7856_b8d51ce9",
+      "range": {
+        "startLine": 62,
+        "startChar": 15,
+        "endLine": 62,
+        "endChar": 62
+      },
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab9fe2c_06c934b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-04-09T10:15:34Z",
       "side": 1,
       "message": "Does this new constructor need a @since tag?",
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c609df4b_57f1b831",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T13:37:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9ab9fe2c_06c934b8",
       "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9379d813_19037463",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T13:37:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb64cc1c_a3d6a1d4",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 84,
+        "endChar": 63
+      },
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0945cc4b_bc12c72a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2019-04-09T10:15:34Z",
       "side": 1,
       "message": "This is now the same as the log in the previous condition, i.e. we log the same in both DEBUG and WARN levels.\n\nEither remove the exception added here, or remove the condition and make it always log at WARN.",
+      "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f7e02f5_d6a663d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T13:37:29Z",
+      "side": 1,
+      "message": "I did not really understand why in the first place we would not like to have more information about an exception that has happened. Yes, I agree to keep it as WARN and get rid of the if/then/else.",
+      "parentUuid": "0945cc4b_bc12c72a",
       "revId": "a096e281683e30dc9cda6f57565b7740f24a4267",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
