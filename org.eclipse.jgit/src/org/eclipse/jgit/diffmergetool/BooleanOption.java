@@ -11,6 +11,8 @@
 
 package org.eclipse.jgit.diffmergetool;
 
+import java.util.Optional;
+
 /**
  * Optional boolean
  *
@@ -83,6 +85,19 @@ public enum BooleanOption {
 	public static BooleanOption notDefined(boolean value) {
 		return value ? BooleanOption.NOT_DEFINED_TRUE
 				: BooleanOption.NOT_DEFINED_FALSE;
+	}
+
+	/**
+	 * From an optional
+	 * 
+	 * @param orig
+	 *            the optional
+	 * @return the boolean option
+	 */
+	public static BooleanOption from(Optional<Boolean> orig) {
+		if (!orig.isPresent())
+			return NOT_DEFINED_FALSE;
+		return defined(orig.get().booleanValue());
 	}
 
 }
