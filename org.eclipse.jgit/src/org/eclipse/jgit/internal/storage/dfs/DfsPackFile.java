@@ -135,6 +135,9 @@ public final class DfsPackFile {
 	/** True once corruption has been detected that cannot be worked around. */
 	private volatile boolean invalid;
 
+	/** Exception that caused the packfile to be flagged as invalid */
+	private volatile Exception invalidatingCause;
+
 	/**
 	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
 	 * <p>
@@ -268,6 +271,7 @@ public final class DfsPackFile {
 				}
 			} catch (EOFException e) {
 				invalid = true;
+				invalidatingCause = e;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().shortReadOfIndex,
 						packDesc.getFileName(INDEX)));
@@ -275,6 +279,7 @@ public final class DfsPackFile {
 				throw e2;
 			} catch (IOException e) {
 				invalid = true;
+				invalidatingCause = e;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().cannotReadIndex,
 						packDesc.getFileName(INDEX)));
@@ -743,8 +748,10 @@ public final class DfsPackFile {
 
 	private IOException packfileIsTruncated() {
 		invalid = true;
-		return new IOException(MessageFormat.format(
+		IOException exc = new IOException(MessageFormat.format(
 				JGitText.get().packfileIsTruncated, getPackName()));
+		invalidatingCause = exc;
+		return exc;
 	}
 
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,

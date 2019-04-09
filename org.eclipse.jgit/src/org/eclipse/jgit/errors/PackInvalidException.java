@@ -54,13 +54,28 @@ public class PackInvalidException extends IOException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Construct a pack invalid error.
+	 * Construct a pack invalid error with cause.
 	 *
 	 * @param path
 	 *            path of the invalid pack file.
+	 * @deprecated Use {@link #PackInvalidException(File, Throwable)}.
 	 */
+	@Deprecated
 	public PackInvalidException(final File path) {
-		this(path.getAbsolutePath());
+		this(path, null);
+	}
+
+	/**
+	 * Construct a pack invalid error with cause.
+	 *
+	 * @param path
+	 *            path of the invalid pack file.
+	 * @param cause
+	 *            cause of the pack file becoming invalid.
+	 * @since 4.5.7
+	 */
+	public PackInvalidException(final File path, Throwable cause) {
+		this(path.getAbsolutePath(), cause);
 	}
 
 	/**
@@ -70,6 +85,19 @@ public class PackInvalidException extends IOException {
 	 *            path of the invalid pack file.
 	 */
 	public PackInvalidException(final String path) {
-		super(MessageFormat.format(JGitText.get().packFileInvalid, path));
+		this(path, null);
+	}
+
+	/**
+	 * Construct a pack invalid error.
+	 *
+	 * @param path
+	 *            path of the invalid pack file.
+	 * @param cause
+	 *            cause of the pack file becoming invalid.
+	 * @since 4.5.7
+	 */
+	public PackInvalidException(final String path, Throwable cause) {
+		super(MessageFormat.format(JGitText.get().packFileInvalid, path), cause);
 	}
 }
