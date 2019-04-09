@@ -122,6 +122,24 @@
       "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60e8410c_f42a8fb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2019-04-09T07:54:46Z",
+      "side": 1,
+      "message": "\u003e Something different I noticed: cgit also keeps the temporaries when no change detected and the user answers no to the question if the merge was successfull. This is not the case here. \n\u003e We might want to consider changing this.\n\u003e It may be more difficult, because the MergeToolManager does not do the user interaction. Maybe we need a callback method as a parameter for that.\n\nok, we can add callback parameter and also move some logic from pgm to managers and reuse in EGit. But  then i have to rework the whole change series. Is it possible to accept this for now and merge? I\u0027m preparing the EGit part now and will address all this issues...",
+      "parentUuid": "e035d2b3_0fbfff06",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
