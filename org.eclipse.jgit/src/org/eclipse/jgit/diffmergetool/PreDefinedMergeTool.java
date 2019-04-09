@@ -48,6 +48,18 @@ public class PreDefinedMergeTool extends UserDefinedMergeTool {
 	}
 
 	/**
+	 * Creates the pre-defined merge tool
+	 *
+	 * @param tool
+	 *            the command line merge tool
+	 */
+	public PreDefinedMergeTool(final CommandLineMergeTool tool) {
+		this(tool.name(), tool.getPath(), tool.getParameters(true),
+				tool.getParameters(false),
+				BooleanOption.toConfigured(tool.isExitCodeTrustable()));
+	}
+
+	/**
 	 * @param path
 	 */
 	public void setPath(String path) {
