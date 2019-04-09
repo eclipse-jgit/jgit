@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,96 +40,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.diffmergetool;
 
-import java.util.Optional;
-
 /**
- * Optional boolean
+ * A handler for when the diff/merge tool manager wants to prompt the user
+ * whether to continue
  *
  * @since 5.6
  */
-public enum BooleanOption {
+public interface PromptContinueHandler {
 	/**
-	 * the option is not defined and is default false
+	 * Prompt the user whether to continue with the next file by opening a given
+	 * tool.
+	 *
+	 * @param toolName
+	 *            The name of the tool to open
+	 * @return Whether the user wants to continue
 	 */
-	NOT_DEFINED_FALSE(),
-
-	/**
-	 * the option is not defined and is default true
-	 */
-	NOT_DEFINED_TRUE(),
-
-	/**
-	 * the option is disabled
-	 */
-	FALSE(),
-
-	/**
-	 * the option is enabled
-	 */
-	TRUE();
-
-	BooleanOption() {
-	}
-
-	/**
-	 * @return boolean value of the option
-	 */
-	public boolean toBoolean() {
-		switch (this) {
-		case TRUE:
-		case NOT_DEFINED_TRUE:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * @return true if the the option was defined and false if not
-	 */
-	public boolean isDefined() {
-		switch (this) {
-		case TRUE:
-		case FALSE:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * @param value
-	 *            the boolean value as input
-	 * @return the defined boolean option
-	 */
-	public static BooleanOption defined(boolean value) {
-		return value ? BooleanOption.TRUE : BooleanOption.FALSE;
-	}
-
-	/**
-	 * @param value
-	 *            the boolean value as default input
-	 * @return the not defined boolean option
-	 */
-	public static BooleanOption notDefined(boolean value) {
-		return value ? BooleanOption.NOT_DEFINED_TRUE
-				: BooleanOption.NOT_DEFINED_FALSE;
-	}
-
-	/**
-	 * From an optional
-	 * 
-	 * @param orig
-	 *            the optional
-	 * @return the boolean option
-	 */
-	public static BooleanOption from(Optional<Boolean> orig) {
-		if (!orig.isPresent())
-			return NOT_DEFINED_FALSE;
-		return defined(orig.get().booleanValue());
-	}
-
+	boolean prompt(String toolName);
 }

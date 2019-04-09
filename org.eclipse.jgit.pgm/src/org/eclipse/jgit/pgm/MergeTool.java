@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -53,13 +54,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.ContentSource;
-import org.eclipse.jgit.diffmergetool.BooleanOption;
 import org.eclipse.jgit.diffmergetool.FileElement;
 import org.eclipse.jgit.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.diffmergetool.IMergeTool;
@@ -90,35 +91,39 @@ import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
 class MergeTool extends TextBuiltin {
 	private MergeToolManager mergeToolMgr;
 
+	private Optional<String> toolName = Optional.empty();
+
 	@Option(name = "--tool", aliases = {
 			"-t" }, metaVar = "metaVar_tool", usage = "usage_ToolForMerge")
-	private String toolName;
+	void setToolName(String name) {
+		toolName = Optional.of(name);
+	}
 
-	private BooleanOption prompt = BooleanOption.NOT_DEFINED_FALSE;
+	private Optional<Boolean> prompt = Optional.empty();
 
 	@Option(name = "--prompt", usage = "usage_prompt")
 	void setPrompt(@SuppressWarnings("unused") boolean on) {
-		prompt = BooleanOption.TRUE;
+		prompt = Optional.of(Boolean.TRUE);
 	}
 
 	@Option(name = "--no-prompt", aliases = { "-y" }, usage = "usage_noPrompt")
 	void noPrompt(@SuppressWarnings("unused") boolean on) {
-		prompt = BooleanOption.FALSE;
+		prompt = Optional.of(Boolean.FALSE);
 	}
 
 	@Option(name = "--tool-help", usage = "usage_toolHelp")
 	private boolean toolHelp;
 
-	private BooleanOption gui = BooleanOption.NOT_DEFINED_FALSE;
+	private boolean gui = false;
 
 	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_MergeGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanOption.TRUE;
+		gui = true;
 	}
 
 	@Option(name = "--no-gui", usage = "usage_noGui")
 	void noGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanOption.FALSE;
+		gui = false;
 	}
 
 	@Argument(required = false, index = 0, metaVar = "metaVar_paths")
@@ -141,17 +146,10 @@ class MergeTool extends TextBuiltin {
 			if (toolHelp) {
 				showToolHelp();
 			} else {
-				// get prompt
-				boolean showPrompt = mergeToolMgr.isPrompt();
-				if (prompt.isDefined()) {
-					showPrompt = prompt.toBoolean();
-				}
-				// get passed or default tool name
-				String toolNameToUse = getToolNameToUse();
 				// get the changed files
 				Map<String, StageState> files = getFiles();
 				if (files.size() > 0) {
-					merge(files, showPrompt, toolNameToUse);
+					merge(files);
 				} else {
 					outw.println("No files need merging"); //$NON-NLS-1$
 				}
@@ -162,35 +160,26 @@ class MergeTool extends TextBuiltin {
 		}
 	}
 
-	private String getToolNameToUse() throws IOException {
-		String toolNameToUse = toolName;
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
-			toolNameToUse = mergeToolMgr.getDefaultToolName(gui);
-		}
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
+	private void informUserNoTool(List<String> tools) {
+		try {
 			outw.println(
 					"This message is displayed because 'merge.tool' is not configured."); //$NON-NLS-1$
 			outw.println(
 					"See 'git mergetool --tool-help' or 'git help config' for more details."); //$NON-NLS-1$
 			outw.println(
 					"'git mergetool' will now attempt to use one of the following tools:"); //$NON-NLS-1$
-			Map<String, IMergeTool> predefTools = mergeToolMgr
-					.getPredefinedTools(false);
-			for (String name : predefTools.keySet()) {
+			for (String name : tools) {
 				outw.print(name + " "); //$NON-NLS-1$
 			}
 			outw.println();
 			outw.flush();
-			toolNameToUse = mergeToolMgr.getFirstAvailableTool();
+
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
 		}
-		if ((toolNameToUse == null) || toolNameToUse.isEmpty()) {
-			throw new IOException("Unknown merge tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return toolNameToUse;
 	}
 
-	private void merge(Map<String, StageState> files, boolean showPrompt,
-			String toolNamePrompt) throws Exception {
+	private void merge(Map<String, StageState> files) throws Exception {
 		// sort file names
 		List<String> mergedFilePaths = new ArrayList<>(files.keySet());
 		Collections.sort(mergedFilePaths);
@@ -217,8 +206,7 @@ class MergeTool extends TextBuiltin {
 			// get file stage state and merge
 			StageState fileState = files.get(mergedFilePath);
 			if (fileState == StageState.BOTH_MODIFIED) {
-				mergeResult = mergeModified(mergedFilePath, showPrompt,
-						toolNamePrompt);
+				mergeResult = mergeModified(mergedFilePath);
 			} else if ((fileState == StageState.DELETED_BY_US) || (fileState == StageState.DELETED_BY_THEM)) {
 				mergeResult = mergeDeleted(mergedFilePath,
 						fileState == StageState.DELETED_BY_US);
@@ -231,22 +219,14 @@ class MergeTool extends TextBuiltin {
 		}
 	}
 
-	private MergeResult mergeModified(final String mergedFilePath,
-			final boolean showPrompt, final String toolNamePrompt)
+	private MergeResult mergeModified(final String mergedFilePath)
 			throws Exception {
 		outw.println("\nNormal merge conflict for '" + mergedFilePath //$NON-NLS-1$
 				+ "':"); //$NON-NLS-1$
 		outw.println("  {local}: modified file"); //$NON-NLS-1$
 		outw.println("  {remote}: modified file"); //$NON-NLS-1$
 		outw.flush();
-		// check if user wants to launch merge resolution tool
-		boolean launch = true;
-		if (showPrompt) {
-			launch = isLaunch(toolNamePrompt);
-		}
-		if (!launch) {
-			return MergeResult.ABORT; // abort
-		}
+
 		boolean isMergeSuccessful = true;
 		ContentSource baseSource = ContentSource.create(db.newObjectReader());
 		ContentSource localSource = ContentSource.create(db.newObjectReader());
@@ -261,7 +241,7 @@ class MergeTool extends TextBuiltin {
 			FileElement local = null;
 			FileElement remote = null;
 			FileElement merged = new FileElement(mergedFilePath,
-					Type.MERGED);
+					Type.MERGED, db.getWorkTree());
 			DirCache cache = db.readDirCache();
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
@@ -318,22 +298,29 @@ class MergeTool extends TextBuiltin {
 				// TODO: check how to return the exit-code of the
 				// tool to jgit / java runtime ?
 				// int rc =...
-				ExecutionResult executionResult = mergeToolMgr.merge(local,
-						remote, merged, base, tempDir, toolName, prompt, gui);
-				outw.println(
-						new String(executionResult.getStdout().toByteArray()));
-				outw.flush();
-				errw.println(
-						new String(executionResult.getStderr().toByteArray()));
-				errw.flush();
+				Optional<ExecutionResult> optionalResult = mergeToolMgr.merge(
+						local,
+						remote, merged, base, tempDir, toolName, prompt, gui,
+						this::promptForLaunch, this::informUserNoTool);
+				if (optionalResult.isPresent()) {
+					ExecutionResult result = optionalResult.get();
+					outw.println(new String(
+							result.getStdout().toByteArray()));
+					outw.flush();
+					errw.println(new String(
+							result.getStderr().toByteArray()));
+					errw.flush();
+				} else {
+					return MergeResult.ABORT;
+				}
 			} catch (ToolException e) {
 				isMergeSuccessful = false;
 				outw.println(e.getResultStdout());
 				outw.flush();
+				errw.println(e.getMessage());
 				errw.println("merge of " + mergedFilePath + " failed"); //$NON-NLS-1$ //$NON-NLS-2$
 				errw.flush();
 				if (e.isCommandExecutionError()) {
-					errw.println(e.getMessage());
 					throw die("excution error", //$NON-NLS-1$
 							e);
 				}
@@ -425,21 +412,24 @@ class MergeTool extends TextBuiltin {
 		return hasUserAccepted("Was the merge successful [y/n]? "); //$NON-NLS-1$
 	}
 
-	private boolean isLaunch(String toolNamePrompt)
-			throws IOException {
-		boolean launch = true;
-		final String message = "Hit return to start merge resolution tool (" //$NON-NLS-1$
-				+ toolNamePrompt + "): "; //$NON-NLS-1$
-		outw.print(message);
-		outw.flush();
-		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
-		String line = null;
-		if ((line = br.readLine()) != null) {
-			if (!line.equalsIgnoreCase("y") && !line.equalsIgnoreCase("")) { //$NON-NLS-1$ //$NON-NLS-2$
-				launch = false;
+	private boolean promptForLaunch(String toolNamePrompt) {
+		try {
+			boolean launch = true;
+			final String message = "Hit return to start merge resolution tool (" //$NON-NLS-1$
+					+ toolNamePrompt + "): "; //$NON-NLS-1$
+			outw.print(message);
+			outw.flush();
+			BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+			String line = null;
+			if ((line = br.readLine()) != null) {
+				if (!line.equalsIgnoreCase("y") && !line.equalsIgnoreCase("")) { //$NON-NLS-1$ //$NON-NLS-2$
+					launch = false;
+				}
 			}
+			return launch;
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
 		}
-		return launch;
 	}
 
 	private int getDeletedMergeDecision()

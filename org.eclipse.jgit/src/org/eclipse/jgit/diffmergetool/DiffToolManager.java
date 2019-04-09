@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2019, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,11 +45,16 @@
 package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -58,7 +64,11 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class DiffToolManager {
 
-	private final Repository db;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final DiffToolConfig config;
 
@@ -70,10 +80,91 @@ public class DiffToolManager {
 	 * @param db the repository database
 	 */
 	public DiffToolManager(Repository db) {
-		this.db = db;
-		config = db.getConfig().get(DiffToolConfig.KEY);
+		this(db.getFS(), db.getDirectory(), db.getWorkTree(), db.getConfig());
+	}
+
+	/**
+	 * @param fs
+	 *            the file system abstraction
+	 * @param gitDir
+	 *            the .git directory
+	 * @param workTree
+	 *            the worktree
+	 * @param userConfig
+	 *            the user configuration
+	 */
+	public DiffToolManager(FS fs, File gitDir, File workTree,
+			StoredConfig userConfig) {
+		this.fs = fs;
+		this.gitDir = gitDir;
+		this.workTree = workTree;
+		this.config = userConfig.get(DiffToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
+	}
+
+	/**
+	 * Compare two versions of a file.
+	 *
+	 * @param localFile
+	 *            The local/left version of the file.
+	 * @param remoteFile
+	 *            The remote/right version of the file.
+	 * @param toolName
+	 *            Optionally the name of the tool to use. If not given the
+	 *            default tool will be used.
+	 * @param prompt
+	 *            Optionally a flag whether to prompt the user before compare.
+	 *            If not given the default will be used.
+	 * @param gui
+	 *            A flag whether to prefer a gui tool.
+	 * @param trustExitCode
+	 *            Optionally a flag whether to trust the exit code of the tool.
+	 *            If not given the default will be used.
+	 * @param promptHandler
+	 *            The handler to use when needing to prompt the user if he wants
+	 *            to continue.
+	 * @param noToolHandler
+	 *            The handler to use when needing to inform the user, that no
+	 *            tool is configured.
+	 * @return the optioanl result of executing the tool if it was executed
+	 * @throws ToolException
+	 *             when the tool fails
+	 */
+	public Optional<ExecutionResult> compare(FileElement localFile,
+			FileElement remoteFile, Optional<String> toolName,
+			Optional<Boolean> prompt, boolean gui,
+			Optional<Boolean> trustExitCode,
+			PromptContinueHandler promptHandler,
+			InformNoToolHandler noToolHandler) throws ToolException {
+
+		String toolNameToUse;
+
+		if (toolName.isPresent()) {
+			toolNameToUse = toolName.get();
+		} else {
+			toolNameToUse = getDefaultToolName(gui);
+
+			if(toolNameToUse == null || toolNameToUse.isEmpty()) {
+				noToolHandler.inform(new ArrayList<>(predefinedTools.keySet()));
+				toolNameToUse = getFirstAvailableTool();
+			}
+		}
+
+		@SuppressWarnings("boxing")
+		boolean doPrompt = prompt.orElse(isPrompt());
+
+		if(doPrompt) {
+			if (!promptHandler.prompt(toolNameToUse)) {
+				return Optional.empty();
+			}
+		}
+
+		@SuppressWarnings("boxing")
+		boolean trust = trustExitCode.orElse(config.isTrustExitCode());
+
+		return Optional.of(
+				compare(localFile, remoteFile, getTool(toolNameToUse), trust));
 	}
 
 	/**
@@ -81,56 +172,65 @@ public class DiffToolManager {
 	 *            the local file element
 	 * @param remoteFile
 	 *            the remote file element
-	 * @param mergedFile
-	 *            the merged file element, it's path equals local or remote
-	 *            element path
-	 * @param toolName
-	 *            the selected tool name (can be null)
-	 * @param prompt
-	 *            the prompt option
-	 * @param gui
-	 *            the GUI option
+	 * @param tool
+	 *            the selected tool
 	 * @param trustExitCode
 	 *            the "trust exit code" option
 	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
 	public ExecutionResult compare(FileElement localFile,
-			FileElement remoteFile, FileElement mergedFile,
-			String toolName, BooleanOption prompt,
-			BooleanOption gui, BooleanOption trustExitCode)
+			FileElement remoteFile,
+			IDiffTool tool, boolean trustExitCode)
 			throws ToolException {
 		try {
 			// prepare the command (replace the file paths)
 			String command = Utils.prepareCommand(
-					guessTool(toolName, gui).getCommand(), localFile,
-					remoteFile, mergedFile, null);
+					tool.getCommand(), localFile,
+					remoteFile, null, null);
 			// prepare the environment
-			Map<String, String> env = Utils.prepareEnvironment(db,
+			Map<String, String> env = Utils.prepareEnvironment(gitDir,
 					localFile,
 					remoteFile,
-					mergedFile, null);
-			boolean trust = config.isTrustExitCode();
-			if (trustExitCode.isDefined()) {
-				trust = trustExitCode.toBoolean();
-			}
+					null, null);
+
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
-			return cmdExec.run(command, db.getWorkTree(), env);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trustExitCode);
+			return cmdExec.run(command, workTree, env);
+
 		} catch (IOException | InterruptedException e) {
 			throw new ToolException(e);
 		} finally {
 			localFile.cleanTemporaries();
 			remoteFile.cleanTemporaries();
-			mergedFile.cleanTemporaries();
 		}
 	}
 
 	/**
-	 * @return the tool names
+	 * @return the user defined tool names
 	 */
-	public Set<String> getToolNames() {
-		return config.getToolNames();
+	public Set<String> getUserDefinedToolNames() {
+		return userDefinedTools.keySet();
+	}
+
+	/**
+	 * @return the predefined tool names
+	 */
+	public Set<String> getPredefinedToolNames() {
+		return predefinedTools.keySet();
+	}
+
+	/**
+	 * @return the all tool names (default or available tool name is the first
+	 *         in the set)
+	 */
+	public Set<String> getAllToolNames() {
+		String defaultName = getDefaultToolName(false);
+		if (defaultName == null) {
+			defaultName = getFirstAvailableTool();
+		}
+		return Utils.createSortedToolSet(defaultName, getUserDefinedToolNames(),
+				getPredefinedToolNames());
 	}
 
 	/**
@@ -155,7 +255,8 @@ public class DiffToolManager {
 			for (IDiffTool tool : predefinedTools.values()) {
 				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) tool;
 				predefTool.setAvailable(
-						Utils.isToolAvailable(db, predefTool.getPath()));
+						Utils.isToolAvailable(fs, gitDir, workTree,
+								predefTool.getPath()));
 			}
 		}
 		return predefinedTools;
@@ -165,14 +266,13 @@ public class DiffToolManager {
 	 * @return the name of first available predefined tool or null
 	 */
 	public String getFirstAvailableTool() {
-		String name = null;
 		for (IDiffTool tool : predefinedTools.values()) {
-			if (Utils.isToolAvailable(db, tool.getPath())) {
-				name = tool.getName();
-				break;
+			if (Utils.isToolAvailable(fs, gitDir, workTree, tool.getPath())) {
+				return tool.getName();
 			}
 		}
-		return name;
+
+		return null;
 	}
 
 	/**
@@ -180,8 +280,8 @@ public class DiffToolManager {
 	 *            use the diff.guitool setting ?
 	 * @return the default tool name
 	 */
-	public String getDefaultToolName(BooleanOption gui) {
-		return gui.toBoolean() ? config.getDefaultGuiToolName()
+	public String getDefaultToolName(boolean gui) {
+		return gui ? config.getDefaultGuiToolName()
 				: config.getDefaultToolName();
 	}
 
@@ -190,21 +290,6 @@ public class DiffToolManager {
 	 */
 	public boolean isPrompt() {
 		return config.isPrompt();
-	}
-
-	private IDiffTool guessTool(String toolName, BooleanOption gui)
-			throws ToolException {
-		if ((toolName == null) || toolName.isEmpty()) {
-			toolName = getDefaultToolName(gui);
-		}
-		IDiffTool tool = null;
-		if ((toolName != null) && !toolName.isEmpty()) {
-			tool = getTool(toolName);
-		}
-		if (tool == null) {
-			throw new ToolException("Unknown diff tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return tool;
 	}
 
 	private IDiffTool getTool(final String name) {
