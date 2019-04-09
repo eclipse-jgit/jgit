@@ -53,7 +53,7 @@ package org.eclipse.jgit.diffmergetool;
  *
  */
 @SuppressWarnings("nls")
-public enum PreDefinedDiffTools {
+public enum CommandLineDiffTool {
 	/**
 	 * @see: https://www.araxis.com/merge/documentation-windows/command-line.en
 	 */
@@ -166,17 +166,17 @@ public enum PreDefinedDiffTools {
 	xxdiff("xxdiff",
 			"-R 'Accel.Search: \"Ctrl+F\"' -R 'Accel.SearchForward: \"Ctrl+G\"' \"$LOCAL\" \"$REMOTE\"");
 
-	PreDefinedDiffTools(String path, String parameters) {
+	CommandLineDiffTool(String path, String parameters) {
 		this.path = path;
 		this.parameters = parameters;
     }
 
-	PreDefinedDiffTools(PreDefinedDiffTools from) {
+	CommandLineDiffTool(CommandLineDiffTool from) {
 		this.path = from.getPath();
 		this.parameters = from.getParameters();
 	}
 
-	PreDefinedDiffTools(String path, PreDefinedDiffTools from) {
+	CommandLineDiffTool(String path, CommandLineDiffTool from) {
 		this.path = path;
 		this.parameters = from.getParameters();
 	}
