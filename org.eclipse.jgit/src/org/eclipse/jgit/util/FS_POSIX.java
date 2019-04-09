@@ -121,6 +121,10 @@ public class FS_POSIX extends FS {
 			ret = getAtomicFileCreationSupportOption(
 					SystemReader.getInstance().openSystemConfig(null, this));
 		}
+
+		if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
+			ret = AtomicFileCreation.SUPPORTED;
+		}
 		supportsAtomicCreateNewFile = ret;
 	}
 
