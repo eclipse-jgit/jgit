@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b4a51eb_5ac9a2c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-09T00:54:30Z",
+      "side": 1,
+      "message": "5.4",
+      "range": {
+        "startLine": 491,
+        "startChar": 11,
+        "endLine": 491,
+        "endChar": 14
+      },
+      "revId": "e4e94ae40f69c1512ff0aa7c27ec28781b15afbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
