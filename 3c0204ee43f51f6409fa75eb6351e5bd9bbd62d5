@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6a403d0_ea6664d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T23:08:28Z",
+      "side": 1,
+      "message": "This link will become outdated if the file content changes.  It would be better to link to a specific revision.",
+      "revId": "3c0204ee43f51f6409fa75eb6351e5bd9bbd62d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
