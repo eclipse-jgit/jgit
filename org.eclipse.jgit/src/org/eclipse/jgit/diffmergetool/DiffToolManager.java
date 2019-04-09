@@ -44,11 +44,14 @@
 package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -58,7 +61,11 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class DiffToolManager {
 
-	private final Repository db;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final DiffToolConfig config;
 
@@ -70,8 +77,25 @@ public class DiffToolManager {
 	 * @param db the repository database
 	 */
 	public DiffToolManager(Repository db) {
-		this.db = db;
-		config = db.getConfig().get(DiffToolConfig.KEY);
+		this(db.getFS(), db.getDirectory(), db.getWorkTree(), db.getConfig());
+	}
+
+	/**
+	 * @param fs
+	 *            the file system abstraction
+	 * @param gitDir
+	 *            the .git directory
+	 * @param workTree
+	 *            the worktree
+	 * @param userConfig
+	 *            the user configuration
+	 */
+	public DiffToolManager(FS fs, File gitDir, File workTree,
+			StoredConfig userConfig) {
+		this.fs = fs;
+		this.gitDir = gitDir;
+		this.workTree = workTree;
+		this.config = userConfig.get(DiffToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
 	}
@@ -106,7 +130,7 @@ public class DiffToolManager {
 					guessTool(toolName, gui).getCommand(), localFile,
 					remoteFile, mergedFile, null);
 			// prepare the environment
-			Map<String, String> env = Utils.prepareEnvironment(db,
+			Map<String, String> env = Utils.prepareEnvironment(gitDir,
 					localFile,
 					remoteFile,
 					mergedFile, null);
@@ -115,8 +139,8 @@ public class DiffToolManager {
 				trust = trustExitCode.toBoolean();
 			}
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
-			return cmdExec.run(command, db.getWorkTree(), env);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trust);
+			return cmdExec.run(command, workTree, env);
 		} catch (IOException | InterruptedException e) {
 			throw new ToolException(e);
 		} finally {
@@ -127,10 +151,31 @@ public class DiffToolManager {
 	}
 
 	/**
-	 * @return the tool names
+	 * @return the user defined tool names
 	 */
-	public Set<String> getToolNames() {
-		return config.getToolNames();
+	public Set<String> getUserDefinedToolNames() {
+		return userDefinedTools.keySet();
+	}
+
+	/**
+	 * @return the predefined tool names
+	 */
+	public Set<String> getPredefinedToolNames() {
+		return predefinedTools.keySet();
+	}
+
+	/**
+	 * @return the all tool names (default or available tool name is the first
+	 *         in the set)
+	 */
+	public Set<String> getAllToolNames() {
+		String defaultName = getDefaultToolName(
+				BooleanOption.NOT_DEFINED_FALSE);
+		if (defaultName == null) {
+			defaultName = getFirstAvailableTool();
+		}
+		return Utils.createSortedToolSet(defaultName, getUserDefinedToolNames(),
+				getPredefinedToolNames());
 	}
 
 	/**
@@ -155,7 +200,8 @@ public class DiffToolManager {
 			for (IDiffTool tool : predefinedTools.values()) {
 				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) tool;
 				predefTool.setAvailable(
-						Utils.isToolAvailable(db, predefTool.getPath()));
+						Utils.isToolAvailable(fs, gitDir, workTree,
+								predefTool.getPath()));
 			}
 		}
 		return predefinedTools;
@@ -167,7 +213,7 @@ public class DiffToolManager {
 	public String getFirstAvailableTool() {
 		String name = null;
 		for (IDiffTool tool : predefinedTools.values()) {
-			if (Utils.isToolAvailable(db, tool.getPath())) {
+			if (Utils.isToolAvailable(fs, gitDir, workTree, tool.getPath())) {
 				name = tool.getName();
 				break;
 			}

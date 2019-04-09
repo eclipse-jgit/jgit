@@ -55,6 +55,8 @@ import java.util.Set;
 
 import org.eclipse.jgit.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -64,7 +66,11 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class MergeToolManager {
 
-	Repository db;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final MergeToolConfig config;
 
@@ -76,8 +82,25 @@ public class MergeToolManager {
 	 * @param db the repository database
 	 */
 	public MergeToolManager(Repository db) {
-		this.db = db;
-		config = db.getConfig().get(MergeToolConfig.KEY);
+		this(db.getFS(), db.getDirectory(), db.getWorkTree(), db.getConfig());
+	}
+
+	/**
+	 * @param fs
+	 *            the file system abstraction
+	 * @param gitDir
+	 *            the .git directory
+	 * @param workTree
+	 *            the worktree
+	 * @param userConfig
+	 *            the user configuration
+	 */
+	public MergeToolManager(FS fs, File gitDir, File workTree,
+			StoredConfig userConfig) {
+		this.fs = fs;
+		this.gitDir = gitDir;
+		this.workTree = workTree;
+		this.config = userConfig.get(MergeToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
 	}
@@ -113,20 +136,20 @@ public class MergeToolManager {
 		FileElement backup = null;
 		ExecutionResult result = null;
 		try {
-			File workingDir = db.getWorkTree();
+			File workingDir = workTree;
 			// create additional backup file (copy worktree file)
-			backup = createBackupFile(mergedFile.getPath(),
+			backup = createBackupFile(mergedFile,
 					tempDir != null ? tempDir : workingDir);
 			// prepare the command (replace the file paths)
 			String command = Utils.prepareCommand(
 					tool.getCommand(baseFile != null),
 					localFile, remoteFile, mergedFile, baseFile);
 			// prepare the environment
-			Map<String, String> env = Utils.prepareEnvironment(db, localFile,
-					remoteFile, mergedFile, baseFile);
+			Map<String, String> env = Utils.prepareEnvironment(gitDir,
+					localFile, remoteFile, mergedFile, baseFile);
 			boolean trust = tool.getTrustExitCode().toBoolean();
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trust);
 			result = cmdExec.run(command, workingDir, env);
 			// keep backup as .orig file
 			keepBackupFile(mergedFile.getPath(), backup);
@@ -157,11 +180,11 @@ public class MergeToolManager {
 		}
 	}
 
-	private FileElement createBackupFile(String filePath, File parentDir)
+	private FileElement createBackupFile(FileElement from, File toParentDir)
 			throws IOException {
-		FileElement backup = new FileElement(filePath, Type.BACKUP);
-		Files.copy(Paths.get(filePath),
-				backup.createTempFile(parentDir).toPath(),
+		FileElement backup = new FileElement(from.getPath(), Type.BACKUP);
+		Files.copy(from.getFile().toPath(),
+				backup.createTempFile(toParentDir).toPath(),
 				StandardCopyOption.REPLACE_EXISTING);
 		return backup;
 	}
@@ -178,10 +201,31 @@ public class MergeToolManager {
 	}
 
 	/**
-	 * @return the tool names
+	 * @return the user defined tool names
 	 */
-	public Set<String> getToolNames() {
-		return config.getToolNames();
+	public Set<String> getUserDefinedToolNames() {
+		return userDefinedTools.keySet();
+	}
+
+	/**
+	 * @return the predefined tool names
+	 */
+	public Set<String> getPredefinedToolNames() {
+		return predefinedTools.keySet();
+	}
+
+	/**
+	 * @return the all tool names (default or available tool name is the first
+	 *         in the set)
+	 */
+	public Set<String> getAllToolNames() {
+		String defaultName = getDefaultToolName(
+				BooleanOption.NOT_DEFINED_FALSE);
+		if (defaultName == null) {
+			defaultName = getFirstAvailableTool();
+		}
+		return Utils.createSortedToolSet(defaultName, getUserDefinedToolNames(),
+				getPredefinedToolNames());
 	}
 
 	/**
@@ -206,7 +250,8 @@ public class MergeToolManager {
 			for (IMergeTool tool : predefinedTools.values()) {
 				PreDefinedMergeTool predefTool = (PreDefinedMergeTool) tool;
 				predefTool.setAvailable(
-						Utils.isToolAvailable(db, predefTool.getPath()));
+						Utils.isToolAvailable(fs, gitDir, workTree,
+								predefTool.getPath()));
 			}
 		}
 		return predefinedTools;
@@ -218,7 +263,7 @@ public class MergeToolManager {
 	public String getFirstAvailableTool() {
 		String name = null;
 		for (IMergeTool tool : predefinedTools.values()) {
-			if (Utils.isToolAvailable(db, tool.getPath())) {
+			if (Utils.isToolAvailable(fs, gitDir, workTree, tool.getPath())) {
 				name = tool.getName();
 				break;
 			}

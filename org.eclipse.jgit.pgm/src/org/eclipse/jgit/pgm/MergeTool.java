@@ -261,7 +261,7 @@ class MergeTool extends TextBuiltin {
 			FileElement local = null;
 			FileElement remote = null;
 			FileElement merged = new FileElement(mergedFilePath,
-					Type.MERGED);
+					Type.MERGED, db.getWorkTree());
 			DirCache cache = db.readDirCache();
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
@@ -330,10 +330,10 @@ class MergeTool extends TextBuiltin {
 				isMergeSuccessful = false;
 				outw.println(e.getResultStdout());
 				outw.flush();
+				errw.println(e.getMessage());
 				errw.println("merge of " + mergedFilePath + " failed"); //$NON-NLS-1$ //$NON-NLS-2$
 				errw.flush();
 				if (e.isCommandExecutionError()) {
-					errw.println(e.getMessage());
 					throw die("excution error", //$NON-NLS-1$
 							e);
 				}
