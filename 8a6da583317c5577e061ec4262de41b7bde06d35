@@ -349,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "38adc428_9366045a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T09:03:32Z",
+      "side": 1,
+      "message": "Ah, thanks for that :-)",
+      "parentUuid": "ee695b6f_a3f5d02c",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0553611a_ef3cf910",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
