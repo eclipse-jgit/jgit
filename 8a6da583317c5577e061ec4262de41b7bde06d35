@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "cdeba092_984a6e1d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d011a0e6_5b03c01e",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09f4a9f2_c3a48459",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
@@ -223,6 +241,30 @@
       "writtenOn": "2019-04-09T08:41:43Z",
       "side": 1,
       "message": "yes",
+      "parentUuid": "09f4a9f2_c3a48459",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d628336f_eac1c4ce",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "yes, that is only for the visual description on the test execution.",
       "parentUuid": "09f4a9f2_c3a48459",
       "range": {
         "startLine": 77,
@@ -271,6 +313,24 @@
     },
     {
       "key": {
+        "uuid": "dddfa5d0_82e7f9f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "I\u0027ll use TRUE and FALSE then.",
+      "parentUuid": "7b6e63cc_2fbb0573",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0553611a_ef3cf910",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
@@ -305,6 +365,30 @@
       "writtenOn": "2019-04-09T08:41:43Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "0553611a_ef3cf910",
+      "range": {
+        "startLine": 102,
+        "startChar": 5,
+        "endLine": 102,
+        "endChar": 52
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dddc58eb_43edce35",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "0553611a_ef3cf910",
       "range": {
         "startLine": 102,
@@ -365,6 +449,30 @@
     },
     {
       "key": {
+        "uuid": "25f262bf_28aaf66a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "I\u0027ll use the diamond notation.",
+      "parentUuid": "3fc084b8_5abe8b34",
+      "range": {
+        "startLine": 111,
+        "startChar": 54,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be50884f_a4c005ae",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
@@ -399,6 +507,30 @@
       "writtenOn": "2019-04-09T08:41:43Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "be50884f_a4c005ae",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 64
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51bda28e_916ee1c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "be50884f_a4c005ae",
       "range": {
         "startLine": 117,
