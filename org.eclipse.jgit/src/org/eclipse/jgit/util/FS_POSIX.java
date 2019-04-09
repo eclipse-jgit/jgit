@@ -358,6 +358,10 @@ public class FS_POSIX extends FS {
 	public boolean supportsAtomicCreateNewFile() {
 		if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
 			determineAtomicFileCreationSupport();
+
+			if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
+				supportsAtomicCreateNewFile = AtomicFileCreation.SUPPORTED;
+			}
 		}
 		return supportsAtomicCreateNewFile == AtomicFileCreation.SUPPORTED;
 	}
