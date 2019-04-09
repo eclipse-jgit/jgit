@@ -122,6 +122,10 @@ public class FS_POSIX extends FS {
 			ret = getAtomicFileCreationSupportOption(
 					SystemReader.getInstance().openSystemConfig(null, this));
 		}
+
+		if (ret == AtomicFileCreation.UNDEFINED) {
+			ret = AtomicFileCreation.SUPPORTED;
+		}
 		supportsAtomicCreateNewFile = ret;
 	}
 
@@ -139,7 +143,8 @@ public class FS_POSIX extends FS {
 					? AtomicFileCreation.SUPPORTED
 					: AtomicFileCreation.NOT_SUPPORTED;
 		} catch (IOException | ConfigInvalidException e) {
-			return AtomicFileCreation.SUPPORTED;
+			LOG.error(e.getMessage(), e);
+			return AtomicFileCreation.UNDEFINED;
 		}
 	}
 
