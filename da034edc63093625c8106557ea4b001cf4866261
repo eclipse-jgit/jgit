@@ -52,6 +52,41 @@
       "revId": "da034edc63093625c8106557ea4b001cf4866261",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddcb5aa9_c2abafd6",
+        "filename": "org.eclipse.jgit.lfs.server/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T08:53:06Z",
+      "side": 1,
+      "message": "Yes, this should be done in a separate change as it\u0027s unrelated to the fix being done here.",
+      "parentUuid": "7808169a_9e819360",
+      "revId": "da034edc63093625c8106557ea4b001cf4866261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05014bee_19c9b77f",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T08:53:06Z",
+      "side": 1,
+      "message": "Same in this file?",
+      "revId": "da034edc63093625c8106557ea4b001cf4866261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
