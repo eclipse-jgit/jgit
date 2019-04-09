@@ -25,6 +25,57 @@
     },
     {
       "key": {
+        "uuid": "3270cf4f_dc4d38cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee4b825c_461c01e9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10240eef_c04e102e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "we use standard Eclipse formatter, use Ctrl-Shift-O to organise imports, this sorts static imports at the top",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d011a0e6_5b03c01e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
@@ -65,6 +116,23 @@
     },
     {
       "key": {
+        "uuid": "7b6e63cc_2fbb0573",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "this yields 2 boxing warnings, either suppress them or use Boolean.TRUE and FALSE",
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0553611a_ef3cf910",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
         "patchSetId": 1
@@ -81,6 +149,52 @@
         "startChar": 5,
         "endLine": 102,
         "endChar": 52
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fc084b8_5abe8b34",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "missing type argument: \n\n TestRepository\u003cFileRepository\u003e(repository)",
+      "range": {
+        "startLine": 111,
+        "startChar": 54,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be50884f_a4c005ae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T07:31:22Z",
+      "side": 1,
+      "message": "needs to be unboxed",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 64
       },
       "revId": "8a6da583317c5577e061ec4262de41b7bde06d35",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
