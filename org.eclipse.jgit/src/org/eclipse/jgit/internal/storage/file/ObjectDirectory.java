@@ -586,7 +586,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 						p.getPackFile().getAbsolutePath()), e);
 			} else {
 				LOG.warn(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()));
+						p.getPackFile().getAbsolutePath()), e);
 			}
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
