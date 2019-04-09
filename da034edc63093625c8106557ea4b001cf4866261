@@ -16,6 +16,24 @@
       "revId": "da034edc63093625c8106557ea4b001cf4866261",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94de29b0_9a15b6f1",
+        "filename": "org.eclipse.jgit.lfs.server/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-09T08:41:43Z",
+      "side": 1,
+      "message": "yes, it caused warnings about unused API problem filters in Eclipse. Do you want me to split this into another change ?",
+      "parentUuid": "ee586468_a3c6ccd5",
+      "revId": "da034edc63093625c8106557ea4b001cf4866261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
