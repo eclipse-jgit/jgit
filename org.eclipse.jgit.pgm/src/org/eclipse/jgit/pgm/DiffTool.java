@@ -241,7 +241,7 @@ class DiffTool extends TextBuiltin {
 								FileElement.Type.REMOTE, sourcePair, Side.NEW,
 								ent);
 						FileElement merged = new FileElement(mergedFilePath,
-								FileElement.Type.MERGED);
+								FileElement.Type.MERGED, db.getWorkTree());
 						// TODO: check how to return the exit-code of the tool
 						// to jgit / java runtime ?
 						// int rc =...
@@ -257,6 +257,7 @@ class DiffTool extends TextBuiltin {
 						outw.println(e.getResultStdout());
 						outw.flush();
 						errw.println(e.getMessage());
+						errw.flush();
 						throw die("external diff died, stopping at " //$NON-NLS-1$
 								+ mergedFilePath, e);
 					}
@@ -358,7 +359,8 @@ class DiffTool extends TextBuiltin {
 			ToolException {
 		String entryPath = side == Side.NEW ? entry.getNewPath()
 				: entry.getOldPath();
-		FileElement fileElement = new FileElement(entryPath, elementType);
+		FileElement fileElement = new FileElement(entryPath, elementType,
+				db.getWorkTree());
 		if (!pair.isWorkingTreeSource(side) && !fileElement.isNullPath()) {
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
