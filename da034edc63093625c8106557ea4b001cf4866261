@@ -34,6 +34,24 @@
       "revId": "da034edc63093625c8106557ea4b001cf4866261",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7808169a_9e819360",
+        "filename": "org.eclipse.jgit.lfs.server/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T08:42:47Z",
+      "side": 1,
+      "message": "I don\u0027t see reasons to remove them in this change. Let me restore them in the PS3",
+      "parentUuid": "ee586468_a3c6ccd5",
+      "revId": "da034edc63093625c8106557ea4b001cf4866261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
