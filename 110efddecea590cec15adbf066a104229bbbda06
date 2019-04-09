@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b60c3c48_76b8ec0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-09T12:19:25Z",
+      "side": 1,
+      "message": "This is the wrong place for the sleep: the filesnapshot needs to allow enough time between the write and the last read. This should be moved to L94",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "110efddecea590cec15adbf066a104229bbbda06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
