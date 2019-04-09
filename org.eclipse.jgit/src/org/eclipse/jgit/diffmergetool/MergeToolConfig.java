@@ -20,7 +20,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Config.SectionParser;
 
 /**
- * Keeps track of difftool related configuration options.
+ * Keeps track of merge tool related configuration options.
  *
  * @since 5.7
  */
