@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da21fa22_cb807176",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T05:34:47Z",
+      "side": 1,
+      "message": "Please add:\n\n\"Also add missing braces on loops as necessary\"\n\nin the message body.",
+      "revId": "e66361f6bf99dac81c39a3c14e05f662ea142813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a89b6fb6_4ae3d582",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-09T05:34:47Z",
+      "side": 1,
+      "message": "Unrelated formatting changes. Also below.",
+      "revId": "e66361f6bf99dac81c39a3c14e05f662ea142813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
