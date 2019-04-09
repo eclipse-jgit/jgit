@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "e88da1a2_96b55a8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-09T02:12:34Z",
+      "side": 1,
+      "message": "I think it\u0027s to define the scope of the \"next\" variable.",
+      "parentUuid": "724e4fe8_e809de67",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b95f3b4b_dbe296ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-09T02:12:34Z",
+      "side": 1,
+      "message": "This is a bit confusing: it reads in the \"next\" character (the name makes it sound like lookahead), but then discards it.\n\nDo I understand correctly that the intent is the following?\n\n   \\\u003cCR\u003e\u003cLF\u003e: skip it\n   \\\u003cCR\u003e\u003cEOF\u003e: append \u003cCR\u003e to value\n   \\\u003cCR\u003e\u003canything else\u003e: append \u003cCR\u003e to value, and then handle \u003canything else\u003e\n\nYou might be able to do something like this:\n\n  for (;;) {\n    int c \u003d in.read();\n retry:\n    if (c \u003c 0) {\n      ...\n    }\n    ...\n      case \u0027\\r\u0027:\n        c \u003d in.read();\n        if (c \u003d\u003d \u0027\\n\u0027) {\n          continue; // skip the escaped CR-LF\n        }\n        value.append(\u0027\\r\u0027);\n        goto retry;",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3b5748d_c6218d51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 2
@@ -33,6 +68,29 @@
       "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa5d89f_84d66802",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-09T02:12:34Z",
+      "side": 1,
+      "message": "The docs for InputStream#reset say that it\u0027s only meaningful if you called mark() previously.",
+      "range": {
+        "startLine": 1421,
+        "startChar": 6,
+        "endLine": 1421,
+        "endChar": 16
+      },
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
