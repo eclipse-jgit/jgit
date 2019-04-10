@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64f6b2c7_88aa9aaa",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:32:12Z",
+      "side": 1,
+      "message": "unrelated formatting changes here and in other places.",
+      "revId": "495f265c9b3c6512635c7c7f7b606e7d022b3695",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
