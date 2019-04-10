@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe6fa3b_344963ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:37:32Z",
+      "side": 1,
+      "message": "Please add braces on the while-block.  I initially thought the \u0027return null\u0027 is done inside the while.",
+      "range": {
+        "startLine": 157,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 15
+      },
+      "revId": "94b72cddfd33fc5d66ac10d8debc1249bcf9e29a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
