@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56f0625f_b2f18444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-10T15:14:27Z",
+      "side": 1,
+      "message": "Point taken, will keep the old one and flag it as deprecated.",
+      "parentUuid": "91581d1d_57793758",
+      "revId": "702aba6238f0d010dd83b697cb5c68a8905eada1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2b0c463_2af26880",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-10T12:45:37Z",
       "side": 1,
       "message": "implement the same improvement in DfsPackFile ?",
+      "revId": "702aba6238f0d010dd83b697cb5c68a8905eada1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5cbe8ae_5873f265",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-10T15:14:27Z",
+      "side": 1,
+      "message": "Yep, it makes a lot of sense.",
+      "parentUuid": "d2b0c463_2af26880",
       "revId": "702aba6238f0d010dd83b697cb5c68a8905eada1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
