@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a508179_f7bab199",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:50:26Z",
+      "side": 1,
+      "message": "Remove this line and make L9 the subject.",
+      "revId": "96f6504fe19e0feeabff1993f8686bdc7996d021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17608113_2cff2a9a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:50:26Z",
+      "side": 1,
+      "message": "size() is still used here.  Should this be changed to use isEmpty() with assertTrue()?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 67
+      },
+      "revId": "96f6504fe19e0feeabff1993f8686bdc7996d021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e25e0aa_d96b8157",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:50:26Z",
+      "side": 1,
+      "message": "contains",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 43
+      },
+      "revId": "96f6504fe19e0feeabff1993f8686bdc7996d021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9adf3ea_9aff03f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:50:26Z",
+      "side": 1,
+      "message": "Unrelated formatting changes here and below.",
+      "revId": "96f6504fe19e0feeabff1993f8686bdc7996d021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
