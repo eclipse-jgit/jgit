@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f008a2fa_a2b73033",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 0,
+      "message": "The only actual diff is here; the rest of the ~100 lines changed are only reformatting.",
+      "range": {
+        "startLine": 1298,
+        "startChar": 2,
+        "endLine": 1305,
+        "endChar": 54
+      },
+      "revId": "ee32ca226e9a4aa2ff48bfdd1ba1d2184317c668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

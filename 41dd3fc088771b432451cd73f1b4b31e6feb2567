@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62d591fa_2c8b460d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "These can also be squashed.",
+      "range": {
+        "startLine": 335,
+        "startChar": 4,
+        "endLine": 345,
+        "endChar": 3
+      },
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a92a595_3c8b5059",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Unrelated formatting changes here and below.",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633992a5_0d94e58a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": ".",
+      "range": {
+        "startLine": 287,
+        "startChar": 22,
+        "endLine": 287,
+        "endChar": 23
+      },
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a80234_9f18b49b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Unrelated formatting changes throughout this file.",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db987cd_e1427d27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalFetchConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Unrelated formatting changes",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b532405d_eb7c71a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalFetchConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to keep both comments here; they are both essentially saying the same thing.",
+      "range": {
+        "startLine": 115,
+        "startChar": 5,
+        "endLine": 117,
+        "endChar": 57
+      },
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3914b643_6d6715cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Unrelated formatting changes",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "affdaa12_9f8e98d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Remove this leftover comment",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8691dbc8_b7699bfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GSSManagerFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-10T03:46:58Z",
+      "side": 1,
+      "message": "Unrelated formatting changes",
+      "revId": "41dd3fc088771b432451cd73f1b4b31e6feb2567",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
