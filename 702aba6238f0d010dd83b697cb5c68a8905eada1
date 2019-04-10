@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91581d1d_57793758",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T12:45:37Z",
+      "side": 1,
+      "message": "This breaks API and DfsPackFile using the old one.\nWe can mitigate that by keeping the old constructors.",
+      "revId": "702aba6238f0d010dd83b697cb5c68a8905eada1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2b0c463_2af26880",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T12:45:37Z",
+      "side": 1,
+      "message": "implement the same improvement in DfsPackFile ?",
+      "revId": "702aba6238f0d010dd83b697cb5c68a8905eada1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
