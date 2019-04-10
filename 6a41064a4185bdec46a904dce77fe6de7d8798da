@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c44ce70_192aa8c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T22:41:10Z",
+      "side": 1,
+      "message": "why is this one deprecated and the other one taking String path is not deprecated?",
+      "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62033d04_2f9b506a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T22:41:10Z",
+      "side": 1,
+      "message": "Suppress API error Eclipse raises due to 3 segment version number. Strict semver does not allow new API in service releases, though we do it sometimes in e.g. this fix, hence suppress the API error, also below for the other since tag",
+      "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "958298cf_12577e88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T22:41:10Z",
+      "side": 1,
+      "message": "unread variable, shouldn\u0027t that be passed to the new constructor of the PackInvalidException thrown in the idx() and readOneBlock() methods ?",
+      "range": {
+        "startLine": 139,
+        "startChar": 28,
+        "endLine": 139,
+        "endChar": 45
+      },
+      "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
