@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b078ddd3_4eb6275f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-11T03:07:03Z",
+      "side": 1,
+      "message": "I wonder if it\u0027s better to move this into the determineAtomicFileCreationSupport method?\n\nAt the moment the only caller is here (L360) but if in future it gets called from somewhere else, this patch won\u0027t be effective.",
+      "range": {
+        "startLine": 362,
+        "startChar": 4,
+        "endLine": 364,
+        "endChar": 4
+      },
+      "revId": "d07de5564dd290430e59737c0bcfdde74fb0d679",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
