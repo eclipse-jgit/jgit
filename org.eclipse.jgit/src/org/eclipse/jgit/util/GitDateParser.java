@@ -294,27 +294,41 @@ public class GitDateParser {
 			} catch (NumberFormatException e) {
 				return null;
 			}
-			if ("year".equals(parts[i + 1]) || "years".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.YEAR, -number);
-			else if ("month".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "months".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MONTH, -number);
-			else if ("week".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "weeks".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.WEEK_OF_YEAR, -number);
-			else if ("day".equals(parts[i + 1]) || "days".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.DATE, -number);
-			else if ("hour".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "hours".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.HOUR_OF_DAY, -number);
-			else if ("minute".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "minutes".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MINUTE, -number);
-			else if ("second".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "seconds".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.SECOND, -number);
-			else
+			if (null == parts[i + 1])
 				return null;
+			else
+				switch (parts[i + 1]) {
+				case "year": //$NON-NLS-1$
+				case "years": //$NON-NLS-1$
+					cal.add(Calendar.YEAR, -number);
+					break;
+				case "month": //$NON-NLS-1$
+				case "months": //$NON-NLS-1$
+					cal.add(Calendar.MONTH, -number);
+					break;
+				case "week": //$NON-NLS-1$
+				case "weeks": //$NON-NLS-1$
+					cal.add(Calendar.WEEK_OF_YEAR, -number);
+					break;
+				case "day": //$NON-NLS-1$
+				case "days": //$NON-NLS-1$
+					cal.add(Calendar.DATE, -number);
+					break;
+				case "hour": //$NON-NLS-1$
+				case "hours": //$NON-NLS-1$
+					cal.add(Calendar.HOUR_OF_DAY, -number);
+					break;
+				case "minute": //$NON-NLS-1$
+				case "minutes": //$NON-NLS-1$
+					cal.add(Calendar.MINUTE, -number);
+					break;
+				case "second": //$NON-NLS-1$
+				case "seconds": //$NON-NLS-1$
+					cal.add(Calendar.SECOND, -number);
+					break;
+				default:
+					return null;
+				}
 		}
 		return cal.getTime();
 	}
