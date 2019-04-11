@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c38c19d6_6f950b22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-11T03:32:37Z",
+      "side": 1,
+      "message": "Add missing braces here",
+      "revId": "8eddcfc954772965307ac157fe0250ebe57a89e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
