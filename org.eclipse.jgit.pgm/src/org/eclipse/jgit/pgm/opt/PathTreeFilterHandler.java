@@ -96,7 +96,7 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 			filters.add(PathFilter.create(path));
 		}
 
-		if (filters.size() == 0)
+		if (filters.isEmpty())
 			return 0;
 		if (filters.size() == 1) {
 			setter.addValue(filters.get(0));

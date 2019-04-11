@@ -45,7 +45,6 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -63,7 +62,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// check that there are no entries in the reflog and turn off writing
 		// reflogs
-		assertEquals(0, db.getReflogReader(Constants.HEAD).getReverseEntries().size());
+		assertTrue(db.getReflogReader(Constants.HEAD).getReverseEntries()
+				.isEmpty());
 		final FileBasedConfig cfg = db.getConfig();
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
@@ -72,9 +72,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// written
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD still contain no entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 0);
+		assertTrue("Reflog for HEAD still contains no entry", db
+				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
 
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
@@ -84,9 +83,9 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD should contain one entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
+		assertTrue("Reflog for HEAD should contain one entry",
+				db.getReflogReader(Constants.HEAD).getReverseEntries()
+						.size() == 1);
 
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
@@ -95,9 +94,9 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
-		assertTrue(
-				"Reflog for HEAD should contain two entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
+		assertTrue("Reflog for HEAD should contain two entries",
+				db.getReflogReader(Constants.HEAD).getReverseEntries()
+						.size() == 2);
 	}
 
 	private void commit(String commitMsg, long commitTime, int tz)
@@ -116,8 +115,10 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		int nl = commitMsg.indexOf('\n');
 		final RefUpdate ru = db.updateRef(Constants.HEAD);
 		ru.setNewObjectId(id);
-		ru.setRefLogMessage("commit : "
-				+ ((nl == -1) ? commitMsg : commitMsg.substring(0, nl)), false);
+		ru.setRefLogMessage(
+				"commit : "
+						+ ((nl == -1) ? commitMsg : commitMsg.substring(0, nl)),
+				false);
 		ru.forceUpdate();
 	}
 }
