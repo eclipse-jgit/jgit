@@ -25,4 +25,5 @@ Export-Package: org.eclipse.jgit.archive;version="5.4.0";
   uses:="org.eclipse.jgit.lib,
    org.eclipse.jgit.api,
    org.apache.commons.compress.archivers,
-   org.osgi.framework"
+   org.osgi.framework",
+ org.eclipse.jgit.archive.internal;x-internal:=true
