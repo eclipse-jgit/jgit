@@ -65,10 +65,18 @@
                 <message_argument value="supportsAtomicCreateNewFile()"/>
             </message_arguments>
         </filter>
-        <filter id="924844039">
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/PackInvalidException.java" type="org.eclipse.jgit.errors.PackInvalidException">
+        <filter id="1142947843">
             <message_arguments>
-                <message_argument value="4.5.6"/>
-                <message_argument value="4.5.0"/>
+                <message_argument value="4.5.7"/>
+                <message_argument value="PackInvalidException(File, Throwable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="4.5.7"/>
+                <message_argument value="PackInvalidException(String, Throwable)"/>
             </message_arguments>
         </filter>
     </resource>
