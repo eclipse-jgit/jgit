@@ -180,8 +180,8 @@ final class DeltaBaseCache {
 
 	int getMemoryUsedByTableForTest() {
 		int r = 0;
-		for (int i = 0; i < table.length; i++) {
-			for (Entry e = table[i]; e != null; e = e.tableNext) {
+		for (Entry table1 : table) {
+			for (Entry e = table1; e != null; e = e.tableNext) {
 				r += e.data.length;
 			}
 		}

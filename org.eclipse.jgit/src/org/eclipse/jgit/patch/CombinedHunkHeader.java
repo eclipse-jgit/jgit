@@ -109,12 +109,13 @@ public class CombinedHunkHeader extends HunkHeader {
 		final MutableInteger ptr = new MutableInteger();
 		ptr.value = nextLF(buf, startOffset, ' ');
 
-		for (int n = 0; n < old.length; n++) {
-			old[n].startLine = -parseBase10(buf, ptr.value, ptr);
-			if (buf[ptr.value] == ',')
-				old[n].lineCount = parseBase10(buf, ptr.value + 1, ptr);
-			else
-				old[n].lineCount = 1;
+		for (CombinedOldImage old1 : old) {
+			old1.startLine = -parseBase10(buf, ptr.value, ptr);
+			if (buf[ptr.value] == ',') {
+				old1.lineCount = parseBase10(buf, ptr.value + 1, ptr);
+			} else {
+				old1.lineCount = 1;
+			}
 		}
 
 		newStartLine = parseBase10(buf, ptr.value + 1, ptr);

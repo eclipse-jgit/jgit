@@ -102,8 +102,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final int aLast = 3;
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertNull(dc.getCacheTree(false));
@@ -142,8 +143,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final int acLast = 3;
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 
 		assertNull(dc.getCacheTree(false));
@@ -198,8 +200,9 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 
 		b.commit();
 		DirCache read = db.readDirCache();

@@ -1128,9 +1128,11 @@ public class RefDirectory extends RefDatabase {
 
 		// check whether the found new ref is the an additional ref. These refs
 		// should not go into looseRefs
-		for (int i = 0; i < additionalRefsNames.length; i++)
-			if (name.equals(additionalRefsNames[i]))
+		for (String additionalRefsName : additionalRefsNames) {
+			if (name.equals(additionalRefsName)) {
 				return n;
+			}
+		}
 
 		if (looseRefs.compareAndSet(curList, curList.add(idx, n)))
 			modCnt.incrementAndGet();
