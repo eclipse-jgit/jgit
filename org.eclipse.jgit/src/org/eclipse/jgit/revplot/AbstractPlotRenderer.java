@@ -114,8 +114,8 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			drawLine(myColor, myLaneX, h, myLaneX, (h + dotSize) / 2,
 					LINE_WIDTH);
 
-			for (int i = 0; i < commit.mergingLanes.length; i++) {
-				final TLane pLane = (TLane) commit.mergingLanes[i];
+			for (PlotLane mergingLane : commit.mergingLanes) {
+				final TLane pLane = (TLane) mergingLane;
 				final TColor pColor = laneColor(pLane);
 				final int cx = laneC(pLane);
 
@@ -135,10 +135,9 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			}
 		}
 
-
 		if (commit.getChildCount() > 0) {
-			for (int i = 0; i < commit.forkingOffLanes.length; i++) {
-				final TLane childLane = (TLane) commit.forkingOffLanes[i];
+			for (PlotLane forkingOffLane : commit.forkingOffLanes) {
+				final TLane childLane = (TLane) forkingOffLane;
 				final TColor cColor = laneColor(childLane);
 				final int cx = laneC(childLane);
 				if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
