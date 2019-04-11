@@ -147,14 +147,14 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			try {
 				ObjectId headId = repo.resolve(Constants.HEAD);
 				if (headId == null)
-					throw new NoHeadException(
-							JGitText.get().noHEADExistsAndNoExplicitStartingRevisionWasSpecified);
+					throw new NoHeadException(JGitText
+							.get().noHEADExistsAndNoExplicitStartingRevisionWasSpecified);
 				add(headId);
 			} catch (IOException e) {
 				// all exceptions thrown by add() shouldn't occur and represent
 				// severe low-level exception which are therefore wrapped
-				throw new JGitInternalException(
-						JGitText.get().anExceptionOccurredWhileTryingToAddTheIdOfHEAD,
+				throw new JGitInternalException(JGitText
+						.get().anExceptionOccurredWhileTryingToAddTheIdOfHEAD,
 						e);
 			}
 		}
@@ -194,8 +194,8 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 *             {@link org.eclipse.jgit.errors.MissingObjectException}) are
 	 *             typically not wrapped here but thrown as original exception
 	 */
-	public LogCommand add(AnyObjectId start) throws MissingObjectException,
-			IncorrectObjectTypeException {
+	public LogCommand add(AnyObjectId start)
+			throws MissingObjectException, IncorrectObjectTypeException {
 		return add(true, start);
 	}
 
@@ -225,8 +225,8 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 *             {@link org.eclipse.jgit.errors.MissingObjectException}) are
 	 *             typically not wrapped here but thrown as original exception
 	 */
-	public LogCommand not(AnyObjectId start) throws MissingObjectException,
-			IncorrectObjectTypeException {
+	public LogCommand not(AnyObjectId start)
+			throws MissingObjectException, IncorrectObjectTypeException {
 		return add(false, start);
 	}
 
@@ -273,7 +273,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 */
 	public LogCommand all() throws IOException {
 		for (Ref ref : getRepository().getRefDatabase().getRefs()) {
-			if(!ref.isPeeled())
+			if (!ref.isPeeled())
 				ref = getRepository().getRefDatabase().peel(ref);
 
 			ObjectId objectId = ref.getPeeledObjectId();
@@ -282,11 +282,9 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			RevCommit commit = null;
 			try {
 				commit = walk.parseCommit(objectId);
-			} catch (MissingObjectException e) {
-				// ignore: the ref points to an object that does not exist;
-				// it should be ignored as traversal starting point.
-			} catch (IncorrectObjectTypeException e) {
-				// ignore: the ref points to an object that is not a commit
+			} catch (MissingObjectException | IncorrectObjectTypeException e) {
+				// ignore: the ref points to an object that does not exist|that
+				// is not a commit;
 				// (e.g. a tree or a blob);
 				// it should be ignored as traversal starting point.
 			}
@@ -348,17 +346,14 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			} else
 				walk.markUninteresting(walk.lookupCommit(start));
 			return this;
-		} catch (MissingObjectException e) {
-			throw e;
-		} catch (IncorrectObjectTypeException e) {
+		} catch (MissingObjectException | IncorrectObjectTypeException e) {
 			throw e;
 		} catch (IOException e) {
-			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().exceptionOccurredDuringAddingOfOptionToALogCommand
-					, start), e);
+			throw new JGitInternalException(MessageFormat.format(JGitText
+					.get().exceptionOccurredDuringAddingOfOptionToALogCommand,
+					start), e);
 		}
 	}
-
 
 	/**
 	 * Set a filter for the <code>LogCommand</code>.

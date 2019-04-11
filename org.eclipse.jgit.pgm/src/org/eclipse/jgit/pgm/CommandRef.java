@@ -156,24 +156,19 @@ public class CommandRef {
 		final Constructor<? extends TextBuiltin> c;
 		try {
 			c = impl.getDeclaredConstructor();
-		} catch (SecurityException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
+		} catch (SecurityException | NoSuchMethodException e) {
+			throw new RuntimeException(MessageFormat
+					.format(CLIText.get().cannotCreateCommand, getName(), e));
 		}
 		c.setAccessible(true);
 
 		final TextBuiltin r;
 		try {
 			r = c.newInstance();
-		} catch (InstantiationException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			throw new RuntimeException(MessageFormat
+					.format(CLIText.get().cannotCreateCommand, getName(), e));
 		}
 		r.setCommandName(getName());
 		return r;

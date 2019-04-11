@@ -403,12 +403,9 @@ class TextHashFunctions extends TextBuiltin {
 					folds.add(fold);
 				}
 			}
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException("Cannot determine names", e); //$NON-NLS-1$
-		} catch (IllegalAccessException e) {
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new RuntimeException("Cannot determine names", e); //$NON-NLS-1$
 		}
-
 		List<Function> all = new ArrayList<>();
 		for (Hash cmp : hashes) {
 			if (include(cmp.name, hashFunctions)) {

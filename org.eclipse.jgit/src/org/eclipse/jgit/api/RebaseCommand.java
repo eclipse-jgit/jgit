@@ -564,8 +564,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		List<RevCommit> newParents = getNewParents(commitToPick);
 		boolean otherParentsUnchanged = true;
 		for (int i = 1; i < commitToPick.getParentCount(); i++)
-			otherParentsUnchanged &= newParents.get(i).equals(
-					commitToPick.getParent(i));
+			otherParentsUnchanged &= newParents.get(i)
+					.equals(commitToPick.getParent(i));
 		// If the first parent of commitToPick is the current HEAD,
 		// we do a fast-forward instead of cherry-pick to avoid
 		// unnecessary object rewriting
@@ -1295,13 +1295,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 			}
 			return newCommit;
-		} catch (RefAlreadyExistsException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (RefNotFoundException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (InvalidRefNameException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (CheckoutConflictException e) {
+		} catch (RefAlreadyExistsException | RefNotFoundException
+				| InvalidRefNameException | CheckoutConflictException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
