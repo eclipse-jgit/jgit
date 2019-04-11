@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8eb8360d_6c81a384",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-04-11T15:27:14Z",
+      "side": 1,
+      "message": "Have you set the right code formatter? We are using tabs instead of spaces. Your first line in modified areas also does so, but the following lines use spaces?\n\nPlease review also the rest of your changes regarding this.\n\nOther than that: we are down from \u003e2000 lines to 700 lines changed just by removing unrelated changes. Great!",
+      "revId": "e60fef222603bb5fd41ef52279d21afaa59a5305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
