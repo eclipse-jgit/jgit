@@ -205,8 +205,9 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		}
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 		assertFalse(dc.hasUnmergedPaths());
 
@@ -229,8 +230,9 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		ents[2].setFileMode(FileMode.REGULAR_FILE);
 
 		final DirCacheBuilder b = dc.builder();
-		for (int i = 0; i < ents.length; i++)
-			b.add(ents[i]);
+		for (DirCacheEntry ent : ents) {
+			b.add(ent);
+		}
 		b.finish();
 		assertTrue(dc.hasUnmergedPaths());
 	}
