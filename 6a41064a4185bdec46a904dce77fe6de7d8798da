@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "31ff60ff_04fe1812",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-11T03:26:51Z",
+      "side": 1,
+      "message": "This should be removed.\n\nDone.",
+      "range": {
+        "startLine": 57,
+        "startChar": 34,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c44ce70_192aa8c1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
         "patchSetId": 4
@@ -66,6 +89,29 @@
       "side": 1,
       "message": "I\u0027m not seeing these warnings, although I do see several other API related warnings.\n\nCould you fix this in a follow-up commit?",
       "parentUuid": "62033d04_2f9b506a",
+      "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "824bac6b_fb0b484c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackInvalidException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-11T03:26:51Z",
+      "side": 1,
+      "message": "\"with cause\"",
+      "range": {
+        "startLine": 92,
+        "startChar": 34,
+        "endLine": 92,
+        "endChar": 35
+      },
       "revId": "6a41064a4185bdec46a904dce77fe6de7d8798da",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
