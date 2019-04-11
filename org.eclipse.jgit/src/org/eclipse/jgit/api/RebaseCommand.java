@@ -362,7 +362,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			List<RebaseTodoLine> steps = repo.readRebaseTodo(
 					rebaseState.getPath(GIT_REBASE_TODO), false);
-			if (steps.size() == 0) {
+			if (steps.isEmpty()) {
 				return finishRebase(walk.parseCommit(repo.resolve(Constants.HEAD)), false);
 			}
 			if (isInteractive()) {

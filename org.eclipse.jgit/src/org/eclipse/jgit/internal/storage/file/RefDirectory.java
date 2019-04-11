@@ -745,7 +745,7 @@ public class RefDirectory extends RefDatabase {
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
 		}
-		if (refs.size() == 0) {
+		if (refs.isEmpty()) {
 			return null;
 		}
 		FS fs = parent.getFS();

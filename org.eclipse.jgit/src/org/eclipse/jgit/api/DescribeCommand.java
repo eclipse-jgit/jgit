@@ -246,9 +246,9 @@ public class DescribeCommand extends GitCommand<String> {
 	};
 
 	private Optional<Ref> getBestMatch(List<Ref> tags) {
-		if (tags == null || tags.size() == 0) {
+		if (tags == null || tags.isEmpty()) {
 			return Optional.empty();
-		} else if (matchers.size() == 0) {
+		} else if (matchers.isEmpty()) {
 			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
 		} else {

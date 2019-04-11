@@ -45,7 +45,6 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -63,7 +62,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// check that there are no entries in the reflog and turn off writing
 		// reflogs
-		assertEquals(0, db.getReflogReader(Constants.HEAD).getReverseEntries().size());
+		assertTrue(db.getReflogReader(Constants.HEAD).getReverseEntries()
+				.isEmpty());
 		final FileBasedConfig cfg = db.getConfig();
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
@@ -72,9 +72,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// written
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD still contain no entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 0);
+		assertTrue("Reflog for HEAD still contain no entry", db
+				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
 
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
