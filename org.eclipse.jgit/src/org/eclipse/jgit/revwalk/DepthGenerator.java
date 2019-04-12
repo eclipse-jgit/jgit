@@ -108,12 +108,25 @@ class DepthGenerator extends Generator {
 
 		// Begin by sucking out all of the source's commits, and
 		// adding them to the pending queue
+		FIFORevQueue unshallowCommits = new FIFORevQueue();
 		for (;;) {
 			RevCommit c = s.next();
 			if (c == null)
 				break;
-			if (((DepthWalk.Commit) c).getDepth() == 0)
+			if (c.has(UNSHALLOW)) {
+				unshallowCommits.add(c);
+			} else if (((DepthWalk.Commit) c).getDepth() == 0) {
 				pending.add(c);
+			}
+		}
+		// Move unshallow commits to the front so that the REINTERESTING flag
+		// carry over code is executed first.
+		for (;;) {
+			RevCommit c = unshallowCommits.next();
+			if (c == null) {
+				break;
+			}
+			pending.unpop(c);
 		}
 
 		// Mark DEEPEN_NOT on all deepen-not commits and their ancestors.
