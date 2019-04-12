@@ -365,50 +365,50 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_CHECKSTAT = "checkstat";
 
 	/**
-	 * The "renamelimit" key in the "diff section"
+	 * The "renamelimit" key in the "diff" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_KEY_RENAMELIMIT = "renamelimit";
 
 	/**
-	 * The "trustfolderstat" key in the "core section"
+	 * The "trustfolderstat" key in the "core" section
 	 * @since 3.6
 	 */
 	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
 
 	/**
-	 * The "supportsAtomicFileCreation" key in the "core section"
+	 * The "supportsAtomicFileCreation" key in the "core" section
 	 *
 	 * @since 4.5
 	 */
 	public static final String CONFIG_KEY_SUPPORTSATOMICFILECREATION = "supportsatomicfilecreation";
 
 	/**
-	 * The "noprefix" key in the "diff section"
+	 * The "noprefix" key in the "diff" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_KEY_NOPREFIX = "noprefix";
 
 	/**
-	 * A "renamelimit" value in the "diff section"
+	 * A "renamelimit" value in the "diff" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_RENAMELIMIT_COPY = "copy";
 
 	/**
-	 * A "renamelimit" value in the "diff section"
+	 * A "renamelimit" value in the "diff" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_RENAMELIMIT_COPIES = "copies";
 
 	/**
-	 * The "renames" key in the "diff section"
+	 * The "renames" key in the "diff" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_KEY_RENAMES = "renames";
 
 	/**
-	 * The "inCoreLimit" key in the "merge section". It's a size limit (bytes) used to
+	 * The "inCoreLimit" key in the "merge" section. It's a size limit (bytes) used to
 	 * control a file to be stored in {@code Heap} or {@code LocalFile} during the merge.
 	 * @since 4.9
 	 */
