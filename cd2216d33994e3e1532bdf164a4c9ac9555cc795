@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3cc85d65_1fc8b6f5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f40fe36_a11b5888",
+      "revId": "cd2216d33994e3e1532bdf164a4c9ac9555cc795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "587dcd18_fbd79cac",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
         "patchSetId": 12
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "be4e5747_32e6edd2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "587dcd18_fbd79cac",
+      "revId": "cd2216d33994e3e1532bdf164a4c9ac9555cc795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51bcccc3_94bbfc6e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
         "patchSetId": 12
@@ -47,6 +83,24 @@
       "writtenOn": "2019-04-13T17:53:42Z",
       "side": 1,
       "message": "unrelated formatting change",
+      "revId": "cd2216d33994e3e1532bdf164a4c9ac9555cc795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1babacbb_2bceef4c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51bcccc3_94bbfc6e",
       "revId": "cd2216d33994e3e1532bdf164a4c9ac9555cc795",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
