@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "add64555_41470c8e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CommandCatalog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "misplaced comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a540fc08_b62ff152",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CommandRef.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1149158b_8c9e12f1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "these catch blocks can also be combined",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b517155_086ec203",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "remove this comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97961177_67d69a01",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "remove this comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9b8c133_0defe8ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "misplaced comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de2a19db_98bc2461",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "too wide line",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b1f5b74_f665ed60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalFetchConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "remove this redundant comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04579fa0_9c1237d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalFetchConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "combine this with catching RuntimeException",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fb300c_64da7cbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0827c76e_81d3be0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "fix formatting",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a74e55e4_fe4dd620",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47faca27_61eaf2e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GSSManagerFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-13T17:28:11Z",
+      "side": 1,
+      "message": "too wide",
+      "revId": "b6ff0909bab30ff37c3194395aec0d24e165fd89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
