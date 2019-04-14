@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e68c271_c6fc34e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-14T14:58:45Z",
+      "side": 1,
+      "message": "Missing blank line above trailer paragraph.",
+      "revId": "39b0b51b1253f569888db3578b01708a14360b69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "368c9293_e40dfce6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-14T14:58:45Z",
+      "side": 1,
+      "message": "This previously returned an unclosed SubmoduleWalk, but after this change it returns a closed one. Is this safe? Either way, it should be discused in the commit message.",
+      "revId": "39b0b51b1253f569888db3578b01708a14360b69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
