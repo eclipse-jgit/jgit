@@ -144,7 +144,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            path and .gitmodules at the root.
 	 * @param path
 	 *            a {@link java.lang.String} object.
-	 * @return generator at given path, null if no submodule at given path
+	 * @return generator at given path. The caller is responsible for calling
+	 *         {@link #close()}. Null if no submodule at given path.
 	 * @throws java.io.IOException
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
