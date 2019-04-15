@@ -2,19 +2,19 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.lfs.server
-Bundle-Version: 4.5.7.201904151645-r
+Bundle-Version: 4.5.8.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
-Export-Package: org.eclipse.jgit.lfs.server;version="4.5.7";
+Export-Package: org.eclipse.jgit.lfs.server;version="4.5.8";
   uses:="javax.servlet.http,
    org.eclipse.jgit.lfs.lib",
- org.eclipse.jgit.lfs.server.fs;version="4.5.7";
+ org.eclipse.jgit.lfs.server.fs;version="4.5.8";
   uses:="javax.servlet,
    javax.servlet.http,
    org.eclipse.jgit.lfs.server,
    org.eclipse.jgit.lfs.lib",
- org.eclipse.jgit.lfs.server.internal;version="4.5.7";x-internal:=true,
- org.eclipse.jgit.lfs.server.s3;version="4.5.7";
+ org.eclipse.jgit.lfs.server.internal;version="4.5.8";x-internal:=true,
+ org.eclipse.jgit.lfs.server.s3;version="4.5.8";
   uses:="org.eclipse.jgit.lfs.server,
    org.eclipse.jgit.lfs.lib"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
@@ -24,12 +24,12 @@ Import-Package: com.google.gson;version="[2.2.4,3.0.0)",
  javax.servlet.http;version="[3.1.0,4.0.0)",
  org.apache.http;version="[4.3.0,5.0.0)",
  org.apache.http.client;version="[4.3.0,5.0.0)",
- org.eclipse.jgit.annotations;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.internal;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.internal.storage.file;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.lfs.errors;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.lfs.lib;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.nls;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.transport.http;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.transport.http.apache;version="[4.5.7,4.6.0)",
- org.eclipse.jgit.util;version="[4.5.7,4.6.0)"
+ org.eclipse.jgit.annotations;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.internal;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.internal.storage.file;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.lfs.errors;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.lfs.lib;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.nls;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.transport.http;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.transport.http.apache;version="[4.5.8,4.6.0)",
+ org.eclipse.jgit.util;version="[4.5.8,4.6.0)"
