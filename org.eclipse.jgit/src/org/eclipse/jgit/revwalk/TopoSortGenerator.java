@@ -71,15 +71,32 @@ class TopoSortGenerator extends Generator {
 	 */
 	TopoSortGenerator(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		pending = new FIFORevQueue();
+		FIFORevQueue tempQueue = new FIFORevQueue();
 		outputType = s.outputType() | SORT_TOPO;
-		s.shareFreeList(pending);
+		s.shareFreeList(tempQueue);
 		for (;;) {
 			final RevCommit c = s.next();
 			if (c == null)
 				break;
-			for (RevCommit p : c.parents)
+			// BUG: Cannot use RevFlag.SEEN because the upstream generator
+			// produces SEEN commits.
+			if ((c.flags & RevWalk.TEMP_MARK) != 0) {
+				continue;
+			}
+			for (RevCommit p : c.parents) {
 				p.inDegree++;
+			}
+			c.flags |= RevWalk.TEMP_MARK;
+			tempQueue.add(c);
+		}
+		pending = new FIFORevQueue();
+		tempQueue.shareFreeList(pending);
+		for (;;) {
+			RevCommit c = tempQueue.next();
+			if (c == null) {
+				break;
+			}
+			c.flags &= ~RevWalk.TEMP_MARK;
 			pending.add(c);
 		}
 	}
