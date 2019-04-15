@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bff8453_a402e0e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-04-15T17:48:01Z",
+      "side": 1,
+      "message": "Can this say a little more? I.e. what is the user-visible effect of this change, what was broken about what it did before, how does the change improve it?\n\nCan the change include tests?",
+      "revId": "b4172c63877a1f3e3b6525909afe68c65b1c1cbd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
