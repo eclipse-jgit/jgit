@@ -78,8 +78,13 @@ class TopoSortGenerator extends Generator {
 			final RevCommit c = s.next();
 			if (c == null)
 				break;
-			for (RevCommit p : c.parents)
+			if ((c.flags & RevWalk.TEMP_MARK) != 0) {
+				continue;
+			}
+			for (RevCommit p : c.parents) {
 				p.inDegree++;
+			}
+			c.flags |= RevWalk.TEMP_MARK;
 			pending.add(c);
 		}
 	}
@@ -123,6 +128,7 @@ class TopoSortGenerator extends Generator {
 					pending.unpop(p);
 				}
 			}
+			c.flags &= ~RevWalk.TEMP_MARK;
 			return c;
 		}
 	}
