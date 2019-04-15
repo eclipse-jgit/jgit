@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a89143c0_fee9d980",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2100,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-04-15T23:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6835bd5_704b85e4",
+      "range": {
+        "startLine": 2100,
+        "startChar": 17,
+        "endLine": 2100,
+        "endChar": 26
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1023c135_099cda46",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e608d305_bd4e8902",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-04-15T23:43:35Z",
+      "side": 1,
+      "message": "This is tricky to do. By the time skipTree is called when running tests, currVisit.ptr is already past the first tree entry. But the only obvious way I can think of to confirm the precondition is to compare ptr to 0.\n\nAnyway, I did change the javadoc to suggest that you only call this if the last object returned was the tree you want to skip.",
+      "parentUuid": "1023c135_099cda46",
+      "range": {
+        "startLine": 398,
+        "startChar": 2,
+        "endLine": 398,
+        "endChar": 11
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbb8ed9c_e4cd09f8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2019-04-04T22:09:59Z",
       "side": 1,
       "message": "This part of the javadoc is redundant.",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 7
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad847bb2_98083168",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-04-15T23:43:35Z",
+      "side": 1,
+      "message": "You mean the word \"Get\" or the whole line? I\u0027m guessing you\u0027re thinking the whole line, since it was copy-pasted to the @return line :) So I\u0027ve deleted it.",
+      "parentUuid": "cbb8ed9c_e4cd09f8",
       "range": {
         "startLine": 592,
         "startChar": 4,
