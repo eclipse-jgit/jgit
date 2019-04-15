@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e311ac9e_af236da4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-15T15:33:42Z",
+      "side": 1,
+      "message": "Exactly.",
+      "parentUuid": "e88da1a2_96b55a8b",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b95f3b4b_dbe296ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2019-04-09T02:12:34Z",
       "side": 1,
       "message": "This is a bit confusing: it reads in the \"next\" character (the name makes it sound like lookahead), but then discards it.\n\nDo I understand correctly that the intent is the following?\n\n   \\\u003cCR\u003e\u003cLF\u003e: skip it\n   \\\u003cCR\u003e\u003cEOF\u003e: append \u003cCR\u003e to value\n   \\\u003cCR\u003e\u003canything else\u003e: append \u003cCR\u003e to value, and then handle \u003canything else\u003e\n\nYou might be able to do something like this:\n\n  for (;;) {\n    int c \u003d in.read();\n retry:\n    if (c \u003c 0) {\n      ...\n    }\n    ...\n      case \u0027\\r\u0027:\n        c \u003d in.read();\n        if (c \u003d\u003d \u0027\\n\u0027) {\n          continue; // skip the escaped CR-LF\n        }\n        value.append(\u0027\\r\u0027);\n        goto retry;",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52183388_11aeccd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-15T15:33:42Z",
+      "side": 1,
+      "message": "It _is_ a look-ahead, unless it is a LF.\n\nThe intent is:\n\n* \\\u003cCR\u003e\u003cLF\u003e: skip it\n* \\\u003cCR\u003e\u003cEOF\u003e: throw exception (invalid escape)\n* \\\u003cCR\u003e\u003cother\u003e: throw exception (invalid escape), but leave the StringReader in a defined state, i.e., undo the read-ahead of \"next\".\n\nThe StringReader is passed in as a parameter, so even if we raise an exception in this method, the state of the StringReader should be correct. If the look-ahead \"next\" is EOF though, we mustn\u0027t undo the read; check the implementation of StringReader.",
+      "parentUuid": "b95f3b4b_dbe296ed",
       "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -91,6 +127,48 @@
       "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b0a27d_664adc92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-15T15:33:42Z",
+      "side": 1,
+      "message": "This is not an InputStream, it\u0027s a StringReader defined at line 1468 below. The use of reset() here is consistent with the other uses in this class.",
+      "parentUuid": "7aa5d89f_84d66802",
+      "range": {
+        "startLine": 1421,
+        "startChar": 6,
+        "endLine": 1421,
+        "endChar": 16
+      },
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "489220f9_69208988",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-04-15T15:33:42Z",
+      "side": 1,
+      "message": "What exactly should be tested? Note also that this method is private, as is StringReader. Writing a unit test to verify for instance that the sequence \\\u003cCR\u003ea produces an \"invalid escape\" exception _and_ the next read on the StringReader returns \"a\" would require making quite a few things package visible at least.",
+      "parentUuid": "a3b5748d_c6218d51",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
