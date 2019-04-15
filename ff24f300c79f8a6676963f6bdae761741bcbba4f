@@ -22,6 +22,30 @@
       "revId": "ff24f300c79f8a6676963f6bdae761741bcbba4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "952f4465_89ef85e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-15T08:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c610f7b_94132c39",
+      "range": {
+        "startLine": 149,
+        "startChar": 20,
+        "endLine": 149,
+        "endChar": 31
+      },
+      "revId": "ff24f300c79f8a6676963f6bdae761741bcbba4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
