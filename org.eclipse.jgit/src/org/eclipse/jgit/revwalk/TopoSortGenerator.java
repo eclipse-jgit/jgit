@@ -72,13 +72,16 @@ class TopoSortGenerator extends Generator {
 	TopoSortGenerator(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		super(s.firstParent);
-		pending = new FIFORevQueue(firstParent);
+		FIFORevQueue tempQueue = new FIFORevQueue();
 		outputType = s.outputType() | SORT_TOPO;
-		s.shareFreeList(pending);
+		s.shareFreeList(tempQueue);
 		for (;;) {
-			final RevCommit c = s.next();
+			RevCommit c = s.next();
 			if (c == null) {
 				break;
+			}
+			if ((c.flags & RevWalk.TEMP_MARK) != 0) {
+				continue;
 			}
 			for (int i = 0; i < c.parents.length; i++) {
 				if (firstParent && i > 0) {
@@ -86,6 +89,17 @@ class TopoSortGenerator extends Generator {
 				}
 				c.parents[i].inDegree++;
 			}
+			c.flags |= RevWalk.TEMP_MARK;
+			tempQueue.add(c);
+		}
+		pending = new FIFORevQueue(firstParent);
+		tempQueue.shareFreeList(pending);
+		for (;;) {
+			RevCommit c = tempQueue.next();
+			if (c == null) {
+				break;
+			}
+			c.flags &= ~RevWalk.TEMP_MARK;
 			pending.add(c);
 		}
 	}
@@ -104,7 +118,7 @@ class TopoSortGenerator extends Generator {
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
-			final RevCommit c = pending.next();
+			RevCommit c = pending.next();
 			if (c == null)
 				return null;
 
