@@ -22,6 +22,30 @@
       "revId": "81b1095c16bf2c177ee38c878fd0c8f48402498f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55bf386e_eeaef4eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 238203
+      },
+      "writtenOn": "2019-04-16T13:15:05Z",
+      "side": 1,
+      "message": "What that would do is basically make the duplicated subtree have one less level, but be located one level deeper from the root.\n\nI don\u0027t think there\u0027s anything wrong with the current setup perse, so I\u0027ve added an extra pair of duplicated subtrees which is exactly that: one level deeper from root, but themselves having one less level of depth.",
+      "parentUuid": "9ecc1eed_153b7639",
+      "range": {
+        "startLine": 1732,
+        "startChar": 58,
+        "endLine": 1732,
+        "endChar": 60
+      },
+      "revId": "81b1095c16bf2c177ee38c878fd0c8f48402498f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
