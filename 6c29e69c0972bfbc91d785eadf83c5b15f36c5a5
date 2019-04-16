@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ce7d5e9_816e23f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-16T01:48:39Z",
+      "side": 1,
+      "message": "Missing licence/copyright header.",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb06d3a_90462da7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-16T01:48:39Z",
+      "side": 1,
+      "message": "happens",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5be27b3f_323199d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-16T01:48:39Z",
+      "side": 1,
+      "message": "Is this  bug unrelated to what is being fixed here? If so please create a new report in the bug tracker.",
+      "range": {
+        "startLine": 81,
+        "startChar": 3,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
