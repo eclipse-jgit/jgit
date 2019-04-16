@@ -2,31 +2,31 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.junit
-Bundle-Version: 4.7.9.201904161809-r
+Bundle-Version: 4.7.10.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.jgit.api;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.api.errors;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.dircache;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.errors;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.internal.storage.file;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.internal.storage.pack;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.lib;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.merge;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.revwalk;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.storage.file;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.treewalk;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.treewalk.filter;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.util;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.util.io;version="[4.7.9,4.8.0)",
- org.eclipse.jgit.util.time;version="[4.7.9,4.8.0)",
+Import-Package: org.eclipse.jgit.api;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.api.errors;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.dircache;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.errors;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.internal.storage.file;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.internal.storage.pack;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.lib;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.merge;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.revwalk;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.storage.file;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.treewalk;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.treewalk.filter;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.util;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.util.io;version="[4.7.10,4.8.0)",
+ org.eclipse.jgit.util.time;version="[4.7.10,4.8.0)",
  org.junit;version="[4.0.0,5.0.0)",
  org.junit.rules;version="[4.9.0,5.0.0)",
  org.junit.runner;version="[4.0.0,5.0.0)",
  org.junit.runners.model;version="[4.5.0,5.0.0)"
-Export-Package: org.eclipse.jgit.junit;version="4.7.9";
+Export-Package: org.eclipse.jgit.junit;version="4.7.10";
   uses:="org.eclipse.jgit.dircache,
    org.eclipse.jgit.lib,
    org.eclipse.jgit.revwalk,
@@ -35,4 +35,4 @@ Export-Package: org.eclipse.jgit.junit;version="4.7.9";
    org.eclipse.jgit.util,
    org.eclipse.jgit.storage.file,
    org.eclipse.jgit.api",
- org.eclipse.jgit.junit.time;version="4.7.9"
+ org.eclipse.jgit.junit.time;version="4.7.10"
