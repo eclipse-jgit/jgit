@@ -48,6 +48,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,6 +88,30 @@ public class ObjectUploadListener implements ReadListener {
 
 	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
+	private final Path path;
+
+	private long uploaded;
+
+	private Callback callback;
+
+	/**
+	 * Callback invoked after object upload completed.
+	 *
+	 * @since 5.1.7
+	 *
+	 */
+	public interface Callback {
+		/**
+		 * Notified after object upload completed.
+		 *
+		 * @param path
+		 *            path to the object on the backend
+		 * @param size
+		 *            uploaded size in bytes
+		 */
+		void uploadCompleted(String path, long size);
+	}
+
 	/**
 	 * Constructor for ObjectUploadListener.
 	 *
@@ -113,7 +138,21 @@ public class ObjectUploadListener implements ReadListener {
 		this.inChannel = Channels.newChannel(in);
 		this.out = repository.getOutputStream(id);
 		this.channel = Channels.newChannel(out);
+		this.path = repository.getPath(id);
+		this.uploaded = 0L;
 		response.setContentType(Constants.CONTENT_TYPE_GIT_LFS_JSON);
+	}
+
+	/**
+	 * Set the callback to invoke after upload completed.
+	 *
+	 * @param callback
+	 *            the callback
+	 * @return {@code this}.
+	 */
+	public ObjectUploadListener setCallback(Callback callback) {
+		this.callback = callback;
+		return this;
 	}
 
 	/**
@@ -126,12 +165,13 @@ public class ObjectUploadListener implements ReadListener {
 		while (in.isReady()) {
 			if (inChannel.read(buffer) > 0) {
 				buffer.flip();
-				channel.write(buffer);
+				uploaded += Integer.valueOf(channel.write(buffer)).longValue();
 				buffer.compact();
 			} else {
 				buffer.flip();
 				while (buffer.hasRemaining()) {
-					channel.write(buffer);
+					uploaded += Integer.valueOf(channel.write(buffer))
+							.longValue();
 				}
 				close();
 				return;
@@ -158,6 +198,9 @@ public class ObjectUploadListener implements ReadListener {
 			// for successful PUT without response body
 			if (!response.isCommitted()) {
 				response.setStatus(HttpServletResponse.SC_OK);
+			}
+			if (callback != null) {
+				callback.uploadCompleted(path.toString(), uploaded);
 			}
 		} finally {
 			context.complete();
