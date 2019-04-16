@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2a7cae37_1015ac0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2100,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:46:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a89143c0_fee9d980",
+      "range": {
+        "startLine": 2100,
+        "startChar": 17,
+        "endLine": 2100,
+        "endChar": 26
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1023c135_099cda46",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 5
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "736f1d3a_0a4944f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:46:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e608d305_bd4e8902",
+      "range": {
+        "startLine": 398,
+        "startChar": 2,
+        "endLine": 398,
+        "endChar": 11
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbb8ed9c_e4cd09f8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 5
@@ -140,6 +188,30 @@
       "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1041517c_b70423df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:46:57Z",
+      "side": 1,
+      "message": "That\u0027s correct. Thanks.",
+      "parentUuid": "ad847bb2_98083168",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 7
+      },
+      "revId": "0c5b1924972a606f6d2666a4b3de52e1902d0c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
