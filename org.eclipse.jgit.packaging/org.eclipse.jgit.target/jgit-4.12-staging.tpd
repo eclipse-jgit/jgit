@@ -1,7 +1,7 @@
 target "jgit-4.12-staging" with source configurePhase
 
 include "projects/jetty-9.4.14.tpd"
-include "orbit/R20190528213420-2019-06.tpd"
+include "orbit/R20190531194818-2019-06.tpd"
 
 location "http://download.eclipse.org/staging/2019-06/" {
 	org.eclipse.osgi lazy
