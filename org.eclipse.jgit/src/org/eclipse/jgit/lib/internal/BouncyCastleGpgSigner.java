@@ -45,6 +45,8 @@ package org.eclipse.jgit.lib.internal;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Security;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -100,7 +102,11 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
 					committer, passphrasePrompt);
 			return gpgKey != null;
-		} catch (PGPException | IOException | URISyntaxException e) {
+		} catch (PGPException
+                      | IOException
+                      | NoSuchAlgorithmException
+                      | NoSuchProviderException
+                      | URISyntaxException e) {
 			return false;
 		}
 	}
@@ -109,7 +115,8 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 			PersonIdent committer,
 			BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt)
 			throws CanceledException, UnsupportedCredentialItem, IOException,
-			PGPException, URISyntaxException {
+      NoSuchAlgorithmException, NoSuchProviderException, PGPException,
+      URISyntaxException {
 		if (gpgSigningKey == null || gpgSigningKey.isEmpty()) {
 			gpgSigningKey = committer.getEmailAddress();
 		}
@@ -153,7 +160,11 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 				signatureGenerator.generate().encode(out);
 			}
 			commit.setGpgSignature(new GpgSignature(buffer.toByteArray()));
-		} catch (PGPException | IOException | URISyntaxException e) {
+		} catch (PGPException
+                      | IOException
+                      | NoSuchAlgorithmException
+                      | NoSuchProviderException
+                      | URISyntaxException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}

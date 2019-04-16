@@ -54,6 +54,8 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Locale;
@@ -67,6 +69,7 @@ import org.bouncycastle.gpg.keybox.KeyBox;
 import org.bouncycastle.gpg.keybox.KeyInformation;
 import org.bouncycastle.gpg.keybox.PublicKeyRingBlob;
 import org.bouncycastle.gpg.keybox.UserID;
+import org.bouncycastle.gpg.keybox.jcajce.JcaKeyBoxBuilder;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
@@ -211,7 +214,7 @@ class BouncyCastleGpgKeyLocator {
 	 *             in case of problems reading the file
 	 */
 	private PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile)
-			throws IOException {
+			throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
 		KeyBox keyBox = readKeyBoxFile(keyboxFile);
 		for (KeyBlob keyBlob : keyBox.getKeyBlobs()) {
 			if (keyBlob.getType() == BlobType.OPEN_PGP_BLOB) {
@@ -242,8 +245,8 @@ class BouncyCastleGpgKeyLocator {
 	 * @throws UnsupportedCredentialItem
 	 */
 	public BouncyCastleGpgKey findSecretKey()
-			throws IOException, PGPException, CanceledException,
-			UnsupportedCredentialItem, URISyntaxException {
+			throws IOException, NoSuchAlgorithmException, NoSuchProviderException,
+			PGPException, CanceledException, UnsupportedCredentialItem, URISyntaxException {
 		if (exists(USER_KEYBOX_PATH)) {
 			PGPPublicKey publicKey = //
 					findPublicKeyInKeyBox(USER_KEYBOX_PATH);
@@ -367,14 +370,12 @@ class BouncyCastleGpgKeyLocator {
 				.getPublicKey();
 	}
 
-	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException {
+	private KeyBox readKeyBoxFile(Path keyboxFile)
+    throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
 		KeyBox keyBox;
 		try (InputStream in = new BufferedInputStream(
 				newInputStream(keyboxFile))) {
-			// note: KeyBox constructor reads in the whole InputStream at once
-			// this code will change in 1.61 to
-			// either 'new BcKeyBox(in)' or 'new JcaKeyBoxBuilder().build(in)'
-			keyBox = new KeyBox(in, new JcaKeyFingerprintCalculator());
+			keyBox = new JcaKeyBoxBuilder().build(in);
 		}
 		return keyBox;
 	}
