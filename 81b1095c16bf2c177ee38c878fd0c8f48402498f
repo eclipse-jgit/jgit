@@ -46,6 +46,30 @@
       "revId": "81b1095c16bf2c177ee38c878fd0c8f48402498f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c217d10_75edf83c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:49:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "55bf386e_eeaef4eb",
+      "range": {
+        "startLine": 1732,
+        "startChar": 58,
+        "endLine": 1732,
+        "endChar": 60
+      },
+      "revId": "81b1095c16bf2c177ee38c878fd0c8f48402498f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
