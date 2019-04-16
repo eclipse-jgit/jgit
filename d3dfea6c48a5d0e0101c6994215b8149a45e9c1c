@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d578b0b0_bba07855",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1577,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:45:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f58f174b_0eb86b08",
+      "range": {
+        "startLine": 1577,
+        "startChar": 7,
+        "endLine": 1577,
+        "endChar": 25
+      },
+      "revId": "d3dfea6c48a5d0e0101c6994215b8149a45e9c1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28cee130_42180bc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 23
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "67313113_37136d3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:45:26Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, thanks.",
+      "parentUuid": "e52f8b7e_2cd16cdc",
+      "range": {
+        "startLine": 1993,
+        "startChar": 53,
+        "endLine": 1993,
+        "endChar": 54
+      },
+      "revId": "d3dfea6c48a5d0e0101c6994215b8149a45e9c1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6041947c_1f0e067b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 23
@@ -140,6 +188,30 @@
       "revId": "d3dfea6c48a5d0e0101c6994215b8149a45e9c1c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5131d21_003b8a64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-04-16T20:45:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f848341a_a24fb794",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "d3dfea6c48a5d0e0101c6994215b8149a45e9c1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
