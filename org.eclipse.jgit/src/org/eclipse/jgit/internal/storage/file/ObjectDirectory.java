@@ -129,8 +129,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File alternatesFile;
 
-	private final AtomicReference<PackList> packList;
-
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
@@ -142,6 +140,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
 
 	private Set<ObjectId> shallowCommitsIds;
+
+	final AtomicReference<PackList> packList;
 
 	/**
 	 * Initialize a reference to an on-disk object directory.
@@ -595,13 +595,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			transientErrorCount = p.incrementTransientErrorCount();
 		}
 		if (warnTmpl != null) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()), e);
-			} else {
-				LOG.warn(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()));
-			}
+			LOG.warn(MessageFormat.format(warnTmpl,
+					p.getPackFile().getAbsolutePath()), e);
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
 				// Don't remove the pack from the list, as the error may be
@@ -688,7 +683,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return InsertLooseObjectResult.FAILURE;
 	}
 
-	private boolean searchPacksAgain(PackList old) {
+	boolean searchPacksAgain(PackList old) {
 		// Whether to trust the pack folder's modification time. If set
 		// to false we will always scan the .git/objects/pack folder to
 		// check for new pack files. If set to true (default) we use the
@@ -843,7 +838,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			final String packName = base + PACK.getExtension();
 			final File packFile = new File(packDirectory, packName);
 			final PackFile oldPack = forReuse.remove(packName);
-			if (oldPack != null && oldPack.getFileSnapshot().isModified(packFile)) {
+			if (oldPack != null
+					&& !oldPack.getFileSnapshot().isModified(packFile)) {
 				list.add(oldPack);
 				continue;
 			}
@@ -982,7 +978,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new File(new File(getDirectory(), d), f);
 	}
 
-	private static final class PackList {
+	static final class PackList {
 		/** State just before reading the pack directory. */
 		final FileSnapshot snapshot;
 
