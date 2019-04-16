@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.lfs.server.test
-Bundle-Version: 4.7.9.qualifier
+Bundle-Version: 4.7.9.201904161809-r
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

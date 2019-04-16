@@ -51,7 +51,7 @@
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>org.eclipse.jgit-parent</artifactId>
   <packaging>pom</packaging>
-  <version>4.7.9-SNAPSHOT</version>
+  <version>4.7.9.201904161809-r</version>
 
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
