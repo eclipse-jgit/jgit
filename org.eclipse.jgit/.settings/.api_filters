@@ -3,8 +3,22 @@
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="4.9.8"/>
+                <message_argument value="4.9.10"/>
                 <message_argument value="4.9.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/PackInvalidException.java" type="org.eclipse.jgit.errors.PackInvalidException">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="4.5.7"/>
+                <message_argument value="PackInvalidException(File, Throwable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="4.5.7"/>
+                <message_argument value="PackInvalidException(String, Throwable)"/>
             </message_arguments>
         </filter>
     </resource>
