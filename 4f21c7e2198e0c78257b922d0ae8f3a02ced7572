@@ -16,6 +16,24 @@
       "revId": "4f21c7e2198e0c78257b922d0ae8f3a02ced7572",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "943997f9_a58221c7",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-18T02:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eebfb1b_9242d338",
+      "revId": "4f21c7e2198e0c78257b922d0ae8f3a02ced7572",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
