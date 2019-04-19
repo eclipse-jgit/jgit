@@ -163,8 +163,19 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int TOPO_DELAY = 1 << 5;
 
+	/**
+	 * Set on a simulated shallow commit RevCommit.
+	 * <p>
+	 * This is set to RevCommits that should be seen as a shallow commit. While
+	 * a server is negotiating with a client, the server needs to simulate what
+	 * the client has as a commit graph. This mark is used so that the server
+	 * can simulate client's repository state even if it has non-shallow
+	 * repository.
+	 */
+	static final int HIDE_PARENTS = 1 << 6;
+
 	/** Number of flag bits we keep internal for our own use. See above flags. */
-	static final int RESERVED_FLAGS = 6;
+	static final int RESERVED_FLAGS = 7;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
@@ -1456,8 +1467,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @since 3.3
 	 */
 	public void assumeShallow(Collection<? extends ObjectId> ids) {
-		for (ObjectId id : ids)
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		for (ObjectId id : ids) {
+			lookupCommit(id).add(RevFlag.HIDE_PARENTS);
+		}
 	}
 
 	/**
