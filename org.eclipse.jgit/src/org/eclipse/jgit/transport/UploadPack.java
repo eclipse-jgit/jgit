@@ -1352,7 +1352,7 @@ public class UploadPack {
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
-				if (!isBoundary && req.getClientShallowCommits().remove(c)) {
+				if (!isBoundary && req.getClientShallowCommits().contains(c)) {
 					unshallowFunc.accept(c.copy());
 				}
 			}
