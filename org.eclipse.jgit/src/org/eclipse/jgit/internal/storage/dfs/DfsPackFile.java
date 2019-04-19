@@ -181,8 +181,9 @@ public final class DfsPackFile extends BlockBasedFile {
 				return idx;
 		}
 
-		if (invalid)
-			throw new PackInvalidException(getFileName());
+		if (invalid) {
+			throw new PackInvalidException(getFileName(), invalidatingCause);
+		}
 
 		Repository.getGlobalListenerList()
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
@@ -224,11 +225,13 @@ public final class DfsPackFile extends BlockBasedFile {
 				}
 			} catch (EOFException e) {
 				invalid = true;
+				invalidatingCause = e;
 				throw new IOException(MessageFormat.format(
 						DfsText.get().shortReadOfIndex,
 						desc.getFileName(INDEX)), e);
 			} catch (IOException e) {
 				invalid = true;
+				invalidatingCause = e;
 				throw new IOException(MessageFormat.format(
 						DfsText.get().cannotReadIndex,
 						desc.getFileName(INDEX)), e);
@@ -720,8 +723,10 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private IOException packfileIsTruncated() {
 		invalid = true;
-		return new IOException(MessageFormat.format(
+		IOException exc = new IOException(MessageFormat.format(
 				JGitText.get().packfileIsTruncated, getFileName()));
+		invalidatingCause = exc;
+		return exc;
 	}
 
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,
