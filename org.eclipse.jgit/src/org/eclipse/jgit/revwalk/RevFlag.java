@@ -79,6 +79,12 @@ public class RevFlag {
 	 */
 	public static final RevFlag SEEN = new StaticRevFlag("SEEN", RevWalk.SEEN); //$NON-NLS-1$
 
+	/**
+	 * Set on a simulated shallow commit RevCommit.
+	 */
+	public static final RevFlag HIDE_PARENTS = new StaticRevFlag(
+			"HIDE_PARENTS", RevWalk.HIDE_PARENTS); //$NON-NLS-1$
+
 	final RevWalk walker;
 
 	final String name;
