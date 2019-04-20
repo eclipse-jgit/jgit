@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "471f21a3_40149fac",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-04-20T02:17:09Z",
+      "side": 1,
+      "message": "The contributor guide (https://wiki.eclipse.org/EGit/Contributor_Guide) says:\n\n\u003e that the contributed code is licensed under the project license (EPL 2.0 for EGit and EDL 1.0 for JGit). This is done by putting a copyright and license header into every new java file. See other existing project source files for the correct content.\n\nlinking to Eclipse Project Handbook (https://www.eclipse.org/projects/handbook/#ip-copyright-headers). This handbook says:\n\n\u003e Copyright headers can take one of two forms. \n\nSince there\u0027s no NOTICE file in JGit, I need to use the former. In the license header contains:\n\n\u003e SPDX-License-Identifier: EPL-2.0\n\nbut according to the contributor guide JGit needs to use EDL 1.0. EDL 1.0 is not in the SPDX license list (https://spdx.org/licenses/), so this header cannot be used. What should I do? Can I just ignore Eclipse Project Handbook and copy \u0026 paste JGit\u0027s other file\u0027s license header, even if it\u0027s not same as Eclipse Project Handbook one?",
+      "parentUuid": "2ce7d5e9_816e23f2",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2019-04-16T01:48:39Z",
       "side": 1,
       "message": "happens",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7be79a5d_402562b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-04-20T02:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb06d3a_90462da7",
       "range": {
         "startLine": 10,
         "startChar": 33,
@@ -62,6 +104,30 @@
       "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3380226_e03cc137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-04-20T02:17:09Z",
+      "side": 1,
+      "message": "Maybe this is not a bug? How can these nested generators handle SEEN flags if it\u0027s already used by somebody?",
+      "parentUuid": "5be27b3f_323199d6",
+      "range": {
+        "startLine": 81,
+        "startChar": 3,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
