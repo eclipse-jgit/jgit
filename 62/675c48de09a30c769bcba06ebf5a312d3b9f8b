@@ -1,0 +1,9 @@
+Code-Review+1: Thomas Wolf <thomas.wolf@paranor.ch>
+Code-Review+1: Holger Voormann <eclipse@voormann.de>
+Verified+1: CI Bot
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Sun, 21 Apr 2019 19:08:42 -0400
+Reviewed-on: https://git.eclipse.org/r/139887
+Project: jgit/jgit
+Branch: refs/heads/stable-5.2
