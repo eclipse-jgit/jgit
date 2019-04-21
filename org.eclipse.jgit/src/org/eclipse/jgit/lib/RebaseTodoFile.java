@@ -179,7 +179,7 @@ public class RebaseTodoFile {
 
 		int nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
 		int tokenCount = 0;
-		while (tokenCount < 3 && nextSpace < lineEnd) {
+		while (tokenCount < 3 && nextSpace <= lineEnd) {
 			switch (tokenCount) {
 			case 0:
 				String actionToken = new String(buf, tokenBegin,
@@ -191,8 +191,14 @@ public class RebaseTodoFile {
 				break;
 			case 1:
 				nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
-				String commitToken = new String(buf, tokenBegin,
-						nextSpace - tokenBegin - 1, UTF_8);
+				String commitToken;
+				if (nextSpace > lineEnd + 1) {
+					commitToken = new String(buf, tokenBegin,
+							lineEnd - tokenBegin + 1, UTF_8);
+				} else {
+					commitToken = new String(buf, tokenBegin,
+							nextSpace - tokenBegin - 1, UTF_8);
+				}
 				tokenBegin = nextSpace;
 				commit = AbbreviatedObjectId.fromString(commitToken);
 				break;
