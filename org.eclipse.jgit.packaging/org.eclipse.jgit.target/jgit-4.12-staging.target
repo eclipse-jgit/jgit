@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.11-staging" sequenceNumber="1551829209">
+<target name="jgit-4.12-staging" sequenceNumber="1556213559">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -62,8 +62,8 @@
       <unit id="net.bytebuddy.byte-buddy-agent.source" version="1.7.9.v20180420-1519"/>
       <unit id="com.google.gson" version="2.8.2.v20180104-1110"/>
       <unit id="com.google.gson.source" version="2.8.2.v20180104-1110"/>
-      <unit id="com.jcraft.jsch" version="0.1.54.v20170116-1932"/>
-      <unit id="com.jcraft.jsch.source" version="0.1.54.v20170116-1932"/>
+      <unit id="com.jcraft.jsch" version="0.1.55.v20190404-1902"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.55.v20190404-1902"/>
       <unit id="org.junit" version="4.12.0.v201504281640"/>
       <unit id="org.junit.source" version="4.12.0.v201504281640"/>
       <unit id="javax.servlet" version="3.1.0.v201410161800"/>
@@ -82,11 +82,11 @@
       <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20190404224055/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/staging/2019-03/"/>
+      <repository location="http://download.eclipse.org/staging/2019-06/"/>
     </location>
   </locations>
 </target>
