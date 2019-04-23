@@ -5,7 +5,7 @@ Automatic-Module-Name: org.eclipse.jgit.ssh.apache
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache
 Bundle-Vendor: %Provider-Name
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 5.2.2.qualifier
+Bundle-Version: 5.2.2.201904231744-r
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.jgit.internal.transport.sshd;version="5.2.2";x-internal:=true;
   uses:="org.apache.sshd.client,
