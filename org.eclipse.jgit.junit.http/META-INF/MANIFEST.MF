@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Automatic-Module-Name: org.eclipse.jgit.junit.http
 Bundle-SymbolicName: org.eclipse.jgit.junit.http
-Bundle-Version: 5.2.2.201904231744-r
+Bundle-Version: 5.2.3.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
@@ -22,16 +22,16 @@ Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
  org.eclipse.jetty.util.log;version="[9.4.5,10.0.0)",
  org.eclipse.jetty.util.security;version="[9.4.5,10.0.0)",
  org.eclipse.jetty.util.ssl;version="[9.4.5,10.0.0)",
- org.eclipse.jgit.errors;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.http.server;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.internal.storage.file;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.junit;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.lib;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.revwalk;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.transport;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.transport.resolver;version="[5.2.2,5.3.0)",
+ org.eclipse.jgit.errors;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.http.server;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.internal.storage.file;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.junit;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.lib;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.revwalk;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.transport;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.transport.resolver;version="[5.2.3,5.3.0)",
  org.junit;version="[4.12,5.0.0)"
-Export-Package: org.eclipse.jgit.junit.http;version="5.2.2";
+Export-Package: org.eclipse.jgit.junit.http;version="5.2.3";
   uses:="org.eclipse.jgit.transport,
    org.eclipse.jgit.junit,
    javax.servlet.http,

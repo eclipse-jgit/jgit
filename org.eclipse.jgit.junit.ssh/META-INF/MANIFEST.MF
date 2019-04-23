@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Automatic-Module-Name: org.eclipse.jgit.junit.ssh
 Bundle-SymbolicName: org.eclipse.jgit.junit.ssh
-Bundle-Version: 5.2.2.201904231744-r
+Bundle-Version: 5.2.3.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
@@ -29,8 +29,8 @@ Import-Package: org.apache.sshd.common;version="[2.0.0,2.1.0)",
  org.apache.sshd.server.shell;version="[2.0.0,2.1.0)",
  org.apache.sshd.server.subsystem;version="[2.0.0,2.1.0)",
  org.apache.sshd.server.subsystem.sftp;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.annotations;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.lib;version="[5.2.2,5.3.0)",
- org.eclipse.jgit.transport;version="[5.2.2,5.3.0)",
+ org.eclipse.jgit.annotations;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.lib;version="[5.2.3,5.3.0)",
+ org.eclipse.jgit.transport;version="[5.2.3,5.3.0)",
  org.slf4j;version="[1.7.0,2.0.0)"
-Export-Package: org.eclipse.jgit.junit.ssh;version="5.2.2"
+Export-Package: org.eclipse.jgit.junit.ssh;version="5.2.3"
