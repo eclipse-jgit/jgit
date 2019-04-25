@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9733b529_6ca53b52",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/I20190404224055.tpd",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-25T17:23:38Z",
+      "side": 1,
+      "message": "This dependency list is ordered differently than the previous one [1] hence the diffs of the generated target platforms are larger than necessary.\n\nI think if we reorder then we should follow some deterministic order e.g. alphabetic. Maybe stick to the same order we used previously here and do another change to order the list alphabetically or vice versa ?\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/R20190226160451-2019-03.tpd",
+      "revId": "3a889a2afa7a09374caa6223eac4c407eea76488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
