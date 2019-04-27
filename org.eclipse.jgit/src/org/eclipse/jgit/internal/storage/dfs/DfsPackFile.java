@@ -181,7 +181,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		if (invalid) {
-			throw new PackInvalidException(getFileName());
+			throw new PackInvalidException(getFileName(), invalidatingCause);
 		}
 
 		Repository.getGlobalListenerList()
@@ -240,6 +240,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				return index;
 			} catch (IOException e) {
 				invalid = true;
+				invalidatingCause = e;
 				throw e;
 			}
 		}
@@ -703,8 +704,10 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private IOException packfileIsTruncated() {
 		invalid = true;
-		return new IOException(MessageFormat.format(
+		IOException exc = new IOException(MessageFormat.format(
 				JGitText.get().packfileIsTruncated, getFileName()));
+		invalidatingCause = exc;
+		return exc;
 	}
 
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,
