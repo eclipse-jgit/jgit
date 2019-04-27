@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.http.apache
 Bundle-SymbolicName: org.eclipse.jgit.http.apache
-Bundle-Version: 5.3.1.qualifier
+Bundle-Version: 5.3.1.201904271842-r
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider-Name
