@@ -135,6 +135,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile boolean invalid;
 
+	private volatile Exception invalidatingCause;
+
 	private boolean invalidBitmap;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
@@ -184,7 +186,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				idx = loadedIdx;
 				if (idx == null) {
 					if (invalid) {
-						throw new PackInvalidException(packFile);
+						throw new PackInvalidException(packFile, invalidatingCause);
 					}
 					try {
 						idx = PackIndex.open(extFile(INDEX));
@@ -208,6 +210,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 						throw e;
 					} catch (IOException e) {
 						invalid = true;
+						invalidatingCause = e;
 						throw e;
 					}
 				}
@@ -661,7 +664,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private void doOpen() throws IOException {
 		if (invalid) {
-			throw new PackInvalidException(packFile);
+			throw new PackInvalidException(packFile, invalidatingCause);
 		}
 		try {
 			synchronized (readLock) {
@@ -671,13 +674,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			}
 		} catch (InterruptedIOException e) {
 			// don't invalidate the pack, we are interrupted from another thread
-			openFail(false);
+			openFail(false, e);
 			throw e;
 		} catch (FileNotFoundException fn) {
 			// don't invalidate the pack if opening an existing file failed
 			// since it may be related to a temporary lack of resources (e.g.
 			// max open files)
-			openFail(!packFile.exists());
+			openFail(!packFile.exists(), fn);
 			throw fn;
 		} catch (EOFException | AccessDeniedException | NoSuchFileException
 				| CorruptObjectException | NoPackSignatureException
@@ -685,20 +688,21 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				| UnsupportedPackIndexVersionException
 				| UnsupportedPackVersionException pe) {
 			// exceptions signaling permanent problems with a pack
-			openFail(true);
+			openFail(true, pe);
 			throw pe;
 		} catch (IOException | RuntimeException ge) {
 			// generic exceptions could be transient so we should not mark the
 			// pack invalid to avoid false MissingObjectExceptions
-			openFail(false);
+			openFail(false, ge);
 			throw ge;
 		}
 	}
 
-	private void openFail(boolean invalidate) {
+	private void openFail(boolean invalidate, Exception cause) {
 		activeWindows = 0;
 		activeCopyRawData = 0;
 		invalid = invalidate;
+		invalidatingCause = cause;
 		doClose();
 	}
 
@@ -725,7 +729,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				// Detect the situation and throw a proper exception so that can be properly
 				// managed by the main packfile search loop and the Git client won't receive
 				// any failures.
-				throw new PackInvalidException(packFile);
+				throw new PackInvalidException(packFile, invalidatingCause);
 			}
 			if (length < pos + size)
 				size = (int) (length - pos);
