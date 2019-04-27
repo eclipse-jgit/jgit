@@ -78,12 +78,15 @@ public interface StatefulProxyConnector extends ClientProxyConnector {
 	void messageReceived(IoSession session, Readable buffer) throws Exception;
 
 	/**
-	 * Runs {@code startSsh} once the proxy connection is established.
+	 * Runs {@code command} once the proxy connection is established. May be
+	 * called multiple times; commands are run sequentially. If the proxy
+	 * connection is already established, {@code command} is executed directly
+	 * synchronously.
 	 *
-	 * @param startSsh
+	 * @param command
 	 *            operation to run
 	 * @throws Exception
 	 *             if the operation is run synchronously and throws an exception
 	 */
-	void runWhenDone(Callable<Void> startSsh) throws Exception;
+	void runWhenDone(Callable<Void> command) throws Exception;
 }

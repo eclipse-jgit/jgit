@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016, 2018 Google Inc.
+ * Copyright (C) 2016, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.util;
 
-import static org.eclipse.jgit.lib.FileMode.TYPE_GITLINK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
@@ -107,7 +106,7 @@ public class Paths {
 				aPath, aPos, aEnd, aMode,
 				bPath, bPos, bEnd, bMode);
 		if (cmp == 0) {
-			cmp = modeCompare(aMode, bMode);
+			cmp = lastPathChar(aMode) - lastPathChar(bMode);
 		}
 		return cmp;
 	}
@@ -182,15 +181,6 @@ public class Paths {
 			return '/';
 		}
 		return 0;
-	}
-
-	private static int modeCompare(int aMode, int bMode) {
-		if ((aMode & TYPE_MASK) == TYPE_GITLINK
-				|| (bMode & TYPE_MASK) == TYPE_GITLINK) {
-			// Git links can be equal to files or folders
-			return 0;
-		}
-		return lastPathChar(aMode) - lastPathChar(bMode);
 	}
 
 	private Paths() {
