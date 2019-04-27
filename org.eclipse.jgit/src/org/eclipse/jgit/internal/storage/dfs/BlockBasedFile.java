@@ -83,6 +83,9 @@ abstract class BlockBasedFile {
 	/** True once corruption has been detected that cannot be worked around. */
 	volatile boolean invalid;
 
+	/** Exception that caused the packfile to be flagged as invalid */
+	protected volatile Exception invalidatingCause;
+
 	BlockBasedFile(DfsBlockCache cache, DfsPackDescription desc, PackExt ext) {
 		this.cache = cache;
 		this.key = desc.getStreamKey(ext);
@@ -136,8 +139,9 @@ abstract class BlockBasedFile {
 
 	DfsBlock readOneBlock(long pos, DfsReader ctx, ReadableChannel rc)
 			throws IOException {
-		if (invalid)
-			throw new PackInvalidException(getFileName());
+		if (invalid) {
+			throw new PackInvalidException(getFileName(), invalidatingCause);
+		}
 
 		ctx.stats.readBlock++;
 		long start = System.nanoTime();

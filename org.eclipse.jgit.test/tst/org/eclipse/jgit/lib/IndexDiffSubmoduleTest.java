@@ -43,12 +43,14 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.eclipse.jgit.api.CloneCommand;
@@ -128,7 +130,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD,
 				new FileTreeIterator(db2));
 		indexDiff.setIgnoreSubmoduleMode(mode);
-		assertFalse(indexDiff.diff());
+		boolean changed = indexDiff.diff();
+		assertFalse(changed);
 	}
 
 	@Theory
@@ -263,4 +266,33 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL,
 				IgnoreSubmoduleMode.DIRTY, IgnoreSubmoduleMode.UNTRACKED);
 	}
+
+	@Theory
+	public void testSubmoduleReplacedByMovedFile(IgnoreSubmoduleMode mode)
+			throws Exception {
+		Git git = Git.wrap(db);
+		git.rm().setCached(true).addFilepattern("modules/submodule").call();
+		recursiveDelete(submodule_trash);
+		JGitTestUtil.deleteTrashFile(db, "fileInRoot");
+		// Move the fileInRoot file
+		writeTrashFile("modules/submodule/fileInRoot", "root");
+		git.rm().addFilepattern("fileInRoot").addFilepattern("modules/").call();
+		git.add().addFilepattern("modules/").call();
+		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		assertTrue(indexDiff.diff());
+		String[] removed = indexDiff.getRemoved().toArray(new String[0]);
+		Arrays.sort(removed);
+		if (IgnoreSubmoduleMode.ALL.equals(mode)) {
+			assertArrayEquals(new String[] { "fileInRoot" }, removed);
+		} else {
+			assertArrayEquals(
+					new String[] { "fileInRoot", "modules/submodule" },
+					removed);
+		}
+		assertEquals("[modules/submodule/fileInRoot]",
+				indexDiff.getAdded().toString());
+	}
+
 }
