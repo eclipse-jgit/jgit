@@ -3,13 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Automatic-Module-Name: org.eclipse.jgit.http.server
 Bundle-SymbolicName: org.eclipse.jgit.http.server
-Bundle-Version: 5.3.1.201904271842-r
+Bundle-Version: 5.3.2.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
-Export-Package: org.eclipse.jgit.http.server;version="5.3.1",
- org.eclipse.jgit.http.server.glue;version="5.3.1";
+Export-Package: org.eclipse.jgit.http.server;version="5.3.2",
+ org.eclipse.jgit.http.server.glue;version="5.3.2";
   uses:="javax.servlet,javax.servlet.http",
- org.eclipse.jgit.http.server.resolver;version="5.3.1";
+ org.eclipse.jgit.http.server.resolver;version="5.3.2";
   uses:="org.eclipse.jgit.transport.resolver,
    org.eclipse.jgit.lib,
    org.eclipse.jgit.transport,
@@ -18,13 +18,13 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
  javax.servlet.http;version="[2.5.0,3.2.0)",
- org.eclipse.jgit.errors;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.internal.storage.dfs;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.internal.storage.file;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.internal.transport.parser;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.lib;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.nls;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.revwalk;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.transport;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.transport.resolver;version="[5.3.1,5.4.0)",
- org.eclipse.jgit.util;version="[5.3.1,5.4.0)"
+ org.eclipse.jgit.errors;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.internal.storage.dfs;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.internal.storage.file;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.internal.transport.parser;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.lib;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.nls;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.revwalk;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.transport;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.transport.resolver;version="[5.3.2,5.4.0)",
+ org.eclipse.jgit.util;version="[5.3.2,5.4.0)"

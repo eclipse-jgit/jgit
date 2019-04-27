@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JGit Target Platform Bundle
 Bundle-SymbolicName: org.eclipse.jgit.target
-Bundle-Version: 5.3.1.201904271842-r
+Bundle-Version: 5.3.2.qualifier

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.pgm"
       label="%featureName"
-      version="5.3.1.201904271842-r"
+      version="5.3.2.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -31,9 +31,9 @@
          version="0.0.0"/>
 
    <requires>
-      <import feature="org.eclipse.jgit" version="5.3.1" match="equivalent"/>
-      <import feature="org.eclipse.jgit.lfs" version="5.3.1" match="equivalent"/>
-      <import feature="org.eclipse.jgit.ssh.apache" version="5.3.1" match="equivalent"/>
+      <import feature="org.eclipse.jgit" version="5.3.2" match="equivalent"/>
+      <import feature="org.eclipse.jgit.lfs" version="5.3.2" match="equivalent"/>
+      <import feature="org.eclipse.jgit.ssh.apache" version="5.3.2" match="equivalent"/>
    </requires>
 
    <plugin
