@@ -22,6 +22,30 @@
       "revId": "218cf3403de512f564aa74f18de56c97dd7852b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0f0d89a_5d53c9a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-28T22:00:43Z",
+      "side": 1,
+      "message": "the file size is another attribute being cached by NFS clients hence I think it\u0027s not going to help, see e.g. https://docstore.mik.ua/orelly/networking_2ndEd/nfs/ch18_06.htm\n\nI do not plan to keep creating service releases for such old releases every couple of weeks. We have the following minor releases since 4.5:\n\n4.5\n4.6\n4.7\n4.8\n4.9\n4.10\n4.11\n5.0\n5.1\n5.2\n5.3\n\nand are now working on 5.4 which we plan to release in June with Eclipse 2019-06. Even when only creating service releases only for the odd minor releases this is eating too much time. Releasing new service releases starting from 4.5.x for every odd minor version means tagging, building, testing, reviewing 6 releases, updating versions for each release, creating 11 merge commits , resolving conflicts and putting a ton of load on Jenkins. The last round I just finished took 2 weeks.",
+      "parentUuid": "af300791_3e82d8bb",
+      "range": {
+        "startLine": 774,
+        "startChar": 6,
+        "endLine": 774,
+        "endChar": 25
+      },
+      "revId": "218cf3403de512f564aa74f18de56c97dd7852b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
