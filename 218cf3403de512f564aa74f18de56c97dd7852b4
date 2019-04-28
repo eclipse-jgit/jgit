@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af300791_3e82d8bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-28T21:08:35Z",
+      "side": 1,
+      "message": "This check isn\u0027t needed anymore, since recently the FileSnapshot.isModified() method has become a lot more clever, checking other attributes like the file-size.\n\nI believe we can safely remove this condition that, however, has introduced significant performance issues for Gerrit setups with HA and shared repos over NFS (see https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10789)\n\nWhat do you think?",
+      "range": {
+        "startLine": 774,
+        "startChar": 6,
+        "endLine": 774,
+        "endChar": 25
+      },
+      "revId": "218cf3403de512f564aa74f18de56c97dd7852b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
