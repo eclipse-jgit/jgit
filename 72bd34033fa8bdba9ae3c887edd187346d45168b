@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "607455d7_c59e022b",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.pgm.source.feature/feature.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-28T22:06:53Z",
+      "side": 1,
+      "message": "this is wrong and reverts what we did in https://git.eclipse.org/r/#/c/139822/ to combine all source bundles into a single source feature",
+      "revId": "72bd34033fa8bdba9ae3c887edd187346d45168b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
