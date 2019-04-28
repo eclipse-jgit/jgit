@@ -266,7 +266,8 @@ public class PackStatistics {
 		/** Time in ms spent writing the pack. */
 		public long timeWriting;
 
-		/** Number of trees traversed in the walk when writing the pack. */
+		/** Number of trees traversed in the walk when writing the pack. 
+		 * @since 5.4*/
 		public long treesTraversed;
 
 		/**
