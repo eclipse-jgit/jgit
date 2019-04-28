@@ -46,6 +46,30 @@
       "revId": "218cf3403de512f564aa74f18de56c97dd7852b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ca66f2_bca79a70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-04-28T22:13:41Z",
+      "side": 1,
+      "message": "\u003e the file size is another attribute being cached by NFS clients hence I think it\u0027s not going to help, see e.g. https://docstore.mik.ua/orelly/networking_2ndEd/nfs/ch18_06.htm\n\nYes, the article says also \"Cached data is updated in subsequent write operations\" which means that when the write node updates a file, the cache is updated on that node immediately. I do not see then the need to not trust a value that has been updated immediately.\n\n\u003e I do not plan to keep creating service releases for such old releases every couple of weeks. We have the following minor releases since 4.5:\n\u003e \n\u003e 4.5\n\u003e 4.6\n\u003e 4.7\n\u003e 4.8\n\u003e 4.9\n\u003e 4.10\n\u003e 4.11\n\u003e 5.0\n\u003e 5.1\n\u003e 5.2\n\u003e 5.3\n\u003e \n\u003e and are now working on 5.4 which we plan to release in June with Eclipse 2019-06. Even when only creating service releases only for the odd minor releases this is eating too much time. Releasing new service releases starting from 4.5.x for every odd minor version means tagging, building, testing, reviewing 6 releases, updating versions for each release, creating 11 merge commits , resolving conflicts and putting a ton of load on Jenkins. The last round I just finished took 2 weeks.\n\nYes, makes sense and I do appreciate all the efforts you\u0027ve made in releasing bug fixes on the older releases.\nWould you be open to evaluating a change in behaviour on stable-5.4 for this problem?",
+      "parentUuid": "a0f0d89a_5d53c9a3",
+      "range": {
+        "startLine": 774,
+        "startChar": 6,
+        "endLine": 774,
+        "endChar": 25
+      },
+      "revId": "218cf3403de512f564aa74f18de56c97dd7852b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
