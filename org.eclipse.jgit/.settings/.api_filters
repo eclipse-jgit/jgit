@@ -22,6 +22,22 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/revwalk/ObjectWalk.java" type="org.eclipse.jgit.revwalk.ObjectWalk">
+        <filter comment="ignore the risk subclasses could define the same field and cause a name clash" id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.revwalk.ObjectWalk"/>
+                <message_argument value="SIMPLE_VISITATION_POLICY"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackStatistics.java" type="org.eclipse.jgit.storage.pack.PackStatistics$Accumulator">
+        <filter comment="ignore the risk subclasses could define the same field and cause a name clash" id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
+                <message_argument value="treesTraversed"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/Transport.java" type="org.eclipse.jgit.transport.Transport">
         <filter comment="Marked as final since overriding a deprecated stub is likely a mistake" id="421654647">
             <message_arguments>
