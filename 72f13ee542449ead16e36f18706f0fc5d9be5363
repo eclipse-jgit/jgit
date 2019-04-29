@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8021ea5_3d344372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-04-29T08:03:30Z",
+      "side": 1,
+      "message": "Author (and committer) field should use the full name.  I\u0027ve fixed it in the next patch set.\n\nPlease fix your local .gitconfig for next time.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 25
+      },
+      "revId": "72f13ee542449ead16e36f18706f0fc5d9be5363",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
