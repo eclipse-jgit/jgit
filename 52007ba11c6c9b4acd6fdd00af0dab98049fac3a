@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96040283_1204343b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FS_POSIXTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-29T18:41:10Z",
+      "side": 1,
+      "message": "@Vishal: please check if this copyright statement is ok",
+      "revId": "52007ba11c6c9b4acd6fdd00af0dab98049fac3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
