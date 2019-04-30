@@ -421,6 +421,23 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void globMatchWithSlashes() throws Exception {
+		ObjectId c1 = modify("aaa");
+		tag("a/b/version");
+		ObjectId c2 = modify("bbb");
+		tag("a/b/version2");
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("a/b/version", describe(c1, "*/version*"));
+			assertEquals("a/b/version2", describe(c2, "*/version*"));
+		} else {
+			assertNull(describe(c1));
+			assertNull(describe(c1, "*/version*"));
+			assertNull(describe(c2));
+			assertNull(describe(c2, "*/version*"));
+		}
+	}
+
 	private ObjectId merge(ObjectId c2) throws GitAPIException {
 		return git.merge().include(c2).call().getNewHead();
 	}
