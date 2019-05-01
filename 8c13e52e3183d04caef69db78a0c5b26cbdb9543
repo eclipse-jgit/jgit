@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c67067f_c01378eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T20:02:55Z",
+      "side": 1,
+      "message": "Just mention that this uses bitmaps wherever possible - no need to go into implementation details.",
+      "revId": "8c13e52e3183d04caef69db78a0c5b26cbdb9543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3d8709_f4745f42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T20:02:55Z",
+      "side": 1,
+      "message": "Is this because it\u0027s more efficient to create a bitmap for one (and, possibly, try each separately) than for all? If yes, document it.",
+      "revId": "8c13e52e3183d04caef69db78a0c5b26cbdb9543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
