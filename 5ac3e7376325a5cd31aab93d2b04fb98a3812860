@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1f0fd4bd_4640425f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-01T22:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4edbe21_64e70bc9",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1d5c5cd_9ca968cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cadf20f9_d0c71c9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-01T22:41:05Z",
+      "side": 1,
+      "message": "My common sense agree, but this code would replace similar code in Gitiles VisibilityCache [1] and there is at least one case were it is set to false (in GitilesFilter [2]).\n\n[1] https://gerrit.googlesource.com/gitiles/+/refs/heads/master/java/com/google/gitiles/VisibilityCache.java\n[2] https://gerrit.googlesource.com/gitiles/+/refs/heads/master/java/com/google/gitiles/GitilesFilter.java#377",
+      "parentUuid": "e1d5c5cd_9ca968cd",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f53d66_6cfc8418",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ce6314_f8bb0056",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-01T22:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f53d66_6cfc8418",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
