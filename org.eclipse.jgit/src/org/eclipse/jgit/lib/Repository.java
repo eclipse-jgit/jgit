@@ -117,7 +117,7 @@ import org.slf4j.LoggerFactory;
  * <li>{@code DfsRepository} thread-safety is determined by its subclass.
  * </ul>
  */
-public abstract class Repository implements AutoCloseable {
+public abstract class Repository implements RepositoryInterface {
 	private static final Logger LOG = LoggerFactory.getLogger(Repository.class);
 	private static final ListenerList globalListeners = new ListenerList();
 
@@ -178,6 +178,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return listeners observing only events on this repository.
 	 */
+	@Override
 	@NonNull
 	public ListenerList getListenerList() {
 		return myListeners;
@@ -192,6 +193,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @param event
 	 *            the event to deliver.
 	 */
+	@Override
 	public void fireEvent(RepositoryEvent<?> event) {
 		event.setRepository(this);
 		myListeners.dispatch(event);
@@ -207,6 +209,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @see #create(boolean)
 	 */
+	@Override
 	public void create() throws IOException {
 		create(false);
 	}
@@ -221,6 +224,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             in case of IO problem
 	 */
+	@Override
 	public abstract void create(boolean bare) throws IOException;
 
 	/**
@@ -235,6 +239,7 @@ public abstract class Repository implements AutoCloseable {
 	 * annotation would only cause compiler errors at places where the actual
 	 * directory can never be null.
 	 */
+	@Override
 	public File getDirectory() {
 		return gitDir;
 	}
@@ -253,6 +258,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return the object database which stores this repository's data.
 	 */
+	@Override
 	@NonNull
 	public abstract ObjectDatabase getObjectDatabase();
 
@@ -261,6 +267,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return a new inserter to create objects in {@link #getObjectDatabase()}.
 	 */
+	@Override
 	@NonNull
 	public ObjectInserter newObjectInserter() {
 		return getObjectDatabase().newInserter();
@@ -271,6 +278,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return a new reader to read objects from {@link #getObjectDatabase()}.
 	 */
+	@Override
 	@NonNull
 	public ObjectReader newObjectReader() {
 		return getObjectDatabase().newReader();
@@ -281,6 +289,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return the reference database which stores the reference namespace.
 	 */
+	@Override
 	@NonNull
 	public abstract RefDatabase getRefDatabase();
 
@@ -289,6 +298,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return the configuration of this repository.
 	 */
+	@Override
 	@NonNull
 	public abstract StoredConfig getConfig();
 
@@ -301,6 +311,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         after loading. Prefer creating new instance for each use.
 	 * @since 4.2
 	 */
+	@Override
 	@NonNull
 	public abstract AttributesNodeProvider createAttributesNodeProvider();
 
@@ -317,6 +328,7 @@ public abstract class Repository implements AutoCloseable {
 	 * annotation would only cause compiler errors at places where the actual
 	 * directory can never be null.
 	 */
+	@Override
 	public FS getFS() {
 		return fs;
 	}
@@ -355,6 +367,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
+	@Override
 	@NonNull
 	public ObjectLoader open(AnyObjectId objectId)
 			throws MissingObjectException, IOException {
@@ -384,6 +397,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
+	@Override
 	@NonNull
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -403,6 +417,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             a symbolic ref was passed in and could not be resolved back
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
+	@Override
 	@NonNull
 	public RefUpdate updateRef(String ref) throws IOException {
 		return updateRef(ref, false);
@@ -422,6 +437,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             a symbolic ref was passed in and could not be resolved back
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
+	@Override
 	@NonNull
 	public RefUpdate updateRef(String ref, boolean detach) throws IOException {
 		return getRefDatabase().newUpdate(ref, detach);
@@ -438,6 +454,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the rename could not be performed.
 	 */
+	@Override
 	@NonNull
 	public RefRename renameRef(String fromRef, String toRef) throws IOException {
 		return getRefDatabase().newRename(fromRef, toRef);
@@ -493,6 +510,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             on serious errors
 	 */
+	@Override
 	@Nullable
 	public ObjectId resolve(String revstr)
 			throws AmbiguousObjectException, IncorrectObjectTypeException,
@@ -521,6 +539,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.AmbiguousObjectException
 	 * @throws java.io.IOException
 	 */
+	@Override
 	@Nullable
 	public String simplify(String revstr)
 			throws AmbiguousObjectException, IOException {
@@ -944,6 +963,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * Increment the use counter by one, requiring a matched {@link #close()}.
 	 */
+	@Override
 	public void incrementOpen() {
 		useCnt.incrementAndGet();
 	}
@@ -1020,6 +1040,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         reference.
 	 * @throws java.io.IOException
 	 */
+	@Override
 	@Nullable
 	public String getFullBranch() throws IOException {
 		Ref head = exactRef(Constants.HEAD);
@@ -1048,6 +1069,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         if the repository is corrupt and has no HEAD reference.
 	 * @throws java.io.IOException
 	 */
+	@Override
 	@Nullable
 	public String getBranch() throws IOException {
 		String name = getFullBranch();
@@ -1066,6 +1088,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return unmodifiable collection of other known objects.
 	 */
+	@Override
 	@NonNull
 	public Set<ObjectId> getAdditionalHaves() {
 		return Collections.emptySet();
@@ -1082,6 +1105,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
+	@Override
 	@Nullable
 	public final Ref exactRef(String name) throws IOException {
 		return getRefDatabase().exactRef(name);
@@ -1098,6 +1122,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
+	@Override
 	@Nullable
 	public final Ref findRef(String name) throws IOException {
 		return getRefDatabase().findRef(name);
@@ -1171,6 +1196,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return a map with all objects referenced by a peeled ref.
 	 */
+	@Override
 	@NonNull
 	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
 		Map<String, Ref> allRefs = getAllRefs();
@@ -1204,6 +1230,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@NonNull
 	public File getIndexFile() throws NoWorkTreeException {
 		if (isBare())
@@ -1228,6 +1255,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 * @since 4.8
 	 */
+	@Override
 	public RevCommit parseCommit(AnyObjectId id) throws IncorrectObjectTypeException,
 			IOException, MissingObjectException {
 		if (id instanceof RevCommit && ((RevCommit) id).getRawBuffer() != null) {
@@ -1256,6 +1284,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
+	@Override
 	@NonNull
 	public DirCache readDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
@@ -1281,6 +1310,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
+	@Override
 	@NonNull
 	public DirCache lockDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
@@ -1297,6 +1327,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return the repository state
 	 */
+	@Override
 	@NonNull
 	public RepositoryState getRepositoryState() {
 		if (isBare() || getDirectory() == null)
@@ -1560,6 +1591,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return true if this is bare, which implies it has no working directory.
 	 */
+	@Override
 	public boolean isBare() {
 		return workTree == null;
 	}
@@ -1574,6 +1606,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@NonNull
 	public File getWorkTree() throws NoWorkTreeException {
 		if (isBare())
@@ -1587,6 +1620,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public abstract void scanForRepoChanges() throws IOException;
 
 	/**
@@ -1597,6 +1631,7 @@ public abstract class Repository implements AutoCloseable {
 	 *                     JGit process
 	 * @since 5.0
 	 */
+	@Override
 	public abstract void notifyIndexChanged(boolean internal);
 
 	/**
@@ -1628,6 +1663,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         otherwise {@code null}.
 	 * @since 3.4
 	 */
+	@Override
 	@Nullable
 	public String shortenRemoteBranchName(String refName) {
 		for (String remote : getRemoteNames()) {
@@ -1649,6 +1685,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         otherwise {@code null}.
 	 * @since 3.4
 	 */
+	@Override
 	@Nullable
 	public String getRemoteName(String refName) {
 		for (String remote : getRemoteNames()) {
@@ -1667,6 +1704,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             description cannot be accessed.
 	 * @since 4.6
 	 */
+	@Override
 	@Nullable
 	public String getGitwebDescription() throws IOException {
 		return null;
@@ -1681,6 +1719,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             description cannot be persisted.
 	 * @since 4.6
 	 */
+	@Override
 	public void setGitwebDescription(@Nullable String description)
 			throws IOException {
 		throw new IOException(JGitText.get().unsupportedRepositoryDescription);
@@ -1697,6 +1736,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the ref could not be accessed.
 	 * @since 3.0
 	 */
+	@Override
 	@Nullable
 	public abstract ReflogReader getReflogReader(String refName)
 			throws IOException;
@@ -1713,6 +1753,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
 		return readCommitMsgFile(Constants.MERGE_MSG);
@@ -1729,6 +1770,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeMergeCommitMsg(String msg) throws IOException {
 		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
 		writeCommitMsg(mergeMsgFile, msg);
@@ -1747,6 +1789,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             See {@link #isBare()}.
 	 * @since 4.0
 	 */
+	@Override
 	@Nullable
 	public String readCommitEditMsg() throws IOException, NoWorkTreeException {
 		return readCommitMsgFile(Constants.COMMIT_EDITMSG);
@@ -1763,6 +1806,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 4.0
 	 */
+	@Override
 	public void writeCommitEditMsg(String msg) throws IOException {
 		File commiEditMsgFile = new File(gitDir, Constants.COMMIT_EDITMSG);
 		writeCommitMsg(commiEditMsgFile, msg);
@@ -1781,6 +1825,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
@@ -1810,6 +1855,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            $GIT_DIR/MERGE_HEAD or <code>null</code> to delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeMergeHeads(List<? extends ObjectId> heads) throws IOException {
 		writeHeadsFile(heads, Constants.MERGE_HEAD);
 	}
@@ -1825,6 +1871,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public ObjectId readCherryPickHead() throws IOException,
 			NoWorkTreeException {
@@ -1849,6 +1896,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public ObjectId readRevertHead() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
@@ -1869,6 +1917,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeCherryPickHead(ObjectId head) throws IOException {
 		List<ObjectId> heads = (head != null) ? Collections.singletonList(head)
 				: null;
@@ -1884,6 +1933,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeRevertHead(ObjectId head) throws IOException {
 		List<ObjectId> heads = (head != null) ? Collections.singletonList(head)
 				: null;
@@ -1898,6 +1948,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            to delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeOrigHead(ObjectId head) throws IOException {
 		List<ObjectId> heads = head != null ? Collections.singletonList(head)
 				: null;
@@ -1915,6 +1966,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public ObjectId readOrigHead() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
@@ -1936,6 +1988,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Override
 	@Nullable
 	public String readSquashCommitMsg() throws IOException {
 		return readCommitMsgFile(Constants.SQUASH_MSG);
@@ -1952,6 +2005,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            delete the file
 	 * @throws java.io.IOException
 	 */
+	@Override
 	public void writeSquashCommitMsg(String msg) throws IOException {
 		File squashMsgFile = new File(gitDir, Constants.SQUASH_MSG);
 		writeCommitMsg(squashMsgFile, msg);
@@ -2045,6 +2099,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 3.2
 	 */
+	@Override
 	@NonNull
 	public List<RebaseTodoLine> readRebaseTodo(String path,
 			boolean includeComments)
@@ -2065,6 +2120,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 * @since 3.2
 	 */
+	@Override
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append)
 			throws IOException {
@@ -2077,6 +2133,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the names of all known remotes
 	 * @since 3.4
 	 */
+	@Override
 	@NonNull
 	public Set<String> getRemoteNames() {
 		return getConfig()
@@ -2098,6 +2155,7 @@ public abstract class Repository implements AutoCloseable {
 	 *            to report progress
 	 * @since 4.6
 	 */
+	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		// default does nothing
 	}
