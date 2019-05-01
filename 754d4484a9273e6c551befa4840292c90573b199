@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f611a413_35ae0e06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:56:29Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused about this hook - this seems to say that it is run upon every non-bitmap commit visited, but from reading the code, it seems that it is run exactly once in the good case (and in the bad case, it is run once on every commit in \"start\"). Can you document this in a more specific way?\n\nThe other issue is that if this is run only exactly once, couldn\u0027t whatever code is necessary be run by the caller before and after this calculator (instead of passing hooks)...but that\u0027s a question for another time - as it is, I can see that this patch just rearranges the logic of BitmapWalker (without adding or removing anything), which makes it much easier to see that it is correct.",
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e37639_aa608e4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:56:29Z",
+      "side": 1,
+      "message": "If you\u0027re already creating a new interface, it\u0027s probably clearer to have the same interface have both pre- and post-, instead of asking the caller to make 2 classes with the same signature.",
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3859b277_53d65375",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:56:29Z",
+      "side": 1,
+      "message": "Reset these 2 lines to what they were (i.e., don\u0027t include unnecessary whitespace changes).",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 4
+      },
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
