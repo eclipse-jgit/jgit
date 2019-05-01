@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 /**
  * A Git repository on a DFS.
  */
-public abstract class DfsRepository extends Repository {
+public abstract class DfsRepository extends Repository implements DfsRepositoryInterface {
 	private final DfsConfig config;
 
 	private final DfsRepositoryDescription description;
