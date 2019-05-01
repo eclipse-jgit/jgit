@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4edbe21_64e70bc9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:12:19Z",
+      "side": 1,
+      "message": "Not worth defining extra methods just to save \"repo.\", I think. Same for updateRef.",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d5c5cd_9ca968cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:12:19Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem worth providing this as an option - it seems like this should always be true.",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f53d66_6cfc8418",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-01T19:12:19Z",
+      "side": 1,
+      "message": "Should this take Iterable\u003c? extends ObjectId\u003e (or Iterable\u003c? extends AnyObjectId\u003e) instead?",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
