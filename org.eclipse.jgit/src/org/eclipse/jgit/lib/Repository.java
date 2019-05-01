@@ -116,7 +116,7 @@ import org.slf4j.LoggerFactory;
  * <li>{@code DfsRepository} thread-safety is determined by its subclass.
  * </ul>
  */
-public abstract class Repository implements AutoCloseable {
+public abstract class Repository implements RepositoryInterface {
 	private static final Logger LOG = LoggerFactory.getLogger(Repository.class);
 	private static final ListenerList globalListeners = new ListenerList();
 
