@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 /**
  * A Git repository on a DFS.
  */
-public abstract class DfsRepository extends Repository {
+public abstract class DfsRepository extends Repository implements DfsRepositoryInterface {
 	private final DfsConfig config;
 
 	private final DfsRepositoryDescription description;
@@ -87,6 +87,7 @@ public abstract class DfsRepository extends Repository {
 	 *
 	 * @return the description of this repository.
 	 */
+	@Override
 	public DfsRepositoryDescription getDescription() {
 		return description;
 	}
@@ -98,6 +99,7 @@ public abstract class DfsRepository extends Repository {
 	 * @throws java.io.IOException
 	 *             the repository cannot be checked.
 	 */
+	@Override
 	public boolean exists() throws IOException {
 		if (getRefDatabase() instanceof DfsRefDatabase) {
 			return ((DfsRefDatabase) getRefDatabase()).exists();
