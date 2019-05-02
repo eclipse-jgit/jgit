@@ -881,7 +881,7 @@ public class PackWriter implements AutoCloseable {
 	 */
 	private class DepthAwareVisitationPolicy
 			implements ObjectWalk.VisitationPolicy {
-		private final Map<ObjectId, Long> lowestDepthVisited = new HashMap<>();
+		private final Map<ObjectId, Integer> lowestDepthVisited = new HashMap<>();
 
 		private final ObjectWalk walk;
 
@@ -891,16 +891,16 @@ public class PackWriter implements AutoCloseable {
 
 		@Override
 		public boolean shouldVisit(RevObject o) {
-			Long lastDepth = lowestDepthVisited.get(o);
+			Integer lastDepth = lowestDepthVisited.get(o);
 			if (lastDepth == null) {
 				return true;
 			}
-			return walk.getTreeDepth() < lastDepth;
+			return walk.getTreeDepth() < lastDepth.intValue();
 		}
 
 		@Override
 		public void visited(RevObject o) {
-			lowestDepthVisited.put(o, (long) walk.getTreeDepth());
+			lowestDepthVisited.put(o, Integer.valueOf(walk.getTreeDepth()));
 		}
 	}
 
