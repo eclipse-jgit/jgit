@@ -895,12 +895,12 @@ public class PackWriter implements AutoCloseable {
 			if (lastDepth == null) {
 				return true;
 			}
-			return walk.getTreeDepth() < lastDepth;
+			return walk.getTreeDepth() < lastDepth.longValue();
 		}
 
 		@Override
 		public void visited(RevObject o) {
-			lowestDepthVisited.put(o, (long) walk.getTreeDepth());
+			lowestDepthVisited.put(o, Long.valueOf(walk.getTreeDepth()));
 		}
 	}
 
