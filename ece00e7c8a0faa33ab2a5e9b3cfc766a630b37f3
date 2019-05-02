@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f26404_6203245a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-05-02T02:21:21Z",
+      "side": 1,
+      "message": "Does this class now need @Override annotations on all the methods that have been defined in the RepositoryInterface?",
+      "revId": "ece00e7c8a0faa33ab2a5e9b3cfc766a630b37f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
