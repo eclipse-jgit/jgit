@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf084f1_2b7aff4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-02T17:15:31Z",
+      "side": 1,
+      "message": "I tried to document it better. \n\nIndeed, the intention here is only to split the basic commit bitmap generation from the full objects bitmap generation. I think the ignoreMissingObject and maybe the plural API can use some love. But I would do that in different commits.",
+      "parentUuid": "f611a413_35ae0e06",
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41e37639_aa608e4d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "754d4484a9273e6c551befa4840292c90573b199",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3c06e87_2cc3f944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-02T17:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41e37639_aa608e4d",
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "754d4484a9273e6c551befa4840292c90573b199",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9944c66a_df5fbd6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-02T17:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3859b277_53d65375",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 4
+      },
+      "revId": "754d4484a9273e6c551befa4840292c90573b199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
