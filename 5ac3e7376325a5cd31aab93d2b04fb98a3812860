@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9ba02118_62bb7f43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-02T18:47:20Z",
+      "side": 1,
+      "message": "Ah...thanks for checking and including those links.",
+      "parentUuid": "cadf20f9_d0c71c9a",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f53d66_6cfc8418",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
         "patchSetId": 1
@@ -104,6 +122,24 @@
       "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80d5e67a_43e82490",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-02T18:47:20Z",
+      "side": 1,
+      "message": "You mention \"Done\" but it\u0027s still Collection instead of Iterable (at least, the one I see in the online view).",
+      "parentUuid": "51ce6314_f8bb0056",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
