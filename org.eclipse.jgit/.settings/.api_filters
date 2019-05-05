@@ -43,5 +43,19 @@
                 <message_argument value="fileAttributes(File)"/>
             </message_arguments>
         </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.2.3"/>
+                <message_argument value="getFsTimerResolution(Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.2.3"/>
+                <message_argument value="touch(Path)"/>
+            </message_arguments>
+        </filter>
     </resource>
 </component>
