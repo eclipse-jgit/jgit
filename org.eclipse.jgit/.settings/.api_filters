@@ -3,7 +3,7 @@
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="5.3.1"/>
+                <message_argument value="5.3.2"/>
                 <message_argument value="5.3.0"/>
             </message_arguments>
         </filter>
@@ -19,6 +19,22 @@
             <message_arguments>
                 <message_argument value="4.5.7"/>
                 <message_argument value="PackInvalidException(String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.3.2"/>
+                <message_argument value="getFsTimerResolution(Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.3.2"/>
+                <message_argument value="touch(Path)"/>
             </message_arguments>
         </filter>
     </resource>
