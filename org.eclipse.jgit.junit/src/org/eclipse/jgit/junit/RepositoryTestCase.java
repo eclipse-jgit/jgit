@@ -374,9 +374,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
 				sleepTime *= 2;
-				try (FileOutputStream fos = new FileOutputStream(tmp)) {
-					// Do nothing
-				}
+				FileUtils.touch(tmp.toPath());
 				actTime = fs.lastModified(tmp);
 			}
 			return actTime;
