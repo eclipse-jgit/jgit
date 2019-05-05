@@ -205,7 +205,7 @@
     <bouncycastle-version>1.60</bouncycastle-version>
     <spotbugs-maven-plugin-version>3.1.11</spotbugs-maven-plugin-version>
     <maven-surefire-version>2.22.2</maven-surefire-version>
-    <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
+    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 
