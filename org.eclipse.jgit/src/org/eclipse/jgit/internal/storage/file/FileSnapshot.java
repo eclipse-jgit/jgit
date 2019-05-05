@@ -48,10 +48,12 @@ import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -85,7 +87,8 @@ public class FileSnapshot {
 	 * file, but only after {@link #isModified(File)} gets invoked. The returned
 	 * snapshot contains only invalid status information.
 	 */
-	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1, UNKNOWN_SIZE);
+	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1,
+			UNKNOWN_SIZE, Duration.ZERO);
 
 	/**
 	 * A FileSnapshot that is clean if the file does not exist.
@@ -94,7 +97,8 @@ public class FileSnapshot {
 	 * file to be clean. {@link #isModified(File)} will return false if the file
 	 * path does not exist.
 	 */
-	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0, 0) {
+	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0, 0,
+			Duration.ZERO) {
 		@Override
 		public boolean isModified(File path) {
 			return FS.DETECTED.exists(path);
@@ -115,6 +119,8 @@ public class FileSnapshot {
 		long read = System.currentTimeMillis();
 		long modified;
 		long size;
+		Duration fsTimerResolution = FS
+				.getFsTimerResolution(path.toPath().getParent());
 		try {
 			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
 			modified = fileAttributes.lastModifiedTime().toMillis();
@@ -123,7 +129,7 @@ public class FileSnapshot {
 			modified = path.lastModified();
 			size = path.length();
 		}
-		return new FileSnapshot(read, modified, size);
+		return new FileSnapshot(read, modified, size, fsTimerResolution);
 	}
 
 	/**
@@ -131,6 +137,11 @@ public class FileSnapshot {
 	 * already known.
 	 * <p>
 	 * This method should be invoked before the file is accessed.
+	 * <p>
+	 * Note that this method cannot rely on measuring file timestamp resolution
+	 * to avoid racy git issues caused by finite file timestamp resolution since
+	 * it's unknown in which filesystem the file is located. Hence the worst
+	 * case fallback for timestamp resolution is used.
 	 *
 	 * @param modified
 	 *            the last modification time of the file
@@ -138,7 +149,7 @@ public class FileSnapshot {
 	 */
 	public static FileSnapshot save(long modified) {
 		final long read = System.currentTimeMillis();
-		return new FileSnapshot(read, modified, -1);
+		return new FileSnapshot(read, modified, -1, Duration.ZERO);
 	}
 
 	/** Last observed modification time of the path. */
@@ -155,11 +166,16 @@ public class FileSnapshot {
 	 * When set to {@link #UNKNOWN_SIZE} the size is not considered for modification checks. */
 	private final long size;
 
-	private FileSnapshot(long read, long modified, long size) {
+	/** measured filesystem timestamp resolution */
+	private Duration fsTimestampResolution;
+
+	private FileSnapshot(long read, long modified, long size,
+			@NonNull Duration fsTimestampResolution) {
 		this.lastRead = read;
 		this.lastModified = modified;
-		this.cannotBeRacilyClean = notRacyClean(read);
+		this.fsTimestampResolution = fsTimestampResolution;
 		this.size = size;
+		this.cannotBeRacilyClean = notRacyClean(read);
 	}
 
 	/**
@@ -279,11 +295,9 @@ public class FileSnapshot {
 	}
 
 	private boolean notRacyClean(long read) {
-		// The last modified time granularity of FAT filesystems is 2 seconds.
-		// Using 2.5 seconds here provides a reasonably high assurance that
-		// a modification was not missed.
-		//
-		return read - lastModified > 2500;
+		// add a 10% safety margin
+		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
+		return (read - lastModified) * 1_000_000 > racyNanos;
 	}
 
 	private boolean isModified(long currLastModified) {
