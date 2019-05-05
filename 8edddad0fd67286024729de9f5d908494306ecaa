@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c284ba_4a554d8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-05T17:38:48Z",
+      "side": 1,
+      "message": "Does this need to be a ConcurrentHashMap?",
+      "range": {
+        "startLine": 196,
+        "startChar": 84,
+        "endLine": 196,
+        "endChar": 91
+      },
+      "revId": "8edddad0fd67286024729de9f5d908494306ecaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "780b09e4_ce65896f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-05T17:38:48Z",
+      "side": 1,
+      "message": "Still there?",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 205,
+        "endChar": 23
+      },
+      "revId": "8edddad0fd67286024729de9f5d908494306ecaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
