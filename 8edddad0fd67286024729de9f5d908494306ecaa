@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da757e8c_d0960222",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-05T21:51:09Z",
+      "side": 1,
+      "message": "Just noticed that openjdk 11 reports on OS X with APFS values like 4_998_000ns. toMillis() will truncate that to 4. Needs a + 1.",
+      "parentUuid": "80730a55_49d43e22",
+      "revId": "8edddad0fd67286024729de9f5d908494306ecaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2c284ba_4a554d8f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
