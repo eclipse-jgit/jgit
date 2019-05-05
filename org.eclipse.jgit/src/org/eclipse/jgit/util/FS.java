@@ -53,23 +53,31 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
@@ -178,6 +186,83 @@ public abstract class FS {
 		}
 	}
 
+	private static final class FileStoreAttributeCache {
+		/**
+		 * The last modified time granularity of FAT filesystems is 2 seconds.
+		 */
+		private static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
+				.ofMillis(2000);
+
+		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
+
+		static Duration getFsTimestampResolution(Path file) {
+			try {
+				Path dir = Files.isDirectory(file) ? file : file.getParent();
+				if (!dir.toFile().canWrite()) {
+					// can not determine FileStore of an unborn directory or in
+					// a read-only directory
+					return FALLBACK_TIMESTAMP_RESOLUTION;
+				}
+				FileStore s = Files.getFileStore(dir);
+				FileStoreAttributeCache c = attributeCache.get(s);
+				if (c == null) {
+					c = new FileStoreAttributeCache(dir);
+					attributeCache.put(s, c);
+					if (LOG.isDebugEnabled()) {
+						LOG.debug(c.toString());
+					}
+				}
+				return c.getFsTimestampResolution();
+
+			} catch (IOException | InterruptedException e) {
+				LOG.warn(e.getMessage(), e);
+				return FALLBACK_TIMESTAMP_RESOLUTION;
+			}
+		}
+
+		private Duration fsTimestampResolution;
+
+		Duration getFsTimestampResolution() {
+			return fsTimestampResolution;
+		}
+
+		private FileStoreAttributeCache(Path dir)
+				throws IOException, InterruptedException {
+			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			Files.createFile(probe);
+			try {
+				FileTime startTime = Files.getLastModifiedTime(probe);
+				FileTime actTime = startTime;
+				long sleepTime = 512;
+				while (actTime.compareTo(startTime) <= 0) {
+					TimeUnit.NANOSECONDS.sleep(sleepTime);
+					FileUtils.touch(probe);
+					actTime = Files.getLastModifiedTime(probe);
+					// limit sleep time to max. 100ms
+					if (sleepTime < 100_000_000L) {
+						sleepTime = sleepTime * 2;
+					}
+				}
+				fsTimestampResolution = Duration.between(startTime.toInstant(),
+						actTime.toInstant());
+			} catch (AccessDeniedException e) {
+				LOG.error(e.getLocalizedMessage(), e);
+			} finally {
+				Files.delete(probe);
+			}
+		}
+
+		@SuppressWarnings("nls")
+		@Override
+		public String toString() {
+			return "FileStoreAttributeCache[" + attributeCache.keySet()
+					.stream()
+					.map(key -> "FileStore[" + key + "]: fsTimestampResolution="
+							+ attributeCache.get(key).getFsTimestampResolution())
+					.collect(Collectors.joining(",\n")) + "]";
+		}
+	}
+
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
 
@@ -217,6 +302,21 @@ public abstract class FS {
 			factory = new FS.FSFactory();
 		}
 		return factory.detect(cygwinUsed);
+	}
+
+	/**
+	 * Get an estimate for the filesystem timestamp resolution from a cache of
+	 * timestamp resolution per FileStore, if not yet available it is measured
+	 * for a probe file under the given directory.
+	 *
+	 * @param dir
+	 *            the directory under which the probe file will be created to
+	 *            measure the timer resolution.
+	 * @return measured filesystem timestamp resolution
+	 * @since 5.2.3
+	 */
+	public static Duration getFsTimerResolution(@NonNull Path dir) {
+		return FileStoreAttributeCache.getFsTimestampResolution(dir);
 	}
 
 	private volatile Holder<File> userHome;
