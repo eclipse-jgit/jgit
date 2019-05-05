@@ -46,16 +46,18 @@ package org.eclipse.jgit.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
+import java.time.Duration;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.CommandFailedException;
@@ -214,5 +216,15 @@ public class FSTest {
 		FS.readPipe(fs.userHome(),
 				  new String[] { "this-command-does-not-exist" },
 				  Charset.defaultCharset().name());
+	}
+
+	@Test
+	public void testGetFsTimestampResolution() throws IOException {
+		Path dir = Files.createTempDirectory("probe-filesystem");
+		Duration resolution = FS.getFsTimerResolution(dir);
+		assertTrue(resolution.toNanos() > 0);
+		System.out.println(String.format(
+				"filesystem timer resolution in directory %s is %,d nanoseconds",
+				dir, Long.valueOf(resolution.toNanos())));
 	}
 }
