@@ -49,6 +49,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -907,5 +908,19 @@ public class FileUtils {
 			return path.replace('\\', '/');
 		}
 		return path;
+	}
+
+	/**
+	 * Touch the given file
+	 *
+	 * @param f
+	 *            the file to touch
+	 * @throws IOException
+	 * @since 5.3.2
+	 */
+	public static void touch(Path f) throws IOException {
+		try (OutputStream fos = Files.newOutputStream(f)) {
+			// touch the file
+		}
 	}
 }
