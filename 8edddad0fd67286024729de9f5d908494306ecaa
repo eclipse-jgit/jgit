@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "80730a55_49d43e22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-05T18:22:00Z",
+      "side": 1,
+      "message": "With the small numbers \u003c 10ms that we measured, there won\u0027t be a safety margin.",
+      "revId": "8edddad0fd67286024729de9f5d908494306ecaa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2c284ba_4a554d8f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
