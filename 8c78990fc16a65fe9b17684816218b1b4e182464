@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "763c7883_c1f54b3a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FSTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-06T14:02:23Z",
+      "side": 1,
+      "message": "yes, leftover and needs more tests",
+      "parentUuid": "d6183c1e_29cef4cb",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 46
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7be172e_c40bfe36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-06T11:52:09Z",
       "side": 1,
       "message": "All the magic numbers here need a bit of commenting on why they have been chosen.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 3
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "373f730b_55ce28f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-06T14:02:23Z",
+      "side": 1,
+      "message": "I agree :-)",
+      "parentUuid": "b7be172e_c40bfe36",
       "range": {
         "startLine": 283,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "df440529_118225e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-06T14:02:23Z",
+      "side": 1,
+      "message": "ok, I can add that",
+      "parentUuid": "b986fdb5_6a200716",
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cabc0bd_30639187",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 6
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "dc97d3cc_13a81b8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-06T14:02:23Z",
+      "side": 1,
+      "message": "I think if the filesystem is read-only there is no way to determine the timestamp resolution automatically from Java.\n\nWe could add new options to allow manual configuration: \n\n[filesystem \"/dev/disk1s1\"]\n    mountpath \u003d /\n    timestampResolution \u003d 5ms",
+      "parentUuid": "9cabc0bd_30639187",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 26
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c0fc512_a1a8ab21",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2019-05-06T11:52:09Z",
       "side": 1,
       "message": "why 512?",
+      "range": {
+        "startLine": 234,
+        "startChar": 21,
+        "endLine": 234,
+        "endChar": 24
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13596124_a8f3ad89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-06T14:02:23Z",
+      "side": 1,
+      "message": "* I have no exhaustive list of file timestamp resolutions across the many filesystems existing so it\u0027s a guess based on what we found out so far\n* exponent of 2 ;-)\n* not too small to avoid unnecessary iterations\n* I didn\u0027t run any benchmark on the measuring code hence I don\u0027t know the size of systematic error introduced by the finite performance of the measuring code",
+      "parentUuid": "3c0fc512_a1a8ab21",
       "range": {
         "startLine": 234,
         "startChar": 21,
