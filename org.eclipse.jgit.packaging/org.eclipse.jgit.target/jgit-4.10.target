@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde?>
-<!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.10" sequenceNumber="1556213540">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde?><!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl --><target name="jgit-4.10" sequenceNumber="1557147616">
   <locations>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.client.source" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.continuation" version="9.4.14.v20181114"/>
@@ -22,7 +19,7 @@
       <unit id="org.eclipse.jetty.util.source" version="9.4.14.v20181114"/>
       <repository id="jetty-9.4.14" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.14.v20181114"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.ant.source" version="1.10.5.v20180808-0324"/>
       <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
@@ -82,9 +79,9 @@
       <unit id="org.apache.sshd.core.source" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="org.apache.sshd.sftp.source" version="2.0.0.v20181102-1323"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20190404224055/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20190501151401/repository"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
       <repository location="http://download.eclipse.org/releases/2018-12/"/>
     </location>
