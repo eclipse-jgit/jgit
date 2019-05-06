@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6183c1e_29cef4cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FSTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-06T11:52:09Z",
+      "side": 1,
+      "message": "Debug code leftover?\n\nI believe we need a bit more testing on this though, such as that *IF* we create two files with a sleep in between of the resolution, they should have two different update timestamp.",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 46
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7be172e_c40bfe36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-06T11:52:09Z",
+      "side": 1,
+      "message": "All the magic numbers here need a bit of commenting on why they have been chosen.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 3
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b986fdb5_6a200716",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-06T11:52:09Z",
+      "side": 1,
+      "message": "Do we need to log the exception at warning level? Otherwise it would be difficult to understand why the timestamp resolution detection isn\u0027t working.",
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cabc0bd_30639187",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-06T11:52:09Z",
+      "side": 1,
+      "message": "What if we have no write access to the filesystem?\n(Scenario: a Gerrit slave running on a read-only file share)",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 26
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c0fc512_a1a8ab21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-06T11:52:09Z",
+      "side": 1,
+      "message": "why 512?",
+      "range": {
+        "startLine": 234,
+        "startChar": 21,
+        "endLine": 234,
+        "endChar": 24
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
