@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acb7df84_ea06fbc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-07T11:02:34Z",
+      "side": 1,
+      "message": "Looks like you went backwards from PS 6. Again, 4_998_000ns will be truncated to 4ms (so too small, should be 5ms), and 4 * 11 / 10 \u003d\u003d 4, so no safety margin.",
+      "revId": "c836136acf4bca6fd01b9ea30d59ab7c174d3f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
