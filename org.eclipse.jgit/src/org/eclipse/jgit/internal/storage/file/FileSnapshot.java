@@ -80,6 +80,8 @@ public class FileSnapshot {
 	 */
 	public static final long UNKNOWN_SIZE = -1;
 
+	private static final Object MISSING_FILEKEY = new Object();
+
 	/**
 	 * A FileSnapshot that is considered to always be modified.
 	 * <p>
@@ -88,7 +90,7 @@ public class FileSnapshot {
 	 * snapshot contains only invalid status information.
 	 */
 	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1,
-			UNKNOWN_SIZE, Duration.ZERO);
+			UNKNOWN_SIZE, Duration.ZERO, MISSING_FILEKEY);
 
 	/**
 	 * A FileSnapshot that is clean if the file does not exist.
@@ -98,7 +100,7 @@ public class FileSnapshot {
 	 * path does not exist.
 	 */
 	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0, 0,
-			Duration.ZERO) {
+			Duration.ZERO, MISSING_FILEKEY) {
 		@Override
 		public boolean isModified(File path) {
 			return FS.DETECTED.exists(path);
@@ -119,17 +121,26 @@ public class FileSnapshot {
 		long read = System.currentTimeMillis();
 		long modified;
 		long size;
+		Object fileKey = null;
 		Duration fsTimerResolution = FS
 				.getFsTimerResolution(path.toPath().getParent());
 		try {
 			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
 			modified = fileAttributes.lastModifiedTime().toMillis();
 			size = fileAttributes.size();
+			fileKey = getFileKey(fileAttributes);
 		} catch (IOException e) {
 			modified = path.lastModified();
 			size = path.length();
+			fileKey = MISSING_FILEKEY;
 		}
-		return new FileSnapshot(read, modified, size, fsTimerResolution);
+		return new FileSnapshot(read, modified, size, fsTimerResolution,
+				fileKey);
+	}
+
+	private static Object getFileKey(BasicFileAttributes fileAttributes) {
+		Object fileKey = fileAttributes.fileKey();
+		return fileKey == null ? MISSING_FILEKEY : fileKey;
 	}
 
 	/**
@@ -149,7 +160,8 @@ public class FileSnapshot {
 	 */
 	public static FileSnapshot save(long modified) {
 		final long read = System.currentTimeMillis();
-		return new FileSnapshot(read, modified, -1, Duration.ZERO);
+		return new FileSnapshot(read, modified, -1, Duration.ZERO,
+				MISSING_FILEKEY);
 	}
 
 	/** Last observed modification time of the path. */
@@ -169,13 +181,20 @@ public class FileSnapshot {
 	/** measured filesystem timestamp resolution */
 	private Duration fsTimestampResolution;
 
+	/**
+	 * Object that uniquely identifies the given file, or {@code
+	 * null} if a file key is not available
+	 */
+	private Object fileKey;
+
 	private FileSnapshot(long read, long modified, long size,
-			@NonNull Duration fsTimestampResolution) {
+			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
 		this.lastRead = read;
 		this.lastModified = modified;
 		this.fsTimestampResolution = fsTimestampResolution;
 		this.size = size;
 		this.cannotBeRacilyClean = notRacyClean(read);
+		this.fileKey = fileKey;
 	}
 
 	/**
@@ -204,15 +223,20 @@ public class FileSnapshot {
 	public boolean isModified(File path) {
 		long currLastModified;
 		long currSize;
+		Object currFileKey;
 		try {
 			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
 			currLastModified = fileAttributes.lastModifiedTime().toMillis();
 			currSize = fileAttributes.size();
+			currFileKey = getFileKey(fileAttributes);
 		} catch (IOException e) {
 			currLastModified = path.lastModified();
 			currSize = path.length();
+			currFileKey = MISSING_FILEKEY;
 		}
-		return (currSize != UNKNOWN_SIZE && currSize != size) || isModified(currLastModified);
+		return isSizeChanged(currSize)
+				|| isFileKeyChanged(currFileKey)
+				|| isModified(currLastModified);
 	}
 
 	/**
@@ -252,7 +276,8 @@ public class FileSnapshot {
 	 * @return true if the two snapshots share the same information.
 	 */
 	public boolean equals(FileSnapshot other) {
-		return lastModified == other.lastModified && size == other.size;
+		return lastModified == other.lastModified && size == other.size
+				&& Objects.equals(fileKey, other.fileKey);
 	}
 
 	/** {@inheritDoc} */
@@ -274,7 +299,8 @@ public class FileSnapshot {
 	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
-		return Objects.hash(Long.valueOf(lastModified), Long.valueOf(size));
+		return Objects.hash(Long.valueOf(lastModified), Long.valueOf(size),
+				fileKey);
 	}
 
 	/** {@inheritDoc} */
@@ -291,7 +317,7 @@ public class FileSnapshot {
 				Locale.US);
 		return "FileSnapshot[modified: " + f.format(new Date(lastModified))
 				+ ", read: " + f.format(new Date(lastRead)) + ", size:" + size
-				+ "]";
+				+ ", fileKey: " + fileKey + "]";
 	}
 
 	private boolean notRacyClean(long read) {
@@ -326,5 +352,13 @@ public class FileSnapshot {
 		// Scan again, to ensure we still see the same state.
 		//
 		return true;
+	}
+
+	private boolean isFileKeyChanged(Object currFileKey) {
+		return currFileKey != MISSING_FILEKEY && !currFileKey.equals(fileKey);
+	}
+
+	private boolean isSizeChanged(long currSize) {
+		return currSize != UNKNOWN_SIZE && currSize != size;
 	}
 }
