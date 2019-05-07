@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "792bd1e8_ecbbe92c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-07T07:50:36Z",
+      "side": 1,
+      "message": "Why Duration.ZERO? For the current snapshot we may have already determined the timer resolution. Why don\u0027t we reuse that info for the new snapshot instance as in \"return new FileSnapshot(read, modified, -1, fsTimerResolution)\".\n\nImagine the following steps happen in the same slot of a filesystem timer: you modify a file, you create a filesnapshot on it, you call save(lastmodified), some external process modifies the file.\n\nIf later you ask for isModified() you fail to detect the modification\nbecause fsTimeStampResolution\u003d0.",
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7be172e_c40bfe36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 6
@@ -93,6 +110,23 @@
       "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcaf90a5_9dcb8702",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-07T07:50:36Z",
+      "side": 1,
+      "message": "Have you thought about persisting the value in the repo config? \nFor long-running processes like gerrit, eclipse  what we have here is\nok. But if you use JGit with short living processes (e.g. calls to PGM, inside jenkins tasks) then we do the timer resolution detection over and over again.",
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
