@@ -47,6 +47,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,6 +127,23 @@ public class FileSnapshotTest {
 		FileSnapshot save = FileSnapshot.save(f1);
 		Thread.sleep(1500);
 		assertTrue(save.isModified(f1));
+	}
+
+	/**
+	 * Recreate a file and set original lastModified, on Posix filesystems this
+	 * should change the inode (filekey in java.nio terminology)
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testFileKeyChanged() throws Exception {
+		File f = createFile("file");
+		FileTime timestamp = Files.getLastModifiedTime(f.toPath());
+		FileSnapshot save = FileSnapshot.save(f);
+		FileUtils.delete(f);
+		f = createFile("file");
+		Files.setLastModifiedTime(f.toPath(), timestamp);
+		assertTrue(save.isModified(f));
 	}
 
 	private File createFile(String string) throws IOException {
