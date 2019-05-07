@@ -16,6 +16,29 @@
       "revId": "c836136acf4bca6fd01b9ea30d59ab7c174d3f10",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b1b008f_31f4609f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-07T11:04:48Z",
+      "side": 1,
+      "message": "Use FileUtils.touch(probe) ?",
+      "range": {
+        "startLine": 237,
+        "startChar": 5,
+        "endLine": 239,
+        "endChar": 6
+      },
+      "revId": "c836136acf4bca6fd01b9ea30d59ab7c174d3f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
