@@ -140,6 +140,24 @@
       "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7de8673_f62772cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 228343
+      },
+      "writtenOn": "2019-05-07T14:36:45Z",
+      "side": 1,
+      "message": "I guess that would be ok, because this is not critical.",
+      "parentUuid": "60e8410c_f42a8fb8",
+      "revId": "c642929873981a6cd667899b4d2252ae42a74e29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
