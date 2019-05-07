@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b009c74f_63803487",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-07T13:12:03Z",
+      "side": 1,
+      "message": "If fsTimestampResolution is 4_500_000ns, this still compares \u003e 4ms.\n\nI think we need to convert (read - lastModified) to nanoseconds and then compare nanoseconds.",
+      "revId": "d244bc958721395660ec790cf72d4b5b7de88a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
