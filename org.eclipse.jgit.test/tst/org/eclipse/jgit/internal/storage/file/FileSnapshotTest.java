@@ -47,6 +47,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +127,31 @@ public class FileSnapshotTest {
 		waitNextSec(f1);
 		FileSnapshot save = FileSnapshot.save(f1);
 		Thread.sleep(1500);
+		assertTrue(save.isModified(f1));
+	}
+
+	/**
+	 * Simulate packfile replacement in same file which may occur if set of
+	 * objects in the pack is the same but pack config was different. On Posix
+	 * filesystems this should change the inode (filekey in java.nio
+	 * terminology).
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSimulatePackfileReplacement() throws Exception {
+		File f1 = createFile("file"); // inode y
+		File f2 = createFile("fool"); // Guarantees new inode x
+		// wait on f2 since this method resets lastModified of the file
+		// and leaves lastModified of f1 untouched
+		waitNextSec(f2);
+		waitNextSec(f2);
+		FileTime timestamp = Files.getLastModifiedTime(f1.toPath());
+		FileSnapshot save = FileSnapshot.save(f1);
+		Files.move(f2.toPath(), f1.toPath(), // Now "file" is inode x
+				StandardCopyOption.REPLACE_EXISTING,
+				StandardCopyOption.ATOMIC_MOVE);
+		Files.setLastModifiedTime(f1.toPath(), timestamp);
 		assertTrue(save.isModified(f1));
 	}
 
