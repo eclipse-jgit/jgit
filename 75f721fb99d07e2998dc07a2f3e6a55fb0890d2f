@@ -34,6 +34,24 @@
       "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790092d0_2dcdb529",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-08T19:27:09Z",
+      "side": 1,
+      "message": "You _may_ get different inodes, but it\u0027s not guaranteed, I think. After the deletion the inode is free again. The system may choose to re-use it for the new file, or it may choose a different one.",
+      "parentUuid": "89101ee9_f7a45adc",
+      "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
