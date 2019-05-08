@@ -296,9 +296,23 @@ public class PackInserter extends ObjectInserter {
 					realIdx), e);
 		}
 
-		db.openPack(realPack);
-		rollback = false;
-		clear();
+		boolean interrupted = false;
+		try {
+			FileSnapshot snapshot = FileSnapshot.save(realPack);
+			snapshot.waitUntilNotRacy();
+		} catch (InterruptedException e) {
+			interrupted = true;
+		}
+		try {
+			db.openPack(realPack);
+			rollback = false;
+		} finally {
+			clear();
+			if (interrupted) {
+				// Re-set interrupted flag
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	private static void writePackIndex(File idx, byte[] packHash,
