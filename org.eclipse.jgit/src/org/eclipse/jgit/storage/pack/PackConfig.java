@@ -116,12 +116,30 @@ public class PackConfig {
 	 */
 	public static final int DEFAULT_DELTA_SEARCH_WINDOW_SIZE = 10;
 
+	private static final int MB = 1 << 20;
+
 	/**
 	 * Default big file threshold: {@value}
 	 *
 	 * @see #setBigFileThreshold(int)
 	 */
-	public static final int DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
+	public static final int DEFAULT_BIG_FILE_THRESHOLD = 50 * MB;
+
+	/**
+	 * Default if we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @since 5.1.8
+	 */
+	public static final boolean DEFAULT_WAIT_PREVENT_RACY_PACK = false;
+
+	/**
+	 * Default if we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @since 5.1.8
+	 */
+	public static final long DEFAULT_MINSIZE_PREVENT_RACY_PACK = 100 * MB;
 
 	/**
 	 * Default delta cache size: {@value}
@@ -238,6 +256,10 @@ public class PackConfig {
 
 	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
+	private boolean waitPreventRacyPack = DEFAULT_WAIT_PREVENT_RACY_PACK;
+
+	private long minSizePreventRacyPack = DEFAULT_MINSIZE_PREVENT_RACY_PACK;
+
 	private int threads;
 
 	private Executor executor;
@@ -314,6 +336,8 @@ public class PackConfig {
 		this.deltaCacheSize = cfg.deltaCacheSize;
 		this.deltaCacheLimit = cfg.deltaCacheLimit;
 		this.bigFileThreshold = cfg.bigFileThreshold;
+		this.waitPreventRacyPack = cfg.waitPreventRacyPack;
+		this.minSizePreventRacyPack = cfg.minSizePreventRacyPack;
 		this.threads = cfg.threads;
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
@@ -737,6 +761,76 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get whether we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @return whether we wait before opening a newly written pack to prevent
+	 *         its lastModified timestamp could be racy
+	 * @since 5.1.8
+	 */
+	public boolean isWaitPreventRacyPack() {
+		return waitPreventRacyPack;
+	}
+
+	/**
+	 * Get whether we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy. Returns {@code true} if
+	 * {@code waitToPreventRacyPack = true} and
+	 * {@code packSize > minSizePreventRacyPack}, {@code false} otherwise.
+	 *
+	 * @param packSize
+	 *            size of the pack file
+	 *
+	 * @return whether we wait before opening a newly written pack to prevent
+	 *         its lastModified timestamp could be racy
+	 * @since 5.1.8
+	 */
+	public boolean doWaitPreventRacyPack(long packSize) {
+		return isWaitPreventRacyPack()
+				&& packSize > getMinSizePreventRacyPack();
+	}
+
+	/**
+	 * Set whether we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @param waitPreventRacyPack
+	 *            whether we wait before opening a newly written pack to prevent
+	 *            its lastModified timestamp could be racy
+	 * @since 5.1.8
+	 */
+	public void setWaitPreventRacyPack(boolean waitPreventRacyPack) {
+		this.waitPreventRacyPack = waitPreventRacyPack;
+	}
+
+	/**
+	 * Get minimum packfile size for which we wait before opening a newly
+	 * written pack to prevent its lastModified timestamp could be racy if
+	 * {@code isWaitToPreventRacyPack} is {@code true}.
+	 *
+	 * @return minimum packfile size, default is 100 MiB
+	 *
+	 * @since 5.1.8
+	 */
+	public long getMinSizePreventRacyPack() {
+		return minSizePreventRacyPack;
+	}
+
+	/**
+	 * Set minimum packfile size for which we wait before opening a newly
+	 * written pack to prevent its lastModified timestamp could be racy if
+	 * {@code isWaitToPreventRacyPack} is {@code true}.
+	 *
+	 * @param minSizePreventRacyPack
+	 *            minimum packfile size, default is 100 MiB
+	 *
+	 * @since 5.1.8
+	 */
+	public void setMinSizePreventRacyPack(long minSizePreventRacyPack) {
+		this.minSizePreventRacyPack = minSizePreventRacyPack;
+	}
+
+	/**
 	 * Get the compression level applied to objects in the pack.
 	 *
 	 * Default setting: {@value java.util.zip.Deflater#DEFAULT_COMPRESSION}
@@ -1083,6 +1177,10 @@ public class PackConfig {
 		setBitmapInactiveBranchAgeInDays(
 				rc.getInt("pack", "bitmapinactivebranchageindays", //$NON-NLS-1$ //$NON-NLS-2$
 						getBitmapInactiveBranchAgeInDays()));
+		setWaitPreventRacyPack(rc.getBoolean("pack", "waitpreventracypack", //$NON-NLS-1$ //$NON-NLS-2$
+				isWaitPreventRacyPack()));
+		setMinSizePreventRacyPack(rc.getLong("pack", "minsizepreventracypack", //$NON-NLS-1$//$NON-NLS-2$
+				getMinSizePreventRacyPack()));
 	}
 
 	/** {@inheritDoc} */
