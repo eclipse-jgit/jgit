@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "24cfd053_6b908e8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-08T20:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff611521_43925d9f",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 3
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcaf90a5_9dcb8702",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 6
@@ -267,6 +291,24 @@
     },
     {
       "key": {
+        "uuid": "eddc804c_d82301c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-08T20:21:51Z",
+      "side": 1,
+      "message": "Thanks, that helps.",
+      "parentUuid": "a442713e_fa9fb32f",
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cabc0bd_30639187",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 6
@@ -326,6 +368,30 @@
       "side": 1,
       "message": "Yes, that\u0027s a very cool idea. On the Gerrit slaves the admin knows what are the \"right params\" and can set them out.",
       "parentUuid": "dc97d3cc_13a81b8f",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 26
+      },
+      "revId": "8c78990fc16a65fe9b17684816218b1b4e182464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1235234e_a681d48f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-08T20:21:51Z",
+      "side": 1,
+      "message": "Is the manual configured timestampResolution addressed in a follow-up change?",
+      "parentUuid": "21bf0d57_183ba4fe",
       "range": {
         "startLine": 230,
         "startChar": 0,
