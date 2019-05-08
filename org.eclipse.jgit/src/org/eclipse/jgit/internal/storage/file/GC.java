@@ -1196,6 +1196,7 @@ public class GC {
 				pw.writePack(pm, pm, channelStream);
 				channel.force(true);
 			}
+			FileSnapshot snapshot = FileSnapshot.save(tmpPack);
 
 			// write the packindex
 			try (FileOutputStream fos = new FileOutputStream(tmpIdx);
@@ -1255,7 +1256,7 @@ public class GC {
 							realExt), e);
 				}
 			}
-
+			snapshot.waitUntilNotRacy(realPack.toPath());
 			return repo.getObjectDatabase().openPack(realPack);
 		} finally {
 			if (tmpPack != null && tmpPack.exists())
