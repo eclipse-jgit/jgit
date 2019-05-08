@@ -124,6 +124,14 @@ public class PackConfig {
 	public static final int DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
 
 	/**
+	 * Default if we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @since 5.1.8
+	 */
+	public static final boolean DEFAULT_WAIT_TO_PREVENT_RACY_PACK = false;
+
+	/**
 	 * Default delta cache size: {@value}
 	 *
 	 * @see #setDeltaCacheSize(long)
@@ -238,6 +246,8 @@ public class PackConfig {
 
 	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
+	private boolean waitToPreventRacyPack = DEFAULT_WAIT_TO_PREVENT_RACY_PACK;
+
 	private int threads;
 
 	private Executor executor;
@@ -314,6 +324,7 @@ public class PackConfig {
 		this.deltaCacheSize = cfg.deltaCacheSize;
 		this.deltaCacheLimit = cfg.deltaCacheLimit;
 		this.bigFileThreshold = cfg.bigFileThreshold;
+		this.waitToPreventRacyPack = cfg.waitToPreventRacyPack;
 		this.threads = cfg.threads;
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
@@ -737,6 +748,31 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get whether we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @return whether we wait before opening a newly written pack to prevent
+	 *         its lastModified timestamp could be racy
+	 * @since 5.1.8
+	 */
+	public boolean isWaitToPreventRacyPack() {
+		return waitToPreventRacyPack;
+	}
+
+	/**
+	 * Set whether we wait before opening a newly written pack to prevent its
+	 * lastModified timestamp could be racy
+	 *
+	 * @param waitToPreventRacyPack
+	 *            whether we wait before opening a newly written pack to prevent
+	 *            its lastModified timestamp could be racy
+	 * @since 5.1.8
+	 */
+	public void setWaitToPreventRacyPack(boolean waitToPreventRacyPack) {
+		this.waitToPreventRacyPack = waitToPreventRacyPack;
+	}
+
+	/**
 	 * Get the compression level applied to objects in the pack.
 	 *
 	 * Default setting: {@value java.util.zip.Deflater#DEFAULT_COMPRESSION}
@@ -1054,6 +1090,8 @@ public class PackConfig {
 		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion())); //$NON-NLS-1$ //$NON-NLS-2$
 		setBigFileThreshold(rc.getInt(
 				"core", "bigfilethreshold", getBigFileThreshold())); //$NON-NLS-1$ //$NON-NLS-2$
+		setWaitToPreventRacyPack(rc.getBoolean("pack", "waitToPreventRacyPack", //$NON-NLS-1$ //$NON-NLS-2$
+				isWaitToPreventRacyPack()));
 		setThreads(rc.getInt("pack", "threads", getThreads())); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// These variables aren't standardized
