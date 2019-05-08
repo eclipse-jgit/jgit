@@ -16,6 +16,24 @@
       "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89101ee9_f7a45adc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T18:30:53Z",
+      "side": 1,
+      "message": "I debugged this on Mac and saw different inodes",
+      "parentUuid": "1753f382_cb3ddc2b",
+      "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
