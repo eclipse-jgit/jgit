@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "507fd77d_e3b87e8f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T17:24:37Z",
+      "side": 1,
+      "message": "added another test",
+      "parentUuid": "57e3d71e_ef93c044",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1659b09f_d7de1c78",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2019-05-08T08:54:33Z",
       "side": 1,
       "message": "The raciness check (timestamp comparison) should always make this true, unless somehow there\u0027s a lot of elapsed time between lines 141 and 142, so that the System.currentTimeMillis() inside FileSnapshot.save(f) is sufficiently greater than \"timestamp\".\n\nSo this test has a timing issue.",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8138efbd_a6fac3aa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T17:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1659b09f_d7de1c78",
       "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "913de9d7_d7a9ba24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T17:24:37Z",
+      "side": 1,
+      "message": "we could do this though the only existing private constructor will reset it during construction to the passed parameter which it ensures to be non-null via the annotation",
+      "parentUuid": "bbd353d1_1a23042e",
+      "range": {
+        "startLine": 185,
+        "startChar": 52,
+        "endLine": 186,
+        "endChar": 9
+      },
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf0fcee1_cc6e40a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 3
@@ -87,6 +147,24 @@
       "writtenOn": "2019-05-08T08:54:33Z",
       "side": 1,
       "message": "Nice. My idea about using this fileKey was (specifically for pack files) even more specific: on filesystems where we know this to work, consider the file unchanged if the fileKey is unchanged.\n\nYes, it\u0027s not a general solution, but for cases where we know it to work it sidesteps this whole raciness business with its performance effects (unnecessary re-loading). Of course, the system where the file system tick is largest is also the system where this won\u0027t work (AFAIK): FAT, possibly NTFS. And of course the problem would be knowing when one may rely on the fileKey alone and when not.\n\nThe implementation here is fine and uses the fileKey in a safe way, still checking modification times if the fileKey is unchanged.",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2fd40e0_8a8d37e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T17:24:37Z",
+      "side": 1,
+      "message": "I got this idea, but first wanted to add usage of filekey to the modification detection in a bullet proof way for general purpose use. This should also improve other usages of FileSnapshot.\n\nWe can add this option suitable for immutable files in another change. Since the filesystem may not support filekeys or reuse them over time we need to implement additional probing in FileStoreAttributeCache for the specific filesystem\u0027s behavior so that we can safely decide if we can rely only on filekey for immutable files or not.",
+      "parentUuid": "bf0fcee1_cc6e40a4",
       "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
