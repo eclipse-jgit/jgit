@@ -140,6 +140,24 @@
       "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd5ac5d_aa61210e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-08T23:53:15Z",
+      "side": 1,
+      "message": "After multiple iterations, I ended up in Collection again:\ncheckNonAdvertisedWants has a List, Gitiles also has a Collection ready...  and for the bitmapped implementation it was convenient to use Collection.removeIf(...), so the Iterable introduced one extra looping without further benefit.",
+      "parentUuid": "80d5e67a_43e82490",
+      "revId": "5ac3e7376325a5cd31aab93d2b04fb98a3812860",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
