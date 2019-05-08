@@ -50,6 +50,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.eclipse.jgit.util.FS;
 
@@ -235,37 +236,46 @@ public class FileSnapshot {
 	 * @return true if the two snapshots share the same information.
 	 */
 	public boolean equals(FileSnapshot other) {
-		return lastModified == other.lastModified;
+		return lastModified == other.lastModified && size == other.size;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(Object other) {
-		if (other instanceof FileSnapshot)
-			return equals((FileSnapshot) other);
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof FileSnapshot)) {
+			return false;
+		}
+		FileSnapshot other = (FileSnapshot) obj;
+		return equals(other);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
-		// This is pretty pointless, but override hashCode to ensure that
-		// x.hashCode() == y.hashCode() when x.equals(y) is true.
-		//
-		return (int) lastModified;
+		return Objects.hash(Long.valueOf(lastModified), Long.valueOf(size));
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		if (this == DIRTY)
-			return "DIRTY"; //$NON-NLS-1$
-		if (this == MISSING_FILE)
-			return "MISSING_FILE"; //$NON-NLS-1$
-		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", //$NON-NLS-1$
+		if (this == DIRTY) {
+			return "DIRTY";
+		}
+		if (this == MISSING_FILE) {
+			return "MISSING_FILE";
+		}
+		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS",
 				Locale.US);
-		return "FileSnapshot[modified: " + f.format(new Date(lastModified)) //$NON-NLS-1$
-				+ ", read: " + f.format(new Date(lastRead)) + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "FileSnapshot[modified: " + f.format(new Date(lastModified))
+				+ ", read: " + f.format(new Date(lastRead)) + ", size:" + size
+				+ "]";
 	}
 
 	private boolean notRacyClean(long read) {
