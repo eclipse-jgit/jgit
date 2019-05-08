@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fd93139_79ebf0d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T23:39:08Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "661cf6fd8289d080699b3714847c822e4744f882",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc05ee86_f2bf2bde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T23:39:08Z",
+      "side": 1,
+      "message": "add a test",
+      "revId": "661cf6fd8289d080699b3714847c822e4744f882",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
