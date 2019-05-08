@@ -948,8 +948,11 @@ public class PackWriter implements AutoCloseable {
 		if (filterSpec.getTreeDepthLimit() >= 0) {
 			walk.setVisitationPolicy(new DepthAwareVisitationPolicy(walk));
 		}
+		long start = System.currentTimeMillis();
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects, noBitmaps);
+		System.err.println("TracePushPerf: findObjectsToPack() runtime: "
+				+ (System.currentTimeMillis() - start));
 	}
 
 	/**
@@ -1820,6 +1823,11 @@ public class PackWriter implements AutoCloseable {
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
 		excludeFromBitmapSelection = noBitmaps;
 
+		if ("true".equalsIgnoreCase(
+				System.getProperty("PackWriterForceNoBitmap", "false"))) {
+			useBitmaps = false;
+		}
+
 		canBuildBitmaps = config.isBuildBitmaps()
 				&& !shallowPack
 				&& have.isEmpty()
@@ -1829,7 +1837,11 @@ public class PackWriter implements AutoCloseable {
 			if (bitmapIndex != null) {
 				BitmapWalker bitmapWalker = new BitmapWalker(
 						walker, bitmapIndex, countingMonitor);
+				long start = System.currentTimeMillis();
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
+				System.err.println(
+						"TracePushPerf: findObjectsToPackUsingBitmaps() runtime: "
+								+ (System.currentTimeMillis() - start));
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
 				stats.bitmapIndexMisses = bitmapWalker.getCountOfBitmapIndexMisses();
@@ -1837,6 +1849,7 @@ public class PackWriter implements AutoCloseable {
 			}
 		}
 
+		long start = System.currentTimeMillis();
 		List<ObjectId> all = new ArrayList<>(want.size() + have.size());
 		all.addAll(want);
 		all.addAll(have);
@@ -2032,6 +2045,10 @@ public class PackWriter implements AutoCloseable {
 		endPhase(countingMonitor);
 		stats.timeCounting = System.currentTimeMillis() - countingStart;
 		stats.bitmapIndexMisses = -1;
+		System.err.println(
+				"TracePushPerf: findObjectsToPush(): code not using bitmaps runtime: "
+						+ (System.currentTimeMillis() - start));
+
 	}
 
 	private void findObjectsToPackUsingBitmaps(
@@ -2039,16 +2056,29 @@ public class PackWriter implements AutoCloseable {
 			Set<? extends ObjectId> have)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		long start = System.currentTimeMillis();
 		BitmapBuilder haveBitmap = bitmapWalker.findObjects(have, null, true);
+		System.err.println(
+				"TracePushPerf: findObjectsToPackUsingBitmaps() ms to find find haves: "
+						+ (System.currentTimeMillis() - start));
+		start = System.currentTimeMillis();
 		BitmapBuilder wantBitmap = bitmapWalker.findObjects(want, haveBitmap,
 				false);
+		System.err.println(
+				"TracePushPerf: findObjectsToPackUsingBitmaps()  ms to find find want: "
+						+ (System.currentTimeMillis() - start));
+		start = System.currentTimeMillis();
 		BitmapBuilder needBitmap = wantBitmap.andNot(haveBitmap);
+		System.err.println(
+				"TracePushPerf: findObjectsToPackUsingBitmaps()  ms to find find need: "
+						+ (System.currentTimeMillis() - start));
 
 		if (useCachedPacks && reuseSupport != null && !reuseValidate
 				&& (excludeInPacks == null || excludeInPacks.length == 0))
 			cachedPacks.addAll(
 					reuseSupport.getCachedPacksAndUpdate(needBitmap));
 
+		start = System.currentTimeMillis();
 		for (BitmapObject obj : needBitmap) {
 			ObjectId objectId = obj.getObjectId();
 			if (exclude(objectId)) {
@@ -2057,6 +2087,9 @@ public class PackWriter implements AutoCloseable {
 			}
 			filterAndAddObject(objectId, obj.getType(), 0, want);
 		}
+		System.err.println(
+				"TracePushPerf: findObjectsToPackUsingBitmaps()  ms to add needed: "
+						+ (System.currentTimeMillis() - start));
 
 		if (thin)
 			haveObjects = haveBitmap;
