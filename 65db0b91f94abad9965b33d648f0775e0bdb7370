@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eec28942_d75b74e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-08T09:55:39Z",
+      "side": 1,
+      "message": "on my mac with java 8 just XORing two longs and casting it to int is 20 times faster than this. Shouldn\u0027t we do this:\n\n  return (int) (lastModified ^ size)\n\n[1] https://gist.github.com/chalstrick/9bbaf4d314bb32726d5a1ce7331871a4",
+      "revId": "65db0b91f94abad9965b33d648f0775e0bdb7370",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
