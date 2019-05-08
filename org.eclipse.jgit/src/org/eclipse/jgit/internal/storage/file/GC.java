@@ -1256,8 +1256,24 @@ public class GC {
 							realExt), e);
 				}
 			}
-
-			return repo.getObjectDatabase().openPack(realPack);
+			boolean interrupted = false;
+			try {
+				FileSnapshot snapshot = FileSnapshot.save(realPack);
+				if (pconfig.isWaitToPreventRacyPack(snapshot
+						.size())) {
+					snapshot.waitUntilNotRacy();
+				}
+			} catch (InterruptedException e) {
+				interrupted = true;
+			}
+			try {
+				return repo.getObjectDatabase().openPack(realPack);
+			} finally {
+				if (interrupted) {
+					// Re-set interrupted flag
+					Thread.currentThread().interrupt();
+				}
+			}
 		} finally {
 			if (tmpPack != null && tmpPack.exists())
 				tmpPack.delete();
