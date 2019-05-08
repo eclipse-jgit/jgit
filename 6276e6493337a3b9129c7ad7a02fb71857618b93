@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "57e3d71e_ef93c044",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-08T08:54:33Z",
+      "side": 1,
+      "message": "This is a different pattern than what happens for pack files. This sequence here may actually result in the fileKey being the same, even with inodes.\n\nFor pack files, the sequence is\n\n  createFile(\"file\"); // inode y\n  createFile(\"foo\"); // Guarantees new inode x\n  delete(\"file\")\n  move(\"foo\", \"file\"); // Now \"file\" is inode x\n\nwhich will result in a different fileKey if inodes are used.",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1659b09f_d7de1c78",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-08T08:54:33Z",
+      "side": 1,
+      "message": "The raciness check (timestamp comparison) should always make this true, unless somehow there\u0027s a lot of elapsed time between lines 141 and 142, so that the System.currentTimeMillis() inside FileSnapshot.save(f) is sufficiently greater than \"timestamp\".\n\nSo this test has a timing issue.",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbd353d1_1a23042e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 3
@@ -36,6 +70,23 @@
         "endLine": 186,
         "endChar": 9
       },
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0fcee1_cc6e40a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-08T08:54:33Z",
+      "side": 1,
+      "message": "Nice. My idea about using this fileKey was (specifically for pack files) even more specific: on filesystems where we know this to work, consider the file unchanged if the fileKey is unchanged.\n\nYes, it\u0027s not a general solution, but for cases where we know it to work it sidesteps this whole raciness business with its performance effects (unnecessary re-loading). Of course, the system where the file system tick is largest is also the system where this won\u0027t work (AFAIK): FAT, possibly NTFS. And of course the problem would be knowing when one may rely on the fileKey alone and when not.\n\nThe implementation here is fine and uses the fileKey in a safe way, still checking modification times if the fileKey is unchanged.",
       "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
