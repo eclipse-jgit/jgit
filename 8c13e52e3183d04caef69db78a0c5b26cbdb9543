@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4eea00b_05d4bcb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-08T23:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c67067f_c01378eb",
+      "revId": "8c13e52e3183d04caef69db78a0c5b26cbdb9543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c3d8709_f4745f42",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "8c13e52e3183d04caef69db78a0c5b26cbdb9543",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6394ce2a_7fa11b76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-08T23:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c3d8709_f4745f42",
+      "revId": "8c13e52e3183d04caef69db78a0c5b26cbdb9543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
