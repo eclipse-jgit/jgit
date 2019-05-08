@@ -514,6 +514,13 @@ public class ObjectDirectoryPackParser extends PackParser {
 					JGitText.get().cannotMoveIndexTo, finalIdx), e);
 		}
 
+		boolean interrupted = false;
+		try {
+			FileSnapshot snapshot = FileSnapshot.save(finalPack);
+			snapshot.waitUntilNotRacy();
+		} catch (InterruptedException e) {
+			interrupted = true;
+		}
 		try {
 			newPack = db.openPack(finalPack);
 		} catch (IOException err) {
@@ -523,6 +530,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 			if (finalIdx.exists())
 				FileUtils.delete(finalIdx);
 			throw err;
+		} finally {
+			if (interrupted) {
+				// Re-set interrupted flag
+				Thread.currentThread().interrupt();
+			}
 		}
 
 		return lockMessage != null ? keep : null;
