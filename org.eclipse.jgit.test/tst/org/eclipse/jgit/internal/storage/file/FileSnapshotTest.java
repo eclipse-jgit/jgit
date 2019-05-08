@@ -124,9 +124,7 @@ public class FileSnapshotTest {
 	@Test
 	public void testNewFileNoWait() throws Exception {
 		File f1 = createFile("newfile");
-		waitNextSec(f1);
 		FileSnapshot save = FileSnapshot.save(f1);
-		Thread.sleep(1500);
 		assertTrue(save.isModified(f1));
 	}
 
