@@ -38,6 +38,32 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackConfig.java" type="org.eclipse.jgit.storage.pack.PackConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
+                <message_argument value="DEFAULT_WAIT_TO_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="DEFAULT_WAIT_TO_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="isWaitToPreventRacyPack()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="setWaitToPreventRacyPack(boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig">
         <filter id="1159725059">
             <message_arguments>
