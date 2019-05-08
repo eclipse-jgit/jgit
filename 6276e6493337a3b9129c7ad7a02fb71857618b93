@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cc6ad12_6a9a5139",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-08T01:15:27Z",
+      "side": 1,
+      "message": "let\u0027s see on which filesystems this fails, then we can exclude to run this test on those filesystems",
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
