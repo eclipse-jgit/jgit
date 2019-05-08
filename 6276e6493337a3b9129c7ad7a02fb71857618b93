@@ -16,6 +16,29 @@
       "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd353d1_1a23042e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-05-08T03:33:49Z",
+      "side": 1,
+      "message": "The constructor below has the fileKey argument annotated as @NonNull.  Should this rather be {@code MISSING_FILEKEY} ?",
+      "range": {
+        "startLine": 185,
+        "startChar": 52,
+        "endLine": 186,
+        "endChar": 9
+      },
+      "revId": "6276e6493337a3b9129c7ad7a02fb71857618b93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
