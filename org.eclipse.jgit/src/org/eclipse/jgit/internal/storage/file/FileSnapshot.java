@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,6 +53,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
@@ -266,6 +268,22 @@ public class FileSnapshot {
 		if (notRacyClean(now))
 			cannotBeRacilyClean = true;
 		lastRead = now;
+	}
+
+	/**
+	 * Wait until this snapshot's file can't be racy anymore
+	 *
+	 * @param path
+	 *            of the file this snapshot observes
+	 */
+	public void waitUntilNotRacy(Path path) {
+		if (!isModified(path.toFile())) {
+			try {
+				TimeUnit.NANOSECONDS.sleep(fsTimestampResolution.toNanos());
+			} catch (InterruptedException e) {
+				// ignore
+			}
+		}
 	}
 
 	/**
