@@ -163,6 +163,23 @@ public class FileSnapshotTest {
 				save.wasLastModifiedRacilyClean());
 	}
 
+	/**
+	 * Append a character to a file to change its size and set original
+	 * lastModified
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testFileSizeChanged() throws Exception {
+		File f = createFile("file");
+		FileTime timestamp = Files.getLastModifiedTime(f.toPath());
+		FileSnapshot save = FileSnapshot.save(f);
+		append(f, (byte) 'x');
+		Files.setLastModifiedTime(f.toPath(), timestamp);
+		assertTrue(save.isModified(f));
+		assertTrue(save.wasSizeChanged());
+	}
+
 	private File createFile(String string) throws IOException {
 		trash.mkdirs();
 		File f = File.createTempFile(string, "tdat", trash);
