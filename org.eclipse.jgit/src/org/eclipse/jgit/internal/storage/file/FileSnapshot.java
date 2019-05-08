@@ -52,6 +52,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
@@ -284,6 +285,19 @@ public class FileSnapshot {
 			cannotBeRacilyClean = true;
 		}
 		lastRead = now;
+	}
+
+	/**
+	 * Wait until this snapshot's file can't be racy anymore
+	 *
+	 * @throws InterruptedException
+	 *             if sleep was interrupted
+	 */
+	public void waitUntilNotRacy() throws InterruptedException {
+		while (isRacyClean(System.currentTimeMillis())) {
+			TimeUnit.NANOSECONDS
+					.sleep((fsTimestampResolution.toNanos() + 1) * 11 / 10);
+		}
 	}
 
 	/**
