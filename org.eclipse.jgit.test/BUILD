@@ -24,6 +24,7 @@ HELPERS = glob(
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/ObjectIdMatcher.java",
+    "transport/RequestValidatorTestCase.java",
     "transport/SpiTransport.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
