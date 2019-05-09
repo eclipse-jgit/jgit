@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9326f86d_83253e15",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T18:27:58Z",
+      "side": 1,
+      "message": "If we want to be sure that only the inode check is active, shouldn\u0027t we wait 2*\u003cFS tick\u003e before taking the FileSnapshot? Otherwise the 10% rule in the timestamp comparison will hit anyway... (waitNextSec updates the last-modified time of f1, so timestamp and save.lastRead will be very close).",
+      "revId": "f887a182781d26a22038b77d600b75f21ea8b8e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
