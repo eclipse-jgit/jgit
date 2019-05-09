@@ -187,13 +187,20 @@ public class FileSnapshot {
 	 */
 	private Object fileKey;
 
+	private boolean sizeChanged;
+
+	private boolean fileKeyChanged;
+
+	private boolean lastModifiedChanged;
+
+	private boolean wasRacyClean;
+
 	private FileSnapshot(long read, long modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
 		this.lastRead = read;
 		this.lastModified = modified;
 		this.fsTimestampResolution = fsTimestampResolution;
 		this.size = size;
-		this.cannotBeRacilyClean = notRacyClean(read);
 		this.fileKey = fileKey;
 	}
 
@@ -234,9 +241,19 @@ public class FileSnapshot {
 			currSize = path.length();
 			currFileKey = MISSING_FILEKEY;
 		}
-		return isSizeChanged(currSize)
-				|| isFileKeyChanged(currFileKey)
-				|| isModified(currLastModified);
+		sizeChanged = isSizeChanged(currSize);
+		if (sizeChanged) {
+			return true;
+		}
+		fileKeyChanged = isFileKeyChanged(currFileKey);
+		if (fileKeyChanged) {
+			return true;
+		}
+		lastModifiedChanged = isModified(currLastModified);
+		if (lastModifiedChanged) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -263,8 +280,9 @@ public class FileSnapshot {
 	 */
 	public void setClean(FileSnapshot other) {
 		final long now = other.lastRead;
-		if (notRacyClean(now))
+		if (!isRacyClean(now)) {
 			cannotBeRacilyClean = true;
+		}
 		lastRead = now;
 	}
 
@@ -303,6 +321,38 @@ public class FileSnapshot {
 				fileKey);
 	}
 
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file size
+	 *         changed
+	 */
+	boolean wasSizeChanged() {
+		return sizeChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file key
+	 *         changed
+	 */
+	boolean wasFileKeyChanged() {
+		return fileKeyChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file's
+	 *         lastModified changed
+	 */
+	boolean wasLastModifiedChanged() {
+		return lastModifiedChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) detected that
+	 *         lastModified is racily clean
+	 */
+	boolean wasLastModifiedRacilyClean() {
+		return wasRacyClean;
+	}
+
 	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
@@ -320,37 +370,36 @@ public class FileSnapshot {
 				+ ", fileKey: " + fileKey + "]";
 	}
 
-	private boolean notRacyClean(long read) {
+	private boolean isRacyClean(long read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return (read - lastModified) * 1_000_000 > racyNanos;
+		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
 	}
 
 	private boolean isModified(long currLastModified) {
 		// Any difference indicates the path was modified.
-		//
-		if (lastModified != currLastModified)
+
+		lastModifiedChanged = lastModified != currLastModified;
+		if (lastModifiedChanged) {
 			return true;
+		}
 
 		// We have already determined the last read was far enough
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
-		//
-		if (cannotBeRacilyClean)
+		if (cannotBeRacilyClean) {
 			return false;
-
-		if (notRacyClean(lastRead)) {
+		}
+		if (!isRacyClean(lastRead)) {
 			// Our last read should have marked cannotBeRacilyClean,
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
-			//
 			return false;
 		}
 
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
-		//
 		return true;
 	}
 
