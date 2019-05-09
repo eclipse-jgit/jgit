@@ -70,6 +70,24 @@
       "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d55291c0_858be308",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T06:10:21Z",
+      "side": 1,
+      "message": "\u003e Do you want me to remove this test ?\n\nYes. I think the testSimulatePackfileReplacement below fulfills this test\u0027s javadoc, whereas this test may or may not do so.",
+      "parentUuid": "2405dd26_a96f6a01",
+      "revId": "75f721fb99d07e2998dc07a2f3e6a55fb0890d2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
