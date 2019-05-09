@@ -164,6 +164,20 @@ public class FileSnapshot {
 				MISSING_FILEKEY);
 	}
 
+	/**
+	 * capture reason why {@link FileSnapshot#isModified(File)} returned {@true}
+	 */
+	static class ModificationReason {
+		final boolean sizeChanged, fileKeyChanged, lastModifiedChanged;
+
+		ModificationReason(boolean sizeChanged, boolean fileKeyChanged,
+				boolean lastModifiedChanged) {
+			this.sizeChanged = sizeChanged;
+			this.fileKeyChanged = fileKeyChanged;
+			this.lastModifiedChanged = lastModifiedChanged;
+		}
+	}
+
 	/** Last observed modification time of the path. */
 	private final long lastModified;
 
@@ -180,6 +194,8 @@ public class FileSnapshot {
 
 	/** measured filesystem timestamp resolution */
 	private Duration fsTimestampResolution;
+
+	ModificationReason r;
 
 	/**
 	 * Object that uniquely identifies the given file, or {@code
@@ -234,9 +250,18 @@ public class FileSnapshot {
 			currSize = path.length();
 			currFileKey = MISSING_FILEKEY;
 		}
-		return isSizeChanged(currSize)
-				|| isFileKeyChanged(currFileKey)
-				|| isModified(currLastModified);
+		r = new ModificationReason(isSizeChanged(currSize),
+				isFileKeyChanged(currFileKey), isModified(currLastModified));
+		return r.sizeChanged || r.fileKeyChanged || r.lastModifiedChanged;
+	}
+
+	/**
+	 * Test helper method
+	 *
+	 * @return the reason why {@link #isModified(File)} returned {@true}
+	 */
+	ModificationReason getModificationReason() {
+		return r;
 	}
 
 	/**
