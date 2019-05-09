@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -153,6 +154,10 @@ public class FileSnapshotTest {
 				StandardCopyOption.ATOMIC_MOVE);
 		Files.setLastModifiedTime(f1.toPath(), timestamp);
 		assertTrue(save.isModified(f1));
+		FileSnapshot.ModificationReason reason = save.getModificationReason();
+		assertTrue("unexpected change of fileKey", reason.fileKeyChanged);
+		assertFalse("unexpected size change", reason.sizeChanged);
+		assertFalse("unexpected lastModified change", reason.sizeChanged);
 	}
 
 	private File createFile(String string) throws IOException {
