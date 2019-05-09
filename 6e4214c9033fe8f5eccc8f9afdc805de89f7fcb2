@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7a215f1_246ac412",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AmazonS3Client.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T20:28:56Z",
+      "side": 1,
+      "message": "Spurious TAB, use a blank.",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 14
+      },
+      "revId": "6e4214c9033fe8f5eccc8f9afdc805de89f7fcb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06445cdd_35f414ee",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AmazonS3Client.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T20:28:56Z",
+      "side": 1,
+      "message": "Missing blank before the comment (also elsewhere; check all, also in the other files).",
+      "revId": "6e4214c9033fe8f5eccc8f9afdc805de89f7fcb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd3a430_6a91101c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListBranchCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T20:28:56Z",
+      "side": 1,
+      "message": "This is a pointless refactoring that doesn\u0027t improve the code in any way. Should be reverted.",
+      "revId": "6e4214c9033fe8f5eccc8f9afdc805de89f7fcb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac301011_9f09a2c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T20:28:56Z",
+      "side": 1,
+      "message": "Huge code duplication is a no-go.",
+      "revId": "6e4214c9033fe8f5eccc8f9afdc805de89f7fcb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b0a171d_b9588dd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-09T20:28:56Z",
+      "side": 1,
+      "message": "Trailing whitespace should be removed.",
+      "revId": "6e4214c9033fe8f5eccc8f9afdc805de89f7fcb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
