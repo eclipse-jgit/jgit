@@ -16,6 +16,24 @@
       "revId": "65db0b91f94abad9965b33d648f0775e0bdb7370",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d0be5d1_f78cf780",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-09T13:59:07Z",
+      "side": 1,
+      "message": "Why should we try to do a custom implementation compared to the one coming with the JDK ? Are you aware of a performance critical use of FileSnapshot.hashCode() ? On my Mac your test takes 297ms for 10 million executions of the Objects.hash implementation, this yields 29.7ns for a single one which is around 90 clock cycles on a 2.9GHz CPU core.",
+      "parentUuid": "eec28942_d75b74e1",
+      "revId": "65db0b91f94abad9965b33d648f0775e0bdb7370",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
