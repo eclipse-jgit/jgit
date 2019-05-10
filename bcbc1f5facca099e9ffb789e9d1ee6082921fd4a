@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef717d32_4603fb74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-10T22:56:51Z",
+      "side": 1,
+      "message": "Should this be included also in the for/loop of finding an object in the pack list?\nWe could risk also there to go in a 100% CPU loop for a few msecs or even secs, just because the packfile (or list of packfiles) was just externally modified.",
+      "range": {
+        "startLine": 1261,
+        "startChar": 4,
+        "endLine": 1261,
+        "endChar": 32
+      },
+      "revId": "bcbc1f5facca099e9ffb789e9d1ee6082921fd4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
