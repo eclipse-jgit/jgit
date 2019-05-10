@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddc19f0c_ea59f4d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-10T16:21:30Z",
+      "side": 1,
+      "message": "https://ci-staging.eclipse.org/jgit/job/stable/job/jgit.gerrit/16005/consoleFull shows another problem: if the first snapshot created on this FileStore is in a directory where the user has no write-access, this will throw an exception that we\u0027ll log. In the build the first snapshot is for the system config, and the log is full of these exceptions. Looks somewhat likely that this will always or at least very often be the case. Maybe check whether we can write there at all, and not log the exception then?",
+      "revId": "e457f2bf8cda4b606e4c0760f6d2e234c32ad569",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
