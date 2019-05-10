@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ae49c5e_4ee070de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-10T22:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "955199b4_71ae2ad3",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "565a5162_58cc5cdd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "708bf1ca_3289f9ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-10T22:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "565a5162_58cc5cdd",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd3cb11e_d9dfdcb8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2019-05-10T13:58:56Z",
       "side": 1,
       "message": "Should we handle InterruptedException here? Like\n\n  boolean interrupted \u003d false;\n  try {\n    FileSnapshot snapshot \u003d FileSnapshot.save(realPack);\n    snapshot.waitUntilNotRacy();\n  } catch (InterruptedException e) {\n    interrupted \u003d true;\n  }\n  try {\n    return repo.getObjectDatabase().openPack(realPack);\n  } finally {\n    if (interrupted) {\n      // Re-set interrupted flag\n      Thread.currentThread().interrupt();\n    }\n  }",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ecf7f21_736721ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-10T22:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd3cb11e_d9dfdcb8",
       "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
