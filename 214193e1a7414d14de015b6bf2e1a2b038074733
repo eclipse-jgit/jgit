@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a23e8f_72c53c96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-10T06:27:05Z",
+      "side": 1,
+      "message": "Ah, now I see why these waitNextSec() calls are there. But this doesn\u0027t do what you intended. A side-effect of waitNextSec is that it updates the last-modified time of the file. So either do\n\n  waitNextSec(f2);\n  waitNextSec(f2);\n\n(since we\u0027re not interested in the last-modified time of f2 anyway), or\n\n  FileTime timestamp \u003d Files.getLastModifiedTime(f1.toPath());\n  Thread.sleep(FS.getFsTimerResolution(f1.getParentFile().toPath()).multipliedBy(2).toMillis() + 1);\n  FileSnapshot save \u003d FileSnapshot.save(f1);\n\nwhich looks more complicated but is perhaps easier to understand?",
+      "revId": "214193e1a7414d14de015b6bf2e1a2b038074733",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
