@@ -16,6 +16,24 @@
       "revId": "f887a182781d26a22038b77d600b75f21ea8b8e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01eb7d12_7aa3322f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-10T22:17:04Z",
+      "side": 1,
+      "message": "done and added a method to analyze why isModified returned true",
+      "parentUuid": "9326f86d_83253e15",
+      "revId": "f887a182781d26a22038b77d600b75f21ea8b8e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
