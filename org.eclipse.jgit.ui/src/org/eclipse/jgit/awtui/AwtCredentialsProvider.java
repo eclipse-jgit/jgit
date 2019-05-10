@@ -108,10 +108,10 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {
-		if (items.length == 0) {
+		switch (items.length) {
+		case 0:
 			return true;
-
-		} else if (items.length == 1) {
+		case 1:
 			final CredentialItem item = items[0];
 
 			if (item instanceof CredentialItem.InformationalMessage) {
@@ -141,8 +141,7 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 			} else {
 				return interactive(uri, items);
 			}
-
-		} else {
+		default:
 			return interactive(uri, items);
 		}
 	}
