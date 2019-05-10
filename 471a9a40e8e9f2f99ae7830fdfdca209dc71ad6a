@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "955199b4_71ae2ad3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-10T13:58:56Z",
+      "side": 1,
+      "message": "I don\u0027t get this. Shouldn\u0027t this wait longer to account for the 10% \"safety margin\"? Also, shouldn\u0027t it be\n\n  public void waitUntilNotRacy() {\n    while (!notRacyClean(System.getCurrentTimeMillis())) {\n      try {\n        TimeUnit.NANOSECONDS.sleep((fsTimestampResolution.toNanos() + 1) * 11 / 10);\n      } catch (InterruptedException e) {\n        // ignore\n      }\n    }\n  }\n\n?\n\nAnd is ignoring the InterruptedException correct? I\u0027d rather propagate it and handle it in GC; see there.",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "565a5162_58cc5cdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-10T13:58:56Z",
+      "side": 1,
+      "message": "Why take a snapshot before the move, not after?",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd3cb11e_d9dfdcb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-10T13:58:56Z",
+      "side": 1,
+      "message": "Should we handle InterruptedException here? Like\n\n  boolean interrupted \u003d false;\n  try {\n    FileSnapshot snapshot \u003d FileSnapshot.save(realPack);\n    snapshot.waitUntilNotRacy();\n  } catch (InterruptedException e) {\n    interrupted \u003d true;\n  }\n  try {\n    return repo.getObjectDatabase().openPack(realPack);\n  } finally {\n    if (interrupted) {\n      // Re-set interrupted flag\n      Thread.currentThread().interrupt();\n    }\n  }",
+      "revId": "471a9a40e8e9f2f99ae7830fdfdca209dc71ad6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
