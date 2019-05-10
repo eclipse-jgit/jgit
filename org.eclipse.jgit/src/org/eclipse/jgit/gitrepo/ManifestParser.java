@@ -189,7 +189,8 @@ public class ManifestParser extends DefaultHandler {
 			String localName,
 			String qName,
 			Attributes attributes) throws SAXException {
-		if ("project".equals(qName)) { //$NON-NLS-1$
+		if (null != qName) switch (qName) {
+		case "project":	//$NON-NLS-1$
 			if (attributes.getValue("name") == null) { //$NON-NLS-1$
 				throw new SAXException(RepoText.get().invalidManifest);
 			}
@@ -200,8 +201,9 @@ public class ManifestParser extends DefaultHandler {
 					attributes.getValue("remote"), //$NON-NLS-1$
 					attributes.getValue("groups")); //$NON-NLS-1$
 			currentProject.setRecommendShallow(
-				attributes.getValue("clone-depth")); //$NON-NLS-1$
-		} else if ("remote".equals(qName)) { //$NON-NLS-1$
+					attributes.getValue("clone-depth")); //$NON-NLS-1$
+			break;
+		case "remote"://$NON-NLS-1$
 			String alias = attributes.getValue("alias"); //$NON-NLS-1$
 			String fetch = attributes.getValue("fetch"); //$NON-NLS-1$
 			String revision = attributes.getValue("revision"); //$NON-NLS-1$
@@ -209,27 +211,31 @@ public class ManifestParser extends DefaultHandler {
 			remotes.put(attributes.getValue("name"), remote); //$NON-NLS-1$
 			if (alias != null)
 				remotes.put(alias, remote);
-		} else if ("default".equals(qName)) { //$NON-NLS-1$
+			break;
+		case "default":	//$NON-NLS-1$
 			defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
 			defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
-		} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
+			break;
+		case "copyfile"://$NON-NLS-1$
 			if (currentProject == null)
 				throw new SAXException(RepoText.get().invalidManifest);
 			currentProject.addCopyFile(new CopyFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
-						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("linkfile".equals(qName)) { //$NON-NLS-1$
+					rootRepo,
+					currentProject.getPath(),
+					attributes.getValue("src"), //$NON-NLS-1$
+					attributes.getValue("dest"))); //$NON-NLS-1$
+			break;
+		case "linkfile"://$NON-NLS-1$
 			if (currentProject == null) {
 				throw new SAXException(RepoText.get().invalidManifest);
 			}
 			currentProject.addLinkFile(new LinkFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
-						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("include".equals(qName)) { //$NON-NLS-1$
+					rootRepo,
+					currentProject.getPath(),
+					attributes.getValue("src"), //$NON-NLS-1$
+					attributes.getValue("dest"))); //$NON-NLS-1$
+			break;
+		case "include":{//$NON-NLS-1$			
 			String name = attributes.getValue("name"); //$NON-NLS-1$
 			if (includedReader != null) {
 				try (InputStream is = includedReader.readIncludeFile(name)) {
@@ -252,9 +258,15 @@ public class ManifestParser extends DefaultHandler {
 							RepoText.get().errorIncludeFile, path), e);
 				}
 			}
-		} else if ("remove-project".equals(qName)) { //$NON-NLS-1$
+			break;
+		}
+		case "remove-project":{//$NON-NLS-1$		
 			String name = attributes.getValue("name"); //$NON-NLS-1$
 			projects.removeIf((p) -> p.getName().equals(name));
+			break;
+		}
+		default:
+			break;
 		}
 	}
 
