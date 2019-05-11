@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedef4f3_1cd45500",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-11T07:35:13Z",
+      "side": 1,
+      "message": "canWrite() includes exists(), so no need to test for existence separately.",
+      "revId": "5ee504f0cc1f133e852b745e66d1f8c22b9488dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
