@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54dc7eb9_2fb0063c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-05-14T17:28:10Z",
+      "side": 1,
+      "message": "We don\u0027t know if err.getMessage is intended for end users. e.g. VMError#getMessage is not something you want to show to the users.",
+      "parentUuid": "6fb77d34_f697640d",
+      "range": {
+        "startLine": 2012,
+        "startChar": 7,
+        "endLine": 2012,
+        "endChar": 42
+      },
+      "revId": "c79954c9dd287ab2c10079b1222691fd932f0985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3361232d_c6424a6a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
