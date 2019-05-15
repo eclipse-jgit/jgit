@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e39b70b9_879ecf77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-05-15T14:19:58Z",
+      "side": 1,
+      "message": "Ok, I see that we still always rethrow so the server has a chance to log the error for debugging.",
+      "parentUuid": "54dc7eb9_2fb0063c",
+      "range": {
+        "startLine": 2012,
+        "startChar": 7,
+        "endLine": 2012,
+        "endChar": 42
+      },
+      "revId": "c79954c9dd287ab2c10079b1222691fd932f0985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3361232d_c6424a6a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2019-05-14T17:24:51Z",
       "side": 1,
       "message": "Fix indentation.",
+      "range": {
+        "startLine": 2077,
+        "startChar": 0,
+        "endLine": 2082,
+        "endChar": 18
+      },
+      "revId": "c79954c9dd287ab2c10079b1222691fd932f0985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25b5c459_f8190d40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2082,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-05-15T14:19:58Z",
+      "side": 1,
+      "message": "Still needs fixing.",
+      "parentUuid": "3361232d_c6424a6a",
       "range": {
         "startLine": 2077,
         "startChar": 0,
