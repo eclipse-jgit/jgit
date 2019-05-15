@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8edacfc_3ba88bf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-15T20:40:33Z",
+      "side": 1,
+      "message": "s/in in/in/",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "6fa4eafd35537c29f067af0adb0f7c052bf42e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6692ec8a_7b59f929",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-15T20:40:33Z",
+      "side": 1,
+      "message": "Formatting of this comment",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "6fa4eafd35537c29f067af0adb0f7c052bf42e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
