@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ce87f75_2cf4caae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-15T20:32:22Z",
+      "side": 1,
+      "message": "The reason why ReachabilityChecker supports reusing an existing RevWalk (instead of maintaining our own), presumably, is so that we can save on object parsing. So I think it\u0027s less flexible if we set this here - the caller should be setting it if they know that they want it.",
+      "range": {
+        "startLine": 84,
+        "startChar": 7,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "fc3b1eb9fc9e974c24122143d60680af0cacf2aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
