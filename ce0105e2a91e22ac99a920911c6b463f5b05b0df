@@ -22,6 +22,30 @@
       "revId": "ce0105e2a91e22ac99a920911c6b463f5b05b0df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8c1fb87_d923398d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-15T23:38:19Z",
+      "side": 1,
+      "message": "I come here from the gitiles angle:\nThe starters are usually ref tips and have the bitmap precalculated. In both cases we need to iterate the starters joining the bitmap. \nDoing the check while building the bitmap gives us a chance to \"shortcut\" the loop, and this can be very helpful because the caller can try first with the most popular refs (e.g. heads) before trying something else.\n\nOn the other hand, if many starters require a walk, we spend a lot of time resetting the walk... I think we can deploy this and refine it if it doesn\u0027t perform.",
+      "parentUuid": "a5eb2232_224a6293",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "ce0105e2a91e22ac99a920911c6b463f5b05b0df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
