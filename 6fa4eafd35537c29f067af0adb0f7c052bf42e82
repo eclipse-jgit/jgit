@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b035a3a4_3dbd3e0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-15T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8edacfc_3ba88bf9",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "6fa4eafd35537c29f067af0adb0f7c052bf42e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6692ec8a_7b59f929",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "6fa4eafd35537c29f067af0adb0f7c052bf42e82",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c7b900_902d330f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapCalculator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-15T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6692ec8a_7b59f929",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "6fa4eafd35537c29f067af0adb0f7c052bf42e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
