@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ee97a18_1f220ed8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-15T08:57:39Z",
+      "side": 1,
+      "message": "This breaks the gitiles gerrit plugin [1] which overrides these methods [2] to filter refs based on the user\u0027s permissions. What\u0027s your suggestion to implement this filtering based on this changed API which also marks the new method findRef final ?\n\n[1] \nchange to upgrade gerrit master to JGit 5.3.1: https://gerrit-review.googlesource.com/c/gerrit/+/224326\nfailing build: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/65716/consoleText\n[2] https://gerrit.googlesource.com/plugins/gitiles/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/gitiles/FilteredRepository.java#209",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 13
+      },
+      "revId": "c1954f6c366121f971699573322a2669c7dd9430",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
