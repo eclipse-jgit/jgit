@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1963acfb_90f51154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-05-15T22:19:10Z",
+      "side": 1,
+      "message": "I\u0027m starting to get into this code now, so here\u0027s a question: was this method changed to save memory? It seems to have no bearing on next() in the concrete non-Queue Generators, and, as Jonathan said, I can\u0027t find any callers.",
+      "parentUuid": "2721e7e2_0bd504b2",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 78
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_2bdc48db",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 1
