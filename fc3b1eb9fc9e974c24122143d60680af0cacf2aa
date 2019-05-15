@@ -22,6 +22,30 @@
       "revId": "fc3b1eb9fc9e974c24122143d60680af0cacf2aa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb93a0a_5ebafabc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-15T21:58:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce87f75_2cf4caae",
+      "range": {
+        "startLine": 84,
+        "startChar": 7,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "fc3b1eb9fc9e974c24122143d60680af0cacf2aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
