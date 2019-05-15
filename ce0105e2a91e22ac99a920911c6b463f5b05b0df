@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5eb2232_224a6293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-15T20:43:09Z",
+      "side": 1,
+      "message": "Do we know if it\u0027s faster to do one starter at a time than to generate one bitmap containing all the starters? If yes, please make a note. (Also, if it\u0027s faster to generate one bitmap containing all the starters, then the calculator#getBitmap should take in a list of objects, not one at a time.)",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "ce0105e2a91e22ac99a920911c6b463f5b05b0df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
