@@ -153,7 +153,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcpg-jdk15on//jar"],
+    exports = ["@bcpg//jar"],
 )
 
 java_library(
@@ -162,7 +162,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcprov-jdk15on//jar"],
+    exports = ["@bcprov//jar"],
 )
 
 java_library(
@@ -171,7 +171,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcpkix-jdk15on//jar"],
+    exports = ["@bcpkix//jar"],
 )
 
 java_library(
