@@ -240,6 +240,15 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Get repository identifier.
+	 *
+	 * The return identifier has to be unique within a given Git server.
+	 * @return repository identifier.
+	 * @since 5.4
+	 */
+	public abstract String getIdentifier();
+
+	/**
 	 * Get the object database which stores this repository's data.
 	 *
 	 * @return the object database which stores this repository's data.
