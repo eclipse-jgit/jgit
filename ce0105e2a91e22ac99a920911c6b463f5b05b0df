@@ -70,6 +70,30 @@
       "revId": "ce0105e2a91e22ac99a920911c6b463f5b05b0df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd5d374c_6667df3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-16T21:34:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a96456f_bfdffa72",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "ce0105e2a91e22ac99a920911c6b463f5b05b0df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
