@@ -87,19 +87,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 	@Override
 	public synchronized String createNonce(Repository repo, long timestamp)
 			throws IllegalStateException {
-		String path;
-		if (repo instanceof DfsRepository) {
-			path = ((DfsRepository) repo).getDescription().getRepositoryName();
-		} else {
-			File directory = repo.getDirectory();
-			if (directory != null) {
-				path = directory.getPath();
-			} else {
-				throw new IllegalStateException();
-			}
-		}
-
-		String input = path + ":" + String.valueOf(timestamp); //$NON-NLS-1$
+		String input = repo.getPath() + ":" + String.valueOf(timestamp); //$NON-NLS-1$
 		byte[] rawHmac = mac.doFinal(input.getBytes(UTF_8));
 		return Long.toString(timestamp) + "-" + toHex(rawHmac); //$NON-NLS-1$
 	}
