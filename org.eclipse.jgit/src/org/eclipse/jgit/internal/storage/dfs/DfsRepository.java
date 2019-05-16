@@ -126,6 +126,12 @@ public abstract class DfsRepository extends Repository {
 
 	/** {@inheritDoc} */
 	@Override
+	public String getPath() {
+		return getDescription().getRepositoryName();
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public void scanForRepoChanges() throws IOException {
 		getRefDatabase().refresh();
 		getObjectDatabase().clearCache();
