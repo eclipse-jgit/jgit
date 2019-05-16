@@ -240,6 +240,13 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Get repository path.
+	 *
+	 * @return repository path.
+	 */
+	public abstract String getPath();
+
+	/**
 	 * Get the object database which stores this repository's data.
 	 *
 	 * @return the object database which stores this repository's data.

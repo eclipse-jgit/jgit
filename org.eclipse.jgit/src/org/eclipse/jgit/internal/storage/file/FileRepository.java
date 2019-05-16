@@ -390,6 +390,17 @@ public class FileRepository extends Repository {
 
 	/** {@inheritDoc} */
 	@Override
+	public String getPath() {
+		File directory = getDirectory();
+		if (directory != null) {
+			return directory.getPath();
+		} else {
+			throw new IllegalStateException();
+		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public FileBasedConfig getConfig() {
 		if (systemConfig.isOutdated()) {
 			try {
