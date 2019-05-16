@@ -276,12 +276,11 @@ public final class ServletUtils {
 	}
 
 	static String identify(Repository git) {
-		if (git instanceof DfsRepository) {
-			return ((DfsRepository) git).getDescription().getRepositoryName();
-		} else if (git.getDirectory() != null) {
-			return git.getDirectory().getPath();
+		String path = git.getPath();
+		if (path == null) {
+			return "unknown";
 		}
-		return "unknown";
+		return path;
 	}
 
 	private ServletUtils() {
