@@ -64,7 +64,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -276,12 +275,11 @@ public final class ServletUtils {
 	}
 
 	static String identify(Repository git) {
-		if (git instanceof DfsRepository) {
-			return ((DfsRepository) git).getDescription().getRepositoryName();
-		} else if (git.getDirectory() != null) {
-			return git.getDirectory().getPath();
+		String path = git.getPath();
+		if (path == null) {
+			return "unknown";
 		}
-		return "unknown";
+		return path;
 	}
 
 	private ServletUtils() {
