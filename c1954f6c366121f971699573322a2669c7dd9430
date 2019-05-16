@@ -22,6 +22,30 @@
       "revId": "c1954f6c366121f971699573322a2669c7dd9430",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d130f37_4ef12259",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-16T09:33:52Z",
+      "side": 1,
+      "message": "fixed in gitiles plugin in [3] by removing override for this method which is safe since it delegates to exactRef() which is overridden by gitiles plugin and filtering according to user\u0027s permissions\n\n[3] https://gerrit-review.googlesource.com/c/plugins/gitiles/+/224637",
+      "parentUuid": "3ee97a18_1f220ed8",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 13
+      },
+      "revId": "c1954f6c366121f971699573322a2669c7dd9430",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
