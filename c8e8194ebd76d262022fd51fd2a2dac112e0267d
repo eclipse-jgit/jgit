@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "434f9848_33a8d92e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-16T09:06:32Z",
+      "side": 1,
+      "message": "Unnecessary Yoda condition.",
+      "revId": "c8e8194ebd76d262022fd51fd2a2dac112e0267d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cc8ff51_eddbcb27",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-16T09:06:32Z",
+      "side": 1,
+      "message": "Missing curly braces.\n\n  } else {\n    switch (command) {\n    ...\n    }\n  }",
+      "revId": "c8e8194ebd76d262022fd51fd2a2dac112e0267d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c1cba5_57c19183",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-16T09:06:32Z",
+      "side": 1,
+      "message": "Yoda condition unnecessary, missing curly braces.\n\n  if (qName !\u003d null) {\n    switch (qName) {\n    ...\n    }\n  }",
+      "revId": "c8e8194ebd76d262022fd51fd2a2dac112e0267d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513d92c0_cd6d0741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-16T09:06:32Z",
+      "side": 1,
+      "message": "Trailing whitespace should be removed, and there should be a space between \":\" and \"{\". Same below.",
+      "revId": "c8e8194ebd76d262022fd51fd2a2dac112e0267d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67f830c_5099d009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-16T09:06:32Z",
+      "side": 1,
+      "message": "Yoda condition unnecessary. Trailing whitespace; missing curly braces. \"else\" unnecessary.\n\n  if (parts[i + 1] \u003d\u003d null) {\n    return null;\n  }\n  switch (parts[i + 1]) {\n  ...",
+      "revId": "c8e8194ebd76d262022fd51fd2a2dac112e0267d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
