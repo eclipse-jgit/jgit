@@ -22,6 +22,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/Repository.java" type="org.eclipse.jgit.lib.Repository">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.Repository"/>
+                <message_argument value="getIdentifier()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/revwalk/ObjectWalk.java" type="org.eclipse.jgit.revwalk.ObjectWalk">
         <filter comment="ignore the risk subclasses could define the same field and cause a name clash" id="336658481">
             <message_arguments>
