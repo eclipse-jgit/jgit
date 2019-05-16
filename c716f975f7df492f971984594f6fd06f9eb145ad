@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6780a51d_4ab3ff4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-05-16T05:03:55Z",
+      "side": 1,
+      "message": "Please put the bug references in the footer, i.e.\n\n Bug: 545856\n Change-Id: ...\n Signed-of-by: ...\n\nAlso please remove the trailing white space.",
+      "revId": "c716f975f7df492f971984594f6fd06f9eb145ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
