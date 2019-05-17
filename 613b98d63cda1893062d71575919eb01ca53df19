@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0943b7c9_d1d4ba0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-17T07:52:14Z",
+      "side": 1,
+      "message": "See comment on PS 12.",
+      "revId": "613b98d63cda1893062d71575919eb01ca53df19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7195b607_e4d0c196",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-17T07:52:14Z",
+      "side": 1,
+      "message": "Missing blank : \"\u003d\u003d null\".",
+      "revId": "613b98d63cda1893062d71575919eb01ca53df19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
