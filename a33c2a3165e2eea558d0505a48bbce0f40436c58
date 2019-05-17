@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "311fd204_5406dd77",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-17T09:54:18Z",
+      "side": 1,
+      "message": "Unused import.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 59
+      },
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "980a3c59_850af4ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-17T09:54:18Z",
+      "side": 1,
+      "message": "This could return null.",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f0d5195_36fb8eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-17T09:54:18Z",
+      "side": 1,
+      "message": "Missing period at end of sentence; missing @since 5.4 (or 5.3, if you move this to stable-5.3).\n\nThe name \"getPath\" appears to be misleading; DfsRepository doesn\u0027t return a path but the \"repository name\", whatever that is (can apparently be an arbitrary string). It also appears that the \"repository name\" can actually be null.",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
