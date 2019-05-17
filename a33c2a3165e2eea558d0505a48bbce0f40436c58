@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "88a0030b_e686a5b1",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-17T12:38:38Z",
+      "side": 1,
+      "message": "inconsistent: getPath() is annotated @NonNull, either remove this annotation or this null check",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "980a3c59_850af4ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 3
@@ -53,6 +70,23 @@
       "writtenOn": "2019-05-17T09:54:18Z",
       "side": 1,
       "message": "Missing period at end of sentence; missing @since 5.4 (or 5.3, if you move this to stable-5.3).\n\nThe name \"getPath\" appears to be misleading; DfsRepository doesn\u0027t return a path but the \"repository name\", whatever that is (can apparently be an arbitrary string). It also appears that the \"repository name\" can actually be null.",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41d5ed5a_19f04e38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-17T12:38:38Z",
+      "side": 1,
+      "message": "the @NonNull seems not to make sense since DfsRepository can return a null repository name and Repository.getDirectory() can return null e.g. for in memory repositories used in unit tests and ServletUtils.identify() already did a corresponding null check earlier",
       "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
