@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93fc5847_b0662fc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-20T23:15:17Z",
+      "side": 1,
+      "message": "Can you say a little more about this? Why doesn\u0027t the ReachabilityChecker support checking non-commits?",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01215d16_65dc47fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-20T23:15:17Z",
+      "side": 1,
+      "message": "Can there be a factory that takes care of this for us (so that each caller doesn\u0027t have to check whether the repo has bitmaps)?",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
