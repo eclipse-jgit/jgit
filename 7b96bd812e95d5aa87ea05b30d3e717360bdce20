@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a01ed212_12c59973",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-20T23:43:29Z",
+      "side": 1,
+      "message": "Because its API doesn\u0027t allow it. I think the commit below (\"All wants are commits, we can use ReachabilityChecker\") explains it well enough, but feel free to suggest something clearer.\n\nAs for why the API is designed this way, perhaps Ivan can explain, but as the reviewer, I was OK with it. The algorithm for the commit-only case and the algorithm for the non-commit case have very different performance characteristics, so it seemed reasonable to me to restrict ReachabilityChecker to only handling commits, meaning that any user of ReachabilityChecker can know that only commits are being handled, and any subclasser of ReachabilityChecker need only implement the commit part. Having said that, I am gradually seeing the need for a non-commit reachability checker, so perhaps the interface needs to be evolved.\n\n(A non-commit reachability checker is not something that UploadPack has had. In d3021788d2 (\"Use bitmaps for non-commit reachability checks\", 2017-11-10) a bitmap-using non-commit reachability checker was added; prior to that there was no non-commit reachability checker, bitmap-using or not.)",
+      "parentUuid": "93fc5847_b0662fc0",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01215d16_65dc47fc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-05-20T23:15:17Z",
       "side": 1,
       "message": "Can there be a factory that takes care of this for us (so that each caller doesn\u0027t have to check whether the repo has bitmaps)?",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36e615ef_04ecd7a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-20T23:43:29Z",
+      "side": 1,
+      "message": "I think we can do this once we have another usage of ReachabilityChecker within JGit.",
+      "parentUuid": "01215d16_65dc47fc",
       "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true

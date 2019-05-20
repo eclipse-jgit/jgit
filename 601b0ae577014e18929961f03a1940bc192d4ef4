@@ -16,6 +16,24 @@
       "revId": "601b0ae577014e18929961f03a1940bc192d4ef4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa2439f_b8549f1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-05-20T23:43:29Z",
+      "side": 0,
+      "message": "Ah...I should have caught that during review. A fix is here:\nhttps://git.eclipse.org/r/c/142462/",
+      "parentUuid": "d0e07a72_ec910d46",
+      "revId": "601b0ae577014e18929961f03a1940bc192d4ef4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
