@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a62267f_0520b70f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-20T23:55:24Z",
+      "side": 1,
+      "message": "ReachabilityChecker was started to help gitiles, where we need to check if certain commit is reachable from some tips.\n\nThere is already a reachability checker for *any* object (BitmapWalker). Its code is complicated and taking out the \"only commits\" part only made things worse, so I opted for writing a simple version only for commit checks.\n\nAs a side note: part of the BitmapWalker complexity comes from handling the objectiId to revobject translation, so in this new class I opted for letting the client do that conversion.",
+      "parentUuid": "93fc5847_b0662fc0",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01215d16_65dc47fc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5

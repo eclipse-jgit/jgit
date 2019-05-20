@@ -34,6 +34,24 @@
       "revId": "601b0ae577014e18929961f03a1940bc192d4ef4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12336027_08c39e3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-20T23:55:24Z",
+      "side": 0,
+      "message": "Sorry it got lost on its way back from the ReachabilityChecker. Readding it.",
+      "parentUuid": "d0e07a72_ec910d46",
+      "revId": "601b0ae577014e18929961f03a1940bc192d4ef4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
