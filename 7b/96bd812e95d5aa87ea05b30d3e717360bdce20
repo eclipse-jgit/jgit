@@ -1,0 +1,8 @@
+Code-Review+2: Jonathan Tan <jonathantanmy@google.com>
+Verified+1: CI Bot
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Jonathan Tan <jonathantanmy@google.com>
+Submitted-at: Mon, 20 May 2019 16:04:28 -0400
+Reviewed-on: https://git.eclipse.org/r/141846
+Project: jgit/jgit
+Branch: refs/heads/master
