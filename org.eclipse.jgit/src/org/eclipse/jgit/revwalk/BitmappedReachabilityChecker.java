@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 /**
  * Checks the reachability using bitmaps.
  *
- * @since 5.5
+ * @since 5.4
  */
 public class BitmappedReachabilityChecker implements ReachabilityChecker {
 

@@ -55,7 +55,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * Note that this checks the reachability of commits (and tags). Trees, blobs or
  * any other object will cause IncorrectObjectTypeException exceptions.
  *
- * @since 5.5
+ * @since 5.4
  */
 public interface ReachabilityChecker {
 
