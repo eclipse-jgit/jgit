@@ -1876,6 +1876,7 @@ public class UploadPack {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
 		try (RevWalk walk = new RevWalk(reader)) {
+			walk.setRetainBody(false);
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
 					notAdvertisedWants);
