@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aba204d_4ddd8015",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-21T18:02:40Z",
+      "side": 1,
+      "message": "No need for @since since this is package-private.",
+      "revId": "f20a647ebfec0b4e68dd3ca65ddabd12e6f24682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfec983d_149a0d23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PedestrianReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-21T18:02:40Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "f20a647ebfec0b4e68dd3ca65ddabd12e6f24682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
