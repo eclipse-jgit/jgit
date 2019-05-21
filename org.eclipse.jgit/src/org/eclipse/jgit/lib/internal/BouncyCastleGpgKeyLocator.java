@@ -181,10 +181,11 @@ class BouncyCastleGpgKeyLocator {
 
 	private PGPPublicKey findPublicKeyByKeyId(KeyBlob keyBlob)
 			throws IOException {
+		String keyId = signingKey.toLowerCase(Locale.ROOT);
 		for (KeyInformation keyInfo : keyBlob.getKeyInformation()) {
-			if (signingKey.toLowerCase(Locale.ROOT)
-					.equals(Hex.toHexString(keyInfo.getKeyID())
-							.toLowerCase(Locale.ROOT))) {
+			String fingerprint = Hex.toHexString(keyInfo.getFingerprint())
+					.toLowerCase(Locale.ROOT);
+			if (fingerprint.endsWith(keyId)) {
 				return getFirstPublicKey(keyBlob);
 			}
 		}
@@ -334,6 +335,7 @@ class BouncyCastleGpgKeyLocator {
 					PGPUtil.getDecoderStream(new BufferedInputStream(in)),
 					new JcaKeyFingerprintCalculator());
 
+			String keyId = signingkey.toLowerCase(Locale.ROOT);
 			Iterator<PGPSecretKeyRing> keyrings = pgpSec.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPSecretKeyRing keyRing = keyrings.next();
@@ -344,8 +346,7 @@ class BouncyCastleGpgKeyLocator {
 					String fingerprint = Hex
 							.toHexString(key.getPublicKey().getFingerprint())
 							.toLowerCase(Locale.ROOT);
-					if (fingerprint
-							.endsWith(signingkey.toLowerCase(Locale.ROOT))) {
+					if (fingerprint.endsWith(keyId)) {
 						return key;
 					}
 					// try user id
