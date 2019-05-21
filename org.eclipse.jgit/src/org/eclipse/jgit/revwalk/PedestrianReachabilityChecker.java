@@ -55,7 +55,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  *
  * @since 5.4
  */
-public class PedestrianReachabilityChecker implements ReachabilityChecker {
+class PedestrianReachabilityChecker implements ReachabilityChecker {
 
 	private final boolean topoSort;
 

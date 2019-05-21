@@ -58,7 +58,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
  *
  * @since 5.4
  */
-public class BitmappedReachabilityChecker implements ReachabilityChecker {
+class BitmappedReachabilityChecker implements ReachabilityChecker {
 
 	private final RevWalk walk;
 
