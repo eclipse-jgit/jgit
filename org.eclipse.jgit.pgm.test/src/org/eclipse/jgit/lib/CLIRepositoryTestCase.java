@@ -190,11 +190,12 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	protected String cmdString(String... cmds) {
-		if (cmds.length == 0)
+		switch (cmds.length) {
+		case 0:
 			return "";
-		else if (cmds.length == 1)
+		case 1:
 			return "\"" + escapeJava(cmds[0]) + "\"";
-		else {
+		default:
 			StringBuilder sb = new StringBuilder(cmdString(cmds[0]));
 			for (int i=1; i<cmds.length; i++) {
 				sb.append(", ");
