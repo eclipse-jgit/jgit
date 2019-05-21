@@ -92,15 +92,19 @@ final class ReverseWalk extends RevWalk {
 			// visited first by BlameGenerator when considering candidates.
 
 			int cnt = children.length;
-			if (cnt == 0)
+			switch (cnt) {
+			case 0:
 				children = new ReverseCommit[] { c };
-			else if (cnt == 1)
+				break;
+			case 1:
 				children = new ReverseCommit[] { c, children[0] };
-			else {
+				break;
+			default:
 				ReverseCommit[] n = new ReverseCommit[1 + cnt];
 				n[0] = c;
 				System.arraycopy(children, 0, n, 1, cnt);
 				children = n;
+				break;
 			}
 		}
 

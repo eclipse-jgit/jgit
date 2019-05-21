@@ -322,16 +322,21 @@ public final class StringUtils {
 		int o = 0;
 		for (int i = 0; i < buf.length; ++i) {
 			char ch = in.charAt(i);
-			if (ch == '\r') {
+			switch (ch) {
+			case '\r':
 				if (i + 1 < buf.length && in.charAt(i + 1) == '\n') {
 					buf[o++] = ' ';
 					++i;
 				} else
 					buf[o++] = ' ';
-			} else if (ch == '\n')
+				break;
+			case '\n':
 				buf[o++] = ' ';
-			else
+				break;
+			default:
 				buf[o++] = ch;
+				break;
+			}
 		}
 		return new String(buf, 0, o);
 	}

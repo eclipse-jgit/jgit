@@ -93,33 +93,35 @@ class Remote extends TextBuiltin {
 				RemoteListCommand cmd = git.remoteList();
 				List<RemoteConfig> remotes = cmd.call();
 				print(remotes);
-			} else if ("add".equals(command)) { //$NON-NLS-1$
-				RemoteAddCommand cmd = git.remoteAdd();
-				cmd.setName(name);
-				cmd.setUri(new URIish(uri));
-				cmd.call();
-			} else if ("remove".equals(command) || "rm".equals(command)) { //$NON-NLS-1$ //$NON-NLS-2$
-				RemoteRemoveCommand cmd = git.remoteRemove();
-				cmd.setRemoteName(name);
-				cmd.call();
-			} else if ("set-url".equals(command)) { //$NON-NLS-1$
-				RemoteSetUrlCommand cmd = git.remoteSetUrl();
-				cmd.setRemoteName(name);
-				cmd.setRemoteUri(new URIish(uri));
-				cmd.setUriType(push ? UriType.PUSH : UriType.FETCH);
-				cmd.call();
-			} else if ("update".equals(command)) { //$NON-NLS-1$
-				// reuse fetch command for basic implementation of remote update
+				return;
+			}
+			switch (command) {
+			case "add": //$NON-NLS-1$
+				RemoteAddCommand add = git.remoteAdd();
+				add.setName(name);
+				add.setUri(new URIish(uri));
+				add.call();
+				break;
+			case "remove": //$NON-NLS-1$
+			case "rm": //$NON-NLS-1$
+				RemoteRemoveCommand rm = git.remoteRemove();
+				rm.setRemoteName(name);
+				rm.call();
+				break;
+			case "set-url": //$NON-NLS-1$
+				RemoteSetUrlCommand remoteSetUrl = git.remoteSetUrl();
+				remoteSetUrl.setRemoteName(name);
+				remoteSetUrl.setRemoteUri(new URIish(uri));
+				remoteSetUrl.setUriType(push ? UriType.PUSH : UriType.FETCH);
+				remoteSetUrl.call();
+				break;
+			case "update": //$NON-NLS-1$
 				Fetch fetch = new Fetch();
 				fetch.init(db, gitdir);
-
-				// redirect the output stream
 				StringWriter osw = new StringWriter();
 				fetch.outw = new ThrowingPrintWriter(osw);
-				// redirect the error stream
 				StringWriter esw = new StringWriter();
 				fetch.errw = new ThrowingPrintWriter(esw);
-
 				List<String> fetchArgs = new ArrayList<>();
 				if (verbose) {
 					fetchArgs.add("--verbose"); //$NON-NLS-1$
@@ -130,15 +132,13 @@ class Remote extends TextBuiltin {
 				if (name != null) {
 					fetchArgs.add(name);
 				}
-
 				fetch.execute(fetchArgs.toArray(new String[0]));
-
-				// flush the streams
 				fetch.outw.flush();
 				fetch.errw.flush();
 				outw.println(osw.toString());
 				errw.println(esw.toString());
-			} else {
+				break;
+			default:
 				throw new JGitInternalException(MessageFormat
 						.format(CLIText.get().unknownSubcommand, command));
 			}

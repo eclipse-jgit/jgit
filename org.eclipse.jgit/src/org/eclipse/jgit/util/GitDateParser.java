@@ -252,12 +252,13 @@ public class GitDateParser {
 	}
 
 	// tries to parse a string with a relative time specification
+	@SuppressWarnings("nls")
 	private static Date parse_relative(String dateStr, Calendar now) {
 		Calendar cal;
 		SystemReader sysRead = SystemReader.getInstance();
 
 		// check for the static words "yesterday" or "now"
-		if ("now".equals(dateStr)) { //$NON-NLS-1$
+		if ("now".equals(dateStr)) {
 			return ((now == null) ? new Date(sysRead.getCurrentTime()) : now
 					.getTime());
 		}
@@ -269,7 +270,7 @@ public class GitDateParser {
 		} else
 			cal = (Calendar) now.clone();
 
-		if ("yesterday".equals(dateStr)) { //$NON-NLS-1$
+		if ("yesterday".equals(dateStr)) {
 			cal.add(Calendar.DATE, -1);
 			cal.set(Calendar.HOUR_OF_DAY, 0);
 			cal.set(Calendar.MINUTE, 0);
@@ -280,12 +281,12 @@ public class GitDateParser {
 		}
 
 		// parse constructs like "3 days ago", "5.week.2.day.ago"
-		String[] parts = dateStr.split("\\.| "); //$NON-NLS-1$
+		String[] parts = dateStr.split("\\.| ");
 		int partsLength = parts.length;
 		// check we have an odd number of parts (at least 3) and that the last
 		// part is "ago"
 		if (partsLength < 3 || (partsLength & 1) == 0
-				|| !"ago".equals(parts[parts.length - 1])) //$NON-NLS-1$
+				|| !"ago".equals(parts[parts.length - 1]))
 			return null;
 		int number;
 		for (int i = 0; i < parts.length - 2; i += 2) {
@@ -294,27 +295,41 @@ public class GitDateParser {
 			} catch (NumberFormatException e) {
 				return null;
 			}
-			if ("year".equals(parts[i + 1]) || "years".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.YEAR, -number);
-			else if ("month".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "months".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MONTH, -number);
-			else if ("week".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "weeks".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.WEEK_OF_YEAR, -number);
-			else if ("day".equals(parts[i + 1]) || "days".equals(parts[i + 1])) //$NON-NLS-1$ //$NON-NLS-2$
-				cal.add(Calendar.DATE, -number);
-			else if ("hour".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "hours".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.HOUR_OF_DAY, -number);
-			else if ("minute".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "minutes".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.MINUTE, -number);
-			else if ("second".equals(parts[i + 1]) //$NON-NLS-1$
-					|| "seconds".equals(parts[i + 1])) //$NON-NLS-1$
-				cal.add(Calendar.SECOND, -number);
-			else
+			if (parts[i + 1] == null){
 				return null;
+			}
+			switch (parts[i + 1]) {
+			case "year":
+			case "years":
+				cal.add(Calendar.YEAR, -number);
+				break;
+			case "month":
+			case "months":
+				cal.add(Calendar.MONTH, -number);
+				break;
+			case "week":
+			case "weeks":
+				cal.add(Calendar.WEEK_OF_YEAR, -number);
+				break;
+			case "day":
+			case "days":
+				cal.add(Calendar.DATE, -number);
+				break;
+			case "hour":
+			case "hours":
+				cal.add(Calendar.HOUR_OF_DAY, -number);
+				break;
+			case "minute":
+			case "minutes":
+				cal.add(Calendar.MINUTE, -number);
+				break;
+			case "second":
+			case "seconds":
+				cal.add(Calendar.SECOND, -number);
+				break;
+			default:
+				return null;
+			}
 		}
 		return cal.getTime();
 	}
