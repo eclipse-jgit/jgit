@@ -86,7 +86,11 @@ class AmazonS3Client extends TextBuiltin {
 	protected void run() throws Exception {
 		final AmazonS3 s3 = new AmazonS3(properties());
 
-		if ("get".equals(op)) { //$NON-NLS-1$
+		if (op == null) {
+			throw die(MessageFormat.format(CLIText.get().unsupportedOperation, op));
+		}
+		switch (op) {
+		case "get": //$NON-NLS-1$
 			final URLConnection c = s3.get(bucket, key);
 			int len = c.getContentLength();
 			try (InputStream in = c.getInputStream()) {
@@ -103,22 +107,25 @@ class AmazonS3Client extends TextBuiltin {
 				}
 				outs.flush();
 			}
-
-		} else if ("ls".equals(op) || "list".equals(op)) { //$NON-NLS-1$//$NON-NLS-2$
+			break;
+		case "ls": //$NON-NLS-1$
+		case "list": //$NON-NLS-1$
 			for (String k : s3.list(bucket, key))
 				outw.println(k);
-
-		} else if ("rm".equals(op) || "delete".equals(op)) { //$NON-NLS-1$ //$NON-NLS-2$
+			break;
+		case "rm": //$NON-NLS-1$
+		case "delete": //$NON-NLS-1$
 			s3.delete(bucket, key);
-
-		} else if ("put".equals(op)) { //$NON-NLS-1$
+			break;
+		case "put": //$NON-NLS-1$
 			try (OutputStream os = s3.beginPut(bucket, key, null, null)) {
 				final byte[] tmp = new byte[2048];
 				int n;
 				while ((n = ins.read(tmp)) > 0)
 					os.write(tmp, 0, n);
 			}
-		} else {
+			break;
+		default:
 			throw die(MessageFormat.format(CLIText.get().unsupportedOperation, op));
 		}
 	}

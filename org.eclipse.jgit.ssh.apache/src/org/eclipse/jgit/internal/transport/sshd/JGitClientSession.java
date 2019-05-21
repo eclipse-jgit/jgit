@@ -251,12 +251,13 @@ public class JGitClientSession extends ClientSessionImpl {
 				.getProperty(SshConstants.HOST_KEY_ALGORITHMS);
 		if (hostKeyAlgorithms != null && !hostKeyAlgorithms.isEmpty()) {
 			char first = hostKeyAlgorithms.charAt(0);
-			if (first == '+') {
+			switch (first) {
+			case '+':
 				// Additions make not much sense -- it's either in
 				// defaultSignatures already, or we have no implementation for
 				// it. No point in proposing it.
 				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			} else if (first == '-') {
+			case '-':
 				// This takes wildcard patterns!
 				removeFromList(defaultSignatures,
 						SshConstants.HOST_KEY_ALGORITHMS,
@@ -269,7 +270,7 @@ public class JGitClientSession extends ClientSessionImpl {
 							hostKeyAlgorithms));
 				}
 				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			} else {
+			default:
 				// Default is overridden -- only accept the ones for which we do
 				// have an implementation.
 				List<String> newNames = filteredList(defaultSignatures,
@@ -282,6 +283,7 @@ public class JGitClientSession extends ClientSessionImpl {
 				} else {
 					return String.join(",", newNames); //$NON-NLS-1$
 				}
+				break;
 			}
 		}
 		// No HostKeyAlgorithms; using default -- change order to put existing

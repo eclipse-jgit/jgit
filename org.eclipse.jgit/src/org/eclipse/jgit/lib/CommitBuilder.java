@@ -410,7 +410,8 @@ public class CommitBuilder {
 			throws IOException, IllegalArgumentException {
 		for (int i = 0; i < in.length(); ++i) {
 			char ch = in.charAt(i);
-			if (ch == '\r') {
+			switch (ch) {
+			case '\r':
 				if (i + 1 < in.length() && in.charAt(i + 1) == '\n') {
 					out.write('\n');
 					out.write(' ');
@@ -419,15 +420,18 @@ public class CommitBuilder {
 					out.write('\n');
 					out.write(' ');
 				}
-			} else if (ch == '\n') {
+				break;
+			case '\n':
 				out.write('\n');
 				out.write(' ');
-			} else {
+				break;
+			default:
 				// sanity check
 				if (ch > 127)
 					throw new IllegalArgumentException(MessageFormat
 							.format(JGitText.get().notASCIIString, in));
 				out.write(ch);
+				break;
 			}
 		}
 	}

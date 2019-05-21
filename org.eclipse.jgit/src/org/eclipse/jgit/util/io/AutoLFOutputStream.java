@@ -138,14 +138,16 @@ public class AutoLFOutputStream extends OutputStream {
 		}
 		for (int i = off; i < off + len; ++i) {
 			final byte c = b[i];
-			if (c == '\r') {
+			switch (c) {
+			case '\r':
 				// skip write r but backlog r
 				if (lastw < i) {
 					out.write(b, lastw, i - lastw);
 				}
 				lastw = i + 1;
 				buf = '\r';
-			} else if (c == '\n') {
+				break;
+			case '\n':
 				if (buf == '\r') {
 					out.write('\n');
 					lastw = i + 1;
@@ -156,12 +158,14 @@ public class AutoLFOutputStream extends OutputStream {
 					}
 					lastw = i + 1;
 				}
-			} else {
+				break;
+			default:
 				if (buf == '\r') {
 					out.write('\r');
 					lastw = i;
 				}
 				buf = -1;
+				break;
 			}
 		}
 		if (lastw < off + len) {
