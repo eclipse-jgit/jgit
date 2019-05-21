@@ -106,10 +106,8 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
-import org.eclipse.jgit.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.PedestrianReachabilityChecker;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -1876,6 +1874,7 @@ public class UploadPack {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
 		try (RevWalk walk = new RevWalk(reader)) {
+			walk.setRetainBody(false);
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
 					notAdvertisedWants);
@@ -1908,9 +1907,8 @@ public class UploadPack {
 			}
 
 			// All wants are commits, we can use ReachabilityChecker
-			ReachabilityChecker reachabilityChecker = repoHasBitmaps
-					? new BitmappedReachabilityChecker(walk)
-					: new PedestrianReachabilityChecker(true, walk);
+			ReachabilityChecker reachabilityChecker = walk
+					.getReachabilityChecker();
 
 			List<RevCommit> starters = objectIdsToRevCommits(walk,
 					reachableFrom);
