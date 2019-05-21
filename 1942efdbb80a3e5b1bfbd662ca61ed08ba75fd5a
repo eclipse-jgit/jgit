@@ -16,6 +16,24 @@
       "revId": "1942efdbb80a3e5b1bfbd662ca61ed08ba75fd5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e96c3b5_256493c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-21T18:49:05Z",
+      "side": 1,
+      "message": "This was readded in https://git.eclipse.org/r/c/142462/. This patchset didn\u0027t have that change in the history yet.",
+      "parentUuid": "cc093497_5f935992",
+      "revId": "1942efdbb80a3e5b1bfbd662ca61ed08ba75fd5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
