@@ -250,6 +250,23 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Get a reachability checker for commits over this revwalk.
+	 *
+	 * @return the most efficient reachability checker for this repository.
+	 * @throws IOException
+	 *             if it cannot open any of the underlying indices.
+	 *
+	 * @since 5.4
+	 */
+	public ReachabilityChecker createReachabilityChecker() throws IOException {
+		if (reader.getBitmapIndex() != null) {
+			return new BitmappedReachabilityChecker(this);
+		}
+
+		return new PedestrianReachabilityChecker(true, this);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Release any resources used by this walker's reader.
