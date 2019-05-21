@@ -261,6 +261,10 @@ class BouncyCastleGpgKeyLocator {
 					USER_PGP_LEGACY_SECRING_FILE);
 
 			if (secretKey != null) {
+				if (!secretKey.isSigningKey()) {
+					throw new PGPException(MessageFormat.format(
+							JGitText.get().gpgNotASigningKey, signingKey));
+				}
 				return new BouncyCastleGpgKey(secretKey, USER_PGP_LEGACY_SECRING_FILE);
 			}
 
@@ -294,6 +298,10 @@ class BouncyCastleGpgKeyLocator {
 				PGPSecretKey secretKey = attemptParseSecretKey(keyFile,
 						calculatorProvider, passphraseProvider, publicKey);
 				if (secretKey != null) {
+					if (!secretKey.isSigningKey()) {
+						throw new PGPException(MessageFormat.format(
+								JGitText.get().gpgNotASigningKey, signingKey));
+					}
 					return new BouncyCastleGpgKey(secretKey, userKeyboxPath);
 				}
 			}

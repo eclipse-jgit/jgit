@@ -391,6 +391,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String gpgNoKeyInLegacySecring;
 	/***/ public String gpgNoPublicKeyFound;
 	/***/ public String gpgNoSecretKeyForPublicKey;
+	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
 	/***/ public String headRequiredToStash;
