@@ -105,6 +105,24 @@
       "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e071010_f3f12543",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-21T00:03:56Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/142466",
+      "parentUuid": "d5d41e98_e0c1f17a",
+      "revId": "7b96bd812e95d5aa87ea05b30d3e717360bdce20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
