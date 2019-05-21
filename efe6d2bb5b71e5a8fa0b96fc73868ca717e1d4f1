@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf96d28f_038440cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-21T20:27:49Z",
+      "side": 1,
+      "message": "BTW: this is not quite true as far as I see. Valid key files all have names of the pattern [0-9A-F]{40}.key, and the 40 hex digits are the keygrip, which _can_ be computed from the public key parameters. In GPG, the keygrip calculation is inside libgcrypt (function gcry_pk_get_keygrip), but there\u0027s also an alternate C implementation at [1]. Haven\u0027t found anything corresponding in Bouncy Castle nor any other Java implementation, though.\n\nAt least we might perhaps limit the loop below to paths matching this pattern to not even attempt to parse files that have different names.\n\n[1] https://github.com/riboseinc/rnp/blob/e6c7fef/src/librekey/rnp_key_store.cpp#L952",
+      "revId": "efe6d2bb5b71e5a8fa0b96fc73868ca717e1d4f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
