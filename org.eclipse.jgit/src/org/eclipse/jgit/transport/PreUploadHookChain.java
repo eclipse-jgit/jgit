@@ -72,12 +72,14 @@ public class PreUploadHookChain implements PreUploadHook {
 		for (PreUploadHook hook : hooks)
 			if (hook != PreUploadHook.NULL)
 				newHooks[i++] = hook;
-		if (i == 0)
+		switch (i) {
+		case 0:
 			return PreUploadHook.NULL;
-		else if (i == 1)
+		case 1:
 			return newHooks[0];
-		else
+		default:
 			return new PreUploadHookChain(newHooks, i);
+		}
 	}
 
 	/** {@inheritDoc} */

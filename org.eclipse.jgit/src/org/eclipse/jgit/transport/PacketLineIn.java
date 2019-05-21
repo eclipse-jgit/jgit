@@ -148,12 +148,16 @@ public class PacketLineIn {
 				return AckNackResult.ACK;
 
 			final String arg = line.substring(44);
-			if (arg.equals(" continue")) //$NON-NLS-1$
+			switch (arg) {
+			case " continue": //$NON-NLS-1$
 				return AckNackResult.ACK_CONTINUE;
-			else if (arg.equals(" common")) //$NON-NLS-1$
+			case " common": //$NON-NLS-1$
 				return AckNackResult.ACK_COMMON;
-			else if (arg.equals(" ready")) //$NON-NLS-1$
+			case " ready": //$NON-NLS-1$
 				return AckNackResult.ACK_READY;
+			default:
+				break;
+			}
 		}
 		if (line.startsWith("ERR ")) //$NON-NLS-1$
 			throw new PackProtocolException(line.substring(4));
