@@ -52,10 +52,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 /**
  * Checks the reachability walking the graph from the starters towards the
  * target.
- *
- * @since 5.4
  */
-public class PedestrianReachabilityChecker implements ReachabilityChecker {
+class PedestrianReachabilityChecker implements ReachabilityChecker {
 
 	private final boolean topoSort;
 
