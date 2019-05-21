@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea9769aa_183b31b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-21T18:49:05Z",
+      "side": 1,
+      "message": "Done. Agree that \"create...\" makes better naming.\n\nThe ReachabilityChecker doesn\u0027t own anything that needs to be closed.",
+      "parentUuid": "9b37428d_a1ddaef3",
+      "range": {
+        "startLine": 261,
+        "startChar": 28,
+        "endLine": 261,
+        "endChar": 50
+      },
+      "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4ab7930_4667b8ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2884655b_18d8d0dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-21T18:49:05Z",
+      "side": 1,
+      "message": "Done. Yes, with this change we can hide those implementations.",
+      "parentUuid": "d4ab7930_4667b8ba",
+      "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a12cfdfc_b36bcca7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2019-05-21T00:28:40Z",
       "side": 1,
       "message": "Likewise.",
+      "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b241d4d_ec64ca4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-05-21T18:49:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a12cfdfc_b36bcca7",
       "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
