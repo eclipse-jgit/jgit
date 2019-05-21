@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b37428d_a1ddaef3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-21T00:27:57Z",
+      "side": 1,
+      "message": "optional: should this be called createReachabilityChecker(), or reachabilityChecker(), or something similar?\n\nI ask because it doesn\u0027t appear to be a getter (i.e. it returns a different checker each time). That may or may not matter --- does the ReachabilityChecker own anything that needs to be closed (i.e. would we like it to be AutoClosable)?",
+      "range": {
+        "startLine": 261,
+        "startChar": 28,
+        "endLine": 261,
+        "endChar": 50
+      },
+      "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "075f6d46_42f5ea5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-21T00:27:57Z",
+      "side": 1,
+      "message": "unrelated change?",
+      "revId": "8efce1210aa3abbc5fb95e8882b702b735a64d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
