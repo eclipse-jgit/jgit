@@ -157,7 +157,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx1024m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
+          <argLine>@{argLine} -Xmx768m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>

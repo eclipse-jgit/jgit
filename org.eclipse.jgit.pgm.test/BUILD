@@ -7,7 +7,7 @@ junit_tests(
     name = "pgm",
     srcs = glob(["tst/**/*.java"]),
     jvm_flags = [
-        "-Xmx256m",
+        "-Xmx512m",
         "-Dfile.encoding=UTF-8",
     ],
     tags = ["pgm"],
