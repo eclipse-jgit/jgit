@@ -1,17 +1,17 @@
-target "S20190501151401" with source configurePhase
+target "S20190521195709" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/S20190501151401/repository" {
-	org.apache.ant [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
-	org.apache.ant.source [1.10.5.v20180808-0324,1.10.5.v20180808-0324]
+location "http://download.eclipse.org/tools/orbit/downloads/drops/S20190521195709/repository" {
+	org.apache.ant [1.10.6.v20190516-0412,1.10.6.v20190516-0412]
+	org.apache.ant.source [1.10.6.v20190516-0412,1.10.6.v20190516-0412]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
 	org.apache.commons.codec.source [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
 	org.apache.commons.compress [1.18.0.v20181121-2221,1.18.0.v20181121-2221]
 	org.apache.commons.compress.source [1.18.0.v20181121-2221,1.18.0.v20181121-2221]
 	org.apache.commons.logging [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
-	org.apache.httpcomponents.httpclient [4.5.6.v20190213-1430,4.5.6.v20190213-1430]
-	org.apache.httpcomponents.httpclient.source [4.5.6.v20190213-1430,4.5.6.v20190213-1430]
+	org.apache.httpcomponents.httpclient [4.5.6.v20190503-0009,4.5.6.v20190503-0009]
+	org.apache.httpcomponents.httpclient.source [4.5.6.v20190503-0009,4.5.6.v20190503-0009]
 	org.apache.httpcomponents.httpcore [4.4.10.v20190123-2214,4.4.10.v20190123-2214]
 	org.apache.httpcomponents.httpcore.source [4.4.10.v20190123-2214,4.4.10.v20190123-2214]
 	org.apache.log4j [1.2.15.v201012070815,1.2.15.v201012070815]

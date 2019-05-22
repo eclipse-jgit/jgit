@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Google Inc.
+ * Copyright (C) 2019, Google LLC.
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -39,35 +40,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.revwalk;
 
-package org.eclipse.jgit.transport;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.junit.TestRepository;
 
-import org.eclipse.jgit.storage.pack.PackStatistics;
+public class PedestrianReachabilityCheckerTest
+		extends ReachabilityCheckerTestCase {
 
-/**
- * Hook invoked by {@link org.eclipse.jgit.transport.UploadPack} after the pack
- * has been uploaded.
- * <p>
- * Implementors of the interface are responsible for associating the current
- * thread to a particular connection, if they need to also include connection
- * information. One method is to use a {@link java.lang.ThreadLocal} to remember
- * the connection information before invoking UploadPack.
- *
- * @since 4.1
- */
-public interface PostUploadHook {
-	/** A simple no-op hook. */
-	PostUploadHook NULL = (PackStatistics stats) -> {
-		// Do nothing.
-	};
+	@Override
+	protected ReachabilityChecker getChecker(
+			TestRepository<FileRepository> repository) {
+		return new PedestrianReachabilityChecker(true, repository.getRevWalk());
+	}
 
-	/**
-	 * Notifies the hook that a pack has been sent.
-	 *
-	 * @param stats
-	 *            the statistics gathered by
-	 *            {@link org.eclipse.jgit.internal.storage.pack.PackWriter} for
-	 *            the uploaded pack
-	 */
-	void onPostUpload(PackStatistics stats);
 }

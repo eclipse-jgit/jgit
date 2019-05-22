@@ -62,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1418,32 +1417,33 @@ public class PackWriter implements AutoCloseable {
 		// applies "Linus' Law" which states that newer files tend to be the
 		// bigger ones, because source files grow and hardly ever shrink.
 		//
-		Arrays.sort(list, 0, cnt, new Comparator<ObjectToPack>() {
-			@Override
-			public int compare(ObjectToPack a, ObjectToPack b) {
-				int cmp = (a.isDoNotDelta() ? 1 : 0)
-						- (b.isDoNotDelta() ? 1 : 0);
-				if (cmp != 0)
-					return cmp;
-
-				cmp = a.getType() - b.getType();
-				if (cmp != 0)
-					return cmp;
-
-				cmp = (a.getPathHash() >>> 1) - (b.getPathHash() >>> 1);
-				if (cmp != 0)
-					return cmp;
-
-				cmp = (a.getPathHash() & 1) - (b.getPathHash() & 1);
-				if (cmp != 0)
-					return cmp;
-
-				cmp = (a.isEdge() ? 0 : 1) - (b.isEdge() ? 0 : 1);
-				if (cmp != 0)
-					return cmp;
-
-				return b.getWeight() - a.getWeight();
+		Arrays.sort(list, 0, cnt, (ObjectToPack a, ObjectToPack b) -> {
+			int cmp = (a.isDoNotDelta() ? 1 : 0) - (b.isDoNotDelta() ? 1 : 0);
+			if (cmp != 0) {
+				return cmp;
 			}
+
+			cmp = a.getType() - b.getType();
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			cmp = (a.getPathHash() >>> 1) - (b.getPathHash() >>> 1);
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			cmp = (a.getPathHash() & 1) - (b.getPathHash() & 1);
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			cmp = (a.isEdge() ? 0 : 1) - (b.isEdge() ? 0 : 1);
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			return b.getWeight() - a.getWeight();
 		});
 
 		// Above we stored the objects we cannot delta onto the end.
@@ -1564,14 +1564,11 @@ public class PackWriter implements AutoCloseable {
 			// asynchronous execution.  Wrap everything and hope it
 			// can schedule these for us.
 			for (DeltaTask task : taskBlock.tasks) {
-				executor.execute(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							task.call();
-						} catch (Throwable failure) {
-							errors.add(failure);
-						}
+				executor.execute(() -> {
+					try {
+						task.call();
+					} catch (Throwable failure) {
+						errors.add(failure);
 					}
 				});
 			}

@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Google Inc.
+ * Copyright (C) 2019, Google LLC.
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -39,35 +40,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.revwalk;
 
-package org.eclipse.jgit.transport;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Optional;
 
-import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
- * Hook invoked by {@link org.eclipse.jgit.transport.UploadPack} after the pack
- * has been uploaded.
+ * Check if a commit is reachable from a collection of starting commits.
  * <p>
- * Implementors of the interface are responsible for associating the current
- * thread to a particular connection, if they need to also include connection
- * information. One method is to use a {@link java.lang.ThreadLocal} to remember
- * the connection information before invoking UploadPack.
+ * Note that this checks the reachability of commits (and tags). Trees, blobs or
+ * any other object will cause IncorrectObjectTypeException exceptions.
  *
- * @since 4.1
+ * @since 5.4
  */
-public interface PostUploadHook {
-	/** A simple no-op hook. */
-	PostUploadHook NULL = (PackStatistics stats) -> {
-		// Do nothing.
-	};
+public interface ReachabilityChecker {
 
 	/**
-	 * Notifies the hook that a pack has been sent.
+	 * Check if all targets are reachable from the {@code starter} commits.
+	 * <p>
+	 * Caller should parse the objectIds (preferably with
+	 * {@code walk.parseCommit()} and handle missing/incorrect type objects
+	 * before calling this method.
 	 *
-	 * @param stats
-	 *            the statistics gathered by
-	 *            {@link org.eclipse.jgit.internal.storage.pack.PackWriter} for
-	 *            the uploaded pack
+	 * @param targets
+	 *            commits to reach.
+	 * @param starters
+	 *            known starting points.
+	 * @return An unreachable target if at least one of the targets is
+	 *         unreachable. An empty optional if all targets are reachable from
+	 *         the starters.
+	 *
+	 * @throws MissingObjectException
+	 *             if any of the incoming objects doesn't exist in the
+	 *             repository.
+	 * @throws IncorrectObjectTypeException
+	 *             if any of the incoming objects is not a commit or a tag.
+	 * @throws IOException
+	 *             if any of the underlying indexes or readers can not be
+	 *             opened.
 	 */
-	void onPostUpload(PackStatistics stats);
+	Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
+			Collection<RevCommit> starters)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException;
 }

@@ -66,7 +66,6 @@ import org.eclipse.jgit.transport.DaemonService;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
@@ -188,22 +187,17 @@ class Daemon extends TextBuiltin {
 		final ReceivePackFactory<DaemonClient> factory;
 
 		factory = daemon.getReceivePackFactory();
-		daemon.setReceivePackFactory(new ReceivePackFactory<DaemonClient>() {
-			@Override
-			public ReceivePack create(DaemonClient req, Repository repo)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				ReceivePack rp = factory.create(req, repo);
-				KetchLeader leader;
-				try {
-					leader = leaders.get(repo);
-				} catch (URISyntaxException err) {
-					throw new ServiceNotEnabledException(
-							KetchText.get().invalidFollowerUri, err);
-				}
-				rp.setPreReceiveHook(new KetchPreReceive(leader));
-				return rp;
+		daemon.setReceivePackFactory((DaemonClient req, Repository repo) -> {
+			ReceivePack rp = factory.create(req, repo);
+			KetchLeader leader;
+			try {
+				leader = leaders.get(repo);
+			} catch (URISyntaxException err) {
+				throw new ServiceNotEnabledException(
+						KetchText.get().invalidFollowerUri, err);
 			}
+			rp.setPreReceiveHook(new KetchPreReceive(leader));
+			return rp;
 		});
 	}
 }

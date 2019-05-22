@@ -44,12 +44,11 @@
 package org.eclipse.jgit.transport;
 
 import static java.util.Collections.unmodifiableMap;
-import static org.eclipse.jgit.util.RefMap.toRefMap;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
-import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -65,6 +64,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.util.RefMap.toRefMap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -80,8 +80,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -104,8 +106,11 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
+import org.eclipse.jgit.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
@@ -1867,58 +1872,88 @@ public class UploadPack {
 
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
-			throws MissingObjectException, IncorrectObjectTypeException, IOException {
-		// Walk the requested commits back to the provided set of commits. If any
-		// commit exists, a branch was deleted or rewound and the repository owner
-		// no longer exports that requested item. If the requested commit is merged
-		// into an advertised branch it will be marked UNINTERESTING and no commits
-		// return.
+			throws IOException {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
 		try (RevWalk walk = new RevWalk(reader)) {
 			walk.setRetainBody(false);
-			AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
-			try {
-				RevObject obj;
-				while ((obj = q.next()) != null) {
-					if (!(obj instanceof RevCommit)) {
-						// If unadvertized non-commits are requested, use
-						// bitmaps. If there are no bitmaps, instead of
-						// incurring the expense of a manual walk, reject
-						// the request.
-						BitmapIndex bitmapIndex = reader.getBitmapIndex();
-						if (bitmapIndex != null) {
-							checkNotAdvertisedWantsUsingBitmap(
-									reader,
-									bitmapIndex,
-									notAdvertisedWants,
-									reachableFrom);
-							return;
-						}
-						throw new WantNotValidException(obj);
-					}
-					walk.markStart((RevCommit) obj);
+			// Missing "wants" throw exception here
+			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
+					notAdvertisedWants);
+			List<RevCommit> wantsAsCommits = wantsAsObjs.stream()
+					.filter(obj -> obj instanceof RevCommit)
+					.map(obj -> (RevCommit) obj)
+					.collect(Collectors.toList());
+			boolean allWantsAreCommits = wantsAsObjs.size() == wantsAsCommits
+					.size();
+			boolean repoHasBitmaps = reader.getBitmapIndex() != null;
+
+			if (!allWantsAreCommits) {
+				if (!repoHasBitmaps) {
+					// If unadvertized non-commits are requested, use
+					// bitmaps. If there are no bitmaps, instead of
+					// incurring the expense of a manual walk, reject
+					// the request.
+					RevObject nonCommit = wantsAsObjs
+							.stream()
+							.filter(obj -> !(obj instanceof RevCommit))
+							.limit(1)
+							.collect(Collectors.toList()).get(0);
+					throw new WantNotValidException(nonCommit);
+
 				}
-			} catch (MissingObjectException notFound) {
-				throw new WantNotValidException(notFound.getObjectId(),
-						notFound);
-			} finally {
-				q.release();
-			}
-			for (ObjectId id : reachableFrom) {
-				try {
-					walk.markUninteresting(walk.parseCommit(id));
-				} catch (IncorrectObjectTypeException notCommit) {
-					continue;
-				}
+				checkNotAdvertisedWantsUsingBitmap(reader,
+						reader.getBitmapIndex(), notAdvertisedWants,
+						reachableFrom);
+				return;
 			}
 
-			RevCommit bad = walk.next();
-			if (bad != null) {
-				throw new WantNotValidException(bad);
+			// All wants are commits, we can use ReachabilityChecker
+			ReachabilityChecker reachabilityChecker = repoHasBitmaps
+					? new BitmappedReachabilityChecker(walk)
+					: new PedestrianReachabilityChecker(true, walk);
+
+			List<RevCommit> starters = objectIdsToRevCommits(walk,
+					reachableFrom);
+			Optional<RevCommit> unreachable = reachabilityChecker
+					.areAllReachable(wantsAsCommits, starters);
+			if (unreachable.isPresent()) {
+				throw new WantNotValidException(unreachable.get());
 			}
+
+		} catch (MissingObjectException notFound) {
+			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		}
 	}
+
+	// Resolve the ObjectIds into RevObjects. Any missing object raises an
+	// exception
+	private static List<RevObject> objectIdsToRevObjects(RevWalk walk,
+			Iterable<ObjectId> objectIds)
+			throws MissingObjectException, IOException {
+		List<RevObject> result = new ArrayList<>();
+		for (ObjectId objectId : objectIds) {
+			result.add(walk.parseAny(objectId));
+		}
+		return result;
+	}
+
+	// Get commits from object ids. If the id is not a commit, ignore it. If the
+	// id doesn't exist, report the missing object in a exception.
+	private static List<RevCommit> objectIdsToRevCommits(RevWalk walk,
+			Iterable<ObjectId> objectIds)
+			throws MissingObjectException, IOException {
+		List<RevCommit> result = new ArrayList<>();
+		for (ObjectId objectId : objectIds) {
+			try {
+				result.add(walk.parseCommit(objectId));
+			} catch (IncorrectObjectTypeException e) {
+				continue;
+			}
+		}
+		return result;
+	}
+
 
 	private void addCommonBase(RevObject o) {
 		if (!o.has(COMMON)) {

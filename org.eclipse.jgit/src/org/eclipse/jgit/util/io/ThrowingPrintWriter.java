@@ -68,12 +68,10 @@ public class ThrowingPrintWriter extends Writer {
 	 */
 	public ThrowingPrintWriter(Writer out) {
 		this.out = out;
-		LF = AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				return SystemReader.getInstance().getProperty("line.separator"); //$NON-NLS-1$
-			}
-		});
+		LF = AccessController
+				.doPrivileged((PrivilegedAction<String>) () -> SystemReader
+						.getInstance().getProperty("line.separator") //$NON-NLS-1$
+				);
 	}
 
 	/** {@inheritDoc} */

@@ -69,7 +69,6 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
@@ -90,18 +89,13 @@ public class AdvertiseErrorTest extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
-			@Override
-			public Repository open(HttpServletRequest req, String name)
-					throws RepositoryNotFoundException,
-					ServiceNotEnabledException {
-				if (!name.equals(srcName))
-					throw new RepositoryNotFoundException(name);
-
-				final Repository db = src.getRepository();
-				db.incrementOpen();
-				return db;
+		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+			if (!name.equals(srcName)) {
+				throw new RepositoryNotFoundException(name);
 			}
+			final Repository db = src.getRepository();
+			db.incrementOpen();
+			return db;
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
 			@Override

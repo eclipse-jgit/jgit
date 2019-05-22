@@ -57,7 +57,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -193,81 +192,78 @@ public class PushCertificateStore implements AutoCloseable {
 	 *         close resources.
 	 */
 	public Iterable<PushCertificate> getAll(String refName) {
-		return new Iterable<PushCertificate>() {
-			@Override
-			public Iterator<PushCertificate> iterator() {
-				return new Iterator<PushCertificate>() {
-					private final String path = pathName(refName);
-					private PushCertificate next;
+		return () -> new Iterator<PushCertificate>() {
+			private final String path = pathName(refName);
 
-					private RevWalk rw;
-					{
+			private PushCertificate next;
+
+			private RevWalk rw;
+			{
+				try {
+					if (reader == null) {
+						load();
+					}
+					if (commit != null) {
+						rw = new RevWalk(reader);
+						rw.setTreeFilter(AndTreeFilter.create(
+								PathFilterGroup.create(Collections
+										.singleton(PathFilter.create(path))),
+								TreeFilter.ANY_DIFF));
+						rw.setRewriteParents(false);
+						rw.markStart(rw.parseCommit(commit));
+					} else {
+						rw = null;
+					}
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			@Override
+			public boolean hasNext() {
+				try {
+					if (next == null) {
+						if (rw == null) {
+							return false;
+						}
 						try {
-							if (reader == null) {
-								load();
-							}
-							if (commit != null) {
-								rw = new RevWalk(reader);
-								rw.setTreeFilter(AndTreeFilter.create(
-										PathFilterGroup.create(
-											Collections.singleton(PathFilter.create(path))),
-										TreeFilter.ANY_DIFF));
-								rw.setRewriteParents(false);
-								rw.markStart(rw.parseCommit(commit));
+							RevCommit c = rw.next();
+							if (c != null) {
+								try (TreeWalk tw = TreeWalk.forPath(
+										rw.getObjectReader(), path,
+										c.getTree())) {
+									next = read(tw);
+								}
 							} else {
-								rw = null;
+								next = null;
 							}
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 					}
-
-					@Override
-					public boolean hasNext() {
-						try {
-							if (next == null) {
-								if (rw == null) {
-									return false;
-								}
-								try {
-									RevCommit c = rw.next();
-									if (c != null) {
-										try (TreeWalk tw = TreeWalk.forPath(
-												rw.getObjectReader(), path, c.getTree())) {
-											next = read(tw);
-										}
-									} else {
-										next = null;
-									}
-								} catch (IOException e) {
-									throw new RuntimeException(e);
-								}
-							}
-							return next != null;
-						} finally {
-							if (next == null && rw != null) {
-								rw.close();
-								rw = null;
-							}
-						}
+					return next != null;
+				} finally {
+					if (next == null && rw != null) {
+						rw.close();
+						rw = null;
 					}
+				}
+			}
 
-					@Override
-					public PushCertificate next() {
-						hasNext();
-						PushCertificate n = next;
-						if (n == null) {
-							throw new NoSuchElementException();
-						}
-						next = null;
-						return n;
-					}
+			@Override
+			public PushCertificate next() {
+				hasNext();
+				PushCertificate n = next;
+				if (n == null) {
+					throw new NoSuchElementException();
+				}
+				next = null;
+				return n;
+			}
 
-					@Override
-					public void remove() {
-						throw new UnsupportedOperationException();
-					}
-				};
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
 			}
 		};
 	}
@@ -442,13 +438,8 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	private static void sortPending(List<PendingCert> pending) {
-		Collections.sort(pending, new Comparator<PendingCert>() {
-			@Override
-			public int compare(PendingCert a, PendingCert b) {
-				return Long.signum(
-						a.ident.getWhen().getTime() - b.ident.getWhen().getTime());
-			}
-		});
+		Collections.sort(pending, (PendingCert a, PendingCert b) -> Long.signum(
+				a.ident.getWhen().getTime() - b.ident.getWhen().getTime()));
 	}
 
 	private DirCache newDirCache() throws IOException {

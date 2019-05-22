@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Google Inc.
+ * Copyright (C) 2019, Google LLC.
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -39,35 +40,59 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.revwalk;
 
-package org.eclipse.jgit.transport;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Optional;
 
-import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
- * Hook invoked by {@link org.eclipse.jgit.transport.UploadPack} after the pack
- * has been uploaded.
- * <p>
- * Implementors of the interface are responsible for associating the current
- * thread to a particular connection, if they need to also include connection
- * information. One method is to use a {@link java.lang.ThreadLocal} to remember
- * the connection information before invoking UploadPack.
+ * Checks the reachability walking the graph from the starters towards the
+ * target.
  *
- * @since 4.1
+ * @since 5.4
  */
-public interface PostUploadHook {
-	/** A simple no-op hook. */
-	PostUploadHook NULL = (PackStatistics stats) -> {
-		// Do nothing.
-	};
+public class PedestrianReachabilityChecker implements ReachabilityChecker {
+
+	private final boolean topoSort;
+
+	private final RevWalk walk;
 
 	/**
-	 * Notifies the hook that a pack has been sent.
+	 * New instance of the reachability checker using a existing walk.
 	 *
-	 * @param stats
-	 *            the statistics gathered by
-	 *            {@link org.eclipse.jgit.internal.storage.pack.PackWriter} for
-	 *            the uploaded pack
+	 * @param topoSort
+	 *            walk commits in topological order
+	 * @param walk
+	 *            RevWalk instance to reuse. Caller retains ownership.
 	 */
-	void onPostUpload(PackStatistics stats);
+	public PedestrianReachabilityChecker(boolean topoSort,
+			RevWalk walk) {
+		this.topoSort = topoSort;
+		this.walk = walk;
+	}
+
+	@Override
+	public Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
+			Collection<RevCommit> starters)
+					throws MissingObjectException, IncorrectObjectTypeException,
+					IOException {
+		walk.reset();
+		if (topoSort) {
+			walk.sort(RevSort.TOPO);
+		}
+
+		for (RevCommit target: targets) {
+			walk.markStart(target);
+		}
+
+		for (RevCommit starter : starters) {
+			walk.markUninteresting(starter);
+		}
+
+		return Optional.ofNullable(walk.next());
+	}
 }

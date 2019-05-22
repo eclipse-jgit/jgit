@@ -53,7 +53,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -134,12 +133,8 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 
-		Collections.sort(resultRefs, new Comparator<Ref>() {
-			@Override
-			public int compare(Ref o1, Ref o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		Collections.sort(resultRefs,
+				(Ref o1, Ref o2) -> o1.getName().compareTo(o2.getName()));
 		setCallable(false);
 		return resultRefs;
 	}
