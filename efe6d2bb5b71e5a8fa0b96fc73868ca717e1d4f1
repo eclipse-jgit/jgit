@@ -16,6 +16,24 @@
       "revId": "efe6d2bb5b71e5a8fa0b96fc73868ca717e1d4f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "298778af_4e364cff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-05-22T05:11:12Z",
+      "side": 1,
+      "message": "Can you open a separate bug for this? I haven\u0027t found a sort of official documentation on this. AFAIK they are considered GPG internal.",
+      "parentUuid": "cf96d28f_038440cb",
+      "revId": "efe6d2bb5b71e5a8fa0b96fc73868ca717e1d4f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
