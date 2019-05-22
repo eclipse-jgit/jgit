@@ -911,10 +911,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 			final String packName = base + PACK.getExtension();
 			final File packFile = new File(packDirectory, packName);
 			final PackFile oldPack = forReuse.remove(packName);
-			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				list.add(oldPack);
-				continue;
+			if (oldPack != null) {
+				if (!oldPack.getFileSnapshot().isModified(packFile)) {
+					list.add(oldPack);
+					continue;
+				}
+
+				oldPack.close();
 			}
 
 			list.add(new PackFile(packFile, extensions));
