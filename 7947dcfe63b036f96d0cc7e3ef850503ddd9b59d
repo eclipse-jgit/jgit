@@ -16,6 +16,24 @@
       "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab856a5_65f55bac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-22T23:38:06Z",
+      "side": 1,
+      "message": "I think this is safe to do since objects are loaded from pack files  through the singleton WindowCache which ensures in its  beginWindowCache() method [1] that only a single thread can copy data from a region of the packfile to the WindowCache at the same time.\n\nPackFile.close() [2] calls\n* WindowCache.purge(PackFile) [3]\n* which calls WindowCache.removeAll(PackFile) [4]\n* which calls WindowCache.Entry.kill() [5] which enqueues the cached objects referenced by the cache via SoftReferences for garbage collection. If another thread has a strong reference to a cached object it can\u0027t be evicted from the cache (see comment in [6]).\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java#645\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java#306\n[3] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java#196\n[4] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java#451\n[5] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java#537\n[6] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java#473",
+      "parentUuid": "3791c384_dcaeae6e",
+      "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
