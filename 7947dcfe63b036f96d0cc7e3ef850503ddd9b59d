@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3791c384_dcaeae6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-22T22:23:45Z",
+      "side": 1,
+      "message": "Not sure this can be done here. This was my spontaneous first reaction, too. But: are we sure there are no other threads reading from this pack at this time?",
+      "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
