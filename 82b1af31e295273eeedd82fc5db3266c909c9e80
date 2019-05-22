@@ -16,6 +16,24 @@
       "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95625ce3_88b16ac3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-22T18:21:55Z",
+      "side": 1,
+      "message": "When and where will it be closed? It probably can\u0027t be closed here since some other thread might be reading it?",
+      "parentUuid": "405cf997_8661d8eb",
+      "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
