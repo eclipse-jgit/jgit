@@ -34,6 +34,24 @@
       "revId": "efe6d2bb5b71e5a8fa0b96fc73868ca717e1d4f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46c32452_5c2a21b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-22T06:22:35Z",
+      "side": 1,
+      "message": "Done as bug 547536.",
+      "parentUuid": "298778af_4e364cff",
+      "revId": "efe6d2bb5b71e5a8fa0b96fc73868ca717e1d4f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
