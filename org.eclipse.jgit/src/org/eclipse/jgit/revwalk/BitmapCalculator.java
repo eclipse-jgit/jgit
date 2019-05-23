@@ -94,8 +94,9 @@ class BitmapCalculator {
 	 * @throws MissingObjectException
 	 *             the supplied id doesn't exist
 	 * @throws IncorrectObjectTypeException
-	 *             the supplied id doens't refer to a commit or a tag
+	 *             the supplied id doesn't refer to a commit or a tag
 	 * @throws IOException
+	 *             if the walk cannot open a packfile or loose object
 	 */
 	BitmapBuilder getBitmap(RevCommit start, ProgressMonitor pm)
 			throws MissingObjectException,
