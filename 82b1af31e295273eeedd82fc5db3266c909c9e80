@@ -52,6 +52,24 @@
       "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56946cae_4db3e3df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-05-23T20:44:37Z",
+      "side": 1,
+      "message": "See https://git.eclipse.org/r/#/c/142636/ and comments there.",
+      "parentUuid": "32b4abcf_6573abb7",
+      "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
