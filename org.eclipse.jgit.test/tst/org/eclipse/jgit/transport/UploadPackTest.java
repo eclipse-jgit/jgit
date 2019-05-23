@@ -195,6 +195,35 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testFetchReachableBlobWithoutBitmapButFilterAllowed() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+			RevBlob blob = remote2.blob("foo");
+			RevCommit commit = remote2.commit(remote2.tree(remote2.file("foo", blob)));
+			remote2.update("master", commit);
+
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+				return up;
+			}, null);
+			uri = testProtocol.register(ctx, server2);
+
+			assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
+
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(blob.name())));
+				assertTrue(client.getObjectDatabase().has(blob.toObjectId()));
+			}
+		}
+	}
+
+	@Test
 	public void testFetchWithBlobNoneFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
