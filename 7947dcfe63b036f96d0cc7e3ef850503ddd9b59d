@@ -34,6 +34,24 @@
       "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80df6ac0_c74e690e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-05-23T07:47:33Z",
+      "side": 1,
+      "message": "Note that other packs which remain in `forReuse` will be closed at line 944. Hence, with regards to the point of time (and thread-safety) at which packs are closed, this patch does not change anything.\n\nAlternatively -- to make it clearer -- instead of closing, we could `forReuse.put(packName, oldPack)` and let the loop at line 943 do the work.",
+      "parentUuid": "3791c384_dcaeae6e",
+      "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
