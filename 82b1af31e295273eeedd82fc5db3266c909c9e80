@@ -34,6 +34,24 @@
       "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32b4abcf_6573abb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-23T20:42:48Z",
+      "side": 1,
+      "message": "Yes, I believe you are right. It should be first retrieved (but not removed) from the forReuse list at L824.\nThen, if it has NOT been modified, removed from the forReuse and added to the list.\n\nWDYT?",
+      "parentUuid": "95625ce3_88b16ac3",
+      "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
