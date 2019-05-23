@@ -52,6 +52,24 @@
       "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20f2816e_36382e09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-23T20:50:28Z",
+      "side": 1,
+      "message": "@Marc: I believe your alternative solution (put them back) is clearer, so that we have a single place for closing all of them.",
+      "parentUuid": "80df6ac0_c74e690e",
+      "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
