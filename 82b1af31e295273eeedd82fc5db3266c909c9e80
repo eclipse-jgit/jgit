@@ -70,6 +70,24 @@
       "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24bc887_dc35a169",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2019-05-23T20:50:46Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I commented there.",
+      "parentUuid": "56946cae_4db3e3df",
+      "revId": "82b1af31e295273eeedd82fc5db3266c909c9e80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
