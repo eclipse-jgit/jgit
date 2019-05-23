@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9f85d07_8bc3c6fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-23T06:22:01Z",
+      "side": 1,
+      "message": "style nit: the usual comment style would be\n\n /**\n  * Number of trees [etc]\n  *\n  * @since 5.4\n  */",
+      "revId": "88b56ff1e982417ac0bcc784e0100c7d5a5d480f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
