@@ -101,7 +101,7 @@ public abstract class SystemReader {
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 			File configFile = fs.getGitSystemConfig();
 			if (configFile == null) {
-				return new FileBasedConfig(null, fs) {
+				return new FileBasedConfig(parent, null, fs) {
 					@Override
 					public void load() {
 						// empty, do not load
