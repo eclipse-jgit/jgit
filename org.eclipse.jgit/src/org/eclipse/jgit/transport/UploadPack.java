@@ -113,6 +113,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
@@ -1868,13 +1869,46 @@ public class UploadPack {
 		}
 	}
 
+	// Consumes revWalk.
+	private static void checkReachabilityByWalkingObjects(ObjectWalk walk,
+			List<RevObject> wants, Set<ObjectId> reachableFrom) throws IOException {
+
+		walk.sort(RevSort.TOPO);
+		for (RevObject want : wants) {
+			walk.markStart(want);
+		}
+		for (ObjectId have : reachableFrom) {
+			RevObject o = walk.parseAny(have);
+			walk.markUninteresting(o);
+
+			RevObject peeled = walk.peel(o);
+			if (peeled instanceof RevCommit) {
+				// By default, for performance reasons, ObjectWalk does not mark a
+				// tree as uninteresting when we mark a commit. Mark it ourselves so
+				// that we can determine reachability exactly.
+				walk.markUninteresting(((RevCommit) peeled).getTree());
+			}
+		}
+
+		RevCommit commit = walk.next();
+		if (commit != null) {
+			throw new WantNotValidException(commit);
+		}
+		RevObject object = walk.nextObject();
+		if (object != null) {
+			throw new WantNotValidException(object);
+		}
+	}
+
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
 			throws IOException {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
-		try (RevWalk walk = new RevWalk(reader)) {
-			walk.setRetainBody(false);
+		RevWalk walk = new RevWalk(reader);
+		walk.setRetainBody(false);
+		boolean closeWalk = true;
+		try {
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
 					notAdvertisedWants);
@@ -1888,6 +1922,18 @@ public class UploadPack {
 
 			if (!allWantsAreCommits) {
 				if (!repoHasBitmaps) {
+					if (up.transferConfig.isAllowFilter()) {
+						// Use allowFilter as an indication that the server
+						// operator is willing to pay the cost of these
+						// reachability checks.
+						closeWalk = false;
+						ObjectWalk objWalk = walk.toObjectWalkWithSameObjects();
+						checkReachabilityByWalkingObjects(objWalk,
+								wantsAsObjs, reachableFrom);
+						objWalk.close();
+						return;
+					}
+
 					// If unadvertized non-commits are requested, use
 					// bitmaps. If there are no bitmaps, instead of
 					// incurring the expense of a manual walk, reject
@@ -1920,6 +1966,10 @@ public class UploadPack {
 
 		} catch (MissingObjectException notFound) {
 			throw new WantNotValidException(notFound.getObjectId(), notFound);
+		} finally {
+			if (closeWalk) {
+				walk.close();
+			}
 		}
 	}
 
