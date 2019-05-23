@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e99e027e_3cd54cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-23T20:19:47Z",
+      "side": 1,
+      "message": "I\u0027m having trouble parsing this. Do you mean something like \"Fill out the description of when IOException is thrown. While at it, correct a nearby typo\"?",
+      "revId": "1806be2b9428c1a4d8f20a64cfb6e123655ab304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
