@@ -16,6 +16,24 @@
       "revId": "b513b7747713a505e19e237ac2e7f8d9c699bc4d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9941f0c_af93602e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FSTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-24T15:00:16Z",
+      "side": 1,
+      "message": "unit tests use folders under the system temp directory known to Java, you can set that using system property \"java.io.tmpdir\" when starting the JVM running the tests",
+      "parentUuid": "d9a755a3_e25edc67",
+      "revId": "b513b7747713a505e19e237ac2e7f8d9c699bc4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
