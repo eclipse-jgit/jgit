@@ -70,6 +70,24 @@
       "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09f330d_8e751675",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-05-24T09:25:12Z",
+      "side": 1,
+      "message": "I have opted for yet another solution which gives IMHO the smallest change and clearest logic.",
+      "parentUuid": "20f2816e_36382e09",
+      "revId": "7947dcfe63b036f96d0cc7e3ef850503ddd9b59d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
