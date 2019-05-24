@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ca7c221_3db0f1f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1872,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-24T23:01:03Z",
+      "side": 1,
+      "message": "What does this comment mean? E.g. does \"consumes\" mean \"closes\"?",
+      "range": {
+        "startLine": 1872,
+        "startChar": 4,
+        "endLine": 1872,
+        "endChar": 20
+      },
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e40fbb3c_9eb63c4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1876,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-24T23:01:03Z",
+      "side": 1,
+      "message": "This makes use of revWalk\u0027s ObjectReader but doesn\u0027t take ownership of it. So I think still want the caller to close it.",
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "386d3254_5227f139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1887,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-05-24T23:01:03Z",
+      "side": 1,
+      "message": "Can this loop be replaced with\n\n o \u003d walk.peel(o);\n\n?",
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
