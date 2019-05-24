@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9a755a3_e25edc67",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FSTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-24T12:23:06Z",
+      "side": 1,
+      "message": "I don\u0027t know how to make it better, but be aware that you will create a folder in the default temporary-file directory. On my MacOS that will be /var/folders/... and it may point on other systems to /tmp/... . Sometimes people mount specialized filesytems to that folder for temporary data (tempfs, other ramdisks...). On such systems this test will run in an very special environment and behave different than on traditional filesystem.",
+      "revId": "b513b7747713a505e19e237ac2e7f8d9c699bc4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
