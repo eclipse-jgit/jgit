@@ -686,6 +686,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String s3ActionDeletion;
 	/***/ public String s3ActionReading;
 	/***/ public String s3ActionWriting;
+	/***/ public String searchForReachableBranches;
 	/***/ public String searchForReuse;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
