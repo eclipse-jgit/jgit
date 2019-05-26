@@ -119,24 +119,7 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(File path) {
-		long read = System.currentTimeMillis();
-		long modified;
-		long size;
-		Object fileKey = null;
-		Duration fsTimerResolution = FS
-				.getFsTimerResolution(path.toPath().getParent());
-		try {
-			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
-			modified = fileAttributes.lastModifiedTime().toMillis();
-			size = fileAttributes.size();
-			fileKey = getFileKey(fileAttributes);
-		} catch (IOException e) {
-			modified = path.lastModified();
-			size = path.length();
-			fileKey = MISSING_FILEKEY;
-		}
-		return new FileSnapshot(read, modified, size, fsTimerResolution,
-				fileKey);
+		return new FileSnapshot(path);
 	}
 
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
@@ -186,7 +169,34 @@ public class FileSnapshot {
 	 * Object that uniquely identifies the given file, or {@code
 	 * null} if a file key is not available
 	 */
-	private Object fileKey;
+	private final Object fileKey;
+
+	/**
+	 * Record a snapshot for a specific file path.
+	 * <p>
+	 * This method should be invoked before the file is accessed.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 */
+	protected FileSnapshot(File path) {
+		this.lastRead = System.currentTimeMillis();
+		this.fsTimestampResolution = FS
+				.getFsTimerResolution(path.toPath().getParent());
+		BasicFileAttributes fileAttributes = null;
+		try {
+			fileAttributes = FS.DETECTED.fileAttributes(path);
+		} catch (IOException e) {
+			this.lastModified = path.lastModified();
+			this.size = path.length();
+			this.fileKey = MISSING_FILEKEY;
+			return;
+		}
+		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
+		this.size = fileAttributes.size();
+		this.fileKey = getFileKey(fileAttributes);
+	}
 
 	private boolean sizeChanged;
 
