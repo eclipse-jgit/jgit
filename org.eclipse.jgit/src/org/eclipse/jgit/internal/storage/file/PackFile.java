@@ -131,7 +131,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	int packLastModified;
 
-	private FileSnapshot fileSnapshot;
+	private PackFileSnapshot fileSnapshot;
 
 	private volatile boolean invalid;
 
@@ -168,7 +168,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public PackFile(File packFile, int extensions) {
 		this.packFile = packFile;
-		this.fileSnapshot = FileSnapshot.save(packFile);
+		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = (int) (fileSnapshot.lastModified() >> 10);
 		this.extensions = extensions;
 
@@ -193,6 +193,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 						if (packChecksum == null) {
 							packChecksum = idx.packChecksum;
+							fileSnapshot.setChecksum(
+									ObjectId.fromRaw(packChecksum));
 						} else if (!Arrays.equals(packChecksum,
 								idx.packChecksum)) {
 							throw new PackMismatchException(MessageFormat
@@ -371,8 +373,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @return the packfile @{@link FileSnapshot} that the object is loaded from.
 	 */
-	FileSnapshot getFileSnapshot() {
+	PackFileSnapshot getFileSnapshot() {
 		return fileSnapshot;
+	}
+
+	AnyObjectId getPackChecksum() {
+		return ObjectId.fromRaw(packChecksum);
 	}
 
 	private final byte[] decompress(final long position, final int sz,
@@ -1208,5 +1214,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private boolean hasExt(PackExt ext) {
 		return (extensions & ext.getBit()) != 0;
+	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		return "PackFile [packFileName=" + packFile.getName() + ", length="
+				+ packFile.length() + ", packChecksum="
+				+ ObjectId.fromRaw(packChecksum).name() + "]";
 	}
 }
