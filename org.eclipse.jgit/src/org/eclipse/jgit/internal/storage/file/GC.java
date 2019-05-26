@@ -178,7 +178,7 @@ public class GC {
 
 	private Date packExpire;
 
-	private PackConfig pconfig = null;
+	private PackConfig pconfig;
 
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
@@ -214,6 +214,7 @@ public class GC {
 	 */
 	public GC(FileRepository repo) {
 		this.repo = repo;
+		this.pconfig = new PackConfig(repo);
 		this.pm = NullProgressMonitor.INSTANCE;
 	}
 
@@ -398,7 +399,7 @@ public class GC {
 	 */
 	private void removeOldPack(File packFile, String packName, PackExt ext,
 			int deleteOptions) throws IOException {
-		if (pconfig != null && pconfig.isPreserveOldPacks()) {
+		if (pconfig.isPreserveOldPacks()) {
 			File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
 			FileUtils.mkdir(oldPackDir, true);
 
@@ -414,7 +415,7 @@ public class GC {
 	 * Delete the preserved directory including all pack files within
 	 */
 	private void prunePreserved() {
-		if (pconfig != null && pconfig.isPrunePreserved()) {
+		if (pconfig.isPrunePreserved()) {
 			try {
 				FileUtils.delete(repo.getObjectDatabase().getPreservedDirectory(),
 						FileUtils.RECURSIVE | FileUtils.RETRY | FileUtils.SKIP_MISSING);
@@ -856,7 +857,7 @@ public class GC {
 		nonHeads.addAll(indexObjects);
 
 		// Combine the GC_REST objects into the GC pack if requested
-		if (pconfig != null && pconfig.getSinglePack()) {
+		if (pconfig.getSinglePack()) {
 			allHeadsAndTags.addAll(nonHeads);
 			nonHeads.clear();
 		}
@@ -1159,7 +1160,7 @@ public class GC {
 			return Integer.signum(o1.hashCode() - o2.hashCode());
 		});
 		try (PackWriter pw = new PackWriter(
-				(pconfig == null) ? new PackConfig(repo) : pconfig,
+				pconfig,
 				repo.newObjectReader())) {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
@@ -1434,7 +1435,7 @@ public class GC {
 	 *            the {@link org.eclipse.jgit.storage.pack.PackConfig} used when
 	 *            writing packs
 	 */
-	public void setPackConfig(PackConfig pconfig) {
+	public void setPackConfig(@NonNull PackConfig pconfig) {
 		this.pconfig = pconfig;
 	}
 
