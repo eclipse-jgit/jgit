@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7859e438_abf63bc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-27T10:02:48Z",
+      "side": 1,
+      "message": "You are using checksum checking to return a more accurate return value but not to improve performance. I hoped we are (also?) improving performance.\n\nWhat you are doing here is adding a check which only gets executed when super.isModified() has returned false. In the majority of the calls to this function the packfile will be unchanged, isModified will return false and we are adding a performance penality to this dominating use case.\n\nI hoped that we use the checksum check to improve the situation of false positives returned by isModified: the situation where isModified() returns true where it should return false. We saw that isModified() returns too often true because of the racy git situation. All the metadata tell the file is unchanged but if the lastReadTime and lastModificationTime are too close we do return true to force a reread of the content. And instead of that re-read and re-parse of all content I hoped we can just read the checksum to find out: \"The packfile is indeed unchanged because the checksum is still the same. No need to read all content.\"\n\nI suggest to do something like:\n\n\t\tboolean modified \u003d super.isModified(packFile);\n\t\tif (!modified) {\n\t\t\treturn modified;\n\t\t}\n\t\t// super.isModified() return true. Check the checksum first before\n\t\t// really returning that the file is modified\n\t\tif (checksum !\u003d MISSING_CHECKSUM\n\t\t\t\t\u0026\u0026 getModificationReason().lastModifiedChanged\n\t\t\t\t\u0026\u0026 checksum.equals(readChecksum(packFile))) {\n\t\t\treturn false;\n\t\t}\n\t\treturn modified;",
+      "revId": "02e3d155bffbc4b3800b61df9ff277f93bdf24a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
