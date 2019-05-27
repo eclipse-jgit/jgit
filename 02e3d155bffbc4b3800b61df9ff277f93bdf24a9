@@ -16,6 +16,24 @@
       "revId": "02e3d155bffbc4b3800b61df9ff277f93bdf24a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b65302b_9fd2c6a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-05-27T14:22:34Z",
+      "side": 1,
+      "message": "I agree with Christian. When experimenting with the current fix, following test was helpful to check/reproduce the performance problem:\n\n\t@Test\n\tpublic void testTimestamps() throws IOException, ParseException {\n\t\tfor (int index \u003d 0; index \u003c 10000; index++) {\n\t\t\tSystem.out.println(index);\n\t\t\tObjectId id \u003d commitFile(\"file.txt\", \"test \" + index, \"master\").getId();\n\n\t\t\tGC gc \u003d new GC(db);\n\t\t\tgc.setExpireAgeMillis(0);\n\t\t\tgc.setPackExpireAgeMillis(0);\n\t\t\tgc.gc();\n\n\t\t\tfinal ObjectDirectory database \u003d db.getObjectDatabase();\n\t\t\tassertTrue(database.hasPackedObject(id));\n\t\t}\n\t}\n\nIn combination with following temporary change to FS:\n\n\t\t\t\tif (1 \u003d\u003d 1 || !dir.toFile().canWrite()) {\n\t\t\t\t\t// can not determine FileStore of an unborn directory or in\n\t\t\t\t\t// a read-only directory\n\t\t\t\t\treturn FALLBACK_TIMESTAMP_RESOLUTION;\n\t\t\t\t}",
+      "parentUuid": "7859e438_abf63bc7",
+      "revId": "02e3d155bffbc4b3800b61df9ff277f93bdf24a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
