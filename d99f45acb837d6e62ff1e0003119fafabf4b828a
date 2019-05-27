@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79d35422_ed3b927b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-27T09:49:23Z",
+      "side": 1,
+      "message": "Not sure whether lastModifiedChanged is a proper name. We set lastModifiedChanged to true when isModified() returns true. But isModified returns true in more cases. E.g. when lastModified has not changed but we don\u0027t trust lastModified because lastReadTime is too close to lastModified.\nI would call it either modified or we expose even more detailed data like lastModifiedChanged (only set when lastModified really changed) and potentiallyRacyClean together",
+      "revId": "d99f45acb837d6e62ff1e0003119fafabf4b828a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4c1dd0_3784870a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-05-27T09:49:23Z",
+      "side": 1,
+      "message": "This means that we now always do all three checks: size, FileKey and isModified. Before we could skip the isModified call when size told use that the file was changed. That\u0027s performance wise not optimal.",
+      "revId": "d99f45acb837d6e62ff1e0003119fafabf4b828a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
