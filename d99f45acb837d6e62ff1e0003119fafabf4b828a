@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b1025eaf_191cc322",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-27T19:24:34Z",
+      "side": 1,
+      "message": "removed this class and refactored FileSnapshot to capture details of why a file is considered modified or not",
+      "parentUuid": "79d35422_ed3b927b",
+      "revId": "d99f45acb837d6e62ff1e0003119fafabf4b828a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4c1dd0_3784870a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2019-05-27T09:49:23Z",
       "side": 1,
       "message": "This means that we now always do all three checks: size, FileKey and isModified. Before we could skip the isModified call when size told use that the file was changed. That\u0027s performance wise not optimal.",
+      "revId": "d99f45acb837d6e62ff1e0003119fafabf4b828a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f128e7d7_7f90c58f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-27T19:24:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4c1dd0_3784870a",
       "revId": "d99f45acb837d6e62ff1e0003119fafabf4b828a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
