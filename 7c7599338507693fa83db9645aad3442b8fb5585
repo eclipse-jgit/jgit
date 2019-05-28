@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75e30279_1b8cdf5c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-05-28T16:53:31Z",
+      "side": 1,
+      "message": "fails on Windows",
+      "revId": "7c7599338507693fa83db9645aad3442b8fb5585",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e22a69db_4a4d8d1c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-05-28T16:53:31Z",
+      "side": 1,
+      "message": "fails on Windows",
+      "revId": "7c7599338507693fa83db9645aad3442b8fb5585",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
