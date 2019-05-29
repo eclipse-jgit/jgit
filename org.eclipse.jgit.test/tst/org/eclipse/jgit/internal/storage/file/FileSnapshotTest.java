@@ -54,7 +54,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -138,6 +140,7 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testSimulatePackfileReplacement() throws Exception {
+		Assume.assumeFalse(SystemReader.getInstance().isWindows());
 		File f1 = createFile("file"); // inode y
 		File f2 = createFile("fool"); // Guarantees new inode x
 		// wait on f2 since this method resets lastModified of the file
