@@ -137,7 +137,6 @@ public class FileUtilsTest {
 	}
 
 	@Test
-
 	public void testDeleteRecursiveEmpty() throws IOException {
 		File f1 = new File(trash, "test/test/a");
 		File f2 = new File(trash, "test/a");
