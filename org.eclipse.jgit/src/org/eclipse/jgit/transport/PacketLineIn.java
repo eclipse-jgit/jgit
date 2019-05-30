@@ -224,6 +224,30 @@ public class PacketLineIn {
 		return s;
 	}
 
+	/**
+	 * Check if a string is the delimiter marker.
+	 *
+	 * @param s
+	 *            the string to check
+	 * @return true if the given string is {@link #DELIM}, otherwise false.
+	 * @since 5.4
+	 */
+	public static boolean isDelim(String s) {
+		return s == DELIM;
+	}
+
+	/**
+	 * Check if a string is the packet end marker.
+	 *
+	 * @param s
+	 *            the string to check
+	 * @return true if the given string is {@link #END}, otherwise false.
+	 * @since 5.4
+	 */
+	public static boolean isEnd(String s) {
+		return s == END;
+	}
+
 	void discardUntilEnd() throws IOException {
 		for (;;) {
 			int n = readLength();
