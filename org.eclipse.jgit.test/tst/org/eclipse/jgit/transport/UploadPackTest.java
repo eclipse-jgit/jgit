@@ -1088,8 +1088,8 @@ public class UploadPackTest {
 			PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
-		ReceivedPackStatistics stats = parsePack(recvStream);
-		assertTrue(stats.getNumOfsDelta() == 0);
+		ReceivedPackStatistics receivedStats = parsePack(recvStream);
+		assertTrue(receivedStats.getNumOfsDelta() == 0);
 
 		// With ofs-delta.
 		recvStream = uploadPackV2(
@@ -1101,8 +1101,8 @@ public class UploadPackTest {
 			PacketLineIn.END);
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
-		stats = parsePack(recvStream);
-		assertTrue(stats.getNumOfsDelta() != 0);
+		receivedStats = parsePack(recvStream);
+		assertTrue(receivedStats.getNumOfsDelta() != 0);
 	}
 
 	@Test
