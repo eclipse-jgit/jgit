@@ -1557,7 +1557,7 @@ public class UploadPackTest {
 			long depth, ObjectId... wants) throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 
-		List<String> input = new ArrayList();
+		List<String> input = new ArrayList<>();
 		input.add("command=fetch\n");
 		input.add(PacketLineIn.DELIM);
 		for (ObjectId want : wants) {
