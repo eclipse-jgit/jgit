@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b3a4181_66016b0b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-05-30T17:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "311fd204_5406dd77",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 59
+      },
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88a0030b_e686a5b1",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2019-05-17T12:38:38Z",
       "side": 1,
       "message": "inconsistent: getPath() is annotated @NonNull, either remove this annotation or this null check",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8314cadf_005da188",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-05-30T17:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88a0030b_e686a5b1",
       "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1501fa62_c2449b58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-05-30T17:05:50Z",
+      "side": 1,
+      "message": "I removed @NonNull annotation. Done.",
+      "parentUuid": "980a3c59_850af4ce",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f0d5195_36fb8eaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9d49c66a_5c2a1b44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-05-30T17:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f0d5195_36fb8eaa",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41d5ed5a_19f04e38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2019-05-17T12:38:38Z",
       "side": 1,
       "message": "the @NonNull seems not to make sense since DfsRepository can return a null repository name and Repository.getDirectory() can return null e.g. for in memory repositories used in unit tests and ServletUtils.identify() already did a corresponding null check earlier",
+      "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c76561c_ae4bd5e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-05-30T17:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41d5ed5a_19f04e38",
       "revId": "a33c2a3165e2eea558d0505a48bbce0f40436c58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
