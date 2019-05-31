@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1558539038">
+<target name="jgit-4.7" sequenceNumber="1559343410">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -23,8 +23,8 @@
       <repository id="jetty-9.4.14" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.14.v20181114"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="org.apache.ant" version="1.10.6.v20190516-0412"/>
-      <unit id="org.apache.ant.source" version="1.10.6.v20190516-0412"/>
+      <unit id="org.apache.ant" version="1.10.5.v20190526-1402"/>
+      <unit id="org.apache.ant.source" version="1.10.5.v20190526-1402"/>
       <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.codec.source" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.compress" version="1.18.0.v20181121-2221"/>
@@ -82,7 +82,7 @@
       <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20190521195709/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190531194818/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
