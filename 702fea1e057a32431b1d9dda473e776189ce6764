@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07870ba1_d6a5d0eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-31T14:07:38Z",
+      "side": 1,
+      "message": "The package \"org.bouncycastle.gpg.keybox.jcajce\" of this class needs to be imported in this bundle\u0027s MANIFEST.MF otherwise it can\u0027t be loaded in OSGi environment.\n\nI will fix this as soon as the new p2 repository having the bouncycastle 1.61 bundles is available in a released Orbit build. I already have a working patch building against the temporary I-build of Orbit containing my Orbit patch https://git.eclipse.org/r/#/c/143085/",
+      "range": {
+        "startLine": 382,
+        "startChar": 16,
+        "endLine": 382,
+        "endChar": 32
+      },
+      "revId": "702fea1e057a32431b1d9dda473e776189ce6764",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d6400f9_e7ae3fc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgSigner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-05-31T14:07:38Z",
+      "side": 1,
+      "message": "we use Eclipse formatter which formats this differently",
+      "revId": "702fea1e057a32431b1d9dda473e776189ce6764",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
