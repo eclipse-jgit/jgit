@@ -109,7 +109,7 @@ public class DescribeCommand extends GitCommand<String> {
 	/**
 	 * Whether to use all tags (incl. lightweight) or not.
 	 */
-	private boolean useTags = false;
+	private boolean useTags;
 
 	/**
 	 * Constructor for DescribeCommand.
