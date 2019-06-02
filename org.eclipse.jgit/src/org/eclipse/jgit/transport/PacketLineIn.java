@@ -251,6 +251,17 @@ public class PacketLineIn {
 	}
 
 	/**
+	 * Get the end marker.
+	 * <p>
+	 * Intended for use only in tests.
+	 *
+	 * @return The end marker.
+	 */
+	static String end() {
+		return END;
+	}
+
+	/**
 	 * Check if a string is the packet end marker.
 	 *
 	 * @param s
