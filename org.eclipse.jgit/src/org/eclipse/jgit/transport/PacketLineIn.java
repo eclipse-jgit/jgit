@@ -74,7 +74,15 @@ import org.slf4j.LoggerFactory;
 public class PacketLineIn {
 	private static final Logger log = LoggerFactory.getLogger(PacketLineIn.class);
 
-	/** Magic return from {@link #readString()} when a flush packet is found. */
+	/**
+	 * Magic return from {@link #readString()} when a flush packet is found.
+	 *
+	 * @deprecated Callers should use {@link #isEnd(String)} to check if a
+	 *             string is the end marker, or
+	 *             {@link PacketLineIn#readStrings()} to iterate over all
+	 *             strings in the input stream until the marker is reached.
+	 */
+	@Deprecated
 	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
 
 	/**
