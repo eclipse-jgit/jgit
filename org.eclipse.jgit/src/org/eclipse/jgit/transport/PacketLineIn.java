@@ -243,6 +243,10 @@ public class PacketLineIn {
 		return DELIM;
 	}
 
+	static String end() {
+		return END;
+	}
+
 	/**
 	 * Check if a string is the packet end marker.
 	 *

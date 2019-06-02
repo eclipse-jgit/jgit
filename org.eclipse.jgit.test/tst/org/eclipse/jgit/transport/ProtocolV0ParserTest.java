@@ -90,7 +90,7 @@ public class ProtocolV0ParserTest {
 						"4624442d68ee402a94364191085b77137618633e", "thin-pack",
 						"no-progress", "include-tag", "ofs-delta", "\n"),
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities()
@@ -114,7 +114,7 @@ public class ProtocolV0ParserTest {
 						"4624442d68ee402a94364191085b77137618633e", "thin-pack",
 						"agent=JGit.test/0.0.1", "\n"),
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities()
@@ -136,7 +136,7 @@ public class ProtocolV0ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities().isEmpty());
@@ -151,7 +151,7 @@ public class ProtocolV0ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n", "deepen 3\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities().isEmpty());
@@ -168,7 +168,7 @@ public class ProtocolV0ParserTest {
 				"want 4624442d68ee402a94364191085b77137618633e\n",
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
 				"shallow 4b643d0ef739a1b494e7d6926d8d8ed80d35edf4\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities().isEmpty());
@@ -186,7 +186,7 @@ public class ProtocolV0ParserTest {
 				"want 4624442d68ee402a94364191085b77137618633e\n",
 				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
 				"filter blob:limit=13000\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities().isEmpty());
