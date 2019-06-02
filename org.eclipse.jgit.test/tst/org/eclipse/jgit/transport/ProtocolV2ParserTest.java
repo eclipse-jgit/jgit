@@ -136,7 +136,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	/*
-	 * Succesful fetch with the basic core commands of the protocol.
+	 * Successful fetch with the basic core commands of the protocol.
 	 */
 	@Test
 	public void testFetchBasicArguments()
