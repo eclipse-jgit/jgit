@@ -232,7 +232,7 @@ public class PacketLineIn {
 	 * @return true if the given string is {@link #DELIM}, otherwise false.
 	 * @since 5.4
 	 */
-	public static boolean isDelim(String s) {
+	public static boolean isDelimiter(String s) {
 		return s == DELIM;
 	}
 
