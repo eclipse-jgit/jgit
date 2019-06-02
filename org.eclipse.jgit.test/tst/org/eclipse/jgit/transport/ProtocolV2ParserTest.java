@@ -148,7 +148,7 @@ public class ProtocolV2ParserTest {
 				"want f900c8326a43303685c46b279b9f70411bff1a4b",
 				"have 554f6e41067b9e3e565b6988a8294fac1cb78f4b",
 				"have abc760ab9ad72f08209943251b36cb886a578f87", "done",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -178,7 +178,7 @@ public class ProtocolV2ParserTest {
 				"deepen-relative",
 				"shallow 28274d02c489f4c7e68153056e9061a46f62d7a0",
 				"shallow 145e683b229dcab9d0e2ccb01b386f9ecc17d29d",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -197,7 +197,7 @@ public class ProtocolV2ParserTest {
 				"shallow 28274d02c489f4c7e68153056e9061a46f62d7a0",
 				"shallow 145e683b229dcab9d0e2ccb01b386f9ecc17d29d",
 				"deepen-not a08595f76159b09d57553e37a5123f1091bb13e7",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -214,7 +214,7 @@ public class ProtocolV2ParserTest {
 				"shallow 28274d02c489f4c7e68153056e9061a46f62d7a0",
 				"shallow 145e683b229dcab9d0e2ccb01b386f9ecc17d29d",
 				"deepen-since 123123123",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -228,7 +228,7 @@ public class ProtocolV2ParserTest {
 	public void testFetchWithNoneFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:none",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -240,7 +240,7 @@ public class ProtocolV2ParserTest {
 	public void testFetchWithBlobSizeFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:limit=15",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -252,7 +252,7 @@ public class ProtocolV2ParserTest {
 	public void testFetchWithTreeDepthFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter tree:3",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
@@ -265,7 +265,7 @@ public class ProtocolV2ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:none",
 				"filter blob:limit=12",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 
@@ -276,7 +276,7 @@ public class ProtocolV2ParserTest {
 	@Test
 	public void testFetchFilterWithoutAllowFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
-				"filter blob:limit=12", PacketLineIn.END);
+				"filter blob:limit=12", PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 
@@ -294,7 +294,7 @@ public class ProtocolV2ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
 				"want-ref refs/heads/branchA",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowRefInWant().done());
 
@@ -312,7 +312,7 @@ public class ProtocolV2ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
 				"want-ref refs/heads/branchC",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowRefInWant().done());
 
@@ -329,7 +329,7 @@ public class ProtocolV2ParserTest {
 	@Test
 	public void testLsRefsMinimalReq() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
-				PacketLineIn.END);
+				PacketLineIn.end());
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
@@ -342,7 +342,7 @@ public class ProtocolV2ParserTest {
 	@Test
 	public void testLsRefsSymrefs() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(), "symrefs",
-				PacketLineIn.END);
+				PacketLineIn.end());
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
@@ -358,7 +358,7 @@ public class ProtocolV2ParserTest {
 		PacketLineIn pckIn = formatAsPacketLine(
 				PacketLineIn.delimiter(),
 				"peel",
-				PacketLineIn.END);
+				PacketLineIn.end());
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
@@ -372,7 +372,7 @@ public class ProtocolV2ParserTest {
 	public void testLsRefsRefPrefixes() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"ref-prefix refs/for", "ref-prefix refs/heads",
-				PacketLineIn.END);
+				PacketLineIn.end());
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
