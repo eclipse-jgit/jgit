@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd19127_ffdb8f24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-02T15:24:29Z",
+      "side": 1,
+      "message": "document that this method is meant for tests ?",
+      "revId": "32eddf3180cb3eeaf15e57ed58d1759415235a89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
