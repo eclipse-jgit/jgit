@@ -608,7 +608,7 @@ public class UploadPackTest {
 		RevTag tag = remote.tag("tag", tip);
 		remote.update("refs/tags/tag", tag);
 
-		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "symrefs", PacketLineIn.END);
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.delimiter(), "symrefs", PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
@@ -625,7 +625,7 @@ public class UploadPackTest {
 		RevTag tag = remote.tag("tag", tip);
 		remote.update("refs/tags/tag", tag);
 
-		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "peel", PacketLineIn.END);
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.delimiter(), "peel", PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
@@ -646,8 +646,8 @@ public class UploadPackTest {
 		remote.update("refs/tags/tag", tag);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
-			"command=ls-refs\n", PacketLineIn.DELIM, "symrefs", "peel", PacketLineIn.END,
-			"command=ls-refs\n", PacketLineIn.DELIM, PacketLineIn.END);
+			"command=ls-refs\n", PacketLineIn.delimiter(), "symrefs", "peel", PacketLineIn.END,
+			"command=ls-refs\n", PacketLineIn.delimiter(), PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
@@ -672,7 +672,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
 			"ref-prefix refs/heads/other",
 			PacketLineIn.END);
@@ -691,7 +691,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
 			"ref-prefix r",
 			PacketLineIn.END);
@@ -708,7 +708,7 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected invalid-argument");
 		uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"invalid-argument\n",
 			PacketLineIn.END);
 	}
@@ -717,7 +717,7 @@ public class UploadPackTest {
 	public void testV2LsRefsServerOptions() throws Exception {
 		String[] lines = { "command=ls-refs\n",
 				"server-option=one\n", "server-option=two\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				PacketLineIn.END };
 
 		TestV2Hook testHook = new TestV2Hook();
@@ -762,7 +762,7 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + advertized.name() + "\n",
 			PacketLineIn.END);
 
@@ -775,7 +775,7 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unadvertized.name() + "\n",
 			PacketLineIn.END);
 	}
@@ -793,7 +793,7 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + reachable.name() + "\n",
 			PacketLineIn.END);
 
@@ -806,7 +806,7 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
 			PacketLineIn.END);
 	}
@@ -823,7 +823,7 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + tip.name() + "\n",
 			PacketLineIn.END);
 
@@ -836,7 +836,7 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + parentOfTip.name() + "\n",
 			PacketLineIn.END);
 	}
@@ -854,7 +854,7 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + parentOfTip.name() + "\n",
 			PacketLineIn.END);
 
@@ -867,7 +867,7 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
 			PacketLineIn.END);
 	}
@@ -882,7 +882,7 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
 			PacketLineIn.END);
 	}
@@ -898,7 +898,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
@@ -921,7 +921,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
@@ -956,7 +956,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
@@ -985,7 +985,7 @@ public class UploadPackTest {
 		// Pretend that we have parent to get a thin pack based on it.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"have " + parent.toObjectId().getName() + "\n",
 			"thin-pack\n",
@@ -1011,7 +1011,7 @@ public class UploadPackTest {
 		StringWriter sw = new StringWriter();
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"done\n",
 			PacketLineIn.END);
@@ -1024,7 +1024,7 @@ public class UploadPackTest {
 		sw = new StringWriter();
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"no-progress\n",
 			"done\n",
@@ -1045,7 +1045,7 @@ public class UploadPackTest {
 		// Without include-tag.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"done\n",
 			PacketLineIn.END);
@@ -1057,7 +1057,7 @@ public class UploadPackTest {
 		// With tag.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"include-tag\n",
 			"done\n",
@@ -1081,7 +1081,7 @@ public class UploadPackTest {
 		// Without ofs-delta.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"done\n",
 			PacketLineIn.END);
@@ -1093,7 +1093,7 @@ public class UploadPackTest {
 		// With ofs-delta.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"ofs-delta\n",
 			"done\n",
@@ -1115,7 +1115,7 @@ public class UploadPackTest {
 		// commonParent, so it doesn't send it.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooChild.toObjectId().getName() + "\n",
 			"done\n",
@@ -1130,7 +1130,7 @@ public class UploadPackTest {
 		// commonParent, so it sends it.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooChild.toObjectId().getName() + "\n",
 			"shallow " + fooChild.toObjectId().getName() + "\n",
@@ -1151,7 +1151,7 @@ public class UploadPackTest {
 		// "deepen 1" sends only the child.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"deepen 1\n",
 			"done\n",
@@ -1168,7 +1168,7 @@ public class UploadPackTest {
 		// Without that, the parent is sent too.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"done\n",
 			PacketLineIn.END);
@@ -1186,7 +1186,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"deepen 1\n",
 			PacketLineIn.END);
@@ -1218,7 +1218,7 @@ public class UploadPackTest {
 		// Report that we only have "boundary" as a shallow boundary.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"shallow " + boundary.toObjectId().getName() + "\n",
 			"deepen-since 1510000\n",
 			"want " + merge.toObjectId().getName() + "\n",
@@ -1269,7 +1269,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-since 1510000\n",
 			"want " + child1.toObjectId().getName() + "\n",
 			"want " + child2.toObjectId().getName() + "\n",
@@ -1308,7 +1308,7 @@ public class UploadPackTest {
 		thrown.expectMessage("No commits selected for shallow request");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-since 1510000\n",
 			"want " + tooOld.toObjectId().getName() + "\n",
 			"done\n",
@@ -1331,7 +1331,7 @@ public class UploadPackTest {
 		// wants "merge" while excluding "side".
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"shallow " + three.toObjectId().getName() + "\n",
 			"deepen-not side\n",
 			"want " + merge.toObjectId().getName() + "\n",
@@ -1384,7 +1384,7 @@ public class UploadPackTest {
 		thrown.expectMessage("No commits selected for shallow request");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not four\n",
 			"want " + two.toObjectId().getName() + "\n",
 			"done\n",
@@ -1404,7 +1404,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not twotag\n",
 			"want " + four.toObjectId().getName() + "\n",
 			"done\n",
@@ -1438,7 +1438,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not base\n",
 			"want " + child1.toObjectId().getName() + "\n",
 			"want " + child2.toObjectId().getName() + "\n",
@@ -1470,7 +1470,7 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected invalid-argument");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"invalid-argument\n",
 			PacketLineIn.END);
 	}
@@ -1478,7 +1478,7 @@ public class UploadPackTest {
 	@Test
 	public void testV2FetchServerOptions() throws Exception {
 		String[] lines = { "command=fetch\n", "server-option=one\n",
-				"server-option=two\n", PacketLineIn.DELIM,
+				"server-option=two\n", PacketLineIn.delimiter(),
 				PacketLineIn.END };
 
 		TestV2Hook testHook = new TestV2Hook();
@@ -1503,7 +1503,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"filter blob:limit=5\n",
 			"done\n",
@@ -1558,7 +1558,7 @@ public class UploadPackTest {
 
 		List<String> input = new ArrayList<>();
 		input.add("command=fetch\n");
-		input.add(PacketLineIn.DELIM);
+		input.add(PacketLineIn.delimiter());
 		for (ObjectId want : wants) {
 			input.add("want " + want.getName() + "\n");
 		}
@@ -1845,7 +1845,7 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected filter blob:limit=5");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"filter blob:limit=5\n",
 			"done\n",
@@ -1860,7 +1860,7 @@ public class UploadPackTest {
 		try {
 			uploadPackV2(
 				"command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/one\n",
 				"done\n",
 				PacketLineIn.END);
@@ -1886,7 +1886,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"want-ref refs/heads/two\n",
 			"done\n",
@@ -1917,7 +1917,7 @@ public class UploadPackTest {
 		try {
 			uploadPackV2(
 				"command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/one\n",
 				"want-ref refs/heads/nonExistentRef\n",
 				"done\n",
@@ -1944,7 +1944,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"want " + two.toObjectId().getName() + "\n",
 			"done\n",
@@ -1972,7 +1972,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"have " + one.toObjectId().getName(),
 			"done\n",
@@ -2004,7 +2004,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/branch1\n",
 			"deepen 1\n",
 			"done\n",
@@ -2035,7 +2035,7 @@ public class UploadPackTest {
 				true);
 
 		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/three\n",
 				"deepen 3",
 				"shallow 0123012301230123012301230123012301230123",
@@ -2091,7 +2091,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream send = linesAsInputStream(
 				"command=fetch\n", "agent=JGit-test/1.2.4\n",
-				PacketLineIn.DELIM, "want " + one.getName() + "\n",
+				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
 				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
 				PacketLineIn.END);
 

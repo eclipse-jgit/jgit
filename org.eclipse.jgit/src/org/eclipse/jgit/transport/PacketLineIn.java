@@ -79,7 +79,10 @@ public class PacketLineIn {
 	 * Magic return from {@link #readString()} when a delim packet is found.
 	 *
 	 * @since 5.0
+	 * @deprecated Callers should use {@link #isDelimiter(String)} to check if a
+	 *             string is the delimiter.
 	 */
+	@Deprecated
 	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
 
 	static enum AckNackResult {
@@ -234,6 +237,17 @@ public class PacketLineIn {
 	 */
 	public static boolean isDelimiter(String s) {
 		return s == DELIM;
+	}
+
+	/**
+	 * Get the delimiter marker.
+	 * <p>
+	 * Intended for use only in tests.
+	 *
+	 * @return The delimiter marker.
+	 */
+	static String delimiter() {
+		return DELIM;
 	}
 
 	/**
