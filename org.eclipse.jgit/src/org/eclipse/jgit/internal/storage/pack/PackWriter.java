@@ -878,7 +878,7 @@ public class PackWriter implements AutoCloseable {
 	 * already been visited at this depth or shallower, it is not necessary to
 	 * re-visit at this depth.
 	 */
-	private class DepthAwareVisitationPolicy
+	private static class DepthAwareVisitationPolicy
 			implements ObjectWalk.VisitationPolicy {
 		private final Map<ObjectId, Integer> lowestDepthVisited = new HashMap<>();
 
