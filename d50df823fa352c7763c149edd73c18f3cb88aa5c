@@ -16,6 +16,24 @@
       "revId": "d50df823fa352c7763c149edd73c18f3cb88aa5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de99956f_79a2cd7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-02T09:23:12Z",
+      "side": 1,
+      "message": "It was added recently in [1] which is not yet included in any release.\n\n[1] https://git.eclipse.org/r/#/c/143063/",
+      "parentUuid": "88d57329_e0d69a87",
+      "revId": "d50df823fa352c7763c149edd73c18f3cb88aa5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
