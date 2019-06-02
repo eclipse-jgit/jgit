@@ -49,7 +49,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -196,6 +198,20 @@ public class PacketLineIn {
 	}
 
 	/**
+	 * Get an iterator to read strings from the input stream.
+	 *
+	 * @return an iterator that calls {@link #readString()} until {@link #END}
+	 *         is encountered.
+	 *
+	 * @throws IOException
+	 *             on failure to read the initial packet line.
+	 * @since 5.4
+	 */
+	public PacketLineInIterator readStrings() throws IOException {
+		return new PacketLineInIterator(this);
+	}
+
+	/**
 	 * Read a single UTF-8 encoded string packet from the input stream.
 	 * <p>
 	 * Unlike {@link #readString()} a trailing LF will be retained.
@@ -330,5 +346,47 @@ public class PacketLineIn {
 	 */
 	public static class InputOverLimitIOException extends IOException {
 		private static final long serialVersionUID = 1L;
+	}
+
+	/**
+	 * Iterator over packet lines.
+	 * <p>
+	 * Calls {@link #readString()} on the {@link PacketLineIn} until
+	 * {@link #END} is encountered.
+	 *
+	 * @since 5.4
+	 *
+	 */
+	public static class PacketLineInIterator implements Iterable<String> {
+		private PacketLineIn in;
+
+		private String current;
+
+		PacketLineInIterator(PacketLineIn in) throws IOException {
+			this.in = in;
+			current = in.readString();
+		}
+
+		@Override
+		public Iterator<String> iterator() {
+			return new Iterator<String>() {
+				@Override
+				public boolean hasNext() {
+					return !PacketLineIn.isEnd(current);
+				}
+
+				@Override
+				public String next() {
+					String next = current;
+					try {
+						current = in.readString();
+					} catch (IOException e) {
+						throw new UncheckedIOException(e);
+					}
+					return next;
+				}
+			};
+		}
+
 	}
 }

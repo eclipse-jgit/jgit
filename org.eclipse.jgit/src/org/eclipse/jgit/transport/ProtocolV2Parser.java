@@ -144,29 +144,30 @@ final class ProtocolV2Parser {
 		}
 
 		boolean filterReceived = false;
-		while ((line = pckIn.readString()) != PacketLineIn.END) {
-			if (line.startsWith("want ")) { //$NON-NLS-1$
-				reqBuilder.addWantId(ObjectId.fromString(line.substring(5)));
+		for (String line2 : pckIn.readStrings()) {
+			if (line2.startsWith("want ")) { //$NON-NLS-1$
+				reqBuilder.addWantId(ObjectId.fromString(line2.substring(5)));
 			} else if (transferConfig.isAllowRefInWant()
-					&& line.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
-				reqBuilder.addWantedRef(line.substring(OPTION_WANT_REF.length() + 1));
-			} else if (line.startsWith("have ")) { //$NON-NLS-1$
-				reqBuilder.addPeerHas(ObjectId.fromString(line.substring(5)));
-			} else if (line.equals("done")) { //$NON-NLS-1$
+					&& line2.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
+				reqBuilder.addWantedRef(
+						line2.substring(OPTION_WANT_REF.length() + 1));
+			} else if (line2.startsWith("have ")) { //$NON-NLS-1$
+				reqBuilder.addPeerHas(ObjectId.fromString(line2.substring(5)));
+			} else if (line2.equals("done")) { //$NON-NLS-1$
 				reqBuilder.setDoneReceived();
-			} else if (line.equals(OPTION_THIN_PACK)) {
+			} else if (line2.equals(OPTION_THIN_PACK)) {
 				reqBuilder.addClientCapability(OPTION_THIN_PACK);
-			} else if (line.equals(OPTION_NO_PROGRESS)) {
+			} else if (line2.equals(OPTION_NO_PROGRESS)) {
 				reqBuilder.addClientCapability(OPTION_NO_PROGRESS);
-			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+			} else if (line2.equals(OPTION_INCLUDE_TAG)) {
 				reqBuilder.addClientCapability(OPTION_INCLUDE_TAG);
-			} else if (line.equals(OPTION_OFS_DELTA)) {
+			} else if (line2.equals(OPTION_OFS_DELTA)) {
 				reqBuilder.addClientCapability(OPTION_OFS_DELTA);
-			} else if (line.startsWith("shallow ")) { //$NON-NLS-1$
+			} else if (line2.startsWith("shallow ")) { //$NON-NLS-1$
 				reqBuilder.addClientShallowCommit(
-						ObjectId.fromString(line.substring(8)));
-			} else if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				int parsedDepth = Integer.parseInt(line.substring(7));
+						ObjectId.fromString(line2.substring(8)));
+			} else if (line2.startsWith("deepen ")) { //$NON-NLS-1$
+				int parsedDepth = Integer.parseInt(line2.substring(7));
 				if (parsedDepth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
@@ -181,19 +182,19 @@ final class ProtocolV2Parser {
 							JGitText.get().deepenNotWithDeepen);
 				}
 				reqBuilder.setDepth(parsedDepth);
-			} else if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
-				reqBuilder.addDeepenNotRef(line.substring(11));
+			} else if (line2.startsWith("deepen-not ")) { //$NON-NLS-1$
+				reqBuilder.addDeepenNotRef(line2.substring(11));
 				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
-			} else if (line.equals(OPTION_DEEPEN_RELATIVE)) {
+			} else if (line2.equals(OPTION_DEEPEN_RELATIVE)) {
 				reqBuilder.addClientCapability(OPTION_DEEPEN_RELATIVE);
-			} else if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
-				int ts = Integer.parseInt(line.substring(13));
+			} else if (line2.startsWith("deepen-since ")) { //$NON-NLS-1$
+				int ts = Integer.parseInt(line2.substring(13));
 				if (ts <= 0) {
 					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().invalidTimestamp, line));
+							.format(JGitText.get().invalidTimestamp, line2));
 				}
 				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
@@ -201,17 +202,17 @@ final class ProtocolV2Parser {
 				}
 				reqBuilder.setDeepenSince(ts);
 			} else if (transferConfig.isAllowFilter()
-					&& line.startsWith(OPTION_FILTER + ' ')) {
+					&& line2.startsWith(OPTION_FILTER + ' ')) {
 				if (filterReceived) {
 					throw new PackProtocolException(
 							JGitText.get().tooManyFilters);
 				}
 				filterReceived = true;
 				reqBuilder.setFilterSpec(FilterSpec.fromFilterLine(
-						line.substring(OPTION_FILTER.length() + 1)));
+						line2.substring(OPTION_FILTER.length() + 1)));
 			} else {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().unexpectedPacketLine, line));
+						.format(JGitText.get().unexpectedPacketLine, line2));
 			}
 		}
 
@@ -253,16 +254,16 @@ final class ProtocolV2Parser {
 					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 
-		while ((line = pckIn.readString()) != PacketLineIn.END) {
-			if (line.equals("peel")) { //$NON-NLS-1$
+		for (String line2 : pckIn.readStrings()) {
+			if (line2.equals("peel")) { //$NON-NLS-1$
 				builder.setPeel(true);
-			} else if (line.equals("symrefs")) { //$NON-NLS-1$
+			} else if (line2.equals("symrefs")) { //$NON-NLS-1$
 				builder.setSymrefs(true);
-			} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
-				prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+			} else if (line2.startsWith("ref-prefix ")) { //$NON-NLS-1$
+				prefixes.add(line2.substring("ref-prefix ".length())); //$NON-NLS-1$
 			} else {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().unexpectedPacketLine, line));
+						.format(JGitText.get().unexpectedPacketLine, line2));
 			}
 		}
 
