@@ -1282,7 +1282,7 @@ public abstract class BaseReceivePack {
 						return;
 					throw eof;
 				}
-				if (line == PacketLineIn.END) {
+				if (PacketLineIn.isEnd(line)) {
 					break;
 				}
 

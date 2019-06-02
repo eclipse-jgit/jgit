@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -428,9 +427,9 @@ public class UploadPackTest {
 		try (ByteArrayOutputStream send = new ByteArrayOutputStream()) {
 			PacketLineOut pckOut = new PacketLineOut(send);
 			for (String line : inputLines) {
-				if (line == PacketLineIn.END) {
+				if (PacketLineIn.isEnd(line)) {
 					pckOut.end();
-				} else if (line == PacketLineIn.DELIM) {
+				} else if (PacketLineIn.isDelimiter(line)) {
 					pckOut.writeDelim();
 				} else {
 					pckOut.writeString(line);
@@ -453,7 +452,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
-		while (pckIn.readString() != PacketLineIn.END) {
+		while (!PacketLineIn.isEnd(pckIn.readString())) {
 			// do nothing
 		}
 		return recvStream;
@@ -504,7 +503,7 @@ public class UploadPackTest {
 				// and additional capabilities to be added to existing
 				// commands without requiring test changes.
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -521,7 +520,7 @@ public class UploadPackTest {
 				// TODO(jonathantanmy) This check overspecifies the
 				// order of the capabilities of "fetch".
 				hasItems("ls-refs", "fetch=filter shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -539,7 +538,7 @@ public class UploadPackTest {
 				// order of the capabilities of "fetch".
 				hasItems("ls-refs", "fetch=ref-in-want shallow",
 						"server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -554,7 +553,7 @@ public class UploadPackTest {
 				Arrays.asList(pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -570,7 +569,7 @@ public class UploadPackTest {
 				Arrays.asList(pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -598,7 +597,7 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -615,7 +614,7 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -635,7 +634,7 @@ public class UploadPackTest {
 			pckIn.readString(),
 			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
 				+ tip.toObjectId().getName()));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -657,11 +656,11 @@ public class UploadPackTest {
 			pckIn.readString(),
 			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
 				+ tip.toObjectId().getName()));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -681,7 +680,7 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -700,7 +699,7 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -908,7 +907,7 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("ACK " + fooParent.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -937,7 +936,7 @@ public class UploadPackTest {
 				"ACK " + fooParent.toObjectId().getName(),
 				"ACK " + barParent.toObjectId().getName()));
 		assertThat(pckIn.readString(), is("ready"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
@@ -1160,7 +1159,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
@@ -1198,7 +1197,7 @@ public class UploadPackTest {
 		// sent only if a packfile is sent.
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("NAK"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -1237,7 +1236,7 @@ public class UploadPackTest {
 		// later than the given deepen-since time.
 		assertThat(pckIn.readString(), is("unshallow " + boundary.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1286,7 +1285,7 @@ public class UploadPackTest {
 				"shallow " + child1.toObjectId().getName(),
 				"shallow " + child2.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1353,7 +1352,7 @@ public class UploadPackTest {
 		// "three" is unshallow because its parent "two" is now available.
 		assertThat(pckIn.readString(), is("unshallow " + three.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1413,7 +1412,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + three.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
@@ -1455,7 +1454,7 @@ public class UploadPackTest {
 				"shallow " + child1.toObjectId().getName(),
 				"shallow " + child2.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1899,7 +1898,7 @@ public class UploadPackTest {
 				hasItems(
 					one.toObjectId().getName() + " refs/heads/one",
 					two.toObjectId().getName() + " refs/heads/two"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1955,7 +1954,7 @@ public class UploadPackTest {
 		assertThat(
 				pckIn.readString(),
 				is(one.toObjectId().getName() + " refs/heads/one"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1987,7 +1986,7 @@ public class UploadPackTest {
 		assertThat(
 				pckIn.readString(),
 				is(one.toObjectId().getName() + " refs/heads/one"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 
 		// ... but the client does not need the object itself.
 		assertThat(pckIn.readString(), is("packfile"));
@@ -2015,10 +2014,10 @@ public class UploadPackTest {
 		// shallow-info appears first, then wanted-refs.
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(pckIn.readString(), is(child.toObjectId().getName() + " refs/heads/branch1"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
@@ -2050,11 +2049,11 @@ public class UploadPackTest {
 				is("shallow " + one.toObjectId().getName()));
 		assertThat(pckIn.readString(),
 				is("unshallow " + two.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(pckIn.readString(),
 				is(three.toObjectId().getName() + " refs/heads/three"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 

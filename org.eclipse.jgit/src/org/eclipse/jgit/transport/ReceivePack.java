@@ -348,7 +348,7 @@ public class ReceivePack extends BaseReceivePack {
 			pushOptions = new ArrayList<>(4);
 			for (;;) {
 				String option = in.readString();
-				if (option == PacketLineIn.END) {
+				if (PacketLineIn.isEnd(option)) {
 					break;
 				}
 				pushOptions.add(option);
