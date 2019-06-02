@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06817d9a_745e458c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-02T09:06:16Z",
+      "side": 1,
+      "message": "This class should be declared static.  Fixed in https://git.eclipse.org/r/143178",
+      "revId": "0a15cb3a2bc14feec11baa1977567179ce3094bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
