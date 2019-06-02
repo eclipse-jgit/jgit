@@ -92,7 +92,7 @@ final class ProtocolV2Parser {
 		String agentPrefix = OPTION_AGENT + '=';
 
 		String line = pckIn.readString();
-		while (line != PacketLineIn.DELIM && line != PacketLineIn.END) {
+		while (!PacketLineIn.isDelimiter(line) && !PacketLineIn.isEnd(line)) {
 			if (line.startsWith(serverOptionPrefix)) {
 				serverOptionConsumer
 						.accept(line.substring(serverOptionPrefix.length()));
@@ -133,11 +133,11 @@ final class ProtocolV2Parser {
 				serverOption -> reqBuilder.addServerOption(serverOption),
 				agent -> reqBuilder.setAgent(agent));
 
-		if (line == PacketLineIn.END) {
+		if (PacketLineIn.isEnd(line)) {
 			return reqBuilder.build();
 		}
 
-		if (line != PacketLineIn.DELIM) {
+		if (!PacketLineIn.isDelimiter(line)) {
 			throw new PackProtocolException(
 					MessageFormat.format(JGitText.get().unexpectedPacketLine,
 							line));
@@ -244,11 +244,11 @@ final class ProtocolV2Parser {
 				serverOption -> builder.addServerOption(serverOption),
 				agent -> builder.setAgent(agent));
 
-		if (line == PacketLineIn.END) {
+		if (PacketLineIn.isEnd(line)) {
 			return builder.build();
 		}
 
-		if (line != PacketLineIn.DELIM) {
+		if (!PacketLineIn.isDelimiter(line)) {
 			throw new PackProtocolException(MessageFormat
 					.format(JGitText.get().unexpectedPacketLine, line));
 		}

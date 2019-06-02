@@ -1229,7 +1229,7 @@ public class UploadPack {
 			/* EOF when awaiting command is fine */
 			return true;
 		}
-		if (command == PacketLineIn.END) {
+		if (PacketLineIn.isEnd(command)) {
 			// A blank request is valid according
 			// to the protocol; do nothing in this
 			// case.
@@ -1600,7 +1600,7 @@ public class UploadPack {
 				throw eof;
 			}
 
-			if (line == PacketLineIn.END) {
+			if (PacketLineIn.isEnd(line)) {
 				last = processHaveLines(peerHas, last, pckOut);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$

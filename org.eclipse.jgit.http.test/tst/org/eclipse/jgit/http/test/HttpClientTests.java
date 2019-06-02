@@ -44,7 +44,6 @@
 package org.eclipse.jgit.http.test;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -366,7 +365,7 @@ public class HttpClientTests extends HttpTestCase {
 
 		// Check that we get a v0 response.
 		assertThat(pckIn.readString(), is("# service=git-upload-pack"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 		assertTrue(pckIn.readString().matches("[0-9a-f]{40} HEAD.*"));
 	}
 

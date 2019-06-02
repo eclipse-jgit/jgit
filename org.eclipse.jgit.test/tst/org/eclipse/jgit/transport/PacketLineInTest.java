@@ -157,7 +157,7 @@ public class PacketLineInTest {
 	@Test
 	public void testReadString_Delim() throws IOException {
 		init("0001");
-		assertTrue(PacketLineIn.isDelim(in.readString()));
+		assertTrue(PacketLineIn.isDelimiter(in.readString()));
 		assertEOF();
 	}
 

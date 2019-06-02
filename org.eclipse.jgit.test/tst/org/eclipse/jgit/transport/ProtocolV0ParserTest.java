@@ -64,9 +64,9 @@ public class ProtocolV0ParserTest {
 		ByteArrayOutputStream send = new ByteArrayOutputStream();
 		PacketLineOut pckOut = new PacketLineOut(send);
 		for (String line : inputLines) {
-			if (line == PacketLineIn.END) {
+			if (PacketLineIn.isEnd(line)) {
 				pckOut.end();
-			} else if (line == PacketLineIn.DELIM) {
+			} else if (PacketLineIn.isDelimiter(line)) {
 				pckOut.writeDelim();
 			} else {
 				pckOut.writeString(line);

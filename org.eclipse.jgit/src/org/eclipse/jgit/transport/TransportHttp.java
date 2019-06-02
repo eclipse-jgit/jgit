@@ -902,7 +902,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					JGitText.get().expectedGot, exp, act));
 		}
 
-		while (pckIn.readString() != PacketLineIn.END) {
+		while (!PacketLineIn.isEnd(pckIn.readString())) {
 			// for now, ignore the remaining header lines
 		}
 	}
