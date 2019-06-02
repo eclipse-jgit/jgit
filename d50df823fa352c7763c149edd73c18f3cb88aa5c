@@ -34,6 +34,41 @@
       "revId": "d50df823fa352c7763c149edd73c18f3cb88aa5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5a62213_698b2979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-02T09:28:06Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "de99956f_79a2cd7d",
+      "revId": "d50df823fa352c7763c149edd73c18f3cb88aa5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b7889e_f3354984",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-02T09:28:06Z",
+      "side": 1,
+      "message": "PacketLineTestin.testReadString_Delim() is using this method and needs to be adapted",
+      "revId": "d50df823fa352c7763c149edd73c18f3cb88aa5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
