@@ -22,6 +22,30 @@
       "revId": "bbb6ec1c7b6c9a0db4b0ef9b9ed17481cb3dd0f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40fff206_dd48bee9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-03T00:07:34Z",
+      "side": 1,
+      "message": "IIUC changes on master will make it into 5.4, so I would change this to 5.4 already.",
+      "parentUuid": "2778c058_7d72f3f3",
+      "range": {
+        "startLine": 246,
+        "startChar": 4,
+        "endLine": 246,
+        "endChar": 14
+      },
+      "revId": "bbb6ec1c7b6c9a0db4b0ef9b9ed17481cb3dd0f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
