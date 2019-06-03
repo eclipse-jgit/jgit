@@ -62,6 +62,7 @@ final class FixUninterestingGenerator extends Generator {
 	private final Generator pending;
 
 	FixUninterestingGenerator(Generator g) {
+		super(g.firstParent);
 		pending = g;
 	}
 

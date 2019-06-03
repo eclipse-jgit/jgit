@@ -48,6 +48,7 @@ class EndGenerator extends Generator {
 
 	private EndGenerator() {
 		// We have nothing to initialize.
+		super(false);
 	}
 
 	@Override
