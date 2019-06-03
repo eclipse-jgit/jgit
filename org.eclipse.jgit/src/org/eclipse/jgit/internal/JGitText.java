@@ -138,6 +138,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotEnterObjectsPath;
 	/***/ public String cannotEnterPathFromParent;
 	/***/ public String cannotExecute;
+	/***/ public String cannotFindMergeBaseUsingFirstParent;
 	/***/ public String cannotGet;
 	/***/ public String cannotGetObjectsPath;
 	/***/ public String cannotListObjectsPath;

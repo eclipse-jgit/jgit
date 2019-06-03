@@ -55,6 +55,7 @@ class BoundaryGenerator extends Generator {
 	Generator g;
 
 	BoundaryGenerator(RevWalk w, Generator s) {
+		super(s.firstParent);
 		g = new InitialGenerator(w, s);
 	}
 
@@ -86,8 +87,9 @@ class BoundaryGenerator extends Generator {
 		private final Generator source;
 
 		InitialGenerator(RevWalk w, Generator s) {
+			super(s.firstParent);
 			walk = w;
-			held = new FIFORevQueue();
+			held = new FIFORevQueue(firstParent);
 			source = s;
 			source.shareFreeList(held);
 		}
@@ -107,13 +109,19 @@ class BoundaryGenerator extends Generator {
 				IncorrectObjectTypeException, IOException {
 			RevCommit c = source.next();
 			if (c != null) {
-				for (RevCommit p : c.parents)
-					if ((p.flags & UNINTERESTING) != 0)
+				for (int i = 0; i < c.parents.length; i++) {
+					if (firstParent && i > 0) {
+						break;
+					}
+					RevCommit p = c.parents[i];
+					if ((p.flags & UNINTERESTING) != 0) {
 						held.add(p);
+					}
+				}
 				return c;
 			}
 
-			final FIFORevQueue boundary = new FIFORevQueue();
+			final FIFORevQueue boundary = new FIFORevQueue(firstParent);
 			boundary.shareFreeList(held);
 			for (;;) {
 				c = held.next();
