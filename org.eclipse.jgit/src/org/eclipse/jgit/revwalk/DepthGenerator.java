@@ -95,7 +95,8 @@ class DepthGenerator extends Generator {
 	 */
 	DepthGenerator(DepthWalk w, Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		pending = new FIFORevQueue();
+		super(s.firstParent);
+		pending = new FIFORevQueue(firstParent);
 		walk = (RevWalk)w;
 
 		this.depth = w.getDepth();
@@ -196,7 +197,11 @@ class DepthGenerator extends Generator {
 
 			int newDepth = c.depth + 1;
 
-			for (RevCommit p : c.parents) {
+			for (int i = 0; i < c.parents.length; i++) {
+				if (firstParent && i > 0) {
+					break;
+				}
+				RevCommit p = c.parents[i];
 				DepthWalk.Commit dp = (DepthWalk.Commit) p;
 
 				// If no depth has been assigned to this commit, assign
