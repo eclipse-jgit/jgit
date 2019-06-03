@@ -69,15 +69,19 @@ public class DateRevQueue extends AbstractRevQueue {
 
 	private int last = -1;
 
-	/**
-	 * Create an empty date queue.
-	 */
+	/** Create an empty date queue. */
 	public DateRevQueue() {
-		super();
+		super(false);
+	}
+
+	DateRevQueue(boolean firstParent) {
+		super(firstParent);
 	}
 
 	DateRevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		super(s.firstParent);
+		outputType = s.outputType();
 		for (;;) {
 			final RevCommit c = s.next();
 			if (c == null)
