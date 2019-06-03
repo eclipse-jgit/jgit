@@ -75,6 +75,12 @@ abstract class Generator {
 	/** Output may have {@link RevWalk#UNINTERESTING} marked on it. */
 	static final int HAS_UNINTERESTING = 1 << 4;
 
+	protected final boolean firstParent;
+
+	protected Generator(boolean firstParent) {
+		this.firstParent = firstParent;
+	}
+
 	/**
 	 * Connect the supplied queue to this generator's own free list (if any).
 	 *
