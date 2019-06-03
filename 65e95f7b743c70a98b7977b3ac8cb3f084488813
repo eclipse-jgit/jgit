@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2b8976c_f42c3c95",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-03T10:26:30Z",
+      "side": 1,
+      "message": "remove this if it\u0027s not needed?",
+      "range": {
+        "startLine": 339,
+        "startChar": 2,
+        "endLine": 339,
+        "endChar": 33
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82cdcf1d_fd766868",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-03T10:26:30Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 385,
+        "startChar": 4,
+        "endLine": 385,
+        "endChar": 29
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806189ef_0e6e955d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-03T10:26:30Z",
+      "side": 1,
+      "message": "does this need to be final?",
+      "range": {
+        "startLine": 1699,
+        "startChar": 16,
+        "endLine": 1699,
+        "endChar": 21
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f2a93c_90e661a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-03T10:26:30Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1701,
+        "startChar": 3,
+        "endLine": 1701,
+        "endChar": 8
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
