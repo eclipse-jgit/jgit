@@ -71,15 +71,21 @@ class TopoSortGenerator extends Generator {
 	 */
 	TopoSortGenerator(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		pending = new FIFORevQueue();
+		super(s.firstParent);
+		pending = new FIFORevQueue(firstParent);
 		outputType = s.outputType() | SORT_TOPO;
 		s.shareFreeList(pending);
 		for (;;) {
 			final RevCommit c = s.next();
-			if (c == null)
+			if (c == null) {
 				break;
-			for (RevCommit p : c.parents)
-				p.inDegree++;
+			}
+			for (int i = 0; i < c.parents.length; i++) {
+				if (firstParent && i > 0) {
+					break;
+				}
+				c.parents[i].inDegree++;
+			}
 			pending.add(c);
 		}
 	}
@@ -113,7 +119,11 @@ class TopoSortGenerator extends Generator {
 			// All of our children have already produced,
 			// so it is OK for us to produce now as well.
 			//
-			for (RevCommit p : c.parents) {
+			for (int i = 0; i < c.parents.length; i++) {
+				if (firstParent && i > 0) {
+					break;
+				}
+				RevCommit p = c.parents[i];
 				if (--p.inDegree == 0 && (p.flags & TOPO_DELAY) != 0) {
 					// This parent tried to come before us, but we are
 					// his last child. unpop the parent so it goes right

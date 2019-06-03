@@ -109,6 +109,7 @@ class PendingGenerator extends Generator {
 
 	PendingGenerator(final RevWalk w, final DateRevQueue p,
 			final RevFilter f, final int out) {
+		super(w.isFirstParent());
 		walker = w;
 		pending = p;
 		filter = f;
@@ -140,11 +141,17 @@ class PendingGenerator extends Generator {
 					produce = filter.include(walker, c);
 				}
 
-				for (RevCommit p : c.parents) {
-					if ((p.flags & SEEN) != 0)
-						continue;
-					if ((p.flags & PARSED) == 0)
+				for (int i = 0; i < c.parents.length; i++) {
+					if (firstParent && i > 0) {
+						break;
+					}
+					RevCommit p = c.parents[i];
+					if ((p.flags & PARSED) == 0) {
 						p.parseHeaders(walker);
+					}
+					if ((p.flags & SEEN) != 0) {
+						continue;
+					}
 					p.flags |= SEEN;
 					pending.add(p);
 				}
