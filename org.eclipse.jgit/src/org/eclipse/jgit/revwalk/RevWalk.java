@@ -200,6 +200,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private boolean rewriteParents = true;
 
+	private boolean firstParent;
+
 	boolean shallowCommitsInitialized;
 
 	/**
@@ -232,7 +234,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdOwnerMap<>();
 		roots = new ArrayList<>();
-		queue = new DateRevQueue();
+		queue = new DateRevQueue(false);
 		pending = new StartGenerator(this);
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
@@ -658,6 +660,33 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public void setRetainBody(boolean retain) {
 		retainBody = retain;
+	}
+
+	/**
+	 * @return whether only first-parent links should be followed when walking.
+	 * @since 5.4
+	 */
+	public boolean isFirstParent() {
+		return firstParent;
+	}
+
+	/**
+	 * Set whether or not only first parent links should be followed.
+	 * <p>
+	 * If set, second- and higher-parent links are not traversed at all.
+	 * <p>
+	 * This must be called prior to {@link #markStart(RevCommit)}.
+	 *
+	 * @param enable
+	 *            true to walk only first-parent links.
+	 * @since 5.4
+	 */
+	public void setFirstParent(boolean enable) {
+		assertNotStarted();
+		assertNoCommitsMarkedStart();
+		firstParent = enable;
+		queue = new DateRevQueue(firstParent);
+		pending = new StartGenerator(this);
 	}
 
 	/**
@@ -1292,7 +1321,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * Unlike {@link #dispose()} previously acquired RevObject (and RevCommit)
 	 * instances are not invalidated. RevFlag instances are not invalidated, but
-	 * are removed from all RevObjects.
+	 * are removed from all RevObjects. The value of {@code firstParent} is
+	 * retained.
 	 *
 	 * @param retainFlags
 	 *            application flags that should <b>not</b> be cleared from
@@ -1328,7 +1358,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 
 		roots.clear();
-		queue = new DateRevQueue();
+		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 	}
 
@@ -1346,9 +1376,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		delayFreeFlags = 0;
 		retainOnReset = 0;
 		carryFlags = UNINTERESTING;
+		firstParent = false;
 		objects.clear();
 		roots.clear();
-		queue = new DateRevQueue();
+		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
 	}
@@ -1418,6 +1449,19 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		if (isNotStarted())
 			return;
 		throw new IllegalStateException(JGitText.get().outputHasAlreadyBeenStarted);
+	}
+
+	/**
+	 * Throws an exception if any commits have been marked as start.
+	 * <p>
+	 * If {@link #markStart(RevCommit)} has already been called,
+	 * {@link #reset()} can be called to satisfy this condition.
+	 */
+	protected void assertNoCommitsMarkedStart() {
+		if (roots.isEmpty())
+			return;
+		throw new IllegalStateException(
+				JGitText.get().commitsHaveAlreadyBeenMarkedAsStart);
 	}
 
 	private boolean isNotStarted() {
