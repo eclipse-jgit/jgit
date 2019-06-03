@@ -138,6 +138,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotEnterObjectsPath;
 	/***/ public String cannotEnterPathFromParent;
 	/***/ public String cannotExecute;
+	/***/ public String cannotFindMergeBaseUsingFirstParent;
 	/***/ public String cannotGet;
 	/***/ public String cannotGetObjectsPath;
 	/***/ public String cannotListObjectsPath;
@@ -195,6 +196,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String commitAmendOnInitialNotPossible;
+	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
