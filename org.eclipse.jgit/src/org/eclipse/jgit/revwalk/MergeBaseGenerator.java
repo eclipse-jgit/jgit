@@ -85,8 +85,9 @@ class MergeBaseGenerator extends Generator {
 	private CarryStack stack;
 
 	MergeBaseGenerator(RevWalk w) {
+		super(w.isFirstParent());
 		walker = w;
-		pending = new DateRevQueue();
+		pending = new DateRevQueue(firstParent);
 	}
 
 	void init(AbstractRevQueue p) throws IOException {

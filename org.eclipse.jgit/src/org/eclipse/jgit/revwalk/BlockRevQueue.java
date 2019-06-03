@@ -53,13 +53,19 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 
 	/**
 	 * Create an empty revision queue.
+	 *
+	 * @param firstParent
+	 *            whether only first-parent links should be followed when
+	 *            walking
 	 */
-	protected BlockRevQueue() {
+	protected BlockRevQueue(boolean firstParent) {
+		super(firstParent);
 		free = new BlockFreeList();
 	}
 
 	BlockRevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		super(s.firstParent);
 		free = new BlockFreeList();
 		outputType = s.outputType();
 		s.shareFreeList(this);

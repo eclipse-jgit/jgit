@@ -47,7 +47,7 @@ class EndGenerator extends Generator {
 	static final EndGenerator INSTANCE = new EndGenerator();
 
 	private EndGenerator() {
-		// We have nothing to initialize.
+		super(false);
 	}
 
 	@Override
