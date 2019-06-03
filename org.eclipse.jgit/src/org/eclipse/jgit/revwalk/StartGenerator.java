@@ -67,6 +67,7 @@ class StartGenerator extends Generator {
 	private final RevWalk walker;
 
 	StartGenerator(RevWalk w) {
+		super(w.isFirstParent());
 		walker = w;
 	}
 
@@ -89,9 +90,14 @@ class StartGenerator extends Generator {
 			// Computing for merge bases is a special case and does not
 			// use the bulk of the generator pipeline.
 			//
-			if (tf != TreeFilter.ALL)
+			if (tf != TreeFilter.ALL) {
 				throw new IllegalStateException(MessageFormat.format(
 						JGitText.get().cannotCombineTreeFilterWithRevFilter, tf, rf));
+			}
+			if (w.isFirstParent()) {
+				throw new IllegalStateException(
+						JGitText.get().cannotFindMergeBaseUsingFirstParent);
+			}
 
 			final MergeBaseGenerator mbg = new MergeBaseGenerator(w);
 			walker.pending = mbg;
