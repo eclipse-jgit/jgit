@@ -1,7 +1,7 @@
-target "R20190531194818-2019-06" with source configurePhase
+target "R20190602212107-2019-06" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/R20190531194818/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20190602212107/repository" {
 	org.apache.ant [1.10.5.v20190526-1402,1.10.5.v20190526-1402]
 	org.apache.ant.source [1.10.5.v20190526-1402,1.10.5.v20190526-1402]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
@@ -16,12 +16,12 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R201905311948
 	org.apache.httpcomponents.httpcore.source [4.4.10.v20190123-2214,4.4.10.v20190123-2214]
 	org.apache.log4j [1.2.15.v201012070815,1.2.15.v201012070815]
 	org.apache.log4j.source [1.2.15.v201012070815,1.2.15.v201012070815]
-	org.bouncycastle.bcpg [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
-	org.bouncycastle.bcpg.source [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
-	org.bouncycastle.bcpkix [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
-	org.bouncycastle.bcpkix.source [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
-	org.bouncycastle.bcprov [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
-	org.bouncycastle.bcprov.source [1.61.0.v20190530-2038,1.61.0.v20190530-2038]
+	org.bouncycastle.bcpg [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
+	org.bouncycastle.bcpg.source [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
+	org.bouncycastle.bcpkix [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
+	org.bouncycastle.bcpkix.source [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
+	org.bouncycastle.bcprov [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
+	org.bouncycastle.bcprov.source [1.61.0.v20190602-1335,1.61.0.v20190602-1335]
 	org.kohsuke.args4j [2.33.0.v20160323-2218,2.33.0.v20160323-2218]
 	org.kohsuke.args4j.source [2.33.0.v20160323-2218,2.33.0.v20160323-2218]
 	org.hamcrest [1.1.0.v20090501071000,1.1.0.v20090501071000]
