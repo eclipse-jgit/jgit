@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "579dbc5b_552c0d08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T23:48:26Z",
+      "side": 1,
+      "message": "Can we find a better name ? DfsRepository does not have a path hence this looks like a bad abstraction.\n\nHow about getIdentifier() ?",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0672220_49fd8ff4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T23:48:26Z",
+      "side": 1,
+      "message": "DfsRepositoryBuild.setup() sets the repository name to null if no description was set by the setDescription builder method.\n\nI think this smells, if description.name defines the identity of the repository it should be mandatory.\n\nWhat\u0027s the purpose of a DfsRepository not having a name ? ServletUtil.identify() then replaces the null name by \"unknown\".\n\nBaseRepositoryBuilder defines a couple of methods which don\u0027t make sense for DfsRepositoryBuilder where they through IllegalArgumentException or UnsupportedOperationException. This looks like a mess which we should cleanup.",
+      "range": {
+        "startLine": 130,
+        "startChar": 26,
+        "endLine": 130,
+        "endChar": 43
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79617586_4ceec567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T23:48:26Z",
+      "side": 1,
+      "message": "I think FileRepositoryBuilder should ensure that always a gitDir is set. The setGitDir method should be moved down from BaseRepositoryBuilder to FileRepositoryBuilder since gitDir doesn\u0027t make sense for DfsRepository, same with setObjectDirectory, addAlternateObjectDirectory, setWorkTree and setIndexFile which all don\u0027t make sense for DfsRepository",
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
