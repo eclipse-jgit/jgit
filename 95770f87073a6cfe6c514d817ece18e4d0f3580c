@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b669cd9d_3a196cd2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "32 is a space \u0027 \u0027 and 126 is a tilde \u0027~\u0027",
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78fde1a6_26bea5b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "modification",
+      "range": {
+        "startLine": 172,
+        "startChar": 23,
+        "endLine": 172,
+        "endChar": 36
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18115cef_d82d0a0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "Detect",
+      "range": {
+        "startLine": 174,
+        "startChar": 17,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2dcbf9_d612f769",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "Although",
+      "range": {
+        "startLine": 174,
+        "startChar": 36,
+        "endLine": 174,
+        "endChar": 45
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d0c06_2b9cb130",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "don\u0027t use",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 26
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "293ff295_61a3279f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "modification",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 18
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74e530ad_fe5f39e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "Although",
+      "range": {
+        "startLine": 229,
+        "startChar": 36,
+        "endLine": 229,
+        "endChar": 45
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df508d_eba47155",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "Detect",
+      "range": {
+        "startLine": 229,
+        "startChar": 17,
+        "endLine": 229,
+        "endChar": 24
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67cd38e9_2b47de0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "differently",
+      "range": {
+        "startLine": 322,
+        "startChar": 21,
+        "endLine": 322,
+        "endChar": 30
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0072309_c9529bd8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:34:35Z",
+      "side": 1,
+      "message": "remove dead code",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 5
+      },
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
