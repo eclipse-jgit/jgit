@@ -93,6 +93,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Git version 2 pack file representation. A pack file contains Git objects in
@@ -100,6 +102,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * objects are similar.
  */
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
+	private final static Logger LOG = LoggerFactory.getLogger(PackFile.class);
 	/** Sorts PackFiles to be most recently created to least recently created. */
 	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
 		@Override
@@ -189,7 +192,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 						throw new PackInvalidException(packFile, invalidatingCause);
 					}
 					try {
+						long start = System.currentTimeMillis();
 						idx = PackIndex.open(extFile(INDEX));
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format(
+									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+									extFile(INDEX).getAbsolutePath(),
+									Float.valueOf(extFile(INDEX).length()
+											/ (1024f * 1024)),
+									Long.valueOf(System.currentTimeMillis()
+											- start)));
+						}
 
 						if (packChecksum == null) {
 							packChecksum = idx.packChecksum;
