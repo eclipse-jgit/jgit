@@ -349,7 +349,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * younger modification timestamp than the modification timestamp of the
 	 * given file. This is done by touching a temporary file, reading the
 	 * lastmodified attribute and, if needed, sleeping. After sleeping this loop
-	 * starts again until the filesystem timer has advanced enough.
+	 * starts again until the filesystem timer has advanced enough. The
+	 * temporary file will be created as a sibling of lastFile.
 	 *
 	 * @param lastFile
 	 *            the file on which we want to wait until the filesystem timer
@@ -362,18 +363,25 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	public static long fsTick(File lastFile) throws InterruptedException,
 			IOException {
-		long sleepTime = 64;
+		File tmp;
 		FS fs = FS.DETECTED;
-		if (lastFile != null && !fs.exists(lastFile))
-			throw new FileNotFoundException(lastFile.getPath());
-		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null);
+		if (lastFile == null) {
+			lastFile = tmp = File
+					.createTempFile("fsTickTmpFile", null);
+		} else {
+			if (!fs.exists(lastFile)) {
+				throw new FileNotFoundException(lastFile.getPath());
+			}
+			tmp = File.createTempFile("fsTickTmpFile", null,
+					lastFile.getParentFile());
+		}
+		long res = FS.getFsTimerResolution(tmp.toPath()).toMillis();
+		long sleepTime = res / 10;
 		try {
-			long startTime = (lastFile == null) ? fs.lastModified(tmp) : fs
-					.lastModified(lastFile);
+			long startTime = fs.lastModified(lastFile);
 			long actTime = fs.lastModified(tmp);
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
-				sleepTime *= 2;
 				FileUtils.touch(tmp.toPath());
 				actTime = fs.lastModified(tmp);
 			}
