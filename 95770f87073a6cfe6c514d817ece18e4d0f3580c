@@ -223,6 +223,23 @@
       "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e08f67f_2a673b1c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileSnapshotTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T14:37:00Z",
+      "side": 1,
+      "message": "this fails on Jenkins with the error\n\njava.lang.IllegalArgumentException: timeout value is negative\n\tat org.eclipse.jgit.internal.storage.file.PackFileSnapshotTest.waitForTimerTick(PackFileSnapshotTest.java:348)\n\tat org.eclipse.jgit.internal.storage.file.PackFileSnapshotTest.testDetetctModificationAlthoughtSameSizeAndModificationtimeAndFileKey(PackFileSnapshotTest.java:267)",
+      "revId": "95770f87073a6cfe6c514d817ece18e4d0f3580c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
