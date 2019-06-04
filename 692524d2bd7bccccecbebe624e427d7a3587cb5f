@@ -22,6 +22,30 @@
       "revId": "692524d2bd7bccccecbebe624e427d7a3587cb5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbe3315e_f604482f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BlockRevQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 0,
+      "message": "Put it back. I\u0027m not sure what the rule of thumb is for javadocs yet and was going off of https://git.eclipse.org/r/#/c/52806/",
+      "parentUuid": "b800fef5_2b6d7dc4",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 4
+      },
+      "revId": "692524d2bd7bccccecbebe624e427d7a3587cb5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

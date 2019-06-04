@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c457a6d8_ad11cae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed288a08_987bfb7a",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 25
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c1afd4d_77605f88",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-04T00:31:46Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 25
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a08f401c_13bd2b84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c1afd4d_77605f88",
       "range": {
         "startLine": 4,
         "startChar": 12,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c4875d65_25422c71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/EndGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3970f75c_186d4cba",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f34021be_119189a8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2019-06-04T00:31:46Z",
       "side": 1,
       "message": "5.4",
+      "range": {
+        "startLine": 667,
+        "startChar": 11,
+        "endLine": 667,
+        "endChar": 14
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2cf541f_24720a8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f34021be_119189a8",
       "range": {
         "startLine": 667,
         "startChar": 11,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2d602516_47047d00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fc2e945_12438bdb",
+      "range": {
+        "startLine": 680,
+        "startChar": 11,
+        "endLine": 680,
+        "endChar": 14
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a61c0aa_3f384ef3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "331e4bf4_cc58f27a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a61c0aa_3f384ef3",
+      "range": {
+        "startLine": 682,
+        "startChar": 28,
+        "endLine": 682,
+        "endChar": 33
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99224e9e_15be1a4f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2019-06-04T00:31:46Z",
       "side": 1,
       "message": "this can be inlined at L685",
+      "range": {
+        "startLine": 684,
+        "startChar": 2,
+        "endLine": 684,
+        "endChar": 23
+      },
+      "revId": "324061c354074bf93a8f257c450642ae35e74889",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a13ab35_e330f9b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-04T15:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99224e9e_15be1a4f",
       "range": {
         "startLine": 684,
         "startChar": 2,
