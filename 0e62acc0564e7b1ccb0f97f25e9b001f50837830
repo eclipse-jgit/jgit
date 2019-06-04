@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67d9e531_3ea1f2d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T16:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89141a1_69f9ec90",
+      "range": {
+        "startLine": 771,
+        "startChar": 16,
+        "endLine": 771,
+        "endChar": 39
+      },
+      "revId": "0e62acc0564e7b1ccb0f97f25e9b001f50837830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d4164eb_767eec59",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 18
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "cda9c7a6_b19f559d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T16:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d4164eb_767eec59",
+      "range": {
+        "startLine": 788,
+        "startChar": 16,
+        "endLine": 788,
+        "endChar": 39
+      },
+      "revId": "0e62acc0564e7b1ccb0f97f25e9b001f50837830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d46ef4a0_57fc8251",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 18
@@ -59,6 +107,30 @@
       "writtenOn": "2019-06-04T15:58:04Z",
       "side": 1,
       "message": "waitPreventRacyPack",
+      "range": {
+        "startLine": 797,
+        "startChar": 11,
+        "endLine": 797,
+        "endChar": 32
+      },
+      "revId": "0e62acc0564e7b1ccb0f97f25e9b001f50837830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "124996f2_7ee2e0df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-04T16:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d46ef4a0_57fc8251",
       "range": {
         "startLine": 797,
         "startChar": 11,
