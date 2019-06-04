@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b800fef5_2b6d7dc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BlockRevQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-04T00:31:46Z",
+      "side": 0,
+      "message": "Why is the javadoc removed?",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 4
+      },
+      "revId": "692524d2bd7bccccecbebe624e427d7a3587cb5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
