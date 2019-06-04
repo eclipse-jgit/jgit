@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24ccc2c1_83dc5414",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1872,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-04T17:10:16Z",
+      "side": 1,
+      "message": "Sidestepped this issue by making the caller of this method close the walker instead.",
+      "parentUuid": "7ca7c221_3db0f1f6",
+      "range": {
+        "startLine": 1872,
+        "startChar": 4,
+        "endLine": 1872,
+        "endChar": 20
+      },
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e40fbb3c_9eb63c4f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3aee87f8_7778285b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1876,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-04T17:10:16Z",
+      "side": 1,
+      "message": "OK. Also moved this line to the caller, to make it clear in the caller what is happening (don\u0027t use the RevWalk anymore).",
+      "parentUuid": "e40fbb3c_9eb63c4f",
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "386d3254_5227f139",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2019-05-24T23:01:03Z",
       "side": 1,
       "message": "Can this loop be replaced with\n\n o \u003d walk.peel(o);\n\n?",
+      "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c20d163_6e6ebd7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1887,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-04T17:10:16Z",
+      "side": 1,
+      "message": "Thanks for the pointer. Done.",
+      "parentUuid": "386d3254_5227f139",
       "revId": "cbcbcabc7cc34711669c9ce57e713fd0cb571624",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
