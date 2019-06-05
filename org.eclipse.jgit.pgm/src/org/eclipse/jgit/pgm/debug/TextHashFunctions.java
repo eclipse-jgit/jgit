@@ -68,6 +68,7 @@ import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FSRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.NB;
@@ -272,7 +273,7 @@ class TextHashFunctions extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (gitDirs.isEmpty()) {
-			RepositoryBuilder rb = new RepositoryBuilder() //
+			FSRepositoryBuilder rb = new RepositoryBuilder() //
 					.setGitDir(new File(gitdir)) //
 					.readEnvironment() //
 					.findGitDir();

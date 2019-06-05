@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2019, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,31 +40,120 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.storage.file;
 
-package org.eclipse.jgit.lib;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BARE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WORKTREE;
+import static org.eclipse.jgit.lib.Constants.DOT_GIT;
+import static org.eclipse.jgit.lib.Constants.GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY;
+import static org.eclipse.jgit.lib.Constants.GIT_CEILING_DIRECTORIES_KEY;
+import static org.eclipse.jgit.lib.Constants.GIT_DIR_KEY;
+import static org.eclipse.jgit.lib.Constants.GIT_INDEX_FILE_KEY;
+import static org.eclipse.jgit.lib.Constants.GIT_OBJECT_DIRECTORY_KEY;
+import static org.eclipse.jgit.lib.Constants.GIT_WORK_TREE_KEY;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.BaseRepositoryBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * Base builder to customize repository construction.
+ * Constructs a {@link org.eclipse.jgit.internal.storage.file.FileRepository}. *
  * <p>
- * Repository implementations may subclass this builder in order to add custom
- * repository detection methods.
+ * Applications must set one of {@link #setGitDir(File)} or
+ * {@link #setWorkTree(File)}, or use {@link #readEnvironment()} or
+ * {@link #findGitDir()} in order to configure the minimum property set
+ * necessary to open a repository.
+ * <p>
+ * Single repository applications trying to be compatible with other Git
+ * implementations are encouraged to use a model such as:
+ *
+ * <pre>
+ * new RepositoryBuilder() //
+ * 		.setGitDir(gitDirArgument) // --git-dir if supplied, no-op if null
+ * 		.readEnviroment() // scan environment GIT_* variables
+ * 		.findGitDir() // scan up the file system tree
+ * 		.build()
+ * </pre>
+ *
+ * @see org.eclipse.jgit.storage.file.FileRepositoryBuilder
  *
  * @param <B>
- *            type of the repository builder.
+ *            type of the builder class.
  * @param <R>
- *            type of the repository that is constructed.
- * @see RepositoryBuilder
- * @see FileRepositoryBuilder
+ *            type of the repository class.
+ * @since 5.4
  */
-public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Repository> {
+public abstract class FSRepositoryBuilder<B extends FSRepositoryBuilder, R extends Repository>
+		extends BaseRepositoryBuilder<B, R> {
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
+	}
+
+	private static File getSymRef(File workTree, File dotGit, FS fs)
+			throws IOException {
+		byte[] content = IO.readFully(dotGit);
+		if (!isSymRef(content))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		int pathStart = 8;
+		int lineEnd = RawParseUtils.nextLF(content, pathStart);
+		while (content[lineEnd - 1] == '\n' || (content[lineEnd - 1] == '\r'
+				&& SystemReader.getInstance().isWindows()))
+			lineEnd--;
+		if (lineEnd == pathStart)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
+		File gitdirFile = fs.resolve(workTree, gitdirPath);
+		if (gitdirFile.isAbsolute())
+			return gitdirFile;
+		else
+			return new File(workTree, gitdirPath).getCanonicalFile();
+	}
+
+	private FS fs;
+
+	private File gitDir;
+
+	private File objectDirectory;
+
+	private List<File> alternateObjectDirectories;
+
+	private File indexFile;
+
+	private File workTree;
+
+	/** Directories limiting the search for a Git repository. */
+	private List<File> ceilingDirectories;
 
 	/** True only if the caller wants to force bare behavior. */
 	private boolean bare;
@@ -72,19 +161,16 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	/** True if the caller requires the repository to exist. */
 	private boolean mustExist;
 
-	/** Configuration file of target repository, lazily loaded if required. */
-	private Config config;
-
 	/**
 	 * Set the file system abstraction needed by this repository.
 	 *
 	 * @param fs
 	 *            the abstraction.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B setFS(FS fs) {
+		this.fs = fs;
 		return self();
 	}
 
@@ -92,11 +178,10 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * Get the file system abstraction, or null if not set.
 	 *
 	 * @return the file system abstraction, or null if not set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public FS getFS() {
-		return null;
+		return fs;
 	}
 
 	/**
@@ -109,10 +194,11 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param gitDir
 	 *            {@code GIT_DIR}, the repository meta directory.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B setGitDir(File gitDir) {
+		this.gitDir = gitDir;
+		setConfig(null);
 		return self();
 	}
 
@@ -120,11 +206,10 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * Get the meta data directory; null if not set.
 	 *
 	 * @return the meta data directory; null if not set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public File getGitDir() {
-		return null;
+		return gitDir;
 	}
 
 	/**
@@ -134,10 +219,10 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            {@code GIT_OBJECT_DIRECTORY}, the directory where the
 	 *            repository's object files are stored.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B setObjectDirectory(File objectDirectory) {
+		this.objectDirectory = objectDirectory;
 		return self();
 	}
 
@@ -145,11 +230,10 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * Get the object directory; null if not set.
 	 *
 	 * @return the object directory; null if not set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public File getObjectDirectory() {
-		return null;
+		return objectDirectory;
 	}
 
 	/**
@@ -161,10 +245,14 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param other
 	 *            another objects directory to search after the standard one.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addAlternateObjectDirectory(File other) {
+		if (other != null) {
+			if (alternateObjectDirectories == null)
+				alternateObjectDirectories = new LinkedList<>();
+			alternateObjectDirectories.add(other);
+		}
 		return self();
 	}
 
@@ -178,10 +266,13 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            other object directories to search after the standard one. The
 	 *            collection's contents is copied to an internal list.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addAlternateObjectDirectories(Collection<File> inList) {
+		if (inList != null) {
+			for (File path : inList)
+				addAlternateObjectDirectory(path);
+		}
 		return self();
 	}
 
@@ -195,10 +286,13 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            other object directories to search after the standard one. The
 	 *            array's contents is copied to an internal list.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addAlternateObjectDirectories(File[] inList) {
+		if (inList != null) {
+			for (File path : inList)
+				addAlternateObjectDirectory(path);
+		}
 		return self();
 	}
 
@@ -206,11 +300,13 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * Get ordered array of alternate directories; null if non were set.
 	 *
 	 * @return ordered array of alternate directories; null if non were set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public File[] getAlternateObjectDirectories() {
-		return new File[0];
+		final List<File> alts = alternateObjectDirectories;
+		if (alts == null)
+			return null;
+		return alts.toArray(new File[0]);
 	}
 
 	/**
@@ -221,8 +317,11 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *
 	 * @return {@code this} (for chaining calls).
 	 */
+	@Override
 	public B setBare() {
-		bare = true;
+		super.setBare();
+		setIndexFile(null);
+		setWorkTree(null);
 		return self();
 	}
 
@@ -231,6 +330,7 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *
 	 * @return true if this repository was forced bare by {@link #setBare()}.
 	 */
+	@Override
 	public boolean isBare() {
 		return bare;
 	}
@@ -243,6 +343,7 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            after being built.
 	 * @return {@code this} (for chaining calls).
 	 */
+	@Override
 	public B setMustExist(boolean mustExist) {
 		this.mustExist = mustExist;
 		return self();
@@ -253,6 +354,7 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *
 	 * @return true if the repository must exist before being opened.
 	 */
+	@Override
 	public boolean isMustExist() {
 		return mustExist;
 	}
@@ -263,22 +365,21 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param workTree
 	 *            {@code GIT_WORK_TREE}, the working directory of the checkout.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B setWorkTree(File workTree) {
-		throw new UnsupportedOperationException();
+		this.workTree = workTree;
+		return self();
 	}
 
 	/**
 	 * Get the work tree directory, or null if not set.
 	 *
 	 * @return the work tree directory, or null if not set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public File getWorkTree() {
-		return null;
+		return workTree;
 	}
 
 	/**
@@ -291,22 +392,21 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param indexFile
 	 *            {@code GIT_INDEX_FILE}, the index file location.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B setIndexFile(File indexFile) {
-		throw new UnsupportedOperationException();
+		this.indexFile = indexFile;
+		return self();
 	}
 
 	/**
 	 * Get the index file location, or null if not set.
 	 *
 	 * @return the index file location, or null if not set.
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public File getIndexFile() {
-		return null;
+		return indexFile;
 	}
 
 	/**
@@ -319,6 +419,7 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *
 	 * @return {@code this} (for chaining calls).
 	 */
+	@Override
 	public B readEnvironment() {
 		return readEnvironment(SystemReader.getInstance());
 	}
@@ -335,7 +436,48 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            the SystemReader abstraction to access the environment.
 	 * @return {@code this} (for chaining calls).
 	 */
+	@Override
 	public B readEnvironment(SystemReader sr) {
+		if (getGitDir() == null) {
+			String val = sr.getenv(GIT_DIR_KEY);
+			if (val != null)
+				setGitDir(new File(val));
+		}
+
+		if (getObjectDirectory() == null) {
+			String val = sr.getenv(GIT_OBJECT_DIRECTORY_KEY);
+			if (val != null)
+				setObjectDirectory(new File(val));
+		}
+
+		if (getAlternateObjectDirectories() == null) {
+			String val = sr.getenv(GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY);
+			if (val != null) {
+				for (String path : val.split(File.pathSeparator))
+					addAlternateObjectDirectory(new File(path));
+			}
+		}
+
+		if (getWorkTree() == null) {
+			String val = sr.getenv(GIT_WORK_TREE_KEY);
+			if (val != null)
+				setWorkTree(new File(val));
+		}
+
+		if (getIndexFile() == null) {
+			String val = sr.getenv(GIT_INDEX_FILE_KEY);
+			if (val != null)
+				setIndexFile(new File(val));
+		}
+
+		if (ceilingDirectories == null) {
+			String val = sr.getenv(GIT_CEILING_DIRECTORIES_KEY);
+			if (val != null) {
+				for (String path : val.split(File.pathSeparator))
+					addCeilingDirectory(new File(path));
+			}
+		}
+
 		return self();
 	}
 
@@ -348,12 +490,15 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param root
 	 *            a path to stop searching at; its parent will not be searched.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addCeilingDirectory(File root) {
-		throw new UnsupportedOperationException();
-
+		if (root != null) {
+			if (ceilingDirectories == null)
+				ceilingDirectories = new LinkedList<>();
+			ceilingDirectories.add(root);
+		}
+		return self();
 	}
 
 	/**
@@ -366,12 +511,14 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            directory paths to stop searching at. The collection's
 	 *            contents is copied to an internal list.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addCeilingDirectories(Collection<File> inList) {
-		throw new UnsupportedOperationException();
-
+		if (inList != null) {
+			for (File path : inList)
+				addCeilingDirectory(path);
+		}
+		return self();
 	}
 
 	/**
@@ -384,11 +531,14 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *            directory paths to stop searching at. The array's contents is
 	 *            copied to an internal list.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B addCeilingDirectories(File[] inList) {
-		throw new UnsupportedOperationException();
+		if (inList != null) {
+			for (File path : inList)
+				addCeilingDirectory(path);
+		}
+		return self();
 	}
 
 	/**
@@ -403,11 +553,12 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * prior call to {@link #readEnvironment()}.
 	 *
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B findGitDir() {
-		throw new UnsupportedOperationException();
+		if (getGitDir() == null)
+			findGitDir(new File("").getAbsoluteFile()); //$NON-NLS-1$
+		return self();
 	}
 
 	/**
@@ -424,11 +575,35 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @param current
 	 *            directory to begin searching in.
 	 * @return {@code this} (for chaining calls).
-	 * @deprecated use FSRepositoryBuilder instead
 	 */
-	@Deprecated
+	@Override
 	public B findGitDir(File current) {
-		throw new UnsupportedOperationException();
+		if (getGitDir() == null) {
+			FS tryFS = safeFS();
+			while (current != null) {
+				File dir = new File(current, DOT_GIT);
+				if (FileKey.isGitRepository(dir, tryFS)) {
+					setGitDir(dir);
+					break;
+				} else if (dir.isFile()) {
+					try {
+						setGitDir(getSymRef(current, dir, tryFS));
+						break;
+					} catch (IOException ignored) {
+						// Continue searching if gitdir ref isn't found
+					}
+				} else if (FileKey.isGitRepository(current, tryFS)) {
+					setGitDir(current);
+					break;
+				}
+
+				current = current.getParentFile();
+				if (current != null && ceilingDirectories != null
+						&& ceilingDirectories.contains(current))
+					break;
+			}
+		}
+		return self();
 	}
 
 	/**
@@ -446,7 +621,12 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
 	 */
+	@Override
 	public B setup() throws IllegalArgumentException, IOException {
+		requireGitDirOrWorkTree();
+		setupGitDir();
+		setupWorkTree();
+		setupInternals();
 		return self();
 	}
 
@@ -465,31 +645,84 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @throws java.io.IOException
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
-	 */
-	public abstract R build() throws IOException;
-
-	/**
-	 * Get the cached repository configuration, loading if not yet available.
 	 *
-	 * @return the configuration of the repository.
-	 * @throws java.io.IOException
-	 *             the configuration is not available, or is badly formed.
 	 */
-	protected Config getConfig() throws IOException {
-		if (config == null)
-			config = loadConfig();
-		return config;
+	@Override
+	@SuppressWarnings({ "unchecked", "resource" })
+	public R build() throws IOException {
+		R repo = (R) new FileRepository(setup());
+		if (isMustExist() && !repo.getObjectDatabase().exists())
+			throw new RepositoryNotFoundException(getGitDir());
+		return repo;
 	}
 
 	/**
-	 * Set the repository configuration
-	 *
-	 * @param config
-	 *            the configuration
-	 * @since 5.4
+	 * Require either {@code gitDir} or {@code workTree} to be set.
 	 */
-	protected void setConfig(Config config) {
-		this.config = config;
+	protected void requireGitDirOrWorkTree() {
+		if (getGitDir() == null && getWorkTree() == null)
+			throw new IllegalArgumentException(
+					JGitText.get().eitherGitDirOrWorkTreeRequired);
+	}
+
+	/**
+	 * Perform standard gitDir initialization.
+	 *
+	 * @throws java.io.IOException
+	 *             the repository could not be accessed
+	 */
+	protected void setupGitDir() throws IOException {
+		// No gitDir? Try to assume its under the workTree or a ref to another
+		// location
+		if (getGitDir() == null && getWorkTree() != null) {
+			File dotGit = new File(getWorkTree(), DOT_GIT);
+			if (!dotGit.isFile())
+				setGitDir(dotGit);
+			else
+				setGitDir(getSymRef(getWorkTree(), dotGit, safeFS()));
+		}
+	}
+
+	/**
+	 * Perform standard work-tree initialization.
+	 * <p>
+	 * This is a method typically invoked inside of {@link #setup()}, near the
+	 * end after the repository has been identified and its configuration is
+	 * available for inspection.
+	 *
+	 * @throws java.io.IOException
+	 *             the repository configuration could not be read.
+	 */
+	protected void setupWorkTree() throws IOException {
+		if (getFS() == null)
+			setFS(FS.DETECTED);
+
+		// If we aren't bare, we should have a work tree.
+		//
+		if (!isBare() && getWorkTree() == null)
+			setWorkTree(guessWorkTreeOrFail());
+
+		if (!isBare()) {
+			// If after guessing we're still not bare, we must have
+			// a metadata directory to hold the repository. Assume
+			// its at the work tree.
+			//
+			if (getGitDir() == null)
+				setGitDir(getWorkTree().getParentFile());
+			if (getIndexFile() == null)
+				setIndexFile(new File(getGitDir(), "index")); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Configure the internal implementation details of the repository.
+	 *
+	 * @throws java.io.IOException
+	 *             the repository could not be accessed
+	 */
+	protected void setupInternals() throws IOException {
+		if (getObjectDirectory() == null && getGitDir() != null)
+			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
 	}
 
 	/**
@@ -502,17 +735,68 @@ public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R e
 	 * @throws java.io.IOException
 	 *             the configuration is not available.
 	 */
+	@Override
 	protected Config loadConfig() throws IOException {
-		return new Config();
+		if (getGitDir() != null) {
+			// We only want the repository's configuration file, and not
+			// the user file, as these parameters must be unique to this
+			// repository and not inherited from other files.
+			//
+			File path = safeFS().resolve(getGitDir(), Constants.CONFIG);
+			FileBasedConfig cfg = new FileBasedConfig(path, safeFS());
+			try {
+				cfg.load();
+			} catch (ConfigInvalidException err) {
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().repositoryConfigFileInvalid,
+						path.getAbsolutePath(), err.getMessage()));
+			}
+			return cfg;
+		} else {
+			return new Config();
+		}
+	}
+
+	private File guessWorkTreeOrFail() throws IOException {
+		final Config cfg = getConfig();
+
+		// If set, core.worktree wins.
+		//
+		String path = cfg.getString(CONFIG_CORE_SECTION, null,
+				CONFIG_KEY_WORKTREE);
+		if (path != null)
+			return safeFS().resolve(getGitDir(), path).getCanonicalFile();
+
+		// If core.bare is set, honor its value. Assume workTree is
+		// the parent directory of the repository.
+		//
+		if (cfg.getString(CONFIG_CORE_SECTION, null, CONFIG_KEY_BARE) != null) {
+			if (cfg.getBoolean(CONFIG_CORE_SECTION, CONFIG_KEY_BARE, true)) {
+				setBare();
+				return null;
+			}
+			return getGitDir().getParentFile();
+		}
+
+		if (getGitDir().getName().equals(DOT_GIT)) {
+			// No value for the "bare" flag, but gitDir is named ".git",
+			// use the parent of the directory
+			//
+			return getGitDir().getParentFile();
+		}
+
+		// We have to assume we are bare.
+		//
+		setBare();
+		return null;
 	}
 
 	/**
-	 * Get this object
+	 * Get the configured FS, or {@link FS#DETECTED}.
 	 *
-	 * @return {@code this}
+	 * @return the configured FS, or {@link FS#DETECTED}.
 	 */
-	@SuppressWarnings("unchecked")
-	protected final B self() {
-		return (B) this;
+	protected FS safeFS() {
+		return getFS() != null ? getFS() : FS.DETECTED;
 	}
 }

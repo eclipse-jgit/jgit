@@ -74,6 +74,7 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FSRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
@@ -143,7 +144,7 @@ class DiffAlgorithms extends TextBuiltin {
 			throw die("Current thread CPU time not supported on this JRE"); //$NON-NLS-1$
 
 		if (gitDirs.isEmpty()) {
-			RepositoryBuilder rb = new RepositoryBuilder() //
+			FSRepositoryBuilder rb = new RepositoryBuilder() //
 					.setGitDir(new File(gitdir)) //
 					.readEnvironment() //
 					.findGitDir();

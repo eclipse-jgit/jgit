@@ -48,7 +48,6 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -71,7 +70,7 @@ import org.eclipse.jgit.lib.Repository;
  * </pre>
  */
 public class FileRepositoryBuilder extends
-		BaseRepositoryBuilder<FileRepositoryBuilder, Repository> {
+		FSRepositoryBuilder<FileRepositoryBuilder, Repository> {
 	/**
 	 * {@inheritDoc}
 	 * <p>

@@ -71,6 +71,7 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
+import org.eclipse.jgit.storage.file.FSRepositoryBuilder;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.CachedAuthenticator;
@@ -316,7 +317,7 @@ public class Main {
 	 *             the repository cannot be opened.
 	 */
 	protected Repository openGitDir(String aGitdir) throws IOException {
-		RepositoryBuilder rb = new RepositoryBuilder() //
+		FSRepositoryBuilder rb = new RepositoryBuilder() //
 				.setGitDir(aGitdir != null ? new File(aGitdir) : null) //
 				.readEnvironment() //
 				.findGitDir();

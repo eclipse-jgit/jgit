@@ -67,7 +67,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
-import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
@@ -79,6 +78,7 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FSRepositoryBuilder;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -174,7 +174,7 @@ public class FileRepository extends Repository {
 	 *             the user configuration file or repository configuration file
 	 *             cannot be accessed.
 	 */
-	public FileRepository(BaseRepositoryBuilder options) throws IOException {
+	public FileRepository(FSRepositoryBuilder options) throws IOException {
 		super(options);
 
 		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(

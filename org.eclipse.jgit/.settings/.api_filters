@@ -14,6 +14,49 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java" type="org.eclipse.jgit.lib.BaseRepositoryBuilder">
+        <filter id="337764418">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+            </message_arguments>
+        </filter>
+        <filter comment="pushing down File related protected methods to FSRepositoryBuilder" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="requireGitDirOrWorkTree()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="pushing down File related protected methods to FSRepositoryBuilder" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="safeFS()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="pushing down File related protected methods to FSRepositoryBuilder" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="setupGitDir()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="pushing down File related protected methods to FSRepositoryBuilder" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="setupInternals()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="pushing down File related protected methods to FSRepositoryBuilder" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="setupWorkTree()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BaseRepositoryBuilder"/>
+                <message_argument value="build()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/Ref.java" type="org.eclipse.jgit.lib.Ref">
         <filter id="403767336">
             <message_arguments>
