@@ -32,7 +32,7 @@ junit_tests(
         exclude = TEST_BASE,
     ),
     jvm_flags = [
-        "-Xmx256m",
+        "-Xmx512m",
         "-Dfile.encoding=UTF-8",
     ],
     tags = ["lfs-server"],

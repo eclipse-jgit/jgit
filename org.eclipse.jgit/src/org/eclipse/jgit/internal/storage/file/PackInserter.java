@@ -86,6 +86,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.BlockList;
@@ -115,8 +116,11 @@ public class PackInserter extends ObjectInserter {
 	private PackStream packOut;
 	private Inflater cachedInflater;
 
+	private PackConfig pconfig;
+
 	PackInserter(ObjectDirectory db) {
 		this.db = db;
+		this.pconfig = new PackConfig(db.getConfig());
 	}
 
 	/**
@@ -296,9 +300,25 @@ public class PackInserter extends ObjectInserter {
 					realIdx), e);
 		}
 
-		db.openPack(realPack);
-		rollback = false;
-		clear();
+		boolean interrupted = false;
+		try {
+			FileSnapshot snapshot = FileSnapshot.save(realPack);
+			if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
+				snapshot.waitUntilNotRacy();
+			}
+		} catch (InterruptedException e) {
+			interrupted = true;
+		}
+		try {
+			db.openPack(realPack);
+			rollback = false;
+		} finally {
+			clear();
+			if (interrupted) {
+				// Re-set interrupted flag
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	private static void writePackIndex(File idx, byte[] packHash,
