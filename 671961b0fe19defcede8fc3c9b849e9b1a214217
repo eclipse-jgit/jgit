@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a20435c6_5fd3a2e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-05T17:19:00Z",
+      "side": 1,
+      "message": "for a FileRepository I would tend to map this to the name of the directory naming the repository, but that\u0027s not unique within a given filesystem",
+      "parentUuid": "c89a3121_7cec7894",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0672220_49fd8ff4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 7
