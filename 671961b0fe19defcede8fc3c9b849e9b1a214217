@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "cb225bd4_ad7059bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-05T18:20:00Z",
+      "side": 1,
+      "message": "It is used in ServletUtils.identify() [1] which is used to identify the repository when an error is logged in ReceivePackServlet and UploadPackServlet. If this isn\u0027t unique the error log might be ambiguous.\n\n[1] https://git.eclipse.org/r/#/c/142261/7/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+      "parentUuid": "0a42073e_383fb5be",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0672220_49fd8ff4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 7
