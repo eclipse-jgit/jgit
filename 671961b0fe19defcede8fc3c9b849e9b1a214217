@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c89a3121_7cec7894",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-05T16:15:50Z",
+      "side": 1,
+      "message": "How about getRepositoryName()? It seems to me it\u0027s more likely that people would think \"What is the repository name?\" compared to \"What is the repository identifier?\", unless this identifier has a special meaning other than name.",
+      "parentUuid": "840a5dda_841c1129",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0672220_49fd8ff4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 7
