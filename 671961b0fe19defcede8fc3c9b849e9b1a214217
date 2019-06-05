@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "840a5dda_841c1129",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-06-05T06:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579dbc5b_552c0d08",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0672220_49fd8ff4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d9f902aa_a7d3d3a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-06-05T06:19:12Z",
+      "side": 1,
+      "message": "I am not sure I understand what is your concrete suggestion here?",
+      "parentUuid": "b0672220_49fd8ff4",
+      "range": {
+        "startLine": 130,
+        "startChar": 26,
+        "endLine": 130,
+        "endChar": 43
+      },
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79617586_4ceec567",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 7
@@ -59,6 +107,24 @@
       "writtenOn": "2019-06-04T23:48:26Z",
       "side": 1,
       "message": "I think FileRepositoryBuilder should ensure that always a gitDir is set. The setGitDir method should be moved down from BaseRepositoryBuilder to FileRepositoryBuilder since gitDir doesn\u0027t make sense for DfsRepository, same with setObjectDirectory, addAlternateObjectDirectory, setWorkTree and setIndexFile which all don\u0027t make sense for DfsRepository",
+      "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebe03497_d43251ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-06-05T06:19:12Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be done in this change, but in another change, right? Can you (or some one else) give me a hand with this refactoring?",
+      "parentUuid": "79617586_4ceec567",
       "revId": "671961b0fe19defcede8fc3c9b849e9b1a214217",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
