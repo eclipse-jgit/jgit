@@ -1,0 +1,7 @@
+Verified+1: CI Bot
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Wed, 05 Jun 2019 09:23:00 -0400
+Reviewed-on: https://git.eclipse.org/r/142834
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
