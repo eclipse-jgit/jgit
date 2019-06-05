@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d56961c5_3f2c1804",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-05T06:50:39Z",
+      "side": 1,
+      "message": "identifier?",
+      "range": {
+        "startLine": 278,
+        "startChar": 9,
+        "endLine": 278,
+        "endChar": 13
+      },
+      "revId": "da022557b4ba8fec2422825f8aa9f4965ca45814",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
