@@ -22,6 +22,30 @@
       "revId": "da022557b4ba8fec2422825f8aa9f4965ca45814",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "751c7262_d6d78ce4",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-05T17:19:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d56961c5_3f2c1804",
+      "range": {
+        "startLine": 278,
+        "startChar": 9,
+        "endLine": 278,
+        "endChar": 13
+      },
+      "revId": "da022557b4ba8fec2422825f8aa9f4965ca45814",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
