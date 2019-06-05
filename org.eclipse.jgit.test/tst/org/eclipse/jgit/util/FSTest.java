@@ -52,9 +52,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -185,5 +192,35 @@ public class FSTest {
 		FS.readPipe(fs.userHome(),
 				  new String[] { "this-command-does-not-exist" },
 				  Charset.defaultCharset().name());
+	}
+
+	@Test
+	public void testFsTimestampResolution() throws Exception {
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("uuuu-MMM-dd HH:mm:ss.nnnnnnnnn", Locale.ENGLISH)
+				.withZone(ZoneId.systemDefault());
+		Path dir = Files.createTempDirectory("probe-filesystem");
+		Duration resolution = FS.getFsTimerResolution(dir);
+		long resolutionNs = resolution.toNanos();
+		assertTrue(resolutionNs > 0);
+		for (int i = 0; i < 10; i++) {
+			Path f = null;
+			try {
+				f = dir.resolve("testTimestampResolution" + i);
+				Files.createFile(f);
+				FileUtils.touch(f);
+				FileTime t1 = Files.getLastModifiedTime(f);
+				TimeUnit.NANOSECONDS.sleep(resolutionNs);
+				FileUtils.touch(f);
+				FileTime t2 = Files.getLastModifiedTime(f);
+				assertTrue(String.format(
+						"expected t2=%s to be larger than t1=%s\nsince file timestamp resolution was measured to be %,d ns",
+						formatter.format(t2.toInstant()),
+						formatter.format(t1.toInstant()),
+						Long.valueOf(resolutionNs)), t2.compareTo(t1) > 0);
+			} finally {
+				Files.delete(f);
+			}
+		}
 	}
 }

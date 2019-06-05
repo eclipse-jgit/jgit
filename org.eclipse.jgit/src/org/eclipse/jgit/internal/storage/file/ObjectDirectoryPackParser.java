@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.FileUtils;
@@ -122,9 +123,12 @@ public class ObjectDirectoryPackParser extends PackParser {
 	/** The pack that was created, if parsing was successful. */
 	private PackFile newPack;
 
+	private PackConfig pconfig;
+
 	ObjectDirectoryPackParser(FileObjectDatabase odb, InputStream src) {
 		super(odb, src);
 		this.db = odb;
+		this.pconfig = new PackConfig(odb.getConfig());
 		this.crc = new CRC32();
 		this.tailDigest = Constants.newMessageDigest();
 
@@ -514,6 +518,15 @@ public class ObjectDirectoryPackParser extends PackParser {
 					JGitText.get().cannotMoveIndexTo, finalIdx), e);
 		}
 
+		boolean interrupted = false;
+		try {
+			FileSnapshot snapshot = FileSnapshot.save(finalPack);
+			if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
+				snapshot.waitUntilNotRacy();
+			}
+		} catch (InterruptedException e) {
+			interrupted = true;
+		}
 		try {
 			newPack = db.openPack(finalPack);
 		} catch (IOException err) {
@@ -523,6 +536,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 			if (finalIdx.exists())
 				FileUtils.delete(finalIdx);
 			throw err;
+		} finally {
+			if (interrupted) {
+				// Re-set interrupted flag
+				Thread.currentThread().interrupt();
+			}
 		}
 
 		return lockMessage != null ? keep : null;
