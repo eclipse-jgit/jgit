@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>5.1.8.201906050907-r</version>
+    <version>5.1.9-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.lfs.test</artifactId>
