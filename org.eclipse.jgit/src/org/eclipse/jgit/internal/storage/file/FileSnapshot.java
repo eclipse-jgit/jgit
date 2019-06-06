@@ -48,9 +48,13 @@ import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -77,6 +81,8 @@ public class FileSnapshot {
 	 */
 	public static final long UNKNOWN_SIZE = -1;
 
+	private static final Object MISSING_FILEKEY = new Object();
+
 	/**
 	 * A FileSnapshot that is considered to always be modified.
 	 * <p>
@@ -84,7 +90,8 @@ public class FileSnapshot {
 	 * file, but only after {@link #isModified(File)} gets invoked. The returned
 	 * snapshot contains only invalid status information.
 	 */
-	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1, UNKNOWN_SIZE);
+	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1,
+			UNKNOWN_SIZE, Duration.ZERO, MISSING_FILEKEY);
 
 	/**
 	 * A FileSnapshot that is clean if the file does not exist.
@@ -93,7 +100,8 @@ public class FileSnapshot {
 	 * file to be clean. {@link #isModified(File)} will return false if the file
 	 * path does not exist.
 	 */
-	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0, 0) {
+	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0, 0,
+			Duration.ZERO, MISSING_FILEKEY) {
 		@Override
 		public boolean isModified(File path) {
 			return FS.DETECTED.exists(path);
@@ -111,18 +119,12 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(File path) {
-		long read = System.currentTimeMillis();
-		long modified;
-		long size;
-		try {
-			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
-			modified = fileAttributes.lastModifiedTime().toMillis();
-			size = fileAttributes.size();
-		} catch (IOException e) {
-			modified = path.lastModified();
-			size = path.length();
-		}
-		return new FileSnapshot(read, modified, size);
+		return new FileSnapshot(path);
+	}
+
+	private static Object getFileKey(BasicFileAttributes fileAttributes) {
+		Object fileKey = fileAttributes.fileKey();
+		return fileKey == null ? MISSING_FILEKEY : fileKey;
 	}
 
 	/**
@@ -130,6 +132,11 @@ public class FileSnapshot {
 	 * already known.
 	 * <p>
 	 * This method should be invoked before the file is accessed.
+	 * <p>
+	 * Note that this method cannot rely on measuring file timestamp resolution
+	 * to avoid racy git issues caused by finite file timestamp resolution since
+	 * it's unknown in which filesystem the file is located. Hence the worst
+	 * case fallback for timestamp resolution is used.
 	 *
 	 * @param modified
 	 *            the last modification time of the file
@@ -137,7 +144,8 @@ public class FileSnapshot {
 	 */
 	public static FileSnapshot save(long modified) {
 		final long read = System.currentTimeMillis();
-		return new FileSnapshot(read, modified, -1);
+		return new FileSnapshot(read, modified, -1, Duration.ZERO,
+				MISSING_FILEKEY);
 	}
 
 	/** Last observed modification time of the path. */
@@ -154,11 +162,57 @@ public class FileSnapshot {
 	 * When set to {@link #UNKNOWN_SIZE} the size is not considered for modification checks. */
 	private final long size;
 
-	private FileSnapshot(long read, long modified, long size) {
+	/** measured filesystem timestamp resolution */
+	private Duration fsTimestampResolution;
+
+	/**
+	 * Object that uniquely identifies the given file, or {@code
+	 * null} if a file key is not available
+	 */
+	private final Object fileKey;
+
+	/**
+	 * Record a snapshot for a specific file path.
+	 * <p>
+	 * This method should be invoked before the file is accessed.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 */
+	protected FileSnapshot(File path) {
+		this.lastRead = System.currentTimeMillis();
+		this.fsTimestampResolution = FS
+				.getFsTimerResolution(path.toPath().getParent());
+		BasicFileAttributes fileAttributes = null;
+		try {
+			fileAttributes = FS.DETECTED.fileAttributes(path);
+		} catch (IOException e) {
+			this.lastModified = path.lastModified();
+			this.size = path.length();
+			this.fileKey = MISSING_FILEKEY;
+			return;
+		}
+		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
+		this.size = fileAttributes.size();
+		this.fileKey = getFileKey(fileAttributes);
+	}
+
+	private boolean sizeChanged;
+
+	private boolean fileKeyChanged;
+
+	private boolean lastModifiedChanged;
+
+	private boolean wasRacyClean;
+
+	private FileSnapshot(long read, long modified, long size,
+			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
 		this.lastRead = read;
 		this.lastModified = modified;
-		this.cannotBeRacilyClean = notRacyClean(read);
+		this.fsTimestampResolution = fsTimestampResolution;
 		this.size = size;
+		this.fileKey = fileKey;
 	}
 
 	/**
@@ -187,15 +241,30 @@ public class FileSnapshot {
 	public boolean isModified(File path) {
 		long currLastModified;
 		long currSize;
+		Object currFileKey;
 		try {
 			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
 			currLastModified = fileAttributes.lastModifiedTime().toMillis();
 			currSize = fileAttributes.size();
+			currFileKey = getFileKey(fileAttributes);
 		} catch (IOException e) {
 			currLastModified = path.lastModified();
 			currSize = path.length();
+			currFileKey = MISSING_FILEKEY;
 		}
-		return (currSize != UNKNOWN_SIZE && currSize != size) || isModified(currLastModified);
+		sizeChanged = isSizeChanged(currSize);
+		if (sizeChanged) {
+			return true;
+		}
+		fileKeyChanged = isFileKeyChanged(currFileKey);
+		if (fileKeyChanged) {
+			return true;
+		}
+		lastModifiedChanged = isModified(currLastModified);
+		if (lastModifiedChanged) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -222,9 +291,23 @@ public class FileSnapshot {
 	 */
 	public void setClean(FileSnapshot other) {
 		final long now = other.lastRead;
-		if (notRacyClean(now))
+		if (!isRacyClean(now)) {
 			cannotBeRacilyClean = true;
+		}
 		lastRead = now;
+	}
+
+	/**
+	 * Wait until this snapshot's file can't be racy anymore
+	 *
+	 * @throws InterruptedException
+	 *             if sleep was interrupted
+	 */
+	public void waitUntilNotRacy() throws InterruptedException {
+		while (isRacyClean(System.currentTimeMillis())) {
+			TimeUnit.NANOSECONDS
+					.sleep((fsTimestampResolution.toNanos() + 1) * 11 / 10);
+		}
 	}
 
 	/**
@@ -235,72 +318,120 @@ public class FileSnapshot {
 	 * @return true if the two snapshots share the same information.
 	 */
 	public boolean equals(FileSnapshot other) {
-		return lastModified == other.lastModified;
+		return lastModified == other.lastModified && size == other.size
+				&& Objects.equals(fileKey, other.fileKey);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(Object other) {
-		if (other instanceof FileSnapshot)
-			return equals((FileSnapshot) other);
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof FileSnapshot)) {
+			return false;
+		}
+		FileSnapshot other = (FileSnapshot) obj;
+		return equals(other);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
-		// This is pretty pointless, but override hashCode to ensure that
-		// x.hashCode() == y.hashCode() when x.equals(y) is true.
-		//
-		return (int) lastModified;
+		return Objects.hash(Long.valueOf(lastModified), Long.valueOf(size),
+				fileKey);
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file size
+	 *         changed
+	 */
+	boolean wasSizeChanged() {
+		return sizeChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file key
+	 *         changed
+	 */
+	boolean wasFileKeyChanged() {
+		return fileKeyChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) found the file's
+	 *         lastModified changed
+	 */
+	boolean wasLastModifiedChanged() {
+		return lastModifiedChanged;
+	}
+
+	/**
+	 * @return {@code true} if FileSnapshot.isModified(File) detected that
+	 *         lastModified is racily clean
+	 */
+	boolean wasLastModifiedRacilyClean() {
+		return wasRacyClean;
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		if (this == DIRTY)
-			return "DIRTY"; //$NON-NLS-1$
-		if (this == MISSING_FILE)
-			return "MISSING_FILE"; //$NON-NLS-1$
-		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", //$NON-NLS-1$
+		if (this == DIRTY) {
+			return "DIRTY";
+		}
+		if (this == MISSING_FILE) {
+			return "MISSING_FILE";
+		}
+		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS",
 				Locale.US);
-		return "FileSnapshot[modified: " + f.format(new Date(lastModified)) //$NON-NLS-1$
-				+ ", read: " + f.format(new Date(lastRead)) + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "FileSnapshot[modified: " + f.format(new Date(lastModified))
+				+ ", read: " + f.format(new Date(lastRead)) + ", size:" + size
+				+ ", fileKey: " + fileKey + "]";
 	}
 
-	private boolean notRacyClean(long read) {
-		// The last modified time granularity of FAT filesystems is 2 seconds.
-		// Using 2.5 seconds here provides a reasonably high assurance that
-		// a modification was not missed.
-		//
-		return read - lastModified > 2500;
+	private boolean isRacyClean(long read) {
+		// add a 10% safety margin
+		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
+		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
 	}
 
 	private boolean isModified(long currLastModified) {
 		// Any difference indicates the path was modified.
-		//
-		if (lastModified != currLastModified)
+
+		lastModifiedChanged = lastModified != currLastModified;
+		if (lastModifiedChanged) {
 			return true;
+		}
 
 		// We have already determined the last read was far enough
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
-		//
-		if (cannotBeRacilyClean)
+		if (cannotBeRacilyClean) {
 			return false;
-
-		if (notRacyClean(lastRead)) {
+		}
+		if (!isRacyClean(lastRead)) {
 			// Our last read should have marked cannotBeRacilyClean,
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
-			//
 			return false;
 		}
 
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
-		//
 		return true;
+	}
+
+	private boolean isFileKeyChanged(Object currFileKey) {
+		return currFileKey != MISSING_FILEKEY && !currFileKey.equals(fileKey);
+	}
+
+	private boolean isSizeChanged(long currSize) {
+		return currSize != UNKNOWN_SIZE && currSize != size;
 	}
 }
