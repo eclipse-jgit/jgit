@@ -45,6 +45,30 @@
       "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e09fac0c_6e1faa2a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportHttpTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-07T01:38:18Z",
+      "side": 1,
+      "message": "Fixed by https://git.eclipse.org/r/143478",
+      "parentUuid": "6a374869_0b058596",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
