@@ -53,6 +53,10 @@ def tests(tests):
             additional_deps = [
                 "//lib:mockito",
             ]
+        if src.endswith("TransportHttpTest.java"):
+            additional_deps = [
+                "//lib:mockito",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
