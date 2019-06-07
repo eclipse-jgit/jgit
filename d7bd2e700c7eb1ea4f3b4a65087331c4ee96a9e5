@@ -116,6 +116,30 @@
       "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0a8983_68610ecd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-07T02:01:23Z",
+      "side": 1,
+      "message": "Fixed by https://git.eclipse.org/r/143480",
+      "parentUuid": "33af778e_62482660",
+      "range": {
+        "startLine": 955,
+        "startChar": 2,
+        "endLine": 955,
+        "endChar": 40
+      },
+      "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
