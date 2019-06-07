@@ -952,7 +952,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				cookieHeaderValue.append(cookie.toString());
 			}
 		}
-		if (cookieHeaderValue.length() >= 0) {
+		if (cookieHeaderValue.length() > 0) {
 			conn.setRequestProperty(HDR_COOKIE, cookieHeaderValue.toString());
 		}
 	}
