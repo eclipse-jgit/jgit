@@ -227,7 +227,7 @@ public class BundleWriter {
 				exc.add(r.getId());
 			packWriter.setIndexDisabled(true);
 			packWriter.setDeltaBaseAsOffset(true);
-			packWriter.setThin(exc.size() > 0);
+			packWriter.setThin(!exc.isEmpty());
 			packWriter.setReuseValidatingObjects(false);
 			if (exc.isEmpty()) {
 				packWriter.setTagTargets(tagTargets);

@@ -80,7 +80,7 @@ class Reset extends TextBuiltin {
 		try (Git git = new Git(db)) {
 			ResetCommand command = git.reset();
 			command.setRef(commit);
-			if (paths.size() > 0) {
+			if (!paths.isEmpty()) {
 				for (String path : paths) {
 					command.addPath(path);
 				}

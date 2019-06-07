@@ -93,7 +93,7 @@ class Status extends TextBuiltin {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			StatusCommand statusCommand = git.status();
-			if (filterPaths != null && filterPaths.size() > 0) {
+			if (filterPaths != null) {
 				for (String path : filterPaths) {
 					statusCommand.addPath(path);
 				}
