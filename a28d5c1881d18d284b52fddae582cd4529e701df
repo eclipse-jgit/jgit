@@ -169,6 +169,41 @@
       "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdffcf57_58498b26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-07T23:39:48Z",
+      "side": 1,
+      "message": "add test cases for \n\n\\\u003cCR\u003e\u003cEOF\u003e: throw exception (invalid escape)\n\\\u003cCR\u003e\u003cother\u003e: throw exception (invalid escape)\n\nand don\u0027t jump through hoops to prove that we leave the StringReader in a defined state",
+      "parentUuid": "489220f9_69208988",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86bdd41f_64841cb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-07T23:39:48Z",
+      "side": 1,
+      "message": "for \\r this prints \n\n Bad escape:\n\nwhere the CR is invisible. This could be improved by printing non-alphabetic characters as unicode literal",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
