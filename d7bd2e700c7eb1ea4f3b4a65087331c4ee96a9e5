@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f01255c5_fef95d9c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportHttpTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-07T01:37:08Z",
+      "side": 1,
+      "message": "Missing bazel dependency on this class.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 90
+      },
+      "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a374869_0b058596",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportHttpTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-07T01:37:08Z",
+      "side": 1,
+      "message": "Missing bazel dependency on mockito",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "d7bd2e700c7eb1ea4f3b4a65087331c4ee96a9e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
