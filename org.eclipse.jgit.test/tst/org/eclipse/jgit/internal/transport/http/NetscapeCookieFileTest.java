@@ -55,18 +55,14 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
+import org.eclipse.jgit.util.http.HttpCookiesMatcher;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -339,103 +335,5 @@ public class NetscapeCookieFileTest {
 
 		new NetscapeCookieFile(tmpFile)
 				.getCookies(true);
-	}
-
-	public final static class HttpCookiesMatcher {
-		public static Matcher<Iterable<? extends HttpCookie>> containsInOrder(
-				Iterable<HttpCookie> expectedCookies) {
-			return containsInOrder(expectedCookies, 0);
-		}
-
-		public static Matcher<Iterable<? extends HttpCookie>> containsInOrder(
-				Iterable<HttpCookie> expectedCookies, int allowedMaxAgeDelta) {
-			final List<Matcher<? super HttpCookie>> cookieMatchers = new LinkedList<>();
-			for (HttpCookie cookie : expectedCookies) {
-				cookieMatchers
-						.add(new HttpCookieMatcher(cookie, allowedMaxAgeDelta));
-			}
-			return new IsIterableContainingInOrder<>(cookieMatchers);
-		}
-	}
-
-	/**
-	 * The default {@link HttpCookie#equals(Object)} is not good enough for
-	 * testing purposes. Also the {@link HttpCookie#toString()} only emits some
-	 * of the cookie attributes. For testing a dedicated matcher is needed which
-	 * takes into account all attributes.
-	 */
-	private final static class HttpCookieMatcher
-			extends TypeSafeMatcher<HttpCookie> {
-
-		private final HttpCookie cookie;
-
-		private final int allowedMaxAgeDelta;
-
-		public HttpCookieMatcher(HttpCookie cookie, int allowedMaxAgeDelta) {
-			this.cookie = cookie;
-			this.allowedMaxAgeDelta = allowedMaxAgeDelta;
-		}
-
-		@Override
-		public void describeTo(Description description) {
-			describeCookie(description, cookie);
-		}
-
-		@Override
-		protected void describeMismatchSafely(HttpCookie item,
-				Description mismatchDescription) {
-			mismatchDescription.appendText("was ");
-			describeCookie(mismatchDescription, item);
-		}
-
-		@Override
-		protected boolean matchesSafely(HttpCookie otherCookie) {
-			// the equals method in HttpCookie is not specific enough, we want
-			// to consider all attributes!
-			return (equals(cookie.getName(), otherCookie.getName())
-					&& equals(cookie.getValue(), otherCookie.getValue())
-					&& equals(cookie.getDomain(), otherCookie.getDomain())
-					&& equals(cookie.getPath(), otherCookie.getPath())
-					&& (cookie.getMaxAge() >= otherCookie.getMaxAge()
-							- allowedMaxAgeDelta)
-					&& (cookie.getMaxAge() <= otherCookie.getMaxAge()
-							+ allowedMaxAgeDelta)
-					&& cookie.isHttpOnly() == otherCookie.isHttpOnly()
-					&& cookie.getSecure() == otherCookie.getSecure()
-					&& cookie.getVersion() == otherCookie.getVersion());
-		}
-
-		private static boolean equals(String value1, String value2) {
-			if (value1 == null && value2 == null) {
-				return true;
-			}
-			if (value1 == null || value2 == null) {
-				return false;
-			}
-			return value1.equals(value2);
-		}
-
-		@SuppressWarnings("boxing")
-		protected static void describeCookie(Description description,
-				HttpCookie cookie) {
-			description.appendText("HttpCookie[");
-			description.appendText("name: ").appendValue(cookie.getName())
-					.appendText(", ");
-			description.appendText("value: ").appendValue(cookie.getValue())
-					.appendText(", ");
-			description.appendText("domain: ").appendValue(cookie.getDomain())
-					.appendText(", ");
-			description.appendText("path: ").appendValue(cookie.getPath())
-					.appendText(", ");
-			description.appendText("maxAge: ").appendValue(cookie.getMaxAge())
-					.appendText(", ");
-			description.appendText("httpOnly: ")
-					.appendValue(cookie.isHttpOnly()).appendText(", ");
-			description.appendText("secure: ").appendValue(cookie.getSecure())
-					.appendText(", ");
-			description.appendText("version: ").appendValue(cookie.getVersion())
-					.appendText(", ");
-			description.appendText("]");
-		}
 	}
 }

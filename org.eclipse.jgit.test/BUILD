@@ -28,6 +28,7 @@ HELPERS = glob(
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
+    "util/http/HttpCookiesMatcher.java",
     "util/io/Strings.java",
 ]]
 

@@ -53,10 +53,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
-import org.eclipse.jgit.internal.transport.http.NetscapeCookieFileTest.HttpCookiesMatcher;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.util.http.HttpCookiesMatcher;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
