@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "aa3b1d52_41867ec8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-07T23:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdffcf57_58498b26",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86bdd41f_64841cb6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 2
@@ -201,6 +219,24 @@
       "writtenOn": "2019-06-07T23:39:48Z",
       "side": 1,
       "message": "for \\r this prints \n\n Bad escape:\n\nwhere the CR is invisible. This could be improved by printing non-alphabetic characters as unicode literal",
+      "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ec0203_446a8ff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-07T23:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86bdd41f_64841cb6",
       "revId": "a28d5c1881d18d284b52fddae582cd4529e701df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
