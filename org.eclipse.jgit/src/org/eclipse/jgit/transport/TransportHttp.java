@@ -641,7 +641,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				foundCookies.addAll(
 						extractCookies(HDR_SET_COOKIE2, cookieHeaderValues));
 			}
-			if (foundCookies.size() > 0) {
+			if (!foundCookies.isEmpty()) {
 				try {
 					// update cookie lists with the newly received cookies!
 					Set<HttpCookie> cookies = cookieFile.getCookies(false);
@@ -929,7 +929,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setReadTimeout(effTimeOut);
 		}
 		// set cookie header if necessary
-		if (relevantCookies.size() > 0) {
+		if (!relevantCookies.isEmpty()) {
 			setCookieHeader(conn);
 		}
 
