@@ -107,7 +107,7 @@ public class Config {
 	 * must ensure it is a special copy of the empty string.  It also must
 	 * be treated like the empty string.
 	 */
-	static final String MAGIC_EMPTY_VALUE = new String();
+	private static final String MAGIC_EMPTY_VALUE = new String();
 
 	/**
 	 * Create a configuration with no default fallback.
@@ -126,6 +126,17 @@ public class Config {
 	public Config(Config defaultConfig) {
 		baseConfig = defaultConfig;
 		state = new AtomicReference<>(newState());
+	}
+
+	/**
+	 * Check if a given string is the empty value.
+	 *
+	 * @param value
+	 * @return true if the given string is the empty value.
+	 * @since 5.4
+	 */
+	public static boolean isEmptyValue(String value) {
+		return value == MAGIC_EMPTY_VALUE;
 	}
 
 	/**
