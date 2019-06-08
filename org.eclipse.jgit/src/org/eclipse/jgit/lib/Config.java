@@ -107,7 +107,7 @@ public class Config {
 	 * must ensure it is a special copy of the empty string.  It also must
 	 * be treated like the empty string.
 	 */
-	static final String MAGIC_EMPTY_VALUE = new String();
+	private static final String MISSING_ENTRY = new String();
 
 	/**
 	 * Create a configuration with no default fallback.
@@ -126,6 +126,17 @@ public class Config {
 	public Config(Config defaultConfig) {
 		baseConfig = defaultConfig;
 		state = new AtomicReference<>(newState());
+	}
+
+	/**
+	 * Check if a given string is the "missing" value.
+	 *
+	 * @param value
+	 * @return true if the given string is the "missing" value.
+	 * @since 5.4
+	 */
+	public static boolean isMissing(String value) {
+		return value == MISSING_ENTRY;
 	}
 
 	/**
@@ -1041,7 +1052,7 @@ public class Config {
 				if (e.prefix == null || "".equals(e.prefix)) //$NON-NLS-1$
 					out.append('\t');
 				out.append(e.name);
-				if (MAGIC_EMPTY_VALUE != e.value) {
+				if (MISSING_ENTRY != e.value) {
 					out.append(" ="); //$NON-NLS-1$
 					if (e.value != null) {
 						out.append(' ');
@@ -1132,7 +1143,7 @@ public class Config {
 				e.name = readKeyName(in);
 				if (e.name.endsWith("\n")) { //$NON-NLS-1$
 					e.name = e.name.substring(0, e.name.length() - 1);
-					e.value = MAGIC_EMPTY_VALUE;
+					e.value = MISSING_ENTRY;
 				} else
 					e.value = readValue(in);
 
@@ -1165,7 +1176,7 @@ public class Config {
 	private void addIncludedConfig(final List<ConfigLine> newEntries,
 			ConfigLine line, int depth) throws ConfigInvalidException {
 		if (!line.name.equalsIgnoreCase("path") || //$NON-NLS-1$
-				line.value == null || line.value.equals(MAGIC_EMPTY_VALUE)) {
+				line.value == null || line.value.equals(MISSING_ENTRY)) {
 			throw new ConfigInvalidException(MessageFormat.format(
 					JGitText.get().invalidLineInConfigFileWithParam, line));
 		}
