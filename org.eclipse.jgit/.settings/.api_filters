@@ -38,6 +38,62 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackConfig.java" type="org.eclipse.jgit.storage.pack.PackConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
+                <message_argument value="DEFAULT_MINSIZE_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
+                <message_argument value="DEFAULT_WAIT_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="DEFAULT_MINSIZE_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="DEFAULT_WAIT_PREVENT_RACY_PACK"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="doWaitPreventRacyPack(long)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="getMinSizePreventRacyPack()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="isWaitPreventRacyPack()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="setMinSizePreventRacyPack(long)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.8"/>
+                <message_argument value="setWaitPreventRacyPack(boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/storage/pack/PackStatistics.java" type="org.eclipse.jgit.storage.pack.PackStatistics$Accumulator">
         <filter comment="ignore the risk subclasses could define the same field and cause a name clash" id="336658481">
             <message_arguments>
@@ -105,6 +161,22 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.util.HttpSupport"/>
                 <message_argument value="HDR_SET_COOKIE2"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.2.3"/>
+                <message_argument value="getFsTimerResolution(Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.2.3"/>
+                <message_argument value="touch(Path)"/>
             </message_arguments>
         </filter>
     </resource>
