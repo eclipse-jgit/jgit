@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "0732ce4f_2a6577d9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-08T01:10:17Z",
+      "side": 1,
+      "message": "By \"update the contributor guide\", I mean whether it ends up with \"OK, JGit just can continue using this EDL 1.0 header\" or \"Nah, we need to put EDL 1.0 to SPDX list (*even though EDL is super strictly speaking not named as OSI approved license in the official license list https://opensource.org/licenses/alphabetical)\" or something else, it\u0027s better to state the rationale and the current state of the skew.\n\n* https://www.eclipse.org/org/documents/edl-v10.php states that it\u0027s approved because it\u0027s not different from BSD-3, but I think it\u0027s true. But I\u0027m not a lawyer, and I don\u0027t know how Eclipse Foundation wants to govern their IP.",
+      "parentUuid": "4a7db112_5bf4f215",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
