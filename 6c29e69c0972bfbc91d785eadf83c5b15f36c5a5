@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bf3cd898_70716cfd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-08T00:24:19Z",
+      "side": 1,
+      "message": "* JGit\u0027s use of EDL was unanimously approved in a meeting of the Eclipse Board in Sep 2009 [1]\n* the CQ for the initial contribution is here [2]\n* the license header agreed with the Eclipse Foundation was discussed in this thread [3]. We changed license header in all JGit source code back then.\n\nThe EDL is basically a 3-clause BSD license [4]. I can open a CQ to ask the Eclipse legal team if and how we can use a SPDX header.\n\n[1] https://www.eclipse.org/org/foundation/boardminutes/2009_09_16_Minutes.php\n[2] https://dev.eclipse.org/ipzilla/show_bug.cgi?id\u003d3448\n[3] https://www.eclipse.org/lists/jgit-dev/msg00131.html\n[4] https://opensource.org/licenses/BSD-3-Clause",
+      "parentUuid": "471f21a3_40149fac",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
