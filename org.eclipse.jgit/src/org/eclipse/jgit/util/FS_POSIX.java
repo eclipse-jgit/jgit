@@ -400,7 +400,7 @@ public class FS_POSIX extends FS {
 		try {
 			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
 					s -> Boolean.TRUE);
-			if (canLink == Boolean.FALSE) {
+			if (Boolean.FALSE.equals(canLink)) {
 				return true;
 			}
 			link = Files.createLink(
@@ -466,7 +466,7 @@ public class FS_POSIX extends FS {
 		try {
 			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
 					s -> Boolean.TRUE);
-			if (canLink == Boolean.FALSE) {
+			if (Boolean.FALSE.equals(canLink)) {
 				return token(true, null);
 			}
 			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
