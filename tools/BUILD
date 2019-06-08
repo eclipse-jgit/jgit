@@ -42,7 +42,7 @@ java_package_configuration(
         "-Xep:FragmentInjection:WARN",
         "-Xep:FragmentNotInstantiable:WARN",
         "-Xep:FunctionalInterfaceClash:WARN",
-        "-Xep:FutureReturnValueIgnored:WARN",
+        "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:GetClassOnEnum:WARN",
         "-Xep:ImmutableAnnotationChecker:WARN",
         "-Xep:ImmutableEnumChecker:WARN",

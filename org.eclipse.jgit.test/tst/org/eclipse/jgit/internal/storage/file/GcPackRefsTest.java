@@ -176,12 +176,13 @@ public class GcPackRefsTest extends GcTestCase {
 				return update.update();
 			});
 
-			pool.submit(() -> {
+			Future<Result> result2 = pool.submit(() -> {
 				refUpdateLockedRef.await();
 				gc.packRefs();
 				packRefsDone.await();
 				return null;
 			});
+			assertNull(result2.get());
 
 			assertSame(result.get(), Result.FORCED);
 
