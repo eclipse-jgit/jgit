@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4a7db112_5bf4f215",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-08T00:56:09Z",
+      "side": 1,
+      "message": "\u003e I can open a CQ to ask the Eclipse legal team if and how we can use a SPDX header.\n\nCan you please do that and update the contributor guide?",
+      "parentUuid": "bf3cd898_70716cfd",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
