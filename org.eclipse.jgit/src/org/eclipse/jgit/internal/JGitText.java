@@ -520,6 +520,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
 	/***/ public String missingConfigurationForKey;
+	/***/ public String missingCookieFile;
 	/***/ public String missingCRC;
 	/***/ public String missingDeltaBase;
 	/***/ public String missingForwardImageInGITBinaryPatch;

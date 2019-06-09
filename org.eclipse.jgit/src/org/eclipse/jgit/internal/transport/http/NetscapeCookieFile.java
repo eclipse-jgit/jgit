@@ -344,6 +344,11 @@ public final class NetscapeCookieFile {
 		final int maxStaleRetries = 5;
 		int retries = 0;
 		File file = getPath().toFile();
+		if (!file.exists()) {
+			LOG.warn(MessageFormat.format(JGitText.get().missingCookieFile,
+					file.getAbsolutePath()));
+			return new byte[0];
+		}
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
 			final FileSnapshot newSnapshot = FileSnapshot.save(file);
