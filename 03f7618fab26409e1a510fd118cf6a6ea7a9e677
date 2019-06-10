@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e45abb2_a252dc5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-10T21:44:00Z",
+      "side": 1,
+      "message": "The main thing this commit message is missing is the \"why\".\n\nWhy do we want to pin to a particular bazel version? E.g. can you point to an example of a backward incompatible bazel change that this would make it easier for us to cope with?\n\n(Not rhetorical: this kind of context will make it easier for me to remember later why we did this.)",
+      "revId": "03f7618fab26409e1a510fd118cf6a6ea7a9e677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b177b0a6_9127c149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-10T21:44:00Z",
+      "side": 1,
+      "message": "This change adds a .bazelversion that *allows* people to use bazelisk but doesn\u0027t require that.\n\nThat sounds reasonable to me, but it isn\u0027t what the commit message says. I.e. should the subject be something like\n\n Declare recommended bazel version for bazelisk users\n\ninstead?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "03f7618fab26409e1a510fd118cf6a6ea7a9e677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d636de56_b8528228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-10T21:44:00Z",
+      "side": 1,
+      "message": "language nit: \"Bazelisk is a utility\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "03f7618fab26409e1a510fd118cf6a6ea7a9e677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec29a1d9_9fd50125",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-10T21:44:00Z",
+      "side": 1,
+      "message": "Does this mean \"providing functionality similar to what we used to have with the Buck build tool\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "03f7618fab26409e1a510fd118cf6a6ea7a9e677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
