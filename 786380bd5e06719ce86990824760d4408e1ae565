@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "362f3535_9d308c1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 40012
+      },
+      "writtenOn": "2019-06-10T06:37:30Z",
+      "side": 1,
+      "message": "The idea was rather that a FileNotFoundException is thrown and caught in both write(...) (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/f24ad3da66a0ea86f5674fac9442d3b4e4c78aa2/org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java#301) and getCookies(...) (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/f24ad3da66a0ea86f5674fac9442d3b4e4c78aa2/org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java#180). Maybe there is only one dedicated catch block missing for FileNotFoundException to prevent emitting the stack trace in those cases.",
+      "revId": "786380bd5e06719ce86990824760d4408e1ae565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
