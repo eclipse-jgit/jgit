@@ -148,7 +148,8 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
-		final int maxStaleRetries = 5;
+		final int maxRetries = 5;
+		int retryDelayMillis = 20;
 		int retries = 0;
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
@@ -177,6 +178,22 @@ public class FileBasedConfig extends StoredConfig {
 				}
 				return;
 			} catch (FileNotFoundException noFile) {
+				// might be locked by another process (see exception Javadoc)
+				if (retries < maxRetries && configFile.exists()) {
+					if (LOG.isDebugEnabled()) {
+						LOG.debug(MessageFormat.format(
+								JGitText.get().configHandleMayBeLocked,
+								Integer.valueOf(retries)), noFile);
+					}
+					try {
+						Thread.sleep(retryDelayMillis);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
+					retries++;
+					retryDelayMillis *= 2; // max wait 1260 ms
+					continue;
+				}
 				if (configFile.exists()) {
 					throw noFile;
 				}
@@ -185,7 +202,7 @@ public class FileBasedConfig extends StoredConfig {
 				return;
 			} catch (IOException e) {
 				if (FileUtils.isStaleFileHandle(e)
-						&& retries < maxStaleRetries) {
+						&& retries < maxRetries) {
 					if (LOG.isDebugEnabled()) {
 						LOG.debug(MessageFormat.format(
 								JGitText.get().configHandleIsStale,

@@ -98,7 +98,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		StatusCommand command = git.status();
 		Status status = command.call();
 		Set<String> files = status.getUntracked();
-		assertTrue(files.size() > 0);
+		assertFalse(files.isEmpty());
 
 		// run clean
 		Set<String> cleanedFiles = git.clean().call();
@@ -120,7 +120,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		StatusCommand command = git.status();
 		Status status = command.call();
 		Set<String> files = status.getUntracked();
-		assertTrue(files.size() > 0);
+		assertFalse(files.isEmpty());
 
 		// run clean
 		Set<String> cleanedFiles = git.clean().setCleanDirectories(true).call();
@@ -143,7 +143,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		StatusCommand command = git.status();
 		Status status = command.call();
 		Set<String> files = status.getUntracked();
-		assertTrue(files.size() > 0);
+		assertFalse(files.isEmpty());
 
 		// run clean with setPaths
 		Set<String> paths = new TreeSet<>();
@@ -164,7 +164,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		StatusCommand command = git.status();
 		Status status = command.call();
 		Set<String> files = status.getUntracked();
-		assertTrue(files.size() > 0);
+		assertFalse(files.isEmpty());
 
 		// run clean
 		Set<String> cleanedFiles = git.clean().setDryRun(true).call();
@@ -186,7 +186,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		StatusCommand command = git.status();
 		Status status = command.call();
 		Set<String> files = status.getUntracked();
-		assertTrue(files.size() > 0);
+		assertFalse(files.isEmpty());
 
 		// run clean
 		Set<String> cleanedFiles = git.clean().setDryRun(true)

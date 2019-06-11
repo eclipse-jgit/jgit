@@ -133,7 +133,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	@Override
 	public Iterable<RevCommit> call() throws GitAPIException, NoHeadException {
 		checkCallable();
-		if (pathFilters.size() > 0)
+		if (!pathFilters.isEmpty())
 			walk.setTreeFilter(AndTreeFilter.create(
 					PathFilterGroup.create(pathFilters), TreeFilter.ANY_DIFF));
 		if (skip > -1 && maxCount > -1)

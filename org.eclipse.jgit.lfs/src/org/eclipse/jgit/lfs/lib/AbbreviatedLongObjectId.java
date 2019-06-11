@@ -170,7 +170,7 @@ public final class AbbreviatedLongObjectId implements Serializable {
 			r |= RawParseUtils.parseHexInt4(bs[p++]);
 			n++;
 		}
-		return r << (16 - n) * 4;
+		return r << ((16 - n) * 4);
 	}
 
 	static long mask(int nibbles, long word, long v) {

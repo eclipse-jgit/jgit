@@ -661,6 +661,54 @@ public class CommitCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testDeletionConflictWithAutoCrlf() throws Exception {
+		try (Git git = new Git(db)) {
+			// Commit a file with CR/LF into the index
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "autocrlf", "false");
+			config.save();
+			File file = writeTrashFile("file.txt", "foo\r\n");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Initial").call();
+			// Switch to side branch
+			git.checkout().setCreateBranch(true).setName("side").call();
+			assertTrue(file.delete());
+			git.rm().addFilepattern("file.txt").call();
+			git.commit().setMessage("Side").call();
+			// Switch on autocrlf=true
+			config.setString("core", null, "autocrlf", "true");
+			config.save();
+			// Switch back to master and commit a conflict
+			git.checkout().setName("master").call();
+			writeTrashFile("file.txt", "foob\r\n");
+			git.add().addFilepattern("file.txt").call();
+			assertEquals("[file.txt, mode:100644, content:foob\r\n]",
+					indexState(CONTENT));
+			writeTrashFile("g", "file2.txt", "anything");
+			git.add().addFilepattern("g/file2.txt");
+			RevCommit master = git.commit().setMessage("Second").call();
+			// Switch to side branch again so that the deletion is "ours"
+			git.checkout().setName("side").call();
+			// Cherry pick master: produces a delete-modify conflict.
+			CherryPickResult pick = git.cherryPick().include(master).call();
+			assertEquals("Expected a cherry-pick conflict",
+					CherryPickStatus.CONFLICTING, pick.getStatus());
+			// XXX: g/file2.txt should actually be staged already, but isn't.
+			git.add().addFilepattern("g/file2.txt").call();
+			// Resolve the conflict by taking the master version
+			writeTrashFile("file.txt", "foob\r\n");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Cherry").call();
+			// We expect this to be committed with a single LF since there is no
+			// "ours" stage.
+			assertEquals(
+					"[file.txt, mode:100644, content:foob\n]"
+							+ "[g/file2.txt, mode:100644, content:anything]",
+					indexState(CONTENT));
+		}
+	}
+
 	private void testConflictWithAutoCrlf(String baseLf, String lf)
 			throws Exception {
 		try (Git git = new Git(db)) {

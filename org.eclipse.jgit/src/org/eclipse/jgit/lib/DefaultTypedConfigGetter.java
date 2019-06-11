@@ -72,7 +72,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		if (n == null) {
 			return defaultValue;
 		}
-		if (Config.MAGIC_EMPTY_VALUE == n) {
+		if (Config.isMissing(n)) {
 			return true;
 		}
 		try {

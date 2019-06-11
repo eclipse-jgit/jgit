@@ -383,8 +383,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					JGitText.get().errorOccurredDuringUnpackingOnTheRemoteEnd, unpackStatus));
 		}
 
-		String refLine;
-		while ((refLine = pckIn.readString()) != PacketLineIn.END) {
+		for (String refLine : pckIn.readStrings()) {
 			boolean ok = false;
 			int refNameEnd = -1;
 			if (refLine.startsWith("ok ")) { //$NON-NLS-1$

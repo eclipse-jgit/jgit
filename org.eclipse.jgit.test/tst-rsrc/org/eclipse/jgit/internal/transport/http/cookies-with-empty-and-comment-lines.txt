@@ -1,0 +1,8 @@
+# first line is a comment
+# the next cookie is supposed to be removed, because it has expired already
+some-domain1	TRUE	/some/path1	FALSE	0	key1	value1
+
+# expires date is 01/01/2030 @ 12:00am (UTC)
+#HttpOnly_.some-domain2	TRUE	/some/path2	TRUE	1893499200000	key2	value2
+
+some-domain3	TRUE	/some/path3	FALSE	1893499200000	key3	value3

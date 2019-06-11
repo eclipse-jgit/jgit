@@ -4,14 +4,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "bazel_skylib",
-    sha256 = "bbccf674aa441c266df9894182d80de104cabd19be98be002f6d478aaa31574d",
-    strip_prefix = "bazel-skylib-2169ae1c374aab4a09aa90e65efe1a3aad4e279b",
-    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
+    sha256 = "2ea8a5ed2b448baf4a6855d3ce049c4c452a6470b1efd1504fdb7c1c134d220a",
+    strip_prefix = "bazel-skylib-0.8.0",
+    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.8.0.tar.gz"],
 )
 
 load("@bazel_skylib//lib:versions.bzl", "versions")
 
-versions.check(minimum_bazel_version = "0.19.0")
+versions.check(minimum_bazel_version = "0.26.1")
 
 load("//tools:bazlets.bzl", "load_bazlets")
 
@@ -212,25 +212,25 @@ maven_jar(
     src_sha1 = "94e89a8c9f82e38555e95b9f7f58344a247e862c",
 )
 
-BOUNCYCASTLE_VER = "1.60"
+BOUNCYCASTLE_VER = "1.61"
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "13c7a199c484127daad298996e95818478431a2c",
-    src_sha1 = "edcd9e86d95e39b4da39bb295efd93bc4f56266e",
+    sha1 = "422656435514ab8a28752b117d5d2646660a0ace",
+    src_sha1 = "836da34e11114cbce8fa99f54175f8f3278d1cce",
 )
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "bd47ad3bd14b8e82595c7adaa143501e60842a84",
-    src_sha1 = "7c57a4d13fe53d9abb967bba600dd0b293dafd6a",
+    sha1 = "00df4b474e71be02c1349c3292d98886f888d1f7",
+    src_sha1 = "3bf88046a16098ea6cc41576dd50d512854d39e1",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "d0c46320fbc07be3a24eb13a56cee4e3d38e0c75",
-    src_sha1 = "a25f041293f401af08efba63ff4bbdce98134a03",
+    sha1 = "89bb3aa5b98b48e584eee2a7401b7682a46779b4",
+    src_sha1 = "a0498d09200a18737eccc05aa81bbd05c1be0f8c",
 )

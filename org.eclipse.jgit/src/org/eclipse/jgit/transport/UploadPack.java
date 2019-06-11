@@ -106,10 +106,8 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
-import org.eclipse.jgit.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.PedestrianReachabilityChecker;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -1231,7 +1229,7 @@ public class UploadPack {
 			/* EOF when awaiting command is fine */
 			return true;
 		}
-		if (command == PacketLineIn.END) {
+		if (PacketLineIn.isEnd(command)) {
 			// A blank request is valid according
 			// to the protocol; do nothing in this
 			// case.
@@ -1602,7 +1600,7 @@ public class UploadPack {
 				throw eof;
 			}
 
-			if (line == PacketLineIn.END) {
+			if (PacketLineIn.isEnd(line)) {
 				last = processHaveLines(peerHas, last, pckOut);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1909,9 +1907,8 @@ public class UploadPack {
 			}
 
 			// All wants are commits, we can use ReachabilityChecker
-			ReachabilityChecker reachabilityChecker = repoHasBitmaps
-					? new BitmappedReachabilityChecker(walk)
-					: new PedestrianReachabilityChecker(true, walk);
+			ReachabilityChecker reachabilityChecker = walk
+					.createReachabilityChecker();
 
 			List<RevCommit> starters = objectIdsToRevCommits(walk,
 					reachableFrom);

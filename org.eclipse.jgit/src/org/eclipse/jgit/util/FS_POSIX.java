@@ -48,7 +48,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.nio.file.AccessDeniedException;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,9 +58,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -84,7 +87,7 @@ public class FS_POSIX extends FS {
 	private static final int DEFAULT_UMASK = 0022;
 	private volatile int umask = -1;
 
-	private volatile boolean supportsUnixNLink = true;
+	private static final Map<FileStore, Boolean> CAN_HARD_LINK = new ConcurrentHashMap<>();
 
 	private volatile AtomicFileCreation supportsAtomicCreateNewFile = AtomicFileCreation.UNDEFINED;
 
@@ -388,12 +391,18 @@ public class FS_POSIX extends FS {
 		if (!lock.createNewFile()) {
 			return false;
 		}
-		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
+		if (supportsAtomicCreateNewFile()) {
 			return true;
 		}
 		Path lockPath = lock.toPath();
 		Path link = null;
+		FileStore store = Files.getFileStore(lockPath);
 		try {
+			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
+					s -> Boolean.TRUE);
+			if (Boolean.FALSE.equals(canLink)) {
+				return true;
+			}
 			link = Files.createLink(
 					Paths.get(lock.getAbsolutePath() + ".lnk"), //$NON-NLS-1$
 					lockPath);
@@ -405,11 +414,11 @@ public class FS_POSIX extends FS {
 						nlink));
 				return false;
 			} else if (nlink < 2) {
-				supportsUnixNLink = false;
+				CAN_HARD_LINK.put(store, Boolean.FALSE);
 			}
 			return true;
 		} catch (UnsupportedOperationException | IllegalArgumentException e) {
-			supportsUnixNLink = false;
+			CAN_HARD_LINK.put(store, Boolean.FALSE);
 			return true;
 		} finally {
 			if (link != null) {
@@ -448,12 +457,18 @@ public class FS_POSIX extends FS {
 		if (!file.createNewFile()) {
 			return token(false, null);
 		}
-		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
+		if (supportsAtomicCreateNewFile()) {
 			return token(true, null);
 		}
 		Path link = null;
 		Path path = file.toPath();
+		FileStore store = Files.getFileStore(path);
 		try {
+			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
+					s -> Boolean.TRUE);
+			if (Boolean.FALSE.equals(canLink)) {
+				return token(true, null);
+			}
 			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
 			Integer nlink = (Integer) (Files.getAttribute(path,
 					"unix:nlink")); //$NON-NLS-1$
@@ -462,12 +477,12 @@ public class FS_POSIX extends FS {
 						JGitText.get().failedAtomicFileCreation, path, nlink));
 				return token(false, link);
 			} else if (nlink.intValue() < 2) {
-				supportsUnixNLink = false;
+				CAN_HARD_LINK.put(store, Boolean.FALSE);
 			}
 			return token(true, link);
 		} catch (UnsupportedOperationException | IllegalArgumentException
-				| AccessDeniedException | SecurityException e) {
-			supportsUnixNLink = false;
+				| FileSystemException | SecurityException e) {
+			CAN_HARD_LINK.put(store, Boolean.FALSE);
 			return token(true, link);
 		}
 	}

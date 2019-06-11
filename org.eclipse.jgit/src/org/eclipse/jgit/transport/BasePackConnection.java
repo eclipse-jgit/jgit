@@ -201,7 +201,7 @@ abstract class BasePackConnection extends BaseConnection {
 					throw noRepository();
 				throw eof;
 			}
-			if (line == PacketLineIn.END)
+			if (PacketLineIn.isEnd(line))
 				break;
 
 			if (line.startsWith("ERR ")) { //$NON-NLS-1$

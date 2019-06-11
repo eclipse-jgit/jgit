@@ -49,7 +49,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -72,14 +74,25 @@ import org.slf4j.LoggerFactory;
 public class PacketLineIn {
 	private static final Logger log = LoggerFactory.getLogger(PacketLineIn.class);
 
-	/** Magic return from {@link #readString()} when a flush packet is found. */
+	/**
+	 * Magic return from {@link #readString()} when a flush packet is found.
+	 *
+	 * @deprecated Callers should use {@link #isEnd(String)} to check if a
+	 *             string is the end marker, or
+	 *             {@link PacketLineIn#readStrings()} to iterate over all
+	 *             strings in the input stream until the marker is reached.
+	 */
+	@Deprecated
 	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
 
 	/**
 	 * Magic return from {@link #readString()} when a delim packet is found.
 	 *
 	 * @since 5.0
+	 * @deprecated Callers should use {@link #isDelimiter(String)} to check if a
+	 *             string is the delimiter.
 	 */
+	@Deprecated
 	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
 
 	static enum AckNackResult {
@@ -193,6 +206,20 @@ public class PacketLineIn {
 	}
 
 	/**
+	 * Get an iterator to read strings from the input stream.
+	 *
+	 * @return an iterator that calls {@link #readString()} until {@link #END}
+	 *         is encountered.
+	 *
+	 * @throws IOException
+	 *             on failure to read the initial packet line.
+	 * @since 5.4
+	 */
+	public PacketLineInIterator readStrings() throws IOException {
+		return new PacketLineInIterator(this);
+	}
+
+	/**
 	 * Read a single UTF-8 encoded string packet from the input stream.
 	 * <p>
 	 * Unlike {@link #readString()} a trailing LF will be retained.
@@ -222,6 +249,52 @@ public class PacketLineIn {
 		String s = RawParseUtils.decode(UTF_8, raw, 0, len);
 		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
+	}
+
+	/**
+	 * Check if a string is the delimiter marker.
+	 *
+	 * @param s
+	 *            the string to check
+	 * @return true if the given string is {@link #DELIM}, otherwise false.
+	 * @since 5.4
+	 */
+	public static boolean isDelimiter(String s) {
+		return s == DELIM;
+	}
+
+	/**
+	 * Get the delimiter marker.
+	 * <p>
+	 * Intended for use only in tests.
+	 *
+	 * @return The delimiter marker.
+	 */
+	static String delimiter() {
+		return DELIM;
+	}
+
+	/**
+	 * Get the end marker.
+	 * <p>
+	 * Intended for use only in tests.
+	 *
+	 * @return The end marker.
+	 */
+	static String end() {
+		return END;
+	}
+
+	/**
+	 * Check if a string is the packet end marker.
+	 *
+	 * @param s
+	 *            the string to check
+	 * @return true if the given string is {@link #END}, otherwise false.
+	 * @since 5.4
+	 */
+	public static boolean isEnd(String s) {
+		return s == END;
 	}
 
 	void discardUntilEnd() throws IOException {
@@ -281,5 +354,47 @@ public class PacketLineIn {
 	 */
 	public static class InputOverLimitIOException extends IOException {
 		private static final long serialVersionUID = 1L;
+	}
+
+	/**
+	 * Iterator over packet lines.
+	 * <p>
+	 * Calls {@link #readString()} on the {@link PacketLineIn} until
+	 * {@link #END} is encountered.
+	 *
+	 * @since 5.4
+	 *
+	 */
+	public static class PacketLineInIterator implements Iterable<String> {
+		private PacketLineIn in;
+
+		private String current;
+
+		PacketLineInIterator(PacketLineIn in) throws IOException {
+			this.in = in;
+			current = in.readString();
+		}
+
+		@Override
+		public Iterator<String> iterator() {
+			return new Iterator<String>() {
+				@Override
+				public boolean hasNext() {
+					return !PacketLineIn.isEnd(current);
+				}
+
+				@Override
+				public String next() {
+					String next = current;
+					try {
+						current = in.readString();
+					} catch (IOException e) {
+						throw new UncheckedIOException(e);
+					}
+					return next;
+				}
+			};
+		}
+
 	}
 }
