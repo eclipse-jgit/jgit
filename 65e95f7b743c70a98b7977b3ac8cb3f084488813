@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "876ee810_f1c7d567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-11T00:15:10Z",
+      "side": 1,
+      "message": "see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "parentUuid": "806189ef_0e6e955d",
+      "range": {
+        "startLine": 1699,
+        "startChar": 16,
+        "endLine": 1699,
+        "endChar": 21
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f2a93c_90e661a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
