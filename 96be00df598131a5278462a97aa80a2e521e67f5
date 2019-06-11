@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f935a91b_229e1fb6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "LLC.",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "388d4b46_6f070d4c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "One case I think is missing is marking as \"uninteresting\" something in the \"first parent\" lineage and see that the walking stops:\n\t\tRevCommit a \u003d commit();\n\t\tRevCommit b1 \u003d commit(a);\n\t\tRevCommit b2 \u003d commit(a);\n\t\tRevCommit c1 \u003d commit(b1);\n\t\tRevCommit c2 \u003d commit(b2);\n\t\tRevCommit d \u003d commit(c1, c2);\n\n\t\trw.reset();\n\t\trw.setFirstParent(true);\n\t\tmarkStart(d);\n                markUnteresting(b1);\n\t\tassertCommit(d, rw.next());\n\t\tassertCommit(c1, rw.next());\n\t\tassertNull(rw.next());",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22784aa_ea0f314d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "I think the order of the checks here is relevant to minimize the work. We should check \"firstParent\" first, then SEEN and then parsing the headers if needed.",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b6a37c_30417536",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a \"break\"?",
+      "range": {
+        "startLine": 150,
+        "startChar": 15,
+        "endLine": 150,
+        "endChar": 0
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5c0753_7b514222",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "We don\u0027t use this form in JGit code, can you move the assignment to its own line?",
+      "range": {
+        "startLine": 684,
+        "startChar": 47,
+        "endLine": 684,
+        "endChar": 48
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13894681_05bceb72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "What happens when the caller invoked some \"markStart\" before \"setFirstParent\"?",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3543a2ba_c95219de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "Should the reset method keep this property? It is not obvious, so whatever it does, it should be mentioned in the javadoc.",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c1ec478_3049ab33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "in the \"only first parent\" case, this is setting plist[i] to null if i \u003e 0 ? It seems that \"cleanup\" will convert that to a new array with only one element (after couple of for loops).\n\nMaybe it is more readable to do this directly in the for loop:\n\nif (firstParent \u0026\u0026 i \u003e 0) {\n    c.parents \u003d new RevCommit [] { rewrite(oldp) };\n    return c;\n}",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dffdf450_a0df0a64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-11T12:16:17Z",
+      "side": 1,
+      "message": "Order of the tests in the if: all other \"ifs\" do \"firstParent \u0026\u0026 i \u003e 0\".",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
