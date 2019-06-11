@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d518539c_e60448e7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935a91b_229e1fb6",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "388d4b46_6f070d4c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2019-06-11T12:16:17Z",
       "side": 1,
       "message": "One case I think is missing is marking as \"uninteresting\" something in the \"first parent\" lineage and see that the walking stops:\n\t\tRevCommit a \u003d commit();\n\t\tRevCommit b1 \u003d commit(a);\n\t\tRevCommit b2 \u003d commit(a);\n\t\tRevCommit c1 \u003d commit(b1);\n\t\tRevCommit c2 \u003d commit(b2);\n\t\tRevCommit d \u003d commit(c1, c2);\n\n\t\trw.reset();\n\t\trw.setFirstParent(true);\n\t\tmarkStart(d);\n                markUnteresting(b1);\n\t\tassertCommit(d, rw.next());\n\t\tassertCommit(c1, rw.next());\n\t\tassertNull(rw.next());",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d65b95ac_a9a7bdf7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Nice call. Added this and added case where the first parent commit was marked as uninteresting.\n\n                RevCommit a \u003d commit();\n\t\tRevCommit b1 \u003d commit(a);\n\t\tRevCommit b2 \u003d commit(a);\n\t\tRevCommit c \u003d commit(b1, b2);\n\n\t\trw.reset();\n\t\trw.setFirstParent(true);\n\t\tmarkStart(c);\n\t\tmarkUninteresting(b1);\n\t\tassertCommit(c, rw.next());\n\t\tassertNull(rw.next());",
+      "parentUuid": "388d4b46_6f070d4c",
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "7c0db403_b8947ac7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "What are your thoughts on the comment from the previous change? I was basing the structure off of parsing the headers of everything to be safe.\n\n\"Is [parse headers] also needed for non-first parents, too? I haven\u0027t thought it through. (The non-first parents can be encountered via RevCommit.carryFlags. I\u0027m not how to quickly tell what code assumes that a RevCommit is parsed and what code doesn\u0027t.)\"\n\nChanged the structure to check first and use a break.",
+      "parentUuid": "b22784aa_ea0f314d",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65b6a37c_30417536",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
         "patchSetId": 6
@@ -70,6 +130,30 @@
       "writtenOn": "2019-06-11T12:16:17Z",
       "side": 1,
       "message": "Shouldn\u0027t this be a \"break\"?",
+      "range": {
+        "startLine": 150,
+        "startChar": 15,
+        "endLine": 150,
+        "endChar": 0
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8723eb2_18fe768e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b6a37c_30417536",
       "range": {
         "startLine": 150,
         "startChar": 15,
@@ -122,6 +206,48 @@
     },
     {
       "key": {
+        "uuid": "1baf4203_c773ed18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Added a test for this. As it was, the assertNotStarted would not fail, and this method would overwrite the queue that was updated in markStart.\n\nIt seemed the easiest solution was to throw an IllegalStateException if markStart had already been called. Tell me if you see a smoother way to do it.",
+      "parentUuid": "13894681_05bceb72",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bfc2fe3_d703d29e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Sure, this was in response to a comment oops.",
+      "parentUuid": "fb5c0753_7b514222",
+      "range": {
+        "startLine": 684,
+        "startChar": 47,
+        "endLine": 684,
+        "endChar": 48
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3543a2ba_c95219de",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 6
@@ -133,6 +259,24 @@
       "writtenOn": "2019-06-11T12:16:17Z",
       "side": 1,
       "message": "Should the reset method keep this property? It is not obvious, so whatever it does, it should be mentioned in the javadoc.",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09d908cb_a10398fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "What is the intent of reset? It says \"allow this instance to be used again\", which says to me that we keep the settings and allow the walk to start over. However, in the tests it makes sense for this method to set firstParent \u003d false.\n\nAlso set firstParent to false in dispose() since it says to dispose of \"all internal state\".",
+      "parentUuid": "3543a2ba_c95219de",
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "41806ecd_0a9535a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Definitely more readable this way! Good notice",
+      "parentUuid": "2c1ec478_3049ab33",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dffdf450_a0df0a64",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 6
@@ -167,6 +329,24 @@
       "writtenOn": "2019-06-11T12:16:17Z",
       "side": 1,
       "message": "Order of the tests in the if: all other \"ifs\" do \"firstParent \u0026\u0026 i \u003e 0\".",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f28a3270_95d56af2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-11T17:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dffdf450_a0df0a64",
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
