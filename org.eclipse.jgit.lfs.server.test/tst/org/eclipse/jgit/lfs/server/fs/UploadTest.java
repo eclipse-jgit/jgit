@@ -44,6 +44,7 @@ package org.eclipse.jgit.lfs.server.fs;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -56,6 +57,7 @@ import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -122,11 +124,12 @@ public class UploadTest extends LfsServerTest {
 		ExecutorService e = Executors.newFixedThreadPool(count);
 		try {
 			for (Path p : paths) {
-				e.submit(() -> {
+				Future<Object> result = e.submit(() -> {
 					barrier.await();
 					putContent(p);
 					return null;
 				});
+				assertNotNull(result);
 			}
 		} finally {
 			e.shutdown();

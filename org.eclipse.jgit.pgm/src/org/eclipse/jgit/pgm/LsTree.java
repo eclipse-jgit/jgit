@@ -76,7 +76,7 @@ class LsTree extends TextBuiltin {
 	protected void run() {
 		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.reset(); // drop the first empty tree, which we do not need here
-			if (paths.size() > 0) {
+			if (!paths.isEmpty()) {
 				walk.setFilter(PathFilterGroup.createFromStrings(paths));
 			}
 			walk.setRecursive(recursive);

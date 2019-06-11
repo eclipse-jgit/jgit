@@ -205,18 +205,21 @@ public class FS_Win32 extends FS {
 	@Override
 	protected File userHomeImpl() {
 		String home = SystemReader.getInstance().getenv("HOME"); //$NON-NLS-1$
-		if (home != null)
+		if (home != null) {
 			return resolve(null, home);
+		}
 		String homeDrive = SystemReader.getInstance().getenv("HOMEDRIVE"); //$NON-NLS-1$
 		if (homeDrive != null) {
 			String homePath = SystemReader.getInstance().getenv("HOMEPATH"); //$NON-NLS-1$
-			if (homePath != null)
+			if (homePath != null) {
 				return new File(homeDrive, homePath);
+			}
 		}
 
 		String homeShare = SystemReader.getInstance().getenv("HOMESHARE"); //$NON-NLS-1$
-		if (homeShare != null)
+		if (homeShare != null) {
 			return new File(homeShare);
+		}
 
 		return super.userHomeImpl();
 	}
@@ -237,8 +240,9 @@ public class FS_Win32 extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public boolean supportsSymlinks() {
-		if (supportSymlinks == null)
+		if (supportSymlinks == null) {
 			detectSymlinkSupport();
+		}
 		return Boolean.TRUE.equals(supportSymlinks);
 	}
 
@@ -254,12 +258,13 @@ public class FS_Win32 extends FS {
 				| InternalError e) {
 			supportSymlinks = Boolean.FALSE;
 		} finally {
-			if (tempFile != null)
+			if (tempFile != null) {
 				try {
 					FileUtils.delete(tempFile);
 				} catch (IOException e) {
 					throw new RuntimeException(e); // panic
 				}
+			}
 		}
 	}
 

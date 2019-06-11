@@ -109,7 +109,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertNameStartsWith(c4, "3e563c5");
 
 		assertNull(describe(c1));
-		assertNull(describe(c1, true));
+		assertNull(describe(c1, true, false));
 		assertNull(describe(c1, "a*", "b*", "c*"));
 		assertNull(describe(c2, "bob*"));
 		assertNull(describe(c2, "?ob*"));
@@ -120,7 +120,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("alice-t1", describe(c2, "a*", "b*", "c*"));
 
 			assertEquals("bob-t2", describe(c3));
-			assertEquals("bob-t2-0-g44579eb", describe(c3, true));
+			assertEquals("bob-t2-0-g44579eb", describe(c3, true, false));
 			assertEquals("alice-t1-1-g44579eb", describe(c3, "alice*"));
 			assertEquals("alice-t1-1-g44579eb", describe(c3, "a??c?-t*"));
 			assertEquals("bob-t2", describe(c3, "bob*"));
@@ -129,7 +129,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 			// the value verified with git-describe(1)
 			assertEquals("bob-t2-1-g3e563c5", describe(c4));
-			assertEquals("bob-t2-1-g3e563c5", describe(c4, true));
+			assertEquals("bob-t2-1-g3e563c5", describe(c4, true, false));
 			assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
@@ -137,6 +137,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals(null, describe(c2));
 			assertEquals(null, describe(c3));
 			assertEquals(null, describe(c4));
+
+			assertEquals("3747db3", describe(c2, false, true));
+			assertEquals("44579eb", describe(c3, false, true));
+			assertEquals("3e563c5", describe(c4, false, true));
 		}
 
 		// test default target
@@ -169,6 +173,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		if (!useAnnotatedTags && !describeUseAllTags) {
 			assertEquals(null, describe(c1));
 			assertEquals(null, describe(c2));
+
+			assertEquals("fd70040", describe(c1, false, true));
+			assertEquals("b89dead", describe(c2, false, true));
+
 			return;
 		}
 
@@ -235,9 +243,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("2 commits: c4 and c3", "t-2-g119892b", describe(c4));
 		} else {
 			assertEquals(null, describe(c4));
+
+			assertEquals("119892b", describe(c4, false, true));
 		}
 		assertNull(describe(c3));
-		assertNull(describe(c3, true));
+		assertNull(describe(c3, true, false));
 	}
 
 	private void branch(String name, ObjectId base) throws GitAPIException {
@@ -279,6 +289,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		} else {
 			assertEquals(null, describe(c4));
 			assertEquals(null, describe(c3));
+
+			assertEquals("119892b", describe(c4, false, true));
+			assertEquals("0244e7f", describe(c3, false, true));
 		}
 	}
 
@@ -368,6 +381,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("t1-3-gbb389a4", describe(c4));
 		} else {
 			assertEquals(null, describe(c4));
+
+			assertEquals("bb389a4", describe(c4, false, true));
 		}
 	}
 
@@ -401,6 +416,25 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("t2-4-gbb389a4", describe(c4));
 		} else {
 			assertEquals(null, describe(c4));
+
+			assertEquals("bb389a4", describe(c4, false, true));
+		}
+	}
+
+	@Test
+	public void globMatchWithSlashes() throws Exception {
+		ObjectId c1 = modify("aaa");
+		tag("a/b/version");
+		ObjectId c2 = modify("bbb");
+		tag("a/b/version2");
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("a/b/version", describe(c1, "*/version*"));
+			assertEquals("a/b/version2", describe(c2, "*/version*"));
+		} else {
+			assertNull(describe(c1));
+			assertNull(describe(c1, "*/version*"));
+			assertNull(describe(c2));
+			assertNull(describe(c2, "*/version*"));
 		}
 	}
 
@@ -433,14 +467,14 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private String describe(ObjectId c1, boolean longDesc)
+	private String describe(ObjectId c1, boolean longDesc, boolean always)
 			throws GitAPIException, IOException {
 		return git.describe().setTarget(c1).setTags(describeUseAllTags)
-				.setLong(longDesc).call();
+				.setLong(longDesc).setAlways(always).call();
 	}
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
-		return describe(c1, false);
+		return describe(c1, false, false);
 	}
 
 	private String describe(ObjectId c1, String... patterns) throws Exception {

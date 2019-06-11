@@ -63,8 +63,7 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.ignore.internal.IMatcher;
-import org.eclipse.jgit.ignore.internal.PathMatcher;
+import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -104,12 +103,17 @@ public class DescribeCommand extends GitCommand<String> {
 	/**
 	 * Pattern matchers to be applied to tags under consideration.
 	 */
-	private List<IMatcher> matchers = new ArrayList<>();
+	private List<FileNameMatcher> matchers = new ArrayList<>();
 
 	/**
 	 * Whether to use all tags (incl. lightweight) or not.
 	 */
-	private boolean useTags = false;
+	private boolean useTags;
+
+	/**
+	 * Whether to show a uniquely abbreviated commit hash as a fallback or not.
+	 */
+	private boolean always;
 
 	/**
 	 * Constructor for DescribeCommand.
@@ -197,6 +201,21 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * Always describe the commit by eventually falling back to a uniquely
+	 * abbreviated commit hash if no other name matches.
+	 *
+	 * @param always
+	 *            <code>true</code> enables falling back to a uniquely
+	 *            abbreviated commit hash
+	 * @return {@code this}
+	 * @since 5.4
+	 */
+	public DescribeCommand setAlways(boolean always) {
+		this.always = always;
+		return this;
+	}
+
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
 		return String.format(
@@ -222,7 +241,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setMatch(String... patterns) throws InvalidPatternException {
 		for (String p : patterns) {
-			matchers.add(PathMatcher.createPathMatcher(p, null, false));
+			matchers.add(new FileNameMatcher(p, null));
 		}
 		return this;
 	}
@@ -255,9 +274,15 @@ public class DescribeCommand extends GitCommand<String> {
 			// Find the first tag that matches in the stream of all tags
 			// filtered by matchers ordered by tie break order
 			Stream<Ref> matchingTags = Stream.empty();
-			for (IMatcher matcher : matchers) {
+			for (FileNameMatcher matcher : matchers) {
 				Stream<Ref> m = tags.stream().filter(
-						tag -> matcher.matches(tag.getName(), false, false));
+						tag -> {
+							matcher.append(
+									tag.getName().substring(R_TAGS.length()));
+							boolean result = matcher.isMatch();
+							matcher.reset();
+							return result;
+						});
 				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}
 			return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
@@ -399,8 +424,9 @@ public class DescribeCommand extends GitCommand<String> {
 			}
 
 			// if all the nodes are dominated by all the tags, the walk stops
-			if (candidates.isEmpty())
-				return null;
+			if (candidates.isEmpty()) {
+				return always ? w.getObjectReader().abbreviate(target).name() : null;
+			}
 
 			Candidate best = Collections.min(candidates,
 					(Candidate o1, Candidate o2) -> o1.depth - o2.depth);

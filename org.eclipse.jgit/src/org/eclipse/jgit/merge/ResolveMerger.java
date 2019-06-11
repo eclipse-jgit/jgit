@@ -1190,7 +1190,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *         otherwise
 	 */
 	public boolean failed() {
-		return failingPaths.size() > 0;
+		return !failingPaths.isEmpty();
 	}
 
 	/**

@@ -85,7 +85,7 @@ class LsFiles extends TextBuiltin {
 			CanonicalTreeParser p = new CanonicalTreeParser();
 			p.reset(rw.getObjectReader(), c.getTree());
 			tw.reset(); // drop the first empty tree, which we do not need here
-			if (paths.size() > 0) {
+			if (!paths.isEmpty()) {
 				tw.setFilter(PathFilterGroup.createFromStrings(paths));
 			}
 			tw.addTree(p);

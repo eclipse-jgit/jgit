@@ -44,7 +44,6 @@
 package org.eclipse.jgit.http.test;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -366,7 +365,7 @@ public class HttpClientTests extends HttpTestCase {
 
 		// Check that we get a v0 response.
 		assertThat(pckIn.readString(), is("# service=git-upload-pack"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 		assertTrue(pckIn.readString().matches("[0-9a-f]{40} HEAD.*"));
 	}
 
@@ -388,8 +387,7 @@ public class HttpClientTests extends HttpTestCase {
 
 		// What remains are capabilities - ensure that all of them are
 		// non-empty strings, and that we see END at the end.
-		String s;
-		while ((s = pckIn.readString()) != PacketLineIn.END) {
+		for (String s : pckIn.readStrings()) {
 			assertTrue(!s.isEmpty());
 		}
 	}
@@ -422,8 +420,7 @@ public class HttpClientTests extends HttpTestCase {
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
 
 		// Just check that we get what looks like a ref advertisement.
-		String s;
-		while ((s = pckIn.readString()) != PacketLineIn.END) {
+		for (String s : pckIn.readStrings()) {
 			assertTrue(s.matches("[0-9a-f]{40} [A-Za-z/]*"));
 		}
 

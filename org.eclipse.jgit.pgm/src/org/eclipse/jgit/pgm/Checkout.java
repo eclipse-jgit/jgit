@@ -96,7 +96,7 @@ class Checkout extends TextBuiltin {
 		try (Git git = new Git(db)) {
 			CheckoutCommand command = git.checkout()
 					.setProgressMonitor(new TextProgressMonitor(errw));
-			if (paths.size() > 0) {
+			if (!paths.isEmpty()) {
 				command.setStartPoint(name);
 				if (paths.size() == 1 && paths.get(0).equals(".")) { //$NON-NLS-1$
 					command.setAllPaths(true);

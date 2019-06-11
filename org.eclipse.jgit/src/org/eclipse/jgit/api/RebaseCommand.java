@@ -490,7 +490,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			resetSoftToParent();
 			List<RebaseTodoLine> steps = repo.readRebaseTodo(
 					rebaseState.getPath(GIT_REBASE_TODO), false);
-			RebaseTodoLine nextStep = steps.size() > 0 ? steps.get(0) : null;
+			RebaseTodoLine nextStep = steps.isEmpty() ? null : steps.get(0);
 			File messageFixupFile = rebaseState.getFile(MESSAGE_FIXUP);
 			File messageSquashFile = rebaseState.getFile(MESSAGE_SQUASH);
 			if (isSquash && messageFixupFile.exists())
@@ -1083,7 +1083,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		repo.writeRebaseTodoFile(rebaseState.getPath(GIT_REBASE_TODO),
 				todoLines, false);
-		if (poppedLines.size() > 0) {
+		if (!poppedLines.isEmpty()) {
 			repo.writeRebaseTodoFile(rebaseState.getPath(DONE), poppedLines,
 					true);
 		}

@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -428,9 +427,9 @@ public class UploadPackTest {
 		try (ByteArrayOutputStream send = new ByteArrayOutputStream()) {
 			PacketLineOut pckOut = new PacketLineOut(send);
 			for (String line : inputLines) {
-				if (line == PacketLineIn.END) {
+				if (PacketLineIn.isEnd(line)) {
 					pckOut.end();
-				} else if (line == PacketLineIn.DELIM) {
+				} else if (PacketLineIn.isDelimiter(line)) {
 					pckOut.writeDelim();
 				} else {
 					pckOut.writeString(line);
@@ -453,7 +452,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
-		while (pckIn.readString() != PacketLineIn.END) {
+		while (!PacketLineIn.isEnd(pckIn.readString())) {
 			// do nothing
 		}
 		return recvStream;
@@ -490,7 +489,7 @@ public class UploadPackTest {
 	public void testV2Capabilities() throws Exception {
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, hook, PacketLineIn.END);
+				uploadPackV2Setup(null, null, hook, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(hook.capabilitiesRequest, notNullValue());
 		assertThat(pckIn.readString(), is("version 2"));
@@ -504,14 +503,14 @@ public class UploadPackTest {
 				// and additional capabilities to be added to existing
 				// commands without requiring test changes.
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
 	public void testV2CapabilitiesAllowFilter() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -521,14 +520,14 @@ public class UploadPackTest {
 				// TODO(jonathantanmy) This check overspecifies the
 				// order of the capabilities of "fetch".
 				hasItems("ls-refs", "fetch=filter shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
 	public void testV2CapabilitiesRefInWant() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -539,14 +538,14 @@ public class UploadPackTest {
 				// order of the capabilities of "fetch".
 				hasItems("ls-refs", "fetch=ref-in-want shallow",
 						"server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
 	public void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", false);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -554,7 +553,7 @@ public class UploadPackTest {
 				Arrays.asList(pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -562,7 +561,7 @@ public class UploadPackTest {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -570,12 +569,12 @@ public class UploadPackTest {
 				Arrays.asList(pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
 				hasItems("ls-refs", "fetch=shallow", "server-option"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
 	public void testV2EmptyRequest() throws Exception {
-		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
+		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.end());
 		// Verify that there is nothing more after the capability
 		// advertisement.
 		assertEquals(0, recvStream.available());
@@ -591,14 +590,14 @@ public class UploadPackTest {
 
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream = uploadPackV2(null, null, hook,
-				"command=ls-refs\n", PacketLineIn.END);
+				"command=ls-refs\n", PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(hook.lsRefsRequest, notNullValue());
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -609,13 +608,14 @@ public class UploadPackTest {
 		RevTag tag = remote.tag("tag", tip);
 		remote.update("refs/tags/tag", tag);
 
-		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "symrefs", PacketLineIn.END);
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n",
+				PacketLineIn.delimiter(), "symrefs", PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -626,7 +626,8 @@ public class UploadPackTest {
 		RevTag tag = remote.tag("tag", tip);
 		remote.update("refs/tags/tag", tag);
 
-		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "peel", PacketLineIn.END);
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n",
+				PacketLineIn.delimiter(), "peel", PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
@@ -635,7 +636,7 @@ public class UploadPackTest {
 			pckIn.readString(),
 			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
 				+ tip.toObjectId().getName()));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -647,8 +648,9 @@ public class UploadPackTest {
 		remote.update("refs/tags/tag", tag);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
-			"command=ls-refs\n", PacketLineIn.DELIM, "symrefs", "peel", PacketLineIn.END,
-			"command=ls-refs\n", PacketLineIn.DELIM, PacketLineIn.END);
+				"command=ls-refs\n", PacketLineIn.delimiter(), "symrefs",
+				"peel", PacketLineIn.end(), "command=ls-refs\n",
+				PacketLineIn.delimiter(), PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
@@ -657,11 +659,11 @@ public class UploadPackTest {
 			pckIn.readString(),
 			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
 				+ tip.toObjectId().getName()));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -673,15 +675,15 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
 			"ref-prefix refs/heads/other",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -692,15 +694,15 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
 			"ref-prefix r",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
-		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -709,17 +711,17 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected invalid-argument");
 		uploadPackV2(
 			"command=ls-refs\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"invalid-argument\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
 	public void testV2LsRefsServerOptions() throws Exception {
 		String[] lines = { "command=ls-refs\n",
 				"server-option=one\n", "server-option=two\n",
-				PacketLineIn.DELIM,
-				PacketLineIn.END };
+				PacketLineIn.delimiter(),
+				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
 		uploadPackV2Setup(null, null, testHook, lines);
@@ -763,9 +765,9 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + advertized.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 
 		// This doesn't
 		thrown.expect(TransportException.class);
@@ -776,9 +778,9 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unadvertized.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -794,9 +796,9 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + reachable.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 
 		// This doesn't
 		thrown.expect(TransportException.class);
@@ -807,9 +809,9 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -824,9 +826,9 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + tip.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 
 		// This doesn't
 		thrown.expect(TransportException.class);
@@ -837,9 +839,9 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + parentOfTip.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -855,9 +857,9 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + parentOfTip.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 
 		// This doesn't
 		thrown.expect(TransportException.class);
@@ -868,9 +870,9 @@ public class UploadPackTest {
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -883,9 +885,9 @@ public class UploadPackTest {
 			null,
 			null,
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -899,16 +901,16 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("ACK " + fooParent.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -922,12 +924,12 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
 			"have " + barParent.toObjectId().getName() + "\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("acknowledgments"));
@@ -937,7 +939,7 @@ public class UploadPackTest {
 				"ACK " + fooParent.toObjectId().getName(),
 				"ACK " + barParent.toObjectId().getName()));
 		assertThat(pckIn.readString(), is("ready"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertFalse(client.getObjectDatabase().has(fooParent.toObjectId()));
@@ -957,12 +959,12 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("packfile"));
@@ -986,12 +988,12 @@ public class UploadPackTest {
 		// Pretend that we have parent to get a thin pack based on it.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"have " + parent.toObjectId().getName() + "\n",
 			"thin-pack\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("packfile"));
@@ -1012,10 +1014,10 @@ public class UploadPackTest {
 		StringWriter sw = new StringWriter();
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream, new TextProgressMonitor(sw));
@@ -1025,11 +1027,11 @@ public class UploadPackTest {
 		sw = new StringWriter();
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"no-progress\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream, new TextProgressMonitor(sw));
@@ -1046,10 +1048,10 @@ public class UploadPackTest {
 		// Without include-tag.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1058,11 +1060,11 @@ public class UploadPackTest {
 		// With tag.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"include-tag\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1082,27 +1084,27 @@ public class UploadPackTest {
 		// Without ofs-delta.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
-		ReceivedPackStatistics stats = parsePack(recvStream);
-		assertTrue(stats.getNumOfsDelta() == 0);
+		ReceivedPackStatistics receivedStats = parsePack(recvStream);
+		assertTrue(receivedStats.getNumOfsDelta() == 0);
 
 		// With ofs-delta.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"ofs-delta\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
-		stats = parsePack(recvStream);
-		assertTrue(stats.getNumOfsDelta() != 0);
+		receivedStats = parsePack(recvStream);
+		assertTrue(receivedStats.getNumOfsDelta() != 0);
 	}
 
 	@Test
@@ -1116,11 +1118,11 @@ public class UploadPackTest {
 		// commonParent, so it doesn't send it.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooChild.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1131,12 +1133,12 @@ public class UploadPackTest {
 		// commonParent, so it sends it.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooChild.toObjectId().getName() + "\n",
 			"shallow " + fooChild.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1152,15 +1154,15 @@ public class UploadPackTest {
 		// "deepen 1" sends only the child.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"deepen 1\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
@@ -1169,10 +1171,10 @@ public class UploadPackTest {
 		// Without that, the parent is sent too.
 		recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1187,10 +1189,10 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + child.toObjectId().getName() + "\n",
 			"deepen 1\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// Verify that only the correct section is sent. "shallow-info"
@@ -1198,7 +1200,7 @@ public class UploadPackTest {
 		// sent only if a packfile is sent.
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("NAK"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
 	@Test
@@ -1219,13 +1221,13 @@ public class UploadPackTest {
 		// Report that we only have "boundary" as a shallow boundary.
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"shallow " + boundary.toObjectId().getName() + "\n",
 			"deepen-since 1510000\n",
 			"want " + merge.toObjectId().getName() + "\n",
 			"have " + boundary.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 
@@ -1237,7 +1239,7 @@ public class UploadPackTest {
 		// later than the given deepen-since time.
 		assertThat(pckIn.readString(), is("unshallow " + boundary.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1270,12 +1272,12 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-since 1510000\n",
 			"want " + child1.toObjectId().getName() + "\n",
 			"want " + child2.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 
@@ -1286,7 +1288,7 @@ public class UploadPackTest {
 				"shallow " + child1.toObjectId().getName(),
 				"shallow " + child2.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1309,11 +1311,11 @@ public class UploadPackTest {
 		thrown.expectMessage("No commits selected for shallow request");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-since 1510000\n",
 			"want " + tooOld.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -1332,13 +1334,13 @@ public class UploadPackTest {
 		// wants "merge" while excluding "side".
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"shallow " + three.toObjectId().getName() + "\n",
 			"deepen-not side\n",
 			"want " + merge.toObjectId().getName() + "\n",
 			"have " + three.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 
@@ -1353,7 +1355,7 @@ public class UploadPackTest {
 		// "three" is unshallow because its parent "two" is now available.
 		assertThat(pckIn.readString(), is("unshallow " + three.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1385,11 +1387,11 @@ public class UploadPackTest {
 		thrown.expectMessage("No commits selected for shallow request");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not four\n",
 			"want " + two.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -1405,15 +1407,15 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not twotag\n",
 			"want " + four.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + three.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertFalse(client.getObjectDatabase().has(one.toObjectId()));
@@ -1439,12 +1441,12 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"deepen-not base\n",
 			"want " + child1.toObjectId().getName() + "\n",
 			"want " + child2.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("shallow-info"));
 
@@ -1455,7 +1457,7 @@ public class UploadPackTest {
 				"shallow " + child1.toObjectId().getName(),
 				"shallow " + child2.toObjectId().getName()));
 
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1471,16 +1473,16 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected invalid-argument");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"invalid-argument\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
 	public void testV2FetchServerOptions() throws Exception {
 		String[] lines = { "command=fetch\n", "server-option=one\n",
-				"server-option=two\n", PacketLineIn.DELIM,
-				PacketLineIn.END };
+				"server-option=two\n", PacketLineIn.delimiter(),
+				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
 		uploadPackV2Setup(null, null, testHook, lines);
@@ -1504,11 +1506,11 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"filter blob:limit=5\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
@@ -1557,15 +1559,15 @@ public class UploadPackTest {
 			long depth, ObjectId... wants) throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 
-		List<String> input = new ArrayList();
+		List<String> input = new ArrayList<>();
 		input.add("command=fetch\n");
-		input.add(PacketLineIn.DELIM);
+		input.add(PacketLineIn.delimiter());
 		for (ObjectId want : wants) {
 			input.add("want " + want.getName() + "\n");
 		}
 		input.add("filter tree:" + depth + "\n");
 		input.add("done\n");
-		input.add(PacketLineIn.END);
+		input.add(PacketLineIn.end());
 		ByteArrayInputStream recvStream =
 				uploadPackV2(RequestPolicy.ANY, /*refFilter=*/null,
 							 /*hook=*/null, input.toArray(new String[0]));
@@ -1846,11 +1848,11 @@ public class UploadPackTest {
 		thrown.expectMessage("unexpected filter blob:limit=5");
 		uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit.toObjectId().getName() + "\n",
 			"filter blob:limit=5\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 	}
 
 	@Test
@@ -1861,10 +1863,10 @@ public class UploadPackTest {
 		try {
 			uploadPackV2(
 				"command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/one\n",
 				"done\n",
-				PacketLineIn.END);
+					PacketLineIn.end());
 		} catch (PackProtocolException e) {
 			assertThat(
 				e.getMessage(),
@@ -1887,11 +1889,11 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"want-ref refs/heads/two\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(
@@ -1899,7 +1901,7 @@ public class UploadPackTest {
 				hasItems(
 					one.toObjectId().getName() + " refs/heads/one",
 					two.toObjectId().getName() + " refs/heads/two"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1918,11 +1920,11 @@ public class UploadPackTest {
 		try {
 			uploadPackV2(
 				"command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/one\n",
 				"want-ref refs/heads/nonExistentRef\n",
 				"done\n",
-				PacketLineIn.END);
+					PacketLineIn.end());
 		} catch (PackProtocolException e) {
 			assertThat(
 				e.getMessage(),
@@ -1945,17 +1947,17 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"want " + two.toObjectId().getName() + "\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(
 				pckIn.readString(),
 				is(one.toObjectId().getName() + " refs/heads/one"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -1973,11 +1975,11 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/one\n",
 			"have " + one.toObjectId().getName(),
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// The client still needs to know the hash of the object that
@@ -1987,7 +1989,7 @@ public class UploadPackTest {
 		assertThat(
 				pckIn.readString(),
 				is(one.toObjectId().getName() + " refs/heads/one"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 
 		// ... but the client does not need the object itself.
 		assertThat(pckIn.readString(), is("packfile"));
@@ -2005,20 +2007,20 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want-ref refs/heads/branch1\n",
 			"deepen 1\n",
 			"done\n",
-			PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// shallow-info appears first, then wanted-refs.
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(pckIn.readString(), is(child.toObjectId().getName() + " refs/heads/branch1"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(child.toObjectId()));
@@ -2036,13 +2038,13 @@ public class UploadPackTest {
 				true);
 
 		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want-ref refs/heads/three\n",
 				"deepen 3",
 				"shallow 0123012301230123012301230123012301230123",
 				"shallow " + two.getName() + '\n',
 				"done\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("shallow-info"));
@@ -2050,11 +2052,11 @@ public class UploadPackTest {
 				is("shallow " + one.toObjectId().getName()));
 		assertThat(pckIn.readString(),
 				is("unshallow " + two.toObjectId().getName()));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("wanted-refs"));
 		assertThat(pckIn.readString(),
 				is(three.toObjectId().getName() + " refs/heads/three"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 
@@ -2071,7 +2073,7 @@ public class UploadPackTest {
 		UploadPack up = new UploadPack(server);
 		ByteArrayInputStream send = linesAsInputStream(
 				"want " + one.getName() + " agent=JGit-test/1.2.3\n",
-				PacketLineIn.END,
+				PacketLineIn.end(),
 				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
@@ -2092,9 +2094,9 @@ public class UploadPackTest {
 
 		ByteArrayInputStream send = linesAsInputStream(
 				"command=fetch\n", "agent=JGit-test/1.2.4\n",
-				PacketLineIn.DELIM, "want " + one.getName() + "\n",
+				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
 				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(send, recv, null);

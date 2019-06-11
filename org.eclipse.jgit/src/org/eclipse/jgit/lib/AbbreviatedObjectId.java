@@ -162,7 +162,7 @@ public final class AbbreviatedObjectId implements Serializable {
 			r |= RawParseUtils.parseHexInt4(bs[p++]);
 			n++;
 		}
-		return r << (8 - n) * 4;
+		return r << ((8 - n) * 4);
 	}
 
 	static int mask(int nibbles, int word, int v) {

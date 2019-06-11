@@ -200,6 +200,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
 	/***/ public String configHandleIsStale;
+	/***/ public String configHandleMayBeLocked;
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
@@ -267,9 +268,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotCheckOutBecauseOfConflicts;
 	/***/ public String couldNotDeleteLockFileShouldNotHappen;
 	/***/ public String couldNotDeleteTemporaryIndexFileShouldNotHappen;
+	/***/ public String couldNotFindTabInLine;
+	/***/ public String couldNotFindSixTabsInLine;
 	/***/ public String couldNotGetAdvertisedRef;
 	/***/ public String couldNotGetRepoStatistics;
 	/***/ public String couldNotLockHEAD;
+	/***/ public String couldNotPersistCookies;
+	/***/ public String couldNotReadCookieFile;
 	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotReadObjectWhileParsingCommit;
 	/***/ public String couldNotRenameDeleteOldIndex;
@@ -516,6 +521,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
 	/***/ public String missingConfigurationForKey;
+	/***/ public String missingCookieFile;
 	/***/ public String missingCRC;
 	/***/ public String missingDeltaBase;
 	/***/ public String missingForwardImageInGITBinaryPatch;
@@ -686,6 +692,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String s3ActionDeletion;
 	/***/ public String s3ActionReading;
 	/***/ public String s3ActionWriting;
+	/***/ public String searchForReachableBranches;
 	/***/ public String searchForReuse;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;

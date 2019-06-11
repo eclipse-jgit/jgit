@@ -99,7 +99,7 @@ final class ProtocolV0Parser {
 				throw eof;
 			}
 
-			if (line == PacketLineIn.END) {
+			if (PacketLineIn.isEnd(line)) {
 				break;
 			}
 

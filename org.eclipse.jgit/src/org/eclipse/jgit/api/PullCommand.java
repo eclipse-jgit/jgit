@@ -60,6 +60,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
@@ -67,12 +68,17 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TagOpt;
 
@@ -339,6 +345,45 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 		PullResult result;
 		if (pullRebaseMode != BranchRebaseMode.NONE) {
+			try {
+				Ref head = repo.exactRef(Constants.HEAD);
+				if (head == null) {
+					throw new NoHeadException(JGitText
+							.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+				}
+				ObjectId headId = head.getObjectId();
+				if (headId == null) {
+					// Pull on an unborn branch: checkout
+					try (RevWalk revWalk = new RevWalk(repo)) {
+						RevCommit srcCommit = revWalk
+								.parseCommit(commitToMerge);
+						DirCacheCheckout dco = new DirCacheCheckout(repo,
+								repo.lockDirCache(), srcCommit.getTree());
+						dco.setFailOnConflict(true);
+						dco.setProgressMonitor(monitor);
+						dco.checkout();
+						RefUpdate refUpdate = repo
+								.updateRef(head.getTarget().getName());
+						refUpdate.setNewObjectId(commitToMerge);
+						refUpdate.setExpectedOldObjectId(null);
+						refUpdate.setRefLogMessage("initial pull", false); //$NON-NLS-1$
+						if (refUpdate.update() != Result.NEW) {
+							throw new NoHeadException(JGitText
+									.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+						}
+						monitor.endTask();
+						return new PullResult(fetchRes, remote,
+								RebaseResult.result(
+										RebaseResult.Status.FAST_FORWARD,
+										srcCommit));
+					}
+				}
+			} catch (NoHeadException e) {
+				throw e;
+			} catch (IOException e) {
+				throw new JGitInternalException(JGitText
+						.get().exceptionCaughtDuringExecutionOfPullCommand, e);
+			}
 			RebaseCommand rebase = new RebaseCommand(repo);
 			RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
 					.setUpstreamName(upstreamName).setProgressMonitor(monitor)

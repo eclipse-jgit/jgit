@@ -244,7 +244,7 @@ public class GC {
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
-	// TODO(ms): in 5.0 change signature and return Future<Collection<PackFile>>
+	// TODO(ms): change signature and return Future<Collection<PackFile>>
 	@SuppressWarnings("FutureReturnValueIgnored")
 	public Collection<PackFile> gc() throws IOException, ParseException {
 		if (!background) {
@@ -281,7 +281,7 @@ public class GC {
 			}
 			return Collections.emptyList();
 		};
-		// TODO(ms): in 5.0 change signature and return the Future
+		// TODO(ms): change signature and return the Future
 		executor().submit(gcTask);
 		return Collections.emptyList();
 	}

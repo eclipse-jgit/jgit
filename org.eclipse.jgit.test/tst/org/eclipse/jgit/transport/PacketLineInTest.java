@@ -44,7 +44,8 @@
 package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
@@ -142,21 +143,21 @@ public class PacketLineInTest {
 		init("0004");
 		final String act = in.readString();
 		assertEquals("", act);
-		assertNotSame(PacketLineIn.END, act);
+		assertFalse(PacketLineIn.isEnd(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_End() throws IOException {
 		init("0000");
-		assertSame(PacketLineIn.END, in.readString());
+		assertTrue(PacketLineIn.isEnd(in.readString()));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_Delim() throws IOException {
 		init("0001");
-		assertSame(PacketLineIn.DELIM, in.readString());
+		assertTrue(PacketLineIn.isDelimiter(in.readString()));
 		assertEOF();
 	}
 
@@ -183,14 +184,14 @@ public class PacketLineInTest {
 		init("0004");
 		final String act = in.readStringRaw();
 		assertEquals("", act);
-		assertNotSame(PacketLineIn.END, act);
+		assertFalse(PacketLineIn.isEnd(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadStringRaw_End() throws IOException {
 		init("0000");
-		assertSame(PacketLineIn.END, in.readStringRaw());
+		assertTrue(PacketLineIn.isEnd(in.readString()));
 		assertEOF();
 	}
 

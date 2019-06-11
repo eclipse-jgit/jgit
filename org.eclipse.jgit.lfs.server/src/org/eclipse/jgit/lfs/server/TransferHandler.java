@@ -84,7 +84,7 @@ abstract class TransferHandler {
 		@Override
 		Body process() throws IOException {
 			Response.Body body = new Response.Body();
-			if (objects.size() > 0) {
+			if (!objects.isEmpty()) {
 				body.objects = new ArrayList<>();
 				for (LfsObject o : objects) {
 					addObjectInfo(body, o);
@@ -122,7 +122,7 @@ abstract class TransferHandler {
 		@Override
 		Body process() throws IOException {
 			Response.Body body = new Response.Body();
-			if (objects.size() > 0) {
+			if (!objects.isEmpty()) {
 				body.objects = new ArrayList<>();
 				for (LfsObject o : objects) {
 					addObjectInfo(body, o);

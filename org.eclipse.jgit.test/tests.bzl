@@ -7,6 +7,7 @@ def tests(tests):
     for src in tests:
         name = src[len("tst/"):len(src) - len(".java")].replace("/", "_")
         labels = []
+        timeout = "moderate"
         if name.startswith("org_eclipse_jgit_"):
             l = name[len("org.eclipse.jgit_"):]
             if l.startswith("internal_storage_"):
@@ -53,9 +54,15 @@ def tests(tests):
             additional_deps = [
                 "//lib:mockito",
             ]
+        if src.endswith("TransportHttpTest.java"):
+            additional_deps = [
+                "//lib:mockito",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
+        if src.endswith("EolRepositoryTest.java") or src.endswith("GcCommitSelectionTest.java"):
+            timeout = "long"
 
         junit_tests(
             name = name,
@@ -73,4 +80,5 @@ def tests(tests):
             ],
             flaky = flaky,
             jvm_flags = [heap_size, "-Dfile.encoding=UTF-8"],
+            timeout = timeout,
         )

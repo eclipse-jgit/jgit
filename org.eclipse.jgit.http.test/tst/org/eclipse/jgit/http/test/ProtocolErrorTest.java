@@ -44,7 +44,7 @@
 package org.eclipse.jgit.http.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -157,7 +157,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 						pckin.readString());
 				assertEquals("ng refs/objects/A n/a (unpacker error)",
 						pckin.readString());
-				assertSame(PacketLineIn.END, pckin.readString());
+				assertTrue(PacketLineIn.isEnd(pckin.readString()));
 			}
 		} finally {
 			c.disconnect();

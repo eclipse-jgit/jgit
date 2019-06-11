@@ -306,11 +306,11 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
 		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-		assertSame(PacketLineIn.END, r.readString());
+		assertTrue(PacketLineIn.isEnd(r.readString()));
 
 		assertEquals("unpack error Missing commit " + P.name(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
-		assertSame(PacketLineIn.END, r.readString());
+		assertTrue(PacketLineIn.isEnd(r.readString()));
 	}
 
 	private static void receive(final ReceivePack rp,
@@ -366,13 +366,13 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			int nul = master.indexOf('\0');
 			assertTrue("has capability list", nul > 0);
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 
 			assertEquals("unpack error Missing blob " + b.name(),
 					r.readString());
 			assertEquals("ng refs/heads/s n/a (unpacker error)",
 					r.readString());
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 		}
 	}
 
@@ -419,13 +419,13 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			int nul = master.indexOf('\0');
 			assertTrue("has capability list", nul > 0);
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 
 			assertEquals("unpack error Missing blob " + b.name(),
 					r.readString());
 			assertEquals("ng refs/heads/s n/a (unpacker error)",
 					r.readString());
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 		}
 	}
 
@@ -473,13 +473,13 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			int nul = master.indexOf('\0');
 			assertTrue("has capability list", nul > 0);
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 
 			assertEquals("unpack error Missing blob " + n.name(),
 					r.readString());
 			assertEquals("ng refs/heads/s n/a (unpacker error)",
 					r.readString());
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 		}
 	}
 
@@ -504,13 +504,13 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
 		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-		assertSame(PacketLineIn.END, r.readString());
+		assertTrue(PacketLineIn.isEnd(r.readString()));
 
 		String errorLine = r.readString();
 		assertTrue(errorLine.startsWith("unpack error"));
 		assertTrue(errorLine.contains("Invalid submodule URL '-"));
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
-		assertSame(PacketLineIn.END, r.readString());
+		assertTrue(PacketLineIn.isEnd(r.readString()));
 	}
 
 	private TemporaryBuffer.Heap setupSourceRepoInvalidGitmodules()
@@ -589,13 +589,13 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			int nul = master.indexOf('\0');
 			assertTrue("has capability list", nul > 0);
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 
 			assertEquals("unpack error Missing tree " + t.name(),
 					r.readString());
 			assertEquals("ng refs/heads/s n/a (unpacker error)",
 					r.readString());
-			assertSame(PacketLineIn.END, r.readString());
+			assertTrue(PacketLineIn.isEnd(r.readString()));
 		}
 	}
 
