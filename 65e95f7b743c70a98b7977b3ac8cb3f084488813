@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "0c4807bd_57d3e0a4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-11T11:47:39Z",
+      "side": 1,
+      "message": "fix empty block warning",
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a082121_64d24a66",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-11T11:47:39Z",
+      "side": 1,
+      "message": "fix empty block warning",
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82cdcf1d_fd766868",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 2
@@ -41,6 +75,53 @@
         "startChar": 4,
         "endLine": 385,
         "endChar": 29
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af162f8d_c1852fab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-11T11:47:39Z",
+      "side": 1,
+      "message": "packLock needs to be unlocked in finally block",
+      "parentUuid": "82cdcf1d_fd766868",
+      "range": {
+        "startLine": 385,
+        "startChar": 4,
+        "endLine": 385,
+        "endChar": 29
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43ac8d04_acf0b350",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-11T11:47:39Z",
+      "side": 1,
+      "message": "deprecated, replace it by getObjectDatabase().has(ObjectId)",
+      "range": {
+        "startLine": 388,
+        "startChar": 14,
+        "endLine": 388,
+        "endChar": 30
       },
       "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
