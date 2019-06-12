@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a007dc58_ed4d652e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-12T10:18:08Z",
+      "side": 1,
+      "message": "I think this should also suppress StringEquality",
+      "revId": "7c7464e44b0fd5d56401fdfce7913fd8475dfce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
