@@ -22,6 +22,30 @@
       "revId": "7c98a1aa1bd69414d8279a6bf43042616027226a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa3836cd_bde4eef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-12T11:00:38Z",
+      "side": 1,
+      "message": "I am not sure myself :) Most of these errors are spotted by ErrorProne (with a custom conf?), the others I assume are internal analyzers. I\u0027ll check if there is something we can run upstream.",
+      "parentUuid": "f72c2ef0_38301a3b",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "7c98a1aa1bd69414d8279a6bf43042616027226a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
