@@ -2198,7 +2198,7 @@ public class PackWriter implements AutoCloseable {
 		if (!cachedPacks.isEmpty()) {
 			if (otp.isEdge())
 				return;
-			if ((nFmt == PACK_WHOLE) | (nFmt == PACK_DELTA)) {
+			if (nFmt == PACK_WHOLE || nFmt == PACK_DELTA) {
 				for (CachedPack pack : cachedPacks) {
 					if (pack.hasObject(otp, next)) {
 						otp.setEdge();
@@ -2241,7 +2241,7 @@ public class PackWriter implements AutoCloseable {
 			otp.clearReuseAsIs();
 		}
 
-		otp.setDeltaAttempted(reuseDeltas & next.wasDeltaAttempted());
+		otp.setDeltaAttempted(reuseDeltas && next.wasDeltaAttempted());
 		otp.select(next);
 	}
 
