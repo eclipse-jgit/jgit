@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "601fa784_e44b7b94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-12T11:41:09Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t read that comment before. I don\u0027t know either about header parsing expectations... \n\nIdeally each generator would check this PARSE flag and act accordingly if they need the headers but that is too much to assume. Maybe we can parse all headers here and leave for another commit the reduction of parsing.",
+      "parentUuid": "7c0db403_b8947ac7",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65b6a37c_30417536",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
         "patchSetId": 6
@@ -248,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "e6981086_c09fad21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-12T11:41:09Z",
+      "side": 1,
+      "message": "The IllegalStateException sounds good.",
+      "parentUuid": "1baf4203_c773ed18",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3543a2ba_c95219de",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 6
@@ -280,6 +316,24 @@
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9562f183_4a16b4d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-12T11:41:09Z",
+      "side": 1,
+      "message": "I also think it should keep the value, at least to be consistent with the sorting (that is not reset either).",
+      "parentUuid": "09d908cb_a10398fa",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
