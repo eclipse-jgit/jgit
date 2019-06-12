@@ -16,6 +16,24 @@
       "revId": "85ca0ccc11beb097dd26d413266832cbf70d1e04",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59ef8cf2_119e5ec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-12T17:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4ad7896_4e88f454",
+      "revId": "85ca0ccc11beb097dd26d413266832cbf70d1e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
