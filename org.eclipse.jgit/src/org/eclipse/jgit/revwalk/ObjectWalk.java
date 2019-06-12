@@ -497,7 +497,7 @@ public class ObjectWalk extends RevWalk {
 				continue;
 			}
 			visitationPolicy.visited(o);
-			if ((o.flags & UNINTERESTING) == 0 | boundary) {
+			if ((o.flags & UNINTERESTING) == 0 || boundary) {
 				if (o instanceof RevTree) {
 					// The previous while loop should have exhausted the stack
 					// of trees.
