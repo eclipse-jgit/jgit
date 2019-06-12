@@ -677,7 +677,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				state.writeTo(out, null);
 			}
 
-			if (receivedContinue && havesSinceLastContinue > MAX_HAVES
+			if ((receivedContinue && havesSinceLastContinue > MAX_HAVES)
 					|| havesSent >= maxHaves) {
 				// Our history must be really different from the remote's.
 				// We just sent a whole slew of have lines, and it did not

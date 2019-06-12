@@ -353,7 +353,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		final byte[] buf = buffer();
 		int sz = data.length;
 		int len = 0;
-		buf[len++] = (byte) ((typeCode << 4) | sz & 15);
+		buf[len++] = (byte) ((typeCode << 4) | (sz & 15));
 		sz >>>= 4;
 		while (sz > 0) {
 			buf[len - 1] |= 0x80;

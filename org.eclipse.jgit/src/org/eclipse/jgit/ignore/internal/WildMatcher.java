@@ -64,7 +64,7 @@ public final class WildMatcher extends AbstractMatcher {
 	public final boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
 		return !dirOnly || assumeDirectory
-				|| !pathMatch && isSubdirectory(path);
+				|| (!pathMatch && isSubdirectory(path));
 	}
 
 	/** {@inheritDoc} */

@@ -295,7 +295,7 @@ public class UnpackedObject {
 		 * can always correctly determine the buffer format.
 		 */
 		final int fb = hdr[0] & 0xff;
-		return (fb & 0x8f) == 0x08 && (((fb << 8) | hdr[1] & 0xff) % 31) == 0;
+		return (fb & 0x8f) == 0x08 && (((fb << 8) | (hdr[1] & 0xff)) % 31) == 0;
 	}
 
 	static InputStream inflate(final InputStream in, final long size,

@@ -397,8 +397,9 @@ public class HttpConfig {
 				// A longer path match is always preferred even over a user
 				// match. If the path matches are equal, a match with user wins
 				// over a match without user.
-				if (matchLength > bestMatchLength || !withUser && hasUser
-						&& matchLength >= 0 && matchLength == bestMatchLength) {
+				if (matchLength > bestMatchLength
+						|| (!withUser && hasUser && matchLength >= 0
+								&& matchLength == bestMatchLength)) {
 					bestMatch = s;
 					bestMatchLength = matchLength;
 					withUser = hasUser;
@@ -444,7 +445,7 @@ public class HttpConfig {
 		int uLength = uriPath.length();
 		int mLength = matchPath.length();
 		if (mLength == uLength || matchPath.charAt(mLength - 1) == '/'
-				|| mLength < uLength && uriPath.charAt(mLength) == '/') {
+				|| (mLength < uLength && uriPath.charAt(mLength) == '/')) {
 			return mLength;
 		}
 		return -1;
@@ -464,7 +465,7 @@ public class HttpConfig {
 			if (slash < 0) {
 				slash = length;
 			}
-			if (slash == i || slash == i + 1 && path.charAt(i) == '.') {
+			if (slash == i || (slash == i + 1 && path.charAt(i) == '.')) {
 				// Skip /. or also double slashes
 			} else if (slash == i + 2 && path.charAt(i) == '.'
 					&& path.charAt(i + 1) == '.') {
