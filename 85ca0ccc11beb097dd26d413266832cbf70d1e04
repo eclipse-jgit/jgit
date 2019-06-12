@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ad7896_4e88f454",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-12T11:41:09Z",
+      "side": 1,
+      "message": "nit; Don\u0027t mention the queue in the javadoc. It is an implementation detail irrelevant for the caller.",
+      "revId": "85ca0ccc11beb097dd26d413266832cbf70d1e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
