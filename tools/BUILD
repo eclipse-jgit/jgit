@@ -70,7 +70,7 @@ java_package_configuration(
         "-Xep:ProtoFieldPreconditionsCheckNotNull:ERROR",
         "-Xep:ProtocolBufferOrdinal:ERROR",
         "-Xep:RequiredModifiers:ERROR",
-        "-Xep:ShortCircuitBoolean:WARN",
+        "-Xep:ShortCircuitBoolean:ERROR",
         "-Xep:SimpleDateFormatConstant:ERROR",
         "-Xep:StaticGuardedByInstance:ERROR",
         "-Xep:SynchronizeOnNonFinalField:ERROR",
