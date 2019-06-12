@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "475e069e_afa5b6fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-12T17:25:29Z",
+      "side": 1,
+      "message": "Changed structure to parse headers for non-first parents too.",
+      "parentUuid": "601fa784_e44b7b94",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65b6a37c_30417536",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
         "patchSetId": 6
@@ -331,6 +349,24 @@
       "side": 1,
       "message": "I also think it should keep the value, at least to be consistent with the sorting (that is not reset either).",
       "parentUuid": "09d908cb_a10398fa",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a82423b0_12ffc768",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-12T17:25:29Z",
+      "side": 1,
+      "message": "Ok retaining the value here.",
+      "parentUuid": "9562f183_4a16b4d3",
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
