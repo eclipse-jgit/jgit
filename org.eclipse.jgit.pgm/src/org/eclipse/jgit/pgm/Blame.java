@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.blame.BlameGenerator;
@@ -218,7 +219,8 @@ class Blame extends TextBuiltin {
 					dateWidth = Math.max(dateWidth, date(line).length());
 					pathWidth = Math.max(pathWidth, path(line).length());
 				}
-				while (line + 1 < end && blame.getSourceCommit(line + 1) == c) {
+				while (line + 1 < end
+						&& Objects.equals(blame.getSourceCommit(line + 1), c)) {
 					line++;
 				}
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
@@ -257,7 +259,8 @@ class Blame extends TextBuiltin {
 					blame.getResultContents().writeLine(outs, line);
 					outs.flush();
 					outw.print('\n');
-				} while (++line < end && blame.getSourceCommit(line) == c);
+				} while (++line < end
+						&& Objects.equals(blame.getSourceCommit(line), c));
 			}
 		} catch (NoWorkTreeException | IOException e) {
 			throw die(e.getMessage(), e);
