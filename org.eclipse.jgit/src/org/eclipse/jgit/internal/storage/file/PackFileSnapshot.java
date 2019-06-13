@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de>
+ * Copyright (C) 2019, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,41 +40,84 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.ignore.internal;
+package org.eclipse.jgit.internal.storage.file;
 
-/**
- * Wildmatch matcher for "double star" (<code>**</code>) pattern only. This
- * matcher matches any path.
- * <p>
- * This class is immutable and thread safe.
- */
-public final class WildMatcher extends AbstractMatcher {
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
-	static final String WILDMATCH = "**"; //$NON-NLS-1$
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
-	// double star for the beginning of pattern
-	static final String WILDMATCH2 = "/**"; //$NON-NLS-1$
+class PackFileSnapshot extends FileSnapshot {
 
-	WildMatcher(boolean dirOnly) {
-		super(WILDMATCH, dirOnly);
+	private static final ObjectId MISSING_CHECKSUM = ObjectId.zeroId();
+
+	/**
+	 * Record a snapshot for a specific packfile path.
+	 * <p>
+	 * This method should be invoked before the packfile is accessed.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 * @return the snapshot.
+	 */
+	public static PackFileSnapshot save(File path) {
+		return new PackFileSnapshot(path);
+	}
+
+	private AnyObjectId checksum = MISSING_CHECKSUM;
+
+	private boolean wasChecksumChanged;
+
+
+	PackFileSnapshot(File packFile) {
+		super(packFile);
+	}
+
+	void setChecksum(AnyObjectId checksum) {
+		this.checksum = checksum;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public final boolean matches(String path, boolean assumeDirectory,
-			boolean pathMatch) {
-		return !dirOnly || assumeDirectory
-				|| (!pathMatch && isSubdirectory(path));
+	public boolean isModified(File packFile) {
+		if (!super.isModified(packFile)) {
+			return false;
+		}
+		if (wasSizeChanged() || wasFileKeyChanged()
+				|| !wasLastModifiedRacilyClean()) {
+			return true;
+		}
+		return isChecksumChanged(packFile);
 	}
 
-	/** {@inheritDoc} */
+	boolean isChecksumChanged(File packFile) {
+		return wasChecksumChanged = checksum != MISSING_CHECKSUM
+				&& !checksum.equals(readChecksum(packFile));
+	}
+
+	private AnyObjectId readChecksum(File packFile) {
+		try (RandomAccessFile fd = new RandomAccessFile(packFile, "r")) { //$NON-NLS-1$
+			fd.seek(fd.length() - 20);
+			final byte[] buf = new byte[20];
+			fd.readFully(buf, 0, 20);
+			return ObjectId.fromRaw(buf);
+		} catch (IOException e) {
+			return MISSING_CHECKSUM;
+		}
+	}
+
+	boolean wasChecksumChanged() {
+		return wasChecksumChanged;
+	}
+
+	@SuppressWarnings("nls")
 	@Override
-	public final boolean matches(String segment, int startIncl, int endExcl) {
-		return true;
+	public String toString() {
+		return "PackFileSnapshot [checksum=" + checksum + ", "
+				+ super.toString() + "]";
 	}
 
-	private static boolean isSubdirectory(String path) {
-		final int slashIndex = path.indexOf('/');
-		return slashIndex >= 0 && slashIndex < path.length() - 1;
-	}
 }
