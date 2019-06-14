@@ -279,9 +279,12 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
-		HunkHeader lastHunk = fh.getHunks().get(fh.getHunks().size() - 1);
-		RawText lhrt = new RawText(lastHunk.getBuffer());
-		return lhrt.getString(lhrt.size() - 1).equals(
-				"\\ No newline at end of file"); //$NON-NLS-1$
+		if (fh.getHunks() != null && fh.getHunks().size() > 0) {
+			HunkHeader lastHunk = fh.getHunks().get(fh.getHunks().size() - 1);
+			RawText lhrt = new RawText(lastHunk.getBuffer());
+			return lhrt.getString(lhrt.size() - 1)
+					.equals("\\ No newline at end of file"); //$NON-NLS-1$
+		}
+		return false;
 	}
 }
