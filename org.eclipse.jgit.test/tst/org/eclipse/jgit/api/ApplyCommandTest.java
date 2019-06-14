@@ -111,6 +111,16 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testAddA3() throws Exception {
+		ApplyResult result = init("A3", false, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "A3"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "A3"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
 	public void testAddA1Sub() throws Exception {
 		ApplyResult result = init("A1_sub", false, false);
 		assertEquals(1, result.getUpdatedFiles().size());
