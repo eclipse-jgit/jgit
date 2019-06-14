@@ -1,5 +1,6 @@
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.MoreAsserts.assertThrows;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
@@ -50,20 +51,14 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for server upload-pack utilities.
  */
 public class UploadPackTest {
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-
 	private URIish uri;
 
 	private TestProtocol<Object> testProtocol;
@@ -147,11 +142,11 @@ public class UploadPackTest {
 		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-						"want " + blob.name() + " not valid"));
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
+			TransportException e = assertThrows(TransportException.class,
+					() -> tn.fetch(NullProgressMonitor.INSTANCE, Collections
+							.singletonList(new RefSpec(blob.name()))));
+			assertThat(e.getMessage(),
+					containsString("want " + blob.name() + " not valid"));
 		}
 	}
 
@@ -186,11 +181,12 @@ public class UploadPackTest {
 		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
+			TransportException e = assertThrows(TransportException.class,
+					() -> tn.fetch(NullProgressMonitor.INSTANCE, Collections
+							.singletonList(new RefSpec(blob.name()))));
+			assertThat(e.getMessage(),
+					containsString(
 						"want " + blob.name() + " not valid"));
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
 		}
 	}
 
@@ -416,12 +412,11 @@ public class UploadPackTest {
 			try (Transport tn = testProtocol.open(uri, client, "server2")) {
 				tn.setFilterSpec(FilterSpec.withBlobLimit(0));
 
-				thrown.expect(TransportException.class);
-				thrown.expectMessage(
-						"filter requires server to advertise that capability");
-
-				tn.fetch(NullProgressMonitor.INSTANCE,
-						Collections.singletonList(new RefSpec(commit.name())));
+				TransportException e = assertThrows(TransportException.class,
+						() -> tn.fetch(NullProgressMonitor.INSTANCE, Collections
+								.singletonList(new RefSpec(commit.name()))));
+				assertThat(e.getMessage(), containsString(
+						"filter requires server to advertise that capability"));
 			}
 		}
 	}
@@ -739,13 +734,12 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2LsRefsUnrecognizedArgument() throws Exception {
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("unexpected invalid-argument");
-		uploadPackV2(
-			"command=ls-refs\n",
-			PacketLineIn.delimiter(),
-			"invalid-argument\n",
-				PacketLineIn.end());
+		PackProtocolException e = assertThrows(PackProtocolException.class,
+				() -> uploadPackV2("command=ls-refs\n",
+						PacketLineIn.delimiter(), "invalid-argument\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("unexpected invalid-argument"));
 	}
 
 	@Test
@@ -792,119 +786,88 @@ public class UploadPackTest {
 		remote.update("branch1", advertized);
 
 		// This works
-		uploadPackV2(
-			RequestPolicy.ADVERTISED,
-			null,
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + advertized.name() + "\n",
+		uploadPackV2(RequestPolicy.ADVERTISED, null, null, "command=fetch\n",
+				PacketLineIn.delimiter(), "want " + advertized.name() + "\n",
 				PacketLineIn.end());
 
 		// This doesn't
-		thrown.expect(TransportException.class);
-		thrown.expectMessage(Matchers.containsString(
-					"want " + unadvertized.name() + " not valid"));
-		uploadPackV2(
-			RequestPolicy.ADVERTISED,
-			null,
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + unadvertized.name() + "\n",
-				PacketLineIn.end());
+		TransportException e = assertThrows(TransportException.class,
+				() -> uploadPackV2(RequestPolicy.ADVERTISED, null, null,
+						"command=fetch\n", PacketLineIn.delimiter(),
+						"want " + unadvertized.name() + "\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("want " + unadvertized.name() + " not valid"));
 	}
 
 	@Test
 	public void testV2FetchRequestPolicyReachableCommit() throws Exception {
 		RevCommit reachable = remote.commit().message("x").create();
-		RevCommit advertized = remote.commit().message("x").parent(reachable).create();
+		RevCommit advertized = remote.commit().message("x").parent(reachable)
+				.create();
 		RevCommit unreachable = remote.commit().message("y").create();
 		remote.update("branch1", advertized);
 
 		// This works
-		uploadPackV2(
-			RequestPolicy.REACHABLE_COMMIT,
-			null,
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + reachable.name() + "\n",
-				PacketLineIn.end());
+		uploadPackV2(RequestPolicy.REACHABLE_COMMIT, null, null,
+				"command=fetch\n", PacketLineIn.delimiter(),
+				"want " + reachable.name() + "\n", PacketLineIn.end());
 
 		// This doesn't
-		thrown.expect(TransportException.class);
-		thrown.expectMessage(Matchers.containsString(
-					"want " + unreachable.name() + " not valid"));
-		uploadPackV2(
-			RequestPolicy.REACHABLE_COMMIT,
-			null,
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + unreachable.name() + "\n",
-				PacketLineIn.end());
+		TransportException e = assertThrows(TransportException.class,
+				() -> uploadPackV2(RequestPolicy.REACHABLE_COMMIT, null, null,
+						"command=fetch\n", PacketLineIn.delimiter(),
+						"want " + unreachable.name() + "\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("want " + unreachable.name() + " not valid"));
 	}
 
 	@Test
 	public void testV2FetchRequestPolicyTip() throws Exception {
 		RevCommit parentOfTip = remote.commit().message("x").create();
-		RevCommit tip = remote.commit().message("y").parent(parentOfTip).create();
+		RevCommit tip = remote.commit().message("y").parent(parentOfTip)
+				.create();
 		remote.update("secret", tip);
 
 		// This works
-		uploadPackV2(
-			RequestPolicy.TIP,
-			new RejectAllRefFilter(),
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + tip.name() + "\n",
-				PacketLineIn.end());
+		uploadPackV2(RequestPolicy.TIP, new RejectAllRefFilter(), null,
+				"command=fetch\n", PacketLineIn.delimiter(),
+				"want " + tip.name() + "\n", PacketLineIn.end());
 
 		// This doesn't
-		thrown.expect(TransportException.class);
-		thrown.expectMessage(Matchers.containsString(
-					"want " + parentOfTip.name() + " not valid"));
-		uploadPackV2(
-			RequestPolicy.TIP,
-			new RejectAllRefFilter(),
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + parentOfTip.name() + "\n",
-				PacketLineIn.end());
+		TransportException e = assertThrows(TransportException.class,
+				() -> uploadPackV2(RequestPolicy.TIP, new RejectAllRefFilter(),
+						null, "command=fetch\n", PacketLineIn.delimiter(),
+						"want " + parentOfTip.name() + "\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("want " + parentOfTip.name() + " not valid"));
 	}
 
 	@Test
 	public void testV2FetchRequestPolicyReachableCommitTip() throws Exception {
 		RevCommit parentOfTip = remote.commit().message("x").create();
-		RevCommit tip = remote.commit().message("y").parent(parentOfTip).create();
+		RevCommit tip = remote.commit().message("y").parent(parentOfTip)
+				.create();
 		RevCommit unreachable = remote.commit().message("y").create();
 		remote.update("secret", tip);
 
 		// This works
-		uploadPackV2(
-			RequestPolicy.REACHABLE_COMMIT_TIP,
-			new RejectAllRefFilter(),
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + parentOfTip.name() + "\n",
+		uploadPackV2(RequestPolicy.REACHABLE_COMMIT_TIP,
+				new RejectAllRefFilter(), null, "command=fetch\n",
+				PacketLineIn.delimiter(), "want " + parentOfTip.name() + "\n",
 				PacketLineIn.end());
 
 		// This doesn't
-		thrown.expect(TransportException.class);
-		thrown.expectMessage(Matchers.containsString(
-					"want " + unreachable.name() + " not valid"));
-		uploadPackV2(
-			RequestPolicy.REACHABLE_COMMIT_TIP,
-			new RejectAllRefFilter(),
-			null,
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + unreachable.name() + "\n",
-				PacketLineIn.end());
+		TransportException e = assertThrows(TransportException.class,
+				() -> uploadPackV2(RequestPolicy.REACHABLE_COMMIT_TIP,
+						new RejectAllRefFilter(), null, "command=fetch\n",
+						PacketLineIn.delimiter(),
+						"want " + unreachable.name() + "\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("want " + unreachable.name() + " not valid"));
 	}
 
 	@Test
@@ -1012,29 +975,29 @@ public class UploadPackTest {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
-		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
 		RevBlob childBlob = remote.blob(commonInBlob + "b");
-		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
 		remote.update("branch1", child);
 
 		// Pretend that we have parent to get a thin pack based on it.
-		ByteArrayInputStream recvStream = uploadPackV2(
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + child.toObjectId().getName() + "\n",
-			"have " + parent.toObjectId().getName() + "\n",
-			"thin-pack\n",
-			"done\n",
-				PacketLineIn.end());
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + child.toObjectId().getName() + "\n",
+				"have " + parent.toObjectId().getName() + "\n", "thin-pack\n",
+				"done\n", PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("packfile"));
 
 		// Verify that we received a thin pack by trying to apply it
 		// against the client repo, which does not have parent.
-		thrown.expect(IOException.class);
-		thrown.expectMessage("pack has unresolved deltas");
-		parsePack(recvStream);
+		IOException e = assertThrows(IOException.class,
+				() -> parsePack(recvStream));
+		assertThat(e.getMessage(),
+				containsString("pack has unresolved deltas"));
 	}
 
 	@Test
@@ -1335,19 +1298,17 @@ public class UploadPackTest {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
 		RevCommit tooOld = remote.commit()
-			.committer(new PersonIdent(person, 1500000000, 0)).create();
+				.committer(new PersonIdent(person, 1500000000, 0)).create();
 
 		remote.update("branch1", tooOld);
 
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("No commits selected for shallow request");
-		uploadPackV2(
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"deepen-since 1510000\n",
-			"want " + tooOld.toObjectId().getName() + "\n",
-			"done\n",
-				PacketLineIn.end());
+		PackProtocolException e = assertThrows(PackProtocolException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"deepen-since 1510000\n",
+						"want " + tooOld.toObjectId().getName() + "\n",
+						"done\n", PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("No commits selected for shallow request"));
 	}
 
 	@Test
@@ -1406,7 +1367,8 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenNot_excludeDescendantOfWant() throws Exception {
+	public void testV2FetchDeepenNot_excludeDescendantOfWant()
+			throws Exception {
 		RevCommit one = remote.commit().message("one").create();
 		RevCommit two = remote.commit().message("two").parent(one).create();
 		RevCommit three = remote.commit().message("three").parent(two).create();
@@ -1415,15 +1377,13 @@ public class UploadPackTest {
 		remote.update("two", two);
 		remote.update("four", four);
 
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("No commits selected for shallow request");
-		uploadPackV2(
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"deepen-not four\n",
-			"want " + two.toObjectId().getName() + "\n",
-			"done\n",
-				PacketLineIn.end());
+		PackProtocolException e = assertThrows(PackProtocolException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"deepen-not four\n",
+						"want " + two.toObjectId().getName() + "\n", "done\n",
+						PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("No commits selected for shallow request"));
 	}
 
 	@Test
@@ -1501,13 +1461,11 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2FetchUnrecognizedArgument() throws Exception {
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("unexpected invalid-argument");
-		uploadPackV2(
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"invalid-argument\n",
-				PacketLineIn.end());
+		PackProtocolException e = assertThrows(PackProtocolException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"invalid-argument\n", PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("unexpected invalid-argument"));
 	}
 
 	@Test
@@ -1876,15 +1834,12 @@ public class UploadPackTest {
 
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
 
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage("unexpected filter blob:limit=5");
-		uploadPackV2(
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + commit.toObjectId().getName() + "\n",
-			"filter blob:limit=5\n",
-			"done\n",
-				PacketLineIn.end());
+		PackProtocolException e = assertThrows(PackProtocolException.class,
+				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
+						"want " + commit.toObjectId().getName() + "\n",
+						"filter blob:limit=5\n", "done\n", PacketLineIn.end()));
+		assertThat(e.getMessage(),
+				containsString("unexpected filter blob:limit=5"));
 	}
 
 	@Test
