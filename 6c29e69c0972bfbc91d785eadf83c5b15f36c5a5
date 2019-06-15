@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "6ff38adc_2802256d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-15T10:41:25Z",
+      "side": 1,
+      "message": "I documented the current rules in the contributor guide\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#License_Header\nand filed\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d548298\nfor the legal team",
+      "parentUuid": "0732ce4f_2a6577d9",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
