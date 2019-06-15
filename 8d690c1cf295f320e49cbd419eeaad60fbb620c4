@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74833327_80aa557f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-15T19:50:51Z",
+      "side": 1,
+      "message": "I think using \u003d\u003d is ok since BlameGenerator uses a single RevWalk which is caching RevCommit objects, and if a given commit is cached the RevWalk will always return the same instance.\n\nOtherwise, if objects to be compared are held I think we should use AnyObjectId\u0027s equals method. Also see RevWalk\u0027s javadoc [1]\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java#76",
+      "revId": "8d690c1cf295f320e49cbd419eeaad60fbb620c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
