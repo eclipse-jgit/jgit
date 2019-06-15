@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "308f3d31_72fdde62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-06-15T01:29:37Z",
+      "side": 1,
+      "message": "Removing the try block around this is allowing what was previously being ignored as the secondary failure to replace the primary \"err\" exception here. Shouldn\u0027t you keep the try block and do \"err.addSuppressed(e); throw err;\" here like you do below?",
+      "range": {
+        "startLine": 1017,
+        "startChar": 0,
+        "endLine": 1017,
+        "endChar": 85
+      },
+      "revId": "0378ecb893937bfb5583a42f5941366b2fe072fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9fbdf44_4983d4aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-06-15T01:29:37Z",
+      "side": 1,
+      "message": "Same comment about not allowing the primary error to get suppressed here.",
+      "range": {
+        "startLine": 1022,
+        "startChar": 0,
+        "endLine": 1025,
+        "endChar": 57
+      },
+      "revId": "0378ecb893937bfb5583a42f5941366b2fe072fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
