@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b699bcb6_6f8fb06b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2107,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-06-15T00:52:39Z",
+      "side": 0,
+      "message": "Is it important to mark this in the exception? It got dropped in the refactoring.",
+      "range": {
+        "startLine": 2107,
+        "startChar": 4,
+        "endLine": 2107,
+        "endChar": 23
+      },
+      "revId": "0ce1d9734897fa657728ff93db285581ce81445b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
