@@ -521,17 +521,20 @@ public final class DfsBlockCache {
 	 *
 	 * @param key
 	 *            the stream key of the pack.
+	 * @param position
+	 *            the position in the key. The default should be 0.
 	 * @param loader
 	 *            the function to load the reference.
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
-	<T> Ref<T> getOrLoadRef(DfsStreamKey key, RefLoader<T> loader)
+	<T> Ref<T> getOrLoadRef(
+			DfsStreamKey key, long position, RefLoader<T> loader)
 			throws IOException {
-		int slot = slot(key, 0);
+		int slot = slot(key, position);
 		HashEntry e1 = table.get(slot);
-		Ref<T> ref = scanRef(e1, key, 0);
+		Ref<T> ref = scanRef(e1, key, position);
 		if (ref != null) {
 			getStat(statHit, key).incrementAndGet();
 			return ref;
@@ -543,7 +546,7 @@ public final class DfsBlockCache {
 		try {
 			HashEntry e2 = table.get(slot);
 			if (e2 != e1) {
-				ref = scanRef(e2, key, 0);
+				ref = scanRef(e2, key, position);
 				if (ref != null) {
 					getStat(statHit, key).incrementAndGet();
 					return ref;
