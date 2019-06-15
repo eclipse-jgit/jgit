@@ -89,6 +89,7 @@ import org.eclipse.jgit.util.LongList;
  */
 public final class DfsPackFile extends BlockBasedFile {
 	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
+	private static final long REF_POSITION = 0;
 
 	/**
 	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
@@ -194,7 +195,9 @@ public final class DfsPackFile extends BlockBasedFile {
 
 			try {
 				DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-				DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(idxKey,
+				DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(
+						idxKey,
+						REF_POSITION,
 						() -> loadPackIndex(ctx, idxKey));
 				PackIndex idx = idxref.get();
 				if (index == null && idx != null) {
@@ -232,6 +235,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
 			DfsBlockCache.Ref<PackBitmapIndex> idxref = cache.getOrLoadRef(
 					bitmapKey,
+					REF_POSITION,
 					() -> loadBitmapIndex(ctx, bitmapKey, idx, revidx));
 			PackBitmapIndex bmidx = idxref.get();
 			if (bitmapIndex == null && bmidx != null) {
@@ -255,7 +259,9 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsStreamKey revKey = new DfsStreamKey.ForReverseIndex(
 					desc.getStreamKey(INDEX));
 			DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(
-					revKey, () -> loadReverseIdx(ctx, revKey, idx));
+					revKey,
+					REF_POSITION,
+					() -> loadReverseIdx(ctx, revKey, idx));
 			PackReverseIndex revidx = revref.get();
 			if (reverseIndex == null && revidx != null) {
 				reverseIndex = revidx;
@@ -1034,7 +1040,7 @@ public final class DfsPackFile extends BlockBasedFile {
 						Integer.MAX_VALUE);
 				ctx.stats.readIdxBytes += rc.position();
 				index = idx;
-				return new DfsBlockCache.Ref<>(idxKey, 0, sz, idx);
+				return new DfsBlockCache.Ref<>(idxKey, REF_POSITION, sz, idx);
 			} finally {
 				ctx.stats.readIdxMicros += elapsedMicros(start);
 			}
@@ -1054,7 +1060,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		PackReverseIndex revidx = new PackReverseIndex(idx);
 		int sz = (int) Math.min(idx.getObjectCount() * 8, Integer.MAX_VALUE);
 		reverseIndex = revidx;
-		return new DfsBlockCache.Ref<>(revKey, 0, sz, revidx);
+		return new DfsBlockCache.Ref<>(revKey, REF_POSITION, sz, revidx);
 	}
 
 	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(
@@ -1085,7 +1091,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			}
 			int sz = (int) Math.min(size, Integer.MAX_VALUE);
 			bitmapIndex = bmidx;
-			return new DfsBlockCache.Ref<>(bitmapKey, 0, sz, bmidx);
+			return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION, sz, bmidx);
 		} catch (EOFException e) {
 			throw new IOException(MessageFormat.format(
 					DfsText.get().shortReadOfIndex,
