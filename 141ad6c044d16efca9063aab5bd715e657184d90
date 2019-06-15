@@ -16,6 +16,24 @@
       "revId": "141ad6c044d16efca9063aab5bd715e657184d90",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d525e38_e910e574",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-15T18:22:14Z",
+      "side": 1,
+      "message": "Fixed. Also removed the unnecessary finals for local variables.",
+      "parentUuid": "5a5d89a7_55d23636",
+      "revId": "141ad6c044d16efca9063aab5bd715e657184d90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
