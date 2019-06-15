@@ -412,8 +412,7 @@ public final class DfsBlockCache {
 			getStat(statMiss, key).incrementAndGet();
 			boolean credit = true;
 			try {
-				v = file.readOneBlock(requestedPosition, ctx,
-						fileChannel.get());
+				v = file.readOneBlock(position, ctx, fileChannel.get());
 				credit = false;
 			} finally {
 				if (credit) {
