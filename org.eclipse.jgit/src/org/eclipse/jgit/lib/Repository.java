@@ -1541,8 +1541,9 @@ public abstract class Repository implements AutoCloseable {
 		    !filePath.startsWith(workDirPath)) {
 			File absWd = workDir.isAbsolute() ? workDir : workDir.getAbsoluteFile();
 			File absFile = file.isAbsolute() ? file : file.getAbsoluteFile();
-			if (absWd == workDir && absFile == file)
+			if (absWd.equals(workDir) && absFile.equals(file)) {
 				return ""; //$NON-NLS-1$
+			}
 			return stripWorkDir(absWd, absFile);
 		}
 
