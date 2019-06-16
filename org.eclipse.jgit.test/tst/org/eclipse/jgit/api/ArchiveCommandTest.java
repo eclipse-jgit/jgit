@@ -46,20 +46,44 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.beans.Statement;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
+import org.eclipse.jgit.api.errors.AbortedByHookException;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.archive.ArchiveFormats;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -67,9 +91,14 @@ import org.junit.Test;
 
 public class ArchiveCommandTest extends RepositoryTestCase {
 
+	// archives store timestamp with 1 second resolution
+	private static final int WAIT = 2000;
 	private static final String UNEXPECTED_ARCHIVE_SIZE  = "Unexpected archive size";
 	private static final String UNEXPECTED_FILE_CONTENTS = "Unexpected file contents";
 	private static final String UNEXPECTED_TREE_CONTENTS = "Unexpected tree contents";
+	private static final String UNEXPECTED_LAST_MODIFIED =
+			"Unexpected lastModified mocked by MockSystemReader, truncated to 1 second";
+	private static final String UNEXPECTED_DIFFERENT_HASH = "Unexpected different hash";
 
 	private MockFormat format = null;
 
@@ -77,25 +106,20 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 	public void setup() {
 		format = new MockFormat();
 		ArchiveCommand.registerFormat(format.SUFFIXES.get(0), format);
+		ArchiveFormats.registerAll();
 	}
 
 	@Override
 	@After
 	public void tearDown() {
 		ArchiveCommand.unregisterFormat(format.SUFFIXES.get(0));
+		ArchiveFormats.unregisterAll();
 	}
 
 	@Test
 	public void archiveHeadAllFiles() throws IOException, GitAPIException {
 		try (Git git = new Git(db)) {
-			writeTrashFile("file_1.txt", "content_1_1");
-			git.add().addFilepattern("file_1.txt").call();
-			git.commit().setMessage("create file").call();
-
-			writeTrashFile("file_1.txt", "content_1_2");
-			writeTrashFile("file_2.txt", "content_2_2");
-			git.add().addFilepattern(".").call();
-			git.commit().setMessage("updated file").call();
+			createTestContent(git);
 
 			git.archive().setOutputStream(new MockOutputStream())
 					.setFormat(format.SUFFIXES.get(0))
@@ -188,6 +212,157 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
 			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory/nested_directory"));
 		}
+	}
+
+	@Test
+	public void archiveHeadAllFilesTarTimestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			createTestContent(git);
+			String fmt = "tar";
+			File archive = new File(getTemporaryDirectory(),
+					"archive." + format);
+			archive(git, archive, fmt);
+			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+					InputStream bi = new BufferedInputStream(fi);
+					ArchiveInputStream o = new TarArchiveInputStream(bi)) {
+				assertEntries(o);
+			}
+
+			Thread.sleep(WAIT);
+			archive(git, archive, fmt);
+			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
+					ObjectId.fromRaw(IO.readFully(archive)));
+		}
+	}
+
+	@Test
+	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			createTestContent(git);
+			String fmt = "tgz";
+			File archive = new File(getTemporaryDirectory(),
+					"archive." + fmt);
+			archive(git, archive, fmt);
+			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+					InputStream bi = new BufferedInputStream(fi);
+					InputStream gzi = new GzipCompressorInputStream(bi);
+					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
+				assertEntries(o);
+			}
+
+			Thread.sleep(WAIT);
+			archive(git, archive, fmt);
+			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
+					ObjectId.fromRaw(IO.readFully(archive)));
+		}
+	}
+
+	@Test
+	public void archiveHeadAllFilesTbz2Timestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			createTestContent(git);
+			String fmt = "tbz2";
+			File archive = new File(getTemporaryDirectory(),
+					"archive." + fmt);
+			archive(git, archive, fmt);
+			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+					InputStream bi = new BufferedInputStream(fi);
+					InputStream gzi = new BZip2CompressorInputStream(bi);
+					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
+				assertEntries(o);
+			}
+
+			Thread.sleep(WAIT);
+			archive(git, archive, fmt);
+			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
+					ObjectId.fromRaw(IO.readFully(archive)));
+		}
+	}
+
+	@Test
+	public void archiveHeadAllFilesTxzTimestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			createTestContent(git);
+			String fmt = "txz";
+			File archive = new File(getTemporaryDirectory(), "archive." + fmt);
+			archive(git, archive, fmt);
+			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+					InputStream bi = new BufferedInputStream(fi);
+					InputStream gzi = new XZCompressorInputStream(bi);
+					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
+				assertEntries(o);
+			}
+
+			Thread.sleep(WAIT);
+			archive(git, archive, fmt);
+			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
+					ObjectId.fromRaw(IO.readFully(archive)));
+		}
+	}
+
+	@Test
+	public void archiveHeadAllFilesZipTimestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			createTestContent(git);
+			String fmt = "zip";
+			File archive = new File(getTemporaryDirectory(), "archive." + fmt);
+			archive(git, archive, fmt);
+			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+					InputStream bi = new BufferedInputStream(fi);
+					ArchiveInputStream o = new ZipArchiveInputStream(bi)) {
+				assertEntries(o);
+			}
+
+			Thread.sleep(WAIT);
+			archive(git, archive, fmt);
+			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
+					ObjectId.fromRaw(IO.readFully(archive)));
+		}
+	}
+
+	private void createTestContent(Git git) throws IOException, GitAPIException,
+			NoFilepatternException, NoHeadException, NoMessageException,
+			UnmergedPathsException, ConcurrentRefUpdateException,
+			WrongRepositoryStateException, AbortedByHookException {
+		writeTrashFile("file_1.txt", "content_1_1");
+		git.add().addFilepattern("file_1.txt").call();
+		git.commit().setMessage("create file").call();
+
+		writeTrashFile("file_1.txt", "content_1_2");
+		writeTrashFile("file_2.txt", "content_2_2");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("updated file").call();
+	}
+
+	private static void archive(Git git, File archive, String fmt)
+			throws GitAPIException,
+			FileNotFoundException, AmbiguousObjectException,
+			IncorrectObjectTypeException, IOException {
+		git.archive().setOutputStream(new FileOutputStream(archive))
+				.setFormat(fmt)
+				.setTree(git.getRepository().resolve("HEAD")).call();
+	}
+
+	private static void assertEntries(ArchiveInputStream o) throws IOException {
+		ArchiveEntry e;
+		int n = 0;
+		while ((e = o.getNextEntry()) != null) {
+			n++;
+			assertEquals(UNEXPECTED_LAST_MODIFIED,
+					(1250379778668L / 1000L) * 1000L,
+					e.getLastModifiedDate().getTime());
+		}
+		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, n);
 	}
 
 	private static class MockFormat
