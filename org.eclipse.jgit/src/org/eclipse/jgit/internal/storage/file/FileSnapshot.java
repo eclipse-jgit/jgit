@@ -378,7 +378,7 @@ public class FileSnapshot {
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("nls")
+	@SuppressWarnings({ "nls", "ReferenceEquality" })
 	@Override
 	public String toString() {
 		if (this == DIRTY) {
