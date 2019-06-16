@@ -272,7 +272,7 @@ public class FileSnapshot {
 	 * <p>
 	 * If the caller gets true from {@link #isModified(File)}, re-reads the
 	 * content, discovers the content is identical, and
-	 * {@link #equals(FileSnapshot)} is true, it can use
+	 * {@link #isEqual(FileSnapshot)} is true, it can use
 	 * {@link #setClean(FileSnapshot)} to make a future
 	 * {@link #isModified(File)} return false. The logic goes something like
 	 * this:
@@ -317,7 +317,7 @@ public class FileSnapshot {
 	 *            the other snapshot.
 	 * @return true if the two snapshots share the same information.
 	 */
-	public boolean equals(FileSnapshot other) {
+	public boolean isEqual(FileSnapshot other) {
 		return lastModified == other.lastModified && size == other.size
 				&& Objects.equals(fileKey, other.fileKey);
 	}
@@ -335,7 +335,7 @@ public class FileSnapshot {
 			return false;
 		}
 		FileSnapshot other = (FileSnapshot) obj;
-		return equals(other);
+		return isEqual(other);
 	}
 
 	/** {@inheritDoc} */
