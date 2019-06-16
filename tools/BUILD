@@ -60,7 +60,7 @@ java_package_configuration(
         "-Xep:MutableConstantField:ERROR",
         "-Xep:NarrowingCompoundAssignment:WARN",
         "-Xep:NonAtomicVolatileUpdate:ERROR",
-        "-Xep:NonOverridingEquals:WARN",
+        "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NullableConstructor:ERROR",
         "-Xep:NullablePrimitive:ERROR",
         "-Xep:NullableVoid:ERROR",

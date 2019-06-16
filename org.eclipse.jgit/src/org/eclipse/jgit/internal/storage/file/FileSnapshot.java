@@ -317,6 +317,7 @@ public class FileSnapshot {
 	 *            the other snapshot.
 	 * @return true if the two snapshots share the same information.
 	 */
+	@SuppressWarnings("NonOverridingEquals")
 	public boolean equals(FileSnapshot other) {
 		return lastModified == other.lastModified && size == other.size
 				&& Objects.equals(fileKey, other.fileKey);
