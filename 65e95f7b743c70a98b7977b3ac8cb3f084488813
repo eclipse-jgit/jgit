@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56ec5c10_776ffac7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T00:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2b8976c_f42c3c95",
+      "range": {
+        "startLine": 339,
+        "startChar": 2,
+        "endLine": 339,
+        "endChar": 33
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c4807bd_57d3e0a4",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "e806537a_5c1a5b20",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T00:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c4807bd_57d3e0a4",
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a082121_64d24a66",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2019-06-11T11:47:39Z",
       "side": 1,
       "message": "fix empty block warning",
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1965e949_7f169234",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T00:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a082121_64d24a66",
       "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -106,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "843807de_c023ecd1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T00:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af162f8d_c1852fab",
+      "range": {
+        "startLine": 385,
+        "startChar": 4,
+        "endLine": 385,
+        "endChar": 29
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43ac8d04_acf0b350",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 2
@@ -117,6 +201,30 @@
       "writtenOn": "2019-06-11T11:47:39Z",
       "side": 1,
       "message": "deprecated, replace it by getObjectDatabase().has(ObjectId)",
+      "range": {
+        "startLine": 388,
+        "startChar": 14,
+        "endLine": 388,
+        "endChar": 30
+      },
+      "revId": "65e95f7b743c70a98b7977b3ac8cb3f084488813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d271641f_83740d07",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T00:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43ac8d04_acf0b350",
       "range": {
         "startLine": 388,
         "startChar": 14,
