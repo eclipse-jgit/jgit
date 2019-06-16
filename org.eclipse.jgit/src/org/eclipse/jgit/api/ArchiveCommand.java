@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -376,12 +377,13 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				ObjectReader reader = walk.getObjectReader();
 
 				walk.reset(rw.parseTree(tree));
+				RevObject o = rw.parseAny(tree);
 				if (!paths.isEmpty())
 					walk.setFilter(PathFilterGroup.createFromStrings(paths));
 
 				// Put base directory into archive
 				if (pfx.endsWith("/")) { //$NON-NLS-1$
-					fmt.putEntry(outa, tree, pfx.replaceAll("[/]+$", "/"), //$NON-NLS-1$ //$NON-NLS-2$
+					fmt.putEntry(outa, o, pfx.replaceAll("[/]+$", "/"), //$NON-NLS-1$ //$NON-NLS-2$
 							FileMode.TREE, null);
 				}
 
@@ -398,11 +400,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						mode = FileMode.TREE;
 
 					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, tree, name + "/", mode, null); //$NON-NLS-1$
+						fmt.putEntry(outa, o, name + "/", mode, null); //$NON-NLS-1$
 						continue;
 					}
 					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(outa, tree, name, mode, reader.open(idBuf));
+					fmt.putEntry(outa, o, name, mode, reader.open(idBuf));
 				}
 				return out;
 			} finally {

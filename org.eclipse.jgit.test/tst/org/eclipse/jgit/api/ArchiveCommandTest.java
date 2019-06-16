@@ -46,15 +46,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.beans.Statement;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.archive.TgzFormat;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,6 +87,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 	public void setup() {
 		format = new MockFormat();
 		ArchiveCommand.registerFormat(format.SUFFIXES.get(0), format);
+		ArchiveCommand.registerFormat("tgz", new TgzFormat());
 	}
 
 	@Override
@@ -190,7 +201,44 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private class MockFormat implements ArchiveCommand.Format<MockOutputStream> {
+	@Test
+	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file_1.txt", "content_1_1");
+			git.add().addFilepattern("file_1.txt").call();
+			git.commit().setMessage("create file").call();
+
+			writeTrashFile("file_1.txt", "content_1_2");
+			writeTrashFile("file_2.txt", "content_2_2");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("updated file").call();
+
+			File archive = new File(getTemporaryDirectory(), "archive.tgz");
+			git.archive().setOutputStream(new FileOutputStream(archive))
+					.setFormat("tgz")
+					.setTree(git.getRepository().resolve("HEAD")).call();
+
+			try (InputStream fi = Files.newInputStream(archive.toPath());
+				     InputStream bi = new BufferedInputStream(fi);
+				     InputStream gzi = new GzipCompressorInputStream(bi);
+				     ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
+				ArchiveEntry e;
+				int n = 0;
+				while ((e = o.getNextEntry()) != null) {
+					n++;
+					assertEquals(
+							"expected lastModified mocked by MockSystemReader"
+									+ "truncated to 1 second",
+							(1250379778668L / 1000L) * 1000L,
+							e.getLastModifiedDate().getTime());
+				}
+				assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, n);
+			}
+		}
+	}
+
+	private static class MockFormat
+			implements ArchiveCommand.Format<MockOutputStream> {
 
 		private Map<String, String> entries = new HashMap<>();
 
@@ -240,7 +288,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	public class MockOutputStream extends OutputStream {
+	public static class MockOutputStream extends OutputStream {
 
 		private int foo;
 
