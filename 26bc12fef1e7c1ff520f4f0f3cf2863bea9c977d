@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6214cdfd_c5767070",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-16T12:51:51Z",
+      "side": 1,
+      "message": "I am not sure if it is a good idea to break clients in a service release",
+      "revId": "26bc12fef1e7c1ff520f4f0f3cf2863bea9c977d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
