@@ -47,7 +47,7 @@ java_package_configuration(
         "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:GetClassOnEnum:ERROR",
         "-Xep:ImmutableAnnotationChecker:ERROR",
-        "-Xep:ImmutableEnumChecker:WARN",
+        "-Xep:ImmutableEnumChecker:ERROR",
         "-Xep:IncompatibleModifiers:ERROR",
         "-Xep:InjectOnConstructorOfAbstractClass:ERROR",
         "-Xep:InputStreamSlowMultibyteRead:ERROR",
