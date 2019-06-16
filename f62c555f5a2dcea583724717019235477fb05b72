@@ -16,6 +16,24 @@
       "revId": "f62c555f5a2dcea583724717019235477fb05b72",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d66297_ec099fcd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-16T23:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87793508_a73c5ab5",
+      "revId": "f62c555f5a2dcea583724717019235477fb05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
