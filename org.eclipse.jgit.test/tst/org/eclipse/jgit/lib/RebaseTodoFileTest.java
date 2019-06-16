@@ -68,7 +68,7 @@ public class RebaseTodoFileTest extends RepositoryTestCase {
 	@Test
 	public void testReadTodoFile() throws Exception {
 		String[] expected = { "reword " + ObjectId.zeroId().name() + " Foo",
-				"# A comment in the the todo list",
+				"# A comment in the todo list",
 				"pick " + ObjectId.zeroId().name() + " Foo fie",
 				"squash " + ObjectId.zeroId().name() + " F",
 				"fixup " + ObjectId.zeroId().name(),
@@ -93,7 +93,7 @@ public class RebaseTodoFileTest extends RepositoryTestCase {
 				assertEquals("Expected COMMENT", RebaseTodoLine.Action.COMMENT,
 						line.getAction());
 				assertEquals("Unexpected Message",
-						"# A comment in the the todo list",
+						"# A comment in the todo list",
 						line.getComment());
 				break;
 			case 2:
