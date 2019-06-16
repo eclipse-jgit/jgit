@@ -449,7 +449,7 @@ public final class DfsBlockCache {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void reserveSpace(int reserve, DfsStreamKey key) {
+	private void reserveSpace(long reserve, DfsStreamKey key) {
 		clockLock.lock();
 		try {
 			long live = LongStream.of(getCurrentSize()).sum() + reserve;
@@ -486,7 +486,7 @@ public final class DfsBlockCache {
 		}
 	}
 
-	private void creditSpace(int credit, DfsStreamKey key) {
+	private void creditSpace(long credit, DfsStreamKey key) {
 		clockLock.lock();
 		try {
 			getStat(liveBytes, key).addAndGet(-credit);
@@ -496,7 +496,7 @@ public final class DfsBlockCache {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addToClock(Ref ref, int credit) {
+	private void addToClock(Ref ref, long credit) {
 		clockLock.lock();
 		try {
 			if (credit != 0) {
@@ -576,10 +576,10 @@ public final class DfsBlockCache {
 	}
 
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
-		return put(key, 0, (int) Math.min(size, Integer.MAX_VALUE), v);
+		return put(key, 0, size, v);
 	}
 
-	<T> Ref<T> put(DfsStreamKey key, long pos, int size, T v) {
+	<T> Ref<T> put(DfsStreamKey key, long pos, long size, T v) {
 		int slot = slot(key, pos);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, pos);
@@ -722,12 +722,12 @@ public final class DfsBlockCache {
 	static final class Ref<T> {
 		final DfsStreamKey key;
 		final long position;
-		final int size;
+		final long size;
 		volatile T value;
 		Ref next;
 		volatile boolean hot;
 
-		Ref(DfsStreamKey key, long position, int size, T v) {
+		Ref(DfsStreamKey key, long position, long size, T v) {
 			this.key = key;
 			this.position = position;
 			this.size = size;

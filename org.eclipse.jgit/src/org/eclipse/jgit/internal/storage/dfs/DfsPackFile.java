@@ -1035,12 +1035,13 @@ public final class DfsPackFile extends BlockBasedFile {
 					bs = wantSize;
 				}
 				PackIndex idx = PackIndex.read(new BufferedInputStream(in, bs));
-				int sz = (int) Math.min(
-						idx.getObjectCount() * REC_SIZE,
-						Integer.MAX_VALUE);
 				ctx.stats.readIdxBytes += rc.position();
 				index = idx;
-				return new DfsBlockCache.Ref<>(idxKey, REF_POSITION, sz, idx);
+				return new DfsBlockCache.Ref<>(
+						idxKey,
+						REF_POSITION,
+						idx.getObjectCount() * REC_SIZE,
+						idx);
 			} finally {
 				ctx.stats.readIdxMicros += elapsedMicros(start);
 			}
@@ -1058,9 +1059,12 @@ public final class DfsPackFile extends BlockBasedFile {
 	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
 			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
 		PackReverseIndex revidx = new PackReverseIndex(idx);
-		int sz = (int) Math.min(idx.getObjectCount() * 8, Integer.MAX_VALUE);
 		reverseIndex = revidx;
-		return new DfsBlockCache.Ref<>(revKey, REF_POSITION, sz, revidx);
+		return new DfsBlockCache.Ref<>(
+				revKey,
+				REF_POSITION,
+				idx.getObjectCount() * 8,
+				revidx);
 	}
 
 	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(
@@ -1089,9 +1093,9 @@ public final class DfsPackFile extends BlockBasedFile {
 				ctx.stats.readIdxBytes += size;
 				ctx.stats.readIdxMicros += elapsedMicros(start);
 			}
-			int sz = (int) Math.min(size, Integer.MAX_VALUE);
 			bitmapIndex = bmidx;
-			return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION, sz, bmidx);
+			return new DfsBlockCache.Ref<>(
+					bitmapKey, REF_POSITION, size, bmidx);
 		} catch (EOFException e) {
 			throw new IOException(MessageFormat.format(
 					DfsText.get().shortReadOfIndex,
