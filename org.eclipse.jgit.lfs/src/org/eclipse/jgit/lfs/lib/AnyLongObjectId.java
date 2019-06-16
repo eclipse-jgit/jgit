@@ -274,6 +274,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both LongObjectIds have identical bits.
 	 */
+	@SuppressWarnings("NonOverridingEquals")
 	public final boolean equals(AnyLongObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}

@@ -276,6 +276,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
 	 */
+	@SuppressWarnings("NonOverridingEquals")
 	public final boolean equals(AnyObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}
