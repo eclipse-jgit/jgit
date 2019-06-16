@@ -16,6 +16,24 @@
       "revId": "26bc12fef1e7c1ff520f4f0f3cf2863bea9c977d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4203f879_73430e3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-16T23:23:40Z",
+      "side": 1,
+      "message": "On the other hand, clients shouldn\u0027t use internal classes with any expectation of stability.\n\nIf you prefer, I can undo this and instead suppress the warning, squashing this into the following commit which does the same for a few other classes.",
+      "parentUuid": "6214cdfd_c5767070",
+      "revId": "26bc12fef1e7c1ff520f4f0f3cf2863bea9c977d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
