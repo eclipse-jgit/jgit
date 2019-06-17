@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a618b42_adee2ba8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HexUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-06-17T21:31:22Z",
+      "side": 1,
+      "message": "JGit CI detected this typo in the Javadoc tag. I fixed it also upstream and sent ghis PR: [1].\n\n* [1] https://github.com/eclipse/smarthome/pull/6902",
+      "range": {
+        "startLine": 108,
+        "startChar": 14,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "86c893d5114e77e7d685ba0cd8ff43d0702e88ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
