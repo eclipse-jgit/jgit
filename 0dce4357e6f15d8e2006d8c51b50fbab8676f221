@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "76655358_20be1392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-17T08:10:36Z",
+      "side": 1,
+      "message": "As David mentioned in other review, we usually put the affected component here: DfsBlockCache/DfsPackFile: Add a position argument",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "0dce4357e6f15d8e2006d8c51b50fbab8676f221",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be6a4281_58e0273a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 1
