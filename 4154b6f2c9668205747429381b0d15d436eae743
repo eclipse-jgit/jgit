@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c7088c9_6d667c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-17T07:31:21Z",
+      "side": 1,
+      "message": "nit: We usually prefix the commit message subject with the name of the module being modified, so in this case \"DfsPackFile: \"",
+      "revId": "4154b6f2c9668205747429381b0d15d436eae743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
