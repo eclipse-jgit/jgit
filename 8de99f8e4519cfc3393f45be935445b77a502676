@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c20afc60_09fd5321",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-17T09:59:23Z",
+      "side": 1,
+      "message": "Unrelated formatting changes?",
+      "revId": "8de99f8e4519cfc3393f45be935445b77a502676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8cb78b7_9e6f641d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-17T09:59:23Z",
+      "side": 1,
+      "message": "Unrelated addition?",
+      "revId": "8de99f8e4519cfc3393f45be935445b77a502676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
