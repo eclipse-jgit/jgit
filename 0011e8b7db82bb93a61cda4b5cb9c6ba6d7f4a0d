@@ -22,6 +22,30 @@
       "revId": "0011e8b7db82bb93a61cda4b5cb9c6ba6d7f4a0d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eadc3dc_0f5dbdb9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-17T13:38:11Z",
+      "side": 1,
+      "message": "no, otherwise hash comparison wouldn\u0027t fail without this fix",
+      "parentUuid": "74831060_ee97ef89",
+      "range": {
+        "startLine": 231,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 22
+      },
+      "revId": "0011e8b7db82bb93a61cda4b5cb9c6ba6d7f4a0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
