@@ -52,6 +52,24 @@
       "revId": "4154b6f2c9668205747429381b0d15d436eae743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a659ac_38047efe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-17T19:02:23Z",
+      "side": 1,
+      "message": "I wouldn\u0027t agree that this is a good practice, but if it\u0027s mandated in the contributor guide, I\u0027ll follow that. Waiting for the wiki update approval.",
+      "parentUuid": "9173cc09_95483bcf",
+      "revId": "4154b6f2c9668205747429381b0d15d436eae743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
