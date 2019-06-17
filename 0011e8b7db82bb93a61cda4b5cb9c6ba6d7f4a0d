@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74831060_ee97ef89",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-06-17T09:33:09Z",
+      "side": 1,
+      "message": "Can this sleep be avoided? Here and below.",
+      "range": {
+        "startLine": 231,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 22
+      },
+      "revId": "0011e8b7db82bb93a61cda4b5cb9c6ba6d7f4a0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
