@@ -16,6 +16,24 @@
       "revId": "4154b6f2c9668205747429381b0d15d436eae743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b5342f_1c7c83c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-17T15:30:55Z",
+      "side": 1,
+      "message": "Can you update https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines then? git-core\u0027s contribution guide explicitly says so https://code.googlesource.com/git/+/refs/heads/master/Documentation/SubmittingPatches#108, but EGit contributor guide, even an example, doesn\u0027t include that. In the recent 100 commints, only 42 commits have a prefix.",
+      "parentUuid": "7c7088c9_6d667c96",
+      "revId": "4154b6f2c9668205747429381b0d15d436eae743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
