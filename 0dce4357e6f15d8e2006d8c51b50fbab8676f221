@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be6a4281_58e0273a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-17T08:08:58Z",
+      "side": 1,
+      "message": "If it is optional, it should document what value to use for \"I don\u0027t need to set it\".",
+      "range": {
+        "startLine": 525,
+        "startChar": 15,
+        "endLine": 525,
+        "endChar": 23
+      },
+      "revId": "0dce4357e6f15d8e2006d8c51b50fbab8676f221",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
