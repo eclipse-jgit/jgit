@@ -66,8 +66,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.Base64;
 
@@ -301,7 +301,7 @@ abstract class WalkEncryption {
 		String DEFAULT_KEY_ALGO = JetS3tV2.ALGORITHM;
 		String DEFAULT_KEY_SIZE = Integer.toString(JetS3tV2.KEY_SIZE);
 		String DEFAULT_KEY_ITER = Integer.toString(JetS3tV2.ITERATIONS);
-		String DEFAULT_KEY_SALT = DatatypeConverter.printHexBinary(JetS3tV2.SALT);
+		String DEFAULT_KEY_SALT = Hex.toHexString(JetS3tV2.SALT);
 
 		String EMPTY = ""; //$NON-NLS-1$
 
@@ -377,8 +377,7 @@ abstract class WalkEncryption {
 
 			final byte[] salt;
 			try {
-				salt = DatatypeConverter
-						.parseHexBinary(keySalt.replaceAll(REGEX_WS, EMPTY));
+				salt = Hex.decode(keySalt.replaceAll(REGEX_WS, EMPTY));
 			} catch (Exception e) {
 				throw securityError(X_KEY_SALT + EMPTY + keySalt);
 			}
