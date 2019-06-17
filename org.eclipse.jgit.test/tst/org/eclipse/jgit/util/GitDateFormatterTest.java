@@ -44,6 +44,7 @@
 package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -120,13 +121,16 @@ public class GitDateFormatterTest {
 
 	@Test
 	public void LOCALE() {
-		assertEquals("Sep 20, 2011 7:09:25 PM -0400", new GitDateFormatter(
-				Format.LOCALE).formatDate(ident));
+		String date = new GitDateFormatter(Format.LOCALE).formatDate(ident);
+		assertTrue("Sep 20, 2011 7:09:25 PM -0400".equals(date)
+				|| "Sep 20, 2011, 7:09:25 PM -0400".equals(date)); // JDK-8206961
 	}
 
 	@Test
 	public void LOCALELOCAL() {
-		assertEquals("Sep 20, 2011 7:39:25 PM", new GitDateFormatter(
-				Format.LOCALELOCAL).formatDate(ident));
+		String date = new GitDateFormatter(Format.LOCALELOCAL)
+				.formatDate(ident);
+		assertTrue("Sep 20, 2011 7:39:25 PM".equals(date)
+				|| "Sep 20, 2011, 7:39:25 PM".equals(date)); // JDK-8206961
 	}
 }
