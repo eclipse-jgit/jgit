@@ -39,6 +39,23 @@
       "revId": "0462bf3b83b3753345ed0610f46e1319f1280ffc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04f63f54_103f5efc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-17T06:16:03Z",
+      "side": 1,
+      "message": "Why parse it twice (parseTree followed by parseAny)? Besides, parseTree peels, parseAny doesn\u0027t.",
+      "revId": "0462bf3b83b3753345ed0610f46e1319f1280ffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
