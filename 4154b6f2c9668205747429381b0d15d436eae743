@@ -34,6 +34,24 @@
       "revId": "4154b6f2c9668205747429381b0d15d436eae743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9173cc09_95483bcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-06-17T16:01:04Z",
+      "side": 1,
+      "message": "I updated the wiki (waiting for moderation).\n\nMaybe not all reviewers are being careful about it, but this title format is a good practice and we should stick to it.\n\n[I invite myself here because I wrote similar comment in the follow-up commit]",
+      "parentUuid": "30b5342f_1c7c83c9",
+      "revId": "4154b6f2c9668205747429381b0d15d436eae743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
