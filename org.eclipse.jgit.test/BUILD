@@ -39,7 +39,7 @@ DATA = [
 
 RESOURCES = glob(["resources/**"])
 
-tests(glob(
+tests(tests = glob(
     ["tst/**/*.java"],
     exclude = HELPERS + DATA,
 ))
