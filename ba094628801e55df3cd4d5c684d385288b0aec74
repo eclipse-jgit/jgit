@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b493ce4_a2d54476",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-18T10:18:45Z",
+      "side": 0,
+      "message": "if we add 100ms here",
+      "range": {
+        "startLine": 164,
+        "startChar": 64,
+        "endLine": 164,
+        "endChar": 67
+      },
+      "revId": "ba094628801e55df3cd4d5c684d385288b0aec74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "092bd565_8603ce08",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-18T10:18:45Z",
+      "side": 0,
+      "message": "and 90 ms here, this works on filesystem with 1 second resolution but not if timestamp resolution is \u003c 10ms",
+      "range": {
+        "startLine": 167,
+        "startChar": 47,
+        "endLine": 167,
+        "endChar": 49
+      },
+      "revId": "ba094628801e55df3cd4d5c684d385288b0aec74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
