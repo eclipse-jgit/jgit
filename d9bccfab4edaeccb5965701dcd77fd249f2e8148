@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b5d0366d_5d48016d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1979,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-18T14:21:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0be3429_a3e1bcf2",
+      "range": {
+        "startLine": 1979,
+        "startChar": 17,
+        "endLine": 1979,
+        "endChar": 25
+      },
+      "revId": "d9bccfab4edaeccb5965701dcd77fd249f2e8148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43005f35_4073840f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2018-11-01T19:08:40Z",
       "side": 1,
       "message": "can we instead run both tests: one using jgit and the other one using git ?",
+      "revId": "d9bccfab4edaeccb5965701dcd77fd249f2e8148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d59ea4ae_7f934900",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-18T14:21:57Z",
+      "side": 1,
+      "message": "not sure that we should really test native git behaviour. I remove the comments about native git and continue to check only jgit behaviour.",
+      "parentUuid": "43005f35_4073840f",
       "revId": "d9bccfab4edaeccb5965701dcd77fd249f2e8148",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
