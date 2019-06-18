@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c60ed0_97cdf6aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-18T08:16:43Z",
+      "side": 1,
+      "message": "just for understanding: what is at this line the difference between the objects in tempQueue and in pending? Isn\u0027t pending just a copy of tempQueue where every contained object has a cleared ~RevWalk.TEMP_MARK flag? Why don\u0027t you just iterate over tempQueue, clear the flag and return tempQueue?",
+      "revId": "52269bcda092d69c265410e39a72fb057a207f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
