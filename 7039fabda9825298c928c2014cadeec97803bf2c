@@ -16,6 +16,24 @@
       "revId": "7039fabda9825298c928c2014cadeec97803bf2c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "194ed2df_9cc2fc2e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1979,
+      "author": {
+        "id": 208154
+      },
+      "writtenOn": "2019-06-18T18:51:54Z",
+      "side": 1,
+      "message": "I just rebased my original changes on master and created PS8 out of it, unintentionally deleting the file you added. Therefore feel free to restore it.",
+      "parentUuid": "d6a5d24e_c5f7d689",
+      "revId": "7039fabda9825298c928c2014cadeec97803bf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
