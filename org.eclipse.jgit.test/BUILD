@@ -30,7 +30,7 @@ DATA = [
     PKG + "lib/sorttest.gitindex.dat",
 ]
 
-tests(glob(
+tests(tests = glob(
     ["tst/**/*.java"],
     exclude = HELPERS + DATA,
 ))
