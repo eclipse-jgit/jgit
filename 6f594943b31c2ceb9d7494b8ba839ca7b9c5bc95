@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72fa792e_0711ee25",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AmazonS3Client.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-18T01:14:53Z",
+      "side": 1,
+      "message": "Trailing white space",
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd37d289_179c92d9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-18T01:14:53Z",
+      "side": 1,
+      "message": "Missing braces around this case block, inconsistent with the previous blocks.\n\nActually it looks like in the rest of the code we don\u0027t use braces on case blocks, so maybe just remove them above?",
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0391067_9f0607f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-06-18T01:14:53Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 239,
+        "startChar": 19,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
