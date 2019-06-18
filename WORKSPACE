@@ -2,7 +2,7 @@ workspace(name = "jgit")
 
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "3afbeab55ece585dbfc7a980bf7214b24ddbbe86")
+load_bazlets(commit = "8528a0df69dadf6311d8d3f81c1b693afda8bcf1")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
