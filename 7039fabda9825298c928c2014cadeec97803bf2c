@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6a5d24e_c5f7d689",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1979,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-18T14:21:57Z",
+      "side": 1,
+      "message": "Why was test  testCheckoudWithEmptyIndexDoesntOverwrite() being deleted in this PatchSet. The test was introduced with PS7 to demonstrate the remaining problem I have with PS6. If you had no specific reason to delete it I restore the test in the next patchset.",
+      "revId": "7039fabda9825298c928c2014cadeec97803bf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
