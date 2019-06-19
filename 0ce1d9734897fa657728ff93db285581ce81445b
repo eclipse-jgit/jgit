@@ -22,6 +22,30 @@
       "revId": "0ce1d9734897fa657728ff93db285581ce81445b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "352aa440_23ece1d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2107,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-19T16:06:25Z",
+      "side": 0,
+      "message": "This throws UploadPackInternalServerErrorException instead. This setOutput is needed only when it\u0027s re-throwing the exception.",
+      "parentUuid": "b699bcb6_6f8fb06b",
+      "range": {
+        "startLine": 2107,
+        "startChar": 4,
+        "endLine": 2107,
+        "endChar": 23
+      },
+      "revId": "0ce1d9734897fa657728ff93db285581ce81445b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
