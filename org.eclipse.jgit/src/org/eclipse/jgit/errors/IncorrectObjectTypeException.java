@@ -63,7 +63,7 @@ public class IncorrectObjectTypeException extends IOException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Construct and IncorrectObjectTypeException for the specified object id.
+	 * Construct an IncorrectObjectTypeException for the specified object id.
 	 *
 	 * Provide the type to make it easier to track down the problem.
 	 *
@@ -75,7 +75,7 @@ public class IncorrectObjectTypeException extends IOException {
 	}
 
 	/**
-	 * Construct and IncorrectObjectTypeException for the specified object id.
+	 * Construct an IncorrectObjectTypeException for the specified object id.
 	 *
 	 * Provide the type to make it easier to track down the problem.
 	 *
