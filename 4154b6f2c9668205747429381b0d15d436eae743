@@ -70,6 +70,24 @@
       "revId": "4154b6f2c9668205747429381b0d15d436eae743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5538fda7_b0171aa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-19T16:10:03Z",
+      "side": 1,
+      "message": "The guideline is not updated.",
+      "parentUuid": "03a659ac_38047efe",
+      "revId": "4154b6f2c9668205747429381b0d15d436eae743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
