@@ -210,8 +210,8 @@ public abstract class FS {
 				if (c == null) {
 					c = new FileStoreAttributeCache(dir);
 					attributeCache.put(s, c);
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(c.toString());
+					if (LOG.isInfoEnabled()) {
+						LOG.info(c.toString());
 					}
 				}
 				return c.getFsTimestampResolution();
