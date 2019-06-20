@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch>
+ * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -64,17 +64,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
+import org.apache.sshd.client.config.hosts.HostPatternsHolder;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
 import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
-import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
@@ -83,11 +81,12 @@ import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.digest.BuiltinDigests;
 import org.apache.sshd.common.util.io.ModifiableFileWatcher;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.sshd.ServerKeyDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,14 +148,14 @@ import org.slf4j.LoggerFactory;
  * @see <a href="http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5">man
  *      ssh-config</a>
  */
-public class OpenSshServerKeyVerifier
-		implements ServerKeyVerifier, ServerKeyLookup {
+public class OpenSshServerKeyDatabase
+		implements ServerKeyDatabase {
 
 	// TODO: GlobalKnownHostsFile? May need some kind of LRU caching; these
 	// files may be large!
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(OpenSshServerKeyVerifier.class);
+			.getLogger(OpenSshServerKeyDatabase.class);
 
 	/** Can be used to mark revoked known host lines. */
 	private static final String MARKER_REVOKED = "revoked"; //$NON-NLS-1$
@@ -168,7 +167,7 @@ public class OpenSshServerKeyVerifier
 	private final List<HostKeyFile> defaultFiles = new ArrayList<>();
 
 	/**
-	 * Creates a new {@link OpenSshServerKeyVerifier}.
+	 * Creates a new {@link OpenSshServerKeyDatabase}.
 	 *
 	 * @param askAboutNewFile
 	 *            whether to ask the user, if possible, about creating a new
@@ -178,7 +177,7 @@ public class OpenSshServerKeyVerifier
 	 *            empty or {@code null}, in which case no default files are
 	 *            installed. The files need not exist.
 	 */
-	public OpenSshServerKeyVerifier(boolean askAboutNewFile,
+	public OpenSshServerKeyDatabase(boolean askAboutNewFile,
 			List<Path> defaultFiles) {
 		if (defaultFiles != null) {
 			for (Path file : defaultFiles) {
@@ -190,31 +189,24 @@ public class OpenSshServerKeyVerifier
 		this.askAboutNewFile = askAboutNewFile;
 	}
 
-	private List<HostKeyFile> getFilesToUse(ClientSession session) {
+	private List<HostKeyFile> getFilesToUse(@NonNull Configuration config) {
 		List<HostKeyFile> filesToUse = defaultFiles;
-		if (session instanceof JGitClientSession) {
-			HostConfigEntry entry = ((JGitClientSession) session)
-					.getHostConfigEntry();
-			if (entry instanceof JGitHostConfigEntry) {
-				// Always true!
-				List<HostKeyFile> userFiles = addUserHostKeyFiles(
-						((JGitHostConfigEntry) entry).getMultiValuedOptions()
-								.get(SshConstants.USER_KNOWN_HOSTS_FILE));
-				if (!userFiles.isEmpty()) {
-					filesToUse = userFiles;
-				}
-			}
+		List<HostKeyFile> userFiles = addUserHostKeyFiles(
+				config.getUserKnownHostsFiles());
+		if (!userFiles.isEmpty()) {
+			filesToUse = userFiles;
 		}
 		return filesToUse;
 	}
 
 	@Override
-	public List<PublicKey> lookup(ClientSession session,
-			SocketAddress remote) {
-		List<HostKeyFile> filesToUse = getFilesToUse(session);
+	public List<PublicKey> lookup(@NonNull String connectAddress,
+			@NonNull InetSocketAddress remoteAddress,
+			@NonNull Configuration config) {
+		List<HostKeyFile> filesToUse = getFilesToUse(config);
 		List<PublicKey> result = new ArrayList<>();
 		Collection<SshdSocketAddress> candidates = getCandidates(
-				session.getConnectAddress(), remote);
+				connectAddress, remoteAddress);
 		for (HostKeyFile file : filesToUse) {
 			for (HostEntryPair current : file.get()) {
 				KnownHostEntry entry = current.getHostEntry();
@@ -230,14 +222,16 @@ public class OpenSshServerKeyVerifier
 	}
 
 	@Override
-	public boolean verifyServerKey(ClientSession clientSession,
-			SocketAddress remoteAddress, PublicKey serverKey) {
-		List<HostKeyFile> filesToUse = getFilesToUse(clientSession);
-		AskUser ask = new AskUser(clientSession);
+	public boolean accept(@NonNull String connectAddress,
+			@NonNull InetSocketAddress remoteAddress,
+			@NonNull PublicKey serverKey,
+			@NonNull Configuration config, CredentialsProvider provider) {
+		List<HostKeyFile> filesToUse = getFilesToUse(config);
+		AskUser ask = new AskUser(config, provider);
 		HostEntryPair[] modified = { null };
 		Path path = null;
-		Collection<SshdSocketAddress> candidates = getCandidates(
-				clientSession.getConnectAddress(), remoteAddress);
+		Collection<SshdSocketAddress> candidates = getCandidates(connectAddress,
+				remoteAddress);
 		for (HostKeyFile file : filesToUse) {
 			try {
 				if (find(candidates, serverKey, file.get(), modified)) {
@@ -433,16 +427,14 @@ public class OpenSshServerKeyVerifier
 			ASK, DENY, ALLOW;
 		}
 
-		private final JGitClientSession session;
+		private final @NonNull Configuration config;
 
-		public AskUser(ClientSession clientSession) {
-			session = (clientSession instanceof JGitClientSession)
-					? (JGitClientSession) clientSession
-					: null;
-		}
+		private final CredentialsProvider provider;
 
-		private CredentialsProvider getCredentialsProvider() {
-			return session == null ? null : session.getCredentialsProvider();
+		public AskUser(@NonNull Configuration config,
+				CredentialsProvider provider) {
+			this.config = config;
+			this.provider = provider;
 		}
 
 		private static boolean askUser(CredentialsProvider provider, URIish uri,
@@ -465,38 +457,25 @@ public class OpenSshServerKeyVerifier
 			if (!(remoteAddress instanceof InetSocketAddress)) {
 				return Check.DENY;
 			}
-			HostConfigEntry entry = session.getHostConfigEntry();
-			String value = entry
-					.getProperty(SshConstants.STRICT_HOST_KEY_CHECKING, "ask"); //$NON-NLS-1$
-			switch (value.toLowerCase(Locale.ROOT)) {
-			case SshConstants.YES:
-			case SshConstants.ON:
+			switch (config.getStrictHostKeyChecking()) {
+			case REQUIRE_MATCH:
 				return Check.DENY;
-			case SshConstants.NO:
-			case SshConstants.OFF:
+			case ACCEPT_ANY:
 				return Check.ALLOW;
-			case "accept-new": //$NON-NLS-1$
+			case ACCEPT_NEW:
 				return changed ? Check.DENY : Check.ALLOW;
 			default:
-				break;
+				return provider == null ? Check.DENY : Check.ASK;
 			}
-			if (getCredentialsProvider() == null) {
-				// This is called only for new, unknown hosts. If we have no way
-				// to interact with the user, the fallback mode is to deny the
-				// key.
-				return Check.DENY;
-			}
-			return Check.ASK;
 		}
 
 		public void revokedKey(SocketAddress remoteAddress, PublicKey serverKey,
 				Path path) {
-			CredentialsProvider provider = getCredentialsProvider();
 			if (provider == null) {
 				return;
 			}
 			InetSocketAddress remote = (InetSocketAddress) remoteAddress;
-			URIish uri = JGitUserInteraction.toURI(session.getUsername(),
+			URIish uri = JGitUserInteraction.toURI(config.getUsername(),
 					remote);
 			String sha256 = KeyUtils.getFingerPrint(BuiltinDigests.sha256,
 					serverKey);
@@ -516,7 +495,6 @@ public class OpenSshServerKeyVerifier
 			if (check != Check.ASK) {
 				return check == Check.ALLOW;
 			}
-			CredentialsProvider provider = getCredentialsProvider();
 			InetSocketAddress remote = (InetSocketAddress) remoteAddress;
 			// Ask the user
 			String sha256 = KeyUtils.getFingerPrint(BuiltinDigests.sha256,
@@ -524,7 +502,7 @@ public class OpenSshServerKeyVerifier
 			String md5 = KeyUtils.getFingerPrint(BuiltinDigests.md5, serverKey);
 			String keyAlgorithm = serverKey.getAlgorithm();
 			String remoteHost = remote.getHostString();
-			URIish uri = JGitUserInteraction.toURI(session.getUsername(),
+			URIish uri = JGitUserInteraction.toURI(config.getUsername(),
 					remote);
 			String prompt = SshdText.get().knownHostsUnknownKeyPrompt;
 			return askUser(provider, uri, prompt, //
@@ -536,18 +514,17 @@ public class OpenSshServerKeyVerifier
 		}
 
 		public ModifiedKeyHandling acceptModifiedServerKey(
-				SocketAddress remoteAddress, PublicKey expected,
+				InetSocketAddress remoteAddress, PublicKey expected,
 				PublicKey actual, Path path) {
 			Check check = checkMode(remoteAddress, true);
 			if (check == Check.ALLOW) {
 				// Never auto-store on CHECK.ALLOW
 				return ModifiedKeyHandling.ALLOW;
 			}
-			InetSocketAddress remote = (InetSocketAddress) remoteAddress;
 			String keyAlgorithm = actual.getAlgorithm();
-			String remoteHost = remote.getHostString();
-			URIish uri = JGitUserInteraction.toURI(session.getUsername(),
-					remote);
+			String remoteHost = remoteAddress.getHostString();
+			URIish uri = JGitUserInteraction.toURI(config.getUsername(),
+					remoteAddress);
 			List<String> messages = new ArrayList<>();
 			String warning = format(
 					SshdText.get().knownHostsModifiedKeyWarning,
@@ -558,7 +535,6 @@ public class OpenSshServerKeyVerifier
 					KeyUtils.getFingerPrint(BuiltinDigests.sha256, actual));
 			messages.addAll(Arrays.asList(warning.split("\n"))); //$NON-NLS-1$
 
-			CredentialsProvider provider = getCredentialsProvider();
 			if (check == Check.DENY) {
 				if (provider != null) {
 					messages.add(format(
@@ -587,7 +563,6 @@ public class OpenSshServerKeyVerifier
 		}
 
 		public boolean createNewFile(Path path) {
-			CredentialsProvider provider = getCredentialsProvider();
 			if (provider == null) {
 				// We can't ask, so don't create the file
 				return false;
@@ -674,12 +649,56 @@ public class OpenSshServerKeyVerifier
 		}
 	}
 
+	private int parsePort(String s) {
+		try {
+			return Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	private SshdSocketAddress toSshdSocketAddress(@NonNull String address) {
+		String host = null;
+		int port = 0;
+		if (HostPatternsHolder.NON_STANDARD_PORT_PATTERN_ENCLOSURE_START_DELIM == address
+				.charAt(0)) {
+			int end = address.indexOf(
+					HostPatternsHolder.NON_STANDARD_PORT_PATTERN_ENCLOSURE_END_DELIM);
+			if (end <= 1) {
+				return null; // Invalid
+			}
+			host = address.substring(1, end);
+			if (end < address.length() - 1
+					&& HostPatternsHolder.PORT_VALUE_DELIMITER == address
+							.charAt(end + 1)) {
+				port = parsePort(address.substring(end + 2));
+			}
+		} else {
+			int i = address
+					.lastIndexOf(HostPatternsHolder.PORT_VALUE_DELIMITER);
+			if (i > 0) {
+				port = parsePort(address.substring(i + 1));
+				host = address.substring(0, i);
+			} else {
+				host = address;
+			}
+		}
+		if (port < 0 || port > 65535) {
+			return null;
+		}
+		return new SshdSocketAddress(host, port);
+	}
+
 	private Collection<SshdSocketAddress> getCandidates(
-			SocketAddress connectAddress, SocketAddress remoteAddress) {
+			@NonNull String connectAddress,
+			@NonNull InetSocketAddress remoteAddress) {
 		Collection<SshdSocketAddress> candidates = new TreeSet<>(
 				SshdSocketAddress.BY_HOST_AND_PORT);
 		candidates.add(SshdSocketAddress.toSshdSocketAddress(remoteAddress));
-		candidates.add(SshdSocketAddress.toSshdSocketAddress(connectAddress));
+		SshdSocketAddress address = toSshdSocketAddress(connectAddress);
+		if (address != null) {
+			candidates.add(address);
+		}
 		return candidates;
 	}
 
