@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch>
+ * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -66,7 +66,6 @@ import org.apache.sshd.client.auth.UserAuth;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
-import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
@@ -77,10 +76,11 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
+import org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
 import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
-import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyVerifier;
+import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
 import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -104,7 +104,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	private final Map<Tuple, HostConfigEntryResolver> defaultHostConfigEntryResolver = new ConcurrentHashMap<>();
 
-	private final Map<Tuple, ServerKeyVerifier> defaultServerKeyVerifier = new ConcurrentHashMap<>();
+	private final Map<Tuple, ServerKeyDatabase> defaultServerKeyDatabase = new ConcurrentHashMap<>();
 
 	private final Map<Tuple, Iterable<KeyPair>> defaultKeys = new ConcurrentHashMap<>();
 
@@ -226,7 +226,8 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						.filePasswordProvider(
 								createFilePasswordProvider(passphrases))
 						.hostConfigEntryResolver(configFile)
-						.serverKeyVerifier(getServerKeyVerifier(home, sshDir))
+						.serverKeyVerifier(new JGitServerKeyVerifier(
+								getServerKeyDatabase(home, sshDir)))
 						.compressionFactories(
 								new ArrayList<>(BuiltinCompressions.VALUES))
 						.build();
@@ -380,28 +381,28 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
-	 * Obtain a {@link ServerKeyVerifier} to read known_hosts files and to
-	 * verify server host keys. The default implementation returns a
-	 * {@link ServerKeyVerifier} that recognizes the two openssh standard files
-	 * {@code ~/.ssh/known_hosts} and {@code ~/.ssh/known_hosts2} as well as any
-	 * files configured via the {@code UserKnownHostsFile} option in the ssh
-	 * config file.
+	 * Obtain a {@link ServerKeyDatabase} to verify server host keys. The
+	 * default implementation returns a {@link ServerKeyDatabase} that
+	 * recognizes the two openssh standard files {@code ~/.ssh/known_hosts} and
+	 * {@code ~/.ssh/known_hosts2} as well as any files configured via the
+	 * {@code UserKnownHostsFile} option in the ssh config file.
 	 *
 	 * @param homeDir
 	 *            home directory to use for ~ replacement
 	 * @param sshDir
 	 *            representing ~/.ssh/
-	 * @return the resolver
+	 * @return the {@link ServerKeyDatabase}
+	 * @since 5.5
 	 */
 	@NonNull
-	private ServerKeyVerifier getServerKeyVerifier(@NonNull File homeDir,
+	protected ServerKeyDatabase getServerKeyDatabase(@NonNull File homeDir,
 			@NonNull File sshDir) {
-		return defaultServerKeyVerifier.computeIfAbsent(
+		return defaultServerKeyDatabase.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> new OpenSshServerKeyVerifier(true,
+				t -> new OpenSshServerKeyDatabase(true,
 						getDefaultKnownHostsFiles(sshDir)));
-	}
 
+	}
 	/**
 	 * Gets the list of default user known hosts files. The default returns
 	 * ~/.ssh/known_hosts and ~/.ssh/known_hosts2. The ssh config
@@ -554,7 +555,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * the ssh config defines {@code PreferredAuthentications} the value from
 	 * the ssh config takes precedence.
 	 *
-	 * @return a comma-separated list of algorithm names, or {@code null} if
+	 * @return a comma-separated list of mechanism names, or {@code null} if
 	 *         none
 	 */
 	protected String getDefaultPreferredAuthentications() {

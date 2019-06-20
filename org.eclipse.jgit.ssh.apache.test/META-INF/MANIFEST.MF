@@ -7,7 +7,14 @@ Bundle-Version: 5.5.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.jgit.internal.transport.sshd.proxy;version="[5.5.0,5.6.0)",
+Import-Package: org.apache.sshd.common;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.auth;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.config.keys;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.keyprovider;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.session;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.util.net;version="[2.2.0,2.3.0)",
+ org.apache.sshd.common.util.security;version="[2.2.0,2.3.0)",
+ org.eclipse.jgit.internal.transport.sshd.proxy;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.junit;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.junit.ssh;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.lib;version="[5.5.0,5.6.0)",
