@@ -360,9 +360,23 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> new JGitSshConfig(homeDir,
-						new File(sshDir, SshConstants.CONFIG),
+				t -> new JGitSshConfig(homeDir, getSshConfig(sshDir),
 						getLocalUserName()));
+	}
+
+	/**
+	 * Determines the ssh config file. The default implementation returns
+	 * ~/.ssh/config. If the file does not exist and is created later it will be
+	 * picked up. To not use a config file at all, return {@code null}.
+	 *
+	 * @param sshDir
+	 *            representing ~/.ssh/
+	 * @return the file (need not exist), or {@code null} if no config file
+	 *         shall be used
+	 * @since 5.5
+	 */
+	protected File getSshConfig(@NonNull File sshDir) {
+		return new File(sshDir, SshConstants.CONFIG);
 	}
 
 	/**

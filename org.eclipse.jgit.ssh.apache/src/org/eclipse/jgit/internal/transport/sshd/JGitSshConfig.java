@@ -83,7 +83,9 @@ import org.eclipse.jgit.transport.SshConstants;
  */
 public class JGitSshConfig implements HostConfigEntryResolver {
 
-	private OpenSshConfigFile configFile;
+	private final OpenSshConfigFile configFile;
+
+	private final String localUserName;
 
 	/**
 	 * Creates a new {@link OpenSshConfigFile} that will read the config from
@@ -92,20 +94,22 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 	 * @param home
 	 *            user's home directory for the purpose of ~ replacement
 	 * @param config
-	 *            file to load.
+	 *            file to load; may be {@code null} if no ssh config file
+	 *            handling is desired
 	 * @param localUserName
 	 *            user name of the current user on the local host OS
 	 */
-	public JGitSshConfig(@NonNull File home, @NonNull File config,
+	public JGitSshConfig(@NonNull File home, File config,
 			@NonNull String localUserName) {
-		configFile = new OpenSshConfigFile(home, config, localUserName);
+		this.localUserName = localUserName;
+		configFile = config == null ?  null : new OpenSshConfigFile(home, config, localUserName);
 	}
 
 	@Override
 	public HostConfigEntry resolveEffectiveHost(String host, int port,
 			SocketAddress localAddress, String username,
 			AttributeRepository attributes) throws IOException {
-		HostEntry entry = configFile.lookup(host, port, username);
+		HostEntry entry = configFile == null ? new HostEntry() : configFile.lookup(host, port, username);
 		JGitHostConfigEntry config = new JGitHostConfigEntry();
 		// Apache MINA conflates all keys, even multi-valued ones, in one map
 		// and puts multiple values separated by commas in one string. See
@@ -131,7 +135,7 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 		String user = username != null && !username.isEmpty() ? username
 				: entry.getValue(SshConstants.USER);
 		if (user == null || user.isEmpty()) {
-			user = configFile.getLocalUserName();
+			user = localUserName;
 		}
 		config.setUsername(user);
 		config.setProperty(SshConstants.USER, user);
