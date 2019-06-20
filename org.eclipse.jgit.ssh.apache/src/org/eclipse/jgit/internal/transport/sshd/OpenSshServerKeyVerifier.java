@@ -212,11 +212,11 @@ public class OpenSshServerKeyVerifier
 	}
 
 	@Override
-	public List<HostEntryPair> lookup(ClientSession session,
+	public List<PublicKey> lookup(ClientSession session,
 			SocketAddress remote) {
 		List<HostKeyFile> filesToUse = getFilesToUse(session);
 		HostKeyHelper helper = new HostKeyHelper();
-		List<HostEntryPair> result = new ArrayList<>();
+		List<PublicKey> result = new ArrayList<>();
 		Collection<SshdSocketAddress> candidates = helper
 				.resolveHostNetworkIdentities(session, remote);
 		for (HostKeyFile file : filesToUse) {
@@ -224,7 +224,7 @@ public class OpenSshServerKeyVerifier
 				KnownHostEntry entry = current.getHostEntry();
 				for (SshdSocketAddress host : candidates) {
 					if (entry.isHostMatch(host.getHostName(), host.getPort())) {
-						result.add(current);
+						result.add(current.getServerKey());
 						break;
 					}
 				}
