@@ -43,9 +43,9 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import java.net.SocketAddress;
+import java.security.PublicKey;
 import java.util.List;
 
-import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
 import org.apache.sshd.client.session.ClientSession;
 import org.eclipse.jgit.annotations.NonNull;
 
@@ -55,7 +55,7 @@ import org.eclipse.jgit.annotations.NonNull;
 public interface ServerKeyLookup {
 
 	/**
-	 * Retrieves all entries for a given remote address.
+	 * Retrieves all public keys known for a given remote.
 	 *
 	 * @param session
 	 *            needed to determine the config files if specified in the ssh
@@ -65,5 +65,5 @@ public interface ServerKeyLookup {
 	 * @return a possibly empty list of entries found, including revoked ones
 	 */
 	@NonNull
-	List<HostEntryPair> lookup(ClientSession session, SocketAddress remote);
+	List<PublicKey> lookup(ClientSession session, SocketAddress remote);
 }
