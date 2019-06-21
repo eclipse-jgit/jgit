@@ -52,6 +52,8 @@ import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
@@ -928,8 +930,18 @@ public class ConfigTest {
 
 	@Test
 	public void testTimeUnit() throws ConfigInvalidException {
+		assertEquals(0, parseTime("0", NANOSECONDS));
+		assertEquals(2, parseTime("2ns", NANOSECONDS));
+		assertEquals(200, parseTime("200 nanoseconds", NANOSECONDS));
+
+		assertEquals(0, parseTime("0", MICROSECONDS));
+		assertEquals(2, parseTime("2us", MICROSECONDS));
+		assertEquals(2, parseTime("2000 nanoseconds", MICROSECONDS));
+		assertEquals(200, parseTime("200 microseconds", MICROSECONDS));
+
 		assertEquals(0, parseTime("0", MILLISECONDS));
 		assertEquals(2, parseTime("2ms", MILLISECONDS));
+		assertEquals(2, parseTime("2000microseconds", MILLISECONDS));
 		assertEquals(200, parseTime("200 milliseconds", MILLISECONDS));
 
 		assertEquals(0, parseTime("0s", SECONDS));
