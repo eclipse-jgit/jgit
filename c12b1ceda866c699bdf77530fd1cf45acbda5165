@@ -46,6 +46,30 @@
       "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc1b44f_a615db32",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-21T08:56:20Z",
+      "side": 1,
+      "message": "The lines 181-183 assert that there is a file \u0027a\u0027 in the working tree.\n\nThe lines 184-185 test that although the index entry for \u0027a\u0027 is known to be smudged (checked in line 177) the workingtreeiterator is able to detect that the file is NOT modified. It\u0027s a test for the code in f.isModified(...)",
+      "parentUuid": "b1e61c6e_7e1b030c",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
