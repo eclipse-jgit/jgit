@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -122,6 +123,22 @@ public class FileSnapshot {
 		return new FileSnapshot(path);
 	}
 
+	/**
+	 * Record a snapshot for a specific file path without using config file to
+	 * get filesystem timestamp resolution.
+	 * <p>
+	 * This method should be invoked before the file is accessed. It is used by
+	 * FileBasedConfig to avoid endless recursion.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 * @return the snapshot.
+	 */
+	public static FileSnapshot saveNoConfig(File path) {
+		return new FileSnapshot(path);
+	}
+
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
 		Object fileKey = fileAttributes.fileKey();
 		return fileKey == null ? MISSING_FILEKEY : fileKey;
@@ -177,13 +194,30 @@ public class FileSnapshot {
 	 * This method should be invoked before the file is accessed.
 	 *
 	 * @param path
-	 *            the path to later remember. The path's current status
+	 *            the path to remember meta data for. The path's current status
 	 *            information is saved.
 	 */
 	protected FileSnapshot(File path) {
+		this(path, true);
+	}
+
+	/**
+	 * Record a snapshot for a specific file path.
+	 * <p>
+	 * This method should be invoked before the file is accessed.
+	 *
+	 * @param path
+	 *            the path to remember meta data for. The path's current status
+	 *            information is saved.
+	 * @param useConfig
+	 *            if {@code true} read filesystem time resolution from
+	 *            configuration file otherwise use fallback resolution
+	 */
+	protected FileSnapshot(File path, boolean useConfig) {
 		this.lastRead = System.currentTimeMillis();
-		this.fsTimestampResolution = FS
-				.getFsTimerResolution(path.toPath().getParent());
+		this.fsTimestampResolution = useConfig
+				? FS.getFsTimerResolution(path.toPath().getParent())
+				: FALLBACK_TIMESTAMP_RESOLUTION;
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(path);
