@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e75171ff_4bc19713",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-21T15:18:57Z",
+      "side": 1,
+      "message": "Can\u0027t we have this static flag on FS instead? Then we wouldn\u0027t need to make FileStoreAttributeCache public.",
+      "revId": "9225a0c19c45815194d23c8196cd1f47784b962e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f57fa6_7ec2cd12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-21T15:18:57Z",
+      "side": 1,
+      "message": "So if we perform several operations before this future is completed and has put its result into the attributeCache map, we\u0027ll start several futures? Not sure this is good.",
+      "revId": "9225a0c19c45815194d23c8196cd1f47784b962e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
