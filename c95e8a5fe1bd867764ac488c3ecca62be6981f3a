@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4826b7fb_05954e26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-06-21T09:30:48Z",
+      "side": 1,
+      "message": "That\u0027s a constant value used multiple times. Maybe introducing a constant is better than recomputing it.",
+      "range": {
+        "startLine": 266,
+        "startChar": 39,
+        "endLine": 267,
+        "endChar": 15
+      },
+      "revId": "c95e8a5fe1bd867764ac488c3ecca62be6981f3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
