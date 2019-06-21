@@ -101,6 +101,13 @@ public final class SshConstants {
 	/** Key in an ssh config file. */
 	public static final String GLOBAL_KNOWN_HOSTS_FILE = "GlobalKnownHostsFile";
 
+	/**
+	 * Key in an ssh config file.
+	 *
+	 * @since 5.5
+	 */
+	public static final String HASH_KNOWN_HOSTS = "HashKnownHosts";
+
 	/** Key in an ssh config file. */
 	public static final String HOST = "Host";
 

@@ -159,6 +159,14 @@ public interface ServerKeyDatabase {
 		StrictHostKeyChecking getStrictHostKeyChecking();
 
 		/**
+		 * Obtains the value of the "HashKnownHosts" ssh config.
+		 *
+		 * @return {@code true} if new entries should be stored with hashed host
+		 *         information, {@code false} otherwise
+		 */
+		boolean getHashKnownHosts();
+
+		/**
 		 * Obtains the user name used in the connection attempt.
 		 *
 		 * @return the user name

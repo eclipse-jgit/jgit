@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.flag;
+
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.security.PublicKey;
@@ -172,6 +174,12 @@ public class JGitServerKeyVerifier
 			default:
 				return StrictHostKeyChecking.ASK;
 			}
+		}
+
+		@Override
+		public boolean getHashKnownHosts() {
+			HostConfigEntry entry = session.getHostConfigEntry();
+			return flag(entry.getProperty(SshConstants.HASH_KNOWN_HOSTS));
 		}
 
 		@Override
