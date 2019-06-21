@@ -42,16 +42,22 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
@@ -99,6 +105,51 @@ public class ApacheSshTest extends SshTestBase {
 				"Port " + testPort, //
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	@Test
+	public void testHashedKnownHosts() throws Exception {
+		assertTrue("Failed to delete known_hosts", knownHosts.delete());
+		// The provider will answer "yes" to all questions, so we should be able
+		// to connect and end up with a new known_hosts file with the host key.
+		TestCredentialsProvider provider = new TestCredentialsProvider();
+		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, provider, //
+				"HashKnownHosts yes", //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
+		List<LogEntry> messages = provider.getLog();
+		assertFalse("Expected user interaction", messages.isEmpty());
+		assertEquals(
+				"Expected to be asked about the key, and the file creation", 2,
+				messages.size());
+		assertTrue("~/.ssh/known_hosts should exist now", knownHosts.exists());
+		// Let's clone again without provider. If it works, the server host key
+		// was written correctly.
+		File clonedAgain = new File(getTemporaryDirectory(), "cloned2");
+		cloneWith("ssh://localhost/doesntmatter", clonedAgain, null, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
+		// Check that the first line contains neither "localhost" nor
+		// "127.0.0.1", but does contain the expected hash.
+		List<String> lines = Files.readAllLines(knownHosts.toPath()).stream()
+				.filter(s -> s != null && s.length() >= 1 && s.charAt(0) != '#'
+						&& !s.trim().isEmpty())
+				.collect(Collectors.toList());
+		assertEquals("Unexpected number of known_hosts lines", 1, lines.size());
+		String line = lines.get(0);
+		assertFalse("Found host in line", line.contains("localhost"));
+		assertFalse("Found IP in line", line.contains("127.0.0.1"));
+		assertTrue("Hash not found", line.contains("|"));
+		KnownHostEntry entry = KnownHostEntry.parseKnownHostEntry(line);
+		assertTrue("Hash doesn't match localhost",
+				entry.isHostMatch("localhost", testPort)
+						|| entry.isHostMatch("127.0.0.1", testPort));
 	}
 
 	@Test
