@@ -305,7 +305,7 @@ public abstract class SshTestBase extends SshTestHarness {
 		// without provider. If it works, the server host key was written
 		// correctly.
 		File clonedAgain = new File(getTemporaryDirectory(), "cloned2");
-		cloneWith("ssh://localhost/doesntmatter", clonedAgain, provider, //
+		cloneWith("ssh://localhost/doesntmatter", clonedAgain, null, //
 				"Host localhost", //
 				"HostName localhost", //
 				"Port " + testPort, //
