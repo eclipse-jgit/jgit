@@ -737,6 +737,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagAlreadyExists;
 	/***/ public String tagNameInvalid;
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
+	/***/ public String timeoutMeasureFsTimestampResolution;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
 	/***/ public String threadInterruptedWhileRunning;
