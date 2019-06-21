@@ -55,9 +55,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -71,12 +71,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -197,27 +200,67 @@ public abstract class FS {
 
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
-		static Duration getFsTimestampResolution(Path file) {
+		private static AtomicBoolean background = new AtomicBoolean();
+
+		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
+
+		private static void setBackground(boolean async) {
+			background.set(async);
+		}
+
+		private static Duration getFsTimestampResolution(Path file) {
+			Path dir = Files.isDirectory(file) ? file : file.getParent();
+			if (!dir.toFile().canWrite()) {
+				// can not determine FileStore of an unborn directory or in
+				// a read-only directory
+				return FALLBACK_TIMESTAMP_RESOLUTION;
+			}
+			FileStore s;
 			try {
-				Path dir = Files.isDirectory(file) ? file : file.getParent();
-				if (!dir.toFile().canWrite()) {
-					// can not determine FileStore of an unborn directory or in
-					// a read-only directory
-					return FALLBACK_TIMESTAMP_RESOLUTION;
-				}
-				FileStore s = Files.getFileStore(dir);
+				s = Files.getFileStore(dir);
 				FileStoreAttributeCache c = attributeCache.get(s);
-				if (c == null) {
-					c = new FileStoreAttributeCache(s, dir);
-					attributeCache.put(s, c);
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(c.toString());
+				if (c != null) {
+					return c.getFsTimestampResolution();
+				}
+				Lock lock = locks.computeIfAbsent(s, l -> new ReentrantLock());
+				if (lock.tryLock()) {
+					try {
+						CompletableFuture<FileStoreAttributeCache> f = CompletableFuture
+								.supplyAsync(() -> new FileStoreAttributeCache(
+										s, dir));
+						f.exceptionally(e -> {
+							Throwable cause = e.getCause();
+							if (!(cause instanceof NoSuchFileException)) {
+								LOG.error(e.getLocalizedMessage(), e);
+							}
+							return null;
+						});
+						f.thenAccept(cache -> {
+							if (cache != null) {
+								attributeCache.put(s, cache);
+							}
+						});
+						if (background.get()) {
+							if (LOG.isDebugEnabled()) {
+								f.thenAccept(
+										cache -> LOG.debug(cache.toString()));
+							}
+						} else {
+							FileStoreAttributeCache cache = f.get();
+							if (LOG.isDebugEnabled()) {
+								LOG.debug(cache.toString());
+							}
+							return cache.getFsTimestampResolution();
+						}
+					} finally {
+						lock.unlock();
+						locks.remove(s);
 					}
 				}
-				return c.getFsTimestampResolution();
-
-			} catch (IOException | InterruptedException e) {
-				LOG.warn(e.getMessage(), e);
+				// return fallback until measurement is finished
+				return FALLBACK_TIMESTAMP_RESOLUTION;
+			} catch (Exception e) {
+				LOG.error(e.getLocalizedMessage(), e);
 				return FALLBACK_TIMESTAMP_RESOLUTION;
 			}
 		}
@@ -228,11 +271,10 @@ public abstract class FS {
 			return fsTimestampResolution;
 		}
 
-		private FileStoreAttributeCache(FileStore s, Path dir)
-				throws IOException, InterruptedException {
+		private FileStoreAttributeCache(FileStore s, Path dir) {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
-			Files.createFile(probe);
 			try {
+				Files.createFile(probe);
 				long start = System.nanoTime();
 				FileTime startTime = Files.getLastModifiedTime(probe);
 				FileTime actTime = startTime;
@@ -255,10 +297,19 @@ public abstract class FS {
 				}
 				fsTimestampResolution = Duration.between(startTime.toInstant(),
 						actTime.toInstant());
-			} catch (AccessDeniedException e) {
+			} catch (NoSuchFileException e) {
+				fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
+			} catch (IOException | InterruptedException e) {
 				LOG.error(e.getLocalizedMessage(), e);
+				fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
 			} finally {
-				Files.delete(probe);
+				if (Files.exists(probe)) {
+					try {
+						Files.delete(probe);
+					} catch (IOException e) {
+						LOG.error(e.getLocalizedMessage(), e);
+					}
+				}
 			}
 		}
 
@@ -290,6 +341,20 @@ public abstract class FS {
 	 */
 	public static FS detect() {
 		return detect(null);
+	}
+
+	/**
+	 * Whether FileStore attribute cache entries should be determined
+	 * asynchronously
+	 *
+	 * @param asynch
+	 *            whether FileStore attribute cache entries should be determined
+	 *            asynchronously. If false access to cached attributes may block
+	 *            for some seconds for the first call per FileStore
+	 * @since 5.1.9
+	 */
+	public static void setAsyncfileStoreAttrCache(boolean asynch) {
+		FileStoreAttributeCache.setBackground(asynch);
 	}
 
 	/**
