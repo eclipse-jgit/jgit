@@ -165,6 +165,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotReadTree;
 	/***/ public String cannotRebaseWithoutCurrentHead;
 	/***/ public String cannotResolveLocalTrackingRefForUpdating;
+	/***/ public String cannotSaveConfig;
 	/***/ public String cannotSquashFixupWithoutPreviousCommit;
 	/***/ public String cannotStoreObjects;
 	/***/ public String cannotResolveUniquelyAbbrevObjectId;
@@ -618,6 +619,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushNotPermitted;
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
+	/***/ public String readConfigFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readTimedOut;

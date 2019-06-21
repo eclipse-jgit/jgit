@@ -153,7 +153,9 @@ public class FileBasedConfig extends StoredConfig {
 		int retries = 0;
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
+			// don't use config in this snapshot to avoid endless recursion
+			final FileSnapshot newSnapshot = FileSnapshot
+					.saveNoConfig(getFile());
 			try {
 				final byte[] in = IO.readFully(getFile());
 				final ObjectId newHash = hash(in);

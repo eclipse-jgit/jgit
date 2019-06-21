@@ -52,6 +52,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
+import java.time.Duration;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -721,6 +722,16 @@ public final class Constants {
 	 * @since 4.7
 	 */
 	public static final String LOCK_SUFFIX = ".lock"; //$NON-NLS-1$
+
+	/**
+	 * Fallback filesystem timestamp resolution used when we can't measure the
+	 * resolution. The last modified time granularity of FAT filesystems is 2
+	 * seconds.
+	 *
+	 * @since 5.1.9
+	 */
+	public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
+			.ofMillis(2000);
 
 	private Constants() {
 		// Hide the default constructor
