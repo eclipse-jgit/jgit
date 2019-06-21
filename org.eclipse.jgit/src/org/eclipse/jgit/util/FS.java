@@ -55,7 +55,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -71,12 +70,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -197,74 +201,143 @@ public abstract class FS {
 
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
-		static Duration getFsTimestampResolution(Path file) {
+		private static AtomicBoolean background = new AtomicBoolean();
+
+		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
+
+		private static void setBackground(boolean async) {
+			background.set(async);
+		}
+
+		private static Duration getFsTimestampResolution(Path file) {
+			Path dir = Files.isDirectory(file) ? file : file.getParent();
+			FileStore s;
 			try {
-				Path dir = Files.isDirectory(file) ? file : file.getParent();
-				if (!dir.toFile().canWrite()) {
-					// can not determine FileStore of an unborn directory or in
-					// a read-only directory
+				if (Files.exists(dir)) {
+					s = Files.getFileStore(dir);
+					FileStoreAttributeCache c = attributeCache.get(s);
+					if (c != null) {
+						return c.getFsTimestampResolution();
+					}
+					if (!Files.isWritable(dir)) {
+						// cannot measure resolution in a read-only directory
+						return FALLBACK_TIMESTAMP_RESOLUTION;
+					}
+				} else {
+					// cannot determine FileStore of an unborn directory
 					return FALLBACK_TIMESTAMP_RESOLUTION;
 				}
-				FileStore s = Files.getFileStore(dir);
-				FileStoreAttributeCache c = attributeCache.get(s);
-				if (c == null) {
-					c = new FileStoreAttributeCache(s, dir);
-					attributeCache.put(s, c);
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(c.toString());
+				CompletableFuture<Optional<Duration>> f = CompletableFuture
+						.supplyAsync(() -> {
+							Lock lock = locks.computeIfAbsent(s,
+									l -> new ReentrantLock());
+							if (!lock.tryLock()) {
+								return Optional.empty();
+							}
+							Optional<Duration> resolution;
+							try {
+								// Some earlier future might have set the value
+								// and removed itself since we checked for the
+								// value above. Hence check cache again.
+								FileStoreAttributeCache c = attributeCache
+										.get(s);
+								if (c != null) {
+									return Optional
+											.of(c.getFsTimestampResolution());
+								}
+								resolution = measureFsTimestampResolution(s,
+										dir);
+								if (resolution.isPresent()) {
+									FileStoreAttributeCache cache = new FileStoreAttributeCache(
+											resolution.get());
+									attributeCache.put(s, cache);
+									if (LOG.isDebugEnabled()) {
+										LOG.debug(cache.toString());
+									}
+								}
+							} finally {
+								lock.unlock();
+								locks.remove(s);
+							}
+							return resolution;
+						});
+				// even if measuring in background wait a little - if the result
+				// arrives, it's better than returning the large fallback
+				Optional<Duration> d = f.get(background.get() ? 50 : 2000,
+						TimeUnit.MILLISECONDS);
+				if (d.isPresent()) {
+					return d.get();
+				}
+				// return fallback until measurement is finished
+			} catch (IOException | InterruptedException
+					| ExecutionException e) {
+				LOG.error(e.getMessage(), e);
+			} catch (TimeoutException e) {
+				// use fallback
+			}
+			return FALLBACK_TIMESTAMP_RESOLUTION;
+		}
+
+		private static Optional<Duration> measureFsTimestampResolution(
+			FileStore s, Path dir) {
+			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			try {
+				Files.createFile(probe);
+				long wait = 512;
+				long start = System.nanoTime();
+				FileTime t1 = Files.getLastModifiedTime(probe);
+				FileTime t2 = t1;
+				while (t2.compareTo(t1) <= 0) {
+					TimeUnit.NANOSECONDS.sleep(wait);
+					checkTimeout(s, start);
+					FileUtils.touch(probe);
+					t2 = Files.getLastModifiedTime(probe);
+					if (wait < 100_000_000L) {
+						wait = wait * 2;
 					}
 				}
-				return c.getFsTimestampResolution();
+				return Optional
+						.of(Duration.between(t1.toInstant(), t2.toInstant()));
+			} catch (IOException | TimeoutException e) {
+				LOG.error(e.getLocalizedMessage(), e);
+			} catch (InterruptedException e) {
+				LOG.error(e.getLocalizedMessage(), e);
+				Thread.currentThread().interrupt();
+			} finally {
+				deleteProbe(probe);
+			}
+			return Optional.empty();
+		}
 
-			} catch (IOException | InterruptedException e) {
-				LOG.warn(e.getMessage(), e);
-				return FALLBACK_TIMESTAMP_RESOLUTION;
+		private static void checkTimeout(FileStore s, long start)
+				throws TimeoutException {
+			if (System.nanoTime() - start >= FALLBACK_TIMESTAMP_RESOLUTION
+					.toNanos()) {
+				throw new TimeoutException(MessageFormat.format(JGitText
+						.get().timeoutMeasureFsTimestampResolution,
+						s.toString()));
+			}
+		}
+		private static void deleteProbe(Path probe) {
+			if (Files.exists(probe)) {
+				try {
+					Files.delete(probe);
+				} catch (IOException e) {
+					LOG.error(e.getLocalizedMessage(), e);
+				}
 			}
 		}
 
-		private Duration fsTimestampResolution;
+		private final @NonNull Duration fsTimestampResolution;
 
+		@NonNull
 		Duration getFsTimestampResolution() {
 			return fsTimestampResolution;
 		}
 
-		private FileStoreAttributeCache(FileStore s, Path dir)
-				throws IOException, InterruptedException {
-			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
-			Files.createFile(probe);
-			try {
-				long start = System.nanoTime();
-				FileTime startTime = Files.getLastModifiedTime(probe);
-				FileTime actTime = startTime;
-				long sleepTime = 512;
-				while (actTime.compareTo(startTime) <= 0) {
-					TimeUnit.NANOSECONDS.sleep(sleepTime);
-					if (timeout(start)) {
-						LOG.warn(MessageFormat.format(JGitText
-								.get().timeoutMeasureFsTimestampResolution,
-								s.toString()));
-						fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
-						return;
-					}
-					FileUtils.touch(probe);
-					actTime = Files.getLastModifiedTime(probe);
-					// limit sleep time to max. 100ms
-					if (sleepTime < 100_000_000L) {
-						sleepTime = sleepTime * 2;
-					}
-				}
-				fsTimestampResolution = Duration.between(startTime.toInstant(),
-						actTime.toInstant());
-			} catch (AccessDeniedException e) {
-				LOG.error(e.getLocalizedMessage(), e);
-			} finally {
-				Files.delete(probe);
-			}
-		}
-
-		private static boolean timeout(long start) {
-			return System.nanoTime() - start >= FALLBACK_TIMESTAMP_RESOLUTION
-					.toNanos();
+		private FileStoreAttributeCache(
+				@NonNull Duration fsTimestampResolution) {
+			this.fsTimestampResolution = fsTimestampResolution;
 		}
 
 		@SuppressWarnings("nls")
@@ -290,6 +363,20 @@ public abstract class FS {
 	 */
 	public static FS detect() {
 		return detect(null);
+	}
+
+	/**
+	 * Whether FileStore attribute cache entries should be determined
+	 * asynchronously
+	 *
+	 * @param asynch
+	 *            whether FileStore attribute cache entries should be determined
+	 *            asynchronously. If false access to cached attributes may block
+	 *            for some seconds for the first call per FileStore
+	 * @since 5.1.9
+	 */
+	public static void setAsyncfileStoreAttrCache(boolean asynch) {
+		FileStoreAttributeCache.setBackground(asynch);
 	}
 
 	/**
