@@ -432,4 +432,16 @@ public final class ConfigConstants {
 	 * @since 4.11
 	 */
 	public static final String CONFIG_SECTION_LFS = "lfs";
+
+	/**
+	 * The "filesystem" section
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_FILESYSTEM_SECTION = "filesystem";
+
+	/**
+	 * The "timestampResolution" key
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_KEY_TIMESTAMP_RESOLUTION = "timestampResolution";
 }
