@@ -22,6 +22,30 @@
       "revId": "c95e8a5fe1bd867764ac488c3ecca62be6981f3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c913154f_00258113",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-21T14:05:13Z",
+      "side": 1,
+      "message": "I think we can rely on the Java compiler to optimise this",
+      "parentUuid": "4826b7fb_05954e26",
+      "range": {
+        "startLine": 266,
+        "startChar": 39,
+        "endLine": 267,
+        "endChar": 15
+      },
+      "revId": "c95e8a5fe1bd867764ac488c3ecca62be6981f3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
