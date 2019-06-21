@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin_name
+Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.http.server
 Bundle-SymbolicName: org.eclipse.jgit.http.server
 Bundle-Version: 5.5.0.qualifier
 Bundle-Localization: plugin
-Bundle-Vendor: %provider_name
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.jgit.http.server;version="5.5.0",
  org.eclipse.jgit.http.server.glue;version="5.5.0";
   uses:="javax.servlet,javax.servlet.http",

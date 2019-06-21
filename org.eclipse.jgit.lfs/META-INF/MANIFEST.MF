@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin_name
+Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.lfs
 Bundle-SymbolicName: org.eclipse.jgit.lfs
 Bundle-Version: 5.5.0.qualifier
 Bundle-Localization: plugin
-Bundle-Vendor: %provider_name
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.jgit.lfs;version="5.5.0",
  org.eclipse.jgit.lfs.errors;version="5.5.0",
  org.eclipse.jgit.lfs.internal;version="5.5.0";x-friends:="org.eclipse.jgit.lfs.test,org.eclipse.jgit.lfs.server.fs,org.eclipse.jgit.lfs.server",

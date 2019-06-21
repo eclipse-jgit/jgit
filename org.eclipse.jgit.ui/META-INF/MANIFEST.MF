@@ -1,11 +1,11 @@
 Bundle-Localization: plugin
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin_name
+Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ui
 Bundle-SymbolicName: org.eclipse.jgit.ui
 Bundle-Version: 5.5.0.qualifier
-Bundle-Vendor: %provider_name
+Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.jgit.awtui;version="5.5.0"
 Import-Package: org.eclipse.jgit.errors;version="[5.5.0,5.6.0)",

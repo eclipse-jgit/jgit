@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin_name
+Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.lfs.server.test
 Bundle-SymbolicName: org.eclipse.jgit.lfs.server.test
 Bundle-Version: 5.5.0.qualifier
-Bundle-Vendor: %provider_name
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="[3.1.0,4.0.0)",

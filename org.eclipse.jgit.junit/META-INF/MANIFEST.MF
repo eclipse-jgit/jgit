@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin_name
+Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.junit
 Bundle-SymbolicName: org.eclipse.jgit.junit
 Bundle-Version: 5.5.0.qualifier
 Bundle-Localization: plugin
-Bundle-Vendor: %provider_name
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.jgit.annotations;version="[5.5.0,5.6.0)",
