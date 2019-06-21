@@ -226,6 +226,14 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			inputUnit = wantUnit;
 			inputMul = 1;
 
+		} else if (match(unitName, "ns", "nanoseconds")) { //$NON-NLS-1$ //$NON-NLS-2$
+			inputUnit = TimeUnit.NANOSECONDS;
+			inputMul = 1;
+
+		} else if (match(unitName, "us", "microseconds")) { //$NON-NLS-1$ //$NON-NLS-2$
+			inputUnit = TimeUnit.MICROSECONDS;
+			inputMul = 1;
+
 		} else if (match(unitName, "ms", "milliseconds")) { //$NON-NLS-1$ //$NON-NLS-2$
 			inputUnit = TimeUnit.MILLISECONDS;
 			inputMul = 1;
