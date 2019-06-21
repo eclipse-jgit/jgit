@@ -86,9 +86,12 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileModeStrategy;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry;
@@ -198,6 +201,9 @@ public abstract class FS {
 		private static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
 				.ofMillis(2000);
 
+		private static final Duration UNDEFINED_RESOLUTION = Duration
+				.ofNanos(Long.MAX_VALUE);
+
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
 		private static AtomicBoolean background = new AtomicBoolean();
@@ -207,6 +213,10 @@ public abstract class FS {
 		private static void setBackground(boolean async) {
 			background.set(async);
 		}
+
+		private static final String javaVersionPrefix = System
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+				+ System.getProperty("java.runtime.version") + '|'; //$NON-NLS-1$
 
 		private static Duration getFsTimestampResolution(Path file) {
 			Path dir = Files.isDirectory(file) ? file : file.getParent();
@@ -273,6 +283,11 @@ public abstract class FS {
 
 		private FileStoreAttributeCache(FileStore s, Path dir) {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			Duration configured = readFromUserConfig(s);
+			if (!UNDEFINED_RESOLUTION.equals(configured)) {
+				fsTimestampResolution = configured;
+				return;
+			}
 			try {
 				Files.createFile(probe);
 				long start = System.nanoTime();
@@ -297,6 +312,7 @@ public abstract class FS {
 				}
 				fsTimestampResolution = Duration.between(startTime.toInstant(),
 						actTime.toInstant());
+				writeToUserConfig(s, fsTimestampResolution);
 			} catch (NoSuchFileException e) {
 				fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
 			} catch (IOException | InterruptedException e) {
@@ -310,6 +326,63 @@ public abstract class FS {
 						LOG.error(e.getLocalizedMessage(), e);
 					}
 				}
+			}
+		}
+
+		private Duration readFromUserConfig(FileStore s) {
+			FileBasedConfig userConfig = SystemReader.getInstance()
+					.openUserConfig(null, FS.DETECTED);
+			try {
+				userConfig.load();
+			} catch (IOException e) {
+				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
+						userConfig.getFile().getAbsolutePath()), e);
+			} catch (ConfigInvalidException e) {
+				LOG.error(MessageFormat.format(
+						JGitText.get().repositoryConfigFileInvalid,
+						userConfig.getFile().getAbsolutePath(),
+						e.getMessage()));
+			}
+			Duration configured = Duration
+					.ofNanos(userConfig.getTimeUnit(
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION,
+							javaVersionPrefix + s.name(),
+							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+							UNDEFINED_RESOLUTION.toNanos(),
+							TimeUnit.NANOSECONDS));
+			return configured;
+		}
+
+		private void writeToUserConfig(FileStore s, Duration resolution) {
+			FileBasedConfig userConfig = SystemReader.getInstance()
+					.openUserConfig(null, FS.DETECTED);
+			try {
+				userConfig.load();
+				long nanos = resolution.toNanos();
+				TimeUnit unit;
+				if (nanos < 200_000L) {
+					unit = TimeUnit.NANOSECONDS;
+				} else if (nanos < 200_000_000L) {
+					unit = TimeUnit.MICROSECONDS;
+				} else {
+					unit = TimeUnit.MILLISECONDS;
+				}
+				long value = unit.convert(nanos, TimeUnit.NANOSECONDS);
+				userConfig.setString(ConfigConstants.CONFIG_FILESYSTEM_SECTION,
+						javaVersionPrefix + s.name(),
+						ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+						String.format("%d %s", //$NON-NLS-1$
+								Long.valueOf(value),
+								unit.name().toLowerCase()));
+				userConfig.save();
+			} catch (IOException e) {
+				LOG.error(MessageFormat.format(JGitText.get().cannotSaveConfig,
+						userConfig.getFile().getAbsolutePath()), e);
+			} catch (ConfigInvalidException e) {
+				LOG.error(MessageFormat.format(
+						JGitText.get().repositoryConfigFileInvalid,
+						userConfig.getFile().getAbsolutePath(),
+						e.getMessage()));
 			}
 		}
 
