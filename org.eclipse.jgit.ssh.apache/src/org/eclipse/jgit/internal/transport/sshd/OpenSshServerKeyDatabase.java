@@ -58,6 +58,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -70,15 +71,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import org.apache.sshd.client.config.hosts.HostPatternsHolder;
+import org.apache.sshd.client.config.hosts.KnownHostDigest;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
 import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
 import org.apache.sshd.client.session.ClientSession;
+import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.digest.BuiltinDigests;
+import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.util.io.ModifiableFileWatcher;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.eclipse.jgit.annotations.NonNull;
@@ -276,12 +280,13 @@ public class OpenSshServerKeyDatabase
 				try {
 					if (Files.exists(path) || !askAboutNewFile
 							|| ask.createNewFile(path)) {
-						updateKnownHostsFile(candidates, serverKey, path);
+						updateKnownHostsFile(candidates, serverKey, path,
+								config);
 						toUpdate.resetReloadAttributes();
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					LOG.warn(format(SshdText.get().knownHostsCouldNotUpdate,
-							path));
+							path), e);
 				}
 			}
 			return true;
@@ -342,9 +347,9 @@ public class OpenSshServerKeyDatabase
 	}
 
 	private void updateKnownHostsFile(Collection<SshdSocketAddress> candidates,
-			PublicKey serverKey, Path path)
-			throws IOException {
-		String newEntry = createHostKeyLine(candidates, serverKey);
+			PublicKey serverKey, Path path, Configuration config)
+			throws Exception {
+		String newEntry = createHostKeyLine(candidates, serverKey, config);
 		if (newEntry == null) {
 			return;
 		}
@@ -703,14 +708,33 @@ public class OpenSshServerKeyDatabase
 	}
 
 	private String createHostKeyLine(Collection<SshdSocketAddress> patterns,
-			PublicKey key) throws IOException {
+			PublicKey key, Configuration config) throws Exception {
 		StringBuilder result = new StringBuilder();
-		for (SshdSocketAddress address : patterns) {
-			if (result.length() > 0) {
-				result.append(',');
+		if (config.getHashKnownHosts()) {
+			// SHA1 is the only algorithm for host name hashing known to OpenSSH
+			// or to Apache MINA sshd.
+			NamedFactory<Mac> digester = KnownHostDigest.SHA1;
+			Mac mac = digester.create();
+			SecureRandom prng = new SecureRandom();
+			byte[] salt = new byte[mac.getDefaultBlockSize()];
+			for (SshdSocketAddress address : patterns) {
+				if (result.length() > 0) {
+					result.append(',');
+				}
+				prng.nextBytes(salt);
+				KnownHostHashValue.append(result, digester, salt,
+						KnownHostHashValue.calculateHashValue(
+								address.getHostName(), address.getPort(), mac,
+								salt));
 			}
-			KnownHostHashValue.appendHostPattern(result, address.getHostName(),
-					address.getPort());
+		} else {
+			for (SshdSocketAddress address : patterns) {
+				if (result.length() > 0) {
+					result.append(',');
+				}
+				KnownHostHashValue.appendHostPattern(result,
+						address.getHostName(), address.getPort());
+			}
 		}
 		result.append(' ');
 		PublicKeyEntry.appendPublicKeyEntry(result, key);
