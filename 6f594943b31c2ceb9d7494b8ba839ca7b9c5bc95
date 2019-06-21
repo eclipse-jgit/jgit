@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a20a599f_ca3d13ee",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 209389
+      },
+      "writtenOn": "2019-06-21T20:22:22Z",
+      "side": 1,
+      "message": "Not sure, that means I have to rename the variable cmd everywhere. Is that better?",
+      "parentUuid": "bd37d289_179c92d9",
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0391067_9f0607f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 15
@@ -47,6 +65,30 @@
       "writtenOn": "2019-06-18T01:14:53Z",
       "side": 1,
       "message": "remove?",
+      "range": {
+        "startLine": 239,
+        "startChar": 19,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3617701_a30544d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 209389
+      },
+      "writtenOn": "2019-06-21T20:22:22Z",
+      "side": 1,
+      "message": "same here, the variable \"name\" would cause an error as it is in \"include\" and \"remove-project\" case block",
+      "parentUuid": "b0391067_9f0607f6",
       "range": {
         "startLine": 239,
         "startChar": 19,
