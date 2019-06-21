@@ -208,7 +208,7 @@ public abstract class FS {
 				FileStore s = Files.getFileStore(dir);
 				FileStoreAttributeCache c = attributeCache.get(s);
 				if (c == null) {
-					c = new FileStoreAttributeCache(dir);
+					c = new FileStoreAttributeCache(s, dir);
 					attributeCache.put(s, c);
 					if (LOG.isDebugEnabled()) {
 						LOG.debug(c.toString());
@@ -228,16 +228,24 @@ public abstract class FS {
 			return fsTimestampResolution;
 		}
 
-		private FileStoreAttributeCache(Path dir)
+		private FileStoreAttributeCache(FileStore s, Path dir)
 				throws IOException, InterruptedException {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			Files.createFile(probe);
 			try {
+				long start = System.nanoTime();
 				FileTime startTime = Files.getLastModifiedTime(probe);
 				FileTime actTime = startTime;
 				long sleepTime = 512;
 				while (actTime.compareTo(startTime) <= 0) {
 					TimeUnit.NANOSECONDS.sleep(sleepTime);
+					if (timeout(start)) {
+						LOG.warn(MessageFormat.format(JGitText
+								.get().timeoutMeasureFsTimestampResolution,
+								s.toString()));
+						fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
+						return;
+					}
 					FileUtils.touch(probe);
 					actTime = Files.getLastModifiedTime(probe);
 					// limit sleep time to max. 100ms
@@ -252,6 +260,11 @@ public abstract class FS {
 			} finally {
 				Files.delete(probe);
 			}
+		}
+
+		private static boolean timeout(long start) {
+			return System.nanoTime() - start >= FALLBACK_TIMESTAMP_RESOLUTION
+					.toNanos();
 		}
 
 		@SuppressWarnings("nls")
