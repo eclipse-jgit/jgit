@@ -32,7 +32,7 @@ java_package_configuration(
         "-Xep:BoxedPrimitiveConstructor:ERROR",
         "-Xep:CannotMockFinalClass:ERROR",
         "-Xep:ClassCanBeStatic:ERROR",
-        "-Xep:ClassNewInstance:WARN",
+        "-Xep:ClassNewInstance:ERROR",
         "-Xep:DefaultCharset:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:ElementsCountedInLoop:ERROR",
