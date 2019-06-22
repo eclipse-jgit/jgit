@@ -424,9 +424,9 @@ public class DirCacheEntry {
 	 */
 	public void setAssumeValid(boolean assume) {
 		if (assume)
-			info[infoOffset + P_FLAGS] |= ASSUME_VALID;
+			info[infoOffset + P_FLAGS] |= (byte) ASSUME_VALID;
 		else
-			info[infoOffset + P_FLAGS] &= ~ASSUME_VALID;
+			info[infoOffset + P_FLAGS] &= (byte) ~ASSUME_VALID;
 	}
 
 	/**
@@ -446,9 +446,9 @@ public class DirCacheEntry {
 	 */
 	public void setUpdateNeeded(boolean updateNeeded) {
 		if (updateNeeded)
-			inCoreFlags |= UPDATE_NEEDED;
+			inCoreFlags |= (byte) UPDATE_NEEDED;
 		else
-			inCoreFlags &= ~UPDATE_NEEDED;
+			inCoreFlags &= (byte) ~UPDATE_NEEDED;
 	}
 
 	/**

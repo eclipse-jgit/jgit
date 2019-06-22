@@ -642,11 +642,12 @@ public class IndexDiff {
 	private void addConflict(String path, int stage) {
 		StageState existingStageStates = conflicts.get(path);
 		byte stageMask = 0;
-		if (existingStageStates != null)
-			stageMask |= existingStageStates.getStageMask();
+		if (existingStageStates != null) {
+			stageMask |= (byte) existingStageStates.getStageMask();
+		}
 		// stage 1 (base) should be shifted 0 times
 		int shifts = stage - 1;
-		stageMask |= (1 << shifts);
+		stageMask |= (byte) (1 << shifts);
 		StageState stageState = StageState.fromMask(stageMask);
 		conflicts.put(path, stageState);
 	}
