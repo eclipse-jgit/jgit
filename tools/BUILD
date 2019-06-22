@@ -58,7 +58,7 @@ java_package_configuration(
         "-Xep:MissingFail:ERROR",
         "-Xep:MissingOverride:ERROR",
         "-Xep:MutableConstantField:ERROR",
-        "-Xep:NarrowingCompoundAssignment:WARN",
+        "-Xep:NarrowingCompoundAssignment:ERROR",
         "-Xep:NonAtomicVolatileUpdate:ERROR",
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NullableConstructor:ERROR",
