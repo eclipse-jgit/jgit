@@ -67,15 +67,18 @@ import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
@@ -290,34 +293,46 @@ public abstract class FS {
 			}
 			try {
 				Files.createFile(probe);
-				long start = System.nanoTime();
-				FileTime startTime = Files.getLastModifiedTime(probe);
-				FileTime actTime = startTime;
-				long sleepTime = 512;
-				while (actTime.compareTo(startTime) <= 0) {
-					TimeUnit.NANOSECONDS.sleep(sleepTime);
-					if (timeout(start)) {
-						LOG.warn(MessageFormat.format(JGitText
-								.get().timeoutMeasureFsTimestampResolution,
-								s.toString()));
-						fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
-						return;
+				Duration estimate;
+				try {
+					estimate = measureFSTimestampResolution(s, probe,
+							Duration.ofNanos(512), 2);
+				} catch (TimeoutException e) {
+					estimate = FALLBACK_TIMESTAMP_RESOLUTION;
+				}
+				if (estimate.compareTo(Duration.ofMillis(100)) > 0) {
+					 fsTimestampResolution = estimate;
+					 return;
+				}
+				Set<Duration> durations = new HashSet<>();
+				durations.add(estimate);
+				int count = 1;
+				int n = 9;
+				Duration initialSleep = estimate.dividedBy(5).multipliedBy(4);
+				for (int i = 0; i < n; i++) {
+					Duration d = null;
+					try {
+						d = measureFSTimestampResolution(s, probe,
+								initialSleep, 1.01);
+					} catch (TimeoutException e) {
+						continue;
 					}
-					FileUtils.touch(probe);
-					actTime = Files.getLastModifiedTime(probe);
-					// limit sleep time to max. 100ms
-					if (sleepTime < 100_000_000L) {
-						sleepTime = sleepTime * 2;
+					if (d != null) {
+						durations.add(d);
+						count++;
 					}
 				}
-				fsTimestampResolution = Duration.between(startTime.toInstant(),
-						actTime.toInstant());
+				System.out.println(durations.toString());
+				fsTimestampResolution = durations.stream().reduce(Duration.ZERO,
+						Duration::plus).dividedBy(count);
 				writeToUserConfig(s, fsTimestampResolution);
 			} catch (NoSuchFileException e) {
 				fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
 			} catch (IOException | InterruptedException e) {
 				LOG.error(e.getLocalizedMessage(), e);
 				fsTimestampResolution = FALLBACK_TIMESTAMP_RESOLUTION;
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} finally {
 				if (Files.exists(probe)) {
 					try {
@@ -327,6 +342,33 @@ public abstract class FS {
 					}
 				}
 			}
+		}
+
+		Duration measureFSTimestampResolution(FileStore s, Path probe,
+				Duration initialSleep, double factor)
+				throws IOException, InterruptedException, TimeoutException {
+			FileUtils.touch(probe);
+			long start = System.nanoTime();
+			FileTime startTime = Files.getLastModifiedTime(probe);
+			FileTime actTime = startTime;
+			long sleepTime = initialSleep.toNanos();
+			while (actTime.compareTo(startTime) <= 0) {
+				TimeUnit.NANOSECONDS.sleep(sleepTime);
+				if (timeout(start)) {
+					LOG.warn(MessageFormat.format(JGitText
+							.get().timeoutMeasureFsTimestampResolution,
+							s.toString()));
+					throw new TimeoutException();
+				}
+				FileUtils.touch(probe);
+				actTime = Files.getLastModifiedTime(probe);
+				// limit sleep time to max. 100ms
+				if (sleepTime < 100_000_000L) {
+					sleepTime = Math.round(sleepTime * factor);
+				}
+			}
+			return Duration.between(startTime.toInstant(),
+					actTime.toInstant());
 		}
 
 		private Duration readFromUserConfig(FileStore s) {
