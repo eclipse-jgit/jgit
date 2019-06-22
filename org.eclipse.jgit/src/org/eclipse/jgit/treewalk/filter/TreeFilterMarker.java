@@ -113,7 +113,7 @@ public class TreeFilterMarker {
 				try {
 					boolean marked = filter.include(walk);
 					if (marked)
-						marks |= (1L << index);
+						marks |= (int) (1L << index);
 				} catch (StopWalkException e) {
 					// Don't check tree filter anymore, it will no longer
 					// match

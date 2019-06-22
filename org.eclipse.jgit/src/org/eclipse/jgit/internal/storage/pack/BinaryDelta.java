@@ -138,7 +138,7 @@ public class BinaryDelta {
 
 		// Length of the base object (a variable length int).
 		//
-		int baseLen = 0;
+		long baseLen = 0;
 		int c, shift = 0;
 		do {
 			c = delta[deltaPtr++] & 0xff;
@@ -151,7 +151,7 @@ public class BinaryDelta {
 
 		// Length of the resulting object (a variable length int).
 		//
-		int resLen = 0;
+		long resLen = 0;
 		shift = 0;
 		do {
 			c = delta[deltaPtr++] & 0xff;
@@ -160,7 +160,7 @@ public class BinaryDelta {
 		} while ((c & 0x80) != 0);
 
 		if (result == null)
-			result = new byte[resLen];
+			result = new byte[(int) resLen];
 		else if (result.length != resLen)
 			throw new IllegalArgumentException(
 					JGitText.get().resultLengthIncorrect);
