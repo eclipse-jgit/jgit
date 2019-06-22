@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c206cfb7_1cbf3bf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-22T14:50:30Z",
+      "side": 1,
+      "message": "I don\u0027t think this works, but I may be mistaken. I find this logic rather hard to grok with that separate lock map.\n\nI think in the background case, the lock may get removed from the map before the CompletableFuture has terminated either way, and then we still can get multiple futures for the same filestore. And in the non-background case I wonder about calling f.get() while the lock is held.\n\nI think part of the difficulties here is that the actual determination of the time resolution is done in the FileStoreAttributeCache constructor. I have an alternate approach that does it on the first call to getFsTimestampResolution that looks somewhat simpler to me.\n\nUnfortunately I cannot push it since Gerrit is acting up. See bug 547837 and cross-project-issues-dev.",
+      "revId": "45a41c83705fbb2b27d04629209c9fad6f035340",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
