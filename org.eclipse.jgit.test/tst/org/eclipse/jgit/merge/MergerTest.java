@@ -842,9 +842,9 @@ public class MergerTest extends RepositoryTestCase {
 	 * Throws an exception if reading beyond limit.
 	 */
 	static class BigReadForbiddenStream extends ObjectStream.Filter {
-		int limit;
+		long limit;
 
-		BigReadForbiddenStream(ObjectStream orig, int limit) {
+		BigReadForbiddenStream(ObjectStream orig, long limit) {
 			super(orig.getType(), orig.getSize(), orig);
 			this.limit = limit;
 		}

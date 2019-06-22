@@ -142,7 +142,7 @@ public class BinaryDelta {
 		int c, shift = 0;
 		do {
 			c = delta[deltaPtr++] & 0xff;
-			baseLen |= ((long) (c & 0x7f)) << shift;
+			baseLen |= (c & 0x7f) << shift;
 			shift += 7;
 		} while ((c & 0x80) != 0);
 		if (base.length != baseLen)
@@ -155,7 +155,7 @@ public class BinaryDelta {
 		shift = 0;
 		do {
 			c = delta[deltaPtr++] & 0xff;
-			resLen |= ((long) (c & 0x7f)) << shift;
+			resLen |= (c & 0x7f) << shift;
 			shift += 7;
 		} while ((c & 0x80) != 0);
 

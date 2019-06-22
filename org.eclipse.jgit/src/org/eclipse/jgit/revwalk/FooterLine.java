@@ -95,7 +95,7 @@ public final class FooterLine {
 		for (int kPtr = 0; kPtr < len;) {
 			byte b = buffer[bPtr++];
 			if ('A' <= b && b <= 'Z')
-				b += 'a' - 'A';
+				b += (byte) ('a' - 'A');
 			if (b != kRaw[kPtr++])
 				return false;
 		}
