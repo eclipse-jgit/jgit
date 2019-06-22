@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a207d377_daf8ed5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-22T15:07:53Z",
+      "side": 1,
+      "message": "Why the average? Not the maximum?",
+      "revId": "1ce663cdaab8c4cd7ce2f049cf6f14e21095c140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
