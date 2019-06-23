@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca643f4e_ae84fcc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T10:05:16Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure it\u0027d have to be the maximum... but if so:\n\n* Could just keep the largest during loop instead of accumulating all values.\n* Is this needed at all? IIRC we already add a \"safety\" margin of 10%. If that\u0027s not enough, maybe just increase that to 50% for small values?\n\nIf I see it right, this loop will take about 1 second (if all measurements are about 100ms). I wonder if this is worth the trouble.",
+      "revId": "43f67765aa79a644e4238f6cb6329e9707d951aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
