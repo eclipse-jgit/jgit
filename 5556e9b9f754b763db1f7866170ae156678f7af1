@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b1c58fc3_22d33f61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T16:07:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d665bd42_25ff5ee8",
+      "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f2f3b50_837ee0f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-06-23T09:42:39Z",
       "side": 1,
       "message": "If we do this in the instance\u0027s getFsTimestampResolution we don\u0027t need a lock map (from which a lock is never removed).",
+      "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "695ac57f_302071df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T16:07:51Z",
+      "side": 1,
+      "message": "I want to enable that measurement for multiple filesystems can run in parallel, e.g. git repos might be stored in different volume than ~/.gitconfig and /etc/gitconfig\n\nfixed that locks aren\u0027t removed",
+      "parentUuid": "2f2f3b50_837ee0f2",
       "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
