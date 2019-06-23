@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb3bf0e_3e3b3d71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T10:38:51Z",
+      "side": 1,
+      "message": "Is there any Java 8 that has a smaller resolution? On my Mac with APFS, Java 8 always reports 1 sec, only with Java 11 I get the much more accurate 5ms. Maybe the example is not the best?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 32
+      },
+      "revId": "0de57b9418cd4b572ac5187b369e1366fe0ec649",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
