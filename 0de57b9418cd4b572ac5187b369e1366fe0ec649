@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ff9aa94_e92244b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T16:10:50Z",
+      "side": 1,
+      "message": "on Linux the measured resolution e.g. on ext4 is few milliseconds",
+      "parentUuid": "3cb3bf0e_3e3b3d71",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 32
+      },
+      "revId": "0de57b9418cd4b572ac5187b369e1366fe0ec649",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61e7c462_58c241e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2019-06-23T12:21:31Z",
       "side": 1,
       "message": "Which creates again a FileSnapshot, which may again try to get the FS tick? Wow.\n\nSide note: I think with the code I sent to you via e-mail this won\u0027t work as intended. :-(",
+      "revId": "0de57b9418cd4b572ac5187b369e1366fe0ec649",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a5ecb7e_63769295",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T16:10:50Z",
+      "side": 1,
+      "message": "I tried to call this from the beginning of the getFsTimeResolution and ended up in StackOverflow :-()",
+      "parentUuid": "61e7c462_58c241e7",
       "revId": "0de57b9418cd4b572ac5187b369e1366fe0ec649",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
