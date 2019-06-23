@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d665bd42_25ff5ee8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T09:42:39Z",
+      "side": 1,
+      "message": "If we already have a value, we don\u0027t need to determine it anymore and can just return the previously computed value even for read-only directories.",
+      "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f2f3b50_837ee0f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T09:42:39Z",
+      "side": 1,
+      "message": "If we do this in the instance\u0027s getFsTimestampResolution we don\u0027t need a lock map (from which a lock is never removed).",
+      "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
