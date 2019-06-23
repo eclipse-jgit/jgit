@@ -16,6 +16,24 @@
       "revId": "1ce663cdaab8c4cd7ce2f049cf6f14e21095c140",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f444a9ef_e13b5004",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T00:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a207d377_daf8ed5e",
+      "revId": "1ce663cdaab8c4cd7ce2f049cf6f14e21095c140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
