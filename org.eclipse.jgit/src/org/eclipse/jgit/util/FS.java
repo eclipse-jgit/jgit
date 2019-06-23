@@ -65,10 +65,13 @@ import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -279,21 +282,35 @@ public abstract class FS {
 			}
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
+				Duration resolution;
 				Files.createFile(probe);
-				long wait = 512;
-				long start = System.nanoTime();
-				FileTime t1 = Files.getLastModifiedTime(probe);
-				FileTime t2 = t1;
-				while (t2.compareTo(t1) <= 0) {
-					TimeUnit.NANOSECONDS.sleep(wait);
-					checkTimeout(s, start);
-					FileUtils.touch(probe);
-					t2 = Files.getLastModifiedTime(probe);
-					if (wait < 100_000_000L) {
-						wait = wait * 2;
+				Duration wait = Duration.ofNanos(512);
+				Duration estimate = singleMeasureTimestampResolution(s, probe,
+						wait, 2);
+				if (estimate.compareTo(Duration.ofMillis(100)) > 0) {
+					resolution = estimate;
+				} else {
+					Set<Duration> durations = new HashSet<>();
+					durations.add(estimate);
+					Duration initialSleep = estimate.dividedBy(5)
+							.multipliedBy(4);
+					for (int i = 0; i < 10; i++) {
+						Duration d = null;
+						try {
+							d = singleMeasureTimestampResolution(s, probe,
+									initialSleep, 1.01);
+						} catch (TimeoutException e) {
+							continue;
+						}
+						if (d != null) {
+							durations.add(d);
+						}
 					}
+					resolution = durations.stream()
+							.max(Comparator
+									.comparing(r -> Long.valueOf(r.toNanos())))
+							.get();
 				}
-				Duration resolution = Duration.between(t1.toInstant(), t2.toInstant());
 				saveFileTimeResolution(s, resolution);
 				return Optional.of(resolution);
 			} catch (IOException | TimeoutException e) {
@@ -305,6 +322,27 @@ public abstract class FS {
 				deleteProbe(probe);
 			}
 			return Optional.empty();
+		}
+
+		private static Duration singleMeasureTimestampResolution(FileStore s,
+				Path probe, Duration wait, double factor)
+				throws IOException, InterruptedException, TimeoutException {
+			long start = System.nanoTime();
+			FileUtils.touch(probe);
+			FileTime t1 = Files.getLastModifiedTime(probe);
+			FileTime t2 = t1;
+			long waitNanos = wait.toNanos();
+			while (t2.compareTo(t1) <= 0) {
+				TimeUnit.NANOSECONDS.sleep(waitNanos);
+				checkTimeout(s, start);
+				FileUtils.touch(probe);
+				t2 = Files.getLastModifiedTime(probe);
+				if (waitNanos < 100_000_000L) {
+					waitNanos = Math.round(waitNanos * factor);
+				}
+			}
+			Duration resolution = Duration.between(t1.toInstant(), t2.toInstant());
+			return resolution;
 		}
 
 		private static void checkTimeout(FileStore s, long start)
