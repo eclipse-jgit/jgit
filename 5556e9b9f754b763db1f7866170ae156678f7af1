@@ -69,6 +69,24 @@
       "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "841556e8_40f2eaeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "Would still be the case if it\u0027d be done inside the instance. There\u0027d still be one instance and thus one lock per FileStore.\n\nBut it\u0027s OK if it helps avoid stack overflows in the \"persistence in git user config\" change.",
+      "parentUuid": "695ac57f_302071df",
+      "revId": "5556e9b9f754b763db1f7866170ae156678f7af1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
