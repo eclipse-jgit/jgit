@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "362fba7c_4b1c2b68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "Not sure this is finally correct. I think this may still execute measure... two times for the same FileStore. Consider no value known initially, then\n\n  Thread A: Starts future F1\n  Thread B: executes future F1, puts lock in map, calls measure...\n  Thread A: times out on the get() on F1, return fallback\n  Thread A: comes again with the same FileStore, still null\n  Thread A: starts again a future F2\n  Thread C: executes future F2\n  Thread C: obtains lock from map\n  Thread B: returns from measure...\n  Thread B: sets value\n  Thread B: unlocks\n  Thread C: sucessfully locks the lock, calls measure...\n  Thread B: removes lock from map\n  Thread A: times out on get() on F2, returns fallback\n  Thread C: recomputes the value, eventually puts it into the map\n\nProbably should check before line 239 or at the beginning of measure whether there\u0027s a value known by now. Same as why my code checked again while the lock is being held.",
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "122ccef9_3bffc2a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "Whats the relation between this and FALLBACK_TIMESTAMP_RESOLUTION?",
+      "range": {
+        "startLine": 254,
+        "startChar": 57,
+        "endLine": 254,
+        "endChar": 61
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "964e94d9_660b7d08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "Make this private final @NonNull Duration?",
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "911c6a4c_8a05090b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "@NonNull Duration?",
+      "range": {
+        "startLine": 322,
+        "startChar": 2,
+        "endLine": 322,
+        "endChar": 10
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3aab393_f2682d1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-23T16:55:14Z",
+      "side": 1,
+      "message": "@NonNull Duration?",
+      "range": {
+        "startLine": 326,
+        "startChar": 34,
+        "endLine": 326,
+        "endChar": 42
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
