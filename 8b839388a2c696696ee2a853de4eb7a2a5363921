@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "18b1e6fc_2d9b4a67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T23:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "362fba7c_4b1c2b68",
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "122ccef9_3bffc2a6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2019-06-23T16:55:14Z",
       "side": 1,
       "message": "Whats the relation between this and FALLBACK_TIMESTAMP_RESOLUTION?",
+      "range": {
+        "startLine": 254,
+        "startChar": 57,
+        "endLine": 254,
+        "endChar": 61
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79eb0025_7af3c385",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T23:31:01Z",
+      "side": 1,
+      "message": "ok, actually it should be sufficient to wait 2 sec at most since otherwise we\u0027ve timed out already in measurement",
+      "parentUuid": "122ccef9_3bffc2a6",
       "range": {
         "startLine": 254,
         "startChar": 57,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "690e6479_5f442047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T23:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964e94d9_660b7d08",
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "911c6a4c_8a05090b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "3c542862_54439249",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T23:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "911c6a4c_8a05090b",
+      "range": {
+        "startLine": 322,
+        "startChar": 2,
+        "endLine": 322,
+        "endChar": 10
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3aab393_f2682d1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -93,6 +177,30 @@
       "writtenOn": "2019-06-23T16:55:14Z",
       "side": 1,
       "message": "@NonNull Duration?",
+      "range": {
+        "startLine": 326,
+        "startChar": 34,
+        "endLine": 326,
+        "endChar": 42
+      },
+      "revId": "8b839388a2c696696ee2a853de4eb7a2a5363921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23fb9096_7d9ab96b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-23T23:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3aab393_f2682d1f",
       "range": {
         "startLine": 326,
         "startChar": 34,
