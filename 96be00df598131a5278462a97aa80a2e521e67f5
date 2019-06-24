@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "262530fb_aeb0c19a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d518539c_e60448e7",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "388d4b46_6f070d4c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
         "patchSetId": 6
@@ -81,6 +105,24 @@
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19e244de_5635ab59",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65b95ac_a9a7bdf7",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "d45af88e_78632a0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Actually, I wonder whether these should be marked SEEN. Isn\u0027t it possible for the same commit to show up later in the first-parent history?\n\nCopying the comment to https://git.eclipse.org/r/c/52806/2/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java#151.",
+      "parentUuid": "475e069e_afa5b6fe",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b6a37c_30417536",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
         "patchSetId": 6
@@ -199,6 +259,30 @@
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "071f05fd_0e212503",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8723eb2_18fe768e",
+      "range": {
+        "startLine": 150,
+        "startChar": 15,
+        "endLine": 150,
+        "endChar": 0
+      },
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -296,6 +380,30 @@
       "side": 1,
       "message": "The IllegalStateException sounds good.",
       "parentUuid": "1baf4203_c773ed18",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb22cb88_67ec7d3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bfc2fe3_d703d29e",
+      "range": {
+        "startLine": 684,
+        "startChar": 47,
+        "endLine": 684,
+        "endChar": 48
+      },
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -408,6 +516,24 @@
     },
     {
       "key": {
+        "uuid": "fc44382f_e28e0d68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41806ecd_0a9535a2",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dffdf450_a0df0a64",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 6
@@ -440,6 +566,24 @@
       "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38564626_03837389",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:18:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f28a3270_95d56af2",
+      "revId": "96be00df598131a5278462a97aa80a2e521e67f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
