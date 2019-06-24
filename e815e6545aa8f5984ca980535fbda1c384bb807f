@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e1a9d567_76e6e93e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1872,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-24T23:18:28Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "2f89c9ba_760a1a13",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3aecc6_eb907bdf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a6025ac_e7d9d18c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1910,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-24T23:18:28Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. It calls super(ObjectReader), which indeed sets closeReader to false. I\u0027ll remove this.",
+      "parentUuid": "8e3aecc6_eb907bdf",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbce38c1_a81f7bc5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ab77d4_a051398b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-24T23:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbce38c1_a81f7bc5",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
