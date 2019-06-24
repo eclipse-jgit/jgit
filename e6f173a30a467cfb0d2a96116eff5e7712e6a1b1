@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "994c4df5_82d7a8bf",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-24T15:24:16Z",
+      "side": 1,
+      "message": "What a funny typo. \"K\", of course. Fixed in PS 3.",
+      "range": {
+        "startLine": 129,
+        "startChar": 17,
+        "endLine": 129,
+        "endChar": 18
+      },
+      "revId": "e6f173a30a467cfb0d2a96116eff5e7712e6a1b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33fd93a8_60fdd510",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-24T15:24:16Z",
+      "side": 1,
+      "message": "Again... got bitten by code completion or copy-paste.  Fixed in PS 3.",
+      "range": {
+        "startLine": 155,
+        "startChar": 37,
+        "endLine": 155,
+        "endChar": 38
+      },
+      "revId": "e6f173a30a467cfb0d2a96116eff5e7712e6a1b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
