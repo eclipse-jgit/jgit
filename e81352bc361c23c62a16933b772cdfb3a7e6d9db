@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f1e0ac_800b586d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1909,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T23:43:54Z",
+      "side": 1,
+      "message": "can go back to the old method that uses try-with-resources:\n\n try (RevWalk walk \u003d new RevWalk(reader)) {\n   walk.setRetainBody(false);\n   // Missing \"wants\" throw exception here\n   ...",
+      "revId": "e81352bc361c23c62a16933b772cdfb3a7e6d9db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
