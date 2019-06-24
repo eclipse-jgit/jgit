@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f89c9ba_760a1a13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1872,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T20:39:25Z",
+      "side": 1,
+      "message": "Stale comment?",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3aecc6_eb907bdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1910,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T20:39:25Z",
+      "side": 1,
+      "message": "Is this needed? I think toObjectWalkWithSameObjects passes closeReader \u003d false, so we still need to close walk.",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbce38c1_a81f7bc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-24T20:39:25Z",
+      "side": 1,
+      "message": "optional: can use try-with-resources:\n\n  try (ObjectWalk objWalk \u003d ...) {\n    ...\n  }",
+      "revId": "e815e6545aa8f5984ca980535fbda1c384bb807f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
