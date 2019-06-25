@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92dec8ba_8a5b02ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-06-25T08:33:28Z",
+      "side": 1,
+      "message": "looks like this explicit cast was done to prevent overflow, hence I am not sure if it is safe to remove this cast\n\nsame question for the other occurrences below",
+      "revId": "5c4a38004f79394e5da5f7e912b0e8689e3826ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
