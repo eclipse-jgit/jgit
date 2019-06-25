@@ -49,7 +49,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -57,6 +57,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -66,6 +67,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.text.MessageFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -916,11 +918,13 @@ public class FileUtils {
 	 * @param f
 	 *            the file to touch
 	 * @throws IOException
-	 * @since 5.2.3
+	 * @since 5.1.8
 	 */
 	public static void touch(Path f) throws IOException {
-		try (OutputStream fos = Files.newOutputStream(f)) {
-			// touch the file
+		try (FileChannel fc = FileChannel.open(f, StandardOpenOption.CREATE,
+				StandardOpenOption.APPEND, StandardOpenOption.SYNC)) {
+			// touch
 		}
+		Files.setLastModifiedTime(f, FileTime.from(Instant.now()));
 	}
 }
