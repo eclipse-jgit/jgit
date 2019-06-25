@@ -16,6 +16,24 @@
       "revId": "e81352bc361c23c62a16933b772cdfb3a7e6d9db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7e44e0e_cd4e557d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1909,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-06-25T16:23:42Z",
+      "side": 1,
+      "message": "Yes you\u0027re right. Done.",
+      "parentUuid": "72f1e0ac_800b586d",
+      "revId": "e81352bc361c23c62a16933b772cdfb3a7e6d9db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
