@@ -294,6 +294,8 @@ public abstract class FS {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
 				Files.createFile(probe);
+				// ensure we always use the local system clock
+				FileUtils.touch(probe);
 				long wait = 512;
 				long start = System.nanoTime();
 				FileTime t1 = Files.getLastModifiedTime(probe);
