@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "23bc6b25_325925ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2019-06-25T20:36:24Z",
+      "side": 1,
+      "message": "Please check the stack of  https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d548648#c1",
+      "revId": "c95e8a5fe1bd867764ac488c3ecca62be6981f3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4826b7fb_05954e26",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
