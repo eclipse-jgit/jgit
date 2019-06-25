@@ -66,6 +66,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.text.MessageFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -916,11 +917,12 @@ public class FileUtils {
 	 * @param f
 	 *            the file to touch
 	 * @throws IOException
-	 * @since 5.2.3
+	 * @since 5.1.8
 	 */
 	public static void touch(Path f) throws IOException {
 		try (OutputStream fos = Files.newOutputStream(f)) {
 			// touch the file
 		}
+		Files.setLastModifiedTime(f, FileTime.from(Instant.now()));
 	}
 }
