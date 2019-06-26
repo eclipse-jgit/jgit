@@ -56,6 +56,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -312,6 +313,8 @@ public abstract class FS {
 				Duration resolution = Duration.between(t1.toInstant(), t2.toInstant());
 				saveFileTimeResolution(s, resolution);
 				return Optional.of(resolution);
+			} catch (AccessDeniedException e) {
+				LOG.warn(e.getLocalizedMessage(), e); // see bug 548648
 			} catch (IOException | TimeoutException e) {
 				LOG.error(e.getLocalizedMessage(), e);
 			} catch (InterruptedException e) {
