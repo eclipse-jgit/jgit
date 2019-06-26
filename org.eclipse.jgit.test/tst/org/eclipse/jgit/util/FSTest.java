@@ -65,6 +65,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -222,5 +223,12 @@ public class FSTest {
 				Files.delete(f);
 			}
 		}
+	}
+
+	// bug 548682
+	@Test
+	public void testRepoCacheRelativePathUnbornRepo() {
+		assertFalse(RepositoryCache.FileKey
+				.isGitRepository(new File("repo.git"), FS.DETECTED));
 	}
 }
