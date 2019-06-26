@@ -218,6 +218,7 @@ public abstract class FS {
 				+ System.getProperty("java.vm.version") + '|'; //$NON-NLS-1$
 
 		private static Duration getFsTimestampResolution(Path file) {
+			file = file.toAbsolutePath();
 			Path dir = Files.isDirectory(file) ? file : file.getParent();
 			FileStore s;
 			try {
