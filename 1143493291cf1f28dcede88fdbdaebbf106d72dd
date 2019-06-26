@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da19a3be_bc6f6958",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-26T20:07:09Z",
+      "side": 1,
+      "message": "Should this check occur earlier? Suppose I have commits C and D (C is a parent of D) and M (M is a merge of D and C). With the code here, when visiting M\u0027s parents, we\u0027ll\n\n 1. Add D to pending\n 2. Mark C as SEEN, parse it, and skip it.\n\nThen when visiting D\u0027s parents, we\u0027ll\n\n 1. Encounter C, which is SEEN, so skip it\n\nThus the first-parent history would look like \"M, D\" instead of \"M, D, C\". Intended?\n\n(Noticed at https://git.eclipse.org/r/c/143231/6/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java#146)",
+      "revId": "1143493291cf1f28dcede88fdbdaebbf106d72dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
