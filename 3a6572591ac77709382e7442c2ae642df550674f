@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a440c2_ff7e0da1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-06-27T16:31:34Z",
+      "side": 1,
+      "message": "This and some of the reformatting looks suspect.\n\nThis is patch is currently unmergable anyway so can you re-run it through the Eclipse formatter when updating the file?",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 778,
+        "endChar": 14
+      },
+      "revId": "3a6572591ac77709382e7442c2ae642df550674f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
