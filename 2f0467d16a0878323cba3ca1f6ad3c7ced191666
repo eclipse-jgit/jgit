@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10ea23b5_e88564bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-27T23:13:43Z",
+      "side": 1,
+      "message": "nit: stray whitespace",
+      "revId": "2f0467d16a0878323cba3ca1f6ad3c7ced191666",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87863cf4_a494984c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/Generator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-27T23:13:43Z",
+      "side": 1,
+      "message": "Should this be final?",
+      "revId": "2f0467d16a0878323cba3ca1f6ad3c7ced191666",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
