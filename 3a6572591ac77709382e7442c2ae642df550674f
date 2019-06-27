@@ -22,6 +22,30 @@
       "revId": "3a6572591ac77709382e7442c2ae642df550674f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64ed4c25_b9549d16",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-06-27T18:14:27Z",
+      "side": 1,
+      "message": "These are the results of Eclipse formatter.",
+      "parentUuid": "a6a440c2_ff7e0da1",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 778,
+        "endChar": 14
+      },
+      "revId": "3a6572591ac77709382e7442c2ae642df550674f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
