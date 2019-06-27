@@ -34,6 +34,24 @@
       "revId": "1143493291cf1f28dcede88fdbdaebbf106d72dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43914c5_a5d2f846",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-06-27T17:58:12Z",
+      "side": 1,
+      "message": "I think it makes sense to skip the parseHeaders, too, with the logic being that we haven\u0027t traversed into the other parents at all. If it causes trouble, we can make a followup change. :)",
+      "parentUuid": "c997a245_aaf605ff",
+      "revId": "1143493291cf1f28dcede88fdbdaebbf106d72dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
