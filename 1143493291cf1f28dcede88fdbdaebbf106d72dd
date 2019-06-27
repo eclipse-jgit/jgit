@@ -16,6 +16,24 @@
       "revId": "1143493291cf1f28dcede88fdbdaebbf106d72dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c997a245_aaf605ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-06-27T17:53:29Z",
+      "side": 1,
+      "message": "Really nice find there. If we move it above p.flags |\u003d SEEN; anywhere, and run this test, we get \"c, b, a\" as expected:\n\n                RevCommit a \u003d commit();\n\t\tRevCommit b \u003d commit(a);\n\t\tRevCommit c \u003d commit(b, a);\n\n\t\trw.reset();\n\t\trw.setFirstParent(true);\n\t\tmarkStart(c);\n\t\tassertCommit(c, rw.next());\n\t\tassertCommit(b, rw.next());\n\t\tassertCommit(a, rw.next());\n\nDo we want to keep p.parseHeaders for non-first parents?",
+      "parentUuid": "da19a3be_bc6f6958",
+      "revId": "1143493291cf1f28dcede88fdbdaebbf106d72dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
