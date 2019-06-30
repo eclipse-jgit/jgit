@@ -69,6 +69,30 @@
       "revId": "6bc1e66838ab0234d26f51af3d03004d32fa34ee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c294251_2ab9a34d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 250355
+      },
+      "writtenOn": "2019-06-30T14:35:04Z",
+      "side": 1,
+      "message": "It does make sense only in a situation where the file already existed. When it did not, this would only slightly increase the modification time of a file created by the FileChannel.open",
+      "parentUuid": "aa611633_c7bbad21",
+      "range": {
+        "startLine": 926,
+        "startChar": 46,
+        "endLine": 926,
+        "endChar": 59
+      },
+      "revId": "6bc1e66838ab0234d26f51af3d03004d32fa34ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
