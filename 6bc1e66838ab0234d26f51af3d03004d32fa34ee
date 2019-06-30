@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ce6c624e_8279a8f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-30T09:44:10Z",
+      "side": 1,
+      "message": "Why this? This was added in 5.1.8.",
+      "range": {
+        "startLine": 921,
+        "startChar": 11,
+        "endLine": 921,
+        "endChar": 16
+      },
+      "revId": "6bc1e66838ab0234d26f51af3d03004d32fa34ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b491a9b6_e483808b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2019-06-26T07:39:45Z",
       "side": 1,
       "message": "Now Andrey\u0027s question about clock sync between NFS and the machine this Java code runs on becomes relevant?",
+      "range": {
+        "startLine": 926,
+        "startChar": 46,
+        "endLine": 926,
+        "endChar": 59
+      },
+      "revId": "6bc1e66838ab0234d26f51af3d03004d32fa34ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa611633_c7bbad21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-06-30T09:44:10Z",
+      "side": 1,
+      "message": "Does setting the file timestamp while this FileChannel is open even make sense?",
+      "parentUuid": "b491a9b6_e483808b",
       "range": {
         "startLine": 926,
         "startChar": 46,
