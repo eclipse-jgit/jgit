@@ -94,6 +94,30 @@
       "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bdfbfd7_75937fb4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-01T08:57:43Z",
+      "side": 1,
+      "message": "The test in line 176 is purely working on the index. It is not looking at the filesystem at all. It is only checking that the index contains the right content, modes, timestamps, ...\nIn this line we explicitly look at the filesystem and test the functionality of the FileTreeIterator#ismodified. We check whether the FileTreeIterator when comparing filesystem and index detects the state of the file correctly.",
+      "parentUuid": "ffb6a3c0_28fdb956",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
