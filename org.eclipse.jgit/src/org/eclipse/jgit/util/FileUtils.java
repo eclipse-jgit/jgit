@@ -656,10 +656,27 @@ public class FileUtils {
 	 * @return lastModified attribute for given file, not following symbolic
 	 *         links
 	 * @throws IOException
+	 * @deprecated use {@link #lastModifiedInstant(Path)} instead which returns
+	 *             FileTime
 	 */
+	@Deprecated
 	static long lastModified(File file) throws IOException {
 		return Files.getLastModifiedTime(toPath(file), LinkOption.NOFOLLOW_LINKS)
 				.toMillis();
+	}
+
+	/**
+	 * @param path
+	 * @return lastModified attribute for given file, not following symbolic
+	 *         links
+	 */
+	static Instant lastModifiedInstant(Path path) {
+		try {
+			return Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS)
+					.toInstant();
+		} catch (IOException e) {
+			return Instant.ofEpochMilli(path.toFile().lastModified());
+		}
 	}
 
 	/**
@@ -667,7 +684,8 @@ public class FileUtils {
 	 *
 	 * @param file
 	 * @return {@link BasicFileAttributes} of the file
-	 * @throws IOException in case of any I/O errors accessing the file
+	 * @throws IOException
+	 *             in case of any I/O errors accessing the file
 	 *
 	 * @since 4.5.6
 	 */
@@ -680,8 +698,19 @@ public class FileUtils {
 	 * @param time
 	 * @throws IOException
 	 */
+	@Deprecated
 	static void setLastModified(File file, long time) throws IOException {
 		Files.setLastModifiedTime(toPath(file), FileTime.fromMillis(time));
+	}
+
+	/**
+	 * @param path
+	 * @param time
+	 * @throws IOException
+	 */
+	static void setLastModified(Path path, Instant time)
+			throws IOException {
+		Files.setLastModifiedTime(path, FileTime.from(time));
 	}
 
 	/**
@@ -788,7 +817,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.isSymbolicLink() ? Constants
 							.encode(readSymLink(file)).length
 							: readAttributes.size());
@@ -827,7 +856,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.size());
 			return attributes;
 		} catch (IOException e) {

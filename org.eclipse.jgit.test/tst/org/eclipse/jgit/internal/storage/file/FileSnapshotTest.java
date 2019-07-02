@@ -51,9 +51,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -80,11 +82,12 @@ public class FileSnapshotTest {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
-	private static void waitNextSec(File f) {
-		long initialLastModified = f.lastModified();
+	private static void waitNextSec(File f) throws IOException {
+		Instant initialLastModified = FS.DETECTED.lastModifiedInstant(f);
 		do {
-			f.setLastModified(System.currentTimeMillis());
-		} while (f.lastModified() == initialLastModified);
+			FS.DETECTED.setLastModified(f.toPath(), Instant.now());
+		} while (FS.DETECTED.lastModifiedInstant(f)
+				.equals(initialLastModified));
 	}
 
 	/**

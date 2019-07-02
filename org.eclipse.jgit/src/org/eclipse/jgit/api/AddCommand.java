@@ -50,6 +50,7 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -228,7 +229,7 @@ public class AddCommand extends GitCommand<DirCache> {
 
 				if (GITLINK != mode) {
 					entry.setLength(f.getEntryLength());
-					entry.setLastModified(f.getEntryLastModified());
+					entry.setLastModified(f.getEntryLastModifiedInstant());
 					long len = f.getEntryContentLength();
 					// We read and filter the content multiple times.
 					// f.getEntryContentLength() reads and filters the input and
@@ -241,7 +242,7 @@ public class AddCommand extends GitCommand<DirCache> {
 					}
 				} else {
 					entry.setLength(0);
-					entry.setLastModified(0);
+					entry.setLastModified(Instant.ofEpochSecond(0));
 					entry.setObjectId(f.getEntryObjectId());
 				}
 				builder.add(entry);
