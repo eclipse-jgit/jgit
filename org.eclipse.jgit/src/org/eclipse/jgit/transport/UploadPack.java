@@ -603,6 +603,18 @@ public class UploadPack {
 	}
 
 	/**
+	 * Get the currently installed protocol v2 hook.
+	 *
+	 * @return the hook, defaulting to a null implementtion if none installed.
+	 *
+	 * @since 5.5
+	 */
+	public ProtocolV2Hook getProtocolV2Hook() {
+		return this.protocolV2Hook != null ? this.protocolV2Hook
+				: ProtocolV2Hook.DEFAULT;
+	}
+
+	/**
 	 * Set the filter used while advertising the refs to the client.
 	 * <p>
 	 * Only refs allowed by this filter will be sent to the client. The filter
