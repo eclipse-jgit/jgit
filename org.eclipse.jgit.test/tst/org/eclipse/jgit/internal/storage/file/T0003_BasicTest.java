@@ -59,6 +59,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -82,6 +83,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.junit.Rule;
@@ -790,12 +792,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @param name
 	 *            the file in the repository to force a time change on.
+	 * @throws IOException
 	 */
-	private void BUG_WorkAroundRacyGitIssues(String name) {
+	private void BUG_WorkAroundRacyGitIssues(String name) throws IOException {
 		File path = new File(db.getDirectory(), name);
-		long old = path.lastModified();
+		FS fs = db.getFS();
+		Instant old = fs.lastModifiedInstant(path);
 		long set = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
-		path.setLastModified(set);
-		assertTrue("time changed", old != path.lastModified());
+		fs.setLastModified(path.toPath(), Instant.ofEpochMilli(set));
+		assertFalse("time changed", old.equals(fs.lastModifiedInstant(path)));
 	}
 }
