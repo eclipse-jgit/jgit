@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -406,8 +407,14 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		}
 
 		@Override
+		@Deprecated
 		public long getLastModified() {
-			return attributes.getLastModifiedTime();
+			return attributes.getLastModifiedInstant().toEpochMilli();
+		}
+
+		@Override
+		public Instant getLastModifiedInstant() {
+			return attributes.getLastModifiedInstant();
 		}
 
 		@Override

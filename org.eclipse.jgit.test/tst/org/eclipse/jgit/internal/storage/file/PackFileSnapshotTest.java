@@ -59,6 +59,7 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 //import java.nio.file.attribute.BasicFileAttributes;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
@@ -80,6 +81,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class PackFileSnapshotTest extends RepositoryTestCase {
@@ -188,7 +190,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		AnyObjectId chk1 = pf.getPackChecksum();
 		String name = pf.getPackName();
 		Long length = Long.valueOf(pf.getPackFile().length());
-		long m1 = packFilePath.toFile().lastModified();
+		FS fs = db.getFS();
+		Instant m1 = fs.lastModifiedInstant(packFilePath);
 
 		// Wait for a filesystem timer tick to enhance probability the rest of
 		// this test is done before the filesystem timer ticks again.
@@ -198,15 +201,15 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// content and checksum are different since compression level differs
 		AnyObjectId chk2 = repackAndCheck(6, name, length, chk1)
 				.getPackChecksum();
-		long m2 = packFilePath.toFile().lastModified();
-		assumeFalse(m2 == m1);
+		Instant m2 = fs.lastModifiedInstant(packFilePath);
+		assumeFalse(m2.equals(m1));
 
 		// Repack to create packfile with same name, length. Lastmodified is
 		// equal to the previous one because we are in the same filesystem timer
 		// slot. Content and its checksum are different
 		AnyObjectId chk3 = repackAndCheck(7, name, length, chk2)
 				.getPackChecksum();
-		long m3 = packFilePath.toFile().lastModified();
+		Instant m3 = fs.lastModifiedInstant(packFilePath);
 
 		// ask for an unknown git object to force jgit to rescan the list of
 		// available packs. If we would ask for a known objectid then JGit would
@@ -214,7 +217,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		db.getObjectDatabase().has(unknownID);
 		assertEquals(chk3, getSinglePack(db.getObjectDatabase().getPacks())
 				.getPackChecksum());
-		assumeTrue(m3 == m2);
+		assumeTrue(m3.equals(m2));
 	}
 
 	// Try repacking so fast that we get two new packs which differ only in
@@ -253,7 +256,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// Repack to create third packfile
 		AnyObjectId chk3 = repackAndCheck(7, name, length, chk2)
 				.getPackChecksum();
-		long m3 = packFilePath.toFile().lastModified();
+		FS fs = db.getFS();
+		Instant m3 = fs.lastModifiedInstant(packFilePath);
 		db.getObjectDatabase().has(unknownID);
 		assertEquals(chk3, getSinglePack(db.getObjectDatabase().getPacks())
 				.getPackChecksum());
@@ -265,8 +269,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// Copy copy2 to packfile data to force modification of packfile without
 		// changing the packfile's filekey.
 		copyPack(packFileBasePath, ".copy2", "");
-		long m2 = packFilePath.toFile().lastModified();
-		assumeFalse(m3 == m2);
+		Instant m2 = fs.lastModifiedInstant(packFilePath);
+		assumeFalse(m3.equals(m2));
 
 		db.getObjectDatabase().has(unknownID);
 		assertEquals(chk2, getSinglePack(db.getObjectDatabase().getPacks())
@@ -275,8 +279,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// Copy copy2 to packfile data to force modification of packfile without
 		// changing the packfile's filekey.
 		copyPack(packFileBasePath, ".copy1", "");
-		long m1 = packFilePath.toFile().lastModified();
-		assumeTrue(m2 == m1);
+		Instant m1 = fs.lastModifiedInstant(packFilePath);
+		assumeTrue(m2.equals(m1));
 		db.getObjectDatabase().has(unknownID);
 		assertEquals(chk1, getSinglePack(db.getObjectDatabase().getPacks())
 				.getPackChecksum());

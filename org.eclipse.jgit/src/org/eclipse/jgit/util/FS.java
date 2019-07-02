@@ -44,6 +44,7 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
 
 import java.io.BufferedReader;
@@ -66,6 +67,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -625,9 +627,39 @@ public abstract class FS {
 	 * @return last modified time of f
 	 * @throws java.io.IOException
 	 * @since 3.0
+	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
 	 */
+	@Deprecated
 	public long lastModified(File f) throws IOException {
 		return FileUtils.lastModified(f);
+	}
+
+	/**
+	 * Get the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the modification time of the link is returned, rather
+	 * than that of the link target.
+	 *
+	 * @param p
+	 *            a {@link Path} object.
+	 * @return last modified time of p
+	 * @since 5.1.9
+	 */
+	public Instant lastModifiedInstant(Path p) {
+		return FileUtils.lastModifiedInstant(p);
+	}
+
+	/**
+	 * Get the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the modification time of the link is returned, rather
+	 * than that of the link target.
+	 *
+	 * @param f
+	 *            a {@link File} object.
+	 * @return last modified time of p
+	 * @since 5.1.9
+	 */
+	public Instant lastModifiedInstant(File f) {
+		return FileUtils.lastModifiedInstant(f.toPath());
 	}
 
 	/**
@@ -640,9 +672,26 @@ public abstract class FS {
 	 *            last modified time
 	 * @throws java.io.IOException
 	 * @since 3.0
+	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
 	 */
+	@Deprecated
 	public void setLastModified(File f, long time) throws IOException {
 		FileUtils.setLastModified(f, time);
+	}
+
+	/**
+	 * Set the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the link is modified, not the target,
+	 *
+	 * @param p
+	 *            a {@link Path} object.
+	 * @param time
+	 *            last modified time
+	 * @throws java.io.IOException
+	 * @since 5.1.9
+	 */
+	public void setLastModified(Path p, Instant time) throws IOException {
+		FileUtils.setLastModified(p, time);
 	}
 
 	/**
@@ -1712,9 +1761,19 @@ public abstract class FS {
 		/**
 		 * @return the time (milliseconds since 1970-01-01) when this object was
 		 *         last modified
+		 * @deprecated use getLastModifiedInstant instead
 		 */
+		@Deprecated
 		public long getLastModifiedTime() {
-			return lastModifiedTime;
+			return lastModifiedInstant.toEpochMilli();
+		}
+
+		/**
+		 * @return the time when this object was last modified
+		 * @since 5.1.9
+		 */
+		public Instant getLastModifiedInstant() {
+			return lastModifiedInstant;
 		}
 
 		private final boolean isDirectory;
@@ -1725,7 +1784,7 @@ public abstract class FS {
 
 		private final long creationTime;
 
-		private final long lastModifiedTime;
+		private final Instant lastModifiedInstant;
 
 		private final boolean isExecutable;
 
@@ -1743,7 +1802,7 @@ public abstract class FS {
 		Attributes(FS fs, File file, boolean exists, boolean isDirectory,
 				boolean isExecutable, boolean isSymbolicLink,
 				boolean isRegularFile, long creationTime,
-				long lastModifiedTime, long length) {
+				Instant lastModifiedInstant, long length) {
 			this.fs = fs;
 			this.file = file;
 			this.exists = exists;
@@ -1752,7 +1811,7 @@ public abstract class FS {
 			this.isSymbolicLink = isSymbolicLink;
 			this.isRegularFile = isRegularFile;
 			this.creationTime = creationTime;
-			this.lastModifiedTime = lastModifiedTime;
+			this.lastModifiedInstant = lastModifiedInstant;
 			this.length = length;
 		}
 
@@ -1764,7 +1823,7 @@ public abstract class FS {
 		 * @param path
 		 */
 		public Attributes(File path, FS fs) {
-			this(fs, path, false, false, false, false, false, 0L, 0L, 0L);
+			this(fs, path, false, false, false, false, false, 0L, EPOCH, 0L);
 		}
 
 		/**
@@ -1810,7 +1869,7 @@ public abstract class FS {
 		boolean exists = isDirectory || isFile;
 		boolean canExecute = exists && !isDirectory && canExecute(path);
 		boolean isSymlink = false;
-		long lastModified = exists ? path.lastModified() : 0L;
+		Instant lastModified = exists ? lastModifiedInstant(path) : EPOCH;
 		long createTime = 0L;
 		return new Attributes(this, path, exists, isDirectory, canExecute,
 				isSymlink, isFile, createTime, lastModified, -1);
