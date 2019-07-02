@@ -37,7 +37,11 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.time.Instant.EPOCH;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.time.Instant;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
@@ -63,11 +67,11 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			DirCacheEntry entry = dc.getEntry(path);
 			DirCacheEntry entry2 = dc.getEntry(path);
 
-			assertTrue("last modified shall not be zero!",
-					entry.getLastModified() != 0);
+			assertFalse("last modified shall not be the epoch!",
+					entry.getLastModifiedInstant().equals(EPOCH));
 
-			assertTrue("last modified shall not be zero!",
-					entry2.getLastModified() != 0);
+			assertFalse("last modified shall not be the epoch!",
+					entry2.getLastModifiedInstant().equals(EPOCH));
 
 			writeTrashFile(path, "new content");
 			git.add().addFilepattern(path).call();
@@ -77,11 +81,11 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			entry = dc.getEntry(path);
 			entry2 = dc.getEntry(path);
 
-			assertTrue("last modified shall not be zero!",
-					entry.getLastModified() != 0);
+			assertFalse("last modified shall not be the epoch!",
+					entry.getLastModifiedInstant().equals(EPOCH));
 
-			assertTrue("last modified shall not be zero!",
-					entry2.getLastModified() != 0);
+			assertFalse("last modified shall not be the epoch!",
+					entry2.getLastModifiedInstant().equals(EPOCH));
 		}
 	}
 
@@ -97,7 +101,7 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			DirCache dc = db.readDirCache();
 			DirCacheEntry entry = dc.getEntry(path);
 
-			long masterLastMod = entry.getLastModified();
+			Instant masterLastMod = entry.getLastModifiedInstant();
 
 			git.checkout().setCreateBranch(true).setName("side").call();
 
@@ -110,7 +114,7 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			dc = db.readDirCache();
 			entry = dc.getEntry(path);
 
-			long sideLastMode = entry.getLastModified();
+			Instant sideLastMod = entry.getLastModifiedInstant();
 
 			Thread.sleep(2000);
 
@@ -120,9 +124,10 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			dc = db.readDirCache();
 			entry = dc.getEntry(path);
 
-			assertTrue("shall have equal mod time!", masterLastMod == sideLastMode);
-			assertTrue("shall not equal master timestamp!",
-					entry.getLastModified() == masterLastMod);
+			assertTrue("shall have equal mod time!",
+					masterLastMod.equals(sideLastMod));
+			assertTrue("shall have equal master timestamp!",
+					entry.getLastModifiedInstant().equals(masterLastMod));
 		}
 	}
 
