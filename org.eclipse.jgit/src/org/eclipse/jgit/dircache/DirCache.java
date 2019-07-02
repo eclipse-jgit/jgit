@@ -497,8 +497,9 @@ public class DirCache {
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
 		snapshot = FileSnapshot.save(liveFile);
-		int smudge_s = (int) (snapshot.lastModified() / 1000);
-		int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
+		// TODO (ms) combine smudge_s and smudge_ns into Duration
+		int smudge_s = (int) (snapshot.lastModifiedInstant().getEpochSecond());
+		int smudge_ns = snapshot.lastModifiedInstant().getNano();
 
 		// Load the individual file entries.
 		//
@@ -679,8 +680,8 @@ public class DirCache {
 			// so we use the current timestamp as a approximation.
 			myLock.createCommitSnapshot();
 			snapshot = myLock.getCommitSnapshot();
-			smudge_s = (int) (snapshot.lastModified() / 1000);
-			smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
+			smudge_s = (int) (snapshot.lastModifiedInstant().getEpochSecond());
+			smudge_ns = snapshot.lastModifiedInstant().getNano();
 		} else {
 			// Used in unit tests only
 			smudge_ns = 0;
@@ -1025,7 +1026,7 @@ public class DirCache {
 				DirCacheEntry entry = iIter.getDirCacheEntry();
 				if (entry.isSmudged() && iIter.idEqual(fIter)) {
 					entry.setLength(fIter.getEntryLength());
-					entry.setLastModified(fIter.getEntryLastModified());
+					entry.setLastModified(fIter.getEntryLastModifiedInstant());
 				}
 			}
 		}

@@ -422,7 +422,7 @@ public class ResetCommand extends GitCommand<Ref> {
 						DirCacheIterator.class);
 				if (dcIter != null && dcIter.idEqual(cIter)) {
 					DirCacheEntry indexEntry = dcIter.getDirCacheEntry();
-					entry.setLastModified(indexEntry.getLastModified());
+					entry.setLastModified(indexEntry.getLastModifiedInstant());
 					entry.setLength(indexEntry.getLength());
 				}
 

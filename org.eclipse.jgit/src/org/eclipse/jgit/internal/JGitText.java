@@ -622,6 +622,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String readConfigFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
+	/***/ public String readLastModifiedFailed;
 	/***/ public String readTimedOut;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;

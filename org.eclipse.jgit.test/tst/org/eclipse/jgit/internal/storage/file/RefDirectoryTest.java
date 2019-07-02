@@ -59,6 +59,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -78,6 +79,7 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1319,10 +1321,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private void writePackedRefs(String content) throws IOException {
 		File pr = new File(diskRepo.getDirectory(), "packed-refs");
 		write(pr, content);
-
-		final long now = System.currentTimeMillis();
-		final int oneHourAgo = 3600 * 1000;
-		pr.setLastModified(now - oneHourAgo);
+		FS fs = diskRepo.getFS();
+		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
 	}
 
 	private void deleteLooseRef(String name) {

@@ -51,9 +51,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -80,11 +82,12 @@ public class FileSnapshotTest {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
-	private static void waitNextSec(File f) {
-		long initialLastModified = f.lastModified();
+	private static void waitNextTick(File f) throws IOException {
+		Instant initialLastModified = FS.DETECTED.lastModifiedInstant(f);
 		do {
-			f.setLastModified(System.currentTimeMillis());
-		} while (f.lastModified() == initialLastModified);
+			FS.DETECTED.setLastModified(f.toPath(), Instant.now());
+		} while (FS.DETECTED.lastModifiedInstant(f)
+				.equals(initialLastModified));
 	}
 
 	/**
@@ -95,10 +98,10 @@ public class FileSnapshotTest {
 	@Test
 	public void testActuallyIsModifiedTrivial() throws Exception {
 		File f1 = createFile("simple");
-		waitNextSec(f1);
+		waitNextTick(f1);
 		FileSnapshot save = FileSnapshot.save(f1);
 		append(f1, (byte) 'x');
-		waitNextSec(f1);
+		waitNextTick(f1);
 		assertTrue(save.isModified(f1));
 	}
 
@@ -113,7 +116,7 @@ public class FileSnapshotTest {
 	@Test
 	public void testNewFileWithWait() throws Exception {
 		File f1 = createFile("newfile");
-		waitNextSec(f1);
+		waitNextTick(f1);
 		FileSnapshot save = FileSnapshot.save(f1);
 		Thread.sleep(1500);
 		assertTrue(save.isModified(f1));
@@ -146,8 +149,8 @@ public class FileSnapshotTest {
 		File f2 = createFile("fool"); // Guarantees new inode x
 		// wait on f2 since this method resets lastModified of the file
 		// and leaves lastModified of f1 untouched
-		waitNextSec(f2);
-		waitNextSec(f2);
+		waitNextTick(f2);
+		waitNextTick(f2);
 		FileTime timestamp = Files.getLastModifiedTime(f1.toPath());
 		FileSnapshot save = FileSnapshot.save(f1);
 		Files.move(f2.toPath(), f1.toPath(), // Now "file" is inode x
@@ -185,7 +188,7 @@ public class FileSnapshotTest {
 		// 0 sized FileSnapshot.
 		FileSnapshot fs1 = FileSnapshot.MISSING_FILE;
 		// UNKNOWN_SIZE FileSnapshot.
-		FileSnapshot fs2 = FileSnapshot.save(fs1.lastModified());
+		FileSnapshot fs2 = FileSnapshot.save(fs1.lastModifiedInstant());
 
 		assertTrue(fs1.equals(fs2));
 		assertTrue(fs2.equals(fs1));
