@@ -76,11 +76,14 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Utilities
  */
 public class FileUtils {
+	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
 	/**
 	 * Option to delete given {@code File}
@@ -656,10 +659,29 @@ public class FileUtils {
 	 * @return lastModified attribute for given file, not following symbolic
 	 *         links
 	 * @throws IOException
+	 * @deprecated use {@link #lastModifiedInstant(Path)} instead which returns
+	 *             FileTime
 	 */
+	@Deprecated
 	static long lastModified(File file) throws IOException {
 		return Files.getLastModifiedTime(toPath(file), LinkOption.NOFOLLOW_LINKS)
 				.toMillis();
+	}
+
+	/**
+	 * @param path
+	 * @return lastModified attribute for given file, not following symbolic
+	 *         links
+	 */
+	static Instant lastModifiedInstant(Path path) {
+		try {
+			return Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS)
+					.toInstant();
+		} catch (IOException e) {
+			LOG.error(MessageFormat
+					.format(JGitText.get().readLastModifiedFailed, path));
+			return Instant.ofEpochMilli(path.toFile().lastModified());
+		}
 	}
 
 	/**
@@ -680,8 +702,19 @@ public class FileUtils {
 	 * @param time
 	 * @throws IOException
 	 */
+	@Deprecated
 	static void setLastModified(File file, long time) throws IOException {
 		Files.setLastModifiedTime(toPath(file), FileTime.fromMillis(time));
+	}
+
+	/**
+	 * @param path
+	 * @param time
+	 * @throws IOException
+	 */
+	static void setLastModified(Path path, Instant time)
+			throws IOException {
+		Files.setLastModifiedTime(path, FileTime.from(time));
 	}
 
 	/**
@@ -788,7 +821,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.isSymbolicLink() ? Constants
 							.encode(readSymLink(file)).length
 							: readAttributes.size());
@@ -827,7 +860,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.size());
 			return attributes;
 		} catch (IOException e) {
