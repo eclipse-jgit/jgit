@@ -122,6 +122,10 @@ public class FileSnapshot {
 		return new FileSnapshot(path);
 	}
 
+	public static FileSnapshot save(File path, FileSnapshotTimestampResolutions resolutions) {
+		return new FileSnapshot(path, resolutions);
+	}
+
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
 		Object fileKey = fileAttributes.fileKey();
 		return fileKey == null ? MISSING_FILEKEY : fileKey;
@@ -181,9 +185,12 @@ public class FileSnapshot {
 	 *            information is saved.
 	 */
 	protected FileSnapshot(File path) {
+		this(path, new FileSnapshotTimestampResolutions());
+	}
+
+	protected FileSnapshot(File path, FileSnapshotTimestampResolutions timestampResolutions) {
 		this.lastRead = System.currentTimeMillis();
-		this.fsTimestampResolution = FS
-				.getFsTimerResolution(path.toPath().getParent());
+		this.fsTimestampResolution = timestampResolutions.getResolution(path.toPath().getParent());
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(path);
