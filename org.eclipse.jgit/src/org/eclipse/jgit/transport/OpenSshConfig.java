@@ -51,6 +51,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -166,7 +167,7 @@ public class OpenSshConfig implements ConfigRepository {
 	private final File configFile;
 
 	/** Modification time of {@link #configFile} when it was last loaded. */
-	private long lastModified;
+	private Instant lastModified;
 
 	/**
 	 * Encapsulates entries read out of the configuration file, and
@@ -224,8 +225,8 @@ public class OpenSshConfig implements ConfigRepository {
 	}
 
 	private synchronized State refresh() {
-		final long mtime = configFile.lastModified();
-		if (mtime != lastModified) {
+		final Instant mtime = FS.DETECTED.lastModifiedInstant(configFile);
+		if (!mtime.equals(lastModified)) {
 			State newState = new State();
 			try (FileInputStream in = new FileInputStream(configFile)) {
 				newState.entries = parse(in);

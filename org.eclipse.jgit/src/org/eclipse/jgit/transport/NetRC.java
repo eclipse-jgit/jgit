@@ -46,6 +46,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -123,7 +124,7 @@ public class NetRC {
 
 	private File netrc;
 
-	private long lastModified;
+	private Instant lastModified;
 
 	private Map<String, NetRCEntry> hosts = new HashMap<>();
 
@@ -187,8 +188,10 @@ public class NetRC {
 		if (netrc == null)
 			return null;
 
-		if (this.lastModified != this.netrc.lastModified())
+		if (!this.lastModified
+				.equals(FS.DETECTED.lastModifiedInstant(this.netrc))) {
 			parse();
+		}
 
 		NetRCEntry entry = this.hosts.get(host);
 
@@ -209,7 +212,7 @@ public class NetRC {
 
 	private void parse() {
 		this.hosts.clear();
-		this.lastModified = this.netrc.lastModified();
+		this.lastModified = FS.DETECTED.lastModifiedInstant(this.netrc);
 
 		try (BufferedReader r = new BufferedReader(new FileReader(netrc))) {
 			String line = null;

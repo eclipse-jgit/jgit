@@ -57,7 +57,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -284,7 +286,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 				dce = new DirCacheEntry(treeItr.getEntryPathString());
 				dce.setFileMode(treeItr.getEntryFileMode());
-				dce.setLastModified(treeItr.getEntryLastModified());
+				dce.setLastModified(treeItr.getEntryLastModifiedInstant());
 				dce.setLength((int) len);
 				try (FileInputStream in = new FileInputStream(
 						treeItr.getEntryFile())) {
@@ -361,7 +363,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public static long fsTick(File lastFile) throws InterruptedException,
+	public static Instant fsTick(File lastFile)
+			throws InterruptedException,
 			IOException {
 		File tmp;
 		FS fs = FS.DETECTED;
@@ -375,15 +378,15 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			tmp = File.createTempFile("fsTickTmpFile", null,
 					lastFile.getParentFile());
 		}
-		long res = FS.getFsTimerResolution(tmp.toPath()).toMillis();
+		long res = FS.getFsTimerResolution(tmp.toPath()).toNanos();
 		long sleepTime = res / 10;
 		try {
-			long startTime = fs.lastModified(lastFile);
-			long actTime = fs.lastModified(tmp);
-			while (actTime <= startTime) {
-				Thread.sleep(sleepTime);
+			Instant startTime = fs.lastModifiedInstant(lastFile);
+			Instant actTime = fs.lastModifiedInstant(tmp);
+			while (actTime.compareTo(startTime) <= 0) {
+				TimeUnit.NANOSECONDS.sleep(sleepTime);
 				FileUtils.touch(tmp.toPath());
-				actTime = fs.lastModified(tmp);
+				actTime = fs.lastModifiedInstant(tmp);
 			}
 			return actTime;
 		} finally {

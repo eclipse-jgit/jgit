@@ -49,7 +49,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -149,10 +149,10 @@ public class FileSnapshot {
 	}
 
 	/** Last observed modification time of the path. */
-	private final long lastModified;
+	private final Instant lastModified;
 
 	/** Last wall-clock time the path was read. */
-	private volatile long lastRead;
+	private volatile Instant lastRead;
 
 	/** True once {@link #lastRead} is far later than {@link #lastModified}. */
 	private boolean cannotBeRacilyClean;
@@ -181,19 +181,19 @@ public class FileSnapshot {
 	 *            information is saved.
 	 */
 	protected FileSnapshot(File path) {
-		this.lastRead = System.currentTimeMillis();
+		this.lastRead = Instant.now();
 		this.fsTimestampResolution = FS
 				.getFsTimerResolution(path.toPath().getParent());
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(path);
 		} catch (IOException e) {
-			this.lastModified = path.lastModified();
+			this.lastModified = Instant.ofEpochMilli(path.lastModified());
 			this.size = path.length();
 			this.fileKey = MISSING_FILEKEY;
 			return;
 		}
-		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
+		this.lastModified = fileAttributes.lastModifiedTime().toInstant();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
 	}
@@ -208,8 +208,8 @@ public class FileSnapshot {
 
 	private FileSnapshot(long read, long modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
-		this.lastRead = read;
-		this.lastModified = modified;
+		this.lastRead = Instant.ofEpochMilli(read);
+		this.lastModified = Instant.ofEpochMilli(modified);
 		this.fsTimestampResolution = fsTimestampResolution;
 		this.size = size;
 		this.fileKey = fileKey;
@@ -219,8 +219,19 @@ public class FileSnapshot {
 	 * Get time of last snapshot update
 	 *
 	 * @return time of last snapshot update
+	 * @deprecated use {@link #lastModifiedInstant()} instead
 	 */
+	@Deprecated
 	public long lastModified() {
+		return lastModified.toEpochMilli();
+	}
+
+	/**
+	 * Get time of last snapshot update
+	 *
+	 * @return time of last snapshot update
+	 */
+	public Instant lastModifiedInstant() {
 		return lastModified;
 	}
 
@@ -239,16 +250,16 @@ public class FileSnapshot {
 	 * @return true if the path needs to be read again.
 	 */
 	public boolean isModified(File path) {
-		long currLastModified;
+		Instant currLastModified;
 		long currSize;
 		Object currFileKey;
 		try {
 			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
-			currLastModified = fileAttributes.lastModifiedTime().toMillis();
+			currLastModified = fileAttributes.lastModifiedTime().toInstant();
 			currSize = fileAttributes.size();
 			currFileKey = getFileKey(fileAttributes);
 		} catch (IOException e) {
-			currLastModified = path.lastModified();
+			currLastModified = Instant.ofEpochMilli(path.lastModified());
 			currSize = path.length();
 			currFileKey = MISSING_FILEKEY;
 		}
@@ -290,7 +301,7 @@ public class FileSnapshot {
 	 *            the other snapshot.
 	 */
 	public void setClean(FileSnapshot other) {
-		final long now = other.lastRead;
+		final Instant now = other.lastRead;
 		if (!isRacyClean(now)) {
 			cannotBeRacilyClean = true;
 		}
@@ -304,7 +315,7 @@ public class FileSnapshot {
 	 *             if sleep was interrupted
 	 */
 	public void waitUntilNotRacy() throws InterruptedException {
-		while (isRacyClean(System.currentTimeMillis())) {
+		while (isRacyClean(Instant.now())) {
 			TimeUnit.NANOSECONDS
 					.sleep((fsTimestampResolution.toNanos() + 1) * 11 / 10);
 		}
@@ -318,7 +329,7 @@ public class FileSnapshot {
 	 * @return true if the two snapshots share the same information.
 	 */
 	public boolean equals(FileSnapshot other) {
-		return lastModified == other.lastModified && size == other.size
+		return lastModified.equals(other.lastModified) && size == other.size
 				&& Objects.equals(fileKey, other.fileKey);
 	}
 
@@ -341,8 +352,7 @@ public class FileSnapshot {
 	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
-		return Objects.hash(Long.valueOf(lastModified), Long.valueOf(size),
-				fileKey);
+		return Objects.hash(lastModified, Long.valueOf(size), fileKey);
 	}
 
 	/**
@@ -389,21 +399,22 @@ public class FileSnapshot {
 		}
 		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS",
 				Locale.US);
-		return "FileSnapshot[modified: " + f.format(new Date(lastModified))
-				+ ", read: " + f.format(new Date(lastRead)) + ", size:" + size
+		return "FileSnapshot[modified: " + f.format(lastModified)
+				+ ", read: " + f.format(lastRead) + ", size:" + size
 				+ ", fileKey: " + fileKey + "]";
 	}
 
-	private boolean isRacyClean(long read) {
+	private boolean isRacyClean(Instant read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		return wasRacyClean = Duration.between(lastModified, read)
+				.toNanos() <= racyNanos;
 	}
 
-	private boolean isModified(long currLastModified) {
+	private boolean isModified(Instant currLastModified) {
 		// Any difference indicates the path was modified.
 
-		lastModifiedChanged = lastModified != currLastModified;
+		lastModifiedChanged = !lastModified.equals(currLastModified);
 		if (lastModifiedChanged) {
 			return true;
 		}

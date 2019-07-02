@@ -51,6 +51,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -322,12 +323,13 @@ public abstract class LocalDiskRepositoryTestCase {
 			throws IllegalStateException, IOException {
 		DirCache dc = repo.readDirCache();
 		StringBuilder sb = new StringBuilder();
-		TreeSet<Long> timeStamps = new TreeSet<>();
+		TreeSet<Instant> timeStamps = new TreeSet<>();
 
 		// iterate once over the dircache just to collect all time stamps
 		if (0 != (includedOptions & MOD_TIME)) {
-			for (int i=0; i<dc.getEntryCount(); ++i)
-				timeStamps.add(Long.valueOf(dc.getEntry(i).getLastModified()));
+			for (int i = 0; i < dc.getEntryCount(); ++i) {
+				timeStamps.add(dc.getEntry(i).getLastModifiedInstant());
+			}
 		}
 
 		// iterate again, now produce the result string
@@ -339,7 +341,8 @@ public abstract class LocalDiskRepositoryTestCase {
 				sb.append(", stage:" + stage);
 			if (0 != (includedOptions & MOD_TIME)) {
 				sb.append(", time:t"+
-						timeStamps.headSet(Long.valueOf(entry.getLastModified())).size());
+						timeStamps.headSet(entry.getLastModifiedInstant())
+								.size());
 			}
 			if (0 != (includedOptions & SMUDGE))
 				if (entry.isSmudged())

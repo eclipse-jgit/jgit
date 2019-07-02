@@ -54,6 +54,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_LAST_MODIFIED;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Instant;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -76,7 +77,9 @@ abstract class ObjectFileServlet extends HttpServlet {
 
 		@Override
 		String etag(FileSender sender) throws IOException {
-			return Long.toHexString(sender.getLastModified());
+			Instant lastModified = sender.getLastModified();
+			return Long.toHexString(lastModified.getEpochSecond())
+					+ Long.toHexString(lastModified.getNano());
 		}
 	}
 
@@ -145,7 +148,9 @@ abstract class ObjectFileServlet extends HttpServlet {
 
 		try {
 			final String etag = etag(sender);
-			final long lastModified = (sender.getLastModified() / 1000) * 1000;
+			// HTTP header Last-Modified header has a resolution of 1 sec, see
+			// https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
+			final long lastModified = sender.getLastModified().getEpochSecond();
 
 			String ifNoneMatch = req.getHeader(HDR_IF_NONE_MATCH);
 			if (etag != null && etag.equals(ifNoneMatch)) {

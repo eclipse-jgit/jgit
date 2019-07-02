@@ -44,7 +44,6 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,6 +54,7 @@ import java.util.List;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.time.TimeUtil;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -230,7 +230,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	@Test
 	public void testNoOutputStreamSet() throws Exception {
 		File file = writeTrashFile("test.txt", "a");
-		assertTrue(file.setLastModified(file.lastModified() - 5000));
+		TimeUtil.setLastModifiedWithOffset(file.toPath(), -5000L);
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern(".").call();
 			write(file, "b");
