@@ -149,7 +149,7 @@ public class FS_Win32 extends FS {
 									attrs.isSymbolicLink(),
 									attrs.isRegularFile(),
 									attrs.creationTime().toMillis(),
-									attrs.lastModifiedTime().toMillis(),
+									attrs.lastModifiedTime().toInstant(),
 									attrs.size());
 							result.add(new FileEntry(f, fs, attributes,
 									fileModeStrategy));
