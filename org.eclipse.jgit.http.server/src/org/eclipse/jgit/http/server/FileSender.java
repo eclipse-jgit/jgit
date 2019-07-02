@@ -58,12 +58,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Dumps a file over HTTP GET (or its information via HEAD).
@@ -76,7 +78,7 @@ final class FileSender {
 
 	private final RandomAccessFile source;
 
-	private final long lastModified;
+	private final Instant lastModified;
 
 	private final long fileLen;
 
@@ -89,7 +91,7 @@ final class FileSender {
 		this.source = new RandomAccessFile(path, "r");
 
 		try {
-			this.lastModified = path.lastModified();
+			this.lastModified = FS.DETECTED.lastModifiedInstant(path);
 			this.fileLen = source.getChannel().size();
 			this.end = fileLen;
 		} catch (IOException e) {
@@ -114,7 +116,7 @@ final class FileSender {
 		}
 	}
 
-	long getLastModified() {
+	Instant getLastModified() {
 		return lastModified;
 	}
 

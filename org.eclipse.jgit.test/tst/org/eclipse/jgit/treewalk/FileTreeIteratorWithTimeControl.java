@@ -42,7 +42,10 @@
  */
 package org.eclipse.jgit.treewalk;
 
+import static java.time.Instant.EPOCH;
+
 import java.io.File;
+import java.time.Instant;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -53,8 +56,8 @@ import org.eclipse.jgit.util.FS;
 
 /**
  * A {@link FileTreeIterator} used in tests which allows to specify explicitly
- * what will be returned by {@link #getEntryLastModified()}. This allows to
- * write tests where certain files have to have the same modification time.
+ * what will be returned by {@link #getEntryLastModifiedInstant()}. This allows
+ * to write tests where certain files have to have the same modification time.
  * <p>
  * This iterator is configured by a list of strictly increasing long values
  * t(0), t(1), ..., t(n). For each file with a modification between t(x) and
@@ -66,28 +69,28 @@ import org.eclipse.jgit.util.FS;
  * This class was written especially to test racy-git problems
  */
 public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
-	private TreeSet<Long> modTimes;
+	private TreeSet<Instant> modTimes;
 
 	public FileTreeIteratorWithTimeControl(FileTreeIterator p, Repository repo,
-			TreeSet<Long> modTimes) {
+			TreeSet<Instant> modTimes) {
 		super(p, repo.getWorkTree(), repo.getFS());
 		this.modTimes = modTimes;
 	}
 
 	public FileTreeIteratorWithTimeControl(FileTreeIterator p, File f, FS fs,
-			TreeSet<Long> modTimes) {
+			TreeSet<Instant> modTimes) {
 		super(p, f, fs);
 		this.modTimes = modTimes;
 	}
 
 	public FileTreeIteratorWithTimeControl(Repository repo,
-			TreeSet<Long> modTimes) {
+			TreeSet<Instant> modTimes) {
 		super(repo);
 		this.modTimes = modTimes;
 	}
 
 	public FileTreeIteratorWithTimeControl(File f, FS fs,
-			TreeSet<Long> modTimes) {
+			TreeSet<Instant> modTimes) {
 		super(f, fs, new Config().get(WorkingTreeOptions.KEY));
 		this.modTimes = modTimes;
 	}
@@ -99,11 +102,12 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 	}
 
 	@Override
-	public long getEntryLastModified() {
-		if (modTimes == null)
-			return 0;
-		Long cutOff = Long.valueOf(super.getEntryLastModified() + 1);
-		SortedSet<Long> head = modTimes.headSet(cutOff);
-		return head.isEmpty() ? 0 : head.last().longValue();
+	public Instant getEntryLastModifiedInstant() {
+		if (modTimes == null) {
+			return EPOCH;
+		}
+		Instant cutOff = super.getEntryLastModifiedInstant().plusMillis(1);
+		SortedSet<Instant> head = modTimes.headSet(cutOff);
+		return head.isEmpty() ? EPOCH : head.last();
 	}
 }

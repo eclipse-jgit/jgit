@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.time.Instant.EPOCH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -188,7 +189,7 @@ public class DirCacheEntryTest {
 		e.setAssumeValid(false);
 		e.setCreationTime(2L);
 		e.setFileMode(FileMode.EXECUTABLE_FILE);
-		e.setLastModified(3L);
+		e.setLastModified(EPOCH.plusMillis(3L));
 		e.setLength(100L);
 		e.setObjectId(ObjectId
 				.fromString("0123456789012345678901234567890123456789"));
@@ -199,7 +200,7 @@ public class DirCacheEntryTest {
 		f.setAssumeValid(true);
 		f.setCreationTime(10L);
 		f.setFileMode(FileMode.SYMLINK);
-		f.setLastModified(20L);
+		f.setLastModified(EPOCH.plusMillis(20L));
 		f.setLength(100000000L);
 		f.setObjectId(ObjectId
 				.fromString("1234567890123456789012345678901234567890"));
@@ -212,7 +213,7 @@ public class DirCacheEntryTest {
 				ObjectId.fromString("1234567890123456789012345678901234567890"),
 				e.getObjectId());
 		assertEquals(FileMode.SYMLINK, e.getFileMode());
-		assertEquals(20L, e.getLastModified());
+		assertEquals(EPOCH.plusMillis(20L), e.getLastModifiedInstant());
 		assertEquals(100000000L, e.getLength());
 		if (keepStage)
 			assertEquals(DirCacheEntry.STAGE_2, e.getStage());

@@ -52,6 +52,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.time.Instant;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
@@ -86,7 +87,7 @@ import org.junit.Test;
 public class FileTreeIteratorTest extends RepositoryTestCase {
 	private final String[] paths = { "a,", "a,b", "a/b", "a0b" };
 
-	private long[] mtime;
+	private Instant[] mtime;
 
 	@Override
 	@Before
@@ -99,11 +100,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		// This should stress the sorting code better than doing it in
 		// the correct order.
 		//
-		mtime = new long[paths.length];
+		mtime = new Instant[paths.length];
 		for (int i = paths.length - 1; i >= 0; i--) {
 			final String s = paths[i];
 			writeTrashFile(s, s);
-			mtime[i] = FS.DETECTED.lastModified(new File(trash, s));
+			mtime[i] = db.getFS().lastModifiedInstant(new File(trash, s));
 		}
 	}
 
@@ -199,7 +200,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[0], nameOf(top));
 		assertEquals(paths[0].length(), top.getEntryLength());
-		assertEquals(mtime[0], top.getEntryLastModified());
+		assertEquals(mtime[0], top.getEntryLastModifiedInstant());
 
 		top.next(1);
 		assertFalse(top.first());
@@ -207,7 +208,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[1], nameOf(top));
 		assertEquals(paths[1].length(), top.getEntryLength());
-		assertEquals(mtime[1], top.getEntryLastModified());
+		assertEquals(mtime[1], top.getEntryLastModifiedInstant());
 
 		top.next(1);
 		assertFalse(top.first());
@@ -222,7 +223,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(sub.eof());
 		assertEquals(paths[2], nameOf(sub));
 		assertEquals(paths[2].length(), subfti.getEntryLength());
-		assertEquals(mtime[2], subfti.getEntryLastModified());
+		assertEquals(mtime[2], subfti.getEntryLastModifiedInstant());
 
 		sub.next(1);
 		assertTrue(sub.eof());
@@ -233,7 +234,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[3], nameOf(top));
 		assertEquals(paths[3].length(), top.getEntryLength());
-		assertEquals(mtime[3], top.getEntryLastModified());
+		assertEquals(mtime[3], top.getEntryLastModifiedInstant());
 
 		top.next(1);
 		assertTrue(top.eof());
@@ -345,20 +346,21 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testIsModifiedFileSmudged() throws Exception {
 		File f = writeTrashFile("file", "content");
+		FS fs = db.getFS();
 		try (Git git = new Git(db)) {
 			// The idea of this test is to check the smudged handling
 			// Hopefully fsTick will make sure our entry gets smudged
 			fsTick(f);
 			writeTrashFile("file", "content");
-			long lastModified = f.lastModified();
+			Instant lastModified = fs.lastModifiedInstant(f);
 			git.add().addFilepattern("file").call();
 			writeTrashFile("file", "conten2");
-			f.setLastModified(lastModified);
+			fs.setLastModified(f.toPath(), lastModified);
 			// We cannot trust this to go fast enough on
 			// a system with less than one-second lastModified
 			// resolution, so we force the index to have the
 			// same timestamp as the file we look at.
-			db.getIndexFile().setLastModified(lastModified);
+			fs.setLastModified(db.getIndexFile().toPath(), lastModified);
 		}
 		DirCacheEntry dce = db.readDirCache().getEntry("file");
 		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
