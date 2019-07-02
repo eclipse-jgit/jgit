@@ -50,12 +50,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.time.TimeUtil;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class RacyGitTests extends RepositoryTestCase {
@@ -74,8 +77,8 @@ public class RacyGitTests extends RepositoryTestCase {
 		// create two files
 		File a = writeToWorkDir("a", "a");
 		File b = writeToWorkDir("b", "b");
-		assertTrue(a.setLastModified(b.lastModified()));
-		assertTrue(b.setLastModified(b.lastModified()));
+		TimeUtil.setLastModifiedOf(a.toPath(), b.toPath());
+		TimeUtil.setLastModifiedOf(b.toPath(), b.toPath());
 
 		// wait to ensure that file-modTimes and therefore index entry modTime
 		// doesn't match the modtime of index-file after next persistance
@@ -97,10 +100,11 @@ public class RacyGitTests extends RepositoryTestCase {
 		// filesystem timestamp resolution. By changing the index file
 		// artificially, we create a fake racy situation.
 		File updatedA = writeToWorkDir("a", "a2");
-		long newLastModified = updatedA.lastModified() + 100;
-		assertTrue(updatedA.setLastModified(newLastModified));
+		Instant newLastModified = TimeUtil
+				.setLastModifiedWithOffset(updatedA.toPath(), 100L);
 		resetIndex(new FileTreeIterator(db));
-		assertTrue(db.getIndexFile().setLastModified(newLastModified));
+		FS.DETECTED.setLastModified(db.getIndexFile().toPath(),
+				newLastModified);
 
 		DirCache dc = db.readDirCache();
 		// check index state: although racily clean a should not be reported as

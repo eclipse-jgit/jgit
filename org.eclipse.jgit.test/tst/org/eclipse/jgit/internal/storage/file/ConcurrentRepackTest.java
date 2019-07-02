@@ -56,6 +56,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Instant;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -235,7 +237,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private static void write(File[] files, PackWriter pw)
 			throws IOException {
-		final long begin = files[0].getParentFile().lastModified();
+		final Instant begin = FS.DETECTED
+				.lastModifiedInstant(files[0].getParentFile());
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
 		try (OutputStream out = new BufferedOutputStream(
@@ -252,7 +255,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	private static void delete(File[] list) throws IOException {
-		final long begin = list[0].getParentFile().lastModified();
+		final Instant begin = FS.DETECTED
+				.lastModifiedInstant(list[0].getParentFile());
 		for (File f : list) {
 			FileUtils.delete(f);
 			assertFalse(f + " was removed", f.exists());
@@ -260,14 +264,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		touch(begin, list[0].getParentFile());
 	}
 
-	private static void touch(long begin, File dir) {
-		while (begin >= dir.lastModified()) {
+	private static void touch(Instant begin, File dir) throws IOException {
+		while (begin.compareTo(FS.DETECTED.lastModifiedInstant(dir)) >= 0) {
 			try {
 				Thread.sleep(25);
 			} catch (InterruptedException ie) {
 				//
 			}
-			dir.setLastModified(System.currentTimeMillis());
+			FS.DETECTED.setLastModified(dir.toPath(), Instant.now());
 		}
 	}
 
