@@ -68,6 +68,23 @@
       "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "560ff8ac_c9007229",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-03T17:10:30Z",
+      "side": 1,
+      "message": "If we were using Guava, I\u0027d suggest using ImmutableList.copyOf.\n\nShould this use an array, like the other hook chains? Or the other way around: should they be updated to use some appropriate abstract data type?",
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
