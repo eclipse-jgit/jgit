@@ -281,7 +281,7 @@ public abstract class FS {
 			} catch (IOException | InterruptedException
 					| ExecutionException e) {
 				LOG.error(e.getMessage(), e);
-			} catch (TimeoutException e) {
+			} catch (TimeoutException | SecurityException e) {
 				// use fallback
 			}
 			return FALLBACK_TIMESTAMP_RESOLUTION;
