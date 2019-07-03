@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "509a3194_14fdcd64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-03T07:39:45Z",
+      "side": 1,
+      "message": "newHooks.isEmpty()",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 26
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cffbb8d_49fb7953",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-03T07:39:45Z",
+      "side": 1,
+      "message": "Why do we return the default hook?  Wouldn\u0027t it be better to not allow an empty input and throw an exception in that case?",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e87db_439113ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-03T07:39:45Z",
+      "side": 1,
+      "message": "hooks.stream().forEach(...) ?\n\nor does that not work due to onCapabilities throwing?",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
