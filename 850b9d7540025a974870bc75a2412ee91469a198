@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc60975c_9cdfd606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-03T23:57:48Z",
+      "side": 1,
+      "message": "optional: a name like timedOut might make the behavior more obvious",
+      "range": {
+        "startLine": 242,
+        "startChar": 9,
+        "endLine": 242,
+        "endChar": 16
+      },
+      "revId": "850b9d7540025a974870bc75a2412ee91469a198",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
