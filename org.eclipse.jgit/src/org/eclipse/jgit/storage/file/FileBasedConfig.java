@@ -61,6 +61,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -83,6 +84,7 @@ public class FileBasedConfig extends StoredConfig {
 	private final File configFile;
 
 	private final FS fs;
+	private final FileSnapshotFactory fileSnapshotFactory;
 
 	private boolean utf8Bom;
 
@@ -99,8 +101,8 @@ public class FileBasedConfig extends StoredConfig {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public FileBasedConfig(File cfgLocation, FS fs) {
-		this(null, cfgLocation, fs);
+	public FileBasedConfig(File cfgLocation, FS fs, FileSnapshotFactory fileSnapshotFactory) {
+		this(null, cfgLocation, fs, fileSnapshotFactory);
 	}
 
 	/**
@@ -114,10 +116,11 @@ public class FileBasedConfig extends StoredConfig {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public FileBasedConfig(Config base, File cfgLocation, FS fs) {
+	public FileBasedConfig(Config base, File cfgLocation, FS fs, FileSnapshotFactory fileSnapshotFactory) {
 		super(base);
 		configFile = cfgLocation;
 		this.fs = fs;
+		this.fileSnapshotFactory = fileSnapshotFactory;
 		this.snapshot = FileSnapshot.DIRTY;
 		this.hash = ObjectId.zeroId();
 	}
@@ -153,7 +156,7 @@ public class FileBasedConfig extends StoredConfig {
 		int retries = 0;
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
+			final FileSnapshot newSnapshot = fileSnapshotFactory.save(getFile());
 			try {
 				final byte[] in = IO.readFully(getFile());
 				final ObjectId newHash = hash(in);
@@ -246,7 +249,7 @@ public class FileBasedConfig extends StoredConfig {
 			out = Constants.encode(text);
 		}
 
-		final LockFile lf = new LockFile(getFile());
+		final LockFile lf = new LockFile(getFile(), fileSnapshotFactory);
 		if (!lf.lock())
 			throw new LockFailedException(getFile());
 		try {

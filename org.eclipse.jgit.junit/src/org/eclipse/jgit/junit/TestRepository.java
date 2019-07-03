@@ -964,7 +964,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 
 	private void writeFile(File p, byte[] bin) throws IOException,
 			ObjectWritingException {
-		final LockFile lck = new LockFile(p);
+		final LockFile lck = new LockFile(p, db.getFileSnapshotFactory());
 		if (!lck.lock())
 			throw new ObjectWritingException("Can't write " + p);
 		try {

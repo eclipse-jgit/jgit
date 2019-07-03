@@ -69,6 +69,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -335,7 +336,7 @@ class FetchProcess {
 		File meta = transport.local.getDirectory();
 		if (meta == null)
 			return;
-		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD")); //$NON-NLS-1$
+		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD"), FileSnapshotFactory.ON_THE_FLY); //$NON-NLS-1$
 		try {
 			if (lock.lock()) {
 				try (Writer w = new OutputStreamWriter(

@@ -463,7 +463,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		final File packDir = new File(db.getDirectory(), "pack"); //$NON-NLS-1$
 		final File finalPack = new File(packDir, "pack-" + name + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
 		final File finalIdx = new File(packDir, "pack-" + name + ".idx"); //$NON-NLS-1$ //$NON-NLS-2$
-		final PackLock keep = new PackLock(finalPack, db.getFS());
+		final PackLock keep = new PackLock(finalPack, db.getFS(), db.getFileSnapshotFactory());
 
 		if (!packDir.exists() && !packDir.mkdir() && !packDir.exists()) {
 			// The objects/pack directory isn't present, and we are unable
@@ -520,7 +520,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 
 		boolean interrupted = false;
 		try {
-			FileSnapshot snapshot = FileSnapshot.save(finalPack);
+			FileSnapshot snapshot = db.getFileSnapshotFactory().save(finalPack);
 			if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
 				snapshot.waitUntilNotRacy();
 			}

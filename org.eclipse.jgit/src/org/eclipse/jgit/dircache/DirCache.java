@@ -71,6 +71,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -145,7 +146,7 @@ public class DirCache {
 	 *         memory).
 	 */
 	public static DirCache newInCore() {
-		return new DirCache(null, null);
+		return new DirCache(null, null, null);
 	}
 
 	/**
@@ -189,7 +190,7 @@ public class DirCache {
 	 */
 	public static DirCache read(Repository repository)
 			throws CorruptObjectException, IOException {
-		final DirCache c = read(repository.getIndexFile(), repository.getFS());
+		final DirCache c = read(repository.getIndexFile(), repository.getFS(), repository.getFileSnapshotFactory());
 		c.repository = repository;
 		return c;
 	}
@@ -214,9 +215,9 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache read(File indexLocation, FS fs)
+	public static DirCache read(File indexLocation, FS fs, FileSnapshotFactory fileSnapshotFactory)
 			throws CorruptObjectException, IOException {
-		final DirCache c = new DirCache(indexLocation, fs);
+		final DirCache c = new DirCache(indexLocation, fs, fileSnapshotFactory);
 		c.read();
 		return c;
 	}
@@ -243,9 +244,9 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache lock(File indexLocation, FS fs)
+	public static DirCache lock(File indexLocation, FS fs, FileSnapshotFactory fileSnapshotFactory)
 			throws CorruptObjectException, IOException {
-		final DirCache c = new DirCache(indexLocation, fs);
+		final DirCache c = new DirCache(indexLocation, fs, fileSnapshotFactory);
 		if (!c.lock())
 			throw new LockFailedException(indexLocation);
 
@@ -285,7 +286,7 @@ public class DirCache {
 			final IndexChangedListener indexChangedListener)
 			throws CorruptObjectException, IOException {
 		DirCache c = lock(repository.getIndexFile(), repository.getFS(),
-				indexChangedListener);
+				indexChangedListener, repository.getFileSnapshotFactory());
 		c.repository = repository;
 		return c;
 	}
@@ -315,16 +316,17 @@ public class DirCache {
 	 *             library does not support.
 	 */
 	public static DirCache lock(final File indexLocation, final FS fs,
-			IndexChangedListener indexChangedListener)
+			IndexChangedListener indexChangedListener, FileSnapshotFactory fileSnapshotFactory)
 			throws CorruptObjectException,
 			IOException {
-		DirCache c = lock(indexLocation, fs);
+		DirCache c = lock(indexLocation, fs, fileSnapshotFactory);
 		c.registerIndexChangedListener(indexChangedListener);
 		return c;
 	}
 
 	/** Location of the current version of the index file. */
 	private final File liveFile;
+	private final FileSnapshotFactory fileSnapshotFactory;
 
 	/** Individual file index entries, sorted by path name. */
 	private DirCacheEntry[] sortedEntries;
@@ -365,8 +367,9 @@ public class DirCache {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public DirCache(File indexLocation, FS fs) {
+	public DirCache(File indexLocation, FS fs, FileSnapshotFactory fileSnapshotFactory) {
 		liveFile = indexLocation;
+		this.fileSnapshotFactory = fileSnapshotFactory;
 		clear();
 	}
 
@@ -438,7 +441,7 @@ public class DirCache {
 				//
 				clear();
 			}
-			snapshot = FileSnapshot.save(liveFile);
+			snapshot = fileSnapshotFactory.save(liveFile);
 		}
 	}
 
@@ -488,7 +491,7 @@ public class DirCache {
 		if (entryCnt < 0)
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
-		snapshot = FileSnapshot.save(liveFile);
+		snapshot = fileSnapshotFactory.save(liveFile);
 		int smudge_s = (int) (snapshot.lastModified() / 1000);
 		int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
 
@@ -598,7 +601,7 @@ public class DirCache {
 	public boolean lock() throws IOException {
 		if (liveFile == null)
 			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
-		final LockFile tmp = new LockFile(liveFile);
+		final LockFile tmp = new LockFile(liveFile, fileSnapshotFactory);
 		if (tmp.lock()) {
 			tmp.setNeedStatInformation(true);
 			myLock = tmp;

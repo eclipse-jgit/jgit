@@ -49,6 +49,7 @@ import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lfs.errors.CorruptLongObjectException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -79,9 +80,9 @@ public class AtomicObjectOutputStream extends OutputStream {
 	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
 	 * @throws java.io.IOException
 	 */
-	public AtomicObjectOutputStream(Path path, AnyLongObjectId id)
+	public AtomicObjectOutputStream(Path path, AnyLongObjectId id, FileSnapshotFactory fileSnapshotFactory)
 			throws IOException {
-		locked = new LockFile(path.toFile());
+		locked = new LockFile(path.toFile(), fileSnapshotFactory);
 		locked.lock();
 		this.id = id;
 		out = new DigestOutputStream(locked.getOutputStream(),
@@ -95,8 +96,8 @@ public class AtomicObjectOutputStream extends OutputStream {
 	 *            a {@link java.nio.file.Path} object.
 	 * @throws java.io.IOException
 	 */
-	public AtomicObjectOutputStream(Path path) throws IOException {
-		this(path, null);
+	public AtomicObjectOutputStream(Path path, FileSnapshotFactory fileSnapshotFactory) throws IOException {
+		this(path, null, fileSnapshotFactory);
 	}
 
 	/**

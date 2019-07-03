@@ -1559,7 +1559,7 @@ public class ConfigTest {
 	private static FileBasedConfig loadConfig(File file)
 			throws IOException, ConfigInvalidException {
 		final FileBasedConfig config = new FileBasedConfig(null, file,
-				FS.DETECTED);
+				FS.DETECTED, null);
 		config.load();
 		return config;
 	}

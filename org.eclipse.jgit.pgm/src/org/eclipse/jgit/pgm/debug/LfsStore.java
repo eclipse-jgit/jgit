@@ -62,6 +62,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.server.fs.FileLfsRepository;
@@ -232,7 +233,7 @@ class LfsStore extends TextBuiltin {
 		case FS:
 			Path dir = Paths.get(directory);
 			FileLfsRepository fsRepo = new FileLfsRepository(
-					getStoreUrl(baseURI), dir);
+					getStoreUrl(baseURI), dir, db.getFileSnapshotFactory());
 			FileLfsServlet content = new FileLfsServlet(fsRepo, 30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
 			repository = fsRepo;
@@ -286,7 +287,7 @@ class LfsStore extends TextBuiltin {
 		String credentialsPath = System.getProperty("user.home") //$NON-NLS-1$
 				+ "/.aws/credentials"; //$NON-NLS-1$
 		FileBasedConfig c = new FileBasedConfig(new File(credentialsPath),
-				FS.DETECTED);
+				FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		c.load();
 		accessKey = c.getString("default", null, "accessKey"); //$NON-NLS-1$//$NON-NLS-2$
 		secretKey = c.getString("default", null, "secretKey"); //$NON-NLS-1$ //$NON-NLS-2$

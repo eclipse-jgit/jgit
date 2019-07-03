@@ -70,7 +70,7 @@ public class LockFileTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			assertNotNull(git.commit().setMessage("edit file").call());
 
-			LockFile lf = new LockFile(db.getIndexFile());
+			LockFile lf = new LockFile(db.getIndexFile(), db.getFileSnapshotFactory());
 			assertTrue(lf.lock());
 			try {
 				git.checkout().setName(commit1.name()).call();

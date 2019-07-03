@@ -756,7 +756,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE),
 				new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
 
-		LockFile myLock = new LockFile(refdir.fileFor("refs/heads/master"));
+		LockFile myLock = new LockFile(refdir.fileFor("refs/heads/master"), FileSnapshotFactory.ON_THE_FLY);
 		assertTrue(myLock.lock());
 		try {
 			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));

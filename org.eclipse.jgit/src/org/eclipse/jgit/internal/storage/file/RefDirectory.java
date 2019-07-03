@@ -279,7 +279,7 @@ public class RefDirectory extends RefDatabase {
 	public boolean isNameConflicting(String name) throws IOException {
 		RefList<Ref> packed = getPackedRefs();
 		RefList<LooseRef> loose = getLooseRefs(
-				new FileSnapshotTimestampResolutions());
+		);
 
 		// Cannot be nested within an existing reference.
 		int lastSlash = name.lastIndexOf('/');
@@ -305,11 +305,10 @@ public class RefDirectory extends RefDatabase {
 		return false;
 	}
 
-	private RefList<LooseRef> getLooseRefs(
-			FileSnapshotTimestampResolutions fsTimestampResolutions) {
+	private RefList<LooseRef> getLooseRefs() {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
 
-		LooseScanner scan = new LooseScanner(oldLoose, fsTimestampResolutions);
+		LooseScanner scan = new LooseScanner(oldLoose);
 		scan.scan(ALL);
 
 		RefList<LooseRef> loose;
@@ -323,14 +322,13 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Nullable
-	private Ref readAndResolve(String name, RefList<Ref> packed,
-			FileSnapshotTimestampResolutions fsTimestampResolutions)
+	private Ref readAndResolve(String name, RefList<Ref> packed)
 			throws IOException {
 		try {
-			Ref ref = readRef(name, packed, fsTimestampResolutions);
+			Ref ref = readRef(name, packed);
 			if (ref != null) {
-				ref = resolve(ref, 0, null, null, packed,
-						fsTimestampResolutions);
+				ref = resolve(ref, 0, null, null, packed
+				);
 			}
 			return ref;
 		} catch (IOException e) {
@@ -350,8 +348,8 @@ public class RefDirectory extends RefDatabase {
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		try {
-			return readAndResolve(name, getPackedRefs(),
-					new FileSnapshotTimestampResolutions());
+			return readAndResolve(name, getPackedRefs()
+			);
 		} finally {
 			fireRefsChanged();
 		}
@@ -364,9 +362,8 @@ public class RefDirectory extends RefDatabase {
 		try {
 			RefList<Ref> packed = getPackedRefs();
 			Map<String, Ref> result = new HashMap<>(refs.length);
-			FileSnapshotTimestampResolutions fsTimestampResolutions = new FileSnapshotTimestampResolutions();
 			for (String name : refs) {
-				Ref ref = readAndResolve(name, packed, fsTimestampResolutions);
+				Ref ref = readAndResolve(name, packed);
 				if (ref != null) {
 					result.put(name, ref);
 				}
@@ -383,9 +380,8 @@ public class RefDirectory extends RefDatabase {
 	public Ref firstExactRef(String... refs) throws IOException {
 		try {
 			RefList<Ref> packed = getPackedRefs();
-			FileSnapshotTimestampResolutions fsTimestampResolutions = new FileSnapshotTimestampResolutions();
 			for (String name : refs) {
-				Ref ref = readAndResolve(name, packed, fsTimestampResolutions);
+				Ref ref = readAndResolve(name, packed);
 				if (ref != null) {
 					return ref;
 				}
@@ -400,8 +396,7 @@ public class RefDirectory extends RefDatabase {
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
-		final FileSnapshotTimestampResolutions fsTimestampResolutions = new FileSnapshotTimestampResolutions();
-		LooseScanner scan = new LooseScanner(oldLoose, fsTimestampResolutions);
+		LooseScanner scan = new LooseScanner(oldLoose);
 		scan.scan(prefix);
 		final RefList<Ref> packed = getPackedRefs();
 
@@ -419,7 +414,7 @@ public class RefDirectory extends RefDatabase {
 		for (int idx = 0; idx < symbolic.size();) {
 			final Ref symbolicRef = symbolic.get(idx);
 			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose,
-					packed, fsTimestampResolutions);
+					packed);
 			if (resolvedRef != null && resolvedRef.getObjectId() != null) {
 				symbolic.set(idx, resolvedRef);
 				idx++;
@@ -458,18 +453,14 @@ public class RefDirectory extends RefDatabase {
 	private class LooseScanner {
 		private final RefList<LooseRef> curLoose;
 
-		private final FileSnapshotTimestampResolutions fsTimestampResolutions;
-
 		private int curIdx;
 
 		final RefList.Builder<Ref> symbolic = new RefList.Builder<>(4);
 
 		RefList.Builder<LooseRef> newLoose;
 
-		LooseScanner(RefList<LooseRef> curLoose,
-				FileSnapshotTimestampResolutions fsTimestampResolutions) {
+		LooseScanner(RefList<LooseRef> curLoose) {
 			this.curLoose = curLoose;
-			this.fsTimestampResolutions = fsTimestampResolutions;
 		}
 
 		void scan(String prefix) {
@@ -553,7 +544,7 @@ public class RefDirectory extends RefDatabase {
 
 			LooseRef n;
 			try {
-				n = scanRef(cur, name, fsTimestampResolutions);
+				n = scanRef(cur, name);
 			} catch (IOException notValid) {
 				n = null;
 			}
@@ -635,10 +626,9 @@ public class RefDirectory extends RefDatabase {
 			throws IOException {
 		boolean detachingSymbolicRef = false;
 		final RefList<Ref> packed = getPackedRefs();
-		final FileSnapshotTimestampResolutions fsTimestampResolutions = new FileSnapshotTimestampResolutions();
-		Ref ref = readRef(name, packed, fsTimestampResolutions);
+		Ref ref = readRef(name, packed);
 		if (ref != null)
-			ref = resolve(ref, 0, null, null, packed, fsTimestampResolutions);
+			ref = resolve(ref, 0, null, null, packed);
 		if (ref == null)
 			ref = new ObjectIdRef.Unpeeled(NEW, name, null);
 		else {
@@ -748,18 +738,17 @@ public class RefDirectory extends RefDatabase {
 	 * @throws java.io.IOException
 	 */
 	public void pack(List<String> refs) throws IOException {
-		pack(refs, Collections.emptyMap(),
-				new FileSnapshotTimestampResolutions());
+		pack(refs, Collections.emptyMap()
+		);
 	}
 
 	PackedRefList pack(Map<String, LockFile> heldLocks) throws IOException {
-		return pack(heldLocks.keySet(), heldLocks,
-				new FileSnapshotTimestampResolutions());
+		return pack(heldLocks.keySet(), heldLocks
+		);
 	}
 
 	private PackedRefList pack(Collection<String> refs,
-			Map<String, LockFile> heldLocks,
-			FileSnapshotTimestampResolutions fsTimestampResolutions)
+							   Map<String, LockFile> heldLocks)
 			throws IOException {
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
@@ -780,7 +769,7 @@ public class RefDirectory extends RefDatabase {
 				// Iterate over all refs to be packed
 				boolean dirty = false;
 				for (String refName : refs) {
-					Ref oldRef = readRef(refName, cur, fsTimestampResolutions);
+					Ref oldRef = readRef(refName, cur);
 					if (oldRef == null) {
 						continue; // A non-existent ref is already correctly packed.
 					}
@@ -824,7 +813,7 @@ public class RefDirectory extends RefDatabase {
 					LockFile rLck = heldLocks.get(refName);
 					boolean shouldUnlock;
 					if (rLck == null) {
-						rLck = new LockFile(refFile);
+						rLck = new LockFile(refFile, parent.getFileSnapshotFactory());
 						if (!rLck.lock()) {
 							continue;
 						}
@@ -834,8 +823,8 @@ public class RefDirectory extends RefDatabase {
 					}
 
 					try {
-						LooseRef currentLooseRef = scanRef(null, refName,
-								fsTimestampResolutions);
+						LooseRef currentLooseRef = scanRef(null, refName
+						);
 						if (currentLooseRef == null || currentLooseRef.isSymbolic()) {
 							continue;
 						}
@@ -874,7 +863,7 @@ public class RefDirectory extends RefDatabase {
 
 	@Nullable
 	LockFile lockPackedRefs() throws IOException {
-		LockFile lck = new LockFile(packedRefsFile);
+		LockFile lck = new LockFile(packedRefsFile, parent.getFileSnapshotFactory());
 		for (int ms : getRetrySleepMs()) {
 			sleep(ms);
 			if (lck.lock()) {
@@ -926,8 +915,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private Ref resolve(final Ref ref, int depth, String prefix,
-			RefList<LooseRef> loose, RefList<Ref> packed,
-			FileSnapshotTimestampResolutions fsTimestampResolutions)
+						RefList<LooseRef> loose, RefList<Ref> packed)
 			throws IOException {
 		if (ref.isSymbolic()) {
 			Ref dst = ref.getTarget();
@@ -946,13 +934,13 @@ public class RefDirectory extends RefDatabase {
 				else
 					return ref;
 			} else {
-				dst = readRef(dst.getName(), packed, fsTimestampResolutions);
+				dst = readRef(dst.getName(), packed);
 				if (dst == null)
 					return ref;
 			}
 
-			dst = resolve(dst, depth + 1, prefix, loose, packed,
-					fsTimestampResolutions);
+			dst = resolve(dst, depth + 1, prefix, loose, packed
+			);
 			if (dst == null)
 				return null;
 			return new SymbolicRef(ref.getName(), dst);
@@ -982,7 +970,7 @@ public class RefDirectory extends RefDatabase {
 		int maxStaleRetries = 5;
 		int retries = 0;
 		while (true) {
-			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
+			final FileSnapshot snapshot = parent.getFileSnapshotFactory().save(packedRefsFile);
 			final MessageDigest digest = Constants.newMessageDigest();
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(
 					new DigestInputStream(new FileInputStream(packedRefsFile),
@@ -1126,14 +1114,13 @@ public class RefDirectory extends RefDatabase {
 		return result.get();
 	}
 
-	private Ref readRef(String name, RefList<Ref> packed,
-			FileSnapshotTimestampResolutions fsTimestampResolutions)
+	private Ref readRef(String name, RefList<Ref> packed)
 			throws IOException {
 		final RefList<LooseRef> curList = looseRefs.get();
 		final int idx = curList.find(name);
 		if (0 <= idx) {
 			final LooseRef o = curList.get(idx);
-			final LooseRef n = scanRef(o, name, fsTimestampResolutions);
+			final LooseRef n = scanRef(o, name);
 			if (n == null) {
 				if (looseRefs.compareAndSet(curList, curList.remove(idx)))
 					modCnt.incrementAndGet();
@@ -1147,7 +1134,7 @@ public class RefDirectory extends RefDatabase {
 			return n;
 		}
 
-		final LooseRef n = scanRef(null, name, fsTimestampResolutions);
+		final LooseRef n = scanRef(null, name);
 		if (n == null)
 			return packed.get(name);
 
@@ -1164,8 +1151,7 @@ public class RefDirectory extends RefDatabase {
 		return n;
 	}
 
-	LooseRef scanRef(LooseRef ref, String name,
-			FileSnapshotTimestampResolutions fsTimestampResolutions)
+	LooseRef scanRef(LooseRef ref, String name)
 			throws IOException {
 		final File path = fileFor(name);
 		FileSnapshot currentSnapshot = null;
@@ -1179,8 +1165,7 @@ public class RefDirectory extends RefDatabase {
 
 		final int limit = 4096;
 		final byte[] buf;
-		FileSnapshot otherSnapshot = FileSnapshot.save(path,
-				fsTimestampResolutions);
+		FileSnapshot otherSnapshot = parent.getFileSnapshotFactory().save(path);
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {

@@ -330,7 +330,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit commit = git.commit().setMessage("add files").call();
 			assertNotNull(commit);
 
-			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 			int file1Size = cache.getEntry("file1.txt").getLength();
 			int file2Size = cache.getEntry("file2.txt").getLength();
 			int file3Size = cache.getEntry("file3.txt").getLength();
@@ -341,7 +341,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertTrue(file3Size > 0);
 
 			// Smudge entries
-			cache = DirCache.lock(db.getIndexFile(), db.getFS());
+			cache = DirCache.lock(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 			cache.getEntry("file1.txt").setLength(0);
 			cache.getEntry("file2.txt").setLength(0);
 			cache.getEntry("file3.txt").setLength(0);
@@ -349,7 +349,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertTrue(cache.commit());
 
 			// Verify entries smudged
-			cache = DirCache.read(db.getIndexFile(), db.getFS());
+			cache = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 			assertEquals(0, cache.getEntry("file1.txt").getLength());
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 			assertEquals(0, cache.getEntry("file3.txt").getLength());
@@ -385,7 +385,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit commit = git.commit().setMessage("add files").call();
 			assertNotNull(commit);
 
-			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 			int file1Size = cache.getEntry("file1.txt").getLength();
 			int file2Size = cache.getEntry("file2.txt").getLength();
 			assertTrue(file1Size > 0);
@@ -396,7 +396,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile("file2.txt", "content4");
 
 			// Smudge entries
-			cache = DirCache.lock(db.getIndexFile(), db.getFS());
+			cache = DirCache.lock(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 			cache.getEntry("file1.txt").setLength(0);
 			cache.getEntry("file2.txt").setLength(0);
 			cache.write();

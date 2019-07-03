@@ -78,7 +78,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final File idx = new File(db.getDirectory(), "tmp_index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = DirCache.read(idx, db.getFS());
+		final DirCache dc = DirCache.read(idx, db.getFS(), db.getFileSnapshotFactory());
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
@@ -108,7 +108,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = DirCache.lock(idx, db.getFS());
+		final DirCache dc = DirCache.lock(idx, db.getFS(), db.getFileSnapshotFactory());
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());

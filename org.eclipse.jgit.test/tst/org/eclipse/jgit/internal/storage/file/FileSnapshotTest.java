@@ -96,7 +96,7 @@ public class FileSnapshotTest {
 	public void testActuallyIsModifiedTrivial() throws Exception {
 		File f1 = createFile("simple");
 		waitNextSec(f1);
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshotFactory.ON_THE_FLY.save(f1);
 		append(f1, (byte) 'x');
 		waitNextSec(f1);
 		assertTrue(save.isModified(f1));
@@ -114,7 +114,7 @@ public class FileSnapshotTest {
 	public void testNewFileWithWait() throws Exception {
 		File f1 = createFile("newfile");
 		waitNextSec(f1);
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshotFactory.ON_THE_FLY.save(f1);
 		Thread.sleep(1500);
 		assertTrue(save.isModified(f1));
 	}
@@ -127,7 +127,7 @@ public class FileSnapshotTest {
 	@Test
 	public void testNewFileNoWait() throws Exception {
 		File f1 = createFile("newfile");
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshotFactory.ON_THE_FLY.save(f1);
 		assertTrue(save.isModified(f1));
 	}
 
@@ -149,7 +149,7 @@ public class FileSnapshotTest {
 		waitNextSec(f2);
 		waitNextSec(f2);
 		FileTime timestamp = Files.getLastModifiedTime(f1.toPath());
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshotFactory.ON_THE_FLY.save(f1);
 		Files.move(f2.toPath(), f1.toPath(), // Now "file" is inode x
 				StandardCopyOption.REPLACE_EXISTING,
 				StandardCopyOption.ATOMIC_MOVE);
@@ -173,7 +173,7 @@ public class FileSnapshotTest {
 	public void testFileSizeChanged() throws Exception {
 		File f = createFile("file");
 		FileTime timestamp = Files.getLastModifiedTime(f.toPath());
-		FileSnapshot save = FileSnapshot.save(f);
+		FileSnapshot save = FileSnapshotFactory.ON_THE_FLY.save(f);
 		append(f, (byte) 'x');
 		Files.setLastModifiedTime(f.toPath(), timestamp);
 		assertTrue(save.isModified(f));

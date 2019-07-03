@@ -53,6 +53,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.lfs.internal.AtomicObjectOutputStream;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
@@ -69,6 +70,7 @@ public class FileLfsRepository implements LargeFileRepository {
 
 	private String url;
 	private final Path dir;
+	private final FileSnapshotFactory fileSnapshotFactory;
 
 	/**
 	 * <p>Constructor for FileLfsRepository.</p>
@@ -79,9 +81,10 @@ public class FileLfsRepository implements LargeFileRepository {
 	 *            storage directory
 	 * @throws java.io.IOException
 	 */
-	public FileLfsRepository(String url, Path dir) throws IOException {
+	public FileLfsRepository(String url, Path dir, FileSnapshotFactory fileSnapshotFactory) throws IOException {
 		this.url = url;
 		this.dir = dir;
+		this.fileSnapshotFactory = fileSnapshotFactory;
 		Files.createDirectories(dir);
 	}
 
@@ -159,7 +162,7 @@ public class FileLfsRepository implements LargeFileRepository {
 		if (parent != null) {
 			Files.createDirectories(parent);
 		}
-		return new AtomicObjectOutputStream(path, id);
+		return new AtomicObjectOutputStream(path, id, fileSnapshotFactory);
 	}
 
 	private static char[] toHexCharArray(int b) {

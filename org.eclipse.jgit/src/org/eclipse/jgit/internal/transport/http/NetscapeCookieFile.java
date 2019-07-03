@@ -65,6 +65,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -307,7 +308,7 @@ public final class NetscapeCookieFile {
 				StandardCharsets.US_ASCII)) {
 			write(writer, cookies, url, creationDate);
 		}
-		LockFile lockFile = new LockFile(path.toFile());
+		LockFile lockFile = new LockFile(path.toFile(), new FileSnapshotFactory(path.getParent()));
 		for (int retryCount = 0; retryCount < LOCK_ACQUIRE_MAX_RETRY_COUNT; retryCount++) {
 			if (lockFile.lock()) {
 				try {
@@ -351,7 +352,7 @@ public final class NetscapeCookieFile {
 		}
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot = FileSnapshot.save(file);
+			final FileSnapshot newSnapshot = FileSnapshotFactory.saveDetectTimestampResolution(file);
 			try {
 				final byte[] in = IO.readFully(file);
 				byte[] newHash = hash(in);

@@ -120,6 +120,7 @@ public class LockFile {
 			String name) -> !name.endsWith(LOCK_SUFFIX);
 
 	private final File ref;
+	private final FileSnapshotFactory fileSnapshotFactory;
 
 	private final File lck;
 
@@ -141,8 +142,9 @@ public class LockFile {
 	 * @param f
 	 *            the file that will be locked.
 	 */
-	public LockFile(File f) {
+	public LockFile(File f, FileSnapshotFactory fileSnapshotFactory) {
 		ref = f;
+		this.fileSnapshotFactory = fileSnapshotFactory;
 		lck = getLockFile(ref);
 	}
 
@@ -398,12 +400,12 @@ public class LockFile {
 	 *             the target file.
 	 */
 	public void waitForStatChange() throws InterruptedException {
-		FileSnapshot o = FileSnapshot.save(ref);
-		FileSnapshot n = FileSnapshot.save(lck);
+		FileSnapshot o = fileSnapshotFactory.save(ref);
+		FileSnapshot n = fileSnapshotFactory.save(lck);
 		while (o.equals(n)) {
 			Thread.sleep(25 /* milliseconds */);
 			lck.setLastModified(System.currentTimeMillis());
-			n = FileSnapshot.save(lck);
+			n = fileSnapshotFactory.save(lck);
 		}
 	}
 
@@ -445,7 +447,7 @@ public class LockFile {
 
 	private void saveStatInformation() {
 		if (needSnapshot)
-			commitSnapshot = FileSnapshot.save(lck);
+			commitSnapshot = fileSnapshotFactory.save(lck);
 	}
 
 	/**
