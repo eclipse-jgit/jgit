@@ -134,6 +134,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final FS fs;
 
+	private final FileSnapshotFactory fileSnapshotFactory;
+
 	private final AtomicReference<AlternateHandle[]> alternates;
 
 	private final UnpackedObjectCache unpackedObjectCache;
@@ -165,7 +167,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+			File[] alternatePaths, FS fs, File shallowFile, FileSnapshotFactory fileSnapshotFactory) throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -175,6 +177,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packList = new AtomicReference<>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
+		this.fileSnapshotFactory = fileSnapshotFactory;
 		this.shallowFile = shallowFile;
 
 		alternates = new AtomicReference<>();
@@ -296,7 +299,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 
-		PackFile res = new PackFile(pack, extensions);
+		PackFile res = new PackFile(pack, extensions, fileSnapshotFactory);
 		insertPack(res);
 		return res;
 	}
@@ -787,6 +790,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	FileSnapshotFactory getFileSnapshotFactory() {
+		return fileSnapshotFactory;
+	}
+
+	@Override
 	Set<ObjectId> getShallowCommits() throws IOException {
 		if (shallowFile == null || !shallowFile.isFile())
 			return Collections.emptySet();
@@ -807,7 +815,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				}
 			}
 
-			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+			shallowFileSnapshot = fileSnapshotFactory.save(shallowFile);
 		}
 
 		return shallowCommitsIds;
@@ -883,7 +891,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, PackFile> forReuse = reuseMap(old);
-		final FileSnapshot snapshot = FileSnapshot.save(packDirectory);
+		final FileSnapshot snapshot = fileSnapshotFactory.save(packDirectory);
 		final Set<String> names = listPackDirectory();
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
@@ -918,7 +926,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				continue;
 			}
 
-			list.add(new PackFile(packFile, extensions));
+			list.add(new PackFile(packFile, extensions, fileSnapshotFactory));
 			foundNew = true;
 		}
 
@@ -1053,7 +1061,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null, fileSnapshotFactory);
 		return new AlternateHandle(db);
 	}
 

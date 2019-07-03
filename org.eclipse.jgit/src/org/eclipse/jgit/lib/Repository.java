@@ -87,6 +87,7 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -152,6 +153,8 @@ public abstract class Repository implements AutoCloseable {
 	/** File abstraction used to resolve paths. */
 	private final FS fs;
 
+	private final FileSnapshotFactory fileSnapshotFactory;
+
 	private final ListenerList myListeners = new ListenerList();
 
 	/** If not bare, the top level directory of the working files. */
@@ -169,6 +172,7 @@ public abstract class Repository implements AutoCloseable {
 	protected Repository(BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
 		fs = options.getFS();
+        fileSnapshotFactory = new FileSnapshotFactory(gitDir.toPath());
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
 	}
@@ -319,6 +323,10 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public FS getFS() {
 		return fs;
+	}
+
+	public FileSnapshotFactory getFileSnapshotFactory() {
+		return fileSnapshotFactory;
 	}
 
 	/**

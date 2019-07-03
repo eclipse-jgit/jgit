@@ -125,7 +125,7 @@ public class CleanFilter extends FilterCommand {
 		lfsUtil = new Lfs(db);
 		Files.createDirectories(lfsUtil.getLfsTmpDir());
 		tmpFile = lfsUtil.createTmpFile();
-		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());
+		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath(), db.getFileSnapshotFactory());
 	}
 
 	/** {@inheritDoc} */

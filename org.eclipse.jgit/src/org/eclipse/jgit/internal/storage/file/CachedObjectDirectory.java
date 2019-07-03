@@ -150,6 +150,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	FileSnapshotFactory getFileSnapshotFactory() {
+		return wrapped.getFileSnapshotFactory();
+	}
+
+	@Override
 	Set<ObjectId> getShallowCommits() throws IOException {
 		return wrapped.getShallowCommits();
 	}

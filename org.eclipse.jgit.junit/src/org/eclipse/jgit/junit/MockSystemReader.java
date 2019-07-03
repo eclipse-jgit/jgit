@@ -58,6 +58,7 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -72,7 +73,7 @@ import org.eclipse.jgit.util.time.ProposedTimestamp;
 public class MockSystemReader extends SystemReader {
 	private static final class MockConfig extends FileBasedConfig {
 		private MockConfig(File cfgLocation, FS fs) {
-			super(cfgLocation, fs);
+			super(cfgLocation, fs, FileSnapshotFactory.ON_THE_FLY);
 		}
 
 		@Override

@@ -619,7 +619,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 		if (smudge) {
 			DirCache dc = DirCache.lock(git.getRepository().getIndexFile(),
-					FS.detect());
+					FS.detect(), git.getRepository().getFileSnapshotFactory());
 			DirCacheEditor editor = dc.editor();
 			for (int i = 0; i < dc.getEntryCount(); i++) {
 				editor.add(new DirCacheEditor.PathEdit(

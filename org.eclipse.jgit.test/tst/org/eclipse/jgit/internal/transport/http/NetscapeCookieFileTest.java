@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
 import org.eclipse.jgit.util.http.HttpCookiesMatcher;
@@ -185,7 +186,7 @@ public class NetscapeCookieFileTest {
 		}
 		NetscapeCookieFile cookieFile = new NetscapeCookieFile(tmpFile);
 		// now imitate another process/thread holding the lock file
-		LockFile lockFile = new LockFile(tmpFile.toFile());
+		LockFile lockFile = new LockFile(tmpFile.toFile(), FileSnapshotFactory.ON_THE_FLY);
 		try {
 			Assert.assertTrue("Could not acquire lock", lockFile.lock());
 			cookieFile.write(baseUrl);

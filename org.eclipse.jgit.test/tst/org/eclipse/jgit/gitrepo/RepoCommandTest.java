@@ -66,6 +66,7 @@ import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -1134,7 +1135,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
 			assertTrue("The .gitmodules file should exist",
 					gitmodules.exists());
-			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 			c.load();
 			assertEquals(
 					"Recording remote branches should work for short branch descriptions",
@@ -1219,7 +1220,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
 			assertTrue("The .gitmodules file should exist",
 					gitmodules.exists());
-			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 			c.load();
 			assertEquals("Recording shallow configuration should work", "true",
 					c.getString("submodule", defaultUri, "shallow"));
@@ -1306,7 +1307,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
 			assertTrue("The .gitmodules file should exist",
 					gitmodules.exists());
-			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 			c.load();
 			assertEquals("A module should exist for path1", "path1",
 					c.getString("submodule", defaultUri + "/path1", "path"));

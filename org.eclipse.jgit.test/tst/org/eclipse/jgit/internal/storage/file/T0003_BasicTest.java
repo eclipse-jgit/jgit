@@ -344,7 +344,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
 		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
-		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
+		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS(), db.getFileSnapshotFactory());
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"
 				+ "  email = A U Thor <thor@example.com> # Just an example...\n"

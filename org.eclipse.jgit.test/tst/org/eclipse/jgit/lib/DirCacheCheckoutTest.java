@@ -299,7 +299,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			throws CorruptObjectException, IOException {
 		String expectedValue;
 		String path;
-		DirCache read = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache read = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 
 		assertEquals("Index has not the right size.", i.size(),
 				read.getEntryCount());
@@ -343,7 +343,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	private void buildIndex(HashMap<String, String> indexEntries) throws IOException {
-		dirCache = new DirCache(db.getIndexFile(), db.getFS());
+		dirCache = new DirCache(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 		if (indexEntries != null) {
 			assertTrue(dirCache.lock());
 			DirCacheEditor editor = dirCache.editor();

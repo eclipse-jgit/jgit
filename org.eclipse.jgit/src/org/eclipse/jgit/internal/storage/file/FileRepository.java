@@ -182,7 +182,7 @@ public class FileRepository extends Repository {
 			systemConfig = SystemReader.getInstance().openSystemConfig(null,
 					getFS());
 		else
-			systemConfig = new FileBasedConfig(null, FS.DETECTED) {
+			systemConfig = new FileBasedConfig(null, FS.DETECTED, getFileSnapshotFactory()) {
 				@Override
 				public void load() {
 					// empty, do not load
@@ -198,7 +198,7 @@ public class FileRepository extends Repository {
 				getFS());
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
 				getDirectory(), Constants.CONFIG),
-				getFS());
+				getFS(), getFileSnapshotFactory());
 
 		loadSystemConfig();
 		loadUserConfig();
@@ -226,7 +226,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getDirectory(), Constants.SHALLOW), getFileSnapshotFactory());
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)
@@ -236,7 +236,7 @@ public class FileRepository extends Repository {
 		}
 
 		if (!isBare()) {
-			snapshot = FileSnapshot.save(getIndexFile());
+			snapshot = getFileSnapshotFactory().save(getIndexFile());
 		}
 	}
 
@@ -352,7 +352,7 @@ public class FileRepository extends Repository {
 						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
 								.getAbsolutePath());
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
-						Constants.DOT_GIT));
+						Constants.DOT_GIT), getFileSnapshotFactory());
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
@@ -455,7 +455,7 @@ public class FileRepository extends Repository {
 		}
 
 		File path = descriptionFile();
-		LockFile lock = new LockFile(path);
+		LockFile lock = new LockFile(path, getFileSnapshotFactory());
 		if (!lock.lock()) {
 			throw new IOException(MessageFormat.format(JGitText.get().lockError,
 					path.getAbsolutePath()));
@@ -558,7 +558,7 @@ public class FileRepository extends Repository {
 		File indexFile = getIndexFile();
 		synchronized (snapshotLock) {
 			if (snapshot == null) {
-				snapshot = FileSnapshot.save(indexFile);
+				snapshot = getFileSnapshotFactory().save(indexFile);
 				return;
 			}
 			if (!snapshot.isModified(indexFile)) {
@@ -572,7 +572,7 @@ public class FileRepository extends Repository {
 	@Override
 	public void notifyIndexChanged(boolean internal) {
 		synchronized (snapshotLock) {
-			snapshot = FileSnapshot.save(getIndexFile());
+			snapshot = getFileSnapshotFactory().save(getIndexFile());
 		}
 		fireEvent(new IndexChangedEvent(internal));
 	}

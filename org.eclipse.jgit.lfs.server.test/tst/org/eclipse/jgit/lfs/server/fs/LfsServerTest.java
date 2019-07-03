@@ -74,6 +74,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.errors.LfsException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -122,7 +123,7 @@ public abstract class LfsServerTest {
 		server = new AppServer();
 		ServletContextHandler app = server.addContext("/lfs");
 		dir = Paths.get(tmp.toString(), "lfs");
-		this.repository = new FileLfsRepository(null, dir);
+		this.repository = new FileLfsRepository(null, dir, FileSnapshotFactory.ON_THE_FLY);
 		servlet = new FileLfsServlet(repository, timeout);
 		app.addServlet(new ServletHolder(servlet), "/objects/*");
 

@@ -52,6 +52,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.util.Collections;
 
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
@@ -435,7 +436,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final File path = JGitTestUtil
 				.getTestResourceFile("dircache.testRemovedSubtree");
 
-		final DirCache dc = DirCache.read(path, FS.DETECTED);
+		final DirCache dc = DirCache.read(path, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		assertEquals(2, dc.getEntryCount());
 
 		try (TreeWalk tw = new TreeWalk(db)) {

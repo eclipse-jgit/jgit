@@ -105,7 +105,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a.txt").addFilepattern("dir/b.txt").call();
 		secondCommit = git.commit().setMessage("adding a.txt and dir/b.txt").call();
 
-		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(indexFile.getName());
+		prestage = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory()).getEntry(indexFile.getName());
 
 		// modify files and add to index
 		writeTrashFile("a.txt", "new content");
@@ -361,7 +361,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsReset() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -372,7 +372,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertSameAsHead(git.reset().addPath(indexFile.getName())
 				.addPath(untrackedFile.getName()).call());
 
-		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry(indexFile.getName());
 		assertNotNull(postReset);
 		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
@@ -393,7 +393,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsResetOnDirs() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry("dir/b.txt");
 		assertNotNull(preReset);
 
@@ -402,7 +402,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		// 'dir/b.txt' has already been modified in setupRepository
 		assertSameAsHead(git.reset().addPath("dir").call());
 
-		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry("dir/b.txt");
 		assertNotNull(postReset);
 		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
@@ -420,7 +420,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsResetWithRef() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -518,7 +518,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.tag().setName(tagName).setObjectId(secondCommit)
 				.setMessage("message").call();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -645,7 +645,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	private boolean inIndex(String path) throws IOException {
-		DirCache dc = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache dc = DirCache.read(db.getIndexFile(), db.getFS(), db.getFileSnapshotFactory());
 		return dc.getEntry(path) != null;
 	}
 

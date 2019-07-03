@@ -82,6 +82,7 @@ import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.digest.BuiltinDigests;
 import org.apache.sshd.common.util.io.ModifiableFileWatcher;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -382,7 +383,8 @@ public class OpenSshServerKeyVerifier
 				}
 			}
 		}
-		LockFile lock = new LockFile(path.toFile());
+		final File file = path.toFile();
+		LockFile lock = new LockFile(file, FileSnapshotFactory.ON_THE_FLY);
 		if (lock.lockForAppend()) {
 			try {
 				try (BufferedWriter writer = new BufferedWriter(
@@ -419,7 +421,8 @@ public class OpenSshServerKeyVerifier
 			// Shouldn't happen.
 			return;
 		}
-		LockFile lock = new LockFile(path.toFile());
+		final File file = path.toFile();
+		LockFile lock = new LockFile(file, FileSnapshotFactory.ON_THE_FLY);
 		if (lock.lock()) {
 			try {
 				try (BufferedWriter writer = new BufferedWriter(
@@ -639,7 +642,8 @@ public class OpenSshServerKeyVerifier
 						resetReloadAttributes();
 						return Collections.emptyList();
 					}
-					LockFile lock = new LockFile(path.toFile());
+					final File file = path.toFile();
+					LockFile lock = new LockFile(file, FileSnapshotFactory.ON_THE_FLY);
 					if (lock.lock()) {
 						try {
 							entries = reload(getPath());

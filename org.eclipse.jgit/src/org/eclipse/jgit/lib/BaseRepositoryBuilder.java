@@ -65,6 +65,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -713,8 +714,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			// the user file, as these parameters must be unique to this
 			// repository and not inherited from other files.
 			//
-			File path = safeFS().resolve(getGitDir(), Constants.CONFIG);
-			FileBasedConfig cfg = new FileBasedConfig(path, safeFS());
+			final File gitDir = getGitDir();
+			File path = safeFS().resolve(gitDir, Constants.CONFIG);
+			FileBasedConfig cfg = new FileBasedConfig(path, safeFS(), new FileSnapshotFactory(gitDir.toPath()));
 			try {
 				cfg.load();
 			} catch (ConfigInvalidException err) {

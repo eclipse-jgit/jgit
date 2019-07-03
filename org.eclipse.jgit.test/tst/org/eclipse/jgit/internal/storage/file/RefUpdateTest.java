@@ -669,13 +669,13 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
 		LockFile lockFile1 = new LockFile(new File(db.getDirectory(),
-				"refs/heads/master"));
+				"refs/heads/master"), db.getFileSnapshotFactory());
 		try {
 			assertTrue(lockFile1.lock()); // precondition to test
 			Result update = updateRef.update();
 			assertEquals(Result.LOCK_FAILURE, update);
 			assertEquals(opid, db.resolve("refs/heads/master"));
-			LockFile lockFile2 = new LockFile(new File(db.getDirectory(),"refs/heads/master"));
+			LockFile lockFile2 = new LockFile(new File(db.getDirectory(),"refs/heads/master"), db.getFileSnapshotFactory());
 			assertFalse(lockFile2.lock()); // was locked, still is
 		} finally {
 			lockFile1.unlock();
@@ -818,7 +818,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 				"logs/" + fromName).exists());
 
 		// "someone" has branch X locked
-		LockFile lockFile = new LockFile(new File(db.getDirectory(), toLock));
+		LockFile lockFile = new LockFile(new File(db.getDirectory(), toLock), db.getFileSnapshotFactory());
 		try {
 			assertTrue(lockFile.lock());
 

@@ -108,40 +108,6 @@ public class FileSnapshot {
 		}
 	};
 
-	/**
-	 * Record a snapshot for a specific file path.
-	 * <p>
-	 * This method should be invoked before the file is accessed.
-	 *
-	 * @param path
-	 *            the path to later remember. The path's current status
-	 *            information is saved.
-	 * @return the snapshot.
-	 */
-	public static FileSnapshot save(File path) {
-		return new FileSnapshot(path);
-	}
-
-	/**
-	 * Record a snapshot for a specific file path.
-	 * <p>
-	 * This method should be invoked before the file is accessed.
-	 *
-	 * @param path
-	 *            the path to later remember. The path's current status
-	 *            information is saved.
-	 * @param timestampResolutions
-	 *            cache for file system timestamp resolution, to improve
-	 *            performance for operations which are creating many snapshots
-	 *            at once.
-	 *
-	 * @return the snapshot.
-	 */
-	public static FileSnapshot save(File path,
-			FileSnapshotTimestampResolutions timestampResolutions) {
-		return new FileSnapshot(path, timestampResolutions);
-	}
-
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
 		Object fileKey = fileAttributes.fileKey();
 		return fileKey == null ? MISSING_FILEKEY : fileKey;
@@ -200,8 +166,9 @@ public class FileSnapshot {
 	 *            the path to later remember. The path's current status
 	 *            information is saved.
 	 */
+	@Deprecated
 	protected FileSnapshot(File path) {
-		this(path, new FileSnapshotTimestampResolutions());
+		this(path, FS.getFsTimerResolution(path.toPath().getParent()));
 	}
 
 	/**
@@ -212,16 +179,11 @@ public class FileSnapshot {
 	 * @param path
 	 *            the path to later remember. The path's current status
 	 *            information is saved.
-	 * @param timestampResolutions
-	 *            cache for file system timestamp resolution, to improve
-	 *            performance for operations which are creating many snapshots
-	 *            at once.
 	 */
 	protected FileSnapshot(File path,
-			FileSnapshotTimestampResolutions timestampResolutions) {
+						   Duration fsTimestampResolution) {
 		this.lastRead = System.currentTimeMillis();
-		this.fsTimestampResolution = timestampResolutions
-				.getResolution(path.toPath().getParent());
+		this.fsTimestampResolution = fsTimestampResolution;
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(path);

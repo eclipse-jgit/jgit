@@ -57,6 +57,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -101,7 +102,7 @@ public abstract class SystemReader {
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 			File configFile = fs.getGitSystemConfig();
 			if (configFile == null) {
-				return new FileBasedConfig(parent, null, fs) {
+				return new FileBasedConfig(parent, null, fs, null) {
 					@Override
 					public void load() {
 						// empty, do not load
@@ -114,13 +115,13 @@ public abstract class SystemReader {
 					}
 				};
 			}
-			return new FileBasedConfig(parent, configFile, fs);
+			return new FileBasedConfig(parent, configFile, fs, FileSnapshotFactory.ON_THE_FLY);
 		}
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs, FileSnapshotFactory.ON_THE_FLY); //$NON-NLS-1$
 		}
 
 		@Override

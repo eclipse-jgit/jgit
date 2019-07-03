@@ -303,7 +303,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		String path2 = "sub2";
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS(), db.getFileSnapshotFactory());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				path1, ConfigConstants.CONFIG_KEY_PATH, path1);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,

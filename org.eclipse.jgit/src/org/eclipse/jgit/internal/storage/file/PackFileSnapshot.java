@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.time.Duration;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -63,8 +64,8 @@ class PackFileSnapshot extends FileSnapshot {
 	 *            information is saved.
 	 * @return the snapshot.
 	 */
-	public static PackFileSnapshot save(File path) {
-		return new PackFileSnapshot(path);
+	public static PackFileSnapshot save(File path, Duration fsTimestampResolution) {
+		return new PackFileSnapshot(path, fsTimestampResolution);
 	}
 
 	private AnyObjectId checksum = MISSING_CHECKSUM;
@@ -72,8 +73,8 @@ class PackFileSnapshot extends FileSnapshot {
 	private boolean wasChecksumChanged;
 
 
-	PackFileSnapshot(File packFile) {
-		super(packFile);
+	PackFileSnapshot(File packFile, Duration fsTimestampResolution) {
+		super(packFile, fsTimestampResolution);
 	}
 
 	void setChecksum(AnyObjectId checksum) {

@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshotFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -102,7 +103,7 @@ public class FileBasedConfigTest {
 	@Test
 	public void testSystemEncoding() throws IOException, ConfigInvalidException {
 		final File file = createFile(CONTENT1.getBytes(UTF_8));
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -114,7 +115,7 @@ public class FileBasedConfigTest {
 	@Test
 	public void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
 		final File file = createFile(CONTENT1.getBytes(UTF_8));
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -132,7 +133,7 @@ public class FileBasedConfigTest {
 		bos1.write(CONTENT1.getBytes(UTF_8));
 
 		final File file = createFile(bos1.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -154,7 +155,7 @@ public class FileBasedConfigTest {
 		bos1.write(CONTENT1.getBytes(UTF_8));
 
 		final File file = createFile(bos1.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -176,7 +177,7 @@ public class FileBasedConfigTest {
 		bos.write(pathToString(includedFile).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -190,7 +191,7 @@ public class FileBasedConfigTest {
 		bos.write(("./" + includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray(), "dir1");
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -205,7 +206,7 @@ public class FileBasedConfigTest {
 				+ includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray(), "dir2");
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -219,7 +220,7 @@ public class FileBasedConfigTest {
 		bos.write(("../" + includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(null, config.getString(USER, null, NAME));
 	}
@@ -236,7 +237,7 @@ public class FileBasedConfigTest {
 		final FS fs = FS.DETECTED.newInstance();
 		fs.setUserHome(includedFile.getParentFile());
 
-		final FileBasedConfig config = new FileBasedConfig(file, fs);
+		final FileBasedConfig config = new FileBasedConfig(file, fs, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -249,7 +250,7 @@ public class FileBasedConfigTest {
 		final File includedFile = createFile(CONTENT3.getBytes(UTF_8), "dir1");
 
 		final File file = createFile(new byte[0], "dir2");
-		FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.setString("include", null, "path",
 				("../" + includedFile.getParentFile().getName() + "/"
 						+ includedFile.getName()));
@@ -267,7 +268,7 @@ public class FileBasedConfigTest {
 		assertEquals(2,
 				new StringTokenizer(expectedText, "\n", false).countTokens());
 
-		config = new FileBasedConfig(file, FS.DETECTED);
+		config = new FileBasedConfig(file, FS.DETECTED, FileSnapshotFactory.ON_THE_FLY);
 		config.load();
 
 		String actualText = config.toText();

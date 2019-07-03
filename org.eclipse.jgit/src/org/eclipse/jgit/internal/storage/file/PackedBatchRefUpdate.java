@@ -341,7 +341,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 				for (ReceiveCommand c : commands) {
 					String name = c.getRefName();
-					LockFile lock = new LockFile(refdb.fileFor(name));
+					LockFile lock = new LockFile(refdb.fileFor(name), refdb.getRepository().getFileSnapshotFactory());
 					if (locks.put(name, lock) != null) {
 						throw new IOException(
 								MessageFormat.format(JGitText.get().duplicateRef, name));

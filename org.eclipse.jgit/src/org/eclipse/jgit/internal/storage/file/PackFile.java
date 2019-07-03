@@ -165,9 +165,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
 	 */
-	public PackFile(File packFile, int extensions) {
+	public PackFile(File packFile, int extensions, FileSnapshotFactory fileSnapshotFactory) {
 		this.packFile = packFile;
-		this.fileSnapshot = PackFileSnapshot.save(packFile);
+		this.fileSnapshot = PackFileSnapshot.save(packFile, fileSnapshotFactory.getTimestampResolution(packFile));
 		this.packLastModified = (int) (fileSnapshot.lastModified() >> 10);
 		this.extensions = extensions;
 

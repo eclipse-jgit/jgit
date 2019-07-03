@@ -83,6 +83,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract FS getFS();
 
+	abstract FileSnapshotFactory getFileSnapshotFactory();
+
 	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	abstract void selectObjectRepresentation(PackWriter packer,
