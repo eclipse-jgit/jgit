@@ -16,6 +16,24 @@
       "revId": "1bfb936fa40af67107b21fe66dffee5bec55290f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "951183ec_0c3b82cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-04T16:09:16Z",
+      "side": 1,
+      "message": "I don\u0027t get why an invalid path name should not cause an exception to be thrown ? \n\nIn addition IOError\u0027s base class Error says: \n\n\"An {@code Error} is a subclass of {@code Throwable} that indicates serious problems that a reasonable application should not try to catch\"",
+      "parentUuid": "167e3d22_6b1c1273",
+      "revId": "1bfb936fa40af67107b21fe66dffee5bec55290f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
