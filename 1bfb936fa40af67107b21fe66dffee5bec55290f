@@ -34,6 +34,24 @@
       "revId": "1bfb936fa40af67107b21fe66dffee5bec55290f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4970e87_50e5efa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-04T16:28:23Z",
+      "side": 1,
+      "message": "It\u0027s not about invalid file name syntax but e.g. about drives which may be mounted today and may not be mounted tomorrow. To me there is no difference whether I\u0027m providing an invalid file:\n\nnew File(\"d:/foo/bar\")\n\nor an invalid file:\n\nnew File(\"q:\")\n\nBut in the first case getFsTimestampResolution works and in the second it crashes.\n\nI\u0027m not sure why Java is using an Error here -- maybe because Path.toAbsolutePath() doesn\u0027t offer to throw an Exception.\n\nEither way, it\u0027s not really important to me. I just came across this problem when testing. We might wait until one real users encounters this problem (if ever).",
+      "parentUuid": "951183ec_0c3b82cc",
+      "revId": "1bfb936fa40af67107b21fe66dffee5bec55290f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
