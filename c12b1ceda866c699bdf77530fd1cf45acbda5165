@@ -118,6 +118,30 @@
       "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14969685_f9c5082e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-04T20:55:27Z",
+      "side": 1,
+      "message": "added comments",
+      "parentUuid": "2bdfbfd7_75937fb4",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "c12b1ceda866c699bdf77530fd1cf45acbda5165",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
