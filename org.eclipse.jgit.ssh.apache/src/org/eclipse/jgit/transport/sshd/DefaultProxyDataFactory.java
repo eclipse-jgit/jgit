@@ -62,8 +62,8 @@ public class DefaultProxyDataFactory implements ProxyDataFactory {
 	public ProxyData get(InetSocketAddress remoteAddress) {
 		try {
 			List<Proxy> proxies = ProxySelector.getDefault()
-					.select(new URI(Proxy.Type.SOCKS.name(),
-							"//" + remoteAddress.getHostString(), null)); //$NON-NLS-1$
+					.select(new URI(
+							"socket://" + remoteAddress.getHostString())); //$NON-NLS-1$
 			ProxyData data = getData(proxies, Proxy.Type.SOCKS);
 			if (data == null) {
 				proxies = ProxySelector.getDefault()
