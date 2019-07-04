@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "167e3d22_6b1c1273",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-04T14:18:16Z",
+      "side": 1,
+      "message": "An IOError may be returned here on Windows, e.g. when providing an invalid drive letter, like:\n\n    new File(\"Q:\").toPath().\n\nChanging to:\n\n    try {\n        file \u003d file.toAbsolutePath();\n    } catch (IOError ex) {\n        return FALLBACK_TIMESTAMP_RESOLUTION;\n    }\n\nresolves the problem.",
+      "revId": "1bfb936fa40af67107b21fe66dffee5bec55290f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
