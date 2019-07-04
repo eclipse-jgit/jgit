@@ -214,6 +214,9 @@ public abstract class FS {
 
 		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
 
+		private static Path lastDir;
+		private static Duration lastDirDuration;
+
 		private static void setBackground(boolean async) {
 			background.set(async);
 		}
@@ -225,6 +228,17 @@ public abstract class FS {
 		private static Duration getFsTimestampResolution(Path file) {
 			file = file.toAbsolutePath();
 			Path dir = Files.isDirectory(file) ? file : file.getParent();
+			if (Objects.equals(dir, lastDir)) {
+				return lastDirDuration;
+			}
+
+			final Duration duration = determineFsTimestampResolution(dir);
+			lastDir = dir;
+			lastDirDuration = duration;
+			return duration;
+		}
+
+		private static Duration determineFsTimestampResolution(Path dir) {
 			FileStore s;
 			try {
 				if (Files.exists(dir)) {
