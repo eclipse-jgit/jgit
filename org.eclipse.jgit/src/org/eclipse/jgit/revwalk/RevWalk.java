@@ -664,7 +664,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	/**
 	 * @return whether only first-parent links should be followed when walking.
-	 * @since 5.4
+	 *
+	 * @since 5.5
 	 */
 	public boolean isFirstParent() {
 		return firstParent;
@@ -679,7 +680,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @param enable
 	 *            true to walk only first-parent links.
-	 * @since 5.4
+	 *
+	 * @since 5.5
 	 */
 	public void setFirstParent(boolean enable) {
 		assertNotStarted();
@@ -1456,6 +1458,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * If {@link #markStart(RevCommit)} has already been called,
 	 * {@link #reset()} can be called to satisfy this condition.
+	 *
+	 * @since 5.5
 	 */
 	protected void assertNoCommitsMarkedStart() {
 		if (roots.isEmpty())
