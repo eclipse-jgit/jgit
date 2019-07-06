@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b60164_60741d45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-06T19:41:59Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "87a0c01fe02b7236b0ca6814dd217d9d1192b3f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
