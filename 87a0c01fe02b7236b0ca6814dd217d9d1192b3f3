@@ -16,6 +16,24 @@
       "revId": "87a0c01fe02b7236b0ca6814dd217d9d1192b3f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1adc03d7_559310a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-06T19:46:26Z",
+      "side": 1,
+      "message": "Done. Don\u0027t know why Eclipse didn\u0027t clean this up itself.",
+      "parentUuid": "f6b60164_60741d45",
+      "revId": "87a0c01fe02b7236b0ca6814dd217d9d1192b3f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
