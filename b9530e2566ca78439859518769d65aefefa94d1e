@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ac76a76_89fdc9bd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorWithTimeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-08T16:28:47Z",
+      "side": 1,
+      "message": "Instant",
+      "range": {
+        "startLine": 62,
+        "startChar": 64,
+        "endLine": 62,
+        "endChar": 68
+      },
+      "revId": "b9530e2566ca78439859518769d65aefefa94d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91351287_59ec665d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorWithTimeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-08T16:28:47Z",
+      "side": 1,
+      "message": "plusNanos",
+      "range": {
+        "startLine": 109,
+        "startChar": 55,
+        "endLine": 109,
+        "endChar": 65
+      },
+      "revId": "b9530e2566ca78439859518769d65aefefa94d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3443c25c_f1058745",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-08T16:28:47Z",
+      "side": 1,
+      "message": "lastModified, read",
+      "range": {
+        "startLine": 410,
+        "startChar": 41,
+        "endLine": 410,
+        "endChar": 59
+      },
+      "revId": "b9530e2566ca78439859518769d65aefefa94d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
