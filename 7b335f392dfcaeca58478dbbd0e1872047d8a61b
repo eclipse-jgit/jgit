@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5db496be_0acd6a45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-08T20:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "509a3194_14fdcd64",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 26
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cffbb8d_49fb7953",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-03T07:39:45Z",
       "side": 1,
       "message": "Why do we return the default hook?  Wouldn\u0027t it be better to not allow an empty input and throw an exception in that case?",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b220ec_2a8d5dfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-08T20:55:33Z",
+      "side": 1,
+      "message": "Mainly for consistency with the other Chains (e.g. PreUploadHookChain returns PreUploadHook.NULL [i.e. our DEFAULT]).\n\nIt makes it easy also to chain calls:\n\nProtocolV2Hook existingProtocolV2Hook \u003d uploadPack.getProtocolV2Hook();\n  uploadPack.setProtocolV2Hook(\n      ProtocolV2HookChain.newChain(ImmutableList.of(newProtocolV2Hook, existingProtocolV2Hook)));",
+      "parentUuid": "8cffbb8d_49fb7953",
       "range": {
         "startLine": 74,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "15666932_5af379fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-08T20:55:33Z",
+      "side": 1,
+      "message": "Indeed, the exception handling makes the .stream() form more complicated than a plain for.",
+      "parentUuid": "8a0e87db_439113ef",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "560ff8ac_c9007229",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2019-07-03T17:10:30Z",
       "side": 1,
       "message": "If we were using Guava, I\u0027d suggest using ImmutableList.copyOf.\n\nShould this use an array, like the other hook chains? Or the other way around: should they be updated to use some appropriate abstract data type?",
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a2dc71_6a1a7d05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-08T20:55:33Z",
+      "side": 1,
+      "message": "Using Collections.ummodifiableList().\n\nUnless there is some visible benefit for using arrays, I rather move to (immutable) lists. (Otherwise it becomes cargo cult programming :))",
+      "parentUuid": "560ff8ac_c9007229",
       "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
