@@ -22,6 +22,30 @@
       "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f21a5278_25886315",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-08T17:41:31Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s anything better than Consumer, looking at the package summary. (We could use Function\u003cConsumer, Void\u003e, but if we do that, we might as well use Consumer.)\n\nHaving an UploadPackFactory would work and be more flexible, but (1) we don\u0027t need that flexibility, (2) this will require tests to instantiate their own UploadPack needlessly.",
+      "parentUuid": "53b4843b_554a7433",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 473,
+        "endChar": 23
+      },
+      "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
