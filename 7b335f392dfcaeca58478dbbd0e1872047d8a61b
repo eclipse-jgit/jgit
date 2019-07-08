@@ -175,6 +175,24 @@
       "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a91469f3_0d4d9c39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-08T20:58:33Z",
+      "side": 1,
+      "message": "I strongly prefer having consistency.\n\nIt sounds like you\u0027re leaning toward changing the other hook chain classes. Right?",
+      "parentUuid": "90a2dc71_6a1a7d05",
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
