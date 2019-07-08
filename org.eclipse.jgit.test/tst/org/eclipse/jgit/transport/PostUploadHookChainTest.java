@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Google Inc.
+ * Copyright (C) 2019, Google LLC.
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -39,56 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.transport;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
 
 import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-/**
- * {@link org.eclipse.jgit.transport.PostUploadHook} that delegates to a list of
- * other hooks.
- * <p>
- * Hooks are run in the order passed to the constructor.
- *
- * @since 4.1
- */
-public class PostUploadHookChain implements PostUploadHook {
-	private final List<PostUploadHook> hooks;
+@RunWith(JUnit4.class)
+public class PostUploadHookChainTest {
 
-	/**
-	 * Create a new hook chaining the given hooks together.
-	 *
-	 * @param hooks
-	 *            hooks to execute, in order.
-	 * @return a new chain of the given hooks.
-	 */
-	public static PostUploadHook newChain(List<PostUploadHook> hooks) {
-		List<PostUploadHook> newHooks = hooks.stream()
-				.filter(hook -> !hook.equals(PostUploadHook.NULL))
-				.collect(Collectors.toList());
-
-		if (newHooks.isEmpty()) {
-			return PostUploadHook.NULL;
-		} else if (newHooks.size() == 1) {
-			return newHooks.get(0);
-		} else {
-			return new PostUploadHookChain(newHooks);
-		}
+	@Test
+	public void testDefaultIfEmpty() {
+		PostUploadHook[] noHooks = {};
+		PostUploadHook newChain = PostUploadHookChain
+				.newChain(Arrays.asList(noHooks));
+		assertEquals(newChain, PostUploadHook.NULL);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void onPostUpload(PackStatistics stats) {
-		for (PostUploadHook hook : hooks) {
-			hook.onPostUpload(stats);
-		}
+	@Test
+	public void testFlattenChainIfOnlyOne() {
+		FakePostUploadHook hook1 = new FakePostUploadHook();
+		PostUploadHook newChain = PostUploadHookChain
+				.newChain(Arrays.asList(PostUploadHook.NULL, hook1));
+		assertEquals(newChain, hook1);
 	}
 
-	private PostUploadHookChain(List<PostUploadHook> hooks) {
-		this.hooks = Collections.unmodifiableList(hooks);
+	@Test
+	public void testMultipleHooks() {
+		FakePostUploadHook hook1 = new FakePostUploadHook();
+		FakePostUploadHook hook2 = new FakePostUploadHook();
+
+		PostUploadHook chained = PostUploadHookChain
+				.newChain(Arrays.asList(hook1, hook2));
+		chained.onPostUpload(null);
+
+		assertTrue(hook1.wasInvoked());
+		assertTrue(hook2.wasInvoked());
+	}
+
+	private static final class FakePostUploadHook implements PostUploadHook {
+		boolean invoked;
+
+		public boolean wasInvoked() {
+			return invoked;
+		}
+
+		@Override
+		public void onPostUpload(PackStatistics stats) {
+			invoked = true;
+		}
 	}
 }
