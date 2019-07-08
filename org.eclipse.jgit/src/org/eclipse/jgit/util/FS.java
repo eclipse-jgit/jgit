@@ -303,45 +303,46 @@ public abstract class FS {
 			try {
 				Files.createFile(probe);
 				// ensure we always use the local system clock
-				FileUtils.touch(probe);
-				long wait = 512;
-				long start = System.nanoTime();
+				Instant now = Instant.now();
+				Files.setLastModifiedTime(probe, FileTime.from(now));
 				FileTime t1 = Files.getLastModifiedTime(probe);
 				FileTime t2 = t1;
+				Instant tset = t1.toInstant();
 				while (t2.compareTo(t1) <= 0) {
-					TimeUnit.NANOSECONDS.sleep(wait);
-					checkTimeout(s, start);
-					FileUtils.touch(probe);
+					tset = tset.plusNanos(1);
+					Files.setLastModifiedTime(probe, FileTime.from(tset));
 					t2 = Files.getLastModifiedTime(probe);
-					if (wait < 100_000_000L) {
-						wait = wait * 2;
-					}
 				}
-				Duration resolution = Duration.between(t1.toInstant(), t2.toInstant());
-				saveFileTimeResolution(s, resolution);
-				return Optional.of(resolution);
+				Duration fsResolution = Duration.between(t1.toInstant(), t2.toInstant());
+				Duration clockResolution = measureClockResolution();
+				saveFileTimeResolution(s, fsResolution.plus(clockResolution));
+				return Optional.of(fsResolution);
 			} catch (AccessDeniedException e) {
 				LOG.warn(e.getLocalizedMessage(), e); // see bug 548648
-			} catch (IOException | TimeoutException e) {
+			} catch (IOException e) {
 				LOG.error(e.getLocalizedMessage(), e);
-			} catch (InterruptedException e) {
-				LOG.error(e.getLocalizedMessage(), e);
-				Thread.currentThread().interrupt();
 			} finally {
 				deleteProbe(probe);
 			}
 			return Optional.empty();
 		}
 
-		private static void checkTimeout(FileStore s, long start)
-				throws TimeoutException {
-			if (System.nanoTime() - start >= FALLBACK_TIMESTAMP_RESOLUTION
-					.toNanos()) {
-				throw new TimeoutException(MessageFormat.format(JGitText
-						.get().timeoutMeasureFsTimestampResolution,
-						s.toString()));
+		private static Duration measureClockResolution() {
+			Duration clockResolution = Duration.ZERO;
+			for (int i = 0; i < 100; i++) {
+				Instant t1 = Instant.now();
+				Instant t2 = t1;
+				while (t2.compareTo(t1) <= 0) {
+					t2 = Instant.now();
+				}
+				Duration r = Duration.between(t1, t2);
+				if (r.compareTo(clockResolution) > 0) {
+					clockResolution = r;
+				}
 			}
+			return clockResolution;
 		}
+
 		private static void deleteProbe(Path probe) {
 			if (Files.exists(probe)) {
 				try {
