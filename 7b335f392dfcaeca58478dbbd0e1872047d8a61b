@@ -211,6 +211,24 @@
       "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d17864_3f993c25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2HookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-08T22:49:15Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/145655 PostUploadHookChain: Use a list instead of array internally        \nhttps://git.eclipse.org/r/145656 PreUploadHookChain: Use list instead of array internally",
+      "parentUuid": "8ee3449e_3223985f",
+      "revId": "7b335f392dfcaeca58478dbbd0e1872047d8a61b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
