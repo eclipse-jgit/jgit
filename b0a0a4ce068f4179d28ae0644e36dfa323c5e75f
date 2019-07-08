@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53b4843b_554a7433",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-08T17:32:11Z",
+      "side": 1,
+      "message": "This feels a little strange because we\u0027re modifying the UploadPack instead of consuming it.\n\nI think that\u0027s okay, as long as the code makes it clear what\u0027s happening. But I wonder if something more like an UploadPackFactory would work --- i.e. having a parameter where UploadPack::new means \"no setup\" and a caller can provide a more specialized lambda if they want to set some parameters. What do you think?",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 473,
+        "endChar": 23
+      },
+      "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
