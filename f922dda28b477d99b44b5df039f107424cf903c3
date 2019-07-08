@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dbc0b8f_47455b83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostUploadHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-08T22:49:14Z",
+      "side": 1,
+      "message": "Can this use a simple ArrayList\u003cPostUploadHook\u003e?\n\nThere is at most one hook chain per UploadPack, so this isn\u0027t an expensive e.g. per-object or per-ref allocation. Hook chains are likely to be short so copying in the hook chain at construction time should be cheap.",
+      "revId": "f922dda28b477d99b44b5df039f107424cf903c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
