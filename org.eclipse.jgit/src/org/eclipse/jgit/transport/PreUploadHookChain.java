@@ -44,7 +44,9 @@
 package org.eclipse.jgit.transport;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -56,8 +58,7 @@ import org.eclipse.jgit.lib.ObjectId;
  * one hook throws an exception, execution of remaining hook methods is aborted.
  */
 public class PreUploadHookChain implements PreUploadHook {
-	private final PreUploadHook[] hooks;
-	private final int count;
+	private final List<PreUploadHook> hooks;
 
 	/**
 	 * Create a new hook chaining the given hooks together.
@@ -66,18 +67,18 @@ public class PreUploadHookChain implements PreUploadHook {
 	 *            hooks to execute, in order.
 	 * @return a new hook chain of the given hooks.
 	 */
-	public static PreUploadHook newChain(List<? extends PreUploadHook> hooks) {
-		PreUploadHook[] newHooks = new PreUploadHook[hooks.size()];
-		int i = 0;
-		for (PreUploadHook hook : hooks)
-			if (hook != PreUploadHook.NULL)
-				newHooks[i++] = hook;
-		if (i == 0)
+	public static PreUploadHook newChain(List<PreUploadHook> hooks) {
+		List<PreUploadHook> newHooks = hooks.stream()
+				.filter(hook -> !hook.equals(PreUploadHook.NULL))
+				.collect(Collectors.toList());
+
+		if (newHooks.isEmpty()) {
 			return PreUploadHook.NULL;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new PreUploadHookChain(newHooks, i);
+		} else if (newHooks.size() == 1) {
+			return newHooks.get(0);
+		} else {
+			return new PreUploadHookChain(newHooks);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -85,8 +86,9 @@ public class PreUploadHookChain implements PreUploadHook {
 	public void onBeginNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntOffered)
 			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onBeginNegotiateRound(up, wants, cntOffered);
+		for (PreUploadHook hook : hooks) {
+			hook.onBeginNegotiateRound(up, wants, cntOffered);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -95,8 +97,9 @@ public class PreUploadHookChain implements PreUploadHook {
 			Collection<? extends ObjectId> wants, int cntCommon,
 			int cntNotFound, boolean ready)
 			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
+		for (PreUploadHook hook : hooks) {
+			hook.onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -105,12 +108,12 @@ public class PreUploadHookChain implements PreUploadHook {
 			Collection<? extends ObjectId> wants,
 			Collection<? extends ObjectId> haves)
 			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onSendPack(up, wants, haves);
+		for (PreUploadHook hook : hooks) {
+			hook.onSendPack(up, wants, haves);
+		}
 	}
 
-	private PreUploadHookChain(PreUploadHook[] hooks, int count) {
-		this.hooks = hooks;
-		this.count = count;
+	private PreUploadHookChain(List<PreUploadHook> hooks) {
+		this.hooks = Collections.unmodifiableList(hooks);
 	}
 }
