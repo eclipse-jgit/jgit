@@ -144,7 +144,7 @@ public class FileSnapshot {
 	 */
 	public static FileSnapshot save(long modified) {
 		final long read = System.currentTimeMillis();
-		return new FileSnapshot(read, modified, -1, Duration.ZERO,
+		return new FileSnapshot(read, modified, UNKNOWN_SIZE, Duration.ZERO,
 				MISSING_FILEKEY);
 	}
 
@@ -318,7 +318,8 @@ public class FileSnapshot {
 	 * @return true if the two snapshots share the same information.
 	 */
 	public boolean equals(FileSnapshot other) {
-		return lastModified == other.lastModified && size == other.size
+		boolean sizeEq = size == UNKNOWN_SIZE || other.size == UNKNOWN_SIZE || size == other.size;
+		return lastModified == other.lastModified && sizeEq
 				&& Objects.equals(fileKey, other.fileKey);
 	}
 
