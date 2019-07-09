@@ -180,6 +180,17 @@ public class FileSnapshotTest {
 		assertTrue(save.wasSizeChanged());
 	}
 
+	@Test
+	public void fileSnapshotEquals() throws Exception {
+		// 0 sized FileSnapshot.
+		FileSnapshot fs1 = FileSnapshot.MISSING_FILE;
+		// UNKNOWN_SIZE FileSnapshot.
+		FileSnapshot fs2 = FileSnapshot.save(fs1.lastModified());
+
+		assertTrue(fs1.equals(fs2));
+		assertTrue(fs2.equals(fs1));
+	}
+
 	private File createFile(String string) throws IOException {
 		trash.mkdirs();
 		File f = File.createTempFile(string, "tdat", trash);
