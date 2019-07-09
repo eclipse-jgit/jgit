@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aeab50b1_f049b256",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-09T13:13:29Z",
+      "side": 1,
+      "message": "thanks for finding this :-)",
+      "parentUuid": "827675c7_52f8bd61",
+      "range": {
+        "startLine": 239,
+        "startChar": 46,
+        "endLine": 239,
+        "endChar": 65
+      },
+      "revId": "65db0b91f94abad9965b33d648f0775e0bdb7370",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eec28942_d75b74e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 1
