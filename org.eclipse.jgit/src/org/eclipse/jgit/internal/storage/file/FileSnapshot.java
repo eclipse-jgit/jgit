@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -57,6 +58,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Caches when a file was last read, making it possible to detect future edits.
@@ -75,6 +78,7 @@ import org.eclipse.jgit.util.FS;
  * file is less than 3 seconds ago.
  */
 public class FileSnapshot {
+	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
 	/**
 	 * An unknown file size.
 	 *
@@ -188,6 +192,8 @@ public class FileSnapshot {
 	 */
 	private final Object fileKey;
 
+	private final File file;
+
 	/**
 	 * Record a snapshot for a specific file path.
 	 * <p>
@@ -214,6 +220,7 @@ public class FileSnapshot {
 	 *            configuration file otherwise use fallback resolution
 	 */
 	protected FileSnapshot(File path, boolean useConfig) {
+		this.file = path;
 		this.lastRead = System.currentTimeMillis();
 		this.fsTimestampResolution = useConfig
 				? FS.getFsTimerResolution(path.toPath().getParent())
@@ -230,6 +237,13 @@ public class FileSnapshot {
 		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"file=%s, create new FileSnapshot: lastRead=%d ms" //$NON-NLS-1$
+							+ ", lastModified=%d ms, size=%d, fileKey=%s", //$NON-NLS-1$
+					path, Long.valueOf(lastRead), Long.valueOf(lastModified),
+					Long.valueOf(size), fileKey));
+		}
 	}
 
 	private boolean sizeChanged;
@@ -242,6 +256,7 @@ public class FileSnapshot {
 
 	private FileSnapshot(long read, long modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
+		this.file = null;
 		this.lastRead = read;
 		this.lastModified = modified;
 		this.fsTimestampResolution = fsTimestampResolution;
@@ -432,7 +447,16 @@ public class FileSnapshot {
 	private boolean isRacyClean(long read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		long delta = (read - lastModified) * 1_000_000;
+		wasRacyClean = delta <= racyNanos;
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"file=%s, isRacyClean=%b, read=%d ms, lastModified=%d ms, delta=%d ns, racy<=%d ns", //$NON-NLS-1$
+					file, Boolean.valueOf(wasRacyClean), Long.valueOf(read),
+					Long.valueOf(lastModified), Long.valueOf(delta),
+					Long.valueOf(racyNanos)));
+		}
+		return wasRacyClean;
 	}
 
 	private boolean isModified(long currLastModified) {
@@ -440,6 +464,12 @@ public class FileSnapshot {
 
 		lastModifiedChanged = lastModified != currLastModified;
 		if (lastModifiedChanged) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format(
+						"file=%s, lastModified changed from %,d to %,d", //$NON-NLS-1$
+						file, Long.valueOf(lastModified),
+						Long.valueOf(currLastModified)));
+			}
 			return true;
 		}
 
@@ -447,26 +477,48 @@ public class FileSnapshot {
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
 		if (cannotBeRacilyClean) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(
+						String.format("file=%s, cannot be racily clean", file)); //$NON-NLS-1$
+			}
 			return false;
 		}
 		if (!isRacyClean(lastRead)) {
 			// Our last read should have marked cannotBeRacilyClean,
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format("file=%s, is unmodified", file)); //$NON-NLS-1$
+			}
 			return false;
 		}
 
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format("file=%s, is racily clean", file)); //$NON-NLS-1$
+		}
 		return true;
 	}
 
 	private boolean isFileKeyChanged(Object currFileKey) {
-		return currFileKey != MISSING_FILEKEY && !currFileKey.equals(fileKey);
+		boolean changed = currFileKey != MISSING_FILEKEY
+				&& !currFileKey.equals(fileKey);
+		if (changed && LOG.isDebugEnabled()) {
+			LOG.debug(String.format("file=%s, FileKey changed from %s to %s", //$NON-NLS-1$
+					file, fileKey, currFileKey));
+		}
+		return changed;
 	}
 
 	private boolean isSizeChanged(long currSize) {
-		return currSize != UNKNOWN_SIZE && currSize != size;
+		boolean changed = (currSize != UNKNOWN_SIZE) && (currSize != size);
+		if (changed && LOG.isDebugEnabled()) {
+			LOG.debug(
+					String.format("file=%s, size changed from %,d to %,d bytes", //$NON-NLS-1$
+					file, Long.valueOf(size), Long.valueOf(currSize)));
+		}
+		return changed;
 	}
 }
