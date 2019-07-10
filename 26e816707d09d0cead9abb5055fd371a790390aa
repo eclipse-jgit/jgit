@@ -22,6 +22,30 @@
       "revId": "26e816707d09d0cead9abb5055fd371a790390aa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "755794a8_47bef558",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-10T23:12:12Z",
+      "side": 1,
+      "message": "Ok, reduced to max 250 steps from 1us to 2.5 s.\n\nOn my Mac using HPFS with Java 8 (timestamp resolution 1 s) the total measurement now takes 30ms in 230 steps",
+      "parentUuid": "3a4acf29_e2482b5d",
+      "range": {
+        "startLine": 309,
+        "startChar": 7,
+        "endLine": 309,
+        "endChar": 47
+      },
+      "revId": "26e816707d09d0cead9abb5055fd371a790390aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
