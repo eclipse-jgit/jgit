@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Caches when a file was last read, making it possible to detect future edits.
@@ -75,6 +77,7 @@ import org.eclipse.jgit.util.FS;
  * file is less than 3 seconds ago.
  */
 public class FileSnapshot {
+	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
 	/**
 	 * An unknown file size.
 	 *
@@ -230,6 +233,12 @@ public class FileSnapshot {
 		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"file=%s, lastRead=%d ms, lastModified=%d ms, size=%d, fileKey=%s", //$NON-NLS-1$
+					path, Long.valueOf(lastRead), Long.valueOf(lastModified),
+					Long.valueOf(size), fileKey));
+		}
 	}
 
 	private boolean sizeChanged;
@@ -432,7 +441,16 @@ public class FileSnapshot {
 	private boolean isRacyClean(long read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		long delta = (read - lastModified) * 1_000_000;
+		wasRacyClean = delta <= racyNanos;
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"read=%d ms, lastModified=%d ms, delta=%d ns, racy<=%d ns, racyClean=%b", //$NON-NLS-1$
+					Long.valueOf(read), Long.valueOf(lastModified),
+					Long.valueOf(delta), Long.valueOf(racyNanos),
+					Boolean.valueOf(wasRacyClean)));
+		}
+		return wasRacyClean;
 	}
 
 	private boolean isModified(long currLastModified) {
@@ -440,6 +458,12 @@ public class FileSnapshot {
 
 		lastModifiedChanged = lastModified != currLastModified;
 		if (lastModifiedChanged) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format(
+						"lastModified=%d ms, currLastModified=%d ms", //$NON-NLS-1$
+						Long.valueOf(lastModified),
+						Long.valueOf(currLastModified)));
+			}
 			return true;
 		}
 
@@ -447,6 +471,7 @@ public class FileSnapshot {
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
 		if (cannotBeRacilyClean) {
+			LOG.debug("cannot be racily clean"); //$NON-NLS-1$
 			return false;
 		}
 		if (!isRacyClean(lastRead)) {
