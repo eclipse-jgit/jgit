@@ -46,12 +46,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.FS;
@@ -77,42 +78,43 @@ public class FileBasedConfigTest {
 	private static final String CONTENT2 = "[" + USER + "]\n\t" + NAME + " = "
 			+ BOB + "\n";
 
-	private File trash;
+	private Path trash;
 
 	@Before
 	public void setUp() throws Exception {
-		trash = File.createTempFile("tmp_", "");
-		trash.delete();
-		assertTrue("mkdir " + trash, trash.mkdir());
+		trash = Files.createTempDirectory("tmp_");
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+		FileUtils.delete(trash.toFile(),
+				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
 	@Test
 	public void testSystemEncoding() throws IOException, ConfigInvalidException {
-		final File file = createFile(CONTENT1.getBytes());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(CONTENT1.getBytes());
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
 		config.setString(USER, null, NAME, BOB);
 		config.save();
-		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file));
+		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file.toFile()));
 	}
 
 	@Test
 	public void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
-		final File file = createFile(CONTENT1.getBytes(UTF_8));
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(CONTENT1.getBytes(UTF_8));
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
 		config.setString(USER, null, NAME, BOB);
 		config.save();
-		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file));
+		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file.toFile()));
 	}
 
 	@Test
@@ -123,8 +125,9 @@ public class FileBasedConfigTest {
 		bos1.write(0xBF);
 		bos1.write(CONTENT1.getBytes(UTF_8));
 
-		final File file = createFile(bos1.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos1.toByteArray());
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -136,7 +139,7 @@ public class FileBasedConfigTest {
 		bos2.write(0xBB);
 		bos2.write(0xBF);
 		bos2.write(CONTENT2.getBytes(UTF_8));
-		assertArrayEquals(bos2.toByteArray(), IO.readFully(file));
+		assertArrayEquals(bos2.toByteArray(), IO.readFully(file.toFile()));
 	}
 
 	@Test
@@ -145,8 +148,9 @@ public class FileBasedConfigTest {
 		bos1.write(" \n\t".getBytes());
 		bos1.write(CONTENT1.getBytes());
 
-		final File file = createFile(bos1.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos1.toByteArray());
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
@@ -156,19 +160,20 @@ public class FileBasedConfigTest {
 		final ByteArrayOutputStream bos2 = new ByteArrayOutputStream();
 		bos2.write(" \n\t".getBytes());
 		bos2.write(CONTENT2.getBytes());
-		assertArrayEquals(bos2.toByteArray(), IO.readFully(file));
+		assertArrayEquals(bos2.toByteArray(), IO.readFully(file.toFile()));
 	}
 
 	@Test
 	public void testIncludeAbsolute()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes());
+		final Path includedFile = createFile(CONTENT1.getBytes());
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(pathToString(includedFile).getBytes());
+		bos.write(pathToString(includedFile.toFile()).getBytes());
 
-		final File file = createFile(bos.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos.toByteArray());
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -176,13 +181,14 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDot()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
+		final Path includedFile = createFile(CONTENT1.getBytes(), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(("./" + includedFile.getName()).getBytes());
+		bos.write(("./" + includedFile.getFileName()).getBytes());
 
-		final File file = createFile(bos.toByteArray(), "dir1");
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos.toByteArray(), "dir1");
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -190,14 +196,15 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDotDot()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
+		final Path includedFile = createFile(CONTENT1.getBytes(), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(("../" + includedFile.getParentFile().getName() + "/"
-				+ includedFile.getName()).getBytes());
+		bos.write(("../" + includedFile.getParent().getFileName() + "/"
+				+ includedFile.getFileName()).getBytes());
 
-		final File file = createFile(bos.toByteArray(), "dir2");
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos.toByteArray(), "dir2");
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
@@ -205,13 +212,14 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDotDotNotFound()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes());
+		final Path includedFile = createFile(CONTENT1.getBytes());
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(("../" + includedFile.getName()).getBytes());
+		bos.write(("../" + includedFile.getFileName()).getBytes());
 
-		final File file = createFile(bos.toByteArray());
-		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		final Path file = createFile(bos.toByteArray());
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
 		config.load();
 		assertEquals(null, config.getString(USER, null, NAME));
 	}
@@ -219,30 +227,31 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeWithTilde()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "home");
+		final Path includedFile = createFile(CONTENT1.getBytes(), "home");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(("~/" + includedFile.getName()).getBytes());
+		bos.write(("~/" + includedFile.getFileName()).getBytes());
 
-		final File file = createFile(bos.toByteArray(), "repo");
+		final Path file = createFile(bos.toByteArray(), "repo");
 		final FS fs = FS.DETECTED.newInstance();
-		fs.setUserHome(includedFile.getParentFile());
+		fs.setUserHome(includedFile.getParent().toFile());
 
-		final FileBasedConfig config = new FileBasedConfig(file, fs);
+		final FileBasedConfig config = new FileBasedConfig(file.toFile(), fs);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 	}
 
-	private File createFile(byte[] content) throws IOException {
+	private Path createFile(byte[] content) throws IOException {
 		return createFile(content, null);
 	}
 
-	private File createFile(byte[] content, String subdir) throws IOException {
-		File dir = subdir != null ? new File(trash, subdir) : trash;
-		dir.mkdirs();
+	private Path createFile(byte[] content, String subdir) throws IOException {
+		Path dir = subdir != null ? trash.resolve(subdir) : trash;
+		Files.createDirectories(dir);
 
-		File f = File.createTempFile(getClass().getName(), null, dir);
-		try (FileOutputStream os = new FileOutputStream(f, true)) {
+		Path f = Files.createTempFile(dir, getClass().getName(), null);
+		try (OutputStream os = Files.newOutputStream(f,
+				StandardOpenOption.APPEND)) {
 			os.write(content);
 		}
 		return f;
