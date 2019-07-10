@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Caches when a file was last read, making it possible to detect future edits.
@@ -75,6 +77,7 @@ import org.eclipse.jgit.util.FS;
  * file is less than 3 seconds ago.
  */
 public class FileSnapshot {
+	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
 	/**
 	 * An unknown file size.
 	 *
@@ -230,6 +233,12 @@ public class FileSnapshot {
 		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"file=%s, lastRead=%d ms, lastModified=%d ms, size=%d, fileKey=%s", //$NON-NLS-1$
+					path, Long.valueOf(lastRead), Long.valueOf(lastModified),
+					Long.valueOf(size), fileKey));
+		}
 	}
 
 	private boolean sizeChanged;
@@ -294,7 +303,7 @@ public class FileSnapshot {
 		if (fileKeyChanged) {
 			return true;
 		}
-		lastModifiedChanged = isModified(currLastModified);
+		lastModifiedChanged = isModified(path, currLastModified);
 		if (lastModifiedChanged) {
 			return true;
 		}
@@ -432,14 +441,29 @@ public class FileSnapshot {
 	private boolean isRacyClean(long read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		long delta = (read - lastModified) * 1_000_000;
+		wasRacyClean = delta <= racyNanos;
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(String.format(
+					"read=%d ms, lastModified=%d ms, delta=%d ns, racy<=%d ns, racyClean=%b", //$NON-NLS-1$
+					Long.valueOf(read), Long.valueOf(lastModified),
+					Long.valueOf(delta), Long.valueOf(racyNanos),
+					Boolean.valueOf(wasRacyClean)));
+		}
+		return wasRacyClean;
 	}
 
-	private boolean isModified(long currLastModified) {
+	private boolean isModified(File path, long currLastModified) {
 		// Any difference indicates the path was modified.
 
 		lastModifiedChanged = lastModified != currLastModified;
 		if (lastModifiedChanged) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format(
+						"file=%s, lastModified=%d ms, currLastModified=%d ms", //$NON-NLS-1$
+						path, Long.valueOf(lastModified),
+						Long.valueOf(currLastModified)));
+			}
 			return true;
 		}
 
@@ -447,18 +471,21 @@ public class FileSnapshot {
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
 		if (cannotBeRacilyClean) {
+			LOG.debug(String.format("file=%s, cannot be racily clean", path)); //$NON-NLS-1$
 			return false;
 		}
 		if (!isRacyClean(lastRead)) {
 			// Our last read should have marked cannotBeRacilyClean,
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
+			LOG.debug(String.format("file=%s, unmodified", path)); //$NON-NLS-1$
 			return false;
 		}
 
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
+		LOG.debug(String.format("file=%s, racily clean", path)); //$NON-NLS-1$
 		return true;
 	}
 
