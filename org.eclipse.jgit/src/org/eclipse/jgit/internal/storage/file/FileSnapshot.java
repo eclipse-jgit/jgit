@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -57,6 +58,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Caches when a file was last read, making it possible to detect future edits.
@@ -75,6 +78,8 @@ import org.eclipse.jgit.util.FS;
  * file is less than 3 seconds ago.
  */
 public class FileSnapshot {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FileSnapshot.class);
 	/**
 	 * An unknown file size.
 	 *
@@ -188,17 +193,19 @@ public class FileSnapshot {
 	 */
 	private final Object fileKey;
 
+	private final File file;
+
 	/**
 	 * Record a snapshot for a specific file path.
 	 * <p>
 	 * This method should be invoked before the file is accessed.
 	 *
-	 * @param path
+	 * @param file
 	 *            the path to remember meta data for. The path's current status
 	 *            information is saved.
 	 */
-	protected FileSnapshot(File path) {
-		this(path, true);
+	protected FileSnapshot(File file) {
+		this(file, true);
 	}
 
 	/**
@@ -206,30 +213,35 @@ public class FileSnapshot {
 	 * <p>
 	 * This method should be invoked before the file is accessed.
 	 *
-	 * @param path
+	 * @param file
 	 *            the path to remember meta data for. The path's current status
 	 *            information is saved.
 	 * @param useConfig
 	 *            if {@code true} read filesystem time resolution from
 	 *            configuration file otherwise use fallback resolution
 	 */
-	protected FileSnapshot(File path, boolean useConfig) {
+	protected FileSnapshot(File file, boolean useConfig) {
+		this.file = file;
 		this.lastRead = System.currentTimeMillis();
 		this.fsTimestampResolution = useConfig
-				? FS.getFsTimerResolution(path.toPath().getParent())
+				? FS.getFsTimerResolution(file.toPath().getParent())
 				: FALLBACK_TIMESTAMP_RESOLUTION;
 		BasicFileAttributes fileAttributes = null;
 		try {
-			fileAttributes = FS.DETECTED.fileAttributes(path);
+			fileAttributes = FS.DETECTED.fileAttributes(file);
 		} catch (IOException e) {
-			this.lastModified = path.lastModified();
-			this.size = path.length();
+			this.lastModified = file.lastModified();
+			this.size = file.length();
 			this.fileKey = MISSING_FILEKEY;
 			return;
 		}
 		this.lastModified = fileAttributes.lastModifiedTime().toMillis();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
+		LOG.debug("file={}, create new FileSnapshot: lastRead={} ms" //$NON-NLS-1$
+				+ ", lastModified={} ms, size={}, fileKey={}", //$NON-NLS-1$
+				file, Long.valueOf(lastRead), Long.valueOf(lastModified),
+				Long.valueOf(size), fileKey);
 	}
 
 	private boolean sizeChanged;
@@ -242,6 +254,7 @@ public class FileSnapshot {
 
 	private FileSnapshot(long read, long modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
+		this.file = null;
 		this.lastRead = read;
 		this.lastModified = modified;
 		this.fsTimestampResolution = fsTimestampResolution;
@@ -432,7 +445,14 @@ public class FileSnapshot {
 	private boolean isRacyClean(long read) {
 		// add a 10% safety margin
 		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		long delta = (read - lastModified) * 1_000_000;
+		wasRacyClean = delta <= racyNanos;
+		LOG.debug("file={}, isRacyClean={}, read={} ms, lastModified={} ms," //$NON-NLS-1$
+				+ " delta={} ns, racy<={} ns", //$NON-NLS-1$
+				file, Boolean.valueOf(wasRacyClean), Long.valueOf(read),
+				Long.valueOf(lastModified), Long.valueOf(delta),
+				Long.valueOf(racyNanos));
+		return wasRacyClean;
 	}
 
 	private boolean isModified(long currLastModified) {
@@ -440,6 +460,9 @@ public class FileSnapshot {
 
 		lastModifiedChanged = lastModified != currLastModified;
 		if (lastModifiedChanged) {
+			LOG.debug("file={}, lastModified changed from {} to {}", //$NON-NLS-1$
+					file, Long.valueOf(lastModified),
+					Long.valueOf(currLastModified));
 			return true;
 		}
 
@@ -447,26 +470,40 @@ public class FileSnapshot {
 		// after the last modification that any new modifications
 		// are certain to change the last modified time.
 		if (cannotBeRacilyClean) {
+			LOG.debug("file={}, cannot be racily clean", file); //$NON-NLS-1$
 			return false;
 		}
 		if (!isRacyClean(lastRead)) {
 			// Our last read should have marked cannotBeRacilyClean,
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
+			LOG.debug("file={}, is unmodified", file); //$NON-NLS-1$
 			return false;
 		}
 
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
+		LOG.debug("file={}, is racily clean", file); //$NON-NLS-1$
 		return true;
 	}
 
 	private boolean isFileKeyChanged(Object currFileKey) {
-		return currFileKey != MISSING_FILEKEY && !currFileKey.equals(fileKey);
+		boolean changed = currFileKey != MISSING_FILEKEY
+				&& !currFileKey.equals(fileKey);
+		if (changed) {
+			LOG.debug("file={}, FileKey changed from {} to {}", //$NON-NLS-1$
+					file, fileKey, currFileKey);
+		}
+		return changed;
 	}
 
 	private boolean isSizeChanged(long currSize) {
-		return currSize != UNKNOWN_SIZE && currSize != size;
+		boolean changed = (currSize != UNKNOWN_SIZE) && (currSize != size);
+		if (changed) {
+			LOG.debug("file={}, size changed from {} to {} bytes", //$NON-NLS-1$
+					file, Long.valueOf(size), Long.valueOf(currSize));
+		}
+		return changed;
 	}
 }
