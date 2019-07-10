@@ -65,12 +65,13 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 
 	@Before
 	public void before() throws IOException {
+		dest = createTempFile();
+		FS.getFsTimerResolution(dest.toPath().getParent());
 		project = new Project();
 		project.init();
 		enableLogging();
 		project.addTaskDefinition("git-clone", GitCloneTask.class);
 		task = (GitCloneTask) project.createTask("git-clone");
-		dest = createTempFile();
 		task.setDest(dest);
 	}
 
