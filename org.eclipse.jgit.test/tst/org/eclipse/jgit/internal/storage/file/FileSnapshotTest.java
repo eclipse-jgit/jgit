@@ -45,15 +45,14 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -65,27 +64,24 @@ import org.junit.Test;
 
 public class FileSnapshotTest {
 
-	private List<File> files = new ArrayList<>();
-
-	private File trash;
+	private Path trash;
 
 	@Before
 	public void setUp() throws Exception {
-		trash = File.createTempFile("tmp_", "");
-		trash.delete();
-		assertTrue("mkdir " + trash, trash.mkdir());
+		trash = Files.createTempDirectory("tmp_");
 	}
 
 	@Before
 	@After
 	public void tearDown() throws Exception {
-		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+		FileUtils.delete(trash.toFile(),
+				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
-	private static void waitNextTick(File f) throws IOException {
+	private static void waitNextTick(Path f) throws IOException {
 		Instant initialLastModified = FS.DETECTED.lastModifiedInstant(f);
 		do {
-			FS.DETECTED.setLastModified(f.toPath(), Instant.now());
+			FS.DETECTED.setLastModified(f, Instant.now());
 		} while (FS.DETECTED.lastModifiedInstant(f)
 				.equals(initialLastModified));
 	}
@@ -97,12 +93,12 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testActuallyIsModifiedTrivial() throws Exception {
-		File f1 = createFile("simple");
+		Path f1 = createFile("simple");
 		waitNextTick(f1);
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshot.save(f1.toFile());
 		append(f1, (byte) 'x');
 		waitNextTick(f1);
-		assertTrue(save.isModified(f1));
+		assertTrue(save.isModified(f1.toFile()));
 	}
 
 	/**
@@ -115,11 +111,11 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileWithWait() throws Exception {
-		File f1 = createFile("newfile");
+		Path f1 = createFile("newfile");
 		waitNextTick(f1);
-		FileSnapshot save = FileSnapshot.save(f1);
+		FileSnapshot save = FileSnapshot.save(f1.toFile());
 		Thread.sleep(1500);
-		assertTrue(save.isModified(f1));
+		assertTrue(save.isModified(f1.toFile()));
 	}
 
 	/**
@@ -129,9 +125,9 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
-		File f1 = createFile("newfile");
-		FileSnapshot save = FileSnapshot.save(f1);
-		assertTrue(save.isModified(f1));
+		Path f1 = createFile("newfile");
+		FileSnapshot save = FileSnapshot.save(f1.toFile());
+		assertTrue(save.isModified(f1.toFile()));
 	}
 
 	/**
@@ -145,19 +141,19 @@ public class FileSnapshotTest {
 	@Test
 	public void testSimulatePackfileReplacement() throws Exception {
 		Assume.assumeFalse(SystemReader.getInstance().isWindows());
-		File f1 = createFile("file"); // inode y
-		File f2 = createFile("fool"); // Guarantees new inode x
+		Path f1 = createFile("file"); // inode y
+		Path f2 = createFile("fool"); // Guarantees new inode x
 		// wait on f2 since this method resets lastModified of the file
 		// and leaves lastModified of f1 untouched
 		waitNextTick(f2);
 		waitNextTick(f2);
-		FileTime timestamp = Files.getLastModifiedTime(f1.toPath());
-		FileSnapshot save = FileSnapshot.save(f1);
-		Files.move(f2.toPath(), f1.toPath(), // Now "file" is inode x
+		FileTime timestamp = Files.getLastModifiedTime(f1);
+		FileSnapshot save = FileSnapshot.save(f1.toFile());
+		Files.move(f2, f1, // Now "file" is inode x
 				StandardCopyOption.REPLACE_EXISTING,
 				StandardCopyOption.ATOMIC_MOVE);
-		Files.setLastModifiedTime(f1.toPath(), timestamp);
-		assertTrue(save.isModified(f1));
+		Files.setLastModifiedTime(f1, timestamp);
+		assertTrue(save.isModified(f1.toFile()));
 		assertTrue("unexpected change of fileKey", save.wasFileKeyChanged());
 		assertFalse("unexpected size change", save.wasSizeChanged());
 		assertFalse("unexpected lastModified change",
@@ -174,12 +170,12 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testFileSizeChanged() throws Exception {
-		File f = createFile("file");
-		FileTime timestamp = Files.getLastModifiedTime(f.toPath());
-		FileSnapshot save = FileSnapshot.save(f);
+		Path f = createFile("file");
+		FileTime timestamp = Files.getLastModifiedTime(f);
+		FileSnapshot save = FileSnapshot.save(f.toFile());
 		append(f, (byte) 'x');
-		Files.setLastModifiedTime(f.toPath(), timestamp);
-		assertTrue(save.isModified(f));
+		Files.setLastModifiedTime(f, timestamp);
+		assertTrue(save.isModified(f.toFile()));
 		assertTrue(save.wasSizeChanged());
 	}
 
@@ -194,15 +190,14 @@ public class FileSnapshotTest {
 		assertTrue(fs2.equals(fs1));
 	}
 
-	private File createFile(String string) throws IOException {
-		trash.mkdirs();
-		File f = File.createTempFile(string, "tdat", trash);
-		files.add(f);
-		return f;
+	private Path createFile(String string) throws IOException {
+		Files.createDirectories(trash);
+		return Files.createTempFile(trash, string, "tdat");
 	}
 
-	private static void append(File f, byte b) throws IOException {
-		try (FileOutputStream os = new FileOutputStream(f, true)) {
+	private static void append(Path f, byte b) throws IOException {
+		try (OutputStream os = Files.newOutputStream(f,
+				StandardOpenOption.APPEND)) {
 			os.write(b);
 		}
 	}
