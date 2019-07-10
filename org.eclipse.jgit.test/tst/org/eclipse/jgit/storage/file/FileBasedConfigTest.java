@@ -83,6 +83,7 @@ public class FileBasedConfigTest {
 	@Before
 	public void setUp() throws Exception {
 		trash = Files.createTempDirectory("tmp_");
+		FS.getFsTimerResolution(trash.getParent());
 	}
 
 	@After

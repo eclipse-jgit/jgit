@@ -69,6 +69,9 @@ public class FileSnapshotTest {
 	@Before
 	public void setUp() throws Exception {
 		trash = Files.createTempDirectory("tmp_");
+		// measure timer resolution before the test to avoid time critical tests
+		// are affected by time needed for measurement
+		FS.getFsTimerResolution(trash.getParent());
 	}
 
 	@Before
