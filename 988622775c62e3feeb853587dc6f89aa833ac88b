@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "496c7472_6f7f08b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-10T16:15:41Z",
+      "side": 1,
+      "message": "this is an attempt to ensure we always use the same clock in this measurement, not sure which clock is used in case of remote file systems if we do not explicitly set the timestamp",
+      "parentUuid": "0976f84b_efbd5cad",
+      "range": {
+        "startLine": 307,
+        "startChar": 30,
+        "endLine": 307,
+        "endChar": 35
+      },
+      "revId": "988622775c62e3feeb853587dc6f89aa833ac88b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bd0d4cd_46e617c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-10T10:02:05Z",
       "side": 1,
       "message": "this loop potentially takes 2500_000_000 iterations on MS DOS. \n\nHow about increasing the delta exponentially? Maybe in steps of *2 and *5 so you get rounded 1ms granularity.",
+      "range": {
+        "startLine": 312,
+        "startChar": 17,
+        "endLine": 312,
+        "endChar": 26
+      },
+      "revId": "988622775c62e3feeb853587dc6f89aa833ac88b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dd21bbf_778a64f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-10T16:15:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bd0d4cd_46e617c4",
       "range": {
         "startLine": 312,
         "startChar": 17,
