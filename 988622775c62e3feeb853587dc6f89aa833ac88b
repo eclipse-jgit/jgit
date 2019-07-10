@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9f32b60e_861e6be8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-10T17:16:55Z",
+      "side": 1,
+      "message": "I still don\u0027t see where the clock is involved.  You\u0027re just measuring how the filesystem rounds input file stamps\n\nIt\u0027s not super important, but I don\u0027t understand what you mean with \"same clock\", or why it makes a difference.",
+      "parentUuid": "496c7472_6f7f08b2",
+      "range": {
+        "startLine": 307,
+        "startChar": 30,
+        "endLine": 307,
+        "endChar": 35
+      },
+      "revId": "988622775c62e3feeb853587dc6f89aa833ac88b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bd0d4cd_46e617c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 3
