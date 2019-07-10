@@ -16,6 +16,24 @@
       "revId": "f922dda28b477d99b44b5df039f107424cf903c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f94440_14229454",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostUploadHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-10T21:35:10Z",
+      "side": 1,
+      "message": "Done (and the same for PreUploadHookChain)",
+      "parentUuid": "9dbc0b8f_47455b83",
+      "revId": "f922dda28b477d99b44b5df039f107424cf903c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
