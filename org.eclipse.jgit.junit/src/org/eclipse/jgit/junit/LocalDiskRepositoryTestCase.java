@@ -148,6 +148,10 @@ public abstract class LocalDiskRepositoryTestCase {
 		c.setPackedGitMMAP(useMMAP);
 		c.setDeltaBaseCacheLimit(8 * WindowCacheConfig.KB);
 		c.install();
+
+		// measure timer resolution before the test to avoid time critical tests
+		// are affected by time needed for measurement
+		FS.getFsTimerResolution(tmp.toPath());
 	}
 
 	/**
