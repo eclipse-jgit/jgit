@@ -52,7 +52,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
+import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -66,12 +68,14 @@ public class FileSnapshotTest {
 
 	private Path trash;
 
+	private Duration fsTimerResolution;
+
 	@Before
 	public void setUp() throws Exception {
 		trash = Files.createTempDirectory("tmp_");
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		FS.getFsTimerResolution(trash.getParent());
+		fsTimerResolution = FS.getFsTimerResolution(trash.getParent());
 	}
 
 	@Before
@@ -114,10 +118,14 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileWithWait() throws Exception {
+		// if filesystem timestamp resolution is high the snapshot won't be
+		// racily clean
+		Assume.assumeTrue(
+				fsTimerResolution.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
 		waitNextTick(f1);
 		FileSnapshot save = FileSnapshot.save(f1.toFile());
-		Thread.sleep(1500);
+		TimeUnit.NANOSECONDS.sleep(fsTimerResolution.dividedBy(2).toNanos());
 		assertTrue(save.isModified(f1.toFile()));
 	}
 
@@ -128,6 +136,10 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
+		// if filesystem timestamp resolution is high the snapshot won't be
+		// racily clean
+		Assume.assumeTrue(
+				fsTimerResolution.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
 		FileSnapshot save = FileSnapshot.save(f1.toFile());
 		assertTrue(save.isModified(f1.toFile()));
