@@ -127,6 +127,10 @@ public abstract class LocalDiskRepositoryTestCase {
 		if (!tmp.delete() || !tmp.mkdir())
 			throw new IOException("Cannot create " + tmp);
 
+		// measure timer resolution before the test to avoid time critical tests
+		// are affected by time needed for measurement
+		FS.getFsTimerResolution(tmp.toPath().getParent());
+
 		mockSystemReader = new MockSystemReader();
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
 				"usergitconfig"), FS.DETECTED);
