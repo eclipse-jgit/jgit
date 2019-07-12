@@ -116,8 +116,7 @@ public class TreeRevFilter extends RevFilter {
 	 * @param rewriteFlag
 	 *            flag to color commits to be removed from the simplified DAT.
 	 */
-	TreeRevFilter(final RevWalk walker, final TreeFilter t,
-			final int rewriteFlag) {
+	TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag) {
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
@@ -137,14 +136,15 @@ public class TreeRevFilter extends RevFilter {
 			IncorrectObjectTypeException, IOException {
 		// Reset the tree filter to scan this commit and parents.
 		//
-		final RevCommit[] pList = c.parents;
-		final int nParents = pList.length;
-		final TreeWalk tw = pathFilter;
-		final ObjectId[] trees = new ObjectId[nParents + 1];
+		RevCommit[] pList = c.parents;
+		int nParents = pList.length;
+		TreeWalk tw = pathFilter;
+		ObjectId[] trees = new ObjectId[nParents + 1];
 		for (int i = 0; i < nParents; i++) {
-			final RevCommit p = c.parents[i];
-			if ((p.flags & PARSED) == 0)
+			RevCommit p = c.parents[i];
+			if ((p.flags & PARSED) == 0) {
 				p.parseHeaders(walker);
+			}
 			trees[i] = p.getTree();
 		}
 		trees[nParents] = c.getTree();
@@ -156,10 +156,11 @@ public class TreeRevFilter extends RevFilter {
 			int chgs = 0, adds = 0;
 			while (tw.next()) {
 				chgs++;
-				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0)
+				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
 					adds++;
-				else
+				} else {
 					break; // no point in looking at this further.
+				}
 			}
 
 			if (chgs == 0) {
@@ -185,8 +186,9 @@ public class TreeRevFilter extends RevFilter {
 			// We have no parents to compare against. Consider us to be
 			// REWRITE only if we have no paths matching our filter.
 			//
-			if (tw.next())
+			if (tw.next()) {
 				return true;
+			}
 			c.flags |= rewriteFlag;
 			return false;
 		}
@@ -196,18 +198,19 @@ public class TreeRevFilter extends RevFilter {
 		// it does not contribute changes to us. Such a parent may be an
 		// uninteresting side branch.
 		//
-		final int[] chgs = new int[nParents];
-		final int[] adds = new int[nParents];
+		int[] chgs = new int[nParents];
+		int[] adds = new int[nParents];
 		while (tw.next()) {
-			final int myMode = tw.getRawMode(nParents);
+			int myMode = tw.getRawMode(nParents);
 			for (int i = 0; i < nParents; i++) {
-				final int pMode = tw.getRawMode(i);
-				if (myMode == pMode && tw.idEqual(i, nParents))
+				int pMode = tw.getRawMode(i);
+				if (myMode == pMode && tw.idEqual(i, nParents)) {
 					continue;
-
+				}
 				chgs[i]++;
-				if (pMode == 0 && myMode != 0)
+				if (pMode == 0 && myMode != 0) {
 					adds[i]++;
+				}
 			}
 		}
 
@@ -220,7 +223,7 @@ public class TreeRevFilter extends RevFilter {
 				// parent commit.
 				//
 
-				final RevCommit p = pList[i];
+				RevCommit p = pList[i];
 				if ((p.flags & UNINTERESTING) != 0) {
 					// This parent was marked as not interesting by the
 					// application. We should look for another parent
