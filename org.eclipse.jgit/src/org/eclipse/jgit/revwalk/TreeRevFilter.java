@@ -238,15 +238,6 @@ public class TreeRevFilter extends RevFilter {
 				return false;
 			}
 
-			if (chgs[i] == adds[i]) {
-				// All of the differences from this parent were because we
-				// added files that they did not have. This parent is our
-				// "empty tree root" and thus their history is not relevant.
-				// Cut our grandparents to be an empty list.
-				//
-				pList[i].parents = RevCommit.NO_PARENTS;
-			}
-
 			// We have an interesting difference relative to this parent.
 			//
 			diff = true;
