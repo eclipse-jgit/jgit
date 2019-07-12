@@ -71,6 +71,7 @@ import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -644,6 +645,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(B, all.get(HEAD).getObjectId());
 	}
 
+	@Repeat(n = 100, abortOnFailure = false)
 	@Test
 	public void testGetRef_DiscoversModifiedLoose() throws IOException {
 		Map<String, Ref> all;
