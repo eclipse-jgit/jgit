@@ -56,4 +56,12 @@ public @interface Repeat {
 	 * Number of repetitions
 	 */
 	public abstract int n();
+
+	/**
+	 * Whether to abort execution on first test failure
+	 * 
+	 * @return {@code true} if execution should be aborted on the first failure,
+	 *         otherwise count failures and continue execution
+	 */
+	public boolean abortOnFailure() default true;
 }
