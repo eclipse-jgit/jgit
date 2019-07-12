@@ -165,6 +165,7 @@ public class TreeRevFilter extends RevFilter {
 		// it does not contribute changes to us. Such a parent may be an
 		// uninteresting side branch.
 		//
+		int[] same = new int[nParents];
 		int[] chgs = new int[nParents];
 		int[] adds = new int[nParents];
 		while (tw.next()) {
@@ -172,6 +173,7 @@ public class TreeRevFilter extends RevFilter {
 			for (int i = 0; i < nParents; i++) {
 				int pMode = tw.getRawMode(i);
 				if (myMode == pMode && tw.idEqual(i, nParents)) {
+					same[i]++;
 					continue;
 				}
 				chgs[i]++;
@@ -181,8 +183,11 @@ public class TreeRevFilter extends RevFilter {
 			}
 		}
 
-		boolean same = false;
-		boolean diff = false;
+		// If this commit is TREESAME to at least one interesting parent, we can
+		// omit this commit and follow that parent.
+		// It this commit is NOT TREESAME with any parent, we emit it as it is.
+		boolean hasSameParent = false;
+		boolean hasDiffParent = false;
 		for (int i = 0; i < nParents; i++) {
 			if (chgs[i] == 0) {
 				// No changes, so our tree is effectively the same as
@@ -196,7 +201,7 @@ public class TreeRevFilter extends RevFilter {
 					// application. We should look for another parent
 					// that is interesting.
 					//
-					same = true;
+					hasSameParent = true;
 					continue;
 				}
 
@@ -204,22 +209,19 @@ public class TreeRevFilter extends RevFilter {
 				c.parents = new RevCommit[] { p };
 				return false;
 			}
-
-			if (chgs[i] == adds[i]) {
-				// All of the differences from this parent were because we
-				// added files that they did not have. This parent is our
-				// "empty tree root" and thus their history is not relevant.
-				// Cut our grandparents to be an empty list.
-				//
+			if (chgs[i] == adds[i] && same[i] == 0) {
+				// All content in the path is newly added for this parent.
+				// It is not contributing anything to the path history. Do not
+				// follow it.
 				pList[i].parents = RevCommit.NO_PARENTS;
 			}
 
 			// We have an interesting difference relative to this parent.
 			//
-			diff = true;
+			hasDiffParent = true;
 		}
 
-		if (diff && !same) {
+		if (hasDiffParent && !hasSameParent) {
 			// We did not abort above, so we are different in at least one
 			// way from all of our parents. We have to take the blame for
 			// that difference.
