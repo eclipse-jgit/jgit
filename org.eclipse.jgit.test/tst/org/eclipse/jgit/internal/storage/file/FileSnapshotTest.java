@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.junit.JGitTestUtil.read;
+import static org.eclipse.jgit.junit.JGitTestUtil.write;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -56,15 +60,21 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.junit.RepeatRule;
+import org.eclipse.jgit.junit.Stats;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class FileSnapshotTest {
+
+	@Rule
+	public RepeatRule rule = new RepeatRule();
 
 	private Path trash;
 
@@ -203,6 +213,32 @@ public class FileSnapshotTest {
 
 		assertTrue(fs1.equals(fs2));
 		assertTrue(fs2.equals(fs1));
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void detectFileModified() throws IOException {
+		int failures = 0;
+		long racyNanos = 0;
+		Stats stats = new Stats();
+		for (int i = 0; i < 10000; i++) {
+			File f = createFile("test").toFile();
+			write(f, "a");
+			FileSnapshot snapshot = FileSnapshot.save(f);
+			assertEquals("a", read(f));
+			write(f, "b");
+			if (!snapshot.isModified(f)) {
+				stats.add(snapshot.wasDelta());
+				racyNanos = snapshot.wasRacyNanos();
+			}
+		}
+		if (stats.count() > 0) {
+			System.out.println(String.format(
+					"racyNanos=%,d, failures=%d, min=%,d, max=%,d, avg=%f, stddev=%f",
+					racyNanos, failures, stats.min(), stats.max(),
+					stats.avg(), stats.stddev()));
+		}
+		assertTrue(failures == 0);
 	}
 
 	private Path createFile(String string) throws IOException {
