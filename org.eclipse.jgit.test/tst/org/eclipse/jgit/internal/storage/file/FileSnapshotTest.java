@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.junit.JGitTestUtil.read;
+import static org.eclipse.jgit.junit.JGitTestUtil.write;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -54,17 +58,23 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Stats;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileSnapshotTest {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FileSnapshotTest.class);
 
 	private Path trash;
 
@@ -203,6 +213,48 @@ public class FileSnapshotTest {
 
 		assertTrue(fs1.equals(fs2));
 		assertTrue(fs2.equals(fs1));
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void detectFileModified() throws IOException {
+		int failures = 0;
+		long racyNanos = 0;
+		final int COUNT = 10000;
+		ArrayList<Long> deltas = new ArrayList<>();
+		File f = createFile("test").toFile();
+		for (int i = 0; i < COUNT; i++) {
+			write(f, "a");
+			FileSnapshot snapshot = FileSnapshot.save(f);
+			assertEquals("file should contain 'a'", "a", read(f));
+			write(f, "b");
+			if (!snapshot.isModified(f)) {
+				deltas.add(snapshot.lastDelta());
+				racyNanos = snapshot.lastRacyNanos();
+				failures++;
+			}
+			assertEquals("file should contain 'b'", "b", read(f));
+		}
+		if (failures > 0) {
+			Stats stats = new Stats();
+			LOG.debug(
+					"delta [ns] since modification FileSnapshot failed to detect");
+			for (Long d : deltas) {
+				stats.add(d);
+				LOG.debug(String.format("%,d", d));
+			}
+			LOG.error(
+					"count, failures, racy limit [ns], delta min [ns],"
+							+ " delta max [ns], delta avg [ns],"
+							+ " delta stddev [ns]");
+			LOG.error(String.format(
+					"%,d, %,d, %,d, %,.0f, %,.0f, %,.0f, %,.0f", COUNT,
+					failures, racyNanos, stats.min(), stats.max(),
+					stats.avg(), stats.stddev()));
+		}
+		assertTrue(
+				"FileSnapshot: number of failures to detect file modifications should be 0",
+				failures == 0);
 	}
 
 	private Path createFile(String string) throws IOException {
