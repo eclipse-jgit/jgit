@@ -226,4 +226,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/Stats.java" type="org.eclipse.jgit.util.Stats">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="org.eclipse.jgit.util.Stats"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
