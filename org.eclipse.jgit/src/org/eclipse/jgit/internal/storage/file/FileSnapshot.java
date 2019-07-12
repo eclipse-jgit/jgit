@@ -285,6 +285,10 @@ public class FileSnapshot {
 
 	private boolean wasRacyClean;
 
+	private long delta;
+
+	private long racyNanos;
+
 	private FileSnapshot(Instant read, Instant modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
 		this.file = null;
@@ -468,6 +472,21 @@ public class FileSnapshot {
 		return wasRacyClean;
 	}
 
+	/**
+	 * @return the delta in nanoseconds between lastModified and lastRead during
+	 *         last racy check
+	 */
+	long wasDelta() {
+		return delta;
+	}
+
+	/**
+	 * @return the racyNanos threshold in nanoseconds during last racy check
+	 */
+	long wasRacyNanos() {
+		return racyNanos;
+	}
+
 	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
@@ -487,8 +506,8 @@ public class FileSnapshot {
 
 	private boolean isRacyClean(Instant read) {
 		// add a 10% safety margin
-		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		long delta = Duration.between(lastModified, read).toNanos();
+		racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
+		delta = Duration.between(lastModified, read).toNanos();
 		wasRacyClean = delta <= racyNanos;
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(String.format(
