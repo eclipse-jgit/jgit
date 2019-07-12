@@ -198,6 +198,7 @@ public class TreeRevFilter extends RevFilter {
 		// it does not contribute changes to us. Such a parent may be an
 		// uninteresting side branch.
 		//
+		int[] sameTree = new int[nParents];
 		int[] chgs = new int[nParents];
 		int[] adds = new int[nParents];
 		while (tw.next()) {
@@ -205,6 +206,7 @@ public class TreeRevFilter extends RevFilter {
 			for (int i = 0; i < nParents; i++) {
 				int pMode = tw.getRawMode(i);
 				if (myMode == pMode && tw.idEqual(i, nParents)) {
+					sameTree[i]++;
 					continue;
 				}
 				chgs[i]++;
@@ -237,8 +239,7 @@ public class TreeRevFilter extends RevFilter {
 				c.parents = new RevCommit[] { p };
 				return false;
 			}
-
-			if (chgs[i] == adds[i]) {
+			if ((chgs[i] == adds[i]) && (sameTree[i] == 0)) {
 				// All of the differences from this parent were because we
 				// added files that they did not have. This parent is our
 				// "empty tree root" and thus their history is not relevant.
