@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.junit.JGitTestUtil.read;
+import static org.eclipse.jgit.junit.JGitTestUtil.write;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -54,10 +58,12 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Stats;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Assume;
@@ -203,6 +209,40 @@ public class FileSnapshotTest {
 
 		assertTrue(fs1.equals(fs2));
 		assertTrue(fs2.equals(fs1));
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void detectFileModified() throws IOException {
+		int failures = 0;
+		long racyNanos = 0;
+		ArrayList<Long> deltas = new ArrayList<>();
+		for (int i = 0; i < 10000; i++) {
+			File f = createFile("test").toFile();
+			write(f, "a");
+			FileSnapshot snapshot = FileSnapshot.save(f);
+			assertEquals("a", read(f));
+			write(f, "b");
+			if (!snapshot.isModified(f)) {
+				deltas.add(snapshot.wasDelta());
+				racyNanos = snapshot.wasRacyNanos();
+				failures++;
+			}
+		}
+		if (failures > 0) {
+			Stats stats = new Stats();
+			for (Long d : deltas) {
+				stats.add(d);
+			}
+			System.out.println(String.format(
+					"racyNanos=%,d, failures=%,d, min=%,f, max=%,f, avg=%,f, "
+							+ "stddev=%,f, avg-3stddev=%,f, avg+3stddev=%,f",
+					racyNanos, failures, stats.min(), stats.max(),
+					stats.avg(), stats.stddev(),
+					stats.avg() - 3 * stats.stddev(),
+					stats.avg() + 3 * stats.stddev()));
+		}
+		assertTrue(failures == 0);
 	}
 
 	private Path createFile(String string) throws IOException {
