@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.eclipse.jgit.junit.JGitTestUtil.write;
+import static org.eclipse.jgit.junit.JGitTestUtil.read;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -56,15 +60,21 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.junit.Repeat;
+import org.eclipse.jgit.junit.RepeatRule;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class FileSnapshotTest {
+
+	@Rule
+	public RepeatRule rule = new RepeatRule();
 
 	private Path trash;
 
@@ -203,6 +213,20 @@ public class FileSnapshotTest {
 
 		assertTrue(fs1.equals(fs2));
 		assertTrue(fs2.equals(fs1));
+	}
+
+	@Repeat(n = 10000, abortOnFailure = false)
+	@Test
+	public void detectFileModified() throws IOException {
+		File f = createFile("test").toFile();
+		write(f, "a");
+		FileSnapshot snapshot = FileSnapshot.save(f);
+		assertEquals("a", read(f));
+		write(f, "b");
+		assertTrue(snapshot.isModified(f));
+		// enable this on filesystem with high timestamp resolution
+		// assertFalse(snapshot.wasLastModifiedRacilyClean());
+		assertEquals("b", read(f));
 	}
 
 	private Path createFile(String string) throws IOException {
