@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f1d0130_f841d5e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-13T00:18:47Z",
+      "side": 0,
+      "message": "This is an important optimization: if there are no files in the parent matching the pathspec (modified or not) then we really do want to stop walking here and set parents \u003d NO_PARENTS.\n\nWe should keep the optimization, just not the buggy form that restricts its attention to modified files.",
+      "revId": "848d9f0d71e07b1f0a36df78e85c7663156f49b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
