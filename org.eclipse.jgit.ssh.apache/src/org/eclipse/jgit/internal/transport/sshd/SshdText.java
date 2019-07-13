@@ -83,6 +83,9 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String proxySocksUnexpectedMessage;
 	/***/ public String proxySocksUnexpectedVersion;
 	/***/ public String proxySocksUsernameTooLong;
+	/***/ public String serverIdNotReceived;
+	/***/ public String serverIdTooLong;
+	/***/ public String serverIdWithNul;
 	/***/ public String sessionCloseFailed;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
