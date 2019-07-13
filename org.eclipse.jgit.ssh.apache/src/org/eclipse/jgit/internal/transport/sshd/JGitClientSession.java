@@ -98,7 +98,7 @@ public class JGitClientSession extends ClientSessionImpl {
 
 	private CredentialsProvider credentialsProvider;
 
-	private StatefulProxyConnector proxyHandler;
+	private volatile StatefulProxyConnector proxyHandler;
 
 	/**
 	 * @param manager
