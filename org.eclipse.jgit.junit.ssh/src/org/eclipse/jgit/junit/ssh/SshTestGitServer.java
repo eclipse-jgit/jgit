@@ -58,6 +58,7 @@ import java.util.Locale;
 
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
@@ -69,6 +70,7 @@ import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.common.util.threads.CloseableExecutorService;
 import org.apache.sshd.common.util.threads.ThreadUtils;
 import org.apache.sshd.server.ServerAuthenticationManager;
+import org.apache.sshd.server.ServerFactoryManager;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
@@ -340,6 +342,22 @@ public class SshTestGitServer {
 			throws IOException, GeneralSecurityException {
 		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
 				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+	}
+
+	/**
+	 * Sets the lines the server sends before its server identification in the
+	 * initial protocol version exchange.
+	 *
+	 * @param lines
+	 *            to send
+	 * @since 5.5
+	 */
+	public void setPreamble(String... lines) {
+		if (lines != null && lines.length > 0) {
+			PropertyResolverUtils.updateProperty(this.server,
+					ServerFactoryManager.SERVER_EXTRA_IDENTIFICATION_LINES,
+					String.join("|", lines));
+		}
 	}
 
 	private class GitUploadPackCommand extends AbstractCommandSupport {
