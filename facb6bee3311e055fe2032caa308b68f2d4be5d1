@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eb88aac_5280314e",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/log4j.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:08:25Z",
+      "side": 1,
+      "message": "I know that turning on buffering was important when we inspected timer behaviour with trace statements. But I am not sure whether we always want buffered traces. In other situations where we don\u0027t fight with such hard timing issues we may want the standard behaviour of log4j which is unbuffered. Imagine you inspect the traces of a running server but you don\u0027t see records you expect because the server has not yet filled his buffer and has therefore not flushed all available traces.",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20d6ebbf_0a65b193",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:08:25Z",
+      "side": 1,
+      "message": "Should this be the FS class? Wouldn\u0027t FileSnapshot class be better?",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6fa2e11_04a4f750",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:08:25Z",
+      "side": 1,
+      "message": "Why is the paramater called path. file would bet better.",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced11451_234a85c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:08:25Z",
+      "side": 1,
+      "message": "isRacyClean? To be consistent with the method name?",
+      "range": {
+        "startLine": 451,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 14
+      },
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8deda8c_e2d01d85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:08:25Z",
+      "side": 1,
+      "message": "You are using the pattern\n\n  if (LOG.isDebugEnabled()) {  \n    LOG.debug(String.format(\"..%s..%s..\", a, b, ...));\n  }\n\nquite often. I think that is bad practice (unless a,b are expensive to evaluate) and we should use the slf4j way to format parameterised strings. Like in:\n\n  LOG.debug(\"..{}..{}..\", a, b, ...)\n\nIf a,b are inexpensive to evaulate then that is not much more expensive than your code but easier to read. Your code also triggers twice the check for logging level (in isDebugEnabled() and in debug()\nOnly if in our example computing a,b is already expensive than we anyhow need the \"if ...isDebugEnabled\" and we don\u0027t gain much using slf4j parameterised strings.\n\n[1] https://stackoverflow.com/a/53677315/3967955\n[2] http://iks.cs.ovgu.de/~elkner/tmp/slf4j/faq.html#logging_performance",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
