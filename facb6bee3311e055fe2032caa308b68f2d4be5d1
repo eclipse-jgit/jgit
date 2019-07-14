@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33277250_664c0178",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/log4j.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T22:28:44Z",
+      "side": 1,
+      "message": "ok, I\u0027ll comment this out, so we can reenable this easily",
+      "parentUuid": "6eb88aac_5280314e",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20d6ebbf_0a65b193",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 5
