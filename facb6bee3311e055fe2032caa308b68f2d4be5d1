@@ -150,6 +150,24 @@
       "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "371116da_24241629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T22:27:09Z",
+      "side": 1,
+      "message": "maybe the source code is easier to read, but the resulting log lines will be less readable since the slf4j logging has no formatting options. will give it a try",
+      "parentUuid": "b8deda8c_e2d01d85",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
