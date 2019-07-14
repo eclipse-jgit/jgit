@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78fe9760_e84c7259",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T21:10:08Z",
+      "side": 1,
+      "message": "\u0027to later remember\u0027 sounds strange. We\u0027ll remember the path instantaneously.",
+      "range": {
+        "startLine": 210,
+        "startChar": 27,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "742aad86_92ae19f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T21:10:08Z",
+      "side": 1,
+      "message": "add a space after the .",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce91db22_684f05c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T21:10:08Z",
+      "side": 1,
+      "message": "I am not sure whether these system properties are mandatory. At least for  java.vendor.version I read they are only mandatory since java 10. At least we should protect against NPEs if they are unset.",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffa99c8e_1348344f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T21:10:08Z",
+      "side": 1,
+      "message": "Good for now. But it looks a little bit strange that we are implementing retry logic for config file reading in a method specific for dealing with one specific config parameter. Not sure that what we implement here would be more helpful in general config reading code.",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
