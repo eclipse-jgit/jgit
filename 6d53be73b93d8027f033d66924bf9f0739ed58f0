@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "aec0f929_560b82a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:38:44Z",
+      "side": 1,
+      "message": "I read http://openjdk.5641.n7.nabble.com/13-RFR-XXS-8197927-Allow-the-system-property-java-vendor-version-to-be-undefined-td380823.html#a380953 and got scared. Sadly OpenJDK bugtracker is currently offline so I can\u0027t follow the CSR.",
+      "parentUuid": "33a75f20_5da64312",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffa99c8e_1348344f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 12
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "I do this here since we potentially run multiple measuring threads concurrently (one per filesystem) hence likelihood of failing here is higher than usual. Actually I observed lock failures using Java 11 on Mac, probably since file timestamp resolution is high (implements timestamp resolution can be measured very quickly).\n\nI agree this retry logic could be generalised. But that\u0027s not in the scope of this change.",
       "parentUuid": "ffa99c8e_1348344f",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67086860_db5ddefb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-14T22:38:44Z",
+      "side": 1,
+      "message": "I agree. Maybe in a followup",
+      "parentUuid": "9f9bfb6a_56ac2c18",
       "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
