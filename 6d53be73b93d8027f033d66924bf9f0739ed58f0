@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7b8dca9_3d221643",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T21:57:28Z",
+      "side": 1,
+      "message": "done, this strange sentence existed before, fixed now",
+      "parentUuid": "78fe9760_e84c7259",
+      "range": {
+        "startLine": 210,
+        "startChar": 27,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "742aad86_92ae19f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 12
@@ -36,6 +60,24 @@
       "writtenOn": "2019-07-14T21:10:08Z",
       "side": 1,
       "message": "add a space after the .",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63292f3e_a3c856b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T21:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "742aad86_92ae19f3",
       "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "33a75f20_5da64312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T21:57:28Z",
+      "side": 1,
+      "message": "according to [1] java.vm.vendor and java.vm.version are guaranteed which are implementation vendor and implementation version, so I\u0027ll change to these properties\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#getProperties--\nhttps://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#getProperties()",
+      "parentUuid": "ce91db22_684f05c3",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffa99c8e_1348344f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 12
@@ -70,6 +130,24 @@
       "writtenOn": "2019-07-14T21:10:08Z",
       "side": 1,
       "message": "Good for now. But it looks a little bit strange that we are implementing retry logic for config file reading in a method specific for dealing with one specific config parameter. Not sure that what we implement here would be more helpful in general config reading code.",
+      "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f9bfb6a_56ac2c18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T21:57:28Z",
+      "side": 1,
+      "message": "I do this here since we potentially run multiple measuring threads concurrently (one per filesystem) hence likelihood of failing here is higher than usual. Actually I observed lock failures using Java 11 on Mac, probably since file timestamp resolution is high (implements timestamp resolution can be measured very quickly).\n\nI agree this retry logic could be generalised. But that\u0027s not in the scope of this change.",
+      "parentUuid": "ffa99c8e_1348344f",
       "revId": "6d53be73b93d8027f033d66924bf9f0739ed58f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
