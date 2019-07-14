@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d1fafc46_65a5318e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T22:24:12Z",
+      "side": 1,
+      "message": "fixed already in PS 6",
+      "parentUuid": "20d6ebbf_0a65b193",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6fa2e11_04a4f750",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1fc69034_80125211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T22:24:12Z",
+      "side": 1,
+      "message": "it\u0027s called like this since a long time (also see the other constructor) and I didn\u0027t think about renaming it.",
+      "parentUuid": "c6fa2e11_04a4f750",
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ced11451_234a85c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 5
@@ -64,6 +100,30 @@
       "writtenOn": "2019-07-14T22:08:25Z",
       "side": 1,
       "message": "isRacyClean? To be consistent with the method name?",
+      "range": {
+        "startLine": 451,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 14
+      },
+      "revId": "facb6bee3311e055fe2032caa308b68f2d4be5d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccc2ebeb_db599743",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-14T22:24:12Z",
+      "side": 1,
+      "message": "I chose the past tense to express this is the result of the last execution of isRacyClean, this method is used by tests to analyze the reason why isLastModified() returned true",
+      "parentUuid": "ced11451_234a85c3",
       "range": {
         "startLine": 451,
         "startChar": 2,
