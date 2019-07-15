@@ -130,7 +130,7 @@ public abstract class LocalDiskRepositoryTestCase {
 
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		FS.getFsTimerResolution(tmp.toPath().getParent());
+		FS.getFileStoreAttributeCache(tmp.toPath().getParent());
 
 		mockSystemReader = new MockSystemReader();
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
