@@ -151,7 +151,7 @@ public abstract class LocalDiskRepositoryTestCase {
 
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		FS.getFsTimerResolution(tmp.toPath());
+		FS.getFileStoreAttributeCache(tmp.toPath());
 	}
 
 	/**
