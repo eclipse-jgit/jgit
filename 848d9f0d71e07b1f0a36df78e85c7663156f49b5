@@ -16,6 +16,24 @@
       "revId": "848d9f0d71e07b1f0a36df78e85c7663156f49b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "767d796e_21629daa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-15T17:38:44Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "7f1d0130_f841d5e8",
+      "revId": "848d9f0d71e07b1f0a36df78e85c7663156f49b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
