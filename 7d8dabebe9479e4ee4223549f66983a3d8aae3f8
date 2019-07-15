@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45f54680_ba80ec0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-15T20:06:51Z",
+      "side": 1,
+      "message": "\"setUse\" sounds weird. I would use one of them. \n\nAfter some offline explanations, maybe \"useSidebandLineFormat\" or \"useSidebandFormat\" would be more descriptive?",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 27
+      },
+      "revId": "7d8dabebe9479e4ee4223549f66983a3d8aae3f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
