@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a68ceffa_326e2ed0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-15T20:03:58Z",
+      "side": 1,
+      "message": "This description is confusing to me: isn\u0027t it about if the tree was introduced in the first place in this commit (i.e. not about all changes being additions, but about all content being newly added)?",
+      "revId": "08fe213facff308a08d44037b1f4e8658fb164f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
