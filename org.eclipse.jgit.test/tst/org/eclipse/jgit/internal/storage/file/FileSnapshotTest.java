@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.FileStoreAttributeCache;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Stats;
 import org.eclipse.jgit.util.SystemReader;
@@ -78,14 +79,15 @@ public class FileSnapshotTest {
 
 	private Path trash;
 
-	private Duration fsTimerResolution;
+	private FileStoreAttributeCache fsAttrCache;
 
 	@Before
 	public void setUp() throws Exception {
 		trash = Files.createTempDirectory("tmp_");
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		fsTimerResolution = FS.getFsTimerResolution(trash.getParent());
+		fsAttrCache = FS
+				.getFileStoreAttributeCache(trash.getParent());
 	}
 
 	@Before
@@ -131,11 +133,13 @@ public class FileSnapshotTest {
 		// if filesystem timestamp resolution is high the snapshot won't be
 		// racily clean
 		Assume.assumeTrue(
-				fsTimerResolution.compareTo(Duration.ofMillis(10)) > 0);
+				fsAttrCache.getFsTimestampResolution()
+						.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
 		waitNextTick(f1);
 		FileSnapshot save = FileSnapshot.save(f1.toFile());
-		TimeUnit.NANOSECONDS.sleep(fsTimerResolution.dividedBy(2).toNanos());
+		TimeUnit.NANOSECONDS.sleep(
+				fsAttrCache.getFsTimestampResolution().dividedBy(2).toNanos());
 		assertTrue(save.isModified(f1.toFile()));
 	}
 
@@ -149,7 +153,8 @@ public class FileSnapshotTest {
 		// if filesystem timestamp resolution is high the snapshot won't be
 		// racily clean
 		Assume.assumeTrue(
-				fsTimerResolution.compareTo(Duration.ofMillis(10)) > 0);
+				fsAttrCache.getFsTimestampResolution()
+						.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
 		FileSnapshot save = FileSnapshot.save(f1.toFile());
 		assertTrue(save.isModified(f1.toFile()));
@@ -230,7 +235,7 @@ public class FileSnapshotTest {
 			write(f, "b");
 			if (!snapshot.isModified(f)) {
 				deltas.add(snapshot.lastDelta());
-				racyNanos = snapshot.lastRacyNanos();
+				racyNanos = snapshot.lastRacyThreshold();
 				failures++;
 			}
 			assertEquals("file should contain 'b'", "b", read(f));
@@ -244,7 +249,7 @@ public class FileSnapshotTest {
 				LOG.debug(String.format("%,d", d));
 			}
 			LOG.error(
-					"count, failures, racy limit [ns], delta min [ns],"
+					"count, failures, eff. racy threshold [ns], delta min [ns],"
 							+ " delta max [ns], delta avg [ns],"
 							+ " delta stddev [ns]");
 			LOG.error(String.format(
@@ -253,7 +258,14 @@ public class FileSnapshotTest {
 					stats.avg(), stats.stddev()));
 		}
 		assertTrue(
-				"FileSnapshot: number of failures to detect file modifications should be 0",
+				String.format(
+						"FileSnapshot: failures to detect file modifications"
+								+ " %d out of %d\n"
+								+ "timestamp resolution %d µs"
+								+ " min racy threshold %d µs"
+						, failures, COUNT,
+						fsAttrCache.getFsTimestampResolution().toNanos() / 1000,
+						fsAttrCache.getMinimalRacyInterval().toNanos() / 1000),
 				failures == 0);
 	}
 
