@@ -338,6 +338,16 @@ public class SshTestGitServer {
 		server.stop(true);
 	}
 
+	/**
+	 * Sets the test user's public key on the server.
+	 *
+	 * @param key
+	 *            to set
+	 * @throws IOException
+	 *             if the file cannot be read
+	 * @throws GeneralSecurityException
+	 *             if the public key cannot be extracted from the file
+	 */
 	public void setTestUserPublicKey(Path key)
 			throws IOException, GeneralSecurityException {
 		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
