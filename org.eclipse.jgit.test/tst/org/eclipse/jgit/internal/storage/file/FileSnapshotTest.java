@@ -85,7 +85,8 @@ public class FileSnapshotTest {
 		trash = Files.createTempDirectory("tmp_");
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		fsTimerResolution = FS.getFsTimerResolution(trash);
+		fsTimerResolution = FS.getFileStoreAttributeCache(trash)
+				.getFsTimestampResolution();
 	}
 
 	@Before
@@ -230,7 +231,7 @@ public class FileSnapshotTest {
 			write(f, "b");
 			if (!snapshot.isModified(f)) {
 				deltas.add(snapshot.wasDelta());
-				racyNanos = snapshot.wasRacyNanos();
+				racyNanos = snapshot.wasRacyThreshold();
 				failures++;
 			}
 			assertEquals("file should contain 'b'", "b", read(f));
