@@ -56,14 +56,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="FALLBACK_TIMESTAMP_RESOLUTION"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/GitmoduleEntry.java" type="org.eclipse.jgit.lib.GitmoduleEntry">
         <filter id="1109393411">
             <message_arguments>
@@ -182,6 +174,12 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
+                <message_argument value="getFileStoreAttributeCache(Path)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
                 <message_argument value="lastModifiedInstant(File)"/>
             </message_arguments>
         </filter>
@@ -203,18 +201,20 @@
                 <message_argument value="setLastModified(Path, Instant)"/>
             </message_arguments>
         </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.2.3"/>
-                <message_argument value="getFsTimerResolution(Path)"/>
-            </message_arguments>
-        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$Attributes">
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributeCache">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="FileStoreAttributeCache"/>
             </message_arguments>
         </filter>
     </resource>
