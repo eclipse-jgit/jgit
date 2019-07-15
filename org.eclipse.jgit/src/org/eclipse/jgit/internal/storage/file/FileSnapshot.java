@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
+import static org.eclipse.jgit.util.FS.FileStoreAttributeCache.FALLBACK_FILESTORE_ATTRIBUTES;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.FileStoreAttributeCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -213,8 +214,8 @@ public class FileSnapshot {
 	 * When set to {@link #UNKNOWN_SIZE} the size is not considered for modification checks. */
 	private final long size;
 
-	/** measured filesystem timestamp resolution */
-	private Duration fsTimestampResolution;
+	/** measured FileStore attributes */
+	private FileStoreAttributeCache fileStoreAttributeCache;
 
 	/**
 	 * Object that uniquely identifies the given file, or {@code
@@ -252,9 +253,9 @@ public class FileSnapshot {
 	protected FileSnapshot(File file, boolean useConfig) {
 		this.file = file;
 		this.lastRead = Instant.now();
-		this.fsTimestampResolution = useConfig
-				? FS.getFsTimerResolution(file.toPath().getParent())
-				: FALLBACK_TIMESTAMP_RESOLUTION;
+		this.fileStoreAttributeCache = useConfig
+				? FS.getFileStoreAttributeCache(file.toPath().getParent())
+				: FALLBACK_FILESTORE_ATTRIBUTES;
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(file);
@@ -285,14 +286,15 @@ public class FileSnapshot {
 
 	private long delta;
 
-	private long racyNanos;
+	private long racyThreshold;
 
 	private FileSnapshot(Instant read, Instant modified, long size,
 			@NonNull Duration fsTimestampResolution, @NonNull Object fileKey) {
 		this.file = null;
 		this.lastRead = read;
 		this.lastModified = modified;
-		this.fsTimestampResolution = fsTimestampResolution;
+		this.fileStoreAttributeCache = new FileStoreAttributeCache(
+				fsTimestampResolution);
 		this.size = size;
 		this.fileKey = fileKey;
 	}
@@ -397,9 +399,10 @@ public class FileSnapshot {
 	 *             if sleep was interrupted
 	 */
 	public void waitUntilNotRacy() throws InterruptedException {
+		long timestampResolution = fileStoreAttributeCache
+				.getFsTimestampResolution().toNanos();
 		while (isRacyClean(Instant.now())) {
-			TimeUnit.NANOSECONDS
-					.sleep((fsTimestampResolution.toNanos() + 1) * 11 / 10);
+			TimeUnit.NANOSECONDS.sleep(timestampResolution);
 		}
 	}
 
@@ -474,15 +477,16 @@ public class FileSnapshot {
 	 * @return the delta in nanoseconds between lastModified and lastRead during
 	 *         last racy check
 	 */
-	long lastDelta() {
+	public long lastDelta() {
 		return delta;
 	}
 
 	/**
-	 * @return the racyNanos threshold in nanoseconds during last racy check
+	 * @return the racyLimitNanos threshold in nanoseconds during last racy
+	 *         check
 	 */
-	long lastRacyNanos() {
-		return racyNanos;
+	public long lastRacyThreshold() {
+		return racyThreshold;
 	}
 
 	/** {@inheritDoc} */
@@ -501,18 +505,26 @@ public class FileSnapshot {
 	}
 
 	private boolean isRacyClean(Instant read) {
-		// add a 10% safety margin
-		racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
+		racyThreshold = getEffectiveRacyThreshold();
 		delta = Duration.between(lastModified, read).toNanos();
-		wasRacyClean = delta <= racyNanos;
+		wasRacyClean = delta <= racyThreshold;
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(
 					"file={}, isRacyClean={}, read={}, lastModified={}, delta={} ns, racy<={} ns", //$NON-NLS-1$
 					file, Boolean.valueOf(wasRacyClean), dateFmt.format(read),
 					dateFmt.format(lastModified), Long.valueOf(delta),
-					Long.valueOf(racyNanos));
+					Long.valueOf(racyThreshold));
 		}
 		return wasRacyClean;
+	}
+
+	private long getEffectiveRacyThreshold() {
+		long timestampResolution = fileStoreAttributeCache
+				.getFsTimestampResolution().toNanos();
+		long minRacyInterval = fileStoreAttributeCache.getMinimalRacyInterval()
+				.toNanos();
+		// add a 30% safety margin
+		return Math.max(timestampResolution, minRacyInterval) * 13 / 10;
 	}
 
 	private boolean isModified(Instant currLastModified) {

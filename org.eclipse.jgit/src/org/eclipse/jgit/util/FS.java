@@ -45,7 +45,6 @@ package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.Instant.EPOCH;
-import static org.eclipse.jgit.lib.Constants.FALLBACK_TIMESTAMP_RESOLUTION;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -55,7 +54,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
@@ -68,6 +69,7 @@ import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +96,7 @@ import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -200,10 +203,23 @@ public abstract class FS {
 		}
 	}
 
-	private static final class FileStoreAttributeCache {
+	/**
+	 * Attributes of FileStores on this system
+	 *
+	 * @since 5.1.9
+	 */
+	public final static class FileStoreAttributeCache {
 
 		private static final Duration UNDEFINED_RESOLUTION = Duration
 				.ofNanos(Long.MAX_VALUE);
+
+		/**
+		 * Fallback FileStore attributes used when we can't measure the
+		 * filesystem timestamp resolution. The last modified time granularity
+		 * of FAT filesystems is 2 seconds.
+		 */
+		public static final FileStoreAttributeCache FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributeCache(
+				Duration.ofMillis(2000));
 
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
@@ -216,36 +232,58 @@ public abstract class FS {
 		}
 
 		private static final String javaVersionPrefix = System
-				.getProperty("java.vm.vendor") + '|' //$NON-NLS-1$
-				+ System.getProperty("java.vm.version") + '|'; //$NON-NLS-1$
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
 
-		private static Duration getFsTimestampResolution(Path file) {
-			file = file.toAbsolutePath();
-			Path dir = Files.isDirectory(file) ? file : file.getParent();
+		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
+				.ofMillis(10);
+
+		/**
+		 * @param path
+		 *            file residing in the FileStore to get attributes for
+		 * @return FileStoreAttributeCache entry for the given path.
+		 */
+		public static FileStoreAttributeCache get(Path path) {
+			path = path.toAbsolutePath();
+			Path dir = Files.isDirectory(path) ? path : path.getParent();
+			return getFileAttributeCache(dir);
+		}
+
+		private static FileStoreAttributeCache getFileAttributeCache(Path dir) {
 			FileStore s;
 			try {
 				if (Files.exists(dir)) {
 					s = Files.getFileStore(dir);
 					FileStoreAttributeCache c = attributeCache.get(s);
 					if (c != null) {
-						return c.getFsTimestampResolution();
+						return c;
 					}
 					if (!Files.isWritable(dir)) {
 						// cannot measure resolution in a read-only directory
-						return FALLBACK_TIMESTAMP_RESOLUTION;
+						LOG.debug(
+								"{}: cannot measure timestamp resolution in read-only directory {}", //$NON-NLS-1$
+								Thread.currentThread(), dir);
+						return FALLBACK_FILESTORE_ATTRIBUTES;
 					}
 				} else {
 					// cannot determine FileStore of an unborn directory
-					return FALLBACK_TIMESTAMP_RESOLUTION;
+					LOG.debug(
+							"{}: cannot measure timestamp resolution of unborn directory {}", //$NON-NLS-1$
+							Thread.currentThread(), dir);
+					return FALLBACK_FILESTORE_ATTRIBUTES;
 				}
-				CompletableFuture<Optional<Duration>> f = CompletableFuture
+				CompletableFuture<Optional<FileStoreAttributeCache>> f = CompletableFuture
 						.supplyAsync(() -> {
 							Lock lock = locks.computeIfAbsent(s,
 									l -> new ReentrantLock());
 							if (!lock.tryLock()) {
+								LOG.debug(
+										"{}: couldn't get lock to measure timestamp resolution in {}", //$NON-NLS-1$
+										Thread.currentThread(), dir);
 								return Optional.empty();
 							}
-							Optional<Duration> resolution;
+							Optional<FileStoreAttributeCache> cache = Optional
+									.empty();
 							try {
 								// Some earlier future might have set the value
 								// and removed itself since we checked for the
@@ -253,28 +291,36 @@ public abstract class FS {
 								FileStoreAttributeCache c = attributeCache
 										.get(s);
 								if (c != null) {
-									return Optional
-											.of(c.getFsTimestampResolution());
+									return Optional.of(c);
 								}
-								resolution = measureFsTimestampResolution(s,
-										dir);
+								Optional<Duration> resolution = measureFsTimestampResolution(
+										s, dir);
 								if (resolution.isPresent()) {
-									FileStoreAttributeCache cache = new FileStoreAttributeCache(
+									c = new FileStoreAttributeCache(
 											resolution.get());
-									attributeCache.put(s, cache);
-									if (LOG.isDebugEnabled()) {
-										LOG.debug(cache.toString());
+									attributeCache.put(s, c);
+									// for high timestamp resolution measure
+									// minimal racy interval
+									if (c.fsTimestampResolution
+											.toNanos() < 100_000_000L) {
+										c.minimalRacyInterval = measureMinimalRacyInterval(
+											dir);
 									}
+									if (LOG.isDebugEnabled()) {
+										LOG.debug(c.toString());
+									}
+									cache = Optional.of(c);
 								}
 							} finally {
 								lock.unlock();
 								locks.remove(s);
 							}
-							return resolution;
+							return cache;
 						});
 				// even if measuring in background wait a little - if the result
 				// arrives, it's better than returning the large fallback
-				Optional<Duration> d = f.get(background.get() ? 50 : 2000,
+				Optional<FileStoreAttributeCache> d = f.get(
+						background.get() ? 100 : 5000,
 						TimeUnit.MILLISECONDS);
 				if (d.isPresent()) {
 					return d.get();
@@ -286,11 +332,79 @@ public abstract class FS {
 			} catch (TimeoutException | SecurityException e) {
 				// use fallback
 			}
-			return FALLBACK_TIMESTAMP_RESOLUTION;
+			LOG.debug("{}: use fallback timestamp resolution for directory {}", //$NON-NLS-1$
+					Thread.currentThread(), dir);
+			return FALLBACK_FILESTORE_ATTRIBUTES;
+		}
+
+		@SuppressWarnings("boxing")
+		private static Duration measureMinimalRacyInterval(Path dir) {
+			LOG.debug("{}: start measure minimal racy interval in {}", //$NON-NLS-1$
+					Thread.currentThread(), dir);
+			int failures = 0;
+			long racyNanos = 0;
+			final int COUNT = 1000;
+			ArrayList<Long> deltas = new ArrayList<>();
+			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			try {
+				Files.createFile(probe);
+				for (int i = 0; i < COUNT; i++) {
+					write(probe, "a"); //$NON-NLS-1$
+					FileSnapshot snapshot = FileSnapshot.save(probe.toFile());
+					read(probe);
+					write(probe, "b"); //$NON-NLS-1$
+					if (!snapshot.isModified(probe.toFile())) {
+						deltas.add(Long.valueOf(snapshot.lastDelta()));
+						racyNanos = snapshot.lastRacyThreshold();
+						failures++;
+					}
+				}
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
+				return FALLBACK_MIN_RACY_INTERVAL;
+			} finally {
+				deleteProbe(probe);
+			}
+			if (failures > 0) {
+				Stats stats = new Stats();
+				for (Long d : deltas) {
+					stats.add(d);
+				}
+				LOG.debug(
+						"delta [ns] since modification FileSnapshot failed to detect\n" //$NON-NLS-1$
+								+ "count, failures, racy limit [ns], delta min [ns]," //$NON-NLS-1$
+								+ " delta max [ns], delta avg [ns]," //$NON-NLS-1$
+								+ " delta stddev [ns]\n" //$NON-NLS-1$
+								+ "{}, {}, {}, {}, {}, {}, {}", //$NON-NLS-1$
+						COUNT, failures, racyNanos, stats.min(), stats.max(),
+						stats.avg(), stats.stddev());
+				return Duration
+						.ofNanos(Double.valueOf(stats.max()).longValue());
+			}
+			// since no failures occurred using the measured filesystem
+			// timestamp resolution there is no need for minimal racy interval
+			LOG.debug("{}: no failures when measuring minimal racy interval", //$NON-NLS-1$
+					Thread.currentThread());
+			return Duration.ZERO;
+		}
+
+		private static void write(Path p, String body) throws IOException {
+			FileUtils.mkdirs(p.getParent().toFile(), true);
+			try (Writer w = new OutputStreamWriter(Files.newOutputStream(p),
+					UTF_8)) {
+				w.write(body);
+			}
+		}
+
+		private static String read(Path p) throws IOException {
+			final byte[] body = IO.readFully(p.toFile());
+			return new String(body, 0, body.length, UTF_8);
 		}
 
 		private static Optional<Duration> measureFsTimestampResolution(
 			FileStore s, Path dir) {
+			LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
+					Thread.currentThread(), s, dir);
 			Duration configured = readFileTimeResolution(s);
 			if (!UNDEFINED_RESOLUTION.equals(configured)) {
 				return Optional.of(configured);
@@ -310,6 +424,8 @@ public abstract class FS {
 				Duration clockResolution = measureClockResolution();
 				fsResolution = fsResolution.plus(clockResolution);
 				saveFileTimeResolution(s, fsResolution);
+				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
+						Thread.currentThread(), s, dir);
 				return Optional.of(fsResolution);
 			} catch (AccessDeniedException e) {
 				LOG.warn(e.getLocalizedMessage(), e); // see bug 548648
@@ -424,21 +540,45 @@ public abstract class FS {
 
 		private final @NonNull Duration fsTimestampResolution;
 
+		private Duration minimalRacyInterval;
+
+		/**
+		 * @return the measured minimal interval after a file has been modified
+		 *         in which we cannot rely on lastModified to detect
+		 *         modifications
+		 */
+		public Duration getMinimalRacyInterval() {
+			return minimalRacyInterval;
+		}
+
+		/**
+		 * @return the measured filesystem timestamp resolution
+		 */
 		@NonNull
-		Duration getFsTimestampResolution() {
+		public Duration getFsTimestampResolution() {
 			return fsTimestampResolution;
 		}
 
-		private FileStoreAttributeCache(
+		/**
+		 * Construct a FileStoreAttributeCache entry for the given filesystem
+		 * timestamp resolution
+		 *
+		 * @param fsTimestampResolution
+		 */
+		public FileStoreAttributeCache(
 				@NonNull Duration fsTimestampResolution) {
 			this.fsTimestampResolution = fsTimestampResolution;
+			this.minimalRacyInterval = Duration.ZERO;
 		}
 
-		@SuppressWarnings("nls")
+		@SuppressWarnings({ "nls", "boxing" })
 		@Override
 		public String toString() {
-			return "FileStoreAttributeCache [fsTimestampResolution="
-					+ fsTimestampResolution + "]";
+			return String.format(
+					"FileStoreAttributeCache[fsTimestampResolution=%,d µs, "
+							+ "minimalRacyInterval=%,d µs]",
+					fsTimestampResolution.toNanos() / 1000,
+					minimalRacyInterval.toNanos() / 1000);
 		}
 
 	}
@@ -507,10 +647,11 @@ public abstract class FS {
 	 *            the directory under which the probe file will be created to
 	 *            measure the timer resolution.
 	 * @return measured filesystem timestamp resolution
-	 * @since 5.2.3
+	 * @since 5.1.9
 	 */
-	public static Duration getFsTimerResolution(@NonNull Path dir) {
-		return FileStoreAttributeCache.getFsTimestampResolution(dir);
+	public static FileStoreAttributeCache getFileStoreAttributeCache(
+			@NonNull Path dir) {
+		return FileStoreAttributeCache.get(dir);
 	}
 
 	private volatile Holder<File> userHome;
