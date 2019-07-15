@@ -151,7 +151,7 @@ public abstract class LocalDiskRepositoryTestCase {
 
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
-		FS.getFsTimerResolution(tmp.toPath());
+		FS.getFileStoreAttributeCache(tmp.toPath());
 	}
 
 	/**
@@ -237,23 +237,16 @@ public abstract class LocalDiskRepositoryTestCase {
 	private static boolean recursiveDelete(final File dir,
 			boolean silent, boolean failOnError) {
 		assert !(silent && failOnError);
-		if (!dir.exists())
-			return silent;
-		final File[] ls = dir.listFiles();
-		if (ls != null)
-			for (int k = 0; k < ls.length; k++) {
-				final File e = ls[k];
-				if (e.isDirectory())
-					silent = recursiveDelete(e, silent, failOnError);
-				else if (!e.delete()) {
-					if (!silent)
-						reportDeleteFailure(failOnError, e);
-					silent = !failOnError;
-				}
+		try {
+			int options = FileUtils.RECURSIVE | FileUtils.RETRY;
+			if (silent) {
+				options |= FileUtils.SKIP_MISSING;
 			}
-		if (!dir.delete()) {
-			if (!silent)
+			FileUtils.delete(dir, options);
+		} catch (IOException e) {
+			if (!silent) {
 				reportDeleteFailure(failOnError, dir);
+			}
 			silent = !failOnError;
 		}
 		return silent;
