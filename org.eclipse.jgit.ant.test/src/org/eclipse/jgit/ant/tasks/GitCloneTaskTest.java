@@ -72,7 +72,7 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 		task = (GitCloneTask) project.createTask("git-clone");
 		dest = createTempFile();
 		task.setDest(dest);
-		FS.getFsTimerResolution(dest.toPath());
+		FS.getFileStoreAttributeCache(dest.toPath());
 	}
 
 	@Test(expected = BuildException.class)
