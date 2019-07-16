@@ -46,6 +46,30 @@
       "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "131065d4_85bd1969",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-16T19:32:40Z",
+      "side": 1,
+      "message": "half related: can we take the chance to split the UploadPack setup from sending the lines?\n\nThis would make tests clearer and maybe hint some further reorganization (too many tests here)",
+      "parentUuid": "f21a5278_25886315",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 473,
+        "endChar": 23
+      },
+      "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
