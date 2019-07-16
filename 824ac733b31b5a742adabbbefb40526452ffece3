@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f19ae77d_01dbdc81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-16T10:07:30Z",
+      "side": 1,
+      "message": "What made you change your mind? (I agree, of course. Just wondering.)\n\nMy reasoning: it was probably int _because_ resLen is used as array size below and because of the comparison against array lengths, and it being int is also the reason why this code uses |\u003d instead of +\u003d as elsewhere.",
+      "parentUuid": "2268d102_50ddb05c",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0428e01_e0212f6a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
         "patchSetId": 2
