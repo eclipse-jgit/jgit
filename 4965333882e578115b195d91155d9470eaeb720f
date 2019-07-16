@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0668809f_40f6f417",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-16T04:52:03Z",
+      "side": 1,
+      "message": "Done. I called this \"same\" (it fits also with the 4-char names of the other arrays).\n\nI renamed the later \"same\" boolean to \"sameThanAParent\".",
+      "parentUuid": "6c115376_dc9b6624",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 16
+      },
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44046d44_8c826e62",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "4965333882e578115b195d91155d9470eaeb720f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7721ed9d_268a20a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-16T04:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44046d44_8c826e62",
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "4965333882e578115b195d91155d9470eaeb720f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c155f7be_08ccf4de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-16T04:52:03Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2a8fe6df_b5f0175f",
+      "range": {
+        "startLine": 243,
+        "startChar": 7,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
