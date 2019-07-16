@@ -51,6 +51,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -237,35 +238,30 @@ public abstract class LocalDiskRepositoryTestCase {
 	private static boolean recursiveDelete(final File dir,
 			boolean silent, boolean failOnError) {
 		assert !(silent && failOnError);
-		if (!dir.exists())
-			return silent;
-		final File[] ls = dir.listFiles();
-		if (ls != null)
-			for (int k = 0; k < ls.length; k++) {
-				final File e = ls[k];
-				if (e.isDirectory())
-					silent = recursiveDelete(e, silent, failOnError);
-				else if (!e.delete()) {
-					if (!silent)
-						reportDeleteFailure(failOnError, e);
-					silent = !failOnError;
-				}
-			}
-		if (!dir.delete()) {
-			if (!silent)
-				reportDeleteFailure(failOnError, dir);
-			silent = !failOnError;
+		int options = FileUtils.RECURSIVE | FileUtils.RETRY
+				| FileUtils.SKIP_MISSING;
+		if (silent) {
+			options |= FileUtils.IGNORE_ERRORS;
 		}
-		return silent;
+		try {
+			FileUtils.delete(dir, options);
+		} catch (IOException e) {
+			reportDeleteFailure(failOnError, dir, e);
+			return !failOnError;
+		}
+		return true;
 	}
 
-	private static void reportDeleteFailure(boolean failOnError, File e) {
+	private static void reportDeleteFailure(boolean failOnError, File f,
+			Exception cause) {
 		String severity = failOnError ? "ERROR" : "WARNING";
-		String msg = severity + ": Failed to delete " + e;
-		if (failOnError)
+		String msg = severity + ": Failed to delete " + f;
+		if (failOnError) {
 			fail(msg);
-		else
+		} else {
 			System.err.println(msg);
+		}
+		cause.printStackTrace(new PrintStream(System.err));
 	}
 
 	/** Constant <code>MOD_TIME=1</code> */
