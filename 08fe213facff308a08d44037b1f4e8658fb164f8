@@ -16,6 +16,24 @@
       "revId": "08fe213facff308a08d44037b1f4e8658fb164f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb0e337_dc8c112b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-16T00:18:44Z",
+      "side": 1,
+      "message": "Indeed, this commit message was wrong.\n\nThe fix here is to ignore a parent when the child commit has additions *and nothing else*. This second part was missing before.",
+      "parentUuid": "a68ceffa_326e2ed0",
+      "revId": "08fe213facff308a08d44037b1f4e8658fb164f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
