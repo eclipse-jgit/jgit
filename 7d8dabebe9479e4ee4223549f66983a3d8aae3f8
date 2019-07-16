@@ -22,6 +22,30 @@
       "revId": "7d8dabebe9479e4ee4223549f66983a3d8aae3f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9a9c30_b96526ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-16T18:24:31Z",
+      "side": 1,
+      "message": "Changed to useSidebandFormat. I\u0027ve also added a reference to the documentation in Git about sideband-all - hopefully that will make things clearer if someone else looks at this commit.",
+      "parentUuid": "45f54680_ba80ec0f",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 27
+      },
+      "revId": "7d8dabebe9479e4ee4223549f66983a3d8aae3f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
