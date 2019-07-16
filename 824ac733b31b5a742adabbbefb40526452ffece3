@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "20390223_e32abbc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-16T10:51:09Z",
+      "side": 1,
+      "message": "After removing the unnecessary casts that you pointed out, the error prone warning is no longer triggered.  Removing the cast is a less invasive change than what I did before, hence I decided it\u0027s better.  Plus, as you said, it was probably int because of the array indexing below.",
+      "parentUuid": "f19ae77d_01dbdc81",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0428e01_e0212f6a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
         "patchSetId": 2
