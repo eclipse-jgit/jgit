@@ -70,6 +70,30 @@
       "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "552bf90f_2ebbeb9f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-16T19:34:12Z",
+      "side": 1,
+      "message": "There is already a separate uploadPackV2Setup that other tests can use - would that be sufficient? (Even if that isn\u0027t, maybe this can wait until we have a test that needs such separation.)",
+      "parentUuid": "131065d4_85bd1969",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 473,
+        "endChar": 23
+      },
+      "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
