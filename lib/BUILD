@@ -12,6 +12,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.archive:__pkg__",
         "//org.eclipse.jgit.pgm.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@commons-compress//jar"],
 )
