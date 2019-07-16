@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa673023_da263a4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-16T07:42:20Z",
+      "side": 1,
+      "message": "Actually, here Shawn\u0027s addition of the cast was not necessary. With baseLen an int and accumulating the value using binary or, there is no overflow problem and the cast to long here can just be removed. If baseLen is changed to long, then the cast is needed to avoid sign extension after the shift.",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13bae204_a671b8db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-16T07:42:20Z",
+      "side": 1,
+      "message": "This code path is used only in tests, and in PackParser, where an explicit length check is done first. But if resLen is a long and we cast to int here I wonder what should happen if resLen \u003e Integer.MAX_VALUE.",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3265cf_1e2d6eae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilterMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-16T07:42:20Z",
+      "side": 1,
+      "message": "Instead of casting can\u0027t we just omit the \"L\"?",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
