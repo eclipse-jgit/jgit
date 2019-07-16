@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "00ef7ecd_3155191b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-16T08:38:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure if making this an int was intentional.  In the similar code in other parts of this file it\u0027s declared as long.",
+      "parentUuid": "fa673023_da263a4f",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0428e01_e0212f6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-16T08:38:56Z",
+      "side": 1,
+      "message": "Same as above.  The only difference in other parts is that it isn\u0027t used as an array index like at L163.",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 6
+      },
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13bae204_a671b8db",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BinaryDelta.java",
         "patchSetId": 2
@@ -47,6 +88,24 @@
       "writtenOn": "2019-07-16T07:42:20Z",
       "side": 1,
       "message": "Instead of casting can\u0027t we just omit the \"L\"?",
+      "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0db7765_3302c6e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilterMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-16T08:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce3265cf_1e2d6eae",
       "revId": "824ac733b31b5a742adabbbefb40526452ffece3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
