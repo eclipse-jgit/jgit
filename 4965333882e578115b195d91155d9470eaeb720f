@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c115376_dc9b6624",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-16T00:52:50Z",
+      "side": 1,
+      "message": "Some of these are blobs, not trees. So perhaps: int[] same \u003d new int[nParents]?",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 16
+      },
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44046d44_8c826e62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-16T00:52:50Z",
+      "side": 1,
+      "message": "nit: unnecessary parens. can write\n\n  if (chgs[i] \u003d\u003d adds[i] \u0026\u0026 same[i] \u003d\u003d 0) {\n    ...\n  }",
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a8fe6df_b5f0175f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-16T00:52:50Z",
+      "side": 1,
+      "message": "This comment is out of date.",
+      "range": {
+        "startLine": 243,
+        "startChar": 7,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "4965333882e578115b195d91155d9470eaeb720f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
