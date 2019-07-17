@@ -203,7 +203,7 @@ public class FSTest {
 				.ofPattern("uuuu-MMM-dd HH:mm:ss.nnnnnnnnn", Locale.ENGLISH)
 				.withZone(ZoneId.systemDefault());
 		Path dir = Files.createTempDirectory("probe-filesystem");
-		Duration resolution = FS.getFileStoreAttributeCache(dir)
+		Duration resolution = FS.getFileStoreAttributes(dir)
 				.getFsTimestampResolution();
 		long resolutionNs = resolution.toNanos();
 		assertTrue(resolutionNs > 0);
