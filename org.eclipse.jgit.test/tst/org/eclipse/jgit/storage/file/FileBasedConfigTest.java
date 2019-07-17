@@ -89,7 +89,7 @@ public class FileBasedConfigTest {
 	@After
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash.toFile(),
-				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING | FileUtils.RETRY);
 	}
 
 	@Test
