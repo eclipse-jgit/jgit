@@ -62,7 +62,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FS.FileStoreAttributeCache;
+import org.eclipse.jgit.util.FS.FileStoreAttributes;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Stats;
 import org.eclipse.jgit.util.SystemReader;
@@ -79,7 +79,7 @@ public class FileSnapshotTest {
 
 	private Path trash;
 
-	private FileStoreAttributeCache fsAttrCache;
+	private FileStoreAttributes fsAttrCache;
 
 	@Before
 	public void setUp() throws Exception {
@@ -87,7 +87,7 @@ public class FileSnapshotTest {
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
 		fsAttrCache = FS
-				.getFileStoreAttributeCache(trash.getParent());
+				.getFileStoreAttributes(trash.getParent());
 	}
 
 	@Before
