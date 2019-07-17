@@ -52,6 +52,12 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
+                <message_argument value="CONFIG_KEY_MIN_RACY_THRESHOLD"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
                 <message_argument value="CONFIG_KEY_TIMESTAMP_RESOLUTION"/>
             </message_arguments>
         </filter>
@@ -174,7 +180,7 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
-                <message_argument value="getFileStoreAttributeCache(Path)"/>
+                <message_argument value="getFileStoreAttributes(Path, boolean)"/>
             </message_arguments>
         </filter>
         <filter id="1142947843">
@@ -192,7 +198,7 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
-                <message_argument value="setAsyncfileStoreAttrCache(boolean)"/>
+                <message_argument value="setAsyncFileStoreAttributes(boolean)"/>
             </message_arguments>
         </filter>
         <filter id="1142947843">
@@ -210,11 +216,11 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributeCache">
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributes">
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
-                <message_argument value="FileStoreAttributeCache"/>
+                <message_argument value="FileStoreAttributes"/>
             </message_arguments>
         </filter>
     </resource>
