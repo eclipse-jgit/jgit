@@ -43,8 +43,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.util.FS.FileStoreAttributeCache.FALLBACK_FILESTORE_ATTRIBUTES;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -58,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FS.FileStoreAttributeCache;
+import org.eclipse.jgit.util.FS.FileStoreAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -215,7 +213,7 @@ public class FileSnapshot {
 	private final long size;
 
 	/** measured FileStore attributes */
-	private FileStoreAttributeCache fileStoreAttributeCache;
+	private FileStoreAttributes fileStoreAttributeCache;
 
 	/**
 	 * Object that uniquely identifies the given file, or {@code
@@ -253,9 +251,8 @@ public class FileSnapshot {
 	protected FileSnapshot(File file, boolean useConfig) {
 		this.file = file;
 		this.lastRead = Instant.now();
-		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributeCache(file.toPath().getParent())
-				: FALLBACK_FILESTORE_ATTRIBUTES;
+		this.fileStoreAttributeCache = FS.getFileStoreAttributes(
+				file.toPath().getParent(), useConfig);
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(file);
@@ -293,7 +290,7 @@ public class FileSnapshot {
 		this.file = null;
 		this.lastRead = read;
 		this.lastModified = modified;
-		this.fileStoreAttributeCache = new FileStoreAttributeCache(
+		this.fileStoreAttributeCache = new FileStoreAttributes(
 				fsTimestampResolution);
 		this.size = size;
 		this.fileKey = fileKey;
