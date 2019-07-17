@@ -210,7 +210,7 @@ public abstract class FS {
 	 */
 	public final static class FileStoreAttributeCache {
 
-		private static final Duration UNDEFINED_RESOLUTION = Duration
+		private static final Duration UNDEFINED_DURATION = Duration
 				.ofNanos(Long.MAX_VALUE);
 
 		/**
@@ -232,8 +232,8 @@ public abstract class FS {
 		}
 
 		private static final String javaVersionPrefix = System
-				.getProperty("java.vm.vendor") + '|' //$NON-NLS-1$
-				+ System.getProperty("java.vm.version") + '|'; //$NON-NLS-1$
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
 
 		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
 				.ofMillis(10);
@@ -293,6 +293,11 @@ public abstract class FS {
 								if (c != null) {
 									return Optional.of(c);
 								}
+								cache = readFromConfig(s);
+								if (cache.isPresent()) {
+									return cache;
+								}
+
 								Optional<Duration> resolution = measureFsTimestampResolution(
 										s, dir);
 								if (resolution.isPresent()) {
@@ -304,13 +309,17 @@ public abstract class FS {
 									if (c.fsTimestampResolution
 											.toNanos() < 100_000_000L) {
 										c.minimalRacyInterval = measureMinimalRacyInterval(
-											dir);
+												dir);
 									}
 									if (LOG.isDebugEnabled()) {
 										LOG.debug(c.toString());
 									}
+									saveToConfig(s, c);
 									cache = Optional.of(c);
 								}
+								cache = Optional.of(c);
+							} catch (Throwable e) {
+								LOG.error(e.getLocalizedMessage(), e);
 							} finally {
 								lock.unlock();
 								locks.remove(s);
@@ -320,7 +329,7 @@ public abstract class FS {
 				// even if measuring in background wait a little - if the result
 				// arrives, it's better than returning the large fallback
 				Optional<FileStoreAttributeCache> d = f.get(
-						background.get() ? 100 : 5000,
+						background.get() ? 100 : 30000,
 						TimeUnit.MILLISECONDS);
 				if (d.isPresent()) {
 					return d.get();
@@ -343,7 +352,7 @@ public abstract class FS {
 					Thread.currentThread(), dir);
 			int failures = 0;
 			long racyNanos = 0;
-			final int COUNT = 1000;
+			final int COUNT = 10000;
 			ArrayList<Long> deltas = new ArrayList<>();
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
@@ -405,10 +414,6 @@ public abstract class FS {
 			FileStore s, Path dir) {
 			LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
 					Thread.currentThread(), s, dir);
-			Duration configured = readFileTimeResolution(s);
-			if (!UNDEFINED_RESOLUTION.equals(configured)) {
-				return Optional.of(configured);
-			}
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
 				Files.createFile(probe);
@@ -423,7 +428,6 @@ public abstract class FS {
 				Duration fsResolution = Duration.between(t1.toInstant(), t2.toInstant());
 				Duration clockResolution = measureClockResolution();
 				fsResolution = fsResolution.plus(clockResolution);
-				saveFileTimeResolution(s, fsResolution);
 				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
 						Thread.currentThread(), s, dir);
 				return Optional.of(fsResolution);
@@ -454,16 +458,16 @@ public abstract class FS {
 		}
 
 		private static void deleteProbe(Path probe) {
-			if (Files.exists(probe)) {
-				try {
-					Files.delete(probe);
-				} catch (IOException e) {
-					LOG.error(e.getLocalizedMessage(), e);
-				}
+			try {
+				FileUtils.delete(probe.toFile(),
+						FileUtils.SKIP_MISSING | FileUtils.RETRY);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
 			}
 		}
 
-		private static Duration readFileTimeResolution(FileStore s) {
+		private static Optional<FileStoreAttributeCache> readFromConfig(
+				FileStore s) {
 			FileBasedConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
 			try {
@@ -477,49 +481,65 @@ public abstract class FS {
 						userConfig.getFile().getAbsolutePath(),
 						e.getMessage()));
 			}
-			Duration configured = Duration
-					.ofNanos(userConfig.getTimeUnit(
-							ConfigConstants.CONFIG_FILESYSTEM_SECTION,
-							javaVersionPrefix + s.name(),
-							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
-							UNDEFINED_RESOLUTION.toNanos(),
-							TimeUnit.NANOSECONDS));
-			return configured;
+			String key = getConfigKey(s);
+			Duration resolution = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			if (UNDEFINED_DURATION.equals(resolution)) {
+				return Optional.empty();
+			}
+			Duration minRacyThreshold = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			FileStoreAttributeCache c = new FileStoreAttributeCache(resolution);
+			if (!UNDEFINED_DURATION.equals(minRacyThreshold)) {
+				c.minimalRacyInterval = minRacyThreshold;
+			}
+			return Optional.of(c);
 		}
 
-		private static void saveFileTimeResolution(FileStore s,
-				Duration resolution) {
+		private static void saveToConfig(FileStore s,
+				FileStoreAttributeCache c) {
 			FileBasedConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
-			long nanos = resolution.toNanos();
-			TimeUnit unit;
-			if (nanos < 200_000L) {
-				unit = TimeUnit.NANOSECONDS;
-			} else if (nanos < 200_000_000L) {
-				unit = TimeUnit.MICROSECONDS;
-			} else {
-				unit = TimeUnit.MILLISECONDS;
-			}
+			long resolution = c.getFsTimestampResolution().toNanos();
+			TimeUnit resolutionUnit = getUnit(resolution);
+			long resolutionValue = resolutionUnit.convert(resolution,
+					TimeUnit.NANOSECONDS);
+
+			long minRacyThreshold = c.getMinimalRacyInterval().toNanos();
+			TimeUnit minRacyThresholdUnit = getUnit(minRacyThreshold);
+			long minRacyThresholdValue = minRacyThresholdUnit
+					.convert(minRacyThreshold, TimeUnit.NANOSECONDS);
 
 			final int max_retries = 5;
 			int retries = 0;
 			boolean succeeded = false;
-			long value = unit.convert(nanos, TimeUnit.NANOSECONDS);
+			String key = getConfigKey(s);
 			while (!succeeded && retries < max_retries) {
 				try {
 					userConfig.load();
 					userConfig.setString(
-							ConfigConstants.CONFIG_FILESYSTEM_SECTION,
-							javaVersionPrefix + s.name(),
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
 							String.format("%d %s", //$NON-NLS-1$
-									Long.valueOf(value),
-									unit.name().toLowerCase()));
+									Long.valueOf(resolutionValue),
+									resolutionUnit.name().toLowerCase()));
+					userConfig.setString(
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+							ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+							String.format("%d %s", //$NON-NLS-1$
+									Long.valueOf(minRacyThresholdValue),
+									minRacyThresholdUnit.name().toLowerCase()));
 					userConfig.save();
 					succeeded = true;
 				} catch (LockFailedException e) {
 					// race with another thread, wait a bit and try again
 					try {
+						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
+								userConfig.getFile().getAbsolutePath()));
 						retries++;
 						Thread.sleep(20);
 					} catch (InterruptedException e1) {
@@ -536,6 +556,22 @@ public abstract class FS {
 							e.getMessage()));
 				}
 			}
+		}
+
+		private static String getConfigKey(FileStore s) {
+			return javaVersionPrefix + s.name();
+		}
+
+		private static TimeUnit getUnit(long nanos) {
+			TimeUnit unit;
+			if (nanos < 200_000L) {
+				unit = TimeUnit.NANOSECONDS;
+			} else if (nanos < 200_000_000L) {
+				unit = TimeUnit.MICROSECONDS;
+			} else {
+				unit = TimeUnit.MILLISECONDS;
+			}
+			return unit;
 		}
 
 		private final @NonNull Duration fsTimestampResolution;
