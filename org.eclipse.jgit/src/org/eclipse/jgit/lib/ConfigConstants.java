@@ -444,4 +444,11 @@ public final class ConfigConstants {
 	 * @since 5.1.9
 	 */
 	public static final String CONFIG_KEY_TIMESTAMP_RESOLUTION = "timestampResolution";
+
+	/**
+	 * The "minRacyThreshold" key
+	 *
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_KEY_MIN_RACY_THRESHOLD = "minRacyThreshold";
 }
