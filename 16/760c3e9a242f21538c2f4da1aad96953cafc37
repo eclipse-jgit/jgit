@@ -1,0 +1,8 @@
+Code-Review+1: David Pursehouse <david.pursehouse@gmail.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Wed, 17 Jul 2019 09:42:20 -0400
+Reviewed-on: https://git.eclipse.org/r/144672
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
