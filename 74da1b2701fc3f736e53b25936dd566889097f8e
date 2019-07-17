@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d3d4a4f_a4f5e891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-17T07:30:49Z",
+      "side": 1,
+      "message": "This is not the \"latest\" version any more, but this version works and since this is a cherry-pick I didn\u0027t want to change it to a later version.",
+      "revId": "74da1b2701fc3f736e53b25936dd566889097f8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
