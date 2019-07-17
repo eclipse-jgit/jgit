@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78f41e84_7758776c",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/Repeat.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-17T06:31:11Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 4
+      },
+      "revId": "2beb16e468edd286bd46175b17557b8a4b901488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a5ce69_ea80c76b",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/Repeat.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-17T06:31:11Z",
+      "side": 1,
+      "message": "Does this need the @since tag?",
+      "revId": "2beb16e468edd286bd46175b17557b8a4b901488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
