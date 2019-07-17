@@ -208,9 +208,9 @@ public abstract class FS {
 	 *
 	 * @since 5.1.9
 	 */
-	public final static class FileStoreAttributeCache {
+	public final static class FileStoreAttributes {
 
-		private static final Duration UNDEFINED_RESOLUTION = Duration
+		private static final Duration UNDEFINED_DURATION = Duration
 				.ofNanos(Long.MAX_VALUE);
 
 		/**
@@ -218,10 +218,10 @@ public abstract class FS {
 		 * filesystem timestamp resolution. The last modified time granularity
 		 * of FAT filesystems is 2 seconds.
 		 */
-		public static final FileStoreAttributeCache FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributeCache(
+		public static final FileStoreAttributes FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributes(
 				Duration.ofMillis(2000));
 
-		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
+		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
 
 		private static AtomicBoolean background = new AtomicBoolean();
 
@@ -239,22 +239,24 @@ public abstract class FS {
 				.ofMillis(10);
 
 		/**
+		 * Get the FileStoreAttributes for the given FileStore
+		 *
 		 * @param path
 		 *            file residing in the FileStore to get attributes for
-		 * @return FileStoreAttributeCache entry for the given path.
+		 * @return FileStoreAttributes for the given path.
 		 */
-		public static FileStoreAttributeCache get(Path path) {
+		public static FileStoreAttributes get(Path path) {
 			path = path.toAbsolutePath();
 			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			return getFileAttributeCache(dir);
+			return getFileStoreAttributes(dir);
 		}
 
-		private static FileStoreAttributeCache getFileAttributeCache(Path dir) {
+		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
 			FileStore s;
 			try {
 				if (Files.exists(dir)) {
 					s = Files.getFileStore(dir);
-					FileStoreAttributeCache c = attributeCache.get(s);
+					FileStoreAttributes c = attributeCache.get(s);
 					if (c != null) {
 						return c;
 					}
@@ -272,7 +274,8 @@ public abstract class FS {
 							Thread.currentThread(), dir);
 					return FALLBACK_FILESTORE_ATTRIBUTES;
 				}
-				CompletableFuture<Optional<FileStoreAttributeCache>> f = CompletableFuture
+
+				CompletableFuture<Optional<FileStoreAttributes>> f = CompletableFuture
 						.supplyAsync(() -> {
 							Lock lock = locks.computeIfAbsent(s,
 									l -> new ReentrantLock());
@@ -282,21 +285,27 @@ public abstract class FS {
 										Thread.currentThread(), dir);
 								return Optional.empty();
 							}
-							Optional<FileStoreAttributeCache> cache = Optional
+							Optional<FileStoreAttributes> attributes = Optional
 									.empty();
 							try {
 								// Some earlier future might have set the value
 								// and removed itself since we checked for the
 								// value above. Hence check cache again.
-								FileStoreAttributeCache c = attributeCache
+								FileStoreAttributes c = attributeCache
 										.get(s);
 								if (c != null) {
 									return Optional.of(c);
 								}
+								attributes = readFromConfig(s);
+								if (attributes.isPresent()) {
+									attributeCache.put(s, attributes.get());
+									return attributes;
+								}
+
 								Optional<Duration> resolution = measureFsTimestampResolution(
 										s, dir);
 								if (resolution.isPresent()) {
-									c = new FileStoreAttributeCache(
+									c = new FileStoreAttributes(
 											resolution.get());
 									attributeCache.put(s, c);
 									// for high timestamp resolution measure
@@ -304,24 +313,28 @@ public abstract class FS {
 									if (c.fsTimestampResolution
 											.toNanos() < 100_000_000L) {
 										c.minimalRacyInterval = measureMinimalRacyInterval(
-											dir);
+												dir);
 									}
 									if (LOG.isDebugEnabled()) {
 										LOG.debug(c.toString());
 									}
-									cache = Optional.of(c);
+									saveToConfig(s, c);
 								}
+								attributes = Optional.of(c);
 							} finally {
 								lock.unlock();
 								locks.remove(s);
 							}
-							return cache;
+							return attributes;
 						});
+				f.exceptionally(e -> {
+					LOG.error(e.getLocalizedMessage(), e);
+					return Optional.empty();
+				});
 				// even if measuring in background wait a little - if the result
 				// arrives, it's better than returning the large fallback
-				Optional<FileStoreAttributeCache> d = f.get(
-						background.get() ? 100 : 5000,
-						TimeUnit.MILLISECONDS);
+				Optional<FileStoreAttributes> d = background.get() ? f.get(
+						100, TimeUnit.MILLISECONDS) : f.get();
 				if (d.isPresent()) {
 					return d.get();
 				}
@@ -341,14 +354,16 @@ public abstract class FS {
 		private static Duration measureMinimalRacyInterval(Path dir) {
 			LOG.debug("{}: start measure minimal racy interval in {}", //$NON-NLS-1$
 					Thread.currentThread(), dir);
+			int n = 0;
 			int failures = 0;
 			long racyNanos = 0;
-			final int COUNT = 1000;
 			ArrayList<Long> deltas = new ArrayList<>();
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			Instant end = Instant.now().plusSeconds(3);
 			try {
 				Files.createFile(probe);
-				for (int i = 0; i < COUNT; i++) {
+				do {
+					n++;
 					write(probe, "a"); //$NON-NLS-1$
 					FileSnapshot snapshot = FileSnapshot.save(probe.toFile());
 					read(probe);
@@ -358,7 +373,7 @@ public abstract class FS {
 						racyNanos = snapshot.lastRacyThreshold();
 						failures++;
 					}
-				}
+				} while (Instant.now().compareTo(end) < 0);
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
 				return FALLBACK_MIN_RACY_INTERVAL;
@@ -376,7 +391,7 @@ public abstract class FS {
 								+ " delta max [ns], delta avg [ns]," //$NON-NLS-1$
 								+ " delta stddev [ns]\n" //$NON-NLS-1$
 								+ "{}, {}, {}, {}, {}, {}, {}", //$NON-NLS-1$
-						COUNT, failures, racyNanos, stats.min(), stats.max(),
+						n, failures, racyNanos, stats.min(), stats.max(),
 						stats.avg(), stats.stddev());
 				return Duration
 						.ofNanos(Double.valueOf(stats.max()).longValue());
@@ -405,10 +420,6 @@ public abstract class FS {
 			FileStore s, Path dir) {
 			LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
 					Thread.currentThread(), s, dir);
-			Duration configured = readFileTimeResolution(s);
-			if (!UNDEFINED_RESOLUTION.equals(configured)) {
-				return Optional.of(configured);
-			}
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
 				Files.createFile(probe);
@@ -423,7 +434,6 @@ public abstract class FS {
 				Duration fsResolution = Duration.between(t1.toInstant(), t2.toInstant());
 				Duration clockResolution = measureClockResolution();
 				fsResolution = fsResolution.plus(clockResolution);
-				saveFileTimeResolution(s, fsResolution);
 				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
 						Thread.currentThread(), s, dir);
 				return Optional.of(fsResolution);
@@ -454,20 +464,20 @@ public abstract class FS {
 		}
 
 		private static void deleteProbe(Path probe) {
-			if (Files.exists(probe)) {
-				try {
-					Files.delete(probe);
-				} catch (IOException e) {
-					LOG.error(e.getLocalizedMessage(), e);
-				}
+			try {
+				FileUtils.delete(probe.toFile(),
+						FileUtils.SKIP_MISSING | FileUtils.RETRY);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
 			}
 		}
 
-		private static Duration readFileTimeResolution(FileStore s) {
+		private static Optional<FileStoreAttributes> readFromConfig(
+				FileStore s) {
 			FileBasedConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
 			try {
-				userConfig.load();
+				userConfig.load(false);
 			} catch (IOException e) {
 				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
 						userConfig.getFile().getAbsolutePath()), e);
@@ -477,49 +487,65 @@ public abstract class FS {
 						userConfig.getFile().getAbsolutePath(),
 						e.getMessage()));
 			}
-			Duration configured = Duration
-					.ofNanos(userConfig.getTimeUnit(
-							ConfigConstants.CONFIG_FILESYSTEM_SECTION,
-							javaVersionPrefix + s.name(),
-							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
-							UNDEFINED_RESOLUTION.toNanos(),
-							TimeUnit.NANOSECONDS));
-			return configured;
+			String key = getConfigKey(s);
+			Duration resolution = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			if (UNDEFINED_DURATION.equals(resolution)) {
+				return Optional.empty();
+			}
+			Duration minRacyThreshold = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			FileStoreAttributes c = new FileStoreAttributes(resolution);
+			if (!UNDEFINED_DURATION.equals(minRacyThreshold)) {
+				c.minimalRacyInterval = minRacyThreshold;
+			}
+			return Optional.of(c);
 		}
 
-		private static void saveFileTimeResolution(FileStore s,
-				Duration resolution) {
+		private static void saveToConfig(FileStore s,
+				FileStoreAttributes c) {
 			FileBasedConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
-			long nanos = resolution.toNanos();
-			TimeUnit unit;
-			if (nanos < 200_000L) {
-				unit = TimeUnit.NANOSECONDS;
-			} else if (nanos < 200_000_000L) {
-				unit = TimeUnit.MICROSECONDS;
-			} else {
-				unit = TimeUnit.MILLISECONDS;
-			}
+			long resolution = c.getFsTimestampResolution().toNanos();
+			TimeUnit resolutionUnit = getUnit(resolution);
+			long resolutionValue = resolutionUnit.convert(resolution,
+					TimeUnit.NANOSECONDS);
+
+			long minRacyThreshold = c.getMinimalRacyInterval().toNanos();
+			TimeUnit minRacyThresholdUnit = getUnit(minRacyThreshold);
+			long minRacyThresholdValue = minRacyThresholdUnit
+					.convert(minRacyThreshold, TimeUnit.NANOSECONDS);
 
 			final int max_retries = 5;
 			int retries = 0;
 			boolean succeeded = false;
-			long value = unit.convert(nanos, TimeUnit.NANOSECONDS);
+			String key = getConfigKey(s);
 			while (!succeeded && retries < max_retries) {
 				try {
-					userConfig.load();
+					userConfig.load(false);
 					userConfig.setString(
-							ConfigConstants.CONFIG_FILESYSTEM_SECTION,
-							javaVersionPrefix + s.name(),
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
 							String.format("%d %s", //$NON-NLS-1$
-									Long.valueOf(value),
-									unit.name().toLowerCase()));
+									Long.valueOf(resolutionValue),
+									resolutionUnit.name().toLowerCase()));
+					userConfig.setString(
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+							ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+							String.format("%d %s", //$NON-NLS-1$
+									Long.valueOf(minRacyThresholdValue),
+									minRacyThresholdUnit.name().toLowerCase()));
 					userConfig.save();
 					succeeded = true;
 				} catch (LockFailedException e) {
 					// race with another thread, wait a bit and try again
 					try {
+						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
+								userConfig.getFile().getAbsolutePath()));
 						retries++;
 						Thread.sleep(20);
 					} catch (InterruptedException e1) {
@@ -536,6 +562,38 @@ public abstract class FS {
 							e.getMessage()));
 				}
 			}
+		}
+
+		private static String getConfigKey(FileStore s) {
+			final String storeKey;
+			if (SystemReader.getInstance().isWindows()) {
+				Object attribute = null;
+				try {
+					attribute = s.getAttribute("volume:vsn"); //$NON-NLS-1$
+				} catch (IOException ignored) {
+					// ignore
+				}
+				if (attribute instanceof Integer) {
+					storeKey = attribute.toString();
+				} else {
+					storeKey = s.name();
+				}
+			} else {
+				storeKey = s.name();
+			}
+			return javaVersionPrefix + storeKey;
+		}
+
+		private static TimeUnit getUnit(long nanos) {
+			TimeUnit unit;
+			if (nanos < 200_000L) {
+				unit = TimeUnit.NANOSECONDS;
+			} else if (nanos < 200_000_000L) {
+				unit = TimeUnit.MICROSECONDS;
+			} else {
+				unit = TimeUnit.MILLISECONDS;
+			}
+			return unit;
 		}
 
 		private final @NonNull Duration fsTimestampResolution;
@@ -565,7 +623,7 @@ public abstract class FS {
 		 *
 		 * @param fsTimestampResolution
 		 */
-		public FileStoreAttributeCache(
+		public FileStoreAttributes(
 				@NonNull Duration fsTimestampResolution) {
 			this.fsTimestampResolution = fsTimestampResolution;
 			this.minimalRacyInterval = Duration.ZERO;
@@ -575,7 +633,7 @@ public abstract class FS {
 		@Override
 		public String toString() {
 			return String.format(
-					"FileStoreAttributeCache[fsTimestampResolution=%,d µs, "
+					"FileStoreAttributes[fsTimestampResolution=%,d µs, "
 							+ "minimalRacyInterval=%,d µs]",
 					fsTimestampResolution.toNanos() / 1000,
 					minimalRacyInterval.toNanos() / 1000);
@@ -598,17 +656,16 @@ public abstract class FS {
 	}
 
 	/**
-	 * Whether FileStore attribute cache entries should be determined
-	 * asynchronously
+	 * Whether FileStore attributes should be determined asynchronously
 	 *
 	 * @param asynch
-	 *            whether FileStore attribute cache entries should be determined
+	 *            whether FileStore attributes should be determined
 	 *            asynchronously. If false access to cached attributes may block
 	 *            for some seconds for the first call per FileStore
 	 * @since 5.1.9
 	 */
-	public static void setAsyncfileStoreAttrCache(boolean asynch) {
-		FileStoreAttributeCache.setBackground(asynch);
+	public static void setAsyncFileStoreAttributes(boolean asynch) {
+		FileStoreAttributes.setBackground(asynch);
 	}
 
 	/**
@@ -639,9 +696,8 @@ public abstract class FS {
 	}
 
 	/**
-	 * Get an estimate for the filesystem timestamp resolution from a cache of
-	 * timestamp resolution per FileStore, if not yet available it is measured
-	 * for a probe file under the given directory.
+	 * Get cached FileStore attributes, if not yet available measure them using
+	 * a probe file under the given directory.
 	 *
 	 * @param dir
 	 *            the directory under which the probe file will be created to
@@ -649,9 +705,9 @@ public abstract class FS {
 	 * @return measured filesystem timestamp resolution
 	 * @since 5.1.9
 	 */
-	public static FileStoreAttributeCache getFileStoreAttributeCache(
+	public static FileStoreAttributes getFileStoreAttributes(
 			@NonNull Path dir) {
-		return FileStoreAttributeCache.get(dir);
+		return FileStoreAttributes.get(dir);
 	}
 
 	private volatile Holder<File> userHome;
