@@ -114,6 +114,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class FS {
 	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
+	private static int attributePathCacheSize = 100;
 
 	/**
 	 * An empty array of entries, suitable as a return value for
@@ -225,7 +226,7 @@ public abstract class FS {
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
 		private static final Map<Path, FileStoreAttributeCache> attrCacheByPath = Collections
-				.synchronizedMap(new LRUMap<>(16, 100));
+				.synchronizedMap(new LRUMap<>(16, attributePathCacheSize));
 
 		private static AtomicBoolean background = new AtomicBoolean();
 
@@ -659,6 +660,19 @@ public abstract class FS {
 	 */
 	public static void setAsyncfileStoreAttrCache(boolean asynch) {
 		FileStoreAttributeCache.setBackground(asynch);
+	}
+
+	/**
+	 * Sets the size of the path-based cache for file system attributes. Caching
+	 * of file system attributes avoids recurring expensive calls to file system
+	 * meta data.
+	 *
+	 * @param attributePathCacheSize
+	 *            cache size
+	 * @since 5.1.9
+	 */
+	public static void setAttributePathCacheSize(int attributePathCacheSize) {
+		FS.attributePathCacheSize = attributePathCacheSize;
 	}
 
 	/**
