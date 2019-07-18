@@ -94,6 +94,30 @@
       "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "317d874d_375bc4a6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-18T22:04:38Z",
+      "side": 1,
+      "message": "Yes, I meant to take the \"inputLines\" parameter from that function and have a different \"sendLines\" method. It can be in different commit.\n\nOptional: +1 to a factory or builder idea. I find it more readable than passing lambdas modifying objects. I guess it is not a blocker really.",
+      "parentUuid": "552bf90f_2ebbeb9f",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 473,
+        "endChar": 23
+      },
+      "revId": "b0a0a4ce068f4179d28ae0644e36dfa323c5e75f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
