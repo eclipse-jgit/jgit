@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "d70ce227_f07e6f2e",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaa654b3_25672320",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 72
+      },
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33715d39_8f076b2e",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
         "patchSetId": 13
@@ -53,6 +77,30 @@
       "writtenOn": "2019-07-17T15:38:59Z",
       "side": 1,
       "message": "to be consistent s/timestamp/time/\nAlso the javadocs of nio.Files and io.File don\u0027t typically use \u0027timestamp\u0027",
+      "range": {
+        "startLine": 82,
+        "startChar": 25,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e766820f_89c22477",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33715d39_8f076b2e",
       "range": {
         "startLine": 82,
         "startChar": 25,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "91cdf544_2a1e465d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b933c1e2_0b405694",
+      "range": {
+        "startLine": 85,
+        "startChar": 40,
+        "endLine": 85,
+        "endChar": 49
+      },
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "639afd0f_a18d97ad",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
         "patchSetId": 13
@@ -99,6 +171,30 @@
       "writtenOn": "2019-07-17T15:38:59Z",
       "side": 1,
       "message": "see above",
+      "range": {
+        "startLine": 87,
+        "startChar": 41,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97890ab5_40e8f600",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/TimeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "639afd0f_a18d97ad",
       "range": {
         "startLine": 87,
         "startChar": 41,
@@ -128,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "258d3862_bb706858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "ack, added TODO",
+      "parentUuid": "a09df08e_35d6b943",
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05c3b8bb_08b876cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 13
@@ -139,6 +253,24 @@
       "writtenOn": "2019-07-17T15:38:59Z",
       "side": 1,
       "message": "what is if entry.getLastModifiedInstant() returns EPOCH. Isn\u0027t that the same as old \u0027entry.getLastModified() \u003d\u003d 0\u0027 and shouldn\u0027t we also set lastModified in this case?",
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ed51af_c4b99377",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c3b8bb_08b876cf",
       "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -168,6 +300,30 @@
     },
     {
       "key": {
+        "uuid": "17d9aa21_19c3d708",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "ack, added TODO",
+      "parentUuid": "b4b76782_e05f6128",
+      "range": {
+        "startLine": 149,
+        "startChar": 49,
+        "endLine": 150,
+        "endChar": 23
+      },
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fd9664_12f4ee39",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 13
@@ -179,6 +335,24 @@
       "writtenOn": "2019-07-17T15:38:59Z",
       "side": 1,
       "message": "Isn\u0027t it worth a error level trace statement. We should be able to recognize that on a certain system that basic operation leads to a IOException",
+      "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d8a5ffd_e11afbe4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T01:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fd9664_12f4ee39",
       "revId": "5c0987783e2e674e29c658a12e575b9b1dbacb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
