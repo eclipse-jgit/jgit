@@ -86,6 +86,11 @@ public final class MergeAlgorithm {
 	private final static Edit END_EDIT = new Edit(Integer.MAX_VALUE,
 			Integer.MAX_VALUE);
 
+	@SuppressWarnings("ReferenceEquality")
+	private static boolean isEndEdit(Edit edit) {
+		return edit == END_EDIT;
+	}
+
 	/**
 	 * Does the three way merge between a common base and two sequences.
 	 *
@@ -145,7 +150,7 @@ public final class MergeAlgorithm {
 		// iterate over all edits from base to ours and from base to theirs
 		// leave the loop when there are no edits more for ours or for theirs
 		// (or both)
-		while (theirsEdit != END_EDIT || oursEdit != END_EDIT) {
+		while (!isEndEdit(theirsEdit) || !isEndEdit(oursEdit)) {
 			if (oursEdit.getEndA() < theirsEdit.getBeginA()) {
 				// something was changed in ours not overlapping with any change
 				// from theirs. First add the common part in front of the edit
