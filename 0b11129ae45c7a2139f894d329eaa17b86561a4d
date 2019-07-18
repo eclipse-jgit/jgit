@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a24368a_943d2f9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdOwnerMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-18T22:24:51Z",
+      "side": 1,
+      "message": "nit: white space between the if and the opening parenthesis.",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "0b11129ae45c7a2139f894d329eaa17b86561a4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71616d6_256e3c85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdOwnerMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-18T22:24:51Z",
+      "side": 1,
+      "message": "Optional: This could be a chance to update the style of this \"for\" and \"if:, adding brackets around their body blocks.",
+      "revId": "0b11129ae45c7a2139f894d329eaa17b86561a4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
