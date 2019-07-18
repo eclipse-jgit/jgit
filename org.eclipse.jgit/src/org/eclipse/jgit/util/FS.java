@@ -71,6 +71,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -224,6 +225,9 @@ public abstract class FS {
 
 		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
 
+		private static final Map<Path, FileStoreAttributeCache> attrCacheByPath = Collections
+				.synchronizedMap(new LRUMap<>(16, 100));
+
 		private static AtomicBoolean background = new AtomicBoolean();
 
 		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
@@ -247,7 +251,13 @@ public abstract class FS {
 		public static FileStoreAttributeCache get(Path path) {
 			path = path.toAbsolutePath();
 			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			return getFileAttributeCache(dir);
+			FileStoreAttributeCache c = attrCacheByPath.get(dir);
+			if (c != null) {
+				return c;
+			}
+			c = getFileAttributeCache(dir);
+			attrCacheByPath.put(dir, c);
+			return c;
 		}
 
 		private static FileStoreAttributeCache getFileAttributeCache(Path dir) {
