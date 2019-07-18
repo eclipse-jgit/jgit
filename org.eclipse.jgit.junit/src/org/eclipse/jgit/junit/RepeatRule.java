@@ -81,13 +81,31 @@ public class RepeatRule implements TestRule {
 	private static Logger LOG = Logger
 			.getLogger(RepeatRule.class.getName());
 
+	/**
+	 * Exception thrown if repeated execution of a test annotated with
+	 * {@code @Repeat} failed.
+	 */
 	public static class RepeatedTestException extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructor
+		 *
+		 * @param message
+		 *            the error message
+		 */
 		public RepeatedTestException(String message) {
 			super(message);
 		}
 
+		/**
+		 * Constructor
+		 *
+		 * @param message
+		 *            the error message
+		 * @param cause
+		 *            exception causing this exception
+		 */
 		public RepeatedTestException(String message, Throwable cause) {
 			super(message, cause);
 		}
