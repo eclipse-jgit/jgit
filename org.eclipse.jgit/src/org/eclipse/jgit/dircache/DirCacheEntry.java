@@ -145,10 +145,9 @@ public class DirCacheEntry {
 	/** Flags which are never stored to disk. */
 	private byte inCoreFlags;
 
-	// TODO (ms): use Instant to combine smudge_s and smudge_ns
 	DirCacheEntry(final byte[] sharedInfo, final MutableInteger infoAt,
-			final InputStream in, final MessageDigest md, final int smudge_s,
-			final int smudge_ns) throws IOException {
+			final InputStream in, final MessageDigest md, final Instant smudge)
+			throws IOException {
 		info = sharedInfo;
 		infoOffset = infoAt.value;
 
@@ -217,8 +216,9 @@ public class DirCacheEntry {
 			md.update(nullpad, 0, padLen);
 		}
 
-		if (mightBeRacilyClean(smudge_s, smudge_ns))
+		if (mightBeRacilyClean(smudge)) {
 			smudgeRacilyClean();
+		}
 	}
 
 	/**
@@ -346,8 +346,29 @@ public class DirCacheEntry {
 	 * @param smudge_ns
 	 *            nanoseconds component of the index's last modified time.
 	 * @return true if extra careful checks should be used.
+	 * @deprecated use {@link #mightBeRacilyClean(Instant)} instead
 	 */
+	@Deprecated
 	public final boolean mightBeRacilyClean(int smudge_s, int smudge_ns) {
+		return mightBeRacilyClean(Instant.ofEpochSecond(smudge_s, smudge_ns));
+	}
+
+	/**
+	 * Is it possible for this entry to be accidentally assumed clean?
+	 * <p>
+	 * The "racy git" problem happens when a work file can be updated faster
+	 * than the filesystem records file modification timestamps. It is possible
+	 * for an application to edit a work file, update the index, then edit it
+	 * again before the filesystem will give the work file a new modification
+	 * timestamp. This method tests to see if file was written out at the same
+	 * time as the index.
+	 *
+	 * @param smudge
+	 *            index's last modified time.
+	 * @return true if extra careful checks should be used.
+	 * @since 5.1.9
+	 */
+	public final boolean mightBeRacilyClean(Instant smudge) {
 		// If the index has a modification time then it came from disk
 		// and was not generated from scratch in memory. In such cases
 		// the entry is 'racily clean' if the entry's cached modification
@@ -357,8 +378,9 @@ public class DirCacheEntry {
 		//
 		final int base = infoOffset + P_MTIME;
 		final int mtime = NB.decodeInt32(info, base);
-		if (smudge_s == mtime)
-			return smudge_ns <= NB.decodeInt32(info, base + 4);
+		if (smudge.getEpochSecond() == mtime) {
+			return smudge.getNano() <= NB.decodeInt32(info, base + 4);
+		}
 		return false;
 	}
 

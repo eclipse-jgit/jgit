@@ -58,6 +58,7 @@ import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -497,9 +498,7 @@ public class DirCache {
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
 		snapshot = FileSnapshot.save(liveFile);
-		// TODO (ms) combine smudge_s and smudge_ns into Duration
-		int smudge_s = (int) (snapshot.lastModifiedInstant().getEpochSecond());
-		int smudge_ns = snapshot.lastModifiedInstant().getNano();
+		Instant smudge = snapshot.lastModifiedInstant();
 
 		// Load the individual file entries.
 		//
@@ -508,8 +507,9 @@ public class DirCache {
 		sortedEntries = new DirCacheEntry[entryCnt];
 
 		final MutableInteger infoAt = new MutableInteger();
-		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge_s, smudge_ns);
+		for (int i = 0; i < entryCnt; i++) {
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge);
+		}
 
 		// After the file entries are index extensions, and then a footer.
 		//
