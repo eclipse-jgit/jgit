@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c0969ae_786834f8",
+        "filename": "org.eclipse.jgit.junit/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T07:16:25Z",
+      "side": 1,
+      "message": "this new setting fails the build if we don\u0027t add the missing javadoc",
+      "revId": "a1ab67e7e9f1f51ca1c7af6cb0f82cd86066731b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
