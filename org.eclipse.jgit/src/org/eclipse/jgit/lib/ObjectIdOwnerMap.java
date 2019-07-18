@@ -135,6 +135,10 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 */
 	@SuppressWarnings("unchecked")
 	public V get(AnyObjectId toFind) {
+		if(toFind == null) {
+			return null;
+		}
+
 		int h = toFind.w1;
 		V obj = directory[h & mask][h >>> SEGMENT_SHIFT];
 		for (; obj != null; obj = (V) obj.next)
@@ -334,15 +338,15 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	}
 
 	@SuppressWarnings("unchecked")
-	private final V[] newSegment() {
+	private V[] newSegment() {
 		return (V[]) new Entry[1 << SEGMENT_BITS];
 	}
 
-	private static final int computeGrowAt(int bits) {
+	private static int computeGrowAt(int bits) {
 		return 1 << (bits + SEGMENT_BITS);
 	}
 
-	private static final boolean equals(AnyObjectId firstObjectId,
+	private static boolean equals(AnyObjectId firstObjectId,
 			AnyObjectId secondObjectId) {
 		return firstObjectId.w2 == secondObjectId.w2
 				&& firstObjectId.w3 == secondObjectId.w3

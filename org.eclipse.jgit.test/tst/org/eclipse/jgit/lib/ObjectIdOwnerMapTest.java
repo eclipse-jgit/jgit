@@ -46,6 +46,7 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -82,6 +83,18 @@ public class ObjectIdOwnerMapTest {
 		assertFalse(i.hasNext());
 
 		assertFalse(m.contains(id(1)));
+	}
+
+	@Test
+	public void testGetWithNullObject_doesNotThrowNPE() {
+		// given we have a map
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
+
+		// when we call get with null
+		SubId result = m.get(null);
+
+		// then we should not get a NPE
+		assertNull(result);
 	}
 
 	@Test
