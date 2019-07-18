@@ -1059,6 +1059,14 @@ public class TestRepository<R extends Repository> {
 			parents.add(prior.create());
 		}
 
+		/**
+		 * set parent commit
+		 *
+		 * @param p
+		 *            parent commit
+		 * @return this commit builder
+		 * @throws Exception
+		 */
 		public CommitBuilder parent(RevCommit p) throws Exception {
 			if (parents.isEmpty()) {
 				DirCacheBuilder b = tree.builder();
@@ -1071,29 +1079,71 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		/**
+		 * Get parent commits
+		 *
+		 * @return parent commits
+		 */
 		public List<RevCommit> parents() {
 			return Collections.unmodifiableList(parents);
 		}
 
+		/**
+		 * Remove parent commits
+		 *
+		 * @return this commit builder
+		 */
 		public CommitBuilder noParents() {
 			parents.clear();
 			return this;
 		}
 
+		/**
+		 * Remove files
+		 *
+		 * @return this commit builder
+		 */
 		public CommitBuilder noFiles() {
 			tree.clear();
 			return this;
 		}
 
+		/**
+		 * Set top level tree
+		 *
+		 * @param treeId
+		 *            the top level tree
+		 * @return this commit builder
+		 */
 		public CommitBuilder setTopLevelTree(ObjectId treeId) {
 			topLevelTree = treeId;
 			return this;
 		}
 
+		/**
+		 * Add file with given content
+		 *
+		 * @param path
+		 *            path of the file
+		 * @param content
+		 *            the file content
+		 * @return this commit builder
+		 * @throws Exception
+		 */
 		public CommitBuilder add(String path, String content) throws Exception {
 			return add(path, blob(content));
 		}
 
+		/**
+		 * Add file with given path and blob
+		 *
+		 * @param path
+		 *            path of the file
+		 * @param id
+		 *            blob for this file
+		 * @return this commit builder
+		 * @throws Exception
+		 */
 		public CommitBuilder add(String path, RevBlob id)
 				throws Exception {
 			return edit(new PathEdit(path) {
@@ -1105,6 +1155,13 @@ public class TestRepository<R extends Repository> {
 			});
 		}
 
+		/**
+		 * Edit the index
+		 *
+		 * @param edit
+		 *            the index record update
+		 * @return this commit builder
+		 */
 		public CommitBuilder edit(PathEdit edit) {
 			DirCacheEditor e = tree.editor();
 			e.add(edit);
@@ -1112,6 +1169,13 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		/**
+		 * Remove a file
+		 *
+		 * @param path
+		 *            path of the file
+		 * @return this commit builder
+		 */
 		public CommitBuilder rm(String path) {
 			DirCacheEditor e = tree.editor();
 			e.add(new DeletePath(path));
@@ -1120,49 +1184,111 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		/**
+		 * Set commit message
+		 *
+		 * @param m
+		 *            the message
+		 * @return this commit builder
+		 */
 		public CommitBuilder message(String m) {
 			message = m;
 			return this;
 		}
 
+		/**
+		 * Get the commit message
+		 *
+		 * @return the commit message
+		 */
 		public String message() {
 			return message;
 		}
 
+		/**
+		 * Tick the clock
+		 *
+		 * @param secs
+		 *            number of seconds
+		 * @return this commit builder
+		 */
 		public CommitBuilder tick(int secs) {
 			tick = secs;
 			return this;
 		}
 
+		/**
+		 * Set author and committer identity
+		 *
+		 * @param ident
+		 *            identity to set
+		 * @return this commit builder
+		 */
 		public CommitBuilder ident(PersonIdent ident) {
 			author = ident;
 			committer = ident;
 			return this;
 		}
 
+		/**
+		 * Set the author identity
+		 *
+		 * @param a
+		 *            the author's identity
+		 * @return this commit builder
+		 */
 		public CommitBuilder author(PersonIdent a) {
 			author = a;
 			return this;
 		}
 
+		/**
+		 * Get the author identity
+		 *
+		 * @return the author identity
+		 */
 		public PersonIdent author() {
 			return author;
 		}
 
+		/**
+		 * Set the committer identity
+		 *
+		 * @param c
+		 *            the committer identity
+		 * @return this commit builder
+		 */
 		public CommitBuilder committer(PersonIdent c) {
 			committer = c;
 			return this;
 		}
 
+		/**
+		 * Get the committer identity
+		 *
+		 * @return the committer identity
+		 */
 		public PersonIdent committer() {
 			return committer;
 		}
 
+		/**
+		 * Insert changeId
+		 *
+		 * @return this commit builder
+		 */
 		public CommitBuilder insertChangeId() {
 			changeId = "";
 			return this;
 		}
 
+		/**
+		 * Insert given changeId
+		 *
+		 * @param c
+		 *            changeId
+		 * @return this commit builder
+		 */
 		public CommitBuilder insertChangeId(String c) {
 			// Validate, but store as a string so we can use "" as a sentinel.
 			ObjectId.fromString(c);
@@ -1170,6 +1296,13 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		/**
+		 * Create the commit
+		 *
+		 * @return the new commit
+		 * @throws Exception
+		 *             if creation failed
+		 */
 		public RevCommit create() throws Exception {
 			if (self == null) {
 				TestRepository.this.tick(tick);
@@ -1230,6 +1363,12 @@ public class TestRepository<R extends Repository> {
 						+ cid.getName() + "\n"); //$NON-NLS-1$
 		}
 
+		/**
+		 * Create child commit builder
+		 *
+		 * @return child commit builder
+		 * @throws Exception
+		 */
 		public CommitBuilder child() throws Exception {
 			return new CommitBuilder(this);
 		}
