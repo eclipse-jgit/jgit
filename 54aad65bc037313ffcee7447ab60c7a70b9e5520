@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26bdc1a0_af234e59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-18T07:12:52Z",
+      "side": 1,
+      "message": "I\u0027d prefer an implementation which doesn\u0027t need a lock in a central place to avoid this becomes bottleneck",
+      "revId": "54aad65bc037313ffcee7447ab60c7a70b9e5520",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
