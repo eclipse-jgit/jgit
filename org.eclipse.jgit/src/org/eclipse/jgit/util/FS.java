@@ -71,7 +71,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,6 +88,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -223,6 +227,21 @@ public abstract class FS {
 
 		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
 
+		// We don't want to synchronize the complete map since this may become a
+		// bottleneck e.g. in a server application like Gerrit.
+		private static final Map<Path, CacheEntry> attrCacheByPath = new ConcurrentHashMap<>();
+
+		private static final AtomicInteger attrCacheMaxSize = new AtomicInteger(
+				100);
+
+		private static final AtomicInteger attrCachePurgeSize = new AtomicInteger(
+				50);
+
+		// use a simple counter to record the order of the directory requests to
+		// purge them in an LRU-style way when the cache overflows instead of
+		// possibly more expensive calls to System.currentTimeMillis().
+		private static volatile long attrCacheTimestamp;
+
 		private static AtomicBoolean background = new AtomicBoolean();
 
 		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
@@ -248,7 +267,32 @@ public abstract class FS {
 		public static FileStoreAttributes get(Path path) {
 			path = path.toAbsolutePath();
 			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			return getFileStoreAttributes(dir);
+			attrCacheTimestamp++;
+			CacheEntry entry = attrCacheByPath.get(dir);
+			if (entry != null) {
+				entry.lastAccessedTimestamp = attrCacheTimestamp;
+				return entry.attributes;
+			}
+			FileStoreAttributes c = getFileStoreAttributes(dir);
+			attrCacheByPath.put(dir,
+					new CacheEntry(dir, c, attrCacheTimestamp));
+			if (attrCacheByPath.size() > attrCacheMaxSize.get()) {
+				purgeAttrCacheByPath();
+			}
+			return c;
+		}
+
+		private static void purgeAttrCacheByPath() {
+			synchronized (attrCacheByPath) {
+				List<CacheEntry> entriesToPurge = new ArrayList<>(
+						attrCacheByPath.values());
+				Collections.sort(entriesToPurge, Comparator
+						.comparingLong(o -> -o.lastAccessedTimestamp));
+				for (int index = attrCachePurgeSize
+						.get(); index < entriesToPurge.size(); index++) {
+					attrCacheByPath.remove(entriesToPurge.get(index).path);
+				}
+			}
 		}
 
 		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
@@ -639,6 +683,30 @@ public abstract class FS {
 					minimalRacyInterval.toNanos() / 1000);
 		}
 
+		private static class CacheEntry {
+
+			private final Path path;
+
+			private final FileStoreAttributes attributes;
+
+			private volatile long lastAccessedTimestamp;
+
+			CacheEntry(Path path, FileStoreAttributes attributes,
+					long lastAccessedTimestamp) {
+				this.path = path;
+				this.attributes = attributes;
+				this.lastAccessedTimestamp = lastAccessedTimestamp;
+			}
+
+			@SuppressWarnings("nls")
+			@Override
+			public String toString() {
+				return "CacheEntry [lastAccessedTimestamp="
+						+ lastAccessedTimestamp + ", path=" + path
+						+ ", attributes=" + attributes
+						+ "]";
+			}
+		}
 	}
 
 	/** The auto-detected implementation selected for this operating system and JRE. */
@@ -666,6 +734,29 @@ public abstract class FS {
 	 */
 	public static void setAsyncFileStoreAttributes(boolean asynch) {
 		FileStoreAttributes.setBackground(asynch);
+	}
+
+	/**
+	 * Sets the size of the path-based cache for file system attributes. Caching
+	 * of file system attributes avoids recurring expensive calls to file system
+	 * meta data.
+	 *
+	 * @param maxSize
+	 *            maximum size of the cache
+	 * @param purgeSize
+	 *            size of the cache after purging
+	 * @since 5.1.9
+	 */
+	public static void setAttributePathCacheSize(int maxSize, int purgeSize) {
+		if (maxSize != 0 && purgeSize != 0 && maxSize <= purgeSize) {
+			throw new IllegalStateException(
+					"attributePathCacheSizeLimit must be greater than attributePathCachePurgeLimit");
+		}
+		// Two atomic operations, but we don't care for a temporary
+		// inconsistency of both values, because FileStoreAttributeCache will
+		// be able to handle it.
+		FileStoreAttributes.attrCacheMaxSize.set(maxSize);
+		FileStoreAttributes.attrCachePurgeSize.set(purgeSize);
 	}
 
 	/**
