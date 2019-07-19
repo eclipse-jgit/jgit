@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75029bde_930ac51b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-19T08:59:38Z",
+      "side": 1,
+      "message": "The map is final and not recreated when this setter is called, hence calling this setter will change this field but have no effect on the already created map.\n\nInstead of creating another map when this method is called we could add a setter to LRUMap which allows to reconfigure its limit.",
+      "revId": "d6c7a56e4af3c66b1c67275ed65a051968478400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
