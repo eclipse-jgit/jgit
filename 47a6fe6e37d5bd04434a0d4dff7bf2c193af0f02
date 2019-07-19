@@ -16,6 +16,24 @@
       "revId": "47a6fe6e37d5bd04434a0d4dff7bf2c193af0f02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070c655c_bf666559",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-19T14:44:38Z",
+      "side": 1,
+      "message": "fixed in https://git.eclipse.org/r/#/c/146362/",
+      "parentUuid": "6c083636_351789d8",
+      "revId": "47a6fe6e37d5bd04434a0d4dff7bf2c193af0f02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
