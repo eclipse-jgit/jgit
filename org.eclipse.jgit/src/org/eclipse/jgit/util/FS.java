@@ -74,6 +74,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
@@ -281,7 +282,7 @@ public abstract class FS {
 				}
 				// return fallback until measurement is finished
 			} catch (IOException | InterruptedException
-					| ExecutionException e) {
+					| ExecutionException | CancellationException e) {
 				LOG.error(e.getMessage(), e);
 			} catch (TimeoutException | SecurityException e) {
 				// use fallback
