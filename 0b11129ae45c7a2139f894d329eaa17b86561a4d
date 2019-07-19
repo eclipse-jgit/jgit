@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d2cf1df_7f765af2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-19T01:53:50Z",
+      "side": 1,
+      "message": "Thanks for contributing!\n\nI think this is missing some context: how did this come up? What does this change make possible that wasn\u0027t possible before?",
+      "revId": "0b11129ae45c7a2139f894d329eaa17b86561a4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a24368a_943d2f9e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdOwnerMap.java",
         "patchSetId": 1
