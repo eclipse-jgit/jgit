@@ -212,6 +212,12 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
+                <message_argument value="setAttributePathCacheSize(int, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
                 <message_argument value="setLastModified(Path, Instant)"/>
             </message_arguments>
         </filter>
