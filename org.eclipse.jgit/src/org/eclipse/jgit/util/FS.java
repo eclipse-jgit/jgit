@@ -230,6 +230,9 @@ public abstract class FS {
 
 		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
 
+		private static final SimpleLruCache<Path, FileStoreAttributes> attrCacheByPath = new SimpleLruCache<>(
+				100);
+
 		private static AtomicBoolean background = new AtomicBoolean();
 
 		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
@@ -246,6 +249,19 @@ public abstract class FS {
 				.ofMillis(10);
 
 		/**
+		 * Configure size of the path-based cache for file system attributes.
+		 * Caching of file system attributes avoids recurring lookup of @{code
+		 * FileStore} of files which may be expensive on some platforms.
+		 *
+		 * @param maxSize
+		 *            maximum size of the cache, default is 100
+		 * @since 5.1.9
+		 */
+		public static void configureAttributesPathCache(int maxSize) {
+			FileStoreAttributes.attrCacheByPath.configure(maxSize);
+		}
+
+		/**
 		 * Get the FileStoreAttributes for the given FileStore
 		 *
 		 * @param path
@@ -255,7 +271,13 @@ public abstract class FS {
 		public static FileStoreAttributes get(Path path) {
 			path = path.toAbsolutePath();
 			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			return getFileStoreAttributes(dir);
+			FileStoreAttributes cached = attrCacheByPath.get(dir);
+			if (cached != null) {
+				return cached;
+			}
+			FileStoreAttributes attrs = getFileStoreAttributes(dir);
+			attrCacheByPath.put(dir, attrs);
+			return attrs;
 		}
 
 		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
