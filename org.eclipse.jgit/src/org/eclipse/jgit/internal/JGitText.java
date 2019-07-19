@@ -421,6 +421,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidAdvertisementOf;
 	/***/ public String invalidAncestryLength;
 	/***/ public String invalidBooleanValue;
+	/***/ public String invalidCacheSize;
 	/***/ public String invalidChannel;
 	/***/ public String invalidCharacterInBase64Data;
 	/***/ public String invalidCommitParentNumber;
@@ -451,6 +452,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidPathPeriodAtEndWindows;
 	/***/ public String invalidPathSpaceAtEndWindows;
 	/***/ public String invalidPathReservedOnWindows;
+	/***/ public String invalidPurgeFactor;
 	/***/ public String invalidRedirectLocation;
 	/***/ public String invalidRefAdvertisementLine;
 	/***/ public String invalidReflogRevision;
