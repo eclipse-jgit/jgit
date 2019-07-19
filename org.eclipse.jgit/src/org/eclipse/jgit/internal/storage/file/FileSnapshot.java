@@ -147,7 +147,7 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot saveNoConfig(File path) {
-		return new FileSnapshot(path);
+		return new FileSnapshot(path, false);
 	}
 
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
