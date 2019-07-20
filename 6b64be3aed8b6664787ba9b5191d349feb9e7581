@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb381ec_b7bc6b13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-20T00:46:36Z",
+      "side": 1,
+      "message": "Here we should have a package-private FileBasedConfig.load(boolean useFileSnapshotWithConfig) which will be called with \"false\".\n\nFileBasedConfig.load(boolean useFileSnapshotWithConfig) would then check:\n\n    final FileSnapshot newSnapshot;\n    if (useFileSnapshotWithConfig) {\n        newSnapshot \u003d FileSnapshot.save(getFile());\n    }\n    else {\n        newSnapshot \u003d FileSnapshot.saveNoConfig(getFile());\n    }\n\nFileBasedConfig.load() will call FileBasedConfig.load(true).\n\nThis way, every FileBasedConfig will work as before but only the userConfig read in FileStoreAttributes will have the config options disabled and hence break the recursion.",
+      "revId": "6b64be3aed8b6664787ba9b5191d349feb9e7581",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "845c3b54_1b3bf45b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-20T00:46:36Z",
+      "side": 1,
+      "message": "Here, load(false), too.",
+      "revId": "6b64be3aed8b6664787ba9b5191d349feb9e7581",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
