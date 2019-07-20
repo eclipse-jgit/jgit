@@ -253,18 +253,22 @@ class BouncyCastleGpgKeyLocator {
 	public BouncyCastleGpgKey findSecretKey() throws IOException,
 			NoSuchAlgorithmException, NoSuchProviderException, PGPException,
 			CanceledException, UnsupportedCredentialItem, URISyntaxException {
-		if (exists(USER_KEYBOX_PATH)) {
-			PGPPublicKey publicKey = //
-					findPublicKeyInKeyBox(USER_KEYBOX_PATH);
-
+		Exception t = null;
+		boolean haveKeybox = exists(USER_KEYBOX_PATH);
+		if (haveKeybox) {
+			PGPPublicKey publicKey = null;
+			try {
+				publicKey = findPublicKeyInKeyBox(USER_KEYBOX_PATH);
+			} catch (IOException e) {
+				t = e;
+			}
 			if (publicKey != null) {
 				return findSecretKeyForKeyBoxPublicKey(publicKey,
 						USER_KEYBOX_PATH);
 			}
-
-			throw new PGPException(MessageFormat
-					.format(JGitText.get().gpgNoPublicKeyFound, signingKey));
-		} else if (exists(USER_PGP_LEGACY_SECRING_FILE)) {
+		}
+		boolean haveSecring = exists(USER_PGP_LEGACY_SECRING_FILE);
+		if (haveSecring) {
 			PGPSecretKey secretKey = findSecretKeyInLegacySecring(signingKey,
 					USER_PGP_LEGACY_SECRING_FILE);
 
@@ -275,12 +279,15 @@ class BouncyCastleGpgKeyLocator {
 				}
 				return new BouncyCastleGpgKey(secretKey, USER_PGP_LEGACY_SECRING_FILE);
 			}
-
-			throw new PGPException(MessageFormat.format(
-					JGitText.get().gpgNoKeyInLegacySecring, signingKey));
 		}
-
-		throw new PGPException(JGitText.get().gpgNoKeyring);
+		if (haveKeybox) {
+			throw new PGPException(MessageFormat
+					.format(JGitText.get().gpgNoPublicKeyFound, signingKey), t);
+		} else if (haveSecring) {
+			throw new PGPException(MessageFormat.format(
+					JGitText.get().gpgNoKeyInLegacySecring, signingKey), t);
+		}
+		throw new PGPException(JGitText.get().gpgNoKeyring, t);
 	}
 
 	private BouncyCastleGpgKey findSecretKeyForKeyBoxPublicKey(
