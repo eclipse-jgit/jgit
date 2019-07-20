@@ -97,6 +97,13 @@ import org.slf4j.LoggerFactory;
  */
 class BouncyCastleGpgKeyLocator {
 
+	/** Thrown if a keybox file exists but doesn't contain an OpenPGP key. */
+	private static class NoOpenPgpKeyException extends Exception {
+
+		private static final long serialVersionUID = 1L;
+
+	}
+
 	private static final Logger log = LoggerFactory
 			.getLogger(BouncyCastleGpgKeyLocator.class);
 
@@ -215,13 +222,17 @@ class BouncyCastleGpgKeyLocator {
 	 *             in case of problems reading the file
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchProviderException
+	 * @throws NoOpenPgpKeyException
+	 *             if the file does not contain any OpenPGP key
 	 */
 	private PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile)
 			throws IOException, NoSuchAlgorithmException,
-			NoSuchProviderException {
+			NoSuchProviderException, NoOpenPgpKeyException {
 		KeyBox keyBox = readKeyBoxFile(keyboxFile);
+		boolean hasOpenPgpKey = false;
 		for (KeyBlob keyBlob : keyBox.getKeyBlobs()) {
 			if (keyBlob.getType() == BlobType.OPEN_PGP_BLOB) {
+				hasOpenPgpKey = true;
 				PGPPublicKey key = findPublicKeyByKeyId(keyBlob);
 				if (key != null) {
 					return key;
@@ -231,6 +242,9 @@ class BouncyCastleGpgKeyLocator {
 					return key;
 				}
 			}
+		}
+		if (!hasOpenPgpKey) {
+			throw new NoOpenPgpKeyException();
 		}
 		return null;
 	}
@@ -253,34 +267,58 @@ class BouncyCastleGpgKeyLocator {
 	public BouncyCastleGpgKey findSecretKey() throws IOException,
 			NoSuchAlgorithmException, NoSuchProviderException, PGPException,
 			CanceledException, UnsupportedCredentialItem, URISyntaxException {
+		BouncyCastleGpgKey key;
 		if (exists(USER_KEYBOX_PATH)) {
-			PGPPublicKey publicKey = //
-					findPublicKeyInKeyBox(USER_KEYBOX_PATH);
-
-			if (publicKey != null) {
-				return findSecretKeyForKeyBoxPublicKey(publicKey,
-						USER_KEYBOX_PATH);
-			}
-
-			throw new PGPException(MessageFormat
-					.format(JGitText.get().gpgNoPublicKeyFound, signingKey));
-		} else if (exists(USER_PGP_LEGACY_SECRING_FILE)) {
-			PGPSecretKey secretKey = findSecretKeyInLegacySecring(signingKey,
-					USER_PGP_LEGACY_SECRING_FILE);
-
-			if (secretKey != null) {
-				if (!secretKey.isSigningKey()) {
-					throw new PGPException(MessageFormat.format(
-							JGitText.get().gpgNotASigningKey, signingKey));
+			try {
+				key = loadKeyFromKeybox(USER_KEYBOX_PATH);
+				if (key != null) {
+					return key;
 				}
-				return new BouncyCastleGpgKey(secretKey, USER_PGP_LEGACY_SECRING_FILE);
+				throw new PGPException(MessageFormat.format(
+						JGitText.get().gpgNoPublicKeyFound, signingKey));
+			} catch (NoOpenPgpKeyException e) {
+				// Ignore and try the secring.gpg, if it exists.
+				if (log.isDebugEnabled()) {
+					log.debug("{} does not contain any OpenPGP keys", //$NON-NLS-1$
+							USER_KEYBOX_PATH);
+				}
 			}
-
+		}
+		if (exists(USER_PGP_LEGACY_SECRING_FILE)) {
+			key = loadKeyFromSecring(USER_PGP_LEGACY_SECRING_FILE);
+			if (key != null) {
+				return key;
+			}
 			throw new PGPException(MessageFormat.format(
 					JGitText.get().gpgNoKeyInLegacySecring, signingKey));
 		}
-
 		throw new PGPException(JGitText.get().gpgNoKeyring);
+	}
+
+	private BouncyCastleGpgKey loadKeyFromKeybox(Path keybox)
+			throws NoOpenPgpKeyException, NoSuchAlgorithmException,
+			NoSuchProviderException, IOException, CanceledException,
+			UnsupportedCredentialItem, PGPException, URISyntaxException {
+		PGPPublicKey publicKey = findPublicKeyInKeyBox(keybox);
+		if (publicKey != null) {
+			return findSecretKeyForKeyBoxPublicKey(publicKey, keybox);
+		}
+		return null;
+	}
+
+	private BouncyCastleGpgKey loadKeyFromSecring(Path secring)
+			throws IOException, PGPException {
+		PGPSecretKey secretKey = findSecretKeyInLegacySecring(signingKey,
+				secring);
+
+		if (secretKey != null) {
+			if (!secretKey.isSigningKey()) {
+				throw new PGPException(MessageFormat
+						.format(JGitText.get().gpgNotASigningKey, signingKey));
+			}
+			return new BouncyCastleGpgKey(secretKey, secring);
+		}
+		return null;
 	}
 
 	private BouncyCastleGpgKey findSecretKeyForKeyBoxPublicKey(
@@ -385,7 +423,11 @@ class BouncyCastleGpgKeyLocator {
 	}
 
 	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException,
-			NoSuchAlgorithmException, NoSuchProviderException {
+			NoSuchAlgorithmException, NoSuchProviderException,
+			NoOpenPgpKeyException {
+		if (keyboxFile.toFile().length() == 0) {
+			throw new NoOpenPgpKeyException();
+		}
 		KeyBox keyBox;
 		try (InputStream in = new BufferedInputStream(
 				newInputStream(keyboxFile))) {
