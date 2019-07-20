@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cc68640d_7d0f378b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-20T22:00:20Z",
+      "side": 1,
+      "message": "this method needs to be public since FS is in a different package than FileBasedConfig\n\ndone",
+      "parentUuid": "9fb381ec_b7bc6b13",
+      "revId": "6b64be3aed8b6664787ba9b5191d349feb9e7581",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "845c3b54_1b3bf45b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 11
