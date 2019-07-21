@@ -275,6 +275,10 @@ public final class Constants {
 	/** Logs folder name */
 	public static final String LOGS = "logs";
 
+	/** Reftable folder name */
+	public static final String REFTABLE = "reftable";
+
+
 	/** Info refs folder */
 	public static final String INFO_REFS = "info/refs";
 
