@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aad99d65_40de7722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-21T14:43:20Z",
+      "side": 1,
+      "message": "ok, done",
+      "parentUuid": "75eb2547_9f642926",
+      "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e0d50aa_ec67fddd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-21T11:59:25Z",
       "side": 1,
       "message": "Just a note: my first approach was to break the recursion here. But then we actually have one recursion step and this won\u0027t play as nicely with upcoming attrCacheByPath. Also, it makes code more complex.",
+      "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29d67172_9b0f19a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-21T14:43:20Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "0e0d50aa_ec67fddd",
       "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "017f6a48_7bbed5b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-21T14:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "927847e1_11fdcbf1",
+      "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47fb6de1_75f5f937",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2019-07-21T11:59:25Z",
       "side": 1,
       "message": "With 10000 iterations, on Windows, NTFS it takes almost 30 seconds now for the first invocation of:\n\n    FS.getFileStoreAttributes(..., true)\n\nI would prefer to stick with 1000. To summarize:\n\n- change Iced1468b96c4f32381a9cf0c651b2bf6a9a9af35 requires ~200ms\n- change I1c8bb59f6486f174b7bbdc63072777ddbe06694d requires ~3s\n- change I22195e488453aae8d011b0a8e3276fe3d99deaea requires ~30s\n\nIn all cases, 16ms timestamp resolution are reported.",
+      "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2906282a_5d08c2ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-21T14:43:20Z",
+      "side": 1,
+      "message": "I changed this to measure for 3 seconds so that we have comparable runtime of this measurement on different OS, filesystem, Java version and hardware",
+      "parentUuid": "47fb6de1_75f5f937",
       "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
