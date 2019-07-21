@@ -16,6 +16,24 @@
       "revId": "ad1864ef2028ba7008cda547be67332b8607032c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b408e668_6ff1b701",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-07-21T15:38:42Z",
+      "side": 1,
+      "message": "No, check the logic: this is thrown if !haveKeybox \u0026\u0026 !haveSecring.",
+      "parentUuid": "f4cbee9c_a6f0fc5f",
+      "revId": "ad1864ef2028ba7008cda547be67332b8607032c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
