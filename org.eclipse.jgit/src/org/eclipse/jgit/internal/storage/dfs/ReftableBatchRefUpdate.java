@@ -141,8 +141,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 			lock.lock();
 			try {
-				Reftable table = refdb.reader();
-				if (!checkExpected(table, pending)) {
+				if (!checkExpected(pending)) {
 					return;
 				}
 				if (!checkConflicting(pending)) {
@@ -236,10 +235,10 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 		return ok;
 	}
 
-	private boolean checkExpected(Reftable table, List<ReceiveCommand> pending)
+	private boolean checkExpected(List<ReceiveCommand> pending)
 			throws IOException {
 		for (ReceiveCommand cmd : pending) {
-			if (!matchOld(cmd, table.exactRef(cmd.getRefName()))) {
+			if (!matchOld(cmd, refdb.exactRef(cmd.getRefName()))) {
 				cmd.setResult(LOCK_FAILURE);
 				if (isAtomic()) {
 					ReceiveCommand.abort(pending);
