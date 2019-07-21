@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4cbee9c_a6f0fc5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-07-21T14:32:22Z",
+      "side": 1,
+      "message": "This exception is now invalid. It says no keyring but there is one - it\u0027s corrupt.",
+      "revId": "ad1864ef2028ba7008cda547be67332b8607032c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
