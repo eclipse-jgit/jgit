@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38b9a6f4_1d37c6a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-22T23:35:14Z",
+      "side": 1,
+      "message": "Comment for older patchset is still relevant\nhttps://git.eclipse.org/r/c/144157/1/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java#525",
+      "range": {
+        "startLine": 525,
+        "startChar": 15,
+        "endLine": 525,
+        "endChar": 23
+      },
+      "revId": "5cfd288e667ec46f0c6e58d4dad9bcf35b1c7b03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
