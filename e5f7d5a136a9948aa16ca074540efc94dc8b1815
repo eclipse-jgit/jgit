@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb7bc29e_b6f37933",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-22T21:04:41Z",
+      "side": 1,
+      "message": "Why does this method have an unused parameter ? Looks like something is missing here.",
+      "range": {
+        "startLine": 559,
+        "startChar": 50,
+        "endLine": 559,
+        "endChar": 65
+      },
+      "revId": "e5f7d5a136a9948aa16ca074540efc94dc8b1815",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
