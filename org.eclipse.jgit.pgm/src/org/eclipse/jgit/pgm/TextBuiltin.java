@@ -62,7 +62,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-
+import org.apache.sshd.common.config.keys.loader.KeyPairResourceParser;
+import org.apache.sshd.common.config.keys.loader.openssh.OpenSSHKeyPairResourceParser;
+import org.apache.sshd.common.config.keys.loader.pem.PEMResourceParserUtils;
+import org.apache.sshd.common.config.keys.loader.putty.PuttyKeyUtils;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -249,6 +253,10 @@ public abstract class TextBuiltin {
 		parseArguments(args);
 		switch (sshDriver) {
 		case APACHE: {
+			SecurityUtils.setKeyPairResourceParser(KeyPairResourceParser
+					.aggregate(PEMResourceParserUtils.PROXY,
+							OpenSSHKeyPairResourceParser.INSTANCE,
+							PuttyKeyUtils.DEFAULT_INSTANCE));
 			SshdSessionFactory factory = new SshdSessionFactory(
 					new JGitKeyCache(), new DefaultProxyDataFactory());
 			Runtime.getRuntime()

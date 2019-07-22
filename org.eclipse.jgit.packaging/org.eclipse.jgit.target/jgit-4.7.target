@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1560816219">
+<target name="jgit-4.7" sequenceNumber="1563743901">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -80,9 +80,11 @@
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
       <unit id="org.apache.sshd.osgi" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
+      <unit id="org.apache.sshd.putty" version="2.2.0.v20190721-1224"/>
+      <unit id="org.apache.sshd.putty.source" version="2.2.0.v20190721-1224"/>
       <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190602212107/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20190721155340/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
