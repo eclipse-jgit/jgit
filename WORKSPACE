@@ -71,6 +71,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "sshd-putty",
+    artifact = "org.apache.sshd:sshd-putty:2.2.0",
+    sha1 = "5d6210a204bb7e74449af795f6d6ece7617e2da7",
+)
+
+maven_jar(
     name = "commons-codec",
     artifact = "commons-codec:commons-codec:1.10",
     sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",

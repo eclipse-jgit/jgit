@@ -17,6 +17,8 @@ java_library(
         "//lib:jetty-servlet",
         "//lib:jetty-util",
         "//lib:servlet-api",
+        "//lib:sshd-osgi",
+        "//lib:sshd-putty",
         "//org.eclipse.jgit.archive:jgit-archive",
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",

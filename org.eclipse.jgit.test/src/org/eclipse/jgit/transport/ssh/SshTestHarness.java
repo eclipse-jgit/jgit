@@ -358,6 +358,38 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		checkFile(remoteFile, "something new");
 	}
 
+	protected void runKeyTest(String keyName) throws Exception {
+		File cloned = new File(getTemporaryDirectory(), "cloned");
+		String keyFileName = keyName + "_key";
+		File privateKey = new File(sshDir, keyFileName);
+		copyTestResource(keyName, privateKey);
+		File publicKey = new File(sshDir, keyFileName + ".pub");
+		copyTestResource(keyName + ".pub", publicKey);
+		server.setTestUserPublicKey(publicKey.toPath());
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"testpass");
+		pushTo(provider, cloneWith("ssh://localhost/doesntmatter", //
+				cloned, provider, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey.getAbsolutePath()));
+		int expectedCalls = keyName.contains("testpass") ? 1 : 0;
+		assertEquals("Unexpected calls to CredentialsProvider", expectedCalls,
+				provider.getLog().size());
+		// Should now also work without credentials provider, even if the key
+		// was encrypted.
+		cloned = new File(getTemporaryDirectory(), "cloned2");
+		pushTo(null, cloneWith("ssh://localhost/doesntmatter", //
+				cloned, null, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey.getAbsolutePath()));
+	}
+
 	protected static class TestCredentialsProvider extends CredentialsProvider {
 
 		private final List<String> stringStore;

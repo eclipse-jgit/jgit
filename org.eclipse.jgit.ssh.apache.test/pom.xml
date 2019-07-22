@@ -118,6 +118,21 @@
     <sourceDirectory>src/</sourceDirectory>
     <testSourceDirectory>tst/</testSourceDirectory>
 
+    <testResources>
+      <testResource>
+        <directory>tst-rsrc/</directory>
+      </testResource>
+    </testResources>
+
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

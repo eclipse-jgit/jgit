@@ -809,36 +809,6 @@ public abstract class SshTestBase extends SshTestHarness {
 				&& (keyName.contains("ed25519")
 						|| keyName.startsWith("id_ecdsa_384")
 						|| keyName.startsWith("id_ecdsa_521"))));
-		File cloned = new File(getTemporaryDirectory(), "cloned");
-		String keyFileName = keyName + "_key";
-		File privateKey = new File(sshDir, keyFileName);
-		copyTestResource(keyName, privateKey);
-		File publicKey = new File(sshDir, keyFileName + ".pub");
-		copyTestResource(keyName + ".pub", publicKey);
-		server.setTestUserPublicKey(publicKey.toPath());
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"testpass");
-		pushTo(provider,
-				cloneWith("ssh://localhost/doesntmatter", //
-						cloned, provider, //
-						"Host localhost", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + privateKey.getAbsolutePath()));
-		int expectedCalls = keyName.endsWith("testpass") ? 1 : 0;
-		assertEquals("Unexpected calls to CredentialsProvider", expectedCalls,
-				provider.getLog().size());
-		// Should now also work without credentials provider, even if the key
-		// was encrypted.
-		cloned = new File(getTemporaryDirectory(), "cloned2");
-		pushTo(null,
-				cloneWith("ssh://localhost/doesntmatter", //
-						cloned, null, //
-						"Host localhost", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + privateKey.getAbsolutePath()));
+		runKeyTest(keyName);
 	}
 }

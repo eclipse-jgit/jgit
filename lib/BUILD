@@ -71,11 +71,21 @@ java_library(
     name = "sshd-osgi",
     visibility = [
         "//org.eclipse.jgit.junit.ssh:__pkg__",
+        "//org.eclipse.jgit.pgm:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@sshd-osgi//jar"],
+)
+
+java_library(
+    name = "sshd-putty",
+    visibility = [
+        "//org.eclipse.jgit.pgm:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+    ],
+    exports = ["@sshd-putty//jar"],
 )
 
 java_library(
