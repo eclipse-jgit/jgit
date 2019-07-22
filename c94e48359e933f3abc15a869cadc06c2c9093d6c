@@ -139,6 +139,24 @@
       "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7fe18f3_fd530b24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-22T09:08:25Z",
+      "side": 1,
+      "message": "Just for the records, today I\u0027m seeing 4ms - 6ms timestamp resolution for all changes (patch set 12).",
+      "parentUuid": "2906282a_5d08c2ad",
+      "revId": "c94e48359e933f3abc15a869cadc06c2c9093d6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
