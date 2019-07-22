@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d676988d_b0dac909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-22T13:43:51Z",
+      "side": 1,
+      "message": "We have to add attributes to the cache, otherwise ComputableFuture will be called on every invocation of getFileStoreAttributes:\n\n  attributeCache.put(s, attributes.get());",
+      "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfa3bc2_4ad4ab99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-22T13:43:51Z",
+      "side": 1,
+      "message": "On Windows, that works fine now! Same timestamp resolution as before.",
+      "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75d6741d_f1c9c950",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-22T13:43:51Z",
+      "side": 1,
+      "message": "For Windows, NTFS, JDK 11, this does not work: s.name() returns the Windows volume name which may easily be \"\" or \"New Volume\" for multiple different volumes. The serial number seems to work better:\n\n  private static String getConfigKey(FileStore s) {\n    final String storeKey;\n    Object attribute \u003d null;\n    try {\n      attribute \u003d s.getAttribute(\"volume:vsn\");\n    } catch (IOException ignored) {\n    }\n\n    if (attribute instanceof Integer) {\n      storeKey \u003d attribute.toString();\n    }\n    else {\n      storeKey \u003d s.name();\n    }\n    return javaVersionPrefix + storeKey;\n  }",
+      "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
