@@ -34,6 +34,24 @@
       "revId": "ad1864ef2028ba7008cda547be67332b8607032c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bfc0d89_45f8907f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-07-22T15:22:51Z",
+      "side": 1,
+      "message": "Thomas, this is the problem with the code. It\u0027s readability decreased and I failed to spot from the diff. :)\n\nI\u0027m not a huge fan of how it looks like currently. This is a bit messy.\n\nInstead I\u0027d propose the following change to improve readbility of the flow.\n\nOption 1: enhance the check of the if condition to also check if it\u0027s valid (non-zero length) keybox file. Only go into the block if it\u0027s valid. If it\u0027s invalid, fall continue to the other block. unfold second else-if into a new if (dropping else)\n\nOption 2: change findSecretKeyForKeyBoxPublicKey and introduce a special purpose \"EmptyKeyboxFileException\". Surround with a catch catching only EmptyKeyboxFileException and then log a debug message, continue with flow; unfold second else-if into a new if (dropping else)",
+      "parentUuid": "b408e668_6ff1b701",
+      "revId": "ad1864ef2028ba7008cda547be67332b8607032c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
