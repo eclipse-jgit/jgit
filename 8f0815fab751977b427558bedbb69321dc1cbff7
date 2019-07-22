@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1327e24a_57381ad9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-22T20:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d676988d_b0dac909",
+      "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfa3bc2_4ad4ab99",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 14
@@ -47,6 +65,24 @@
       "writtenOn": "2019-07-22T13:43:51Z",
       "side": 1,
       "message": "For Windows, NTFS, JDK 11, this does not work: s.name() returns the Windows volume name which may easily be \"\" or \"New Volume\" for multiple different volumes. The serial number seems to work better:\n\n  private static String getConfigKey(FileStore s) {\n    final String storeKey;\n    Object attribute \u003d null;\n    try {\n      attribute \u003d s.getAttribute(\"volume:vsn\");\n    } catch (IOException ignored) {\n    }\n\n    if (attribute instanceof Integer) {\n      storeKey \u003d attribute.toString();\n    }\n    else {\n      storeKey \u003d s.name();\n    }\n    return javaVersionPrefix + storeKey;\n  }",
+      "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afa1a514_eccaf9b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-22T20:03:14Z",
+      "side": 1,
+      "message": "Looking at the OpenJDK source code this only works on Windows.\nDoes this also work with other Windows file systems (FAT, ReFS) ?\n\nDone",
+      "parentUuid": "75d6741d_f1c9c950",
       "revId": "8f0815fab751977b427558bedbb69321dc1cbff7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
