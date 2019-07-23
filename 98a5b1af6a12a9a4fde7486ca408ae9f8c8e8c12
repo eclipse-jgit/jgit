@@ -22,6 +22,30 @@
       "revId": "98a5b1af6a12a9a4fde7486ca408ae9f8c8e8c12",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec52f15b_4f0469ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-23T09:57:26Z",
+      "side": 1,
+      "message": "done.\n\ncontext: I\u0027m trying to get the Reftable code to work for local FS access too.",
+      "parentUuid": "efa187e1_896961d9",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "98a5b1af6a12a9a4fde7486ca408ae9f8c8e8c12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
