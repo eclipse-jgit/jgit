@@ -770,7 +770,7 @@ public class ReceiveCommand {
 	 *            receive-pack session.
 	 * @since 2.0
 	 */
-	public void execute(BaseReceivePack rp) {
+	public void execute(ReceivePack rp) {
 		try {
 			String expTarget = getOldSymref();
 			boolean detach = getNewSymref() != null

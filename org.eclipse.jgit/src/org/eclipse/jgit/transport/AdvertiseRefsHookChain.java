@@ -82,7 +82,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 
 	/** {@inheritDoc} */
 	@Override
-	public void advertiseRefs(BaseReceivePack rp)
+	public void advertiseRefs(ReceivePack rp)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)
 			hooks[i].advertiseRefs(rp);
