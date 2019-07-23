@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "038f7a3e_077fb372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-23T07:46:50Z",
+      "side": 1,
+      "message": "It should be:\n\n  [filesystem \"AdoptOpenJDK|11.0.3|/dev/disk1s1\"]",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "6952be4e36e29efaf130dd726b1d6fd048dfec4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
