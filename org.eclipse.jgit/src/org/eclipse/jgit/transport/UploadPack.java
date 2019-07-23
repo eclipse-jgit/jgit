@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
@@ -280,6 +281,8 @@ public class UploadPack {
 	private PacketLineIn pckIn;
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
+
+	private ErrorWriter errOut = new PackProtocolErrorWriter();
 
 	/**
 	 * Refs eligible for advertising to the client, set using
@@ -782,15 +785,10 @@ public class UploadPack {
 			} else {
 				service(pckOut);
 			}
-		} catch (UploadPackInternalServerErrorException err) {
-			// UploadPackInternalServerErrorException is a special exception
-			// that indicates an error is already written to the client. Do
-			// nothing.
-			throw err;
 		} catch (ServiceMayNotContinueException err) {
-			if (!err.isOutput() && err.getMessage() != null && pckOut != null) {
+			if (!err.isOutput() && err.getMessage() != null) {
 				try {
-					pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					errOut.writeError(err.getMessage());
 				} catch (IOException e) {
 					err.addSuppressed(e);
 					throw err;
@@ -804,7 +802,7 @@ public class UploadPack {
 						? err.getMessage()
 						: JGitText.get().internalServerError;
 				try {
-					pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					errOut.writeError(msg);
 				} catch (IOException e) {
 					err.addSuppressed(e);
 					throw err;
@@ -2083,6 +2081,8 @@ public class UploadPack {
 				|| caps.contains(OPTION_SIDE_BAND_64K);
 
 		if (sideband) {
+			errOut = new SideBandErrorWriter();
+
 			int bufsz = SideBandOutputStream.SMALL_BUF;
 			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
 				bufsz = SideBandOutputStream.MAX_BUF;
@@ -2097,46 +2097,13 @@ public class UploadPack {
 				pm = new SideBandProgressMonitor(msgOut);
 			}
 
-			try {
-				sendPack(pm, packOut, req, accumulator, allTags,
-						unshallowCommits, deepenNots);
-				pckOut.end();
-			} catch (ServiceMayNotContinueException err) {
-				String message = err.getMessage();
-				if (message == null) {
-					message = JGitText.get().internalServerError;
-				}
-				try {
-					reportInternalServerErrorOverSideband(message);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			} catch (IOException | RuntimeException | Error err) {
-				try {
-					reportInternalServerErrorOverSideband(
-							JGitText.get().internalServerError);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			}
+			sendPack(pm, packOut, req, accumulator, allTags, unshallowCommits,
+					deepenNots);
+			pckOut.end();
 		} else {
 			sendPack(NullProgressMonitor.INSTANCE, rawOut, req, accumulator,
 					allTags, unshallowCommits, deepenNots);
 		}
-	}
-
-	private void reportInternalServerErrorOverSideband(String message)
-			throws IOException {
-		@SuppressWarnings("resource" /* java 7 */)
-		SideBandOutputStream err = new SideBandOutputStream(
-				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
-				rawOut);
-		err.write(Constants.encode(message));
-		err.flush();
 	}
 
 	/**
@@ -2351,6 +2318,30 @@ public class UploadPack {
 				((ByteArrayOutputStream) out).writeTo(rawOut);
 				out = rawOut;
 			}
+		}
+	}
+
+	private interface ErrorWriter {
+		void writeError(String message) throws IOException;
+	}
+
+	private class SideBandErrorWriter implements ErrorWriter {
+		@Override
+		public void writeError(String message) throws IOException {
+			@SuppressWarnings("resource" /* java 7 */)
+			SideBandOutputStream err = new SideBandOutputStream(
+					SideBandOutputStream.CH_ERROR,
+					SideBandOutputStream.SMALL_BUF, requireNonNull(rawOut));
+			err.write(Constants.encode(message));
+			err.flush();
+		}
+	}
+
+	private class PackProtocolErrorWriter implements ErrorWriter {
+		@Override
+		public void writeError(String message) throws IOException {
+			new PacketLineOut(requireNonNull(rawOut))
+					.writeString("ERR " + message + '\n'); //$NON-NLS-1$
 		}
 	}
 }
