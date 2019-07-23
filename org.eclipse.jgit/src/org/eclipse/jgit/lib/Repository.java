@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -58,6 +59,8 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.mailmap.Mailmap;
+import org.eclipse.jgit.mailmap.MailmapParser;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -133,6 +136,9 @@ public abstract class Repository implements AutoCloseable {
 
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
+
+	/** The parsed mailmap for this repository */
+	private Mailmap mailmap;
 
 	private final String initialBranch;
 
@@ -2044,6 +2050,62 @@ public abstract class Repository implements AutoCloseable {
 			// the file has disappeared in the meantime ignore it
 			return null;
 		}
+	}
+
+	/**
+	 * Get the mailmap associated with the repository. It first reads the
+	 * configured mailmap file and adds the entries to the mailmap. If the
+	 * default mailmap exists as well, those entries are appended to any
+	 * previous entries.
+	 *
+	 * @return the mailmap entries for the repository
+	 * @since 7.7
+	 */
+	@NonNull
+	public Mailmap getMailmap() {
+		if (mailmap == null) {
+			mailmap = new Mailmap();
+			// TODO(ms): add support for mailmap.blob, see
+			// https://git-scm.com/docs/git-config#Documentation/git-config.txt-mailmapblob
+			if (!isBare() && getDirectory() != null) {
+				File configuredMailmapFile = Optional
+						.ofNullable(getConfig().getString(
+								ConfigConstants.CONFIG_MAILMAP_SECTION, null,
+								ConfigConstants.CONFIG_KEY_FILE))
+						.map(filePath -> {
+							File f = new File(filePath);
+							if (!f.isAbsolute()) {
+								f = new File(workTree, filePath);
+							}
+							return f;
+						}).orElse(null);
+
+				if (configuredMailmapFile != null
+						&& configuredMailmapFile.exists()) {
+					try {
+						Mailmap configuredMailmap = MailmapParser
+								.parse(configuredMailmapFile);
+						mailmap.append(configuredMailmap);
+					} catch (IOException e) {
+						LOG.error(e.getMessage(), e);
+					}
+				}
+
+				File defaultMailmapFile = new File(workTree,
+						Constants.MAILMAP_FILENAME);
+				if (!defaultMailmapFile.equals(configuredMailmapFile)
+						&& defaultMailmapFile.exists()) {
+					try {
+						Mailmap defaultMailmap = MailmapParser
+								.parse(defaultMailmapFile);
+						mailmap.append(defaultMailmap);
+					} catch (IOException e) {
+						LOG.error(e.getMessage(), e);
+					}
+				}
+			}
+		}
+		return mailmap;
 	}
 
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {
