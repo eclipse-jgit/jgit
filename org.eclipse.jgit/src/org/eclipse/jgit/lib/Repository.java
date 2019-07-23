@@ -23,11 +23,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +61,8 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.mailmap.Mailmap;
+import org.eclipse.jgit.mailmap.MailmapParser;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -70,6 +75,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -2046,6 +2052,58 @@ public abstract class Repository implements AutoCloseable {
 			// the file has disappeared in the meantime ignore it
 			return null;
 		}
+	}
+
+	/**
+	 * Retrieves the mailmap associated with the repository.
+	 *
+	 * @return the mailmap entries for the repository; may be empty
+	 * @since 8.0
+	 */
+	@NonNull
+	public Mailmap getMailmap() {
+		Mailmap mailmap = new Mailmap();
+		Config config = getConfig();
+		Path file = config.getPath(ConfigConstants.CONFIG_MAILMAP_SECTION, null,
+				ConfigConstants.CONFIG_KEY_FILE, getFS(),
+				isBare() ? getDirectory() : getWorkTree(), null);
+		String blobRef = config.getString(
+				ConfigConstants.CONFIG_MAILMAP_SECTION, null,
+				ConfigConstants.CONFIG_KEY_BLOB);
+		if (StringUtils.isEmptyOrNull(blobRef) && isBare()) {
+			blobRef = "HEAD:.mailmap"; //$NON-NLS-1$
+		}
+		File defaultFile = new File(isBare() ? getDirectory() : getWorkTree(),
+				Constants.MAILMAP_FILENAME);
+		load(mailmap, defaultFile.toPath(), !isBare());
+		if (!StringUtils.isEmptyOrNull(blobRef)) {
+			load(mailmap, blobRef);
+		}
+		if (file != null) {
+			load(mailmap, file,
+					!isBare() && file.startsWith(getWorkTree().toPath()));
+		}
+		return mailmap;
+	}
+
+	private void load(Mailmap map, Path file, boolean noLinks) {
+		if (noLinks && !Files.isRegularFile(file, LinkOption.NOFOLLOW_LINKS)) {
+			return;
+		}
+		try (InputStream in = noLinks
+				? Files.newInputStream(file, LinkOption.NOFOLLOW_LINKS)
+				: Files.newInputStream(file)) {
+			map.append(MailmapParser.parse(in));
+		} catch (NoSuchFileException e) {
+			// Silently skip
+		} catch (IOException e) {
+			LOG.error(e.getLocalizedMessage(), e);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void load(Mailmap map, String blobRef) {
+		// TODO: load from blob
 	}
 
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {
