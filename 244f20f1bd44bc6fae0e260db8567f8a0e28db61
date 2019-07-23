@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "536403f0_f17418d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-23T04:39:56Z",
+      "side": 1,
+      "message": "Add some context here.  I.e. why do we need to do this?  Does it make the code easier to modify for some later feature development, or does it make it easier for clients to use?",
+      "revId": "244f20f1bd44bc6fae0e260db8567f8a0e28db61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df54076_899473d4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
         "patchSetId": 1
