@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5c52f19d_06c687a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-23T10:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df54076_899473d4",
+      "revId": "244f20f1bd44bc6fae0e260db8567f8a0e28db61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c623bc6_2390ddcb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2019-07-22T22:07:21Z",
       "side": 1,
       "message": "- missing javadoc\n- we use tabs (size 4) for indentation\n- we use the \"Eclipse [builtin]\" Java formatter\n\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Coding_standards",
+      "revId": "244f20f1bd44bc6fae0e260db8567f8a0e28db61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb1a4b8f_fcebdf36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-23T10:04:24Z",
+      "side": 1,
+      "message": "Can we focus the review on the functionality before we spend time on the cosmetics?",
+      "parentUuid": "4c623bc6_2390ddcb",
       "revId": "244f20f1bd44bc6fae0e260db8567f8a0e28db61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
