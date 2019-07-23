@@ -53,7 +53,7 @@ import java.util.List;
  * modify the results of the previous hooks in the chain by calling
  * {@link org.eclipse.jgit.transport.UploadPack#getAdvertisedRefs()}, or
  * {@link org.eclipse.jgit.transport.ReceivePack#getAdvertisedRefs()} or
- * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedObjects()}.
+ * {@link org.eclipse.jgit.transport.ReceivePack#getAdvertisedObjects()}.
  */
 public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 	private final AdvertiseRefsHook[] hooks;
