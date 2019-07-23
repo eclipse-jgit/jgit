@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ba0d9d_23ad0caf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-23T20:04:53Z",
+      "side": 1,
+      "message": "Optional: Would this be more readable with some helper methods like:\nprivate static OutputStream getOutputStream(Set\u003cString\u003e capabilities)\nprivate static ProgressMonitor getProgressMonitor(Set\u003cString\u003e capabilities);\n\nIf those take into account the sideband, maybe we can remove this if (sideband), have only one call to sendPack and consolidate the exception handling (In the current code sideband exceptions are handled but non-sideband passed through?). Does it make sense?",
+      "range": {
+        "startLine": 2088,
+        "startChar": 12,
+        "endLine": 2088,
+        "endChar": 32
+      },
+      "revId": "8f775d3e0e0657f482192adbd821e51cb8146f43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
