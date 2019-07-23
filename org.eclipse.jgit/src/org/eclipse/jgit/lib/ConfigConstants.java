@@ -1143,4 +1143,25 @@ public final class ConfigConstants {
 	 * @since 7.6
 	 */
 	public static final String CONFIG_KEY_PACK_REFS = "packRefs";
+
+	/**
+	 * The "mailmap" section
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_MAILMAP_SECTION = "mailmap";
+
+	/**
+	 * The "blob" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_BLOB = "blob";
+
+	/**
+	 * The "file" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_FILE = "file";
 }
