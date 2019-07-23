@@ -65,7 +65,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A command being processed by
- * {@link org.eclipse.jgit.transport.BaseReceivePack}.
+ * {@link org.eclipse.jgit.transport.ReceivePack}.
  * <p>
  * This command instance roughly translates to the server side representation of
  * the {@link org.eclipse.jgit.transport.RemoteRefUpdate} created by the client.
@@ -290,7 +290,7 @@ public class ReceiveCommand {
 
 	/**
 	 * Create a new command for
-	 * {@link org.eclipse.jgit.transport.BaseReceivePack}.
+	 * {@link org.eclipse.jgit.transport.ReceivePack}.
 	 *
 	 * @param oldId
 	 *            the expected old object id; must not be null. Use
@@ -334,7 +334,7 @@ public class ReceiveCommand {
 
 	/**
 	 * Create a new command for
-	 * {@link org.eclipse.jgit.transport.BaseReceivePack}.
+	 * {@link org.eclipse.jgit.transport.ReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
@@ -770,7 +770,7 @@ public class ReceiveCommand {
 	 *            receive-pack session.
 	 * @since 2.0
 	 */
-	public void execute(BaseReceivePack rp) {
+	public void execute(ReceivePack rp) {
 		try {
 			String expTarget = getOldSymref();
 			boolean detach = getNewSymref() != null
