@@ -53,7 +53,7 @@ import java.util.List;
  * modify the results of the previous hooks in the chain by calling
  * {@link org.eclipse.jgit.transport.UploadPack#getAdvertisedRefs()}, or
  * {@link org.eclipse.jgit.transport.ReceivePack#getAdvertisedRefs()} or
- * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedObjects()}.
+ * {@link org.eclipse.jgit.transport.ReceivePack#getAdvertisedObjects()}.
  */
 public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 	private final AdvertiseRefsHook[] hooks;
@@ -82,7 +82,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 
 	/** {@inheritDoc} */
 	@Override
-	public void advertiseRefs(BaseReceivePack rp)
+	public void advertiseRefs(ReceivePack rp)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)
 			hooks[i].advertiseRefs(rp);
