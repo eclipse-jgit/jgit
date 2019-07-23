@@ -2114,54 +2114,40 @@ public class UploadPack {
 		Set<String> caps = req.getClientCapabilities();
 		boolean sideband = caps.contains(OPTION_SIDE_BAND)
 				|| caps.contains(OPTION_SIDE_BAND_64K);
-		if (sideband) {
-			try {
-				sendPack(true, req, accumulator, allTags, unshallowCommits,
-						deepenNots, pckOut);
-			} catch (ServiceMayNotContinueException err) {
-				String message = err.getMessage();
-				if (message == null) {
-					message = JGitText.get().internalServerError;
-				}
-				try {
-					reportInternalServerErrorOverSideband(message);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			} catch (IOException | RuntimeException | Error err) {
-				try {
-					reportInternalServerErrorOverSideband(
-							JGitText.get().internalServerError);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			}
-		} else {
-			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots,
-					pckOut);
-		}
-	}
 
-	private void reportInternalServerErrorOverSideband(String message)
-			throws IOException {
-		@SuppressWarnings("resource" /* java 7 */)
-		SideBandOutputStream err = new SideBandOutputStream(
-				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
-				rawOut);
-		err.write(Constants.encode(message));
-		err.flush();
+		if (sideband) {
+			int bufsz = SideBandOutputStream.SMALL_BUF;
+			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
+				bufsz = SideBandOutputStream.MAX_BUF;
+			}
+			OutputStream packOut = new SideBandOutputStream(
+					SideBandOutputStream.CH_DATA, bufsz, rawOut);
+
+			ProgressMonitor pm = NullProgressMonitor.INSTANCE;
+			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
+				msgOut = new SideBandOutputStream(
+						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
+				pm = new SideBandProgressMonitor(msgOut);
+			}
+
+			sendPack(pm, pckOut, packOut, req, accumulator, allTags,
+					unshallowCommits, deepenNots);
+			pckOut.end();
+		} else {
+			sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
+					accumulator, allTags, unshallowCommits, deepenNots);
+		}
 	}
 
 	/**
 	 * Send the requested objects to the client.
 	 *
-	 * @param sideband
-	 *            whether to wrap the pack in side-band pkt-lines, interleaved
-	 *            with progress messages and errors.
+	 * @param pm
+	 *            progress monitor
+	 * @param pckOut
+	 *            PacketLineOut that shares the output with packOut
+	 * @param packOut
+	 *            packfile output
 	 * @param req
 	 *            request being processed
 	 * @param accumulator
@@ -2173,35 +2159,14 @@ public class UploadPack {
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
-	 * @param pckOut
-	 *            output writer
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
-	private void sendPack(final boolean sideband,
-			FetchRequest req,
+	private void sendPack(ProgressMonitor pm, PacketLineOut pckOut,
+			OutputStream packOut, FetchRequest req,
 			PackStatistics.Accumulator accumulator,
-			@Nullable Collection<Ref> allTags,
-			List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots,
-			PacketLineOut pckOut) throws IOException {
-		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
-		OutputStream packOut = rawOut;
-
-		if (sideband) {
-			int bufsz = SideBandOutputStream.SMALL_BUF;
-			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K))
-				bufsz = SideBandOutputStream.MAX_BUF;
-
-			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
-					bufsz, rawOut);
-			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
-				msgOut = new SideBandOutputStream(
-						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
-				pm = new SideBandProgressMonitor(msgOut);
-			}
-		}
-
+			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) throws IOException {
 		if (wantAll.isEmpty()) {
 			preUploadHook.onSendPack(this, wantIds, commonBase);
 		} else {
@@ -2344,9 +2309,6 @@ public class UploadPack {
 			}
 			pw.close();
 		}
-
-		if (sideband)
-			pckOut.end();
 	}
 
 	private static void findSymrefs(
