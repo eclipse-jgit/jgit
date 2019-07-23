@@ -530,4 +530,16 @@ public final class ConfigConstants {
 	 * @since 5.7
 	 */
 	public static final String CONFIG_REFSTORAGE_REFTREE = "reftree";
+
+	/**
+	 * The "mailmap" section
+	 * @since 5.7
+	 */
+	public static final String CONFIG_MAILMAP_SECTION = "mailmap";
+
+	/**
+	 * The "file" key
+	 * @since 5.7
+	 */
+	public static final String CONFIG_KEY_FILE = "file";
 }

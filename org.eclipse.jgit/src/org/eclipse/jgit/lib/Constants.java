@@ -400,6 +400,12 @@ public final class Constants {
 	/** A gitignore file name */
 	public static final String GITIGNORE_FILENAME = ".gitignore";
 
+	/**
+	 * The default file name of the mailmap configuration
+	 * @since 5.7
+	 */
+	public static final String MAILMAP_FILENAME = ".mailmap";
+
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
