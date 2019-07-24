@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4508a7e0_69075cbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-24T23:34:24Z",
+      "side": 1,
+      "message": "Add a Bug: footer?",
+      "range": {
+        "startLine": 11,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "485554ddf60b2e64fc0c63fdd24c685ff004755f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
