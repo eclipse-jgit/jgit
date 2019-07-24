@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
@@ -153,6 +154,18 @@ class Show extends TextBuiltin {
 		diffFmt.setNewPrefix(""); //$NON-NLS-1$
 	}
 
+	private Boolean mailmap;
+
+	@Option(name = "--mailmap", usage = "usage_mailmap")
+	private void mailmap(@SuppressWarnings("unused") final boolean ignored) {
+		mailmap = Boolean.TRUE;
+	}
+
+	@Option(name = "--no-mailmap", usage = "usage_nomailmap")
+	private void nomailmap(@SuppressWarnings("unused") final boolean ignored) {
+		mailmap = Boolean.FALSE;
+	}
+
 	// END -- Options shared with Diff
 
 	Show() {
@@ -164,6 +177,11 @@ class Show extends TextBuiltin {
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
+		if (mailmap == null) {
+			mailmap = Boolean.valueOf(repository.getConfig().getBoolean(
+					ConfigConstants.CONFIG_LOG_SECTION,
+					ConfigConstants.CONFIG_KEY_MAILMAP, true));
+		}
 	}
 
 	@SuppressWarnings("boxing")
@@ -232,7 +250,9 @@ class Show extends TextBuiltin {
 		outw.print(tag.getTagName());
 		outw.println();
 
-		PersonIdent tagger = tag.getTaggerIdent();
+		PersonIdent tagger = mailmap == Boolean.TRUE
+				? db.getMailmap().map(tag.getTaggerIdent())
+				: tag.getTaggerIdent();
 		if (tagger != null) {
 			outw.println(MessageFormat.format(CLIText.get().taggerInfo,
 					tagger.getName(), tagger.getEmailAddress()));
