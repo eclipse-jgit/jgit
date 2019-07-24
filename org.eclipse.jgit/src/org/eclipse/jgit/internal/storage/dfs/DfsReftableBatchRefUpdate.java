@@ -51,7 +51,6 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
 import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
-import org.eclipse.jgit.internal.storage.reftable.ReftableStack;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -89,7 +88,7 @@ public class DfsReftableBatchRefUpdate extends ReftableBatchRefUpdate {
 	 */
 	protected DfsReftableBatchRefUpdate(DfsReftableDatabase refdb,
 			DfsObjDatabase odb) {
-		super(refdb, refdb.getLock(), refdb.getRepository());
+		super(refdb, refdb.reftableDatabase, refdb.getLock(), refdb.getRepository());
 		this.refdb = refdb;
 		this.odb = odb;
 		reftableConfig = refdb.getReftableConfig();
@@ -111,11 +110,13 @@ public class DfsReftableBatchRefUpdate extends ReftableBatchRefUpdate {
 				ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 				ReftableWriter rw = new ReftableWriter(cfg, tmp);
 				write(rw, newRefs, pending);
+				rw.finish();
 				stats = compactTopOfStack(out, cfg, tmp.toByteArray());
 				prune = toPruneTopOfStack();
 			} else {
 				ReftableWriter rw = new ReftableWriter(cfg, out);
 				write(rw, newRefs, pending);
+				rw.finish();
 				stats = rw.getStats();
 			}
 			pack.addFileExt(REFTABLE);
