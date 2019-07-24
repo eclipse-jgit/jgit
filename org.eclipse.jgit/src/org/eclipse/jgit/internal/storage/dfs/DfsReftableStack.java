@@ -54,7 +54,7 @@ import org.eclipse.jgit.internal.storage.reftable.Reftable;
  * Tracks multiple open
  * {@link org.eclipse.jgit.internal.storage.reftable.Reftable} instances.
  */
-public class ReftableStack implements AutoCloseable {
+public class DfsReftableStack implements AutoCloseable {
 	/**
 	 * Opens a stack of tables for reading.
 	 *
@@ -67,9 +67,9 @@ public class ReftableStack implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a table could not be opened
 	 */
-	public static ReftableStack open(DfsReader ctx, List<DfsReftable> files)
+	public static DfsReftableStack open(DfsReader ctx, List<DfsReftable> files)
 			throws IOException {
-		ReftableStack stack = new ReftableStack(files.size());
+		DfsReftableStack stack = new DfsReftableStack(files.size());
 		boolean close = true;
 		try {
 			for (DfsReftable t : files) {
@@ -88,7 +88,7 @@ public class ReftableStack implements AutoCloseable {
 	private final List<DfsReftable> files;
 	private final List<Reftable> tables;
 
-	private ReftableStack(int tableCnt) {
+	private DfsReftableStack(int tableCnt) {
 		this.files = new ArrayList<>(tableCnt);
 		this.tables = new ArrayList<>(tableCnt);
 	}
