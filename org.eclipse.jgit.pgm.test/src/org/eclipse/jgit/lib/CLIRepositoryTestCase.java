@@ -211,6 +211,14 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 				.replaceAll("\t", "\\\\t");
 	}
 
+	protected String shellQuote(String s) {
+		return "'" + s.replace("'", "'\\''") + "'";
+	}
+
+	protected String shellQuote(File f) {
+		return "'" + f.getPath().replace("'", "'\\''") + "'";
+	}
+
 	protected void assertStringArrayEquals(String expected, String[] actual) {
 		// if there is more than one line, ignore last one if empty
 		assertEquals(1,
