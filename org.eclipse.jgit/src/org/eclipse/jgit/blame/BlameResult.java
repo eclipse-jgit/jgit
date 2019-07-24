@@ -47,6 +47,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.mailmap.Mailmap;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -346,9 +347,10 @@ public class BlameResult {
 	}
 
 	private void loadFrom(BlameGenerator gen) {
+		Mailmap mailmap = gen.getRepository().getMailmap();
 		RevCommit srcCommit = gen.getSourceCommit();
-		PersonIdent srcAuthor = gen.getSourceAuthor();
-		PersonIdent srcCommitter = gen.getSourceCommitter();
+		PersonIdent srcAuthor = mailmap.map(gen.getSourceAuthor());
+		PersonIdent srcCommitter = mailmap.map(gen.getSourceCommitter());
 		String srcPath = gen.getSourcePath();
 		int srcLine = gen.getSourceStart();
 		int resLine = gen.getResultStart();
