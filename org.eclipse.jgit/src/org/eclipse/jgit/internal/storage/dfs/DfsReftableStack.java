@@ -49,12 +49,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
+import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
+import org.eclipse.jgit.internal.storage.reftable.ReftableStack;
 
 /**
  * Tracks multiple open
  * {@link org.eclipse.jgit.internal.storage.reftable.Reftable} instances.
  */
-public class DfsReftableStack implements AutoCloseable {
+public class DfsReftableStack implements ReftableStack {
 	/**
 	 * Opens a stack of tables for reading.
 	 *
@@ -103,12 +105,8 @@ public class DfsReftableStack implements AutoCloseable {
 		return Collections.unmodifiableList(files);
 	}
 
-	/**
-	 * Get unmodifiable list of tables
-	 *
-	 * @return unmodifiable list of tables, in the same order the files were
-	 *         passed to {@link #open(DfsReader, List)}.
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public List<Reftable> readers() {
 		return Collections.unmodifiableList(tables);
 	}
@@ -124,4 +122,18 @@ public class DfsReftableStack implements AutoCloseable {
 			}
 		}
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long nextUpdateIndex() throws IOException {
+		long updateIndex = 0;
+		for (Reftable r : tables) {
+			if (r instanceof ReftableReader) {
+				updateIndex = Math.max(updateIndex,
+						((ReftableReader) r).maxUpdateIndex());
+			}
+		}
+		return updateIndex + 1;
+	}
+
 }
