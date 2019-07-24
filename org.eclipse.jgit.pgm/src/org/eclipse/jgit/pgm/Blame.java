@@ -349,7 +349,7 @@ class Blame extends TextBuiltin {
 	}
 
 	private String author(int line) {
-		PersonIdent author = blame.getSourceAuthor(line);
+		PersonIdent author = db.getMailmap().map(blame.getSourceAuthor(line));
 		if (author == null)
 			return ""; //$NON-NLS-1$
 		String name = showAuthorEmail ? author.getEmailAddress() : author
