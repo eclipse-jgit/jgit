@@ -139,10 +139,6 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 				listTarEntries(result));
 	}
 
-	private static String shellQuote(String s) {
-		return "'" + s.replace("'", "'\\''") + "'";
-	}
-
 	@Test
 	public void testFormatOverridesFilename() throws Exception {
 		File archive = new File(db.getWorkTree(), "format-overrides-name.tar");

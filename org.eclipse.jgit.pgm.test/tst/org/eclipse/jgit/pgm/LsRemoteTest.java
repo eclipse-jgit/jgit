@@ -80,7 +80,7 @@ public class LsRemoteTest extends CLIRepositoryTestCase {
 	@Test
 	public void testLsRemote() throws Exception {
 		final List<String> result = CLIGitCommand.execute(
-				"git ls-remote " + db.getDirectory(), db);
+				"git ls-remote " + shellQuote(db.getDirectory()), db);
 		assertArrayEquals(new String[] {
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	HEAD",
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/master",
@@ -98,7 +98,8 @@ public class LsRemoteTest extends CLIRepositoryTestCase {
 	public void testLsRemoteHeads() throws Exception {
 		final List<String> result = CLIGitCommand.execute(
 				"git ls-remote --heads "
-				+ db.getDirectory(), db);
+						+ shellQuote(db.getDirectory()),
+				db);
 		assertArrayEquals(new String[] {
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/master",
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/test",
@@ -108,7 +109,7 @@ public class LsRemoteTest extends CLIRepositoryTestCase {
 	@Test
 	public void testLsRemoteTags() throws Exception {
 		final List<String> result = CLIGitCommand.execute(
-				"git ls-remote --tags " + db.getDirectory(), db);
+				"git ls-remote --tags " + shellQuote(db.getDirectory()), db);
 		assertArrayEquals(new String[] {
 				"efc02078d83a5226986ae917323acec7e1e8b7cb	refs/tags/tag1",
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/tags/tag1^{}",
@@ -122,7 +123,8 @@ public class LsRemoteTest extends CLIRepositoryTestCase {
 	@Test
 	public void testLsRemoteHeadsTags() throws Exception {
 		final List<String> result = CLIGitCommand.execute(
-				"git ls-remote --heads --tags " + db.getDirectory(), db);
+				"git ls-remote --heads --tags " + shellQuote(db.getDirectory()),
+				db);
 		assertArrayEquals(new String[] {
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/master",
 				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/test",
