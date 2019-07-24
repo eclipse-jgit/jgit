@@ -30,6 +30,7 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
@@ -172,6 +173,17 @@ class Log extends RevWalkTextBuiltin {
 
 	// END -- Options shared with Diff
 
+	private Boolean mailmap;
+
+	@Option(name = "--mailmap", usage = "usage_mailmap")
+	private void mailmap(@SuppressWarnings("unused") final boolean ignored) {
+		mailmap = Boolean.TRUE;
+	}
+
+	@Option(name = "--no-mailmap", usage = "usage_nomailmap")
+	private void nomailmap(@SuppressWarnings("unused") final boolean ignored) {
+		mailmap = Boolean.FALSE;
+	}
 
 	private GpgConfig config;
 
@@ -183,6 +195,11 @@ class Log extends RevWalkTextBuiltin {
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
+		if (mailmap == null) {
+			mailmap = Boolean.valueOf(repository.getConfig().getBoolean(
+					ConfigConstants.CONFIG_LOG_SECTION,
+					ConfigConstants.CONFIG_KEY_MAILMAP, true));
+		}
 	}
 
 	@Override
@@ -258,7 +275,9 @@ class Log extends RevWalkTextBuiltin {
 		if (showSignature) {
 			showSignature(c);
 		}
-		final PersonIdent author = c.getAuthorIdent();
+		PersonIdent author = mailmap == Boolean.TRUE
+				? db.getMailmap().map(c.getAuthorIdent())
+				: c.getAuthorIdent();
 		outw.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
 				dateFormatter.formatDate(author)));
