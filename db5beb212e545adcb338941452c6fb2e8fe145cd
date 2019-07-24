@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa7c405e_d9cd6abe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostUploadHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-24T17:40:25Z",
+      "side": 1,
+      "message": "For consistency, you might as well use Collections.unmodifiableList.",
+      "range": {
+        "startLine": 92,
+        "startChar": 19,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "db5beb212e545adcb338941452c6fb2e8fe145cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
