@@ -262,7 +262,7 @@ class Log extends RevWalkTextBuiltin {
 		}
 		outw.println();
 
-		final PersonIdent author = c.getAuthorIdent();
+		final PersonIdent author = db.getMailmap().map(c.getAuthorIdent());
 		outw.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
 				dateFormatter.formatDate(author)));
