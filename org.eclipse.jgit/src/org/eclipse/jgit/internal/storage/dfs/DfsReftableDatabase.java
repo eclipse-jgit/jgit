@@ -85,7 +85,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	private DfsReader ctx;
 
-	private ReftableStack tableStack;
+	private DfsReftableStack tableStack;
 
 	private MergedReftable mergedTables;
 
@@ -173,7 +173,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * @throws java.io.IOException
 	 *             if tables cannot be opened.
 	 */
-	protected ReftableStack stack() throws IOException {
+	protected DfsReftableStack stack() throws IOException {
 		lock.lock();
 		try {
 			if (tableStack == null) {
@@ -181,7 +181,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 				if (ctx == null) {
 					ctx = odb.newReader();
 				}
-				tableStack = ReftableStack.open(ctx,
+				tableStack = DfsReftableStack.open(ctx,
 						Arrays.asList(odb.getReftables()));
 			}
 			return tableStack;
