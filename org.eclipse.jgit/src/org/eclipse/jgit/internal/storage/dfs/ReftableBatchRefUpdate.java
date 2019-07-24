@@ -405,7 +405,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 	private boolean canCompactTopOfStack(ReftableConfig cfg)
 			throws IOException {
-		ReftableStack stack = refdb.stack();
+		DfsReftableStack stack = refdb.stack();
 		List<Reftable> readers = stack.readers();
 		if (readers.isEmpty()) {
 			return false;
