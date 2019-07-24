@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22c4ae85_f9445fd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-24T20:39:12Z",
+      "side": 1,
+      "message": "Maybe this should be two methods (getHash and getUri)? The format in the string is a protocol detail. In other words, if we want the URI for something else, it would be odd to get it splitting an string.",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "95733d93f4f6afcd909f464835c7c5c5aae45f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed5f705c_7e4118a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-24T20:39:12Z",
+      "side": 1,
+      "message": "Optional: Should this be always advertised (like shallow or server-option)? If there is no cachedPackUriProvider, it won\u0027t return packfile-uris and the client is still happy. Other capabilities are either advertised or configurable, not depending in the UploadPack instantiation.",
+      "range": {
+        "startLine": 1286,
+        "startChar": 5,
+        "endLine": 1286,
+        "endChar": 26
+      },
+      "revId": "95733d93f4f6afcd909f464835c7c5c5aae45f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b12881_fa44225d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2315,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-24T20:39:12Z",
+      "side": 1,
+      "message": "All branches end in pw.writePack(pm, null monitor, packOut); \nMaybe it can be moved after the ifs  ?",
+      "range": {
+        "startLine": 2315,
+        "startChar": 60,
+        "endLine": 2315,
+        "endChar": 0
+      },
+      "revId": "95733d93f4f6afcd909f464835c7c5c5aae45f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
