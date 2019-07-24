@@ -115,7 +115,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	@Override
 	public BatchRefUpdate newBatchUpdate() {
 		DfsObjDatabase odb = getRepository().getObjectDatabase();
-		return new ReftableBatchRefUpdate(this, odb);
+		return new DfsReftableBatchRefUpdate(this, odb);
 	}
 
 	/**
@@ -417,12 +417,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	@Override
 	void stored(Ref ref) {
-		// Unnecessary; ReftableBatchRefUpdate calls clearCache().
+		// Unnecessary; DfsReftableBatchRefUpdate calls clearCache().
 	}
 
 	@Override
 	void removed(String refName) {
-		// Unnecessary; ReftableBatchRefUpdate calls clearCache().
+		// Unnecessary; DfsReftableBatchRefUpdate calls clearCache().
 	}
 
 	/** {@inheritDoc} */
