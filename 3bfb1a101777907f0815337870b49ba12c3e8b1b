@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1770921_983ae86f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-24T17:40:51Z",
+      "side": 1,
+      "message": "Same as previous commit - for consistency, use Collections.unmodifiableList.",
+      "range": {
+        "startLine": 117,
+        "startChar": 19,
+        "endLine": 117,
+        "endChar": 28
+      },
+      "revId": "3bfb1a101777907f0815337870b49ba12c3e8b1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
