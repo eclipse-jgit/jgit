@@ -124,7 +124,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * @return configuration to write new reftables with.
 	 */
 	public ReftableConfig getReftableConfig() {
-		return new ReftableConfig(getRepository().getConfig());
+		return new ReftableConfig(getRepository());
 	}
 
 	/**
