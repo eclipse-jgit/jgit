@@ -311,7 +311,7 @@ public class DfsPackCompactor {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		Collections.sort(srcReftables, objdb.reftableComparator());
 
-		try (ReftableStack stack = ReftableStack.open(ctx, srcReftables)) {
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables)) {
 			initOutDesc(objdb);
 			ReftableCompactor compact = new ReftableCompactor();
 			compact.addAll(stack.readers());
