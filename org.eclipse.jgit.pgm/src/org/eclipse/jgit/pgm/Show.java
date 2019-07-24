@@ -240,7 +240,7 @@ class Show extends TextBuiltin {
 		outw.print(tag.getTagName());
 		outw.println();
 
-		final PersonIdent tagger = tag.getTaggerIdent();
+		final PersonIdent tagger = db.getMailmap().map(tag.getTaggerIdent());
 		if (tagger != null) {
 			outw.println(MessageFormat.format(CLIText.get().taggerInfo,
 					tagger.getName(), tagger.getEmailAddress()));
