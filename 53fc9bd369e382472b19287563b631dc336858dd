@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db9658e5_dc2ad4c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StatsTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-25T07:43:55Z",
+      "side": 1,
+      "message": "maybe min, max, avg should also be NaN. See comment in Stats.java",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06f2a968_1acdf157",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StatsTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-25T07:43:55Z",
+      "side": 1,
+      "message": "Maybe you can add one more value and check that they are non-NaNs when you have at least 2.",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1284186f_2fe88db9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-25T07:43:55Z",
+      "side": 1,
+      "message": "Somehow these was...() methods returning long are unintuitive for me. I expect from wasXYZ() to return boolean. Your description says that it returns a delta measured during last check. Why don\u0027t we call it lastDelta() and lastRacyNanos()?",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a51ff9d_015e6d5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Stats.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-25T07:43:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these 4 values also be initialised with NAN? An average, min, max ... on an empty list is NaN and not 0. You would need to adapt computation of avg and sum for the first added value in add().",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
