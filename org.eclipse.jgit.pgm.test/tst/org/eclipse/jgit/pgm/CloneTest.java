@@ -78,9 +78,9 @@ public class CloneTest extends CLIRepositoryTestCase {
 		File gitDir = db.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		File target = createTempDirectory("target");
-		StringBuilder cmd = new StringBuilder("git clone ").append(sourceURI
-				+ " " + target.getPath());
-		String[] result = execute(cmd.toString());
+		String cmd = "git clone " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
 		assertArrayEquals(new String[] {
 				"Cloning into '" + target.getPath() + "'...",
 						"", "" }, result);
@@ -101,9 +101,9 @@ public class CloneTest extends CLIRepositoryTestCase {
 		File gitDir = db.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		File target = createTempDirectory("target");
-		StringBuilder cmd = new StringBuilder("git clone ").append(sourceURI
-				+ " " + target.getPath());
-		String[] result = execute(cmd.toString());
+		String cmd = "git clone " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
 		assertArrayEquals(new String[] {
 				"Cloning into '" + target.getPath() + "'...",
 				"warning: You appear to have cloned an empty repository.", "",
@@ -125,8 +125,8 @@ public class CloneTest extends CLIRepositoryTestCase {
 		File gitDir = db.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		String name = new URIish(sourceURI).getHumanishName();
-		StringBuilder cmd = new StringBuilder("git clone ").append(sourceURI);
-		String[] result = execute(cmd.toString());
+		String cmd = "git clone " + sourceURI;
+		String[] result = execute(cmd);
 		assertArrayEquals(new String[] {
 				"Cloning into '" + new File(target, name).getName() + "'...",
 				"", "" }, result);
@@ -143,10 +143,10 @@ public class CloneTest extends CLIRepositoryTestCase {
 		String sourcePath = gitDir.getAbsolutePath();
 		String targetPath = (new File(sourcePath)).getParentFile()
 				.getParentFile().getAbsolutePath()
-				+ "/target.git";
-		StringBuilder cmd = new StringBuilder("git clone --bare ")
-				.append(sourcePath + " " + targetPath);
-		String[] result = execute(cmd.toString());
+				+ File.separator + "target.git";
+		String cmd = "git clone --bare " + shellQuote(sourcePath) + " "
+				+ shellQuote(targetPath);
+		String[] result = execute(cmd);
 		assertArrayEquals(new String[] {
 				"Cloning into '" + targetPath + "'...", "", "" }, result);
 		Git git2 = Git.open(new File(targetPath));
