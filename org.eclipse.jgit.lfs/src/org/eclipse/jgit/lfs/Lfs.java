@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.lfs;
 
+import static org.eclipse.jgit.lib.Constants.OBJECTS;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,7 +106,7 @@ public class Lfs {
 	 */
 	public Path getLfsObjDir() {
 		if (objDir == null) {
-			objDir = root.resolve("objects"); //$NON-NLS-1$
+			objDir = root.resolve(OBJECTS);
 		}
 		return objDir;
 	}
