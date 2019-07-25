@@ -171,7 +171,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
 		packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
-		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
+		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
 		packList = new AtomicReference<>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;

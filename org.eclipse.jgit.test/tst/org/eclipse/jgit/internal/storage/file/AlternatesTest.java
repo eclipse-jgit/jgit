@@ -58,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
@@ -76,7 +77,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	private void setAlternate(FileRepository from, FileRepository to)
 			throws IOException {
 		File alt = new File(from.getObjectDatabase().getDirectory(),
-				"info/alternates");
+				    Constants.INFO_ALTERNATES);
 		alt.getParentFile().mkdirs();
 		File fromDir = from.getObjectDatabase().getDirectory();
 		File toDir = to.getObjectDatabase().getDirectory();

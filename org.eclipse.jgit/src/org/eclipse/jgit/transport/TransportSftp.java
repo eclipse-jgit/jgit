@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
 import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 
 import java.io.BufferedReader;
@@ -172,7 +173,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			try {
 				ftp = newSftp();
 				ftp.cd(path);
-				ftp.cd("objects"); //$NON-NLS-1$
+				ftp.cd(Constants.OBJECTS);
 				objectsPath = ftp.pwd();
 			} catch (FtpChannel.FtpException f) {
 				throw new TransportException(MessageFormat.format(

@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
+import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -138,7 +139,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		config = new PackConfig(db);
 
 		dst = createBareRepository();
-		File alt = new File(dst.getObjectDatabase().getDirectory(), "info/alternates");
+		File alt = new File(dst.getObjectDatabase().getDirectory(), INFO_ALTERNATES);
 		alt.getParentFile().mkdirs();
 		write(alt, db.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
 	}
