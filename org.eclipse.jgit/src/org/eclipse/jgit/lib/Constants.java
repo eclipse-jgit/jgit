@@ -275,8 +275,26 @@ public final class Constants {
 	/** Logs folder name */
 	public static final String LOGS = "logs";
 
+	/**
+	 * Objects folder name
+	 * @since 5.5
+	 */
+	public static final String OBJECTS = "objects";
+
 	/** Info refs folder */
 	public static final String INFO_REFS = "info/refs";
+
+	/**
+	 * Info alternates file (goes under OBJECTS)
+	 * @since 5.5
+	 */
+	public static final String INFO_ALTERNATES = "info/alternates";
+
+	/**
+	 * HTTP alternates file (goes under OBJECTS)
+	 * @since 5.5
+	 */
+	public static final String INFO_HTTP_ALTERNATES = "info/http-alternates";
 
 	/** Packed refs file */
 	public static final String PACKED_REFS = "packed-refs";

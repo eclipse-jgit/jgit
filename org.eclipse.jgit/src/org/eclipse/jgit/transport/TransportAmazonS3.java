@@ -259,7 +259,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		@Override
 		Collection<WalkRemoteObjectDatabase> getAlternates() throws IOException {
 			try {
-				return readAlternates(INFO_ALTERNATES);
+				return readAlternates(Constants.INFO_ALTERNATES);
 			} catch (FileNotFoundException err) {
 				// Fall through.
 			}
