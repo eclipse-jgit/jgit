@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8fd03e5_2fb0f8e9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StatsTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-26T14:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9658e5_dc2ad4c2",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06f2a968_1acdf157",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StatsTest.java",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-25T07:43:55Z",
       "side": 1,
       "message": "Maybe you can add one more value and check that they are non-NaNs when you have at least 2.",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f827c6b_f8d154e2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StatsTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-26T14:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06f2a968_1acdf157",
       "revId": "53fc9bd369e382472b19287563b631dc336858dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b4dff277_b360af39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-26T14:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1284186f_2fe88db9",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a51ff9d_015e6d5e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Stats.java",
         "patchSetId": 24
@@ -64,6 +118,24 @@
       "writtenOn": "2019-07-25T07:43:55Z",
       "side": 1,
       "message": "Shouldn\u0027t these 4 values also be initialised with NAN? An average, min, max ... on an empty list is NaN and not 0. You would need to adapt computation of avg and sum for the first added value in add().",
+      "revId": "53fc9bd369e382472b19287563b631dc336858dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee67047f_5311016f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Stats.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-26T14:18:29Z",
+      "side": 1,
+      "message": "done by adding a check on count of added values",
+      "parentUuid": "6a51ff9d_015e6d5e",
       "revId": "53fc9bd369e382472b19287563b631dc336858dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
