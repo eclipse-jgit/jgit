@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e351f330_1b83fd10",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T02:22:34Z",
+      "side": 1,
+      "message": "Can this comment say a little more? What kind of \\002 strings are we expecting?",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f1cbb0a_705a3a8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T02:22:34Z",
+      "side": 1,
+      "message": "Makes sense.\n\nSince 5.5 isn\u0027t released yet, I wonder whether we should take the opportunity to follow the usual setter/getter convention: something like setUseSideband and isUsingSideband. What do you think?",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b8bf34f_92175e58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T02:22:34Z",
+      "side": 1,
+      "message": "It isn\u0027t obvious to me on first reading whether this means the first byte of the string passed to writeString or the first byte of the pkt-line being written out.\n\nMaybe an example would help.",
+      "range": {
+        "startLine": 112,
+        "startChar": 31,
+        "endLine": 113,
+        "endChar": 45
+      },
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f00463_6b44625f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T02:22:34Z",
+      "side": 1,
+      "message": "This feels subtle. Can it include a comment to describe what\u0027s going on?",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
