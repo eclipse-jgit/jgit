@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "aa6bf724_d827a373",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T03:54:56Z",
+      "side": 1,
+      "message": "/********************************************************************************\n  * Copyright (c) {year} {contributor}[ and others]\n  * \n  * This program and the accompanying materials are made available under the\n  * terms of the Eclipse Distribution License v. 1.0 which is available at\n  * http://www.eclipse.org/org/documents/edl-v10.php.\n  * \n  * SPDX-License-Identifier: BSD-3-Clause\n  ********************************************************************************/\n\nI\u0027ll update the contributor guide now.",
+      "parentUuid": "6ff38adc_2802256d",
+      "revId": "6c29e69c0972bfbc91d785eadf83c5b15f36c5a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb06d3a_90462da7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DepthWalkTopoSortGeneratorTest.java",
         "patchSetId": 2
