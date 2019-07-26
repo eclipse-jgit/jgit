@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "65b616f0_a75ac31d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T23:19:21Z",
+      "side": 1,
+      "message": "\u003e This is not actually setting the sideband\n\nWhat I meant is that I could call setSideband(1) to write to sideband 1. And then getSideband would return Optional.of(1).\n\n \u003e I think that setUseSideband and isUsingSideband look good\n\nThis also sounds fine to me. :)",
+      "parentUuid": "2bf647fe_50c42803",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b8bf34f_92175e58",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 7
