@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "fbc83033_b875f2d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-26T22:34:16Z",
+      "side": 1,
+      "message": "This is not actually setting the sideband, though, but whether every non-delim and non-flush line should be written with a sideband byte. (Right now, there\u0027s only writeString/writePacket.)",
+      "parentUuid": "d166ade8_d03688c7",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b8bf34f_92175e58",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 7
