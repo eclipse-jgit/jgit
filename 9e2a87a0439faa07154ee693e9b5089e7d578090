@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfa5e159_95c1291e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T03:48:34Z",
+      "side": 1,
+      "message": "Forgive my ignorance: can you say more about what this means? What kind of brokenness are you talking about? What is the symptom, and how can I reproduce it? How was it discovered?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "9e2a87a0439faa07154ee693e9b5089e7d578090",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
