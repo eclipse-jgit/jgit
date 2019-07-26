@@ -86,7 +86,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -438,12 +437,10 @@ public abstract class FS {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return "FileStoreAttributeCache[" + attributeCache.keySet()
-					.stream()
-					.map(key -> "FileStore[" + key + "]: fsTimestampResolution="
-							+ attributeCache.get(key).getFsTimestampResolution())
-					.collect(Collectors.joining(",\n")) + "]";
+			return "FileStoreAttributeCache [fsTimestampResolution="
+					+ fsTimestampResolution + "]";
 		}
+
 	}
 
 	/** The auto-detected implementation selected for this operating system and JRE. */
