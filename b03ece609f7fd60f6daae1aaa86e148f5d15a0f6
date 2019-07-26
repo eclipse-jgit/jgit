@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "2bf647fe_50c42803",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-07-26T23:17:55Z",
+      "side": 1,
+      "message": "After some sideband talking with jrn@, I think that setUseSideband and isUsingSideband look good (Sorry for making you change it *again*). I woudl add to the javadoc these paragraphs from the git spec:\n\n\"If \u0027side-band\u0027 or \u0027side-band-64k\u0027 capabilities have been specified by\nthe client, the server will send the packfile data multiplexed.\n\nEach packet starting with the packet-line length of the amount of data\nthat follows, followed by a single byte specifying the sideband the\nfollowing data is coming in on.\"",
+      "parentUuid": "4999e321_250b3426",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b8bf34f_92175e58",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 7
