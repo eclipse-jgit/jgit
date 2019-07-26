@@ -22,6 +22,30 @@
       "revId": "9e2a87a0439faa07154ee693e9b5089e7d578090",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fc013c_1b33addc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-07-26T04:07:57Z",
+      "side": 1,
+      "message": "This commit includes a test which I assume demonstrates the issue, but I agree it would be better to elaborate in the commit message. It would also be good to create a bug report and link it here.",
+      "parentUuid": "dfa5e159_95c1291e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "9e2a87a0439faa07154ee693e9b5089e7d578090",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
