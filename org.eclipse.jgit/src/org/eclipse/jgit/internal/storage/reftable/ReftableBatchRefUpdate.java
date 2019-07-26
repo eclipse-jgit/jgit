@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.reftable;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -65,11 +66,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
 
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
@@ -79,6 +81,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
 
 /**
@@ -87,7 +90,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWA
 public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private final Lock lock;
 
-	private final RefDatabase refDb;
+	private final ReftableDatabase refDb;
 
 	private final Repository repository;
 
@@ -101,10 +104,10 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	 * @param repository
 	 *            The repository on which this update will run
 	 */
-	protected ReftableBatchRefUpdate(RefDatabase refdb, Lock lock,
+	protected ReftableBatchRefUpdate(RefDatabase refdb, ReftableDatabase reftableDb, Lock lock,
 			Repository repository) {
 		super(refdb);
-		this.refDb = refdb;
+		this.refDb = reftableDb;
 		this.lock = lock;
 		this.repository = repository;
 	}
@@ -114,6 +117,10 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 			throws IOException {
 		List<Ref> refs = new ArrayList<>(pending.size());
 		for (ReceiveCommand cmd : pending) {
+			if (cmd.getResult() != NOT_ATTEMPTED) {
+				continue;
+			}
+
 			String name = cmd.getRefName();
 			ObjectId newId = cmd.getNewId();
 			String newSymref = cmd.getNewSymref();
@@ -164,18 +171,22 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 			if (!checkObjectExistence(rw, pending)) {
 				return;
 			}
+			pending = getPending();
 			if (!checkNonFastForwards(rw, pending)) {
 				return;
 			}
+			pending = getPending();
 
 			lock.lock();
 			try {
 				if (!checkExpected(pending)) {
 					return;
 				}
+				pending = getPending();
 				if (!checkConflicting(pending)) {
 					return;
 				}
+				pending = getPending();
 				if (!blockUntilTimestamps(MAX_WAIT)) {
 					return;
 				}
@@ -183,7 +194,10 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 				List<Ref> newRefs = toNewRefs(rw, pending);
 				applyUpdates(newRefs, pending);
 				for (ReceiveCommand cmd : pending) {
-					cmd.setResult(OK);
+					if (cmd.getResult() == NOT_ATTEMPTED) {
+						// XXX this is a bug in DFS ?
+						cmd.setResult(OK);
+					}
 				}
 			} finally {
 				lock.unlock();
@@ -238,8 +252,10 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 				// used for a missing object. Eagerly handle this case so we
 				// can set the right result.
 				cmd.setResult(REJECTED_MISSING_OBJECT);
-				ReceiveCommand.abort(pending);
-				return false;
+				if (isAtomic()) {
+					ReceiveCommand.abort(pending);
+					return false;
+				}
 			}
 		}
 		return true;
@@ -254,8 +270,10 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 			cmd.updateType(rw);
 			if (cmd.getType() == UPDATE_NONFASTFORWARD) {
 				cmd.setResult(REJECTED_NONFASTFORWARD);
-				ReceiveCommand.abort(pending);
-				return false;
+				if (isAtomic()) {
+					ReceiveCommand.abort(pending);
+					return false;
+				}
 			}
 		}
 		return true;
@@ -263,34 +281,49 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 	private boolean checkConflicting(List<ReceiveCommand> pending)
 			throws IOException {
-		Set<String> names = new HashSet<>();
-		for (ReceiveCommand cmd : pending) {
-			names.add(cmd.getRefName());
-		}
+		TreeSet<String> added = new TreeSet<>();
+		Set<String> deleted =
+				pending.stream()
+						.filter(cmd -> cmd.getType() == DELETE)
+						.map(c -> c.getRefName())
+						.collect(Collectors.toSet());
 
 		boolean ok = true;
 		for (ReceiveCommand cmd : pending) {
+			if (cmd.getType() == DELETE) {
+				continue;
+			}
+
 			String name = cmd.getRefName();
-			if (refDb.isNameConflicting(name)) {
-				cmd.setResult(LOCK_FAILURE);
-				ok = false;
-			} else {
-				int s = name.lastIndexOf('/');
-				while (0 < s) {
-					if (names.contains(name.substring(0, s))) {
-						cmd.setResult(LOCK_FAILURE);
-						ok = false;
-						break;
-					}
-					s = name.lastIndexOf('/', s - 1);
+			if (refDb.isNameConflicting(name, added, deleted)) {
+				if (isAtomic()) {
+					cmd.setResult(
+							ReceiveCommand.Result.REJECTED_OTHER_REASON, JGitText.get().transactionAborted);
+				} else {
+					cmd.setResult(LOCK_FAILURE);
 				}
+
+				ok = false;
+			}
+			added.add(name);
+		}
+
+		if (isAtomic()) {
+			if (!ok) {
+				pending.stream()
+						.filter(cmd -> cmd.getResult() == NOT_ATTEMPTED)
+						.forEach(cmd -> cmd.setResult(LOCK_FAILURE));
+			}
+			return ok;
+		}
+
+		for (ReceiveCommand cmd : pending) {
+			if (cmd.getResult() == NOT_ATTEMPTED) {
+				return true;
 			}
 		}
-		if (!ok && isAtomic()) {
-			ReceiveCommand.abort(pending);
-			return false;
-		}
-		return ok;
+
+		return false;
 	}
 
 	private boolean checkExpected(List<ReceiveCommand> pending)
@@ -327,7 +360,6 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 		if (!isRefLogDisabled()) {
 			writeLog(writer, updateIndex, pending);
 		}
-		writer.finish();
 	}
 
 	private void writeLog(ReftableWriter writer, long updateIndex,
