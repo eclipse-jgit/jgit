@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f0a6cec2_12babbe4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T22:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dc5d19b_f3cc56cf",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f1cbb0a_705a3a8e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 7
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "That was my original idea, but I changed the setter in response to a comment from Ivan Frade [1]. Quoting:\n\u003e \"setUse\" sounds weird. I would use one of them. \n\u003e After some offline explanations, maybe \"useSidebandLineFormat\" or \"useSidebandFormat\" would be more descriptive?\n\n[1] https://git.eclipse.org/r/c/135579/",
       "parentUuid": "9f1cbb0a_705a3a8e",
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d166ade8_d03688c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T22:23:31Z",
+      "side": 1,
+      "message": "How about setSideband and getSideband? getSideband could return an Optional\u003cByte\u003e.",
+      "parentUuid": "4999e321_250b3426",
       "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -116,6 +152,30 @@
       "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de23323e_fc89384a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T22:23:31Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "f143e84a_bf349b3d",
+      "range": {
+        "startLine": 112,
+        "startChar": 31,
+        "endLine": 113,
+        "endChar": 45
+      },
+      "revId": "b03ece609f7fd60f6daae1aaa86e148f5d15a0f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
