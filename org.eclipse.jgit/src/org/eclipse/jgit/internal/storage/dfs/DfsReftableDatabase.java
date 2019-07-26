@@ -45,27 +45,19 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
-import org.eclipse.jgit.internal.storage.reftable.RefCursor;
-import org.eclipse.jgit.internal.storage.reftable.Reftable;
-import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.internal.storage.reftable.*;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.RefList;
-import org.eclipse.jgit.util.RefMap;
 
 /**
  * A {@link org.eclipse.jgit.internal.storage.dfs.DfsRefDatabase} that uses
@@ -81,13 +73,11 @@ import org.eclipse.jgit.util.RefMap;
  * and one will fail.
  */
 public class DfsReftableDatabase extends DfsRefDatabase {
-	private final ReentrantLock lock = new ReentrantLock(true);
+	private final ReftableDatabase reftableDatabase;
 
 	private DfsReader ctx;
 
 	private DfsReftableStack tableStack;
-
-	private MergedReftable mergedTables;
 
 	/**
 	 * Initialize the reference database for a repository.
@@ -97,6 +87,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 */
 	protected DfsReftableDatabase(DfsRepository repo) {
 		super(repo);
+		reftableDatabase = new ReftableDatabase(() -> new MergedReftable(stack().readers()));
 	}
 
 	/** {@inheritDoc} */
@@ -133,7 +124,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * @return the lock protecting this instance's state.
 	 */
 	protected ReentrantLock getLock() {
-		return lock;
+		return reftableDatabase.getLock();
 	}
 
 	/**
@@ -155,15 +146,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 *             if tables cannot be opened.
 	 */
 	protected Reftable reader() throws IOException {
-		lock.lock();
-		try {
-			if (mergedTables == null) {
-				mergedTables = new MergedReftable(stack().readers());
-			}
-			return mergedTables;
-		} finally {
-			lock.unlock();
-		}
+		return reftableDatabase.reader();
 	}
 
 	/**
@@ -174,7 +157,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 *             if tables cannot be opened.
 	 */
 	protected DfsReftableStack stack() throws IOException {
-		lock.lock();
+		getLock().lock();
 		try {
 			if (tableStack == null) {
 				DfsObjDatabase odb = getRepository().getObjectDatabase();
@@ -186,95 +169,33 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 			}
 			return tableStack;
 		} finally {
-			lock.unlock();
+			getLock().unlock();
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String refName) throws IOException {
-		lock.lock();
-		try {
-			Reftable table = reader();
-
-			// Cannot be nested within an existing reference.
-			int lastSlash = refName.lastIndexOf('/');
-			while (0 < lastSlash) {
-				if (table.hasRef(refName.substring(0, lastSlash))) {
-					return true;
-				}
-				lastSlash = refName.lastIndexOf('/', lastSlash - 1);
-			}
-
-			// Cannot be the container of an existing reference.
-			return table.hasRefsWithPrefix(refName + '/');
-		} finally {
-			lock.unlock();
-		}
+		return reftableDatabase.isNameConflicting(refName);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
-		lock.lock();
-		try {
-			Reftable table = reader();
-			Ref ref = table.exactRef(name);
-			if (ref != null && ref.isSymbolic()) {
-				return table.resolve(ref);
-			}
-			return ref;
-		} finally {
-			lock.unlock();
-		}
+		return reftableDatabase.exactRef(name);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
-		RefList.Builder<Ref> all = new RefList.Builder<>();
-		lock.lock();
-		try {
-			Reftable table = reader();
-			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: (prefix.endsWith("/") ? table.seekRefsWithPrefix(prefix) //$NON-NLS-1$
-							: table.seekRef(prefix))) {
-				while (rc.next()) {
-					Ref ref = table.resolve(rc.getRef());
-					if (ref != null && ref.getObjectId() != null) {
-						all.add(ref);
-					}
-				}
-			}
-		} finally {
-			lock.unlock();
-		}
 
-		RefList<Ref> none = RefList.emptyList();
-		return new RefMap(prefix, all.toRefList(), none, none);
+		return reftableDatabase.getRefs(prefix);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-		List<Ref> all = new ArrayList<>();
-		lock.lock();
-		try {
-			Reftable table = reader();
-			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: table.seekRefsWithPrefix(prefix)) {
-				while (rc.next()) {
-					Ref ref = table.resolve(rc.getRef());
-					if (ref != null && ref.getObjectId() != null) {
-						all.add(ref);
-					}
-				}
-			}
-		} finally {
-			lock.unlock();
-		}
 
-		return Collections.unmodifiableList(all);
+		return reftableDatabase.getRefsByPrefix(prefix);
 	}
 
 	/** {@inheritDoc} */
@@ -283,17 +204,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		if (!getReftableConfig().isIndexObjects()) {
 			return super.getTipsWithSha1(id);
 		}
-		lock.lock();
-		try {
-			RefCursor cursor = reader().byObjectId(id);
-			Set<Ref> refs = new HashSet<>();
-			while (cursor.next()) {
-				refs.add(cursor.getRef());
-			}
-			return refs;
-		} finally {
-			lock.unlock();
-		}
+		return reftableDatabase.getTipsWithSha1(id);
 	}
 
 	/** {@inheritDoc} */
@@ -314,7 +225,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	@Override
 	void clearCache() {
-		lock.lock();
+		getLock().lock();
 		try {
 			if (tableStack != null) {
 				tableStack.close();
@@ -324,9 +235,9 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 				ctx.close();
 				ctx = null;
 			}
-			mergedTables = null;
+			reftableDatabase.clearCache();
 		} finally {
-			lock.unlock();
+			getLock().unlock();
 		}
 	}
 
@@ -430,4 +341,5 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	protected void cachePeeledState(Ref oldLeaf, Ref newLeaf) {
 		// Do not cache peeled state in reftable.
 	}
+
 }
