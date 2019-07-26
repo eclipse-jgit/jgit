@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfc75f25_d48862ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T03:41:28Z",
+      "side": 1,
+      "message": "language usage nit: sameAsAParent (\"as\", not \"than\")\n\nThough that still loses the parallelism with \"diff\". Hm, I\u0027m awful at variable naming, so let me describe what this is trying to do in case some words stand out.\n\nIf this commit is TREESAME to at least one interesting parent (or in other words, a parent matches this commit restricted to the pathFilter; see git-log(1) for details), then we omit this commit from history and follow that history line. This is the essence of history simplification.\n\nIf this commit is !TREESAME to all parents (that is, no parent matches this commit restricted to the pathFilter), then we can emit the commit as is, with no rewriting.\n\nFinally, if the commit is TREESAME to some parents but they\u0027re all uninteresting, we should stop the traversal here.\n\nSo perhaps:\n\n  boolean hasSameParent \u003d false;\n  boolean hasDiffParent \u003d false;",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "a39def685a4b6b127ce1e898aaa0a0d9502d1077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbe17f9_54158e42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-26T03:41:28Z",
+      "side": 1,
+      "message": "Not about this change: this case doesn\u0027t make sense to me. If we are the same as all of our parents, wouldn\u0027t we have hit l240 and already returned false?",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "a39def685a4b6b127ce1e898aaa0a0d9502d1077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
