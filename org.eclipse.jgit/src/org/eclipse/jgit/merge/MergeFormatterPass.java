@@ -98,12 +98,17 @@ class MergeFormatterPass {
 	void formatMerge() throws IOException {
 		boolean missingNewlineAtEnd = false;
 		for (MergeChunk chunk : res) {
-			RawText seq = res.getSequences().get(chunk.getSequenceIndex());
-			writeConflictMetadata(chunk);
-			// the lines with conflict-metadata are written. Now write the chunk
-			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
-				writeLine(seq, i);
-			missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			// if it's the base chunk, we additionally require that writeBase
+			// flag is enabled
+			if (!isBaseChunk(chunk) || writeBase) {
+				RawText seq = res.getSequences().get(chunk.getSequenceIndex());
+				writeConflictMetadata(chunk);
+				// the lines with conflict-metadata are written. Now write the
+				// chunk
+				for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
+					writeLine(seq, i);
+				missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			}
 		}
 		// one possible leftover: if the merge result ended with a conflict we
 		// have to close the last conflict here
@@ -115,7 +120,8 @@ class MergeFormatterPass {
 
 	private void writeConflictMetadata(MergeChunk chunk) throws IOException {
 		if (lastConflictingName != null
-				&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
+				&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE
+				&& chunk.getConflictState() != ConflictState.BASE_CONFLICTING_RANGE) {
 			// found the end of an conflict
 			writeConflictEnd();
 		}
@@ -125,6 +131,9 @@ class MergeFormatterPass {
 		} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
 			// found another conflicting chunk
 			writeConflictChange(chunk);
+		} else if (isBaseChunk(chunk)) {
+			// found base chunk
+			writeConflictBase(chunk);
 		}
 	}
 
@@ -151,6 +160,11 @@ class MergeFormatterPass {
 				+ lastConflictingName);
 	}
 
+	private void writeConflictBase(MergeChunk chunk) throws IOException {
+		lastConflictingName = seqName.get(chunk.getSequenceIndex());
+		writeln("||||||| " + lastConflictingName); //$NON-NLS-1$
+	}
+
 	private void writeln(String s) throws IOException {
 		out.beginln();
 		out.write((s + "\n").getBytes(charset)); //$NON-NLS-1$
@@ -164,10 +178,7 @@ class MergeFormatterPass {
 			out.write('\n');
 	}
 
-	/**
-	 * @return the writeBase
-	 */
-	public boolean getWriteBase() {
-		return writeBase;
+	private boolean isBaseChunk(MergeChunk chunk) {
+		return chunk.getConflictState() == ConflictState.BASE_CONFLICTING_RANGE;
 	}
 }
