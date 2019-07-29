@@ -472,6 +472,51 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void reflogSeek() throws IOException {
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+		String msgNext = "test next";
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter()
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin(buffer);
+
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(2), msgNext);
+
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		try (LogCursor c = t.seekLog(MASTER, Long.MAX_VALUE)) {
+			assertTrue(c.next());
+			assertEquals(c.getReflogEntry().getComment(), msg);
+		}
+		try (LogCursor c = t.seekLog(MASTER, 0)) {
+			assertFalse(c.next());
+		}
+		try (LogCursor c = t.seekLog(MASTER, 1)) {
+			assertTrue(c.next());
+			assertEquals(c.getUpdateIndex(), 1);
+			assertEquals(c.getReflogEntry().getComment(), msg);
+		}
+		try (LogCursor c = t.seekLog(NEXT, Long.MAX_VALUE)) {
+			assertTrue(c.next());
+			assertEquals(c.getReflogEntry().getComment(), msgNext);
+		}
+		try (LogCursor c = t.seekLog(NEXT, 0)) {
+			assertFalse(c.next());
+		}
+		try (LogCursor c = t.seekLog(NEXT, 1)) {
+			assertTrue(c.next());
+			assertEquals(c.getUpdateIndex(), 1);
+			assertEquals(c.getReflogEntry().getComment(), msgNext);
+		}
+	}
+
+	@Test
 	public void onlyReflog() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
