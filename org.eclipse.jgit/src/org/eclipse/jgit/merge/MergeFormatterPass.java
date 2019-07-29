@@ -64,6 +64,8 @@ class MergeFormatterPass {
 
 	private final boolean threeWayMerge;
 
+	private final boolean writeBase;
+
 	private String lastConflictingName; // is set to non-null whenever we are in
 										// a conflict
 
@@ -80,14 +82,17 @@ class MergeFormatterPass {
 	 *            names for the sequences are given in this list
 	 * @param charset
 	 *            the character set used when writing conflict metadata
+	 * @param writeBase
+	 *            base's contribution should be written in conflicts
 	 */
 	MergeFormatterPass(OutputStream out, MergeResult<RawText> res,
-			List<String> seqName, Charset charset) {
+			List<String> seqName, Charset charset, boolean writeBase) {
 		this.out = new EolAwareOutputStream(out);
 		this.res = res;
 		this.seqName = seqName;
 		this.charset = charset;
 		this.threeWayMerge = (res.getSequences().size() == 3);
+		this.writeBase = writeBase;
 	}
 
 	void formatMerge() throws IOException {
@@ -157,5 +162,12 @@ class MergeFormatterPass {
 		// still BOL? It was a blank line. But writeLine won't lf, so we do.
 		if (out.isBeginln())
 			out.write('\n');
+	}
+
+	/**
+	 * @return the writeBase
+	 */
+	public boolean getWriteBase() {
+		return writeBase;
 	}
 }
