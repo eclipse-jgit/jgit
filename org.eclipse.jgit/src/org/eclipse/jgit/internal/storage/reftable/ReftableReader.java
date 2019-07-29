@@ -255,6 +255,33 @@ public class ReftableReader extends Reftable {
 			block.seekKey(key);
 			return block;
 		}
+		if (blockType == LOG_BLOCK_TYPE) {
+			// No index. Log blocks are irregularly sized, so we can't do binary search
+			// between blocks. Scan over blocks instead.
+			BlockReader block = readBlock(startPos, endPos);
+
+			for (;;) {
+				if (block == null || block.type() != LOG_BLOCK_TYPE) {
+					return null;
+				}
+
+				int result = block.seekKey(key);
+				if (result <= 0) {
+					// == 0 : we found the key.
+					// < 0 : the key is before this block. This may happen if
+					// we specified a newer updateIndex than is available in the
+					// log.  If the key isn't there at all, the LogCursor will
+					// return null.
+					return block;
+				}
+
+				long pos = block.endPosition();
+				if (pos >= endPos) {
+					return null;
+				}
+				block = readBlock(pos, endPos);
+			}
+		}
 		return binarySearch(blockType, key, startPos, endPos);
 	}
 
