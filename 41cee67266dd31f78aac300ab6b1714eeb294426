@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5f3c683_37eb2911",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-29T10:12:52Z",
+      "side": 1,
+      "message": "Now that the class is much better commented, we could reduce this comment to: \"pseudo clock timestamp of the last access to this entry\"",
+      "revId": "41cee67266dd31f78aac300ab6b1714eeb294426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d376ca6_a6129741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-29T10:12:52Z",
+      "side": 1,
+      "message": "We could use \"volatile int\" to be more consistent with our other \"volatile\" fields \"lastAccessed\" and \"time\".",
+      "revId": "41cee67266dd31f78aac300ab6b1714eeb294426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6ae3cfa_a9f2a82f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-29T10:12:52Z",
+      "side": 1,
+      "message": "We could use a simple \"int\" here (without volatile), because after initialization the access (configure, purge) is always synchronized.",
+      "revId": "41cee67266dd31f78aac300ab6b1714eeb294426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "662f450b_7b052b89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-29T10:12:52Z",
+      "side": 1,
+      "message": "Can this be skipped?",
+      "revId": "41cee67266dd31f78aac300ab6b1714eeb294426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
