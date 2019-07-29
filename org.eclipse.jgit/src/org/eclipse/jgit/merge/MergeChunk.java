@@ -68,6 +68,14 @@ public class MergeChunk {
 		FIRST_CONFLICTING_RANGE,
 
 		/**
+		 * This chunk does belong to a conflict and is the base one of the
+		 * conflicting chunks
+		 * 
+		 * @since 5.5
+		 */
+		BASE_CONFLICTING_RANGE,
+
+		/**
 		 * This chunk does belong to a conflict but is not the first one of the
 		 * conflicting chunks. It's a subsequent one.
 		 */
