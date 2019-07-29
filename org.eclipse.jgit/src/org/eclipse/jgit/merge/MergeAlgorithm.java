@@ -285,10 +285,8 @@ public final class MergeAlgorithm {
 							- commonSuffix,
 							ConflictState.FIRST_CONFLICTING_RANGE);
 
-					int baseBegin = Math.min(oursBeginB, theirsBeginB)
-							+ commonPrefix;
-					int baseEnd = Math.min(base.size(),
-							Math.max(oursEndB, theirsEndB)) - commonSuffix;
+					int baseBegin = Math.min(oursBeginB, theirsBeginB) + commonPrefix;
+					int baseEnd = Math.min(base.size(), Math.max(oursEndB, theirsEndB)) - commonSuffix;
 					result.add(0, baseBegin, baseEnd,
 							ConflictState.BASE_CONFLICTING_RANGE);
 
