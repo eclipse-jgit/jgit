@@ -110,6 +110,8 @@ public final class MergeAlgorithm {
 					// we deleted, they modified -> Let their complete content
 					// conflict with empty text
 					result.add(1, 0, 0, ConflictState.FIRST_CONFLICTING_RANGE);
+					result.add(0, 0, base.size(),
+							ConflictState.BASE_CONFLICTING_RANGE);
 					result.add(2, 0, theirs.size(),
 							ConflictState.NEXT_CONFLICTING_RANGE);
 				} else
@@ -126,6 +128,8 @@ public final class MergeAlgorithm {
 				// conflict with empty text
 				result.add(1, 0, ours.size(),
 						ConflictState.FIRST_CONFLICTING_RANGE);
+				result.add(0, 0, base.size(),
+						ConflictState.BASE_CONFLICTING_RANGE);
 				result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
 			} else
 				// they deleted, we didn't modify -> Let their deletion win
@@ -280,6 +284,14 @@ public final class MergeAlgorithm {
 					result.add(1, oursBeginB + commonPrefix, oursEndB
 							- commonSuffix,
 							ConflictState.FIRST_CONFLICTING_RANGE);
+
+					int baseBegin = Math.min(oursBeginB, theirsBeginB)
+							+ commonPrefix;
+					int baseEnd = Math.min(base.size(),
+							Math.max(oursEndB, theirsEndB)) - commonSuffix;
+					result.add(0, baseBegin, baseEnd,
+							ConflictState.BASE_CONFLICTING_RANGE);
+
 					result.add(2, theirsBeginB + commonPrefix, theirsEndB
 							- commonSuffix,
 							ConflictState.NEXT_CONFLICTING_RANGE);
