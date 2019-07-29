@@ -61,6 +61,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.LogEntry;
@@ -254,6 +255,33 @@ public class ReftableReader extends Reftable {
 			} while (block.type() == INDEX_BLOCK_TYPE);
 			block.seekKey(key);
 			return block;
+		}
+		if (blockType == LOG_BLOCK_TYPE) {
+			// No index. Log blocks are irregularly sized, so we can't do binary search
+			// between blocks. Scan over blocks instead.
+			BlockReader block = readBlock(startPos, endPos);
+
+			for (;;) {
+				if (block == null || block.type() != LOG_BLOCK_TYPE) {
+					return null;
+				}
+
+				int result = block.seekKey(key);
+				if (result <= 0) {
+					// == 0 : we found the key.
+					// < 0 : the key is before this block. This may happen if
+					// we specified a newer updateIndex than is available in the
+					// log.  If the key isn't there at all, the LogCursor will
+					// return null.
+					return block;
+				}
+
+				long pos = block.endPosition();
+				if (pos >= endPos) {
+					return null;
+				}
+				block = readBlock(pos, endPos);
+			}
 		}
 		return binarySearch(blockType, key, startPos, endPos);
 	}
