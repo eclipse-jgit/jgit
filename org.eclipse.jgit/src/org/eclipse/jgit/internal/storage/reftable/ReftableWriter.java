@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import static java.lang.Math.log;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.reftable.BlockWriter.padBetweenBlocks;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_FOOTER_LEN;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
@@ -108,6 +109,8 @@ public class ReftableWriter {
 	private ReftableOutputStream out;
 	private ObjectIdSubclassMap<RefList> obj2ref;
 
+	private BlockWriter.Entry lastRef;
+	private BlockWriter.Entry lastLog;
 	private BlockWriter cur;
 	private Section refs;
 	private Section objs;
@@ -120,6 +123,8 @@ public class ReftableWriter {
 	 */
 	public ReftableWriter() {
 		this(new ReftableConfig());
+		lastRef = null;
+		lastLog = null;
 	}
 
 	/**
@@ -269,8 +274,20 @@ public class ReftableWriter {
 			throw new IllegalArgumentException();
 		}
 		long d = updateIndex - minUpdateIndex;
-		long blockPos = refs.write(new RefEntry(ref, d));
+		RefEntry entry = new RefEntry(ref, d);
+		if (lastRef != null && Entry.compare(lastRef, entry) >= 0) {
+			throwIllegalEntry(lastRef, entry);
+		}
+		lastRef = entry;
+
+		long blockPos = refs.write(entry);
 		indexRef(ref, blockPos);
+	}
+
+	private void throwIllegalEntry(Entry last, Entry now) {
+		throw new IllegalArgumentException(
+			String.format("records must be increasing: last %s, this %s",
+				new String(last.key, UTF_8), new String(now.key, UTF_8)));
 	}
 
 	private void indexRef(Ref ref, long blockPos) {
@@ -322,7 +339,12 @@ public class ReftableWriter {
 					throws IOException {
 		String msg = message != null ? message : ""; //$NON-NLS-1$
 		beginLog();
-		logs.write(new LogEntry(ref, updateIndex, who, oldId, newId, msg));
+		LogEntry entry = new LogEntry(ref, updateIndex, who, oldId, newId, msg);
+		if (lastLog != null && Entry.compare(lastLog, entry) >= 0) {
+			throwIllegalEntry(lastLog, entry);
+		}
+		lastLog = entry;
+		logs.write(entry);
 	}
 
 	/**
