@@ -73,7 +73,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
@@ -81,6 +83,9 @@ public class ReftableTest {
 	private static final String V1_0 = "refs/tags/v1.0";
 
 	private Stats stats;
+
+	@Rule
+	public ExpectedException expectedEx = ExpectedException.none();
 
 	@Test
 	public void emptyTable() throws IOException {
@@ -415,6 +420,53 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void invalidRefWriteOrder() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin(new ByteArrayOutputStream());
+
+		expectedEx.expect(IllegalArgumentException.class);
+		expectedEx.expectMessage("records must be increasing");
+
+		writer.writeRef(next);
+		writer.writeRef(master);
+	}
+
+	@Test
+        public void invalidReflogWriteOrderUpdateIndex() throws IOException {
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(2)
+			.begin(new ByteArrayOutputStream());
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		expectedEx.expect(IllegalArgumentException.class);
+		expectedEx.expectMessage("records must be increasing");
+
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.writeLog(MASTER, 2, who, ObjectId.zeroId(), id(2), msg);
+	}
+
+	@Test
+	public void invalidReflogWriteOrderName() throws IOException {
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin(new ByteArrayOutputStream());
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		expectedEx.expect(IllegalArgumentException.class);
+		expectedEx.expectMessage("records must be increasing");
+		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(2), msg);
+	}
+
+	@Test
 	public void withReflog() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
@@ -574,7 +626,7 @@ public class ReftableTest {
 
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
 			refs.add(ref);
 			writer.writeRef(ref);
 		}
