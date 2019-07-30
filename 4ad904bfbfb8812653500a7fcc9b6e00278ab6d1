@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c17ce9c_22ba7fd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-07-30T07:59:14Z",
+      "side": 1,
+      "message": "are these methods anywhere used? Again, I would propose changes which at least bring some benefit. Just introducing new methods which are only there to be used by follow-up changes makes it hard judge this change",
+      "revId": "4ad904bfbfb8812653500a7fcc9b6e00278ab6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
