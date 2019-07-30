@@ -46,13 +46,16 @@ package org.eclipse.jgit.internal.storage.reftable;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.MoreAsserts.assertThrows;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -415,6 +418,54 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void invalidRefWriteOrder() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin(new ByteArrayOutputStream());
+
+		writer.writeRef(next);
+		IllegalArgumentException e  = assertThrows(
+			IllegalArgumentException.class,
+			() -> writer.writeRef(master));
+		assertThat(e.getMessage(), containsString("records must be increasing"));
+	}
+
+	@Test
+	public void invalidReflogWriteOrderUpdateIndex() throws IOException {
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(2)
+			.begin(new ByteArrayOutputStream());
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
+		IllegalArgumentException e  = assertThrows(IllegalArgumentException.class,
+			() -> writer.writeLog(
+				MASTER, 2, who, ObjectId.zeroId(), id(2), msg));
+		assertThat(e.getMessage(), containsString("records must be increasing"));
+	}
+
+	@Test
+	public void invalidReflogWriteOrderName() throws IOException {
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin(new ByteArrayOutputStream());
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(1), msg);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			() -> writer.writeLog(
+				MASTER, 1, who, ObjectId.zeroId(), id(2), msg));
+		assertThat(e.getMessage(), containsString("records must be increasing"));
+	}
+
+	@Test
 	public void withReflog() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
@@ -577,7 +628,7 @@ public class ReftableTest {
 
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
 			refs.add(ref);
 			writer.writeRef(ref);
 		}
