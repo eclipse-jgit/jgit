@@ -568,6 +568,29 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void reflogSeekPrefix() throws IOException {
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter()
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin(buffer);
+
+		writer.writeLog("branchname", 1, who, ObjectId.zeroId(), id(1), "branchname");
+
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		try (LogCursor c = t.seekLog("branch", Long.MAX_VALUE)) {
+			// We find a reflog block, but the iteration won't confuse branchname
+			// and branch.
+			assertFalse(c.next());
+		}
+	}
+
+	@Test
 	public void onlyReflog() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
