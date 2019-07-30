@@ -61,6 +61,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.LogEntry;
@@ -555,14 +556,16 @@ public class ReftableReader extends Reftable {
 
 	private class LogCursorImpl extends LogCursor {
 		private final long scanEnd;
-		private final byte[] match;
+		@Nullable private final byte[] match;
 
 		private String refName;
 		private long updateIndex;
 		private ReflogEntry entry;
 		BlockReader block;
 
-		LogCursorImpl(long scanEnd, byte[] match) {
+		// Scans logs from this table until scanEnd position.
+		// The match argument, if given, limits the scan to precisely that refname.
+		LogCursorImpl(long scanEnd, @Nullable byte[] match) {
 			this.scanEnd = scanEnd;
 			this.match = match;
 		}
