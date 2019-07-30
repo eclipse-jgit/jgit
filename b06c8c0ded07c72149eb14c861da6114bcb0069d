@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca186012_eb59acf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-30T08:05:12Z",
+      "side": 1,
+      "message": "For a small maximuSize, like 1, it may be more reasonable to check for:\n\n  map.size() \u003e maximumSize",
+      "revId": "b06c8c0ded07c72149eb14c861da6114bcb0069d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9fea780_f682563e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-07-30T08:05:12Z",
+      "side": 1,
+      "message": "A multi-threaded \"stress test\" revealed a concurrency-related problem here (quite reliably -- not sure why it didn\u0027t do for my previous review). We have to work on stable copies of lastAccess timestamps:\n\n\tprivate synchronized void purge() {\n\t\tList\u003cEntry\u003e entriesToPurge \u003d new ArrayList\u003c\u003e(map.values());\n\t\t// copy to temporary field to avoid concurrent updates to entry.lastAccessed which may result in TimSort\n\t\t// java.lang.IllegalArgumentException: Comparison method violates its general contract!\n\t\tfor (Entry entry : entriesToPurge) {\n\t\t\tentry.lastAccessedSorting \u003d entry.lastAccessed;\n\t\t}\n\t\tCollections.sort(entriesToPurge,\n\t\t\t\tComparator.comparingLong(o -\u003e -o.lastAccessedSorting));\n\t\tfor (int index \u003d purgeSize; index \u003c entriesToPurge.size(); index++) {\n\t\t\tmap.remove(entriesToPurge.get(index).key);\n\t\t}\n\t}",
+      "revId": "b06c8c0ded07c72149eb14c861da6114bcb0069d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
