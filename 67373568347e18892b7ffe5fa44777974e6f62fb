@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9d6e2a2_95e9a148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-07-31T23:01:14Z",
+      "side": 1,
+      "message": "Please mention here that linear search in used only in absence of log index, thanks!",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "67373568347e18892b7ffe5fa44777974e6f62fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "478aecd6_7f8cf78f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-07-31T23:01:14Z",
+      "side": 1,
+      "message": "I think the logIndex is included by ReftableWriter, so the added scan logic might not be used here.",
+      "range": {
+        "startLine": 475,
+        "startChar": 13,
+        "endLine": 475,
+        "endChar": 23
+      },
+      "revId": "67373568347e18892b7ffe5fa44777974e6f62fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
