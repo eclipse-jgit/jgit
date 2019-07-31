@@ -54,6 +54,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -126,8 +127,20 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
+		long start = System.currentTimeMillis();
 		File f1 = createFile("newfile");
 		FileSnapshot save = FileSnapshot.save(f1);
+		long res = FS.getFsTimerResolution(f1.toPath()).toMillis();
+		long end = System.currentTimeMillis();
+		if (end - start  > 2 * res) {
+			// This test is racy: under load, there may be a delay between createFile() and
+			// FileSnapshot.save(). This can stretch the time between the read TS and FS
+			// creation TS to the point that it exceeds the FS granularity, and we
+			// conclude it cannot be racily clean, and therefore must be really clean.
+			return;
+		}
+		// The file wasn't really modified, but it looks just like a "maybe racily clean"
+		// file.
 		assertTrue(save.isModified(f1));
 	}
 
