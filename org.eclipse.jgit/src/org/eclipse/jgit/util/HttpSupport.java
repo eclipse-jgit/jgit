@@ -51,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -299,7 +300,9 @@ public class HttpSupport {
 	public static Proxy proxyFor(ProxySelector proxySelector, URL u)
 			throws ConnectException {
 		try {
-			return proxySelector.select(u.toURI()).get(0);
+			URI uri = new URI(u.getProtocol(), null, u.getHost(), u.getPort(),
+					null, null, null);
+			return proxySelector.select(uri).get(0);
 		} catch (URISyntaxException e) {
 			final ConnectException err;
 			err = new ConnectException(MessageFormat.format(JGitText.get().cannotDetermineProxyFor, u));
