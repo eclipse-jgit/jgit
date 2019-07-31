@@ -126,6 +126,10 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
+		// This test is racy: under load, there may be a delay between createFile() and
+		// FileSnapshot.save(). This can stretch the time between the read TS and FS
+		// creation TS to the point that it exceeds the FS granularity, and we
+		// conclude it cannot be racily clean, and therefore must be really clean.
 		File f1 = createFile("newfile");
 		FileSnapshot save = FileSnapshot.save(f1);
 		assertTrue(save.isModified(f1));
