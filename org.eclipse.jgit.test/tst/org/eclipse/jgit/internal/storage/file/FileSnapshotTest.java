@@ -47,6 +47,7 @@ import static org.eclipse.jgit.junit.JGitTestUtil.write;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -150,14 +151,33 @@ public class FileSnapshotTest {
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
-		// if filesystem timestamp resolution is high the snapshot won't be
-		// racily clean
-		Assume.assumeTrue(
-				fsAttrCache.getFsTimestampResolution()
-						.compareTo(Duration.ofMillis(10)) > 0);
-		Path f1 = createFile("newfile");
-		FileSnapshot save = FileSnapshot.save(f1.toFile());
-		assertTrue(save.isModified(f1.toFile()));
+		// if filesystem timestamp resolution is smaller than time needed to
+		// create a file and FileSnapshot the snapshot won't be racily clean
+		Assume.assumeTrue(fsAttrCache.getFsTimestampResolution()
+				.compareTo(Duration.ofMillis(10)) > 0);
+		for (int i = 0; i < 50; i++) {
+			Instant start = Instant.now();
+			Path f1 = createFile("newfile");
+			FileSnapshot save = FileSnapshot.save(f1.toFile());
+			Duration res = FS.getFileStoreAttributes(f1)
+					.getFsTimestampResolution();
+			Instant end = Instant.now();
+			if (Duration.between(start, end)
+					.compareTo(res.multipliedBy(2)) > 0) {
+				// This test is racy: under load, there may be a delay between createFile() and
+				// FileSnapshot.save(). This can stretch the time between the read TS and FS
+				// creation TS to the point that it exceeds the FS granularity, and we
+				// conclude it cannot be racily clean, and therefore must be really clean.
+				//
+				// This should be relatively uncommon.
+				continue;
+			}
+			// The file wasn't really modified, but it looks just like a "maybe racily clean"
+			// file.
+			assertTrue(save.isModified(f1.toFile()));
+			return;
+		}
+		fail("too much load for this test");
 	}
 
 	/**
