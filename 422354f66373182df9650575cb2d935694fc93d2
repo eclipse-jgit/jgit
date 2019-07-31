@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e144649_b68a2f01",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-31T16:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdcc83c5_7ef14336",
+      "range": {
+        "startLine": 135,
+        "startChar": 17,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b14af3_3b2c29a5",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2019-07-31T16:52:01Z",
       "side": 1,
       "message": "I\u0027m probably being dense, but I don\u0027t understand this. If !save.isModified(f1), then that\u0027s a real bug, right?\n\nShould this comment be a TODO pointing to a bug tracker entry?",
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43119fdb_a27ccaef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-07-31T16:58:17Z",
+      "side": 1,
+      "message": "no, this is based on timestamps so it\u0027s inherently flaky. This tries to limit the flakiness (also: if you run this on a really slow system with very high FS granularity, you\u0027d never run the test.)\n\nThe test assumes that l.131 and l.132 execute roughly at the same time, so it looks like a \"racy clean\" file.  If you run this on a loaded system,  l.131 and l.132 will run at different timestamps, so it stops looking like \"racy clean\".\n\nnote that the file isn\u0027t changed at all, so save.isModified(f1) \u003d\u003d false is actually the correct answer.",
+      "parentUuid": "50b14af3_3b2c29a5",
       "revId": "422354f66373182df9650575cb2d935694fc93d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
