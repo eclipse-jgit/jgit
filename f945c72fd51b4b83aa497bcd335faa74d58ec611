@@ -22,6 +22,30 @@
       "revId": "f945c72fd51b4b83aa497bcd335faa74d58ec611",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdaf6f3c_caa34484",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-31T21:25:40Z",
+      "side": 1,
+      "message": "this is a remainder of the times when we used to consider everything below 2.5 seconds to be racy. See [1] on stable-5.1 which wasn\u0027t yet merged up to master since a couple of changes of the patch series [2] is still in review.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/stable-5.1/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java#121\n[2] https://git.eclipse.org/r/#/c/146281/",
+      "parentUuid": "6947cbe9_838e21b5",
+      "range": {
+        "startLine": 118,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 21
+      },
+      "revId": "f945c72fd51b4b83aa497bcd335faa74d58ec611",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
