@@ -81,6 +81,24 @@
       "revId": "422354f66373182df9650575cb2d935694fc93d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f37f8d6c_89012e3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-31T17:02:43Z",
+      "side": 1,
+      "message": "\u003e note that the file isn\u0027t changed at all, so save.isModified(f1) \u003d\u003d false is actually the correct answer.\n\nAh, that\u0027s what I was missing.\n\nIn that case, the test seems misguided. Can we remove it?",
+      "parentUuid": "43119fdb_a27ccaef",
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
