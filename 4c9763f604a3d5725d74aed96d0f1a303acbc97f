@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bf93eef_24c6dbb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-07-31T21:25:40Z",
+      "side": 1,
+      "message": "What are the arguments for a factor of 2 ?\n\nLooking at the results of [1] it seems there is some uncertainty which this patch tries to quantify by measuring the difference between the results from measuring clock resolution, file timestamp resolution and testing what is the minimum time difference starting from which we can safely detect file modifications.\n\n[1] https://git.eclipse.org/r/#/c/146085/",
+      "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
