@@ -395,9 +395,9 @@ public class FileSnapshot {
 	}
 
 	private boolean isRacyClean(long read) {
-		// add a 10% safety margin
-		long racyNanos = (fsTimestampResolution.toNanos() + 1) * 11 / 10;
-		return wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		long racyNanos = (5 * fsTimestampResolution.toNanos()) / 2;
+		wasRacyClean = (read - lastModified) * 1_000_000 <= racyNanos;
+		return wasRacyClean;
 	}
 
 	private boolean isModified(long currLastModified) {
