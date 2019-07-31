@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f87f3284_b96a4fe4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-31T16:52:01Z",
+      "side": 0,
+      "message": "Yuck.",
+      "revId": "9110037e3e9461ff4dac22fee84ef3694ed57648",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

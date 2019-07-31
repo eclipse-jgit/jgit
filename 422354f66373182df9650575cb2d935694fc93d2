@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdcc83c5_7ef14336",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-31T16:52:01Z",
+      "side": 1,
+      "message": "nit: should use a single space",
+      "range": {
+        "startLine": 135,
+        "startChar": 17,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b14af3_3b2c29a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-07-31T16:52:01Z",
+      "side": 1,
+      "message": "I\u0027m probably being dense, but I don\u0027t understand this. If !save.isModified(f1), then that\u0027s a real bug, right?\n\nShould this comment be a TODO pointing to a bug tracker entry?",
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
