@@ -523,8 +523,9 @@ public class FileSnapshot {
 				.getFsTimestampResolution().toNanos();
 		long minRacyInterval = fileStoreAttributeCache.getMinimalRacyInterval()
 				.toNanos();
-		// add a 30% safety margin
-		return Math.max(timestampResolution, minRacyInterval) * 13 / 10;
+		long max = Math.max(timestampResolution, minRacyInterval);
+		// safety margin: factor 2.5 below 100ms otherwise 1.25
+		return max < 100_000_000L ? max * 5 / 2 : max * 5 / 4;
 	}
 
 	private boolean isModified(Instant currLastModified) {
