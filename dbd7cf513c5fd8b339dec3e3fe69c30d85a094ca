@@ -22,6 +22,30 @@
       "revId": "dbd7cf513c5fd8b339dec3e3fe69c30d85a094ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "375252c2_17be88c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-07-31T06:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8fd47b7_828f1687",
+      "range": {
+        "startLine": 103,
+        "startChar": 24,
+        "endLine": 103,
+        "endChar": 39
+      },
+      "revId": "dbd7cf513c5fd8b339dec3e3fe69c30d85a094ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
