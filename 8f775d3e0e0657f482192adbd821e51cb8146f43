@@ -22,6 +22,30 @@
       "revId": "8f775d3e0e0657f482192adbd821e51cb8146f43",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d63967_a0dae9d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-01T21:54:17Z",
+      "side": 1,
+      "message": "Since both needs to check the sideband condition, it\u0027s better to have one if (sideband) here. I don\u0027t think both methods would do something else than if (sideband) check. The next change anyway move the exception handling code outside.",
+      "parentUuid": "c1ba0d9d_23ad0caf",
+      "range": {
+        "startLine": 2088,
+        "startChar": 12,
+        "endLine": 2088,
+        "endChar": 32
+      },
+      "revId": "8f775d3e0e0657f482192adbd821e51cb8146f43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
