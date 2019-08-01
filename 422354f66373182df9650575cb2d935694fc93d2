@@ -117,6 +117,24 @@
       "revId": "422354f66373182df9650575cb2d935694fc93d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19bf3b5_1801b9ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-01T00:33:20Z",
+      "side": 1,
+      "message": "I think I\u0027m still confused. The test description says\n\n \"Create a file, but don\u0027t wait long enough for the difference between file system clock and system clock to be significant. Assume the file may have been modified. It may have been, but the clock alone cannot determine this.\"\n\nI don\u0027t understand why this is a useful test. Shouldn\u0027t we change these to tests where the file really was modified? That way, in the racy case, they are checking that we do not get fooled, and if we\u0027re (un)lucky enough for enough time to elapse to avoid the race, they are checking that the normal behavior is good.\n\nTests should be checking for desirable end-user facing behavior, not implementation details.",
+      "parentUuid": "72e18008_44d829ee",
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
