@@ -257,6 +257,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String noGitRepositoryConfigured;
 	/***/ public String noNamesFound;
 	/***/ public String noSuchFile;
+	/***/ public String noSuchPathInRef;
+	/***/ public String noSuchRef;
 	/***/ public String noSuchRemoteRef;
 	/***/ public String noTREESectionInIndex;
 	/***/ public String nonFastForward;
