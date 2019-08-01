@@ -22,6 +22,30 @@
       "revId": "7bb10327865c0e0df82f3b9cdfd93684028e34e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f950aa_3d2716f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-01T19:08:13Z",
+      "side": 1,
+      "message": "https://eclipse.googlesource.com/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#2257",
+      "parentUuid": "326771d6_43e57df9",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "7bb10327865c0e0df82f3b9cdfd93684028e34e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
