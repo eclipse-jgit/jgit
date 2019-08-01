@@ -67,6 +67,7 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -178,14 +179,28 @@ class Blame extends TextBuiltin {
 				}
 				generator.reverse(rangeStart, rangeEnd);
 			} else if (revision != null) {
-				generator.push(null, db.resolve(revision + "^{commit}")); //$NON-NLS-1$
+				ObjectId rev = db.resolve(revision + "^{commit}"); //$NON-NLS-1$
+				if (rev == null) {
+					throw die(MessageFormat.format(CLIText.get().noSuchRef,
+							revision));
+				}
+				generator.push(null, rev);
 			} else {
-				generator.push(null, db.resolve(Constants.HEAD));
+				ObjectId head = db.resolve(Constants.HEAD);
+				if (head == null) {
+					throw die(MessageFormat.format(CLIText.get().noSuchRef,
+							Constants.HEAD));
+				}
+				generator.push(null, head);
 				if (!db.isBare()) {
 					DirCache dc = db.readDirCache();
 					int entry = dc.findEntry(file);
 					if (0 <= entry) {
 						generator.push(null, dc.getEntry(entry).getObjectId());
+					} else {
+						throw die(MessageFormat.format(
+								CLIText.get().noSuchPathInRef, file,
+								Constants.HEAD));
 					}
 
 					File inTree = new File(db.getWorkTree(), file);
@@ -196,6 +211,10 @@ class Blame extends TextBuiltin {
 			}
 
 			blame = BlameResult.create(generator);
+			if (blame == null) {
+				throw die(MessageFormat.format(CLIText.get().noSuchPathInRef,
+						file, revision != null ? revision : Constants.HEAD));
+			}
 			begin = 0;
 			end = blame.getResultContents().size();
 			if (rangeString != null) {
