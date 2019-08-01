@@ -16,6 +16,24 @@
       "revId": "4ad904bfbfb8812653500a7fcc9b6e00278ab6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "814506e7_54971953",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 253942
+      },
+      "writtenOn": "2019-08-01T13:31:25Z",
+      "side": 1,
+      "message": "Yes, they are. \n\nI\u0027m aware about that, I didn\u0027t use them here because I wanted to be very careful with the changes since it\u0027s my first time committing here and what I\u0027ve changed (later) is a critical part.",
+      "parentUuid": "7c17ce9c_22ba7fd4",
+      "revId": "4ad904bfbfb8812653500a7fcc9b6e00278ab6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
