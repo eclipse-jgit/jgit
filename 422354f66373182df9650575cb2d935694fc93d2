@@ -135,6 +135,24 @@
       "revId": "422354f66373182df9650575cb2d935694fc93d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8d41fa_4c4e1274",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-01T06:00:24Z",
+      "side": 1,
+      "message": "looks like the only thing this test is testing is whether isModified returns true in a racy read situation\n\non stable-5.1 I added another test [1] which tests if isModified reliably detects that a file was modified\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/stable-5.1/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java#218",
+      "parentUuid": "b19bf3b5_1801b9ba",
+      "revId": "422354f66373182df9650575cb2d935694fc93d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
