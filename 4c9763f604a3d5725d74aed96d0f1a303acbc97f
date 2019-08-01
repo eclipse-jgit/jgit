@@ -16,6 +16,24 @@
       "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0195c7f_2dc8c799",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-01T13:09:03Z",
+      "side": 1,
+      "message": "The factor two comes from having two measurement, so a factor 2 seems enough.\n\nHowever, I think that the deeper problem is that the precise semantics of this class are not well defined.\n\nHere is one way to look at it:\n\nUnder the following assumption:\n\n * files are never modified, but only put in place after being written completely.\n * a write system call sets the mtime after writing the data to current systemTime (t_sys) +/-  FS  granularity  +/- clock accuracy\n\n(note that the kernel\u0027s clock accuracy is much higher than ms, so it shouldn\u0027t really make a difference.)\n\nthen, if you do \n\n  write (kernel sets t_fs to t_sys1 +/- granularity),  rename-into place\n\n(wait)\n\n  open file\n  record t_sys2\n  check timestamp of opened file using fstat, retrieving t_fs\n  start read\n\nthen, if t_sys2 \u003e t_fs + granularity, you can conclude that t_sys2 \u003e t_sys1, ie. the write happened before the read, and if the inode/dev numbers match, the file was unchanged. Since you retrieve t_sys2 before doign the read, you can be sure the read is after the write.\n\nHowever, I wonder if this class is really used in this way. In particular, you can only be sure about the timestamp of the file you just read if you do an fstat on the open file descriptor, while the class does a stat() on a path.\n\nSince the class records the file size, it can seemingly also be used on files that are mutated in place?  In that case, all bets are off: you could check a time stamp, but then after the check is done another processs can come along and change the file before you start the read. \n\nThere is also FileSnapshot#save, which asks you to supply a timestamp to put into the modified field, which doesn\u0027t match the above pattern at all, and I wonder how you can use that to conclude anything about the state of the file system.\n\nAs discussed before, the test is dubious because the correct answer is a isModified \u003d false (since the test doesn\u0027t modifify the file).\n\nSince we have seen real test failures in Gerrit that relate to the FS granularity work, I think there is a problem with the way how FileSnapshot is used for the RefDirectory RefDB.\n\nThis is why I think that instead of reasoning about timestamps (which is really hard), it would be better if we concentrated on Reftable as a means of speeding up of JGit.",
+      "parentUuid": "1bf93eef_24c6dbb0",
+      "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
