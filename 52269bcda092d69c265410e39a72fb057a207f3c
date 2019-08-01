@@ -16,6 +16,24 @@
       "revId": "52269bcda092d69c265410e39a72fb057a207f3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c781410_09ba2b0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-01T19:28:40Z",
+      "side": 1,
+      "message": "I don\u0027t think FIFORevQueue has a way to iterate over without popping an object.",
+      "parentUuid": "b9c60ed0_97cdf6aa",
+      "revId": "52269bcda092d69c265410e39a72fb057a207f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
