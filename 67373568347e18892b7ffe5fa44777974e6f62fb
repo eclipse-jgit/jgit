@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83cf8f86_09e8b1c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-01T10:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9d6e2a2_95e9a148",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "67373568347e18892b7ffe5fa44777974e6f62fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "478aecd6_7f8cf78f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-31T23:01:14Z",
       "side": 1,
       "message": "I think the logIndex is included by ReftableWriter, so the added scan logic might not be used here.",
+      "range": {
+        "startLine": 475,
+        "startChar": 13,
+        "endLine": 475,
+        "endChar": 23
+      },
+      "revId": "67373568347e18892b7ffe5fa44777974e6f62fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a561bf73_60029ef2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-01T10:49:21Z",
+      "side": 1,
+      "message": "Well, I added this because the test are failing otherwise. The index is included only for big tables,\n\nhttps://eclipse.googlesource.com/jgit/jgit/+/9110037e3e9461ff4dac22fee84ef3694ed57648/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java#451",
+      "parentUuid": "478aecd6_7f8cf78f",
       "range": {
         "startLine": 475,
         "startChar": 13,
