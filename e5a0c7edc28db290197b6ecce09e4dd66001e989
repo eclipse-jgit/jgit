@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0de9eee_d5148d09",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/AlternatesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-02T16:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "526b7769_772b962b",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "e5a0c7edc28db290197b6ecce09e4dd66001e989",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0389f755_2a19d0c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "e5a0c7edc28db290197b6ecce09e4dd66001e989",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b2745b_5442e477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-02T16:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0389f755_2a19d0c3",
+      "revId": "e5a0c7edc28db290197b6ecce09e4dd66001e989",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "e5a0c7edc28db290197b6ecce09e4dd66001e989",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86ee1e34_4298a644",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-02T16:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb494834_c339cbcd",
+      "range": {
+        "startLine": 176,
+        "startChar": 11,
+        "endLine": 176,
+        "endChar": 28
+      },
+      "revId": "e5a0c7edc28db290197b6ecce09e4dd66001e989",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
