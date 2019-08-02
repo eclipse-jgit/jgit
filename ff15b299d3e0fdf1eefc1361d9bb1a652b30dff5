@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0d1993_deec2d0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-02T16:14:56Z",
+      "side": 1,
+      "message": "It would be good to put a few words about the motivation here. Is this about readability, avoiding typos, consistency with some related constants, having them show up in tab completion, something else?",
+      "revId": "ff15b299d3e0fdf1eefc1361d9bb1a652b30dff5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
