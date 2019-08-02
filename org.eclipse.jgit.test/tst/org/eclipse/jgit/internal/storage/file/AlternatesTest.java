@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -76,7 +77,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	private void setAlternate(FileRepository from, FileRepository to)
 			throws IOException {
 		File alt = new File(from.getObjectDatabase().getDirectory(),
-				"info/alternates");
+				INFO_ALTERNATES);
 		alt.getParentFile().mkdirs();
 		File fromDir = from.getObjectDatabase().getDirectory();
 		File toDir = to.getObjectDatabase().getDirectory();

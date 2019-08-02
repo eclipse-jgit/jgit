@@ -248,13 +248,13 @@ public class GitFilter extends MetaFilter {
 					.through(enabled)//
 					.with(new TextFileServlet(Constants.HEAD));
 
-			final String info_alternates = "objects/info/alternates";
+			final String info_alternates = Constants.OBJECTS + "/" + Constants.INFO_ALTERNATES;
 			serve("*/" + info_alternates)//
 					.through(mustBeLocal)//
 					.through(enabled)//
 					.with(new TextFileServlet(info_alternates));
 
-			final String http_alternates = "objects/info/http-alternates";
+			final String http_alternates = Constants.OBJECTS + "/" + Constants.INFO_HTTP_ALTERNATES;
 			serve("*/" + http_alternates)//
 					.through(mustBeLocal)//
 					.through(enabled)//

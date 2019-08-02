@@ -82,10 +82,6 @@ abstract class WalkRemoteObjectDatabase {
 
 	static final String INFO_PACKS = "info/packs"; //$NON-NLS-1$
 
-	static final String INFO_ALTERNATES = "info/alternates"; //$NON-NLS-1$
-
-	static final String INFO_HTTP_ALTERNATES = "info/http-alternates"; //$NON-NLS-1$
-
 	static final String INFO_REFS = ROOT_DIR + Constants.INFO_REFS;
 
 	abstract URIish getURI();
@@ -107,8 +103,10 @@ abstract class WalkRemoteObjectDatabase {
 	/**
 	 * Obtain alternate connections to alternate object databases (if any).
 	 * <p>
-	 * Alternates are typically read from the file {@link #INFO_ALTERNATES} or
-	 * {@link #INFO_HTTP_ALTERNATES}. The content of each line must be resolved
+         * Alternates are typically read from the file
+         * {@link org.eclipse.jgit.lib.Constants#INFO_ALTERNATES} or
+         * {@link org.eclipse.jgit.lib.Constants#INFO_HTTP_ALTERNATES}.
+         * The content of each line must be resolved
 	 * by the implementation and a new database reference should be returned to
 	 * represent the additional location.
 	 * <p>
