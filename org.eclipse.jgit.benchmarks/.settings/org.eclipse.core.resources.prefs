@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//tst-rsrc/org/eclipse/jgit/patch/testGetText_BothISO88591.patch=ISO-8859-1
+encoding//tst-rsrc/org/eclipse/jgit/patch/testGetText_Convert.patch=ISO-8859-1
+encoding//tst-rsrc/org/eclipse/jgit/patch/testGetText_DiffCc.patch=ISO-8859-1
+encoding/<project>=UTF-8
+encoding/src=UTF-8
