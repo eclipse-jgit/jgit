@@ -1,0 +1,2 @@
+commit.comment.template=${task.description} \n\nBug\: ${task.key}
+eclipse.preferences.version=1
