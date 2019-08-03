@@ -964,6 +964,7 @@
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
+    <module>org.eclipse.jgit.benchmarks</module>
   </modules>
 
 </project>
