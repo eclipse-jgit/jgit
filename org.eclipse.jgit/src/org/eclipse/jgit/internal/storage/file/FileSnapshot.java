@@ -44,7 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_FILESTORE_ATTRIBUTES;
-
+import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_TIMESTAMP_RESOLUTION;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -176,7 +176,7 @@ public class FileSnapshot {
 	public static FileSnapshot save(long modified) {
 		final Instant read = Instant.now();
 		return new FileSnapshot(read, Instant.ofEpochMilli(modified),
-				UNKNOWN_SIZE, Duration.ZERO, MISSING_FILEKEY);
+				UNKNOWN_SIZE, FALLBACK_TIMESTAMP_RESOLUTION, MISSING_FILEKEY);
 	}
 
 	/**
@@ -196,8 +196,8 @@ public class FileSnapshot {
 	 */
 	public static FileSnapshot save(Instant modified) {
 		final Instant read = Instant.now();
-		return new FileSnapshot(read, modified, UNKNOWN_SIZE, Duration.ZERO,
-				MISSING_FILEKEY);
+		return new FileSnapshot(read, modified, UNKNOWN_SIZE,
+				FALLBACK_TIMESTAMP_RESOLUTION, MISSING_FILEKEY);
 	}
 
 	/** Last observed modification time of the path. */

@@ -214,12 +214,19 @@ public abstract class FS {
 				.ofNanos(Long.MAX_VALUE);
 
 		/**
+		 * Fallback filesystem timestamp resolution. The worst case timestamp
+		 * resolution on FAT filesystems is 2 seconds.
+		 */
+		public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
+				.ofMillis(2000);
+
+		/**
 		 * Fallback FileStore attributes used when we can't measure the
 		 * filesystem timestamp resolution. The last modified time granularity
 		 * of FAT filesystems is 2 seconds.
 		 */
 		public static final FileStoreAttributes FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributes(
-				Duration.ofMillis(2000));
+				FALLBACK_TIMESTAMP_RESOLUTION);
 
 		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
 
