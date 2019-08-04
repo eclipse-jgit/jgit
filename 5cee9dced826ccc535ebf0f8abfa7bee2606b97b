@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a049e7f6_841ef198",
+        "filename": "org.eclipse.jgit.benchmarks/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-04T22:09:17Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 77
+      },
+      "revId": "5cee9dced826ccc535ebf0f8abfa7bee2606b97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1ad1932_87960a92",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/SimpleLruCacheBenchmark.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-04T22:09:17Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "5cee9dced826ccc535ebf0f8abfa7bee2606b97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
