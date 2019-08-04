@@ -9,6 +9,21 @@ load(
     "maven_jar",
 )
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+  name = "rules_jmh",
+  strip_prefix = "buchgr-rules_jmh-6ccf8d7",
+  url = "https://github.com/buchgr/rules_jmh/zipball/6ccf8d7b270083982e5c143935704b9f3f18b256",
+  type = "zip",
+  sha256 = "dbb7d7e5ec6e932eddd41b910691231ffd7b428dff1ef9a24e4a9a59c1a1762d",
+)
+
+load("@rules_jmh//:deps.bzl", "rules_jmh_deps")
+rules_jmh_deps()
+load("@rules_jmh//:defs.bzl", "rules_jmh_maven_deps")
+rules_jmh_maven_deps()
+
 maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.54",
