@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad2cf142_4d67bf12",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 30
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-04T22:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e1db36_b4871256",
+      "revId": "ff27e19bfc02cd2cb4e943832e6e61b15994f952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "171c05aa_4208babf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
         "patchSetId": 30
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "47fdda88_70de0e2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-04T22:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "171c05aa_4208babf",
+      "revId": "ff27e19bfc02cd2cb4e943832e6e61b15994f952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc72dbd8_1e803dc4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 30
@@ -47,6 +83,30 @@
       "writtenOn": "2019-08-04T22:06:10Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 245,
+        "startChar": 21,
+        "endLine": 245,
+        "endChar": 37
+      },
+      "revId": "ff27e19bfc02cd2cb4e943832e6e61b15994f952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ea7c6df_0943658f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-04T22:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc72dbd8_1e803dc4",
       "range": {
         "startLine": 245,
         "startChar": 21,
