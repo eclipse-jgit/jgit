@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26cc55f7_95ee5acf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-05T21:01:20Z",
+      "side": 1,
+      "message": "Not sure. If it\u0027s everywhere, maybe. I don\u0027t want to have many places writing an ERR packet and have one error handler to do that.",
+      "parentUuid": "0599113c_81e71469",
+      "range": {
+        "startLine": 2324,
+        "startChar": 19,
+        "endLine": 2324,
+        "endChar": 30
+      },
+      "revId": "35741648ee4e0e651d45ee8b7a1cc5a4621478fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77510ae0_96f6a275",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-24T00:58:20Z",
       "side": 1,
       "message": "Is this still necessary?  Should we instead resolve the warning by using try-with-resource?",
+      "range": {
+        "startLine": 2331,
+        "startChar": 3,
+        "endLine": 2331,
+        "endChar": 45
+      },
+      "revId": "35741648ee4e0e651d45ee8b7a1cc5a4621478fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dba5d43_38430445",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2331,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-05T21:01:20Z",
+      "side": 1,
+      "message": "The underlying output stream is from the caller. The caller should create the OutputStream with try-with-resource, not here.",
+      "parentUuid": "77510ae0_96f6a275",
       "range": {
         "startLine": 2331,
         "startChar": 3,
