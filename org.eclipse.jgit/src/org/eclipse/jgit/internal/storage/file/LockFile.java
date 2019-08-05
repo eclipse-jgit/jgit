@@ -61,6 +61,7 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -425,8 +426,10 @@ public class LockFile {
 	public void waitForStatChange() throws InterruptedException {
 		FileSnapshot o = FileSnapshot.save(ref);
 		FileSnapshot n = FileSnapshot.save(lck);
+		long fsTimeResolution = FS.getFileStoreAttributes(lck.toPath())
+				.getFsTimestampResolution().toNanos();
 		while (o.equals(n)) {
-			Thread.sleep(25 /* milliseconds */);
+			TimeUnit.NANOSECONDS.sleep(fsTimeResolution);
 			try {
 				Files.setLastModifiedTime(lck.toPath(),
 						FileTime.from(Instant.now()));
