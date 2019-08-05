@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27898493_20bb40d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SimpleLruCache.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2019-08-05T07:47:54Z",
+      "side": 1,
+      "message": "For cache size of 1000, this makes processing 10 times slower now. Even for a cache size of 100, this gives some notable slowdown of ~50%.",
+      "revId": "cded6d45fadd1de30716a14f41986d65dca11b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
