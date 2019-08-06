@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2335bb9b_93792114",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-06T09:44:05Z",
+      "side": 1,
+      "message": "moving this to line 308 causes a lot of locking errors for ~/.gitconfig to be logged when running the jgit tests on Java 11 (higher timestamp resolution on Linux and filesystem with high timestamp resolution, e.g. btrfs)",
+      "revId": "b01290453dd54a7c89487fd77ea946cf380571bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
