@@ -50,7 +50,6 @@ import static java.lang.Integer.valueOf;
 import static java.lang.Long.valueOf;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -60,11 +59,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -186,28 +185,7 @@ class Blame extends TextBuiltin {
 				}
 				generator.push(null, rev);
 			} else {
-				ObjectId head = db.resolve(Constants.HEAD);
-				if (head == null) {
-					throw die(MessageFormat.format(CLIText.get().noSuchRef,
-							Constants.HEAD));
-				}
-				generator.push(null, head);
-				if (!db.isBare()) {
-					DirCache dc = db.readDirCache();
-					int entry = dc.findEntry(file);
-					if (0 <= entry) {
-						generator.push(null, dc.getEntry(entry).getObjectId());
-					} else {
-						throw die(MessageFormat.format(
-								CLIText.get().noSuchPathInRef, file,
-								Constants.HEAD));
-					}
-
-					File inTree = new File(db.getWorkTree(), file);
-					if (db.getFS().isFile(inTree)) {
-						generator.push(null, new RawText(inTree));
-					}
-				}
+				generator.prepareHead();
 			}
 
 			blame = BlameResult.create(generator);
@@ -280,7 +258,7 @@ class Blame extends TextBuiltin {
 				} while (++line < end
 						&& sameCommit(blame.getSourceCommit(line), c));
 			}
-		} catch (NoWorkTreeException | IOException e) {
+		} catch (NoWorkTreeException | NoHeadException | IOException e) {
 			throw die(e.getMessage(), e);
 		}
 	}

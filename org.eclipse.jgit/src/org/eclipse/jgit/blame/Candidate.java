@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011, 2019 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,12 +44,14 @@
 package org.eclipse.jgit.blame;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -388,6 +390,66 @@ class Candidate {
 		@Override
 		public String toString() {
 			return "Reverse" + super.toString(); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * A {@link Candidate} to blame a working tree file in conflict state.
+	 * <p>
+	 * Contrary to {@link BlobCandidate}, it expects to be given the parent
+	 * commits (typically HEAD and the MERGE_HEADs) and behaves like a merge
+	 * commit during blame. It does <em>not</em> consider a previously pushed
+	 * Candidate as its parent.
+	 * </p>
+	 */
+	static final class HeadCandidate extends Candidate {
+
+		private List<RevCommit> parents;
+
+		HeadCandidate(Repository repo, PathFilter path,
+				List<RevCommit> parents) {
+			super(repo, null, path);
+			this.parents = parents;
+		}
+
+		@Override
+		void beginResult(RevWalk rw) {
+			// Blob candidates have nothing to prepare.
+		}
+
+		@Override
+		int getParentCount() {
+			return parents.size();
+		}
+
+		@Override
+		RevCommit getParent(int idx) {
+			return parents.get(idx);
+		}
+
+		@Override
+		boolean has(RevFlag flag) {
+			return true; // Pretend flag was added; sourceCommit is null.
+		}
+
+		@Override
+		void add(RevFlag flag) {
+			// Do nothing, sourceCommit is null.
+		}
+
+		@Override
+		void remove(RevFlag flag) {
+			// Do nothing, sourceCommit is null.
+		}
+
+		@Override
+		int getTime() {
+			return Integer.MAX_VALUE;
+		}
+
+		@Override
+		PersonIdent getAuthor() {
+			return new PersonIdent(JGitText.get().blameNotCommittedYet, ""); //$NON-NLS-1$
 		}
 	}
 
