@@ -70,7 +70,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.http.server.UploadPackErrorHandler.UploadPackRunnable;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.InternalHttpServerGlue;
 import org.eclipse.jgit.transport.PacketLineOut;
@@ -181,53 +182,71 @@ class UploadPackServlet extends HttpServlet {
 		}
 	}
 
+	private final UploadPackErrorHandler handler;
+
+	UploadPackServlet(@Nullable UploadPackErrorHandler handler) {
+		this.handler = handler != null ? handler
+				: this::defaultUploadPackHandler;
+	}
+
 	/** {@inheritDoc} */
 	@Override
-	public void doPost(final HttpServletRequest req,
-			final HttpServletResponse rsp) throws IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse rsp)
+			throws IOException {
 		if (!UPLOAD_PACK_REQUEST_TYPE.equals(req.getContentType())) {
 			rsp.sendError(SC_UNSUPPORTED_MEDIA_TYPE);
 			return;
 		}
 
-		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
-			@Override
-			public void flush() throws IOException {
-				doFlush();
-			}
-		};
+		UploadPackRunnable r = () -> {
+			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
+			@SuppressWarnings("resource")
+			SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
+				@Override
+				public void flush() throws IOException {
+					doFlush();
+				}
+			};
 
-		UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-		try {
 			up.setBiDirectionalPipe(false);
 			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
 
-			up.upload(getInputStream(req), out, null);
-			out.close();
-
-		} catch (ServiceMayNotContinueException e) {
-			if (e.isOutput()) {
+			try {
+				up.upload(getInputStream(req), out, null);
+				out.close();
+			} catch (ServiceMayNotContinueException e) {
+				if (e.isOutput()) {
+					consumeRequestBody(req);
+					out.close();
+				}
+				throw e;
+			} catch (UploadPackInternalServerErrorException e) {
+				// Special case exception, error message was sent to client.
+				log(up.getRepository(), e.getCause());
 				consumeRequestBody(req);
 				out.close();
-			} else if (!rsp.isCommitted()) {
+			}
+		};
+
+		handler.upload(req, rsp, r);
+	}
+
+	private void defaultUploadPackHandler(HttpServletRequest req,
+			HttpServletResponse rsp, UploadPackRunnable r) throws IOException {
+		try {
+			r.upload();
+		} catch (ServiceMayNotContinueException e) {
+			if (!e.isOutput() && !rsp.isCommitted()) {
 				rsp.reset();
 				sendError(req, rsp, e.getStatusCode(), e.getMessage());
 			}
-			return;
-
-		} catch (UploadPackInternalServerErrorException e) {
-			// Special case exception, error message was sent to client.
-			log(up.getRepository(), e.getCause());
-			consumeRequestBody(req);
-			out.close();
-
 		} catch (Throwable e) {
+			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
 			log(up.getRepository(), e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
 				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
 			}
-			return;
 		}
 	}
 
