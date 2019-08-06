@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, GitHub Inc.
+ * Copyright (C) 2011, 2019 GitHub Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -458,6 +459,39 @@ public class BlameCommandTest extends RepositoryTestCase {
 			assertEquals(base, lines.getSourceCommit(2));
 			assertEquals(merge, lines.getSourceCommit(3));
 			assertEquals(base, lines.getSourceCommit(4));
+		}
+	}
+
+	@Test
+	public void testUnresolvedMergeConflict() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit base = commitFile("file.txt", "Origin\n", "master");
+
+			RevCommit master = commitFile("file.txt",
+					"Change on master branch\n", "master");
+
+			git.checkout().setName("side").setCreateBranch(true)
+					.setStartPoint(base).call();
+			RevCommit side = commitFile("file.txt",
+					"Conflicting change on side\n", "side");
+
+			checkoutBranch("refs/heads/master");
+			MergeResult result = git.merge().include(side).call();
+
+			// The merge results in a conflict, which we do not resolve
+			assertTrue("Expected a conflict",
+					result.getConflicts().containsKey("file.txt"));
+
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+
+			assertEquals(5, lines.getResultContents().size());
+			assertNull(lines.getSourceCommit(0));
+			assertEquals(master, lines.getSourceCommit(1));
+			assertNull(lines.getSourceCommit(2));
+			assertEquals(side, lines.getSourceCommit(3));
+			assertNull(lines.getSourceCommit(4));
 		}
 	}
 
