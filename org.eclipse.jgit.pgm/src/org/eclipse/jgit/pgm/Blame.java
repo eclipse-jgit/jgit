@@ -133,6 +133,9 @@ class Blame extends TextBuiltin {
 
 	private BlameResult blame;
 
+	/** Used to get a current time stamp for lines without commit. */
+	private final PersonIdent dummyDate = new PersonIdent("", ""); //$NON-NLS-1$ //$NON-NLS-2$
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
@@ -211,6 +214,10 @@ class Blame extends TextBuiltin {
 					if (autoAbbrev) {
 						abbrev = Math.max(abbrev, uniqueAbbrevLen(reader, c));
 					}
+					authorWidth = Math.max(authorWidth, author(line).length());
+					dateWidth = Math.max(dateWidth, date(line).length());
+					pathWidth = Math.max(pathWidth, path(line).length());
+				} else if (c == null) {
 					authorWidth = Math.max(authorWidth, author(line).length());
 					dateWidth = Math.max(dateWidth, date(line).length());
 					pathWidth = Math.max(pathWidth, path(line).length());
@@ -351,10 +358,12 @@ class Blame extends TextBuiltin {
 	}
 
 	private String date(int line) {
-		if (blame.getSourceCommit(line) == null)
-			return ""; //$NON-NLS-1$
-
-		PersonIdent author = blame.getSourceAuthor(line);
+		PersonIdent author;
+		if (blame.getSourceCommit(line) == null) {
+			author = dummyDate;
+		} else {
+			author = blame.getSourceAuthor(line);
+		}
 		if (author == null)
 			return ""; //$NON-NLS-1$
 
@@ -372,28 +381,37 @@ class Blame extends TextBuiltin {
 		if (r != null)
 			return r;
 
-		if (showBlankBoundary && commit.getParentCount() == 0)
-			commit = null;
-
 		if (commit == null) {
-			int len = showLongRevision ? OBJECT_ID_STRING_LENGTH : (abbrev + 1);
-			StringBuilder b = new StringBuilder(len);
-			for (int i = 0; i < len; i++)
-				b.append(' ');
-			r = b.toString();
-
-		} else if (!root && commit.getParentCount() == 0) {
-			if (showLongRevision)
-				r = "^" + commit.name().substring(0, OBJECT_ID_STRING_LENGTH - 1); //$NON-NLS-1$
-			else
-				r = "^" + reader.abbreviate(commit, abbrev).name(); //$NON-NLS-1$
+			if (showLongRevision) {
+				r = ObjectId.zeroId().name();
+			} else {
+				r = ObjectId.zeroId().abbreviate(abbrev + 1).name();
+			}
 		} else {
-			if (showLongRevision)
-				r = commit.name();
-			else
-				r = reader.abbreviate(commit, abbrev + 1).name();
-		}
+			if (showBlankBoundary && commit.getParentCount() == 0)
+				commit = null;
 
+			if (commit == null) {
+				int len = showLongRevision ? OBJECT_ID_STRING_LENGTH
+						: (abbrev + 1);
+				StringBuilder b = new StringBuilder(len);
+				for (int i = 0; i < len; i++)
+					b.append(' ');
+				r = b.toString();
+
+			} else if (!root && commit.getParentCount() == 0) {
+				if (showLongRevision)
+					r = "^" + commit.name().substring(0, //$NON-NLS-1$
+							OBJECT_ID_STRING_LENGTH - 1);
+				else
+					r = "^" + reader.abbreviate(commit, abbrev).name(); //$NON-NLS-1$
+			} else {
+				if (showLongRevision)
+					r = commit.name();
+				else
+					r = reader.abbreviate(commit, abbrev + 1).name();
+			}
+		}
 		abbreviatedCommits.put(commit, r);
 		return r;
 	}
