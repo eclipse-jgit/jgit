@@ -759,9 +759,69 @@ public class UploadPack {
 	/**
 	 * Execute the upload task on the socket.
 	 *
-	 * <p>If the client passed extra parameters (e.g., "version=2") through a
-	 * side channel, the caller must call setExtraParameters first to supply
-	 * them.
+	 * <p>
+	 * Same as {@link #uploadWithExceptionPropagation} except that the thrown
+	 * exceptions are handled in the method, and the error messages are sent to
+	 * the clients.
+	 *
+	 * <p>
+	 * Call this method if the caller does not have an error handling mechanism.
+	 * Call {@link #uploadWithExceptionPropagation} if the caller wants to have
+	 * its own error handling mechanism.
+	 *
+	 * @param input
+	 * @param output
+	 * @param messages
+	 * @throws java.io.IOException
+	 */
+	public void upload(InputStream input, OutputStream output,
+			@Nullable OutputStream messages) throws IOException {
+		try {
+			uploadWithExceptionPropagation(input, output, messages);
+		} catch (ServiceMayNotContinueException err) {
+			if (!err.isOutput() && err.getMessage() != null) {
+				try {
+					errOut.writeError(err.getMessage());
+				} catch (IOException e) {
+					err.addSuppressed(e);
+					throw err;
+				}
+				err.setOutput();
+			}
+			throw err;
+		} catch (IOException | RuntimeException | Error err) {
+			if (rawOut != null) {
+				String msg = err instanceof PackProtocolException
+						? err.getMessage()
+						: JGitText.get().internalServerError;
+				try {
+					errOut.writeError(msg);
+				} catch (IOException e) {
+					err.addSuppressed(e);
+					throw err;
+				}
+				throw new UploadPackInternalServerErrorException(err);
+			}
+			throw err;
+		} finally {
+			msgOut = NullOutputStream.INSTANCE;
+			walk.close();
+			if (timer != null) {
+				try {
+					timer.terminate();
+				} finally {
+					timer = null;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Execute the upload task on the socket.
+	 *
+	 * <p>
+	 * If the client passed extra parameters (e.g., "version=2") through a side
+	 * channel, the caller must call setExtraParameters first to supply them.
 	 *
 	 * @param input
 	 *            raw input to read client commands from. Caller must ensure the
@@ -775,15 +835,20 @@ public class UploadPack {
 	 *            through. When run over SSH this should be tied back to the
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
-	 * @throws java.io.IOException
+	 * @throws ServiceMayNotContinueException
+	 *             thrown if one of the hooks throws this.
+	 * @throws IOException
+	 *             thrown if the server or the client I/O fails, or there's an
+	 *             internal server error.
 	 */
-	public void upload(InputStream input, OutputStream output,
-			@Nullable OutputStream messages) throws IOException {
-		PacketLineOut pckOut = null;
+	public void uploadWithExceptionPropagation(InputStream input,
+			OutputStream output, @Nullable OutputStream messages)
+			throws ServiceMayNotContinueException, IOException {
 		try {
 			rawIn = input;
-			if (messages != null)
+			if (messages != null) {
 				msgOut = messages;
+			}
 
 			if (timeout > 0) {
 				final Thread caller = Thread.currentThread();
@@ -803,37 +868,12 @@ public class UploadPack {
 			}
 
 			pckIn = new PacketLineIn(rawIn);
-			pckOut = new PacketLineOut(rawOut);
+			PacketLineOut pckOut = new PacketLineOut(rawOut);
 			if (useProtocolV2()) {
 				serviceV2(pckOut);
 			} else {
 				service(pckOut);
 			}
-		} catch (ServiceMayNotContinueException err) {
-			if (!err.isOutput() && err.getMessage() != null) {
-				try {
-					errOut.writeError(err.getMessage());
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				err.setOutput();
-			}
-			throw err;
-		} catch (IOException | RuntimeException | Error err) {
-			if (pckOut != null) {
-				String msg = err instanceof PackProtocolException
-						? err.getMessage()
-						: JGitText.get().internalServerError;
-				try {
-					errOut.writeError(msg);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			}
-			throw err;
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -2381,7 +2421,6 @@ public class UploadPack {
 	private class SideBandErrorWriter implements ErrorWriter {
 		@Override
 		public void writeError(String message) throws IOException {
-			@SuppressWarnings("resource" /* java 7 */)
 			SideBandOutputStream err = new SideBandOutputStream(
 					SideBandOutputStream.CH_ERROR,
 					SideBandOutputStream.SMALL_BUF, requireNonNull(rawOut));
