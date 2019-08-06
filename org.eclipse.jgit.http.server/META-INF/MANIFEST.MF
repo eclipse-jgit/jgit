@@ -18,6 +18,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
  javax.servlet.http;version="[2.5.0,3.2.0)",
+ org.eclipse.jgit.annotations;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.errors;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.internal.storage.dfs;version="[5.5.0,5.6.0)",
  org.eclipse.jgit.internal.storage.file;version="[5.5.0,5.6.0)",
