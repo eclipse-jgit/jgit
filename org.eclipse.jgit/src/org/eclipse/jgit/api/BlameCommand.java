@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, GitHub Inc.
+ * Copyright (C) 2011, 2019 GitHub Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,11 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,17 +52,10 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffAlgorithm;
-import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.treewalk.WorkingTreeOptions;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.io.AutoLFInputStream;
 
 /**
  * Blame command for building a {@link org.eclipse.jgit.blame.BlameResult} for a
@@ -221,68 +210,11 @@ public class BlameCommand extends GitCommand<BlameResult> {
 			else if (startCommit != null)
 				gen.push(null, startCommit);
 			else {
-				gen.push(null, repo.resolve(Constants.HEAD));
-				if (!repo.isBare()) {
-					DirCache dc = repo.readDirCache();
-					int entry = dc.findEntry(path);
-					if (0 <= entry)
-						gen.push(null, dc.getEntry(entry).getObjectId());
-
-					File inTree = new File(repo.getWorkTree(), path);
-					if (repo.getFS().isFile(inTree)) {
-						RawText rawText = getRawText(inTree);
-						gen.push(null, rawText);
-					}
-				}
+				gen.prepareHead();
 			}
 			return gen.computeBlameResult();
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
-		}
-	}
-
-	private RawText getRawText(File inTree) throws IOException,
-			FileNotFoundException {
-		RawText rawText;
-
-		WorkingTreeOptions workingTreeOptions = getRepository().getConfig()
-				.get(WorkingTreeOptions.KEY);
-		AutoCRLF autoCRLF = workingTreeOptions.getAutoCRLF();
-		switch (autoCRLF) {
-		case FALSE:
-		case INPUT:
-			// Git used the repo format on checkout, but other tools
-			// may change the format to CRLF. We ignore that here.
-			rawText = new RawText(inTree);
-			break;
-		case TRUE:
-			try (AutoLFInputStream in = new AutoLFInputStream(
-					new FileInputStream(inTree), true)) {
-				// Canonicalization should lead to same or shorter length
-				// (CRLF to LF), so the file size on disk is an upper size bound
-				rawText = new RawText(toByteArray(in, (int) inTree.length()));
-			}
-			break;
-		default:
-			throw new IllegalArgumentException(
-					"Unknown autocrlf option " + autoCRLF); //$NON-NLS-1$
-		}
-		return rawText;
-	}
-
-	private static byte[] toByteArray(InputStream source, int upperSizeLimit)
-			throws IOException {
-		byte[] buffer = new byte[upperSizeLimit];
-		try {
-			int read = IO.readFully(source, buffer, 0);
-			if (read == upperSizeLimit) {
-				return buffer;
-			}
-			byte[] copy = new byte[read];
-			System.arraycopy(buffer, 0, copy, 0, read);
-			return copy;
-		} finally {
-			source.close();
 		}
 	}
 }
