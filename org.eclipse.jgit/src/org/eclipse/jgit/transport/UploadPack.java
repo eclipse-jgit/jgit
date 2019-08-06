@@ -759,56 +759,25 @@ public class UploadPack {
 	/**
 	 * Execute the upload task on the socket.
 	 *
-	 * <p>If the client passed extra parameters (e.g., "version=2") through a
-	 * side channel, the caller must call setExtraParameters first to supply
-	 * them.
+	 * <p>
+	 * Same as {@link #uploadWithExceptionPropagation} except that the thrown
+	 * exceptions are handled in the method, and the error messages are sent to
+	 * the clients.
+	 *
+	 * <p>
+	 * Call this method if the caller does not have an error handling mechanism.
+	 * Call {@link #uploadWithExceptionPropagation} if the caller wants to have
+	 * its own error handling mechanism.
 	 *
 	 * @param input
-	 *            raw input to read client commands from. Caller must ensure the
-	 *            input is buffered, otherwise read performance may suffer.
 	 * @param output
-	 *            response back to the Git network client, to write the pack
-	 *            data onto. Caller must ensure the output is buffered,
-	 *            otherwise write performance may suffer.
 	 * @param messages
-	 *            secondary "notice" channel to send additional messages out
-	 *            through. When run over SSH this should be tied back to the
-	 *            standard error channel of the command execution. For most
-	 *            other network connections this should be null.
 	 * @throws java.io.IOException
 	 */
 	public void upload(InputStream input, OutputStream output,
 			@Nullable OutputStream messages) throws IOException {
-		PacketLineOut pckOut = null;
 		try {
-			rawIn = input;
-			if (messages != null)
-				msgOut = messages;
-
-			if (timeout > 0) {
-				final Thread caller = Thread.currentThread();
-				timer = new InterruptTimer(caller.getName() + "-Timer"); //$NON-NLS-1$
-				TimeoutInputStream i = new TimeoutInputStream(rawIn, timer);
-				@SuppressWarnings("resource")
-				TimeoutOutputStream o = new TimeoutOutputStream(output, timer);
-				i.setTimeout(timeout * 1000);
-				o.setTimeout(timeout * 1000);
-				rawIn = i;
-				output = o;
-			}
-
-			rawOut = new ResponseBufferedOutputStream(output);
-			if (biDirectionalPipe) {
-				rawOut.stopBuffering();
-			}
-
-			pckIn = new PacketLineIn(rawIn);
-			pckOut = new PacketLineOut(rawOut);
-			if (useProtocolV2()) {
-				serviceV2(pckOut);
-			} else {
-				service(pckOut);
-			}
+			uploadWithExceptionPropagation(input, output, messages);
 		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
@@ -834,6 +803,67 @@ public class UploadPack {
 				throw new UploadPackInternalServerErrorException(err);
 			}
 			throw err;
+		}
+	}
+
+	/**
+	 * Execute the upload task on the socket.
+	 *
+	 * <p>
+	 * If the client passed extra parameters (e.g., "version=2") through a side
+	 * channel, the caller must call setExtraParameters first to supply them.
+	 *
+	 * @param input
+	 *            raw input to read client commands from. Caller must ensure the
+	 *            input is buffered, otherwise read performance may suffer.
+	 * @param output
+	 *            response back to the Git network client, to write the pack
+	 *            data onto. Caller must ensure the output is buffered,
+	 *            otherwise write performance may suffer.
+	 * @param messages
+	 *            secondary "notice" channel to send additional messages out
+	 *            through. When run over SSH this should be tied back to the
+	 *            standard error channel of the command execution. For most
+	 *            other network connections this should be null.
+	 * @throws ServiceMayNotContinueException
+	 *             thrown if one of the hooks throws this.
+	 * @throws IOException
+	 *             thrown if the server or the client I/O fails, or there's an
+	 *             internal server error.
+	 */
+	public void uploadWithExceptionPropagation(InputStream input,
+			OutputStream output, @Nullable OutputStream messages)
+			throws ServiceMayNotContinueException, IOException {
+		try {
+			rawIn = input;
+			if (messages != null) {
+				msgOut = messages;
+			}
+
+			if (timeout > 0) {
+				final Thread caller = Thread.currentThread();
+				timer = new InterruptTimer(caller.getName() + "-Timer"); //$NON-NLS-1$
+				TimeoutInputStream i = new TimeoutInputStream(rawIn, timer);
+				@SuppressWarnings("resource")
+				TimeoutOutputStream o = new TimeoutOutputStream(output, timer);
+				i.setTimeout(timeout * 1000);
+				o.setTimeout(timeout * 1000);
+				rawIn = i;
+				output = o;
+			}
+
+			rawOut = new ResponseBufferedOutputStream(output);
+			if (biDirectionalPipe) {
+				rawOut.stopBuffering();
+			}
+
+			pckIn = new PacketLineIn(rawIn);
+			PacketLineOut pckOut = new PacketLineOut(rawOut);
+			if (useProtocolV2()) {
+				serviceV2(pckOut);
+			} else {
+				service(pckOut);
+			}
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
