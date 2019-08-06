@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011, 2019 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,11 +48,17 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_FILE;
 import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.blame.Candidate.BlobCandidate;
+import org.eclipse.jgit.blame.Candidate.HeadCandidate;
 import org.eclipse.jgit.blame.Candidate.ReverseCandidate;
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
 import org.eclipse.jgit.diff.DiffAlgorithm;
@@ -63,8 +69,13 @@ import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -74,9 +85,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.IO;
 
 /**
  * Generate author information for lines based on a provided file.
@@ -310,6 +324,107 @@ public class BlameGenerator implements AutoCloseable {
 		remaining = contents.size();
 		push(c);
 		return this;
+	}
+
+	/**
+	 * Pushes HEAD, index, and working tree as appropriate for blaming the file
+	 * given in the constructor {@link #BlameGenerator(Repository, String)}
+	 * against HEAD. Includes special handling in case the file is in conflict
+	 * state from an unresolved merge conflict.
+	 *
+	 * @return {@code this}
+	 * @throws NoHeadException
+	 *             if the repository has no HEAD
+	 * @throws IOException
+	 *             if an error occurs
+	 * @since 5.6
+	 */
+	public BlameGenerator prepareHead() throws NoHeadException, IOException {
+		Repository repo = getRepository();
+		ObjectId head = repo.resolve(Constants.HEAD);
+		if (head == null) {
+			throw new NoHeadException(MessageFormat
+					.format(JGitText.get().noSuchRefKnown, Constants.HEAD));
+		}
+		if (repo.isBare()) {
+			return push(null, head);
+		}
+		DirCache dc = repo.readDirCache();
+		try (TreeWalk walk = new TreeWalk(repo)) {
+			walk.setOperationType(OperationType.CHECKIN_OP);
+			FileTreeIterator iter = new FileTreeIterator(repo);
+			int fileTree = walk.addTree(iter);
+			int indexTree = walk.addTree(new DirCacheIterator(dc));
+			iter.setDirCacheIterator(walk, indexTree);
+			walk.setFilter(resultPath);
+			walk.setRecursive(true);
+			if (!walk.next()) {
+				return this;
+			}
+			DirCacheIterator dcIter = walk.getTree(indexTree,
+					DirCacheIterator.class);
+			if (dcIter == null) {
+				// Not found in index
+				return this;
+			}
+			iter = walk.getTree(fileTree, FileTreeIterator.class);
+			if (iter == null || !isFile(iter.getEntryRawMode())) {
+				return this;
+			}
+			RawText inTree;
+			long filteredLength = iter.getEntryContentLength();
+			try (InputStream stream = iter.openEntryStream()) {
+				inTree = new RawText(getBytes(iter.getEntryFile().getPath(),
+						stream, filteredLength));
+			}
+			DirCacheEntry indexEntry = dcIter.getDirCacheEntry();
+			if (indexEntry.getStage() == DirCacheEntry.STAGE_0) {
+				push(null, head);
+				push(null, indexEntry.getObjectId());
+				push(null, inTree);
+			} else {
+				// Create a special candidate using the working tree file as
+				// blob and HEAD and the MERGE_HEADs as parents.
+				HeadCandidate c = new HeadCandidate(getRepository(), resultPath,
+						getHeads(repo, head));
+				c.sourceText = inTree;
+				c.regionList = new Region(0, 0, inTree.size());
+				remaining = inTree.size();
+				push(c);
+			}
+		}
+		return this;
+	}
+
+	private List<RevCommit> getHeads(Repository repo, ObjectId head)
+			throws NoWorkTreeException, IOException {
+		List<ObjectId> mergeIds = repo.readMergeHeads();
+		if (mergeIds == null || mergeIds.isEmpty()) {
+			return Collections.singletonList(revPool.parseCommit(head));
+		}
+		List<RevCommit> heads = new ArrayList<>(mergeIds.size() + 1);
+		heads.add(revPool.parseCommit(head));
+		for (ObjectId id : mergeIds) {
+			heads.add(revPool.parseCommit(id));
+		}
+		return heads;
+	}
+
+	private static byte[] getBytes(String path, InputStream in, long maxLength)
+			throws IOException {
+		if (maxLength > Integer.MAX_VALUE) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().fileIsTooLarge, path));
+		}
+		int max = (int) maxLength;
+		byte[] buffer = new byte[max];
+		int read = IO.readFully(in, buffer, 0);
+		if (read == max) {
+			return buffer;
+		}
+		byte[] copy = new byte[read];
+		System.arraycopy(buffer, 0, copy, 0, read);
+		return copy;
 	}
 
 	/**

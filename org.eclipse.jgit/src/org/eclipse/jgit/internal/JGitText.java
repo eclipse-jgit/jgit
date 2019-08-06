@@ -518,6 +518,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String nonCommitToHeads;
 	/***/ public String noPathAttributesFound;
 	/***/ public String noSuchRef;
+	/***/ public String noSuchRefKnown;
 	/***/ public String noSuchSubmodule;
 	/***/ public String notABoolean;
 	/***/ public String notABundle;
