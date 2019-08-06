@@ -92,6 +92,8 @@ public class GitFilter extends MetaFilter {
 
 	private UploadPackFactory<HttpServletRequest> uploadPackFactory = new DefaultUploadPackFactory();
 
+	private UploadPackErrorHandler uploadPackErrorHandler;
+
 	private ReceivePackFactory<HttpServletRequest> receivePackFactory = new DefaultReceivePackFactory();
 
 	private final List<Filter> uploadPackFilters = new LinkedList<>();
@@ -147,6 +149,17 @@ public class GitFilter extends MetaFilter {
 	public void setUploadPackFactory(UploadPackFactory<HttpServletRequest> f) {
 		assertNotInitialized();
 		this.uploadPackFactory = f != null ? f : (UploadPackFactory<HttpServletRequest>)UploadPackFactory.DISABLED;
+	}
+
+	/**
+	 * Set a custom error handler for git-upload-pack.
+	 *
+	 * @param h
+	 *            A custom error handler for git-upload-pack.
+	 */
+	public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
+		assertNotInitialized();
+		this.uploadPackErrorHandler = h;
 	}
 
 	/**
@@ -212,7 +225,7 @@ public class GitFilter extends MetaFilter {
 			b = b.through(new UploadPackServlet.Factory(uploadPackFactory));
 			for (Filter f : uploadPackFilters)
 				b = b.through(f);
-			b.with(new UploadPackServlet());
+			b.with(new UploadPackServlet(uploadPackErrorHandler));
 		}
 
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
