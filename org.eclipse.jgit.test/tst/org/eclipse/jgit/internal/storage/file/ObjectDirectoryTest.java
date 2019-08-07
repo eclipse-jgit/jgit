@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
@@ -158,13 +159,14 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 
 			// To deal with racy-git situations JGit's Filesnapshot class will
 			// report a file/folder potentially dirty if
-			// cachedLastReadTime-cachedLastModificationTime < 2500ms. This
-			// causes JGit to always rescan a file after modification. But:
-			// this was true only if the difference between current system time
-			// and cachedLastModification time was less than 2500ms. If the
-			// modification is more than 2500ms ago we may have reported a
-			// file/folder to be clean although it has not been rescanned. A
-			// Bug. To show the bug we sleep for more than 2500ms
+			// cachedLastReadTime-cachedLastModificationTime < filesystem
+			// timestamp resolution. This causes JGit to always rescan a file
+			// after modification. But: this was true only if the difference
+			// between current system time and cachedLastModification time was
+			// less than 2500ms. If the modification is more than 2500ms ago we
+			// may have reported a file/folder to be clean although it has not
+			// been rescanned. A bug. To show the bug we sleep for more than
+			// 2500ms
 			Thread.sleep(2600);
 
 			File[] ret = packsFolder.listFiles(new FilenameFilter() {
@@ -174,7 +176,9 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				}
 			});
 			assertTrue(ret != null && ret.length == 1);
-			Assume.assumeTrue(tmpFile.lastModified() == ret[0].lastModified());
+			FS fs = db.getFS();
+			Assume.assumeTrue(fs.lastModifiedInstant(tmpFile)
+					.equals(fs.lastModifiedInstant(ret[0])));
 
 			// all objects are in a new packfile but we will not detect it
 			assertFalse(receivingDB.hasObject(unknownID));

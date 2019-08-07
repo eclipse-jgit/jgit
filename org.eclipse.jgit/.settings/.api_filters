@@ -8,6 +8,26 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/dircache/DirCacheEntry.java" type="org.eclipse.jgit.dircache.DirCacheEntry">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="mightBeRacilyClean(Instant)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="setLastModified(Instant)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/errors/PackInvalidException.java" type="org.eclipse.jgit.errors.PackInvalidException">
         <filter id="1142947843">
             <message_arguments>
@@ -19,6 +39,34 @@
             <message_arguments>
                 <message_argument value="4.5.7"/>
                 <message_argument value="PackInvalidException(String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="CONFIG_FILESYSTEM_SECTION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="CONFIG_KEY_MIN_RACY_THRESHOLD"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="CONFIG_KEY_TIMESTAMP_RESOLUTION"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/FileBasedConfig.java" type="org.eclipse.jgit.storage.file.FileBasedConfig">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="load(boolean)"/>
             </message_arguments>
         </filter>
     </resource>
@@ -92,6 +140,28 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getEntryLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator$Entry">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
         <filter id="1142947843">
             <message_arguments>
@@ -101,16 +171,72 @@
         </filter>
         <filter id="1142947843">
             <message_arguments>
-                <message_argument value="5.2.3"/>
-                <message_argument value="getFsTimerResolution(Path)"/>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getFileStoreAttributes(Path)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="lastModifiedInstant(File)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="lastModifiedInstant(Path)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="setAsyncFileStoreAttributes(boolean)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="setLastModified(Path, Instant)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$Attributes">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributes">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="FileStoreAttributes"/>
             </message_arguments>
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
         <filter id="1142947843">
             <message_arguments>
-                <message_argument value="5.2.3"/>
+                <message_argument value="5.1.8"/>
                 <message_argument value="touch(Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/SimpleLruCache.java" type="org.eclipse.jgit.util.SimpleLruCache">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="org.eclipse.jgit.util.SimpleLruCache"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/Stats.java" type="org.eclipse.jgit.util.Stats">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="org.eclipse.jgit.util.Stats"/>
             </message_arguments>
         </filter>
     </resource>

@@ -392,7 +392,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						final DirCacheEntry dcEntry = new DirCacheEntry(path);
 						long entryLength = fTree.getEntryLength();
 						dcEntry.setLength(entryLength);
-						dcEntry.setLastModified(fTree.getEntryLastModified());
+						dcEntry.setLastModified(fTree.getEntryLastModifiedInstant());
 						dcEntry.setFileMode(fTree.getIndexFileMode(dcTree));
 
 						boolean objectExists = (dcTree != null

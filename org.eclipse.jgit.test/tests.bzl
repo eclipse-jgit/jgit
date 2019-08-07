@@ -7,15 +7,16 @@ def tests(tests):
     for src in tests:
         name = src[len("tst/"):len(src) - len(".java")].replace("/", "_")
         labels = []
+        timeout = "moderate"
         if name.startswith("org_eclipse_jgit_"):
-            l = name[len("org.eclipse.jgit_"):]
-            if l.startswith("internal_storage_"):
-                l = l[len("internal.storage_"):]
-            i = l.find("_")
-            if i > 0:
-                labels.append(l[:i])
+            package = name[len("org.eclipse.jgit_"):]
+            if package.startswith("internal_storage_"):
+                package = package[len("internal.storage_"):]
+            index = package.find("_")
+            if index > 0:
+                labels.append(package[:index])
             else:
-                labels.append(i)
+                labels.append(index)
         if "lib" not in labels:
             labels.append("lib")
 
@@ -49,6 +50,12 @@ def tests(tests):
                 "//lib:sshd-sftp",
                 ":sshd-helpers",
             ]
+        if src.endswith("ArchiveCommandTest.java"):
+            additional_deps = [
+                "//lib:commons-compress",
+                "//lib:xz",
+                "//org.eclipse.jgit.archive:jgit-archive",
+            ]
         if src.endswith("JDKHttpConnectionTest.java"):
             additional_deps = [
                 "//lib:mockito",
@@ -56,6 +63,8 @@ def tests(tests):
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
+        if src.endswith("EolRepositoryTest.java") or src.endswith("GcCommitSelectionTest.java"):
+            timeout = "long"
 
         junit_tests(
             name = name,
@@ -73,4 +82,5 @@ def tests(tests):
             ],
             flaky = flaky,
             jvm_flags = [heap_size, "-Dfile.encoding=UTF-8"],
+            timeout = timeout,
         )

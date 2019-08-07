@@ -60,6 +60,7 @@ import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -107,7 +108,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
 		@Override
 		public int compare(PackFile a, PackFile b) {
-			return b.packLastModified - a.packLastModified;
+			return b.packLastModified.compareTo(a.packLastModified);
 		}
 	};
 
@@ -132,7 +133,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private int activeCopyRawData;
 
-	int packLastModified;
+	Instant packLastModified;
 
 	private PackFileSnapshot fileSnapshot;
 
@@ -172,7 +173,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public PackFile(File packFile, int extensions) {
 		this.packFile = packFile;
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
-		this.packLastModified = (int) (fileSnapshot.lastModified() >> 10);
+		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.extensions = extensions;
 
 		// Multiply by 31 here so we can more directly combine with another

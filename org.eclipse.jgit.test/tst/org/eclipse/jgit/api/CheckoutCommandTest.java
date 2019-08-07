@@ -43,6 +43,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.hamcrest.CoreMatchers.is;
@@ -60,6 +61,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
@@ -74,6 +78,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.time.TimeUtil;
 import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -86,6 +91,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
@@ -362,14 +368,14 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 		File file = new File(db.getWorkTree(), "Test.txt");
 		long size = file.length();
-		long mTime = file.lastModified() - 5000L;
-		assertTrue(file.setLastModified(mTime));
+		Instant mTime = TimeUtil.setLastModifiedWithOffset(file.toPath(),
+				-5000L);
 
 		DirCache cache = DirCache.lock(db.getIndexFile(), db.getFS());
 		DirCacheEntry entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		entry.setLength(0);
-		entry.setLastModified(0);
+		entry.setLastModified(EPOCH);
 		cache.write();
 		assertTrue(cache.commit());
 
@@ -377,10 +383,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		assertEquals(0, entry.getLength());
-		assertEquals(0, entry.getLastModified());
+		assertEquals(EPOCH, entry.getLastModifiedInstant());
 
-		db.getIndexFile().setLastModified(
-				db.getIndexFile().lastModified() - 5000);
+		Files.setLastModifiedTime(db.getIndexFile().toPath(),
+				FileTime.from(FS.DETECTED
+						.lastModifiedInstant(db.getIndexFile())
+						.minusMillis(5000L)));
 
 		assertNotNull(git.checkout().setName("test").call());
 
@@ -388,7 +396,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		assertEquals(size, entry.getLength());
-		assertEquals(mTime, entry.getLastModified());
+		assertEquals(mTime, entry.getLastModifiedInstant());
 	}
 
 	@Test
