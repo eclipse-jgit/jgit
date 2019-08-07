@@ -1,0 +1,8 @@
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 07 Aug 2019 13:42:43 -0400
+Reviewed-on: https://git.eclipse.org/r/146280
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
