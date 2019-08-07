@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cf840ba_95e450ba",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/CreateFileSnapshotBenchmark.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-07T13:41:55Z",
+      "side": 1,
+      "message": "this is creating way too many files, limit this by adding annotations to shorten the benchmark run time limiting number of files being created:\n\n    @Warmup(iterations \u003d 5, time \u003d 100, timeUnit \u003d TimeUnit.MILLISECONDS)\n    @Measurement(iterations \u003d 5, time \u003d 100, timeUnit \u003d TimeUnit.MILLISECONDS)",
+      "revId": "e0065fba7a8de420517326415132ccb5abe61bef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
