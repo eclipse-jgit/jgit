@@ -58,6 +58,7 @@ import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -497,8 +498,7 @@ public class DirCache {
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
 		snapshot = FileSnapshot.save(liveFile);
-		int smudge_s = (int) (snapshot.lastModified() / 1000);
-		int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
+		Instant smudge = snapshot.lastModifiedInstant();
 
 		// Load the individual file entries.
 		//
@@ -507,8 +507,9 @@ public class DirCache {
 		sortedEntries = new DirCacheEntry[entryCnt];
 
 		final MutableInteger infoAt = new MutableInteger();
-		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge_s, smudge_ns);
+		for (int i = 0; i < entryCnt; i++) {
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge);
+		}
 
 		// After the file entries are index extensions, and then a footer.
 		//
@@ -679,8 +680,8 @@ public class DirCache {
 			// so we use the current timestamp as a approximation.
 			myLock.createCommitSnapshot();
 			snapshot = myLock.getCommitSnapshot();
-			smudge_s = (int) (snapshot.lastModified() / 1000);
-			smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
+			smudge_s = (int) (snapshot.lastModifiedInstant().getEpochSecond());
+			smudge_ns = snapshot.lastModifiedInstant().getNano();
 		} else {
 			// Used in unit tests only
 			smudge_ns = 0;
@@ -1025,7 +1026,7 @@ public class DirCache {
 				DirCacheEntry entry = iIter.getDirCacheEntry();
 				if (entry.isSmudged() && iIter.idEqual(fIter)) {
 					entry.setLength(fIter.getEntryLength());
-					entry.setLastModified(fIter.getEntryLastModified());
+					entry.setLastModified(fIter.getEntryLastModifiedInstant());
 				}
 			}
 		}

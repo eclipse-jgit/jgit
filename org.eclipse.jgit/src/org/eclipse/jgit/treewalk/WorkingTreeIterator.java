@@ -59,6 +59,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -646,9 +647,21 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @return last modified time of this file, in milliseconds since the epoch
 	 *         (Jan 1, 1970 UTC).
+	 * @deprecated use {@link #getEntryLastModifiedInstant()} instead
 	 */
+	@Deprecated
 	public long getEntryLastModified() {
 		return current().getLastModified();
+	}
+
+	/**
+	 * Get the last modified time of this entry.
+	 *
+	 * @return last modified time of this file
+	 * @since 5.1.9
+	 */
+	public Instant getEntryLastModifiedInstant() {
+		return current().getLastModifiedInstant();
 	}
 
 	/**
@@ -925,30 +938,28 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		// Git under windows only stores seconds so we round the timestamp
 		// Java gives us if it looks like the timestamp in index is seconds
-		// only. Otherwise we compare the timestamp at millisecond precision,
+		// only. Otherwise we compare the timestamp at nanosecond precision,
 		// unless core.checkstat is set to "minimal", in which case we only
 		// compare the whole second part.
-		long cacheLastModified = entry.getLastModified();
-		long fileLastModified = getEntryLastModified();
-		long lastModifiedMillis = fileLastModified % 1000;
-		long cacheMillis = cacheLastModified % 1000;
-		if (getOptions().getCheckStat() == CheckStat.MINIMAL) {
-			fileLastModified = fileLastModified - lastModifiedMillis;
-			cacheLastModified = cacheLastModified - cacheMillis;
-		} else if (cacheMillis == 0)
-			fileLastModified = fileLastModified - lastModifiedMillis;
-		// Some Java version on Linux return whole seconds only even when
-		// the file systems supports more precision.
-		else if (lastModifiedMillis == 0)
-			cacheLastModified = cacheLastModified - cacheMillis;
-
-		if (fileLastModified != cacheLastModified)
+		Instant cacheLastModified = entry.getLastModifiedInstant();
+		Instant fileLastModified = getEntryLastModifiedInstant();
+		if ((getOptions().getCheckStat() == CheckStat.MINIMAL)
+				|| (cacheLastModified.getNano() == 0)
+				// Some Java version on Linux return whole seconds only even
+				// when the file systems supports more precision.
+				|| (fileLastModified.getNano() == 0)) {
+			if (fileLastModified.getEpochSecond() != cacheLastModified
+					.getEpochSecond()) {
+				return MetadataDiff.DIFFER_BY_TIMESTAMP;
+			}
+		}
+		if (!fileLastModified.equals(cacheLastModified)) {
 			return MetadataDiff.DIFFER_BY_TIMESTAMP;
-		else if (!entry.isSmudged())
-			// The file is clean when you look at timestamps.
-			return MetadataDiff.EQUAL;
-		else
+		} else if (entry.isSmudged()) {
 			return MetadataDiff.SMUDGED;
+		}
+		// The file is clean when when comparing timestamps
+		return MetadataDiff.EQUAL;
 	}
 
 	/**
@@ -1275,8 +1286,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		 * instance member instead.
 		 *
 		 * @return time since the epoch (in ms) of the last change.
+		 * @deprecated use {@link #getLastModifiedInstant()} instead
 		 */
+		@Deprecated
 		public abstract long getLastModified();
+
+		/**
+		 * Get the last modified time of this entry.
+		 * <p>
+		 * <b>Note: Efficient implementation required.</b>
+		 * <p>
+		 * The implementation of this method must be efficient. If a subclass
+		 * needs to compute the value they should cache the reference within an
+		 * instance member instead.
+		 *
+		 * @return time of the last change.
+		 * @since 5.1.9
+		 */
+		public abstract Instant getLastModifiedInstant();
 
 		/**
 		 * Get the name of this entry within its directory.

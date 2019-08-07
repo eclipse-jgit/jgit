@@ -82,6 +82,7 @@ import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.junit.After;
@@ -119,6 +120,11 @@ public abstract class LfsServerTest {
 	@Before
 	public void setup() throws Exception {
 		tmp = Files.createTempDirectory("jgit_test_");
+
+		// measure timer resolution before the test to avoid time critical tests
+		// are affected by time needed for measurement
+		FS.getFileStoreAttributes(tmp.getParent());
+
 		server = new AppServer();
 		ServletContextHandler app = server.addContext("/lfs");
 		dir = Paths.get(tmp.toString(), "lfs");

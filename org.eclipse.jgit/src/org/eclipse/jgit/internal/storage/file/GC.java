@@ -371,8 +371,9 @@ public class GC {
 					continue oldPackLoop;
 
 			if (!oldPack.shouldBeKept()
-					&& repo.getFS().lastModified(
-							oldPack.getPackFile()) < packExpireDate) {
+					&& repo.getFS()
+							.lastModifiedInstant(oldPack.getPackFile())
+							.toEpochMilli() < packExpireDate) {
 				oldPack.close();
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
@@ -560,8 +561,10 @@ public class GC {
 					String fName = f.getName();
 					if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 						continue;
-					if (repo.getFS().lastModified(f) >= expireDate)
+					if (repo.getFS().lastModifiedInstant(f)
+							.toEpochMilli() >= expireDate) {
 						continue;
+					}
 					try {
 						ObjectId id = ObjectId.fromString(d + fName);
 						if (objectsToKeep.contains(id))

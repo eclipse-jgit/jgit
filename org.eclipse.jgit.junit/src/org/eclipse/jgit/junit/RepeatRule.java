@@ -81,9 +81,31 @@ public class RepeatRule implements TestRule {
 	private static Logger LOG = Logger
 			.getLogger(RepeatRule.class.getName());
 
+	/**
+	 * Exception thrown if repeated execution of a test annotated with
+	 * {@code @Repeat} failed.
+	 */
 	public static class RepeatedTestException extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructor
+		 *
+		 * @param message
+		 *            the error message
+		 */
+		public RepeatedTestException(String message) {
+			super(message);
+		}
+
+		/**
+		 * Constructor
+		 *
+		 * @param message
+		 *            the error message
+		 * @param cause
+		 *            exception causing this exception
+		 */
 		public RepeatedTestException(String message, Throwable cause) {
 			super(message, cause);
 		}
@@ -93,27 +115,44 @@ public class RepeatRule implements TestRule {
 
 		private final int repetitions;
 
+		private boolean abortOnFailure;
+
 		private final Statement statement;
 
-		private RepeatStatement(int repetitions, Statement statement) {
+		private RepeatStatement(int repetitions, boolean abortOnFailure,
+				Statement statement) {
 			this.repetitions = repetitions;
+			this.abortOnFailure = abortOnFailure;
 			this.statement = statement;
 		}
 
 		@Override
 		public void evaluate() throws Throwable {
+			int failures = 0;
 			for (int i = 0; i < repetitions; i++) {
 				try {
 					statement.evaluate();
 				} catch (Throwable e) {
+					failures += 1;
 					RepeatedTestException ex = new RepeatedTestException(
 							MessageFormat.format(
 									"Repeated test failed when run for the {0}. time",
 									Integer.valueOf(i + 1)),
 							e);
 					LOG.log(Level.SEVERE, ex.getMessage(), ex);
-					throw ex;
+					if (abortOnFailure) {
+						throw ex;
+					}
 				}
+			}
+			if (failures > 0) {
+				RepeatedTestException e = new RepeatedTestException(
+						MessageFormat.format(
+								"Test failed {0} times out of {1} repeated executions",
+								Integer.valueOf(failures),
+								Integer.valueOf(repetitions)));
+				LOG.log(Level.SEVERE, e.getMessage(), e);
+				throw e;
 			}
 		}
 	}
@@ -125,7 +164,8 @@ public class RepeatRule implements TestRule {
 		Repeat repeat = description.getAnnotation(Repeat.class);
 		if (repeat != null) {
 			int n = repeat.n();
-			result = new RepeatStatement(n, statement);
+			boolean abortOnFailure = repeat.abortOnFailure();
+			result = new RepeatStatement(n, abortOnFailure, statement);
 		}
 		return result;
 	}
