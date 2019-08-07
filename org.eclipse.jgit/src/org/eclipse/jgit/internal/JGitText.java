@@ -165,6 +165,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotReadTree;
 	/***/ public String cannotRebaseWithoutCurrentHead;
 	/***/ public String cannotResolveLocalTrackingRefForUpdating;
+	/***/ public String cannotSaveConfig;
 	/***/ public String cannotSquashFixupWithoutPreviousCommit;
 	/***/ public String cannotStoreObjects;
 	/***/ public String cannotResolveUniquelyAbbrevObjectId;
@@ -450,6 +451,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidPathPeriodAtEndWindows;
 	/***/ public String invalidPathSpaceAtEndWindows;
 	/***/ public String invalidPathReservedOnWindows;
+	/***/ public String invalidPurgeFactor;
 	/***/ public String invalidRedirectLocation;
 	/***/ public String invalidRefAdvertisementLine;
 	/***/ public String invalidReflogRevision;
@@ -619,8 +621,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushNotPermitted;
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
+	/***/ public String readConfigFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
+	/***/ public String readLastModifiedFailed;
 	/***/ public String readTimedOut;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;
@@ -736,6 +740,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagAlreadyExists;
 	/***/ public String tagNameInvalid;
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
+	/***/ public String timeoutMeasureFsTimestampResolution;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
 	/***/ public String threadInterruptedWhileRunning;
