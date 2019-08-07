@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c6b5b552_4a35e25c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-07T10:20:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand how lastRead depends on filesystem time resolution since it\u0027s read from the system clock.\n\nI think it\u0027s ok to increase the safety factor to 5/2 if file time resolution is small, let\u0027s say below 100ms. For resolution 1s (ext3, Mac HFS and APFS on Java 8) or 2s (FAT) I think 5/4 should be sufficient since system clock resolution should be way below 1s.",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87ec67ed_cc29290c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
         "patchSetId": 11
