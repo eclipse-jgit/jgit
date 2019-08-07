@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "df7528dc_a92428a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-07T15:04:04Z",
+      "side": 1,
+      "message": "done, by using assume to skip test if resolution is below 10 ms",
+      "parentUuid": "87ec67ed_cc29290c",
+      "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bf93eef_24c6dbb0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 11
