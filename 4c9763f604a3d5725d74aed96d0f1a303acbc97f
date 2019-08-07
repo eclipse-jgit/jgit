@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "87ec67ed_cc29290c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileSnapshotTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-07T10:08:22Z",
+      "side": 1,
+      "message": "this test fails always, even on an idle system, if the file time resolution is smaller than the time needed to create a file and a FileSnapshot \n\nTried this on Mac using Java 11 with APFS and SSD disk: \n* file timestamp resolution is 7µs (measured using [1])\n* min racy threshold is 0 (measured using [1])\n* time to create a file is 90 µs (measured using [2])\n* time to create a FileSnapshot is 6 µs (measured using [2])\n\nHence I think we should skip this test if file time resolution is below some threshold e.g. 10ms\n\n[1] cherry-picked this fix on patch series https://git.eclipse.org/r/#/c/147072/ on stable-5.1\n[2] https://git.eclipse.org/r/#/c/147171/",
+      "revId": "4c9763f604a3d5725d74aed96d0f1a303acbc97f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bf93eef_24c6dbb0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 11
