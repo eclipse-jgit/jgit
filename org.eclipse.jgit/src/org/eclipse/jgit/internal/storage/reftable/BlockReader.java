@@ -557,7 +557,9 @@ class BlockReader {
 	}
 
 	private short readInt16() {
-		return (short) NB.decodeUInt16(buf, ptr += 2);
+		short result =(short) NB.decodeUInt16(buf, ptr);
+		ptr += 2;
+		return result;
 	}
 
 	private int readVarint32() {
