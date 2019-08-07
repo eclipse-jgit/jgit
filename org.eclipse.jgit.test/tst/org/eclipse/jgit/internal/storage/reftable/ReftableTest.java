@@ -624,6 +624,8 @@ public class ReftableTest {
 			assertEquals(ObjectId.zeroId(), lc.getReflogEntry().getOldId());
 			assertEquals(id(1), lc.getReflogEntry().getNewId());
 			assertEquals(who, lc.getReflogEntry().getWho());
+			// compare string too, to catch tz differences.
+			assertEquals(who.toExternalString(), lc.getReflogEntry().getWho().toExternalString());
 			assertEquals(msg, lc.getReflogEntry().getComment());
 
 			assertTrue(lc.next());
