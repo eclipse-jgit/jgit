@@ -1,35 +1,114 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase;
 import org.eclipse.jgit.internal.storage.dfs.DfsReftableDatabase;
+import org.eclipse.jgit.internal.storage.dfs.DfsReftableStack;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ReflogReader;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ReftableDatabase {
-    private final ThrowingSupplier<Reftable> reftableSupplier;
+    private final ThrowingSupplier<ReftableStack> stackSupplier;
 
     // Protects mergedTables.
     private final ReentrantLock lock = new ReentrantLock(true);
     private Reftable mergedTables;
+    private ReftableStack stack;
+
+    public ReftableStack stack() throws IOException {
+        getLock().lock();
+        try {
+            if (stack == null) {
+                stack = stackSupplier.get();
+            }
+
+            return stack;
+        } finally {
+            getLock().unlock();
+        }
+    }
+
+    public ReflogReader getReflogReader(String refname) throws IOException {
+        return new ReftableReflogReader(lock, reader(), refname);
+    }
+
+    public static ReceiveCommand toCommand(Ref oldRef, Ref newRef) {
+        ObjectId oldId = toId(oldRef);
+        ObjectId newId = toId(newRef);
+        String name = oldRef != null ? oldRef.getName() : newRef.getName();
+
+        if (oldRef != null && oldRef.isSymbolic()) {
+            if (newRef != null) {
+                if (newRef.isSymbolic()) {
+                    return ReceiveCommand.link(oldRef.getTarget().getName(),
+                            newRef.getTarget().getName(), name);
+                } else {
+                    // This should pass in oldId for compat with RefDirectoryUpdate
+                    return ReceiveCommand.unlink(oldRef.getTarget().getName(),
+                            newId, name);
+                }
+            } else {
+                return ReceiveCommand.unlink(oldRef.getTarget().getName(),
+                        ObjectId.zeroId(), name);
+            }
+        }
+
+        if (newRef != null && newRef.isSymbolic()) {
+            if (oldRef != null) {
+                if (oldRef.isSymbolic()) {
+                    return ReceiveCommand.link(oldRef.getTarget().getName(),
+                            newRef.getTarget().getName(), name);
+                } else {
+                    return ReceiveCommand.link(oldId,
+                            newRef.getTarget().getName(), name);
+                }
+            } else {
+                return ReceiveCommand.link(ObjectId.zeroId(),
+                        newRef.getTarget().getName(), name);
+            }
+        }
+
+        return new ReceiveCommand(oldId, newId, name);
+    }
+
+    private static ObjectId toId(Ref ref) {
+        if (ref != null) {
+            ObjectId id = ref.getObjectId();
+            if (id != null) {
+                return id;
+            }
+        }
+        return ObjectId.zeroId();
+    }
 
     public ReentrantLock getLock() {
         return lock;
     }
 
-    public ReftableDatabase(ThrowingSupplier<Reftable> supplier) {
-        this.reftableSupplier = supplier;
+    public ReftableDatabase(ThrowingSupplier<ReftableStack> stackSupplier) {
+        this.stackSupplier = stackSupplier;
     }
 
     public Reftable reader() throws IOException {
         lock.lock();
         try {
             if (mergedTables == null) {
-                mergedTables = reftableSupplier.get();
+                mergedTables = new MergedReftable(stack().readers());
             }
             return mergedTables;
         } finally {
@@ -38,7 +117,6 @@ public class ReftableDatabase {
     }
 
     public boolean isNameConflicting(String refName) throws IOException {
-
         lock.lock();
         try {
             Reftable table = reader();
@@ -74,7 +152,7 @@ public class ReftableDatabase {
     }
 
     public Map<String, Ref> getRefs(String prefix) throws IOException {
-        RefList.Builder<Ref> all = new RefList.Builder<Ref>();
+        RefList.Builder<Ref> all = new RefList.Builder<>();
         lock.lock();
         try {
             Reftable table = reader();
@@ -97,7 +175,7 @@ public class ReftableDatabase {
     }
 
     public List<Ref> getRefsByPrefix(String prefix) throws IOException {
-        List<Ref> all = new ArrayList<Ref>();
+        List<Ref> all = new ArrayList<>();
         lock.lock();
         try {
             Reftable table = reader();
@@ -132,10 +210,19 @@ public class ReftableDatabase {
     }
 
     public void clearCache() {
+        // XXX take lock?
+        if (stack != null) {
+            try {
+                stack.close();
+            } catch (Exception e){
+
+            }
+            stack = null;
+        }
         mergedTables = null;
     }
 
-    public interface ThrowingSupplier <T> {
+    public interface ThrowingSupplier<T> {
         T get() throws IOException;
     }
 }
