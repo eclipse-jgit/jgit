@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.util;
 
+import static java.time.Instant.EPOCH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -67,6 +68,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -107,7 +109,7 @@ public class FSTest {
 		assertTrue(fs.exists(link));
 		String targetName = fs.readSymLink(link);
 		assertEquals("b", targetName);
-		assertTrue(fs.lastModified(link) > 0);
+		assertTrue(fs.lastModifiedInstant(link).compareTo(EPOCH) > 0);
 		assertTrue(fs.exists(link));
 		assertFalse(fs.canExecute(link));
 		// The length of a symbolic link is a length of the target file path.
@@ -121,8 +123,9 @@ public class FSTest {
 		// Now create the link target
 		FileUtils.createNewFile(target);
 		assertTrue(fs.exists(link));
-		assertTrue(fs.lastModified(link) > 0);
-		assertTrue(fs.lastModified(target) > fs.lastModified(link));
+		assertTrue(fs.lastModifiedInstant(link).compareTo(EPOCH) > 0);
+		assertTrue(fs.lastModifiedInstant(target)
+				.compareTo(fs.lastModifiedInstant(link)) > 0);
 		assertFalse(fs.canExecute(link));
 		fs.setExecute(target, true);
 		assertFalse(fs.canExecute(link));
@@ -229,7 +232,8 @@ public class FSTest {
 				.ofPattern("uuuu-MMM-dd HH:mm:ss.nnnnnnnnn", Locale.ENGLISH)
 				.withZone(ZoneId.systemDefault());
 		Path dir = Files.createTempDirectory("probe-filesystem");
-		Duration resolution = FS.getFsTimerResolution(dir);
+		Duration resolution = FS.getFileStoreAttributes(dir)
+				.getFsTimestampResolution();
 		long resolutionNs = resolution.toNanos();
 		assertTrue(resolutionNs > 0);
 		for (int i = 0; i < 10; i++) {
@@ -251,5 +255,12 @@ public class FSTest {
 				Files.delete(f);
 			}
 		}
+	}
+
+	// bug 548682
+	@Test
+	public void testRepoCacheRelativePathUnbornRepo() {
+		assertFalse(RepositoryCache.FileKey
+				.isGitRepository(new File("repo.git"), FS.DETECTED));
 	}
 }

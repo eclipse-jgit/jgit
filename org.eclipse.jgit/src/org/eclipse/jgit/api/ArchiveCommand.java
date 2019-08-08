@@ -56,13 +56,18 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -375,13 +380,15 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				MutableObjectId idBuf = new MutableObjectId();
 				ObjectReader reader = walk.getObjectReader();
 
-				walk.reset(rw.parseTree(tree));
-				if (!paths.isEmpty())
+				RevObject o = rw.peel(rw.parseAny(tree));
+				walk.reset(getTree(o));
+				if (!paths.isEmpty()) {
 					walk.setFilter(PathFilterGroup.createFromStrings(paths));
+				}
 
 				// Put base directory into archive
 				if (pfx.endsWith("/")) { //$NON-NLS-1$
-					fmt.putEntry(outa, tree, pfx.replaceAll("[/]+$", "/"), //$NON-NLS-1$ //$NON-NLS-2$
+					fmt.putEntry(outa, o, pfx.replaceAll("[/]+$", "/"), //$NON-NLS-1$ //$NON-NLS-2$
 							FileMode.TREE, null);
 				}
 
@@ -392,17 +399,18 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					if (walk.isSubtree())
 						walk.enterSubtree();
 
-					if (mode == FileMode.GITLINK)
+					if (mode == FileMode.GITLINK) {
 						// TODO(jrn): Take a callback to recurse
 						// into submodules.
 						mode = FileMode.TREE;
+					}
 
 					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, tree, name + "/", mode, null); //$NON-NLS-1$
+						fmt.putEntry(outa, o, name + "/", mode, null); //$NON-NLS-1$
 						continue;
 					}
 					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(outa, tree, name, mode, reader.open(idBuf));
+					fmt.putEntry(outa, o, name, mode, reader.open(idBuf));
 				}
 				return out;
 			} finally {
@@ -534,4 +542,19 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		this.paths = Arrays.asList(paths);
 		return this;
 	}
+
+	private RevTree getTree(RevObject o)
+			throws IncorrectObjectTypeException {
+		final RevTree t;
+		if (o instanceof RevCommit) {
+			t = ((RevCommit) o).getTree();
+		} else if (!(o instanceof RevTree)) {
+			throw new IncorrectObjectTypeException(tree.toObjectId(),
+					Constants.TYPE_TREE);
+		} else {
+			t = (RevTree) o;
+		}
+		return t;
+	}
+
 }

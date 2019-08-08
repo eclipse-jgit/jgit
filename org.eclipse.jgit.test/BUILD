@@ -24,7 +24,6 @@ HELPERS = glob(
     "revwalk/RevWalkTestCase.java",
     "transport/ObjectIdMatcher.java",
     "transport/SpiTransport.java",
-    "treewalk/FileTreeIteratorWithTimeControl.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
@@ -39,7 +38,7 @@ DATA = [
 
 RESOURCES = glob(["resources/**"])
 
-tests(glob(
+tests(tests = glob(
     ["tst/**/*.java"],
     exclude = HELPERS + DATA,
 ))

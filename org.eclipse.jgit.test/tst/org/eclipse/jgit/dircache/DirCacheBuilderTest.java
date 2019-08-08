@@ -53,6 +53,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.time.Instant;
 
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
@@ -99,7 +100,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	public void testBuildOneFile_FinishWriteCommit() throws Exception {
 		final String path = "a-file-path";
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final long lastModified = 1218123387057L;
+		final Instant lastModified = Instant.ofEpochMilli(1218123387057L);
 		final int length = 1342;
 		final DirCacheEntry entOrig;
 		{
@@ -117,7 +118,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertEquals(ObjectId.zeroId(), entOrig.getObjectId());
 			assertEquals(mode.getBits(), entOrig.getRawMode());
 			assertEquals(0, entOrig.getStage());
-			assertEquals(lastModified, entOrig.getLastModified());
+			assertEquals(lastModified, entOrig.getLastModifiedInstant());
 			assertEquals(length, entOrig.getLength());
 			assertFalse(entOrig.isAssumeValid());
 			b.add(entOrig);
@@ -139,7 +140,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertEquals(ObjectId.zeroId(), entOrig.getObjectId());
 			assertEquals(mode.getBits(), entOrig.getRawMode());
 			assertEquals(0, entOrig.getStage());
-			assertEquals(lastModified, entOrig.getLastModified());
+			assertEquals(lastModified, entOrig.getLastModifiedInstant());
 			assertEquals(length, entOrig.getLength());
 			assertFalse(entOrig.isAssumeValid());
 		}
@@ -149,7 +150,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	public void testBuildOneFile_Commit() throws Exception {
 		final String path = "a-file-path";
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final long lastModified = 1218123387057L;
+		final Instant lastModified = Instant.ofEpochMilli(1218123387057L);
 		final int length = 1342;
 		final DirCacheEntry entOrig;
 		{
@@ -167,7 +168,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertEquals(ObjectId.zeroId(), entOrig.getObjectId());
 			assertEquals(mode.getBits(), entOrig.getRawMode());
 			assertEquals(0, entOrig.getStage());
-			assertEquals(lastModified, entOrig.getLastModified());
+			assertEquals(lastModified, entOrig.getLastModifiedInstant());
 			assertEquals(length, entOrig.getLength());
 			assertFalse(entOrig.isAssumeValid());
 			b.add(entOrig);
@@ -187,7 +188,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertEquals(ObjectId.zeroId(), entOrig.getObjectId());
 			assertEquals(mode.getBits(), entOrig.getRawMode());
 			assertEquals(0, entOrig.getStage());
-			assertEquals(lastModified, entOrig.getLastModified());
+			assertEquals(lastModified, entOrig.getLastModifiedInstant());
 			assertEquals(length, entOrig.getLength());
 			assertFalse(entOrig.isAssumeValid());
 		}
@@ -204,7 +205,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		final String path = "a-file-path";
 		final FileMode mode = FileMode.REGULAR_FILE;
 		// "old" date in 2008
-		final long lastModified = 1218123387057L;
+		final Instant lastModified = Instant.ofEpochMilli(1218123387057L);
 		final int length = 1342;
 		DirCacheEntry entOrig;
 		boolean receivedEvent = false;

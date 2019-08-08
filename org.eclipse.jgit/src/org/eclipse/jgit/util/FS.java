@@ -44,6 +44,7 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -53,7 +54,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
@@ -65,27 +68,39 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileModeStrategy;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry;
@@ -188,81 +203,478 @@ public abstract class FS {
 		}
 	}
 
-	private static final class FileStoreAttributeCache {
+	/**
+	 * Attributes of FileStores on this system
+	 *
+	 * @since 5.1.9
+	 */
+	public final static class FileStoreAttributes {
+
+		private static final Duration UNDEFINED_DURATION = Duration
+				.ofNanos(Long.MAX_VALUE);
+
 		/**
-		 * The last modified time granularity of FAT filesystems is 2 seconds.
+		 * Fallback filesystem timestamp resolution. The worst case timestamp
+		 * resolution on FAT filesystems is 2 seconds.
 		 */
-		private static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
+		public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
 				.ofMillis(2000);
 
-		private static final Map<FileStore, FileStoreAttributeCache> attributeCache = new ConcurrentHashMap<>();
+		/**
+		 * Fallback FileStore attributes used when we can't measure the
+		 * filesystem timestamp resolution. The last modified time granularity
+		 * of FAT filesystems is 2 seconds.
+		 */
+		public static final FileStoreAttributes FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributes(
+				FALLBACK_TIMESTAMP_RESOLUTION);
 
-		static Duration getFsTimestampResolution(Path file) {
+		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
+
+		private static final SimpleLruCache<Path, FileStoreAttributes> attrCacheByPath = new SimpleLruCache<>(
+				100, 0.2f);
+
+		private static AtomicBoolean background = new AtomicBoolean();
+
+		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
+
+		private static void setBackground(boolean async) {
+			background.set(async);
+		}
+
+		private static final String javaVersionPrefix = System
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
+
+		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
+				.ofMillis(10);
+
+		/**
+		 * Configures size and purge factor of the path-based cache for file
+		 * system attributes. Caching of file system attributes avoids recurring
+		 * lookup of @{code FileStore} of files which may be expensive on some
+		 * platforms.
+		 *
+		 * @param maxSize
+		 *            maximum size of the cache, default is 100
+		 * @param purgeFactor
+		 *            when the size of the map reaches maxSize the oldest
+		 *            entries will be purged to free up some space for new
+		 *            entries, {@code purgeFactor} is the fraction of
+		 *            {@code maxSize} to purge when this happens
+		 * @since 5.1.9
+		 */
+		public static void configureAttributesPathCache(int maxSize,
+				float purgeFactor) {
+			FileStoreAttributes.attrCacheByPath.configure(maxSize, purgeFactor);
+		}
+
+		/**
+		 * Get the FileStoreAttributes for the given FileStore
+		 *
+		 * @param path
+		 *            file residing in the FileStore to get attributes for
+		 * @return FileStoreAttributes for the given path.
+		 */
+		public static FileStoreAttributes get(Path path) {
+			path = path.toAbsolutePath();
+			Path dir = Files.isDirectory(path) ? path : path.getParent();
+			FileStoreAttributes cached = attrCacheByPath.get(dir);
+			if (cached != null) {
+				return cached;
+			}
+			FileStoreAttributes attrs = getFileStoreAttributes(dir);
+			attrCacheByPath.put(dir, attrs);
+			return attrs;
+		}
+
+		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
+			FileStore s;
 			try {
-				Path dir = Files.isDirectory(file) ? file : file.getParent();
-				if (!dir.toFile().canWrite()) {
-					// can not determine FileStore of an unborn directory or in
-					// a read-only directory
-					return FALLBACK_TIMESTAMP_RESOLUTION;
-				}
-				FileStore s = Files.getFileStore(dir);
-				FileStoreAttributeCache c = attributeCache.get(s);
-				if (c == null) {
-					c = new FileStoreAttributeCache(dir);
-					attributeCache.put(s, c);
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(c.toString());
+				if (Files.exists(dir)) {
+					s = Files.getFileStore(dir);
+					FileStoreAttributes c = attributeCache.get(s);
+					if (c != null) {
+						return c;
 					}
+					if (!Files.isWritable(dir)) {
+						// cannot measure resolution in a read-only directory
+						LOG.debug(
+								"{}: cannot measure timestamp resolution in read-only directory {}", //$NON-NLS-1$
+								Thread.currentThread(), dir);
+						return FALLBACK_FILESTORE_ATTRIBUTES;
+					}
+				} else {
+					// cannot determine FileStore of an unborn directory
+					LOG.debug(
+							"{}: cannot measure timestamp resolution of unborn directory {}", //$NON-NLS-1$
+							Thread.currentThread(), dir);
+					return FALLBACK_FILESTORE_ATTRIBUTES;
 				}
-				return c.getFsTimestampResolution();
 
-			} catch (IOException | InterruptedException e) {
-				LOG.warn(e.getMessage(), e);
-				return FALLBACK_TIMESTAMP_RESOLUTION;
+				CompletableFuture<Optional<FileStoreAttributes>> f = CompletableFuture
+						.supplyAsync(() -> {
+							Lock lock = locks.computeIfAbsent(s,
+									l -> new ReentrantLock());
+							if (!lock.tryLock()) {
+								LOG.debug(
+										"{}: couldn't get lock to measure timestamp resolution in {}", //$NON-NLS-1$
+										Thread.currentThread(), dir);
+								return Optional.empty();
+							}
+							Optional<FileStoreAttributes> attributes = Optional
+									.empty();
+							try {
+								// Some earlier future might have set the value
+								// and removed itself since we checked for the
+								// value above. Hence check cache again.
+								FileStoreAttributes c = attributeCache
+										.get(s);
+								if (c != null) {
+									return Optional.of(c);
+								}
+								attributes = readFromConfig(s);
+								if (attributes.isPresent()) {
+									attributeCache.put(s, attributes.get());
+									return attributes;
+								}
+
+								Optional<Duration> resolution = measureFsTimestampResolution(
+										s, dir);
+								if (resolution.isPresent()) {
+									c = new FileStoreAttributes(
+											resolution.get());
+									attributeCache.put(s, c);
+									// for high timestamp resolution measure
+									// minimal racy interval
+									if (c.fsTimestampResolution
+											.toNanos() < 100_000_000L) {
+										c.minimalRacyInterval = measureMinimalRacyInterval(
+												dir);
+									}
+									if (LOG.isDebugEnabled()) {
+										LOG.debug(c.toString());
+									}
+									saveToConfig(s, c);
+								}
+								attributes = Optional.of(c);
+							} finally {
+								lock.unlock();
+								locks.remove(s);
+							}
+							return attributes;
+						});
+				f.exceptionally(e -> {
+					LOG.error(e.getLocalizedMessage(), e);
+					return Optional.empty();
+				});
+				// even if measuring in background wait a little - if the result
+				// arrives, it's better than returning the large fallback
+				Optional<FileStoreAttributes> d = background.get() ? f.get(
+						100, TimeUnit.MILLISECONDS) : f.get();
+				if (d.isPresent()) {
+					return d.get();
+				}
+				// return fallback until measurement is finished
+			} catch (IOException | InterruptedException
+					| ExecutionException | CancellationException e) {
+				LOG.error(e.getMessage(), e);
+			} catch (TimeoutException | SecurityException e) {
+				// use fallback
+			}
+			LOG.debug("{}: use fallback timestamp resolution for directory {}", //$NON-NLS-1$
+					Thread.currentThread(), dir);
+			return FALLBACK_FILESTORE_ATTRIBUTES;
+		}
+
+		@SuppressWarnings("boxing")
+		private static Duration measureMinimalRacyInterval(Path dir) {
+			LOG.debug("{}: start measure minimal racy interval in {}", //$NON-NLS-1$
+					Thread.currentThread(), dir);
+			int n = 0;
+			int failures = 0;
+			long racyNanos = 0;
+			ArrayList<Long> deltas = new ArrayList<>();
+			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			Instant end = Instant.now().plusSeconds(3);
+			try {
+				Files.createFile(probe);
+				do {
+					n++;
+					write(probe, "a"); //$NON-NLS-1$
+					FileSnapshot snapshot = FileSnapshot.save(probe.toFile());
+					read(probe);
+					write(probe, "b"); //$NON-NLS-1$
+					if (!snapshot.isModified(probe.toFile())) {
+						deltas.add(Long.valueOf(snapshot.lastDelta()));
+						racyNanos = snapshot.lastRacyThreshold();
+						failures++;
+					}
+				} while (Instant.now().compareTo(end) < 0);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
+				return FALLBACK_MIN_RACY_INTERVAL;
+			} finally {
+				deleteProbe(probe);
+			}
+			if (failures > 0) {
+				Stats stats = new Stats();
+				for (Long d : deltas) {
+					stats.add(d);
+				}
+				LOG.debug(
+						"delta [ns] since modification FileSnapshot failed to detect\n" //$NON-NLS-1$
+								+ "count, failures, racy limit [ns], delta min [ns]," //$NON-NLS-1$
+								+ " delta max [ns], delta avg [ns]," //$NON-NLS-1$
+								+ " delta stddev [ns]\n" //$NON-NLS-1$
+								+ "{}, {}, {}, {}, {}, {}, {}", //$NON-NLS-1$
+						n, failures, racyNanos, stats.min(), stats.max(),
+						stats.avg(), stats.stddev());
+				return Duration
+						.ofNanos(Double.valueOf(stats.max()).longValue());
+			}
+			// since no failures occurred using the measured filesystem
+			// timestamp resolution there is no need for minimal racy interval
+			LOG.debug("{}: no failures when measuring minimal racy interval", //$NON-NLS-1$
+					Thread.currentThread());
+			return Duration.ZERO;
+		}
+
+		private static void write(Path p, String body) throws IOException {
+			FileUtils.mkdirs(p.getParent().toFile(), true);
+			try (Writer w = new OutputStreamWriter(Files.newOutputStream(p),
+					UTF_8)) {
+				w.write(body);
 			}
 		}
 
-		private Duration fsTimestampResolution;
+		private static String read(Path p) throws IOException {
+			final byte[] body = IO.readFully(p.toFile());
+			return new String(body, 0, body.length, UTF_8);
+		}
 
-		Duration getFsTimestampResolution() {
+		private static Optional<Duration> measureFsTimestampResolution(
+			FileStore s, Path dir) {
+			LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
+					Thread.currentThread(), s, dir);
+			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
+			try {
+				Files.createFile(probe);
+				FileTime t1 = Files.getLastModifiedTime(probe);
+				FileTime t2 = t1;
+				Instant t1i = t1.toInstant();
+				for (long i = 1; t2.compareTo(t1) <= 0; i += 1 + i / 20) {
+					Files.setLastModifiedTime(probe,
+							FileTime.from(t1i.plusNanos(i * 1000)));
+					t2 = Files.getLastModifiedTime(probe);
+				}
+				Duration fsResolution = Duration.between(t1.toInstant(), t2.toInstant());
+				Duration clockResolution = measureClockResolution();
+				fsResolution = fsResolution.plus(clockResolution);
+				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
+						Thread.currentThread(), s, dir);
+				return Optional.of(fsResolution);
+			} catch (AccessDeniedException e) {
+				LOG.warn(e.getLocalizedMessage(), e); // see bug 548648
+			} catch (IOException e) {
+				LOG.error(e.getLocalizedMessage(), e);
+			} finally {
+				deleteProbe(probe);
+			}
+			return Optional.empty();
+		}
+
+		private static Duration measureClockResolution() {
+			Duration clockResolution = Duration.ZERO;
+			for (int i = 0; i < 10; i++) {
+				Instant t1 = Instant.now();
+				Instant t2 = t1;
+				while (t2.compareTo(t1) <= 0) {
+					t2 = Instant.now();
+				}
+				Duration r = Duration.between(t1, t2);
+				if (r.compareTo(clockResolution) > 0) {
+					clockResolution = r;
+				}
+			}
+			return clockResolution;
+		}
+
+		private static void deleteProbe(Path probe) {
+			try {
+				FileUtils.delete(probe.toFile(),
+						FileUtils.SKIP_MISSING | FileUtils.RETRY);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
+			}
+		}
+
+		private static Optional<FileStoreAttributes> readFromConfig(
+				FileStore s) {
+			FileBasedConfig userConfig = SystemReader.getInstance()
+					.openUserConfig(null, FS.DETECTED);
+			try {
+				userConfig.load(false);
+			} catch (IOException e) {
+				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
+						userConfig.getFile().getAbsolutePath()), e);
+			} catch (ConfigInvalidException e) {
+				LOG.error(MessageFormat.format(
+						JGitText.get().repositoryConfigFileInvalid,
+						userConfig.getFile().getAbsolutePath(),
+						e.getMessage()));
+			}
+			String key = getConfigKey(s);
+			Duration resolution = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			if (UNDEFINED_DURATION.equals(resolution)) {
+				return Optional.empty();
+			}
+			Duration minRacyThreshold = Duration.ofNanos(userConfig.getTimeUnit(
+					ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+					ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+					UNDEFINED_DURATION.toNanos(), TimeUnit.NANOSECONDS));
+			FileStoreAttributes c = new FileStoreAttributes(resolution);
+			if (!UNDEFINED_DURATION.equals(minRacyThreshold)) {
+				c.minimalRacyInterval = minRacyThreshold;
+			}
+			return Optional.of(c);
+		}
+
+		private static void saveToConfig(FileStore s,
+				FileStoreAttributes c) {
+			FileBasedConfig userConfig = SystemReader.getInstance()
+					.openUserConfig(null, FS.DETECTED);
+			long resolution = c.getFsTimestampResolution().toNanos();
+			TimeUnit resolutionUnit = getUnit(resolution);
+			long resolutionValue = resolutionUnit.convert(resolution,
+					TimeUnit.NANOSECONDS);
+
+			long minRacyThreshold = c.getMinimalRacyInterval().toNanos();
+			TimeUnit minRacyThresholdUnit = getUnit(minRacyThreshold);
+			long minRacyThresholdValue = minRacyThresholdUnit
+					.convert(minRacyThreshold, TimeUnit.NANOSECONDS);
+
+			final int max_retries = 5;
+			int retries = 0;
+			boolean succeeded = false;
+			String key = getConfigKey(s);
+			while (!succeeded && retries < max_retries) {
+				try {
+					userConfig.load(false);
+					userConfig.setString(
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
+							String.format("%d %s", //$NON-NLS-1$
+									Long.valueOf(resolutionValue),
+									resolutionUnit.name().toLowerCase()));
+					userConfig.setString(
+							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
+							ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
+							String.format("%d %s", //$NON-NLS-1$
+									Long.valueOf(minRacyThresholdValue),
+									minRacyThresholdUnit.name().toLowerCase()));
+					userConfig.save();
+					succeeded = true;
+				} catch (LockFailedException e) {
+					// race with another thread, wait a bit and try again
+					try {
+						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
+								userConfig.getFile().getAbsolutePath()));
+						retries++;
+						Thread.sleep(20);
+					} catch (InterruptedException e1) {
+						Thread.interrupted();
+					}
+				} catch (IOException e) {
+					LOG.error(MessageFormat.format(
+							JGitText.get().cannotSaveConfig,
+							userConfig.getFile().getAbsolutePath()), e);
+				} catch (ConfigInvalidException e) {
+					LOG.error(MessageFormat.format(
+							JGitText.get().repositoryConfigFileInvalid,
+							userConfig.getFile().getAbsolutePath(),
+							e.getMessage()));
+				}
+			}
+		}
+
+		private static String getConfigKey(FileStore s) {
+			final String storeKey;
+			if (SystemReader.getInstance().isWindows()) {
+				Object attribute = null;
+				try {
+					attribute = s.getAttribute("volume:vsn"); //$NON-NLS-1$
+				} catch (IOException ignored) {
+					// ignore
+				}
+				if (attribute instanceof Integer) {
+					storeKey = attribute.toString();
+				} else {
+					storeKey = s.name();
+				}
+			} else {
+				storeKey = s.name();
+			}
+			return javaVersionPrefix + storeKey;
+		}
+
+		private static TimeUnit getUnit(long nanos) {
+			TimeUnit unit;
+			if (nanos < 200_000L) {
+				unit = TimeUnit.NANOSECONDS;
+			} else if (nanos < 200_000_000L) {
+				unit = TimeUnit.MICROSECONDS;
+			} else {
+				unit = TimeUnit.MILLISECONDS;
+			}
+			return unit;
+		}
+
+		private final @NonNull Duration fsTimestampResolution;
+
+		private Duration minimalRacyInterval;
+
+		/**
+		 * @return the measured minimal interval after a file has been modified
+		 *         in which we cannot rely on lastModified to detect
+		 *         modifications
+		 */
+		public Duration getMinimalRacyInterval() {
+			return minimalRacyInterval;
+		}
+
+		/**
+		 * @return the measured filesystem timestamp resolution
+		 */
+		@NonNull
+		public Duration getFsTimestampResolution() {
 			return fsTimestampResolution;
 		}
 
-		private FileStoreAttributeCache(Path dir)
-				throws IOException, InterruptedException {
-			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
-			Files.createFile(probe);
-			try {
-				FileTime startTime = Files.getLastModifiedTime(probe);
-				FileTime actTime = startTime;
-				long sleepTime = 512;
-				while (actTime.compareTo(startTime) <= 0) {
-					TimeUnit.NANOSECONDS.sleep(sleepTime);
-					FileUtils.touch(probe);
-					actTime = Files.getLastModifiedTime(probe);
-					// limit sleep time to max. 100ms
-					if (sleepTime < 100_000_000L) {
-						sleepTime = sleepTime * 2;
-					}
-				}
-				fsTimestampResolution = Duration.between(startTime.toInstant(),
-						actTime.toInstant());
-			} catch (AccessDeniedException e) {
-				LOG.error(e.getLocalizedMessage(), e);
-			} finally {
-				Files.delete(probe);
-			}
+		/**
+		 * Construct a FileStoreAttributeCache entry for the given filesystem
+		 * timestamp resolution
+		 *
+		 * @param fsTimestampResolution
+		 */
+		public FileStoreAttributes(
+				@NonNull Duration fsTimestampResolution) {
+			this.fsTimestampResolution = fsTimestampResolution;
+			this.minimalRacyInterval = Duration.ZERO;
 		}
 
-		@SuppressWarnings("nls")
+		@SuppressWarnings({ "nls", "boxing" })
 		@Override
 		public String toString() {
-			return "FileStoreAttributeCache[" + attributeCache.keySet()
-					.stream()
-					.map(key -> "FileStore[" + key + "]: fsTimestampResolution="
-							+ attributeCache.get(key).getFsTimestampResolution())
-					.collect(Collectors.joining(",\n")) + "]";
+			return String.format(
+					"FileStoreAttributes[fsTimestampResolution=%,d µs, "
+							+ "minimalRacyInterval=%,d µs]",
+					fsTimestampResolution.toNanos() / 1000,
+					minimalRacyInterval.toNanos() / 1000);
 		}
+
 	}
 
 	/** The auto-detected implementation selected for this operating system and JRE. */
@@ -277,6 +689,19 @@ public abstract class FS {
 	 */
 	public static FS detect() {
 		return detect(null);
+	}
+
+	/**
+	 * Whether FileStore attributes should be determined asynchronously
+	 *
+	 * @param asynch
+	 *            whether FileStore attributes should be determined
+	 *            asynchronously. If false access to cached attributes may block
+	 *            for some seconds for the first call per FileStore
+	 * @since 5.1.9
+	 */
+	public static void setAsyncFileStoreAttributes(boolean asynch) {
+		FileStoreAttributes.setBackground(asynch);
 	}
 
 	/**
@@ -307,18 +732,18 @@ public abstract class FS {
 	}
 
 	/**
-	 * Get an estimate for the filesystem timestamp resolution from a cache of
-	 * timestamp resolution per FileStore, if not yet available it is measured
-	 * for a probe file under the given directory.
+	 * Get cached FileStore attributes, if not yet available measure them using
+	 * a probe file under the given directory.
 	 *
 	 * @param dir
 	 *            the directory under which the probe file will be created to
 	 *            measure the timer resolution.
 	 * @return measured filesystem timestamp resolution
-	 * @since 5.2.3
+	 * @since 5.1.9
 	 */
-	public static Duration getFsTimerResolution(@NonNull Path dir) {
-		return FileStoreAttributeCache.getFsTimestampResolution(dir);
+	public static FileStoreAttributes getFileStoreAttributes(
+			@NonNull Path dir) {
+		return FileStoreAttributes.get(dir);
 	}
 
 	private volatile Holder<File> userHome;
@@ -432,9 +857,39 @@ public abstract class FS {
 	 * @return last modified time of f
 	 * @throws java.io.IOException
 	 * @since 3.0
+	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
 	 */
+	@Deprecated
 	public long lastModified(File f) throws IOException {
 		return FileUtils.lastModified(f);
+	}
+
+	/**
+	 * Get the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the modification time of the link is returned, rather
+	 * than that of the link target.
+	 *
+	 * @param p
+	 *            a {@link Path} object.
+	 * @return last modified time of p
+	 * @since 5.1.9
+	 */
+	public Instant lastModifiedInstant(Path p) {
+		return FileUtils.lastModifiedInstant(p);
+	}
+
+	/**
+	 * Get the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the modification time of the link is returned, rather
+	 * than that of the link target.
+	 *
+	 * @param f
+	 *            a {@link File} object.
+	 * @return last modified time of p
+	 * @since 5.1.9
+	 */
+	public Instant lastModifiedInstant(File f) {
+		return FileUtils.lastModifiedInstant(f.toPath());
 	}
 
 	/**
@@ -447,9 +902,26 @@ public abstract class FS {
 	 *            last modified time
 	 * @throws java.io.IOException
 	 * @since 3.0
+	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
 	 */
+	@Deprecated
 	public void setLastModified(File f, long time) throws IOException {
 		FileUtils.setLastModified(f, time);
+	}
+
+	/**
+	 * Set the last modified time of a file system object. If the OS/JRE support
+	 * symbolic links, the link is modified, not the target,
+	 *
+	 * @param p
+	 *            a {@link Path} object.
+	 * @param time
+	 *            last modified time
+	 * @throws java.io.IOException
+	 * @since 5.1.9
+	 */
+	public void setLastModified(Path p, Instant time) throws IOException {
+		FileUtils.setLastModified(p, time);
 	}
 
 	/**
@@ -1522,9 +1994,19 @@ public abstract class FS {
 		/**
 		 * @return the time (milliseconds since 1970-01-01) when this object was
 		 *         last modified
+		 * @deprecated use getLastModifiedInstant instead
 		 */
+		@Deprecated
 		public long getLastModifiedTime() {
-			return lastModifiedTime;
+			return lastModifiedInstant.toEpochMilli();
+		}
+
+		/**
+		 * @return the time when this object was last modified
+		 * @since 5.1.9
+		 */
+		public Instant getLastModifiedInstant() {
+			return lastModifiedInstant;
 		}
 
 		private final boolean isDirectory;
@@ -1535,7 +2017,7 @@ public abstract class FS {
 
 		private final long creationTime;
 
-		private final long lastModifiedTime;
+		private final Instant lastModifiedInstant;
 
 		private final boolean isExecutable;
 
@@ -1553,7 +2035,7 @@ public abstract class FS {
 		Attributes(FS fs, File file, boolean exists, boolean isDirectory,
 				boolean isExecutable, boolean isSymbolicLink,
 				boolean isRegularFile, long creationTime,
-				long lastModifiedTime, long length) {
+				Instant lastModifiedInstant, long length) {
 			this.fs = fs;
 			this.file = file;
 			this.exists = exists;
@@ -1562,7 +2044,7 @@ public abstract class FS {
 			this.isSymbolicLink = isSymbolicLink;
 			this.isRegularFile = isRegularFile;
 			this.creationTime = creationTime;
-			this.lastModifiedTime = lastModifiedTime;
+			this.lastModifiedInstant = lastModifiedInstant;
 			this.length = length;
 		}
 
@@ -1574,7 +2056,7 @@ public abstract class FS {
 		 * @param path
 		 */
 		public Attributes(File path, FS fs) {
-			this(fs, path, false, false, false, false, false, 0L, 0L, 0L);
+			this(fs, path, false, false, false, false, false, 0L, EPOCH, 0L);
 		}
 
 		/**
@@ -1620,7 +2102,7 @@ public abstract class FS {
 		boolean exists = isDirectory || isFile;
 		boolean canExecute = exists && !isDirectory && canExecute(path);
 		boolean isSymlink = false;
-		long lastModified = exists ? path.lastModified() : 0L;
+		Instant lastModified = exists ? lastModifiedInstant(path) : EPOCH;
 		long createTime = 0L;
 		return new Attributes(this, path, exists, isDirectory, canExecute,
 				isSymlink, isFile, createTime, lastModified, -1);

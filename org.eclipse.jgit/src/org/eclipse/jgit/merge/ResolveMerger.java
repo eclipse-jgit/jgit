@@ -47,6 +47,7 @@
 package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm.HISTOGRAM;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
@@ -59,6 +60,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -464,7 +466,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @return the entry which was added to the index
 	 */
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
-			long lastMod, long len) {
+			Instant lastMod, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
 			DirCacheEntry e = new DirCacheEntry(path, stage);
 			e.setFileMode(p.getEntryFileMode());
@@ -491,7 +493,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				e.getStage());
 		newEntry.setFileMode(e.getFileMode());
 		newEntry.setObjectId(e.getObjectId());
-		newEntry.setLastModified(e.getLastModified());
+		newEntry.setLastModified(e.getLastModifiedInstant());
 		newEntry.setLength(e.getLength());
 		builder.add(newEntry);
 		return newEntry;
@@ -667,16 +669,17 @@ public class ResolveMerger extends ThreeWayMerger {
 						// we know about length and lastMod only after we have written the new content.
 						// This will happen later. Set these values to 0 for know.
 						DirCacheEntry e = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, 0, 0);
+								DirCacheEntry.STAGE_0, EPOCH, 0);
 						addToCheckout(tw.getPathString(), e, attributes);
 					}
 					return true;
 				} else {
 					// FileModes are not mergeable. We found a conflict on modes.
 					// For conflicting entries we don't know lastModified and length.
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH,
+							0);
 					unmergedPaths.add(tw.getPathString());
 					mergeResults.put(
 							tw.getPathString(),
@@ -708,7 +711,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// the new content.
 				// This will happen later. Set these values to 0 for know.
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
-						DirCacheEntry.STAGE_0, 0, 0);
+						DirCacheEntry.STAGE_0, EPOCH, 0);
 				if (e != null) {
 					addToCheckout(tw.getPathString(), e, attributes);
 				}
@@ -737,16 +740,16 @@ public class ResolveMerger extends ThreeWayMerger {
 			// detected later
 			if (nonTree(modeO) && !nonTree(modeT)) {
 				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
+					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;
 			}
 			if (nonTree(modeT) && !nonTree(modeO)) {
 				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;
@@ -773,9 +776,9 @@ public class ResolveMerger extends ThreeWayMerger {
 			boolean gitlinkConflict = isGitLink(modeO) || isGitLink(modeT);
 			// Don't attempt to resolve submodule link conflicts
 			if (gitlinkConflict || !attributes.canBeContentMerged()) {
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 
 				if (gitlinkConflict) {
 					MergeResult<SubmoduleConflict> result = new MergeResult<>(
@@ -822,10 +825,10 @@ public class ResolveMerger extends ThreeWayMerger {
 				MergeResult<RawText> result = contentMerge(base, ours, theirs,
 						attributes);
 
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
-						DirCacheEntry.STAGE_3, 0, 0);
+						DirCacheEntry.STAGE_3, EPOCH, 0);
 
 				// OURS was deleted checkout THEIRS
 				if (modeO == 0) {
@@ -957,9 +960,9 @@ public class ResolveMerger extends ThreeWayMerger {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the
 				// workdir (if used) contains the halfway merged content.
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				mergeResults.put(tw.getPathString(), result);
 				return;
 			}
@@ -976,7 +979,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode));
 			if (mergedFile != null) {
 				dce.setLastModified(
-						nonNullRepo().getFS().lastModified(mergedFile));
+						nonNullRepo().getFS().lastModifiedInstant(mergedFile));
 				dce.setLength((int) mergedFile.length());
 			}
 			dce.setObjectId(insertMergeResult(rawMerged, attributes));
