@@ -139,8 +139,9 @@ public final class StringUtils {
 	 * @return true if a equals b
 	 */
 	public static boolean equalsIgnoreCase(String a, String b) {
-		if (a == b)
+		if (References.isSameObject(a, b)) {
 			return true;
+		}
 		if (a.length() != b.length())
 			return false;
 		for (int i = 0; i < a.length(); i++) {

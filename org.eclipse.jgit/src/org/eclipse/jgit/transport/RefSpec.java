@@ -49,6 +49,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.util.References;
 
 /**
  * Describes how refs in one repository copy into another repository.
@@ -585,8 +586,9 @@ public class RefSpec implements Serializable {
 	}
 
 	private static boolean eq(String a, String b) {
-		if (a == b)
+		if (References.isSameObject(a, b)) {
 			return true;
+		}
 		if (a == null || b == null)
 			return false;
 		return a.equals(b);

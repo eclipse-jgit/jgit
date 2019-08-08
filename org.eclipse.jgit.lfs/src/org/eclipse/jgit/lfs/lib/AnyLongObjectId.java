@@ -50,6 +50,7 @@ import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.References;
 
 /**
  * A (possibly mutable) SHA-256 abstraction.
@@ -76,8 +77,9 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 */
 	public static boolean equals(final AnyLongObjectId firstObjectId,
 			final AnyLongObjectId secondObjectId) {
-		if (firstObjectId == secondObjectId)
+		if (References.isSameObject(firstObjectId, secondObjectId)) {
 			return true;
+		}
 
 		// We test word 2 first as odds are someone already used our
 		// word 1 as a hash code, and applying that came up with these

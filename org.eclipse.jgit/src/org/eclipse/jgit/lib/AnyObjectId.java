@@ -49,6 +49,7 @@ import java.io.Writer;
 import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.References;
 
 /**
  * A (possibly mutable) SHA-1 abstraction.
@@ -88,7 +89,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 */
 	public static boolean isEqual(final AnyObjectId firstObjectId,
 			final AnyObjectId secondObjectId) {
-		if (firstObjectId == secondObjectId) {
+		if (References.isSameObject(firstObjectId, secondObjectId)) {
 			return true;
 		}
 		// We test word 3 first since the git file-based ODB
