@@ -68,6 +68,8 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the second identifier to compare. Must not be null.
 	 * @return true if the two identifiers are the same.
 	 */
+	// TODO (ms): rename in next major release
+	@SuppressWarnings("AmbiguousMethodReference")
 	public static boolean equals(final AnyObjectId firstObjectId,
 			final AnyObjectId secondObjectId) {
 		if (firstObjectId == secondObjectId)
@@ -276,7 +278,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
 	 */
-	@SuppressWarnings("NonOverridingEquals")
+	@SuppressWarnings({ "NonOverridingEquals", "AmbiguousMethodReference" })
 	public final boolean equals(AnyObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}
