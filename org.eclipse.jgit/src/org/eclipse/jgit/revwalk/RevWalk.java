@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.References;
 
 /**
  * Walks a commit graph and produces the matching commits in order.
@@ -433,9 +434,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			markStart(tip);
 			markStart(base);
 			RevCommit mergeBase;
-			while ((mergeBase = next()) != null)
-				if (mergeBase == base)
+			while ((mergeBase = next()) != null) {
+				if (References.isSameObject(mergeBase, base)) {
 					return true;
+				}
+			}
 			return false;
 		} finally {
 			filter = oldRF;
