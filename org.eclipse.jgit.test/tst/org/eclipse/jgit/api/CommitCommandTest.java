@@ -65,6 +65,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.time.TimeUtil;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -319,11 +320,11 @@ public class CommitCommandTest extends RepositoryTestCase {
 	public void commitUpdatesSmudgedEntries() throws Exception {
 		try (Git git = new Git(db)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
-			assertTrue(file1.setLastModified(file1.lastModified() - 5000));
+			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
 			File file2 = writeTrashFile("file2.txt", "content2");
-			assertTrue(file2.setLastModified(file2.lastModified() - 5000));
+			TimeUtil.setLastModifiedWithOffset(file2.toPath(), -5000L);
 			File file3 = writeTrashFile("file3.txt", "content3");
-			assertTrue(file3.setLastModified(file3.lastModified() - 5000));
+			TimeUtil.setLastModifiedWithOffset(file3.toPath(), -5000L);
 
 			assertNotNull(git.add().addFilepattern("file1.txt")
 					.addFilepattern("file2.txt").addFilepattern("file3.txt").call());
@@ -354,11 +355,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 			assertEquals(0, cache.getEntry("file3.txt").getLength());
 
-			long indexTime = db.getIndexFile().lastModified();
-			db.getIndexFile().setLastModified(indexTime - 5000);
+			TimeUtil.setLastModifiedWithOffset(db.getIndexFile().toPath(),
+					-5000L);
 
 			write(file1, "content4");
-			assertTrue(file1.setLastModified(file1.lastModified() + 2500));
+
+			TimeUtil.setLastModifiedWithOffset(file1.toPath(), 2500L);
 			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
 					.call());
 
@@ -376,9 +378,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 	public void commitIgnoresSmudgedEntryWithDifferentId() throws Exception {
 		try (Git git = new Git(db)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
-			assertTrue(file1.setLastModified(file1.lastModified() - 5000));
+			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
 			File file2 = writeTrashFile("file2.txt", "content2");
-			assertTrue(file2.setLastModified(file2.lastModified() - 5000));
+			TimeUtil.setLastModifiedWithOffset(file2.toPath(), -5000L);
 
 			assertNotNull(git.add().addFilepattern("file1.txt")
 					.addFilepattern("file2.txt").call());
@@ -407,11 +409,11 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertEquals(0, cache.getEntry("file1.txt").getLength());
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 
-			long indexTime = db.getIndexFile().lastModified();
-			db.getIndexFile().setLastModified(indexTime - 5000);
+			TimeUtil.setLastModifiedWithOffset(db.getIndexFile().toPath(),
+					-5000L);
 
 			write(file1, "content5");
-			assertTrue(file1.setLastModified(file1.lastModified() + 1000));
+			TimeUtil.setLastModifiedWithOffset(file1.toPath(), 1000L);
 
 			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
 					.call());

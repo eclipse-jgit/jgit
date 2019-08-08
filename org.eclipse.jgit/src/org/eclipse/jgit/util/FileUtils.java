@@ -49,7 +49,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -57,6 +57,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -66,6 +67,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.text.MessageFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -74,11 +76,14 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Utilities
  */
 public class FileUtils {
+	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
 	/**
 	 * Option to delete given {@code File}
@@ -654,10 +659,29 @@ public class FileUtils {
 	 * @return lastModified attribute for given file, not following symbolic
 	 *         links
 	 * @throws IOException
+	 * @deprecated use {@link #lastModifiedInstant(Path)} instead which returns
+	 *             FileTime
 	 */
+	@Deprecated
 	static long lastModified(File file) throws IOException {
 		return Files.getLastModifiedTime(toPath(file), LinkOption.NOFOLLOW_LINKS)
 				.toMillis();
+	}
+
+	/**
+	 * @param path
+	 * @return lastModified attribute for given file, not following symbolic
+	 *         links
+	 */
+	static Instant lastModifiedInstant(Path path) {
+		try {
+			return Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS)
+					.toInstant();
+		} catch (IOException e) {
+			LOG.error(MessageFormat
+					.format(JGitText.get().readLastModifiedFailed, path));
+			return Instant.ofEpochMilli(path.toFile().lastModified());
+		}
 	}
 
 	/**
@@ -678,8 +702,19 @@ public class FileUtils {
 	 * @param time
 	 * @throws IOException
 	 */
+	@Deprecated
 	static void setLastModified(File file, long time) throws IOException {
 		Files.setLastModifiedTime(toPath(file), FileTime.fromMillis(time));
+	}
+
+	/**
+	 * @param path
+	 * @param time
+	 * @throws IOException
+	 */
+	static void setLastModified(Path path, Instant time)
+			throws IOException {
+		Files.setLastModifiedTime(path, FileTime.from(time));
 	}
 
 	/**
@@ -786,7 +821,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.isSymbolicLink() ? Constants
 							.encode(readSymLink(file)).length
 							: readAttributes.size());
@@ -825,7 +860,7 @@ public class FileUtils {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.lastModifiedTime().toInstant(),
 					readAttributes.size());
 			return attributes;
 		} catch (IOException e) {
@@ -916,11 +951,13 @@ public class FileUtils {
 	 * @param f
 	 *            the file to touch
 	 * @throws IOException
-	 * @since 5.2.3
+	 * @since 5.1.8
 	 */
 	public static void touch(Path f) throws IOException {
-		try (OutputStream fos = Files.newOutputStream(f)) {
-			// touch the file
+		try (FileChannel fc = FileChannel.open(f, StandardOpenOption.CREATE,
+				StandardOpenOption.APPEND, StandardOpenOption.SYNC)) {
+			// touch
 		}
+		Files.setLastModifiedTime(f, FileTime.from(Instant.now()));
 	}
 }
