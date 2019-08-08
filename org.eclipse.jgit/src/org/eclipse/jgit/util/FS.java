@@ -363,7 +363,7 @@ public abstract class FS {
 							}
 							return attributes;
 						});
-				f.exceptionally(e -> {
+				f = f.exceptionally(e -> {
 					LOG.error(e.getLocalizedMessage(), e);
 					return Optional.empty();
 				});
