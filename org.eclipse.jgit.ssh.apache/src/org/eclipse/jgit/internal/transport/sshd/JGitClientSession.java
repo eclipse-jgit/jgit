@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch>
+ * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +46,7 @@ import static java.text.MessageFormat.format;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -60,11 +61,13 @@ import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryP
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.IoWriteFuture;
 import org.apache.sshd.common.util.Readable;
+import org.apache.sshd.common.util.buffer.Buffer;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
@@ -82,11 +85,20 @@ import org.eclipse.jgit.transport.SshConstants;
  */
 public class JGitClientSession extends ClientSessionImpl {
 
+	/**
+	 * Default setting for the maximum number of bytes to read in the initial
+	 * protocol version exchange. 64kb is what OpenSSH < 8.0 read; OpenSSH 8.0
+	 * changed it to 8Mb, but that seems excessive for the purpose stated in RFC
+	 * 4253. The Apache MINA sshd default in
+	 * {@link FactoryManager#DEFAULT_MAX_IDENTIFICATION_SIZE} is 16kb.
+	 */
+	private static final int DEFAULT_MAX_IDENTIFICATION_SIZE = 64 * 1024;
+
 	private HostConfigEntry hostConfig;
 
 	private CredentialsProvider credentialsProvider;
 
-	private StatefulProxyConnector proxyHandler;
+	private volatile StatefulProxyConnector proxyHandler;
 
 	/**
 	 * @param manager
@@ -330,6 +342,125 @@ public class JGitClientSession extends ClientSessionImpl {
 			}
 		}
 		return newNames;
+	}
+
+	@Override
+	protected boolean readIdentification(Buffer buffer) throws IOException {
+		// Propagate a failure from doReadIdentification.
+		// TODO: remove for sshd > 2.3.0; its doReadIdentification throws
+		// StreamCorruptedException instead of IllegalStateException.
+		try {
+			return super.readIdentification(buffer);
+		} catch (IllegalStateException e) {
+			throw new IOException(e.getLocalizedMessage(), e);
+		}
+	}
+
+	/**
+	 * Reads the RFC 4253, section 4.2 protocol version identification. The
+	 * Apache MINA sshd default implementation checks for NUL bytes also in any
+	 * preceding lines, whereas RFC 4253 requires such a check only for the
+	 * actual identification string starting with "SSH-". Likewise, the 255
+	 * character limit exists only for the identification string, not for the
+	 * preceding lines. CR-LF handling is also relaxed.
+	 *
+	 * @param buffer
+	 *            to read from
+	 * @param server
+	 *            whether we're an SSH server (should always be {@code false})
+	 * @return the lines read, with the server identification line last, or
+	 *         {@code null} if no identification line was found and more bytes
+	 *         are needed
+	 *
+	 * @see <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253,
+	 *      section 4.2</a>
+	 */
+	@Override
+	protected List<String> doReadIdentification(Buffer buffer, boolean server) {
+		if (server) {
+			// Should never happen. No translation; internal bug.
+			throw new IllegalStateException(
+					"doReadIdentification of client called with server=true"); //$NON-NLS-1$
+		}
+		int maxIdentSize = PropertyResolverUtils.getIntProperty(this,
+				FactoryManager.MAX_IDENTIFICATION_SIZE,
+				DEFAULT_MAX_IDENTIFICATION_SIZE);
+		int current = buffer.rpos();
+		int end = current + buffer.available();
+		if (current >= end) {
+			return null;
+		}
+		byte[] raw = buffer.array();
+		List<String> ident = new ArrayList<>();
+		int start = current;
+		boolean hasNul = false;
+		for (int i = current; i < end; i++) {
+			switch (raw[i]) {
+			case 0:
+				hasNul = true;
+				break;
+			case '\n':
+				int eol = 1;
+				if (i > start && raw[i - 1] == '\r') {
+					eol++;
+				}
+				String line = new String(raw, start, i + 1 - eol - start,
+						StandardCharsets.UTF_8);
+				start = i + 1;
+				if (log.isDebugEnabled()) {
+					log.debug(format("doReadIdentification({0}) line: ", this) + //$NON-NLS-1$
+							escapeControls(line));
+				}
+				ident.add(line);
+				if (line.startsWith("SSH-")) { //$NON-NLS-1$
+					if (hasNul) {
+						throw new IllegalStateException(
+								format(SshdText.get().serverIdWithNul,
+										escapeControls(line)));
+					}
+					if (line.length() + eol > 255) {
+						throw new IllegalStateException(
+								format(SshdText.get().serverIdTooLong,
+										escapeControls(line)));
+					}
+					buffer.rpos(start);
+					return ident;
+				}
+				// If this were a server, we could throw an exception here: a
+				// client is not supposed to send any extra lines before its
+				// identification string.
+				hasNul = false;
+				break;
+			default:
+				break;
+			}
+			if (i - current + 1 >= maxIdentSize) {
+				String msg = format(SshdText.get().serverIdNotReceived,
+						Integer.toString(maxIdentSize));
+				if (log.isDebugEnabled()) {
+					log.debug(msg);
+					log.debug(buffer.toHex());
+				}
+				throw new IllegalStateException(msg);
+			}
+		}
+		// Need more data
+		return null;
+	}
+
+	private static String escapeControls(String s) {
+		StringBuilder b = new StringBuilder();
+		int l = s.length();
+		for (int i = 0; i < l; i++) {
+			char ch = s.charAt(i);
+			if (Character.isISOControl(ch)) {
+				b.append(ch <= 0xF ? "\\u000" : "\\u00") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(Integer.toHexString(ch));
+			} else {
+				b.append(ch);
+			}
+		}
+		return b.toString();
 	}
 
 }

@@ -47,7 +47,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.ssh.SshTestBase;
@@ -82,11 +82,10 @@ public class ApacheSshTest extends SshTestBase {
 		}
 	}
 
-	// Using an ed25519 (unencrypted) user key is tested in the super class in
-	// testSshKeys(). sshd 2.0.0 cannot yet read encrypted ed25519 keys.
-
 	@Test
 	public void testEd25519HostKey() throws Exception {
+		// Using ed25519 user identities is tested in the super class in
+		// testSshKeys().
 		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
 		copyTestResource("id_ed25519", newHostKey);
 		server.addHostKey(newHostKey.toPath(), true);
@@ -102,4 +101,60 @@ public class ApacheSshTest extends SshTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
+	@Test
+	public void testPreamble() throws Exception {
+		// Test that the client can deal with strange lines being sent before
+		// the server identification string.
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < 257; i++) {
+			b.append('a');
+		}
+		server.setPreamble("A line with a \000 NUL",
+				"A long line: " + b.toString());
+		cloneWith(
+				"ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter",
+				defaultCloneDir, null,
+				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	@Test
+	public void testLongPreamble() throws Exception {
+		// Test that the client can deal with a long (about 60k) preamble.
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < 1024; i++) {
+			b.append('a');
+		}
+		String line = b.toString();
+		String[] lines = new String[60];
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = line;
+		}
+		server.setPreamble(lines);
+		cloneWith(
+				"ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter",
+				defaultCloneDir, null,
+				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	@Test (expected = TransportException.class)
+	public void testHugePreamble() throws Exception {
+		// Test that the connection fails when the preamble is longer than 64k.
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < 1024; i++) {
+			b.append('a');
+		}
+		String line = b.toString();
+		String[] lines = new String[70];
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = line;
+		}
+		server.setPreamble(lines);
+		cloneWith(
+				"ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter",
+				defaultCloneDir, null,
+				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
 }
