@@ -345,7 +345,7 @@ public abstract class KetchReplica {
 	}
 
 	private static boolean equals(@Nullable ObjectId a, LogIndex b) {
-		return a != null && b != null && AnyObjectId.equals(a, b);
+		return a != null && b != null && AnyObjectId.isEqual(a, b);
 	}
 
 	/**
@@ -749,7 +749,7 @@ public abstract class KetchReplica {
 				Ref oldRef = remote.remove(name);
 				ObjectId oldId = getId(oldRef);
 				ObjectId newId = tw.getObjectId(0);
-				if (!AnyObjectId.equals(oldId, newId)) {
+				if (!AnyObjectId.isEqual(oldId, newId)) {
 					delta.add(new ReceiveCommand(oldId, newId, name));
 				}
 			}

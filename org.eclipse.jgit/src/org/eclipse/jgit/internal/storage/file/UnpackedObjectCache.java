@@ -112,7 +112,7 @@ class UnpackedObjectCache {
 				if (obj == null)
 					break;
 
-				if (AnyObjectId.equals(obj, toFind))
+				if (AnyObjectId.isEqual(obj, toFind))
 					return true;
 
 				if (++i == ids.length())
@@ -132,7 +132,7 @@ class UnpackedObjectCache {
 						continue;
 				}
 
-				if (AnyObjectId.equals(obj, toAdd))
+				if (AnyObjectId.isEqual(obj, toAdd))
 					return true;
 
 				if (++i == ids.length())

@@ -295,14 +295,14 @@ public class NoteMapMerger {
 	private static boolean sameNote(Note a, Note b) {
 		if (a == null && b == null)
 			return true;
-		return a != null && b != null && AnyObjectId.equals(a, b);
+		return a != null && b != null && AnyObjectId.isEqual(a, b);
 	}
 
 	private static boolean sameContent(Note a, Note b) {
 		if (a == null && b == null)
 			return true;
 		return a != null && b != null
-				&& AnyObjectId.equals(a.getData(), b.getData());
+				&& AnyObjectId.isEqual(a.getData(), b.getData());
 	}
 
 	private static InMemoryNoteBucket addIfNotNull(InMemoryNoteBucket result,

@@ -60,19 +60,37 @@ import org.eclipse.jgit.util.NB;
 public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 
 	/**
-	 * Compare to object identifier byte sequences for equality.
+	 * Compare two object identifier byte sequences for equality.
 	 *
 	 * @param firstObjectId
 	 *            the first identifier to compare. Must not be null.
 	 * @param secondObjectId
 	 *            the second identifier to compare. Must not be null.
 	 * @return true if the two identifiers are the same.
+	 * @deprecated use {@link #isEqual(AnyObjectId, AnyObjectId)} instead
 	 */
+	@Deprecated
+	@SuppressWarnings("AmbiguousMethodReference")
 	public static boolean equals(final AnyObjectId firstObjectId,
 			final AnyObjectId secondObjectId) {
-		if (firstObjectId == secondObjectId)
-			return true;
+		return isEqual(firstObjectId, secondObjectId);
+	}
 
+	/**
+	 * Compare two object identifier byte sequences for equality.
+	 *
+	 * @param firstObjectId
+	 *            the first identifier to compare. Must not be null.
+	 * @param secondObjectId
+	 *            the second identifier to compare. Must not be null.
+	 * @return true if the two identifiers are the same.
+	 * @since 5.4
+	 */
+	public static boolean isEqual(final AnyObjectId firstObjectId,
+			final AnyObjectId secondObjectId) {
+		if (firstObjectId == secondObjectId) {
+			return true;
+		}
 		// We test word 3 first since the git file-based ODB
 		// uses the first byte of w1, and we use w2 as the
 		// hash code, one of those probably came up with these
@@ -80,7 +98,6 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		// Therefore the first two words are very likely to be
 		// identical. We want to break away from collisions as
 		// quickly as possible.
-		//
 		return firstObjectId.w3 == secondObjectId.w3
 				&& firstObjectId.w4 == secondObjectId.w4
 				&& firstObjectId.w5 == secondObjectId.w5
@@ -276,9 +293,9 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
 	 */
-	@SuppressWarnings("NonOverridingEquals")
+	@SuppressWarnings({ "NonOverridingEquals", "AmbiguousMethodReference" })
 	public final boolean equals(AnyObjectId other) {
-		return other != null ? equals(this, other) : false;
+		return other != null ? isEqual(this, other) : false;
 	}
 
 	/** {@inheritDoc} */

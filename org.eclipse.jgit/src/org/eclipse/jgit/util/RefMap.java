@@ -443,8 +443,10 @@ public class RefMap extends AbstractMap<String, Ref> {
 					if (r.getName().equals(ref.getName())) {
 						final ObjectId a = r.getObjectId();
 						final ObjectId b = ref.getObjectId();
-						if (a != null && b != null && AnyObjectId.equals(a, b))
+						if (a != null && b != null
+								&& AnyObjectId.isEqual(a, b)) {
 							return true;
+						}
 					}
 				}
 			}

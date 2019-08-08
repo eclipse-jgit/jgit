@@ -976,7 +976,7 @@ public class DfsGarbageCollectorTest {
 				rw.markStart(rw.parseCommit(ref.getObjectId()));
 			}
 			for (RevCommit next; (next = rw.next()) != null;) {
-				if (AnyObjectId.equals(next, id)) {
+				if (AnyObjectId.isEqual(next, id)) {
 					return true;
 				}
 			}

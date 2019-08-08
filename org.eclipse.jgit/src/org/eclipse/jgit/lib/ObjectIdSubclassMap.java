@@ -103,8 +103,9 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 		V obj;
 
 		while ((obj = tbl[i]) != null) {
-			if (AnyObjectId.equals(obj, toFind))
+			if (AnyObjectId.isEqual(obj, toFind)) {
 				return obj;
+			}
 			i = (i + 1) & msk;
 		}
 		return null;
@@ -162,7 +163,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 		V obj;
 
 		while ((obj = tbl[i]) != null) {
-			if (AnyObjectId.equals(obj, newValue))
+			if (AnyObjectId.isEqual(obj, newValue))
 				return obj;
 			i = (i + 1) & msk;
 		}

@@ -138,7 +138,7 @@ public class StageBuilder {
 		try (RevWalk rw = new RevWalk(git);
 				TreeWalk tw = new TreeWalk(rw.getObjectReader());
 				ObjectInserter ins = git.newObjectInserter()) {
-			if (AnyObjectId.equals(oldTree, ObjectId.zeroId())) {
+			if (AnyObjectId.isEqual(oldTree, ObjectId.zeroId())) {
 				tw.addTree(new EmptyTreeIterator());
 			} else {
 				tw.addTree(rw.parseTree(oldTree));

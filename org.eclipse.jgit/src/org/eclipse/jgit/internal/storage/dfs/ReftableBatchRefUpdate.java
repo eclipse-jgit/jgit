@@ -252,7 +252,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 	private static boolean matchOld(ReceiveCommand cmd, @Nullable Ref ref) {
 		if (ref == null) {
-			return AnyObjectId.equals(ObjectId.zeroId(), cmd.getOldId())
+			return AnyObjectId.isEqual(ObjectId.zeroId(), cmd.getOldId())
 					&& cmd.getOldSymref() == null;
 		} else if (ref.isSymbolic()) {
 			return ref.getTarget().getName().equals(cmd.getOldSymref());
@@ -368,7 +368,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 			String name = cmd.getRefName();
 			ObjectId newId = cmd.getNewId();
 			String newSymref = cmd.getNewSymref();
-			if (AnyObjectId.equals(ObjectId.zeroId(), newId)
+			if (AnyObjectId.isEqual(ObjectId.zeroId(), newId)
 					&& newSymref == null) {
 				refs.add(new ObjectIdRef.Unpeeled(NEW, name, null));
 				continue;

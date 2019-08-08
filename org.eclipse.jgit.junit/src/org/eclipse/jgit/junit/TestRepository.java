@@ -728,7 +728,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		ThreeWayMerger merger = MergeStrategy.RECURSIVE.newMerger(db, true);
 		merger.setBase(parent.getTree());
 		if (merger.merge(head, commit)) {
-			if (AnyObjectId.equals(head.getTree(), merger.getResultTreeId()))
+			if (AnyObjectId.isEqual(head.getTree(), merger.getResultTreeId()))
 				return null;
 			tick(1);
 			org.eclipse.jgit.lib.CommitBuilder b =

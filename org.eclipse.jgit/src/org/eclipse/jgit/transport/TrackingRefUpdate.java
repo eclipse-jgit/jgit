@@ -175,7 +175,7 @@ public class TrackingRefUpdate {
 		private RefUpdate.Result decode(ReceiveCommand.Result status) {
 			switch (status) {
 			case OK:
-				if (AnyObjectId.equals(oldObjectId, newObjectId))
+				if (AnyObjectId.isEqual(oldObjectId, newObjectId))
 					return RefUpdate.Result.NO_CHANGE;
 				switch (getType()) {
 				case CREATE:

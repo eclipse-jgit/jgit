@@ -575,7 +575,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			ObjectId headId = getHead().getObjectId();
 			// getHead() checks for null
 			assert headId != null;
-			if (!AnyObjectId.equals(headId, newParents.get(0)))
+			if (!AnyObjectId.isEqual(headId, newParents.get(0)))
 				checkoutCommit(headId.getName(), newParents.get(0));
 
 			// Use the cherry-pick strategy if all non-first parents did not

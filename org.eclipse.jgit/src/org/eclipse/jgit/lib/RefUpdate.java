@@ -753,7 +753,7 @@ public abstract class RefUpdate {
 			if (expValue != null) {
 				final ObjectId o;
 				o = oldValue != null ? oldValue : ObjectId.zeroId();
-				if (!AnyObjectId.equals(expValue, o)) {
+				if (!AnyObjectId.isEqual(expValue, o)) {
 					return Result.LOCK_FAILURE;
 				}
 			}
