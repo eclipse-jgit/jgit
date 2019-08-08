@@ -34,6 +34,24 @@
       "revId": "83f538535d1f0080e8a866cd2f443f6ea12ac37f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abcf919c_5762083c",
+        "filename": "org.eclipse.jgit.ssh.apache.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-08T07:25:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e53cd79_7b9114db",
+      "revId": "83f538535d1f0080e8a866cd2f443f6ea12ac37f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
