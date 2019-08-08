@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31c34894_48bfa470",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-08T06:39:15Z",
+      "side": 1,
+      "message": "OpenSshConfigFile uses java.io.File.lastModified() to get the last modified time to determine whether it has to reload the SSH config. It doesn\u0027t use the FileSnapshot mechanism.\n\nI also don\u0027t think it should. We don\u0027t care about raciness for the SSH config. The test now uses lastModifiedInstant, which apparently has a finer resolution than lastModified. Therefore the file is not reloaded after the modification. Hence either revert here to lastModified, or change OpenSshConfigFile to also use lastModifiedInstant.\n\nOn the Mac you probably don\u0027t see the problem because the tests run with Java 8 and a timestamp resolution of 1 second.\n\nUsing db.getFS() is wrong, too. The file system of the SSH config file is completely unrelated to the file system the repo is on. If at all, use FS.DETECTED.\n\nBTW, the implementation of this config() method is a bit crude. If writing files is fast but the timestamp resolution is coarse this will write the file many times. Should probably not loop but just use fsTick() to delay as needed. (And OpenSshConfigFile.refresh() should still be changed to use some file timestamp mechanism that has the same resolution.)\n\nAll this means that we should investigate if there are other callers of java.io.File.lastModified() in JGit code and check whether these would have to be changed, too.",
+      "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
