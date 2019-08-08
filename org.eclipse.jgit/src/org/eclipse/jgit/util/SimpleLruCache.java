@@ -159,6 +159,7 @@ public class SimpleLruCache<K, V> {
 	 *
 	 * @return value mapped for this key, or {@code null} if no value is mapped
 	 */
+	@SuppressWarnings("NonAtomicVolatileUpdate")
 	public V get(Object key) {
 		Entry<K, V> entry = map.get(key);
 		if (entry != null) {
@@ -185,6 +186,7 @@ public class SimpleLruCache<K, V> {
 	 * @throws NullPointerException
 	 *             if the specified key or value is null
 	 */
+	@SuppressWarnings("NonAtomicVolatileUpdate")
 	public V put(@NonNull K key, @NonNull V value) {
 		map.put(key, new Entry<>(key, value, ++time));
 		if (map.size() > maximumSize) {
