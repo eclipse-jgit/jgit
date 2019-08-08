@@ -1536,10 +1536,11 @@ public abstract class Repository implements AutoCloseable {
 		final String filePath = file.getPath();
 		final String workDirPath = workDir.getPath();
 
-		if (filePath.length() <= workDirPath.length() ||
-		    filePath.charAt(workDirPath.length()) != File.separatorChar ||
-		    !filePath.startsWith(workDirPath)) {
-			File absWd = workDir.isAbsolute() ? workDir : workDir.getAbsoluteFile();
+		if (filePath.length() <= workDirPath.length()
+				|| filePath.charAt(workDirPath.length()) != File.separatorChar
+				|| !filePath.startsWith(workDirPath)) {
+			File absWd = workDir.isAbsolute() ? workDir
+					: workDir.getAbsoluteFile();
 			File absFile = file.isAbsolute() ? file : file.getAbsoluteFile();
 			if (absWd.equals(workDir) && absFile.equals(file)) {
 				return ""; //$NON-NLS-1$
@@ -1548,8 +1549,9 @@ public abstract class Repository implements AutoCloseable {
 		}
 
 		String relName = filePath.substring(workDirPath.length() + 1);
-		if (File.separatorChar != '/')
+		if (File.separatorChar != '/') {
 			relName = relName.replace(File.separatorChar, '/');
+		}
 		return relName;
 	}
 
