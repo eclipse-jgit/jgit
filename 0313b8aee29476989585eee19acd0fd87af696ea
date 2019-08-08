@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fb6b13d_196ec335",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AnyObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-08T19:22:35Z",
+      "side": 1,
+      "message": "Would it be worthy to mark it already as deprecated? or create already a method with better name?\n\nThe TODO is easy to miss when we eventually clean up deprecated APIs.",
+      "range": {
+        "startLine": 71,
+        "startChar": 15,
+        "endLine": 71,
+        "endChar": 21
+      },
+      "revId": "0313b8aee29476989585eee19acd0fd87af696ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
