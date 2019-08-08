@@ -34,6 +34,24 @@
       "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4936d61a_88e7d4b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-08T08:34:02Z",
+      "side": 1,
+      "message": "\u003e OpenSshConfig was also changed to use lastModifiedInstant \n\nWhere? I don\u0027t see that in [1].\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/358177a27e3b1519283552a4a0cc913f0996a30f/org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/ssh/OpenSshConfigFile.java",
+      "parentUuid": "d5b5cf31_e9276ecd",
+      "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
