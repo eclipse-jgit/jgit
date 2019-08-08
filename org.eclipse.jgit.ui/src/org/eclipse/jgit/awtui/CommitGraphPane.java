@@ -64,6 +64,7 @@ import org.eclipse.jgit.awtui.SwingCommitList.SwingLane;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotCommitList;
+import org.eclipse.jgit.util.References;
 
 /**
  * Draws a commit graph in a JTable.
@@ -176,7 +177,7 @@ public class CommitGraphPane extends JTable {
 		}
 
 		PersonIdent authorFor(PlotCommit<SwingLane> c) {
-			if (c != lastCommit) {
+			if (!References.isSameObject(c, lastCommit)) {
 				lastCommit = c;
 				lastAuthor = c.getAuthorIdent();
 			}
