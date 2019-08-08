@@ -16,6 +16,24 @@
       "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5b5cf31_e9276ecd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-08T08:13:41Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t spot this.\n\nOpenSshConfig was also changed to use lastModifiedInstant but it used FS.DETECTED and here I used db.getFS() so if that\u0027s on a different filesystem with different attributes this could explain the failure.\n\nIn productive code we try to avoid modifying files in place since that could lead to corruption. Instead we write to a temporary file (or use LockFile if we want the usual git file lock mechanism) and at the end rename atomically to the actual file name to prevent corruption in case of races e.g. with another process. See FileBasedConfig.save().\n\nI checked all uses of lastModified when changing from millis to Instant. The only place where I didn\u0027t change to Instant is pruning during gc since I think that\u0027s not time critical.\n\nPushed a fix here https://git.eclipse.org/r/#/c/147244/",
+      "parentUuid": "31c34894_48bfa470",
+      "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
