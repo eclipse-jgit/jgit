@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7c4ba24_7266880f",
+        "filename": "org.eclipse.jgit.ssh.apache.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-08T06:46:38Z",
+      "side": 1,
+      "message": "Duplicate line here.",
+      "revId": "83f538535d1f0080e8a866cd2f443f6ea12ac37f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
