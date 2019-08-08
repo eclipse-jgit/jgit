@@ -70,6 +70,24 @@
       "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf937ee7_96559626",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-08T10:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7380f9e_a0a44999",
+      "revId": "358177a27e3b1519283552a4a0cc913f0996a30f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
