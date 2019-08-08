@@ -72,8 +72,9 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	@SuppressWarnings("AmbiguousMethodReference")
 	public static boolean equals(final AnyObjectId firstObjectId,
 			final AnyObjectId secondObjectId) {
-		if (firstObjectId == secondObjectId)
+		if (sameIdReference(firstObjectId, secondObjectId)) {
 			return true;
+		}
 
 		// We test word 3 first since the git file-based ODB
 		// uses the first byte of w1, and we use w2 as the
@@ -88,6 +89,14 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 				&& firstObjectId.w5 == secondObjectId.w5
 				&& firstObjectId.w1 == secondObjectId.w1
 				&& firstObjectId.w2 == secondObjectId.w2;
+	}
+
+	@SuppressWarnings("ReferenceEquality")
+	private static boolean sameIdReference(AnyObjectId a, AnyObjectId b) {
+		// Reference comparison is intentional; Error prone allows
+		// reference comparison to implement fast path comparison in equals
+		// methods, but not if it is a static method.
+		return a == b;
 	}
 
 	int w1;
