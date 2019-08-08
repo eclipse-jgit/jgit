@@ -16,6 +16,24 @@
       "revId": "83f538535d1f0080e8a866cd2f443f6ea12ac37f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e53cd79_7b9114db",
+        "filename": "org.eclipse.jgit.ssh.apache.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-08T07:23:28Z",
+      "side": 1,
+      "message": "Sorry, bad rebase.",
+      "parentUuid": "e7c4ba24_7266880f",
+      "revId": "83f538535d1f0080e8a866cd2f443f6ea12ac37f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
