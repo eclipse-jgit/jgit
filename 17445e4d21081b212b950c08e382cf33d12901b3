@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10f63694_3d27ee5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T23:40:40Z",
+      "side": 0,
+      "message": "This should be removed in the previous commit in the stack (jenkins complains building that previous commit).",
+      "range": {
+        "startLine": 2125,
+        "startChar": 14,
+        "endLine": 2125,
+        "endChar": 51
+      },
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
