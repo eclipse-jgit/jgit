@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961fe08b_cf18e2aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2159,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T23:34:28Z",
+      "side": 1,
+      "message": "Optional (as this names were not introduced in this commit): packOut and pckOut are easily confused. Maybe we could rename \"packOut\" to \"packfileOut\"?",
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81bdf9ca_c94cc9d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T23:34:28Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b698ce95_f5e274d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T23:34:28Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
