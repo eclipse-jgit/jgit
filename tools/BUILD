@@ -26,7 +26,7 @@ java_package_configuration(
         "-Xep:ReferenceEquality:WARN",
         "-Xep:StringEquality:WARN",
         "-Xep:WildcardImport:ERROR",
-        "-Xep:AmbiguousMethodReference:WARN",
+        "-Xep:AmbiguousMethodReference:ERROR",
         "-Xep:BadAnnotationImplementation:ERROR",
         "-Xep:BadComparable:WARN",
         "-Xep:BoxedPrimitiveConstructor:ERROR",
