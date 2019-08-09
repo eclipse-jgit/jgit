@@ -670,7 +670,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				}
 			}
 
-			if (noDone & receivedReady) {
+			if (noDone && receivedReady) {
 				break SEND_HAVES;
 			}
 			if (statelessRPC) {

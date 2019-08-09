@@ -657,7 +657,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 
 		ObjectId act = inserter.insert(type, raw);
-		if (!AnyObjectId.equals(id, act)) {
+		if (!AnyObjectId.isEqual(id, act)) {
 			throw new TransportException(MessageFormat.format(
 					JGitText.get().incorrectHashFor, id.name(), act.name(),
 					Constants.typeString(type),

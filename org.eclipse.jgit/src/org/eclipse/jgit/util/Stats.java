@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2019, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,60 +40,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.util;
 
-package org.eclipse.jgit.pgm.debug;
+/**
+ * Simple double statistics, computed incrementally, variance and standard
+ * deviation using Welford's online algorithm, see
+ * https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Welford's_online_algorithm
+ *
+ * @since 5.1.9
+ */
+public class Stats {
+	private int n = 0;
 
-import static java.lang.Integer.valueOf;
+	private double avg = 0.0;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+	private double min = 0.0;
 
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.pgm.Command;
-import org.eclipse.jgit.pgm.TextBuiltin;
-import org.kohsuke.args4j.Option;
+	private double max = 0.0;
 
-@Command(usage = "usage_ShowDirCache")
-class ShowDirCache extends TextBuiltin {
+	private double sum = 0.0;
 
-	@Option(name = "--millis", aliases = { "-m" }, usage = "usage_showTimeInMilliseconds")
-	private boolean millis = false;
+	/**
+	 * Add a value
+	 *
+	 * @param x
+	 *            value
+	 */
+	public void add(double x) {
+		n++;
+		min = n == 1 ? x : Math.min(min, x);
+		max = n == 1 ? x : Math.max(max, x);
+		double d = x - avg;
+		avg += d / n;
+		sum += d * d * (n - 1) / n;
+	}
 
-	/** {@inheritDoc} */
-	@Override
-	protected void run() throws Exception {
-		final DateTimeFormatter fmt = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd,HH:mm:ss.nnnnnnnnn") //$NON-NLS-1$
-				.withLocale(Locale.getDefault())
-				.withZone(ZoneId.systemDefault());
+	/**
+	 * @return number of the added values
+	 */
+	public int count() {
+		return n;
+	}
 
-		final DirCache cache = db.readDirCache();
-		for (int i = 0; i < cache.getEntryCount(); i++) {
-			final DirCacheEntry ent = cache.getEntry(i);
-			final FileMode mode = FileMode.fromBits(ent.getRawMode());
-			final int len = ent.getLength();
-			Instant mtime = ent.getLastModifiedInstant();
-			final int stage = ent.getStage();
-
-			outw.print(mode);
-			outw.format(" %6d", valueOf(len)); //$NON-NLS-1$
-			outw.print(' ');
-			if (millis) {
-				outw.print(mtime.toEpochMilli());
-			} else {
-				outw.print(fmt.format(mtime));
-			}
-			outw.print(' ');
-			outw.print(ent.getObjectId().name());
-			outw.print(' ');
-			outw.print(stage);
-			outw.print('\t');
-			outw.print(ent.getPathString());
-			outw.println();
+	/**
+	 * @return minimum of the added values
+	 */
+	public double min() {
+		if (n < 1) {
+			return Double.NaN;
 		}
+		return min;
+	}
+
+	/**
+	 * @return maximum of the added values
+	 */
+	public double max() {
+		if (n < 1) {
+			return Double.NaN;
+		}
+		return max;
+	}
+
+	/**
+	 * @return average of the added values
+	 */
+
+	public double avg() {
+		if (n < 1) {
+			return Double.NaN;
+		}
+		return avg;
+	}
+
+	/**
+	 * @return variance of the added values
+	 */
+	public double var() {
+		if (n < 2) {
+			return Double.NaN;
+		}
+		return sum / (n - 1);
+	}
+
+	/**
+	 * @return standard deviation of the added values
+	 */
+	public double stddev() {
+		return Math.sqrt(this.var());
 	}
 }

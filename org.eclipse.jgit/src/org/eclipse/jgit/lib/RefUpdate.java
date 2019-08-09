@@ -53,6 +53,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.util.References;
 
 /**
  * Creates, updates or deletes any reference.
@@ -753,7 +754,7 @@ public abstract class RefUpdate {
 			if (expValue != null) {
 				final ObjectId o;
 				o = oldValue != null ? oldValue : ObjectId.zeroId();
-				if (!AnyObjectId.equals(expValue, o)) {
+				if (!AnyObjectId.isEqual(expValue, o)) {
 					return Result.LOCK_FAILURE;
 				}
 			}
@@ -768,7 +769,8 @@ public abstract class RefUpdate {
 			}
 
 			oldObj = safeParseOld(walk, oldValue);
-			if (newObj == oldObj && !detachingSymbolicRef) {
+			if (References.isSameObject(newObj, oldObj)
+					&& !detachingSymbolicRef) {
 				return store.execute(Result.NO_CHANGE);
 			}
 

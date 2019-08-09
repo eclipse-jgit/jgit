@@ -62,6 +62,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.References;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -624,8 +625,9 @@ public class URIish implements Serializable {
 	}
 
 	private static boolean eq(String a, String b) {
-		if (a == b)
+		if (References.isSameObject(a, b)) {
 			return true;
+		}
 		if (StringUtils.isEmptyOrNull(a) && StringUtils.isEmptyOrNull(b))
 			return true;
 		if (a == null || b == null)

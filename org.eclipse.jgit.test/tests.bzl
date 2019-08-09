@@ -58,6 +58,12 @@ def tests(tests):
             additional_deps = [
                 "//lib:mockito",
             ]
+        if src.endswith("ArchiveCommandTest.java"):
+            additional_deps = [
+                "//lib:commons-compress",
+                "//lib:xz",
+                "//org.eclipse.jgit.archive:jgit-archive",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"

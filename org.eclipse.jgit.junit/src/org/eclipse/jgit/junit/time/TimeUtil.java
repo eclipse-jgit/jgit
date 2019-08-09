@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2019, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,60 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.junit.time;
 
-package org.eclipse.jgit.pgm.debug;
-
-import static java.lang.Integer.valueOf;
-
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.pgm.Command;
-import org.eclipse.jgit.pgm.TextBuiltin;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.util.FS;
 
-@Command(usage = "usage_ShowDirCache")
-class ShowDirCache extends TextBuiltin {
-
-	@Option(name = "--millis", aliases = { "-m" }, usage = "usage_showTimeInMilliseconds")
-	private boolean millis = false;
-
-	/** {@inheritDoc} */
-	@Override
-	protected void run() throws Exception {
-		final DateTimeFormatter fmt = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd,HH:mm:ss.nnnnnnnnn") //$NON-NLS-1$
-				.withLocale(Locale.getDefault())
-				.withZone(ZoneId.systemDefault());
-
-		final DirCache cache = db.readDirCache();
-		for (int i = 0; i < cache.getEntryCount(); i++) {
-			final DirCacheEntry ent = cache.getEntry(i);
-			final FileMode mode = FileMode.fromBits(ent.getRawMode());
-			final int len = ent.getLength();
-			Instant mtime = ent.getLastModifiedInstant();
-			final int stage = ent.getStage();
-
-			outw.print(mode);
-			outw.format(" %6d", valueOf(len)); //$NON-NLS-1$
-			outw.print(' ');
-			if (millis) {
-				outw.print(mtime.toEpochMilli());
-			} else {
-				outw.print(fmt.format(mtime));
-			}
-			outw.print(' ');
-			outw.print(ent.getObjectId().name());
-			outw.print(' ');
-			outw.print(stage);
-			outw.print('\t');
-			outw.print(ent.getPathString());
-			outw.println();
+/**
+ * Utility methods for handling timestamps
+ */
+public class TimeUtil {
+	/**
+	 * Set the lastModified time of a given file by adding a given offset to the
+	 * current lastModified time
+	 *
+	 * @param path
+	 *            path of a file to set last modified
+	 * @param offsetMillis
+	 *            offset in milliseconds, if negative the new lastModified time
+	 *            is offset before the original lastModified time, otherwise
+	 *            after the original time
+	 * @return the new lastModified time
+	 */
+	public static Instant setLastModifiedWithOffset(Path path,
+			long offsetMillis) {
+		Instant mTime = FS.DETECTED.lastModifiedInstant(path)
+				.plusMillis(offsetMillis);
+		try {
+			Files.setLastModifiedTime(path, FileTime.from(mTime));
+			return mTime;
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
 	}
+
+	/**
+	 * Set the lastModified time of file a to the one from file b
+	 *
+	 * @param a
+	 *            file to set lastModified time
+	 * @param b
+	 *            file to read lastModified time from
+	 */
+	public static void setLastModifiedOf(Path a, Path b) {
+		Instant mTime = FS.DETECTED.lastModifiedInstant(b);
+		try {
+			Files.setLastModifiedTime(a, FileTime.from(mTime));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
 }

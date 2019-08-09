@@ -165,7 +165,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 				continue;
 			}
 
-			if (AnyObjectId.equals(ObjectId.zeroId(), u.getNewObjectId()))
+			if (AnyObjectId.isEqual(ObjectId.zeroId(), u.getNewObjectId()))
 				deleteCommand(u);
 			else
 				updates.add(u);

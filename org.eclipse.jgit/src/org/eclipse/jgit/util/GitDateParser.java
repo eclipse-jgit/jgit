@@ -126,7 +126,7 @@ public class GitDateParser {
 		DEFAULT("EEE MMM dd HH:mm:ss yyyy Z"), // //$NON-NLS-1$
 		LOCAL("EEE MMM dd HH:mm:ss yyyy"); //$NON-NLS-1$
 
-		String formatStr;
+		private final String formatStr;
 
 		private ParseableSimpleDateFormat(String formatStr) {
 			this.formatStr = formatStr;

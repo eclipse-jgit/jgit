@@ -218,7 +218,8 @@ class Blame extends TextBuiltin {
 					dateWidth = Math.max(dateWidth, date(line).length());
 					pathWidth = Math.max(pathWidth, path(line).length());
 				}
-				while (line + 1 < end && blame.getSourceCommit(line + 1) == c) {
+				while (line + 1 < end
+						&& sameCommit(blame.getSourceCommit(line + 1), c)) {
 					line++;
 				}
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
@@ -257,11 +258,20 @@ class Blame extends TextBuiltin {
 					blame.getResultContents().writeLine(outs, line);
 					outs.flush();
 					outw.print('\n');
-				} while (++line < end && blame.getSourceCommit(line) == c);
+				} while (++line < end
+						&& sameCommit(blame.getSourceCommit(line), c));
 			}
 		} catch (NoWorkTreeException | IOException e) {
 			throw die(e.getMessage(), e);
 		}
+	}
+
+	@SuppressWarnings("ReferenceEquality")
+	private static boolean sameCommit(RevCommit a, RevCommit b) {
+		// Reference comparison is intentional; BlameGenerator uses a single
+		// RevWalk which caches the RevCommit objects, and if a given commit
+		// is cached the RevWalk returns the same instance.
+		return a == b;
 	}
 
 	private int uniqueAbbrevLen(ObjectReader reader, RevCommit commit)

@@ -661,7 +661,7 @@ public class DfsGarbageCollector {
 	private int objectsBefore() {
 		int cnt = 0;
 		for (DfsPackFile p : packsBefore)
-			cnt += p.getPackDescription().getObjectCount();
+			cnt += (int) p.getPackDescription().getObjectCount();
 		return cnt;
 	}
 

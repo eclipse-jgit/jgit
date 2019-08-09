@@ -42,88 +42,26 @@
  */
 package org.eclipse.jgit.lib;
 
-import static java.lang.Long.valueOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.TreeSet;
+import java.time.Instant;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.time.TimeUtil;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.eclipse.jgit.treewalk.FileTreeIteratorWithTimeControl;
-import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
-import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class RacyGitTests extends RepositoryTestCase {
-	@Test
-	public void testIterator()
-			throws IllegalStateException, IOException, InterruptedException {
-		TreeSet<Long> modTimes = new TreeSet<>();
-		File lastFile = null;
-		for (int i = 0; i < 10; i++) {
-			lastFile = new File(db.getWorkTree(), "0." + i);
-			FileUtils.createNewFile(lastFile);
-			if (i == 5)
-				fsTick(lastFile);
-		}
-		modTimes.add(valueOf(fsTick(lastFile)));
-		for (int i = 0; i < 10; i++) {
-			lastFile = new File(db.getWorkTree(), "1." + i);
-			FileUtils.createNewFile(lastFile);
-		}
-		modTimes.add(valueOf(fsTick(lastFile)));
-		for (int i = 0; i < 10; i++) {
-			lastFile = new File(db.getWorkTree(), "2." + i);
-			FileUtils.createNewFile(lastFile);
-			if (i % 4 == 0)
-				fsTick(lastFile);
-		}
-		FileTreeIteratorWithTimeControl fileIt = new FileTreeIteratorWithTimeControl(
-				db, modTimes);
-		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
-			tw.addTree(fileIt);
-			tw.setRecursive(true);
-			FileTreeIterator t;
-			long t0 = 0;
-			for (int i = 0; i < 10; i++) {
-				assertTrue(tw.next());
-				t = tw.getTree(0, FileTreeIterator.class);
-				if (i == 0) {
-					t0 = t.getEntryLastModified();
-				} else {
-					assertEquals(t0, t.getEntryLastModified());
-				}
-			}
-			long t1 = 0;
-			for (int i = 0; i < 10; i++) {
-				assertTrue(tw.next());
-				t = tw.getTree(0, FileTreeIterator.class);
-				if (i == 0) {
-					t1 = t.getEntryLastModified();
-					assertTrue(t1 > t0);
-				} else {
-					assertEquals(t1, t.getEntryLastModified());
-				}
-			}
-			long t2 = 0;
-			for (int i = 0; i < 10; i++) {
-				assertTrue(tw.next());
-				t = tw.getTree(0, FileTreeIterator.class);
-				if (i == 0) {
-					t2 = t.getEntryLastModified();
-					assertTrue(t2 > t1);
-				} else {
-					assertEquals(t2, t.getEntryLastModified());
-				}
-			}
-		}
-	}
 
 	@Test
 	public void testRacyGitDetection() throws Exception {
@@ -137,10 +75,10 @@ public class RacyGitTests extends RepositoryTestCase {
 		fsTick(db.getIndexFile());
 
 		// create two files
-		File a = addToWorkDir("a", "a");
-		File b = addToWorkDir("b", "b");
-		assertTrue(a.setLastModified(b.lastModified()));
-		assertTrue(b.setLastModified(b.lastModified()));
+		File a = writeToWorkDir("a", "a");
+		File b = writeToWorkDir("b", "b");
+		TimeUtil.setLastModifiedOf(a.toPath(), b.toPath());
+		TimeUtil.setLastModifiedOf(b.toPath(), b.toPath());
 
 		// wait to ensure that file-modTimes and therefore index entry modTime
 		// doesn't match the modtime of index-file after next persistance
@@ -158,23 +96,36 @@ public class RacyGitTests extends RepositoryTestCase {
 		fsTick(db.getIndexFile());
 
 		// Create a racy git situation. This is a situation that the index is
-		// updated and then a file is modified within a second. By changing the
-		// index file artificially, we create a fake racy situation.
-		File updatedA = addToWorkDir("a", "a2");
-		assertTrue(updatedA.setLastModified(updatedA.lastModified() + 100));
+		// updated and then a file is modified within the same tick of the
+		// filesystem timestamp resolution. By changing the index file
+		// artificially, we create a fake racy situation.
+		File updatedA = writeToWorkDir("a", "a2");
+		Instant newLastModified = TimeUtil
+				.setLastModifiedWithOffset(updatedA.toPath(), 100L);
 		resetIndex(new FileTreeIterator(db));
-		assertTrue(db.getIndexFile()
-				.setLastModified(updatedA.lastModified() + 90));
+		FS.DETECTED.setLastModified(db.getIndexFile().toPath(),
+				newLastModified);
 
-		db.readDirCache();
-		// although racily clean a should not be reported as being dirty
+		DirCache dc = db.readDirCache();
+		// check index state: although racily clean a should not be reported as
+		// being dirty since we forcefully reset the index to match the working
+		// tree
 		assertEquals(
 				"[a, mode:100644, time:t1, smudged, length:0, content:a2]"
 						+ "[b, mode:100644, time:t0, length:1, content:b]",
 				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT));
+
+		// compare state of files in working tree with index to check that
+		// FileTreeIterator.isModified() works as expected
+		FileTreeIterator f = new FileTreeIterator(db.getWorkTree(), db.getFS(),
+				db.getConfig().get(WorkingTreeOptions.KEY));
+		assertTrue(f.findFile("a"));
+		try (ObjectReader reader = db.newObjectReader()) {
+			assertFalse(f.isModified(dc.getEntry("a"), false, reader));
+		}
 	}
 
-	private File addToWorkDir(String path, String content) throws IOException {
+	private File writeToWorkDir(String path, String content) throws IOException {
 		File f = new File(db.getWorkTree(), path);
 		try (FileOutputStream fos = new FileOutputStream(f)) {
 			fos.write(content.getBytes(UTF_8));

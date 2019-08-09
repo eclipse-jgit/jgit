@@ -50,6 +50,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -129,7 +131,7 @@ public class OpenSshConfigFile {
 	private final String localUserName;
 
 	/** Modification time of {@link #configFile} when it was last loaded. */
-	private long lastModified;
+	private Instant lastModified;
 
 	/**
 	 * Encapsulates entries read out of the configuration file, and a cache of
@@ -223,8 +225,8 @@ public class OpenSshConfigFile {
 	}
 
 	private synchronized State refresh() {
-		final long mtime = configFile.lastModified();
-		if (mtime != lastModified) {
+		final Instant mtime = FS.DETECTED.lastModifiedInstant(configFile);
+		if (!mtime.equals(lastModified)) {
 			State newState = new State();
 			try (BufferedReader br = Files
 					.newBufferedReader(configFile.toPath(), UTF_8)) {

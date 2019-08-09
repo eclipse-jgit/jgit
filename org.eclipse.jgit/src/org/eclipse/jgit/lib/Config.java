@@ -131,10 +131,11 @@ public class Config {
 	/**
 	 * Check if a given string is the "missing" value.
 	 *
-	 * @param value
+	 * @param value string to be checked.
 	 * @return true if the given string is the "missing" value.
 	 * @since 5.4
 	 */
+	@SuppressWarnings({ "ReferenceEquality", "StringEquality" })
 	public static boolean isMissing(String value) {
 		return value == MISSING_ENTRY;
 	}
@@ -1052,7 +1053,7 @@ public class Config {
 				if (e.prefix == null || "".equals(e.prefix)) //$NON-NLS-1$
 					out.append('\t');
 				out.append(e.name);
-				if (MISSING_ENTRY != e.value) {
+				if (!isMissing(e.value)) {
 					out.append(" ="); //$NON-NLS-1$
 					if (e.value != null) {
 						out.append(' ');

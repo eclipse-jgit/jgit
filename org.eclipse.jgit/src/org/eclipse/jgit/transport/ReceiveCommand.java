@@ -429,7 +429,7 @@ public class ReceiveCommand {
 		this.newId = ObjectId.zeroId();
 		this.newSymref = newSymref;
 		this.name = name;
-		if (AnyObjectId.equals(ObjectId.zeroId(), oldId)) {
+		if (AnyObjectId.isEqual(ObjectId.zeroId(), oldId)) {
 			type = Type.CREATE;
 		} else if (newSymref != null) {
 			type = Type.UPDATE;
@@ -468,7 +468,7 @@ public class ReceiveCommand {
 		this.name = name;
 		if (oldSymref == null) {
 			type = Type.CREATE;
-		} else if (!AnyObjectId.equals(ObjectId.zeroId(), newId)) {
+		} else if (!AnyObjectId.isEqual(ObjectId.zeroId(), newId)) {
 			type = Type.UPDATE;
 		} else {
 			type = Type.DELETE;
@@ -750,7 +750,7 @@ public class ReceiveCommand {
 	public void updateType(RevWalk walk) throws IOException {
 		if (typeIsCorrect)
 			return;
-		if (type == Type.UPDATE && !AnyObjectId.equals(oldId, newId)) {
+		if (type == Type.UPDATE && !AnyObjectId.isEqual(oldId, newId)) {
 			RevObject o = walk.parseAny(oldId);
 			RevObject n = walk.parseAny(newId);
 			if (!(o instanceof RevCommit)

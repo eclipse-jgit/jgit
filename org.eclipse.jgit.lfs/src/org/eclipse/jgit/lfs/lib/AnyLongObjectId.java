@@ -50,6 +50,7 @@ import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.References;
 
 /**
  * A (possibly mutable) SHA-256 abstraction.
@@ -73,11 +74,31 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 * @param secondObjectId
 	 *            the second identifier to compare. Must not be null.
 	 * @return true if the two identifiers are the same.
+	 * @deprecated use {@link #isEqual(AnyLongObjectId, AnyLongObjectId)}
+	 *             instead.
 	 */
+	@Deprecated
+	@SuppressWarnings("AmbiguousMethodReference")
 	public static boolean equals(final AnyLongObjectId firstObjectId,
 			final AnyLongObjectId secondObjectId) {
-		if (firstObjectId == secondObjectId)
+		return isEqual(firstObjectId, secondObjectId);
+	}
+
+	/**
+	 * Compare two object identifier byte sequences for equality.
+	 *
+	 * @param firstObjectId
+	 *            the first identifier to compare. Must not be null.
+	 * @param secondObjectId
+	 *            the second identifier to compare. Must not be null.
+	 * @return true if the two identifiers are the same.
+	 * @since 5.4
+	 */
+	public static boolean isEqual(final AnyLongObjectId firstObjectId,
+			final AnyLongObjectId secondObjectId) {
+		if (References.isSameObject(firstObjectId, secondObjectId)) {
 			return true;
+		}
 
 		// We test word 2 first as odds are someone already used our
 		// word 1 as a hash code, and applying that came up with these
@@ -274,6 +295,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both LongObjectIds have identical bits.
 	 */
+	@SuppressWarnings({ "NonOverridingEquals", "AmbiguousMethodReference" })
 	public final boolean equals(AnyLongObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}

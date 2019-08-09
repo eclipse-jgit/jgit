@@ -56,10 +56,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
@@ -91,13 +94,19 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	private void config(String data) throws IOException {
-		long lastMtime = configFile.lastModified();
+		FS fs = FS.DETECTED;
+		long resolution = FS.getFileStoreAttributes(configFile.toPath())
+				.getFsTimestampResolution().toNanos();
+		Instant lastMtime = fs.lastModifiedInstant(configFile);
 		do {
 			try (final OutputStreamWriter fw = new OutputStreamWriter(
 					new FileOutputStream(configFile), UTF_8)) {
 				fw.write(data);
+				TimeUnit.NANOSECONDS.sleep(resolution);
+			} catch (InterruptedException e) {
+				Thread.interrupted();
 			}
-		} while (lastMtime == configFile.lastModified());
+		} while (lastMtime.equals(fs.lastModifiedInstant(configFile)));
 	}
 
 	@Test

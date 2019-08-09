@@ -396,7 +396,12 @@ public class FS_POSIX extends FS {
 		}
 		Path lockPath = lock.toPath();
 		Path link = null;
-		FileStore store = Files.getFileStore(lockPath);
+		FileStore store = null;
+		try {
+			store = Files.getFileStore(lockPath);
+		} catch (SecurityException e) {
+			return true;
+		}
 		try {
 			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
 					s -> Boolean.TRUE);
@@ -462,7 +467,12 @@ public class FS_POSIX extends FS {
 		}
 		Path link = null;
 		Path path = file.toPath();
-		FileStore store = Files.getFileStore(path);
+		FileStore store = null;
+		try {
+			store = Files.getFileStore(path);
+		} catch (SecurityException e) {
+			return token(true, null);
+		}
 		try {
 			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
 					s -> Boolean.TRUE);

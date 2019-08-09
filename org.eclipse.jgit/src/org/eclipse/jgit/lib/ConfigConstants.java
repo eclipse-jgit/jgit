@@ -476,4 +476,23 @@ public final class ConfigConstants {
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_LOG_OUTPUT_ENCODING = "logOutputEncoding";
+
+	/**
+	 * The "filesystem" section
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_FILESYSTEM_SECTION = "filesystem";
+
+	/**
+	 * The "timestampResolution" key
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_KEY_TIMESTAMP_RESOLUTION = "timestampResolution";
+
+	/**
+	 * The "minRacyThreshold" key
+	 *
+	 * @since 5.1.9
+	 */
+	public static final String CONFIG_KEY_MIN_RACY_THRESHOLD = "minRacyThreshold";
 }

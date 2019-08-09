@@ -89,8 +89,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertEquals(a1.hashCode(), a2.hashCode());
 		assertEquals(b1.hashCode(), b2.hashCode());
 
-		assertTrue(AnyObjectId.equals(a1, a2));
-		assertTrue(AnyObjectId.equals(b1, b2));
+		assertTrue(AnyObjectId.isEqual(a1, a2));
+		assertTrue(AnyObjectId.isEqual(b1, b2));
 	}
 
 	@Test

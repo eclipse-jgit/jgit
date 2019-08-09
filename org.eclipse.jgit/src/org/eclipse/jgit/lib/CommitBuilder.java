@@ -57,6 +57,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.util.References;
 
 /**
  * Mutable builder to construct a commit recording the state of a project.
@@ -365,7 +366,7 @@ public class CommitBuilder {
 				os.write('\n');
 			}
 
-			if (getEncoding() != UTF_8) {
+			if (!References.isSameObject(getEncoding(), UTF_8)) {
 				os.write(hencoding);
 				os.write(' ');
 				os.write(Constants.encodeASCII(getEncoding().name()));
@@ -474,7 +475,7 @@ public class CommitBuilder {
 		r.append(gpgSignature != null ? gpgSignature.toString() : "NOT_SET");
 		r.append("\n");
 
-		if (encoding != null && encoding != UTF_8) {
+		if (encoding != null && !References.isSameObject(encoding, UTF_8)) {
 			r.append("encoding ");
 			r.append(encoding.name());
 			r.append("\n");

@@ -200,7 +200,7 @@ public class RemoteGitReplica extends KetchReplica {
 	private static boolean isExpectedValue(Map<String, Ref> adv,
 			RemoteRefUpdate u) {
 		Ref r = adv.get(u.getRemoteName());
-		if (!AnyObjectId.equals(getId(r), u.getExpectedOldObjectId())) {
+		if (!AnyObjectId.isEqual(getId(r), u.getExpectedOldObjectId())) {
 			((RemoteCommand) u).cmd.setResult(LOCK_FAILURE);
 			return false;
 		}

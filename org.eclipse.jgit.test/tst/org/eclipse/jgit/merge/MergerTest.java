@@ -43,6 +43,7 @@
 package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -54,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -840,9 +842,9 @@ public class MergerTest extends RepositoryTestCase {
 	 * Throws an exception if reading beyond limit.
 	 */
 	static class BigReadForbiddenStream extends ObjectStream.Filter {
-		int limit;
+		long limit;
 
-		BigReadForbiddenStream(ObjectStream orig, int limit) {
+		BigReadForbiddenStream(ObjectStream orig, long limit) {
 			super(orig.getType(), orig.getSize(), orig);
 			this.limit = limit;
 		}
@@ -1090,13 +1092,13 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkForCorrectIndex(MergeStrategy strategy) throws Exception {
 		File f;
-		long lastTs4, lastTsIndex;
+		Instant lastTs4, lastTsIndex;
 		Git git = Git.wrap(db);
 		File indexFile = db.getIndexFile();
 
 		// Create initial content and remember when the last file was written.
 		f = writeTrashFiles(false, "orig", "orig", "1\n2\n3", "orig", "orig");
-		lastTs4 = FS.DETECTED.lastModified(f);
+		lastTs4 = FS.DETECTED.lastModifiedInstant(f);
 
 		// add all files, commit and check this doesn't update any working tree
 		// files and that the index is in a new file system timer tick. Make
@@ -1109,8 +1111,9 @@ public class MergerTest extends RepositoryTestCase {
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("1", "2", "3", "4", "<.git/index");
 		assertEquals("Commit should not touch working tree file 4", lastTs4,
-				FS.DETECTED.lastModified(new File(db.getWorkTree(), "4")));
-		lastTsIndex = FS.DETECTED.lastModified(indexFile);
+				FS.DETECTED
+						.lastModifiedInstant(new File(db.getWorkTree(), "4")));
+		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// Do modifications on the master branch. Then add and commit. This
 		// should touch only "0", "2 and "3"
@@ -1124,7 +1127,7 @@ public class MergerTest extends RepositoryTestCase {
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("1", "4", "*" + lastTs4, "<*"
 				+ lastTsIndex, "<0", "2", "3", "<.git/index");
-		lastTsIndex = FS.DETECTED.lastModified(indexFile);
+		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// Checkout a side branch. This should touch only "0", "2 and "3"
 		fsTick(indexFile);
@@ -1133,7 +1136,7 @@ public class MergerTest extends RepositoryTestCase {
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("1", "4", "*" + lastTs4, "<*"
 				+ lastTsIndex, "<0", "2", "3", ".git/index");
-		lastTsIndex = FS.DETECTED.lastModified(indexFile);
+		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// This checkout may have populated worktree and index so fast that we
 		// may have smudged entries now. Check that we have the right content
@@ -1146,13 +1149,13 @@ public class MergerTest extends RepositoryTestCase {
 				indexState(CONTENT));
 		fsTick(indexFile);
 		f = writeTrashFiles(false, "orig", "orig", "1\n2\n3", "orig", "orig");
-		lastTs4 = FS.DETECTED.lastModified(f);
+		lastTs4 = FS.DETECTED.lastModifiedInstant(f);
 		fsTick(f);
 		git.add().addFilepattern(".").call();
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("*" + lastTsIndex, "<0", "1", "2", "3",
 				"4", "<.git/index");
-		lastTsIndex = FS.DETECTED.lastModified(indexFile);
+		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// Do modifications on the side branch. Touch only "1", "2 and "3"
 		fsTick(indexFile);
@@ -1163,7 +1166,7 @@ public class MergerTest extends RepositoryTestCase {
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("0", "4", "*" + lastTs4, "<*"
 				+ lastTsIndex, "<1", "2", "3", "<.git/index");
-		lastTsIndex = FS.DETECTED.lastModified(indexFile);
+		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// merge master and side. Should only touch "0," "2" and "3"
 		fsTick(indexFile);
@@ -1330,9 +1333,10 @@ public class MergerTest extends RepositoryTestCase {
 			assertEquals(
 					"IndexEntry with path "
 							+ path
-							+ " has lastmodified with is different from the worktree file",
-					FS.DETECTED.lastModified(new File(workTree, path)), dc.getEntry(path)
-							.getLastModified());
+							+ " has lastmodified which is different from the worktree file",
+					FS.DETECTED.lastModifiedInstant(new File(workTree, path)),
+					dc.getEntry(path)
+							.getLastModifiedInstant());
 	}
 
 	// Assert that modification timestamps of working tree files are as
@@ -1341,21 +1345,22 @@ public class MergerTest extends RepositoryTestCase {
 	// then this file must be younger then file i. A path "*<modtime>"
 	// represents a file with a modification time of <modtime>
 	// E.g. ("a", "b", "<c", "f/a.txt") means: a<=b<c<=f/a.txt
-	private void checkModificationTimeStampOrder(String... pathes)
-			throws IOException {
-		long lastMod = Long.MIN_VALUE;
+	private void checkModificationTimeStampOrder(String... pathes) {
+		Instant lastMod = EPOCH;
 		for (String p : pathes) {
 			boolean strong = p.startsWith("<");
 			boolean fixed = p.charAt(strong ? 1 : 0) == '*';
 			p = p.substring((strong ? 1 : 0) + (fixed ? 1 : 0));
-			long curMod = fixed ? Long.valueOf(p).longValue()
-					: FS.DETECTED.lastModified(new File(db.getWorkTree(), p));
-			if (strong)
+			Instant curMod = fixed ? Instant.parse(p)
+					: FS.DETECTED
+							.lastModifiedInstant(new File(db.getWorkTree(), p));
+			if (strong) {
 				assertTrue("path " + p + " is not younger than predecesssor",
-						curMod > lastMod);
-			else
+						curMod.compareTo(lastMod) > 0);
+			} else {
 				assertTrue("path " + p + " is older than predecesssor",
-						curMod >= lastMod);
+						curMod.compareTo(lastMod) >= 0);
+			}
 		}
 	}
 
