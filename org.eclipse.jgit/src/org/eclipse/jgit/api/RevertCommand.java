@@ -175,8 +175,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 						+ "This reverts commit " + srcCommit.getId().getName() //$NON-NLS-1$
 						+ ".\n"; //$NON-NLS-1$
 				if (merger.merge(headCommit, srcParent)) {
-					if (AnyObjectId.equals(headCommit.getTree().getId(), merger
-							.getResultTreeId()))
+					if (AnyObjectId.isEqual(headCommit.getTree().getId(),
+							merger.getResultTreeId()))
 						continue;
 					DirCacheCheckout dco = new DirCacheCheckout(repo,
 							headCommit.getTree(), repo.lockDirCache(),

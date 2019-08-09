@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -427,8 +428,10 @@ public class DirCacheCheckout {
 					// update the timestamp of the index with the one from the
 					// file if not set, as we are sure to be in sync here.
 					DirCacheEntry entry = i.getDirCacheEntry();
-					if (entry.getLastModified() == 0)
-						entry.setLastModified(f.getEntryLastModified());
+					Instant mtime = entry.getLastModifiedInstant();
+					if (mtime == null || mtime.equals(Instant.EPOCH)) {
+						entry.setLastModified(f.getEntryLastModifiedInstant());
+					}
 					keep(entry, f);
 				}
 			} else
@@ -640,7 +643,7 @@ public class DirCacheCheckout {
 		File gitlinkDir = new File(repo.getWorkTree(), path);
 		FileUtils.mkdirs(gitlinkDir, true);
 		FS fs = repo.getFS();
-		entry.setLastModified(fs.lastModified(gitlinkDir));
+		entry.setLastModified(fs.lastModifiedInstant(gitlinkDir));
 	}
 
 	private static ArrayList<String> filterOut(ArrayList<String> strings,
@@ -1477,7 +1480,7 @@ public class DirCacheCheckout {
 			}
 			fs.createSymLink(f, target);
 			entry.setLength(bytes.length);
-			entry.setLastModified(fs.lastModified(f));
+			entry.setLastModified(fs.lastModifiedInstant(f));
 			return;
 		}
 
@@ -1546,7 +1549,7 @@ public class DirCacheCheckout {
 				FileUtils.delete(tmpFile);
 			}
 		}
-		entry.setLastModified(fs.lastModified(f));
+		entry.setLastModified(fs.lastModifiedInstant(f));
 	}
 
 	// Run an external filter command

@@ -106,7 +106,7 @@ class LagCheck implements AutoCloseable {
 			return UNKNOWN;
 		}
 
-		if (AnyObjectId.equals(remoteId, ObjectId.zeroId())) {
+		if (AnyObjectId.isEqual(remoteId, ObjectId.zeroId())) {
 			// Replica does not have the txnAccepted reference.
 			return LAGGING;
 		}

@@ -60,6 +60,7 @@ import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -104,8 +105,12 @@ import org.slf4j.LoggerFactory;
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private final static Logger LOG = LoggerFactory.getLogger(PackFile.class);
 	/** Sorts PackFiles to be most recently created to least recently created. */
-	public static final Comparator<PackFile> SORT = (PackFile a,
-			PackFile b) -> b.packLastModified - a.packLastModified;
+	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
+		@Override
+		public int compare(PackFile a, PackFile b) {
+			return b.packLastModified.compareTo(a.packLastModified);
+		}
+	};
 
 	private final File packFile;
 
@@ -128,7 +133,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private int activeCopyRawData;
 
-	int packLastModified;
+	Instant packLastModified;
 
 	private PackFileSnapshot fileSnapshot;
 
@@ -168,7 +173,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public PackFile(File packFile, int extensions) {
 		this.packFile = packFile;
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
-		this.packLastModified = (int) (fileSnapshot.lastModified() >> 10);
+		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.extensions = extensions;
 
 		// Multiply by 31 here so we can more directly combine with another

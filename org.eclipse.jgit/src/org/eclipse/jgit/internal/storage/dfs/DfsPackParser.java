@@ -432,7 +432,7 @@ public class DfsPackParser extends PackParser {
 		buf[len++] = (byte) ((typeCode << 4) | (sz & 15));
 		sz >>>= 4;
 		while (sz > 0) {
-			buf[len - 1] |= 0x80;
+			buf[len - 1] |= (byte) 0x80;
 			buf[len++] = (byte) (sz & 0x7f);
 			sz >>>= 7;
 		}

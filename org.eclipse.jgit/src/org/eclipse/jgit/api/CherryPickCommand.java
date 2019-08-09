@@ -157,8 +157,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				merger.setCommitNames(new String[] { "BASE", ourName, //$NON-NLS-1$
 						cherryPickName });
 				if (merger.merge(newHead, srcCommit)) {
-					if (AnyObjectId.equals(newHead.getTree().getId(), merger
-							.getResultTreeId()))
+					if (AnyObjectId.isEqual(newHead.getTree().getId(),
+							merger.getResultTreeId()))
 						continue;
 					DirCacheCheckout dco = new DirCacheCheckout(repo,
 							newHead.getTree(), repo.lockDirCache(),

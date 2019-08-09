@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.nls;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -92,12 +93,13 @@ class GlobalBundleCache {
 			}
 			TranslationBundle bundle = bundles.get(type);
 			if (bundle == null) {
-				bundle = type.newInstance();
+				bundle = type.getDeclaredConstructor().newInstance();
 				bundle.load(locale);
 				bundles.put(type, bundle);
 			}
 			return (T) bundle;
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException
+				| InvocationTargetException | NoSuchMethodException e) {
 			throw new Error(e);
 		}
 	}

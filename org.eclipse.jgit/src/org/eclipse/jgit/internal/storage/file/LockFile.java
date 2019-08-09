@@ -56,8 +56,12 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileTime;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -400,9 +404,16 @@ public class LockFile {
 	public void waitForStatChange() throws InterruptedException {
 		FileSnapshot o = FileSnapshot.save(ref);
 		FileSnapshot n = FileSnapshot.save(lck);
+		long fsTimeResolution = FS.getFileStoreAttributes(lck.toPath())
+				.getFsTimestampResolution().toNanos();
 		while (o.equals(n)) {
-			Thread.sleep(25 /* milliseconds */);
-			lck.setLastModified(System.currentTimeMillis());
+			TimeUnit.NANOSECONDS.sleep(fsTimeResolution);
+			try {
+				Files.setLastModifiedTime(lck.toPath(),
+						FileTime.from(Instant.now()));
+			} catch (IOException e) {
+				n.waitUntilNotRacy();
+			}
 			n = FileSnapshot.save(lck);
 		}
 	}
@@ -452,9 +463,20 @@ public class LockFile {
 	 * Get the modification time of the output file when it was committed.
 	 *
 	 * @return modification time of the lock file right before we committed it.
+	 * @deprecated use {@link #getCommitLastModifiedInstant()} instead
 	 */
+	@Deprecated
 	public long getCommitLastModified() {
 		return commitSnapshot.lastModified();
+	}
+
+	/**
+	 * Get the modification time of the output file when it was committed.
+	 *
+	 * @return modification time of the lock file right before we committed it.
+	 */
+	public Instant getCommitLastModifiedInstant() {
+		return commitSnapshot.lastModifiedInstant();
 	}
 
 	/**

@@ -259,6 +259,7 @@ public class PacketLineIn {
 	 * @return true if the given string is {@link #DELIM}, otherwise false.
 	 * @since 5.4
 	 */
+	@SuppressWarnings({ "ReferenceEquality", "StringEquality" })
 	public static boolean isDelimiter(String s) {
 		return s == DELIM;
 	}
@@ -293,6 +294,7 @@ public class PacketLineIn {
 	 * @return true if the given string is {@link #END}, otherwise false.
 	 * @since 5.4
 	 */
+	@SuppressWarnings({ "ReferenceEquality", "StringEquality" })
 	public static boolean isEnd(String s) {
 		return s == END;
 	}

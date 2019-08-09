@@ -78,7 +78,7 @@ import org.slf4j.LoggerFactory;
  * Wraps all cookies persisted in a <strong>Netscape Cookie File Format</strong>
  * being referenced via the git config <a href=
  * "https://git-scm.com/docs/git-config#git-config-httpcookieFile">http.cookieFile</a>.
- *
+ * <p>
  * It will only load the cookies lazily, i.e. before calling
  * {@link #getCookies(boolean)} the file is not evaluated. This class also
  * allows persisting cookies in that file format.
@@ -134,6 +134,7 @@ public final class NetscapeCookieFile {
 
 	/**
 	 * @param path
+	 *            where to find the cookie file
 	 */
 	public NetscapeCookieFile(Path path) {
 		this(path, new Date());
@@ -146,13 +147,17 @@ public final class NetscapeCookieFile {
 	}
 
 	/**
-	 * @return the path to the underlying cookie file
+	 * Path to the underlying cookie file.
+	 *
+	 * @return the path
 	 */
 	public Path getPath() {
 		return path;
 	}
 
 	/**
+	 * Return all cookies from the underlying cookie file.
+	 *
 	 * @param refresh
 	 *            if {@code true} updates the list from the underlying cookie
 	 *            file if it has been modified since the last read otherwise
@@ -205,7 +210,7 @@ public final class NetscapeCookieFile {
 	 * @throws IOException
 	 *             if the given file could not be read for some reason
 	 * @throws IllegalArgumentException
-	 *             if the given file does not have a proper format.
+	 *             if the given file does not have a proper format
 	 */
 	private static Set<HttpCookie> parseCookieFile(@NonNull byte[] input,
 			@NonNull Date creationDate)
@@ -273,72 +278,18 @@ public final class NetscapeCookieFile {
 	}
 
 	/**
-	 * Writes all the cookies being maintained in the set being returned by
-	 * {@link #getCookies(boolean)} to the underlying file.
-	 *
-	 * Session-cookies will not be persisted.
-	 *
-	 * @param url
-	 *            url for which to write the cookies (important to derive
-	 *            default values for non-explicitly set attributes)
-	 * @throws IOException
-	 * @throws IllegalArgumentException
-	 * @throws InterruptedException
-	 */
-	public void write(URL url)
-			throws IllegalArgumentException, IOException, InterruptedException {
-		try {
-			byte[] cookieFileContent = getFileContentIfModified();
-			if (cookieFileContent != null) {
-				LOG.debug(
-						"Reading the underlying cookie file '{}' as it has been modified since the last access", //$NON-NLS-1$
-						path);
-				// reread new changes if necessary
-				Set<HttpCookie> cookiesFromFile = NetscapeCookieFile
-						.parseCookieFile(cookieFileContent, creationDate);
-				this.cookies = mergeCookies(cookiesFromFile, cookies);
-			}
-		} catch (FileNotFoundException e) {
-			// ignore if file previously did not exist yet!
-		}
-
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		try (Writer writer = new OutputStreamWriter(output,
-				StandardCharsets.US_ASCII)) {
-			write(writer, cookies, url, creationDate);
-		}
-		LockFile lockFile = new LockFile(path.toFile());
-		for (int retryCount = 0; retryCount < LOCK_ACQUIRE_MAX_RETRY_COUNT; retryCount++) {
-			if (lockFile.lock()) {
-				try {
-					lockFile.setNeedSnapshot(true);
-					lockFile.write(output.toByteArray());
-					if (!lockFile.commit()) {
-						throw new IOException(MessageFormat.format(
-								JGitText.get().cannotCommitWriteTo, path));
-					}
-				} finally {
-					lockFile.unlock();
-				}
-				return;
-			}
-			Thread.sleep(LOCK_ACQUIRE_RETRY_SLEEP);
-		}
-		throw new IOException(
-				MessageFormat.format(JGitText.get().cannotLock, lockFile));
-
-	}
-
-	/**
 	 * Read the underying file and return its content but only in case it has
-	 * been modified since the last access. Internally calculates the hash and
-	 * maintains {@link FileSnapshot}s to prevent issues described as <a href=
+	 * been modified since the last access.
+	 * <p>
+	 * Internally calculates the hash and maintains {@link FileSnapshot}s to
+	 * prevent issues described as <a href=
 	 * "https://github.com/git/git/blob/master/Documentation/technical/racy-git.txt">"Racy
 	 * Git problem"</a>. Inspired by {@link FileBasedConfig#load()}.
 	 *
 	 * @return the file contents in case the file has been modified since the
 	 *         last access, otherwise {@code null}
 	 * @throws IOException
+	 *             if the file is not found or cannot be read
 	 */
 	private byte[] getFileContentIfModified() throws IOException {
 		final int maxStaleRetries = 5;
@@ -386,16 +337,74 @@ public final class NetscapeCookieFile {
 
 	}
 
-	private byte[] hash(final byte[] in) {
+	private static byte[] hash(final byte[] in) {
 		return Constants.newMessageDigest().digest(in);
 	}
 
 	/**
+	 * Writes all the cookies being maintained in the set being returned by
+	 * {@link #getCookies(boolean)} to the underlying file.
+	 * <p>
+	 * Session-cookies will not be persisted.
+	 *
+	 * @param url
+	 *            url for which to write the cookies (important to derive
+	 *            default values for non-explicitly set attributes)
+	 * @throws IOException
+	 *             if the underlying cookie file could not be read or written or
+	 *             a problem with the lock file
+	 * @throws InterruptedException
+	 *             if the thread is interrupted while waiting for the lock
+	 */
+	public void write(URL url) throws IOException, InterruptedException {
+		try {
+			byte[] cookieFileContent = getFileContentIfModified();
+			if (cookieFileContent != null) {
+				LOG.debug("Reading the underlying cookie file '{}' " //$NON-NLS-1$
+						+ "as it has been modified since " //$NON-NLS-1$
+						+ "the last access", //$NON-NLS-1$
+						path);
+				// reread new changes if necessary
+				Set<HttpCookie> cookiesFromFile = NetscapeCookieFile
+						.parseCookieFile(cookieFileContent, creationDate);
+				this.cookies = mergeCookies(cookiesFromFile, cookies);
+			}
+		} catch (FileNotFoundException e) {
+			// ignore if file previously did not exist yet!
+		}
+
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		try (Writer writer = new OutputStreamWriter(output,
+				StandardCharsets.US_ASCII)) {
+			write(writer, cookies, url, creationDate);
+		}
+		LockFile lockFile = new LockFile(path.toFile());
+		for (int retryCount = 0; retryCount < LOCK_ACQUIRE_MAX_RETRY_COUNT; retryCount++) {
+			if (lockFile.lock()) {
+				try {
+					lockFile.setNeedSnapshot(true);
+					lockFile.write(output.toByteArray());
+					if (!lockFile.commit()) {
+						throw new IOException(MessageFormat.format(
+								JGitText.get().cannotCommitWriteTo, path));
+					}
+				} finally {
+					lockFile.unlock();
+				}
+				return;
+			}
+			Thread.sleep(LOCK_ACQUIRE_RETRY_SLEEP);
+		}
+		throw new IOException(
+				MessageFormat.format(JGitText.get().cannotLock, lockFile));
+	}
+
+	/**
 	 * Writes the given cookies to the file in the Netscape Cookie File Format
-	 * (also used by curl)
+	 * (also used by curl).
 	 *
 	 * @param writer
-	 *            the writer to use to persist the cookies.
+	 *            the writer to use to persist the cookies
 	 * @param cookies
 	 *            the cookies to write into the file
 	 * @param url
@@ -404,8 +413,9 @@ public final class NetscapeCookieFile {
 	 * @param creationDate
 	 *            the date when the cookie has been created. Important for
 	 *            calculation the cookie expiration time (calculated from
-	 *            cookie's maxAge and this creation time).
+	 *            cookie's maxAge and this creation time)
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	static void write(@NonNull Writer writer,
 			@NonNull Collection<HttpCookie> cookies, @NonNull URL url,
@@ -461,7 +471,9 @@ public final class NetscapeCookieFile {
 	 * the entry from set {@code cookies1} ends up in the resulting set.
 	 *
 	 * @param cookies1
+	 *            first set of cookies
 	 * @param cookies2
+	 *            second set of cookies
 	 *
 	 * @return the merged cookies
 	 */

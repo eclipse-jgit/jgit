@@ -189,7 +189,7 @@ class VerifyReftable extends TextBuiltin {
 			return;
 		}
 
-		if (!AnyObjectId.equals(exp.getObjectId(), act.getObjectId())) {
+		if (!AnyObjectId.isEqual(exp.getObjectId(), act.getObjectId())) {
 			throw die(String.format("expected %s to be %s, found %s",
 					exp.getName(),
 					id(exp.getObjectId()),
@@ -197,7 +197,8 @@ class VerifyReftable extends TextBuiltin {
 		}
 
 		if (exp.getPeeledObjectId() != null
-				&& !AnyObjectId.equals(exp.getPeeledObjectId(), act.getPeeledObjectId())) {
+				&& !AnyObjectId.isEqual(exp.getPeeledObjectId(),
+						act.getPeeledObjectId())) {
 			throw die(String.format("expected %s to be %s, found %s",
 					exp.getName(),
 					id(exp.getPeeledObjectId()),

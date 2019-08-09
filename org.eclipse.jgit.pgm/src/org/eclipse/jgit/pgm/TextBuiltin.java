@@ -45,8 +45,8 @@
 package org.eclipse.jgit.pgm;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SECTION_I18N;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LOG_OUTPUT_ENCODING;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SECTION_I18N;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;

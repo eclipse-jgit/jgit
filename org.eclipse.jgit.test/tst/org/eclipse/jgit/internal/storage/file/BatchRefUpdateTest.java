@@ -938,6 +938,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		REJECTED_MISSING_OBJECT(ReceiveCommand.Result.REJECTED_MISSING_OBJECT),
 		TRANSACTION_ABORTED(ReceiveCommand::isTransactionAborted);
 
+		@SuppressWarnings("ImmutableEnumChecker")
 		final Predicate<? super ReceiveCommand> p;
 
 		private Result(Predicate<? super ReceiveCommand> p) {
