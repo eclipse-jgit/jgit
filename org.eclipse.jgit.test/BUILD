@@ -42,6 +42,7 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:junit",
+        "//lib:slf4j-simple",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
     ],
