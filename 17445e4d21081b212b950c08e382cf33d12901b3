@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8b39d9a7_78119fd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-09T23:36:53Z",
+      "side": 1,
+      "message": "This is what Eclipse formatter thinks it should be aligned like this.",
+      "parentUuid": "81bdf9ca_c94cc9d8",
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b698ce95_f5e274d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2019-08-09T23:34:28Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27700281_4e3e9ef4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-09T23:36:53Z",
+      "side": 1,
+      "message": "This is what Eclipse formatter thinks it should be aligned like this.",
+      "parentUuid": "b698ce95_f5e274d6",
       "revId": "17445e4d21081b212b950c08e382cf33d12901b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
