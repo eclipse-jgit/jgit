@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bdc7b5a4_89d6e1b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T22:34:08Z",
+      "side": 1,
+      "message": "Done. Thanks for the explanation! I added it as as comment to those variables.",
+      "parentUuid": "dfc75f25_d48862ae",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "a39def685a4b6b127ce1e898aaa0a0d9502d1077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fbe17f9_54158e42",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-26T03:41:28Z",
       "side": 1,
       "message": "Not about this change: this case doesn\u0027t make sense to me. If we are the same as all of our parents, wouldn\u0027t we have hit l240 and already returned false?",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "a39def685a4b6b127ce1e898aaa0a0d9502d1077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc9917f_d08dafa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-09T22:34:08Z",
+      "side": 1,
+      "message": "I suspect we get here if all parents were uninteresting (and went through the \"continue\" on L235 for all of them).",
+      "parentUuid": "2fbe17f9_54158e42",
       "range": {
         "startLine": 262,
         "startChar": 0,
