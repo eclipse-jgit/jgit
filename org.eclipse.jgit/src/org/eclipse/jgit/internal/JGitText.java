@@ -364,6 +364,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedReceivedContentType;
 	/***/ public String expectedReportForRefNotReceived;
 	/***/ public String failedAtomicFileCreation;
+	/***/ public String failedCreateLockFile;
 	/***/ public String failedToDetermineFilterDefinition;
 	/***/ public String failedUpdatingRefs;
 	/***/ public String failureDueToOneOfTheFollowing;
