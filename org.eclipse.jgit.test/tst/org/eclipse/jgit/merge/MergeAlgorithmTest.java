@@ -302,7 +302,7 @@ public class MergeAlgorithmTest {
 		MergeResult r = new MergeAlgorithm().merge(RawTextComparator.DEFAULT,
 				T(commonBase), T(ours), T(theirs));
 		ByteArrayOutputStream bo=new ByteArrayOutputStream(50);
-		fmt.formatMerge(bo, r, "B", "O", "T", Constants.CHARACTER_ENCODING);
+		fmt.formatMerge(bo, r, "B", "O", "T", UTF_8.name());
 		return new String(bo.toByteArray(), UTF_8);
 	}
 
