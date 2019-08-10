@@ -55,9 +55,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,6 +84,7 @@ public class FileBasedConfigTest {
 
 	@Before
 	public void setUp() throws Exception {
+		SystemReader.setInstance(new MockSystemReader());
 		trash = Files.createTempDirectory("tmp_");
 		FS.getFileStoreAttributes(trash.getParent());
 	}
