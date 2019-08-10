@@ -81,6 +81,11 @@ public class MockSystemReader extends SystemReader {
 		}
 
 		@Override
+		public void save() throws IOException {
+			// Do nothing
+		}
+
+		@Override
 		public boolean isOutdated() {
 			return false;
 		}
