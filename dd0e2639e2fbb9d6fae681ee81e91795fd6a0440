@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e9b1163_1e2c6812",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-10T22:04:33Z",
+      "side": 1,
+      "message": "Also the default options seen by this test changed since we now use a mocked config",
+      "revId": "dd0e2639e2fbb9d6fae681ee81e91795fd6a0440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
