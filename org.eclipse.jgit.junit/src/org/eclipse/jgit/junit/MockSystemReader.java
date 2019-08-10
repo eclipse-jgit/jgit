@@ -89,6 +89,11 @@ public class MockSystemReader extends SystemReader {
 		public boolean isOutdated() {
 			return false;
 		}
+
+		@Override
+		public String toString() {
+			return "MockConfig";
+		}
 	}
 
 	long now = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
@@ -285,4 +290,10 @@ public class MockSystemReader extends SystemReader {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "MockSystemReader";
+	}
+
 }
