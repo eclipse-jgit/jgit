@@ -100,7 +100,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileModeStrategy;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry;
@@ -510,17 +510,17 @@ public abstract class FS {
 
 		private static Optional<FileStoreAttributes> readFromConfig(
 				FileStore s) {
-			FileBasedConfig userConfig = SystemReader.getInstance()
+			StoredConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
 			try {
-				userConfig.load(false);
+				userConfig.load();
 			} catch (IOException e) {
 				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
-						userConfig.getFile().getAbsolutePath()), e);
+						userConfig), e);
 			} catch (ConfigInvalidException e) {
 				LOG.error(MessageFormat.format(
 						JGitText.get().repositoryConfigFileInvalid,
-						userConfig.getFile().getAbsolutePath(),
+						userConfig,
 						e.getMessage()));
 			}
 			String key = getConfigKey(s);
@@ -544,7 +544,7 @@ public abstract class FS {
 
 		private static void saveToConfig(FileStore s,
 				FileStoreAttributes c) {
-			FileBasedConfig userConfig = SystemReader.getInstance()
+			StoredConfig userConfig = SystemReader.getInstance()
 					.openUserConfig(null, FS.DETECTED);
 			long resolution = c.getFsTimestampResolution().toNanos();
 			TimeUnit resolutionUnit = getUnit(resolution);
@@ -562,7 +562,7 @@ public abstract class FS {
 			String key = getConfigKey(s);
 			while (!succeeded && retries < max_retries) {
 				try {
-					userConfig.load(false);
+					userConfig.load();
 					userConfig.setString(
 							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
@@ -581,7 +581,7 @@ public abstract class FS {
 					// race with another thread, wait a bit and try again
 					try {
 						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
-								userConfig.getFile().getAbsolutePath()));
+								userConfig));
 						retries++;
 						Thread.sleep(20);
 					} catch (InterruptedException e1) {
@@ -589,13 +589,11 @@ public abstract class FS {
 					}
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
-							JGitText.get().cannotSaveConfig,
-							userConfig.getFile().getAbsolutePath()), e);
+							JGitText.get().cannotSaveConfig, userConfig), e);
 				} catch (ConfigInvalidException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().repositoryConfigFileInvalid,
-							userConfig.getFile().getAbsolutePath(),
-							e.getMessage()));
+							userConfig, e.getMessage()));
 				}
 			}
 		}
