@@ -92,6 +92,7 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.http.HttpConnection;
@@ -165,6 +166,8 @@ public class HttpClientConnection implements HttpConnection {
 						new BasicHttpClientConnectionManager(registry));
 			}
 			clientBuilder.setDefaultRequestConfig(configBuilder.build());
+			clientBuilder.setDefaultCredentialsProvider(
+					new SystemDefaultCredentialsProvider());
 			client = clientBuilder.build();
 		}
 
