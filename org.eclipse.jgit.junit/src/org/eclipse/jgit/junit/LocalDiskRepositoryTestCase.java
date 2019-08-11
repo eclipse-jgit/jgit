@@ -130,6 +130,13 @@ public abstract class LocalDiskRepositoryTestCase {
 
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
+
+		// Measure timer resolution before the test to avoid time critical tests
+		// are affected by time needed for measurement.
+		// The MockSystemReader must be configured first since we need to use
+		// the same one here
+		FS.getFileStoreAttributes(tmp.toPath().getParent());
+
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
 				"usergitconfig"), FS.DETECTED);
 		// We have to set autoDetach to false for tests, because tests expect to be able
@@ -139,12 +146,6 @@ public abstract class LocalDiskRepositoryTestCase {
 				null, ConfigConstants.CONFIG_KEY_AUTODETACH, false);
 		mockSystemReader.userGitConfig.save();
 		ceilTestDirectories(getCeilings());
-
-		// Measure timer resolution before the test to avoid time critical tests
-		// are affected by time needed for measurement.
-		// The MockSystemReader must be configured first since we need to use
-		// the same one here
-		FS.getFileStoreAttributes(tmp.toPath().getParent());
 
 		author = new PersonIdent("J. Author", "jauthor@example.com");
 		committer = new PersonIdent("J. Committer", "jcommitter@example.com");
