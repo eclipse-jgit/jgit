@@ -345,6 +345,7 @@ public class HttpClientConnection implements HttpConnection {
 	/** {@inheritDoc} */
 	@Override
 	public InputStream getInputStream() throws IOException {
+		execute();
 		return resp.getEntity().getContent();
 	}
 
