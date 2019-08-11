@@ -57,7 +57,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
-import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -65,10 +64,11 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SetAdditionalHeadersTest extends HttpTestCase {
+public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 
 	private URIish remoteURI;
 
@@ -76,6 +76,9 @@ public class SetAdditionalHeadersTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
+	public SetAdditionalHeadersTest(HttpConnectionFactory cf) {
+		super(cf);
+	}
 
 	@Override
 	@Before

@@ -71,7 +71,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
-import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -79,17 +78,19 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchConnection;
+import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
-import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HttpClientTests extends HttpTestCase {
+public class HttpClientTests extends AllFactoriesHttpTestCase {
+
 	private TestRepository<Repository> remoteRepository;
 
 	private URIish dumbAuthNoneURI;
@@ -99,6 +100,10 @@ public class HttpClientTests extends HttpTestCase {
 	private URIish smartAuthNoneURI;
 
 	private URIish smartAuthBasicURI;
+
+	public HttpClientTests(HttpConnectionFactory cf) {
+		super(cf);
+	}
 
 	@Override
 	@Before
@@ -353,12 +358,11 @@ public class HttpClientTests extends HttpTestCase {
 
 	@Test
 	public void testHttpClientWantsV2ButServerNotConfigured() throws Exception {
-		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
 		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
-		HttpConnection c = f.create(new URL(url));
+		HttpConnection c = HttpTransport.getConnectionFactory()
+				.create(new URL(url));
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
-		c.connect();
 		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
@@ -374,12 +378,11 @@ public class HttpClientTests extends HttpTestCase {
 		remoteRepository.getRepository().getConfig().setInt(
 				"protocol", null, "version", 2);
 
-		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
 		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
-		HttpConnection c = f.create(new URL(url));
+		HttpConnection c = HttpTransport.getConnectionFactory()
+				.create(new URL(url));
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
-		c.connect();
 		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
@@ -397,14 +400,13 @@ public class HttpClientTests extends HttpTestCase {
 		remoteRepository.getRepository().getConfig().setInt(
 				"protocol", null, "version", 2);
 
-		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
 		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
-		HttpConnection c = f.create(new URL(url));
+		HttpConnection c = HttpTransport.getConnectionFactory()
+				.create(new URL(url));
 		c.setRequestMethod("POST");
 		c.setRequestProperty("Content-Type", "application/x-git-upload-pack-request");
 		c.setRequestProperty("Git-Protocol", "version=2");
 		c.setDoOutput(true);
-		c.connect();
 
 		// Test ls-refs to verify that everything is connected
 		// properly. Tests for other commands go in

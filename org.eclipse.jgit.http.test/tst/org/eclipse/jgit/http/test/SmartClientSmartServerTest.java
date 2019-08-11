@@ -58,8 +58,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -92,7 +90,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
-import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -122,8 +119,6 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
-import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
@@ -132,12 +127,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(Parameterized.class)
-public class SmartClientSmartServerTest extends HttpTestCase {
+public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
 
 	@Rule
@@ -164,16 +155,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	private RevCommit A, B, unreachableCommit;
 
-	@Parameters
-	public static Collection<Object[]> data() {
-		// run all tests with both connection factories we have
-		return Arrays.asList(new Object[][] {
-				{ new JDKHttpConnectionFactory() },
-				{ new HttpClientConnectionFactory() } });
-	}
-
 	public SmartClientSmartServerTest(HttpConnectionFactory cf) {
-		HttpTransport.setConnectionFactory(cf);
+		super(cf);
 	}
 
 	@Override

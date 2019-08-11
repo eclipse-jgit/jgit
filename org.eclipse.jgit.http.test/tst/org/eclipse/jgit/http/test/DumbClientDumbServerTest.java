@@ -55,8 +55,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +64,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
-import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -79,16 +76,10 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
-import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(Parameterized.class)
-public class DumbClientDumbServerTest extends HttpTestCase {
+public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 	private Repository remoteRepository;
 
 	private URIish remoteURI;
@@ -97,16 +88,8 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
-	@Parameters
-	public static Collection<Object[]> data() {
-		// run all tests with both connection factories we have
-		return Arrays.asList(new Object[][] {
-				{ new JDKHttpConnectionFactory() },
-				{ new HttpClientConnectionFactory() } });
-	}
-
 	public DumbClientDumbServerTest(HttpConnectionFactory cf) {
-		HttpTransport.setConnectionFactory(cf);
+		super(cf);
 	}
 
 	@Override
