@@ -11,8 +11,8 @@ load(
 
 maven_jar(
     name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
+    artifact = "com.jcraft:jsch:0.1.55",
+    sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
 )
 
 maven_jar(
@@ -29,14 +29,14 @@ maven_jar(
 
 maven_jar(
     name = "httpclient",
-    artifact = "org.apache.httpcomponents:httpclient:4.5.5",
-    sha1 = "1603dfd56ebcd583ccdf337b6c3984ac55d89e58",
+    artifact = "org.apache.httpcomponents:httpclient:4.5.6",
+    sha1 = "1afe5621985efe90a92d0fbc9be86271efbe796f",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.4.9",
-    sha1 = "a86ce739e5a7175b4b234c290a00a5fdb80957a0",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.10",
+    sha1 = "acc54d9b28bdffe4bbde89ed2e4a1e86b5285e2b",
 )
 
 maven_jar(
@@ -103,6 +103,30 @@ maven_jar(
     name = "hamcrest-core",
     artifact = "org.hamcrest:hamcrest-core:1.3",
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
+)
+
+maven_jar(
+    name = "mockito-core",
+    artifact = "org.mockito:mockito-core:2.23.0",
+    sha1 = "497ddb32fd5d01f9dbe99a2ec790aeb931dff1b1",
+)
+
+maven_jar(
+    name = "bytebuddy",
+    artifact = "net.bytebuddy:byte-buddy:1.9.0",
+    sha1 = "8cb0d5baae526c9df46ae17693bbba302640538b",
+)
+
+maven_jar(
+    name = "bytebuddy-agent",
+    artifact = "net.bytebuddy:byte-buddy-agent:1.9.0",
+    sha1 = "37b5703b4a6290be3fffc63ae9c6bcaaee0ff856",
+)
+
+maven_jar(
+    name = "objenesis",
+    artifact = "org.objenesis:objenesis:2.6",
+    sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
 )
 
 maven_jar(
