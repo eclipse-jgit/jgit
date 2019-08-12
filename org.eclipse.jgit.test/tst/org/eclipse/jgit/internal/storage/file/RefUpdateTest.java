@@ -45,9 +45,12 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
+import static org.eclipse.jgit.lib.RefUpdate.Result.FORCED;
+import static org.eclipse.jgit.lib.RefUpdate.Result.IO_FAILURE;
+import static org.eclipse.jgit.lib.RefUpdate.Result.LOCK_FAILURE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -82,7 +85,6 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
-
 	private void writeSymref(String src, String dst) throws IOException {
 		RefUpdate u = db.updateRef(src);
 		switch (u.link(dst)) {
@@ -233,6 +235,17 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testWriteReflog() throws IOException {
+		ObjectId pid = db.resolve("refs/heads/master^");
+		RefUpdate updateRef = db.updateRef("refs/heads/master");
+		updateRef.setNewObjectId(pid);
+		updateRef.setForceUpdate(true);
+		Result update = updateRef.update();
+		assertEquals(Result.FORCED, update);
+		assertEquals(1,db.getReflogReader("refs/heads/master").getReverseEntries().size());
+	}
+
+	@Test
 	public void testLooseDelete() throws IOException {
 		final String newRef = "refs/heads/abc";
 		RefUpdate ref = updateRef(newRef);
@@ -379,6 +392,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		refUpdate.setNewObjectId(ObjectId.zeroId());
 		Result updateResult = refUpdate.update();
 		assertEquals(Result.FORCED, updateResult);
+
+		assertEquals(ObjectId.zeroId(), db.exactRef("HEAD").getObjectId());
 		Result deleteHeadResult = db.updateRef(Constants.HEAD).delete();
 		assertEquals(Result.NO_CHANGE, deleteHeadResult);
 
@@ -900,6 +915,45 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/new/name", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/a");
+	}
+
+	@Test
+	public void testUpdateChecksOldValue() throws Exception {
+		ObjectId cur = db.resolve("master");
+		ObjectId prev = db.resolve("master^");
+		RefUpdate u1 = db.updateRef("refs/heads/master");
+		RefUpdate u2 = db.updateRef("refs/heads/master");
+
+		u1.setExpectedOldObjectId(cur);
+		u1.setNewObjectId(prev);
+		u1.setForceUpdate(true);
+
+		u2.setExpectedOldObjectId(cur);
+		u2.setNewObjectId(prev);
+		u2.setForceUpdate(true);
+
+		assertEquals(FORCED, u1.update());
+		assertEquals(LOCK_FAILURE, u2.update());
+	}
+
+	@Test
+	public void testRenameAtomic() throws IOException {
+		ObjectId prevId = db.resolve("refs/heads/master^");
+
+		RefRename rename = db.renameRef("refs/heads/master", "refs/heads/newmaster");
+
+		RefUpdate updateRef = db.updateRef("refs/heads/master");
+		updateRef.setNewObjectId(prevId);
+		updateRef.setForceUpdate(true);
+		assertEquals(FORCED, updateRef.update());
+		assertEquals(RefUpdate.Result.LOCK_FAILURE, rename.rename());
+	}
+
+	@Test
+	public void testRenameSymref() throws IOException {
+		db.resolve("HEAD");
+		RefRename r = db.renameRef("HEAD", "KOPF");
+		assertEquals(IO_FAILURE, r.rename());
 	}
 
 	@Test
