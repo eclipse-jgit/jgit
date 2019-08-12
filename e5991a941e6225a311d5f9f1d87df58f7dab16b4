@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99c7968e_491c29c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T06:06:15Z",
+      "side": 1,
+      "message": "Eliminate this flag, instead move line 459 into the catch block.",
+      "revId": "e5991a941e6225a311d5f9f1d87df58f7dab16b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b6248a2_944f6297",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T06:06:15Z",
+      "side": 1,
+      "message": "Move this up to before the try-catch, then use it. No need to call toPath() twice.\n\nBut also see bug 547400.",
+      "range": {
+        "startLine": 465,
+        "startChar": 2,
+        "endLine": 465,
+        "endChar": 28
+      },
+      "revId": "e5991a941e6225a311d5f9f1d87df58f7dab16b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
