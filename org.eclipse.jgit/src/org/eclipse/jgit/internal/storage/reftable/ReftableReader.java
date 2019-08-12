@@ -562,6 +562,10 @@ public class ReftableReader extends Reftable {
 		private ReflogEntry entry;
 		BlockReader block;
 
+		/**
+		 * Scans logs from this table until scanEnd position.
+		 * The match argument, if non-null, limits the scan to precisely that refname.
+		 */
 		LogCursorImpl(long scanEnd, byte[] match) {
 			this.scanEnd = scanEnd;
 			this.match = match;
