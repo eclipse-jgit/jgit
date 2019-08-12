@@ -585,7 +585,8 @@ public abstract class FS {
 						retries++;
 						Thread.sleep(20);
 					} catch (InterruptedException e1) {
-						Thread.interrupted();
+						Thread.currentThread().interrupt();
+						break;
 					}
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
