@@ -50,6 +50,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
@@ -448,7 +449,7 @@ public class FS_POSIX extends FS {
 		try {
 			path = file.toPath();
 			Files.createFile(path);
-		} catch (FileAlreadyExistsException e) {
+		} catch (FileAlreadyExistsException | InvalidPathException e) {
 			return token(false, null);
 		}
 		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
