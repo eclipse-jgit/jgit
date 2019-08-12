@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74f7a3d0_aa93cd9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T09:29:01Z",
+      "side": 1,
+      "message": "We seem to get more and more such retries. On master, the HTTP cookie stuff also has something like this. Time to introduce (maybe only on master) a LockFile.waitForLock(timeout) method and use it in FileBasedConfig.save() and in the cookie file handling?",
+      "revId": "16760c3e9a242f21538c2f4da1aad96953cafc37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac58b1d4_05a6eff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T09:29:01Z",
+      "side": 1,
+      "message": "So this retry mechanism will help only if the other thread is done within max_retries * 20ms. (Plus some time for looping around, re-loading, etc.)",
+      "revId": "16760c3e9a242f21538c2f4da1aad96953cafc37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8d6d9b_e66e42ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T09:29:01Z",
+      "side": 1,
+      "message": "This clears the interrupted flag. But it is already cleared by catching InterruptedException. Did you intend to re-set the flag?\n\n  Thread.currentThread().interrupt();\n  break;\n\nOr did you really want to ignore interruptions here and keep retrying? Then it\u0027s just\n\n  // Ignore",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 26
+      },
+      "revId": "16760c3e9a242f21538c2f4da1aad96953cafc37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2713c320_115166c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-12T09:29:01Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to loop endlessly on IOException and ConfigInvalidException?\n\nHow about\n\n  for (int retries \u003d 0; retries \u003c max_retries; retries++) {\n    try {\n      ...\n      userConfig.save();\n      break;\n    } catch (LockFaileException e) {\n      // Sleep a bit\n      try {\n        Thread.sleep(20);\n      } catch (InterruptedException e1) {\n        Thread.currentThread().interrupt();\n        break;\n      }\n    } catch (IOException e) {\n      LOG.error(...);\n    } catch (ConfigInvalidException e) {\n      LOG.error(...);\n    }\n  }\n\nOptionally break after the two LOG.error calls, too. Don\u0027t know if you want to re-try in these cases.",
+      "revId": "16760c3e9a242f21538c2f4da1aad96953cafc37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
