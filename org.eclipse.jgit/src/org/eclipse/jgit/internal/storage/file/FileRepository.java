@@ -68,10 +68,12 @@ import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -79,9 +81,11 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -119,7 +123,7 @@ public class FileRepository extends Repository {
 	private final FileBasedConfig systemConfig;
 	private final FileBasedConfig userConfig;
 	private final FileBasedConfig repoConfig;
-	private final RefDatabase refs;
+	private RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 
 	private final Object snapshotLock = new Object();
@@ -213,11 +217,15 @@ public class FileRepository extends Repository {
 		String reftype = repoConfig.getString(
 				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (repositoryFormatVersion >= 1 && reftype != null) {
-			if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
+			if (StringUtils.equalsIgnoreCase(reftype, "reftable")) { //$NON-NLS-1$
+				refs = new FileReftableDatabase(this, new File(getDirectory(),"refs"));
+			} else if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
 				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
+		} else if (FileReftableDatabase.isReftable(getDirectory())) {
+			refs = new FileReftableDatabase(this, new File(getDirectory(), "refs"));
 		} else {
 			refs = new RefDirectory(this);
 		}
@@ -580,6 +588,10 @@ public class FileRepository extends Repository {
 	/** {@inheritDoc} */
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
+		if (refs instanceof FileReftableDatabase) {
+			return ((FileReftableDatabase)refs).getReflogReader(refName);
+		}
+
 		Ref ref = findRef(refName);
 		if (ref != null)
 			return new ReflogReaderImpl(this, ref.getName());
@@ -662,5 +674,19 @@ public class FileRepository extends Repository {
 		} catch (ParseException | IOException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
+	}
+
+	public void convertToReftable() throws IOException {
+		File newRefs = new File(getDirectory(), "refs.new");
+		FileReftableDatabase newDb = FileReftableDatabase.convertFrom(this, newRefs);
+
+		File refsFile = new File(getDirectory(), "refs");
+
+		// non-atomic.
+		FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
+		FileUtils.rename(newRefs, refsFile);
+		newDb.close();
+		refs.close();
+		refs = new FileReftableDatabase(this, refsFile);
 	}
 }
