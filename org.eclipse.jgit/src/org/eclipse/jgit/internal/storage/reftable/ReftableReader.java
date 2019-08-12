@@ -82,23 +82,35 @@ public class ReftableReader extends Reftable {
 	private final BlockSource src;
 
 	private int blockSize = -1;
+
 	private long minUpdateIndex;
+
 	private long maxUpdateIndex;
 
 	private long refEnd;
+
 	private long objPosition;
+
 	private long objEnd;
+
 	private long logPosition;
+
 	private long logEnd;
+
 	private int objIdLen;
 
 	private long refIndexPosition = -1;
+
 	private long objIndexPosition = -1;
+
 	private long logIndexPosition = -1;
 
 	private BlockReader refIndex;
+
 	private BlockReader objIndex;
+
 	private BlockReader logIndex;
+
 	private LongMap<BlockReader> indexCache;
 
 	/**
@@ -256,7 +268,8 @@ public class ReftableReader extends Reftable {
 			return block;
 		}
 		if (blockType == LOG_BLOCK_TYPE) {
-			// No index. Log blocks are irregularly sized, so we can't do binary search
+			// No index. Log blocks are irregularly sized, so we can't do binary
+			// search
 			// between blocks. Scan over blocks instead.
 			BlockReader block = readBlock(startPos, endPos);
 
@@ -270,7 +283,7 @@ public class ReftableReader extends Reftable {
 					// == 0 : we found the key.
 					// < 0 : the key is before this block. This may happen if
 					// we specified a newer updateIndex than is available in the
-					// log.  If the key isn't there at all, the LogCursor will
+					// log. If the key isn't there at all, the LogCursor will
 					// return null.
 					return block;
 				}
@@ -285,8 +298,8 @@ public class ReftableReader extends Reftable {
 		return binarySearch(blockType, key, startPos, endPos);
 	}
 
-	private BlockReader binarySearch(byte blockType, byte[] key,
-			long startPos, long endPos) throws IOException {
+	private BlockReader binarySearch(byte blockType, byte[] key, long startPos,
+			long endPos) throws IOException {
 		if (blockSize == 0) {
 			BlockReader b = readBlock(startPos, endPos);
 			if (blockType != b.type()) {
@@ -502,10 +515,13 @@ public class ReftableReader extends Reftable {
 
 	private class RefCursorImpl extends RefCursor {
 		private final long scanEnd;
+
 		private final byte[] match;
+
 		private final boolean prefix;
 
 		private Ref ref;
+
 		BlockReader block;
 
 		RefCursorImpl(long scanEnd, byte[] match, boolean prefix) {
@@ -555,13 +571,25 @@ public class ReftableReader extends Reftable {
 
 	private class LogCursorImpl extends LogCursor {
 		private final long scanEnd;
+
 		private final byte[] match;
 
 		private String refName;
+
 		private long updateIndex;
+
 		private ReflogEntry entry;
+
 		BlockReader block;
 
+		/**
+		 * Scans logs from this table until scanEnd position.
+		 *
+		 * @param scanEnd
+		 *            end of the log data in the reftable.
+		 * @param match
+		 *            if non-null, limits the scan to precisely that refname.
+		 */
 		LogCursorImpl(long scanEnd, byte[] match) {
 			this.scanEnd = scanEnd;
 			this.match = match;
@@ -622,12 +650,15 @@ public class ReftableReader extends Reftable {
 
 	private class ObjCursorImpl extends RefCursor {
 		private final long scanEnd;
+
 		private final ObjectId match;
 
 		private Ref ref;
+
 		private int listIdx;
 
 		private LongList blockPos;
+
 		private BlockReader block;
 
 		ObjCursorImpl(long scanEnd, AnyObjectId id) {
