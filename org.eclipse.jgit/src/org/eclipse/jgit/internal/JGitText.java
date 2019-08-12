@@ -348,6 +348,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String failureDueToOneOfTheFollowing;
 	/***/ public String failureUpdatingFETCH_HEAD;
 	/***/ public String failureUpdatingTrackingRef;
+	/***/ public String fileAlreadyExists;
 	/***/ public String fileCannotBeDeleted;
 	/***/ public String fileIsTooLarge;
 	/***/ public String fileModeNotSetForPath;
@@ -386,6 +387,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String incorrectOBJECT_ID_LENGTH;
 	/***/ public String indexFileCorruptedNegativeBucketCount;
 	/***/ public String indexFileIsTooLargeForJgit;
+	/***/ public String indexNumbersNotIncreasing;
 	/***/ public String indexWriteException;
 	/***/ public String initFailedBareRepoDifferentDirs;
 	/***/ public String initFailedDirIsNoDirectory;

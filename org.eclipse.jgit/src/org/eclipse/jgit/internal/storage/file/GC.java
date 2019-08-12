@@ -771,13 +771,26 @@ public class GC {
 	}
 
 	/**
-	 * Packs all non-symbolic, loose refs into packed-refs.
+	 * Pack ref storage. For a RefDirectory database, this packs all
+	 * non-symbolic, loose refs into packed-refs. For Reftable, all of the data
+	 * is compacted into a single table.
 	 *
 	 * @throws java.io.IOException
 	 */
 	public void packRefs() throws IOException {
-		Collection<Ref> refs = repo.getRefDatabase()
-				.getRefsByPrefix(Constants.R_REFS);
+		RefDatabase refDb = repo.getRefDatabase();
+		if (refDb instanceof FileReftableDatabase) {
+			// TODO: abstract this more cleanly.
+			pm.beginTask(JGitText.get().packRefs, 1);
+			try {
+				((FileReftableDatabase) refDb).compactFully();
+			} finally {
+				pm.endTask();
+			}
+			return;
+		}
+
+		Collection<Ref> refs = refDb.getRefsByPrefix(Constants.R_REFS);
 		List<String> refsToBePacked = new ArrayList<>(refs.size());
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
@@ -895,7 +908,10 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
-		deleteEmptyRefsFolders();
+		if (repo.getRefDatabase() instanceof RefDirectory) {
+			// TODO: abstract this more cleanly.
+			deleteEmptyRefsFolders();
+		}
 		deleteOrphans();
 		deleteTempPacksIdx();
 
