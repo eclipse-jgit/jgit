@@ -583,7 +583,9 @@ public abstract class FS {
 						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
 								userConfig));
 						retries++;
-						Thread.sleep(20);
+						if (retries < max_retries) {
+							Thread.sleep(100);
+						}
 					} catch (InterruptedException e1) {
 						Thread.currentThread().interrupt();
 						break;
@@ -591,10 +593,12 @@ public abstract class FS {
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().cannotSaveConfig, userConfig), e);
+					break;
 				} catch (ConfigInvalidException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().repositoryConfigFileInvalid,
 							userConfig, e.getMessage()));
+					break;
 				}
 			}
 		}
