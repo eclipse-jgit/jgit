@@ -520,6 +520,10 @@ public class ReftableTest {
 
 			assertFalse(lc.next());
 		}
+
+		LogCursor c = t.seekLog(MASTER, Long.MAX_VALUE);
+		assertTrue(c.next());
+		assertEquals(c.getReflogEntry().getComment(), msg);
 	}
 
 	@Test
