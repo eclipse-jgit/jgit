@@ -44,9 +44,11 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -78,15 +80,35 @@ public class MergedReftable extends Reftable {
 	 *            index 0, the most recent should be at the top of the stack at
 	 *            {@code tableStack.size() - 1}. The top of the stack (higher
 	 *            index) shadows the base of the stack (lower index).
+	 *
+	 * @throws IOException on I/O problems.
 	 */
-	public MergedReftable(List<ReftableReader> tableStack) {
+	public MergedReftable(List<ReftableReader> tableStack) throws IOException {
 		tables = tableStack.toArray(new ReftableReader[0]);
 
 		// Tables must expose deletes to this instance to correctly
 		// shadow references from lower tables.
-		for (ReftableReader t : tables) {
+		ReftableReader last = null;
+		for (int i = 0; i < tables.length; i++) {
+			ReftableReader t = tables[i];
+
 			t.setIncludeDeletes(true);
+			if (last != null) {
+				// It would be better to do this check in MergedReftable,
+				// but min/maxUpdateIndex() throws IOException.
+				if (last.maxUpdateIndex() >= t.minUpdateIndex()) {
+					throw new IllegalStateException(MessageFormat.format(
+							JGitText.get().indexNumbersNotIncreasing,
+							Integer.valueOf(i),
+							Long.valueOf(t.minUpdateIndex()),
+							Long.valueOf(last.maxUpdateIndex())));
+				}
+			}
+			last = t;
+
 		}
+
+
 	}
 
 	/**
