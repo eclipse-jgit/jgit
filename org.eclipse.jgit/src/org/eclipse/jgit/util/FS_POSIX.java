@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -422,7 +423,7 @@ public class FS_POSIX extends FS {
 	 * An implementation of the File#createNewFile() semantics which can create
 	 * a unique file atomically also on NFS. If the config option
 	 * {@code core.supportsAtomicCreateNewFile = true} (which is the default)
-	 * then simply File#createNewFile() is called.
+	 * then simply Files#createFile() is called.
 	 *
 	 * But if {@code core.supportsAtomicCreateNewFile = false} then after
 	 * successful creation of the lock file a hard link to that lock file is
@@ -443,14 +444,17 @@ public class FS_POSIX extends FS {
 	 */
 	@Override
 	public LockToken createNewFileAtomic(File file) throws IOException {
-		if (!file.createNewFile()) {
+		Path path;
+		try {
+			path = file.toPath();
+			Files.createFile(path);
+		} catch (FileAlreadyExistsException e) {
 			return token(false, null);
 		}
 		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
 			return token(true, null);
 		}
 		Path link = null;
-		Path path = file.toPath();
 		try {
 			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
 			Integer nlink = (Integer) (Files.getAttribute(path,
