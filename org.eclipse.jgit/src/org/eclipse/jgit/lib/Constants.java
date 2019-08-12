@@ -281,6 +281,9 @@ public final class Constants {
 	 */
 	public static final String OBJECTS = "objects";
 
+	/** Reftable folder name */
+	public static final String REFTABLE = "reftable";
+
 	/** Info refs folder */
 	public static final String INFO_REFS = "info/refs";
 
