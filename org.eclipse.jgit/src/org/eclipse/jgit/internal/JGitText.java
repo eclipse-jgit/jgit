@@ -491,6 +491,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String localRepository;
 	/***/ public String lockCountMustBeGreaterOrEqual1;
 	/***/ public String lockError;
+	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
 	/***/ public String malformedpersonIdentString;

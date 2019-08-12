@@ -580,20 +580,26 @@ public abstract class FS {
 				} catch (LockFailedException e) {
 					// race with another thread, wait a bit and try again
 					try {
-						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
-								userConfig));
 						retries++;
-						Thread.sleep(20);
+						if (retries < max_retries) {
+							Thread.sleep(100);
+						}
+						LOG.warn(MessageFormat.format(
+								JGitText.get().lockFailedRetry, userConfig,
+								Integer.valueOf(retries)));
 					} catch (InterruptedException e1) {
-						Thread.interrupted();
+						Thread.currentThread().interrupt();
+						break;
 					}
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().cannotSaveConfig, userConfig), e);
+					break;
 				} catch (ConfigInvalidException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().repositoryConfigFileInvalid,
 							userConfig, e.getMessage()));
+					break;
 				}
 			}
 		}
