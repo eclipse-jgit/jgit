@@ -51,7 +51,10 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.internal.storage.reftable.*;
+import org.eclipse.jgit.internal.storage.reftable.Reftable;
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
+import org.eclipse.jgit.internal.storage.reftable.ReftableStack;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,8 +80,6 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	private DfsReader ctx;
 
-	private DfsReftableStack tableStack;
-
 	/**
 	 * Initialize the reference database for a repository.
 	 *
@@ -87,7 +88,15 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 */
 	protected DfsReftableDatabase(DfsRepository repo) {
 		super(repo);
-		reftableDatabase = new ReftableDatabase(() -> new MergedReftable(stack().readers()));
+		reftableDatabase = new ReftableDatabase(this::getStack);
+	}
+
+	private ReftableStack getStack() throws IOException {
+			DfsObjDatabase odb = getRepository().getObjectDatabase();
+		if (ctx == null) {
+				ctx = odb.newReader();
+			}
+		return DfsReftableStack.open(ctx, Arrays.asList(odb.getReftables()));
 	}
 
 	/** {@inheritDoc} */
@@ -157,20 +166,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 *             if tables cannot be opened.
 	 */
 	protected DfsReftableStack stack() throws IOException {
-		getLock().lock();
-		try {
-			if (tableStack == null) {
-				DfsObjDatabase odb = getRepository().getObjectDatabase();
-				if (ctx == null) {
-					ctx = odb.newReader();
-				}
-				tableStack = DfsReftableStack.open(ctx,
-						Arrays.asList(odb.getReftables()));
-			}
-			return tableStack;
-		} finally {
-			getLock().unlock();
-		}
+		return (DfsReftableStack) reftableDatabase.stack();
 	}
 
 	@Override
@@ -227,10 +223,6 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	void clearCache() {
 		getLock().lock();
 		try {
-			if (tableStack != null) {
-				tableStack.close();
-				tableStack = null;
-			}
 			if (ctx != null) {
 				ctx.close();
 				ctx = null;
@@ -245,7 +237,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	@Override
 	protected boolean compareAndPut(Ref oldRef, @Nullable Ref newRef)
 			throws IOException {
-		ReceiveCommand cmd = toCommand(oldRef, newRef);
+		ReceiveCommand cmd = ReftableDatabase.toCommand(oldRef, newRef);
 		try (RevWalk rw = new RevWalk(getRepository())) {
 			rw.setRetainBody(false);
 			newBatchUpdate().setAllowNonFastForwards(true).addCommand(cmd)
@@ -260,58 +252,6 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		default:
 			return false;
 		}
-	}
-
-	private static ReceiveCommand toCommand(Ref oldRef, Ref newRef) {
-		ObjectId oldId = toId(oldRef);
-		ObjectId newId = toId(newRef);
-		String name = toName(oldRef, newRef);
-
-		if (oldRef != null && oldRef.isSymbolic()) {
-			if (newRef != null) {
-				if (newRef.isSymbolic()) {
-					return ReceiveCommand.link(oldRef.getTarget().getName(),
-							newRef.getTarget().getName(), name);
-				} else {
-					return ReceiveCommand.unlink(oldRef.getTarget().getName(),
-							newId, name);
-				}
-			} else {
-				return ReceiveCommand.unlink(oldRef.getTarget().getName(),
-						ObjectId.zeroId(), name);
-			}
-		}
-
-		if (newRef != null && newRef.isSymbolic()) {
-			if (oldRef != null) {
-				if (oldRef.isSymbolic()) {
-					return ReceiveCommand.link(oldRef.getTarget().getName(),
-							newRef.getTarget().getName(), name);
-				} else {
-					return ReceiveCommand.link(oldId,
-							newRef.getTarget().getName(), name);
-				}
-			} else {
-				return ReceiveCommand.link(ObjectId.zeroId(),
-						newRef.getTarget().getName(), name);
-			}
-		}
-
-		return new ReceiveCommand(oldId, newId, name);
-	}
-
-	private static ObjectId toId(Ref ref) {
-		if (ref != null) {
-			ObjectId id = ref.getObjectId();
-			if (id != null) {
-				return id;
-			}
-		}
-		return ObjectId.zeroId();
-	}
-
-	private static String toName(Ref oldRef, Ref newRef) {
-		return oldRef != null ? oldRef.getName() : newRef.getName();
 	}
 
 	/** {@inheritDoc} */
