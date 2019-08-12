@@ -403,7 +403,7 @@ public class MergedReftableTest {
 				resolvedMaster.getUpdateIndex(), 3);
 	}
 
-	private static MergedReftable merge(byte[]... table) {
+	private static MergedReftable merge(byte[]... table) throws IOException {
 		List<ReftableReader> stack = new ArrayList<>(table.length);
 		for (byte[] b : table) {
 			stack.add(read(b));
