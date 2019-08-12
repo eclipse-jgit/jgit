@@ -45,6 +45,30 @@
       "revId": "0dce4357e6f15d8e2006d8c51b50fbab8676f221",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb81b65_b16a9978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-08-12T17:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be6a4281_58e0273a",
+      "range": {
+        "startLine": 525,
+        "startChar": 15,
+        "endLine": 525,
+        "endChar": 23
+      },
+      "revId": "0dce4357e6f15d8e2006d8c51b50fbab8676f221",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
