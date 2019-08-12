@@ -56,7 +56,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableStack;
  * Tracks multiple open
  * {@link org.eclipse.jgit.internal.storage.reftable.Reftable} instances.
  */
-public class DfsReftableStack implements AutoCloseable, ReftableStack {
+public class DfsReftableStack implements ReftableStack {
 	/**
 	 * Opens a stack of tables for reading.
 	 *
@@ -123,7 +123,7 @@ public class DfsReftableStack implements AutoCloseable, ReftableStack {
 		}
 	}
 
-
+	/** {@inheritDoc} */
 	@Override
 	public long nextUpdateIndex() throws IOException {
 		long updateIndex = 0;
