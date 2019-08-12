@@ -66,6 +66,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
@@ -76,6 +78,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class ReftableTest {
@@ -520,6 +523,47 @@ public class ReftableTest {
 
 			assertFalse(lc.next());
 		}
+	}
+
+	@Test
+	public void reflogReader() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter().setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1).begin(buffer);
+
+		writer.writeRef(master);
+		writer.writeRef(next);
+
+		PersonIdent who1 = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		writer.writeLog(MASTER, 3, who1, ObjectId.zeroId(), id(1), "1");
+		PersonIdent who2 = new PersonIdent("Log", "Ger", 1500079710, -8 * 60);
+		writer.writeLog(MASTER, 2, who2, id(1), id(2), "2");
+		PersonIdent who3 = new PersonIdent("Log", "Ger", 1500079711, -8 * 60);
+		writer.writeLog(MASTER, 1, who3, id(2), id(3), "3");
+
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReentrantLock lock = new ReentrantLock();
+		ReftableReader t = read(table);
+		ReftableReflogReader rlr = new ReftableReflogReader(lock, t, MASTER);
+
+		assertEquals(rlr.getLastEntry().getWho(), who1);
+		List<PersonIdent> all = rlr.getReverseEntries().stream()
+				.map(x -> x.getWho()).collect(Collectors.toList());
+		Matchers.contains(all, who3, who2, who1);
+
+		assertEquals(rlr.getReverseEntry(1).getWho(), who2);
+
+		List<ReflogEntry> reverse2 = rlr.getReverseEntries(2);
+		Matchers.contains(reverse2, who3, who2);
+
+		List<PersonIdent> more = rlr.getReverseEntries(4).stream()
+				.map(x -> x.getWho()).collect(Collectors.toList());
+		assertEquals(all, more);
 	}
 
 	@Test
