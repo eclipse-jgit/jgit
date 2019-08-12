@@ -384,6 +384,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String incorrectOBJECT_ID_LENGTH;
 	/***/ public String indexFileCorruptedNegativeBucketCount;
 	/***/ public String indexFileIsTooLargeForJgit;
+	/***/ public String indexNumbersNotIncreasing;
 	/***/ public String indexWriteException;
 	/***/ public String initFailedBareRepoDifferentDirs;
 	/***/ public String initFailedDirIsNoDirectory;
