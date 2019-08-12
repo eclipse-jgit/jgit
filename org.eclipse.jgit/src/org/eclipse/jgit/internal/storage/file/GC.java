@@ -776,8 +776,13 @@ public class GC {
 	 * @throws java.io.IOException
 	 */
 	public void packRefs() throws IOException {
-		Collection<Ref> refs = repo.getRefDatabase()
-				.getRefsByPrefix(Constants.R_REFS);
+		RefDatabase refDb = repo.getRefDatabase();
+		if (refDb instanceof FileReftableDatabase) {
+			((FileReftableDatabase) refDb).fullCompaction();
+			return;
+		}
+
+		Collection<Ref> refs = refDb.getRefsByPrefix(Constants.R_REFS);
 		List<String> refsToBePacked = new ArrayList<>(refs.size());
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
@@ -895,7 +900,9 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
-		deleteEmptyRefsFolders();
+		if (repo.getRefDatabase() instanceof RefDirectory) {
+			deleteEmptyRefsFolders();
+		}
 		deleteOrphans();
 		deleteTempPacksIdx();
 
