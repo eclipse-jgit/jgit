@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96e89b18_57733226",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-12T17:23:34Z",
+      "side": 1,
+      "message": "No.  Is there a description of what the Eclipse formatter does to comments, so I can get the same effect in IntelliJ ?",
+      "parentUuid": "64b4ec7d_d0bd117d",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "7182461a01181f9c24ff8e592ac8dfd40b22217a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100531ac_eba73d4f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-08-09T05:20:34Z",
       "side": 1,
       "message": "The commit message only mentions adding comments.",
+      "range": {
+        "startLine": 559,
+        "startChar": 2,
+        "endLine": 559,
+        "endChar": 12
+      },
+      "revId": "7182461a01181f9c24ff8e592ac8dfd40b22217a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4856ad7_42cc08b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-12T17:23:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "100531ac_eba73d4f",
       "range": {
         "startLine": 559,
         "startChar": 2,
