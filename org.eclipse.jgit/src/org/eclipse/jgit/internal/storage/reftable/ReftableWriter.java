@@ -302,7 +302,7 @@ public class ReftableWriter {
 
 	private void throwIllegalEntry(Entry last, Entry now) {
 		throw new IllegalArgumentException(MessageFormat.format(
-				JGitText.get().refTableRecordsMustIncrease,
+				JGitText.get().reftableRecordsMustIncrease,
 				new String(last.key, UTF_8), new String(now.key, UTF_8)));
 	}
 
