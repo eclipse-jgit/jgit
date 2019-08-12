@@ -121,7 +121,7 @@ public class FileRepository extends Repository {
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
 
 	private final FileBasedConfig repoConfig;
-	private final RefDatabase refs;
+	private RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 
 	private final Object snapshotLock = new Object();
@@ -199,11 +199,16 @@ public class FileRepository extends Repository {
 		String reftype = repoConfig.getString(
 				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (repositoryFormatVersion >= 1 && reftype != null) {
-			if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
+			if (StringUtils.equalsIgnoreCase(reftype, "reftable")) { //$NON-NLS-1$
+				refs = new FileReftableDatabase(this,
+						new File(getDirectory(), "refs")); //$NON-NLS-1$
+			} else if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
 				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
+		} else if (FileReftableDatabase.isReftable(getDirectory())) {
+			refs = new FileReftableDatabase(this, new File(getDirectory(), "refs")); //$NON-NLS-1$
 		} else {
 			refs = new RefDirectory(this);
 		}
@@ -531,10 +536,17 @@ public class FileRepository extends Repository {
 	/** {@inheritDoc} */
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
+		if (refs instanceof FileReftableDatabase) {
+			// Cannot use findRef: reftable stores log data for deleted or renamed
+			// branches.
+			return ((FileReftableDatabase)refs).getReflogReader(refName);
+		}
+
 		Ref ref = findRef(refName);
-		if (ref != null)
-			return new ReflogReaderImpl(this, ref.getName());
-		return null;
+		if (ref == null) {
+			return null;
+		}
+		return new ReflogReaderImpl(this, ref.getName());
 	}
 
 	/** {@inheritDoc} */
@@ -613,5 +625,29 @@ public class FileRepository extends Repository {
 		} catch (ParseException | IOException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
+	}
+
+	/**
+	 * Converts the RefDatabase to use reftable for storage. The old refs are
+	 * left in refs.old/ directory
+	 *
+	 * @param writeLogs
+	 *            whether to write reflogs
+	 * @throws IOException
+	 *             on IO problem
+	 */
+	@SuppressWarnings("nls")
+	public void convertToReftable(boolean writeLogs) throws IOException {
+		File newRefs = new File(getDirectory(), "refs.new");
+
+		FileReftableDatabase.convertFrom(this, newRefs, writeLogs);
+
+		File refsFile = new File(getDirectory(), "refs");
+
+		// non-atomic.
+		FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
+		FileUtils.rename(newRefs, refsFile);
+		refs.close();
+		refs = new FileReftableDatabase(this, refsFile);
 	}
 }
