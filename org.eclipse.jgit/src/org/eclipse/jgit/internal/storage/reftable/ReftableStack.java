@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * A read-only snapshot of a stack of reftable.
  */
-public interface ReftableStack {
+public interface ReftableStack extends AutoCloseable {
     /**
      * @return the logical timestamp at which the next reftable in the stack should start.
      * @throws java.io.IOException on I/O problems.
