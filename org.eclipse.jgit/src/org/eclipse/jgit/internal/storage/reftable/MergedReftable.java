@@ -84,7 +84,8 @@ public class MergedReftable extends Reftable {
 
 		// Tables must expose deletes to this instance to correctly
 		// shadow references from lower tables.
-		for (ReftableReader t : tables) {
+		for (int i = 0; i < tables.length; i++) {
+			ReftableReader t = tables[i];
 			t.setIncludeDeletes(true);
 		}
 	}
