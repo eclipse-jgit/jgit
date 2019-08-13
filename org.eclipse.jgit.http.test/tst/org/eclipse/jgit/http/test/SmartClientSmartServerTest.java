@@ -56,6 +56,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -340,6 +341,23 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				// empty
 			}
 
+			private String local(String url, boolean toLocal) {
+				if (!toLocal) {
+					return url;
+				}
+				try {
+					URI u = new URI(url);
+					String fragment = u.getRawFragment();
+					if (fragment != null) {
+						return u.getRawPath() + '#' + fragment;
+					} else {
+						return u.getRawPath();
+					}
+				} catch (URISyntaxException e) {
+					return url;
+				}
+			}
+
 			@Override
 			public void doFilter(ServletRequest request,
 					ServletResponse response, FilterChain chain)
@@ -352,6 +370,11 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 							.append(httpServletRequest.getQueryString());
 				}
 				String urlString = fullUrl.toString();
+				boolean localRedirect = false;
+				if (urlString.contains("/local")) {
+					urlString = urlString.replace("/local", "");
+					localRedirect = true;
+				}
 				if (urlString.contains("/loop/")) {
 					urlString = urlString.replace("/loop/", "/loop/x/");
 					if (urlString.contains("/loop/x/x/x/x/x/x/x/x/")) {
@@ -362,7 +385,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 					httpServletResponse.setStatus(
 							HttpServletResponse.SC_MOVED_TEMPORARILY);
 					httpServletResponse.setHeader(HttpSupport.HDR_LOCATION,
-							urlString);
+							local(urlString, localRedirect));
 					return;
 				}
 				int responseCode = HttpServletResponse.SC_MOVED_PERMANENTLY;
@@ -392,9 +415,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 						targetContext = matcher.group(1);
 					}
 					urlString = urlString.replace("/redirect", targetContext);
+
 				}
 				httpServletResponse.setHeader(HttpSupport.HDR_LOCATION,
-						urlString);
+						local(urlString, localRedirect));
 			}
 
 			@Override
@@ -561,7 +585,15 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	private void initialClone_Redirect(int nofRedirects, int code)
 			throws Exception {
+		initialClone_Redirect(nofRedirects, code, false);
+	}
+
+	private void initialClone_Redirect(int nofRedirects, int code,
+			boolean localRedirect) throws Exception {
 		URIish cloneFrom = redirectURI;
+		if (localRedirect) {
+			cloneFrom = extendPath(cloneFrom, "/local");
+		}
 		if (code != 301 || nofRedirects > 1) {
 			cloneFrom = extendPath(cloneFrom,
 					"/response/" + nofRedirects + "/" + code);
@@ -612,6 +644,11 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	@Test
 	public void testInitialClone_Redirect301Small() throws Exception {
 		initialClone_Redirect(1, 301);
+	}
+
+	@Test
+	public void testInitialClone_Redirect301Local() throws Exception {
+		initialClone_Redirect(1, 301, true);
 	}
 
 	@Test
