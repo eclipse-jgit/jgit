@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b1bad1c_4e52dd75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T23:01:47Z",
+      "side": 1,
+      "message": "The recommended first line format looks like \"Component: Description of the change\" .",
+      "revId": "89072cf24159627cb0b883bb1e93dc96b5e94943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
