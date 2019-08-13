@@ -361,6 +361,21 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	}
 
 	/**
+	 * Create a new, unparsed commit.
+	 * <p>
+	 * See {@link #unparsedCommit(int, RevTree, ObjectId...)}. The tree is the
+	 * empty tree (no files or subdirectories).
+	 *
+	 * @param parents
+	 *            zero or more IDs of the commit's parents.
+	 * @return the ID of the new commit.
+	 * @throws Exception
+	 */
+	public ObjectId unparsedCommit(ObjectId... parents) throws Exception {
+		return unparsedCommit(1, tree(), parents);
+	}
+
+	/**
 	 * Create a new commit.
 	 * <p>
 	 * See {@link #commit(int, RevTree, RevCommit...)}. The tree is the empty
@@ -428,6 +443,28 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 */
 	public RevCommit commit(final int secDelta, final RevTree tree,
 			final RevCommit... parents) throws Exception {
+		ObjectId id = unparsedCommit(secDelta, tree, parents);
+		return pool.parseCommit(id);
+	}
+
+	/**
+	 * Create a new, unparsed commit.
+	 * <p>
+	 * The author and committer identities are stored using the current
+	 * timestamp, after being incremented by {@code secDelta}. The message body
+	 * is empty.
+	 *
+	 * @param secDelta
+	 *            number of seconds to advance {@link #tick(int)} by.
+	 * @param tree
+	 *            the root tree for the commit.
+	 * @param parents
+	 *            zero or more IDs of the commit's parents.
+	 * @return the ID of the new commit.
+	 * @throws Exception
+	 */
+	public ObjectId unparsedCommit(final int secDelta, final RevTree tree,
+			final ObjectId... parents) throws Exception {
 		tick(secDelta);
 
 		final org.eclipse.jgit.lib.CommitBuilder c;
@@ -443,7 +480,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			id = ins.insert(c);
 			ins.flush();
 		}
-		return pool.parseCommit(id);
+		return id;
 	}
 
 	/**
