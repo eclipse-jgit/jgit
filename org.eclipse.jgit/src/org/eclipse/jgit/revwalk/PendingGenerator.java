@@ -143,13 +143,13 @@ class PendingGenerator extends Generator {
 
 				for (int i = 0; i < c.parents.length; i++) {
 					RevCommit p = c.parents[i];
-					if (firstParent && i > 0) {
-						continue;
-					}
 					if ((p.flags & SEEN) != 0)
 						continue;
 					if ((p.flags & PARSED) == 0)
 						p.parseHeaders(walker);
+					if (firstParent && i > 0) {
+						continue;
+					}
 					p.flags |= SEEN;
 					pending.add(p);
 				}
