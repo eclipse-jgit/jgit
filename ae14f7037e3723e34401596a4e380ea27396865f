@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e909af3_1e23ed30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-13T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc56c56_060888af",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 11
+      },
+      "revId": "ae14f7037e3723e34401596a4e380ea27396865f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcb645c6_daac5e54",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ae14f7037e3723e34401596a4e380ea27396865f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42723ab_47f8d172",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-13T16:21:03Z",
+      "side": 1,
+      "message": "Dropping this change.",
+      "parentUuid": "dcb645c6_daac5e54",
+      "range": {
+        "startLine": 566,
+        "startChar": 31,
+        "endLine": 566,
+        "endChar": 39
+      },
+      "revId": "ae14f7037e3723e34401596a4e380ea27396865f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
