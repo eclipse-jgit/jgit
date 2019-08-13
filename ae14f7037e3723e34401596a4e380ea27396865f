@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc56c56_060888af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T04:58:59Z",
+      "side": 1,
+      "message": "I *think* we don\u0027t mark fields as @Nullable... a more seasoned reviewer can comment on this. (I don\u0027t recall seeing that annotation on fields and a quick glance over \"git grep -A 1 -e \u0027Nullable\u0027 --and --not -e \u0027import\u0027\" only show those in one class).",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 11
+      },
+      "revId": "ae14f7037e3723e34401596a4e380ea27396865f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb645c6_daac5e54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T04:58:59Z",
+      "side": 1,
+      "message": "From the Nullable javadoc:\n\" * \u003cb\u003eWarning:\u003c/b\u003e Please do not use this annotation on arrays. Different\n * annotation processors treat {@code @Nullable Object[]} differently: some\n * treat it as an array of nullable objects, for consistency with versions of\n * {@code Nullable} defined with {@code @Target} {@code TYPE_USE}, while others\n * treat it as a nullable array of objects. JGit therefore avoids using this\n * annotation on arrays altogether.\n\"",
+      "range": {
+        "startLine": 566,
+        "startChar": 31,
+        "endLine": 566,
+        "endChar": 39
+      },
+      "revId": "ae14f7037e3723e34401596a4e380ea27396865f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
