@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "23f5e16e_5ac31652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T22:38:40Z",
+      "side": 1,
+      "message": "I like the data object idea (maybe called \"CachePackUri\"?). It is only couple of fields, it shouldn\u0027t be too cumbersome, and it makes better API than a formatted string.",
+      "parentUuid": "689e3a7d_5b7de1ad",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "95733d93f4f6afcd909f464835c7c5c5aae45f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed5f705c_7e4118a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 13
