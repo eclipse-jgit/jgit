@@ -46,6 +46,7 @@ package org.eclipse.jgit.revwalk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.junit.Test;
@@ -268,6 +269,26 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testUnparsedFirstParentOfFirstParentMarkedUninteresting()
+			throws Exception {
+		ObjectId a = unparsedCommit();
+		ObjectId b1 = unparsedCommit(a);
+		ObjectId b2 = unparsedCommit(a);
+		ObjectId c1 = unparsedCommit(b1);
+		ObjectId c2 = unparsedCommit(b2);
+		ObjectId d = unparsedCommit(c1, c2);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		RevCommit parsedD = rw.parseCommit(d);
+		markStart(parsedD);
+		markUninteresting(rw.parseCommit(b1));
+		assertCommit(parsedD, rw.next());
+		assertCommit(rw.parseCommit(c1), rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testFirstParentMarkedUninteresting() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
@@ -279,6 +300,75 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		markStart(c);
 		markUninteresting(b1);
 		assertCommit(c, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testUnparsedFirstParentMarkedUninteresting() throws Exception {
+		ObjectId a = unparsedCommit();
+		ObjectId b1 = unparsedCommit(a);
+		ObjectId b2 = unparsedCommit(a);
+		ObjectId c = unparsedCommit(b1, b2);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		RevCommit parsedC = rw.parseCommit(c);
+		markStart(parsedC);
+		markUninteresting(rw.parseCommit(b1));
+		assertCommit(parsedC, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testUninterestingCommitWithTwoParents() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(a);
+		RevCommit c1 = commit(b);
+		RevCommit c2 = commit(b);
+		RevCommit d = commit(c1);
+		RevCommit e = commit(c1, c2);
+
+		RevCommit uA = commit(a, b);
+		RevCommit uB1 = commit(uA, c2);
+		RevCommit uB2 = commit(uA, d);
+		RevCommit uninteresting = commit(uB1, uB2);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		markStart(e);
+		markUninteresting(uninteresting);
+
+		assertCommit(e, rw.next());
+		assertNull(rw.next());
+	}
+
+	/**
+	 * This fails if we try to propagate flags before parsing commits.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testUnparsedUninterestingCommitWithTwoParents()
+			throws Exception {
+		ObjectId a = unparsedCommit();
+		ObjectId b = unparsedCommit(a);
+		ObjectId c1 = unparsedCommit(b);
+		ObjectId c2 = unparsedCommit(b);
+		ObjectId d = unparsedCommit(c1);
+		ObjectId e = unparsedCommit(c1, c2);
+
+		ObjectId uA = unparsedCommit(a, b);
+		ObjectId uB1 = unparsedCommit(uA, c2);
+		ObjectId uB2 = unparsedCommit(uA, d);
+		ObjectId uninteresting = unparsedCommit(uB1, uB2);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		RevCommit parsedE = rw.parseCommit(e);
+		markStart(parsedE);
+		markUninteresting(rw.parseCommit(uninteresting));
+
+		assertCommit(parsedE, rw.next());
 		assertNull(rw.next());
 	}
 
