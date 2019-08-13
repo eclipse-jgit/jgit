@@ -77,6 +77,7 @@ import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.InvalidPathException;
@@ -593,7 +594,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 										JGitText.get().redirectsOff,
 										Integer.valueOf(status)));
 					}
-					URIish newUri = redirect(conn.getHeaderField(HDR_LOCATION),
+					URIish newUri = redirect(u,
+							conn.getHeaderField(HDR_LOCATION),
 							Constants.INFO_REFS, redirects++);
 					setURI(newUri);
 					u = getServiceURL(service);
@@ -804,7 +806,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	private URIish redirect(String location, String checkFor, int redirects)
+	private URIish redirect(URL currentUrl, String location, String checkFor,
+			int redirects)
 			throws TransportException {
 		if (location == null || location.isEmpty()) {
 			throw new TransportException(uri,
@@ -818,13 +821,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							location));
 		}
 		try {
-			if (!isValidRedirect(baseUrl, location, checkFor)) {
+			URI redirectTo = new URI(location);
+			redirectTo = currentUrl.toURI().resolve(redirectTo);
+			String redirected = redirectTo.toASCIIString();
+			if (!isValidRedirect(baseUrl, redirected, checkFor)) {
 				throw new TransportException(uri,
 						MessageFormat.format(JGitText.get().redirectBlocked,
-								baseUrl, location));
+								baseUrl, redirected));
 			}
-			location = location.substring(0, location.indexOf(checkFor));
-			URIish result = new URIish(location);
+			redirected = redirected.substring(0, redirected.indexOf(checkFor));
+			URIish result = new URIish(redirected);
 			if (LOG.isInfoEnabled()) {
 				LOG.info(MessageFormat.format(JGitText.get().redirectHttp,
 						uri.setPass(null),
@@ -1454,7 +1460,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							// Let openResponse() issue an error
 							return;
 						}
-						currentUri = redirect(conn.getHeaderField(HDR_LOCATION),
+						currentUri = redirect(conn.getURL(),
+								conn.getHeaderField(HDR_LOCATION),
 								'/' + serviceName, redirects++);
 						try {
 							baseUrl = toURL(currentUri);
