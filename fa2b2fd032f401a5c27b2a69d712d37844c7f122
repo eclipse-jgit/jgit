@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f867899_6810d68a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T05:02:31Z",
+      "side": 1,
+      "message": "This doesn\u0027l look like eclipse formatting.",
+      "revId": "fa2b2fd032f401a5c27b2a69d712d37844c7f122",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
