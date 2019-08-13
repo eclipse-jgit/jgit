@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd55dc70_c0c766b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T20:58:12Z",
+      "side": 1,
+      "message": "Although our code uses also ExpectedException, I think assertThrows is the way to go:\n\norg.eclipse.jgit.test/src/org/eclipse/jgit/lib/MoreAsserts.java:         \n* Simple version of assertThrows that will be introduced in JUnit 4.13.",
+      "revId": "1a1a8a81726871c3e8d9a6a1d1f310abf5b46c34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b07c5928_f5e5e639",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-13T20:58:12Z",
+      "side": 1,
+      "message": "Maybe rename to \"throwIllegalEntry\" ? So that it has a verb and describes better what it does.",
+      "range": {
+        "startLine": 287,
+        "startChar": 14,
+        "endLine": 287,
+        "endChar": 26
+      },
+      "revId": "1a1a8a81726871c3e8d9a6a1d1f310abf5b46c34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
