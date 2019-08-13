@@ -51,6 +51,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Support for tests of the {@link RevWalk} class. */
@@ -94,6 +95,10 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	protected RevObject get(RevTree tree, String path)
 			throws Exception {
 		return util.get(tree, path);
+	}
+
+	protected ObjectId unparsedCommit(ObjectId... parents) throws Exception {
+		return util.unparsedCommit(parents);
 	}
 
 	protected RevCommit commit(RevCommit... parents) throws Exception {
