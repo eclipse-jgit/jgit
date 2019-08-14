@@ -510,18 +510,12 @@ public abstract class FS {
 
 		private static Optional<FileStoreAttributes> readFromConfig(
 				FileStore s) {
-			StoredConfig userConfig = SystemReader.getInstance()
-					.openUserConfig(null, FS.DETECTED);
+			StoredConfig userConfig;
 			try {
-				userConfig.load();
-			} catch (IOException e) {
-				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
-						userConfig), e);
-			} catch (ConfigInvalidException e) {
-				LOG.error(MessageFormat.format(
-						JGitText.get().repositoryConfigFileInvalid,
-						userConfig,
-						e.getMessage()));
+				userConfig = SystemReader.getInstance().getUserConfig();
+			} catch (IOException | ConfigInvalidException e) {
+				LOG.error(JGitText.get().readFileStoreAttributesFailed, e);
+				return Optional.empty();
 			}
 			String key = getConfigKey(s);
 			Duration resolution = Duration.ofNanos(userConfig.getTimeUnit(
@@ -544,8 +538,13 @@ public abstract class FS {
 
 		private static void saveToConfig(FileStore s,
 				FileStoreAttributes c) {
-			StoredConfig userConfig = SystemReader.getInstance()
-					.openUserConfig(null, FS.DETECTED);
+			StoredConfig userConfig;
+			try {
+				userConfig = SystemReader.getInstance().getUserConfig();
+			} catch (IOException | ConfigInvalidException e) {
+				LOG.error(JGitText.get().saveFileStoreAttributesFailed, e);
+				return;
+			}
 			long resolution = c.getFsTimestampResolution().toNanos();
 			TimeUnit resolutionUnit = getUnit(resolution);
 			long resolutionValue = resolutionUnit.convert(resolution,
