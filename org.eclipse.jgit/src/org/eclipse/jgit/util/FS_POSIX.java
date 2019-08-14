@@ -70,7 +70,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,7 +115,7 @@ public class FS_POSIX extends FS {
 	private void determineAtomicFileCreationSupport() {
 		// @TODO: enhance SystemReader to support this without copying code
 		AtomicFileCreation ret = getAtomicFileCreationSupportOption(
-				SystemReader.getInstance().openUserConfig(null, this));
+				GlobalConfigCache.getInstance().getUserConfig());
 		if (ret == AtomicFileCreation.UNDEFINED
 				&& StringUtils.isEmptyOrNull(SystemReader.getInstance()
 						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
@@ -130,7 +130,7 @@ public class FS_POSIX extends FS {
 	}
 
 	private AtomicFileCreation getAtomicFileCreationSupportOption(
-			FileBasedConfig config) {
+			StoredConfig config) {
 		try {
 			config.load();
 			String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,

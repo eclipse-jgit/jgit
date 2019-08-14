@@ -67,9 +67,6 @@ public class FS_POSIXTest {
 	public void setUp() throws Exception {
 		SystemReader systemReader = Mockito.mock(SystemReader.class);
 
-		originalSystemReaderInstance = SystemReader.getInstance();
-		SystemReader.setInstance(systemReader);
-
 		mockSystemConfig = mock(FileBasedConfig.class);
 		mockUserConfig = mock(FileBasedConfig.class);
 		when(systemReader.openSystemConfig(any(), any()))
@@ -80,6 +77,9 @@ public class FS_POSIXTest {
 		when(mockSystemConfig.getString(ConfigConstants.CONFIG_CORE_SECTION,
 				null, ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION))
 						.thenReturn(null);
+
+		originalSystemReaderInstance = SystemReader.getInstance();
+		SystemReader.setInstance(systemReader);
 	}
 
 	@After

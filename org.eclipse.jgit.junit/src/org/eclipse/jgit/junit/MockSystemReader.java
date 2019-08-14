@@ -62,6 +62,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
@@ -100,7 +101,12 @@ public class MockSystemReader extends SystemReader {
 
 	final Map<String, String> values = new HashMap<>();
 
-	FileBasedConfig userGitConfig;
+	private FileBasedConfig userGitConfig;
+
+	void setUserGitConfig(FileBasedConfig userGitConfig) {
+		this.userGitConfig = userGitConfig;
+		GlobalConfigCache.setInstance(systemGitConfig, userGitConfig);
+	}
 
 	FileBasedConfig systemGitConfig;
 
