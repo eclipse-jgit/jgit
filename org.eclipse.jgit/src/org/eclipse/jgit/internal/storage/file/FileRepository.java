@@ -81,11 +81,12 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
@@ -118,8 +119,7 @@ import org.eclipse.jgit.util.SystemReader;
 public class FileRepository extends Repository {
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
 
-	private final FileBasedConfig systemConfig;
-	private final FileBasedConfig userConfig;
+	private final StoredConfig userConfig;
 	private final FileBasedConfig repoConfig;
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
@@ -179,31 +179,11 @@ public class FileRepository extends Repository {
 	public FileRepository(BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
-		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
-				Constants.GIT_CONFIG_NOSYSTEM_KEY)))
-			systemConfig = SystemReader.getInstance().openSystemConfig(null,
-					getFS());
-		else
-			systemConfig = new FileBasedConfig(null, FS.DETECTED) {
-				@Override
-				public void load() {
-					// empty, do not load
-				}
-
-				@Override
-				public boolean isOutdated() {
-					// regular class would bomb here
-					return false;
-				}
-			};
-		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
-				getFS());
+		GlobalConfigCache configs = GlobalConfigCache.getInstance();
+		userConfig = configs.getUserConfig();
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
 				getDirectory(), Constants.CONFIG),
 				getFS());
-
-		loadSystemConfig();
-		loadUserConfig();
 		loadRepoConfig();
 
 		repoConfig.addChangeListener(new ConfigChangedListener() {
@@ -244,28 +224,6 @@ public class FileRepository extends Repository {
 
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
-		}
-	}
-
-	private void loadSystemConfig() throws IOException {
-		try {
-			systemConfig.load();
-		} catch (ConfigInvalidException e) {
-			throw new IOException(MessageFormat.format(JGitText
-					.get().systemConfigFileInvalid, systemConfig.getFile()
-							.getAbsolutePath(),
-					e), e);
-		}
-	}
-
-	private void loadUserConfig() throws IOException {
-		try {
-			userConfig.load();
-		} catch (ConfigInvalidException e) {
-			throw new IOException(MessageFormat.format(JGitText
-					.get().userConfigFileInvalid, userConfig.getFile()
-							.getAbsolutePath(),
-					e), e);
 		}
 	}
 
@@ -398,26 +356,13 @@ public class FileRepository extends Repository {
 	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig getConfig() {
-		if (systemConfig.isOutdated()) {
-			try {
-				loadSystemConfig();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+		try {
+			GlobalConfigCache.getInstance().getUserConfig();
+			if (repoConfig.isOutdated()) {
+				loadRepoConfig();
 			}
-		}
-		if (userConfig.isOutdated()) {
-			try {
-				loadUserConfig();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		if (repoConfig.isOutdated()) {
-				try {
-					loadRepoConfig();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 		return repoConfig;
 	}

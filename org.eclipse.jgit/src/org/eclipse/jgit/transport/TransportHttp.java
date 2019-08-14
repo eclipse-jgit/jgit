@@ -108,15 +108,13 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
-import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.UnionInputStream;
@@ -715,15 +713,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private void updateSslVerifyUser(boolean value) {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = GlobalConfigCache.getInstance()
+				.getUserConfig();
 		try {
 			userConfig.load();
 			updateSslVerify(userConfig, value);
 		} catch (IOException | ConfigInvalidException e) {
 			// Log it, but otherwise ignore here.
 			LOG.error(MessageFormat.format(JGitText.get().userConfigFileInvalid,
-					userConfig.getFile().getAbsolutePath(), e));
+					userConfig, e));
 		}
 	}
 
