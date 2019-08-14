@@ -87,13 +87,16 @@ class Config extends TextBuiltin {
 		if (system
 				|| (isListAll() && StringUtils.isEmptyOrNull(SystemReader
 						.getInstance()
-						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))))
-			list(SystemReader.getInstance().openSystemConfig(null, fs));
-		if (global || isListAll())
-			list(SystemReader.getInstance().openUserConfig(null, fs));
-		if (local || isListAll())
+						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY)))) {
+			list(SystemReader.getInstance().getSystemConfig());
+		}
+		if (global || isListAll()) {
+			list(SystemReader.getInstance().getUserConfig());
+		}
+		if (local || isListAll()) {
 			list(new FileBasedConfig(fs.resolve(getRepository().getDirectory(),
 					Constants.CONFIG), fs));
+		}
 	}
 
 	private boolean isListAll() {
