@@ -152,16 +152,16 @@ public abstract class SystemReader {
 	private static SystemReader INSTANCE = DEFAULT;
 
 	/**
-	 * Get time since epoch, with up to millisecond resolution.
+	 * Get the current SystemReader instance
 	 *
-	 * @return time since epoch, with up to millisecond resolution.
+	 * @return the current SystemReader instance.
 	 */
 	public static SystemReader getInstance() {
 		return INSTANCE;
 	}
 
 	/**
-	 * Set the new instance to use when accessing properties.
+	 * Set a new SystemReader instance to use when accessing properties.
 	 *
 	 * @param newReader
 	 *            the new instance to use when accessing properties, or null for
