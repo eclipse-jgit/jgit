@@ -42,15 +42,9 @@
  */
 package org.eclipse.jgit.lfs;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lfs.internal.LfsText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory.LfsInstallCommand;
 import org.eclipse.jgit.util.SystemReader;
@@ -75,7 +69,7 @@ public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 	public Void call() throws Exception {
 		StoredConfig cfg = null;
 		if (repository == null) {
-			cfg = loadUserConfig();
+			cfg = SystemReader.getInstance().getUserConfig();
 		} else {
 			cfg = repository.getConfig();
 		}
@@ -114,21 +108,6 @@ public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 	public LfsInstallCommand setRepository(Repository repo) {
 		this.repository = repo;
 		return this;
-	}
-
-	private StoredConfig loadUserConfig() throws IOException {
-		FileBasedConfig c = SystemReader.getInstance().openUserConfig(null,
-				FS.DETECTED);
-		try {
-			c.load();
-		} catch (ConfigInvalidException e1) {
-			throw new IOException(MessageFormat
-					.format(LfsText.get().userConfigInvalid, c.getFile()
-							.getAbsolutePath(), e1),
-					e1);
-		}
-
-		return c;
 	}
 
 }

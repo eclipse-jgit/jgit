@@ -60,6 +60,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
@@ -100,7 +101,11 @@ public class MockSystemReader extends SystemReader {
 
 	final Map<String, String> values = new HashMap<>();
 
-	FileBasedConfig userGitConfig;
+	private FileBasedConfig userGitConfig;
+
+	void setUserGitConfig(FileBasedConfig userGitConfig) {
+		this.userGitConfig = userGitConfig;
+	}
 
 	FileBasedConfig systemGitConfig;
 
@@ -163,6 +168,18 @@ public class MockSystemReader extends SystemReader {
 	@Override
 	public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 		assert parent == null;
+		return systemGitConfig;
+	}
+
+	@Override
+	public StoredConfig getUserConfig()
+			throws IOException, ConfigInvalidException {
+		return userGitConfig;
+	}
+
+	@Override
+	public StoredConfig getSystemConfig()
+			throws IOException, ConfigInvalidException {
 		return systemGitConfig;
 	}
 
