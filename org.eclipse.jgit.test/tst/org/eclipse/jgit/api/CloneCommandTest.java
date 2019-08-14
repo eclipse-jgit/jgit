@@ -68,16 +68,16 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.GlobalConfigCache;
 import org.junit.Test;
 
 public class CloneCommandTest extends RepositoryTestCase {
@@ -633,8 +633,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 				ConfigConstants.CONFIG_KEY_REBASE, null));
 
-		FileBasedConfig userConfig = SystemReader.getInstance().openUserConfig(
-				null, git.getRepository().getFS());
+		StoredConfig userConfig = GlobalConfigCache.getInstance()
+				.getUserConfig();
 		userConfig.setString(ConfigConstants.CONFIG_BRANCH_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOSETUPREBASE,
 				ConfigConstants.CONFIG_KEY_ALWAYS);

@@ -149,7 +149,7 @@ public abstract class SystemReader {
 		}
 	}
 
-	private static SystemReader INSTANCE = DEFAULT;
+	private static volatile SystemReader INSTANCE = DEFAULT;
 
 	/**
 	 * Get the current SystemReader instance
@@ -175,6 +175,10 @@ public abstract class SystemReader {
 		else {
 			newReader.init();
 			INSTANCE = newReader;
+			FS fs = FS.DETECTED;
+			FileBasedConfig systemConfig = newReader.openSystemConfig(null, fs);
+			GlobalConfigCache.setInstance(systemConfig,
+					newReader.openUserConfig(systemConfig, fs));
 		}
 	}
 
@@ -225,7 +229,10 @@ public abstract class SystemReader {
 	public abstract String getProperty(String key);
 
 	/**
-	 * Open the git configuration found in the user home
+	 * Open the git configuration found in the user home. Use
+	 * {@link GlobalConfigCache} to get the current git configuration in the
+	 * user home since it manages automatic reloading when the gitconfig file
+	 * was modified and avoids unnecessary reloads.
 	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned config
@@ -237,7 +244,10 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openUserConfig(Config parent, FS fs);
 
 	/**
-	 * Open the gitconfig configuration found in the system-wide "etc" directory
+	 * Open the gitconfig configuration found in the system-wide "etc"
+	 * directory. Use {@link GlobalConfigCache} to get the current system-wide
+	 * git configuration since it manages automatic reloading when the gitconfig
+	 * file was modified and avoids unnecessary reloads.
 	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned
