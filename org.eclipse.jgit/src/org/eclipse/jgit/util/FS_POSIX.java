@@ -70,7 +70,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,13 +114,22 @@ public class FS_POSIX extends FS {
 
 	private void determineAtomicFileCreationSupport() {
 		// @TODO: enhance SystemReader to support this without copying code
-		AtomicFileCreation ret = getAtomicFileCreationSupportOption(
-				SystemReader.getInstance().openUserConfig(null, this));
+		AtomicFileCreation ret;
+		try {
+			ret = getAtomicFileCreationSupportOption(
+					GlobalConfigCache.getInstance().getUserConfig());
+		} catch (IOException | ConfigInvalidException e) {
+			ret = AtomicFileCreation.UNDEFINED;
+		}
 		if (ret == AtomicFileCreation.UNDEFINED
 				&& StringUtils.isEmptyOrNull(SystemReader.getInstance()
 						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
-			ret = getAtomicFileCreationSupportOption(
-					SystemReader.getInstance().openSystemConfig(null, this));
+			try {
+				ret = getAtomicFileCreationSupportOption(
+						GlobalConfigCache.getInstance().getSystemConfig());
+			} catch (IOException | ConfigInvalidException e) {
+				ret = AtomicFileCreation.UNDEFINED;
+			}
 		}
 
 		if (ret == AtomicFileCreation.UNDEFINED) {
@@ -130,22 +139,14 @@ public class FS_POSIX extends FS {
 	}
 
 	private AtomicFileCreation getAtomicFileCreationSupportOption(
-			FileBasedConfig config) {
-		try {
-			config.load();
-			String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
-					null,
-					ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION);
-			if (value == null) {
-				return AtomicFileCreation.UNDEFINED;
-			}
-			return StringUtils.toBoolean(value)
-					? AtomicFileCreation.SUPPORTED
-					: AtomicFileCreation.NOT_SUPPORTED;
-		} catch (IOException | ConfigInvalidException e) {
-			LOG.error(e.getMessage(), e);
+			StoredConfig config) {
+		String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
+				null, ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION);
+		if (value == null) {
 			return AtomicFileCreation.UNDEFINED;
 		}
+		return StringUtils.toBoolean(value) ? AtomicFileCreation.SUPPORTED
+				: AtomicFileCreation.NOT_SUPPORTED;
 	}
 
 	/** {@inheritDoc} */
