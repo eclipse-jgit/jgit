@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d49529a3_3d2f6986",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-14T00:33:59Z",
+      "side": 1,
+      "message": "Lots of unrelated formatting change in this file.",
+      "revId": "c2312761360999ff5e1709411daa8e8167f86a50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
