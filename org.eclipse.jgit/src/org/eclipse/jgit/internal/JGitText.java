@@ -78,6 +78,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String archiveFormatAlreadyAbsent;
 	/***/ public String archiveFormatAlreadyRegistered;
 	/***/ public String argumentIsNotAValidCommentString;
+	/***/ public String assumeAtomicCreateNewFile;
 	/***/ public String atLeastOnePathIsRequired;
 	/***/ public String atLeastOnePatternIsRequired;
 	/***/ public String atLeastTwoFiltersNeeded;
@@ -623,6 +624,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
 	/***/ public String readConfigFailed;
+	/***/ public String readFileStoreAttributesFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readLastModifiedFailed;
@@ -679,6 +681,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String s3ActionDeletion;
 	/***/ public String s3ActionReading;
 	/***/ public String s3ActionWriting;
+	/***/ public String saveFileStoreAttributesFailed;
 	/***/ public String searchForReuse;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
@@ -838,7 +841,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFound;
 	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
-	/***/ public String userConfigFileInvalid;
+	/***/ public String userConfigInvalid;
 	/***/ public String walkFailure;
 	/***/ public String wantNotValid;
 	/***/ public String weeksAgo;

@@ -42,6 +42,9 @@
  */
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -67,10 +70,9 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +89,7 @@ public class FS_POSIX extends FS {
 
 	private volatile boolean supportsUnixNLink = true;
 
-	private volatile AtomicFileCreation supportsAtomicCreateNewFile = AtomicFileCreation.UNDEFINED;
+	private volatile AtomicFileCreation supportsAtomicFileCreation = AtomicFileCreation.UNDEFINED;
 
 	private enum AtomicFileCreation {
 		SUPPORTED, NOT_SUPPORTED, UNDEFINED
@@ -109,42 +111,6 @@ public class FS_POSIX extends FS {
 		super(src);
 		if (src instanceof FS_POSIX) {
 			umask = ((FS_POSIX) src).umask;
-		}
-	}
-
-	private void determineAtomicFileCreationSupport() {
-		// @TODO: enhance SystemReader to support this without copying code
-		AtomicFileCreation ret = getAtomicFileCreationSupportOption(
-				SystemReader.getInstance().openUserConfig(null, this));
-		if (ret == AtomicFileCreation.UNDEFINED
-				&& StringUtils.isEmptyOrNull(SystemReader.getInstance()
-						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
-			ret = getAtomicFileCreationSupportOption(
-					SystemReader.getInstance().openSystemConfig(null, this));
-		}
-
-		if (ret == AtomicFileCreation.UNDEFINED) {
-			ret = AtomicFileCreation.SUPPORTED;
-		}
-		supportsAtomicCreateNewFile = ret;
-	}
-
-	private AtomicFileCreation getAtomicFileCreationSupportOption(
-			FileBasedConfig config) {
-		try {
-			config.load();
-			String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
-					null,
-					ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION);
-			if (value == null) {
-				return AtomicFileCreation.UNDEFINED;
-			}
-			return StringUtils.toBoolean(value)
-					? AtomicFileCreation.SUPPORTED
-					: AtomicFileCreation.NOT_SUPPORTED;
-		} catch (IOException | ConfigInvalidException e) {
-			LOG.error(e.getMessage(), e);
-			return AtomicFileCreation.UNDEFINED;
 		}
 	}
 
@@ -362,10 +328,24 @@ public class FS_POSIX extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public boolean supportsAtomicCreateNewFile() {
-		if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
-			determineAtomicFileCreationSupport();
+		if (supportsAtomicFileCreation == AtomicFileCreation.UNDEFINED) {
+			try {
+				StoredConfig config = SystemReader.getInstance().getUserConfig();
+				String value = config.getString(CONFIG_CORE_SECTION, null,
+						CONFIG_KEY_SUPPORTSATOMICFILECREATION);
+				if (value != null) {
+					supportsAtomicFileCreation = StringUtils.toBoolean(value)
+							? AtomicFileCreation.SUPPORTED
+							: AtomicFileCreation.NOT_SUPPORTED;
+				} else {
+					supportsAtomicFileCreation = AtomicFileCreation.SUPPORTED;
+				}
+			} catch (IOException | ConfigInvalidException e) {
+				LOG.warn(JGitText.get().assumeAtomicCreateNewFile, e);
+				supportsAtomicFileCreation = AtomicFileCreation.SUPPORTED;
+			}
 		}
-		return supportsAtomicCreateNewFile == AtomicFileCreation.SUPPORTED;
+		return supportsAtomicFileCreation == AtomicFileCreation.SUPPORTED;
 	}
 
 	@Override
