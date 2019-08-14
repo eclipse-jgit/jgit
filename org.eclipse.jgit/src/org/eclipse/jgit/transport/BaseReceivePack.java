@@ -180,6 +180,7 @@ public abstract class BaseReceivePack {
 
 	/** Should an incoming transfer permit delete requests? */
 	private boolean allowAnyDeletes;
+
 	private boolean allowBranchDeletes;
 
 	/** Should an incoming transfer permit non-fast-forward requests? */
@@ -195,6 +196,7 @@ public abstract class BaseReceivePack {
 	private boolean atomic;
 
 	private boolean allowOfsDelta;
+
 	private boolean allowQuiet = true;
 
 	/** Identity to record action as within the reflog. */
@@ -226,6 +228,7 @@ public abstract class BaseReceivePack {
 
 	/** Optional message output stream. */
 	protected OutputStream msgOut;
+
 	private SideBandOutputStream errOut;
 
 	/** Packet line input stream around {@link #rawIn}. */
@@ -246,15 +249,22 @@ public abstract class BaseReceivePack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
+
 	String userAgent;
+
 	private Set<ObjectId> clientShallowCommits;
+
 	private List<ReceiveCommand> commands;
+
 	private long maxCommandBytes;
+
 	private long maxDiscardBytes;
 
 	private StringBuilder advertiseError;
 
-	/** If {@link BasePackPushConnection#CAPABILITY_SIDE_BAND_64K} is enabled. */
+	/**
+	 * If {@link BasePackPushConnection#CAPABILITY_SIDE_BAND_64K} is enabled.
+	 */
 	private boolean sideBand;
 
 	private boolean quiet;
@@ -274,8 +284,11 @@ public abstract class BaseReceivePack {
 	private Long packSize;
 
 	private PushCertificateParser pushCertificateParser;
+
 	private SignedPushConfig signedPushConfig;
+
 	PushCertificate pushCert;
+
 	private ReceivedPackStatistics stats;
 
 	/**
@@ -338,12 +351,19 @@ public abstract class BaseReceivePack {
 	/** Configuration for receive operations. */
 	protected static class ReceiveConfig {
 		final boolean allowCreates;
+
 		final boolean allowDeletes;
+
 		final boolean allowNonFastForwards;
+
 		final boolean allowOfsDelta;
+
 		final boolean allowPushOptions;
+
 		final long maxCommandBytes;
+
 		final long maxDiscardBytes;
+
 		final SignedPushConfig signedPush;
 
 		ReceiveConfig(Config config) {
@@ -465,14 +485,15 @@ public abstract class BaseReceivePack {
 	 * @deprecated use {@link ReceivePack#setAdvertisedRefs}
 	 */
 	@Deprecated
-	public abstract void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves);
+	public abstract void setAdvertisedRefs(Map<String, Ref> allRefs,
+			Set<ObjectId> additionalHaves);
 
 	/**
 	 * Get objects advertised to the client.
 	 *
-	 * @return the set of objects advertised to the as present in this repository,
-	 *         or null if {@link #setAdvertisedRefs(Map, Set)} has not been called
-	 *         yet.
+	 * @return the set of objects advertised to the as present in this
+	 *         repository, or null if {@link #setAdvertisedRefs(Map, Set)} has
+	 *         not been called yet.
 	 */
 	public final Set<ObjectId> getAdvertisedObjects() {
 		return advertisedHaves;
@@ -867,8 +888,9 @@ public abstract class BaseReceivePack {
 	 */
 	public void setMaxPackSizeLimit(long limit) {
 		if (limit < 0)
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().receivePackInvalidLimit, Long.valueOf(limit)));
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().receivePackInvalidLimit,
+							Long.valueOf(limit)));
 		maxPackSizeLimit = limit;
 	}
 
@@ -876,12 +898,12 @@ public abstract class BaseReceivePack {
 	 * Check whether the client expects a side-band stream.
 	 *
 	 * @return true if the client has advertised a side-band capability, false
-	 *     otherwise.
+	 *         otherwise.
 	 * @throws org.eclipse.jgit.transport.RequestNotYetReadException
-	 *             if the client's request has not yet been read from the wire, so
-	 *             we do not know if they expect side-band. Note that the client
-	 *             may have already written the request, it just has not been
-	 *             read.
+	 *             if the client's request has not yet been read from the wire,
+	 *             so we do not know if they expect side-band. Note that the
+	 *             client may have already written the request, it just has not
+	 *             been read.
 	 */
 	public boolean isSideBand() throws RequestNotYetReadException {
 		checkRequestWasRead();
@@ -953,9 +975,9 @@ public abstract class BaseReceivePack {
 	 * Set the configuration for push certificate verification.
 	 *
 	 * @param cfg
-	 *            new configuration; if this object is null or its {@link
-	 *            SignedPushConfig#getCertNonceSeed()} is null, push certificate
-	 *            verification will be disabled.
+	 *            new configuration; if this object is null or its
+	 *            {@link SignedPushConfig#getCertNonceSeed()} is null, push
+	 *            certificate verification will be disabled.
 	 * @since 4.1
 	 */
 	public void setSignedPushConfig(SignedPushConfig cfg) {
@@ -964,7 +986,8 @@ public abstract class BaseReceivePack {
 
 	private PushCertificateParser getPushCertificateParser() {
 		if (pushCertificateParser == null) {
-			pushCertificateParser = new PushCertificateParser(db, signedPushConfig);
+			pushCertificateParser = new PushCertificateParser(db,
+					signedPushConfig);
 		}
 		return pushCertificateParser;
 	}
@@ -1088,8 +1111,8 @@ public abstract class BaseReceivePack {
 	 * Get the commits from the client's shallow file.
 	 *
 	 * @return if the client is a shallow repository, the list of edge commits
-	 *     that define the client's shallow boundary. Empty set if the client
-	 *     is earlier than Git 1.9, or is a full clone.
+	 *         that define the client's shallow boundary. Empty set if the
+	 *         client is earlier than Git 1.9, or is a full clone.
 	 * @since 3.5
 	 */
 	protected Set<ObjectId> getClientShallowCommits() {
@@ -1360,8 +1383,9 @@ public abstract class BaseReceivePack {
 		clientShallowCommits.add(id);
 	}
 
-	static ReceiveCommand parseCommand(String line) throws PackProtocolException {
-          if (line == null || line.length() < 83) {
+	static ReceiveCommand parseCommand(String line)
+			throws PackProtocolException {
+		if (line == null || line.length() < 83) {
 			throw new PackProtocolException(
 					JGitText.get().errorInvalidProtocolWantedOldNewRef);
 		}
@@ -1448,7 +1472,7 @@ public abstract class BaseReceivePack {
 	 */
 	private void receivePack() throws IOException {
 		// It might take the client a while to pack the objects it needs
-		// to send to us.  We should increase our timeout so we don't
+		// to send to us. We should increase our timeout so we don't
 		// abort while the client is computing.
 		//
 		if (timeoutIn != null)
@@ -1468,8 +1492,8 @@ public abstract class BaseReceivePack {
 			parser.setAllowThin(true);
 			parser.setNeedNewObjectIds(checkReferencedIsReachable);
 			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
-			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
-					&& !isExpectDataAfterPackFooter());
+			parser.setCheckEofAfterPackFooter(
+					!biDirectionalPipe && !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
 			parser.setObjectChecker(objectChecker);
 			parser.setLockMessage(lockMsg);
@@ -1503,8 +1527,7 @@ public abstract class BaseReceivePack {
 				|| !getClientShallowCommits().isEmpty();
 	}
 
-	private void checkSubmodules()
-			throws IOException {
+	private void checkSubmodules() throws IOException {
 		ObjectDatabase odb = db.getObjectDatabase();
 		if (objectChecker == null) {
 			return;
@@ -1649,6 +1672,26 @@ public abstract class BaseReceivePack {
 							JGitText.get().refAlreadyExists);
 					continue;
 				}
+
+				RevObject newObj;
+				try {
+					newObj = walk.parseAny(cmd.getNewId());
+				} catch (IOException e) {
+					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+							cmd.getNewId().name());
+					continue;
+				}
+
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)
+						&& db.getConfig().getBoolean("ReceivePack",
+								"allowNonCommitToHead", false)) {
+					// When nonCommitToHead is not allowed, we shouldn't accept
+					// a non-commit object to head.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHead);
+					continue;
+				}
 			}
 
 			if (cmd.getType() == ReceiveCommand.Type.DELETE && ref != null) {
@@ -1672,7 +1715,8 @@ public abstract class BaseReceivePack {
 				if (ref == null) {
 					// The ref must have been advertised in order to be updated.
 					//
-					cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().noSuchRef);
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().noSuchRef);
 					continue;
 				}
 				ObjectId id = ref.getObjectId();
@@ -1698,29 +1742,42 @@ public abstract class BaseReceivePack {
 				try {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getOldId().name());
+					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+							cmd.getOldId().name());
 					continue;
 				}
 
 				try {
 					newObj = walk.parseAny(cmd.getNewId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getNewId().name());
+					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+							cmd.getNewId().name());
 					continue;
 				}
 
-				if (oldObj instanceof RevCommit && newObj instanceof RevCommit) {
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)
+						&& db.getConfig().getBoolean("ReceivePack",
+								"allowNonCommitToHead", false)) {
+					// When nonCommitToHead is not allowed, we shouldn't accept
+					// a non-commit object to head.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHead);
+					continue;
+				}
+
+				if (oldObj instanceof RevCommit
+						&& newObj instanceof RevCommit) {
 					try {
 						if (walk.isMergedInto((RevCommit) oldObj,
 								(RevCommit) newObj))
 							cmd.setTypeFastForwardUpdate();
 						else
-							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+							cmd.setType(
+									ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 					} catch (MissingObjectException e) {
-						cmd.setResult(Result.REJECTED_MISSING_OBJECT, e
-								.getMessage());
+						cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+								e.getMessage());
 					} catch (IOException e) {
 						cmd.setResult(Result.REJECTED_OTHER_REASON);
 					}
@@ -1737,7 +1794,8 @@ public abstract class BaseReceivePack {
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
 					|| !Repository.isValidRefName(cmd.getRefName())) {
-				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().funnyRefname);
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().funnyRefname);
 			}
 		}
 	}
@@ -1750,7 +1808,8 @@ public abstract class BaseReceivePack {
 	 */
 	protected boolean anyRejects() {
 		for (ReceiveCommand cmd : commands) {
-			if (cmd.getResult() != Result.NOT_ATTEMPTED && cmd.getResult() != Result.OK)
+			if (cmd.getResult() != Result.NOT_ATTEMPTED
+					&& cmd.getResult() != Result.OK)
 				return true;
 		}
 		return false;
@@ -1770,8 +1829,8 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param want
 	 *            desired status to filter by.
-	 * @return a copy of the command list containing only those commands with the
-	 *         desired status.
+	 * @return a copy of the command list containing only those commands with
+	 *         the desired status.
 	 */
 	protected List<ReceiveCommand> filterCommands(Result want) {
 		return ReceiveCommand.filter(commands, want);
@@ -1823,7 +1882,8 @@ public abstract class BaseReceivePack {
 	 *             an error occurred writing the status report.
 	 */
 	protected void sendStatusReport(final boolean forClient,
-			final Throwable unpackError, final Reporter out) throws IOException {
+			final Throwable unpackError, final Reporter out)
+			throws IOException {
 		if (unpackError != null) {
 			out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
 			if (forClient) {
@@ -1848,7 +1908,8 @@ public abstract class BaseReceivePack {
 			if (forClient)
 				r.append("ng ").append(cmd.getRefName()).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
 			else
-				r.append(" ! [rejected] ").append(cmd.getRefName()).append(" ("); //$NON-NLS-1$ //$NON-NLS-2$
+				r.append(" ! [rejected] ").append(cmd.getRefName()) //$NON-NLS-1$
+						.append(" ("); //$NON-NLS-1$
 
 			switch (cmd.getResult()) {
 			case NOT_ATTEMPTED:
@@ -1874,7 +1935,8 @@ public abstract class BaseReceivePack {
 			case REJECTED_MISSING_OBJECT:
 				if (cmd.getMessage() == null)
 					r.append("missing object(s)"); //$NON-NLS-1$
-				else if (cmd.getMessage().length() == Constants.OBJECT_ID_STRING_LENGTH) {
+				else if (cmd.getMessage()
+						.length() == Constants.OBJECT_ID_STRING_LENGTH) {
 					r.append("object "); //$NON-NLS-1$
 					r.append(cmd.getMessage());
 					r.append(" missing"); //$NON-NLS-1$
@@ -1966,6 +2028,6 @@ public abstract class BaseReceivePack {
 
 	/** Interface for reporting status messages. */
 	static abstract class Reporter {
-			abstract void sendString(String s) throws IOException;
+		abstract void sendString(String s) throws IOException;
 	}
 }
