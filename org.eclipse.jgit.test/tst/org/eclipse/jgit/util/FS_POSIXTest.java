@@ -43,18 +43,18 @@
 
 package org.eclipse.jgit.util;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class FS_POSIXTest {
 	private SystemReader originalSystemReaderInstance;
@@ -67,19 +67,23 @@ public class FS_POSIXTest {
 	public void setUp() throws Exception {
 		SystemReader systemReader = Mockito.mock(SystemReader.class);
 
-		originalSystemReaderInstance = SystemReader.getInstance();
-		SystemReader.setInstance(systemReader);
-
 		mockSystemConfig = mock(FileBasedConfig.class);
 		mockUserConfig = mock(FileBasedConfig.class);
 		when(systemReader.openSystemConfig(any(), any()))
 				.thenReturn(mockSystemConfig);
 		when(systemReader.openUserConfig(any(), any()))
 				.thenReturn(mockUserConfig);
+		when(systemReader.getSystemConfig())
+				.thenReturn(mockSystemConfig);
+		when(systemReader.getUserConfig())
+				.thenReturn(mockUserConfig);
 
 		when(mockSystemConfig.getString(ConfigConstants.CONFIG_CORE_SECTION,
 				null, ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION))
 						.thenReturn(null);
+
+		originalSystemReaderInstance = SystemReader.getInstance();
+		SystemReader.setInstance(systemReader);
 	}
 
 	@After
