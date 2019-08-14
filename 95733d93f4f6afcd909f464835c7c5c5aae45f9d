@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "617bf066_4c98ac53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-14T17:05:18Z",
+      "side": 1,
+      "message": "Done - I called it PackInfo since it doesn\u0027t contain only the URI.",
+      "parentUuid": "23f5e16e_5ac31652",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "95733d93f4f6afcd909f464835c7c5c5aae45f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed5f705c_7e4118a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 13
