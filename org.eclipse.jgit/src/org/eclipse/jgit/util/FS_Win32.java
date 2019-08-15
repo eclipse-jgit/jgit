@@ -74,8 +74,6 @@ import org.slf4j.LoggerFactory;
 public class FS_Win32 extends FS {
 	private final static Logger LOG = LoggerFactory.getLogger(FS_Win32.class);
 
-	private volatile Boolean supportSymlinks;
-
 	/**
 	 * Constructor
 	 */
@@ -235,37 +233,6 @@ public class FS_Win32 extends FS {
 		ProcessBuilder proc = new ProcessBuilder();
 		proc.command(argv);
 		return proc;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public boolean supportsSymlinks() {
-		if (supportSymlinks == null) {
-			detectSymlinkSupport();
-		}
-		return Boolean.TRUE.equals(supportSymlinks);
-	}
-
-	private void detectSymlinkSupport() {
-		File tempFile = null;
-		try {
-			tempFile = File.createTempFile("tempsymlinktarget", ""); //$NON-NLS-1$ //$NON-NLS-2$
-			File linkName = new File(tempFile.getParentFile(), "tempsymlink"); //$NON-NLS-1$
-			createSymLink(linkName, tempFile.getPath());
-			supportSymlinks = Boolean.TRUE;
-			linkName.delete();
-		} catch (IOException | UnsupportedOperationException
-				| InternalError e) {
-			supportSymlinks = Boolean.FALSE;
-		} finally {
-			if (tempFile != null) {
-				try {
-					FileUtils.delete(tempFile);
-				} catch (IOException e) {
-					throw new RuntimeException(e); // panic
-				}
-			}
-		}
 	}
 
 	/** {@inheritDoc} */
