@@ -255,7 +255,7 @@ public class FS_Win32 extends FS {
 			supportSymlinks = Boolean.TRUE;
 			linkName.delete();
 		} catch (IOException | UnsupportedOperationException
-				| InternalError e) {
+				| SecurityException | InternalError e) {
 			supportSymlinks = Boolean.FALSE;
 		} finally {
 			if (tempFile != null) {
