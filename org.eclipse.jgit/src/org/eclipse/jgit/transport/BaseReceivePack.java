@@ -339,6 +339,7 @@ public abstract class BaseReceivePack {
 	protected static class ReceiveConfig {
 		final boolean allowCreates;
 		final boolean allowDeletes;
+
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
 		final boolean allowPushOptions;
@@ -1606,8 +1607,10 @@ public abstract class BaseReceivePack {
 
 	/**
 	 * Validate the command list.
+	 *
+	 * @throws IOException
 	 */
-	protected void validateCommands() {
+	protected void validateCommands() throws IOException {
 		for (ReceiveCommand cmd : commands) {
 			final Ref ref = cmd.getRef();
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
@@ -1647,6 +1650,16 @@ public abstract class BaseReceivePack {
 					//
 					cmd.setResult(Result.REJECTED_OTHER_REASON,
 							JGitText.get().refAlreadyExists);
+					continue;
+				}
+
+				RevObject newObj = walk.parseAny(cmd.getNewId());
+
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)) {
+					// We shouldn't accept a non-commit object to refs/heads/*.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHeads);
 					continue;
 				}
 			}
@@ -1708,6 +1721,14 @@ public abstract class BaseReceivePack {
 				} catch (IOException e) {
 					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
 							.getNewId().name());
+					continue;
+				}
+
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)) {
+					// We shouldn't accept a non-commit object to refs/heads/*.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHeads);
 					continue;
 				}
 
