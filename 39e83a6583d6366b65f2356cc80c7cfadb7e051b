@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25eb8a92_d96febc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2019-08-15T22:41:35Z",
+      "side": 1,
+      "message": "Looks like this line can be avoided.\n\n   boolean hasSecring \u003d exists(USER_PGP_LEGACY_SECRING_FILE);\n   if (hasSecring)",
+      "revId": "39e83a6583d6366b65f2356cc80c7cfadb7e051b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
