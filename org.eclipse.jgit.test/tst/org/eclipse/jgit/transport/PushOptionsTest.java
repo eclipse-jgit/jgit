@@ -62,6 +62,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -101,10 +102,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 		uri = testProtocol.register(ctx, server);
 
-		try (ObjectInserter ins = client.newObjectInserter()) {
-			obj1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("test"));
-			obj2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("file"));
-			ins.flush();
+		try (TestRepository<?> clientRepo = new TestRepository<>(client)) {
+			obj1 = clientRepo.commit().noFiles().message("test commit 1")
+					.create();
+			obj2 = clientRepo.commit().noFiles().message("test commit 2")
+					.create();
 		}
 	}
 
