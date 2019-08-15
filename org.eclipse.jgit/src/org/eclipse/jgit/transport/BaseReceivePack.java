@@ -182,6 +182,12 @@ public abstract class BaseReceivePack {
 	private boolean allowAnyDeletes;
 	private boolean allowBranchDeletes;
 
+	/**
+	 * Should an incoming transfer permit writing a non-commit to refs/heads/*
+	 * refs.
+	 */
+	private boolean allowNonCommitToHeads;
+
 	/** Should an incoming transfer permit non-fast-forward requests? */
 	private boolean allowNonFastForwards;
 
@@ -323,6 +329,7 @@ public abstract class BaseReceivePack {
 		allowCreates = rc.allowCreates;
 		allowAnyDeletes = true;
 		allowBranchDeletes = rc.allowDeletes;
+		allowNonCommitToHeads = rc.allowNonCommitToHeads;
 		allowNonFastForwards = rc.allowNonFastForwards;
 		allowOfsDelta = rc.allowOfsDelta;
 		allowPushOptions = rc.allowPushOptions;
@@ -339,6 +346,8 @@ public abstract class BaseReceivePack {
 	protected static class ReceiveConfig {
 		final boolean allowCreates;
 		final boolean allowDeletes;
+
+		final boolean allowNonCommitToHeads;
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
 		final boolean allowPushOptions;
@@ -349,6 +358,8 @@ public abstract class BaseReceivePack {
 		ReceiveConfig(Config config) {
 			allowCreates = true;
 			allowDeletes = !config.getBoolean("receive", "denydeletes", false); //$NON-NLS-1$ //$NON-NLS-2$
+			allowNonCommitToHeads = config.getBoolean("receive", //$NON-NLS-1$
+					"allowNonCommitToHeads", false);//$NON-NLS-1$
 			allowNonFastForwards = !config.getBoolean("receive", //$NON-NLS-1$
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
@@ -661,6 +672,30 @@ public abstract class BaseReceivePack {
 	 */
 	public void setAllowBranchDeletes(boolean canDelete) {
 		allowBranchDeletes = canDelete;
+	}
+
+	/**
+	 * Whether the client can write a non-commit object to {@code refs/heads/}.
+	 *
+	 * @return {@code true} if the client can write a non-commit object to
+	 *         {@code refs/heads/}.
+	 * @since 5.6
+	 */
+	public boolean isAllowNonCommitToHeads() {
+		return allowNonCommitToHeads;
+	}
+
+	/**
+	 * Configure whether to permit client to write a non-commit object to
+	 * {@code refs/heads/}.
+	 *
+	 * @param canNonCommitToHeads
+	 *            {@code true} to permit permit client to write a non-commit
+	 *            object to {@code refs/heads/}.
+	 * @since 5.6
+	 */
+	public void setAllowNonCommitToHeads(boolean canNonCommitToHeads) {
+		allowNonCommitToHeads = canNonCommitToHeads;
 	}
 
 	/**
@@ -1606,8 +1641,10 @@ public abstract class BaseReceivePack {
 
 	/**
 	 * Validate the command list.
+	 *
+	 * @throws IOException
 	 */
-	protected void validateCommands() {
+	protected void validateCommands() throws IOException {
 		for (ReceiveCommand cmd : commands) {
 			final Ref ref = cmd.getRef();
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
@@ -1647,6 +1684,18 @@ public abstract class BaseReceivePack {
 					//
 					cmd.setResult(Result.REJECTED_OTHER_REASON,
 							JGitText.get().refAlreadyExists);
+					continue;
+				}
+
+				RevObject newObj = walk.parseAny(cmd.getNewId());
+
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)
+						&& !isAllowNonCommitToHeads()) {
+					// When nonCommitToHead is not allowed, we shouldn't accept
+					// a non-commit object to head.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHeads);
 					continue;
 				}
 			}
@@ -1708,6 +1757,16 @@ public abstract class BaseReceivePack {
 				} catch (IOException e) {
 					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
 							.getNewId().name());
+					continue;
+				}
+
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)
+						&& !isAllowNonCommitToHeads()) {
+					// When nonCommitToHead is not allowed, we shouldn't accept
+					// a non-commit object to head.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHeads);
 					continue;
 				}
 
