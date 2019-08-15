@@ -276,15 +276,19 @@ public abstract class FS {
 		 * @return FileStoreAttributes for the given path.
 		 */
 		public static FileStoreAttributes get(Path path) {
-			path = path.toAbsolutePath();
-			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			FileStoreAttributes cached = attrCacheByPath.get(dir);
-			if (cached != null) {
-				return cached;
+			try {
+				path = path.toAbsolutePath();
+				Path dir = Files.isDirectory(path) ? path : path.getParent();
+				FileStoreAttributes cached = attrCacheByPath.get(dir);
+				if (cached != null) {
+					return cached;
+				}
+				FileStoreAttributes attrs = getFileStoreAttributes(dir);
+				attrCacheByPath.put(dir, attrs);
+				return attrs;
+			} catch (SecurityException e) {
+				return FALLBACK_FILESTORE_ATTRIBUTES;
 			}
-			FileStoreAttributes attrs = getFileStoreAttributes(dir);
-			attrCacheByPath.put(dir, attrs);
-			return attrs;
 		}
 
 		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
@@ -1060,9 +1064,14 @@ public abstract class FS {
 
 		for (String p : path.split(File.pathSeparator)) {
 			for (String command : lookFor) {
-				final File e = new File(p, command);
-				if (e.isFile())
-					return e.getAbsoluteFile();
+				try {
+					final File e = new File(p, command);
+					if (e.isFile()) {
+						return e.getAbsoluteFile();
+					}
+				} catch (SecurityException e) {
+					LOG.warn("The path '{}' isn't accessible. Skip it", command);
+				}
 			}
 		}
 		return null;
