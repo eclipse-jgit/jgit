@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b06e128_84c17e71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "load() not needed anymore, and need to catch RuntimeException.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08f02b27_e00de17c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "If I understand this change correctly, this shouldn\u0027t be needed anymore?",
+      "range": {
+        "startLine": 719,
+        "startChar": 3,
+        "endLine": 719,
+        "endChar": 21
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d694e49d_08bd852f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "Therefore: must catch RuntimeException from getUserConfig() now.",
+      "range": {
+        "startLine": 722,
+        "startChar": 3,
+        "endLine": 722,
+        "endChar": 40
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9d3f31b_5debec34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "Throws RuntimeException if the config cannot be read.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21adb445_fb95ff0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "Loads and may throw RuntimeException.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdfc41d5_0ebb0d02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "May throw RuntimeException.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65666d33_99daf57a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "Loaded already.",
+      "range": {
+        "startLine": 135,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 17
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fe24e3e_bf57a613",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:40:29Z",
+      "side": 1,
+      "message": "Propagate IOE and ConfigInvalidException instead of translating to RuntimeException? I\u0027m not happy about this translation -- unclear what the effects will be. If you propagate checked exceptions, the caller has to think about what to do with it. Most callers already catch IOE and ConfigInvalidException from load().",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
