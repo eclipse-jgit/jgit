@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005400a4_f089d341",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1665,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T20:09:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be part of ReceiveConfig and be handled like all the other flags from that config section? (Read once in constructor and copied into local boolean.)",
+      "revId": "721bf9904828aa81d17c3ce2824473ad202fb563",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
