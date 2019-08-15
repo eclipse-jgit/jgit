@@ -162,6 +162,23 @@
     },
     {
       "key": {
+        "uuid": "75d425d7_92552d42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T22:51:42Z",
+      "side": 1,
+      "message": "I think the SystemReader should server this cache instance. With two static instances, there is a brief interval in which this cache instance will be the old one while the SystemReader instance will already be the new one.\n\nMight be simpler if the two methods getSystemConfig() and getUserConfig() were on SystemReader, without this separate class.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fe24e3e_bf57a613",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
         "patchSetId": 2
