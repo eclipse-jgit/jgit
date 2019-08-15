@@ -64,6 +64,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.security.AccessControlException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
@@ -276,15 +277,19 @@ public abstract class FS {
 		 * @return FileStoreAttributes for the given path.
 		 */
 		public static FileStoreAttributes get(Path path) {
-			path = path.toAbsolutePath();
-			Path dir = Files.isDirectory(path) ? path : path.getParent();
-			FileStoreAttributes cached = attrCacheByPath.get(dir);
-			if (cached != null) {
-				return cached;
+			try {
+				path = path.toAbsolutePath();
+				Path dir = Files.isDirectory(path) ? path : path.getParent();
+				FileStoreAttributes cached = attrCacheByPath.get(dir);
+				if (cached != null) {
+					return cached;
+				}
+				FileStoreAttributes attrs = getFileStoreAttributes(dir);
+				attrCacheByPath.put(dir, attrs);
+				return attrs;
+			} catch (SecurityException e) {
+				return FALLBACK_FILESTORE_ATTRIBUTES;
 			}
-			FileStoreAttributes attrs = getFileStoreAttributes(dir);
-			attrCacheByPath.put(dir, attrs);
-			return attrs;
 		}
 
 		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
@@ -1060,9 +1065,14 @@ public abstract class FS {
 
 		for (String p : path.split(File.pathSeparator)) {
 			for (String command : lookFor) {
-				final File e = new File(p, command);
-				if (e.isFile())
-					return e.getAbsoluteFile();
+				final File file = new File(p, command);
+				try {
+					if (file.isFile()) {
+						return file.getAbsoluteFile();
+					}
+				} catch (SecurityException e) {
+					LOG.warn("The path '{}' isn't accessible. Skip it", file.getPath()); //$NON-NLS-1$
+				}
 			}
 		}
 		return null;
@@ -1165,6 +1175,14 @@ public abstract class FS {
 			}
 		} catch (IOException e) {
 			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
+		} catch (AccessControlException e) {
+			LOG.warn(
+					"FS.readPipe() isn't allowed for command '{}'. Working directory: '{}'. Required permission: {}", //$NON-NLS-1$
+					command, dir, e.getPermission());
+		} catch (SecurityException e) {
+			LOG.warn(
+					"FS.readPipe() isn't allowed for command '{}'. Working directory: '{}'", //$NON-NLS-1$
+					command, dir);
 		}
 		if (debug) {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$
