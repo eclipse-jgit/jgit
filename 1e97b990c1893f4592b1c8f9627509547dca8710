@@ -57,6 +57,30 @@
       "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655b3fa2_1c1aa7e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9cd22f4_559a0ae2",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
