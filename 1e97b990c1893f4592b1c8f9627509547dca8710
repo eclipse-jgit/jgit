@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57294276_4415bb45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-15T16:25:45Z",
+      "side": 1,
+      "message": "What about the system config?",
+      "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
