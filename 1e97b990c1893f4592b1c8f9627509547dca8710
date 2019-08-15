@@ -16,6 +16,47 @@
       "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f86fbfd_ba29a929",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:33:35Z",
+      "side": 1,
+      "message": "getUserConfig() calls getSystemConfig() to make sure its parent config also is reloaded if necessary. This is mentioned in the javadoc of getUserConfig()",
+      "parentUuid": "57294276_4415bb45",
+      "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9cd22f4_559a0ae2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:33:35Z",
+      "side": 1,
+      "message": "5.1.9",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "1e97b990c1893f4592b1c8f9627509547dca8710",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
