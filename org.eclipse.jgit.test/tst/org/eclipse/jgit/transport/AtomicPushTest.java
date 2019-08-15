@@ -55,10 +55,9 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
@@ -73,8 +72,8 @@ public class AtomicPushTest {
 	private Object ctx = new Object();
 	private InMemoryRepository server;
 	private InMemoryRepository client;
-	private ObjectId obj1;
-	private ObjectId obj2;
+	private ObjectId commit1;
+	private ObjectId commit2;
 
 	@Before
 	public void setUp() throws Exception {
@@ -92,10 +91,11 @@ public class AtomicPushTest {
 				});
 		uri = testProtocol.register(ctx, server);
 
-		try (ObjectInserter ins = client.newObjectInserter()) {
-			obj1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("test"));
-			obj2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("file"));
-			ins.flush();
+		try (TestRepository<?> clientRepo = new TestRepository<>(client)) {
+			commit1 = clientRepo.commit().noFiles().message("test commit 1")
+					.create();
+			commit2 = clientRepo.commit().noFiles().message("test commit 2")
+					.create();
 		}
 	}
 
@@ -149,13 +149,13 @@ public class AtomicPushTest {
 		List<RemoteRefUpdate> cmds = new ArrayList<>();
 		cmds.add(new RemoteRefUpdate(
 				null, null,
-				obj1, "refs/heads/one",
+				commit1, "refs/heads/one",
 				true /* force update */,
 				null /* no local tracking ref */,
 				ObjectId.zeroId()));
 		cmds.add(new RemoteRefUpdate(
 				null, null,
-				obj2, "refs/heads/two",
+				commit2, "refs/heads/two",
 				true /* force update */,
 				null /* no local tracking ref */,
 				ObjectId.zeroId()));
@@ -176,16 +176,16 @@ public class AtomicPushTest {
 		List<RemoteRefUpdate> cmds = new ArrayList<>();
 		cmds.add(new RemoteRefUpdate(
 				null, null,
-				obj1, "refs/heads/one",
+				commit1, "refs/heads/one",
 				true /* force update */,
 				null /* no local tracking ref */,
 				ObjectId.zeroId()));
 		cmds.add(new RemoteRefUpdate(
 				null, null,
-				obj2, "refs/heads/two",
+				commit2, "refs/heads/two",
 				true /* force update */,
 				null /* no local tracking ref */,
-				obj1));
+				commit1));
 		return cmds;
 	}
 }

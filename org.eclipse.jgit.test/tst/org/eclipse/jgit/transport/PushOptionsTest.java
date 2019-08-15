@@ -62,10 +62,9 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -79,8 +78,8 @@ public class PushOptionsTest extends RepositoryTestCase {
 	private Object ctx = new Object();
 	private InMemoryRepository server;
 	private InMemoryRepository client;
-	private ObjectId obj1;
-	private ObjectId obj2;
+	private ObjectId commit1;
+	private ObjectId commit2;
 	private ReceivePack receivePack;
 
 	@Override
@@ -101,10 +100,11 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 		uri = testProtocol.register(ctx, server);
 
-		try (ObjectInserter ins = client.newObjectInserter()) {
-			obj1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("test"));
-			obj2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("file"));
-			ins.flush();
+		try (TestRepository<?> clientRepo = new TestRepository<>(client)) {
+			commit1 = clientRepo.commit().noFiles().message("test commit 1")
+					.create();
+			commit2 = clientRepo.commit().noFiles().message("test commit 2")
+					.create();
 		}
 	}
 
@@ -121,12 +121,12 @@ public class PushOptionsTest extends RepositoryTestCase {
 	private List<RemoteRefUpdate> commands(boolean atomicSafe)
 			throws IOException {
 		List<RemoteRefUpdate> cmds = new ArrayList<>();
-		cmds.add(new RemoteRefUpdate(null, null, obj1, "refs/heads/one",
+		cmds.add(new RemoteRefUpdate(null, null, commit1, "refs/heads/one",
 				true /* force update */, null /* no local tracking ref */,
 				ObjectId.zeroId()));
-		cmds.add(new RemoteRefUpdate(null, null, obj2, "refs/heads/two",
+		cmds.add(new RemoteRefUpdate(null, null, commit2, "refs/heads/two",
 				true /* force update */, null /* no local tracking ref */,
-				atomicSafe ? ObjectId.zeroId() : obj1));
+				atomicSafe ? ObjectId.zeroId() : commit1));
 		return cmds;
 	}
 
