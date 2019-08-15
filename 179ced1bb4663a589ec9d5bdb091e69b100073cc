@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "730745b1_d1addaf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:59:11Z",
+      "side": 1,
+      "message": "remove the bug link from the commit message header, we track bug links in the commit message footer as you did already below\n\nCan you find a better header? It should describe what this change does. You can provide more details in the body of the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7cafc8d_9f9d49d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:59:11Z",
+      "side": 1,
+      "message": "in which cases can we prevent this ? \n\nIf access to any git relevant files isn\u0027t possible we cannot guarantee that jgit will still behave correctly. In that case we better throw an exception instead of trying to hide the problem.\n\nfalling back to fallback filestore attributes is ok\n\nthis line is too wide, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11683819_a7f682a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:59:11Z",
+      "side": 1,
+      "message": "I\u0027d log a warning here otherwise this could go unnoticed.\n\nThis method is e.g. used to discover the folder where native git is installed. If this can\u0027t be discovered since a SecurityException is silently swallowed here jgit cannot find the folder where native git is installed and hence will not take the system level gitconfig file into account which may yield surprising results compared to running the same command from native git which does not respect the Java security manager\u0027s configuration",
+      "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8841350d_c3873a6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-15T20:59:11Z",
+      "side": 1,
+      "message": "we could fix this by testing symlink support using a temporary file underneath the .git folder instead of under java.io.tmpdir",
+      "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
