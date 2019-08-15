@@ -1613,6 +1613,24 @@ public abstract class BaseReceivePack {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
 				continue;
 
+			RevObject newObj = null;
+			if (cmd.getType() == ReceiveCommand.Type.CREATE
+					|| cmd.getType() == ReceiveCommand.Type.UPDATE) {
+				try {
+					newObj = walk.parseAny(cmd.getNewId());
+				} catch (IOException e) {
+					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+							cmd.getNewId().name());
+					continue;
+				}
+				if (cmd.getRefName().startsWith(Constants.R_HEADS)
+						&& !(newObj instanceof RevCommit)) {
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().nonCommitToHeads);
+					continue;
+				}
+			}
+
 			if (cmd.getType() == ReceiveCommand.Type.DELETE) {
 				if (!isAllowDeletes()) {
 					// Deletes are not supported on this repository.
@@ -1694,20 +1712,12 @@ public abstract class BaseReceivePack {
 
 				// Is this possibly a non-fast-forward style update?
 				//
-				RevObject oldObj, newObj;
+				RevObject oldObj;
 				try {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
 					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
 							.getOldId().name());
-					continue;
-				}
-
-				try {
-					newObj = walk.parseAny(cmd.getNewId());
-				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getNewId().name());
 					continue;
 				}
 
