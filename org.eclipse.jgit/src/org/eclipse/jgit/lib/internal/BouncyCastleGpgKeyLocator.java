@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -72,6 +73,8 @@ import org.bouncycastle.gpg.keybox.UserID;
 import org.bouncycastle.gpg.keybox.jcajce.JcaKeyBoxBuilder;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSecretKeyRing;
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
@@ -114,6 +117,9 @@ class BouncyCastleGpgKeyLocator {
 
 	private static final Path USER_SECRET_KEY_DIR = GPG_DIRECTORY
 			.resolve("private-keys-v1.d"); //$NON-NLS-1$
+
+	private static final Path USER_PGP_PUBRING_FILE = GPG_DIRECTORY
+			.resolve("pubring.gpg"); //$NON-NLS-1$
 
 	private static final Path USER_PGP_LEGACY_SECRING_FILE = GPG_DIRECTORY
 			.resolve("secring.gpg"); //$NON-NLS-1$
@@ -250,8 +256,13 @@ class BouncyCastleGpgKeyLocator {
 	}
 
 	/**
-	 * Use pubring.kbx when available, if not fallback to secring.gpg or secret
-	 * key path provided to parse and return secret key
+	 * If there is a private key directory containing keys, use pubring.kbx or
+	 * pubring.gpg to find the public key; then try to find the secret key in
+	 * the directory.
+	 * <p>
+	 * If there is no private key directory (or it doesn't contain any keys),
+	 * try to find the key in secring.gpg directly.
+	 * </p>
 	 *
 	 * @return the secret key
 	 * @throws IOException
@@ -259,51 +270,97 @@ class BouncyCastleGpgKeyLocator {
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchProviderException
 	 * @throws PGPException
-	 *             in case of issues finding a key
+	 *             in case of issues finding a key, including no key found
 	 * @throws CanceledException
 	 * @throws URISyntaxException
 	 * @throws UnsupportedCredentialItem
 	 */
+	@NonNull
 	public BouncyCastleGpgKey findSecretKey() throws IOException,
 			NoSuchAlgorithmException, NoSuchProviderException, PGPException,
 			CanceledException, UnsupportedCredentialItem, URISyntaxException {
 		BouncyCastleGpgKey key;
-		if (exists(USER_KEYBOX_PATH)) {
-			try {
-				key = loadKeyFromKeybox(USER_KEYBOX_PATH);
-				if (key != null) {
-					return key;
-				}
-				throw new PGPException(MessageFormat.format(
-						JGitText.get().gpgNoPublicKeyFound, signingKey));
-			} catch (NoOpenPgpKeyException e) {
-				// Ignore and try the secring.gpg, if it exists.
-				if (log.isDebugEnabled()) {
-					log.debug("{} does not contain any OpenPGP keys", //$NON-NLS-1$
-							USER_KEYBOX_PATH);
+		PGPPublicKey publicKey = null;
+		if (hasKeyFiles(USER_SECRET_KEY_DIR)) {
+			// Use pubring.kbx or pubring.gpg to find the public key, then try
+			// the key files in the directory. If the public key was found in
+			// pubring.gpg also try secring.gpg to find the secret key.
+			if (exists(USER_KEYBOX_PATH)) {
+				try {
+					publicKey = findPublicKeyInKeyBox(USER_KEYBOX_PATH);
+					if (publicKey != null) {
+						key = findSecretKeyForKeyBoxPublicKey(publicKey,
+								USER_KEYBOX_PATH);
+						if (key != null) {
+							return key;
+						}
+						throw new PGPException(MessageFormat.format(
+								JGitText.get().gpgNoSecretKeyForPublicKey,
+								Long.toHexString(publicKey.getKeyID())));
+					}
+					throw new PGPException(MessageFormat.format(
+							JGitText.get().gpgNoPublicKeyFound, signingKey));
+				} catch (NoOpenPgpKeyException e) {
+					// There are no OpenPGP keys in the keybox at all: try the
+					// pubring.gpg, if it exists.
+					if (log.isDebugEnabled()) {
+						log.debug("{} does not contain any OpenPGP keys", //$NON-NLS-1$
+								USER_KEYBOX_PATH);
+					}
 				}
 			}
+			if (exists(USER_PGP_PUBRING_FILE)) {
+				publicKey = findPublicKeyInPubring(USER_PGP_PUBRING_FILE);
+				if (publicKey != null) {
+					// GPG < 2.1 may have both; the agent using the directory
+					// and gpg using secring.gpg. GPG >= 2.1 delegates all
+					// secret key handling to the agent and doesn't use
+					// secring.gpg at all, even if it exists. Which means for us
+					// we have to try both since we don't know which GPG version
+					// the user has.
+					key = findSecretKeyForKeyBoxPublicKey(publicKey,
+							USER_PGP_PUBRING_FILE);
+					if (key != null) {
+						return key;
+					}
+				}
+			}
+			if (publicKey == null) {
+				throw new PGPException(MessageFormat.format(
+						JGitText.get().gpgNoPublicKeyFound, signingKey));
+			}
+			// We found a public key, but didn't find the secret key in the
+			// private key directory. Go try the secring.gpg.
 		}
+		boolean hasSecring = false;
 		if (exists(USER_PGP_LEGACY_SECRING_FILE)) {
+			hasSecring = true;
 			key = loadKeyFromSecring(USER_PGP_LEGACY_SECRING_FILE);
 			if (key != null) {
 				return key;
 			}
+		}
+		if (publicKey != null) {
+			throw new PGPException(MessageFormat.format(
+					JGitText.get().gpgNoSecretKeyForPublicKey,
+					Long.toHexString(publicKey.getKeyID())));
+		} else if (hasSecring) {
+			// publicKey == null: user has _only_ pubring.gpg/secring.gpg.
 			throw new PGPException(MessageFormat.format(
 					JGitText.get().gpgNoKeyInLegacySecring, signingKey));
+		} else {
+			throw new PGPException(JGitText.get().gpgNoKeyring);
 		}
-		throw new PGPException(JGitText.get().gpgNoKeyring);
 	}
 
-	private BouncyCastleGpgKey loadKeyFromKeybox(Path keybox)
-			throws NoOpenPgpKeyException, NoSuchAlgorithmException,
-			NoSuchProviderException, IOException, CanceledException,
-			UnsupportedCredentialItem, PGPException, URISyntaxException {
-		PGPPublicKey publicKey = findPublicKeyInKeyBox(keybox);
-		if (publicKey != null) {
-			return findSecretKeyForKeyBoxPublicKey(publicKey, keybox);
+	private boolean hasKeyFiles(Path dir) {
+		try (DirectoryStream<Path> contents = Files.newDirectoryStream(dir,
+				"*.key")) { //$NON-NLS-1$
+			return contents.iterator().hasNext();
+		} catch (IOException e) {
+			// Not a directory, or something else
+			return false;
 		}
-		return null;
 	}
 
 	private BouncyCastleGpgKey loadKeyFromSecring(Path secring)
@@ -353,9 +410,7 @@ class BouncyCastleGpgKeyLocator {
 			}
 
 			passphrasePrompt.clear();
-			throw new PGPException(MessageFormat.format(
-					JGitText.get().gpgNoSecretKeyForPublicKey,
-					Long.toHexString(publicKey.getKeyID())));
+			return null;
 		} catch (RuntimeException e) {
 			passphrasePrompt.clear();
 			throw e;
@@ -399,6 +454,51 @@ class BouncyCastleGpgKeyLocator {
 					// try key id
 					String fingerprint = Hex
 							.toHexString(key.getPublicKey().getFingerprint())
+							.toLowerCase(Locale.ROOT);
+					if (fingerprint.endsWith(keyId)) {
+						return key;
+					}
+					// try user id
+					Iterator<String> userIDs = key.getUserIDs();
+					while (userIDs.hasNext()) {
+						String userId = userIDs.next();
+						if (containsSigningKey(userId)) {
+							return key;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the first public key matching the key id ({@link #signingKey}.
+	 *
+	 * @param pubringFile
+	 *
+	 * @return the PGP public key, or {@code null} if none found
+	 * @throws IOException
+	 *             on I/O related errors
+	 * @throws PGPException
+	 *             on BouncyCastle errors
+	 */
+	private PGPPublicKey findPublicKeyInPubring(Path pubringFile)
+			throws IOException, PGPException {
+		try (InputStream in = newInputStream(pubringFile)) {
+			PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
+					new BufferedInputStream(in),
+					new JcaKeyFingerprintCalculator());
+
+			String keyId = signingKey.toLowerCase(Locale.ROOT);
+			Iterator<PGPPublicKeyRing> keyrings = pgpPub.getKeyRings();
+			while (keyrings.hasNext()) {
+				PGPPublicKeyRing keyRing = keyrings.next();
+				Iterator<PGPPublicKey> keys = keyRing.getPublicKeys();
+				while (keys.hasNext()) {
+					PGPPublicKey key = keys.next();
+					// try key id
+					String fingerprint = Hex.toHexString(key.getFingerprint())
 							.toLowerCase(Locale.ROOT);
 					if (fingerprint.endsWith(keyId)) {
 						return key;
