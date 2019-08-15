@@ -287,12 +287,6 @@ public class FS_POSIX extends FS {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supportsSymlinks() {
-		return true;
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setHidden(File path, boolean hidden) throws IOException {
 		// no action on POSIX
 	}
