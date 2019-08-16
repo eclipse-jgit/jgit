@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb472079_c6c524c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-16T19:10:13Z",
+      "side": 1,
+      "message": "Why? What\u0027s the use case? I would think if git forbids that it\u0027s an error to try to do that. Why have a config to allow erroneous things?",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b9827aa_b04b75bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-16T19:10:13Z",
+      "side": 1,
+      "message": "Why this?",
+      "range": {
+        "startLine": 361,
+        "startChar": 52,
+        "endLine": 361,
+        "endChar": 56
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e17dd5_c4bac8a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1697,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-16T19:10:13Z",
+      "side": 1,
+      "message": "Should be !isAllowNonCommitToHead(), here and below. Besides, why not simply name it \"allowNonCommitToHead\"?\n\nBut see comment on the commit message. Does this need a config at all?",
+      "range": {
+        "startLine": 1697,
+        "startChar": 9,
+        "endLine": 1697,
+        "endChar": 33
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
