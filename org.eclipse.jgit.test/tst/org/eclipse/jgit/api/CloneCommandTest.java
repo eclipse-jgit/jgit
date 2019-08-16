@@ -77,7 +77,7 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.GlobalConfigCache;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class CloneCommandTest extends RepositoryTestCase {
@@ -633,7 +633,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 				ConfigConstants.CONFIG_KEY_REBASE, null));
 
-		StoredConfig userConfig = GlobalConfigCache.getInstance()
+		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
 		userConfig.setString(ConfigConstants.CONFIG_BRANCH_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOSETUPREBASE,

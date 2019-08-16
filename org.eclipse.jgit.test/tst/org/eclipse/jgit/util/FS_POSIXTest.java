@@ -73,6 +73,10 @@ public class FS_POSIXTest {
 				.thenReturn(mockSystemConfig);
 		when(systemReader.openUserConfig(any(), any()))
 				.thenReturn(mockUserConfig);
+		when(systemReader.getSystemConfig())
+				.thenReturn(mockSystemConfig);
+		when(systemReader.getUserConfig())
+				.thenReturn(mockUserConfig);
 
 		when(mockSystemConfig.getString(ConfigConstants.CONFIG_CORE_SECTION,
 				null, ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION))
