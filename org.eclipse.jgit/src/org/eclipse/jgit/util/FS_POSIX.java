@@ -117,7 +117,7 @@ public class FS_POSIX extends FS {
 		AtomicFileCreation ret;
 		try {
 			ret = getAtomicFileCreationSupportOption(
-					GlobalConfigCache.getInstance().getUserConfig());
+					SystemReader.getInstance().getUserConfig());
 		} catch (IOException | ConfigInvalidException e) {
 			ret = AtomicFileCreation.UNDEFINED;
 		}
@@ -126,7 +126,7 @@ public class FS_POSIX extends FS {
 						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 			try {
 				ret = getAtomicFileCreationSupportOption(
-						GlobalConfigCache.getInstance().getSystemConfig());
+						SystemReader.getInstance().getSystemConfig());
 			} catch (IOException | ConfigInvalidException e) {
 				ret = AtomicFileCreation.UNDEFINED;
 			}

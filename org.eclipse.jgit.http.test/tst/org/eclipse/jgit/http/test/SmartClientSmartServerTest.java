@@ -126,8 +126,8 @@ import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.SystemReader;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
@@ -650,7 +650,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectMax() throws Exception {
-		StoredConfig userConfig = GlobalConfigCache.getInstance()
+		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
 		userConfig.setInt("http", null, "maxRedirects", 4);
 		userConfig.save();
@@ -659,7 +659,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectTooOften() throws Exception {
-		StoredConfig userConfig = GlobalConfigCache.getInstance()
+		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
 		userConfig.setInt("http", null, "maxRedirects", 3);
 		userConfig.save();
@@ -699,7 +699,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectOnPostAllowed() throws Exception {
-		StoredConfig userConfig = GlobalConfigCache.getInstance()
+		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
 		userConfig.setString("http", null, "followRedirects", "true");
 		userConfig.save();
@@ -762,7 +762,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectForbidden() throws Exception {
-		StoredConfig userConfig = GlobalConfigCache.getInstance()
+		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
 		userConfig.setString("http", null, "followRedirects", "false");
 		userConfig.save();

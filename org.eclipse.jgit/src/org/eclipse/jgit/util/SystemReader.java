@@ -47,6 +47,7 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.AccessController;
@@ -56,9 +57,11 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.MonotonicSystemClock;
@@ -124,6 +127,18 @@ public abstract class SystemReader {
 		}
 
 		@Override
+		public StoredConfig getSystemConfig()
+				throws IOException, ConfigInvalidException {
+			return globalConfigCache.getSystemConfig();
+		}
+
+		@Override
+		public StoredConfig getUserConfig()
+				throws IOException, ConfigInvalidException {
+			return globalConfigCache.getUserConfig();
+		}
+
+		@Override
 		public String getHostname() {
 			if (hostname == null) {
 				try {
@@ -177,18 +192,43 @@ public abstract class SystemReader {
 			INSTANCE = newReader;
 			FS fs = FS.DETECTED;
 			FileBasedConfig systemConfig = newReader.openSystemConfig(null, fs);
-			GlobalConfigCache.setInstance(systemConfig,
+			newReader.setGlobalConfigCache(systemConfig,
 					newReader.openUserConfig(systemConfig, fs));
 		}
 	}
 
+	/**
+	 * The global git config cache
+	 *
+	 * @since 5.1.9
+	 */
+	protected GlobalConfigCache globalConfigCache;
+
 	private ObjectChecker platformChecker;
 
 	private void init() {
+		globalConfigCache = new GlobalConfigCache(this);
 		// Creating ObjectChecker must be deferred. Unit tests change
 		// behavior of is{Windows,MacOS} in constructor of subclass.
 		if (platformChecker == null)
 			setPlatformChecker();
+	}
+
+	/**
+	 * Set a new global config cache caching the given system-level and user
+	 * level git configs
+	 *
+	 * @param systemConfig
+	 *            the system level gitconfig
+	 * @param userConfig
+	 *            the git config in the user home directory
+	 *
+	 * @since 5.1.9
+	 */
+	protected void setGlobalConfigCache(FileBasedConfig systemConfig,
+			FileBasedConfig userConfig) {
+		this.globalConfigCache = new GlobalConfigCache(systemConfig,
+				userConfig);
 	}
 
 	/**
@@ -259,6 +299,38 @@ public abstract class SystemReader {
 	 *         directory
 	 */
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
+
+	/**
+	 * Get the git configuration found in the user home. The configuration will
+	 * be reloaded automatically if the configuration file was modified. Also
+	 * reloads the system config if the system config file was modified. If the
+	 * configuration file wasn't modified returns the cached configuration.
+	 *
+	 * @return the git configuration found in the user home
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.1.9
+	 */
+	public abstract StoredConfig getUserConfig()
+			throws IOException, ConfigInvalidException;
+
+	/**
+	 * Get the gitconfig configuration found in the system-wide "etc" directory.
+	 * The configuration will be reloaded automatically if the configuration
+	 * file was modified otherwise returns the cached system level config.
+	 *
+	 * @return the gitconfig configuration found in the system-wide "etc"
+	 *         directory
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.1.9
+	 */
+	public abstract StoredConfig getSystemConfig()
+			throws IOException, ConfigInvalidException;
 
 	/**
 	 * Get the current system time

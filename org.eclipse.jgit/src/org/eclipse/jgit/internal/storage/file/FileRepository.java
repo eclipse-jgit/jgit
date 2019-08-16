@@ -86,7 +86,6 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
@@ -179,9 +178,8 @@ public class FileRepository extends Repository {
 	public FileRepository(BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
-		GlobalConfigCache configs = GlobalConfigCache.getInstance();
 		try {
-			userConfig = configs.getUserConfig();
+			userConfig = SystemReader.getInstance().getUserConfig();
 		} catch (ConfigInvalidException e) {
 			throw new IOException(e.getMessage(), e);
 		}
@@ -361,7 +359,7 @@ public class FileRepository extends Repository {
 	@Override
 	public FileBasedConfig getConfig() {
 		try {
-			GlobalConfigCache.getInstance().getUserConfig();
+			SystemReader.getInstance().getUserConfig();
 			if (repoConfig.isOutdated()) {
 				loadRepoConfig();
 			}
