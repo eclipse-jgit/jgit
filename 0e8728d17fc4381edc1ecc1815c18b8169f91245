@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43bad663_9d502ac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57cb40c4_e429b860",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b06e128_84c17e71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "773b020d_40526cd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b06e128_84c17e71",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08f02b27_e00de17c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2019-08-15T22:40:29Z",
       "side": 1,
       "message": "If I understand this change correctly, this shouldn\u0027t be needed anymore?",
+      "range": {
+        "startLine": 719,
+        "startChar": 3,
+        "endLine": 719,
+        "endChar": 21
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd232f09_84a593ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08f02b27_e00de17c",
       "range": {
         "startLine": 719,
         "startChar": 3,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "a3c969c6_cb8bf483",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d694e49d_08bd852f",
+      "range": {
+        "startLine": 722,
+        "startChar": 3,
+        "endLine": 722,
+        "endChar": 40
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9d3f31b_5debec34",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -99,6 +189,24 @@
       "writtenOn": "2019-08-15T22:40:29Z",
       "side": 1,
       "message": "Throws RuntimeException if the config cannot be read.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173b8dd6_11bb4874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9d3f31b_5debec34",
       "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "3a28ffcf_b90ec30d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21adb445_fb95ff0e",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdfc41d5_0ebb0d02",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 2
@@ -133,6 +259,24 @@
       "writtenOn": "2019-08-15T22:40:29Z",
       "side": 1,
       "message": "May throw RuntimeException.",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d293c6c_1fe75f78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdfc41d5_0ebb0d02",
       "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "c12f5969_f8f9763e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65666d33_99daf57a",
+      "range": {
+        "startLine": 135,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 17
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75d425d7_92552d42",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
         "patchSetId": 2
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "c6be1f9a_8a63ff9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "I tried this, but didn\u0027t yet find a solution which doesn\u0027t introduce a circular runtime dependency during initialization of SystemReader, see https://git.eclipse.org/r/#/c/147842/",
+      "parentUuid": "75d425d7_92552d42",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fe24e3e_bf57a613",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
         "patchSetId": 2
@@ -190,6 +376,24 @@
       "writtenOn": "2019-08-15T22:40:29Z",
       "side": 1,
       "message": "Propagate IOE and ConfigInvalidException instead of translating to RuntimeException? I\u0027m not happy about this translation -- unclear what the effects will be. If you propagate checked exceptions, the caller has to think about what to do with it. Most callers already catch IOE and ConfigInvalidException from load().",
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3a5da0a_19effe4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GlobalConfigCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-16T14:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fe24e3e_bf57a613",
       "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
