@@ -16,6 +16,24 @@
       "revId": "39e83a6583d6366b65f2356cc80c7cfadb7e051b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7edd58d4_6108c34d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/internal/BouncyCastleGpgKeyLocator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-16T06:08:02Z",
+      "side": 1,
+      "message": "Ack. Was a conscious choice, I wanted to keep all the main decision points of the form\n\n  if (condition(SOME_FILE))\n\nI actually first had it the way you suggest...",
+      "parentUuid": "25eb8a92_d96febc5",
+      "revId": "39e83a6583d6366b65f2356cc80c7cfadb7e051b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
