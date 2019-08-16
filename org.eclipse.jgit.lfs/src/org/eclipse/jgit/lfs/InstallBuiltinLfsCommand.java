@@ -46,8 +46,8 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.LfsFactory.LfsInstallCommand;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Installs all required LFS properties for the current user, analogous to 'git
@@ -69,7 +69,7 @@ public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 	public Void call() throws Exception {
 		StoredConfig cfg = null;
 		if (repository == null) {
-			cfg = GlobalConfigCache.getInstance().getUserConfig();
+			cfg = SystemReader.getInstance().getUserConfig();
 		} else {
 			cfg = repository.getConfig();
 		}

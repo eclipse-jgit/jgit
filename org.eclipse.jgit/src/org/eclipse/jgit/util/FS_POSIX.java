@@ -117,7 +117,7 @@ public class FS_POSIX extends FS {
 		AtomicFileCreation ret;
 		try {
 			ret = getAtomicFileCreationSupportOption(
-					GlobalConfigCache.getInstance().getUserConfig());
+					SystemReader.getInstance().getUserConfig());
 		} catch (IOException | ConfigInvalidException e) {
 			ret = AtomicFileCreation.UNDEFINED;
 		}

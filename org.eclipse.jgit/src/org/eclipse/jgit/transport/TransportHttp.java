@@ -111,10 +111,10 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
-import org.eclipse.jgit.util.GlobalConfigCache;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.UnionInputStream;
@@ -715,7 +715,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private void updateSslVerifyUser(boolean value) {
 		StoredConfig userConfig = null;
 		try {
-			userConfig = GlobalConfigCache.getInstance().getUserConfig();
+			userConfig = SystemReader.getInstance().getUserConfig();
 			updateSslVerify(userConfig, value);
 		} catch (IOException | ConfigInvalidException e) {
 			// Log it, but otherwise ignore here.
