@@ -139,9 +139,11 @@ public class RebaseTodoFile {
 				line = parseLine(buf, skip, lineEnd);
 				// successfully parsed as non-comment line
 				// mark this line as a comment explicitly
-				line.setAction(Action.COMMENT);
-				// use the read line as comment string
-				line.setComment(commentString);
+				if (line != null) {
+					line.setAction(Action.COMMENT);
+					// use the read line as comment string
+					line.setComment(commentString);
+				}
 			}
 		} catch (Exception e) {
 			// parsing as non-comment line failed
