@@ -135,6 +135,9 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 */
 	@SuppressWarnings("unchecked")
 	public V get(AnyObjectId toFind) {
+		if (toFind == null) {
+			return null;
+		}
 		int h = toFind.w1;
 		V obj = directory[h & mask][h >>> SEGMENT_SHIFT];
 		for (; obj != null; obj = (V) obj.next)
