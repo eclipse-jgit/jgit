@@ -62,39 +62,19 @@ public class GlobalConfigCache {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(GlobalConfigCache.class);
 
-	private static volatile GlobalConfigCache INSTANCE = new GlobalConfigCache();
-
-	/**
-	 * Get the cache instance
-	 *
-	 * @return the cache instance
-	 */
-	public static GlobalConfigCache getInstance() {
-		return INSTANCE;
-	}
-
-	/**
-	 * Set the instance
-	 *
-	 * @param systemConfig
-	 *            the new system git config
-	 * @param userConfig
-	 *            the new user config usually located in ~/.gitconfig
-	 * @return the new instance
-	 */
-	public static GlobalConfigCache setInstance(FileBasedConfig systemConfig,
-			FileBasedConfig userConfig) {
-		INSTANCE = new GlobalConfigCache(systemConfig, userConfig);
-		return INSTANCE;
-	}
-
 	private FileBasedConfig userConfig;
 
 	private FileBasedConfig systemConfig;
 
-	private GlobalConfigCache() {
+	/**
+	 * Construct a new global config cache
+	 *
+	 * @param sr
+	 *            the system reader to use
+	 */
+	protected GlobalConfigCache(SystemReader sr) {
 		FS fs = FS.DETECTED;
-		SystemReader sr = SystemReader.getInstance();
+		sr = SystemReader.getInstance();
 		if (StringUtils.isEmptyOrNull(SystemReader.getInstance()
 				.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 			systemConfig = SystemReader.getInstance().openSystemConfig(null,
@@ -116,7 +96,15 @@ public class GlobalConfigCache {
 		userConfig = sr.openUserConfig(systemConfig, fs);
 	}
 
-	private GlobalConfigCache(FileBasedConfig systemConfig,
+	/**
+	 * Construct a new global config cache, use in tests only
+	 *
+	 * @param systemConfig
+	 *            the system level gitconfig
+	 * @param userConfig
+	 *            the git config in the user home directory
+	 */
+	protected GlobalConfigCache(FileBasedConfig systemConfig,
 			FileBasedConfig userConfig) {
 		this.systemConfig = systemConfig;
 		this.userConfig = userConfig;

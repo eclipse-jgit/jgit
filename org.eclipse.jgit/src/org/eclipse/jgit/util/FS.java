@@ -512,7 +512,7 @@ public abstract class FS {
 				FileStore s) {
 			StoredConfig userConfig;
 			try {
-				userConfig = GlobalConfigCache.getInstance().getUserConfig();
+				userConfig = SystemReader.getInstance().getUserConfig();
 			} catch (IOException | ConfigInvalidException e) {
 				LOG.error(JGitText.get().readFileStoreAttributesFailed, e);
 				return Optional.empty();
@@ -540,7 +540,7 @@ public abstract class FS {
 				FileStoreAttributes c) {
 			StoredConfig userConfig;
 			try {
-				userConfig = GlobalConfigCache.getInstance().getUserConfig();
+				userConfig = SystemReader.getInstance().getUserConfig();
 			} catch (IOException | ConfigInvalidException e) {
 				LOG.error(JGitText.get().saveFileStoreAttributesFailed, e);
 				return;
