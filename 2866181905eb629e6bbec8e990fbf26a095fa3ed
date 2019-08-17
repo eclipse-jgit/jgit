@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fa49213_ec53ef3c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-17T21:12:59Z",
+      "side": 1,
+      "message": "This will also list the contents of the system config. So maybe we must not deprecate the open variants?\n\nAlso note that list() loads the config.",
+      "revId": "2866181905eb629e6bbec8e990fbf26a095fa3ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
