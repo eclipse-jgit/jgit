@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a499990_8d638d4b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallBuiltinLfsCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a52dfe40_99f8ffa4",
+      "range": {
+        "startLine": 89,
+        "startChar": 3,
+        "endLine": 89,
+        "endChar": 6
+      },
+      "revId": "611a7a61d6ec4df4110eff83efee100f44867403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb7dc475_67ca49e9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2019-08-17T19:41:12Z",
       "side": 1,
       "message": "Always null here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 5,
+        "endLine": 188,
+        "endChar": 15
+      },
+      "revId": "611a7a61d6ec4df4110eff83efee100f44867403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a2e21c6_d2cbb587",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:53:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "eb7dc475_67ca49e9",
       "range": {
         "startLine": 188,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6a50e65c_a6795039",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e7a2257_6d09c11d",
+      "range": {
+        "startLine": 218,
+        "startChar": 5,
+        "endLine": 218,
+        "endChar": 15
+      },
+      "revId": "611a7a61d6ec4df4110eff83efee100f44867403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70850e16_232a8272",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2019-08-17T19:41:12Z",
       "side": 1,
       "message": "Hm. We need to think a bit more about exception handling and how to report which config was invalid. Here in any case userConfig is always null.\n\nI think the ConfigInvalidException\u0027s message would include the file name.",
+      "range": {
+        "startLine": 723,
+        "startChar": 5,
+        "endLine": 723,
+        "endChar": 15
+      },
+      "revId": "611a7a61d6ec4df4110eff83efee100f44867403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "197cfeac_79a2f7f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70850e16_232a8272",
       "range": {
         "startLine": 723,
         "startChar": 5,
