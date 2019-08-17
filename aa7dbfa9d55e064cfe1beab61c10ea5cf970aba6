@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "58d82324_2f308d41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b001ea17_57536b6e",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a014294_819c04aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4e5a9f30_47e95262",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a014294_819c04aa",
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fbbd5ee_aff06b8c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 7
@@ -53,6 +95,24 @@
       "writtenOn": "2019-08-17T17:01:25Z",
       "side": 1,
       "message": "Same as above: catch-log-rethrow.",
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b6253d_59c8dc29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T19:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fbbd5ee_aff06b8c",
       "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
