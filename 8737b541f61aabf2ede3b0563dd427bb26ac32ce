@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "872f5228_f91d2f63",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "on Jenkins this test fails with the following exception since jgit tries to access the system-level git configuration:\n\n21:01:47  [INFO] Running org.eclipse.jgit.api.SecurityManagerTest\n21:01:47  [ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.023 s \u003c\u003c\u003c FAILURE! - in org.eclipse.jgit.api.SecurityManagerTest\n21:01:47  [ERROR] testInitAndClone(org.eclipse.jgit.api.SecurityManagerTest)  Time elapsed: 0.022 s  \u003c\u003c\u003c ERROR!\n21:01:47  java.security.AccessControlException: access denied (\"java.io.FilePermission\" \"/etc/gitconfig\" \"read\")\n21:01:47  \tat org.eclipse.jgit.api.SecurityManagerTest.testInitAndClone(SecurityManagerTest.java:173)",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0a5963_df0d57f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "style nit: remove trailing whitespace",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63b5e38e_2f43f4bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "s/;/File.pathSeparator/\n\nThis works on Windows, but not on *nix which uses \":\" as path separator.",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 40
+      },
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb0108f_bd74484f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "Is this really necessary ?\n[1] says:\n\n\"Please note: Code can always read a file from the same directory it\u0027s in (or a subdirectory of that directory); it does not need explicit permission to do so.\"\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/io/FilePermission.html",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51e9751e_d2433422",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "style nit: we add a blank line after the opening brace of anonymous classes",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27c30fbb_6e215411",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "That\u0027s good for a first test. We may consider to run all existing tests with a security manager by adding an option to the test run.\n\nMaven: https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit.html#Using_a_Security_Manager_.28All_providers.29\n\nBazel uses itself a security manager already to sandbox tests: https://github.com/bazelbuild/bazel/blob/master/src/java_tools/junitrunner/java/com/google/testing/junit/runner/BazelTestRunner.java#L30",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce00e148_2234d40a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "use JGitTestUtil.write instead",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec6a4b60_be733a62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-17T09:20:14Z",
+      "side": 1,
+      "message": "use FileUtils.delete instead",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
