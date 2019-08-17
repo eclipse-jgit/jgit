@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b001ea17_57536b6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-17T17:01:25Z",
+      "side": 1,
+      "message": "Is this still needed? systemConfig is the parent of the userConfig, so checking the userConfig should get the value from there if not in the userConfig directly.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a014294_819c04aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-17T17:01:25Z",
+      "side": 1,
+      "message": "This catch-log-rethrow pattern seems unnecessary to me. All callers but two catch the exceptions and log themselves.\n\nThe two that don\u0027t are FileRepository and InstallBuiltinLfsCommand, and those two could log themselves.",
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fbbd5ee_aff06b8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-17T17:01:25Z",
+      "side": 1,
+      "message": "Same as above: catch-log-rethrow.",
+      "revId": "aa7dbfa9d55e064cfe1beab61c10ea5cf970aba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
