@@ -256,8 +256,8 @@ public class ReftableReader extends Reftable {
 			return block;
 		}
 		if (blockType == LOG_BLOCK_TYPE) {
-			// No index. Log blocks are irregularly sized, so we can't do binary search
-			// between blocks. Scan over blocks instead.
+			// No index. Log blocks are irregularly sized, so we can't do binary
+			// search between blocks. Scan over blocks instead.
 			BlockReader block = readBlock(startPos, endPos);
 
 			for (;;) {
@@ -555,12 +555,20 @@ public class ReftableReader extends Reftable {
 	private class LogCursorImpl extends LogCursor {
 		private final long scanEnd;
 		private final byte[] match;
-
+	    
 		private String refName;
 		private long updateIndex;
 		private ReflogEntry entry;
 		BlockReader block;
 
+		/**
+		 * Scans logs from this table until scanEnd position.
+		 *
+		 * @param scanEnd
+		 *            end of the log data in the reftable.
+		 * @param match
+		 *            if non-null, limits the scan to precisely that refname.
+		 */
 		LogCursorImpl(long scanEnd, byte[] match) {
 			this.scanEnd = scanEnd;
 			this.match = match;

@@ -84,7 +84,11 @@ import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
-/** Reads a single block for {@link ReftableReader}. */
+/**
+ * Reads a single block for {@link ReftableReader}. Instances are tied to a
+ * specific block in the file so are not reused for other blocks. Instances hold
+ * an offset into the block.
+ */
 class BlockReader {
 	private byte blockType;
 	private long endPosition;
@@ -141,6 +145,8 @@ class BlockReader {
 		return RawParseUtils.decode(UTF_8, nameBuf, 0, len);
 	}
 
+	// Matches the key against a name or a prefix. For reflogs, only the
+	// refname is matched, and the updateIndex suffix is ignored.
 	boolean match(byte[] match, boolean matchIsPrefix) {
 		int len = nameLen;
 		if (blockType == LOG_BLOCK_TYPE) {
