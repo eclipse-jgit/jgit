@@ -73,6 +73,24 @@
       "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db817f8c_e8cf47c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 255395
+      },
+      "writtenOn": "2019-08-19T16:45:08Z",
+      "side": 1,
+      "message": "In this case SecurityException is thrown if Security Manager forbids creating symbolic links. Please see javadocs for LinkPermission and Files.createSymbolicLink().\nSo testing symlink support using a temporary file underneath the .git folder will not solve the issue.\n\nIMHO, if security manager doesn\u0027t allow creating symlinks, it should be considered that symlinks aren\u0027t supported for this FS.\n\nI think creating temporary files inside java.io.tmpdir should be OK.",
+      "parentUuid": "8841350d_c3873a6b",
+      "revId": "179ced1bb4663a589ec9d5bdb091e69b100073cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
