@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da4c8319_251f2ec2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T09:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd55dc70_c0c766b4",
+      "revId": "1a1a8a81726871c3e8d9a6a1d1f310abf5b46c34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07c5928_f5e5e639",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
         "patchSetId": 17
@@ -39,6 +57,30 @@
       "revId": "1a1a8a81726871c3e8d9a6a1d1f310abf5b46c34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c00a432_0c6b0beb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T09:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07c5928_f5e5e639",
+      "range": {
+        "startLine": 287,
+        "startChar": 14,
+        "endLine": 287,
+        "endChar": 26
+      },
+      "revId": "1a1a8a81726871c3e8d9a6a1d1f310abf5b46c34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
