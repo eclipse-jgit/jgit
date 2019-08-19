@@ -16,6 +16,24 @@
       "revId": "50277eb7b24b101c1dc06236dbfacca5d05e9f91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c05b64_70bd7c1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-19T00:38:45Z",
+      "side": 1,
+      "message": "Done for getHunks()",
+      "parentUuid": "66bdf594_a0e20f16",
+      "revId": "50277eb7b24b101c1dc06236dbfacca5d05e9f91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
