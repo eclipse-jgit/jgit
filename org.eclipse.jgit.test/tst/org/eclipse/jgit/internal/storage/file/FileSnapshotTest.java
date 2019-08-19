@@ -62,6 +62,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.FileStoreAttributes;
 import org.eclipse.jgit.util.FileUtils;
@@ -84,6 +85,7 @@ public class FileSnapshotTest {
 
 	@Before
 	public void setUp() throws Exception {
+		SystemReader.setInstance(new MockSystemReader());
 		trash = Files.createTempDirectory("tmp_");
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement

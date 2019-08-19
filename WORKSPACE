@@ -30,8 +30,8 @@ maven_jar(
 
 maven_jar(
     name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
+    artifact = "com.jcraft:jsch:0.1.55",
+    sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
 )
 
 maven_jar(
@@ -138,22 +138,22 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:2.13.0",
-    sha1 = "8e372943974e4a121fb8617baced8ebfe46d54f0",
+    artifact = "org.mockito:mockito-core:2.23.0",
+    sha1 = "497ddb32fd5d01f9dbe99a2ec790aeb931dff1b1",
 )
 
-BYTE_BUDDY_VERSION = "1.7.9"
+BYTE_BUDDY_VERSION = "1.9.0"
 
 maven_jar(
-    name = "byte_buddy",
+    name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "51218a01a882c04d0aba8c028179cce488bbcb58",
+    sha1 = "8cb0d5baae526c9df46ae17693bbba302640538b",
 )
 
 maven_jar(
-    name = "byte_buddy_agent",
+    name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "a6c65f9da7f467ee1f02ff2841ffd3155aee2fc9",
+    sha1 = "37b5703b4a6290be3fffc63ae9c6bcaaee0ff856",
 )
 
 maven_jar(
