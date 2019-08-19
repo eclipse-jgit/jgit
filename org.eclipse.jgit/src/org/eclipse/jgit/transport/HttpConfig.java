@@ -53,8 +53,7 @@ import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -274,14 +273,12 @@ public class HttpConfig {
 	 *            to get the configuration values for
 	 */
 	public HttpConfig(URIish uri) {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = null;
 		try {
-			userConfig.load();
+			userConfig = SystemReader.getInstance().getUserConfig();
 		} catch (IOException | ConfigInvalidException e) {
 			// Log it and then work with default values.
-			LOG.error(MessageFormat.format(JGitText.get().userConfigFileInvalid,
-					userConfig.getFile().getAbsolutePath(), e));
+			LOG.error(e.getMessage(), e);
 			init(new Config(), uri);
 			return;
 		}

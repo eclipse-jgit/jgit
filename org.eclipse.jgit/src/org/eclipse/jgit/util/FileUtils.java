@@ -56,6 +56,7 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
@@ -697,9 +698,14 @@ public class FileUtils {
 		try {
 			return Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS)
 					.toInstant();
+		} catch (NoSuchFileException e) {
+			LOG.debug(
+					"Cannot read lastModifiedInstant since path {} does not exist", //$NON-NLS-1$
+					path);
+			return Instant.EPOCH;
 		} catch (IOException e) {
 			LOG.error(MessageFormat
-					.format(JGitText.get().readLastModifiedFailed, path));
+					.format(JGitText.get().readLastModifiedFailed, path), e);
 			return Instant.ofEpochMilli(path.toFile().lastModified());
 		}
 	}

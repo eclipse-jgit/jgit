@@ -107,7 +107,6 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -124,7 +123,6 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
 import org.hamcrest.Matchers;
@@ -636,8 +634,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectMax() throws Exception {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = SystemReader.getInstance()
+				.getUserConfig();
 		userConfig.setInt("http", null, "maxRedirects", 4);
 		userConfig.save();
 		initialClone_Redirect(4, 302);
@@ -645,8 +643,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectTooOften() throws Exception {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = SystemReader.getInstance()
+				.getUserConfig();
 		userConfig.setInt("http", null, "maxRedirects", 3);
 		userConfig.save();
 
@@ -684,8 +682,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectOnPostAllowed() throws Exception {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = SystemReader.getInstance()
+				.getUserConfig();
 		userConfig.setString("http", null, "followRedirects", "true");
 		userConfig.save();
 
@@ -745,8 +743,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_RedirectForbidden() throws Exception {
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
+		StoredConfig userConfig = SystemReader.getInstance()
+				.getUserConfig();
 		userConfig.setString("http", null, "followRedirects", "false");
 		userConfig.save();
 
