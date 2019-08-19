@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cde49e34_57e0871f",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-19T15:59:07Z",
+      "side": -1,
+      "message": "keep this variable to avoid duplication of version",
+      "revId": "0046b2a8fefcbfecc10a7b198a075eb2775d3e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
