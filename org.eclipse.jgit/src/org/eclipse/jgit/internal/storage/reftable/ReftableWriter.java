@@ -60,6 +60,7 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -70,6 +71,7 @@ import java.util.Set;
 import java.util.zip.CRC32;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.DeleteLogEntry;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.Entry;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.IndexEntry;
@@ -285,8 +287,8 @@ public class ReftableWriter {
 	}
 
 	private void throwIllegalEntry(Entry last, Entry now) {
-		throw new IllegalArgumentException(
-			String.format("records must be increasing: last %s, this %s",
+		throw new IllegalArgumentException(MessageFormat.format(
+				JGitText.get().refTableRecordsMustIncrease,
 				new String(last.key, UTF_8), new String(now.key, UTF_8)));
 	}
 

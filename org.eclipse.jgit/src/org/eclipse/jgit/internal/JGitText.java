@@ -663,6 +663,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String refAlreadyExists1;
 	/***/ public String reflogEntryNotFound;
 	/***/ public String refNotResolved;
+	/***/ public String refTableRecordsMustIncrease;
 	/***/ public String refUpdateReturnCodeWas;
 	/***/ public String remoteConfigHasNoURIAssociated;
 	/***/ public String remoteDoesNotHaveSpec;
