@@ -80,6 +80,7 @@ public class LocalDiskRefTreeDatabaseTest extends LocalDiskRepositoryTestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
+		super.setUp();
 		FileRepository init = createWorkRepository();
 		FileBasedConfig cfg = init.getConfig();
 		cfg.setInt("core", null, "repositoryformatversion", 1);

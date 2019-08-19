@@ -60,6 +60,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
@@ -81,8 +82,18 @@ public class MockSystemReader extends SystemReader {
 		}
 
 		@Override
+		public void save() throws IOException {
+			// Do nothing
+		}
+
+		@Override
 		public boolean isOutdated() {
 			return false;
+		}
+
+		@Override
+		public String toString() {
+			return "MockConfig";
 		}
 	}
 
@@ -90,9 +101,35 @@ public class MockSystemReader extends SystemReader {
 
 	final Map<String, String> values = new HashMap<>();
 
-	FileBasedConfig userGitConfig;
+	private FileBasedConfig userGitConfig;
 
 	FileBasedConfig systemGitConfig;
+
+	/**
+	 * Set the user-level git config
+	 *
+	 * @param userGitConfig
+	 *            set another user-level git config
+	 * @return the old user-level git config
+	 */
+	public FileBasedConfig setUserGitConfig(FileBasedConfig userGitConfig) {
+		FileBasedConfig old = this.userGitConfig;
+		this.userGitConfig = userGitConfig;
+		return old;
+	}
+
+	/**
+	 * Set the system-level git config
+	 *
+	 * @param systemGitConfig
+	 *            the new system-level git config
+	 * @return the old system-level config
+	 */
+	public FileBasedConfig setSystemGitConfig(FileBasedConfig systemGitConfig) {
+		FileBasedConfig old = this.systemGitConfig;
+		this.systemGitConfig = systemGitConfig;
+		return old;
+	}
 
 	/**
 	 * Constructor for <code>MockSystemReader</code>
@@ -153,6 +190,18 @@ public class MockSystemReader extends SystemReader {
 	@Override
 	public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 		assert parent == null;
+		return systemGitConfig;
+	}
+
+	@Override
+	public StoredConfig getUserConfig()
+			throws IOException, ConfigInvalidException {
+		return userGitConfig;
+	}
+
+	@Override
+	public StoredConfig getSystemConfig()
+			throws IOException, ConfigInvalidException {
 		return systemGitConfig;
 	}
 
@@ -280,4 +329,10 @@ public class MockSystemReader extends SystemReader {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "MockSystemReader";
+	}
+
 }

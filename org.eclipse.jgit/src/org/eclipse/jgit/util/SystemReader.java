@@ -47,6 +47,7 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.AccessController;
@@ -56,12 +57,17 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.MonotonicSystemClock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Interface to read values from the system.
@@ -72,6 +78,10 @@ import org.eclipse.jgit.util.time.MonotonicSystemClock;
  * </p>
  */
 public abstract class SystemReader {
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(SystemReader.class);
+
 	private static final SystemReader DEFAULT;
 
 	private static Boolean isMacOS;
@@ -87,6 +97,10 @@ public abstract class SystemReader {
 	private static class Default extends SystemReader {
 		private volatile String hostname;
 
+		private volatile FileBasedConfig systemConfig;
+
+		private volatile FileBasedConfig userConfig;
+
 		@Override
 		public String getenv(String variable) {
 			return System.getenv(variable);
@@ -99,28 +113,69 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			File configFile = fs.getGitSystemConfig();
-			if (configFile == null) {
-				return new FileBasedConfig(null, fs) {
-					@Override
-					public void load() {
-						// empty, do not load
-					}
-
-					@Override
-					public boolean isOutdated() {
-						// regular class would bomb here
-						return false;
-					}
-				};
+			if (systemConfig == null) {
+				systemConfig = createSystemConfig(parent, fs);
 			}
-			return new FileBasedConfig(parent, configFile, fs);
+			return systemConfig;
+		}
+
+		protected FileBasedConfig createSystemConfig(Config parent, FS fs) {
+			if (StringUtils.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
+				File configFile = fs.getGitSystemConfig();
+				if (configFile != null) {
+					return new FileBasedConfig(parent, configFile, fs);
+				}
+			}
+			return new FileBasedConfig(null, fs) {
+				@Override
+				public void load() {
+					// empty, do not load
+				}
+
+				@Override
+				public boolean isOutdated() {
+					// regular class would bomb here
+					return false;
+				}
+			};
 		}
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			final File home = fs.userHome();
-			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			if (userConfig == null) {
+				File home = fs.userHome();
+				userConfig = new FileBasedConfig(parent,
+						new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			}
+			return userConfig;
+		}
+
+		@Override
+		public StoredConfig getSystemConfig()
+				throws IOException, ConfigInvalidException {
+			if (systemConfig == null) {
+				systemConfig = createSystemConfig(null, FS.DETECTED);
+			}
+			if (systemConfig.isOutdated()) {
+				LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
+				systemConfig.load();
+			}
+			return systemConfig;
+		}
+
+		@Override
+		public StoredConfig getUserConfig()
+				throws IOException, ConfigInvalidException {
+			if (userConfig == null) {
+				userConfig = openUserConfig(getSystemConfig(), FS.DETECTED);
+			} else {
+				getSystemConfig();
+			}
+			if (userConfig.isOutdated()) {
+				LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
+				userConfig.load();
+			}
+			return userConfig;
 		}
 
 		@Override
@@ -149,19 +204,19 @@ public abstract class SystemReader {
 		}
 	}
 
-	private static SystemReader INSTANCE = DEFAULT;
+	private static volatile SystemReader INSTANCE = DEFAULT;
 
 	/**
-	 * Get time since epoch, with up to millisecond resolution.
+	 * Get the current SystemReader instance
 	 *
-	 * @return time since epoch, with up to millisecond resolution.
+	 * @return the current SystemReader instance.
 	 */
 	public static SystemReader getInstance() {
 		return INSTANCE;
 	}
 
 	/**
-	 * Set the new instance to use when accessing properties.
+	 * Set a new SystemReader instance to use when accessing properties.
 	 *
 	 * @param newReader
 	 *            the new instance to use when accessing properties, or null for
@@ -225,7 +280,10 @@ public abstract class SystemReader {
 	public abstract String getProperty(String key);
 
 	/**
-	 * Open the git configuration found in the user home
+	 * Open the git configuration found in the user home. Use
+	 * {@link #getUserConfig()} to get the current git configuration in the user
+	 * home since it manages automatic reloading when the gitconfig file was
+	 * modified and avoids unnecessary reloads.
 	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned config
@@ -237,7 +295,10 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openUserConfig(Config parent, FS fs);
 
 	/**
-	 * Open the gitconfig configuration found in the system-wide "etc" directory
+	 * Open the gitconfig configuration found in the system-wide "etc"
+	 * directory. Use {@link #getSystemConfig()} to get the current system-wide
+	 * git configuration since it manages automatic reloading when the gitconfig
+	 * file was modified and avoids unnecessary reloads.
 	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned
@@ -249,6 +310,38 @@ public abstract class SystemReader {
 	 *         directory
 	 */
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
+
+	/**
+	 * Get the git configuration found in the user home. The configuration will
+	 * be reloaded automatically if the configuration file was modified. Also
+	 * reloads the system config if the system config file was modified. If the
+	 * configuration file wasn't modified returns the cached configuration.
+	 *
+	 * @return the git configuration found in the user home
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.1.9
+	 */
+	public abstract StoredConfig getUserConfig()
+			throws IOException, ConfigInvalidException;
+
+	/**
+	 * Get the gitconfig configuration found in the system-wide "etc" directory.
+	 * The configuration will be reloaded automatically if the configuration
+	 * file was modified otherwise returns the cached system level config.
+	 *
+	 * @return the gitconfig configuration found in the system-wide "etc"
+	 *         directory
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.1.9
+	 */
+	public abstract StoredConfig getSystemConfig()
+			throws IOException, ConfigInvalidException;
 
 	/**
 	 * Get the current system time

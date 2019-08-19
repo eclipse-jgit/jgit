@@ -100,7 +100,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileModeStrategy;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry;
@@ -510,18 +510,12 @@ public abstract class FS {
 
 		private static Optional<FileStoreAttributes> readFromConfig(
 				FileStore s) {
-			FileBasedConfig userConfig = SystemReader.getInstance()
-					.openUserConfig(null, FS.DETECTED);
+			StoredConfig userConfig;
 			try {
-				userConfig.load(false);
-			} catch (IOException e) {
-				LOG.error(MessageFormat.format(JGitText.get().readConfigFailed,
-						userConfig.getFile().getAbsolutePath()), e);
-			} catch (ConfigInvalidException e) {
-				LOG.error(MessageFormat.format(
-						JGitText.get().repositoryConfigFileInvalid,
-						userConfig.getFile().getAbsolutePath(),
-						e.getMessage()));
+				userConfig = SystemReader.getInstance().getUserConfig();
+			} catch (IOException | ConfigInvalidException e) {
+				LOG.error(JGitText.get().readFileStoreAttributesFailed, e);
+				return Optional.empty();
 			}
 			String key = getConfigKey(s);
 			Duration resolution = Duration.ofNanos(userConfig.getTimeUnit(
@@ -544,8 +538,13 @@ public abstract class FS {
 
 		private static void saveToConfig(FileStore s,
 				FileStoreAttributes c) {
-			FileBasedConfig userConfig = SystemReader.getInstance()
-					.openUserConfig(null, FS.DETECTED);
+			StoredConfig userConfig;
+			try {
+				userConfig = SystemReader.getInstance().getUserConfig();
+			} catch (IOException | ConfigInvalidException e) {
+				LOG.error(JGitText.get().saveFileStoreAttributesFailed, e);
+				return;
+			}
 			long resolution = c.getFsTimestampResolution().toNanos();
 			TimeUnit resolutionUnit = getUnit(resolution);
 			long resolutionValue = resolutionUnit.convert(resolution,
@@ -562,7 +561,7 @@ public abstract class FS {
 			String key = getConfigKey(s);
 			while (!succeeded && retries < max_retries) {
 				try {
-					userConfig.load(false);
+					userConfig.load();
 					userConfig.setString(
 							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
@@ -580,22 +579,30 @@ public abstract class FS {
 				} catch (LockFailedException e) {
 					// race with another thread, wait a bit and try again
 					try {
-						LOG.warn(MessageFormat.format(JGitText.get().cannotLock,
-								userConfig.getFile().getAbsolutePath()));
 						retries++;
-						Thread.sleep(20);
+						if (retries < max_retries) {
+							Thread.sleep(100);
+							LOG.debug("locking {} failed, retries {}/{}", //$NON-NLS-1$
+									userConfig, Integer.valueOf(retries),
+									Integer.valueOf(max_retries));
+						} else {
+							LOG.warn(MessageFormat.format(
+									JGitText.get().lockFailedRetry, userConfig,
+									Integer.valueOf(retries)));
+						}
 					} catch (InterruptedException e1) {
-						Thread.interrupted();
+						Thread.currentThread().interrupt();
+						break;
 					}
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
-							JGitText.get().cannotSaveConfig,
-							userConfig.getFile().getAbsolutePath()), e);
+							JGitText.get().cannotSaveConfig, userConfig), e);
+					break;
 				} catch (ConfigInvalidException e) {
 					LOG.error(MessageFormat.format(
 							JGitText.get().repositoryConfigFileInvalid,
-							userConfig.getFile().getAbsolutePath(),
-							e.getMessage()));
+							userConfig, e.getMessage()));
+					break;
 				}
 			}
 		}
