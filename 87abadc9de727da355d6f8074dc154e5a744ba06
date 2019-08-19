@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f6aecb08_65eee834",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T16:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5573b9f_8f3eb63f",
+      "range": {
+        "startLine": 486,
+        "startChar": 58,
+        "endLine": 486,
+        "endChar": 61
+      },
+      "revId": "87abadc9de727da355d6f8074dc154e5a744ba06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647b3fb0_ce0b93d3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c2e57d66_57c4a3b9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T16:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647b3fb0_ce0b93d3",
+      "range": {
+        "startLine": 501,
+        "startChar": 3,
+        "endLine": 501,
+        "endChar": 39
+      },
+      "revId": "87abadc9de727da355d6f8074dc154e5a744ba06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9a83195_4309f5ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 7
@@ -82,6 +130,30 @@
       "writtenOn": "2019-08-14T18:16:07Z",
       "side": 1,
       "message": "This comment helped clarify what\u0027s going on, but I found the placement of this comment confusing. It seems to me that all code paths could return a block even if there is no exact match - if there is no block containing the key, the foremost block that is after the key is returned. This comment that there is a LogCursor that distinguishes the case of (recognized refName, unrecognized updateIndex) vs (unrecognized refName, updateIndex) seems right, but the LogCursor is a concern of seekLog(), not seek().\n\nAlso, by \"if the key isn\u0027t there at all\", do you mean the key as defined in seekLog (which includes the updateIndex), or the match (which only includes the refName)? For the rest of this comment, I\u0027m assuming just the refName.\n\nMaybe move the comment to the top (method-level) and write something like:\n\nReturns the block containing the key or, if no such block exists, the foremost block that is after the key. The returned block should go into a LogCursorImpl; absence of the key in the block could be caused by an unrecognized refName or a recognized refName with a too-large updateIndex, and LogCursorImpl distinguishes these two cases.",
+      "range": {
+        "startLine": 274,
+        "startChar": 8,
+        "endLine": 274,
+        "endChar": 19
+      },
+      "revId": "87abadc9de727da355d6f8074dc154e5a744ba06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d93392_5648691a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T16:26:53Z",
+      "side": 1,
+      "message": "I tweaked the comment a bit, to clarify further. I put it in this place, because this is where you might be tempted to do \n\n  if (result\u003c0) return null;\n\nwhich is wrong.\n\nI\u0027d rather not document the method as a whole as you suggest, because the method is also used for looking up refs (rather than reflogs).",
+      "parentUuid": "f9a83195_4309f5ba",
       "range": {
         "startLine": 274,
         "startChar": 8,
