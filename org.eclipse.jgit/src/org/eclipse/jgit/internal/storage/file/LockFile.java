@@ -165,7 +165,12 @@ public class LockFile {
 	 */
 	public boolean lock() throws IOException {
 		FileUtils.mkdirs(lck.getParentFile(), true);
-		token = FS.DETECTED.createNewFileAtomic(lck);
+		try {
+			token = FS.DETECTED.createNewFileAtomic(lck);
+		} catch (IOException e) {
+			LOG.error(JGitText.get().failedCreateLockFile, lck, e);
+			throw e;
+		}
 		if (token.isCreated()) {
 			haveLck = true;
 			try {

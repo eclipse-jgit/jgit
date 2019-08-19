@@ -78,6 +78,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String archiveFormatAlreadyAbsent;
 	/***/ public String archiveFormatAlreadyRegistered;
 	/***/ public String argumentIsNotAValidCommentString;
+	/***/ public String assumeAtomicCreateNewFile;
 	/***/ public String atLeastOnePathIsRequired;
 	/***/ public String atLeastOnePatternIsRequired;
 	/***/ public String atLeastTwoFiltersNeeded;
@@ -364,6 +365,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedReceivedContentType;
 	/***/ public String expectedReportForRefNotReceived;
 	/***/ public String failedAtomicFileCreation;
+	/***/ public String failedCreateLockFile;
 	/***/ public String failedToDetermineFilterDefinition;
 	/***/ public String failedUpdatingRefs;
 	/***/ public String failureDueToOneOfTheFollowing;
@@ -490,6 +492,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String localRepository;
 	/***/ public String lockCountMustBeGreaterOrEqual1;
 	/***/ public String lockError;
+	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
 	/***/ public String malformedpersonIdentString;
@@ -622,6 +625,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
 	/***/ public String readConfigFailed;
+	/***/ public String readFileStoreAttributesFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readLastModifiedFailed;
@@ -678,6 +682,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String s3ActionDeletion;
 	/***/ public String s3ActionReading;
 	/***/ public String s3ActionWriting;
+	/***/ public String saveFileStoreAttributesFailed;
 	/***/ public String searchForReuse;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
@@ -835,7 +840,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFound;
 	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
-	/***/ public String userConfigFileInvalid;
+	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
 	/***/ public String walkFailure;
 	/***/ public String wantNoSpaceWithCapabilities;

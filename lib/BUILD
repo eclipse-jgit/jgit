@@ -162,9 +162,13 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
+        "@bytebuddy//jar",
+        "@bytebuddy-agent//jar",
         "@hamcrest-core//jar",
         "@hamcrest-library//jar",
         "@junit//jar",
+        "@mockito//jar",
+        "@objenesis//jar"
     ],
 )
 
@@ -173,8 +177,8 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@byte_buddy//jar",
-        "@byte_buddy_agent//jar",
+        "@bytebuddy//jar",
+        "@bytebuddy-agent//jar",
         "@mockito//jar",
         "@objenesis//jar",
     ],

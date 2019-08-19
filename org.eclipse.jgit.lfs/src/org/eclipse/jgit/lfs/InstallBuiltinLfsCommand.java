@@ -43,14 +43,12 @@
 package org.eclipse.jgit.lfs;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lfs.internal.LfsText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory.LfsInstallCommand;
 import org.eclipse.jgit.util.SystemReader;
@@ -70,12 +68,28 @@ public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 
 	private Repository repository;
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IOException
+	 *             if an I/O error occurs while accessing a git config or
+	 *             executing {@code git lfs install} in an external process
+	 * @throws InvalidConfigurationException
+	 *             if a git configuration is invalid
+	 * @throws InterruptedException
+	 *             if the current thread is interrupted while waiting for the
+	 *             {@code git lfs install} executed in an external process
+	 */
 	@Override
-	public Void call() throws Exception {
+	public Void call() throws IOException, InvalidConfigurationException,
+			InterruptedException {
 		StoredConfig cfg = null;
 		if (repository == null) {
-			cfg = loadUserConfig();
+			try {
+				cfg = SystemReader.getInstance().getUserConfig();
+			} catch (ConfigInvalidException e) {
+				throw new InvalidConfigurationException(e.getMessage(), e);
+			}
 		} else {
 			cfg = repository.getConfig();
 		}
@@ -114,21 +128,6 @@ public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 	public LfsInstallCommand setRepository(Repository repo) {
 		this.repository = repo;
 		return this;
-	}
-
-	private StoredConfig loadUserConfig() throws IOException {
-		FileBasedConfig c = SystemReader.getInstance().openUserConfig(null,
-				FS.DETECTED);
-		try {
-			c.load();
-		} catch (ConfigInvalidException e1) {
-			throw new IOException(MessageFormat
-					.format(LfsText.get().userConfigInvalid, c.getFile()
-							.getAbsolutePath(), e1),
-					e1);
-		}
-
-		return c;
 	}
 
 }
