@@ -99,6 +99,24 @@
     },
     {
       "key": {
+        "uuid": "ed4d343a_83d5b8f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 255395
+      },
+      "writtenOn": "2019-08-19T16:45:08Z",
+      "side": 1,
+      "message": "It\u0027s necessary when you run this single test from IDE.\n\nIn that case current directory is: \u003csrc-root\u003e/jgit/org.eclipse.jgit.test\nRead permission is required for the file: \u003csrc-root\u003e/jgit/org.eclipse.jgit/target/classes/org/eclipse/jgit/api/Git.class\n\nIf tests are run from maven only, permission to \u003csrc-root\u003e/jgit not required: permission to jar files from java.class.path env variable should be enough.",
+      "parentUuid": "3cb0108f_bd74484f",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51e9751e_d2433422",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
         "patchSetId": 2
@@ -127,6 +145,24 @@
       "writtenOn": "2019-08-17T09:20:14Z",
       "side": 1,
       "message": "That\u0027s good for a first test. We may consider to run all existing tests with a security manager by adding an option to the test run.\n\nMaven: https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit.html#Using_a_Security_Manager_.28All_providers.29\n\nBazel uses itself a security manager already to sandbox tests: https://github.com/bazelbuild/bazel/blob/master/src/java_tools/junitrunner/java/com/google/testing/junit/runner/BazelTestRunner.java#L30",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e497dc9_91228b38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 255395
+      },
+      "writtenOn": "2019-08-19T16:45:08Z",
+      "side": 1,
+      "message": "That would be great!\n\nBut I would propose to do that at the next stage...\n1. Probably it will require more time to .policy file tuning (network access etc)\n2. If it\u0027s expected that it should be done by me, will need to fix the bug 550111 before.\n3. Probably I will need some help from you because I don\u0027t know how to get full stacktraces from jenkins if something is failed (again if it\u0027s expected that it should be done by me).",
+      "parentUuid": "27c30fbb_6e215411",
       "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
