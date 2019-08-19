@@ -16,6 +16,24 @@
       "revId": "c2312761360999ff5e1709411daa8e8167f86a50",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3a9da9_77ec8089",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-19T16:26:59Z",
+      "side": 1,
+      "message": "This is what the formatter in Eclipse 49 does to this file. \n\nIs there a detailed description of coding/formatting standards for the JGit project available somewhere?",
+      "parentUuid": "d49529a3_3d2f6986",
+      "revId": "c2312761360999ff5e1709411daa8e8167f86a50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
