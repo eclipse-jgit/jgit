@@ -74,6 +74,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.errors.LfsException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -85,6 +86,7 @@ import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 
@@ -119,6 +121,7 @@ public abstract class LfsServerTest {
 
 	@Before
 	public void setup() throws Exception {
+		SystemReader.setInstance(new MockSystemReader());
 		tmp = Files.createTempDirectory("jgit_test_");
 
 		// measure timer resolution before the test to avoid time critical tests
