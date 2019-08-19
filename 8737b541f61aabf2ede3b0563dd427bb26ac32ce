@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "74bb5e0c_5668da7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-19T07:13:04Z",
+      "side": 1,
+      "message": "nit: The commit message should be a single line, preferably with max length around 70 columns.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "872f5228_f91d2f63",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
         "patchSetId": 2
@@ -138,6 +161,23 @@
       "writtenOn": "2019-08-17T09:20:14Z",
       "side": 1,
       "message": "use FileUtils.delete instead",
+      "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea1fd9ca_a8a4952e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-19T07:13:04Z",
+      "side": 1,
+      "message": "Suppress the non-localised string warning here.\n\n  //$NON-NLS-1$",
       "revId": "8737b541f61aabf2ede3b0563dd427bb26ac32ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
