@@ -67,6 +67,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.junit.After;
@@ -79,6 +80,7 @@ public class FSTest {
 
 	@Before
 	public void setUp() throws Exception {
+		SystemReader.setInstance(new MockSystemReader());
 		trash = File.createTempFile("tmp_", "");
 		trash.delete();
 		assertTrue("mkdir " + trash, trash.mkdir());

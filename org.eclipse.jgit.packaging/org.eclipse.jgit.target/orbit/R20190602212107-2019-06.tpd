@@ -62,3 +62,4 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R201906022121
 	org.apache.sshd.sftp [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
 	org.apache.sshd.sftp.source [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
 }
+

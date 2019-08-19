@@ -49,14 +49,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/storage/file/FileBasedConfig.java" type="org.eclipse.jgit.storage.file.FileBasedConfig">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="load(boolean)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
         <filter id="1142947843">
             <message_arguments>
@@ -155,6 +147,32 @@
             <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="org.eclipse.jgit.util.Stats"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/SystemReader.java" type="org.eclipse.jgit.util.SystemReader">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.SystemReader"/>
+                <message_argument value="getSystemConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.SystemReader"/>
+                <message_argument value="getUserConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getSystemConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getUserConfig()"/>
             </message_arguments>
         </filter>
     </resource>
