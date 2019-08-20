@@ -45,6 +45,30 @@
       "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa6751c_70bb000c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-20T19:06:31Z",
+      "side": 1,
+      "message": "I mean: this is to avoid conflicts between refs and directories (which you can\u0027t have with loose refs) , but reftable does not have these limitations?",
+      "parentUuid": "947aca46_733eb617",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 10
+      },
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
