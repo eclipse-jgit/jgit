@@ -683,7 +683,7 @@ public class DirCache {
 
 		for (int i = 0; i < entryCnt; i++) {
 			final DirCacheEntry e = sortedEntries[i];
-			if (e.mightBeRacilyClean(smudge_s, smudge_ns))
+			if (e.mightBeRacilyClean(Instant.ofEpochSecond(smudge_s, smudge_ns)))
 				e.smudgeRacilyClean();
 			e.write(dos);
 		}
