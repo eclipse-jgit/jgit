@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e221125_b0a1f5c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T22:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dce6efb_70354ec2",
+      "range": {
+        "startLine": 660,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 22
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97f4ef33_6264cac8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7fb26238_19abe5ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T22:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97f4ef33_6264cac8",
+      "range": {
+        "startLine": 669,
+        "startChar": 3,
+        "endLine": 670,
+        "endChar": 56
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f65f937_e24d408b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2019-08-20T14:41:05Z",
       "side": 1,
       "message": "smudge \u003d Instant.EPOCH;",
+      "range": {
+        "startLine": 673,
+        "startChar": 3,
+        "endLine": 674,
+        "endChar": 16
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0e5cb2_e00c634b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T22:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f65f937_e24d408b",
       "range": {
         "startLine": 673,
         "startChar": 3,
@@ -123,6 +195,24 @@
         "endLine": 686,
         "endChar": 69
       },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f980d31_aaeb7969",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T22:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f99323e5_0eb10c0e",
       "revId": "84f9f88541b3581bb8976932b103932194dec767",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
