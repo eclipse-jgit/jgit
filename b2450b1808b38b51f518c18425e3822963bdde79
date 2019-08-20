@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "142963e3_6c7045a4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:59:08Z",
+      "side": 1,
+      "message": "This can be in a different change right?",
+      "range": {
+        "startLine": 524,
+        "startChar": 2,
+        "endLine": 526,
+        "endChar": 53
+      },
+      "revId": "b2450b1808b38b51f518c18425e3822963bdde79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "903b0181_68a4830b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:59:08Z",
+      "side": 1,
+      "message": "\"refs\" is a new file name? Should it be \"reftable\" instead, similar to \"packed-refs\".",
+      "range": {
+        "startLine": 638,
+        "startChar": 44,
+        "endLine": 638,
+        "endChar": 48
+      },
+      "revId": "b2450b1808b38b51f518c18425e3822963bdde79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
