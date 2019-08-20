@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "767cde8f_9c82d93b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:55:32Z",
+      "side": 1,
+      "message": "Since the stack is stored in ReftableDatabase, maybe DfsRead should be stored there too? So DfsReftableDatabase.clearCache() would just call ReftableDatabase.clearCache() without the need to lock.",
+      "range": {
+        "startLine": 81,
+        "startChar": 9,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "947aca46_733eb617",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:55:32Z",
+      "side": 1,
+      "message": "The checks below look fine to me. Maybe we can add some examples to the javadoc.",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 10
+      },
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
