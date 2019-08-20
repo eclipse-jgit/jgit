@@ -39,6 +39,30 @@
       "revId": "d8d94272770352515c129ad6d980f2b6e8179409",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5383c4cd_9017411b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T22:21:38Z",
+      "side": 1,
+      "message": "Integer.MAX_VALUE translates to 2038-01-19T03:14:07Z\nafter this date we\u0027ll have an issue since we store seconds since the epoch in a 32 bit integer in some places. This is tracked in https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d319142",
+      "parentUuid": "c50eb5ed_edf4688e",
+      "range": {
+        "startLine": 381,
+        "startChar": 6,
+        "endLine": 381,
+        "endChar": 38
+      },
+      "revId": "d8d94272770352515c129ad6d980f2b6e8179409",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
