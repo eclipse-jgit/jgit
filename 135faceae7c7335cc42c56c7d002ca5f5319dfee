@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89d393d5_d8d36730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-20T21:48:22Z",
+      "side": 1,
+      "message": "Reverse this formatting change? Same comment throughout this commit.",
+      "range": {
+        "startLine": 2094,
+        "startChar": 3,
+        "endLine": 2094,
+        "endChar": 15
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ecda26_5371fda6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-20T21:48:22Z",
+      "side": 1,
+      "message": "I noticed that errors are no longer wrapped in UploadPackInternalServerErrorException. I notice that a future commit reintroduces this wrapping, but I think it\u0027s better if the wrapping is retained here and then removed in the future commit. This makes each commit self-contained, and makes the future commit clearer in that we can exactly see where the functionality is being moved from and to.",
+      "range": {
+        "startLine": 2102,
+        "startChar": 3,
+        "endLine": 2102,
+        "endChar": 6
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
