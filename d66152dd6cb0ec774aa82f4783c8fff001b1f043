@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413e4579_59d0e977",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableBatchRefUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:47:07Z",
+      "side": 1,
+      "message": "Should this be 2019 since this is not a file move?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d66152dd6cb0ec774aa82f4783c8fff001b1f043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb290332_0f1c0e49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:47:07Z",
+      "side": 1,
+      "message": "Should this be 2017 since this is not a file move?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d66152dd6cb0ec774aa82f4783c8fff001b1f043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
