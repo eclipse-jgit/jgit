@@ -378,7 +378,7 @@ public class DirCacheEntry {
 		//
 		final int base = infoOffset + P_MTIME;
 		final int mtime = NB.decodeInt32(info, base);
-		if (smudge.getEpochSecond() == mtime) {
+		if ((int) smudge.getEpochSecond() == mtime) {
 			return smudge.getNano() <= NB.decodeInt32(info, base + 4);
 		}
 		return false;
