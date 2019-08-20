@@ -22,6 +22,30 @@
       "revId": "36c4fdbe3c897a3515b1d77a0d692e3e787a2277",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e00d99ab_e55e0b00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-20T17:54:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6849e6e8_771d8af4",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "36c4fdbe3c897a3515b1d77a0d692e3e787a2277",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
