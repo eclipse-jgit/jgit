@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec8679f0_e44b0027",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableStack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-20T18:34:26Z",
+      "side": 1,
+      "message": "The word \"next\" implies that updateIndex is sequential. AFAIK, this property is not used by DfsReftableStack. Should this be in the interface?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "b16c618c2478a389a38bf702a4bd32775427a77f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
