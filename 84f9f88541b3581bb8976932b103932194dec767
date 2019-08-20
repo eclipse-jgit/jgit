@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "0dce6efb_70354ec2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-20T14:41:05Z",
+      "side": 1,
+      "message": "Instant smudge;",
+      "range": {
+        "startLine": 660,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 22
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97f4ef33_6264cac8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-20T14:41:05Z",
+      "side": 1,
+      "message": "smudge \u003d snapshot.lastModifiedInstant();",
+      "range": {
+        "startLine": 669,
+        "startChar": 3,
+        "endLine": 670,
+        "endChar": 56
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f65f937_e24d408b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-20T14:41:05Z",
+      "side": 1,
+      "message": "smudge \u003d Instant.EPOCH;",
+      "range": {
+        "startLine": 673,
+        "startChar": 3,
+        "endLine": 674,
+        "endChar": 16
+      },
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6fd99f_ba5f22f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 1
@@ -13,6 +82,47 @@
       "writtenOn": "2019-08-20T14:30:10Z",
       "side": 1,
       "message": "This appears to be addressing the comment from Thomas Wolf:\n\nhttps://git.eclipse.org/r/#/c/146284/1/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f99323e5_0eb10c0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-20T14:41:05Z",
+      "side": 1,
+      "message": "And then here\n\n  if (e.mightBeRacilyClean(smudge))",
+      "parentUuid": "9d6fd99f_ba5f22f6",
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d82cd7e4_0029ae65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-20T14:41:05Z",
+      "side": 1,
+      "message": "Instant.ofEpochSecond() does sign extensions of the two int arguments. Not sure if that might be a problem. Probably not until 2038 :-) (Somewhere in JGit sources there are times stored as int anyway, and there\u0027s a comment from Shawn that it\u0027ll overflow in 2038.)",
+      "range": {
+        "startLine": 686,
+        "startChar": 50,
+        "endLine": 686,
+        "endChar": 69
+      },
       "revId": "84f9f88541b3581bb8976932b103932194dec767",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
