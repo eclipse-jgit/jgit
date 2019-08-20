@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1030ebe_a623ad46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-20T19:15:00Z",
+      "side": 1,
+      "message": "If user try to do something like \"git push origin v1.0:refs/heads/master\" when v1.0 is an annotated tag, then the user probably want to push the commit v1.0 is pointing to, but actually git is pushing the tag itself.\n\nWe want to forbid this because generally when they\u0027re pushing non-commit objects, the behavior is not expected.\n\nBut in some cases, we intend to push some non-commit objects(e.g. ssh key), that\u0027s why we need a config option to disable it.",
+      "parentUuid": "eb472079_c6c524c5",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9827aa_b04b75bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "16bce11f_dd771e22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-20T19:15:00Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "8b9827aa_b04b75bb",
+      "range": {
+        "startLine": 361,
+        "startChar": 52,
+        "endLine": 361,
+        "endChar": 56
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88e17dd5_c4bac8a6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2019-08-16T19:10:13Z",
       "side": 1,
       "message": "Should be !isAllowNonCommitToHead(), here and below. Besides, why not simply name it \"allowNonCommitToHead\"?\n\nBut see comment on the commit message. Does this need a config at all?",
+      "range": {
+        "startLine": 1697,
+        "startChar": 9,
+        "endLine": 1697,
+        "endChar": 33
+      },
+      "revId": "cc058c629c244802b7c5af6ba5e1006988a34082",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74073ac_5652054a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1697,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-20T19:15:00Z",
+      "side": 1,
+      "message": "Fixed. \n\nThe name is just following other examples in this class, for example, isAllowDelete() is used in the DELETE if branch in the same method.",
+      "parentUuid": "88e17dd5_c4bac8a6",
       "range": {
         "startLine": 1697,
         "startChar": 9,
