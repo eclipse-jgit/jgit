@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4627cb3f_1a82451b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableStack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-20T23:19:00Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "b16c618c2478a389a38bf702a4bd32775427a77f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec8679f0_e44b0027",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableStack.java",
         "patchSetId": 14
