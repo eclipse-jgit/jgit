@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d6fd99f_ba5f22f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-20T14:30:10Z",
+      "side": 1,
+      "message": "This appears to be addressing the comment from Thomas Wolf:\n\nhttps://git.eclipse.org/r/#/c/146284/1/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+      "revId": "84f9f88541b3581bb8976932b103932194dec767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
