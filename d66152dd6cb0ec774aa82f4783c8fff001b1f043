@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "4f29bc65_ec7de551",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableBatchRefUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:43Z",
+      "side": 1,
+      "message": "Done\n\nIn Git nothing is a file move :-)",
+      "parentUuid": "413e4579_59d0e977",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d66152dd6cb0ec774aa82f4783c8fff001b1f043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db573c01_6c89ba23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableBatchRefUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:43Z",
+      "side": 1,
+      "message": "I\u0027ve removed this, but this is something I didn\u0027t understand, and I think it should be documented in a comment.",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 14
+      },
+      "revId": "d66152dd6cb0ec774aa82f4783c8fff001b1f043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb290332_0f1c0e49",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
         "patchSetId": 17
@@ -36,6 +83,30 @@
       "writtenOn": "2019-08-20T18:47:07Z",
       "side": 1,
       "message": "Should this be 2017 since this is not a file move?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d66152dd6cb0ec774aa82f4783c8fff001b1f043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce84fa88_4d7d3736",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:43Z",
+      "side": 1,
+      "message": "it is already?\n\nI think you want it to be 2019?",
+      "parentUuid": "eb290332_0f1c0e49",
       "range": {
         "startLine": 2,
         "startChar": 17,
