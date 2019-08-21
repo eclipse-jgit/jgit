@@ -213,6 +213,13 @@ public class FileUtils {
 			Throwable t = null;
 			Path p = f.toPath();
 			try {
+				if (!f.canWrite()) {
+					// On some OS deleting read only files isn't allowed.
+					if (f.setWritable(true)) {
+						LOG.warn("File {} is read only, can't make it writable",
+								f.getPath());
+					}
+				}
 				Files.delete(p);
 				return;
 			} catch (FileNotFoundException e) {
