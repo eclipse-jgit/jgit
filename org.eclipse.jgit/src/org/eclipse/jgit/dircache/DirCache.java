@@ -657,8 +657,7 @@ public class DirCache {
 
 		// Write the individual file entries.
 
-		final int smudge_s;
-		final int smudge_ns;
+		Instant smudge;
 		if (myLock != null) {
 			// For new files we need to smudge the index entry
 			// if they have been modified "now". Ideally we'd
@@ -666,12 +665,10 @@ public class DirCache {
 			// so we use the current timestamp as a approximation.
 			myLock.createCommitSnapshot();
 			snapshot = myLock.getCommitSnapshot();
-			smudge_s = (int) (snapshot.lastModifiedInstant().getEpochSecond());
-			smudge_ns = snapshot.lastModifiedInstant().getNano();
+			smudge = snapshot.lastModifiedInstant();
 		} else {
 			// Used in unit tests only
-			smudge_ns = 0;
-			smudge_s = 0;
+			smudge = Instant.EPOCH;
 		}
 
 		// Check if tree is non-null here since calling updateSmudgedEntries
@@ -683,8 +680,9 @@ public class DirCache {
 
 		for (int i = 0; i < entryCnt; i++) {
 			final DirCacheEntry e = sortedEntries[i];
-			if (e.mightBeRacilyClean(smudge_s, smudge_ns))
+			if (e.mightBeRacilyClean(smudge)) {
 				e.smudgeRacilyClean();
+			}
 			e.write(dos);
 		}
 
