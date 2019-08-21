@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec71e08a_a6393522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:36Z",
+      "side": 1,
+      "message": "ReftableDatabase is storage agnostic, so it can\u0027t have anything to do with DFS in it.",
+      "parentUuid": "767cde8f_9c82d93b",
+      "range": {
+        "startLine": 81,
+        "startChar": 9,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "947aca46_733eb617",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 15
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I think reftable have the same limitations. I think the baseline for ref name should be whatever can be stored by loose refs. So maybe this check should be done on the RefDatabase level?",
       "parentUuid": "daa6751c_70bb000c",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 10
+      },
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40a03d43_298f7b8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:36Z",
+      "side": 1,
+      "message": "added javadoc.",
+      "parentUuid": "68d1901e_cb4b862a",
       "range": {
         "startLine": 139,
         "startChar": 7,
