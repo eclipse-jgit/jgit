@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "78cb4df9_d7e06c8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-08-21T23:33:52Z",
+      "side": 1,
+      "message": "Marking it volatile makes no difference, it is possible to have several different instances to be created and returned. (if several threads entered if).\n\nIf we fine with that - we can just delete volatile and enjoy slightly better performance, if not - we should use atomic reference and do compareAndSet to ensure only one instance will be set and returned.",
+      "parentUuid": "57cb40c4_e429b860",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b06e128_84c17e71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 2
