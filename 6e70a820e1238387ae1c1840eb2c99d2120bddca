@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb7cf1_a9c3d98b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "Should \"ref\" be \"branch\" here?\n\nrefs/tags/* pointing to non-commits is fairly common, for example.",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816fab8e_47e04fda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "Commit messages should be in the imperative mood, as though ordering the code to do something:\n\n Validate that the target of the ref is an existing object and [...]\n\nSee \"describe your changes well\" in https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html for more on this subject.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7cd764_70fb0493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "missing space before \u003c",
+      "range": {
+        "startLine": 18,
+        "startChar": 23,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d572bc5b_210b01c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "optional: should this be renamed, now that it\u0027s a commit instead of an arbitrary object?",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffdfaa9_c3ebe044",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "nit: unrelated change?",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1819629e_b4bfca38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d86b503_dc32bc3f",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "s/reference/branch/?",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dfb961c_c8b30fd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "I don\u0027t think we should ever allow this. Git doesn\u0027t.",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0defd9f4_9420f27f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "Needs @since (see https://help.eclipse.org/kepler/index.jsp?topic\u003d%2Forg.eclipse.pde.doc.user%2Freference%2Fapi-tooling%2Fapi_since_tags.htm for more on this subject).\n\nBut: see the above comment, which would avoid having to add this API.",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86f83e0_44448584",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-21T21:56:25Z",
+      "side": 1,
+      "message": "Can this happen?\n\nI\u0027m wondering if it should be an assertion, or if we should let the exception bubble up.",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
