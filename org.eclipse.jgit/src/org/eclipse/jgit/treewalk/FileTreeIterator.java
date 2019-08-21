@@ -412,6 +412,9 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			return attributes.getLastModifiedInstant().toEpochMilli();
 		}
 
+		/**
+		 * @since 5.1.9
+		 */
 		@Override
 		public Instant getLastModifiedInstant() {
 			return attributes.getLastModifiedInstant();
