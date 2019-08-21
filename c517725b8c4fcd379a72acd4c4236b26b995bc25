@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f70dae95_0cfeafd0",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T17:30:36Z",
+      "side": 1,
+      "message": "I have a feeling this cannot possibly work, because of how we do compaction.\n\nJonathan, do you know what this use case is?",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 47
+      },
+      "revId": "c517725b8c4fcd379a72acd4c4236b26b995bc25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
