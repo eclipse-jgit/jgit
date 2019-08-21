@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c103da38_f087387f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-08-21T15:03:37Z",
+      "side": 1,
+      "message": "Optional: I wonder if it is useful to add a comment here like \"this fails if we try to propagate flags before parsing commits\"",
+      "range": {
+        "startLine": 309,
+        "startChar": 13,
+        "endLine": 309,
+        "endChar": 58
+      },
+      "revId": "aa6007f56f436a27627c09be3516ec8925a0dc82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
