@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b18c80ec_a77008c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:17Z",
+      "side": 1,
+      "message": "oversight. Removed.",
+      "parentUuid": "142963e3_6c7045a4",
+      "range": {
+        "startLine": 524,
+        "startChar": 2,
+        "endLine": 526,
+        "endChar": 53
+      },
+      "revId": "b2450b1808b38b51f518c18425e3822963bdde79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "903b0181_68a4830b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2019-08-20T18:59:08Z",
       "side": 1,
       "message": "\"refs\" is a new file name? Should it be \"reftable\" instead, similar to \"packed-refs\".",
+      "range": {
+        "startLine": 638,
+        "startChar": 44,
+        "endLine": 638,
+        "endChar": 48
+      },
+      "revId": "b2450b1808b38b51f518c18425e3822963bdde79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fc994bd_db361fa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-08-21T14:42:17Z",
+      "side": 1,
+      "message": "no, it must be refs, so it conflicts with the loose ref storage holding refs/heads/ . The reftable/ directory holds the actual tables.",
+      "parentUuid": "903b0181_68a4830b",
       "range": {
         "startLine": 638,
         "startChar": 44,
