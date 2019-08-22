@@ -775,12 +775,12 @@ directory.  This prevents loose references from being stored.
 A collection of reftable files are stored in the `$GIT_DIR/reftable/`
 directory:
 
-    00000001.log
-    00000001.ref
-    00000002.ref
+    00000001-00000001.log
+    00000002-00000002.ref
+    00000003-00000003.ref
 
 where reftable files are named by a unique name such as produced by
-the function `${update_index}.ref`.
+the function `${min_update_index}-${max_update_index}.ref`.
 
 Log-only files use the `.log` extension, while ref-only and mixed ref
 and log files use `.ref`.  extension.
@@ -790,9 +790,9 @@ files, one per line, in order, from oldest (base) to newest (most
 recent):
 
     $ cat .git/refs
-    00000001.log
-    00000001.ref
-    00000002.ref
+    00000001-00000001.log
+    00000002-00000002.ref
+    00000003-00000003.ref
 
 Readers must read `$GIT_DIR/refs` to determine which files are
 relevant right now, and search through the stack in reverse order
@@ -819,8 +819,8 @@ new reftable and atomically appending it to the stack:
 1. Acquire `refs.lock`.
 2. Read `refs` to determine current reftables.
 3. Select `update_index` to be most recent file's `max_update_index + 1`.
-4. Prepare temp reftable `${update_index}_XXXXXX`, including log entries.
-5. Rename `${update_index}_XXXXXX` to `${update_index}.ref`.
+4. Prepare temp reftable `tmp_XXXXXX`, including log entries.
+5. Rename `tmp_XXXXXX` to `${update_index}-${update_index}.ref`.
 6. Copy `refs` to `refs.lock`, appending file from (5).
 7. Rename `refs.lock` to `refs`.
 
@@ -865,12 +865,13 @@ is going to compact B and C, leaving A and D alone.
     Ownership of these locks prevents other processes from trying
     to compact these files.
 3.  Release `refs.lock`.
-4.  Compact `B` and `C` into a temp file `${min_update_index}_XXXXXX`.
+4.  Compact `B` and `C` into a temp file `${min_update_index}-${max_update_index}_XXXXXX`.
 5.  Reacquire lock `refs.lock`.
 6.  Verify that `B` and `C` are still in the stack, in that order. This
     should always be the case, assuming that other processes are adhering
     to the locking protocol.
-7.  Rename `${min_update_index}_XXXXXX` to `${min_update_index}_2.ref`.
+7.  Rename `${min_update_index}-${max_update_index}_XXXXXX` to
+    `${min_update_index}-${max_update_index}.ref`.
 8.  Write the new stack to `refs.lock`, replacing `B` and `C` with the
     file from (4).
 9.  Rename `refs.lock` to `refs`.
@@ -878,6 +879,9 @@ is going to compact B and C, leaving A and D alone.
     readers to backtrack.
 
 This strategy permits compactions to proceed independently of updates.
+
+Each reftable (compacted or not) is uniquely identified by its name, so open
+reftables can be cached by their name.
 
 ## Alternatives considered
 
