@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ffd7f23_03b02166",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "occurring",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9bb81a0_21a49767",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "assumed",
+      "range": {
+        "startLine": 16,
+        "startChar": 60,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c4ed9b9_be1561a0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "set the MockSystemReader to ensure we use a mocked system environment in all tests\n\n SystemReader.setInstance(new MockSystemReader());\n\nthis will e.g. ensure that user and system level gitconfigs are not taken from the underlying system but use separate files which are in the folder where tests run (which can be moved by configuring system property java.io.tmpdir)",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d58fa81_55f765c5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "If we use MockSystemReader (see above) then this is a different path.",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35b52d79_567db37f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "This path may be different, this depends on where native git is installed. FS.discoverGitSystemConfig() knows how to find it if native git is on the PATH. If we use MockSystemReader (see above) then this is a different path.",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 52
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e4406de_baa1846b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "add \n\n | FileUtils.RETRY\n\nthis may be necessary on Windows",
+      "range": {
+        "startLine": 179,
+        "startChar": 25,
+        "endLine": 179,
+        "endChar": 44
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1292c96_6aaa5edf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SeparateClassloaderTestRunner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "this class is not a test but a reusable test runner, hence it should go into the bundle org.eclipse.jgit.junit",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a892aa32_d83be67f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SeparateClassloaderTestRunner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "you need to add a package import for the package this class resides in to this bundle\u0027s MANIFEST.MF otherwise the class can\u0027t be resolved in Eclipse where this runs in an OSGi environment.",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6499fc04_79ff5375",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "externalize the message using JGitText",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac674348_6bea10a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-22T15:17:14Z",
+      "side": 1,
+      "message": "externalize messages",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
