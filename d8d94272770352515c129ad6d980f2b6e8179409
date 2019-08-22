@@ -87,6 +87,23 @@
       "revId": "d8d94272770352515c129ad6d980f2b6e8179409",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f330d3_1121e6b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-22T23:12:25Z",
+      "side": 1,
+      "message": "This triggers http://errorprone.info/bugpattern/JavaInstantGetSecondsGetNano, but it shouldn\u0027t: \"you must also call instant.getEpochSecond() in ‘nearby’ code\" should be satisfied by the preceding line. Will file a bug against error-prone; commenting here as an FYI (and in case someone else wonders about it).",
+      "revId": "d8d94272770352515c129ad6d980f2b6e8179409",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
