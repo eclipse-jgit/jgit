@@ -44,9 +44,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -55,13 +53,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
-import org.eclipse.jgit.revwalk.FollowFilter;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.*;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.AuthorRevFilter;
 import org.eclipse.jgit.revwalk.filter.CommitterRevFilter;
@@ -84,8 +76,34 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Option(name = "--total-count")
 	boolean count = false;
 
+	boolean not = false;
+
+	@Option(name = "--not")
+	void enableNot(boolean on) {
+		if (on) {
+			not = !not;
+		}
+	}
+
 	@Option(name = "--all")
-	boolean all = false;
+	void enableAll(boolean on) throws Exception {
+		if (on) {
+			RevWalk walk = new RevWalk(getRepository());
+			Set<ObjectId> processed = new HashSet<>();
+			for (Ref a : db.getRefDatabase().getRefs()) {
+				ObjectId oid = a.getPeeledObjectId();
+				if (oid == null)
+					oid = a.getObjectId();
+				try {
+					if (processed.add(oid))
+						commits.add(walk.parseCommit(oid));
+				} catch (IncorrectObjectTypeException e) {
+					// Ignore all refs which are not commits
+				}
+			}
+			walk.close();
+		}
+	}
 
 	char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
 
@@ -122,7 +140,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	private String followPath;
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")
-	private List<RevCommit> commits = new ArrayList<>();
+	private List<RevCommit> commits = new CommitList();
 
 	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
@@ -167,19 +185,6 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setRevFilter(revLimiter.get(0));
 		else if (revLimiter.size() > 1)
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
-
-		if (all) {
-			for (Ref a : db.getRefDatabase().getRefs()) {
-				ObjectId oid = a.getPeeledObjectId();
-				if (oid == null)
-					oid = a.getObjectId();
-				try {
-					commits.add(walk.parseCommit(oid));
-				} catch (IncorrectObjectTypeException e) {
-					// Ignore all refs which are not commits
-				}
-			}
-		}
 
 		if (commits.isEmpty()) {
 			final ObjectId head = db.resolve(Constants.HEAD);
@@ -278,5 +283,22 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {
 		// Do nothing by default. Most applications cannot show an object.
+	}
+
+	private class CommitList extends ArrayList<RevCommit> {
+		private RevCommit patch(RevCommit revCommit) {
+			if (not) {
+				if (revCommit.has(RevFlag.UNINTERESTING))
+					revCommit.remove(RevFlag.UNINTERESTING);
+				else
+					revCommit.add(RevFlag.UNINTERESTING);
+			}
+			return revCommit;
+		}
+
+		@Override
+		public boolean add(RevCommit revCommit) {
+			return super.add(patch(revCommit));
+		}
 	}
 }
