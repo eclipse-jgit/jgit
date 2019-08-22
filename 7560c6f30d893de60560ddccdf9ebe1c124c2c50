@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e27acc19_867896ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-22T19:48:15Z",
+      "side": 1,
+      "message": "No need to call get twice.\n\n  FileBasedConfig result \u003d systemConfig.get();\n  if (config \u003d\u003d null) {\n    systemConfig.compareAndSet(...);\n    result \u003d systemConfig.get();\n  }\n  return result;",
+      "revId": "7560c6f30d893de60560ddccdf9ebe1c124c2c50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea7c07_29153db6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-22T19:48:15Z",
+      "side": 1,
+      "message": "Here we should do the same null check.",
+      "revId": "7560c6f30d893de60560ddccdf9ebe1c124c2c50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
