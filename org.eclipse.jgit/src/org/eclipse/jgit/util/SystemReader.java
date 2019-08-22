@@ -126,7 +126,7 @@ public abstract class SystemReader {
 					return new FileBasedConfig(parent, configFile, fs);
 				}
 			}
-			return new FileBasedConfig(null, fs) {
+			return new FileBasedConfig(parent, null, fs) {
 				@Override
 				public void load() {
 					// empty, do not load
