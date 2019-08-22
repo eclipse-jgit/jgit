@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc52b1e_5801da5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-08-22T18:16:44Z",
+      "side": 1,
+      "message": "It is still worthwhile to check if it\u0027s null or not to not recreate systemConfig object in later calls.\nBut as it won\u0027t load anything it\u0027s not that big deal, so up to you.",
+      "revId": "06ba3f3e5085b0e1486d588c3d1391cdf544a2c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
