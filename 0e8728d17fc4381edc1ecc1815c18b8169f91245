@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "30a25d87_2b6b4920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-22T07:32:39Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. That might indeed be a problem.",
+      "parentUuid": "78cb4df9_d7e06c8f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "0e8728d17fc4381edc1ecc1815c18b8169f91245",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b06e128_84c17e71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
         "patchSetId": 2
