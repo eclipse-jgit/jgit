@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1427a9d_58fc31c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-22T20:36:38Z",
+      "side": 1,
+      "message": "That is... strange. Why are we using FS.DETECTED here?\n\nLooking through the history, it seems to me that here something went wrong:\n\n* 3fc93f8a eliminated use of FS and deprecated a constructor public LockFile(final File f, final FS fs).\n* 10e65cb4 introduced this FS.DETECTED here.\n* Some merges\n* cc8dfe79 removed the deprecated constructor.\n\nSeems to me FS should _not_ have been eliminated, and that constructor should not have been deprecated and removed, but instead the other (and currently only) constructor should go?\n\nSurely we should use the repo\u0027s FS for lock files in that repo?\n\nSearching further I also found https://git.eclipse.org/r/#/c/114826/ , where Marc had already noticed this.",
+      "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
