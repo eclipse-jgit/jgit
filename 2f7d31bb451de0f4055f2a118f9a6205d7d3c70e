@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "186989f5_515c7d6d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c4ed9b9_be1561a0",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d58fa81_55f765c5",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
         "patchSetId": 7
@@ -76,6 +94,24 @@
       "writtenOn": "2019-08-22T15:17:14Z",
       "side": 1,
       "message": "If we use MockSystemReader (see above) then this is a different path.",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c745114_6da4ffa0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d58fa81_55f765c5",
       "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "d4ab35bb_02627c93",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b52d79_567db37f",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 52
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e4406de_baa1846b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
         "patchSetId": 7
@@ -116,6 +176,30 @@
       "writtenOn": "2019-08-22T15:17:14Z",
       "side": 1,
       "message": "add \n\n | FileUtils.RETRY\n\nthis may be necessary on Windows",
+      "range": {
+        "startLine": 179,
+        "startChar": 25,
+        "endLine": 179,
+        "endChar": 44
+      },
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d815525c_6d98a441",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e4406de_baa1846b",
       "range": {
         "startLine": 179,
         "startChar": 25,
@@ -185,6 +269,24 @@
     },
     {
       "key": {
+        "uuid": "67c19612_b287324a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6499fc04_79ff5375",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac674348_6bea10a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 7
@@ -196,6 +298,24 @@
       "writtenOn": "2019-08-22T15:17:14Z",
       "side": 1,
       "message": "externalize messages",
+      "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "052984be_11b09fa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac674348_6bea10a9",
       "revId": "2f7d31bb451de0f4055f2a118f9a6205d7d3c70e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
