@@ -697,7 +697,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 					FileUtils.delete(gitDir, FileUtils.RECURSIVE
 							| FileUtils.SKIP_MISSING | FileUtils.IGNORE_ERRORS);
 				} else {
-					deleteChildren(directory);
+					deleteChildren(gitDir);
 				}
 			}
 		} catch (IOException e) {
