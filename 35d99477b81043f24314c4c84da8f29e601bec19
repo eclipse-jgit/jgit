@@ -34,6 +34,24 @@
       "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "057a5268_cd8db478",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-23T12:12:58Z",
+      "side": 1,
+      "message": "IMO next release for sure. Too close for 5.5 for me; I have quite a number of other changes still pending for 5.5 that I\u0027d like to see go in (all the sshd stuff, maybe except the PuTTY things, the blame fixes, and two http-related changes), and I\u0027m up to my ears with the work my employer actually expects me to do and pays me for :-), which isn\u0027t EGit/JGit development :-/.\n\nI want to switch EGit to Apache Http in 5.6.0 (because of that https-over-http proxy problem).\n\nAs for supportsAtomicFileCreation being global: I questioned that already in bug 544164 comment 2.",
+      "parentUuid": "db7b73ed_af7f3250",
+      "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
