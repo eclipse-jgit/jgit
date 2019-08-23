@@ -648,6 +648,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readLastModifiedFailed;
+	/***/ public String readPipeIsNotAllowed;
+	/***/ public String readPipeIsNotAllowedRequiredPermission;
 	/***/ public String readTimedOut;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;
@@ -723,6 +725,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String sizeExceeds2GB;
 	/***/ public String skipMustBeNonNegative;
+	/***/ public String skipNotAccessiblePath;
 	/***/ public String smartHTTPPushDisabled;
 	/***/ public String sourceDestinationMustMatch;
 	/***/ public String sourceIsNotAWildcard;
