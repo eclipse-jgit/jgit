@@ -16,6 +16,24 @@
       "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db7b73ed_af7f3250",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T11:35:45Z",
+      "side": 1,
+      "message": "I think it was ok to remove this in 3fc93f8a since after this change FS wasn\u0027t used in LockFile anymore. \n\nThough 10e65cb4 should have moved the deprecation from the constructor with FS to the other one and should have used the FS where the repo resides in.\nhttps://git.eclipse.org/r/#/c/114826 does exactly that but slipped through the cracks and got auto-abandoned.\n\nWe could fix that by \n* restoring Marc\u0027s change https://git.eclipse.org/r/#/c/114826\n* or by enhancing FS to rely on NIO to detect the underlying filesystem using Files.getFileStore(). This could be done by moving all the dynamically detected attributes of the used filesystem to FS.FileStoreAttributes.\n\nAnother shortcoming of the option core.supportsAtomicFileCreation is that it is currently a global option. Instead it should be defined per filesystem since a system can use multiple different filesystems e.g. ext4, btrfs and nfs.\n\nOverall I\u0027d say we should fix these issues on master.\n\nDo we want this in 5.5 or rather wait for the next release ?\n\nWhat do you think ?",
+      "parentUuid": "a1427a9d_58fc31c0",
+      "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
