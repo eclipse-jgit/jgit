@@ -52,6 +52,24 @@
       "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b0e1d8_bf761b3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-23T13:26:47Z",
+      "side": 1,
+      "message": "I filed\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d550380\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d550384\nto track these issues",
+      "parentUuid": "057a5268_cd8db478",
+      "revId": "35d99477b81043f24314c4c84da8f29e601bec19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
