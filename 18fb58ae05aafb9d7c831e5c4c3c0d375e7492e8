@@ -70,6 +70,30 @@
       "revId": "18fb58ae05aafb9d7c831e5c4c3c0d375e7492e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5face16_d6794491",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-23T16:50:39Z",
+      "side": 1,
+      "message": "So did I ;-)",
+      "parentUuid": "77f315e9_52694eb4",
+      "range": {
+        "startLine": 129,
+        "startChar": 14,
+        "endLine": 129,
+        "endChar": 39
+      },
+      "revId": "18fb58ae05aafb9d7c831e5c4c3c0d375e7492e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
