@@ -56,6 +56,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -97,9 +98,9 @@ public abstract class SystemReader {
 	private static class Default extends SystemReader {
 		private volatile String hostname;
 
-		private volatile FileBasedConfig systemConfig;
+		private AtomicReference<FileBasedConfig> systemConfig = new AtomicReference<>();
 
-		private volatile FileBasedConfig userConfig;
+		private volatile AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
 
 		@Override
 		public String getenv(String variable) {
@@ -113,10 +114,13 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			if (systemConfig == null) {
-				systemConfig = createSystemConfig(parent, fs);
+			FileBasedConfig c = systemConfig.get();
+			if (c == null) {
+				systemConfig.compareAndSet(null,
+						createSystemConfig(parent, fs));
+				c = systemConfig.get();
 			}
-			return systemConfig;
+			return c;
 		}
 
 		protected FileBasedConfig createSystemConfig(Config parent, FS fs) {
@@ -142,40 +146,35 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			if (userConfig == null) {
-				File home = fs.userHome();
-				userConfig = new FileBasedConfig(parent,
-						new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			FileBasedConfig c = userConfig.get();
+			if (c == null) {
+				userConfig.compareAndSet(null, new FileBasedConfig(parent,
+						new File(fs.userHome(), ".gitconfig"), fs)); //$NON-NLS-1$
+				c = userConfig.get();
 			}
-			return userConfig;
+			return c;
 		}
 
 		@Override
 		public StoredConfig getSystemConfig()
 				throws IOException, ConfigInvalidException {
-			if (systemConfig == null) {
-				systemConfig = createSystemConfig(null, FS.DETECTED);
-			}
-			if (systemConfig.isOutdated()) {
+			FileBasedConfig c = openSystemConfig(null, FS.DETECTED);
+			if (c.isOutdated()) {
 				LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
-				systemConfig.load();
+				c.load();
 			}
-			return systemConfig;
+			return c;
 		}
 
 		@Override
 		public StoredConfig getUserConfig()
 				throws IOException, ConfigInvalidException {
-			if (userConfig == null) {
-				userConfig = openUserConfig(getSystemConfig(), FS.DETECTED);
-			} else {
-				getSystemConfig();
-			}
-			if (userConfig.isOutdated()) {
+			FileBasedConfig c = openUserConfig(getSystemConfig(), FS.DETECTED);
+			if (c.isOutdated()) {
 				LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
-				userConfig.load();
+				c.load();
 			}
-			return userConfig;
+			return c;
 		}
 
 		@Override
