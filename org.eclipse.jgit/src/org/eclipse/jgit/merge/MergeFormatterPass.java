@@ -64,6 +64,8 @@ class MergeFormatterPass {
 
 	private final boolean threeWayMerge;
 
+	private final boolean writeBase; // diff3-style requested
+
 	private String lastConflictingName; // is set to non-null whenever we are in
 										// a conflict
 
@@ -80,25 +82,31 @@ class MergeFormatterPass {
 	 *            names for the sequences are given in this list
 	 * @param charset
 	 *            the character set used when writing conflict metadata
+	 * @param writeBase
+	 *            base's contribution should be written in conflicts
 	 */
 	MergeFormatterPass(OutputStream out, MergeResult<RawText> res,
-			List<String> seqName, Charset charset) {
+			List<String> seqName, Charset charset, boolean writeBase) {
 		this.out = new EolAwareOutputStream(out);
 		this.res = res;
 		this.seqName = seqName;
 		this.charset = charset;
 		this.threeWayMerge = (res.getSequences().size() == 3);
+		this.writeBase = writeBase;
 	}
 
 	void formatMerge() throws IOException {
 		boolean missingNewlineAtEnd = false;
 		for (MergeChunk chunk : res) {
-			RawText seq = res.getSequences().get(chunk.getSequenceIndex());
-			writeConflictMetadata(chunk);
-			// the lines with conflict-metadata are written. Now write the chunk
-			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
-				writeLine(seq, i);
-			missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			if (!isBaseChunk(chunk) || writeBase) {
+				RawText seq = res.getSequences().get(chunk.getSequenceIndex());
+				writeConflictMetadata(chunk);
+				// the lines with conflict-metadata are written. Now write the
+				// chunk
+				for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
+					writeLine(seq, i);
+				missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			}
 		}
 		// one possible leftover: if the merge result ended with a conflict we
 		// have to close the last conflict here
@@ -110,16 +118,19 @@ class MergeFormatterPass {
 
 	private void writeConflictMetadata(MergeChunk chunk) throws IOException {
 		if (lastConflictingName != null
-				&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
+				&& !isYoursChunk(chunk) && !isBaseChunk(chunk)) {
 			// found the end of an conflict
 			writeConflictEnd();
 		}
-		if (chunk.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE) {
+		if (isMineChunk(chunk)) {
 			// found the start of an conflict
 			writeConflictStart(chunk);
-		} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
-			// found another conflicting chunk
+		} else if (isYoursChunk(chunk)) {
+			// found the yours conflicting chunk
 			writeConflictChange(chunk);
+		} else if (isBaseChunk(chunk)) {
+			// found the base conflicting chunk
+			writeConflictBase(chunk);
 		}
 	}
 
@@ -146,6 +157,11 @@ class MergeFormatterPass {
 				+ lastConflictingName);
 	}
 
+	private void writeConflictBase(MergeChunk chunk) throws IOException {
+		lastConflictingName = seqName.get(chunk.getSequenceIndex());
+		writeln("||||||| " + lastConflictingName); //$NON-NLS-1$
+	}
+
 	private void writeln(String s) throws IOException {
 		out.beginln();
 		out.write((s + "\n").getBytes(charset)); //$NON-NLS-1$
@@ -157,5 +173,18 @@ class MergeFormatterPass {
 		// still BOL? It was a blank line. But writeLine won't lf, so we do.
 		if (out.isBeginln())
 			out.write('\n');
+	}
+
+	private boolean isBaseChunk(MergeChunk chunk) {
+		return chunk.getConflictState() == ConflictState.BASE_CONFLICTING_RANGE;
+	}
+
+	private boolean isMineChunk(MergeChunk chunk) {
+		return chunk
+				.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE;
+	}
+
+	private boolean isYoursChunk(MergeChunk chunk) {
+		return chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE;
 	}
 }
