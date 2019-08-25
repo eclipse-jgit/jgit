@@ -36,11 +36,15 @@ DATA = [
     PKG + "lib/sorttest.gitindex.dat",
 ]
 
+EXCLUDED = [
+    PKG + "api/SecurityManagerTest.java",
+]
+
 RESOURCES = glob(["resources/**"])
 
 tests(tests = glob(
     ["tst/**/*.java"],
-    exclude = HELPERS + DATA,
+    exclude = HELPERS + DATA + EXCLUDED,
 ))
 
 java_library(
