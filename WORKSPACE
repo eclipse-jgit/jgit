@@ -168,48 +168,48 @@ maven_jar(
     sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",
 )
 
-JETTY_VER = "9.4.14.v20181114"
+JETTY_VER = "9.4.20.v20190813"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VER,
-    sha1 = "96f501462af425190ff7b63e387692c1aa3af2c8",
-    src_sha1 = "204b8a84adf3ce354138509c42638b5b2d223d1f",
+    sha1 = "d5d6610321bd173aead473e994f170989d633b25",
+    src_sha1 = "09aa4fce2579d0905e3bde0b3bc923a032394805",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "6cbeb2fe9b3cc4f88a7ea040b8a0c4f703cd72ce",
-    src_sha1 = "33555125c5988fca12273f60a0aa545d848de54a",
+    sha1 = "300c2e6dd62291c512bdaf3ecfefc1e305e26088",
+    src_sha1 = "ec03ce3b6a8c0c3dd2bd8b32bc51419caa10ad62",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "b36a3d52d78a1df6406f6fa236a6eeff48cbfef6",
-    src_sha1 = "55db20ea68c9c1b0ed264d80e7d75b4988da87a6",
+    sha1 = "d4ee11134bca83db85919a1710fce022c67df3b7",
+    src_sha1 = "0db81f86709a8184c793acd309c27dccdb5d439c",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "6d0c8ac42e9894ae7b5032438eb4579c2a47f4fe",
-    src_sha1 = "3c4f8a942909cabe6d029f835c185207eb91af75",
+    sha1 = "edda2fd904a881114aba79e2f881c6f4004e8148",
+    src_sha1 = "3e187c60d578c529f4baa3bbfc727d4b7ca7b93c",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "a8c6a705ddb9f83a75777d89b0be59fcef3f7637",
-    src_sha1 = "06132108ccabbe181707af911e5a68fd8e8806ff",
+    sha1 = "b246c5e350d0aa1b310c07ec362755c34a1cc8cb",
+    src_sha1 = "d12619b4df0d202847096a8429b0f96f123c7c77",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "5bb3d7a38f7ea54138336591d89dd5867b806c02",
-    src_sha1 = "94e89a8c9f82e38555e95b9f7f58344a247e862c",
+    sha1 = "8ee753d673a124ba2880361871ab13f6863b2d40",
+    src_sha1 = "2827925d01d95f42d02adf177d2474fbc8a3d5e0",
 )
 
 BOUNCYCASTLE_VER = "1.61"
