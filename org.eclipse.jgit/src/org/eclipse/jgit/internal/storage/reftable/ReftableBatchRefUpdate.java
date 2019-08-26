@@ -62,7 +62,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -146,7 +145,8 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	/**
 	 * @return a snapshot on top of which a new reftable should be created.
 	 *
-	 * @throws IOException in case of I/O problems.
+	 * @throws IOException
+	 *             in case of I/O problems.
 	 */
 	abstract protected ReftableStack getStack() throws IOException;
 
@@ -310,18 +310,20 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	/**
 	 * Writes the refs to the writer, and calls finish.
 	 *
-	 * @param writer the writer on which we should write.
-	 * @param os the onto which we should write data
-	 * @param newRefs the ref data to write..
-	 * @param pending the log data to write.
-	 * @throws IOException in case of problems.
+	 * @param writer
+	 *            the writer on which we should write.
+	 * @param newRefs
+	 *            the ref data to write..
+	 * @param pending
+	 *            the log data to write.
+	 * @throws IOException
+	 *            in case of problems.
 	 */
-	protected void write(ReftableWriter writer, OutputStream os,
-			List<Ref> newRefs, List<ReceiveCommand> pending)
-			throws IOException {
+	protected void write(ReftableWriter writer, List<Ref> newRefs,
+			List<ReceiveCommand> pending) throws IOException {
 		long updateIndex = getStack().nextUpdateIndex();
 		writer.setMinUpdateIndex(updateIndex).setMaxUpdateIndex(updateIndex)
-				.begin(os).sortAndWriteRefs(newRefs);
+				.begin().sortAndWriteRefs(newRefs);
 		if (!isRefLogDisabled()) {
 			writeLog(writer, updateIndex, pending);
 		}
