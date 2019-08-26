@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5819d495_80da3957",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-26T22:14:32Z",
+      "side": 1,
+      "message": "Don\u0027t put \".\" at the end of commit message title [1]. Also make sure to wrap your commit message.\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "range": {
+        "startLine": 7,
+        "startChar": 76,
+        "endLine": 7,
+        "endChar": 77
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eeee255_7832368d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-26T22:14:32Z",
+      "side": 1,
+      "message": "With your new solution, it is no longer about \"flags are not being carried\", but commits that are not entering the priority queue (and thus not being traversed). I would write something like:\n\n---\nWhen firstParent is set, RevWalk traverses only the first parent of a commit, even though that commit is UNINTERESTING. Since we want the maximal UNINTERESTING set, we shouldn\u0027t prune any parents here. This issue is apparent only when some of the commits being traversed are unparsed, since walker.carryFlagsImpl() propagates the UNINTERESTING flag to all parsed ancestors, masking the issue.\n\nTherefore teach RevWalk to traverse all parents when a commit is UNINTERESTING and not only the first parent. Since this issue is masked by commit parsing, also test situations when the commits involved are unparsed.\n---\n\n(Feel free to use my text as-is in the commit message, to modify it, or to write your own.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be00114f_89dcff3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-26T22:14:32Z",
+      "side": 1,
+      "message": "1. Should this be continue? If not, if the 2nd parent is not uninteresting but the 3rd parent is, the 3rd parent won\u0027t get added.\n2. Put braces around single-line \"if\" statements [1].\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Coding_standards",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 11
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
