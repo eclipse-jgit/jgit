@@ -114,13 +114,13 @@ public class DfsReftableBatchRefUpdate extends ReftableBatchRefUpdate {
 					&& newRefs.size() * AVG_BYTES <= cfg.getRefBlockSize()
 					&& canCompactTopOfStack(cfg)) {
 				ByteArrayOutputStream tmp = new ByteArrayOutputStream();
-				ReftableWriter rw = new ReftableWriter(cfg);
-				write(rw, tmp, newRefs, pending);
+				ReftableWriter rw = new ReftableWriter(cfg, tmp);
+				write(rw, newRefs, pending);
 				stats = compactTopOfStack(out, cfg, tmp.toByteArray());
 				prune = toPruneTopOfStack();
 			} else {
-				ReftableWriter rw = new ReftableWriter(cfg);
-				write(rw, out, newRefs, pending);
+				ReftableWriter rw = new ReftableWriter(cfg, out);
+				write(rw, newRefs, pending);
 				stats = rw.getStats();
 			}
 			pack.addFileExt(REFTABLE);
