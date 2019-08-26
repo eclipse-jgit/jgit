@@ -114,12 +114,8 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			FileBasedConfig c = systemConfig.get();
-			if (c == null) {
-				systemConfig.compareAndSet(null,
-						createSystemConfig(parent, fs));
-				c = systemConfig.get();
-			}
+			FileBasedConfig c = createSystemConfig(parent, fs);
+			systemConfig.set(c);
 			return c;
 		}
 
@@ -146,12 +142,9 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			FileBasedConfig c = userConfig.get();
-			if (c == null) {
-				userConfig.compareAndSet(null, new FileBasedConfig(parent,
-						new File(fs.userHome(), ".gitconfig"), fs)); //$NON-NLS-1$
-				c = userConfig.get();
-			}
+			FileBasedConfig c = new FileBasedConfig(parent,
+					new File(fs.userHome(), ".gitconfig"), fs); //$NON-NLS-1$
+			userConfig.set(c);
 			return c;
 		}
 
