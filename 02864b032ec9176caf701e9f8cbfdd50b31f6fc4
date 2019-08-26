@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "340d6416_0a2b6de5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-08-26T21:52:43Z",
+      "side": 1,
+      "message": "if we don\u0027t compare value - there is no point in keeping it AtomicReference. Volatile can ensure new config will be propagated to all threads.",
+      "range": {
+        "startLine": 117,
+        "startChar": 3,
+        "endLine": 118,
+        "endChar": 23
+      },
+      "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d6a84d0_890e3825",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 1
@@ -13,6 +36,29 @@
       "writtenOn": "2019-08-26T21:22:26Z",
       "side": 1,
       "message": "But I thought the whole point of these get... operations was to only reload if necessary. This will now always reload, and also overwrite anything a user might have set with openSystemConfig.\n\nI guess the null check with the compareAndSet formerly in openSystemConfig now has to happen here.",
+      "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e9fe0d_d30aa9b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-08-26T21:52:43Z",
+      "side": 1,
+      "message": "Let\u0027s do it in another way.\n\n1. getXXXConfig should not modify value of XXXConfig.\n2. openXXXConfig should always modify value of XXXConfig.\n2. Default (empty) configs should be set during initialization of the DefaulReader, e.g:\n\npublic Default () {\n  super();\n  openSystemConfig(null, FS.DETECTED);\n  openUserConfig(null, FS.DETECTED);\n}\n\nwith this we won\u0027t have issue with creating several default instances of config and will reload and start serve new configs once they will be opened.",
+      "range": {
+        "startLine": 154,
+        "startChar": 57,
+        "endLine": 154,
+        "endChar": 59
+      },
       "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
