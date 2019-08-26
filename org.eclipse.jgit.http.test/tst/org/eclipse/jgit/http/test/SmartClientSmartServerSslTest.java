@@ -49,8 +49,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -73,7 +71,6 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
-import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -81,22 +78,18 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
-import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class SmartClientSmartServerSslTest extends HttpTestCase {
+public class SmartClientSmartServerSslTest extends AllFactoriesHttpTestCase {
 
 	// We run these tests with a server on localhost with a self-signed
 	// certificate. We don't do authentication tests here, so there's no need
@@ -152,16 +145,8 @@ public class SmartClientSmartServerSslTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
-	@Parameters
-	public static Collection<Object[]> data() {
-		// run all tests with both connection factories we have
-		return Arrays.asList(new Object[][] {
-				{ new JDKHttpConnectionFactory() },
-				{ new HttpClientConnectionFactory() } });
-	}
-
 	public SmartClientSmartServerSslTest(HttpConnectionFactory cf) {
-		HttpTransport.setConnectionFactory(cf);
+		super(cf);
 	}
 
 	@Override
