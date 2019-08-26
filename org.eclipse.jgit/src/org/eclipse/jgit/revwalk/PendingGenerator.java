@@ -143,7 +143,9 @@ class PendingGenerator extends Generator {
 
 				for (int i = 0; i < c.parents.length; i++) {
 					RevCommit p = c.parents[i];
-					if (firstParent && i > 0) {
+					// If the commit is uninteresting, don't try to prune
+					// parents because we want the maximal uninteresting set.
+					if (firstParent && i > 0 && (c.flags & UNINTERESTING) == 0) {
 						continue;
 					}
 					if ((p.flags & SEEN) != 0)
