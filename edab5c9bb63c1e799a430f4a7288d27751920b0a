@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "737686ab_6d3f0459",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-08-26T22:37:50Z",
+      "side": 1,
+      "message": "Done. Thanks again for the link",
+      "parentUuid": "5819d495_80da3957",
+      "range": {
+        "startLine": 7,
+        "startChar": 76,
+        "endLine": 7,
+        "endChar": 77
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eeee255_7832368d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e0f0fa5b_6c14a20a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-08-26T22:37:50Z",
+      "side": 1,
+      "message": "Wow thanks - that\u0027s a fantastic description of the situation! I took yours as-is, and changed the commit subject slightly to get rid of \"where flags are not being carried\"",
+      "parentUuid": "5eeee255_7832368d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be00114f_89dcff3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a9fb74_5a4e5ec0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2019-08-26T22:37:50Z",
+      "side": 1,
+      "message": "1. My impression was that continue and break would be interchangeable here since firstParent is unchanging, (c.flags \u0026 UNINTERESTING) is unchanging, and i \u003e 0 is true except for on the first iteration. Changed since my mind might be playing tricks.\n2. Done! Thank you for the link to the coding standards - I will definitely save this for future reference.",
+      "parentUuid": "be00114f_89dcff3c",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 11
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
