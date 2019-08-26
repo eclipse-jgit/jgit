@@ -114,23 +114,14 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			FileBasedConfig c = systemConfig.get();
-			if (c == null) {
-				systemConfig.compareAndSet(null,
-						createSystemConfig(parent, fs));
-				c = systemConfig.get();
-			}
-			return c;
-		}
-
-		protected FileBasedConfig createSystemConfig(Config parent, FS fs) {
-			if (StringUtils.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
+			if (StringUtils
+					.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 				File configFile = fs.getGitSystemConfig();
 				if (configFile != null) {
 					return new FileBasedConfig(parent, configFile, fs);
 				}
 			}
-			return new FileBasedConfig(null, fs) {
+			return new FileBasedConfig(parent, null, fs) {
 				@Override
 				public void load() {
 					// empty, do not load
@@ -146,19 +137,19 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			FileBasedConfig c = userConfig.get();
-			if (c == null) {
-				userConfig.compareAndSet(null, new FileBasedConfig(parent,
-						new File(fs.userHome(), ".gitconfig"), fs)); //$NON-NLS-1$
-				c = userConfig.get();
-			}
-			return c;
+			return new FileBasedConfig(parent, new File(fs.userHome(), ".gitconfig"), //$NON-NLS-1$
+					fs);
 		}
 
 		@Override
 		public StoredConfig getSystemConfig()
 				throws IOException, ConfigInvalidException {
-			FileBasedConfig c = openSystemConfig(null, FS.DETECTED);
+			FileBasedConfig c = systemConfig.get();
+			if (c == null) {
+				systemConfig.compareAndSet(null,
+						openSystemConfig(null, FS.DETECTED));
+				c = systemConfig.get();
+			}
 			if (c.isOutdated()) {
 				LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
 				c.load();
@@ -169,7 +160,15 @@ public abstract class SystemReader {
 		@Override
 		public StoredConfig getUserConfig()
 				throws IOException, ConfigInvalidException {
-			FileBasedConfig c = openUserConfig(getSystemConfig(), FS.DETECTED);
+			FileBasedConfig c = userConfig.get();
+			if (c == null) {
+				userConfig.compareAndSet(null,
+						openUserConfig(getSystemConfig(), FS.DETECTED));
+				c = userConfig.get();
+			} else {
+				// Ensure the parent is up to date
+				getSystemConfig();
+			}
 			if (c.isOutdated()) {
 				LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
 				c.load();
