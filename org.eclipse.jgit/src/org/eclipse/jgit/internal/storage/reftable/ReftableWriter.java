@@ -108,6 +108,7 @@ public class ReftableWriter {
 	private long minUpdateIndex;
 	private long maxUpdateIndex;
 
+	private OutputStream outputStream;
 	private ReftableOutputStream out;
 	private ObjectIdSubclassMap<RefList> obj2ref;
 
@@ -137,6 +138,20 @@ public class ReftableWriter {
 	 */
 	public ReftableWriter(ReftableConfig cfg) {
 		config = cfg;
+		outputStream = null;
+	}
+
+	/**
+	 * Initialize a writer with a configuration.
+	 *
+	 * @param cfg
+	 *            configuration for the writer
+	 * @param os
+	 *            output stream. Do not call begin() on this writer.
+	 */
+	public ReftableWriter(ReftableConfig cfg, OutputStream os) {
+		config = cfg;
+		outputStream = os;
 	}
 
 	/**
@@ -183,7 +198,7 @@ public class ReftableWriter {
 	}
 
 	/**
-	 * Begin writing the reftable.
+	 * Begin writing the reftable. Should be called only once.
 	 *
 	 * @param os
 	 *            stream to write the table to. Caller is responsible for
@@ -192,7 +207,20 @@ public class ReftableWriter {
 	 * @throws java.io.IOException
 	 *             if reftable header cannot be written.
 	 */
-	public ReftableWriter begin(OutputStream os) throws IOException {
+	public ReftableWriter begin(OutputStream os) {
+		if (outputStream != null) {
+			throw new IllegalStateException("begin() called twice.");//$NON-NLS-1$
+
+		}
+		outputStream = os;
+		return begin();
+	}
+
+	public ReftableWriter begin() {
+		if (out != null) {
+			throw new IllegalStateException("begin() called twice.");//$NON-NLS-1$
+		}
+
 		refBlockSize = config.getRefBlockSize();
 		logBlockSize = config.getLogBlockSize();
 		restartInterval = config.getRestartInterval();
@@ -212,7 +240,7 @@ public class ReftableWriter {
 			restartInterval = refBlockSize < (60 << 10) ? 16 : 64;
 		}
 
-		out = new ReftableOutputStream(os, refBlockSize, alignBlocks);
+		out = new ReftableOutputStream(outputStream, refBlockSize, alignBlocks);
 		refs = new Section(REF_BLOCK_TYPE);
 		if (indexObjects) {
 			obj2ref = new ObjectIdSubclassMap<>();

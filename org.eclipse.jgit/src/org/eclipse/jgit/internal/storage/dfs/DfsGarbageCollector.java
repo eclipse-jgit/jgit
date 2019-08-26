@@ -765,12 +765,10 @@ public class DfsGarbageCollector {
 			throws IOException {
 		try (DfsOutputStream out = objdb.writeFile(pack, REFTABLE)) {
 			ReftableConfig cfg = configureReftable(reftableConfig, out);
-			ReftableWriter writer = new ReftableWriter(cfg)
+			ReftableWriter writer = new ReftableWriter(cfg, out)
 					.setMinUpdateIndex(reftableInitialMinUpdateIndex)
-					.setMaxUpdateIndex(reftableInitialMaxUpdateIndex)
-					.begin(out)
-					.sortAndWriteRefs(refs)
-					.finish();
+					.setMaxUpdateIndex(reftableInitialMaxUpdateIndex).begin()
+					.sortAndWriteRefs(refs).finish();
 			pack.addFileExt(REFTABLE);
 			pack.setReftableStats(writer.getStats());
 		}
