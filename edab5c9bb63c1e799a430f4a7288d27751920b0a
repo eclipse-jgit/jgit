@@ -140,6 +140,30 @@
       "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60536d99_4069f707",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-08-26T22:41:52Z",
+      "side": 1,
+      "message": "Ah...you\u0027re right. I think it is my mind that is playing tricks on me :-P\n\nFeel free to change it back to \"break\" or leave it - it is originally \"continue\", so it\u0027s not a regression.",
+      "parentUuid": "49a9fb74_5a4e5ec0",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 11
+      },
+      "revId": "edab5c9bb63c1e799a430f4a7288d27751920b0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
