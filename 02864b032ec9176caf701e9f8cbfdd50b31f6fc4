@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "84e61e35_0fd906e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-27T05:47:49Z",
+      "side": 1,
+      "message": "The lazy init was to avoid a circular init problem between FS.DETECTED and SystemReader.INSTANCE. I\u0027d just do here\n\n  FileBasedConfig c \u003d systemConfig.get();\n  if (c \u003d\u003d null) {\n    systemConfig.compareAndSet(null, createSystemConfig(null, FS.DETECTED));\n    c \u003d systemConfig.get();\n  }",
+      "parentUuid": "33e9fe0d_d30aa9b0",
+      "range": {
+        "startLine": 154,
+        "startChar": 57,
+        "endLine": 154,
+        "endChar": 59
+      },
+      "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d468aebc_c5c3e178",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 1
@@ -76,6 +100,24 @@
       "writtenOn": "2019-08-26T21:22:26Z",
       "side": 1,
       "message": "This, too, will now always create new configs and load them. Not what was intended. Again, the former code of openUserConfig has to be done here now.",
+      "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22068be0_28f28020",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-27T05:47:49Z",
+      "side": 1,
+      "message": "Something like\n\n  @Override\n  public FileBasedConfig openUserConfig(Config parent, FS fs) {\n    FileBasedConfig c \u003d createUserConfig(parent, fs);\n    userConfig.set(c);\n    return c;\n  }\n  \n  protected FileBasedConfig createUserConfig(Config parent, FS fs) {\n    return new FileBasedConfig(parent,\n        new File(fs.userHome(), \".gitconfig\"), fs); //$NON-NLS-1$\n  }\n  \n  FileBasedConfig c \u003d userConfig.get();\n  if (c \u003d\u003d null) {\n    userConfig.compareAndSet(null, createUserConfig(getSystemConfig(), FS.DETECTED));\n    c \u003d userConfig.get();\n  } else {\n    // Ensure the parent is up to date\n    getSystemConfig();\n  }\n\nBut if the user set via openUserConfig a user config that doesn\u0027t have systemConfig as its parent, then we can\u0027t even refresh correctly here.\n\nPerhaps refreshing the parent should be the responsibility of the Config itself. But maybe we can here in 5.1 live with that restriction and just ensure the system config is also updated, if needed, and think about how to do it better in 5.6?",
+      "parentUuid": "d468aebc_c5c3e178",
       "revId": "02864b032ec9176caf701e9f8cbfdd50b31f6fc4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
