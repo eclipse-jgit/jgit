@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16264066_865ce8e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-08-27T12:00:13Z",
+      "side": 1,
+      "message": "So essentially there are now two completely separate ways to get configs. JGit internally uses getSystemConfig(), so it always and exclusively uses (null, FS_DETECTED). At least that behavior didn\u0027t change, all places where getSystemConfig() is used now formerly used openSystemConfig(null, FS.DETECTED). And likewise for openUserConfig/getUserConfig. But I do wonder how that was supposed to work in an environment where each call of open{User,System}Config might choose to supply a different parent.\n\nI also wonder why Gerrit would need something like that. \n\nIf Gerrit relies on some fancy \"different parent each time\", doesn\u0027t it get into trouble with any JGit code that just uses openXXXConfig(null, ...) or getXXXConfig()? Is there a need to have a set{User,System}Config()?",
+      "revId": "ea7d817abe461f57d0a02cb2e1ee9015187f781b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
