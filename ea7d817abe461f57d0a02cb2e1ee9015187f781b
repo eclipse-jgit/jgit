@@ -16,6 +16,24 @@
       "revId": "ea7d817abe461f57d0a02cb2e1ee9015187f781b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49f77353_50bafc0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-08-27T12:18:24Z",
+      "side": 1,
+      "message": "Gerrit (master branch) implements an alternative SystemReader [1] to replace the host\u0027s system-wide gitconfig by the file $gerrit_site/etc/jgit.config located in the Gerrit site\u0027s etc folder. AFAIK it doesn\u0027t switch to another parent at runtime.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/SystemReaderInstaller.java\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/142932\nhttps://gerrit-review.googlesource.com/c/gerrit/+/225458",
+      "parentUuid": "16264066_865ce8e7",
+      "revId": "ea7d817abe461f57d0a02cb2e1ee9015187f781b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
