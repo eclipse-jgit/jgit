@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f65e8b9_7bfe2cf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-27T04:31:54Z",
+      "side": 1,
+      "message": "this(cfg, null)",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 22
+      },
+      "revId": "6ce30af4416366fb4834ae61b8fdfdf1cebe77b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c500fed_4949d9c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-27T04:31:54Z",
+      "side": 1,
+      "message": "Annotate this as @Nullable?",
+      "range": {
+        "startLine": 152,
+        "startChar": 43,
+        "endLine": 152,
+        "endChar": 58
+      },
+      "revId": "6ce30af4416366fb4834ae61b8fdfdf1cebe77b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c20bf3e_3a97e08b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-27T04:31:54Z",
+      "side": 1,
+      "message": "Also check that the given os is not null?",
+      "revId": "6ce30af4416366fb4834ae61b8fdfdf1cebe77b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
