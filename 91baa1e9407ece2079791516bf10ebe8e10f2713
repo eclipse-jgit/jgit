@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0328755a_d75c2b0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-28T17:23:23Z",
+      "side": 1,
+      "message": "Should not have a @since, since this is not part of the stable API.",
+      "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a8bccf8_9d3533ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
         "patchSetId": 1
@@ -61,6 +78,30 @@
       "side": 1,
       "message": "Make it protected then?",
       "parentUuid": "09534469_0ed093fc",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dba382e_ff8bacc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-28T17:23:23Z",
+      "side": 1,
+      "message": "This is in an .internal. package, so we can keep tweaking it over time.",
+      "parentUuid": "ee202f7f_2626daa5",
       "range": {
         "startLine": 67,
         "startChar": 20,
