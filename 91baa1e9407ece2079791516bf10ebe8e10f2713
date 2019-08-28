@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "11d9e5f4_aa1c3613",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-28T18:33:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8329108f_db035b0b",
+      "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a8bccf8_9d3533ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
         "patchSetId": 1
@@ -129,6 +147,30 @@
       "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671fe54a_9488acc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-28T18:33:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3dba382e_ff8bacc0",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
