@@ -46,6 +46,30 @@
       "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee202f7f_2626daa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCachedPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2019-08-28T17:13:14Z",
+      "side": 1,
+      "message": "Make it protected then?",
+      "parentUuid": "09534469_0ed093fc",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "91baa1e9407ece2079791516bf10ebe8e10f2713",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
