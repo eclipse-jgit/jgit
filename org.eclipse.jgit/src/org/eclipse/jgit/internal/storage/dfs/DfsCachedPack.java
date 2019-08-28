@@ -61,6 +61,13 @@ public class DfsCachedPack extends CachedPack {
 	}
 
 	/**
+	 * @return the pack passed to the constructor
+	 */
+	public DfsPackFile getPackFile() {
+		return pack;
+	}
+
+	/**
 	 * Get the description of the pack.
 	 *
 	 * @return the description of the pack.
