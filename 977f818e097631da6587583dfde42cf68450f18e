@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "da5205bf_3208ae87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-29T23:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "372dde69_4b63331c",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18d55b4b_685b33fb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -59,6 +83,30 @@
       "writtenOn": "2019-08-29T23:01:05Z",
       "side": 1,
       "message": "This part isn\u0027t a new check --- there was not a way to push a non-existent object, at least based on my testing.",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3069bc5_66719e82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-29T23:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18d55b4b_685b33fb",
       "range": {
         "startLine": 13,
         "startChar": 54,
@@ -99,6 +147,24 @@
       "writtenOn": "2019-08-29T23:01:05Z",
       "side": 1,
       "message": "Can this share code with the CREATE case?",
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b68f648_092beaef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-29T23:38:34Z",
+      "side": 1,
+      "message": "Looks like there\u0027s no easy way to do so. \n\nIt seems that if I want to share code, I need to write a top level if branch like if(cmd.getType() \u003d\u003d ReceiveCommand.Type.CREATE || cmd.getType() \u003d\u003d ReceiveCommand.Type.UPDATE).\n\nTo me it seems not worth it.",
+      "parentUuid": "2a8a797b_dcb90c23",
       "revId": "977f818e097631da6587583dfde42cf68450f18e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
