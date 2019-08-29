@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b5b93052_6eabd9dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "(just marking resolved)",
+      "parentUuid": "123ebf6f_42e80384",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816fab8e_47e04fda",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -93,6 +117,30 @@
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a590b78b_4df7aa2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "195bea16_15c43719",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "5ef4a172_0a9b36b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "a0be9820_b0b4663b",
+      "range": {
+        "startLine": 18,
+        "startChar": 23,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d572bc5b_210b01c0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
         "patchSetId": 7
@@ -190,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "7a98749d_d0473de8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "optional: how about:\n\n private ObjectId commit1;\n private ObjectId commit2;",
+      "parentUuid": "91c8f60c_a86314ee",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ffdfaa9_c3ebe044",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
         "patchSetId": 7
@@ -219,6 +315,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "8ffdfaa9_c3ebe044",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5dc2ca6_f15f562e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "Still seems to be present.\n\nIf a tool like Eclipse is doing the reformatting, one thing I sometimes do in this kind of circumstance is to make a preparatory commit that just does the reformatting. That way it\u0027s easier to see what\u0027s happening in the commit that changes code.",
+      "parentUuid": "bef2b73f_c83501de",
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -433,6 +547,24 @@
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "863b637e_b919ae83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T21:59:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4423bf4d_7a6a9379",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
