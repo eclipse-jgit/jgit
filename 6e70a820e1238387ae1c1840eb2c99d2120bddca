@@ -339,6 +339,24 @@
     },
     {
       "key": {
+        "uuid": "f803b5cd_a7b864b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-29T23:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5dc2ca6_f15f562e",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1819629e_b4bfca38",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 7
@@ -474,6 +492,24 @@
       "side": 1,
       "message": "No need for it. Please remove the setting.",
       "parentUuid": "2cfb94c0_5fcbc3e3",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d9d2087_703b4bbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-08-29T23:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c55e85f7_f573844e",
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
