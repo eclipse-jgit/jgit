@@ -654,7 +654,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * @param config configuration related to packfile URIs	
+	 * @param config configuration related to packfile URIs
 	 * @since 5.5
 	 */
 	public void setPackfileUriConfig(PackfileUriConfig config) {
@@ -1223,7 +1223,7 @@ public class PackWriter implements AutoCloseable {
 				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
 				PacketLineOut o = packfileUriConfig.pckOut;
 
-				o.writeString("packfile-uris\n");
+				o.writeString("packfile-uris\n"); //$NON-NLS-1$
 				for (CachedPack pack : cachedPacks) {
 					CachedPackUriProvider.PackInfo packInfo = p.getInfo(
 							pack, packfileUriConfig.protocolsSupported);
@@ -1235,7 +1235,7 @@ public class PackWriter implements AutoCloseable {
 					}
 				}
 				packfileUriConfig.pckOut.writeDelim();
-				packfileUriConfig.pckOut.writeString("packfile\n");
+				packfileUriConfig.pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			} else {
 				unwrittenCachedPacks = cachedPacks;
 			}

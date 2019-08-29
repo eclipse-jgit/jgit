@@ -1285,20 +1285,22 @@ public class UploadPack {
 				.format(JGitText.get().unknownTransportCommand, command));
 	}
 
+	@SuppressWarnings("nls")
 	private List<String> getV2CapabilityAdvertisement() {
 		ArrayList<String> caps = new ArrayList<>();
-		caps.add("version 2"); //$NON-NLS-1$
+		caps.add("version 2");
 		caps.add(COMMAND_LS_REFS);
-		boolean advertiseRefInWant = transferConfig.isAllowRefInWant() &&
-				db.getConfig().getBoolean("uploadpack", null, //$NON-NLS-1$
-						"advertiserefinwant", true); //$NON-NLS-1$
-		caps.add(
-				COMMAND_FETCH + '=' +
-				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
-				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
-				(transferConfig.isAllowSidebandAll() ? OPTION_SIDEBAND_ALL + ' ' : "") + //$NON-NLS-1$
-				(cachedPackUriProvider != null ? "packfile-uris " : "") + // $NON-NLS-1$
-				OPTION_SHALLOW);
+		boolean advertiseRefInWant = transferConfig.isAllowRefInWant()
+				&& db.getConfig().getBoolean("uploadpack", null,
+						"advertiserefinwant", true);
+		caps.add(COMMAND_FETCH + '='
+				+ (transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "")
+				+ (advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "")
+				+ (transferConfig.isAllowSidebandAll()
+						? OPTION_SIDEBAND_ALL + ' '
+						: "")
+				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
+				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
 	}
