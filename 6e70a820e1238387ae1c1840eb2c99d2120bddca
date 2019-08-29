@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "da86a81c_aa392e32",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a98749d_d0473de8",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ffdfaa9_c3ebe044",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
         "patchSetId": 7
@@ -354,6 +378,24 @@
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "982a3e6f_7000ac2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5dc2ca6_f15f562e",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
