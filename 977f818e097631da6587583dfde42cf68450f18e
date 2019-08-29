@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46fb69ef_f84341c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "Do you have a more specific reference (e.g. to the commit that made that change)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372dde69_4b63331c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "nit: JGit (with capital \u0027G\u0027 as well).",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18d55b4b_685b33fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "This part isn\u0027t a new check --- there was not a way to push a non-existent object, at least based on my testing.",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6185ae8_3b242314",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "stray blank line",
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a8a797b_dcb90c23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:01:05Z",
+      "side": 1,
+      "message": "Can this share code with the CREATE case?",
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
