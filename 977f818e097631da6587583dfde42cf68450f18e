@@ -136,6 +136,23 @@
     },
     {
       "key": {
+        "uuid": "177037ca_bf5810d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1660,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:48:59Z",
+      "side": 1,
+      "message": "What does this comment intend to say? Currently, it restates what the code says; is there some other pertinent information we\u0027d want to add to help the reader understand it better?",
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a8a797b_dcb90c23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 10
@@ -165,6 +182,24 @@
       "side": 1,
       "message": "Looks like there\u0027s no easy way to do so. \n\nIt seems that if I want to share code, I need to write a top level if branch like if(cmd.getType() \u003d\u003d ReceiveCommand.Type.CREATE || cmd.getType() \u003d\u003d ReceiveCommand.Type.UPDATE).\n\nTo me it seems not worth it.",
       "parentUuid": "2a8a797b_dcb90c23",
+      "revId": "977f818e097631da6587583dfde42cf68450f18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de3309e_ff0235dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-29T23:48:59Z",
+      "side": 1,
+      "message": "Could do:\n\n if (cmd.getResult() !\u003d NOT_ATTEMPTED) {\n   continue;\n }\n\n Ref ref \u003d cmd.getRef();\n RevObject newObj;\n\n if (cmd.getType() \u003d\u003d DELETE || cmd.getType() \u003d\u003d UPDATE) {\n   try {\n     newObj \u003d walk.parseAny(cmd.getNewId());\n   } catch (...) { ... }\n\n   if (cmd.getRefName().startsWith(R_HEADS) \u0026\u0026 !(newObj instanceof RevCommit)) {\n     cmd.setResult(...);\n     continue;\n   }\n }\n\n ... code from before ...\n\nThat feels a little cleaner:\n* using \"import static\" for briefer references to constants\n* avoiding repeating the code that parses newObj",
+      "parentUuid": "9b68f648_092beaef",
       "revId": "977f818e097631da6587583dfde42cf68450f18e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
