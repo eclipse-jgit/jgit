@@ -434,6 +434,24 @@
     },
     {
       "key": {
+        "uuid": "57a746e4_5c8f9f76",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-30T00:43:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9ea1db38_8833decd",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d86b503_dc32bc3f",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 7
@@ -466,6 +484,24 @@
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3d13f6b_29c01b39",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-30T00:43:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f3ad54d_1a7be664",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -558,6 +594,24 @@
     },
     {
       "key": {
+        "uuid": "4f01ab45_72381562",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-30T00:43:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6d9d2087_703b4bbe",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0defd9f4_9420f27f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 7
@@ -590,6 +644,24 @@
       "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65599cfc_05e8ab8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-08-30T00:43:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fdff845a_dbb0a68d",
+      "revId": "6e70a820e1238387ae1c1840eb2c99d2120bddca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
