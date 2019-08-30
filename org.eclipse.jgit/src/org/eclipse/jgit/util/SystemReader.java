@@ -98,10 +98,6 @@ public abstract class SystemReader {
 	private static class Default extends SystemReader {
 		private volatile String hostname;
 
-		private AtomicReference<FileBasedConfig> systemConfig = new AtomicReference<>();
-
-		private volatile AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
-
 		@Override
 		public String getenv(String variable) {
 			return System.getenv(variable);
@@ -114,23 +110,14 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			FileBasedConfig c = systemConfig.get();
-			if (c == null) {
-				systemConfig.compareAndSet(null,
-						createSystemConfig(parent, fs));
-				c = systemConfig.get();
-			}
-			return c;
-		}
-
-		protected FileBasedConfig createSystemConfig(Config parent, FS fs) {
-			if (StringUtils.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
+			if (StringUtils
+					.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 				File configFile = fs.getGitSystemConfig();
 				if (configFile != null) {
 					return new FileBasedConfig(parent, configFile, fs);
 				}
 			}
-			return new FileBasedConfig(null, fs) {
+			return new FileBasedConfig(parent, null, fs) {
 				@Override
 				public void load() {
 					// empty, do not load
@@ -146,35 +133,8 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			FileBasedConfig c = userConfig.get();
-			if (c == null) {
-				userConfig.compareAndSet(null, new FileBasedConfig(parent,
-						new File(fs.userHome(), ".gitconfig"), fs)); //$NON-NLS-1$
-				c = userConfig.get();
-			}
-			return c;
-		}
-
-		@Override
-		public StoredConfig getSystemConfig()
-				throws IOException, ConfigInvalidException {
-			FileBasedConfig c = openSystemConfig(null, FS.DETECTED);
-			if (c.isOutdated()) {
-				LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
-				c.load();
-			}
-			return c;
-		}
-
-		@Override
-		public StoredConfig getUserConfig()
-				throws IOException, ConfigInvalidException {
-			FileBasedConfig c = openUserConfig(getSystemConfig(), FS.DETECTED);
-			if (c.isOutdated()) {
-				LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
-				c.load();
-			}
-			return c;
+			return new FileBasedConfig(parent, new File(fs.userHome(), ".gitconfig"), //$NON-NLS-1$
+					fs);
 		}
 
 		@Override
@@ -233,6 +193,10 @@ public abstract class SystemReader {
 	}
 
 	private ObjectChecker platformChecker;
+
+	private AtomicReference<FileBasedConfig> systemConfig = new AtomicReference<>();
+
+	private AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
 
 	private void init() {
 		// Creating ObjectChecker must be deferred. Unit tests change
@@ -323,8 +287,23 @@ public abstract class SystemReader {
 	 *             if something went wrong when reading files
 	 * @since 5.1.9
 	 */
-	public abstract StoredConfig getUserConfig()
-			throws IOException, ConfigInvalidException;
+	public StoredConfig getUserConfig()
+			throws IOException, ConfigInvalidException {
+		FileBasedConfig c = userConfig.get();
+		if (c == null) {
+			userConfig.compareAndSet(null,
+					openUserConfig(getSystemConfig(), FS.DETECTED));
+			c = userConfig.get();
+		} else {
+			// Ensure the parent is up to date
+			getSystemConfig();
+		}
+		if (c.isOutdated()) {
+			LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
+			c.load();
+		}
+		return c;
+	}
 
 	/**
 	 * Get the gitconfig configuration found in the system-wide "etc" directory.
@@ -339,8 +318,20 @@ public abstract class SystemReader {
 	 *             if something went wrong when reading files
 	 * @since 5.1.9
 	 */
-	public abstract StoredConfig getSystemConfig()
-			throws IOException, ConfigInvalidException;
+	public StoredConfig getSystemConfig()
+			throws IOException, ConfigInvalidException {
+		FileBasedConfig c = systemConfig.get();
+		if (c == null) {
+			systemConfig.compareAndSet(null,
+					openSystemConfig(null, FS.DETECTED));
+			c = systemConfig.get();
+		}
+		if (c.isOutdated()) {
+			LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
+			c.load();
+		}
+		return c;
+	}
 
 	/**
 	 * Get the current system time
