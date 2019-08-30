@@ -16,6 +16,24 @@
       "revId": "abfe796044b439299301015f8e53657f5b7deed6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a6fccdc_9ad9859e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-08-30T11:11:46Z",
+      "side": 1,
+      "message": "I\u0027m assuming this is a preparatory change for [1], in which case it might be better to just squash this into there because it doesn\u0027t add much value on its own.\n\n[1] https://git.eclipse.org/r/#/c/146536/4",
+      "parentUuid": "f89e9087_d4d09e87",
+      "revId": "abfe796044b439299301015f8e53657f5b7deed6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
