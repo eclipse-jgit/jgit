@@ -412,8 +412,7 @@ public final class DfsBlockCache {
 			getStat(statMiss, key).incrementAndGet();
 			boolean credit = true;
 			try {
-				v = file.readOneBlock(requestedPosition, ctx,
-						fileChannel.get());
+				v = file.readOneBlock(position, ctx, fileChannel.get());
 				credit = false;
 			} finally {
 				if (credit) {
@@ -450,7 +449,7 @@ public final class DfsBlockCache {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void reserveSpace(int reserve, DfsStreamKey key) {
+	private void reserveSpace(long reserve, DfsStreamKey key) {
 		clockLock.lock();
 		try {
 			long live = LongStream.of(getCurrentSize()).sum() + reserve;
@@ -487,7 +486,7 @@ public final class DfsBlockCache {
 		}
 	}
 
-	private void creditSpace(int credit, DfsStreamKey key) {
+	private void creditSpace(long credit, DfsStreamKey key) {
 		clockLock.lock();
 		try {
 			getStat(liveBytes, key).addAndGet(-credit);
@@ -497,7 +496,7 @@ public final class DfsBlockCache {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addToClock(Ref ref, int credit) {
+	private void addToClock(Ref ref, long credit) {
 		clockLock.lock();
 		try {
 			if (credit != 0) {
@@ -521,17 +520,20 @@ public final class DfsBlockCache {
 	 *
 	 * @param key
 	 *            the stream key of the pack.
+	 * @param position
+	 *            the position in the key. The default should be 0.
 	 * @param loader
 	 *            the function to load the reference.
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
-	<T> Ref<T> getOrLoadRef(DfsStreamKey key, RefLoader<T> loader)
+	<T> Ref<T> getOrLoadRef(
+			DfsStreamKey key, long position, RefLoader<T> loader)
 			throws IOException {
-		int slot = slot(key, 0);
+		int slot = slot(key, position);
 		HashEntry e1 = table.get(slot);
-		Ref<T> ref = scanRef(e1, key, 0);
+		Ref<T> ref = scanRef(e1, key, position);
 		if (ref != null) {
 			getStat(statHit, key).incrementAndGet();
 			return ref;
@@ -543,7 +545,7 @@ public final class DfsBlockCache {
 		try {
 			HashEntry e2 = table.get(slot);
 			if (e2 != e1) {
-				ref = scanRef(e2, key, 0);
+				ref = scanRef(e2, key, position);
 				if (ref != null) {
 					getStat(statHit, key).incrementAndGet();
 					return ref;
@@ -574,10 +576,10 @@ public final class DfsBlockCache {
 	}
 
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
-		return put(key, 0, (int) Math.min(size, Integer.MAX_VALUE), v);
+		return put(key, 0, size, v);
 	}
 
-	<T> Ref<T> put(DfsStreamKey key, long pos, int size, T v) {
+	<T> Ref<T> put(DfsStreamKey key, long pos, long size, T v) {
 		int slot = slot(key, pos);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, pos);
@@ -720,12 +722,12 @@ public final class DfsBlockCache {
 	static final class Ref<T> {
 		final DfsStreamKey key;
 		final long position;
-		final int size;
+		final long size;
 		volatile T value;
 		Ref next;
 		volatile boolean hot;
 
-		Ref(DfsStreamKey key, long position, int size, T v) {
+		Ref(DfsStreamKey key, long position, long size, T v) {
 			this.key = key;
 			this.position = position;
 			this.size = size;
