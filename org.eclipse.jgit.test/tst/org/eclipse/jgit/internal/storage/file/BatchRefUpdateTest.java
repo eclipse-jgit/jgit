@@ -187,6 +187,29 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void stressTest() throws Exception {
+		for (int i = 0; i < 200; i++) {
+			BatchRefUpdate bu = diskRepo.getRefDatabase().newBatchUpdate();
+			String b1  = String.format("refs/heads/a%d",i);
+			String b2  = String.format("refs/heads/b%d",i);
+			bu.setAtomic(atomic);
+
+			ReceiveCommand c1 = new ReceiveCommand(ObjectId.zeroId(), A, b1);
+			ReceiveCommand c2 = new ReceiveCommand(ObjectId.zeroId(), B, b2);
+
+			bu.addCommand(c1, c2);
+			try (RevWalk rw = new RevWalk(diskRepo)) {
+				bu.execute(rw, NullProgressMonitor.INSTANCE);
+			}
+
+			assertEquals(c1.getResult(), ReceiveCommand.Result.OK);
+			assertEquals(c2.getResult(), ReceiveCommand.Result.OK);
+
+			assertNotNull(String.format("run %d", i), diskRepo.exactRef(b1));
+		}
+	}
+
+	@Test
 	public void simpleForce() throws IOException {
 		writeLooseRef("refs/heads/master", A);
 		writeLooseRef("refs/heads/masters", B);
