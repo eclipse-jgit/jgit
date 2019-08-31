@@ -50,10 +50,10 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTF
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -347,65 +347,72 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 	private static RefList<Ref> applyUpdates(RevWalk walk, RefList<Ref> refs,
 			List<ReceiveCommand> commands) throws IOException {
-		int nDeletes = 0;
-		List<ReceiveCommand> adds = new ArrayList<>(commands.size());
+		// Construct a new RefList by merging the old list with the updates.
+		// This assumes that each ref occurs at most once as a ReceiveCommand.
+		Collections.sort(commands, new Comparator<ReceiveCommand>() {
+			@Override
+			public int compare(ReceiveCommand a, ReceiveCommand b) {
+				return a.getRefName().compareTo(b.getRefName());
+			}
+		});
+
+		int delta = 0;
 		for (ReceiveCommand c : commands) {
-			if (c.getType() == ReceiveCommand.Type.CREATE) {
-				adds.add(c);
-			} else if (c.getType() == ReceiveCommand.Type.DELETE) {
-				nDeletes++;
+			switch (c.getType()) {
+			case DELETE:
+				delta--;
+				break;
+			case CREATE:
+				delta++;
+				break;
+			default:
 			}
 		}
-		int addIdx = 0;
 
-		// Construct a new RefList by linearly scanning the old list, and merging in
-		// any updates.
-		Map<String, ReceiveCommand> byName = byName(commands);
-		RefList.Builder<Ref> b =
-				new RefList.Builder<>(refs.size() - nDeletes + adds.size());
-		for (Ref ref : refs) {
-			String name = ref.getName();
-			ReceiveCommand cmd = byName.remove(name);
-			if (cmd == null) {
+		RefList.Builder<Ref> b = new RefList.Builder<>(refs.size() + delta);
+		int refIdx = 0;
+		int cmdIdx = 0;
+		while (refIdx < refs.size() || cmdIdx < commands.size()) {
+			Ref ref = (refIdx < refs.size()) ? refs.get(refIdx) : null;
+			ReceiveCommand cmd = (cmdIdx < commands.size())
+					? commands.get(cmdIdx)
+					: null;
+			int cmp = 0;
+			if (ref != null && cmd != null) {
+				cmp = ref.getName().compareTo(cmd.getRefName());
+			} else if (ref == null) {
+				cmp = 1;
+			} else if (cmd == null) {
+				cmp = -1;
+			}
+
+			if (cmp < 0) {
 				b.add(ref);
-				continue;
-			}
-			if (!cmd.getOldId().equals(ref.getObjectId())) {
-				lockFailure(cmd, commands);
-				return null;
-			}
-
-			// Consume any adds between the last and current ref.
-			while (addIdx < adds.size()) {
-				ReceiveCommand currAdd = adds.get(addIdx);
-				if (currAdd.getRefName().compareTo(name) < 0) {
-					b.add(peeledRef(walk, currAdd));
-					byName.remove(currAdd.getRefName());
-				} else {
-					break;
+				refIdx++;
+			} else if (cmp > 0) {
+				assert cmd != null;
+				if (cmd.getType() != ReceiveCommand.Type.CREATE) {
+					lockFailure(cmd, commands);
+					return null;
 				}
-				addIdx++;
-			}
 
-			if (cmd.getType() != ReceiveCommand.Type.DELETE) {
 				b.add(peeledRef(walk, cmd));
+				cmdIdx++;
+			} else {
+				assert cmd != null;
+				assert ref != null;
+				if (!cmd.getOldId().equals(ref.getObjectId())) {
+					lockFailure(cmd, commands);
+					return null;
+				}
+
+				if (cmd.getType() != ReceiveCommand.Type.DELETE) {
+					b.add(peeledRef(walk, cmd));
+				}
+				cmdIdx++;
+				refIdx++;
 			}
 		}
-
-		// All remaining adds are valid, since the refs didn't exist.
-		while (addIdx < adds.size()) {
-			ReceiveCommand cmd = adds.get(addIdx++);
-			byName.remove(cmd.getRefName());
-			b.add(peeledRef(walk, cmd));
-		}
-
-		// Any remaining updates/deletes do not correspond to any existing refs, so
-		// they are lock failures.
-		if (!byName.isEmpty()) {
-			lockFailure(byName.values().iterator().next(), commands);
-			return null;
-		}
-
 		return b.toRefList();
 	}
 
@@ -482,15 +489,6 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		default:
 			return null;
 		}
-	}
-
-	private static Map<String, ReceiveCommand> byName(
-			List<ReceiveCommand> commands) {
-		Map<String, ReceiveCommand> ret = new LinkedHashMap<>();
-		for (ReceiveCommand cmd : commands) {
-			ret.put(cmd.getRefName(), cmd);
-		}
-		return ret;
 	}
 
 	private static Ref peeledRef(RevWalk walk, ReceiveCommand cmd)
