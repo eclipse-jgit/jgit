@@ -96,6 +96,23 @@
     },
     {
       "key": {
+        "uuid": "52c9723e_18200b0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T15:10:29Z",
+      "side": 1,
+      "message": "I can\u0027t make this test fail when reverting PackedBatchRefUpdate to the previous version (effectively eliminating the fix in PackedBatchRefUpdate) neither on linux (SLES 15, 176 cores, ext4) nor on Mac",
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee2314d3_cf6c9130",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 3
