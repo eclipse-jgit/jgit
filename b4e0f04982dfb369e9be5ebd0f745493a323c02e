@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b22aa79b_56bae09e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T16:50:26Z",
+      "side": 1,
+      "message": "You can just put\n\n  Bug: 548716\n\nin the footers. Then the change gets also reported in the bugzilla ticket by a bot.",
+      "revId": "b4e0f04982dfb369e9be5ebd0f745493a323c02e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
