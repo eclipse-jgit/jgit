@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cafcf59f_fd7126c2",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T09:39:03Z",
+      "side": 1,
+      "message": "Any suggestion? I find YES or ON even more confusing. Maybe DENY_MISMATCHED_KEYS? (And ALLOW_MISMATCHED_KEYS below.)",
+      "parentUuid": "1b187e9b_510f1098",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 8
+      },
+      "revId": "47b6c0b247695b35df4522f6fc46ed8aece0e491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73e980f7_5ab7c3c1",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
         "patchSetId": 7
