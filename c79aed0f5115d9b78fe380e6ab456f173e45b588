@@ -96,6 +96,63 @@
     },
     {
       "key": {
+        "uuid": "ee2314d3_cf6c9130",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T13:55:19Z",
+      "side": 1,
+      "message": "this import is now unused, hence remove it",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7a53401_6c5e847f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T13:55:19Z",
+      "side": 1,
+      "message": "also remove this import when removing unused method byName()",
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c82c25_898ae7ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T13:55:19Z",
+      "side": 1,
+      "message": "eclipse compiler raises error: potential NPE on cmd\n\nseems the compiler isn\u0027t smart enough to understand that cmp is set to -1 if cmd \u003d\u003d null, silence the error by asserting cmd is not null before this line:\n\n assert cmd !\u003d null;",
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105327f4_eec90dba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 3
@@ -125,6 +182,23 @@
       "side": 1,
       "message": "see below.",
       "parentUuid": "105327f4_eec90dba",
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45b0f7f_35c2166c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T13:55:19Z",
+      "side": 1,
+      "message": "eclipse compiler raises errors: potential NPE on cmd and on ref\n\nsame problem as above, silence bogus errors using assertions\n\n assert cmd !\u003d null;\n assert ref !\u003d null;",
       "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -172,6 +246,23 @@
         "endLine": 404,
         "endChar": 32
       },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f0743cc_1dc4f505",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T13:55:19Z",
+      "side": 1,
+      "message": "remove this no longer used private method",
       "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
