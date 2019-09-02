@@ -287,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "da599ab9_4d25cb4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T15:57:42Z",
+      "side": 1,
+      "message": "I don\u0027t quite agree. In bug 548716 this tried to apply an update that corresponded to older state because an earlier update had corrupted the database. Reporting \"lock failed\" is highly misleading here. Just look at the initial reaction of the (not inexperienced) developers in bug 548716, myself included: we all started by hunting for stale lock files. (And of course we didn\u0027t find any.)",
+      "parentUuid": "d409c38c_2067358c",
+      "range": {
+        "startLine": 404,
+        "startChar": 5,
+        "endLine": 404,
+        "endChar": 32
+      },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0743cc_1dc4f505",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 3
