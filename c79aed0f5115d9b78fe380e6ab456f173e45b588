@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "436ae1f2_ab82cd37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T11:59:00Z",
+      "side": 1,
+      "message": "That\u0027s exactly what I was observing in bug 548716.",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93b5b68d_58e79355",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T11:59:00Z",
+      "side": 1,
+      "message": "Which explains why the next fetch would re-want them, and then fail in its BatchRefUpdate and raise this misleading \"lock failed\" exception.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105327f4_eec90dba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 3
