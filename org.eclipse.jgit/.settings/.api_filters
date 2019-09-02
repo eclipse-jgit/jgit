@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
     <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
+        <filter id="923795461">
             <message_arguments>
-                <message_argument value="4.9.10"/>
-                <message_argument value="4.9.0"/>
+                <message_argument value="4.9.11"/>
+                <message_argument value="4.8.0"/>
             </message_arguments>
         </filter>
     </resource>
@@ -26,7 +26,19 @@
         <filter id="336658481">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_IN_CORE_LIMIT"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
                 <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_MERGE_SECTION"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
@@ -62,12 +74,43 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
-        <filter id="1141899266">
+    <resource path="src/org/eclipse/jgit/lib/ReflogEntry.java" type="org.eclipse.jgit.lib.ReflogEntry">
+        <filter id="403767336">
             <message_arguments>
-                <message_argument value="3.5"/>
-                <message_argument value="4.9"/>
-                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean)"/>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_CREATED"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_FAST_FORWARD"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_FORCED_UPDATE"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_11_MOVED_TEMP"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_MOVED_TEMP"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_SEE_OTHER"/>
             </message_arguments>
         </filter>
     </resource>
