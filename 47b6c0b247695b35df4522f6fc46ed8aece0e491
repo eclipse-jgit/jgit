@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b187e9b_510f1098",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T09:27:28Z",
+      "side": 1,
+      "message": "mapping yes/on to deny is hard to grok, can we find a better name for this value ?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 8
+      },
+      "revId": "47b6c0b247695b35df4522f6fc46ed8aece0e491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73e980f7_5ab7c3c1",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T09:27:28Z",
+      "side": 1,
+      "message": "mapping no/off to allow is hard to grok, can we find a better name for this value ?",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 9
+      },
+      "revId": "47b6c0b247695b35df4522f6fc46ed8aece0e491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
