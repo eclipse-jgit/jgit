@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d153a055_79726bb8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-09-02T11:29:09Z",
+      "side": 1,
+      "message": "This test may be too slow to add to any branch that has the old 2.5s delay. What do you think?",
+      "range": {
+        "startLine": 191,
+        "startChar": 22,
+        "endLine": 191,
+        "endChar": 25
+      },
+      "revId": "b10ceed21894ea37fa12a99427af393a58d9571b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
