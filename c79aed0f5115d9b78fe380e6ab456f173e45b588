@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105327f4_eec90dba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T11:51:07Z",
+      "side": 1,
+      "message": "Which lock failed? Perhaps a different exception would be better.",
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3073f608_6c115692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T11:51:07Z",
+      "side": 1,
+      "message": "Please don\u0027t report a lock failure here. That\u0027s what happens in bug 548716, but it\u0027s not correct. Rather the fetch requests a ref it already had.",
+      "range": {
+        "startLine": 404,
+        "startChar": 5,
+        "endLine": 404,
+        "endChar": 32
+      },
+      "revId": "c79aed0f5115d9b78fe380e6ab456f173e45b588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
