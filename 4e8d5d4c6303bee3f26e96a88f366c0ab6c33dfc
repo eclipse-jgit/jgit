@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c9d730f_2af84904",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T09:08:12Z",
+      "side": 1,
+      "message": "does this need to be public ? the class itself is private ...\n\nsame question for the other public methods below and the enum above",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f886bd_97da6ef5",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-02T09:08:12Z",
+      "side": 1,
+      "message": "looks like this method could be declared private",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
