@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fcca3275_aa18970e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T19:25:12Z",
+      "side": 1,
+      "message": "I could change it to package level if you prefer. The constructor and the other public methods are invoked in the outer class. Making them private would, I believe, create synthetic methods.\n\nIn general I\u0027m used to make such methods public, not package level, but I could of course change it. But then it should also be done in HostKeyFile (line 603ff).",
+      "parentUuid": "0c9d730f_2af84904",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0f886bd_97da6ef5",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-02T09:08:12Z",
       "side": 1,
       "message": "looks like this method could be declared private",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a16a1d65_72cbaf27",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-02T19:25:12Z",
+      "side": 1,
+      "message": "Called by verifyServerKey() in the outer class.",
+      "parentUuid": "e0f886bd_97da6ef5",
       "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
