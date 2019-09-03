@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.0.4"/>
-                <message_argument value="5.0.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/errors/PackInvalidException.java" type="org.eclipse.jgit.errors.PackInvalidException">
         <filter id="1142947843">
             <message_arguments>
@@ -19,6 +11,15 @@
             <message_arguments>
                 <message_argument value="4.5.7"/>
                 <message_argument value="PackInvalidException(String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="5.0"/>
+                <message_argument value="LOCK_SUFFIX"/>
             </message_arguments>
         </filter>
     </resource>
@@ -35,6 +36,22 @@
             <message_arguments>
                 <message_argument value="4.7.5"/>
                 <message_argument value="getGitsubmodules()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectIdSerializer.java" type="org.eclipse.jgit.lib.ObjectIdSerializer">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.11"/>
+                <message_argument value="5.0"/>
+                <message_argument value="readWithoutMarker(InputStream)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.11"/>
+                <message_argument value="5.0"/>
+                <message_argument value="writeWithoutMarker(OutputStream, AnyObjectId)"/>
             </message_arguments>
         </filter>
     </resource>

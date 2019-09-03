@@ -19,7 +19,6 @@ HELPERS = glob(["src/**/*.java"]) + [PKG + c for c in [
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/SpiTransport.java",
-    "treewalk/FileTreeIteratorWithTimeControl.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
