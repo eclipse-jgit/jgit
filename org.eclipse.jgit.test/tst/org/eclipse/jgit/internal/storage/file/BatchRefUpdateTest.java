@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.internal.storage.file.BatchRefUpdateTest.Result.LOCK_FAILURE;
@@ -64,6 +65,7 @@ import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -159,6 +161,33 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void removeListener() {
 		handle.remove();
 		refsChangedEvents = 0;
+	}
+
+	@Test
+	public void packedRefsFileIsSorted() throws IOException {
+		assumeTrue(atomic);
+
+		for (int i = 0; i < 2; i++) {
+			BatchRefUpdate bu = diskRepo.getRefDatabase().newBatchUpdate();
+			String b1  = String.format("refs/heads/a%d",i);
+			String b2  = String.format("refs/heads/b%d",i);
+			bu.setAtomic(atomic);
+			ReceiveCommand c1 = new ReceiveCommand(ObjectId.zeroId(), A, b1);
+			ReceiveCommand c2 = new ReceiveCommand(ObjectId.zeroId(), B, b2);
+			bu.addCommand(c1, c2);
+			try (RevWalk rw = new RevWalk(diskRepo)) {
+				bu.execute(rw, NullProgressMonitor.INSTANCE);
+			}
+			assertEquals(c1.getResult(), ReceiveCommand.Result.OK);
+			assertEquals(c2.getResult(), ReceiveCommand.Result.OK);
+		}
+
+		File packed = new File(diskRepo.getDirectory(), "packed-refs");
+		String packedStr = new String(Files.readAllBytes(packed.toPath()), UTF_8);
+
+		int a2 = packedStr.indexOf("refs/heads/a1");
+		int b1 = packedStr.indexOf("refs/heads/b0");
+		assertTrue(a2 <  b1);
 	}
 
 	@Test

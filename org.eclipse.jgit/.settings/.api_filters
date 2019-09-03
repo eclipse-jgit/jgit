@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="4.10.1"/>
-                <message_argument value="4.10.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/errors/PackInvalidException.java" type="org.eclipse.jgit.errors.PackInvalidException">
         <filter id="1142947843">
             <message_arguments>
@@ -19,6 +11,21 @@
             <message_arguments>
                 <message_argument value="4.5.7"/>
                 <message_argument value="PackInvalidException(String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.10"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
             </message_arguments>
         </filter>
     </resource>
@@ -47,7 +54,30 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="3.5"/>
+                <message_argument value="4.10"/>
+                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.10"/>
+                <message_argument value="createNewFile(File)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.10"/>
+                <message_argument value="supportsAtomicCreateNewFile()"/>
+            </message_arguments>
+        </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.7"/>
