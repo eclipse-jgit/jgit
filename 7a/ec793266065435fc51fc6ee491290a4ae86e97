@@ -1,0 +1,8 @@
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+1: Thomas Wolf <thomas.wolf@paranor.ch>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 03 Sep 2019 16:53:02 -0400
+Reviewed-on: https://git.eclipse.org/r/148806
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
