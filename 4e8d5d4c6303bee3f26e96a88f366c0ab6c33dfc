@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "952fdcd6_7bf9007e",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-03T06:52:42Z",
+      "side": 1,
+      "message": "Just verified my understanding because in the end I had doubts. Compile the following:\n\n  public class CodeTest {\n\n    private static Inner x \u003d new Inner();\n\n    private static class Inner {\n\n      private int foo \u003d 42;\n\n      public int compute() {\n        return foo + foo;\n      }\n    }\n\n    public int get() {\n      return x.compute();\n    }\n  }\n\nThen examine the generated code, for instance with javap -c -v. Then change \"public int compute()\" to \"private int compute()\" and repeat. Indeed the compiler introduces a synthetic access$1 method to invoke the private compute(). The class file is also larger. (Using Java 8.)\n\nBesides, using \"public\" makes it clear that this is called from the outer class.",
+      "parentUuid": "fcca3275_aa18970e",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0f886bd_97da6ef5",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
         "patchSetId": 4
