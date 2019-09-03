@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.lfs" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="923795461">
+            <message_arguments>
+                <message_argument value="4.11.9"/>
+                <message_argument value="4.10.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/CleanFilter.java" type="org.eclipse.jgit.lfs.CleanFilter">
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.CleanFilter"/>
+                <message_argument value="register()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/LfsPointer.java" type="org.eclipse.jgit.lfs.LfsPointer">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.LfsPointer"/>
+                <message_argument value="SIZE_THRESHOLD"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/SmudgeFilter.java" type="org.eclipse.jgit.lfs.SmudgeFilter">
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.SmudgeFilter"/>
+                <message_argument value="register()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
