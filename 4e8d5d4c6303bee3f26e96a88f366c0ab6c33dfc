@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "d563b1de_abbab73f",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-03T09:32:42Z",
+      "side": 1,
+      "message": "I prefer public.",
+      "parentUuid": "c22ef2fd_1034f44f",
+      "revId": "4e8d5d4c6303bee3f26e96a88f366c0ab6c33dfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0f886bd_97da6ef5",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyVerifier.java",
         "patchSetId": 4
