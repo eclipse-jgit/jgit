@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.3.4"/>
-                <message_argument value="5.3.0"/>
-            </message_arguments>
-        </filter>
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.3.5"/>
-                <message_argument value="5.3.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/dircache/DirCacheEntry.java" type="org.eclipse.jgit.dircache.DirCacheEntry">
         <filter id="1142947843">
             <message_arguments>
@@ -65,6 +51,36 @@
             <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="CONFIG_KEY_TIMESTAMP_RESOLUTION"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectIdRef.java" type="org.eclipse.jgit.lib.ObjectIdRef">
+        <filter id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectIdRef"/>
+                <message_argument value="ObjectIdRef(Ref.Storage, String, ObjectId)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/Ref.java" type="org.eclipse.jgit.lib.Ref">
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.Ref"/>
+                <message_argument value="getUpdateIndex()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
+                <message_argument value="exactRef(String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="421654647">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
+                <message_argument value="getRef(String)"/>
             </message_arguments>
         </filter>
     </resource>
@@ -124,6 +140,58 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/BaseReceivePack.java" type="org.eclipse.jgit.transport.BaseReceivePack">
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="getAdvertisedRefs()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="getPushCertificate()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="getRepository()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="getRevWalk()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="setAdvertisedRefs(Map&lt;String,Ref&gt;, Set&lt;ObjectId&gt;)"/>
+            </message_arguments>
+        </filter>
+        <filter id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="setPushCertificate(PushCertificate)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig">
+        <filter id="1159725059">
+            <message_arguments>
+                <message_argument value="5.1.4"/>
+                <message_argument value="TransferConfig(Config)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1159725059">
+            <message_arguments>
+                <message_argument value="5.1.4"/>
+                <message_argument value="TransferConfig(Repository)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
         <filter id="1142947843">
             <message_arguments>
@@ -147,6 +215,12 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="4.5.6"/>
+                <message_argument value="fileAttributes(File)"/>
+            </message_arguments>
+        </filter>
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.9"/>
