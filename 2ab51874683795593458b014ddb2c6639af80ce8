@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf02da3_e36298c5",
+        "filename": "org.eclipse.jgit.http.apache/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-03T15:01:32Z",
+      "side": 1,
+      "message": "Does that make sense on 5.1?",
+      "range": {
+        "startLine": 6,
+        "startChar": 41,
+        "endLine": 6,
+        "endChar": 46
+      },
+      "revId": "2ab51874683795593458b014ddb2c6639af80ce8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
