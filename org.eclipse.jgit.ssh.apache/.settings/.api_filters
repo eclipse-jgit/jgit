@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.ssh.apache" version="2">
+    <resource path="src/org/eclipse/jgit/transport/sshd/ServerKeyDatabase.java" type="org.eclipse.jgit.transport.sshd.ServerKeyDatabase">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="5.5"/>
+                <message_argument value="5.6"/>
+                <message_argument value="org.eclipse.jgit.transport.sshd.ServerKeyDatabase"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java" type="org.eclipse.jgit.transport.sshd.SshdSessionFactory">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="5.5"/>
+                <message_argument value="5.6"/>
+                <message_argument value="getServerKeyDatabase(File, File)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="5.5"/>
+                <message_argument value="5.6"/>
+                <message_argument value="getSshConfig(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

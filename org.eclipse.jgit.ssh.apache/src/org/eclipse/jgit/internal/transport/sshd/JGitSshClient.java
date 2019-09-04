@@ -177,6 +177,10 @@ public class JGitSshClient extends SshClient {
 			return remoteAddress;
 		}
 		InetSocketAddress address = (InetSocketAddress) proxy.address();
+		if (address.isUnresolved()) {
+			address = new InetSocketAddress(address.getHostName(),
+					address.getPort());
+		}
 		switch (proxy.type()) {
 		case HTTP:
 			setClientProxyConnector(

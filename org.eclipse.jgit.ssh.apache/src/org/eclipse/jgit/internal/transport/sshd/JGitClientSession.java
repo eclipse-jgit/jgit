@@ -57,7 +57,6 @@ import java.util.Set;
 
 import org.apache.sshd.client.ClientFactoryManager;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
-import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.FactoryManager;
@@ -293,11 +292,10 @@ public class JGitClientSession extends ClientSessionImpl {
 		if (verifier instanceof ServerKeyLookup) {
 			SocketAddress remoteAddress = resolvePeerAddress(
 					resolveAttribute(JGitSshClient.ORIGINAL_REMOTE_ADDRESS));
-			List<HostEntryPair> allKnownKeys = ((ServerKeyLookup) verifier)
+			List<PublicKey> allKnownKeys = ((ServerKeyLookup) verifier)
 					.lookup(this, remoteAddress);
 			Set<String> reordered = new LinkedHashSet<>();
-			for (HostEntryPair h : allKnownKeys) {
-				PublicKey key = h.getServerKey();
+			for (PublicKey key : allKnownKeys) {
 				if (key != null) {
 					String keyType = KeyUtils.getKeyType(key);
 					if (keyType != null) {
