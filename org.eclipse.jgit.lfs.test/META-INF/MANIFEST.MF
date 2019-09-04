@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.lfs.test
 Bundle-SymbolicName: org.eclipse.jgit.lfs.test
-Bundle-Version: 5.5.0.201909041048-rc1
+Bundle-Version: 5.5.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
