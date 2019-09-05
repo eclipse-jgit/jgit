@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_import", "java_library")
+
 java_library(
     name = "pgm",
     srcs = glob(["src/**/*.java"]),
