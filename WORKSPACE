@@ -1,5 +1,6 @@
 workspace(name = "jgit")
 
+versions.check(minimum_bazel_version = "0.29.0")
 load("//tools:bazlets.bzl", "load_bazlets")
 
 load_bazlets(commit = "09a035e98077dce549d5f6a7472d06c4b8f792d2")
