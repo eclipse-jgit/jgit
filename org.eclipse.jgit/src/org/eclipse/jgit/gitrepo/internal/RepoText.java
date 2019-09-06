@@ -59,7 +59,6 @@ public class RepoText extends TranslationBundle {
 	}
 
 	// @formatter:off
-	/***/ public String copyFileFailed;
 	/***/ public String errorIncludeFile;
 	/***/ public String errorIncludeNotImplemented;
 	/***/ public String errorNoDefault;
