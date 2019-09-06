@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68916b66_0519a589",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2019-09-06T05:31:22Z",
+      "side": 1,
+      "message": "Perhaps remove the extra space between comma (\u0027,\u0027) and word \"caught\"?",
+      "revId": "247c3ce5081f99f85ba544356850dd06cb4f84c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
