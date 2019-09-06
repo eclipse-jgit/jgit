@@ -16,6 +16,24 @@
       "revId": "247c3ce5081f99f85ba544356850dd06cb4f84c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0c3fc2f_2edb9317",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-06T08:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68916b66_0519a589",
+      "revId": "247c3ce5081f99f85ba544356850dd06cb4f84c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
