@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b58e5ba_e31bb66c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-06T19:19:47Z",
+      "side": 1,
+      "message": "no need for period at end of subject line",
+      "range": {
+        "startLine": 7,
+        "startChar": 61,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "40c7ec81795c6973977dc0ec9d0506e5ca452a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6aa5199_ff0cf352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-06T19:19:47Z",
+      "side": 1,
+      "message": "fleshing out this example",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "40c7ec81795c6973977dc0ec9d0506e5ca452a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61747d17_f1cfd149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-06T19:19:47Z",
+      "side": 1,
+      "message": "noting the difference between what we do here and what Git does",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "40c7ec81795c6973977dc0ec9d0506e5ca452a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
