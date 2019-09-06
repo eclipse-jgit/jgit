@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a371492a_a4fe81e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/AtomicPushTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-06T19:19:47Z",
+      "side": 1,
+      "message": "undoing unrelated style change (new blank lines).",
+      "revId": "62ee77d74ae04f3d9fb9e004ed2adc82dace36b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
