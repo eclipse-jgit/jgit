@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.internal;
 
+import java.text.MessageFormat;
 import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.nls.TranslationBundle;
 
@@ -59,6 +60,123 @@ public class JGitText extends TranslationBundle {
 	 */
 	public static JGitText get() {
 		return NLS.getBundleFor(JGitText.class);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @return message
+	 */
+	public static String abbreviationLengthMustBeNonNegative() {
+		return get().abbreviationLengthMustBeNonNegative;
+	}
+
+	/**
+	 *
+	 * @param commitId
+	 * @return message
+	 */
+	public static String abortingRebase(String commitId) {
+		return MessageFormat.format(get().abortingRebase, commitId);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @return message
+	 */
+	public static String abortingRebaseFailed() {
+		return get().abortingRebaseFailed;
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @return message
+	 */
+	public static String abortingRebaseFailedNoOrigHead() {
+		return get().abortingRebaseFailedNoOrigHead;
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param name1
+	 * @param name2
+	 * @return message
+	 */
+	public static String advertisementCameBefore(String name1, String name2) {
+		return MessageFormat.format(get().advertisementCameBefore, name1,
+				name2);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param name1
+	 * @param name2
+	 * @return message
+	 */
+	public static String advertisementOfCameBefore(String name1, String name2) {
+		return MessageFormat.format(get().advertisementOfCameBefore, name1,
+				name2);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param action
+	 * @param key
+	 * @param message
+	 * @param response
+	 * @return message
+	 */
+	public static String amazonS3ActionFailed(String action, String key,
+			int response, String message) {
+		return MessageFormat.format(get().amazonS3ActionFailed, action, key,
+				Integer.valueOf(response), message);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param action
+	 * @param key
+	 * @param maxAttempts
+	 * @return message
+	 */
+	public static String amazonS3ActionFailedGivingUp(String action, String key,
+			int maxAttempts) {
+		return MessageFormat.format(get().amazonS3ActionFailedGivingUp, action,
+				key, Integer.valueOf(maxAttempts));
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param name
+	 * @return message
+	 */
+	public static String ambiguousObjectAbbreviation(String name) {
+		return MessageFormat.format(get().ambiguousObjectAbbreviation, name);
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @return message
+	 */
+	public static String aNewObjectIdIsRequired() {
+		return get().aNewObjectIdIsRequired;
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @return message
+	 */
+	public static String anExceptionOccurredWhileTryingToAddTheIdOfHEAD() {
+		return get().anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 	}
 
 	// @formatter:off

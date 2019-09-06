@@ -77,10 +77,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -520,10 +518,9 @@ public class AmazonS3 {
 
 	IOException error(final String action, final String key,
 			final HttpURLConnection c) throws IOException {
-		final IOException err = new IOException(MessageFormat.format(
-				JGitText.get().amazonS3ActionFailed, action, key,
-				Integer.valueOf(HttpSupport.response(c)),
-				c.getResponseMessage()));
+		final IOException err = new IOException(
+				JGitText.amazonS3ActionFailed(action, key,
+				HttpSupport.response(c), c.getResponseMessage()));
 		if (c.getErrorStream() == null) {
 			return err;
 		}
@@ -549,9 +546,8 @@ public class AmazonS3 {
 	}
 
 	IOException maxAttempts(String action, String key) {
-		return new IOException(MessageFormat.format(
-				JGitText.get().amazonS3ActionFailedGivingUp, action, key,
-				Integer.valueOf(maxAttempts)));
+		return new IOException(
+				JGitText.amazonS3ActionFailedGivingUp(action, key, maxAttempts));
 	}
 
 	private HttpURLConnection open(final String method, final String bucket,

@@ -154,7 +154,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 				// all exceptions thrown by add() shouldn't occur and represent
 				// severe low-level exception which are therefore wrapped
 				throw new JGitInternalException(
-						JGitText.get().anExceptionOccurredWhileTryingToAddTheIdOfHEAD,
+						JGitText.anExceptionOccurredWhileTryingToAddTheIdOfHEAD(),
 						e);
 			}
 		}
