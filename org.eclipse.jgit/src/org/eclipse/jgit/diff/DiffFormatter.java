@@ -239,7 +239,7 @@ public class DiffFormatter implements AutoCloseable {
 	public void setAbbreviationLength(int count) {
 		if (count < 0)
 			throw new IllegalArgumentException(
-					JGitText.get().abbreviationLengthMustBeNonNegative);
+					JGitText.abbreviationLengthMustBeNonNegative());
 		abbreviationLength = count;
 	}
 

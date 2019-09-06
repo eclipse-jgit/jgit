@@ -565,7 +565,7 @@ public abstract class RefUpdate {
 
 	private void requireCanDoUpdate() {
 		if (newValue == null)
-			throw new IllegalStateException(JGitText.get().aNewObjectIdIsRequired);
+			throw new IllegalStateException(JGitText.aNewObjectIdIsRequired());
 	}
 
 	/**

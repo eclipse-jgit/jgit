@@ -44,7 +44,6 @@
 package org.eclipse.jgit.errors;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -72,8 +71,7 @@ public class AmbiguousObjectException extends IOException {
 	 */
 	public AmbiguousObjectException(final AbbreviatedObjectId id,
 			final Collection<ObjectId> candidates) {
-		super(MessageFormat.format(JGitText.get().ambiguousObjectAbbreviation,
-				id.name()));
+		super(JGitText.ambiguousObjectAbbreviation(id.name()));
 		this.missing = id;
 		this.candidates = candidates;
 	}

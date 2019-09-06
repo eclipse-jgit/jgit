@@ -61,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
@@ -1342,14 +1341,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		ObjectId origHead = getOriginalHead();
 		try {
 			String commitId = origHead != null ? origHead.name() : null;
-			monitor.beginTask(MessageFormat.format(
-					JGitText.get().abortingRebase, commitId),
+			monitor.beginTask(JGitText.abortingRebase(commitId),
 					ProgressMonitor.UNKNOWN);
 
 			DirCacheCheckout dco;
 			if (commitId == null)
 				throw new JGitInternalException(
-						JGitText.get().abortingRebaseFailedNoOrigHead);
+						JGitText.abortingRebaseFailedNoOrigHead());
 			ObjectId id = repo.resolve(commitId);
 			RevCommit commit = walk.parseCommit(id);
 			if (result.getStatus().equals(Status.FAILED)) {
@@ -1390,7 +1388,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				break;
 			default:
 				throw new JGitInternalException(
-						JGitText.get().abortingRebaseFailed);
+						JGitText.abortingRebaseFailed());
 			}
 			boolean stashConflicts = autoStashApply();
 			// cleanup the files

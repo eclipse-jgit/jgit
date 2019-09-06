@@ -1288,7 +1288,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		private PackProtocolException outOfOrderAdvertisement(String n) {
-			return new PackProtocolException(MessageFormat.format(JGitText.get().advertisementOfCameBefore, n, n));
+			return new PackProtocolException(JGitText.advertisementOfCameBefore(n, n));
 		}
 
 		private PackProtocolException invalidAdvertisement(String n) {

@@ -244,8 +244,8 @@ abstract class BasePackConnection extends BaseConnection {
 				name = name.substring(0, name.length() - 3);
 				final Ref prior = avail.get(name);
 				if (prior == null)
-					throw new PackProtocolException(uri, MessageFormat.format(
-							JGitText.get().advertisementCameBefore, name, name));
+					throw new PackProtocolException(uri,
+							JGitText.advertisementCameBefore(name, name));
 
 				if (prior.getPeeledObjectId() != null)
 					throw duplicateAdvertisement(name + "^{}"); //$NON-NLS-1$
