@@ -22,6 +22,30 @@
       "revId": "f59a41d92fecd40deae263f101ac24ea333f347f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7488c0d1_cc9c9583",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-09-07T06:37:25Z",
+      "side": 1,
+      "message": "This was cherry picked from master only to make the following changes work.",
+      "parentUuid": "61049c2f_91d0e63c",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f59a41d92fecd40deae263f101ac24ea333f347f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
