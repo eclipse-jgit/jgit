@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "715fafa4_e3af9243",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-07T22:49:14Z",
+      "side": 1,
+      "message": "already loaded in line 7",
+      "revId": "b6c612155bc046e2ac02097a3c34662441ad12ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
