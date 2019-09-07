@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e79915b_fee5ada0",
+        "filename": "org.eclipse.jgit.lfs.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-07T09:51:26Z",
+      "side": 1,
+      "message": "duplicate package",
+      "revId": "af0dd72e0c652f3a57558eb2514373db0b01b805",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
