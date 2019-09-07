@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61049c2f_91d0e63c",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-09-07T06:36:26Z",
+      "side": 1,
+      "message": "Typo? In the parent change the .bazelversion is pointing to 0.26.1.",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f59a41d92fecd40deae263f101ac24ea333f347f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
