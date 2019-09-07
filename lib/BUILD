@@ -134,13 +134,13 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@bytebuddy//jar",
         "@bytebuddy-agent//jar",
+        "@bytebuddy//jar",
         "@hamcrest-core//jar",
         "@hamcrest-library//jar",
         "@junit//jar",
         "@mockito-core//jar",
-        "@objenesis//jar"
+        "@objenesis//jar",
     ],
 )
 
