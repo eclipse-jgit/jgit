@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
+load(":tests.bzl", "tests")
 load(
     "@com_googlesource_gerrit_bazlets//tools:genrule2.bzl",
     "genrule2",
