@@ -9,7 +9,7 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.8.0.tar.gz"],
 )
 
-load("@bazel_skylib//:lib.bzl", "versions")
+load("@bazel_skylib//lib:versions.bzl", "versions")
 
 versions.check(minimum_bazel_version = "0.29.0")
 
