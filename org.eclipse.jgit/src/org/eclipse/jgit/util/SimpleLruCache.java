@@ -162,7 +162,7 @@ public class SimpleLruCache<K, V> {
 	public V get(Object key) {
 		Entry<K, V> entry = map.get(key);
 		if (entry != null) {
-			entry.lastAccessed = ++time;
+			entry.lastAccessed = tick();
 			return entry.value;
 		}
 		return null;
@@ -186,11 +186,16 @@ public class SimpleLruCache<K, V> {
 	 *             if the specified key or value is null
 	 */
 	public V put(@NonNull K key, @NonNull V value) {
-		map.put(key, new Entry<>(key, value, ++time));
+		map.put(key, new Entry<>(key, value, tick()));
 		if (map.size() > maximumSize) {
 			purge();
 		}
 		return value;
+	}
+
+	@SuppressWarnings("NonAtomicVolatileUpdate")
+	private long tick() {
+		return ++time;
 	}
 
 	/**
