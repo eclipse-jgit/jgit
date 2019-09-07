@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36fe1b12_737306c9",
+        "filename": "lib/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-09-07T09:43:37Z",
+      "side": -1,
+      "message": "Why is objenesis removed?",
+      "revId": "aa62f191d02c19073c22a5e33e4a07c54a67efa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
