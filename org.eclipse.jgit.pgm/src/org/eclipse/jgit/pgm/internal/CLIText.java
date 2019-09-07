@@ -146,7 +146,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cannotDeleteTheBranchWhichYouAreCurrentlyOn;
 	/***/ public String cannotGuessLocalNameFrom;
 	/***/ public String cannotLock;
-	/***/ public String cannotMergeDetachedHead;
 	/***/ public String cannotReadBecause;
 	/***/ public String cannotReadPackageInformation;
 	/***/ public String cannotRenameDetachedHEAD;
@@ -177,7 +176,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String exporting;
 	/***/ public String failedToCommitIndex;
 	/***/ public String failedToLockIndex;
-	/***/ public String failedToLockTag;
 	/***/ public String fatalError;
 	/***/ public String fatalThisProgramWillDestroyTheRepository;
 	/***/ public String fetchingSubmodule;
@@ -257,7 +255,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String noGitRepositoryConfigured;
 	/***/ public String noNamesFound;
 	/***/ public String noSuchFile;
-	/***/ public String noSuchRemoteRef;
 	/***/ public String noTREESectionInIndex;
 	/***/ public String nonFastForward;
 	/***/ public String noSystemConsoleAvailable;
