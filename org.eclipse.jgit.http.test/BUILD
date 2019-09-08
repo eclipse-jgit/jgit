@@ -3,9 +3,14 @@ load(
     "junit_tests",
 )
 
+PKG = "tst/org/eclipse/jgit/http/test/"
+
 junit_tests(
     name = "http",
-    srcs = glob(["tst/**/*.java"]),
+    srcs = glob(
+        ["tst/**/*.java"],
+        exclude = [PKG + "AllFactoriesHttpTestCase.java"],
+    ),
     tags = ["http"],
     deps = [
         ":helpers",
@@ -32,10 +37,15 @@ junit_tests(
 java_library(
     name = "helpers",
     testonly = 1,
-    srcs = glob(["src/**/*.java"]),
+    srcs = glob(
+        ["src/**/*.java"],
+    ) + [
+        PKG + "AllFactoriesHttpTestCase.java",
+    ],
     deps = [
         "//lib:junit",
         "//lib:servlet-api",
+        "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit.http.server:jgit-servlet",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit.http:junit-http",
