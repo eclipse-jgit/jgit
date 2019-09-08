@@ -163,7 +163,7 @@ public abstract class AndTreeFilter extends TreeFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return "(" + a.toString() + " AND " + b.toString() + ")";
+			return "(" + a + " AND " + b + ")";
 		}
 	}
 

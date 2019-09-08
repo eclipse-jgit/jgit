@@ -100,6 +100,6 @@ public class NotRevFilter extends RevFilter {
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
-		return "NOT " + a.toString(); //$NON-NLS-1$
+		return "NOT " + a; //$NON-NLS-1$
 	}
 }

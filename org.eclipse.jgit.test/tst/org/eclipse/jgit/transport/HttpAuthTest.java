@@ -98,7 +98,7 @@ public class HttpAuthTest {
 		try {
 			response = new AuthHeadersResponse(headers);
 		} catch (IOException e) {
-			fail("Couldn't instantiate AuthHeadersResponse: " + e.toString());
+			fail("Couldn't instantiate AuthHeadersResponse: " + e);
 		}
 		HttpAuthMethod authMethod = HttpAuthMethod.scanResponse(response, null);
 

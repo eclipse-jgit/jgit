@@ -1243,7 +1243,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		@Override
 		public String toString() {
-			return getMode().toString() + " " + getName(); //$NON-NLS-1$
+			return getMode() + " " + getName(); //$NON-NLS-1$
 		}
 
 		/**

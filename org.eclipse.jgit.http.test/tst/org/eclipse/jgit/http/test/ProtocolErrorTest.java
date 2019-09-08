@@ -134,7 +134,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 
 		byte[] reqbin = reqbuf.toByteArray();
 
-		URL u = new URL(remoteURI.toString() + "/git-receive-pack");
+		URL u = new URL(remoteURI + "/git-receive-pack");
 		HttpURLConnection c = (HttpURLConnection) u.openConnection();
 		try {
 			c.setRequestMethod("POST");

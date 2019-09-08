@@ -82,7 +82,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 		File fromDir = from.getObjectDatabase().getDirectory();
 		File toDir = to.getObjectDatabase().getDirectory();
 		Path relative = fromDir.toPath().relativize(toDir.toPath());
-		write(alt, relative.toString() + "\n");
+		write(alt, relative + "\n");
 	}
 
 	@Test

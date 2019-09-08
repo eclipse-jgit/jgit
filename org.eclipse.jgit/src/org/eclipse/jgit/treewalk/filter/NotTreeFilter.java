@@ -118,6 +118,6 @@ public class NotTreeFilter extends TreeFilter {
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
-		return "NOT " + a.toString(); //$NON-NLS-1$
+		return "NOT " + a; //$NON-NLS-1$
 	}
 }

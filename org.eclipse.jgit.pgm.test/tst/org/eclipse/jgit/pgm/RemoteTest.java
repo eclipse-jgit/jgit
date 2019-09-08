@@ -151,7 +151,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	@Test
 	public void testUpdate() throws Exception {
 		assertArrayEquals(new String[] {
-				"From " + remote.getURIs().get(0).toString(),
+				"From " + remote.getURIs().get(0),
 				" * [new branch]      master     -> test/master", "", "" },
 				execute("git remote update test"));
 	}

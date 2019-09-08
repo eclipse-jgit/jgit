@@ -150,7 +150,7 @@ public abstract class AndRevFilter extends RevFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return "(" + a.toString() + " AND " + b.toString() + ")"; //$NON-NLS-1$
+			return "(" + a + " AND " + b + ")"; //$NON-NLS-1$
 		}
 	}
 
