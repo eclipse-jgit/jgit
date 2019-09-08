@@ -64,12 +64,20 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public abstract class AllFactoriesHttpTestCase extends HttpTestCase {
 
-	@Parameters
+	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		// run all tests with both connection factories we have
-		return Arrays
-				.asList(new Object[][] { { new JDKHttpConnectionFactory() },
-						{ new HttpClientConnectionFactory() } });
+		return Arrays.asList(new Object[][] { { new JDKHttpConnectionFactory() {
+			@Override
+			public String toString() {
+				return this.getClass().getSuperclass().getName();
+			}
+		} }, { new HttpClientConnectionFactory() {
+			@Override
+			public String toString() {
+				return this.getClass().getSuperclass().getName();
+			}
+		} } });
 	}
 
 	protected AllFactoriesHttpTestCase(HttpConnectionFactory cf) {
