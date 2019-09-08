@@ -2,6 +2,7 @@ load(
     "@com_googlesource_gerrit_bazlets//tools:junit.bzl",
     "junit_tests",
 )
+load("@rules_java//java:defs.bzl", "java_library")
 
 TEST_BASE = ["tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java"]
 

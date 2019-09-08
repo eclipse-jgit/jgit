@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "args4j",
     visibility = [
@@ -189,13 +191,13 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@bytebuddy//jar",
         "@bytebuddy-agent//jar",
+        "@bytebuddy//jar",
         "@hamcrest-core//jar",
         "@hamcrest-library//jar",
         "@junit//jar",
         "@mockito//jar",
-        "@objenesis//jar"
+        "@objenesis//jar",
     ],
 )
 
@@ -204,8 +206,8 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@bytebuddy//jar",
         "@bytebuddy-agent//jar",
+        "@bytebuddy//jar",
         "@mockito//jar",
         "@objenesis//jar",
     ],
