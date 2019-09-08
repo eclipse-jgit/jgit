@@ -1,8 +1,8 @@
-load("@rules_java//java:defs.bzl", "java_import", "java_library")
 load(
     "@com_googlesource_gerrit_bazlets//tools:genrule2.bzl",
     "genrule2",
 )
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
 load(":tests.bzl", "tests")
 
 PKG = "tst/org/eclipse/jgit/"
