@@ -52,6 +52,7 @@ import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -61,15 +62,24 @@ import org.junit.runners.Parameterized.Parameters;
  * factories provided in JGit: the JDK {@link JDKHttpConnectionFactory} and the
  * Apache HTTP {@link HttpClientConnectionFactory}.
  */
+@Ignore
 @RunWith(Parameterized.class)
 public abstract class AllFactoriesHttpTestCase extends HttpTestCase {
 
-	@Parameters
+	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		// run all tests with both connection factories we have
-		return Arrays
-				.asList(new Object[][] { { new JDKHttpConnectionFactory() },
-						{ new HttpClientConnectionFactory() } });
+		return Arrays.asList(new Object[][] { { new JDKHttpConnectionFactory() {
+			@Override
+			public String toString() {
+				return this.getClass().getSuperclass().getName();
+			}
+		} }, { new HttpClientConnectionFactory() {
+			@Override
+			public String toString() {
+				return this.getClass().getSuperclass().getName();
+			}
+		} } });
 	}
 
 	protected AllFactoriesHttpTestCase(HttpConnectionFactory cf) {
