@@ -98,13 +98,38 @@ public abstract class Reftable implements AutoCloseable {
 		includeDeletes = deletes;
 	}
 
+
 	/**
-	 * Seek to the first reference, to iterate in order.
+	 * Get the minimum update index for log entries that appear in this
+	 * reftable.
 	 *
-	 * @return cursor to iterate.
+	 * @return the minimum update index for log entries that appear in this
+	 *         reftable. This should be 1 higher than the prior reftable's
+	 *         {@code maxUpdateIndex} if this table is used in a stack.
 	 * @throws java.io.IOException
-	 *             if references cannot be read.
+	 *             file cannot be read.
 	 */
+	public abstract long minUpdateIndex() throws IOException;
+
+	/**
+	 * Get the maximum update index for log entries that appear in this
+	 * reftable.
+	 *
+	 * @return the maximum update index for log entries that appear in this
+	 *         reftable. This should be 1 higher than the prior reftable's
+	 *         {@code maxUpdateIndex} if this table is used in a stack.
+	 * @throws java.io.IOException
+	 *             file cannot be read.
+	 */
+	public abstract long maxUpdateIndex() throws IOException;
+
+		/**
+         * Seek to the first reference, to iterate in order.
+         *
+         * @return cursor to iterate.
+         * @throws java.io.IOException
+         *             if references cannot be read.
+         */
 	public abstract RefCursor allRefs() throws IOException;
 
 	/**
