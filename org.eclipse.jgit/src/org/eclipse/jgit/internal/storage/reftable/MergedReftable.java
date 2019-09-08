@@ -91,7 +91,23 @@ public class MergedReftable extends Reftable {
 		}
 	}
 
-	/** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long minUpdateIndex() throws IOException {
+        return tables[0].minUpdateIndex();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long maxUpdateIndex() throws IOException {
+        return tables.length > 0 ? tables[tables.length-1].maxUpdateIndex() : 0;
+    }
+
+    /** {@inheritDoc} */
 	@Override
 	public RefCursor allRefs() throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
