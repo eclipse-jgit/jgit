@@ -104,7 +104,7 @@ public class S3Repository implements LargeFileRepository {
 				UNSIGNED_PAYLOAD);
 
 		Response.Action a = new Response.Action();
-		a.href = endpointUrl.toString() + "?" + authorizationQueryParameters; //$NON-NLS-1$
+		a.href = endpointUrl + "?" + authorizationQueryParameters; //$NON-NLS-1$
 		return a;
 	}
 
@@ -146,7 +146,7 @@ public class S3Repository implements LargeFileRepository {
 		String authorizationQueryParameters = SignerV4.createAuthorizationQuery(
 				s3Config, endpointUrl, METHOD_HEAD, headers, queryParams,
 				UNSIGNED_PAYLOAD);
-		String href = endpointUrl.toString() + "?" //$NON-NLS-1$
+		String href = endpointUrl + "?" //$NON-NLS-1$
 				+ authorizationQueryParameters;
 
 		Proxy proxy = HttpSupport.proxyFor(ProxySelector.getDefault(),

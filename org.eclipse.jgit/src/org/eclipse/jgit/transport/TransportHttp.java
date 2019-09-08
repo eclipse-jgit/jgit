@@ -1242,7 +1242,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			case HttpConnection.HTTP_NOT_FOUND:
 				throw new FileNotFoundException(u.toString());
 			default:
-				throw new IOException(u.toString() + ": " //$NON-NLS-1$
+				throw new IOException(u + ": " //$NON-NLS-1$
 						+ HttpSupport.response(c) + " " //$NON-NLS-1$
 						+ c.getResponseMessage());
 			}

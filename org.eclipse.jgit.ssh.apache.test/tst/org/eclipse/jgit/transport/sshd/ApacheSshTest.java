@@ -161,7 +161,7 @@ public class ApacheSshTest extends SshTestBase {
 			b.append('a');
 		}
 		server.setPreamble("A line with a \000 NUL",
-				"A long line: " + b.toString());
+				"A long line: " + b);
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",

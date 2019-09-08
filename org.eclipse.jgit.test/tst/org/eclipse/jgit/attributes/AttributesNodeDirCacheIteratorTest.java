@@ -273,7 +273,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 						"The entry "
 								+ pathName
 								+ " should not have any attributes. Instead, the following attributes are applied to this file "
-								+ entryAttributes.toString(),
+								+ entryAttributes,
 						entryAttributes.isEmpty());
 			}
 		}

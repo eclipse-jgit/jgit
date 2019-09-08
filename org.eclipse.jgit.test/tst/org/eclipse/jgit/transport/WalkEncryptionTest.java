@@ -738,7 +738,7 @@ public class WalkEncryptionTest {
 			Properties props = Props.discover();
 			String bucket = props.getProperty(Names.TEST_BUCKET);
 			AmazonS3 s3 = new AmazonS3(props);
-			String file = JGIT_USER + "-" + UUID.randomUUID().toString();
+			String file = JGIT_USER + "-" + UUID.randomUUID();
 			String path = JGIT_REMOTE_DIR + "/" + file;
 			s3.put(bucket, path, file.getBytes(UTF_8));
 			s3.delete(bucket, path);
@@ -1060,7 +1060,7 @@ public class WalkEncryptionTest {
 
 			// Local verification files.
 			String nameStatic = "master.txt"; // Provided by setup.
-			String nameDynamic = JGIT_USER + "-" + UUID.randomUUID().toString();
+			String nameDynamic = JGIT_USER + "-" + UUID.randomUUID();
 
 			String remote = "remote";
 			RefSpec specs = new RefSpec("refs/heads/master:refs/heads/master");

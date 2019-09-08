@@ -87,7 +87,7 @@ public class CheckoutTest extends LfsServerTest {
 				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_REQUIRED, false);
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS, null, "url",
-				server.getURI().toString() + "/lfs");
+				server.getURI() + "/lfs");
 		cfg.save();
 
 		tdb = new TestRepository<>(db);

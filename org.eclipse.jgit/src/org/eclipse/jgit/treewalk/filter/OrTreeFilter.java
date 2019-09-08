@@ -161,7 +161,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return "(" + a.toString() + " OR " + b.toString() + ")";
+			return "(" + a + " OR " + b + ")";
 		}
 	}
 

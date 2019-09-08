@@ -176,7 +176,7 @@ public class PathFilterGroup {
 
 		@Override
 		public String toString() {
-			return "FAST_" + path.toString(); //$NON-NLS-1$
+			return "FAST_" + path; //$NON-NLS-1$
 		}
 	}
 

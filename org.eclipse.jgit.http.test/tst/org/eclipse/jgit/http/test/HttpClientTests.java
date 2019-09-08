@@ -358,7 +358,7 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	@Test
 	public void testHttpClientWantsV2ButServerNotConfigured() throws Exception {
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		String url = smartAuthNoneURI + "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("GET");
@@ -378,7 +378,7 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		remoteRepository.getRepository().getConfig().setInt(
 				"protocol", null, "version", 2);
 
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		String url = smartAuthNoneURI + "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("GET");
@@ -400,7 +400,7 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		remoteRepository.getRepository().getConfig().setInt(
 				"protocol", null, "version", 2);
 
-		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
+		String url = smartAuthNoneURI + "/git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("POST");

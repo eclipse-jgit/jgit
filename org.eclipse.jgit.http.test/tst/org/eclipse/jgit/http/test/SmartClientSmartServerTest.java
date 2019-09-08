@@ -455,7 +455,7 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 
 	@Test
 	public void testListRemote_BadName() throws IOException, URISyntaxException {
-		URIish uri = new URIish(this.remoteURI.toString() + ".invalid");
+		URIish uri = new URIish(this.remoteURI + ".invalid");
 		try (Repository dst = createBareRepository();
 				Transport t = Transport.open(dst, uri)) {
 			try {
@@ -676,7 +676,7 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (too many redirects)");
 		} catch (TransportException e) {
-			String expectedMessageBegin = remoteUri.toString() + ": "
+			String expectedMessageBegin = remoteUri + ": "
 					+ MessageFormat.format(JGitText.get().redirectLimitExceeded,
 							"3", remoteUri.replace("/4/", "/1/") + '/', "");
 			String message = e.getMessage();

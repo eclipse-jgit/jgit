@@ -719,7 +719,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		if (e != null) {
 			e.attrs = "";
 			for (Attribute a : walk.getAttributes().getAll()) {
-				e.attrs += " " + a.toString();
+				e.attrs += " " + a;
 			}
 			e.attrs = e.attrs.trim();
 			e.file = new String(
