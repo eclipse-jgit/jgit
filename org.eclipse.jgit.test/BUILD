@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
 load(
     "@com_googlesource_gerrit_bazlets//tools:genrule2.bzl",
     "genrule2",
@@ -49,8 +50,8 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
-        "//lib:slf4j-simple",
         "//lib:mockito",
+        "//lib:slf4j-simple",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
     ],
