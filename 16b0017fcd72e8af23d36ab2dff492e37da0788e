@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46236635_2627194b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2019-09-09T05:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7739d745_ebcbee11",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "16b0017fcd72e8af23d36ab2dff492e37da0788e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "398000b0_2fc88115",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FollowFilter.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-08T23:31:55Z",
       "side": 1,
       "message": "This probably doesn\u0027t need to be wrapped any more.\n\nAlso, when it\u0027s unwrapped the nls suppression can be inlined?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "16b0017fcd72e8af23d36ab2dff492e37da0788e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7cccbd_6c15c0f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FollowFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 74917
+      },
+      "writtenOn": "2019-09-09T05:40:46Z",
+      "side": 1,
+      "message": "\u003e This probably doesn\u0027t need to be wrapped any more.\n\n+1. Done.\n\n\u003e Also, when it\u0027s unwrapped the nls suppression can be inlined?\n\nIt looks like that the NLS suppression is done via annotation for this method?",
+      "parentUuid": "398000b0_2fc88115",
       "range": {
         "startLine": 137,
         "startChar": 2,
