@@ -169,11 +169,13 @@ public class ReftableReader extends Reftable {
 			readFileHeader();
 		}
 
-		long end = refEnd > 0 ? refEnd : (src.size() - FILE_FOOTER_LEN);
-		src.adviseSequentialRead(0, end);
+		if (refEnd == 0) {
+			readFileFooter();
+		}
+		src.adviseSequentialRead(0, refEnd);
 
-		RefCursorImpl i = new RefCursorImpl(end, null, false);
-		i.block = readBlock(0, end);
+		RefCursorImpl i = new RefCursorImpl(refEnd, null, false);
+		i.block = readBlock(0, refEnd);
 		return i;
 	}
 

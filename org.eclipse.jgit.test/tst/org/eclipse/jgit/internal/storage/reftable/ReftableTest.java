@@ -567,6 +567,44 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void allRefs() throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(1024);
+		cfg.setLogBlockSize(1024);
+		cfg.setAlignBlocks(true);
+		ReftableWriter writer = new ReftableWriter()
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.setConfig(cfg)
+				.begin(buffer);
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+
+		// Fill out the 1st ref block.
+		List<String> names = new ArrayList<>();
+		for (int i = 0; i < 4; i++) {
+			String name = new String(new char[220]).replace("\0", String.format("%c", i + 'a'));
+			names.add(name);
+			writer.writeRef(ref(name, i));
+		}
+
+		// Add some log data.
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), "msg");
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		RefCursor c = t.allRefs();
+
+		int j = 0;
+		while (c.next()) {
+			assertEquals(names.get(j), c.getRef().getName());
+			j++;
+		}
+	}
+
+
+	@Test
 	public void reflogSeek() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
