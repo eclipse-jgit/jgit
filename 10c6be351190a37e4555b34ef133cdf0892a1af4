@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df972f30_66ffe3f9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-09-09T18:27:33Z",
+      "side": 1,
+      "message": "I think it will be clearer if you verify lists using Matchers.contains.\n\nhttp://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html#contains(E...)",
+      "revId": "10c6be351190a37e4555b34ef133cdf0892a1af4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
