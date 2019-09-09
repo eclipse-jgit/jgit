@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78be4c53_d91a95ea",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-09-09T03:10:05Z",
+      "side": 1,
+      "message": "Remove trailing whitespace here",
+      "revId": "57c089a38c0bbff52c385be5e2a5e89cba4d3131",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9edc5f89_f4ca569f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-09-09T03:10:05Z",
+      "side": 1,
+      "message": "Wrap lines?",
+      "revId": "57c089a38c0bbff52c385be5e2a5e89cba4d3131",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
