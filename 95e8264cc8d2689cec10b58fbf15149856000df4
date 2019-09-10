@@ -70,6 +70,24 @@
       "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2a496c4_048e30ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-10T14:40:31Z",
+      "side": 1,
+      "message": "The old code also did a reduced precision comparison if millis \u003d\u003d 0, but only here. The smudge/raciness logic did not have such a special case as far as I remember. That\u0027s why I thought that maybe doing something similar here only for this timestamp comparison would be OK.\n\n(I also wonder with what precision canonical git stores timestamps in the cache, especially on Windows. If JGit gets a different precision from the file system, I think we may see that effect -- if this is the cause -- whenever someone uses not only EGit/JGit but also normal git on the same repo. In which case a special comparison relying on the resolution as measured by Java may not help, and we might indeed need to do special-casing for the % 1_000_000 and % 1000 cases.)\n\nBut let\u0027s wait what Julien reports on the forum. If after having re-created the index he still experiences this slowness the reason could also be something else. After all, it was just a guess.",
+      "parentUuid": "a9f17332_0a441490",
+      "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
