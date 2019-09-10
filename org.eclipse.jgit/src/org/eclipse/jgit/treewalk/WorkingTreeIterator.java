@@ -950,9 +950,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (fileLastModified.getEpochSecond() != cacheLastModified
 					.getEpochSecond()) {
 				return MetadataDiff.DIFFER_BY_TIMESTAMP;
+			} else if (entry.isSmudged()) {
+				return MetadataDiff.SMUDGED;
 			}
-		}
-		if (!fileLastModified.equals(cacheLastModified)) {
+		} else if (!fileLastModified.equals(cacheLastModified)) {
 			return MetadataDiff.DIFFER_BY_TIMESTAMP;
 		} else if (entry.isSmudged()) {
 			return MetadataDiff.SMUDGED;
