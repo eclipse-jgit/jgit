@@ -34,6 +34,24 @@
       "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9f17332_0a441490",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-10T13:19:16Z",
+      "side": 1,
+      "message": "We could implement a custom timestamp compare method which ignores any difference below the measured timestamp resolution.\n\nOn the other hand we should smudge any dircache entry where the difference of cached timestamp and timestamp of the index file is less than FileSnapshot.getEffectiveRacyThreshold().",
+      "parentUuid": "71aaf28a_76307155",
+      "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
