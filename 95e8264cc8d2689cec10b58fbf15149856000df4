@@ -16,6 +16,24 @@
       "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71aaf28a_76307155",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-10T09:59:31Z",
+      "side": 1,
+      "message": "Also: previously the cache contained milliseconds at best. If we now get nanos (or anything sub-milli) from the file but the cache still contains only millisecond resolution I\u0027d expect more DIFFER_BY_TIMESTAMP cases. Which was the guess I voiced in the forum.\n\nDoes this need a migration strategy (compare only millis if cacheLastModified.getNanos() % 1000000 \u003d\u003d 0)? And perhaps compare only microseconds if % 1000 \u003d\u003d 0?",
+      "parentUuid": "cc788170_5b32a3aa",
+      "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
