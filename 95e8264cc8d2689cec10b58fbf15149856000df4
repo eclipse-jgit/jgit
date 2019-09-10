@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc788170_5b32a3aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-10T06:10:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an else-if here?\n\n    ...\n  } else if (!fileLastModified.equals(cacheLastModified)) {\n    return MetadataDiff.DIFFER_BY_TIMESTAMP;\n  }\n  \n  if (entry.isSmudged()) {\n    return MetadataDiff.SMUDGED;\n  }\n  return MetadataDiff.EQUAL;\n\nI wonder if this may cause https://www.eclipse.org/forums/index.php/t/1100344/ ?",
+      "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
