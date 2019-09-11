@@ -128,6 +128,29 @@
       "revId": "6ce30af4416366fb4834ae61b8fdfdf1cebe77b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037705f_4ea5549d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-09-11T22:42:39Z",
+      "side": 1,
+      "message": "Can we add check that outputStream was set after all (in constructor/or in begin(os) method) so we will fail fast and provide actionable feedback (instead of throwing exception inside output stream wrappers)?",
+      "range": {
+        "startLine": 243,
+        "startChar": 33,
+        "endLine": 243,
+        "endChar": 45
+      },
+      "revId": "6ce30af4416366fb4834ae61b8fdfdf1cebe77b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
