@@ -101,7 +101,6 @@ import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
-import org.eclipse.jgit.util.io.AutoLFInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.eclipse.jgit.util.sha1.SHA1;
 
@@ -1097,41 +1096,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				return !new File(readSymlinkTarget(current())).equals(
 						new File(readContentAsNormalizedString(entry, reader)));
 			}
-			// Content differs: that's a real change, perhaps
-			if (reader == null) // deprecated use, do no further checks
-				return true;
-
-			switch (getEolStreamType()) {
-			case DIRECT:
-				return true;
-			default:
-				try {
-					ObjectLoader loader = reader.open(entry.getObjectId());
-					if (loader == null)
-						return true;
-
-					// We need to compute the length, but only if it is not
-					// a binary stream.
-					long dcInLen;
-					try (InputStream dcIn = new AutoLFInputStream(
-							loader.openStream(), true,
-							true /* abort if binary */)) {
-						dcInLen = computeLength(dcIn);
-					} catch (AutoLFInputStream.IsBinaryException e) {
-						return true;
-					}
-
-					try (InputStream dcIn = new AutoLFInputStream(
-							loader.openStream(), true)) {
-						byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
-						boolean changed = getEntryObjectId()
-								.compareTo(autoCrLfHash, 0) != 0;
-						return changed;
-					}
-				} catch (IOException e) {
-					return true;
-				}
-			}
+			// Content differs: that's a real change
+			return true;
 		}
 	}
 
