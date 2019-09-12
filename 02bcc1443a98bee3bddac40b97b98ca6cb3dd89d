@@ -49,6 +49,40 @@
     },
     {
       "key": {
+        "uuid": "ec88e238_ee4ddc86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-12T16:50:00Z",
+      "side": 1,
+      "message": "style nit: bad indentation",
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1905d449_57cdb885",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-12T16:50:00Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "02bcc1443a98bee3bddac40b97b98ca6cb3dd89d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "947aca46_733eb617",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 15
