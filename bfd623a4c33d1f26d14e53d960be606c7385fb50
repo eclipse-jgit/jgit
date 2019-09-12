@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5f341ea2_4eaa8ff3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-09-12T17:55:07Z",
+      "side": 1,
+      "message": "testOldValue probably already covers it.",
+      "parentUuid": "c96c6cc6_d4f624d0",
+      "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91479ac4_ed9b48b9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 37
