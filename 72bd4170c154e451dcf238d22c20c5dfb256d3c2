@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38e5f1ec_493f146f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ConvertToReftable.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-12T16:46:00Z",
+      "side": 1,
+      "message": "package visibility is sufficient",
+      "revId": "72bd4170c154e451dcf238d22c20c5dfb256d3c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89f01a3c_63e60069",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ConvertToReftable.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-12T16:46:00Z",
+      "side": 1,
+      "message": "suppress non-externalizable string warnings",
+      "revId": "72bd4170c154e451dcf238d22c20c5dfb256d3c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
