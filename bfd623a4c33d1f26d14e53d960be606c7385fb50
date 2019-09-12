@@ -446,6 +446,24 @@
     },
     {
       "key": {
+        "uuid": "f8445ee4_651cffbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-09-12T17:49:28Z",
+      "side": 1,
+      "message": "This should return empty list. HEAD, FETCH_HEAD etc are stored in the reftable too.\n\nsee also DfsRefDatabase.java",
+      "parentUuid": "f1cb5fe7_50e388df",
+      "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ae81ff2_177b6f71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 37
