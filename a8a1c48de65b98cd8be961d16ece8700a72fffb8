@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b7d7907_3d7680d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-09-13T09:03:36Z",
+      "side": 1,
+      "message": "whats with the other side: imagine \n- cacheSeconds \u003d\u003d fileSeconds\n- cacheSubSecond % 1_000_000 !\u003d 0\n- fileSubSecond % 1_000_000 \u003d\u003d 0\n\nE.g. the index was written with a Java version providing subseconds but now the JVM was switched and we work with a old JVM and filetimestamps are coarse. In this case it is quite clear we are in such JVM-switch situation because file modtime is older than what we see in the index and we could savely assume subseconds should not be taken into account. Or?",
+      "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
