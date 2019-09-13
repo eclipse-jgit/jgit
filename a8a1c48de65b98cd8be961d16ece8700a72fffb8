@@ -51,6 +51,24 @@
       "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee078077_c04541f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-09-13T11:39:28Z",
+      "side": 1,
+      "message": "I have to admit that I also don\u0027t know to what extend we have to support switching from modern JVM to an older one. But your example of dealing with an index written by native git with potentially fine timestamp resolution and comparing against coarse file timestamps delivered from an old JVM is relevant in my opinion. I would suggest to add the code block you suggest here.\n\nWe could even throw an exception when filetimestamp is older than indextimestamp but filetimestamp contains subseconds. That would be an inconsistency. (maybe somebody explicitly set modification timestamps on workingtree files).\n\nOr, regardless of filetimestamp containing subseconds, always return DIFFER_BY_TIMESTAMP if filetimestamp\u003cindextimestamp.",
+      "parentUuid": "3f0240e3_0a04f12d",
+      "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
