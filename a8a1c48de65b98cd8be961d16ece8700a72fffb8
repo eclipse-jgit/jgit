@@ -69,6 +69,24 @@
       "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73aa3ffd_b9678321",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-13T12:26:09Z",
+      "side": 1,
+      "message": "\u003e I would suggest to add the code block you suggest here.\n\nDone.",
+      "parentUuid": "ee078077_c04541f0",
+      "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
