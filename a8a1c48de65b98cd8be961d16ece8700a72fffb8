@@ -16,6 +16,41 @@
       "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0abbca38_79d200aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-13T09:29:19Z",
+      "side": 1,
+      "message": "Or the index was written by canonical git... don\u0027t know what canonical git does, especially on Windows.\n\nI get that on my Mac (Java 8: file timestamp resolution \u003d 1s; Java 11: resolution \u003d 6microsec). But since the old java has 1s resolution, it\u0027s covered by the if above.\n\nSo I don\u0027t know if we have to deal with millisec precision on file times.\n\nFor that case we\u0027d have to take into account the measured FS tick, but that may give rounding problems. For instance, with Java 8 on my Mac, measured FS tick is 1055 millisec, while the real file timestamp granularity is 1000 millisec (1sec). Perhaps the extra 55 millisecs is a problem in the FS tick measurement?\n\nIf we\u0027d want to hard-code handling millisec file timestamps, we could add below... (see there)",
+      "parentUuid": "9b7d7907_3d7680d7",
+      "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f0240e3_0a04f12d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-13T09:29:19Z",
+      "side": 1,
+      "message": "(continued from above)\n\n  } else if (fileSubSecond % 1_000_000 \u003d\u003d 0) {\n    // File time apparently has millisecond precision only,\n    // cache timestamp precision is higher. Compare only\n    // milliseconds.\n    cacheSubSecond -\u003d (cacheSubSecond % 1_000_000);\n    if (cacheSubSecond !\u003d fileSubSecond) {\n      return MetadataDiff.DIFFER_BY_TIMESTAMP;\n    }\n\nand finally the \"} else\" below.",
+      "revId": "a8a1c48de65b98cd8be961d16ece8700a72fffb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
