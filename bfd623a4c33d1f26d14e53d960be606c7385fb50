@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "7f4a3555_d68817b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-13T00:16:39Z",
+      "side": 1,
+      "message": "removed this test",
+      "parentUuid": "5f341ea2_4eaa8ff3",
+      "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91479ac4_ed9b48b9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 37
@@ -165,6 +183,24 @@
       "writtenOn": "2019-09-12T16:49:43Z",
       "side": 1,
       "message": "unused method",
+      "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aabac652_92121c2d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-13T00:16:39Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "6ffad8d2_5b329b97",
       "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -476,6 +512,24 @@
       "side": 1,
       "message": "This should return empty list. HEAD, FETCH_HEAD etc are stored in the reftable too.\n\nsee also DfsRefDatabase.java",
       "parentUuid": "f1cb5fe7_50e388df",
+      "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23faae16_f80bd071",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-13T00:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8445ee4_651cffbc",
       "revId": "bfd623a4c33d1f26d14e53d960be606c7385fb50",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
