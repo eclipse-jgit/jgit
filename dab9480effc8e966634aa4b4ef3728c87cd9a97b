@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83958e16_2f6fbec5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-16T14:22:18Z",
+      "side": 1,
+      "message": "same problem e.g. on Linux with high resolution filesystem like ext4, btrfs, xfs, zfs: filesystem has 1ns resolution but Java truncates to 1 microsecond",
+      "revId": "dab9480effc8e966634aa4b4ef3728c87cd9a97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1a1906_2bdb1044",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-16T14:22:18Z",
+      "side": 1,
+      "message": "nit: above you handle each of the cases (cacheSubMillis, fileSubMillis) in a separate if clause, can we do this here in the same way for cacheSubMicros and fileSubMicros ?",
+      "revId": "dab9480effc8e966634aa4b4ef3728c87cd9a97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
