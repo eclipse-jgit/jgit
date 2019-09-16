@@ -2340,6 +2340,9 @@ public class UploadPack {
 		} finally {
 			statistics = pw.getStatistics();
 			if (statistics != null) {
+				statistics
+						.setProtocolVersion(useProtocolV2() ? ProtocolVersion.V2
+								: ProtocolVersion.V0);
 				postUploadHook.onPostUpload(statistics);
 			}
 			pw.close();

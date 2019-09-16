@@ -56,6 +56,7 @@ import java.util.Set;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.TransferConfig.ProtocolVersion;
 
 /**
  * Statistics about {@link org.eclipse.jgit.internal.storage.pack.PackWriter}
@@ -287,6 +288,9 @@ public class PackStatistics {
 
 	private Accumulator statistics;
 
+	/** Protocol version which was used to transfer this pack. */
+	private ProtocolVersion protocolVersion;
+
 	/**
 	 * Creates a new {@link org.eclipse.jgit.storage.pack.PackStatistics} object
 	 * from the accumulator.
@@ -302,6 +306,25 @@ public class PackStatistics {
 		 * is complete.
 		 */
 		statistics = accumulator;
+	}
+
+	/**
+	 * Set protocol version which was used during request.
+	 *
+	 * @param protocolVersion
+	 *            used protocol version.
+	 */
+	public void setProtocolVersion(ProtocolVersion protocolVersion) {
+		this.protocolVersion = protocolVersion;
+	}
+
+	/**
+	 * Get protocol version which was used during request.
+	 *
+	 * @return used protocol version.
+	 */
+	public ProtocolVersion getProtocolVersion() {
+		return this.protocolVersion;
 	}
 
 	/**

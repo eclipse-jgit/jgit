@@ -93,11 +93,13 @@ public class TransferConfig {
 	}
 
 	/**
-	 * A git configuration variable for which versions of the Git protocol to prefer.
-	 * Used in protocol.version.
+	 * A git configuration variable for which versions of the Git protocol to
+	 * prefer. Used in protocol.version.
 	 */
-	enum ProtocolVersion {
+	public enum ProtocolVersion {
+		/** Initial git protocol */
 		V0("0"), //$NON-NLS-1$
+		/** Git v2 protocol */
 		V2("2"); //$NON-NLS-1$
 
 		final String name;
