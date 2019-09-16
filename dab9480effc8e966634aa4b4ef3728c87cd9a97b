@@ -33,6 +33,24 @@
       "revId": "dab9480effc8e966634aa4b4ef3728c87cd9a97b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb137b_4a72f9e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-16T14:31:58Z",
+      "side": 1,
+      "message": "We can.",
+      "parentUuid": "df1a1906_2bdb1044",
+      "revId": "dab9480effc8e966634aa4b4ef3728c87cd9a97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
