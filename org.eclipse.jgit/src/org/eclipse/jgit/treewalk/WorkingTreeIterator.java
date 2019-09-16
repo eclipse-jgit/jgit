@@ -175,6 +175,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** The offset of the content id in {@link #idBuffer()} */
 	private int contentIdOffset;
 
+	/** A comparator for {@link Instant}s. */
+	private final InstantComparator timestampComparator = new InstantComparator();
+
 	/**
 	 * Create a new iterator with no parent.
 	 *
@@ -936,27 +939,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (!entry.isSmudged() && entry.getLength() != (int) getEntryLength())
 			return MetadataDiff.DIFFER_BY_METADATA;
 
-		// Git under windows only stores seconds so we round the timestamp
-		// Java gives us if it looks like the timestamp in index is seconds
-		// only. Otherwise we compare the timestamp at nanosecond precision,
-		// unless core.checkstat is set to "minimal", in which case we only
-		// compare the whole second part.
+		// Cache and file timestamps may differ in resolution. Therefore don't
+		// compare instants directly but use a comparator that compares only
+		// up to the lower apparent resolution of either timestamp.
+		//
+		// If core.checkstat is set to "minimal", compare only the seconds part.
 		Instant cacheLastModified = entry.getLastModifiedInstant();
 		Instant fileLastModified = getEntryLastModifiedInstant();
-		if ((getOptions().getCheckStat() == CheckStat.MINIMAL)
-				|| (cacheLastModified.getNano() == 0)
-				// Some Java version on Linux return whole seconds only even
-				// when the file systems supports more precision.
-				|| (fileLastModified.getNano() == 0)) {
-			if (fileLastModified.getEpochSecond() != cacheLastModified
-					.getEpochSecond()) {
-				return MetadataDiff.DIFFER_BY_TIMESTAMP;
-			} else if (entry.isSmudged()) {
-				return MetadataDiff.SMUDGED;
-			}
-		} else if (!fileLastModified.equals(cacheLastModified)) {
+		if (timestampComparator.compare(cacheLastModified, fileLastModified,
+				getOptions().getCheckStat() == CheckStat.MINIMAL) != 0) {
 			return MetadataDiff.DIFFER_BY_TIMESTAMP;
-		} else if (entry.isSmudged()) {
+		}
+
+		if (entry.isSmudged()) {
 			return MetadataDiff.SMUDGED;
 		}
 		// The file is clean when when comparing timestamps
