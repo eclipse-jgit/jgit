@@ -88,6 +88,24 @@
       "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6dbba1d_5c2490eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-16T14:10:48Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/#/c/149440/ .",
+      "parentUuid": "a2a496c4_048e30ad",
+      "revId": "95e8264cc8d2689cec10b58fbf15149856000df4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
