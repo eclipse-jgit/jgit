@@ -46,6 +46,30 @@
       "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f36db29_163ab7dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/InstantComparator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-17T19:01:59Z",
+      "side": 1,
+      "message": "0 doesn\u0027t mean \"numbers are equal\", it means \"the Instants are considered equal in JGit (for a comparison between the working tree and the git index)\". The whole point is that some unequal numbers still result in the Instants being considered equal.\n\nIf either a or b has no subseconds, we always compare seconds only. Can occur for instance on Mac, with older Java (Java 8), or with HFS/HFS+. Some Java versions/file systems on Unix/Linux also deliver only second resolution. Older git on windows apparently also had only seconds resolution.\n\nCompare the old code at [1], which already did that.\n\nWhat is new now is that we also do the same at millisecond resolution, and at microsecond resolution. Before JGit started using Instants, this wasn\u0027t necessary, since JGit always compared only milliseconds. Now that JGit suddenly potentially may compare nanoseconds, we have to care about a number of limitations. On Linux, only Java 14 will deliver nanoseconds for file modification times. Up to an including Java 13, it\u0027ll deliver microseconds at best, but native git does nanoseconds. (Same thing on Windows: Java delivers only microseconds, but the OS does 100ns (NTFS), and native git uses that.) If we don\u0027t adjust for that, any IndexDiff can get super-slow since JGit will see different timestamps between the file system and the git index and then do a full content check. And the checks a milliseconds are needed to deal with a git index written by older JGit.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/84ac86ee61989bab441904e3e72b2b98199cccfc/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java#945",
+      "parentUuid": "e621b367_71c5ddfc",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
