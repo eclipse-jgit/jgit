@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "659cf2c3_948c7e47",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.feature/feature.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-17T12:26:51Z",
+      "side": 0,
+      "message": "I looked at feature descriptions of other features in the simultaneous release and it seems they mostly use a full sentence ending with a period.",
+      "revId": "2f751c34e132cf86d51271255f92cdbc105c18d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80aa6be4_4c86ded4",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.lfs.feature/feature.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-17T12:26:51Z",
+      "side": 0,
+      "message": "other features seem to mostly use a full sentence ending with a period",
+      "revId": "2f751c34e132cf86d51271255f92cdbc105c18d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6759fd03_d16f7216",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.ssh.apache.feature/feature.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-17T12:26:51Z",
+      "side": 0,
+      "message": "other features seem to mostly use a full sentence ending with a period",
+      "revId": "2f751c34e132cf86d51271255f92cdbc105c18d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
