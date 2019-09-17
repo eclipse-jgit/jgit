@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e621b367_71c5ddfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/InstantComparator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-09-17T18:34:50Z",
+      "side": 1,
+      "message": "This logic looks very strange. It means that if we have \nforceSecondOnly \u003d\u003d false\naSubSeconds \u003d\u003d 0\naSubSeconds \u003d\u003d 42\n\nwe will return 0 (aka numbers are equal), which make no sense to me.\n\nCould you please clarify?",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
