@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "498e9bea_2b9f1a39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-17T12:12:39Z",
+      "side": 1,
+      "message": "missing @since 5.6 tag for new public API",
+      "revId": "b4c810879a4e0837cb46cd1216f191013d5ee07e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11d68a62_85984a1e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
