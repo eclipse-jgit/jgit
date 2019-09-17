@@ -22,6 +22,30 @@
       "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b8f4e4_d3969633",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/InstantComparator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-17T18:56:04Z",
+      "side": 1,
+      "message": "\u003e Could you please clarify?\n\nI assume this is meant to handle cases where Instant `a` or `b` comes from a filesystem that only offers 1-second resolution.",
+      "parentUuid": "e621b367_71c5ddfc",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
