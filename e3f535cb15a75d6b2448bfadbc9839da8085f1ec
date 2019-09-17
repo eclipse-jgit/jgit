@@ -70,6 +70,30 @@
       "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0011641_27b37c53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/InstantComparator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-09-17T22:47:03Z",
+      "side": 1,
+      "message": "Thanks for explanations!\nNow I understand why we\u0027re doing it that way.",
+      "parentUuid": "3f36db29_163ab7dd",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "e3f535cb15a75d6b2448bfadbc9839da8085f1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
