@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aa8c040_fef55b8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-17T00:27:01Z",
+      "side": 1,
+      "message": "Needs @since",
+      "revId": "b4c810879a4e0837cb46cd1216f191013d5ee07e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28f3c12_55faf0c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-17T00:27:01Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "b4c810879a4e0837cb46cd1216f191013d5ee07e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11d68a62_85984a1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-09-17T00:27:01Z",
+      "side": 1,
+      "message": "Hm, this doesn\u0027t seem right: we\u0027re putting information that doesn\u0027t have anything to do with the pack in the pack statistics.\n\nCan we get this information via ProtocolV2Hook instead?",
+      "revId": "b4c810879a4e0837cb46cd1216f191013d5ee07e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
