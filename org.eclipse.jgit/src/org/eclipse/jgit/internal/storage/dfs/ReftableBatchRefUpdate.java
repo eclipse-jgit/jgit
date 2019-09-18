@@ -296,9 +296,9 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private ReftableWriter.Stats write(OutputStream os, ReftableConfig cfg,
 			long updateIndex, List<Ref> newRefs, List<ReceiveCommand> pending)
 			throws IOException {
-		ReftableWriter writer = new ReftableWriter(cfg)
+		ReftableWriter writer = new ReftableWriter(cfg, os)
 				.setMinUpdateIndex(updateIndex).setMaxUpdateIndex(updateIndex)
-				.begin(os).sortAndWriteRefs(newRefs);
+				.begin().sortAndWriteRefs(newRefs);
 		if (!isRefLogDisabled()) {
 			writeLog(writer, updateIndex, pending);
 		}
@@ -434,11 +434,11 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 		tables.add(last);
 		tables.add(new ReftableReader(BlockSource.from(newTable)));
 
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor = new ReftableCompactor(out);
 		compactor.setConfig(cfg);
 		compactor.setIncludeDeletes(true);
 		compactor.addAll(tables);
-		compactor.compact(out);
+		compactor.compact();
 		return compactor.getStats();
 	}
 
