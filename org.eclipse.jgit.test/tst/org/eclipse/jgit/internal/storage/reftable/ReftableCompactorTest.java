@@ -67,9 +67,10 @@ public class ReftableCompactorTest {
 
 	@Test
 	public void noTables() throws IOException {
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-			compactor.compact(out);
+			compactor = new ReftableCompactor(out);
+			compactor.compact();
 		}
 		Stats stats = compactor.getStats();
 		assertEquals(0, stats.minUpdateIndex());
@@ -81,10 +82,10 @@ public class ReftableCompactorTest {
 	public void oneTable() throws IOException {
 		byte[] inTab;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(0)
 				.setMaxUpdateIndex(0)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -92,10 +93,11 @@ public class ReftableCompactorTest {
 		}
 
 		byte[] outTab;
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
 			compactor.tryAddFirst(read(inTab));
-			compactor.compact(outBuf);
+			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
 		Stats stats = compactor.getStats();
@@ -116,10 +118,10 @@ public class ReftableCompactorTest {
 	public void twoTablesOneRef() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(0)
 				.setMaxUpdateIndex(0)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -128,10 +130,10 @@ public class ReftableCompactorTest {
 
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 2));
 			writer.finish();
@@ -139,10 +141,11 @@ public class ReftableCompactorTest {
 		}
 
 		byte[] outTab;
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
 			compactor.addAll(Arrays.asList(read(inTab1), read(inTab2)));
-			compactor.compact(outBuf);
+			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
 		Stats stats = compactor.getStats();
@@ -163,10 +166,10 @@ public class ReftableCompactorTest {
 	public void twoTablesTwoRefs() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(0)
 				.setMaxUpdateIndex(0)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.writeRef(ref(NEXT, 2));
@@ -176,10 +179,10 @@ public class ReftableCompactorTest {
 
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 3));
 			writer.finish();
@@ -187,10 +190,11 @@ public class ReftableCompactorTest {
 		}
 
 		byte[] outTab;
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor =  new ReftableCompactor(outBuf);
 			compactor.addAll(Arrays.asList(read(inTab1), read(inTab2)));
-			compactor.compact(outBuf);
+			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
 		Stats stats = compactor.getStats();
@@ -216,10 +220,10 @@ public class ReftableCompactorTest {
 	public void twoTablesIncludeOneDelete() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(0)
 				.setMaxUpdateIndex(0)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -228,10 +232,10 @@ public class ReftableCompactorTest {
 
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(tombstone(MASTER));
 			writer.finish();
@@ -239,11 +243,12 @@ public class ReftableCompactorTest {
 		}
 
 		byte[] outTab;
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
 			compactor.setIncludeDeletes(true);
 			compactor.addAll(Arrays.asList(read(inTab1), read(inTab2)));
-			compactor.compact(outBuf);
+			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
 		Stats stats = compactor.getStats();
@@ -261,10 +266,10 @@ public class ReftableCompactorTest {
 	public void twoTablesNotIncludeOneDelete() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(0)
 				.setMaxUpdateIndex(0)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -273,10 +278,10 @@ public class ReftableCompactorTest {
 
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
-			ReftableWriter writer = new ReftableWriter()
+			ReftableWriter writer = new ReftableWriter(inBuf)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(inBuf);
+				.begin();
 
 			writer.writeRef(tombstone(MASTER));
 			writer.finish();
@@ -284,11 +289,12 @@ public class ReftableCompactorTest {
 		}
 
 		byte[] outTab;
-		ReftableCompactor compactor = new ReftableCompactor();
+		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
 			compactor.setIncludeDeletes(false);
 			compactor.addAll(Arrays.asList(read(inTab1), read(inTab2)));
-			compactor.compact(outBuf);
+			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
 		Stats stats = compactor.getStats();
