@@ -297,10 +297,10 @@ public class MergedReftableTest {
 	@Test
 	public void missedUpdate() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(3)
-				.begin(buf);
+				.begin();
 		writer.writeRef(ref("refs/heads/a", 1), 1);
 		writer.writeRef(ref("refs/heads/c", 3), 3);
 		writer.finish();
@@ -337,13 +337,13 @@ public class MergedReftableTest {
 		List<Ref> delta2 = Arrays.asList(delete("refs/heads/next"));
 		List<Ref> delta3 = Arrays.asList(ref("refs/heads/master", 8));
 
-		ReftableCompactor compactor = new ReftableCompactor();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ReftableCompactor compactor = new ReftableCompactor(out);
 		compactor.addAll(Arrays.asList(
 				read(write(delta1)),
 				read(write(delta2)),
 				read(write(delta3))));
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		compactor.compact(out);
+		compactor.compact();
 		byte[] table = out.toByteArray();
 
 		ReftableReader reader = read(table);
@@ -461,10 +461,10 @@ public class MergedReftableTest {
 	private byte[] write(Collection<Ref> refs, long updateIndex)
 			throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		new ReftableWriter()
+		new ReftableWriter(buffer)
 				.setMinUpdateIndex(updateIndex)
 				.setMaxUpdateIndex(updateIndex)
-				.begin(buffer)
+				.begin()
 				.sortAndWriteRefs(refs)
 				.finish();
 		return buffer.toByteArray();
