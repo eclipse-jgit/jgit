@@ -723,7 +723,7 @@ public class DfsGarbageCollectorTest {
 
 		DfsPackDescription t1 = odb.newPack(INSERT);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			new ReftableWriter().begin(out).finish();
+			new ReftableWriter(out).begin().finish();
 			t1.addFileExt(REFTABLE);
 		}
 		odb.commitPack(Collections.singleton(t1), null);
@@ -755,7 +755,7 @@ public class DfsGarbageCollectorTest {
 
 		DfsPackDescription t1 = odb.newPack(INSERT);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			new ReftableWriter().begin(out).finish();
+			new ReftableWriter(out).begin().finish();
 			t1.addFileExt(REFTABLE);
 		}
 		odb.commitPack(Collections.singleton(t1), null);
@@ -795,10 +795,10 @@ public class DfsGarbageCollectorTest {
 		Ref next = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE,
 				"refs/heads/next", commit0.copy());
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			ReftableWriter w = new ReftableWriter();
+			ReftableWriter w = new ReftableWriter(out);
 			w.setMinUpdateIndex(42);
 			w.setMaxUpdateIndex(42);
-			w.begin(out);
+			w.begin();
 			w.sortAndWriteRefs(Collections.singleton(next));
 			w.finish();
 			t1.addFileExt(REFTABLE);
@@ -877,10 +877,10 @@ public class DfsGarbageCollectorTest {
 		Ref newNext = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, NEXT,
 				commit1);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			ReftableWriter w = new ReftableWriter();
-			w.setMinUpdateIndex(1);
-			w.setMaxUpdateIndex(1);
-			w.begin(out);
+			ReftableWriter w = new ReftableWriter(out)
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin();
 			w.writeRef(newNext, 1);
 			w.finish();
 			t1.addFileExt(REFTABLE);
@@ -929,10 +929,10 @@ public class DfsGarbageCollectorTest {
 		Ref newNext = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, NEXT,
 				commit1);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			ReftableWriter w = new ReftableWriter();
-			w.setMinUpdateIndex(1);
-			w.setMaxUpdateIndex(1);
-			w.begin(out);
+			ReftableWriter w = new ReftableWriter(out)
+			.setMinUpdateIndex(1)
+			.setMaxUpdateIndex(1)
+			.begin();
 			w.writeRef(newNext, 1);
 			w.finish();
 			t1.addFileExt(REFTABLE);
