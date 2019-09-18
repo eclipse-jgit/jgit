@@ -63,7 +63,6 @@ import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -189,11 +188,11 @@ public class UploadPackReachabilityTest {
 		assertFalse(client.getObjectDatabase().has(blob.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers
-					.containsString("want " + blob.name() + " not valid"));
+			TransportException e = assertThrows(TransportException.class, () ->
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
+					Collections.singletonList(new RefSpec(blob.name()))));
+			assertThat(e.getMessage(),
+					containsString("want " + blob.name() + " not valid"));
 		}
 	}
 
@@ -266,11 +265,11 @@ public class UploadPackReachabilityTest {
 		assertFalse(client.getObjectDatabase().has(commit.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers
-					.containsString("want " + commit.name() + " not valid"));
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+			TransportException e = assertThrows(TransportException.class,
+					() -> tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit.name()))));
+			assertThat(e.getMessage(),
+					containsString("want " + commit.name() + " not valid"));
 		}
 	}
 
@@ -285,11 +284,11 @@ public class UploadPackReachabilityTest {
 		assertFalse(client.getObjectDatabase().has(commit.toObjectId()));
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers
-					.containsString("want " + commit.name() + " not valid"));
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+			TransportException e = assertThrows(TransportException.class,
+					() -> tn.fetch(NullProgressMonitor.INSTANCE, Collections
+							.singletonList(new RefSpec(commit.name()))));
+			assertThat(e.getMessage(),
+					containsString("want " + commit.name() + " not valid"));
 		}
 	}
 
