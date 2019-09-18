@@ -124,8 +124,8 @@ public class ReftableWriter {
 	/**
 	 * Initialize a writer with a default configuration.
 	 */
-	public ReftableWriter() {
-		this(new ReftableConfig());
+	public ReftableWriter(OutputStream os) {
+		this(new ReftableConfig(), os);
 		lastRef = null;
 		lastLog = null;
 	}

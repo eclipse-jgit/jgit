@@ -744,11 +744,15 @@ public class DfsGarbageCollector {
 			return;
 		}
 
-		try (DfsReftableStack stack = DfsReftableStack.open(ctx, reftablesBefore)) {
-			ReftableCompactor compact = new ReftableCompactor();
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, reftablesBefore);
+		     DfsOutputStream out = objdb.writeFile(pack, REFTABLE)) {
+			ReftableCompactor compact = new ReftableCompactor(out);
 			compact.addAll(stack.readers());
 			compact.setIncludeDeletes(includeDeletes);
-			compactReftable(pack, compact);
+			compact.setConfig(configureReftable(reftableConfig, out));
+			compact.compact();
+			pack.addFileExt(REFTABLE);
+			pack.setReftableStats(compact.getStats());
 		}
 	}
 
@@ -771,16 +775,6 @@ public class DfsGarbageCollector {
 					.sortAndWriteRefs(refs).finish();
 			pack.addFileExt(REFTABLE);
 			pack.setReftableStats(writer.getStats());
-		}
-	}
-
-	private void compactReftable(DfsPackDescription pack,
-			ReftableCompactor compact) throws IOException {
-		try (DfsOutputStream out = objdb.writeFile(pack, REFTABLE)) {
-			compact.setConfig(configureReftable(reftableConfig, out));
-			compact.compact(out);
-			pack.addFileExt(REFTABLE);
-			pack.setReftableStats(compact.getStats());
 		}
 	}
 }
