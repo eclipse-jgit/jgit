@@ -128,9 +128,9 @@ class WriteReftable extends TextBuiltin {
 				cfg.setMaxIndexLevels(indexLevels);
 			}
 
-			ReftableWriter w = new ReftableWriter(cfg);
+			ReftableWriter w = new ReftableWriter(cfg, os);
 			w.setMinUpdateIndex(min(logs)).setMaxUpdateIndex(max(logs));
-			w.begin(os);
+			w.begin();
 			w.sortAndWriteRefs(refs);
 			for (LogEntry e : logs) {
 				w.writeLog(e.ref, e.updateIndex, e.who,

@@ -124,20 +124,10 @@ public class ReftableWriter {
 	/**
 	 * Initialize a writer with a default configuration.
 	 */
-	public ReftableWriter() {
-		this(new ReftableConfig());
+	public ReftableWriter(OutputStream os) {
+		this(new ReftableConfig(), os);
 		lastRef = null;
 		lastLog = null;
-	}
-
-	/**
-	 * Initialize a writer with a specific configuration.
-	 *
-	 * @param cfg
-	 *            configuration for the writer.
-	 */
-	public ReftableWriter(ReftableConfig cfg) {
-		this(cfg, null);
 	}
 
 	/**
@@ -146,9 +136,9 @@ public class ReftableWriter {
 	 * @param cfg
 	 *            configuration for the writer
 	 * @param os
-	 *            output stream. Do not supply a stream to begin() on this writer.
+	 *            output stream.
 	 */
-	public ReftableWriter(ReftableConfig cfg, @Nullable OutputStream os) {
+	public ReftableWriter(ReftableConfig cfg, OutputStream os) {
 		config = cfg;
 		outputStream = os;
 	}
@@ -195,23 +185,7 @@ public class ReftableWriter {
 		maxUpdateIndex = max;
 		return this;
 	}
-
-	/**
-	 * Begin writing the reftable. Should be called only once.
-	 *
-	 * @param os
-	 *            stream to write the table to. Caller is responsible for
-	 *            closing the stream after invoking {@link #finish()}.
-	 * @return {@code this}
-	 */
-	public ReftableWriter begin(OutputStream os) {
-		if (outputStream != null) {
-			throw new IllegalStateException("begin() called twice.");//$NON-NLS-1$
-		}
-		outputStream = os;
-		return begin();
-	}
-
+	
 	/**
 	 * Begin writing the reftable. Should be called only once. Call this
 	 * if a stream was passed to the constructor.

@@ -311,12 +311,16 @@ public class DfsPackCompactor {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		Collections.sort(srcReftables, objdb.reftableComparator());
 
-		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables)) {
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables);
+		     DfsOutputStream out = objdb.writeFile(outDesc, REFTABLE)) {
 			initOutDesc(objdb);
-			ReftableCompactor compact = new ReftableCompactor();
+			ReftableCompactor compact = new ReftableCompactor(out);
 			compact.addAll(stack.readers());
 			compact.setIncludeDeletes(true);
-			writeReftable(objdb, outDesc, compact);
+			compact.setConfig(configureReftable(reftableConfig, out));
+			compact.compact();
+			outDesc.addFileExt(REFTABLE);
+			outDesc.setReftableStats(compact.getStats());
 		}
 	}
 
@@ -494,16 +498,6 @@ public class DfsPackCompactor {
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setBlockSize(INDEX, out.blockSize());
 			pack.setIndexVersion(pw.getIndexVersion());
-		}
-	}
-
-	private void writeReftable(DfsObjDatabase objdb, DfsPackDescription pack,
-			ReftableCompactor compact) throws IOException {
-		try (DfsOutputStream out = objdb.writeFile(pack, REFTABLE)) {
-			compact.setConfig(configureReftable(reftableConfig, out));
-			compact.compact(out);
-			pack.addFileExt(REFTABLE);
-			pack.setReftableStats(compact.getStats());
 		}
 	}
 

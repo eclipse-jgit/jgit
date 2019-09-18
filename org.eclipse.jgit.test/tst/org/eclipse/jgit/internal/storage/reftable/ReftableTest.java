@@ -137,9 +137,9 @@ public class ReftableTest {
 		byte[] table;
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setIndexObjects(false);
-		ReftableWriter writer = new ReftableWriter().setConfig(cfg);
 		try (ByteArrayOutputStream buf = new ByteArrayOutputStream()) {
-			writer.begin(buf);
+			ReftableWriter writer = new ReftableWriter(buf).setConfig(cfg);
+			writer.begin();
 			assertEquals(92, writer.estimateTotalBytes());
 			writer.writeRef(exp);
 			assertEquals(expBytes, writer.estimateTotalBytes());
@@ -163,9 +163,9 @@ public class ReftableTest {
 
 		int expBytes = 147860;
 		byte[] table;
-		ReftableWriter writer = new ReftableWriter().setConfig(cfg);
 		try (ByteArrayOutputStream buf = new ByteArrayOutputStream()) {
-			writer.begin(buf);
+			ReftableWriter writer = new ReftableWriter(buf).setConfig(cfg);
+			writer.begin();
 			writer.sortAndWriteRefs(refs);
 			assertEquals(expBytes, writer.estimateTotalBytes());
 			writer.finish();
@@ -424,10 +424,10 @@ public class ReftableTest {
 	public void invalidRefWriteOrder() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(1)
-			.begin(new ByteArrayOutputStream());
+			.begin();
 
 		writer.writeRef(next);
 		IllegalArgumentException e  = assertThrows(
@@ -438,10 +438,10 @@ public class ReftableTest {
 
 	@Test
 	public void invalidReflogWriteOrderUpdateIndex() throws IOException {
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(2)
-			.begin(new ByteArrayOutputStream());
+			.begin();
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 
@@ -454,10 +454,10 @@ public class ReftableTest {
 
 	@Test
 	public void invalidReflogWriteOrderName() throws IOException {
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(1)
-			.begin(new ByteArrayOutputStream());
+			.begin();
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 
@@ -476,10 +476,10 @@ public class ReftableTest {
 		String msg = "test";
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buffer)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(buffer);
+				.begin();
 
 		writer.writeRef(master);
 		writer.writeRef(next);
@@ -531,8 +531,8 @@ public class ReftableTest {
 		Ref next = ref(NEXT, 2);
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter().setMinUpdateIndex(1)
-				.setMaxUpdateIndex(1).begin(buffer);
+		ReftableWriter writer = new ReftableWriter(buffer).setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1).begin();
 
 		writer.writeRef(master);
 		writer.writeRef(next);
@@ -573,11 +573,11 @@ public class ReftableTest {
 		cfg.setRefBlockSize(1024);
 		cfg.setLogBlockSize(1024);
 		cfg.setAlignBlocks(true);
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buffer)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
 				.setConfig(cfg)
-				.begin(buffer);
+				.begin();
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 
 		// Fill out the 1st ref block.
@@ -611,10 +611,10 @@ public class ReftableTest {
 		String msgNext = "test next";
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buffer)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(buffer);
+				.begin();
 
 		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
 		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(2), msgNext);
@@ -654,10 +654,10 @@ public class ReftableTest {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buffer)
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(1)
-			.begin(buffer);
+			.begin();
 
 		writer.writeLog("branchname", 1, who, ObjectId.zeroId(), id(1), "branchname");
 
@@ -678,10 +678,10 @@ public class ReftableTest {
 		String msg = "test";
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter()
+		ReftableWriter writer = new ReftableWriter(buffer)
 				.setMinUpdateIndex(1)
 				.setMaxUpdateIndex(1)
-				.begin(buffer);
+				.begin();
 		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
 		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(2), msg);
 		writer.finish();
@@ -730,8 +730,8 @@ public class ReftableTest {
 		cfg.setLogBlockSize(2048);
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter(cfg);
-		writer.setMinUpdateIndex(1).setMaxUpdateIndex(1).begin(buffer);
+		ReftableWriter writer = new ReftableWriter(cfg, buffer);
+		writer.setMinUpdateIndex(1).setMaxUpdateIndex(1).begin();
 
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
@@ -850,7 +850,7 @@ public class ReftableTest {
 			cfg.setRefBlockSize(64);
 
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			ReftableWriter writer = new ReftableWriter(cfg).begin(buffer);
+			ReftableWriter writer = new ReftableWriter(cfg, buffer).begin();
 			writer.writeRef(ref("refs/heads/i-am-not-a-teapot", 1));
 			writer.finish();
 			fail("expected BlockSizeTooSmallException");
@@ -935,8 +935,8 @@ public class ReftableTest {
 
 	private byte[] write(Collection<Ref> refs) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		stats = new ReftableWriter()
-				.begin(buffer)
+		stats = new ReftableWriter(buffer)
+				.begin()
 				.sortAndWriteRefs(refs)
 				.finish()
 				.getStats();
