@@ -926,7 +926,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.18.0</version>
+                <version>3.19.0</version>
               </dependency>
             </dependencies>
           </plugin>
