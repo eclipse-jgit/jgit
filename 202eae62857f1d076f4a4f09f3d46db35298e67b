@@ -22,6 +22,30 @@
       "revId": "202eae62857f1d076f4a4f09f3d46db35298e67b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1386fea_e4bf513d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-09-19T16:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96f4487c_7b66226b",
+      "range": {
+        "startLine": 132,
+        "startChar": 1,
+        "endLine": 132,
+        "endChar": 4
+      },
+      "revId": "202eae62857f1d076f4a4f09f3d46db35298e67b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
