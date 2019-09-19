@@ -22,6 +22,23 @@
       "revId": "89f45ed79bc2077e723b1b2a4749ac3a008e2e8c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea8eea92_3b598971",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-19T23:42:56Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "89f45ed79bc2077e723b1b2a4749ac3a008e2e8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
