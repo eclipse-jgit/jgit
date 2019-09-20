@@ -74,7 +74,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.slf4j.Logger;
@@ -307,20 +306,6 @@ public class FS_POSIX extends FS {
 	@Override
 	public String normalize(String name) {
 		return FileUtils.normalize(name);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public File findHook(Repository repository, String hookName) {
-		final File gitdir = repository.getDirectory();
-		if (gitdir == null) {
-			return null;
-		}
-		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
-				.resolve(hookName);
-		if (Files.isExecutable(hookPath))
-			return hookPath.toFile();
-		return null;
 	}
 
 	/** {@inheritDoc} */
