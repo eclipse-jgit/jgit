@@ -162,9 +162,14 @@ abstract class GitHook<T> implements Callable<T> {
 		} catch (UnsupportedEncodingException e) {
 			// UTF-8 is guaranteed to be available
 		}
-		ProcessResult result = FS.DETECTED.runHookIfPresent(getRepository(),
-				getHookName(), getParameters(), getOutputStream(),
-				hookErrRedirect, getStdinArgs());
+		Repository repository = getRepository();
+		FS fs = repository.getFS();
+		if (fs == null) {
+			fs = FS.DETECTED;
+		}
+		ProcessResult result = fs.runHookIfPresent(repository, getHookName(),
+				getParameters(), getOutputStream(), hookErrRedirect,
+				getStdinArgs());
 		if (result.isExecutedWithError()) {
 			throw new AbortedByHookException(
 					new String(errorByteArray.toByteArray(), UTF_8),
@@ -180,7 +185,11 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @since 4.11
 	 */
 	public boolean isNativeHookPresent() {
-		return FS.DETECTED.findHook(getRepository(), getHookName()) != null;
+		FS fs = getRepository().getFS();
+		if (fs == null) {
+			fs = FS.DETECTED;
+		}
+		return fs.findHook(getRepository(), getHookName()) != null;
 	}
 
 }

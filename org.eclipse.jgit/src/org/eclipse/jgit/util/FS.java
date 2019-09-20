@@ -61,6 +61,7 @@ import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -98,6 +99,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -1730,20 +1732,18 @@ public abstract class FS {
 			final String hookName, String[] args, PrintStream outRedirect,
 			PrintStream errRedirect, String stdinArgs)
 			throws JGitInternalException {
-		final File hookFile = findHook(repository, hookName);
-		if (hookFile == null)
+		File hookFile = findHook(repository, hookName);
+		if (hookFile == null || hookName == null) {
 			return new ProcessResult(Status.NOT_PRESENT);
+		}
 
-		final String hookPath = hookFile.getAbsolutePath();
-		final File runDirectory;
-		if (repository.isBare())
-			runDirectory = repository.getDirectory();
-		else
-			runDirectory = repository.getWorkTree();
-		final String cmd = relativize(runDirectory.getAbsolutePath(),
-				hookPath);
+		File runDirectory = getRunDirectory(repository, hookName);
+		if (runDirectory == null) {
+			return new ProcessResult(Status.NOT_PRESENT);
+		}
+		String cmd = hookFile.getAbsolutePath();
 		ProcessBuilder hookProcess = runInShell(cmd, args);
-		hookProcess.directory(runDirectory);
+		hookProcess.directory(runDirectory.getAbsoluteFile());
 		Map<String, String> environment = hookProcess.environment();
 		environment.put(Constants.GIT_DIR_KEY,
 				repository.getDirectory().getAbsolutePath());
@@ -1778,12 +1778,71 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public File findHook(Repository repository, String hookName) {
-		File gitDir = repository.getDirectory();
-		if (gitDir == null)
+		if (hookName == null) {
 			return null;
-		final File hookFile = new File(new File(gitDir,
-				Constants.HOOKS), hookName);
-		return hookFile.isFile() ? hookFile : null;
+		}
+		File hookDir = getHooksDirectory(repository);
+		if (hookDir == null) {
+			return null;
+		}
+		File hookFile = new File(hookDir, hookName);
+		if (hookFile.isAbsolute()) {
+			if (!hookFile.exists() || FS.DETECTED.supportsExecute()
+					&& !FS.DETECTED.canExecute(hookFile)) {
+				return null;
+			}
+		} else {
+			try {
+				File runDirectory = getRunDirectory(repository, hookName);
+				if (runDirectory == null) {
+					return null;
+				}
+				Path hookPath = runDirectory.getAbsoluteFile().toPath()
+						.resolve(hookFile.toPath());
+				FS fs = repository.getFS();
+				if (fs == null) {
+					fs = FS.DETECTED;
+				}
+				if (!Files.exists(hookPath) || fs.supportsExecute()
+						&& !fs.canExecute(hookPath.toFile())) {
+					return null;
+				}
+				hookFile = hookPath.toFile();
+			} catch (InvalidPathException e) {
+				LOG.warn(MessageFormat.format(JGitText.get().invalidHooksPath,
+						hookFile));
+				return null;
+			}
+		}
+		return hookFile;
+	}
+
+	private File getRunDirectory(Repository repository,
+			@NonNull String hookName) {
+		if (repository.isBare()) {
+			return repository.getDirectory();
+		}
+		switch (hookName) {
+		case "pre-receive": //$NON-NLS-1$
+		case "update": //$NON-NLS-1$
+		case "post-receive": //$NON-NLS-1$
+		case "post-update": //$NON-NLS-1$
+		case "push-to-checkout": //$NON-NLS-1$
+			return repository.getDirectory();
+		default:
+			return repository.getWorkTree();
+		}
+	}
+
+	private File getHooksDirectory(Repository repository) {
+		Config config = repository.getConfig();
+		String hooksDir = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
+				null, ConfigConstants.CONFIG_KEY_HOOKS_PATH);
+		if (hooksDir != null) {
+			return new File(hooksDir);
+		}
+		File dir = repository.getDirectory();
+		return dir == null ? null : new File(dir, Constants.HOOKS);
 	}
 
 	/**
