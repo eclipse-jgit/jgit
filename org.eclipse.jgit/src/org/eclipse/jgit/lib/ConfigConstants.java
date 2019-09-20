@@ -149,6 +149,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_GPGSIGN = "gpgSign";
 
+	/**
+	 * The "hooksPath" key.
+	 * @since 5.6
+	 */
+	public static final String CONFIG_KEY_HOOKS_PATH = "hooksPath";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 

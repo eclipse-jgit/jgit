@@ -52,7 +52,6 @@ import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.ProcessResult;
 
 /**
@@ -162,9 +161,10 @@ abstract class GitHook<T> implements Callable<T> {
 		} catch (UnsupportedEncodingException e) {
 			// UTF-8 is guaranteed to be available
 		}
-		ProcessResult result = FS.DETECTED.runHookIfPresent(getRepository(),
-				getHookName(), getParameters(), getOutputStream(),
-				hookErrRedirect, getStdinArgs());
+		Repository repository = getRepository();
+		ProcessResult result = repository.getFS().runHookIfPresent(
+				repository, getHookName(), getParameters(),
+				getOutputStream(), hookErrRedirect, getStdinArgs());
 		if (result.isExecutedWithError()) {
 			throw new AbortedByHookException(
 					new String(errorByteArray.toByteArray(), UTF_8),
@@ -180,7 +180,8 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @since 4.11
 	 */
 	public boolean isNativeHookPresent() {
-		return FS.DETECTED.findHook(getRepository(), getHookName()) != null;
+		return getRepository().getFS().findHook(getRepository(),
+				getHookName()) != null;
 	}
 
 }
