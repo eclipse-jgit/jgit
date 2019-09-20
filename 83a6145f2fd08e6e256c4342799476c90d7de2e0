@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baf46fe1_5f506ff2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-20T14:44:56Z",
+      "side": 0,
+      "message": "Was that correct? Does cygwin do executable bits? supportsExecute() is inherited from the parent and is false.",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 24
+      },
+      "revId": "83a6145f2fd08e6e256c4342799476c90d7de2e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
