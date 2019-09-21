@@ -16,6 +16,24 @@
       "revId": "fe3124f0688d6789d603f3657f7ee1529faf9e7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e986dd3_046b0078",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-21T13:42:47Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "dae5dd74_e99e7fd5",
+      "revId": "fe3124f0688d6789d603f3657f7ee1529faf9e7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
