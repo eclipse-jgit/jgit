@@ -288,20 +288,16 @@ public abstract class SystemReader {
 	 * @since 5.1.9
 	 */
 	public StoredConfig getUserConfig()
-			throws IOException, ConfigInvalidException {
+			throws ConfigInvalidException, IOException {
 		FileBasedConfig c = userConfig.get();
 		if (c == null) {
 			userConfig.compareAndSet(null,
 					openUserConfig(getSystemConfig(), FS.DETECTED));
 			c = userConfig.get();
-		} else {
-			// Ensure the parent is up to date
-			getSystemConfig();
 		}
-		if (c.isOutdated()) {
-			LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
-			c.load();
-		}
+		// on the very first call this will check a second time if the system
+		// config is outdated
+		updateAll(c);
 		return c;
 	}
 
@@ -319,18 +315,43 @@ public abstract class SystemReader {
 	 * @since 5.1.9
 	 */
 	public StoredConfig getSystemConfig()
-			throws IOException, ConfigInvalidException {
+			throws ConfigInvalidException, IOException {
 		FileBasedConfig c = systemConfig.get();
 		if (c == null) {
 			systemConfig.compareAndSet(null,
 					openSystemConfig(null, FS.DETECTED));
 			c = systemConfig.get();
 		}
-		if (c.isOutdated()) {
-			LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
-			c.load();
-		}
+		updateAll(c);
 		return c;
+	}
+
+	/**
+	 * Update config and its parents if they seem modified
+	 *
+	 * @param config
+	 *            configuration to reload if outdated
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 */
+	private void updateAll(Config config)
+			throws ConfigInvalidException, IOException {
+		if (config == null) {
+			return;
+		}
+		updateAll(config.getBaseConfig());
+		if (config instanceof FileBasedConfig) {
+			FileBasedConfig cfg = (FileBasedConfig) config;
+			if (!cfg.getFile().exists()) {
+				return;
+			}
+			if (cfg.isOutdated()) {
+				LOG.debug("loading config {}", cfg); //$NON-NLS-1$
+				cfg.load();
+			}
+		}
 	}
 
 	/**
