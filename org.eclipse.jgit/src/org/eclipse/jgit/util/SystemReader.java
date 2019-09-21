@@ -113,8 +113,31 @@ public abstract class SystemReader {
 			if (StringUtils
 					.isEmptyOrNull(getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 				File configFile = fs.getGitSystemConfig();
+				File additionalFile = null;
+				if (isWindows()) {
+					// git-for-windows and libgit2 may use an additional config
+					// file
+					String programData = getenv("PROGRAMDATA"); //$NON-NLS-1$
+					if (programData != null) {
+						additionalFile = new File(new File(programData), "Git"); //$NON-NLS-1$
+						if (additionalFile.isDirectory()) {
+							additionalFile = new File(additionalFile,
+									Constants.CONFIG);
+						}
+					}
+				}
 				if (configFile != null) {
-					return new FileBasedConfig(parent, configFile, fs);
+					Config directParent;
+					if (additionalFile != null) {
+						directParent = new FileBasedConfig(parent,
+								additionalFile, FS.DETECTED);
+					} else {
+						directParent = parent;
+					}
+					return new FileBasedConfig(directParent, configFile, fs);
+				} else if (additionalFile != null) {
+					return new FileBasedConfig(parent, additionalFile,
+							FS.DETECTED);
 				}
 			}
 			return new FileBasedConfig(parent, null, fs) {
