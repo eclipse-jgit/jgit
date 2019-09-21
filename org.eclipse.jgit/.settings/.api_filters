@@ -29,6 +29,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/Config.java" type="org.eclipse.jgit.lib.Config">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.5.2"/>
+                <message_argument value="getBaseConfig()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
