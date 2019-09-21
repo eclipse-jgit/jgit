@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dae5dd74_e99e7fd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-21T12:54:06Z",
+      "side": 1,
+      "message": "I suspect we should also make sure the system config\u0027s parents are up to date.",
+      "revId": "fe3124f0688d6789d603f3657f7ee1529faf9e7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
