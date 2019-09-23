@@ -57,6 +57,7 @@ import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -187,6 +188,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					if (!noCommit)
 						repo.writeCherryPickHead(srcCommit.getId());
 					repo.writeMergeCommitMsg(message);
+
+					repo.fireEvent(new WorkingTreeModifiedEvent(
+							merger.getModifiedFiles(), null));
 
 					return CherryPickResult.CONFLICT;
 				}
