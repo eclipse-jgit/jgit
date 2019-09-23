@@ -130,9 +130,10 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 			// get the head commit
 			Ref headRef = repo.exactRef(Constants.HEAD);
-			if (headRef == null)
+			if (headRef == null) {
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+			}
 
 			newHead = revWalk.parseCommit(headRef.getObjectId());
 
@@ -141,8 +142,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				// get the commit to be cherry-picked
 				// handle annotated tags
 				ObjectId srcObjectId = src.getPeeledObjectId();
-				if (srcObjectId == null)
+				if (srcObjectId == null) {
 					srcObjectId = src.getObjectId();
+				}
 				RevCommit srcCommit = revWalk.parseCommit(srcObjectId);
 
 				// get the parent of the commit to cherry-pick
@@ -159,25 +161,28 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 						cherryPickName });
 				if (merger.merge(newHead, srcCommit)) {
 					if (AnyObjectId.isEqual(newHead.getTree().getId(),
-							merger.getResultTreeId()))
+							merger.getResultTreeId())) {
 						continue;
+					}
 					DirCacheCheckout dco = new DirCacheCheckout(repo,
 							newHead.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.setProgressMonitor(monitor);
 					dco.checkout();
-					if (!noCommit)
+					if (!noCommit) {
 						newHead = new Git(getRepository()).commit()
 								.setMessage(srcCommit.getFullMessage())
 								.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 										+ srcCommit.getShortMessage())
 								.setAuthor(srcCommit.getAuthorIdent())
 								.setNoVerify(true).call();
+					}
 					cherryPickedRefs.add(src);
 				} else {
-					if (merger.failed())
+					if (merger.failed()) {
 						return new CherryPickResult(merger.getFailingPaths());
+					}
 
 					// there are merge conflicts
 
@@ -185,8 +190,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 							.formatWithConflicts(srcCommit.getFullMessage(),
 									merger.getUnmergedPaths());
 
-					if (!noCommit)
+					if (!noCommit) {
 						repo.writeCherryPickHead(srcCommit.getId());
+					}
 					repo.writeMergeCommitMsg(message);
 
 					repo.fireEvent(new WorkingTreeModifiedEvent(
@@ -217,10 +223,11 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 								Integer.valueOf(srcCommit.getParentCount())));
 			srcParent = srcCommit.getParent(0);
 		} else {
-			if (mainlineParentNumber.intValue() > srcCommit.getParentCount())
+			if (mainlineParentNumber.intValue() > srcCommit.getParentCount()) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().commitDoesNotHaveGivenParent, srcCommit,
 						mainlineParentNumber));
+			}
 			srcParent = srcCommit
 					.getParent(mainlineParentNumber.intValue() - 1);
 		}
