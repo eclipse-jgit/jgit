@@ -58,6 +58,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.events.ChangeRecorder;
+import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -321,6 +323,25 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 
 			String expected = "<<<<<<< master\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
 			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
+	public void testCherryPickConflictFiresModifiedEvent() throws Exception {
+		ListenerHandle listener = null;
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
+			ChangeRecorder recorder = new ChangeRecorder();
+			listener = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId()).call();
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+			recorder.assertEvent(new String[] { "a" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (listener != null) {
+				listener.remove();
+			}
 		}
 	}
 
