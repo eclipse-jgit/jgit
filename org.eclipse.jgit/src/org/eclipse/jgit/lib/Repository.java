@@ -146,6 +146,8 @@ public abstract class Repository implements AutoCloseable {
 
 	final AtomicLong closedAt = new AtomicLong();
 
+	private final AtomicLong eventId = new AtomicLong(0);
+
 	/** Metadata directory holding the repository's critical files. */
 	private final File gitDir;
 
@@ -183,6 +185,15 @@ public abstract class Repository implements AutoCloseable {
 		return myListeners;
 	}
 
+	/**
+	 * @return eventId for the next event being fired for this repository. The
+	 *         eventIds are monotonously increasing in the order events are
+	 *         fired for this repository.
+	 * @since 5.6
+	 */
+	public long newEventId() {
+		return eventId.incrementAndGet();
+	}
 	/**
 	 * Fire an event to all registered listeners.
 	 * <p>

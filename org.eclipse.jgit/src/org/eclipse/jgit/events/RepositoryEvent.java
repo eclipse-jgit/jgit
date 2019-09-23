@@ -55,6 +55,16 @@ import org.eclipse.jgit.lib.Repository;
 public abstract class RepositoryEvent<T extends RepositoryListener> {
 	private Repository repository;
 
+	private volatile long id;
+
+	/**
+	 * @return the id of the event
+	 * @since 5.6
+	 */
+	public long getId() {
+		return id;
+	}
+
 	/**
 	 * Set the repository this event occurred on.
 	 * <p>
@@ -66,8 +76,10 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 	 *            the repository.
 	 */
 	public void setRepository(Repository r) {
-		if (repository == null)
+		if (repository == null) {
 			repository = r;
+			id = r.newEventId();
+		}
 	}
 
 	/**
