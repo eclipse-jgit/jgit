@@ -11,7 +11,7 @@ http_archive(
 
 load("@bazel_skylib//lib:versions.bzl", "versions")
 
-versions.check(minimum_bazel_version = "0.29.0")
+versions.check(minimum_bazel_version = "0.29.1")
 
 load("//tools:bazlets.bzl", "load_bazlets")
 
