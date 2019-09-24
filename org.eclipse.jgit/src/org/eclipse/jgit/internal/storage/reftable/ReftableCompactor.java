@@ -68,7 +68,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
  * {@code setOldestReflogTimeMillis(Long.MAX_VALUE)}.
  */
 public class ReftableCompactor {
-	private final ReftableWriter writer = new ReftableWriter();
+	private final ReftableWriter writer;
 	private final ArrayDeque<Reftable> tables = new ArrayDeque<>();
 
 	private long compactBytesLimit;
@@ -78,6 +78,17 @@ public class ReftableCompactor {
 	private long maxUpdateIndex;
 	private long oldestReflogTimeMillis;
 	private Stats stats;
+
+	/**
+	 * Creates a new compactor.
+	 *
+	 * @param out
+	 *            stream to write the compacted tables to. Caller is responsible
+	 *            for closing {@code out}.
+	 */
+	public ReftableCompactor(OutputStream out) {
+		writer = new ReftableWriter(out);
+	}
 
 	/**
 	 * Set configuration for the reftable.
@@ -225,19 +236,16 @@ public class ReftableCompactor {
 	/**
 	 * Write a compaction to {@code out}.
 	 *
-	 * @param out
-	 *            stream to write the compacted tables to. Caller is responsible
-	 *            for closing {@code out}.
 	 * @throws java.io.IOException
 	 *             if tables cannot be read, or cannot be written.
 	 */
-	public void compact(OutputStream out) throws IOException {
+	public void compact() throws IOException {
 		MergedReftable mr = new MergedReftable(new ArrayList<>(tables));
 		mr.setIncludeDeletes(includeDeletes);
 
 		writer.setMinUpdateIndex(Math.max(minUpdateIndex, 0));
 		writer.setMaxUpdateIndex(maxUpdateIndex);
-		writer.begin(out);
+		writer.begin();
 		mergeRefs(mr);
 		mergeLogs(mr);
 		writer.finish();
