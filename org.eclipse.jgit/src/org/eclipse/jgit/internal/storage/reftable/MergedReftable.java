@@ -67,13 +67,11 @@ import org.eclipse.jgit.lib.ReflogEntry;
  * A {@code MergedReftable} is not thread-safe.
  */
 public class MergedReftable extends Reftable {
-	private final Reftable[] tables;
+	private final ReftableReader[] tables;
 
 	/**
 	 * Initialize a merged table reader.
 	 * <p>
-	 * The tables in {@code tableStack} will be closed when this
-	 * {@code MergedReftable} is closed.
 	 *
 	 * @param tableStack
 	 *            stack of tables to read from. The base of the stack is at
@@ -81,12 +79,12 @@ public class MergedReftable extends Reftable {
 	 *            {@code tableStack.size() - 1}. The top of the stack (higher
 	 *            index) shadows the base of the stack (lower index).
 	 */
-	public MergedReftable(List<Reftable> tableStack) {
-		tables = tableStack.toArray(new Reftable[0]);
+	public MergedReftable(List<ReftableReader> tableStack) {
+		tables = tableStack.toArray(new ReftableReader[0]);
 
 		// Tables must expose deletes to this instance to correctly
 		// shadow references from lower tables.
-		for (Reftable t : tables) {
+		for (ReftableReader t : tables) {
 			t.setIncludeDeletes(true);
 		}
 	}
@@ -159,14 +157,6 @@ public class MergedReftable extends Reftable {
 			m.add(new LogQueueEntry(tables[i].seekLog(refName, updateIdx), i));
 		}
 		return m;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void close() throws IOException {
-		for (Reftable t : tables) {
-			t.close();
-		}
 	}
 
 	int queueSize() {

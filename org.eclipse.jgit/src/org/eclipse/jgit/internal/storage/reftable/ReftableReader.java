@@ -78,7 +78,7 @@ import org.eclipse.jgit.util.NB;
  * {@code ReftableReader} is not thread-safe. Concurrent readers need their own
  * instance to read from the same file.
  */
-public class ReftableReader extends Reftable {
+public class ReftableReader extends Reftable implements AutoCloseable {
 	private final BlockSource src;
 
 	private int blockSize = -1;

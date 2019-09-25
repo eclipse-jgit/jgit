@@ -58,7 +58,7 @@ import org.eclipse.jgit.lib.SymbolicRef;
 /**
  * Abstract table of references.
  */
-public abstract class Reftable implements AutoCloseable {
+public abstract class Reftable {
 	/**
 	 * References to convert into a reftable
 	 *
@@ -295,8 +295,4 @@ public abstract class Reftable implements AutoCloseable {
 		}
 		return new SymbolicRef(ref.getName(), dst, ref.getUpdateIndex());
 	}
-
-	/** {@inheritDoc} */
-	@Override
-	public abstract void close() throws IOException;
 }
