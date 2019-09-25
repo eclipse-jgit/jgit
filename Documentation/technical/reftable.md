@@ -566,6 +566,10 @@ supplied for the update.
 
 [update-ref]: https://git-scm.com/docs/git-update-ref#_logging_updates
 
+Contrary to traditional reflog (which is a file), renames are encoded as a
+combination of ref deletion and ref creation.
+
+
 #### Reading the log
 
 Readers accessing the log must first read the footer (below) to
