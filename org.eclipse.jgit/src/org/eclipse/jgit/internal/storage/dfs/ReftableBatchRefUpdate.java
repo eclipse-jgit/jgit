@@ -406,7 +406,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private boolean canCompactTopOfStack(ReftableConfig cfg)
 			throws IOException {
 		DfsReftableStack stack = refdb.stack();
-		List<Reftable> readers = stack.readers();
+		List<ReftableReader> readers = stack.readers();
 		if (readers.isEmpty()) {
 			return false;
 		}
@@ -427,10 +427,10 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 	private ReftableWriter.Stats compactTopOfStack(OutputStream out,
 			ReftableConfig cfg, byte[] newTable) throws IOException {
-		List<Reftable> stack = refdb.stack().readers();
-		Reftable last = stack.get(stack.size() - 1);
+		List<ReftableReader> stack = refdb.stack().readers();
+		ReftableReader last = stack.get(stack.size() - 1);
 
-		List<Reftable> tables = new ArrayList<>(2);
+		List<ReftableReader> tables = new ArrayList<>(2);
 		tables.add(last);
 		tables.add(new ReftableReader(BlockSource.from(newTable)));
 

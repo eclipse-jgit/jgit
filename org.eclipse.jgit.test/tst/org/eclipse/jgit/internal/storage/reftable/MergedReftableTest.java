@@ -414,7 +414,7 @@ public class MergedReftableTest {
 	}
 
 	private static MergedReftable merge(byte[]... table) {
-		List<Reftable> stack = new ArrayList<>(table.length);
+		List<ReftableReader> stack = new ArrayList<>(table.length);
 		for (byte[] b : table) {
 			stack.add(read(b));
 		}
