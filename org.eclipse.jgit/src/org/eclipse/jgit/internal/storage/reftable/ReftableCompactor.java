@@ -69,7 +69,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
  */
 public class ReftableCompactor {
 	private final ReftableWriter writer;
-	private final ArrayDeque<Reftable> tables = new ArrayDeque<>();
+	private final ArrayDeque<ReftableReader> tables = new ArrayDeque<>();
 
 	private long compactBytesLimit;
 	private long bytesToCompact;
@@ -188,9 +188,9 @@ public class ReftableCompactor {
 	 * @throws java.io.IOException
 	 *             update indexes of a reader cannot be accessed.
 	 */
-	public void addAll(List<? extends Reftable> readers) throws IOException {
-		tables.addAll(readers);
-		for (Reftable r : readers) {
+	public void addAll(List<ReftableReader> readers) throws IOException {
+		for (ReftableReader r : readers) {
+			tables.add(r);
 			if (r instanceof ReftableReader) {
 				adjustUpdateIndexes((ReftableReader) r);
 			}
