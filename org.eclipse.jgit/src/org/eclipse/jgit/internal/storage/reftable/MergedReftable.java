@@ -72,8 +72,6 @@ public class MergedReftable extends Reftable {
 	/**
 	 * Initialize a merged table reader.
 	 * <p>
-	 * The tables in {@code tableStack} will be closed when this
-	 * {@code MergedReftable} is closed.
 	 *
 	 * @param tableStack
 	 *            stack of tables to read from. The base of the stack is at
@@ -81,7 +79,7 @@ public class MergedReftable extends Reftable {
 	 *            {@code tableStack.size() - 1}. The top of the stack (higher
 	 *            index) shadows the base of the stack (lower index).
 	 */
-	public MergedReftable(List<Reftable> tableStack) {
+	public MergedReftable(List<ReftableReader> tableStack) {
 		tables = tableStack.toArray(new Reftable[0]);
 
 		// Tables must expose deletes to this instance to correctly
@@ -159,14 +157,6 @@ public class MergedReftable extends Reftable {
 			m.add(new LogQueueEntry(tables[i].seekLog(refName, updateIdx), i));
 		}
 		return m;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void close() throws IOException {
-		for (Reftable t : tables) {
-			t.close();
-		}
 	}
 
 	int queueSize() {
