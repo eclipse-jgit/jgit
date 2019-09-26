@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Google Inc.
+ * Copyright (C) 2019, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,40 +41,11 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.dfs;
-
-import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
-import static org.eclipse.jgit.lib.Ref.Storage.NEW;
-import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
-import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
+package org.eclipse.jgit.internal.storage.reftable;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
-import org.eclipse.jgit.internal.storage.io.BlockSource;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.internal.storage.reftable.Reftable;
-import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
-import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
-import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
-import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,43 +53,65 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
+
+import static org.eclipse.jgit.lib.Ref.Storage.NEW;
+import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
+
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
+
 /**
- * {@link org.eclipse.jgit.lib.BatchRefUpdate} for
- * {@link org.eclipse.jgit.internal.storage.dfs.DfsReftableDatabase}.
+ * {@link org.eclipse.jgit.lib.BatchRefUpdate} for Reftable based RefDatabase.
  */
-public class ReftableBatchRefUpdate extends BatchRefUpdate {
-	private static final int AVG_BYTES = 36;
+public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
+	private final Lock lock;
 
-	private final DfsReftableDatabase refdb;
+	private final ReftableDatabase refDb;
 
-	private final DfsObjDatabase odb;
-
-	private final ReentrantLock lock;
-
-	private final ReftableConfig reftableConfig;
+	private final Repository repository;
 
 	/**
-	 * Initialize batch update.
+	 * Initialize.
 	 *
 	 * @param refdb
-	 *            database the update will modify.
-	 * @param odb
-	 *            object database to store the reftable.
+	 *            The RefDatabase
+	 * @param reftableDb
+	 *            The ReftableDatabase
+	 * @param lock
+	 *            A lock protecting the refdatabase's state
+	 * @param repository
+	 *            The repository on which this update will run
 	 */
-	protected ReftableBatchRefUpdate(DfsReftableDatabase refdb,
-			DfsObjDatabase odb) {
+	protected ReftableBatchRefUpdate(RefDatabase refdb, ReftableDatabase reftableDb, Lock lock,
+			Repository repository) {
 		super(refdb);
-		this.refdb = refdb;
-		this.odb = odb;
-		lock = refdb.getLock();
-		reftableConfig = refdb.getReftableConfig();
+		this.refDb = reftableDb;
+		this.lock = lock;
+		this.repository = repository;
 	}
 
 	/** {@inheritDoc} */
@@ -135,24 +128,36 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 			if (!checkObjectExistence(rw, pending)) {
 				return;
 			}
+			// if we are here, checkObjectExistence might have flagged some problems
+			// but the transaction is not atomic, so we should proceed with the other
+			// pending commands.
+			pending = getPending();
 			if (!checkNonFastForwards(rw, pending)) {
 				return;
 			}
+			pending = getPending();
 
 			lock.lock();
 			try {
 				if (!checkExpected(pending)) {
 					return;
 				}
+				pending = getPending();
 				if (!checkConflicting(pending)) {
 					return;
 				}
+				pending = getPending();
 				if (!blockUntilTimestamps(MAX_WAIT)) {
 					return;
 				}
-				applyUpdates(rw, pending);
+
+				List<Ref> newRefs = toNewRefs(rw, pending);
+				applyUpdates(newRefs, pending);
 				for (ReceiveCommand cmd : pending) {
-					cmd.setResult(OK);
+					if (cmd.getResult() == NOT_ATTEMPTED) {
+						// XXX this is a bug in DFS ?
+						cmd.setResult(OK);
+					}
 				}
 			} finally {
 				lock.unlock();
@@ -162,6 +167,19 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 			ReceiveCommand.abort(pending);
 		}
 	}
+
+	/**
+	 * Implements the storage-specific part of the update.
+	 *
+	 * @param newRefs
+	 *            the new refs to create
+	 * @param pending
+	 *            the pending receive commands to be executed
+	 * @throws IOException
+	 *             if any of the writes fail.
+	 */
+	protected abstract void applyUpdates(List<Ref> newRefs,
+			List<ReceiveCommand> pending) throws IOException;
 
 	private List<ReceiveCommand> getPending() {
 		return ReceiveCommand.filter(getCommands(), NOT_ATTEMPTED);
@@ -180,8 +198,10 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 				// used for a missing object. Eagerly handle this case so we
 				// can set the right result.
 				cmd.setResult(REJECTED_MISSING_OBJECT);
-				ReceiveCommand.abort(pending);
-				return false;
+				if (isAtomic()) {
+					ReceiveCommand.abort(pending);
+					return false;
+				}
 			}
 		}
 		return true;
@@ -196,8 +216,10 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 			cmd.updateType(rw);
 			if (cmd.getType() == UPDATE_NONFASTFORWARD) {
 				cmd.setResult(REJECTED_NONFASTFORWARD);
-				ReceiveCommand.abort(pending);
-				return false;
+				if (isAtomic()) {
+					ReceiveCommand.abort(pending);
+					return false;
+				}
 			}
 		}
 		return true;
@@ -205,40 +227,55 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 	private boolean checkConflicting(List<ReceiveCommand> pending)
 			throws IOException {
-		Set<String> names = new HashSet<>();
-		for (ReceiveCommand cmd : pending) {
-			names.add(cmd.getRefName());
-		}
+		TreeSet<String> added = new TreeSet<>();
+		Set<String> deleted =
+				pending.stream()
+						.filter(cmd -> cmd.getType() == DELETE)
+						.map(c -> c.getRefName())
+						.collect(Collectors.toSet());
 
 		boolean ok = true;
 		for (ReceiveCommand cmd : pending) {
+			if (cmd.getType() == DELETE) {
+				continue;
+			}
+
 			String name = cmd.getRefName();
-			if (refdb.isNameConflicting(name)) {
-				cmd.setResult(LOCK_FAILURE);
-				ok = false;
-			} else {
-				int s = name.lastIndexOf('/');
-				while (0 < s) {
-					if (names.contains(name.substring(0, s))) {
-						cmd.setResult(LOCK_FAILURE);
-						ok = false;
-						break;
-					}
-					s = name.lastIndexOf('/', s - 1);
+			if (refDb.isNameConflicting(name, added, deleted)) {
+				if (isAtomic()) {
+					cmd.setResult(
+							ReceiveCommand.Result.REJECTED_OTHER_REASON, JGitText.get().transactionAborted);
+				} else {
+					cmd.setResult(LOCK_FAILURE);
 				}
+
+				ok = false;
+			}
+			added.add(name);
+		}
+
+		if (isAtomic()) {
+			if (!ok) {
+				pending.stream()
+						.filter(cmd -> cmd.getResult() == NOT_ATTEMPTED)
+						.forEach(cmd -> cmd.setResult(LOCK_FAILURE));
+			}
+			return ok;
+		}
+
+		for (ReceiveCommand cmd : pending) {
+			if (cmd.getResult() == NOT_ATTEMPTED) {
+				return true;
 			}
 		}
-		if (!ok && isAtomic()) {
-			ReceiveCommand.abort(pending);
-			return false;
-		}
-		return ok;
+
+		return false;
 	}
 
 	private boolean checkExpected(List<ReceiveCommand> pending)
 			throws IOException {
 		for (ReceiveCommand cmd : pending) {
-			if (!matchOld(cmd, refdb.exactRef(cmd.getRefName()))) {
+			if (!matchOld(cmd, refDb.exactRef(cmd.getRefName()))) {
 				cmd.setResult(LOCK_FAILURE);
 				if (isAtomic()) {
 					ReceiveCommand.abort(pending);
@@ -252,7 +289,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private static boolean matchOld(ReceiveCommand cmd, @Nullable Ref ref) {
 		if (ref == null) {
 			return AnyObjectId.isEqual(ObjectId.zeroId(), cmd.getOldId())
-					&& cmd.getOldSymref() == null;
+				&& cmd.getOldSymref() == null;
 		} else if (ref.isSymbolic()) {
 			return ref.getTarget().getName().equals(cmd.getOldSymref());
 		}
@@ -263,47 +300,26 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 		return cmd.getOldId().equals(id);
 	}
 
-	private void applyUpdates(RevWalk rw, List<ReceiveCommand> pending)
-			throws IOException {
-		List<Ref> newRefs = toNewRefs(rw, pending);
-		long updateIndex = nextUpdateIndex();
-		Set<DfsPackDescription> prune = Collections.emptySet();
-		DfsPackDescription pack = odb.newPack(PackSource.INSERT);
-		try (DfsOutputStream out = odb.writeFile(pack, REFTABLE)) {
-			ReftableConfig cfg = DfsPackCompactor
-					.configureReftable(reftableConfig, out);
-
-			ReftableWriter.Stats stats;
-			if (refdb.compactDuringCommit()
-					&& newRefs.size() * AVG_BYTES <= cfg.getRefBlockSize()
-					&& canCompactTopOfStack(cfg)) {
-				ByteArrayOutputStream tmp = new ByteArrayOutputStream();
-				write(tmp, cfg, updateIndex, newRefs, pending);
-				stats = compactTopOfStack(out, cfg, tmp.toByteArray());
-				prune = toPruneTopOfStack();
-			} else {
-				stats = write(out, cfg, updateIndex, newRefs, pending);
-			}
-			pack.addFileExt(REFTABLE);
-			pack.setReftableStats(stats);
-		}
-
-		odb.commitPack(Collections.singleton(pack), prune);
-		odb.addReftable(pack, prune);
-		refdb.clearCache();
-	}
-
-	private ReftableWriter.Stats write(OutputStream os, ReftableConfig cfg,
-			long updateIndex, List<Ref> newRefs, List<ReceiveCommand> pending)
-			throws IOException {
-		ReftableWriter writer = new ReftableWriter(cfg, os)
-				.setMinUpdateIndex(updateIndex).setMaxUpdateIndex(updateIndex)
+	/**
+	 * Writes the refs to the writer, and calls finish.
+	 *
+	 * @param writer
+	 *            the writer on which we should write.
+	 * @param newRefs
+	 *            the ref data to write..
+	 * @param pending
+	 *            the log data to write.
+	 * @throws IOException
+	 *            in case of problems.
+	 */
+	protected void write(ReftableWriter writer, List<Ref> newRefs,
+			List<ReceiveCommand> pending) throws IOException {
+		long updateIndex = refDb.nextUpdateIndex();
+		writer.setMinUpdateIndex(updateIndex).setMaxUpdateIndex(updateIndex)
 				.begin().sortAndWriteRefs(newRefs);
 		if (!isRefLogDisabled()) {
 			writeLog(writer, updateIndex, pending);
 		}
-		writer.finish();
-		return writer.getStats();
 	}
 
 	private void writeLog(ReftableWriter writer, long updateIndex,
@@ -318,7 +334,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 		PersonIdent ident = getRefLogIdent();
 		if (ident == null) {
-			ident = new PersonIdent(refdb.getRepository());
+			ident = new PersonIdent(repository);
 		}
 		for (String name : byName) {
 			ReceiveCommand cmd = cmds.get(name);
@@ -360,20 +376,25 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 		}
 	}
 
+	// Extracts and peels the refs out of the ReceiveCommands
 	private static List<Ref> toNewRefs(RevWalk rw, List<ReceiveCommand> pending)
-			throws IOException {
+		throws IOException {
 		List<Ref> refs = new ArrayList<>(pending.size());
 		for (ReceiveCommand cmd : pending) {
+			if (cmd.getResult() != NOT_ATTEMPTED) {
+				continue;
+			}
+
 			String name = cmd.getRefName();
 			ObjectId newId = cmd.getNewId();
 			String newSymref = cmd.getNewSymref();
 			if (AnyObjectId.isEqual(ObjectId.zeroId(), newId)
-					&& newSymref == null) {
+				&& newSymref == null) {
 				refs.add(new ObjectIdRef.Unpeeled(NEW, name, null));
 				continue;
 			} else if (newSymref != null) {
 				refs.add(new SymbolicRef(name,
-						new ObjectIdRef.Unpeeled(NEW, newSymref, null)));
+					new ObjectIdRef.Unpeeled(NEW, newSymref, null)));
 				continue;
 			}
 
@@ -384,76 +405,11 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 			}
 			if (peel != null) {
 				refs.add(new ObjectIdRef.PeeledTag(PACKED, name, newId,
-						peel.copy()));
+					peel.copy()));
 			} else {
 				refs.add(new ObjectIdRef.PeeledNonTag(PACKED, name, newId));
 			}
 		}
 		return refs;
-	}
-
-	private long nextUpdateIndex() throws IOException {
-		long updateIndex = 0;
-		for (Reftable r : refdb.stack().readers()) {
-			if (r instanceof ReftableReader) {
-				updateIndex = Math.max(updateIndex,
-						((ReftableReader) r).maxUpdateIndex());
-			}
-		}
-		return updateIndex + 1;
-	}
-
-	private boolean canCompactTopOfStack(ReftableConfig cfg)
-			throws IOException {
-		DfsReftableStack stack = refdb.stack();
-		List<ReftableReader> readers = stack.readers();
-		if (readers.isEmpty()) {
-			return false;
-		}
-
-		int lastIdx = readers.size() - 1;
-		DfsReftable last = stack.files().get(lastIdx);
-		DfsPackDescription desc = last.getPackDescription();
-		if (desc.getPackSource() != PackSource.INSERT
-				|| !packOnlyContainsReftable(desc)) {
-			return false;
-		}
-
-		Reftable table = readers.get(lastIdx);
-		int bs = cfg.getRefBlockSize();
-		return table instanceof ReftableReader
-				&& ((ReftableReader) table).size() <= 3 * bs;
-	}
-
-	private ReftableWriter.Stats compactTopOfStack(OutputStream out,
-			ReftableConfig cfg, byte[] newTable) throws IOException {
-		List<ReftableReader> stack = refdb.stack().readers();
-		ReftableReader last = stack.get(stack.size() - 1);
-
-		List<ReftableReader> tables = new ArrayList<>(2);
-		tables.add(last);
-		tables.add(new ReftableReader(BlockSource.from(newTable)));
-
-		ReftableCompactor compactor = new ReftableCompactor(out);
-		compactor.setConfig(cfg);
-		compactor.setIncludeDeletes(true);
-		compactor.addAll(tables);
-		compactor.compact();
-		return compactor.getStats();
-	}
-
-	private Set<DfsPackDescription> toPruneTopOfStack() throws IOException {
-		List<DfsReftable> stack = refdb.stack().files();
-		DfsReftable last = stack.get(stack.size() - 1);
-		return Collections.singleton(last.getPackDescription());
-	}
-
-	private boolean packOnlyContainsReftable(DfsPackDescription desc) {
-		for (PackExt ext : PackExt.values()) {
-			if (ext != REFTABLE && desc.hasFileExt(ext)) {
-				return false;
-			}
-		}
-		return true;
 	}
 }
