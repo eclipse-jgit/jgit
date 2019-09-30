@@ -16,6 +16,24 @@
       "revId": "4ec28b47a9c4d4dd62075db87dd677df093eb975",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15b0e7b_305ef5a4",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-09-30T20:27:20Z",
+      "side": 1,
+      "message": "I did in fact wonder whether I should just use useSystemProperties() to let the builder use that system credentials provider. In the end I chose this way because it is less intrusive. I\u0027m not sure using system properties generally is the right thing for git connections.",
+      "parentUuid": "63e479d6_9f630855",
+      "revId": "4ec28b47a9c4d4dd62075db87dd677df093eb975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
