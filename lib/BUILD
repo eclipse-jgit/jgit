@@ -224,7 +224,7 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@servlet-api-3_1//jar"],
+    exports = ["@servlet-api//jar"],
 )
 
 java_library(

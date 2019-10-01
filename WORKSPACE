@@ -100,7 +100,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "servlet-api-3_1",
+    name = "servlet-api",
     artifact = "javax.servlet:javax.servlet-api:3.1.0",
     sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
 )
