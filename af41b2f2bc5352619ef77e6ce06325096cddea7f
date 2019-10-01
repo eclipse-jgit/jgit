@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2657ae50_23406859",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-10-01T17:30:35Z",
+      "side": 1,
+      "message": "In addition, removing the version suffix from dependency rule makes it much easier to upgrade. he actual reason the for the renaming in gerrit core is upgrade attempt to servlet-api 4.0, doe in this change: [2].\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/238383",
+      "revId": "af41b2f2bc5352619ef77e6ce06325096cddea7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
