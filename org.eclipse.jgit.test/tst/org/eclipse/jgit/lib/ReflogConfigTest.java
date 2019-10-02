@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -78,7 +78,10 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
 		cfg.save();
-		assertTrue(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertEquals(CoreConfig.LogRefUpdates.TRUE,
+				cfg.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+						CoreConfig.LogRefUpdates.FALSE));
 
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
@@ -90,13 +93,32 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
-		assertFalse(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertEquals(CoreConfig.LogRefUpdates.FALSE,
+				cfg.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+						CoreConfig.LogRefUpdates.TRUE));
 
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
+		commitTime += 60 * 1000;
 		assertTrue(
 				"Reflog for HEAD should contain two entries",
 				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
+
+		// set the logAllRefUpdates parameter to false and check it
+		cfg.setEnum("core", null, "logallrefupdates",
+				CoreConfig.LogRefUpdates.ALWAYS);
+		cfg.save();
+		assertEquals(CoreConfig.LogRefUpdates.ALWAYS,
+				cfg.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+						CoreConfig.LogRefUpdates.FALSE));
+
+		// do one commit and check that reflog size is 3
+		commit("A Commit\n", commitTime, tz);
+		assertTrue("Reflog for HEAD should contain three entries",
+				db.getReflogReader(Constants.HEAD).getReverseEntries()
+						.size() == 3);
 	}
 
 	private void commit(String commitMsg, long commitTime, int tz)
