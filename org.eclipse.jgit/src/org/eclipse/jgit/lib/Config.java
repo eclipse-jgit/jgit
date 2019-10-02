@@ -1465,12 +1465,10 @@ public class Config {
 		}
 
 		int read() {
-			try {
-				return buf[pos++];
-			} catch (ArrayIndexOutOfBoundsException e) {
-				pos = buf.length;
+			if (pos >= buf.length) {
 				return -1;
 			}
+			return buf[pos++];
 		}
 
 		void reset() {
