@@ -130,11 +130,28 @@ public class CoreConfig {
 		DEFAULT
 	}
 
+	/**
+	 * Permissible values for {@code core.logAllRefUpdates}
+	 *
+	 * @since 5.6
+	 */
+	public static enum LogRefUpdates {
+		/** Don't create ref logs; default for bare repositories. */
+		FALSE,
+		/**
+		 * Create ref logs for refs/heads/**, refs/remotes/**, refs/notes/**,
+		 * and for HEAD. Default for non-bare repositories.
+		 */
+		TRUE,
+		/** Create ref logs for all refs/** and for HEAD. */
+		ALWAYS
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;
 
-	private final boolean logAllRefUpdates;
+	private final LogRefUpdates logAllRefUpdates;
 
 	private final String excludesfile;
 
@@ -171,8 +188,9 @@ public class CoreConfig {
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_INDEXVERSION, 2);
-		logAllRefUpdates = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+		logAllRefUpdates = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+				LogRefUpdates.TRUE);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
@@ -201,9 +219,14 @@ public class CoreConfig {
 	 * Whether to log all refUpdates
 	 *
 	 * @return whether to log all refUpdates
+	 * @deprecated since 5.6; default value depends on whether the repository is
+	 *             bare. Use
+	 *             {@link Config#getEnum(String, String, String, Enum)}
+	 *             directly.
 	 */
+	@Deprecated
 	public boolean isLogAllRefUpdates() {
-		return logAllRefUpdates;
+		return !LogRefUpdates.FALSE.equals(logAllRefUpdates);
 	}
 
 	/**
