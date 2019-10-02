@@ -79,40 +79,40 @@ public class CoreConfig {
 	 * @since 4.3
 	 */
 	public static enum EOL {
-		/** checkin with LF, checkout with CRLF. */
+		/** Check in with LF, check out with CRLF. */
 		CRLF,
 
-		/** checkin with LF, checkout without conversion. */
+		/** Check in with LF, check out without conversion. */
 		LF,
 
-		/** use the platform's native line ending. */
+		/** Use the platform's native line ending. */
 		NATIVE;
 	}
 
 	/**
-	 * EOL stream conversion protocol
+	 * EOL stream conversion protocol.
 	 *
 	 * @since 4.3
 	 */
 	public static enum EolStreamType {
-		/** convert to CRLF without binary detection */
+		/** Convert to CRLF without binary detection. */
 		TEXT_CRLF,
 
-		/** convert to LF without binary detection */
+		/** Convert to LF without binary detection. */
 		TEXT_LF,
 
-		/** convert to CRLF with binary detection */
+		/** Convert to CRLF with binary detection. */
 		AUTO_CRLF,
 
-		/** convert to LF with binary detection */
+		/** Convert to LF with binary detection. */
 		AUTO_LF,
 
-		/** do not convert */
+		/** Do not convert. */
 		DIRECT;
 	}
 
 	/**
-	 * Permissible values for {@code core.checkstat}
+	 * Permissible values for {@code core.checkstat}.
 	 *
 	 * @since 3.0
 	 */
@@ -130,11 +130,30 @@ public class CoreConfig {
 		DEFAULT
 	}
 
+	/**
+	 * Permissible values for {@code core.logAllRefUpdates}.
+	 *
+	 * @since 5.6
+	 */
+	public static enum LogRefUpdates {
+		/** Don't create ref logs; default for bare repositories. */
+		FALSE,
+
+		/**
+		 * Create ref logs for refs/heads/**, refs/remotes/**, refs/notes/**,
+		 * and for HEAD. Default for non-bare repositories.
+		 */
+		TRUE,
+
+		/** Create ref logs for all refs/** and for HEAD. */
+		ALWAYS
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;
 
-	private final boolean logAllRefUpdates;
+	private final LogRefUpdates logAllRefUpdates;
 
 	private final String excludesfile;
 
@@ -146,23 +165,26 @@ public class CoreConfig {
 	 * @since 3.3
 	 */
 	public static enum SymLinks {
-		/** Checkout symbolic links as plain files */
+		/** Check out symbolic links as plain files . */
 		FALSE,
-		/** Checkout symbolic links as links */
+
+		/** Check out symbolic links as links. */
 		TRUE
 	}
 
 	/**
-	 * Options for hiding files whose names start with a period
+	 * Options for hiding files whose names start with a period.
 	 *
 	 * @since 3.5
 	 */
 	public static enum HideDotFiles {
-		/** Do not hide .files */
+		/** Do not hide .files. */
 		FALSE,
-		/** Hide add .files */
+
+		/** Hide add .files. */
 		TRUE,
-		/** Hide only .git */
+
+		/** Hide only .git. */
 		DOTGITONLY
 	}
 
@@ -171,8 +193,9 @@ public class CoreConfig {
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_INDEXVERSION, 2);
-		logAllRefUpdates = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+		logAllRefUpdates = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+				LogRefUpdates.TRUE);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
@@ -201,9 +224,14 @@ public class CoreConfig {
 	 * Whether to log all refUpdates
 	 *
 	 * @return whether to log all refUpdates
+	 * @deprecated since 5.6; default value depends on whether the repository is
+	 *             bare. Use
+	 *             {@link Config#getEnum(String, String, String, Enum)}
+	 *             directly.
 	 */
+	@Deprecated
 	public boolean isLogAllRefUpdates() {
-		return logAllRefUpdates;
+		return !LogRefUpdates.FALSE.equals(logAllRefUpdates);
 	}
 
 	/**

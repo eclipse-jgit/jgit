@@ -61,6 +61,7 @@ import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -239,7 +241,7 @@ public class ReflogWriter {
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
 		File log = refdb.logFor(refName);
 		boolean write = forceWrite
-				|| (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
+				|| shouldAutoCreateLog(refName)
 				|| log.isFile();
 		if (!write)
 			return this;
@@ -260,15 +262,27 @@ public class ReflogWriter {
 		return this;
 	}
 
-	private boolean isLogAllRefUpdates() {
-		return refdb.getRepository().getConfig().get(CoreConfig.KEY)
-				.isLogAllRefUpdates();
-	}
-
 	private boolean shouldAutoCreateLog(String refName) {
-		return refName.equals(HEAD)
-				|| refName.startsWith(R_HEADS)
-				|| refName.startsWith(R_REMOTES)
-				|| refName.startsWith(R_NOTES);
+		Repository repo = refdb.getRepository();
+		CoreConfig.LogRefUpdates value = repo.isBare()
+				? CoreConfig.LogRefUpdates.FALSE
+				: CoreConfig.LogRefUpdates.TRUE;
+		value = repo.getConfig().getEnum(ConfigConstants.CONFIG_CORE_SECTION,
+				null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, value);
+		if (value != null) {
+			switch (value) {
+			case FALSE:
+				break;
+			case TRUE:
+				return refName.equals(HEAD) || refName.startsWith(R_HEADS)
+						|| refName.startsWith(R_REMOTES)
+						|| refName.startsWith(R_NOTES);
+			case ALWAYS:
+				return refName.equals(HEAD) || refName.startsWith(R_REFS);
+			default:
+				break;
+			}
+		}
+		return false;
 	}
 }
