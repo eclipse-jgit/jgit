@@ -311,9 +311,9 @@ public class DfsPackCompactor {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		Collections.sort(srcReftables, objdb.reftableComparator());
 
+		initOutDesc(objdb);
 		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables);
 		     DfsOutputStream out = objdb.writeFile(outDesc, REFTABLE)) {
-			initOutDesc(objdb);
 			ReftableCompactor compact = new ReftableCompactor(out);
 			compact.addAll(stack.readers());
 			compact.setIncludeDeletes(true);
