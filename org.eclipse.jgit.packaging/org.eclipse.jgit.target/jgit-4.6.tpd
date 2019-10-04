@@ -1,6 +1,6 @@
 target "jgit-4.6" with source configurePhase
 
-include "projects/jetty-9.4.20.tpd"
+include "projects/jetty-9.4.21.tpd"
 include "orbit/R20190827152740-2019-09.tpd"
 
 location "http://download.eclipse.org/releases/neon/" {
