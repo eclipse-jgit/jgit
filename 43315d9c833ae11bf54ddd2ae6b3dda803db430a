@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad52c748_5ff2e33f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2019-10-04T08:03:51Z",
+      "side": 1,
+      "message": "Nit: I believe we should have a blank line before this one.",
+      "revId": "43315d9c833ae11bf54ddd2ae6b3dda803db430a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1f261c_7ca8720e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2019-10-04T08:03:51Z",
+      "side": 1,
+      "message": "Nit: I believe we should have a blank line before this one.",
+      "revId": "43315d9c833ae11bf54ddd2ae6b3dda803db430a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
