@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6e1f98e_774b82b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "I think it\u0027s clearer if we call refdb.getReftableConfig() when we need the config, to reduce the number of instance variables (and to avoid us having to wonder if we will ever add a constructor that allows a config that is not linked to refdb).",
+      "range": {
+        "startLine": 78,
+        "startChar": 30,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f043508_ece16baa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "Move this back to its original position (below writeLog) to avoid an unnecessary diff.",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 8
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1b0335d_b793d558",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "Any reason for the extra \"getPending\" calls? I wouldn\u0027t expect the list of commands to be modified during an execution, so if the list is indeed modified, a comment explaining why would be helpful.",
+      "range": {
+        "startLine": 168,
+        "startChar": 13,
+        "endLine": 168,
+        "endChar": 23
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dfddd92_cd776ced",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "If this \"if\" block is added because of something can happen, mention in the commit message why this can happen.",
+      "range": {
+        "startLine": 191,
+        "startChar": 5,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea418a10_08d21360",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "Move this back to its original position.",
+      "range": {
+        "startLine": 205,
+        "startChar": 1,
+        "endLine": 205,
+        "endChar": 8
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e091dff3_79552a4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "Does this mean that you envision a class that extends RefDatabase directly (or one of its subclasses), and yet uses the functionality in ReftableDatabase? If so, this sounds more like a utility class for ref databases that would like to support more types, and this javadoc should be written differently.",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb28c52_0059e5e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-04T21:57:21Z",
+      "side": 1,
+      "message": "It looks like better design to make this a non-abstract class which takes in a MergedReftable (or, if need be, a Callable).\n\nIf we really need this abstract method, document whether the subclass is supposed to return the same instance every time or if they need to create a new one.",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
