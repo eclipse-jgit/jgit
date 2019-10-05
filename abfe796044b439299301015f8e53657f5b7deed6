@@ -34,6 +34,24 @@
       "revId": "abfe796044b439299301015f8e53657f5b7deed6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87034dcc_04e0e8fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-05T03:08:57Z",
+      "side": 1,
+      "message": "\u003e why ? do you want to remove this class ?\n\nI thought that you reviewed the change below that\u0027s trying to remove this class from APIs... Was there any decision change and this BaseReceivePack must be kept?\n\nhttps://eclipse.googlesource.com/jgit/jgit/+/937beaa1aef3416d3313964051dea261acbc7abb",
+      "parentUuid": "2a6fccdc_9ad9859e",
+      "revId": "abfe796044b439299301015f8e53657f5b7deed6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
