@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dcfce166_333ecc8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-05T04:13:46Z",
+      "side": 1,
+      "message": "Sure, but this is currently violating Eclipse formatter format...",
+      "parentUuid": "89d393d5_d8d36730",
+      "range": {
+        "startLine": 2094,
+        "startChar": 3,
+        "endLine": 2094,
+        "endChar": 15
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ecda26_5371fda6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feac7141_6c9618de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-05T04:13:46Z",
+      "side": 1,
+      "message": "I don\u0027t think I re-introduced them (and I re-read the patches, but I cannot find the re-introduction of the wrapper). If there\u0027s a re-introduction, that\u0027s a bug as the whole point of this series of changes is to let API users to customize the error handling behavior. The wrapper indicates the exception handling is done by JGit, which should not be.",
+      "parentUuid": "18ecda26_5371fda6",
+      "range": {
+        "startLine": 2102,
+        "startChar": 3,
+        "endLine": 2102,
+        "endChar": 6
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
