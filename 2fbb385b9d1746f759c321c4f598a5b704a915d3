@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "85ff4e1e_ce8679a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:15:33Z",
+      "side": 1,
+      "message": "I think we should not add deprecated methods to the interface",
+      "parentUuid": "a3b1124f_ae339db6",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e2b059_5d2deb40",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
         "patchSetId": 4
