@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "365b381f_23d6185f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ff4e1e_ce8679a7",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e2b059_5d2deb40",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
         "patchSetId": 4
@@ -175,6 +199,30 @@
     },
     {
       "key": {
+        "uuid": "10699f8a_f936a31c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b66b3b5e_1886d064",
+      "range": {
+        "startLine": 396,
+        "startChar": 33,
+        "endLine": 396,
+        "endChar": 54
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c11d8341_b2c8acc7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
         "patchSetId": 4
@@ -186,6 +234,30 @@
       "writtenOn": "2019-10-06T22:10:24Z",
       "side": 1,
       "message": "I don\u0027t think that\u0027s needed in the interface?",
+      "range": {
+        "startLine": 404,
+        "startChar": 8,
+        "endLine": 404,
+        "endChar": 16
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f61dfc09_a388694c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c11d8341_b2c8acc7",
       "range": {
         "startLine": 404,
         "startChar": 8,
@@ -221,6 +293,30 @@
     },
     {
       "key": {
+        "uuid": "3f29c2e0_3d952c22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "534a0296_3b87b293",
+      "range": {
+        "startLine": 490,
+        "startChar": 1,
+        "endLine": 490,
+        "endChar": 12
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b2a52ed_0663a099",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
         "patchSetId": 4
@@ -232,6 +328,30 @@
       "writtenOn": "2019-10-06T22:10:24Z",
       "side": 1,
       "message": "Since the whole interface is new we don\u0027t need individual @since annotations.",
+      "range": {
+        "startLine": 559,
+        "startChar": 4,
+        "endLine": 559,
+        "endChar": 14
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509d54_3c3c37f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b2a52ed_0663a099",
       "range": {
         "startLine": 559,
         "startChar": 4,
