@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13c539a6_9921e009",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-10-06T12:29:26Z",
+      "side": 0,
+      "message": "This shoud have been moved to the runtime_deps instead.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "226dc134d2ed934dee82b637c04dcc7313ecb8a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
