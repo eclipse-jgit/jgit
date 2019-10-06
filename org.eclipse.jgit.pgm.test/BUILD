@@ -21,7 +21,6 @@ junit_tests(
         "//lib:slf4j-api",
         "//lib:slf4j-simple",
         "//lib:xz",
-        "//org.eclipse.jgit.archive:jgit-archive",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.pgm:pgm",

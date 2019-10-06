@@ -6,8 +6,8 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.pgm/resources",
     resources = glob(["resources/**"]),
     visibility = ["//visibility:public"],
+    runtime_deps = [":services"],
     deps = [
-        ":services",
         "//lib:args4j",
         "//lib:commons-logging",
         "//lib:httpclient",
@@ -32,7 +32,10 @@ java_library(
 java_binary(
     name = "jgit",
     main_class = "org.eclipse.jgit.pgm.Main",
-    runtime_deps = [":pgm"],
+    runtime_deps = [
+        ":pgm",
+        ":services",
+    ],
 )
 
 java_import(
