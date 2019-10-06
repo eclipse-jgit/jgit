@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f717d2a8_bbecb902",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Wrong for master.",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07db8c79_bd31286b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Remove superfluous \"public\", also below.",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 7
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fedee2e_d1e53f98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Would that method make sense on RepositoryInterface?",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3b1124f_ae339db6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Why add a deprecated method to the interface?",
+      "range": {
+        "startLine": 347,
+        "startChar": 1,
+        "endLine": 347,
+        "endChar": 12
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e2b059_5d2deb40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Time to resolve this TODO?",
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0156cb3_3965a7a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Resolve TODO?",
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b66b3b5e_1886d064",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Needs a better description.",
+      "range": {
+        "startLine": 396,
+        "startChar": 33,
+        "endLine": 396,
+        "endChar": 54
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c11d8341_b2c8acc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s needed in the interface?",
+      "range": {
+        "startLine": 404,
+        "startChar": 8,
+        "endLine": 404,
+        "endChar": 16
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "534a0296_3b87b293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Do we really want to add deprecated methods?",
+      "range": {
+        "startLine": 490,
+        "startChar": 1,
+        "endLine": 490,
+        "endChar": 12
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b2a52ed_0663a099",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryInterface.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-06T22:10:24Z",
+      "side": 1,
+      "message": "Since the whole interface is new we don\u0027t need individual @since annotations.",
+      "range": {
+        "startLine": 559,
+        "startChar": 4,
+        "endLine": 559,
+        "endChar": 14
+      },
+      "revId": "2fbb385b9d1746f759c321c4f598a5b704a915d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
