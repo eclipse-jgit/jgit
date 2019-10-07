@@ -261,7 +261,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(
 					revKey,
 					REF_POSITION,
-					() -> loadReverseIdx(ctx, revKey, idx));
+					() -> loadReverseIdx(revKey, idx));
 			PackReverseIndex revidx = revref.get();
 			if (reverseIndex == null && revidx != null) {
 				reverseIndex = revidx;
@@ -1057,7 +1057,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
-			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
+			DfsStreamKey revKey, PackIndex idx) {
 		PackReverseIndex revidx = new PackReverseIndex(idx);
 		reverseIndex = revidx;
 		return new DfsBlockCache.Ref<>(
