@@ -91,6 +91,10 @@ public class FS_POSIXTest {
 		userConfig.save();
 		mockSystemReader.setSystemGitConfig(systemConfig);
 		mockSystemReader.setUserGitConfig(userConfig);
+		FileBasedConfig jgitConfig = new FileBasedConfig(
+				new File(tmp.toFile(), "userjgitconfig"), FS.DETECTED);
+		jgitConfig.save();
+		mockSystemReader.setJGitConfig(jgitConfig);
 
 		originalSystemReaderInstance = SystemReader.getInstance();
 		SystemReader.setInstance(mockSystemReader);

@@ -71,60 +71,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.util.FS"/>
-                <message_argument value="getFsTimerResolution(Path)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="getFileStoreAttributes(Path)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="lastModifiedInstant(File)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="lastModifiedInstant(Path)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="setAsyncFileStoreAttributes(boolean)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="setLastModified(Path, Instant)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$Attributes">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="getLastModifiedInstant()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributes">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="FileStoreAttributes"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/util/References.java" type="org.eclipse.jgit.util.References">
         <filter id="1108344834">
             <message_arguments>
@@ -151,16 +97,22 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/SystemReader.java" type="org.eclipse.jgit.util.SystemReader">
-        <filter id="1142947843">
+        <filter id="336695337">
             <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="getSystemConfig()"/>
+                <message_argument value="org.eclipse.jgit.util.SystemReader"/>
+                <message_argument value="openJGitConfig(Config, FS)"/>
             </message_arguments>
         </filter>
         <filter id="1142947843">
             <message_arguments>
-                <message_argument value="5.1.9"/>
-                <message_argument value="getUserConfig()"/>
+                <message_argument value="5.5.2"/>
+                <message_argument value="getJGitConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.5.2"/>
+                <message_argument value="openJGitConfig(Config, FS)"/>
             </message_arguments>
         </filter>
     </resource>

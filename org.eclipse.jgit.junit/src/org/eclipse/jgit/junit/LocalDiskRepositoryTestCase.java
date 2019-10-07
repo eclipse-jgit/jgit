@@ -146,6 +146,10 @@ public abstract class LocalDiskRepositoryTestCase {
 				null, ConfigConstants.CONFIG_KEY_AUTODETACH, false);
 		userConfig.save();
 		mockSystemReader.setUserGitConfig(userConfig);
+		FileBasedConfig jgitConfig = new FileBasedConfig(
+				new File(tmp, "userjgitconfig"), FS.DETECTED);
+		jgitConfig.save();
+		mockSystemReader.setJGitConfig(jgitConfig);
 		ceilTestDirectories(getCeilings());
 
 		author = new PersonIdent("J. Author", "jauthor@example.com");
