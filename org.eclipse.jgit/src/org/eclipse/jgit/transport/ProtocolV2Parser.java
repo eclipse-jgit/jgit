@@ -215,7 +215,7 @@ final class ProtocolV2Parser {
 					&& line2.equals(OPTION_SIDEBAND_ALL)) {
 				reqBuilder.setSidebandAll(true);
 			} else if (line2.startsWith("packfile-uris ")) { //$NON-NLS-1$
-				for (String s : line2.substring(14).split(",")) {
+				for (String s : line2.substring(14).split(",")) { //$NON-NLS-1$
 					reqBuilder.addPackfileUriProtocol(s);
 				}
 			} else {
