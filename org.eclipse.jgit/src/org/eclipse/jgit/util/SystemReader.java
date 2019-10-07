@@ -50,6 +50,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
@@ -160,6 +162,19 @@ public abstract class SystemReader {
 					fs);
 		}
 
+		private String getXDGConfigHome(FS fs) {
+			String configHomePath = System.getenv(Constants.XDG_CONFIG_HOME);
+			return configHomePath == null ? fs.userHome().getAbsolutePath()
+					: configHomePath;
+		}
+
+		@Override
+		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+			Path jgitConfigPath = Paths.get(getXDGConfigHome(fs),
+					".config", "jgit", "config"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return new FileBasedConfig(parent, jgitConfigPath.toFile(), fs);
+		}
+
 		@Override
 		public String getHostname() {
 			if (hostname == null) {
@@ -220,6 +235,8 @@ public abstract class SystemReader {
 	private AtomicReference<FileBasedConfig> systemConfig = new AtomicReference<>();
 
 	private AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
+
+	private AtomicReference<FileBasedConfig> jgitConfig = new AtomicReference<>();
 
 	private void init() {
 		// Creating ObjectChecker must be deferred. Unit tests change
@@ -298,6 +315,22 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
 
 	/**
+	 * Open the jgit configuration found in the user home at ~/.jgitconfig. Use
+	 * {@link #getJGitConfig()} to get the current jgit configuration in the
+	 * user home since it manages automatic reloading when the ~/.jgitconfig
+	 * file was modified and avoids unnecessary reloads.
+	 *
+	 * @param parent
+	 *            a config with values not found directly in the returned config
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @return the git configuration found in the user home
+	 * @since 5.5.2
+	 */
+	public abstract FileBasedConfig openJGitConfig(Config parent, FS fs);
+
+	/**
 	 * Get the git configuration found in the user home. The configuration will
 	 * be reloaded automatically if the configuration file was modified. Also
 	 * reloads the system config if the system config file was modified. If the
@@ -317,14 +350,33 @@ public abstract class SystemReader {
 			userConfig.compareAndSet(null,
 					openUserConfig(getSystemConfig(), FS.DETECTED));
 			c = userConfig.get();
-		} else {
-			// Ensure the parent is up to date
-			getSystemConfig();
 		}
-		if (c.isOutdated()) {
-			LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
-			c.load();
+		updateAll(c);
+		return c;
+	}
+
+	/**
+	 * Get the jgit configuration found in the user home at ~/.jgitconfig. The
+	 * configuration will be reloaded automatically if the configuration file
+	 * was modified. If the configuration file wasn't modified returns the
+	 * cached configuration.
+	 *
+	 * @return the jgit configuration found in the user home at ~/.jgitconfig
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.5.2
+	 */
+	public StoredConfig getJGitConfig()
+			throws IOException, ConfigInvalidException {
+		FileBasedConfig c = jgitConfig.get();
+		if (c == null) {
+			jgitConfig.compareAndSet(null,
+					openJGitConfig(null, FS.DETECTED));
+			c = jgitConfig.get();
 		}
+		updateAll(c);
 		return c;
 	}
 
@@ -346,7 +398,7 @@ public abstract class SystemReader {
 		FileBasedConfig c = systemConfig.get();
 		if (c == null) {
 			systemConfig.compareAndSet(null,
-					openSystemConfig(null, FS.DETECTED));
+					openSystemConfig(getJGitConfig(), FS.DETECTED));
 			c = systemConfig.get();
 		}
 		updateAll(c);

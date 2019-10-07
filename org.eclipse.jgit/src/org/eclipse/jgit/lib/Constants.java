@@ -343,6 +343,15 @@ public final class Constants {
 	public static final String GIT_CONFIG_NOSYSTEM_KEY = "GIT_CONFIG_NOSYSTEM";
 
 	/**
+	 * The key of the XDG_CONFIG_HOME directory defined in the XDG base
+	 * directory specification, see
+	 * {@link "https://wiki.archlinux.org/index.php/XDG_Base_Directory"}
+	 *
+	 * @since 5.5.2
+	 */
+	public static final String XDG_CONFIG_HOME = "XDG_CONFIG_HOME";
+
+	/**
 	 * The environment variable that limits how close to the root of the file
 	 * systems JGit will traverse when looking for a repository root.
 	 */
