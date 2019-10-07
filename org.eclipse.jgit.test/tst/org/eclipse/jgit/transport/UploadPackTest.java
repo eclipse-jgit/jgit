@@ -2015,12 +2015,12 @@ public class UploadPackTest {
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"sideband-all\n",
 			"want " + fooChild.toObjectId().getName() + "\n",
 			"want " + barChild.toObjectId().getName() + "\n",
 			"have " + fooParent.toObjectId().getName() + "\n",
-			PacketLineIn.END);
+			PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("\001acknowledgments"));
@@ -2036,11 +2036,11 @@ public class UploadPackTest {
 		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
 
 		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
-				PacketLineIn.DELIM,
+				PacketLineIn.delimiter(),
 				"want " + commit.getName() + "\n",
 				"sideband-all\n",
 				"done\n",
-				PacketLineIn.END);
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		String s;
@@ -2083,12 +2083,12 @@ public class UploadPackTest {
 				});
 			},
 			"command=fetch\n",
-			PacketLineIn.DELIM,
+			PacketLineIn.delimiter(),
 			"want " + commit2.getName() + "\n",
 			"sideband-all\n",
 			"packfile-uris https\n",
 			"done\n",
-			PacketLineIn.END);
+			PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		String s;
