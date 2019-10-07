@@ -125,8 +125,9 @@ public abstract class LocalDiskRepositoryTestCase {
 	public void setUp() throws Exception {
 		tmp = File.createTempFile("jgit_test_", "_tmp");
 		CleanupThread.deleteOnShutdown(tmp);
-		if (!tmp.delete() || !tmp.mkdir())
+		if (!tmp.delete() || !tmp.mkdir()) {
 			throw new IOException("Cannot create " + tmp);
+		}
 
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
@@ -137,7 +138,11 @@ public abstract class LocalDiskRepositoryTestCase {
 		// the same one here
 		FS.getFileStoreAttributes(tmp.toPath().getParent());
 
-		FileBasedConfig userConfig = new FileBasedConfig(
+		FileBasedConfig jgitConfig = new FileBasedConfig(
+				new File(tmp, "jgitconfig"), FS.DETECTED);
+		FileBasedConfig systemConfig = new FileBasedConfig(jgitConfig,
+				new File(tmp, "systemgitconfig"), FS.DETECTED);
+		FileBasedConfig userConfig = new FileBasedConfig(systemConfig,
 				new File(tmp, "usergitconfig"), FS.DETECTED);
 		// We have to set autoDetach to false for tests, because tests expect to be able
 		// to clean up by recursively removing the repository, and background GC might be
@@ -145,7 +150,10 @@ public abstract class LocalDiskRepositoryTestCase {
 		userConfig.setBoolean(ConfigConstants.CONFIG_GC_SECTION,
 				null, ConfigConstants.CONFIG_KEY_AUTODETACH, false);
 		userConfig.save();
+		mockSystemReader.setJGitConfig(jgitConfig);
+		mockSystemReader.setSystemGitConfig(systemConfig);
 		mockSystemReader.setUserGitConfig(userConfig);
+
 		ceilTestDirectories(getCeilings());
 
 		author = new PersonIdent("J. Author", "jauthor@example.com");

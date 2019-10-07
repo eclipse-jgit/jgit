@@ -262,8 +262,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String countingObjects;
 	/***/ public String createBranchFailedUnknownReason;
 	/***/ public String createBranchUnexpectedResult;
+	/***/ public String createJGitConfigFailed;
 	/***/ public String createNewFileFailed;
 	/***/ public String createRequiresZeroOldId;
+	/***/ public String createXDGConfigHomeFailed;
 	/***/ public String credentialPassword;
 	/***/ public String credentialPassphrase;
 	/***/ public String credentialUsername;
