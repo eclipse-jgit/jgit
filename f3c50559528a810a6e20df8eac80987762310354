@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6de65e0a_b892bc63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-07T06:36:06Z",
+      "side": 1,
+      "message": "What about this? Should it also be in the interface?",
+      "revId": "f3c50559528a810a6e20df8eac80987762310354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
