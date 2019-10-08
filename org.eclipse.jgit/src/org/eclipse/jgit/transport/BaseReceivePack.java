@@ -1538,6 +1538,34 @@ public abstract class BaseReceivePack {
 		}
 		parser = null;
 
+		try {
+			Set<ObjectId> immediateRefs = new HashSet<>();
+			for (ReceiveCommand cmd : commands) {
+				if (cmd.getType() == ReceiveCommand.Type.UPDATE || cmd
+						.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD) {
+					if (advertisedHaves.contains(cmd.getOldId())) {
+						immediateRefs.add(cmd.getOldId());
+					}
+				}
+			}
+			checkConnectivity(baseObjects, providedObjects, immediateRefs,
+					checking);
+			return;
+		} catch (MissingObjectException e) {
+			// For certain repos check against all advertised haves might be
+			// expensive, so we first try to run check with filtered set of
+			// references and if it's unsuccessful we repeat it with all
+			// advertised haves.
+		}
+		checkConnectivity(baseObjects, providedObjects, advertisedHaves,
+				checking);
+
+	}
+
+	private void checkConnectivity(ObjectIdSubclassMap<ObjectId> baseObjects,
+			ObjectIdSubclassMap<ObjectId> providedObjects, Set<ObjectId> haves,
+			ProgressMonitor checking)
+			throws MissingObjectException, IOException {
 		try (ObjectWalk ow = new ObjectWalk(db)) {
 			if (baseObjects != null) {
 				ow.sort(RevSort.TOPO);
@@ -1552,7 +1580,7 @@ public abstract class BaseReceivePack {
 					continue;
 				ow.markStart(ow.parseAny(cmd.getNewId()));
 			}
-			for (ObjectId have : advertisedHaves) {
+			for (ObjectId have : haves) {
 				RevObject o = ow.parseAny(have);
 				ow.markUninteresting(o);
 
