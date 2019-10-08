@@ -74,7 +74,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LargeObjectException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.UnpackException;
@@ -93,24 +92,21 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.internal.ConnectivityChecker.ConnectivityCheckInfo;
+import org.eclipse.jgit.transport.internal.ConnectivityChecker;
+import org.eclipse.jgit.transport.internal.FullConnectivityChecker;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.LimitedInputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -273,7 +269,7 @@ public class ReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
-	private boolean checkReferencedIsReachable;
+	private boolean checkReferencedAreReachable;
 
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
@@ -291,6 +287,9 @@ public class ReceivePack {
 	private PushCertificate pushCert;
 
 	private ReceivedPackStatistics stats;
+
+	/** Connectivity checker to use. */
+	protected ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
 
 	/** Hook to validate the update commands before execution. */
 	private PreReceiveHook preReceive;
@@ -514,7 +513,7 @@ public class ReceivePack {
 	 *         reference.
 	 */
 	public boolean isCheckReferencedObjectsAreReachable() {
-		return checkReferencedIsReachable;
+		return checkReferencedAreReachable;
 	}
 
 	/**
@@ -539,7 +538,7 @@ public class ReceivePack {
 	 *            {@code true} to enable the additional check.
 	 */
 	public void setCheckReferencedObjectsAreReachable(boolean b) {
-		this.checkReferencedIsReachable = b;
+		this.checkReferencedAreReachable = b;
 	}
 
 	/**
@@ -1514,10 +1513,10 @@ public class ReceivePack {
 
 			parser = ins.newPackParser(packInputStream());
 			parser.setAllowThin(true);
-			parser.setNeedNewObjectIds(checkReferencedIsReachable);
-			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
-			parser.setCheckEofAfterPackFooter(
-					!biDirectionalPipe && !isExpectDataAfterPackFooter());
+			parser.setNeedNewObjectIds(checkReferencedAreReachable);
+			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
+			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
+					&& !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
 			parser.setObjectChecker(objectChecker);
 			parser.setLockMessage(lockMsg);
@@ -1567,8 +1566,6 @@ public class ReceivePack {
 	}
 
 	private void checkConnectivity() throws IOException {
-		ObjectIdSubclassMap<ObjectId> baseObjects = null;
-		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 		ProgressMonitor checking = NullProgressMonitor.INSTANCE;
 		if (sideBand && !quiet) {
 			SideBandProgressMonitor m = new SideBandProgressMonitor(msgOut);
@@ -1576,76 +1573,18 @@ public class ReceivePack {
 			checking = m;
 		}
 
-		if (checkReferencedIsReachable) {
-			baseObjects = parser.getBaseObjectIds();
-			providedObjects = parser.getNewObjectIds();
-		}
-		parser = null;
+		connectivityChecker.checkConnectivity(createConnectivityCheckInfo(),
+				advertisedHaves, checking);
+	}
 
-		try (ObjectWalk ow = new ObjectWalk(db)) {
-			if (baseObjects != null) {
-				ow.sort(RevSort.TOPO);
-				if (!baseObjects.isEmpty())
-					ow.sort(RevSort.BOUNDARY, true);
-			}
-
-			for (ReceiveCommand cmd : commands) {
-				if (cmd.getResult() != Result.NOT_ATTEMPTED)
-					continue;
-				if (cmd.getType() == ReceiveCommand.Type.DELETE)
-					continue;
-				ow.markStart(ow.parseAny(cmd.getNewId()));
-			}
-			for (ObjectId have : advertisedHaves) {
-				RevObject o = ow.parseAny(have);
-				ow.markUninteresting(o);
-
-				if (baseObjects != null && !baseObjects.isEmpty()) {
-					o = ow.peel(o);
-					if (o instanceof RevCommit)
-						o = ((RevCommit) o).getTree();
-					if (o instanceof RevTree)
-						ow.markUninteresting(o);
-				}
-			}
-
-			checking.beginTask(JGitText.get().countingObjects,
-					ProgressMonitor.UNKNOWN);
-			RevCommit c;
-			while ((c = ow.next()) != null) {
-				checking.update(1);
-				if (providedObjects != null //
-						&& !c.has(RevFlag.UNINTERESTING) //
-						&& !providedObjects.contains(c))
-					throw new MissingObjectException(c, Constants.TYPE_COMMIT);
-			}
-
-			RevObject o;
-			while ((o = ow.nextObject()) != null) {
-				checking.update(1);
-				if (o.has(RevFlag.UNINTERESTING))
-					continue;
-
-				if (providedObjects != null) {
-					if (providedObjects.contains(o)) {
-						continue;
-					}
-					throw new MissingObjectException(o, o.getType());
-				}
-
-				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
-					throw new MissingObjectException(o, Constants.TYPE_BLOB);
-			}
-			checking.endTask();
-
-			if (baseObjects != null) {
-				for (ObjectId id : baseObjects) {
-					o = ow.parseAny(id);
-					if (!o.has(RevFlag.UNINTERESTING))
-						throw new MissingObjectException(o, o.getType());
-				}
-			}
-		}
+	private ConnectivityCheckInfo createConnectivityCheckInfo() {
+		ConnectivityCheckInfo info = new ConnectivityCheckInfo();
+		info.setCheckObjects(checkReferencedAreReachable);
+		info.setCommands(getAllCommands());
+		info.setRepository(db);
+		info.setParser(parser);
+		info.setWalk(walk);
+		return info;
 	}
 
 	/**
