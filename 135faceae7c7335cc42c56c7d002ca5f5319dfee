@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c23771e0_7dfdcadf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T01:07:24Z",
+      "side": 1,
+      "message": "I think the convention is that if code is not formatted correctly, you leave it alone until you are touching code nearby. Which is the case here, reworking much of this function. So it seems like reformatting the function with the current formatter settings is fine.\n\n I did verify that my setup of the formatter generates the same results.",
+      "parentUuid": "dcfce166_333ecc8e",
+      "range": {
+        "startLine": 2094,
+        "startChar": 3,
+        "endLine": 2094,
+        "endChar": 15
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ecda26_5371fda6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I don\u0027t think I re-introduced them (and I re-read the patches, but I cannot find the re-introduction of the wrapper). If there\u0027s a re-introduction, that\u0027s a bug as the whole point of this series of changes is to let API users to customize the error handling behavior. The wrapper indicates the exception handling is done by JGit, which should not be.",
       "parentUuid": "18ecda26_5371fda6",
+      "range": {
+        "startLine": 2102,
+        "startChar": 3,
+        "endLine": 2102,
+        "endChar": 6
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6e0d2c4_82597f81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T01:07:24Z",
+      "side": 1,
+      "message": "How does this affect processing in UploadPackServlet? It appears that will be setting a SC_INTERNAL_SERVER_ERROR error where it wasn\u0027t before, which actually seems desirable. Does it need to be updated to use try-with-resources so that its SmartOutputStream is always closed?",
+      "parentUuid": "feac7141_6c9618de",
       "range": {
         "startLine": 2102,
         "startChar": 3,
