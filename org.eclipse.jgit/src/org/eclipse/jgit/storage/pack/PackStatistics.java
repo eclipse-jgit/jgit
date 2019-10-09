@@ -271,6 +271,20 @@ public class PackStatistics {
 		public long treesTraversed;
 
 		/**
+		 * Amount of packfile uris sent to the client to download via HTTP.
+		 *
+		 * @since 5.6
+		 */
+		public long offloadedPackfiles;
+
+		/**
+		 * Total size (in bytes) offloaded to HTTP downloads.
+		 *
+		 * @since 5.6
+		 */
+		public long offloadedPackfileSize;
+
+		/**
 		 * Statistics about each object type in the pack (commits, tags, trees
 		 * and blobs.)
 		 */
@@ -595,6 +609,22 @@ public class PackStatistics {
 	 */
 	public long getTreesTraversed() {
 		return statistics.treesTraversed;
+	}
+
+	/**
+	 * @return amount of packfiles offloaded (sent as "packfile-uri")/
+	 * @since 5.6
+	 */
+	public long getOffloadedPackfiles() {
+		return statistics.offloadedPackfiles;
+	}
+
+	/**
+	 * @return total size (in bytes) offloaded to HTTP downloads.
+	 * @since 5.6
+	 */
+	public long getOffloadedPackfilesSize() {
+		return statistics.offloadedPackfileSize;
 	}
 
 	/**
