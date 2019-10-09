@@ -189,6 +189,30 @@
       "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a12f9a2_cc3fd7d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T07:38:32Z",
+      "side": 1,
+      "message": "\u003e 2) It also drops the exception handling in sendPack(PackStatistics.Accumulator accumulator, ...). This should be clearly indicated in the commit message if it is really intended.\n\nDone.\n\n\u003e The next change xx adds SideBandErrorWriter, which reintroduces the writing of SideBandOutputStream. To have a non-breaking series of changes, don\u0027t you need to keep the exception handling in sendPack(PackStatistics.Accumulator accumulator, ...) in this commit and remove it in the next one?\n\nSimply swapped the commits. ErrorWriter is defined before this commit now.",
+      "parentUuid": "49d1383c_1151012e",
+      "range": {
+        "startLine": 2102,
+        "startChar": 3,
+        "endLine": 2102,
+        "endChar": 6
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
