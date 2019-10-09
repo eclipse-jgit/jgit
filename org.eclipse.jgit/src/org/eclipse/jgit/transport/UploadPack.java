@@ -1325,7 +1325,7 @@ public class UploadPack {
 		caps.add(COMMAND_FETCH + '='
 				+ (transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "")
 				+ (advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "")
-				+ (transferConfig.isAllowSidebandAll()
+				+ (transferConfig.isAdvertiseSidebandAll()
 						? OPTION_SIDEBAND_ALL + ' '
 						: "")
 				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
