@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6d08dd_2572be97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T07:11:12Z",
+      "side": 1,
+      "message": "Didn\u0027t the finally block in uploadWithExceptionPropagation() handle this?",
+      "range": {
+        "startLine": 806,
+        "startChar": 0,
+        "endLine": 806,
+        "endChar": 13
+      },
+      "revId": "39c928205c030197c6883ac58c8584486b4551b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
