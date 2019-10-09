@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
@@ -281,6 +282,8 @@ public class UploadPack {
 	private PacketLineIn pckIn;
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
+
+	private ErrorWriter errOut = new PackProtocolErrorWriter();
 
 	/**
 	 * Refs eligible for advertising to the client, set using
@@ -756,9 +759,59 @@ public class UploadPack {
 	/**
 	 * Execute the upload task on the socket.
 	 *
-	 * <p>If the client passed extra parameters (e.g., "version=2") through a
-	 * side channel, the caller must call setExtraParameters first to supply
-	 * them.
+	 * <p>
+	 * Same as {@link #uploadWithExceptionPropagation} except that the thrown
+	 * exceptions are handled in the method, and the error messages are sent to
+	 * the clients.
+	 *
+	 * <p>
+	 * Call this method if the caller does not have an error handling mechanism.
+	 * Call {@link #uploadWithExceptionPropagation} if the caller wants to have
+	 * its own error handling mechanism.
+	 *
+	 * @param input
+	 * @param output
+	 * @param messages
+	 * @throws java.io.IOException
+	 */
+	public void upload(InputStream input, OutputStream output,
+			@Nullable OutputStream messages) throws IOException {
+		try {
+			uploadWithExceptionPropagation(input, output, messages);
+		} catch (ServiceMayNotContinueException err) {
+			if (!err.isOutput() && err.getMessage() != null) {
+				try {
+					errOut.writeError(err.getMessage());
+				} catch (IOException e) {
+					err.addSuppressed(e);
+					throw err;
+				}
+				err.setOutput();
+			}
+			throw err;
+		} catch (IOException | RuntimeException | Error err) {
+			if (rawOut != null) {
+				String msg = err instanceof PackProtocolException
+						? err.getMessage()
+						: JGitText.get().internalServerError;
+				try {
+					errOut.writeError(msg);
+				} catch (IOException e) {
+					err.addSuppressed(e);
+					throw err;
+				}
+				throw new UploadPackInternalServerErrorException(err);
+			}
+			throw err;
+		}
+	}
+
+	/**
+	 * Execute the upload task on the socket.
+	 *
+	 * <p>
+	 * If the client passed extra parameters (e.g., "version=2") through a side
+	 * channel, the caller must call setExtraParameters first to supply them.
 	 *
 	 * @param input
 	 *            raw input to read client commands from. Caller must ensure the
@@ -772,15 +825,20 @@ public class UploadPack {
 	 *            through. When run over SSH this should be tied back to the
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
-	 * @throws java.io.IOException
+	 * @throws ServiceMayNotContinueException
+	 *             thrown if one of the hooks throws this.
+	 * @throws IOException
+	 *             thrown if the server or the client I/O fails, or there's an
+	 *             internal server error.
 	 */
-	public void upload(InputStream input, OutputStream output,
-			@Nullable OutputStream messages) throws IOException {
-		PacketLineOut pckOut = null;
+	public void uploadWithExceptionPropagation(InputStream input,
+			OutputStream output, @Nullable OutputStream messages)
+			throws ServiceMayNotContinueException, IOException {
 		try {
 			rawIn = input;
-			if (messages != null)
+			if (messages != null) {
 				msgOut = messages;
+			}
 
 			if (timeout > 0) {
 				final Thread caller = Thread.currentThread();
@@ -800,42 +858,12 @@ public class UploadPack {
 			}
 
 			pckIn = new PacketLineIn(rawIn);
-			pckOut = new PacketLineOut(rawOut);
+			PacketLineOut pckOut = new PacketLineOut(rawOut);
 			if (useProtocolV2()) {
 				serviceV2(pckOut);
 			} else {
 				service(pckOut);
 			}
-		} catch (UploadPackInternalServerErrorException err) {
-			// UploadPackInternalServerErrorException is a special exception
-			// that indicates an error is already written to the client. Do
-			// nothing.
-			throw err;
-		} catch (ServiceMayNotContinueException err) {
-			if (!err.isOutput() && err.getMessage() != null && pckOut != null) {
-				try {
-					pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				err.setOutput();
-			}
-			throw err;
-		} catch (IOException | RuntimeException | Error err) {
-			if (pckOut != null) {
-				String msg = err instanceof PackProtocolException
-						? err.getMessage()
-						: JGitText.get().internalServerError;
-				try {
-					pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			}
-			throw err;
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -2114,54 +2142,42 @@ public class UploadPack {
 		Set<String> caps = req.getClientCapabilities();
 		boolean sideband = caps.contains(OPTION_SIDE_BAND)
 				|| caps.contains(OPTION_SIDE_BAND_64K);
-		if (sideband) {
-			try {
-				sendPack(true, req, accumulator, allTags, unshallowCommits,
-						deepenNots, pckOut);
-			} catch (ServiceMayNotContinueException err) {
-				String message = err.getMessage();
-				if (message == null) {
-					message = JGitText.get().internalServerError;
-				}
-				try {
-					reportInternalServerErrorOverSideband(message);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			} catch (IOException | RuntimeException | Error err) {
-				try {
-					reportInternalServerErrorOverSideband(
-							JGitText.get().internalServerError);
-				} catch (IOException e) {
-					err.addSuppressed(e);
-					throw err;
-				}
-				throw new UploadPackInternalServerErrorException(err);
-			}
-		} else {
-			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots,
-					pckOut);
-		}
-	}
 
-	private void reportInternalServerErrorOverSideband(String message)
-			throws IOException {
-		@SuppressWarnings("resource" /* java 7 */)
-		SideBandOutputStream err = new SideBandOutputStream(
-				SideBandOutputStream.CH_ERROR, SideBandOutputStream.SMALL_BUF,
-				rawOut);
-		err.write(Constants.encode(message));
-		err.flush();
+		if (sideband) {
+			errOut = new SideBandErrorWriter();
+
+			int bufsz = SideBandOutputStream.SMALL_BUF;
+			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
+				bufsz = SideBandOutputStream.MAX_BUF;
+			}
+			OutputStream packOut = new SideBandOutputStream(
+					SideBandOutputStream.CH_DATA, bufsz, rawOut);
+
+			ProgressMonitor pm = NullProgressMonitor.INSTANCE;
+			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
+				msgOut = new SideBandOutputStream(
+						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
+				pm = new SideBandProgressMonitor(msgOut);
+			}
+
+			sendPack(pm, pckOut, packOut, req, accumulator, allTags,
+					unshallowCommits, deepenNots);
+			pckOut.end();
+		} else {
+			sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
+					accumulator, allTags, unshallowCommits, deepenNots);
+		}
 	}
 
 	/**
 	 * Send the requested objects to the client.
 	 *
-	 * @param sideband
-	 *            whether to wrap the pack in side-band pkt-lines, interleaved
-	 *            with progress messages and errors.
+	 * @param pm
+	 *            progress monitor
+	 * @param pckOut
+	 *            PacketLineOut that shares the output with packOut
+	 * @param packOut
+	 *            packfile output
 	 * @param req
 	 *            request being processed
 	 * @param accumulator
@@ -2173,35 +2189,14 @@ public class UploadPack {
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
-	 * @param pckOut
-	 *            output writer
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
-	private void sendPack(final boolean sideband,
-			FetchRequest req,
+	private void sendPack(ProgressMonitor pm, PacketLineOut pckOut,
+			OutputStream packOut, FetchRequest req,
 			PackStatistics.Accumulator accumulator,
-			@Nullable Collection<Ref> allTags,
-			List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots,
-			PacketLineOut pckOut) throws IOException {
-		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
-		OutputStream packOut = rawOut;
-
-		if (sideband) {
-			int bufsz = SideBandOutputStream.SMALL_BUF;
-			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K))
-				bufsz = SideBandOutputStream.MAX_BUF;
-
-			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
-					bufsz, rawOut);
-			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
-				msgOut = new SideBandOutputStream(
-						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
-				pm = new SideBandProgressMonitor(msgOut);
-			}
-		}
-
+			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) throws IOException {
 		if (wantAll.isEmpty()) {
 			preUploadHook.onSendPack(this, wantIds, commonBase);
 		} else {
@@ -2344,9 +2339,6 @@ public class UploadPack {
 			}
 			pw.close();
 		}
-
-		if (sideband)
-			pckOut.end();
 	}
 
 	private static void findSymrefs(
@@ -2409,6 +2401,30 @@ public class UploadPack {
 				((ByteArrayOutputStream) out).writeTo(rawOut);
 				out = rawOut;
 			}
+		}
+	}
+
+	private interface ErrorWriter {
+		void writeError(String message) throws IOException;
+	}
+
+	private class SideBandErrorWriter implements ErrorWriter {
+		@Override
+		public void writeError(String message) throws IOException {
+			@SuppressWarnings("resource" /* java 7 */)
+			SideBandOutputStream err = new SideBandOutputStream(
+					SideBandOutputStream.CH_ERROR,
+					SideBandOutputStream.SMALL_BUF, requireNonNull(rawOut));
+			err.write(Constants.encode(message));
+			err.flush();
+		}
+	}
+
+	private class PackProtocolErrorWriter implements ErrorWriter {
+		@Override
+		public void writeError(String message) throws IOException {
+			new PacketLineOut(requireNonNull(rawOut))
+					.writeString("ERR " + message + '\n'); //$NON-NLS-1$
 		}
 	}
 }
