@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dba3a133_45d73346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-09T00:18:51Z",
+      "side": 1,
+      "message": "nit: typically the subject line starts with a subsystem name and a colon, and then gives a summary of the change for use in \"git shortlog\". The convention is not to use a period at the end (think \"email subject line\"). For example:\n\n ReceivePack: Speed up connectivity check by trying refs to be updated first",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "d89a58d58853eb231af5dea66cb436d98c4a9a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29028612_05a36481",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-09T00:18:51Z",
+      "side": 1,
+      "message": "Is this comment describing the full \"try\" block? If so, should it go before the \"try\" line?",
+      "revId": "d89a58d58853eb231af5dea66cb436d98c4a9a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
