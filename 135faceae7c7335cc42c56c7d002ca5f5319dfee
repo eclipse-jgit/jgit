@@ -141,6 +141,30 @@
       "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "534ab4be_14f9a157",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T01:35:11Z",
+      "side": 1,
+      "message": "\u003e How does this affect processing in UploadPackServlet?\n\nSee https://git.eclipse.org/r/c/147144/.\n\nUntil UploadPackServlet starts using UploadPack#uploadWithExceptionPropagation, which will be introduced in https://git.eclipse.org/r/c/147143/, UploadPackServlet will not be affected.\n\n\u003e It appears that will be setting a SC_INTERNAL_SERVER_ERROR error where it wasn\u0027t before, which actually seems desirable.\n\nWith this CL, all exceptions will be handled in UploadPack#upload. This means that the exceptions observed from UploadPackServlet will not change.\n\nThroughout the sequence of the changes, UploadPack#upload will not change the exceptions it throws.\n\n\u003e Does it need to be updated to use try-with-resources so that its SmartOutputStream is always closed?\n\nSee https://git.eclipse.org/r/c/147144/ again. I think SmartOutputStream needs to be closed only when the buffered output needs to be flushed. There are cases where GitSmartHttpTools#sendError is used, and in this case, because the buffered output is not needed, SmartOutputStream is not closed.",
+      "parentUuid": "a6e0d2c4_82597f81",
+      "range": {
+        "startLine": 2102,
+        "startChar": 3,
+        "endLine": 2102,
+        "endChar": 6
+      },
+      "revId": "135faceae7c7335cc42c56c7d002ca5f5319dfee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
