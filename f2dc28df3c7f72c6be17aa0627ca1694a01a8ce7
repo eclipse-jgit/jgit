@@ -22,6 +22,30 @@
       "revId": "f2dc28df3c7f72c6be17aa0627ca1694a01a8ce7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "823f770a_5701a155",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T17:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24bf73d7_3deaa872",
+      "range": {
+        "startLine": 257,
+        "startChar": 1,
+        "endLine": 259,
+        "endChar": 1
+      },
+      "revId": "f2dc28df3c7f72c6be17aa0627ca1694a01a8ce7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
