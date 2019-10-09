@@ -501,8 +501,9 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2CapabilitiesAllowSidebandAll() throws Exception {
-		checkAdvertisedIfAllowed("uploadpack", "allowsidebandall", "sideband-all");
+	public void testV2CapabilitiesAdvertiseSidebandAll() throws Exception {
+		checkAdvertisedIfAllowed("uploadpack", "advertisesidebandall",
+				"sideband-all");
 		checkUnadvertisedIfUnallowed("sideband-all");
 	}
 
@@ -1813,13 +1814,6 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchSidebandAllIfNotAllowed() throws Exception {
-		checkV2FetchWhenNotAllowed(
-			"sideband-all\n",
-			"unexpected sideband-all");
-	}
-
-	@Test
 	public void testV2FetchWantRef() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		RevCommit two = remote.commit().message("2").create();
@@ -2011,7 +2005,8 @@ public class UploadPackTest {
 		remote.update("branch1", fooChild);
 		remote.update("branch2", barChild);
 
-		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		server.getConfig().setBoolean("uploadpack", null,
+				"advertisesidebandall", true);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			"command=fetch\n",
@@ -2033,7 +2028,8 @@ public class UploadPackTest {
 		RevCommit commit = remote.commit().message("x").create();
 		remote.update("master", commit);
 
-		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		server.getConfig().setBoolean("uploadpack", null,
+				"advertisesidebandall", true);
 
 		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
 				PacketLineIn.delimiter(),
@@ -2065,7 +2061,8 @@ public class UploadPackTest {
 		RevCommit commit2 = remote.commit().message("x").parent(commit).create();
 		remote.update("master", commit2);
 
-		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		server.getConfig().setBoolean("uploadpack", null,
+				"advertisesidebandall", true);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 			(UploadPack up) -> {

@@ -131,7 +131,7 @@ public class TransferConfig {
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
 	private final boolean allowFilter;
-	private final boolean allowSidebandAll;
+	private final boolean advertiseSidebandAll;
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
@@ -211,8 +211,9 @@ public class TransferConfig {
 				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc.getString("protocol", null, "version"));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
-		allowSidebandAll = rc.getBoolean(
-				"uploadpack", "allowsidebandall", false);
+		advertiseSidebandAll = rc.getBoolean(
+				"uploadpack", "allowsidebandall", false)
+				|| rc.getBoolean("uploadpack", "advertisesidebandall", false);
 	}
 
 	/**
@@ -297,9 +298,19 @@ public class TransferConfig {
 	/**
 	 * @return true if clients are allowed to specify a "sideband-all" line
 	 * @since 5.5
+	 * @deprecated please use {@link #isAdvertiseSidebandAll()}
 	 */
+	@Deprecated
 	public boolean isAllowSidebandAll() {
-		return allowSidebandAll;
+		return advertiseSidebandAll;
+	}
+
+	/**
+	 * @return true to allow clients to request sideband-all
+	 * @since 5.6
+	 */
+	public boolean isAdvertiseSidebandAll() {
+		return advertiseSidebandAll;
 	}
 
 	/**

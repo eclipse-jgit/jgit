@@ -211,8 +211,7 @@ final class ProtocolV2Parser {
 				filterReceived = true;
 				reqBuilder.setFilterSpec(FilterSpec.fromFilterLine(
 						line2.substring(OPTION_FILTER.length() + 1)));
-			} else if (transferConfig.isAllowSidebandAll()
-					&& line2.equals(OPTION_SIDEBAND_ALL)) {
+			} else if (line2.equals(OPTION_SIDEBAND_ALL)) {
 				reqBuilder.setSidebandAll(true);
 			} else if (line2.startsWith("packfile-uris ")) { //$NON-NLS-1$
 				for (String s : line2.substring(14).split(",")) { //$NON-NLS-1$

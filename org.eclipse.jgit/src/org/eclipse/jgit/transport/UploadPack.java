@@ -1321,12 +1321,13 @@ public class UploadPack {
 		boolean advertiseRefInWant = transferConfig.isAllowRefInWant()
 				&& db.getConfig().getBoolean("uploadpack", null,
 						"advertiserefinwant", true);
+		boolean advertiseSidebandAll = transferConfig.isAdvertiseSidebandAll()
+				&& db.getConfig().getBoolean("uploadpack",
+						null, "advertisesidebandall", false);
 		caps.add(COMMAND_FETCH + '='
 				+ (transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "")
 				+ (advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "")
-				+ (transferConfig.isAllowSidebandAll()
-						? OPTION_SIDEBAND_ALL + ' '
-						: "")
+				+ (advertiseSidebandAll ? OPTION_SIDEBAND_ALL + ' ' : "")
 				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
