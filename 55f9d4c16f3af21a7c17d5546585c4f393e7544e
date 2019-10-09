@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d6b597_1da4c7ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T16:16:21Z",
+      "side": 1,
+      "message": "sideband, but writing to the sideband and writing to the protocol level ERR packet still happens in two different places.",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "55f9d4c16f3af21a7c17d5546585c4f393e7544e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad8226a0_067f2fea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2122,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T16:16:21Z",
+      "side": 1,
+      "message": "This is a confusing noop since reportInternalServerErrorOverSideband() doesn\u0027t use it. Maybe complete the change here and replace reportInternalServerErrorOverSideband() with errOut.write()?",
+      "range": {
+        "startLine": 2121,
+        "startChar": 0,
+        "endLine": 2122,
+        "endChar": 0
+      },
+      "revId": "55f9d4c16f3af21a7c17d5546585c4f393e7544e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
