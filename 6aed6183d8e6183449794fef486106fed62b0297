@@ -22,6 +22,30 @@
       "revId": "6aed6183d8e6183449794fef486106fed62b0297",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff4ee9f4_878ce80a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T07:02:45Z",
+      "side": 1,
+      "message": "Nevermind, I see that other methods above the \"packOut \u003d new PacketLineOut(rawOut)\" can generate IOException/RuntimeException but only the serviceV2()/service() calls can generate ServiceMayNotContinueExceptions.",
+      "parentUuid": "f869a8cb_87c56ca8",
+      "range": {
+        "startLine": 813,
+        "startChar": 3,
+        "endLine": 813,
+        "endChar": 53
+      },
+      "revId": "6aed6183d8e6183449794fef486106fed62b0297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
