@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab73bf48_3da1bbee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-09T20:35:18Z",
+      "side": 1,
+      "message": "Thanks, changed subject line to be shorter as well.",
+      "parentUuid": "dba3a133_45d73346",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "d89a58d58853eb231af5dea66cb436d98c4a9a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29028612_05a36481",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-10-09T00:18:51Z",
       "side": 1,
       "message": "Is this comment describing the full \"try\" block? If so, should it go before the \"try\" line?",
+      "revId": "d89a58d58853eb231af5dea66cb436d98c4a9a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66e0dd6_56c98769",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-09T20:35:18Z",
+      "side": 1,
+      "message": "Moved explanation upper. We still need smaller comment here as catch block is empty \n\nNote: I don\u0027t like the idea of catching exception as a normal flow, but want to keep information about the place where exception happen for debug purposes.",
+      "parentUuid": "29028612_05a36481",
       "revId": "d89a58d58853eb231af5dea66cb436d98c4a9a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
