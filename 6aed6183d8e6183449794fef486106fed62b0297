@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f869a8cb_87c56ca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-09T06:54:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this still check if pckOut !\u003d null? It got dropped from this exception handler but not from the next one.",
+      "range": {
+        "startLine": 813,
+        "startChar": 3,
+        "endLine": 813,
+        "endChar": 53
+      },
+      "revId": "6aed6183d8e6183449794fef486106fed62b0297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
