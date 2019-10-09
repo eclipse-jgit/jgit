@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "779ae193_feec0654",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T17:27:29Z",
+      "side": 1,
+      "message": "\u003e writing to the sideband and writing to the protocol level ERR packet still happens in two different places.\n\nI guess that you want to say the error output happens in two different places.",
+      "parentUuid": "63d6b597_1da4c7ae",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "55f9d4c16f3af21a7c17d5546585c4f393e7544e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad8226a0_067f2fea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "55f9d4c16f3af21a7c17d5546585c4f393e7544e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dcb6f9b_4e1ec2ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2122,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T17:27:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad8226a0_067f2fea",
+      "range": {
+        "startLine": 2121,
+        "startChar": 0,
+        "endLine": 2122,
+        "endChar": 0
+      },
+      "revId": "55f9d4c16f3af21a7c17d5546585c4f393e7544e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
