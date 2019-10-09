@@ -501,8 +501,11 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2CapabilitiesAllowSidebandAll() throws Exception {
-		checkAdvertisedIfAllowed("uploadpack", "allowsidebandall", "sideband-all");
+	public void testV2CapabilitiesAdvertiseSidebandAll() throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall",
+				true);
+		checkAdvertisedIfAllowed("uploadpack", "advertisesidebandall",
+				"sideband-all");
 		checkUnadvertisedIfUnallowed("sideband-all");
 	}
 
