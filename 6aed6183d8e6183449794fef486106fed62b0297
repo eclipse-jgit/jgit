@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b42820a8_a5fee1cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T07:30:49Z",
+      "side": 1,
+      "message": "Actually, the check below is wrong. It should check rawOut !\u003d null.",
+      "parentUuid": "ff4ee9f4_878ce80a",
+      "range": {
+        "startLine": 813,
+        "startChar": 3,
+        "endLine": 813,
+        "endChar": 53
+      },
+      "revId": "6aed6183d8e6183449794fef486106fed62b0297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90a9025_8f519b15",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 7
@@ -69,6 +93,30 @@
       "revId": "6aed6183d8e6183449794fef486106fed62b0297",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c27e14_170c82b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2384,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-10-09T07:30:49Z",
+      "side": 1,
+      "message": "Changed the next commit.",
+      "parentUuid": "b90a9025_8f519b15",
+      "range": {
+        "startLine": 2384,
+        "startChar": 3,
+        "endLine": 2384,
+        "endChar": 45
+      },
+      "revId": "6aed6183d8e6183449794fef486106fed62b0297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
