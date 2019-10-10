@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "214b47bd_feb2bf26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T00:03:21Z",
+      "side": 1,
+      "message": "On first reading, I thought this meant this commit would introduce support for sideband-all in the first place. How about\n\n ProtocolV2Parser: Always accept sideband-all from the client\n\n?",
+      "revId": "2df0df2aebd48eda93e5bd9d57c1c2119ad3af6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc68451c_91c3a89e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T00:03:21Z",
+      "side": 1,
+      "message": "nit: distributed deployments?",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "2df0df2aebd48eda93e5bd9d57c1c2119ad3af6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975c226d_cd6f3dc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T00:03:21Z",
+      "side": 1,
+      "message": "language nit: requests",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "2df0df2aebd48eda93e5bd9d57c1c2119ad3af6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e3af19d_7e1f9b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T00:03:21Z",
+      "side": 1,
+      "message": "language nit: \"whether to advertise\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "2df0df2aebd48eda93e5bd9d57c1c2119ad3af6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
