@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bbf251_377605c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 1,
+      "message": "Hm. Why not do something like\n\n advertiseSidebandAll \u003d rc.getBoolean(\"uploadpack\", \"advertisesidebandall\", false);\n allowSidebandAll \u003d rc.getBoolean(\"uploadpack\", \"allowsidebandall\", true);\n\n?",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b11be7_b5832110",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 1,
+      "message": "If I understand the intent correctly, this should simply \"return true\".\n\nDeprecating makes sense to me. Do we need to drop support for the old config value already, though? E.g. Git still supports it. We could support it by doing \"return allowSidebandAll\".",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31b73e7e_ab4d6235",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 1,
+      "message": "This is about whether we advertise support, not whether we allow clients to use it.",
+      "range": {
+        "startLine": 309,
+        "startChar": 20,
+        "endLine": 309,
+        "endChar": 44
+      },
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58563b85_5fab98b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 1,
+      "message": "If we keep both config options, could do \"return allowSidebandAll \u0026\u0026 advertiseSidebandAll\" to avoid advertising support that we lack.",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd2e6560_0cb124c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand this bit. Why do we need something more complex than transferConfig.isAdvertiseSidebandAll() here?",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

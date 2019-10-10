@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9525e661_f35ccd42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:09:38Z",
+      "side": 0,
+      "message": "If we want to keep supporting the config option, we can keep this check.",
+      "revId": "6bd9bc23b7201485cabc309aa3c5f8cf8a9f6f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
