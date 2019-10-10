@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ef20a505_6cd6f56c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-10T17:10:45Z",
+      "side": 1,
+      "message": "Actually, deprecating is probably a distraction from this change, so I\u0027d rather that the deprecation happen in a followup.",
+      "parentUuid": "a4b11be7_b5832110",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31b73e7e_ab4d6235",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
