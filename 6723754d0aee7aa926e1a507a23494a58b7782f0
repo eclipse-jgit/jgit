@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1393023f_0c6cfcbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-10T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93bbf251_377605c9",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4b11be7_b5832110",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "74a28a65_6fcd8901",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-10T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef20a505_6cd6f56c",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31b73e7e_ab4d6235",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
@@ -77,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "c3699dbd_dc32a692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-10T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b73e7e_ab4d6235",
+      "range": {
+        "startLine": 309,
+        "startChar": 20,
+        "endLine": 309,
+        "endChar": 44
+      },
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58563b85_5fab98b0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "01710090_5c5b64b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-10T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58563b85_5fab98b0",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd2e6560_0cb124c5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -108,6 +186,24 @@
       "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea2fe69_395e7a82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-10T18:05:31Z",
+      "side": 1,
+      "message": "Done\n\n(for a follow up, maybe we can move also advertiserefinwant to TransferConfig for consistency).",
+      "parentUuid": "cd2e6560_0cb124c5",
+      "revId": "6723754d0aee7aa926e1a507a23494a58b7782f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
