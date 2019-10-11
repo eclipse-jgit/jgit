@@ -90,20 +90,14 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -236,7 +230,7 @@ public abstract class BaseReceivePack {
 
 	private final MessageOutputWrapper msgOutWrapper = new MessageOutputWrapper();
 
-	private PackParser parser;
+	PackParser parser;
 
 	/** The refs we advertised as existing at the start of the connection. */
 	Map<String, Ref> refs;
@@ -262,7 +256,7 @@ public abstract class BaseReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
-	private boolean checkReferencedIsReachable;
+	private boolean checkReferencedAreReachable;
 
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
@@ -277,6 +271,8 @@ public abstract class BaseReceivePack {
 	private SignedPushConfig signedPushConfig;
 	PushCertificate pushCert;
 	private ReceivedPackStatistics stats;
+
+	private ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
 
 	/**
 	 * Get the push certificate used to verify the pusher's identity.
@@ -487,7 +483,7 @@ public abstract class BaseReceivePack {
 	 *         reference.
 	 */
 	public boolean isCheckReferencedObjectsAreReachable() {
-		return checkReferencedIsReachable;
+		return checkReferencedAreReachable;
 	}
 
 	/**
@@ -512,7 +508,7 @@ public abstract class BaseReceivePack {
 	 *            {@code true} to enable the additional check.
 	 */
 	public void setCheckReferencedObjectsAreReachable(boolean b) {
-		this.checkReferencedIsReachable = b;
+		this.checkReferencedAreReachable = b;
 	}
 
 	/**
@@ -998,6 +994,18 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Overrides default connectivity checker.
+	 *
+	 * @param connectivityChecker
+	 *            the connectivityChecker to set.
+	 * @since 5.6
+	 */
+	public void setConnectivityChecker(
+			ConnectivityChecker connectivityChecker) {
+		this.connectivityChecker = connectivityChecker;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1466,8 +1474,8 @@ public abstract class BaseReceivePack {
 
 			parser = ins.newPackParser(packInputStream());
 			parser.setAllowThin(true);
-			parser.setNeedNewObjectIds(checkReferencedIsReachable);
-			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
+			parser.setNeedNewObjectIds(checkReferencedAreReachable);
+			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
 			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
 					&& !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
@@ -1523,8 +1531,6 @@ public abstract class BaseReceivePack {
 	}
 
 	private void checkConnectivity() throws IOException {
-		ObjectIdSubclassMap<ObjectId> baseObjects = null;
-		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 		ProgressMonitor checking = NullProgressMonitor.INSTANCE;
 		if (sideBand && !quiet) {
 			SideBandProgressMonitor m = new SideBandProgressMonitor(msgOut);
@@ -1532,107 +1538,7 @@ public abstract class BaseReceivePack {
 			checking = m;
 		}
 
-		if (checkReferencedIsReachable) {
-			baseObjects = parser.getBaseObjectIds();
-			providedObjects = parser.getNewObjectIds();
-		}
-		parser = null;
-
-		try {
-			// For certain repos check against all advertised haves might be
-			// expensive, so we first try to run check with filtered set of
-			// references and if it's unsuccessful we repeat it with all
-			// advertised haves.
-			Set<ObjectId> immediateRefs = new HashSet<>();
-			for (ReceiveCommand cmd : commands) {
-				if (cmd.getType() == ReceiveCommand.Type.UPDATE || cmd
-						.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD) {
-					if (advertisedHaves.contains(cmd.getOldId())) {
-						immediateRefs.add(cmd.getOldId());
-					}
-				}
-			}
-			checkConnectivity(baseObjects, providedObjects, immediateRefs,
-					checking);
-			return;
-		} catch (MissingObjectException e) {
-			// This is fine, rolling back to all haves.
-		}
-		checkConnectivity(baseObjects, providedObjects, advertisedHaves,
-				checking);
-
-	}
-
-	private void checkConnectivity(ObjectIdSubclassMap<ObjectId> baseObjects,
-			ObjectIdSubclassMap<ObjectId> providedObjects, Set<ObjectId> haves,
-			ProgressMonitor checking)
-			throws MissingObjectException, IOException {
-		try (ObjectWalk ow = new ObjectWalk(db)) {
-			if (baseObjects != null) {
-				ow.sort(RevSort.TOPO);
-				if (!baseObjects.isEmpty())
-					ow.sort(RevSort.BOUNDARY, true);
-			}
-
-			for (ReceiveCommand cmd : commands) {
-				if (cmd.getResult() != Result.NOT_ATTEMPTED)
-					continue;
-				if (cmd.getType() == ReceiveCommand.Type.DELETE)
-					continue;
-				ow.markStart(ow.parseAny(cmd.getNewId()));
-			}
-			for (ObjectId have : haves) {
-				RevObject o = ow.parseAny(have);
-				ow.markUninteresting(o);
-
-				if (baseObjects != null && !baseObjects.isEmpty()) {
-					o = ow.peel(o);
-					if (o instanceof RevCommit)
-						o = ((RevCommit) o).getTree();
-					if (o instanceof RevTree)
-						ow.markUninteresting(o);
-				}
-			}
-
-			checking.beginTask(JGitText.get().countingObjects,
-					ProgressMonitor.UNKNOWN);
-			RevCommit c;
-			while ((c = ow.next()) != null) {
-				checking.update(1);
-				if (providedObjects != null //
-						&& !c.has(RevFlag.UNINTERESTING) //
-						&& !providedObjects.contains(c))
-					throw new MissingObjectException(c, Constants.TYPE_COMMIT);
-			}
-
-			RevObject o;
-			while ((o = ow.nextObject()) != null) {
-				checking.update(1);
-				if (o.has(RevFlag.UNINTERESTING)) {
-					continue;
-				}
-
-				if (providedObjects != null) {
-					if (providedObjects.contains(o)) {
-						continue;
-					}
-					throw new MissingObjectException(o, o.getType());
-				}
-
-				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
-					throw new MissingObjectException(o, Constants.TYPE_BLOB);
-			}
-			checking.endTask();
-
-			if (baseObjects != null) {
-				for (ObjectId id : baseObjects) {
-					o = ow.parseAny(id);
-					if (!o.has(RevFlag.UNINTERESTING)) {
-						throw new MissingObjectException(o, o.getType());
-					}
-				}
-			}
-		}
+		connectivityChecker.checkConnectivity(this, advertisedHaves, checking);
 	}
 
 	/**
