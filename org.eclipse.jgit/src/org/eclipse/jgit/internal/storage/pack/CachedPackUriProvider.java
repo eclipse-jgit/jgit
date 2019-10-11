@@ -76,7 +76,7 @@ public interface CachedPackUriProvider {
 		private final String hash;
 		private final String uri;
 
-		private final int size;
+		private final long size;
 
 		/**
 		 * Constructs an object containing information about a packfile.
@@ -88,7 +88,7 @@ public interface CachedPackUriProvider {
 		 * @param size
 		 *            the size of the packfile in bytes
 		 */
-		public PackInfo(String hash, String uri, int size) {
+		public PackInfo(String hash, String uri, long size) {
 			this.hash = hash;
 			this.uri = uri;
 			this.size = size;
