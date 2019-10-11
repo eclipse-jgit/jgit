@@ -2077,7 +2077,7 @@ public class UploadPackTest {
 						assertThat(protocolsSupported, hasItems("https"));
 						if (!protocolsSupported.contains("https"))
 							return null;
-						return new PackInfo("myhash", "myuri");
+						return new PackInfo("myhash", "myuri", 100);
 					}
 
 				});

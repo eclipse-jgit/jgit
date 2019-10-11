@@ -76,14 +76,22 @@ public interface CachedPackUriProvider {
 		private final String hash;
 		private final String uri;
 
+		private final int size;
+
 		/**
 		 * Constructs an object containing information about a packfile.
-		 * @param hash the hash of the packfile as a hexadecimal string
-		 * @param uri the URI corresponding to the packfile
+		 *
+		 * @param hash
+		 *            the hash of the packfile as a hexadecimal string
+		 * @param uri
+		 *            the URI corresponding to the packfile
+		 * @param size
+		 *            the size of the packfile in bytes
 		 */
-		public PackInfo(String hash, String uri) {
+		public PackInfo(String hash, String uri, int size) {
 			this.hash = hash;
 			this.uri = uri;
+			this.size = size;
 		}
 
 		/**
@@ -98,6 +106,13 @@ public interface CachedPackUriProvider {
 		 */
 		public String getUri() {
 			return uri;
+		}
+
+		/**
+		 * @return the size of the packfile in bytes (-1 if unknown)
+		 */
+		public long getSize() {
+			return size;
 		}
 	}
 }

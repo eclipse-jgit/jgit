@@ -1230,6 +1230,8 @@ public class PackWriter implements AutoCloseable {
 					if (packInfo != null) {
 						o.writeString(packInfo.getHash() + ' ' +
 								packInfo.getUri() + '\n');
+						stats.offloadedPackfiles += 1;
+						stats.offloadedPackfileSize += packInfo.getSize();
 					} else {
 						unwrittenCachedPacks.add(pack);
 					}
