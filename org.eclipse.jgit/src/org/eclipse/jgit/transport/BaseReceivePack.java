@@ -1544,23 +1544,56 @@ public abstract class BaseReceivePack {
 			// references and if it's unsuccessful we repeat it with all
 			// advertised haves.
 			Set<ObjectId> immediateRefs = new HashSet<>();
+			Set<ObjectId> newRefs = new HashSet<>();
 			for (ReceiveCommand cmd : commands) {
 				if (cmd.getType() == ReceiveCommand.Type.UPDATE || cmd
 						.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD) {
 					if (advertisedHaves.contains(cmd.getOldId())) {
 						immediateRefs.add(cmd.getOldId());
 					}
+					if (advertisedHaves.contains(cmd.getNewId())) {
+						immediateRefs.add(cmd.getNewId());
+					}
+				} else if (cmd.getType() == ReceiveCommand.Type.CREATE) {
+					if (advertisedHaves.contains(cmd.getNewId())) {
+						immediateRefs.add(cmd.getNewId());
+					} else {
+						newRefs.add(cmd.getNewId());
+					}
 				}
 			}
-			checkConnectivity(baseObjects, providedObjects, immediateRefs,
-					checking);
-			return;
+			if (!newRefs.isEmpty()) {
+				immediateRefs.addAll(extractAdvertisedParentCommits(newRefs));
+			}
+			if (!immediateRefs.isEmpty()) {
+				checkConnectivity(baseObjects, providedObjects, immediateRefs,
+						checking);
+				return;
+			}
 		} catch (MissingObjectException e) {
 			// This is fine, rolling back to all haves.
 		}
 		checkConnectivity(baseObjects, providedObjects, advertisedHaves,
 				checking);
+	}
 
+	private Set<ObjectId> extractAdvertisedParentCommits(
+			Set<ObjectId> newRefs) throws MissingObjectException, IOException {
+		Set<ObjectId> advertisedParents = new HashSet<>();
+		try (RevWalk ow = new RevWalk(db)) {
+			for (ObjectId newRef : newRefs) {
+				RevObject object = ow.parseAny(newRef);
+				if (object instanceof RevCommit) {
+					for (RevCommit parentCommit :
+						((RevCommit) object).getParents()) {
+						if (advertisedHaves.contains(parentCommit.getId())) {
+							advertisedParents.add(parentCommit.getId());
+						}
+					}
+				}
+			}
+		}
+		return advertisedParents;
 	}
 
 	private void checkConnectivity(ObjectIdSubclassMap<ObjectId> baseObjects,
@@ -1573,13 +1606,23 @@ public abstract class BaseReceivePack {
 				if (!baseObjects.isEmpty())
 					ow.sort(RevSort.BOUNDARY, true);
 			}
+			boolean hasInteresting = false;
 
 			for (ReceiveCommand cmd : commands) {
-				if (cmd.getResult() != Result.NOT_ATTEMPTED)
+				if (cmd.getResult() != Result.NOT_ATTEMPTED) {
 					continue;
-				if (cmd.getType() == ReceiveCommand.Type.DELETE)
+				}
+				if (cmd.getType() == ReceiveCommand.Type.DELETE) {
 					continue;
+				}
+				if (haves.contains(cmd.getNewId())) {
+					continue;
+				}
 				ow.markStart(ow.parseAny(cmd.getNewId()));
+				hasInteresting = true;
+			}
+			if (!hasInteresting) {
+				return;
 			}
 			for (ObjectId have : haves) {
 				RevObject o = ow.parseAny(have);
