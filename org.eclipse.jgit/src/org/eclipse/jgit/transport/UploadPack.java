@@ -830,6 +830,7 @@ public class UploadPack {
 	 * @throws IOException
 	 *             thrown if the server or the client I/O fails, or there's an
 	 *             internal server error.
+	 * @since 5.6
 	 */
 	public void uploadWithExceptionPropagation(InputStream input,
 			OutputStream output, @Nullable OutputStream messages)
