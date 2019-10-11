@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c36884e5_dd3782cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1234,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-11T18:56:14Z",
+      "side": 1,
+      "message": "Depending on how we resolve my comment in my previous patch, we may not need to check for -1.",
+      "range": {
+        "startLine": 1234,
+        "startChar": 32,
+        "endLine": 1234,
+        "endChar": 33
+      },
+      "revId": "8ef9d0b6ef4ff43d2c12b192f2be4bbd217bc4ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
