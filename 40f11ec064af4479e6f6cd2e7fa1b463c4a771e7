@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c237c417_a9be4030",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-11T18:55:32Z",
+      "side": 1,
+      "message": "Can we remove this constructor outright? In internal namespaces, we don\u0027t need to provide API backward compatibility.",
+      "range": {
+        "startLine": 103,
+        "startChar": 9,
+        "endLine": 103,
+        "endChar": 17
+      },
+      "revId": "40f11ec064af4479e6f6cd2e7fa1b463c4a771e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95212a6_480feea2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-11T18:55:32Z",
+      "side": 1,
+      "message": "We don\u0027t need @since in internal namespaces.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 11
+      },
+      "revId": "40f11ec064af4479e6f6cd2e7fa1b463c4a771e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
