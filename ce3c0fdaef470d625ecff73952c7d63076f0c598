@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1c02aba_c2214d2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-10-13T10:23:57Z",
+      "side": 1,
+      "message": "Is it OK to use this copyright?  I know this was taken from the Gerrit project, but don\u0027t we need to put code here under the eclipse license?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "ce3c0fdaef470d625ecff73952c7d63076f0c598",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c038cb_dcd58ea0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-10-13T10:23:57Z",
+      "side": 1,
+      "message": "Code should be formatted with the Eclipse formatter, i.e. using tab indents.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "ce3c0fdaef470d625ecff73952c7d63076f0c598",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
