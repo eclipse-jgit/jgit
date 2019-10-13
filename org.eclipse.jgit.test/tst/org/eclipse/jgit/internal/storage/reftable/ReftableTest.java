@@ -421,18 +421,20 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void invalidRefWriteOrder() throws IOException {
+	public void invalidRefWriteOrderSortAndWrite() {
 		Ref master = ref(MASTER, 1);
-		Ref next = ref(NEXT, 2);
 		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(1)
 			.begin();
 
-		writer.writeRef(next);
+		List<Ref> refs = new ArrayList<>();
+		refs.add(master);
+		refs.add(master);
+
 		IllegalArgumentException e  = assertThrows(
 			IllegalArgumentException.class,
-			() -> writer.writeRef(master));
+			() -> writer.sortAndWriteRefs(refs));
 		assertThat(e.getMessage(), containsString("records must be increasing"));
 	}
 
