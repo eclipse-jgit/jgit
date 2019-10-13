@@ -187,6 +187,19 @@ public class MergedReftableTest {
 		}
 	}
 
+	@Test
+	public void tableByIDDeletion() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+		List<Ref> delta2 = Arrays.asList(ref("refs/heads/master", 3));
+
+		MergedReftable mr = merge(write(delta1), write(delta2));
+		try (RefCursor rc = mr.byObjectId(id(2))) {
+			assertFalse(rc.next());
+		}
+	}
+
 	@SuppressWarnings("boxing")
 	@Test
 	public void fourTableScan() throws IOException {
