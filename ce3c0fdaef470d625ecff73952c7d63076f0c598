@@ -45,6 +45,23 @@
       "revId": "ce3c0fdaef470d625ecff73952c7d63076f0c598",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e66c5fc9_3e0cf998",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-13T11:22:39Z",
+      "side": 1,
+      "message": "*All* calls? No, it doesn\u0027t. Listeners, for instance, will get registered on the DelegateRepository instance, but will never fire. Reference counting? close() won\u0027t close the delegate.\n\nSeems to me that this may be applicable for a special case usage in Gerrit, but for general usage this is not really suitable.\n\nAlso, there\u0027s a parallel effort by Luca to get a RepositoryInterface.",
+      "revId": "ce3c0fdaef470d625ecff73952c7d63076f0c598",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
