@@ -89,6 +89,10 @@ Reference names are an uninterpreted sequence of bytes that must pass
 
 [ref-fmt]: https://git-scm.com/docs/git-check-ref-format
 
+### Key unicity
+
+Each entry must have a unique key; repeated keys are disallowed.
+
 ### Network byte order
 
 All multi-byte, fixed width fields are in network byte order.

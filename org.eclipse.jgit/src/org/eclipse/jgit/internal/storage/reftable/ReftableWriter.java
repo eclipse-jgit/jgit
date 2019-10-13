@@ -243,10 +243,16 @@ public class ReftableWriter {
 				.map(r -> new RefEntry(r, maxUpdateIndex - minUpdateIndex))
 				.sorted(Entry::compare)
 				.iterator();
+		RefEntry last = null;
 		while (itr.hasNext()) {
 			RefEntry entry = itr.next();
+			if (last != null && entry.compare(last, entry) >= 0) {
+				throwIllegalEntry(last, entry);
+			}
+
 			long blockPos = refs.write(entry);
 			indexRef(entry.ref, blockPos);
+			last = entry;
 		}
 		return this;
 	}
