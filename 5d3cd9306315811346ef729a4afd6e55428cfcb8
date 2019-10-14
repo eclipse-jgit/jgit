@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "771bf292_63630cb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-14T17:29:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e1f98e_774b82b3",
+      "range": {
+        "startLine": 78,
+        "startChar": 30,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f043508_ece16baa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
         "patchSetId": 45
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "882a097d_ed55e1cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-14T17:29:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f043508_ece16baa",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 8
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1b0335d_b793d558",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
         "patchSetId": 45
@@ -68,6 +116,30 @@
       "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c83209_fafa9f1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-14T17:29:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1b0335d_b793d558",
+      "range": {
+        "startLine": 168,
+        "startChar": 13,
+        "endLine": 168,
+        "endChar": 23
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "a6a206f7_7f2c88b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-14T17:29:27Z",
+      "side": 1,
+      "message": "I don\u0027t understand your comment. DfsReftableDatabase is a class that inherits from DfsRefDatabase, but needs the functionality below. Do you have a suggestion for how rewrite this javadoc?",
+      "parentUuid": "e091dff3_79552a4b",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fb28c52_0059e5e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 45
@@ -151,6 +247,30 @@
       "writtenOn": "2019-10-04T21:57:21Z",
       "side": 1,
       "message": "It looks like better design to make this a non-abstract class which takes in a MergedReftable (or, if need be, a Callable).\n\nIf we really need this abstract method, document whether the subclass is supposed to return the same instance every time or if they need to create a new one.",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7521a717_2aa7e2b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-14T17:29:27Z",
+      "side": 1,
+      "message": "I added more javadoc. I tried a callable as well, but it doesn\u0027t support the IOException, and I didn\u0027t want to introduce a new interface.",
+      "parentUuid": "8fb28c52_0059e5e0",
       "range": {
         "startLine": 35,
         "startChar": 1,
