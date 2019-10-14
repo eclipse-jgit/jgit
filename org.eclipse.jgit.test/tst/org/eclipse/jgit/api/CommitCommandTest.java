@@ -148,9 +148,10 @@ public class CommitCommandTest extends RepositoryTestCase {
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		RevCommit commit1 = git.commit().setMessage("commit").call();
-		TreeWalk walk = TreeWalk.forPath(db, path, commit1.getTree());
-		assertNotNull(walk);
-		assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+		try (TreeWalk walk = TreeWalk.forPath(db, path, commit1.getTree())) {
+			assertNotNull(walk);
+			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+		}
 
 		FS nonExecutableFs = new FS() {
 
@@ -204,9 +205,10 @@ public class CommitCommandTest extends RepositoryTestCase {
 		writeTrashFile(path, "content2");
 		RevCommit commit2 = git2.commit().setOnly(path).setMessage("commit2")
 				.call();
-		walk = TreeWalk.forPath(db, path, commit2.getTree());
-		assertNotNull(walk);
-		assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+		try (TreeWalk walk = TreeWalk.forPath(db, path, commit2.getTree())) {
+			assertNotNull(walk);
+			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+		}
 	}
 
 	@Test
@@ -225,15 +227,16 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-			assertTrue(generator.next());
-			assertEquals(path, generator.getPath());
-			assertEquals(commit, generator.getObjectId());
-			assertEquals(uri, generator.getModulesUrl());
-			assertEquals(path, generator.getModulesPath());
-			assertEquals(uri, generator.getConfigUrl());
-			try (Repository subModRepo = generator.getRepository()) {
-				assertNotNull(subModRepo);
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+				assertTrue(generator.next());
+				assertEquals(path, generator.getPath());
+				assertEquals(commit, generator.getObjectId());
+				assertEquals(uri, generator.getModulesUrl());
+				assertEquals(path, generator.getModulesPath());
+				assertEquals(uri, generator.getConfigUrl());
+				try (Repository subModRepo = generator.getRepository()) {
+					assertNotNull(subModRepo);
+				}
 			}
 			assertEquals(commit, repo.resolve(Constants.HEAD));
 
@@ -275,15 +278,16 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-			assertTrue(generator.next());
-			assertEquals(path, generator.getPath());
-			assertEquals(commit2, generator.getObjectId());
-			assertEquals(uri, generator.getModulesUrl());
-			assertEquals(path, generator.getModulesPath());
-			assertEquals(uri, generator.getConfigUrl());
-			try (Repository subModRepo = generator.getRepository()) {
-				assertNotNull(subModRepo);
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+				assertTrue(generator.next());
+				assertEquals(path, generator.getPath());
+				assertEquals(commit2, generator.getObjectId());
+				assertEquals(uri, generator.getModulesUrl());
+				assertEquals(path, generator.getModulesPath());
+				assertEquals(uri, generator.getConfigUrl());
+				try (Repository subModRepo = generator.getRepository()) {
+					assertNotNull(subModRepo);
+				}
 			}
 			assertEquals(commit2, repo.resolve(Constants.HEAD));
 

@@ -119,11 +119,12 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		assertEquals(1, updated.size());
 		assertEquals(path, updated.iterator().next());
 
-		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
-		try (Repository subRepo = generator.getRepository()) {
-			assertNotNull(subRepo);
-			assertEquals(commit, subRepo.resolve(Constants.HEAD));
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+			try (Repository subRepo = generator.getRepository()) {
+				assertNotNull(subRepo);
+				assertEquals(commit, subRepo.resolve(Constants.HEAD));
+			}
 		}
 	}
 
@@ -181,10 +182,11 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		Repository subRepo = Git.init().setBare(false)
+		try (Repository subRepo = Git.init().setBare(false)
 				.setDirectory(new File(db.getWorkTree(), path)).call()
-				.getRepository();
-		assertNotNull(subRepo);
+				.getRepository()) {
+			assertNotNull(subRepo);
+		}
 
 		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
 		Collection<String> updated = command.call();
