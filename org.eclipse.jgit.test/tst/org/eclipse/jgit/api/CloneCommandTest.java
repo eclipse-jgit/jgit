@@ -646,25 +646,27 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(sub1Head, pathStatus.getHeadId());
 		assertEquals(sub1Head, pathStatus.getIndexId());
 
-		SubmoduleWalk walk = SubmoduleWalk.forIndex(git2.getRepository());
-		assertTrue(walk.next());
-		try (Repository clonedSub1 = walk.getRepository()) {
-			assertNotNull(clonedSub1);
-			assertEquals(new File(git2.getRepository().getWorkTree(),
-					walk.getPath()), clonedSub1.getWorkTree());
-			assertEquals(
-					new File(new File(git2.getRepository().getDirectory(),
-							"modules"), walk.getPath()),
-					clonedSub1.getDirectory());
-			status = new SubmoduleStatusCommand(clonedSub1);
-			statuses = status.call();
+		try (SubmoduleWalk walk = SubmoduleWalk
+				.forIndex(git2.getRepository())) {
+			assertTrue(walk.next());
+			try (Repository clonedSub1 = walk.getRepository()) {
+				assertNotNull(clonedSub1);
+				assertEquals(new File(git2.getRepository().getWorkTree(),
+						walk.getPath()), clonedSub1.getWorkTree());
+				assertEquals(
+						new File(new File(git2.getRepository().getDirectory(),
+								"modules"), walk.getPath()),
+						clonedSub1.getDirectory());
+				status = new SubmoduleStatusCommand(clonedSub1);
+				statuses = status.call();
+			}
+			assertFalse(walk.next());
 		}
 		pathStatus = statuses.get(path);
 		assertNotNull(pathStatus);
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());
 		assertEquals(sub2Head, pathStatus.getHeadId());
 		assertEquals(sub2Head, pathStatus.getIndexId());
-		assertFalse(walk.next());
 	}
 
 	@Test
