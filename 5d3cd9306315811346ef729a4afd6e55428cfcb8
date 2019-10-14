@@ -236,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "1feb69b5_4bb09a67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-14T19:48:36Z",
+      "side": 1,
+      "message": "I would write:\n\nOperations on {@link MergedReftable} that is common to various reftable-using subclasses of {@link RefDatabase}.",
+      "parentUuid": "a6a206f7_7f2c88b7",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fb28c52_0059e5e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 45
@@ -280,6 +304,30 @@
       "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efababc7_d62d210c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-14T19:48:36Z",
+      "side": 1,
+      "message": "Callable#call throws Exception so the IOException shouldn\u0027t be a problem? Having said that, this is in an internal namespace, and declaring this as an abstract method (instead of, say, a constructor parameter of type Callable) does allow the exception to be more precisely specified, so I\u0027m OK with this as-is. (I made the original suggestion in the name of \"composition over inheritance\".)\n\nThanks for the updated javadoc - that answers my question.",
+      "parentUuid": "7521a717_2aa7e2b4",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
