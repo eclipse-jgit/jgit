@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "036adfaf_14cc6543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-14T23:20:06Z",
+      "side": 1,
+      "message": "micronit: forward slash instead of backslash",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "b59fba8e2260f34a20128151955f08223b1947ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec67aa5_97331ac5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-14T23:20:06Z",
+      "side": 1,
+      "message": "Does it work to use `walk` here instead of creating a new RevWalk?",
+      "revId": "b59fba8e2260f34a20128151955f08223b1947ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
