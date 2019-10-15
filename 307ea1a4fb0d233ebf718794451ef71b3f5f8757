@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "841d7b3c_6f202d00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2019-10-15T05:51:54Z",
+      "side": 1,
+      "message": "strangely formatted comment. Otherwise +2",
+      "revId": "307ea1a4fb0d233ebf718794451ef71b3f5f8757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
