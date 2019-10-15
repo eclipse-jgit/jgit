@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ef3312b_1f427a18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-15T19:12:45Z",
+      "side": 1,
+      "message": "Not true after some changes - there is still \"allowsidebandall\" which controls this.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "657b6edf7ee9103bee11a850d786eca95448d720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
