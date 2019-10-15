@@ -22,6 +22,30 @@
       "revId": "657b6edf7ee9103bee11a850d786eca95448d720",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfcaa486_2b0c7e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-10-15T19:18:55Z",
+      "side": 1,
+      "message": "True, this got outdated. I rewrote this paragraphs and the commit title.",
+      "parentUuid": "5ef3312b_1f427a18",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "657b6edf7ee9103bee11a850d786eca95448d720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
