@@ -131,6 +131,12 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	@Override
 	@After
 	public void tearDown() throws Exception {
+		if (walk != null) {
+			walk.close();
+		}
+		if (ci_walk != null) {
+			ci_walk.close();
+		}
 		super.tearDown();
 		if (customAttributeFile != null)
 			customAttributeFile.delete();

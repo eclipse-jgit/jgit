@@ -174,23 +174,24 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertTrue(merge);
 
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.reset(ourMerger.getResultTreeId());
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(ourMerger.getResultTreeId());
 
-		assertTrue(tw.next());
-		assertEquals("Makefile", tw.getPathString());
-		assertCorrectId(treeO, tw);
+			assertTrue(tw.next());
+			assertEquals("Makefile", tw.getPathString());
+			assertCorrectId(treeO, tw);
 
-		assertTrue(tw.next());
-		assertEquals("libelf-po/a", tw.getPathString());
-		assertCorrectId(treeO, tw);
+			assertTrue(tw.next());
+			assertEquals("libelf-po/a", tw.getPathString());
+			assertCorrectId(treeO, tw);
 
-		assertTrue(tw.next());
-		assertEquals("libelf/c", tw.getPathString());
-		assertCorrectId(treeT, tw);
+			assertTrue(tw.next());
+			assertEquals("libelf/c", tw.getPathString());
+			assertCorrectId(treeT, tw);
 
-		assertFalse(tw.next());
+			assertFalse(tw.next());
+		}
 	}
 
 	@Test
@@ -226,19 +227,20 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertTrue(merge);
 
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.reset(ourMerger.getResultTreeId());
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(ourMerger.getResultTreeId());
 
-		assertTrue(tw.next());
-		assertEquals("d/o", tw.getPathString());
-		assertCorrectId(treeO, tw);
+			assertTrue(tw.next());
+			assertEquals("d/o", tw.getPathString());
+			assertCorrectId(treeO, tw);
 
-		assertTrue(tw.next());
-		assertEquals("d/t", tw.getPathString());
-		assertCorrectId(treeT, tw);
+			assertTrue(tw.next());
+			assertEquals("d/t", tw.getPathString());
+			assertCorrectId(treeT, tw);
 
-		assertFalse(tw.next());
+			assertFalse(tw.next());
+		}
 	}
 
 	@Test

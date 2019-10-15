@@ -106,23 +106,24 @@ public class CherryPickTest extends RepositoryTestCase {
 		boolean merge = twm.merge(new ObjectId[] { O, T });
 		assertTrue(merge);
 
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.reset(twm.getResultTreeId());
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(twm.getResultTreeId());
 
-		assertTrue(tw.next());
-		assertEquals("a", tw.getPathString());
-		assertCorrectId(treeO, tw);
+			assertTrue(tw.next());
+			assertEquals("a", tw.getPathString());
+			assertCorrectId(treeO, tw);
 
-		assertTrue(tw.next());
-		assertEquals("o", tw.getPathString());
-		assertCorrectId(treeO, tw);
+			assertTrue(tw.next());
+			assertEquals("o", tw.getPathString());
+			assertCorrectId(treeO, tw);
 
-		assertTrue(tw.next());
-		assertEquals("t", tw.getPathString());
-		assertCorrectId(treeT, tw);
+			assertTrue(tw.next());
+			assertEquals("t", tw.getPathString());
+			assertCorrectId(treeT, tw);
 
-		assertFalse(tw.next());
+			assertFalse(tw.next());
+		}
 	}
 
 	@Test
@@ -168,19 +169,20 @@ public class CherryPickTest extends RepositoryTestCase {
 		boolean merge = twm.merge(new ObjectId[] { B, T });
 		assertTrue(merge);
 
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.reset(twm.getResultTreeId());
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(twm.getResultTreeId());
 
-		assertTrue(tw.next());
-		assertEquals("a", tw.getPathString());
-		assertCorrectId(treeB, tw);
+			assertTrue(tw.next());
+			assertEquals("a", tw.getPathString());
+			assertCorrectId(treeB, tw);
 
-		assertTrue(tw.next());
-		assertEquals("t", tw.getPathString());
-		assertCorrectId(treeT, tw);
+			assertTrue(tw.next());
+			assertEquals("t", tw.getPathString());
+			assertCorrectId(treeT, tw);
 
-		assertFalse(tw.next());
+			assertFalse(tw.next());
+		}
 	}
 
 	private static void assertCorrectId(DirCache treeT, TreeWalk tw) {
