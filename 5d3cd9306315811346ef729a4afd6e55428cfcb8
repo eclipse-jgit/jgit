@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "dfaa5a6e_8dcf0c12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-15T18:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1feb69b5_4bb09a67",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "5d3cd9306315811346ef729a4afd6e55428cfcb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fb28c52_0059e5e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 45
