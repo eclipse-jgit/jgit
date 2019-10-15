@@ -77,8 +77,6 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 
 	private static Attribute DELTA_UNSET = new Attribute("delta", State.UNSET);
 
-	private TreeWalk walk;
-
 	@Test
 	public void testRules() throws Exception {
 
@@ -102,24 +100,26 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		writeTrashFile("src/config/windows.file", "");
 		writeTrashFile("src/config/windows.txt", "");
 
-		walk = beginWalk();
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
+			assertIteration(walk, F, "global.txt", asList(EOL_LF));
+			assertIteration(walk, F, "readme.txt", asList(EOL_LF));
 
-		assertIteration(F, ".gitattributes");
-		assertIteration(F, "global.txt", asList(EOL_LF));
-		assertIteration(F, "readme.txt", asList(EOL_LF));
+			assertIteration(walk, D, "src");
 
-		assertIteration(D, "src");
+			assertIteration(walk, D, "src/config");
+			assertIteration(walk, F, "src/config/.gitattributes");
+			assertIteration(walk, F, "src/config/readme.txt",
+					asList(DELTA_UNSET));
+			assertIteration(walk, F, "src/config/windows.file", null);
+			assertIteration(walk, F, "src/config/windows.txt",
+					asList(DELTA_UNSET));
 
-		assertIteration(D, "src/config");
-		assertIteration(F, "src/config/.gitattributes");
-		assertIteration(F, "src/config/readme.txt", asList(DELTA_UNSET));
-		assertIteration(F, "src/config/windows.file", null);
-		assertIteration(F, "src/config/windows.txt", asList(DELTA_UNSET));
+			assertIteration(walk, F, "windows.file", null);
+			assertIteration(walk, F, "windows.txt", asList(EOL_LF));
 
-		assertIteration(F, "windows.file", null);
-		assertIteration(F, "windows.txt", asList(EOL_LF));
-
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	/**
@@ -134,17 +134,17 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		writeTrashFile("level1/l1.txt", "");
 		writeTrashFile("level1/level2/l2.txt", "");
 
-		walk = beginWalk();
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, "l0.txt");
 
-		assertIteration(F, "l0.txt");
+			assertIteration(walk, D, "level1");
+			assertIteration(walk, F, "level1/l1.txt");
 
-		assertIteration(D, "level1");
-		assertIteration(F, "level1/l1.txt");
+			assertIteration(walk, D, "level1/level2");
+			assertIteration(walk, F, "level1/level2/l2.txt");
 
-		assertIteration(D, "level1/level2");
-		assertIteration(F, "level1/level2/l2.txt");
-
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	/**
@@ -160,18 +160,18 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		writeTrashFile("level1/l1.txt", "");
 		writeTrashFile("level1/level2/l2.txt", "");
 
-		walk = beginWalk();
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
+			assertIteration(walk, F, "l0.txt");
 
-		assertIteration(F, ".gitattributes");
-		assertIteration(F, "l0.txt");
+			assertIteration(walk, D, "level1");
+			assertIteration(walk, F, "level1/l1.txt");
 
-		assertIteration(D, "level1");
-		assertIteration(F, "level1/l1.txt");
+			assertIteration(walk, D, "level1/level2");
+			assertIteration(walk, F, "level1/level2/l2.txt");
 
-		assertIteration(D, "level1/level2");
-		assertIteration(F, "level1/level2/l2.txt");
-
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	@Test
@@ -183,26 +183,27 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 
 		writeTrashFile("levelA/lA.txt", "");
 
-		walk = beginWalk();
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
 
-		assertIteration(F, ".gitattributes");
+			assertIteration(walk, D, "levelA");
+			assertIteration(walk, F, "levelA/.gitattributes");
+			assertIteration(walk, F, "levelA/lA.txt");
 
-		assertIteration(D, "levelA");
-		assertIteration(F, "levelA/.gitattributes");
-		assertIteration(F, "levelA/lA.txt");
+			assertIteration(walk, D, "levelB");
+			assertIteration(walk, F, "levelB/.gitattributes");
 
-		assertIteration(D, "levelB");
-		assertIteration(F, "levelB/.gitattributes");
-
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
-	private void assertIteration(FileMode type, String pathName)
+	private void assertIteration(TreeWalk walk, FileMode type, String pathName)
 			throws IOException {
-		assertIteration(type, pathName, Collections.<Attribute> emptyList());
+		assertIteration(walk, type, pathName,
+				Collections.<Attribute> emptyList());
 	}
 
-	private void assertIteration(FileMode type, String pathName,
+	private void assertIteration(TreeWalk walk, FileMode type, String pathName,
 			List<Attribute> nodeAttrs)
 			throws IOException {
 		assertTrue("walk has entry", walk.next());
@@ -212,13 +213,13 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		assertNotNull("has tree", itr);
 
 		AttributesNode attributesNode = itr.getEntryAttributesNode();
-		assertAttributesNode(pathName, attributesNode, nodeAttrs);
+		assertAttributesNode(walk, pathName, attributesNode, nodeAttrs);
 		if (D.equals(type))
 			walk.enterSubtree();
 
 	}
 
-	private void assertAttributesNode(String pathName,
+	private void assertAttributesNode(TreeWalk walk, String pathName,
 			AttributesNode attributesNode, List<Attribute> nodeAttrs)
 					throws IOException {
 		if (attributesNode == null)
@@ -258,9 +259,5 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		TreeWalk newWalk = new TreeWalk(db);
 		newWalk.addTree(new FileTreeIterator(db));
 		return newWalk;
-	}
-
-	private void endWalk() throws IOException {
-		assertFalse("Not all files tested", walk.next());
 	}
 }

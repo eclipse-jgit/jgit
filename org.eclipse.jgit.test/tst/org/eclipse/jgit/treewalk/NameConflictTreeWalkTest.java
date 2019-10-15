@@ -84,16 +84,17 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(1, tree1.getEntryCount());
 		}
 
-		final TreeWalk tw = new TreeWalk(db);
-		tw.addTree(new DirCacheIterator(tree0));
-		tw.addTree(new DirCacheIterator(tree1));
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
 
-		assertModes("a", REGULAR_FILE, MISSING, tw);
-		assertModes("a.b", EXECUTABLE_FILE, MISSING, tw);
-		assertModes("a", MISSING, TREE, tw);
-		tw.enterSubtree();
-		assertModes("a/b", MISSING, REGULAR_FILE, tw);
-		assertModes("a0b", SYMLINK, MISSING, tw);
+			assertModes("a", REGULAR_FILE, MISSING, tw);
+			assertModes("a.b", EXECUTABLE_FILE, MISSING, tw);
+			assertModes("a", MISSING, TREE, tw);
+			tw.enterSubtree();
+			assertModes("a/b", MISSING, REGULAR_FILE, tw);
+			assertModes("a0b", SYMLINK, MISSING, tw);
+		}
 	}
 
 	@Test
@@ -115,20 +116,21 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(1, tree1.getEntryCount());
 		}
 
-		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.addTree(new DirCacheIterator(tree0));
-		tw.addTree(new DirCacheIterator(tree1));
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
 
-		assertModes("a", REGULAR_FILE, TREE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		assertTrue(tw.isSubtree());
-		tw.enterSubtree();
-		assertModes("a/b", MISSING, REGULAR_FILE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		assertModes("a.b", EXECUTABLE_FILE, MISSING, tw);
-		assertFalse(tw.isDirectoryFileConflict());
-		assertModes("a0b", SYMLINK, MISSING, tw);
-		assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			assertTrue(tw.isSubtree());
+			tw.enterSubtree();
+			assertModes("a/b", MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("a.b", EXECUTABLE_FILE, MISSING, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a0b", SYMLINK, MISSING, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+		}
 	}
 
 	@Test
@@ -151,20 +153,21 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(2, tree1.getEntryCount());
 		}
 
-		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.addTree(new DirCacheIterator(tree0));
-		tw.addTree(new DirCacheIterator(tree1));
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
 
-		assertModes("a", REGULAR_FILE, TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertTrue(tw.isDirectoryFileConflict());
-		tw.enterSubtree();
-		assertModes("a/b", MISSING, REGULAR_FILE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		assertModes("a.b", EXECUTABLE_FILE, EXECUTABLE_FILE, tw);
-		assertFalse(tw.isDirectoryFileConflict());
-		assertModes("a0b", SYMLINK, MISSING, tw);
-		assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("a/b", MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("a.b", EXECUTABLE_FILE, EXECUTABLE_FILE, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a0b", SYMLINK, MISSING, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+		}
 	}
 
 	@Test
@@ -187,20 +190,21 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(3, tree1.getEntryCount());
 		}
 
-		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.addTree(new DirCacheIterator(tree0));
-		tw.addTree(new DirCacheIterator(tree1));
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
 
-		assertModes("a", REGULAR_FILE, TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertTrue(tw.isDirectoryFileConflict());
-		tw.enterSubtree();
-		assertModes("a/b", MISSING, REGULAR_FILE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		assertModes("a.b", MISSING, EXECUTABLE_FILE, tw);
-		assertFalse(tw.isDirectoryFileConflict());
-		assertModes("a0b", SYMLINK, SYMLINK, tw);
-		assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("a/b", MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("a.b", MISSING, EXECUTABLE_FILE, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a0b", SYMLINK, SYMLINK, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+		}
 	}
 
 	@Test
@@ -224,26 +228,27 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(4, tree1.getEntryCount());
 		}
 
-		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.addTree(new DirCacheIterator(tree0));
-		tw.addTree(new DirCacheIterator(tree1));
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
 
-		assertModes("0", REGULAR_FILE, REGULAR_FILE, tw);
-		assertFalse(tw.isDirectoryFileConflict());
-		assertModes("a", REGULAR_FILE, TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertTrue(tw.isDirectoryFileConflict());
-		tw.enterSubtree();
-		assertModes("a/b", MISSING, REGULAR_FILE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		assertModes("a/c", MISSING, TREE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
-		tw.enterSubtree();
-		assertModes("a/c/e", MISSING, REGULAR_FILE, tw);
-		assertTrue(tw.isDirectoryFileConflict());
+			assertModes("0", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("a/b", MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("a/c", MISSING, TREE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("a/c/e", MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isDirectoryFileConflict());
 
-		assertModes("a.b", MISSING, REGULAR_FILE, tw);
-		assertFalse(tw.isDirectoryFileConflict());
+			assertModes("a.b", MISSING, REGULAR_FILE, tw);
+			assertFalse(tw.isDirectoryFileConflict());
+		}
 	}
 
 	private static void assertModes(final String path, final FileMode mode0,

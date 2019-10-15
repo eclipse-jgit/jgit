@@ -78,8 +78,6 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 	private Git git;
 
-	private TreeWalk walk;
-
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -105,23 +103,25 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 		// Adds file to index
 		git.add().addFilepattern(".").call();
 
-		walk = beginWalk();
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
+			assertIteration(walk, F, "readme.txt", asList(EOL_LF));
 
-		assertIteration(F, ".gitattributes");
-		assertIteration(F, "readme.txt", asList(EOL_LF));
+			assertIteration(walk, D, "src");
 
-		assertIteration(D, "src");
+			assertIteration(walk, D, "src/config");
+			assertIteration(walk, F, "src/config/.gitattributes");
+			assertIteration(walk, F, "src/config/readme.txt",
+					asList(DELTA_UNSET));
+			assertIteration(walk, F, "src/config/windows.file", null);
+			assertIteration(walk, F, "src/config/windows.txt",
+					asList(DELTA_UNSET));
 
-		assertIteration(D, "src/config");
-		assertIteration(F, "src/config/.gitattributes");
-		assertIteration(F, "src/config/readme.txt", asList(DELTA_UNSET));
-		assertIteration(F, "src/config/windows.file", null);
-		assertIteration(F, "src/config/windows.txt", asList(DELTA_UNSET));
+			assertIteration(walk, F, "windows.file", null);
+			assertIteration(walk, F, "windows.txt", asList(EOL_LF));
 
-		assertIteration(F, "windows.file", null);
-		assertIteration(F, "windows.txt", asList(EOL_LF));
-
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	/**
@@ -138,17 +138,18 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 		// Adds file to index
 		git.add().addFilepattern(".").call();
-		walk = beginWalk();
 
-		assertIteration(F, "l0.txt");
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, "l0.txt");
 
-		assertIteration(D, "level1");
-		assertIteration(F, "level1/l1.txt");
+			assertIteration(walk, D, "level1");
+			assertIteration(walk, F, "level1/l1.txt");
 
-		assertIteration(D, "level1/level2");
-		assertIteration(F, "level1/level2/l2.txt");
+			assertIteration(walk, D, "level1/level2");
+			assertIteration(walk, F, "level1/level2/l2.txt");
 
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	/**
@@ -166,18 +167,19 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 		// Adds file to index
 		git.add().addFilepattern(".").call();
-		walk = beginWalk();
 
-		assertIteration(F, ".gitattributes");
-		assertIteration(F, "l0.txt");
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
+			assertIteration(walk, F, "l0.txt");
 
-		assertIteration(D, "level1");
-		assertIteration(F, "level1/l1.txt");
+			assertIteration(walk, D, "level1");
+			assertIteration(walk, F, "level1/l1.txt");
 
-		assertIteration(D, "level1/level2");
-		assertIteration(F, "level1/level2/l2.txt");
+			assertIteration(walk, D, "level1/level2");
+			assertIteration(walk, F, "level1/level2/l2.txt");
 
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	@Test
@@ -191,18 +193,19 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 		// Adds file to index
 		git.add().addFilepattern(".").call();
-		walk = beginWalk();
 
-		assertIteration(F, ".gitattributes");
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, ".gitattributes");
 
-		assertIteration(D, "levelA");
-		assertIteration(F, "levelA/.gitattributes");
-		assertIteration(F, "levelA/lA.txt");
+			assertIteration(walk, D, "levelA");
+			assertIteration(walk, F, "levelA/.gitattributes");
+			assertIteration(walk, F, "levelA/lA.txt");
 
-		assertIteration(D, "levelB");
-		assertIteration(F, "levelB/.gitattributes");
+			assertIteration(walk, D, "levelB");
+			assertIteration(walk, F, "levelB/.gitattributes");
 
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
 	@Test
@@ -215,25 +218,27 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 		// Adds file to index
 		git.add().addFilepattern(".").call();
-		walk = beginWalk();
 
-		assertIteration(F, "gitattributes");
+		try (TreeWalk walk = beginWalk()) {
+			assertIteration(walk, F, "gitattributes");
 
-		assertIteration(F, "l0.txt");
+			assertIteration(walk, F, "l0.txt");
 
-		assertIteration(D, "levelA");
-		assertIteration(F, "levelA/file.gitattributes");
-		assertIteration(F, "levelA/lA.txt");
+			assertIteration(walk, D, "levelA");
+			assertIteration(walk, F, "levelA/file.gitattributes");
+			assertIteration(walk, F, "levelA/lA.txt");
 
-		endWalk();
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
-	private void assertIteration(FileMode type, String pathName)
+	private void assertIteration(TreeWalk walk, FileMode type, String pathName)
 			throws IOException {
-		assertIteration(type, pathName, Collections.<Attribute> emptyList());
+		assertIteration(walk, type, pathName,
+				Collections.<Attribute> emptyList());
 	}
 
-	private void assertIteration(FileMode type, String pathName,
+	private void assertIteration(TreeWalk walk, FileMode type, String pathName,
 			List<Attribute> nodeAttrs) throws IOException {
 		assertTrue("walk has entry", walk.next());
 		assertEquals(pathName, walk.getPathString());
@@ -243,14 +248,14 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 		AttributesNode attributesNode = itr.getEntryAttributesNode(db
 				.newObjectReader());
-		assertAttributesNode(pathName, attributesNode, nodeAttrs);
+		assertAttributesNode(walk, pathName, attributesNode, nodeAttrs);
 
 		if (D.equals(type))
 			walk.enterSubtree();
 
 	}
 
-	private void assertAttributesNode(String pathName,
+	private void assertAttributesNode(TreeWalk walk, String pathName,
 			AttributesNode attributesNode, List<Attribute> nodeAttrs)
 					throws IOException {
 		if (attributesNode == null)
@@ -291,9 +296,5 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 		TreeWalk newWalk = new TreeWalk(db);
 		newWalk.addTree(new DirCacheIterator(db.readDirCache()));
 		return newWalk;
-	}
-
-	private void endWalk() throws IOException {
-		assertFalse("Not all files tested", walk.next());
 	}
 }

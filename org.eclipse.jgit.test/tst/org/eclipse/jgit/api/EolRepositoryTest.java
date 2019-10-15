@@ -142,8 +142,6 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	protected String CONTENT_MIXED;
 
-	private TreeWalk walk;
-
 	/** work tree root .gitattributes */
 	private File dotGitattributes;
 
@@ -689,27 +687,25 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	private void collectRepositoryState() throws Exception {
 		dirCache = db.readDirCache();
-		walk = beginWalk();
-		if (dotGitattributes != null)
-			collectEntryContentAndAttributes(F, ".gitattributes", null);
-		collectEntryContentAndAttributes(F, fileCRLF.getName(), entryCRLF);
-		collectEntryContentAndAttributes(F, fileLF.getName(), entryLF);
-		collectEntryContentAndAttributes(F, fileMixed.getName(), entryMixed);
-		endWalk();
+		try (TreeWalk walk = new TreeWalk(db)) {
+			walk.addTree(new FileTreeIterator(db));
+			walk.addTree(new DirCacheIterator(db.readDirCache()));
+			if (dotGitattributes != null) {
+				collectEntryContentAndAttributes(walk, F, ".gitattributes",
+						null);
+			}
+			collectEntryContentAndAttributes(walk, F, fileCRLF.getName(),
+					entryCRLF);
+			collectEntryContentAndAttributes(walk, F, fileLF.getName(),
+					entryLF);
+			collectEntryContentAndAttributes(walk, F, fileMixed.getName(),
+					entryMixed);
+			assertFalse("Not all files tested", walk.next());
+		}
 	}
 
-	private TreeWalk beginWalk() throws Exception {
-		TreeWalk newWalk = new TreeWalk(db);
-		newWalk.addTree(new FileTreeIterator(db));
-		newWalk.addTree(new DirCacheIterator(db.readDirCache()));
-		return newWalk;
-	}
-
-	private void endWalk() throws IOException {
-		assertFalse("Not all files tested", walk.next());
-	}
-
-	private void collectEntryContentAndAttributes(FileMode type, String pathName,
+	private void collectEntryContentAndAttributes(TreeWalk walk, FileMode type,
+			String pathName,
 			ActualEntry e) throws IOException {
 		assertTrue("walk has entry", walk.next());
 
