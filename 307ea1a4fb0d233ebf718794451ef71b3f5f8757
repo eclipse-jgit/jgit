@@ -16,6 +16,24 @@
       "revId": "307ea1a4fb0d233ebf718794451ef71b3f5f8757",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4ac871_30aa5658",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-15T06:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "841d7b3c_6f202d00",
+      "revId": "307ea1a4fb0d233ebf718794451ef71b3f5f8757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
