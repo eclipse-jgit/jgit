@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8857c5f3_4977f311",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-15T19:30:35Z",
+      "side": 1,
+      "message": "Unnecessary move of the #stack method. Move this back. (I also saw some others in other files, including import statements.)",
+      "range": {
+        "startLine": 116,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "7aa12aae36e8d1a28799e61f9dc80515d86c5df0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
