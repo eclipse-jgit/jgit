@@ -107,18 +107,18 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		body.append("\n");
 
-		final RevWalk rw = new RevWalk(db);
 		final RevCommit c;
 
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		assertNull(c.getTree());
 		assertNull(c.parents);
 
-		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
-		assertNotNull(c.getTree());
-		assertEquals(treeId, c.getTree().getId());
-		assertSame(rw.lookupTree(treeId), c.getTree());
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, body.toString().getBytes(UTF_8));
+			assertNotNull(c.getTree());
+			assertEquals(treeId, c.getTree().getId());
+			assertSame(rw.lookupTree(treeId), c.getTree());
+		}
 		assertNotNull(c.parents);
 		assertEquals(0, c.parents.length);
 		assertEquals("", c.getFullMessage());
@@ -148,8 +148,10 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
-		return c;
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
+			return c;
+		}
 	}
 
 	@Test
@@ -161,8 +163,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
+		}
 		assertEquals("", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
 	}
@@ -176,8 +179,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
+		}
 		assertEquals(new PersonIdent("", "a_u_thor@example.com", 1218123387000l, 7), c.getAuthorIdent());
 		assertEquals(new PersonIdent("", "", 1218123390000l, -5), c.getCommitterIdent());
 	}
@@ -194,8 +198,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 		assertSame(UTF_8, c.getEncoding());
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
 		assertEquals("Sm\u00f6rg\u00e5sbord", c.getShortMessage());
@@ -214,8 +219,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 		assertSame(UTF_8, c.getEncoding());
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
 		assertEquals("Sm\u00f6rg\u00e5sbord", c.getShortMessage());
@@ -240,7 +246,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes("EUC-JP"));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("EUC-JP", c.getEncoding().name());
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
@@ -270,7 +278,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("EUC-JP", c.getEncoding().name());
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
@@ -301,7 +311,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("ISO-8859-1", c.getEncoding().name());
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
@@ -323,7 +335,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		RevCommit c = new RevCommit(
 				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 		assertEquals("'utf8'", c.getEncodingName());
 		assertEquals("Sm\u00f6rg\u00e5sbord\n", c.getFullMessage());
 
@@ -347,7 +361,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		RevCommit c = new RevCommit(
 				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 		assertEquals("utf-8logoutputencoding=gbk", c.getEncodingName());
 		assertEquals("message\n", c.getFullMessage());
 		assertEquals("message", c.getShortMessage());
@@ -374,7 +390,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		RevCommit c = new RevCommit(
 				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 		assertEquals("it_IT.UTF8", c.getEncodingName());
 		assertEquals("message\n", c.getFullMessage());
 		assertEquals("message", c.getShortMessage());
@@ -507,7 +525,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), commit.getBytes(UTF_8));
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, commit.getBytes(UTF_8));
+		}
 		String gpgSig = new String(c.getRawGpgSignature(), UTF_8);
 		assertTrue(gpgSig.startsWith("-----BEGIN"));
 		assertTrue(gpgSig.endsWith("END PGP SIGNATURE-----"));

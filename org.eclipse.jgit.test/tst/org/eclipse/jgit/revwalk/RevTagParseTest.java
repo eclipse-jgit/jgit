@@ -91,17 +91,18 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.append("tagger A U. Thor <a_u_thor@example.com> 1218123387 +0700\n");
 		b.append("\n");
 
-		final RevWalk rw = new RevWalk(db);
 		final RevTag c;
 
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, b.toString().getBytes(UTF_8));
-		assertNotNull(c.getObject());
-		assertEquals(id, c.getObject().getId());
-		assertSame(rw.lookupAny(id, typeCode), c.getObject());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
+			assertNotNull(c.getObject());
+			assertEquals(id, c.getObject().getId());
+			assertSame(rw.lookupAny(id, typeCode), c.getObject());
+		}
 	}
 
 	@Test
@@ -134,18 +135,18 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		body.append("\n");
 
-		final RevWalk rw = new RevWalk(db);
 		final RevTag c;
 
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
-		assertNotNull(c.getObject());
-		assertEquals(treeId, c.getObject().getId());
-		assertSame(rw.lookupTree(treeId), c.getObject());
-
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, body.toString().getBytes(UTF_8));
+			assertNotNull(c.getObject());
+			assertEquals(treeId, c.getObject().getId());
+			assertSame(rw.lookupTree(treeId), c.getObject());
+		}
 		assertNotNull(c.getTagName());
 		assertEquals(name, c.getTagName());
 		assertEquals("", c.getFullMessage());
@@ -182,17 +183,18 @@ public class RevTagParseTest extends RepositoryTestCase {
 		body.append("\n");
 		body.append(message);
 
-		final RevWalk rw = new RevWalk(db);
 		final RevTag c;
 
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
-		assertNotNull(c.getObject());
-		assertEquals(treeId, c.getObject().getId());
-		assertSame(rw.lookupTree(treeId), c.getObject());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, body.toString().getBytes(UTF_8));
+			assertNotNull(c.getObject());
+			assertEquals(treeId, c.getObject().getId());
+			assertSame(rw.lookupTree(treeId), c.getObject());
+		}
 
 		assertNotNull(c.getTagName());
 		assertEquals(name, c.getTagName());
@@ -213,7 +215,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
+		}
 		return c;
 	}
 
@@ -234,7 +238,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("F\u00f6r fattare", c.getTaggerIdent().getName());
 		assertEquals("Sm\u00f6rg\u00e5sbord", c.getShortMessage());
@@ -257,7 +263,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("F\u00f6r fattare", c.getTaggerIdent().getName());
 		assertEquals("Sm\u00f6rg\u00e5sbord", c.getShortMessage());
@@ -287,7 +295,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes("EUC-JP"));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("F\u00f6r fattare", c.getTaggerIdent().getName());
 		assertEquals("\u304d\u308c\u3044", c.getShortMessage());
@@ -320,7 +330,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("F\u00f6r fattare", c.getTaggerIdent().getName());
 		assertEquals("\u304d\u308c\u3044", c.getShortMessage());
@@ -355,7 +367,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("Hi\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			c.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("F\u00f6r fattare", c.getTaggerIdent().getName());
 		assertEquals("\u304d\u308c\u3044", c.getShortMessage());
@@ -374,7 +388,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("message\n".getBytes(UTF_8));
 
 		RevTag t = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		t.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			t.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("t", t.getTaggerIdent().getName());
 		assertEquals("message", t.getShortMessage());
@@ -393,7 +409,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("message\n".getBytes(UTF_8));
 
 		RevTag t = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		t.parseCanonical(new RevWalk(db), b.toByteArray());
+		try (RevWalk rw = new RevWalk(db)) {
+			t.parseCanonical(rw, b.toByteArray());
+		}
 
 		assertEquals("t", t.getTaggerIdent().getName());
 		assertEquals("message", t.getShortMessage());
