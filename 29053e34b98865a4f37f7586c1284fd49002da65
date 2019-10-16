@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2d7cab_5bbdce9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-10-16T17:37:14Z",
+      "side": 1,
+      "message": "One more that needs to be moved to its original position.",
+      "range": {
+        "startLine": 357,
+        "startChar": 26,
+        "endLine": 357,
+        "endChar": 35
+      },
+      "revId": "29053e34b98865a4f37f7586c1284fd49002da65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
