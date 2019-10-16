@@ -131,7 +131,7 @@ public class MergedReftable extends Reftable {
 	/** {@inheritDoc} */
 	@Override
 	public RefCursor byObjectId(AnyObjectId name) throws IOException {
-		MergedRefCursor m = new MergedRefCursor();
+		MergedRefCursor m = new FilteringMergedRefCursor(name);
 		for (int i = 0; i < tables.length; i++) {
 			m.add(new RefQueueEntry(tables[i].byObjectId(name), i));
 		}
@@ -246,6 +246,42 @@ public class MergedReftable extends Reftable {
 			}
 			while (!queue.isEmpty()) {
 				queue.remove().rc.close();
+			}
+		}
+	}
+
+	private class FilteringMergedRefCursor extends MergedRefCursor {
+		final AnyObjectId filterId;
+		Ref filteredRef;
+
+		FilteringMergedRefCursor(AnyObjectId id) {
+			filterId = id;
+			filteredRef = null;
+		}
+
+		@Override
+		public Ref getRef() {
+			return filteredRef;
+		}
+
+		@Override
+		public boolean next() throws IOException {
+			for (;;) {
+				boolean ok = super.next();
+				if (!ok) {
+					return false;
+				}
+
+				String name = super.getRef().getName();
+
+				try (RefCursor c = seekRef(name)) {
+					if (c.next()) {
+						if (filterId.equals(c.getRef().getObjectId())) {
+							filteredRef = c.getRef();
+							return true;
+						}
+					}
+				}
 			}
 		}
 	}
