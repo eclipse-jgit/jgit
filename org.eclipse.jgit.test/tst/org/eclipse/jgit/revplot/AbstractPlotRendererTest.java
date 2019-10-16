@@ -44,7 +44,6 @@ package org.eclipse.jgit.revplot;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,7 +54,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,34 +81,23 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 		git.commit().setMessage("commit on master").call();
 		MergeResult mergeCall = merge(db.resolve("topic"));
 		ObjectId start = mergeCall.getNewHead();
-		PlotCommitList<PlotLane> commitList = createCommitList(start);
+		try (PlotWalk walk = new PlotWalk(db)) {
+			walk.markStart(walk.parseCommit(start));
+			PlotCommitList<PlotLane> commitList = new PlotCommitList<>();
+			commitList.source(walk);
+			commitList.fillTo(1000);
 
-		for (int i = 0; i < commitList.size(); i++)
-			plotRenderer.paintCommit(commitList.get(i), 30);
+			for (int i = 0; i < commitList.size(); i++)
+				plotRenderer.paintCommit(commitList.get(i), 30);
 
-		List<Integer> indentations = plotRenderer.indentations;
-		assertEquals(indentations.get(2), indentations.get(3));
-	}
-
-	private PlotCommitList<PlotLane> createCommitList(ObjectId start)
-			throws IOException {
-		TestPlotWalk walk = new TestPlotWalk(db);
-		walk.markStart(walk.parseCommit(start));
-		PlotCommitList<PlotLane> commitList = new PlotCommitList<>();
-		commitList.source(walk);
-		commitList.fillTo(1000);
-		return commitList;
+			List<Integer> indentations = plotRenderer.indentations;
+			assertEquals(indentations.get(2), indentations.get(3));
+		}
 	}
 
 	private MergeResult merge(ObjectId includeId) throws GitAPIException {
 		return git.merge().setFastForward(FastForwardMode.NO_FF)
 				.include(includeId).call();
-	}
-
-	private static class TestPlotWalk extends PlotWalk {
-		public TestPlotWalk(Repository repo) {
-			super(repo);
-		}
 	}
 
 	private static class TestPlotRenderer extends

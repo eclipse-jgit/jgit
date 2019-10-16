@@ -2136,10 +2136,12 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	private List<DiffEntry> getStashedDiff() throws AmbiguousObjectException,
 			IncorrectObjectTypeException, IOException, MissingObjectException {
 		ObjectId stashId = db.resolve("stash@{0}");
-		RevWalk revWalk = new RevWalk(db);
-		RevCommit stashCommit = revWalk.parseCommit(stashId);
-		List<DiffEntry> diffs = diffWorkingAgainstHead(stashCommit, revWalk);
-		return diffs;
+		try (RevWalk revWalk = new RevWalk(db)) {
+			RevCommit stashCommit = revWalk.parseCommit(stashId);
+			List<DiffEntry> diffs = diffWorkingAgainstHead(stashCommit,
+					revWalk);
+			return diffs;
+		}
 	}
 
 	private TreeWalk createTreeWalk() {

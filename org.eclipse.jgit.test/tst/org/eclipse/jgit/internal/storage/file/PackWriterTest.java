@@ -680,8 +680,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	private static PackIndex writePack(FileRepository repo,
 			Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects)
 					throws IOException {
-		RevWalk walk = new RevWalk(repo);
-		return writePack(repo, walk, 0, want, NONE, excludeObjects);
+		try (RevWalk walk = new RevWalk(repo)) {
+			return writePack(repo, walk, 0, want, NONE, excludeObjects);
+		}
 	}
 
 	private static PackIndex writeShallowPack(FileRepository repo, int depth,
@@ -689,9 +690,10 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			Set<? extends ObjectId> shallow) throws IOException {
 		// During negotiation, UploadPack would have set up a DepthWalk and
 		// marked the client's "shallow" commits. Emulate that here.
-		DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth - 1);
-		walk.assumeShallow(shallow);
-		return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
+		try (DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth - 1)) {
+			walk.assumeShallow(shallow);
+			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
+		}
 	}
 
 	private static PackIndex writePack(FileRepository repo, RevWalk walk,
@@ -707,6 +709,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			if (depth > 0) {
 				pw.setShallowPack(depth, null);
 			}
+			// ow doesn't need to be closed; caller closes walk.
 			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
 
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);

@@ -441,8 +441,9 @@ public class RefTreeDatabaseTest {
 		ReceiveCommand cmd = command(null, B, "refs/txn/tmp");
 		BatchRefUpdate batch = refdb.newBatchUpdate();
 		batch.addCommand(cmd);
-		batch.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
-
+		try (RevWalk rw = new RevWalk(repo)) {
+			batch.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertEquals(REJECTED_OTHER_REASON, cmd.getResult());
 		assertEquals(MessageFormat.format(JGitText.get().invalidRefName,
 				"refs/txn/tmp"), cmd.getMessage());
@@ -461,8 +462,9 @@ public class RefTreeDatabaseTest {
 		ReceiveCommand cmd = command(null, B, "refs/heads/pu.lock");
 		BatchRefUpdate batch = refdb.newBatchUpdate();
 		batch.addCommand(cmd);
-		batch.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
-
+		try (RevWalk rw = new RevWalk(repo)) {
+			batch.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertEquals(REJECTED_OTHER_REASON, cmd.getResult());
 		assertEquals(JGitText.get().funnyRefname, cmd.getMessage());
 		assertEquals(txnId, getTxnCommitted());
@@ -481,7 +483,9 @@ public class RefTreeDatabaseTest {
 		ReceiveCommand cmd = command(null, B, ORIG_HEAD);
 		BatchRefUpdate batch = refdb.newBatchUpdate();
 		batch.addCommand(cmd);
-		batch.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		try (RevWalk rw = new RevWalk(repo)) {
+			batch.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertEquals(REJECTED_OTHER_REASON, cmd.getResult());
 		assertEquals(
 				MessageFormat.format(JGitText.get().invalidRefName, ORIG_HEAD),
@@ -500,7 +504,9 @@ public class RefTreeDatabaseTest {
 				command(B, A, "refs/heads/masters"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.addCommand(commands);
-		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertEquals(txnId, getTxnCommitted());
 
 		assertEquals(REJECTED_NONFASTFORWARD,
@@ -523,7 +529,9 @@ public class RefTreeDatabaseTest {
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
-		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertNotEquals(txnId, getTxnCommitted());
 
 		Map<String, Ref> refs = refdb.getRefs(ALL);
@@ -547,13 +555,15 @@ public class RefTreeDatabaseTest {
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
-		batchUpdate.execute(new RevWalk(repo) {
+		try (RevWalk rw = new RevWalk(repo) {
 			@Override
 			public boolean isMergedInto(RevCommit base, RevCommit tip) {
 				fail("isMergedInto() should not be called");
 				return false;
 			}
-		}, NullProgressMonitor.INSTANCE);
+		}) {
+			batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertNotEquals(txnId, getTxnCommitted());
 
 		Map<String, Ref> refs = refdb.getRefs(ALL);
@@ -574,7 +584,9 @@ public class RefTreeDatabaseTest {
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
-		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertEquals(txnId, getTxnCommitted());
 
 		assertEquals(LOCK_FAILURE, commands.get(0).getResult());
@@ -601,7 +613,9 @@ public class RefTreeDatabaseTest {
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
-		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
 		assertNotEquals(txnId, getTxnCommitted());
 
 		assertEquals(OK, commands.get(0).getResult());
