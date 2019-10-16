@@ -98,10 +98,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws IOException {
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertFalse(gen.next());
-		assertNull(gen.getPath());
-		assertEquals(ObjectId.zeroId(), gen.getObjectId());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertFalse(gen.next());
+			assertNull(gen.getPath());
+			assertEquals(ObjectId.zeroId(), gen.getObjectId());
+		}
 	}
 
 	@Test
@@ -129,20 +130,21 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertTrue(gen.next());
-		assertEquals(path, gen.getPath());
-		assertEquals(id, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertNull(gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertNull(gen.getModulesUrl());
-		assertNull(gen.getRepository());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertTrue(gen.next());
+			assertEquals(path, gen.getPath());
+			assertEquals(id, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertNull(gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertNull(gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 		Status status = Git.wrap(db).status().call();
-		assertTrue(!status.isClean());
-		assertFalse(gen.next());
+		assertFalse(status.isClean());
 	}
 
 	@Test
@@ -178,24 +180,25 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertTrue(gen.next());
-		assertEquals(path, gen.getPath());
-		assertEquals(id, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertNull(gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertNull(gen.getModulesUrl());
-		try (Repository subRepo = gen.getRepository()) {
-			assertNotNull(subRepo);
-			assertEquals(modulesGitDir.getAbsolutePath(),
-					subRepo.getDirectory().getAbsolutePath());
-			assertEquals(new File(db.getWorkTree(), path).getAbsolutePath(),
-					subRepo.getWorkTree().getAbsolutePath());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertTrue(gen.next());
+			assertEquals(path, gen.getPath());
+			assertEquals(id, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertNull(gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertNull(gen.getModulesUrl());
+			try (Repository subRepo = gen.getRepository()) {
+				assertNotNull(subRepo);
+				assertEquals(modulesGitDir.getAbsolutePath(),
+						subRepo.getDirectory().getAbsolutePath());
+				assertEquals(new File(db.getWorkTree(), path).getAbsolutePath(),
+						subRepo.getWorkTree().getAbsolutePath());
+			}
+			assertFalse(gen.next());
 		}
-		assertFalse(gen.next());
 	}
 
 	@Test
@@ -232,23 +235,24 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertTrue(gen.next());
-		assertEquals(path, gen.getPath());
-		assertEquals(id, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertNull(gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertNull(gen.getModulesUrl());
-		try (Repository subRepo = gen.getRepository()) {
-			assertNotNull(subRepo);
-			assertEqualsFile(modulesGitDir, subRepo.getDirectory());
-			assertEqualsFile(new File(db.getWorkTree(), path),
-					subRepo.getWorkTree());
-			subRepo.close();
-			assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertTrue(gen.next());
+			assertEquals(path, gen.getPath());
+			assertEquals(id, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertNull(gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertNull(gen.getModulesUrl());
+			try (Repository subRepo = gen.getRepository()) {
+				assertNotNull(subRepo);
+				assertEqualsFile(modulesGitDir, subRepo.getDirectory());
+				assertEqualsFile(new File(db.getWorkTree(), path),
+						subRepo.getWorkTree());
+				subRepo.close();
+				assertFalse(gen.next());
+			}
 		}
 	}
 
@@ -270,18 +274,19 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertTrue(gen.next());
-		assertEquals(path, gen.getPath());
-		assertEquals(id, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertNull(gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertNull(gen.getModulesUrl());
-		assertNull(gen.getRepository());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertTrue(gen.next());
+			assertEquals(path, gen.getPath());
+			assertEquals(id, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertNull(gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertNull(gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
@@ -312,12 +317,13 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		gen.setFilter(PathFilter.create(path1));
-		assertTrue(gen.next());
-		assertEquals(path1, gen.getPath());
-		assertEquals(id1, gen.getObjectId());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			gen.setFilter(PathFilter.create(path1));
+			assertTrue(gen.next());
+			assertEquals(path1, gen.getPath());
+			assertEquals(id1, gen.getObjectId());
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
@@ -358,18 +364,19 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
-		assertTrue(gen.next());
-		assertEquals(path, gen.getPath());
-		assertEquals(subId, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertEquals("sub", gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertEquals("git://example.com/sub", gen.getModulesUrl());
-		assertNull(gen.getRepository());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+			assertTrue(gen.next());
+			assertEquals(path, gen.getPath());
+			assertEquals(subId, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertEquals("sub", gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertEquals("git://example.com/sub", gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
@@ -397,17 +404,19 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 						})
 				.create());
 
-		SubmoduleWalk gen = SubmoduleWalk.forPath(db, commit.getTree(), "sub");
-		assertEquals(path, gen.getPath());
-		assertEquals(subId, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertEquals("sub", gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertEquals("git://example.com/sub", gen.getModulesUrl());
-		assertNull(gen.getRepository());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, commit.getTree(),
+				"sub")) {
+			assertEquals(path, gen.getPath());
+			assertEquals(subId, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertEquals("sub", gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertEquals("git://example.com/sub", gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
@@ -437,17 +446,18 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
-		SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub");
-		assertEquals(path, gen.getPath());
-		assertEquals(subId, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertEquals("sub", gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertEquals("git://example.com/sub", gen.getModulesUrl());
-		assertNull(gen.getRepository());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub")) {
+			assertEquals(path, gen.getPath());
+			assertEquals(subId, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertEquals("sub", gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertEquals("git://example.com/sub", gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 	}
 
 	@Test
@@ -477,16 +487,17 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
-		SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub");
-		assertEquals(path, gen.getPath());
-		assertEquals(subId, gen.getObjectId());
-		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
-		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
-		assertEquals("sub", gen.getModulesPath());
-		assertNull(gen.getModulesUpdate());
-		assertEquals("git://example.com/sub", gen.getModulesUrl());
-		assertNull(gen.getRepository());
-		assertFalse(gen.next());
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub")) {
+			assertEquals(path, gen.getPath());
+			assertEquals(subId, gen.getObjectId());
+			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertNull(gen.getConfigUpdate());
+			assertNull(gen.getConfigUrl());
+			assertEquals("sub", gen.getModulesPath());
+			assertNull(gen.getModulesUpdate());
+			assertEquals("git://example.com/sub", gen.getModulesUrl());
+			assertNull(gen.getRepository());
+			assertFalse(gen.next());
+		}
 	}
 }

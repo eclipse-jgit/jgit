@@ -343,19 +343,22 @@ public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCas
 
 	private void assertSubmoduleFetchHeads(ObjectId expectedHead1,
 			ObjectId expectedHead2) throws Exception {
+		Object newHead1 = null;
+		ObjectId newHead2 = null;
 		try (SubmoduleWalk walk = SubmoduleWalk
 				.forIndex(git2.getRepository())) {
 			assertTrue(walk.next());
-			Repository r = walk.getRepository();
-			ObjectId newHead1 = r.resolve(Constants.FETCH_HEAD);
-			ObjectId newHead2;
-			try (SubmoduleWalk walk2 = SubmoduleWalk.forIndex(r)) {
-				assertTrue(walk2.next());
-				newHead2 = walk2.getRepository().resolve(Constants.FETCH_HEAD);
+			try (Repository r = walk.getRepository()) {
+				newHead1 = r.resolve(Constants.FETCH_HEAD);
+				try (SubmoduleWalk walk2 = SubmoduleWalk.forIndex(r)) {
+					assertTrue(walk2.next());
+					try (Repository r2 = walk2.getRepository()) {
+						newHead2 = r2.resolve(Constants.FETCH_HEAD);
+					}
+				}
 			}
-
-			assertEquals(expectedHead1, newHead1);
-			assertEquals(expectedHead2, newHead2);
 		}
+		assertEquals(expectedHead1, newHead1);
+		assertEquals(expectedHead2, newHead2);
 	}
 }

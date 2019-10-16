@@ -63,6 +63,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -78,6 +79,13 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	private static final boolean tracked = false;
 
 	private TreeWalk walk;
+
+	@After
+	public void closeWalk() {
+		if (walk != null) {
+			walk.close();
+		}
+	}
 
 	@Test
 	public void testSimpleRootGitIgnoreGlobalIgnore() throws IOException {

@@ -101,13 +101,14 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
-		TreeWalk treeWalk = createTreeWalk(commit);
 
-		assertTrue(treeWalk.next());
-		assertEquals("folder", treeWalk.getPathString());
-		assertTrue(treeWalk.next());
-		assertEquals("folder/file", treeWalk.getPathString());
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertTrue(treeWalk.next());
+			assertEquals("folder", treeWalk.getPathString());
+			assertTrue(treeWalk.next());
+			assertEquals("folder/file", treeWalk.getPathString());
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
@@ -115,24 +116,26 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
-		TreeWalk treeWalk = createNonRecursiveTreeWalk(commit);
 
-		assertTrue(treeWalk.next());
-		assertEquals("folder", treeWalk.getPathString());
-		assertTrue(treeWalk.next());
-		assertEquals("folder", treeWalk.getPathString());
-		assertTrue(treeWalk.isSubtree());
-		treeWalk.enterSubtree();
-		assertTrue(treeWalk.next());
-		assertEquals("folder/file", treeWalk.getPathString());
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createNonRecursiveTreeWalk(commit)) {
+			assertTrue(treeWalk.next());
+			assertEquals("folder", treeWalk.getPathString());
+			assertTrue(treeWalk.next());
+			assertEquals("folder", treeWalk.getPathString());
+			assertTrue(treeWalk.isSubtree());
+			treeWalk.enterSubtree();
+			assertTrue(treeWalk.next());
+			assertEquals("folder/file", treeWalk.getPathString());
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileCommitted() throws Exception {
 		RevCommit commit = writeFileAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
@@ -153,89 +156,100 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 				"<<<<<<< HEAD\nside\n=======\nmaster\n>>>>>>> master\n");
 		writeTrashFile(FILE, "master");
 
-		TreeWalk treeWalk = createTreeWalk(side);
-		int count = 0;
-		while (treeWalk.next())
-			count++;
-		assertEquals(2, count);
+		try (TreeWalk treeWalk = createTreeWalk(side)) {
+			int count = 0;
+			while (treeWalk.next())
+				count++;
+			assertEquals(2, count);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommitted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testEmptyFolderCommitted() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileCommittedChangedNotModified() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFile();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedChangedNotModified() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolder();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileCommittedModified() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModified();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedModified() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModified();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
 	public void testFileCommittedDeleted() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		deleteFile();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedDeleted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolder();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedAllDeleted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
 	public void testEmptyFolderCommittedDeleted() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolder();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
@@ -243,8 +257,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModifiedAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
@@ -252,8 +267,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -261,8 +277,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		deleteFileAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
@@ -270,8 +287,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolderAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -279,8 +297,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAllAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -288,96 +307,108 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 			throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolderAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileUntracked() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileUntracked();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, UNTRACKED_FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, UNTRACKED_FILE);
+		}
 	}
 
 	@Test
 	public void testFileInFolderUntracked() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderUntracked();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, UNTRACKED_FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, UNTRACKED_FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
 	public void testEmptyFolderUntracked() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		createEmptyFolderUntracked();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileIgnored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileInFolderIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileInFolderAllIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderAllIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testEmptyFolderIgnored() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		createEmptyFolderIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileIgnoredNotHonored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileIgnored();
-		TreeWalk treeWalk = createTreeWalkDishonorIgnores(commit);
-		assertPaths(treeWalk, IGNORED_FILE, GITIGNORE);
+		try (TreeWalk treeWalk = createTreeWalkDishonorIgnores(commit)) {
+			assertPaths(treeWalk, IGNORED_FILE, GITIGNORE);
+		}
 	}
 
 	@Test
 	public void testFileCommittedModifiedIgnored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModifiedIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedModifiedIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedModifiedAllIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedAllIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -386,8 +417,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileAndCommit();
 		deleteFileAndCommit();
 		rewriteFileIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE);
+		}
 	}
 
 	@Test
@@ -396,8 +428,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolderAndCommit();
 		rewriteFileInFolderIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -406,8 +439,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAllAndCommit();
 		rewriteFileInFolderAllIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -416,15 +450,17 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolderAndCommit();
 		recreateEmptyFolderIgnored();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertFalse(treeWalk.next());
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertFalse(treeWalk.next());
+		}
 	}
 
 	@Test
 	public void testFileInFolderCommittedNonRecursive() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
-		TreeWalk treeWalk = createNonRecursiveTreeWalk(commit);
-		assertPaths(treeWalk, FOLDER);
+		try (TreeWalk treeWalk = createNonRecursiveTreeWalk(commit)) {
+			assertPaths(treeWalk, FOLDER);
+		}
 	}
 
 	@Test
@@ -432,8 +468,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FOLDER, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FOLDER, FILE_IN_FOLDER);
+		}
 	}
 
 	@Test
@@ -442,8 +479,9 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderNameAndCommit();
-		TreeWalk treeWalk = createTreeWalk(commit);
-		assertPaths(treeWalk, FOLDER, FILE_IN_FOLDER);
+		try (TreeWalk treeWalk = createTreeWalk(commit)) {
+			assertPaths(treeWalk, FOLDER, FILE_IN_FOLDER);
+		}
 	}
 
 	private void writeFile() throws Exception {

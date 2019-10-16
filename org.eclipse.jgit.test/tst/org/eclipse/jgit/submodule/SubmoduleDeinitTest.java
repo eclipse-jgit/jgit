@@ -107,7 +107,6 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
-		SubmoduleWalk generator;
 
 		write(new File(submoduleDir, "untracked"), "untracked");
 
@@ -115,8 +114,9 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY, result.getStatus());
 
-		generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+		}
 		assertTrue(submoduleDir.isDirectory());
 		assertNotEquals(0, submoduleDir.list().length);
 	}
@@ -132,33 +132,36 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
-		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-		generator.next();
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			generator.next();
 
-		//want to create a commit inside the repo...
-		try (Repository submoduleLocalRepo = generator.getRepository()) {
-			JGitTestUtil.writeTrashFile(submoduleLocalRepo, "file.txt",
-					"new data");
-			Git.wrap(submoduleLocalRepo).commit().setAll(true)
-					.setMessage("local commit").call();
+			// want to create a commit inside the repo...
+			try (Repository submoduleLocalRepo = generator.getRepository()) {
+				JGitTestUtil.writeTrashFile(submoduleLocalRepo, "file.txt",
+						"new data");
+				Git.wrap(submoduleLocalRepo).commit().setAll(true)
+						.setMessage("local commit").call();
+			}
 		}
 		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY, result.getStatus());
 
-		generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+		}
 		assertTrue(submoduleDir.isDirectory());
 		assertNotEquals(0, submoduleDir.list().length);
 	}
 
 	private File assertSubmoduleIsInitialized() throws IOException {
-		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
-		File submoduleDir = new File(db.getWorkTree(), generator.getPath());
-		assertTrue(submoduleDir.isDirectory());
-		assertNotEquals(0, submoduleDir.list().length);
-		return submoduleDir;
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+			File submoduleDir = new File(db.getWorkTree(), generator.getPath());
+			assertTrue(submoduleDir.isDirectory());
+			assertNotEquals(0, submoduleDir.list().length);
+			return submoduleDir;
+		}
 	}
 
 	@Test
@@ -180,8 +183,9 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.FORCED, result.getStatus());
 
-		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+		}
 		assertTrue(submoduleDir.isDirectory());
 		assertEquals(0, submoduleDir.list().length);
 	}
@@ -202,8 +206,9 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.SUCCESS, result.getStatus());
 
-		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-		assertTrue(generator.next());
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+		}
 		assertTrue(submoduleDir.isDirectory());
 		assertEquals(0, submoduleDir.list().length);
 	}

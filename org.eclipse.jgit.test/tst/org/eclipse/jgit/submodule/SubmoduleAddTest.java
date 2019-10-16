@@ -135,20 +135,20 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				subCommit = repo.resolve(Constants.HEAD);
 			}
 
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-			generator.loadModulesConfig();
-			assertTrue(generator.next());
-			assertEquals(path, generator.getModuleName());
-			assertEquals(path, generator.getPath());
-			assertEquals(commit, generator.getObjectId());
-			assertEquals(uri, generator.getModulesUrl());
-			assertEquals(path, generator.getModulesPath());
-			assertEquals(uri, generator.getConfigUrl());
-			try (Repository subModRepo = generator.getRepository()) {
-				assertNotNull(subModRepo);
-				assertEquals(subCommit, commit);
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+				generator.loadModulesConfig();
+				assertTrue(generator.next());
+				assertEquals(path, generator.getModuleName());
+				assertEquals(path, generator.getPath());
+				assertEquals(commit, generator.getObjectId());
+				assertEquals(uri, generator.getModulesUrl());
+				assertEquals(path, generator.getModulesPath());
+				assertEquals(uri, generator.getConfigUrl());
+				try (Repository subModRepo = generator.getRepository()) {
+					assertNotNull(subModRepo);
+					assertEquals(subCommit, commit);
+				}
 			}
-
 			Status status = Git.wrap(db).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
 			assertTrue(status.getAdded().contains(path));
@@ -175,20 +175,20 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				subCommit = repo.resolve(Constants.HEAD);
 			}
 
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-			generator.loadModulesConfig();
-			assertTrue(generator.next());
-			assertEquals(name, generator.getModuleName());
-			assertEquals(path, generator.getPath());
-			assertEquals(commit, generator.getObjectId());
-			assertEquals(uri, generator.getModulesUrl());
-			assertEquals(path, generator.getModulesPath());
-			assertEquals(uri, generator.getConfigUrl());
-			try (Repository subModRepo = generator.getRepository()) {
-				assertNotNull(subModRepo);
-				assertEquals(subCommit, commit);
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+				generator.loadModulesConfig();
+				assertTrue(generator.next());
+				assertEquals(name, generator.getModuleName());
+				assertEquals(path, generator.getPath());
+				assertEquals(commit, generator.getObjectId());
+				assertEquals(uri, generator.getModulesUrl());
+				assertEquals(path, generator.getModulesPath());
+				assertEquals(uri, generator.getConfigUrl());
+				try (Repository subModRepo = generator.getRepository()) {
+					assertNotNull(subModRepo);
+					assertEquals(subCommit, commit);
+				}
 			}
-
 			Status status = Git.wrap(db).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
 			assertTrue(status.getAdded().contains(path));
@@ -269,24 +269,25 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
-			assertTrue(generator.next());
-			assertEquals(path, generator.getPath());
-			assertEquals(commit, generator.getObjectId());
-			assertEquals(uri, generator.getModulesUrl());
-			assertEquals(path, generator.getModulesPath());
-			String fullUri = db.getDirectory().getAbsolutePath();
-			if (File.separatorChar == '\\') {
-				fullUri = fullUri.replace('\\', '/');
-			}
-			assertEquals(fullUri, generator.getConfigUrl());
-			try (Repository subModRepo = generator.getRepository()) {
-				assertNotNull(subModRepo);
-				assertEquals(fullUri,
-						subModRepo.getConfig().getString(
-								ConfigConstants.CONFIG_REMOTE_SECTION,
-								Constants.DEFAULT_REMOTE_NAME,
-								ConfigConstants.CONFIG_KEY_URL));
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+				assertTrue(generator.next());
+				assertEquals(path, generator.getPath());
+				assertEquals(commit, generator.getObjectId());
+				assertEquals(uri, generator.getModulesUrl());
+				assertEquals(path, generator.getModulesPath());
+				String fullUri = db.getDirectory().getAbsolutePath();
+				if (File.separatorChar == '\\') {
+					fullUri = fullUri.replace('\\', '/');
+				}
+				assertEquals(fullUri, generator.getConfigUrl());
+				try (Repository subModRepo = generator.getRepository()) {
+					assertNotNull(subModRepo);
+					assertEquals(fullUri,
+							subModRepo.getConfig().getString(
+									ConfigConstants.CONFIG_REMOTE_SECTION,
+									Constants.DEFAULT_REMOTE_NAME,
+									ConfigConstants.CONFIG_KEY_URL));
+				}
 			}
 			assertEquals(commit, repo.resolve(Constants.HEAD));
 
