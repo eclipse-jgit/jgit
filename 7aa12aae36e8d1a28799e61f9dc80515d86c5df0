@@ -22,6 +22,53 @@
       "revId": "7aa12aae36e8d1a28799e61f9dc80515d86c5df0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "246003a2_78f9d1c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-16T12:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8857c5f3_4977f311",
+      "range": {
+        "startLine": 116,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "7aa12aae36e8d1a28799e61f9dc80515d86c5df0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2628ad0_bcaa59bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-16T12:59:27Z",
+      "side": 1,
+      "message": "oops.",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 290,
+        "endChar": 36
+      },
+      "revId": "7aa12aae36e8d1a28799e61f9dc80515d86c5df0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
