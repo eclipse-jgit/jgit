@@ -371,6 +371,7 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 					: ReflogEntry.PREFIX_FAST_FORWARD;
 		case UPDATE_NONFASTFORWARD:
 			return ReflogEntry.PREFIX_FORCED_UPDATE;
+		case DELETE:
 		default:
 			return null;
 		}

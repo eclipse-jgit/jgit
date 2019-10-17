@@ -751,6 +751,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 										JGitText.get().cannotLock, targetBranch),
 								ru.getRef(),
 								rc);
+					case IO_FAILURE:
+					case NOT_ATTEMPTED:
+					case NO_CHANGE:
+					case REJECTED_CURRENT_BRANCH:
+					case REJECTED_MISSING_OBJECT:
+					case REJECTED_OTHER_REASON:
+					case RENAMED:
 					default:
 						throw new JGitInternalException(MessageFormat.format(
 								JGitText.get().updatingRefFailed,

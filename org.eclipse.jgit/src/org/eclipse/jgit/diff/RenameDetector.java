@@ -101,6 +101,9 @@ public class RenameDetector {
 				return 1;
 			case ADD:
 				return 2;
+			case COPY:
+			case MODIFY:
+			case RENAME:
 			default:
 				return 10;
 			}

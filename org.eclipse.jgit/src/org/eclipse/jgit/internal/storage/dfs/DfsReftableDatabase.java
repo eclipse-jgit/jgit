@@ -264,6 +264,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		case REJECTED_OTHER_REASON:
 			throw new IOException(cmd.getMessage());
 		case LOCK_FAILURE:
+		case NOT_ATTEMPTED:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_NOCREATE:
+		case REJECTED_NODELETE:
+		case REJECTED_NONFASTFORWARD:
 		default:
 			return false;
 		}

@@ -140,6 +140,7 @@ public class SubmoduleDeinitCommand
 							status = SubmoduleDeinitStatus.FORCED;
 						}
 						break;
+					case FORCED:
 					default:
 						throw new JGitInternalException(MessageFormat.format(
 								JGitText.get().unexpectedSubmoduleStatus,

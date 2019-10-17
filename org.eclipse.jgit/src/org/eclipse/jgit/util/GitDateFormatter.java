@@ -126,6 +126,8 @@ public class GitDateFormatter {
 	public GitDateFormatter(Format format) {
 		this.format = format;
 		switch (format) {
+		case RAW:
+		case RELATIVE:
 		default:
 			break;
 		case DEFAULT: // Not default:
@@ -195,6 +197,10 @@ public class GitDateFormatter {
 			dateTimeInstance2.setTimeZone(tz);
 			return dateTimeInstance.format(ident.getWhen()) + " " //$NON-NLS-1$
 					+ dateTimeInstance2.format(ident.getWhen());
+		case DEFAULT:
+		case ISO:
+		case RFC:
+		case SHORT:
 		default:
 			tz = ident.getTimeZone();
 			if (tz == null)

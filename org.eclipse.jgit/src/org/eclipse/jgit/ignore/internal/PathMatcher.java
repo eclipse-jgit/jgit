@@ -176,6 +176,7 @@ public class PathMatcher extends AbstractMatcher {
 			return new TrailingAsteriskMatcher(segment, pathSeparator, dirOnly);
 		case COMPLEX:
 			return new WildCardMatcher(segment, pathSeparator, dirOnly);
+		case NONE:
 		default:
 			return new NameMatcher(segment, pathSeparator, dirOnly, true);
 		}

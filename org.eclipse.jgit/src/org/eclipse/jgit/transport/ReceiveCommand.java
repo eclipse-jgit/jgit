@@ -871,6 +871,7 @@ public class ReceiveCommand {
 			setResult(Result.REJECTED_OTHER_REASON);
 			break;
 
+		case RENAMED:
 		default:
 			setResult(Result.REJECTED_OTHER_REASON, r.name());
 			break;

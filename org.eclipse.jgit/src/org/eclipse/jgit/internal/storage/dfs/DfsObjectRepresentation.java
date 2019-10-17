@@ -83,6 +83,10 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 		case GC_REST:
 		case GC_TXN:
 			return true;
+		case COMPACT:
+		case INSERT:
+		case RECEIVE:
+		case UNREACHABLE_GARBAGE:
 		default:
 			return false;
 		}

@@ -371,6 +371,15 @@ public class PushCertificateStore implements AutoCloseable {
 				case NO_CHANGE:
 					pending.clear();
 					break;
+				case FORCED:
+				case IO_FAILURE:
+				case LOCK_FAILURE:
+				case NOT_ATTEMPTED:
+				case REJECTED:
+				case REJECTED_CURRENT_BRANCH:
+				case REJECTED_MISSING_OBJECT:
+				case REJECTED_OTHER_REASON:
+				case RENAMED:
 				default:
 					break;
 			}

@@ -534,6 +534,8 @@ public abstract class KetchLeader {
 			}
 			break;
 
+		case DEPOSED:
+		case SHUTDOWN:
 		default:
 			log.debug("Leader ignoring replica while in {}", state); //$NON-NLS-1$
 			break;

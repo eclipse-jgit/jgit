@@ -98,6 +98,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -910,6 +911,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			case FORCED:
 			case NO_CHANGE:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NEW:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new JGitInternalException(
 						JGitText.get().updatingHeadFailed);
@@ -923,6 +933,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			case FORCED:
 			case NO_CHANGE:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NEW:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new JGitInternalException(
 						JGitText.get().updatingHeadFailed);
@@ -1290,6 +1309,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				case NO_CHANGE:
 				case FORCED:
 					break;
+				case IO_FAILURE:
+				case LOCK_FAILURE:
+				case NEW:
+				case NOT_ATTEMPTED:
+				case REJECTED:
+				case REJECTED_CURRENT_BRANCH:
+				case REJECTED_MISSING_OBJECT:
+				case REJECTED_OTHER_REASON:
+				case RENAMED:
 				default:
 					throw new IOException("Could not fast-forward"); //$NON-NLS-1$
 				}
@@ -1316,25 +1344,35 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			case REBASING_REBASING:
 			case REBASING_MERGE:
 				break;
+			case APPLY:
+			case BARE:
+			case BISECTING:
+			case CHERRY_PICKING:
+			case CHERRY_PICKING_RESOLVED:
+			case MERGING:
+			case MERGING_RESOLVED:
+			case REVERTING:
+			case REVERTING_RESOLVED:
+			case SAFE:
 			default:
 				throw new WrongRepositoryStateException(MessageFormat.format(
 						JGitText.get().wrongRepositoryState, repo
 								.getRepositoryState().name()));
 			}
-		} else
-			switch (repo.getRepositoryState()) {
-			case SAFE:
-				if (this.upstreamCommit == null)
+		} else {
+			if (repo.getRepositoryState().equals(RepositoryState.SAFE)) {
+				if (this.upstreamCommit == null) {
 					throw new JGitInternalException(MessageFormat
 							.format(JGitText.get().missingRequiredParameter,
 									"upstream")); //$NON-NLS-1$
+				}
 				return;
-			default:
-				throw new WrongRepositoryStateException(MessageFormat.format(
-						JGitText.get().wrongRepositoryState, repo
-								.getRepositoryState().name()));
-
 			}
+			throw new WrongRepositoryStateException(
+					MessageFormat.format(JGitText.get().wrongRepositoryState,
+							repo.getRepositoryState().name()));
+
+		}
 	}
 
 	private RebaseResult abort(RebaseResult result) throws IOException,
@@ -1388,6 +1426,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			case FORCED:
 			case NO_CHANGE:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NEW:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new JGitInternalException(
 						JGitText.get().abortingRebaseFailed);
@@ -1447,6 +1494,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			case NO_CHANGE:
 			case FORCED:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NEW:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new IOException(
 						JGitText.get().couldNotRewindToUpstreamCommit);

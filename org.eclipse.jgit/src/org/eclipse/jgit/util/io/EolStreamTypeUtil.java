@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
@@ -124,6 +125,7 @@ public final class EolStreamTypeUtil {
 			return new AutoCRLFInputStream(in, true);
 		case AUTO_LF:
 			return new AutoLFInputStream(in, true);
+		case DIRECT:
 		default:
 			return in;
 		}
@@ -151,6 +153,7 @@ public final class EolStreamTypeUtil {
 			return new AutoLFOutputStream(out, false);
 		case AUTO_LF:
 			return new AutoLFOutputStream(out, true);
+		case DIRECT:
 		default:
 			return out;
 		}
@@ -198,12 +201,10 @@ public final class EolStreamTypeUtil {
 	}
 
 	private static EolStreamType getOutputFormat(WorkingTreeOptions options) {
-		switch (options.getAutoCRLF()) {
-		case TRUE:
+		if (options.getAutoCRLF().equals(AutoCRLF.TRUE)) {
 			return EolStreamType.TEXT_CRLF;
-		default:
-			// no decision
 		}
+
 		switch (options.getEOL()) {
 		case CRLF:
 			return EolStreamType.TEXT_CRLF;
@@ -255,16 +256,16 @@ public final class EolStreamTypeUtil {
 				return EolStreamType.AUTO_CRLF;
 			case TEXT_LF:
 				return EolStreamType.AUTO_LF;
+			case AUTO_CRLF:
+			case AUTO_LF:
+			case DIRECT:
 			default:
 				return basic;
 			}
 		}
 
-		switch (options.getAutoCRLF()) {
-		case TRUE:
+		if (options.getAutoCRLF().equals(AutoCRLF.TRUE)) {
 			return EolStreamType.AUTO_CRLF;
-		default:
-			// no decision
 		}
 
 		return EolStreamType.DIRECT;

@@ -192,6 +192,7 @@ public class JGitSshClient extends SshClient {
 					new Socks5ClientConnector(address, remoteAddress,
 							proxyData.getUser(), proxyData.getPassword()));
 			return address;
+		case DIRECT:
 		default:
 			log.warn(format(SshdText.get().unknownProxyProtocol,
 					proxy.type().name()));

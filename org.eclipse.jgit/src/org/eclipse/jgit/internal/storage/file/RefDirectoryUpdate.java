@@ -140,6 +140,15 @@ class RefDirectoryUpdate extends RefUpdate {
 			return ReflogEntry.PREFIX_FAST_FORWARD;
 		case NEW:
 			return ReflogEntry.PREFIX_CREATED;
+		case IO_FAILURE:
+		case LOCK_FAILURE:
+		case NOT_ATTEMPTED:
+		case NO_CHANGE:
+		case REJECTED:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_OTHER_REASON:
+		case RENAMED:
 		default:
 			return null;
 		}

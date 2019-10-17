@@ -167,6 +167,15 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 			case NEW:
 			case NO_CHANGE:
 				return;
+			case FAST_FORWARD:
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().updatingRefFailed, R_STASH, newId,

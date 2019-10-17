@@ -108,6 +108,15 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 				case REJECTED:
 					ok = false;
 					break;
+				case FAST_FORWARD:
+				case FORCED:
+				case NEW:
+				case NOT_ATTEMPTED:
+				case NO_CHANGE:
+				case REJECTED_CURRENT_BRANCH:
+				case REJECTED_MISSING_OBJECT:
+				case REJECTED_OTHER_REASON:
+				case RENAMED:
 				default:
 					break;
 				}

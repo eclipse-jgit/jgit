@@ -158,6 +158,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 				case GSSAPI:
 					connector.doGssApiAuth(session);
 					break;
+				case NONE_ACCEPTABLE:
 				default:
 					throw new IOException(
 							format(SshdText.get().proxyCannotAuthenticate,

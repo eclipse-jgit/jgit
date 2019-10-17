@@ -127,6 +127,16 @@ class RebuildRefTree extends TextBuiltin {
 			case NEW:
 			case FAST_FORWARD:
 				break;
+			case FORCED:
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NOT_ATTEMPTED:
+			case NO_CHANGE:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw die(String.format("%s: %s", update.getName(), result)); //$NON-NLS-1$
 			}

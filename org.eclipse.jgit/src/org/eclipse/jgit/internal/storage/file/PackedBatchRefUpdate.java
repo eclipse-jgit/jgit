@@ -382,6 +382,8 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			case CREATE:
 				delta++;
 				break;
+			case UPDATE:
+			case UPDATE_NONFASTFORWARD:
 			default:
 			}
 		}
@@ -503,6 +505,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 					? ReflogEntry.PREFIX_FORCED_UPDATE : ReflogEntry.PREFIX_FAST_FORWARD;
 		case UPDATE_NONFASTFORWARD:
 			return ReflogEntry.PREFIX_FORCED_UPDATE;
+		case DELETE:
 		default:
 			return null;
 		}

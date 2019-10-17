@@ -184,6 +184,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					return FALSE;
 				case FF_ONLY:
 					return ONLY;
+				case FF:
 				default:
 					return TRUE;
 				}
@@ -204,6 +205,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				return NO_FF;
 			case ONLY:
 				return FF_ONLY;
+			case TRUE:
 			default:
 				return FF;
 			}
@@ -485,6 +487,14 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		case LOCK_FAILURE:
 			throw new ConcurrentRefUpdateException(
 					JGitText.get().couldNotLockHEAD, refUpdate.getRef(), rc);
+		case FORCED:
+		case IO_FAILURE:
+		case NOT_ATTEMPTED:
+		case NO_CHANGE:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_OTHER_REASON:
+		case RENAMED:
 		default:
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().updatingRefFailed, Constants.HEAD,

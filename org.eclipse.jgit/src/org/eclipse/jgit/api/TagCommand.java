@@ -194,6 +194,14 @@ public class TagCommand extends GitCommand<Ref> {
 		case REJECTED:
 			throw new RefAlreadyExistsException(MessageFormat.format(
 					JGitText.get().tagAlreadyExists, newTagToString));
+		case FAST_FORWARD:
+		case IO_FAILURE:
+		case NOT_ATTEMPTED:
+		case NO_CHANGE:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_OTHER_REASON:
+		case RENAMED:
 		default:
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().updatingRefFailed, refName, newTagToString,

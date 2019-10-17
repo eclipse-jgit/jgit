@@ -468,6 +468,7 @@ public class OpenSshServerKeyDatabase
 				return Check.ALLOW;
 			case ACCEPT_NEW:
 				return changed ? Check.DENY : Check.ALLOW;
+			case ASK:
 			default:
 				return provider == null ? Check.DENY : Check.ASK;
 			}

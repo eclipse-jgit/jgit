@@ -93,6 +93,7 @@ public class DefaultProxyDataFactory implements ProxyDataFactory {
 			return new ProxyData(proxy);
 		case SOCKS:
 			return new ProxyData(proxy);
+		case DIRECT:
 		default:
 			return null;
 		}

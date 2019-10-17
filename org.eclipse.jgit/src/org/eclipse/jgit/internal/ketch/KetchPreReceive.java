@@ -131,6 +131,8 @@ public class KetchPreReceive implements PreReceiveHook {
 		}
 		switch (proposal.getState()) {
 		case RUNNING:
+		case NEW:
+		case QUEUED:
 		default:
 			spinner.endTask(KetchText.get().starting);
 			break;

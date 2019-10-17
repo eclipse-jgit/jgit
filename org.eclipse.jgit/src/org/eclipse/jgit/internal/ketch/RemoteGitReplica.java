@@ -316,6 +316,9 @@ public class RemoteGitReplica extends KetchReplica {
 					cmd.setResult(REJECTED_OTHER_REASON, getMessage());
 					break;
 
+				case AWAITING_REPORT:
+				case NOT_ATTEMPTED:
+				case REJECTED_REMOTE_CHANGED:
 				default:
 					cmd.setResult(REJECTED_OTHER_REASON, getStatus().name());
 					break;

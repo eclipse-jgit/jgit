@@ -1021,7 +1021,9 @@ public class DiffFormatter implements AutoCloseable {
 				if (!editList.isEmpty())
 					formatOldNewPaths(buf, ent);
 				break;
-
+			case ADD:
+			case DELETE:
+			case MODIFY:
 			default:
 				formatOldNewPaths(buf, ent);
 				break;
@@ -1211,6 +1213,9 @@ public class DiffFormatter implements AutoCloseable {
 			newp = DiffEntry.DEV_NULL;
 			break;
 
+		case COPY:
+		case MODIFY:
+		case RENAME:
 		default:
 			oldp = quotePath(oldPrefix + ent.getOldPath());
 			newp = quotePath(newPrefix + ent.getNewPath());

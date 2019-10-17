@@ -1492,6 +1492,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							// We only do the Kerberos part of SPNEGO, which
 							// requires only one round.
 							break;
+						case BASIC:
+						case DIGEST:
 						default:
 							// DIGEST or BASIC. Let's be sure we ignore
 							// NEGOTIATE; if it was available, we have tried it

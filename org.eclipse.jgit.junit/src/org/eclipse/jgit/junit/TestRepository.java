@@ -633,6 +633,14 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		case NO_CHANGE:
 			updateServerInfo();
 			return obj;
+		case IO_FAILURE:
+		case LOCK_FAILURE:
+		case NOT_ATTEMPTED:
+		case REJECTED:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_OTHER_REASON:
+		case RENAMED:
 
 		default:
 			throw new IOException("Cannot write " + ref + " " + u.getResult());
@@ -659,6 +667,14 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		case NO_CHANGE:
 			updateServerInfo();
 			return;
+		case IO_FAILURE:
+		case LOCK_FAILURE:
+		case NOT_ATTEMPTED:
+		case REJECTED:
+		case REJECTED_CURRENT_BRANCH:
+		case REJECTED_MISSING_OBJECT:
+		case REJECTED_OTHER_REASON:
+		case RENAMED:
 
 		default:
 			throw new IOException("Cannot delete " + ref + " " + u.getResult());
@@ -697,6 +713,14 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			case NEW:
 			case NO_CHANGE:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new IOException(String.format(
 						"Checkout \"%s\" failed: %s", id.name(), result));
@@ -728,6 +752,14 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			case NEW:
 			case NO_CHANGE:
 				break;
+			case IO_FAILURE:
+			case LOCK_FAILURE:
+			case NOT_ATTEMPTED:
+			case REJECTED:
+			case REJECTED_CURRENT_BRANCH:
+			case REJECTED_MISSING_OBJECT:
+			case REJECTED_OTHER_REASON:
+			case RENAMED:
 			default:
 				throw new IOException(String.format(
 						"Checkout \"%s\" failed: %s", name, result));
