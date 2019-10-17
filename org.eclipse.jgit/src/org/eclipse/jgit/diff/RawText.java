@@ -383,15 +383,17 @@ public class RawText extends Sequence {
 	 * @return the line delimiter or <code>null</code>
 	 */
 	public String getLineDelimiter() {
-		if (size() == 0)
+		if (size() == 0) {
 			return null;
+		}
 		int e = getEnd(0);
-		if (content[e - 1] != '\n')
+		if (content[e - 1] != '\n') {
 			return null;
-		if (content.length > 1 && e > 1 && content[e - 2] == '\r')
+		}
+		if (content.length > 1 && e > 1 && content[e - 2] == '\r') {
 			return "\r\n"; //$NON-NLS-1$
-		else
-			return "\n"; //$NON-NLS-1$
+		}
+		return "\n"; //$NON-NLS-1$
 	}
 
 	/**

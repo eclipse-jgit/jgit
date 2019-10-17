@@ -281,11 +281,10 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		}
 		if (i == proposals.length) {
 			return proposals;
-		} else {
-			byte[] result = new byte[i];
-			System.arraycopy(proposals, 0, result, 0, i);
-			return result;
 		}
+		byte[] result = new byte[i];
+		System.arraycopy(proposals, 0, result, 0, i);
+		return result;
 	}
 
 	private void sendConnectInfo(IoSession session) throws Exception {

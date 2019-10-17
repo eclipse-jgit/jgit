@@ -384,9 +384,8 @@ public class OpenSshConfigFile {
 	private static boolean isHostMatch(String pattern, String name) {
 		if (pattern.startsWith("!")) { //$NON-NLS-1$
 			return !patternMatchesHost(pattern.substring(1), name);
-		} else {
-			return patternMatchesHost(pattern, name);
 		}
+		return patternMatchesHost(pattern, name);
 	}
 
 	private static boolean patternMatchesHost(String pattern, String name) {
@@ -399,10 +398,9 @@ public class OpenSshConfigFile {
 			}
 			fn.append(name);
 			return fn.isMatch();
-		} else {
-			// Not a pattern but a full host name
-			return pattern.equals(name);
 		}
+		// Not a pattern but a full host name
+		return pattern.equals(name);
 	}
 
 	private static String dequote(String value) {

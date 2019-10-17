@@ -293,13 +293,12 @@ public class ManifestParser extends DefaultHandler {
 			String revision = defaultRevision;
 			if (remote == null) {
 				if (defaultRemote == null) {
-					if (filename != null)
+					if (filename != null) {
 						throw new SAXException(MessageFormat.format(
 								RepoText.get().errorNoDefaultFilename,
 								filename));
-					else
-						throw new SAXException(
-								RepoText.get().errorNoDefault);
+					}
+					throw new SAXException(RepoText.get().errorNoDefault);
 				}
 				remote = defaultRemote;
 			} else {

@@ -181,9 +181,8 @@ final class NoteParser extends CanonicalTreeParser {
 			} catch (ArrayIndexOutOfBoundsException notHex) {
 				return -1;
 			}
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	private void storeNonNote() {

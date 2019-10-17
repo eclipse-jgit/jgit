@@ -352,9 +352,8 @@ class SignerV4 {
 		String encodedPath = urlEncode(path, true);
 		if (encodedPath.startsWith("/")) { //$NON-NLS-1$
 			return encodedPath;
-		} else {
-			return "/" + encodedPath; //$NON-NLS-1$
 		}
+		return "/" + encodedPath; //$NON-NLS-1$
 	}
 
 	private static byte[] hash(String s) {

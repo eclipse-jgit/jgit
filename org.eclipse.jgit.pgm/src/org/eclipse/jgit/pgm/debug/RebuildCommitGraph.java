@@ -189,9 +189,8 @@ class RebuildCommitGraph extends TextBuiltin {
 								// rewritten.
 								queue.add(t);
 								continue REWRITE;
-							} else {
-								newParents[k] = p.newId;
 							}
+							newParents[k] = p.newId;
 						} else {
 							// We have the old parent object. Use it.
 							//

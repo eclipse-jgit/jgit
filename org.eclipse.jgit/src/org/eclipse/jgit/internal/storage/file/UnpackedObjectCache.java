@@ -126,17 +126,19 @@ class UnpackedObjectCache {
 			for (int n = 0; n < MAX_CHAIN;) {
 				ObjectId obj = ids.get(i);
 				if (obj == null) {
-					if (ids.compareAndSet(i, null, toAdd.copy()))
+					if (ids.compareAndSet(i, null, toAdd.copy())) {
 						return true;
-					else
-						continue;
+					}
+					continue;
 				}
 
-				if (AnyObjectId.isEqual(obj, toAdd))
+				if (AnyObjectId.isEqual(obj, toAdd)) {
 					return true;
+				}
 
-				if (++i == ids.length())
+				if (++i == ids.length()) {
 					i = 0;
+				}
 				n++;
 			}
 			return false;

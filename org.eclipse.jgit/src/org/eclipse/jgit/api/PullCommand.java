@@ -315,23 +315,24 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			Ref r = null;
 			if (fetchRes != null) {
 				r = fetchRes.getAdvertisedRef(remoteBranchName);
-				if (r == null)
+				if (r == null) {
 					r = fetchRes.getAdvertisedRef(Constants.R_HEADS
 							+ remoteBranchName);
+				}
 			}
 			if (r == null) {
 				throw new RefNotAdvertisedException(MessageFormat.format(
 						JGitText.get().couldNotGetAdvertisedRef, remote,
 						remoteBranchName));
-			} else {
-				commitToMerge = r.getObjectId();
 			}
+			commitToMerge = r.getObjectId();
 		} else {
 			try {
 				commitToMerge = repo.resolve(remoteBranchName);
-				if (commitToMerge == null)
+				if (commitToMerge == null) {
 					throw new RefNotFoundException(MessageFormat.format(
 							JGitText.get().refNotResolved, remoteBranchName));
+				}
 			} catch (IOException e) {
 				throw new JGitInternalException(
 						JGitText.get().exceptionCaughtDuringExecutionOfPullCommand,

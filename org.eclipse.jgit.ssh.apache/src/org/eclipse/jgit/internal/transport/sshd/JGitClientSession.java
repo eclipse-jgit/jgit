@@ -179,9 +179,8 @@ public class JGitClientSession extends ClientSessionImpl {
 			} catch (Exception other) {
 				throw new IOException(other.getLocalizedMessage(), other);
 			}
-		} else {
-			return super.sendIdentification(ident);
 		}
+		return super.sendIdentification(ident);
 	}
 
 	@Override
@@ -205,9 +204,8 @@ public class JGitClientSession extends ClientSessionImpl {
 			} catch (Exception other) {
 				throw new IOException(other.getLocalizedMessage(), other);
 			}
-		} else {
-			return super.sendKexInit();
 		}
+		return super.sendKexInit();
 	}
 
 	/**

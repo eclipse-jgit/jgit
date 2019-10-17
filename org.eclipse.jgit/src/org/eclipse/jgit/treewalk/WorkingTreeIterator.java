@@ -685,10 +685,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	public InputStream openEntryStream() throws IOException {
 		InputStream rawis = current().openInputStream();
 		if (getCleanFilterCommand() == null
-				&& getEolStreamType() == EolStreamType.DIRECT)
+				&& getEolStreamType() == EolStreamType.DIRECT) {
 			return rawis;
-		else
-			return filterClean(rawis);
+		}
+		return filterClean(rawis);
 	}
 
 	/**
@@ -979,13 +979,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		MetadataDiff diff = compareMetadata(entry);
 		switch (diff) {
 		case DIFFER_BY_TIMESTAMP:
-			if (forceContentCheck)
+			if (forceContentCheck) {
 				// But we are told to look at content even though timestamps
 				// tell us about modification
 				return contentCheck(entry, reader);
-			else
-				// We are told to assume a modification if timestamps differs
-				return true;
+			}
+			// We are told to assume a modification if timestamps differs
+			return true;
 		case SMUDGED:
 			// The file is clean by timestamps but the entry was smudged.
 			// Lets do a content check
@@ -1086,14 +1086,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			entry.setLength((int) getEntryLength());
 
 			return false;
-		} else {
-			if (mode == FileMode.SYMLINK.getBits()) {
-				return !new File(readSymlinkTarget(current())).equals(
-						new File(readContentAsNormalizedString(entry, reader)));
-			}
-			// Content differs: that's a real change
-			return true;
 		}
+		if (mode == FileMode.SYMLINK.getBits()) {
+			return !new File(readSymlinkTarget(current())).equals(
+					new File(readContentAsNormalizedString(entry, reader)));
+		}
+		// Content differs: that's a real change
+		return true;
 	}
 
 	private static String readContentAsNormalizedString(DirCacheEntry entry,

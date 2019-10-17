@@ -295,9 +295,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 				Files.copy(src, dstOut);
 				return dst;
 			}
-		} else {
-			return Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
 		}
+		return Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	private Path copyPack(Path base, String srcSuffix, String dstSuffix)

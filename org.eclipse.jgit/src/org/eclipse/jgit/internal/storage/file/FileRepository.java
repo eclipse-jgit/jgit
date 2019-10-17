@@ -358,9 +358,8 @@ public class FileRepository extends Repository {
 		File directory = getDirectory();
 		if (directory != null) {
 			return directory.getPath();
-		} else {
-			throw new IllegalStateException();
 		}
+		throw new IllegalStateException();
 	}
 
 	/** {@inheritDoc} */

@@ -275,13 +275,12 @@ public class BlameCommand extends GitCommand<BlameResult> {
 		byte[] buffer = new byte[upperSizeLimit];
 		try {
 			int read = IO.readFully(source, buffer, 0);
-			if (read == upperSizeLimit)
+			if (read == upperSizeLimit) {
 				return buffer;
-			else {
-				byte[] copy = new byte[read];
-				System.arraycopy(buffer, 0, copy, 0, read);
-				return copy;
 			}
+			byte[] copy = new byte[read];
+			System.arraycopy(buffer, 0, copy, 0, read);
+			return copy;
 		} finally {
 			source.close();
 		}

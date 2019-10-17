@@ -453,9 +453,8 @@ public class OpenSshServerKeyDatabase
 						prompt);
 				items.add(answer);
 				return provider.get(uri, items) && answer.getValue();
-			} else {
-				return provider.get(uri, items);
 			}
+			return provider.get(uri, items);
 		}
 
 		private Check checkMode(SocketAddress remoteAddress, boolean changed) {

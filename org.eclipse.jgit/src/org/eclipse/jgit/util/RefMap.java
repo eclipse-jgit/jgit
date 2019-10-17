@@ -191,12 +191,11 @@ public class RefMap extends AbstractMap<String, Ref> {
 			Ref prior = loose.get(name);
 			loose = loose.set(idx, value);
 			return prior;
-		} else {
-			Ref prior = get(keyName);
-			loose = loose.add(idx, value);
-			sizeIsValid = false;
-			return prior;
 		}
+		Ref prior = get(keyName);
+		loose = loose.add(idx, value);
+		sizeIsValid = false;
+		return prior;
 	}
 
 	/** {@inheritDoc} */

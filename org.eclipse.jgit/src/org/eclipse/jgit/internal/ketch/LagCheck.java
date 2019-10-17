@@ -132,9 +132,8 @@ class LagCheck implements AutoCloseable {
 			// TODO(sop) Check term to see if my leader was deposed.
 			if (rw.isMergedInto(head, remote)) {
 				return AHEAD;
-			} else {
-				return DIVERGENT;
 			}
+			return DIVERGENT;
 		} catch (IOException err) {
 			KetchReplica.log.error(String.format(
 					"Cannot compare %s", //$NON-NLS-1$

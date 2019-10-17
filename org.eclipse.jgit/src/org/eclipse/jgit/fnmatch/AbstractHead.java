@@ -82,10 +82,10 @@ abstract class AbstractHead implements Head {
 	/** {@inheritDoc} */
 	@Override
 	public List<Head> getNextHeads(char c) {
-		if (matches(c))
+		if (matches(c)) {
 			return newHeads;
-		else
-			return FileNameMatcher.EMPTY_HEAD_LIST;
+		}
+		return FileNameMatcher.EMPTY_HEAD_LIST;
 	}
 
 	boolean isStar() {

@@ -125,17 +125,17 @@ public class Edit {
 	 */
 	public final Type getType() {
 		if (beginA < endA) {
-			if (beginB < endB)
+			if (beginB < endB) {
 				return Type.REPLACE;
-			else /* if (beginB == endB) */
-				return Type.DELETE;
+			}
+			return Type.DELETE;
 
-		} else /* if (beginA == endA) */{
-			if (beginB < endB)
-				return Type.INSERT;
-			else /* if (beginB == endB) */
-				return Type.EMPTY;
 		}
+		if (beginB < endB) {
+			return Type.INSERT;
+		}
+		// beginB == endB)
+		return Type.EMPTY;
 	}
 
 	/**

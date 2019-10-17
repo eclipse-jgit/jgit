@@ -293,9 +293,8 @@ public abstract class ObjectReader implements AutoCloseable {
 				if (idItr.hasNext()) {
 					cur = idItr.next();
 					return true;
-				} else {
-					return false;
 				}
+				return false;
 			}
 
 			@Override
@@ -383,9 +382,8 @@ public abstract class ObjectReader implements AutoCloseable {
 					cur = idItr.next();
 					sz = getObjectSize(cur, OBJ_ANY);
 					return true;
-				} else {
-					return false;
 				}
+				return false;
 			}
 
 			@Override

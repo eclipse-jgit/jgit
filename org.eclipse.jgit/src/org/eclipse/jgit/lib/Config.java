@@ -1395,12 +1395,11 @@ public class Config {
 				}
 				trailingSpaces.append(cc);
 				continue;
-			} else {
-				inLeadingSpace = false;
-				if (trailingSpaces != null) {
-					value.append(trailingSpaces);
-					trailingSpaces.setLength(0);
-				}
+			}
+			inLeadingSpace = false;
+			if (trailingSpaces != null) {
+				value.append(trailingSpaces);
+				trailingSpaces.setLength(0);
 			}
 
 			if ('\\' == c) {

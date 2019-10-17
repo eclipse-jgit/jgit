@@ -302,11 +302,12 @@ public abstract class Transport implements AutoCloseable {
 			URISyntaxException, TransportException {
 		if (local != null) {
 			final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
-			if (doesNotExist(cfg))
+			if (doesNotExist(cfg)) {
 				return open(local, new URIish(remote), null);
+			}
 			return open(local, cfg, op);
-		} else
-			return open(new URIish(remote));
+		}
+		return open(new URIish(remote));
 
 	}
 
@@ -708,11 +709,11 @@ public abstract class Transport implements AutoCloseable {
 		// try to find matching tracking refs
 		for (RefSpec fetchSpec : fetchSpecs) {
 			if (fetchSpec.matchSource(remoteName)) {
-				if (fetchSpec.isWildcard())
+				if (fetchSpec.isWildcard()) {
 					return fetchSpec.expandFromSource(remoteName)
 							.getDestination();
-				else
-					return fetchSpec.getDestination();
+				}
+				return fetchSpec.getDestination();
 			}
 		}
 		return null;

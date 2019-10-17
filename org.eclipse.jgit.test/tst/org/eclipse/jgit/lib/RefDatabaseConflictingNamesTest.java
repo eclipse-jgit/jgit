@@ -67,9 +67,8 @@ public class RefDatabaseConflictingNamesTest {
 				existing.put("refs/heads/a/b", null /* not used */);
 				existing.put("refs/heads/q", null /* not used */);
 				return existing;
-			} else {
-				return Collections.emptyMap();
 			}
+			return Collections.emptyMap();
 		}
 
 		@Override

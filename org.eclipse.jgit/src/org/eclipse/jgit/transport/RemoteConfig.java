@@ -292,22 +292,26 @@ public class RemoteConfig implements Serializable {
 
 	private String replaceUri(final String uri,
 			final Map<String, String> replacements) {
-		if (replacements.isEmpty())
+		if (replacements.isEmpty()) {
 			return uri;
+		}
 		Entry<String, String> match = null;
 		for (Entry<String, String> replacement : replacements.entrySet()) {
 			// Ignore current entry if not longer than previous match
 			if (match != null
-					&& match.getKey().length() > replacement.getKey().length())
+					&& match.getKey().length() > replacement.getKey()
+							.length()) {
 				continue;
-			if (!uri.startsWith(replacement.getKey()))
+			}
+			if (!uri.startsWith(replacement.getKey())) {
 				continue;
+			}
 			match = replacement;
 		}
-		if (match != null)
+		if (match != null) {
 			return match.getValue() + uri.substring(match.getKey().length());
-		else
-			return uri;
+		}
+		return uri;
 	}
 
 	/**

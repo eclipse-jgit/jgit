@@ -308,10 +308,10 @@ public class AppServer {
 
 		@Override
 		protected String[] loadRoleInfo(UserPrincipal user) {
-			if (users.get(user.getName()) == null)
+			if (users.get(user.getName()) == null) {
 				return null;
-			else
-				return new String[] { role };
+			}
+			return new String[] { role };
 		}
 
 		@Override

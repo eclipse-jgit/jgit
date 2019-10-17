@@ -102,9 +102,8 @@ class RefTreeBatch extends BatchRefUpdate {
 					if (isAtomic()) {
 						ReceiveCommand.abort(getCommands());
 						return;
-					} else {
-						continue;
 					}
+					continue;
 				}
 			}
 			todo.add(new Command(rw, c));

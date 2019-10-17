@@ -334,10 +334,10 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	private String getRefOrHEAD() {
-		if (ref != null)
+		if (ref != null) {
 			return ref;
-		else
-			return Constants.HEAD;
+		}
+		return Constants.HEAD;
 	}
 
 	/**

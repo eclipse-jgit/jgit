@@ -166,10 +166,10 @@ public class MergeConfig {
 		String mergeOptions = config.getString(
 				ConfigConstants.CONFIG_BRANCH_SECTION, branch,
 				ConfigConstants.CONFIG_KEY_MERGEOPTIONS);
-		if (mergeOptions != null)
+		if (mergeOptions != null) {
 			return mergeOptions.split("\\s"); //$NON-NLS-1$
-		else
-			return new String[0];
+		}
+		return new String[0];
 	}
 
 	private static class MergeConfigSectionParser implements
@@ -188,10 +188,10 @@ public class MergeConfig {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof MergeConfigSectionParser)
+			if (obj instanceof MergeConfigSectionParser) {
 				return branch.equals(((MergeConfigSectionParser) obj).branch);
-			else
-				return false;
+			}
+			return false;
 		}
 
 		@Override

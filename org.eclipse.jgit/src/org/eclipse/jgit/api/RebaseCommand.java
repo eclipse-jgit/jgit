@@ -509,10 +509,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().applyingCommit,
 					commitToPick.getShortMessage()), ProgressMonitor.UNKNOWN);
-			if (preserveMerges)
+			if (preserveMerges) {
 				return cherryPickCommitPreservingMerges(commitToPick);
-			else
-				return cherryPickCommitFlattening(commitToPick);
+			}
+			return cherryPickCommitFlattening(commitToPick);
 		} finally {
 			monitor.endTask();
 		}
@@ -539,11 +539,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					.call();
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
-					if (operation == Operation.BEGIN)
+					if (operation == Operation.BEGIN) {
 						return abort(RebaseResult
 								.failed(cherryPickResult.getFailingPaths()));
-					else
-						return stop(commitToPick, Status.STOPPED);
+					}
+					return stop(commitToPick, Status.STOPPED);
 				case CONFLICTING:
 					return stop(commitToPick, Status.STOPPED);
 				case OK:
@@ -599,11 +599,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					CherryPickResult cherryPickResult = pickCommand.call();
 					switch (cherryPickResult.getStatus()) {
 					case FAILED:
-						if (operation == Operation.BEGIN)
+						if (operation == Operation.BEGIN) {
 							return abort(RebaseResult.failed(
 									cherryPickResult.getFailingPaths()));
-						else
-							return stop(commitToPick, Status.STOPPED);
+						}
+						return stop(commitToPick, Status.STOPPED);
 					case CONFLICTING:
 						return stop(commitToPick, Status.STOPPED);
 					case OK:

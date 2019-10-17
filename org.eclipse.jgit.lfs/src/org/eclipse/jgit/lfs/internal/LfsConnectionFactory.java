@@ -179,9 +179,8 @@ public class LfsConnectionFactory {
 					remoteUrl, u);
 			additionalHeaders.putAll(action.header);
 			return action.href;
-		} else {
-			return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
 		}
+		return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
 	}
 
 	private static Protocol.ExpiringAction getSshAuthentication(
@@ -262,9 +261,8 @@ public class LfsConnectionFactory {
 
 		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
 			return path.substring(0, path.length() - 4);
-		} else {
-			return path;
 		}
+		return path;
 	}
 
 	/**

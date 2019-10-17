@@ -517,10 +517,10 @@ public class DirCacheCheckout {
 				prescanOneTree();
 
 			if (!conflicts.isEmpty()) {
-				if (failOnConflict)
+				if (failOnConflict) {
 					throw new CheckoutConflictException(conflicts.toArray(new String[0]));
-				else
-					cleanUpConflicts();
+				}
+				cleanUpConflicts();
 			}
 
 			// update our index
@@ -895,15 +895,14 @@ public class DirCacheCheckout {
 				// the workingtree entry doesn't exist or also contains a folder
 				// -> no problem
 				return;
-			} else {
-				// the workingtree entry exists and is not a folder
-				if (!idEqual(h, m)) {
-					// Because HEAD and MERGE differ we will try to update the
-					// workingtree with a folder -> return a conflict
-					conflict(name, null, null, null);
-				}
-				return;
 			}
+			// the workingtree entry exists and is not a folder
+			if (!idEqual(h, m)) {
+				// Because HEAD and MERGE differ we will try to update the
+				// workingtree with a folder -> return a conflict
+				conflict(name, null, null, null);
+			}
+			return;
 		}
 
 		if ((ffMask == 0x00F) && f != null && FileMode.TREE.equals(f.getEntryFileMode())) {
@@ -1083,15 +1082,15 @@ public class DirCacheCheckout {
 							// Something in Head
 
 							if (!FileMode.TREE.equals(f.getEntryFileMode())
-									&& FileMode.TREE.equals(iMode))
+									&& FileMode.TREE.equals(iMode)) {
 								// The workingtree contains a file and the index semantically contains a folder.
 								// Git considers the workingtree file as untracked. Just keep the untracked file.
 								return;
-							else
-								// -> file is dirty and tracked but is should be
-								// removed. That's a conflict
-								conflict(name, dce, h, m);
-						} else
+							}
+							// -> file is dirty and tracked but is should be
+							// removed. That's a conflict
+							conflict(name, dce, h, m);
+						} else {
 							// file doesn't exist or is clean
 							// Index contains the same as Head
 							// Something different from a submodule in Index
@@ -1099,7 +1098,8 @@ public class DirCacheCheckout {
 							// Something in Head
 							// -> Remove from index and delete the file
 							remove(name);
-					} else
+						}
+					} else {
 						// Index contains something different from Head
 						// Something different from a submodule in Index
 						// Nothing in Merge
@@ -1108,6 +1108,7 @@ public class DirCacheCheckout {
 						// filesystem). But Merge wants the path to be removed.
 						// Report a conflict
 						conflict(name, dce, h, m);
+					}
 				}
 			} else {
 				// Something in Merge
@@ -1340,13 +1341,14 @@ public class DirCacheCheckout {
 	private boolean isModified_IndexTree(String path, ObjectId iId,
 			FileMode iMode, ObjectId tId, FileMode tMode, ObjectId rootTree)
 			throws CorruptObjectException, IOException {
-		if (iMode != tMode)
+		if (iMode != tMode) {
 			return true;
+		}
 		if (FileMode.TREE.equals(iMode)
-				&& (iId == null || ObjectId.zeroId().equals(iId)))
+				&& (iId == null || ObjectId.zeroId().equals(iId))) {
 			return isModifiedSubtree_IndexTree(path, rootTree);
-		else
-			return !equalIdAndMode(iId, iMode, tId, tMode);
+		}
+		return !equalIdAndMode(iId, iMode, tId, tMode);
 	}
 
 	/**

@@ -503,9 +503,8 @@ public abstract class Repository implements AutoCloseable {
 			if (resolved instanceof String) {
 				final Ref ref = findRef((String) resolved);
 				return ref != null ? ref.getLeaf().getObjectId() : null;
-			} else {
-				return (ObjectId) resolved;
 			}
+			return (ObjectId) resolved;
 		}
 	}
 
@@ -527,11 +526,12 @@ public abstract class Repository implements AutoCloseable {
 		try (RevWalk rw = new RevWalk(this)) {
 			rw.setRetainBody(true);
 			Object resolved = resolve(rw, revstr);
-			if (resolved != null)
-				if (resolved instanceof String)
+			if (resolved != null) {
+				if (resolved instanceof String) {
 					return (String) resolved;
-				else
-					return ((AnyObjectId) resolved).getName();
+				}
+				return ((AnyObjectId) resolved).getName();
+			}
 			return null;
 		}
 	}
@@ -760,15 +760,15 @@ public abstract class Repository implements AutoCloseable {
 						if (name == null)
 							throw new RevisionSyntaxException(revstr);
 					} else if (time.matches("^-\\d+$")) { //$NON-NLS-1$
-						if (name != null)
+						if (name != null) {
 							throw new RevisionSyntaxException(revstr);
-						else {
-							String previousCheckout = resolveReflogCheckout(-Integer
-									.parseInt(time));
-							if (ObjectId.isId(previousCheckout))
-								rev = parseSimple(rw, previousCheckout);
-							else
-								name = previousCheckout;
+						}
+						String previousCheckout = resolveReflogCheckout(
+								-Integer.parseInt(time));
+						if (ObjectId.isId(previousCheckout)) {
+							rev = parseSimple(rw, previousCheckout);
+						} else {
+							name = previousCheckout;
 						}
 					} else {
 						if (name == null)

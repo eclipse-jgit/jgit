@@ -232,9 +232,9 @@ public class BranchConfig {
 
 	private String getRemoteOrDefault() {
 		String remote = getRemote();
-		if (remote == null)
+		if (remote == null) {
 			return Constants.DEFAULT_REMOTE_NAME;
-		else
-			return remote;
+		}
+		return remote;
 	}
 }

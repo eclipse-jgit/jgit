@@ -82,9 +82,8 @@ public class NetscapeCookieFileCache {
 	public static NetscapeCookieFileCache getInstance(HttpConfig config) {
 		if (instance == null) {
 			return new NetscapeCookieFileCache(config);
-		} else {
-			return instance;
 		}
+		return instance;
 	}
 
 	/**

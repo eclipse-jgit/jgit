@@ -139,49 +139,48 @@ public class UnpackedObject {
 				}
 				return new LargeObject(type, size, path, id, wc.db);
 
-			} else {
-				readSome(in, hdr, 2, 18);
-				int c = hdr[0] & 0xff;
-				int type = (c >> 4) & 7;
-				long size = c & 15;
-				int shift = 4;
-				int p = 1;
-				while ((c & 0x80) != 0) {
-					c = hdr[p++] & 0xff;
-					size += ((long) (c & 0x7f)) << shift;
-					shift += 7;
-				}
-
-				switch (type) {
-				case Constants.OBJ_COMMIT:
-				case Constants.OBJ_TREE:
-				case Constants.OBJ_BLOB:
-				case Constants.OBJ_TAG:
-					// Acceptable types for a loose object.
-					break;
-				default:
-					throw new CorruptObjectException(id,
-							JGitText.get().corruptObjectInvalidType);
-				}
-
-				if (path == null && Integer.MAX_VALUE < size) {
-					LargeObjectException.ExceedsByteArrayLimit e;
-					e = new LargeObjectException.ExceedsByteArrayLimit();
-					e.setObjectId(id);
-					throw e;
-				}
-				if (size < wc.getStreamFileThreshold() || path == null) {
-					in.reset();
-					IO.skipFully(in, p);
-					Inflater inf = wc.inflater();
-					InputStream zIn = inflate(in, inf);
-					byte[] data = new byte[(int) size];
-					IO.readFully(zIn, data, 0, data.length);
-					checkValidEndOfStream(in, inf, id, hdr);
-					return new ObjectLoader.SmallObject(type, data);
-				}
-				return new LargeObject(type, size, path, id, wc.db);
 			}
+			readSome(in, hdr, 2, 18);
+			int c = hdr[0] & 0xff;
+			int type = (c >> 4) & 7;
+			long size = c & 15;
+			int shift = 4;
+			int p = 1;
+			while ((c & 0x80) != 0) {
+				c = hdr[p++] & 0xff;
+				size += ((long) (c & 0x7f)) << shift;
+				shift += 7;
+			}
+
+			switch (type) {
+			case Constants.OBJ_COMMIT:
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+			case Constants.OBJ_TAG:
+				// Acceptable types for a loose object.
+				break;
+			default:
+				throw new CorruptObjectException(id,
+						JGitText.get().corruptObjectInvalidType);
+			}
+
+			if (path == null && Integer.MAX_VALUE < size) {
+				LargeObjectException.ExceedsByteArrayLimit e;
+				e = new LargeObjectException.ExceedsByteArrayLimit();
+				e.setObjectId(id);
+				throw e;
+			}
+			if (size < wc.getStreamFileThreshold() || path == null) {
+				in.reset();
+				IO.skipFully(in, p);
+				Inflater inf = wc.inflater();
+				InputStream zIn = inflate(in, inf);
+				byte[] data = new byte[(int) size];
+				IO.readFully(zIn, data, 0, data.length);
+				checkValidEndOfStream(in, inf, id, hdr);
+				return new ObjectLoader.SmallObject(type, data);
+			}
+			return new LargeObject(type, size, path, id, wc.db);
 		} catch (ZipException badStream) {
 			throw new CorruptObjectException(id,
 					JGitText.get().corruptObjectBadStream);
@@ -213,19 +212,18 @@ public class UnpackedObject {
 							JGitText.get().corruptObjectNegativeSize);
 				return size;
 
-			} else {
-				readSome(in, hdr, 2, 18);
-				int c = hdr[0] & 0xff;
-				long size = c & 15;
-				int shift = 4;
-				int p = 1;
-				while ((c & 0x80) != 0) {
-					c = hdr[p++] & 0xff;
-					size += ((long) (c & 0x7f)) << shift;
-					shift += 7;
-				}
-				return size;
 			}
+			readSome(in, hdr, 2, 18);
+			int c = hdr[0] & 0xff;
+			long size = c & 15;
+			int shift = 4;
+			int p = 1;
+			while ((c & 0x80) != 0) {
+				c = hdr[p++] & 0xff;
+				size += ((long) (c & 0x7f)) << shift;
+				shift += 7;
+			}
+			return size;
 		} catch (ZipException badStream) {
 			throw new CorruptObjectException(id,
 					JGitText.get().corruptObjectBadStream);

@@ -88,9 +88,8 @@ public class ObjectIdSerializerTest {
 		try (InputStream in = new FileInputStream(file)) {
 			if (objectId == null) {
 				return ObjectIdSerializer.read(in);
-			} else {
-				return ObjectIdSerializer.readWithoutMarker(in);
 			}
+			return ObjectIdSerializer.readWithoutMarker(in);
 		}
 	}
 }

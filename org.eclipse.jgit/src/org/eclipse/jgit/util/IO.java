@@ -345,13 +345,14 @@ public class IO {
 					c = s.charAt(++i);
 					l.add(sb.toString());
 					sb.setLength(0);
-					if (c != '\n')
+					if (c != '\n') {
 						sb.append(c);
+					}
 					continue;
-				} else { // EOF
-					l.add(sb.toString());
-					break;
 				}
+				// EOF
+				l.add(sb.toString());
+				break;
 			}
 			sb.append(c);
 		}
@@ -401,20 +402,18 @@ public class IO {
 				}
 				resetAndSkipFully(in, n);
 			}
-		} else {
-			StringBuilder buf = sizeHint > 0
-					? new StringBuilder(sizeHint)
-					: new StringBuilder();
-			int i;
-			while ((i = in.read()) != -1) {
-				char c = (char) i;
-				buf.append(c);
-				if (c == '\n') {
-					break;
-				}
-			}
-			return buf.toString();
 		}
+		StringBuilder buf = sizeHint > 0 ? new StringBuilder(sizeHint)
+				: new StringBuilder();
+		int i;
+		while ((i = in.read()) != -1) {
+			char c = (char) i;
+			buf.append(c);
+			if (c == '\n') {
+				break;
+			}
+		}
+		return buf.toString();
 	}
 
 	private static void resetAndSkipFully(Reader fd, long toSkip) throws IOException {

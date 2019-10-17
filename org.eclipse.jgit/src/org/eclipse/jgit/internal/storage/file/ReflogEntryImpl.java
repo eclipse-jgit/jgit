@@ -140,9 +140,9 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/** {@inheritDoc} */
 	@Override
 	public CheckoutEntry parseCheckout() {
-		if (getComment().startsWith(CheckoutEntryImpl.CHECKOUT_MOVING_FROM))
+		if (getComment().startsWith(CheckoutEntryImpl.CHECKOUT_MOVING_FROM)) {
 			return new CheckoutEntryImpl(this);
-		else
-			return null;
+		}
+		return null;
 	}
 }

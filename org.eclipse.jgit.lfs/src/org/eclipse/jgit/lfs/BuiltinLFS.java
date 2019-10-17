@@ -83,9 +83,8 @@ public class BuiltinLFS extends LfsFactory {
 			Attribute attribute) throws IOException {
 		if (isEnabled(db) && (attribute == null || isEnabled(db, attribute))) {
 			return LfsBlobFilter.smudgeLfsBlob(db, loader);
-		} else {
-			return loader;
 		}
+		return loader;
 	}
 
 	@Override
@@ -93,9 +92,8 @@ public class BuiltinLFS extends LfsFactory {
 			long length, Attribute attribute) throws IOException {
 		if (isEnabled(db, attribute)) {
 			return new LfsInputStream(LfsBlobFilter.cleanLfsBlob(db, input));
-		} else {
-			return new LfsInputStream(input, length);
 		}
+		return new LfsInputStream(input, length);
 	}
 
 	@Override

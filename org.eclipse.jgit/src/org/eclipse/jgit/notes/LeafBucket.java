@@ -129,10 +129,10 @@ class LeafBucket extends InMemoryNoteBucket {
 
 			@Override
 			public Note next() {
-				if (hasNext())
+				if (hasNext()) {
 					return notes[idx++];
-				else
-					throw new NoSuchElementException();
+				}
+				throw new NoSuchElementException();
 			}
 
 			@Override
@@ -156,25 +156,23 @@ class LeafBucket extends InMemoryNoteBucket {
 				notes[p].setData(noteData.copy());
 				return this;
 
-			} else {
-				System.arraycopy(notes, p + 1, notes, p, cnt - p - 1);
-				cnt--;
-				return 0 < cnt ? this : null;
 			}
+			System.arraycopy(notes, p + 1, notes, p, cnt - p - 1);
+			cnt--;
+			return 0 < cnt ? this : null;
 
 		} else if (noteData != null) {
 			if (shouldSplit()) {
 				return split().set(noteOn, noteData, or);
-
-			} else {
-				growIfFull();
-				p = -(p + 1);
-				if (p < cnt)
-					System.arraycopy(notes, p, notes, p + 1, cnt - p);
-				notes[p] = new Note(noteOn, noteData.copy());
-				cnt++;
-				return this;
 			}
+			growIfFull();
+			p = -(p + 1);
+			if (p < cnt) {
+				System.arraycopy(notes, p, notes, p + 1, cnt - p);
+			}
+			notes[p] = new Note(noteOn, noteData.copy());
+			cnt++;
+			return this;
 
 		} else {
 			return this;
@@ -234,12 +232,10 @@ class LeafBucket extends InMemoryNoteBucket {
 	InMemoryNoteBucket append(Note note) {
 		if (shouldSplit()) {
 			return split().append(note);
-
-		} else {
-			growIfFull();
-			notes[cnt++] = note;
-			return this;
 		}
+		growIfFull();
+		notes[cnt++] = note;
+		return this;
 	}
 
 	private void growIfFull() {

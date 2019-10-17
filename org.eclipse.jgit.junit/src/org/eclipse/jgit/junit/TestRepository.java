@@ -782,9 +782,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			}
 			update(Constants.HEAD, result);
 			return pool.parseCommit(result);
-		} else {
-			throw new IOException("Merge conflict");
 		}
+		throw new IOException("Merge conflict");
 	}
 
 	/**

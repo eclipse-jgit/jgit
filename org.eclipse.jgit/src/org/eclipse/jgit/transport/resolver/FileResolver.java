@@ -124,8 +124,8 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 					// are responsible for closing the repository if we
 					// complete successfully.
 					return db;
-				} else
-					throw new ServiceNotEnabledException();
+				}
+				throw new ServiceNotEnabledException();
 
 			} catch (RuntimeException | IOException e) {
 				db.close();

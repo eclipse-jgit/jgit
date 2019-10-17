@@ -169,19 +169,19 @@ public class TreeRevFilter extends RevFilter {
 				//
 				c.flags |= rewriteFlag;
 				return false;
-			} else {
-				// We have interesting items, but neither of the special
-				// cases denoted above.
-				//
-				if (adds > 0 && tw.getFilter() instanceof FollowFilter) {
-					// One of the paths we care about was added in this
-					// commit. We need to update our filter to its older
-					// name, if we can discover it. Find out what that is.
-					//
-					updateFollowFilter(trees, ((FollowFilter) tw.getFilter()).cfg);
-				}
-				return true;
 			}
+
+			// We have interesting items, but neither of the special
+			// cases denoted above.
+			//
+			if (adds > 0 && tw.getFilter() instanceof FollowFilter) {
+				// One of the paths we care about was added in this
+				// commit. We need to update our filter to its older
+				// name, if we can discover it. Find out what that is.
+				//
+				updateFollowFilter(trees, ((FollowFilter) tw.getFilter()).cfg);
+			}
+			return true;
 		} else if (nParents == 0) {
 			// We have no parents to compare against. Consider us to be
 			// REWRITE only if we have no paths matching our filter.

@@ -87,16 +87,14 @@ public abstract class ReftableDatabase {
 				if (newRef.isSymbolic()) {
 					return ReceiveCommand.link(oldRef.getTarget().getName(),
 							newRef.getTarget().getName(), name);
-				} else {
-					// This should pass in oldId for compat with
-					// RefDirectoryUpdate
-					return ReceiveCommand.unlink(oldRef.getTarget().getName(),
-							newId, name);
 				}
-			} else {
+				// This should pass in oldId for compat with
+				// RefDirectoryUpdate
 				return ReceiveCommand.unlink(oldRef.getTarget().getName(),
-						ObjectId.zeroId(), name);
+						newId, name);
 			}
+			return ReceiveCommand.unlink(oldRef.getTarget().getName(),
+					ObjectId.zeroId(), name);
 		}
 
 		if (newRef != null && newRef.isSymbolic()) {
@@ -104,14 +102,12 @@ public abstract class ReftableDatabase {
 				if (oldRef.isSymbolic()) {
 					return ReceiveCommand.link(oldRef.getTarget().getName(),
 							newRef.getTarget().getName(), name);
-				} else {
-					return ReceiveCommand.link(oldId,
-							newRef.getTarget().getName(), name);
 				}
-			} else {
-				return ReceiveCommand.link(ObjectId.zeroId(),
+				return ReceiveCommand.link(oldId,
 						newRef.getTarget().getName(), name);
 			}
+			return ReceiveCommand.link(ObjectId.zeroId(),
+					newRef.getTarget().getName(), name);
 		}
 
 		return new ReceiveCommand(oldId, newId, name);

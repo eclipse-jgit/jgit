@@ -267,18 +267,18 @@ public class BlameResult {
 	 */
 	public int computeNext() throws IOException {
 		BlameGenerator gen = generator;
-		if (gen == null)
+		if (gen == null) {
 			return -1;
+		}
 
 		if (gen.next()) {
 			loadFrom(gen);
 			lastLength = gen.getRegionLength();
 			return gen.getResultStart();
-		} else {
-			gen.close();
-			generator = null;
-			return -1;
 		}
+		gen.close();
+		generator = null;
+		return -1;
 	}
 
 	/**

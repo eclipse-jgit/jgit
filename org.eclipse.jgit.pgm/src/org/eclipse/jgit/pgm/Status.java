@@ -306,8 +306,8 @@ class Status extends TextBuiltin {
 			}
 			outw.flush();
 			return list.size();
-		} else
-			return 0;
+		}
+		return 0;
 	}
 
 	/**

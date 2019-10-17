@@ -291,26 +291,25 @@ public class PathMatcher extends AbstractMatcher {
 					// We had a prefix match here.
 					if (!pathMatch) {
 						return true;
+					}
+					if (right == endExcl - 1) {
+						// Extra slash at the end: actually a full match.
+						// Must meet directory expectations
+						return !dirOnly || assumeDirectory;
+					}
+					// Prefix matches only if pattern ended with /**
+					if (wasWild) {
+						return true;
+					}
+					if (lastWildmatch >= 0) {
+						// Consider pattern **/x and input x/x.
+						// We've matched the prefix x/ so far: we
+						// must try to extend the **!
+						matcher = lastWildmatch + 1;
+						right = wildmatchBacktrackPos;
+						wildmatchBacktrackPos = -1;
 					} else {
-						if (right == endExcl - 1) {
-							// Extra slash at the end: actually a full match.
-							// Must meet directory expectations
-							return !dirOnly || assumeDirectory;
-						}
-						// Prefix matches only if pattern ended with /**
-						if (wasWild) {
-							return true;
-						}
-						if (lastWildmatch >= 0) {
-							// Consider pattern **/x and input x/x.
-							// We've matched the prefix x/ so far: we
-							// must try to extend the **!
-							matcher = lastWildmatch + 1;
-							right = wildmatchBacktrackPos;
-							wildmatchBacktrackPos = -1;
-						} else {
-							return false;
-						}
+						return false;
 					}
 				}
 			} else if (lastWildmatch != -1) {

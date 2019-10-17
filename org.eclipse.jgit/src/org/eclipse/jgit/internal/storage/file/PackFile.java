@@ -844,19 +844,20 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				case Constants.OBJ_TREE:
 				case Constants.OBJ_BLOB:
 				case Constants.OBJ_TAG: {
-					if (delta != null || sz < curs.getStreamFileThreshold())
+					if (delta != null || sz < curs.getStreamFileThreshold()) {
 						data = decompress(pos + p, (int) sz, curs);
+					}
 
 					if (delta != null) {
 						type = typeCode;
 						break SEARCH;
 					}
 
-					if (data != null)
+					if (data != null) {
 						return new ObjectLoader.SmallObject(typeCode, data);
-					else
-						return new LargePackedWholeObject(typeCode, sz, pos, p,
-								this, curs.db);
+					}
+					return new LargePackedWholeObject(typeCode, sz, pos, p,
+							this, curs.db);
 				}
 
 				case Constants.OBJ_OFS_DELTA: {
