@@ -652,42 +652,40 @@ public class ResolveMerger extends ThreeWayMerger {
 				keep(ourDce);
 				// no checkout needed!
 				return true;
-			} else {
-				// same content but different mode on OURS and THEIRS.
-				// Try to merge the mode and report an error if this is
-				// not possible.
-				int newMode = mergeFileModes(modeB, modeO, modeT);
-				if (newMode != FileMode.MISSING.getBits()) {
-					if (newMode == modeO)
-						// ours version is preferred
-						keep(ourDce);
-					else {
-						// the preferred version THEIRS has a different mode
-						// than ours. Check it out!
-						if (isWorktreeDirty(work, ourDce))
-							return false;
-						// we know about length and lastMod only after we have written the new content.
-						// This will happen later. Set these values to 0 for know.
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, EPOCH, 0);
-						addToCheckout(tw.getPathString(), e, attributes);
-					}
-					return true;
+			}
+			// same content but different mode on OURS and THEIRS.
+			// Try to merge the mode and report an error if this is
+			// not possible.
+			int newMode = mergeFileModes(modeB, modeO, modeT);
+			if (newMode != FileMode.MISSING.getBits()) {
+				if (newMode == modeO) {
+					// ours version is preferred
+					keep(ourDce);
 				} else {
-					// FileModes are not mergeable. We found a conflict on modes.
-					// For conflicting entries we don't know lastModified and length.
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH,
-							0);
-					unmergedPaths.add(tw.getPathString());
-					mergeResults.put(
-							tw.getPathString(),
-							new MergeResult<>(Collections
-									.<RawText> emptyList()));
+					// the preferred version THEIRS has a different mode
+					// than ours. Check it out!
+					if (isWorktreeDirty(work, ourDce)) {
+						return false;
+					}
+					// we know about length and lastMod only after we have
+					// written the new content.
+					// This will happen later. Set these values to 0 for know.
+					DirCacheEntry e = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					addToCheckout(tw.getPathString(), e, attributes);
 				}
 				return true;
 			}
+			// FileModes are not mergeable. We found a conflict on modes.
+			// For conflicting entries we don't know lastModified and
+			// length.
+			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+			unmergedPaths.add(tw.getPathString());
+			mergeResults.put(tw.getPathString(),
+					new MergeResult<>(Collections.<RawText> emptyList()));
+			return true;
 		}
 
 		if (modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
@@ -716,21 +714,20 @@ public class ResolveMerger extends ThreeWayMerger {
 					addToCheckout(tw.getPathString(), e, attributes);
 				}
 				return true;
-			} else {
-				// we want THEIRS ... but THEIRS contains a folder or the
-				// deletion of the path. Delete what's in the working tree,
-				// which we know to be clean.
-				if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0) {
-					// Not present in working tree, so nothing to delete
-					return true;
-				}
-				if (modeT != 0 && modeT == modeB) {
-					// Base, ours, and theirs all contain a folder: don't delete
-					return true;
-				}
-				addDeletion(tw.getPathString(), nonTree(modeO), attributes);
+			}
+			// we want THEIRS ... but THEIRS contains a folder or the
+			// deletion of the path. Delete what's in the working tree,
+			// which we know to be clean.
+			if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0) {
+				// Not present in working tree, so nothing to delete
 				return true;
 			}
+			if (modeT != 0 && modeT == modeB) {
+				// Base, ours, and theirs all contain a folder: don't delete
+				return true;
+			}
+			addDeletion(tw.getPathString(), nonTree(modeO), attributes);
+			return true;
 		}
 
 		if (tw.isSubtree()) {
@@ -1310,10 +1307,9 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (getUnmergedPaths().isEmpty() && !failed()) {
 			resultTree = dircache.writeTree(getObjectInserter());
 			return true;
-		} else {
-			resultTree = null;
-			return false;
 		}
+		resultTree = null;
+		return false;
 	}
 
 	/**

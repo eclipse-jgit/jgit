@@ -153,15 +153,16 @@ public class MergeMessageFormatter {
 	private static void addConflictsMessage(List<String> conflictingPaths,
 			StringBuilder sb) {
 		sb.append("Conflicts:\n"); //$NON-NLS-1$
-		for (String conflictingPath : conflictingPaths)
+		for (String conflictingPath : conflictingPaths) {
 			sb.append('\t').append(conflictingPath).append('\n');
+		}
 	}
 
 	private static String joinNames(List<String> names, String singular,
 			String plural) {
-		if (names.size() == 1)
+		if (names.size() == 1) {
 			return singular + " " + names.get(0); //$NON-NLS-1$
-		else
-			return plural + " " + StringUtils.join(names, ", ", " and "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		return plural + " " + StringUtils.join(names, ", ", " and "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 }

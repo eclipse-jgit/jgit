@@ -489,8 +489,8 @@ public class DiffFormatter implements AutoCloseable {
 			CanonicalTreeParser parser = new CanonicalTreeParser();
 			parser.reset(reader, tree);
 			return parser;
-		} else
-			return new EmptyTreeIterator();
+		}
+		return new EmptyTreeIterator();
 	}
 
 	/**

@@ -594,10 +594,9 @@ public class RefDirectory extends RefDatabase {
 			if (obj instanceof RevTag) {
 				return new ObjectIdRef.PeeledTag(leaf.getStorage(), leaf
 						.getName(), leaf.getObjectId(), rw.peel(obj).copy());
-			} else {
-				return new ObjectIdRef.PeeledNonTag(leaf.getStorage(), leaf
-						.getName(), leaf.getObjectId());
 			}
+			return new ObjectIdRef.PeeledNonTag(leaf.getStorage(),
+					leaf.getName(), leaf.getObjectId());
 		}
 	}
 
@@ -894,10 +893,9 @@ public class RefDirectory extends RefDatabase {
 		if (peeledObjectId != null) {
 			return new ObjectIdRef.PeeledTag(PACKED, f.getName(),
 					f.getObjectId(), peeledObjectId);
-		} else {
-			return new ObjectIdRef.PeeledNonTag(PACKED, f.getName(),
-					f.getObjectId());
 		}
+		return new ObjectIdRef.PeeledNonTag(PACKED, f.getName(),
+				f.getObjectId());
 	}
 
 	void log(boolean force, RefUpdate update, String msg, boolean deref)
@@ -1480,10 +1478,8 @@ public class RefDirectory extends RefDatabase {
 			if (peeledObjectId != null) {
 				return new LoosePeeledTag(snapShot, getName(),
 						objectId, peeledObjectId);
-			} else {
-				return new LooseNonTag(snapShot, getName(),
-						objectId);
 			}
+			return new LooseNonTag(snapShot, getName(), objectId);
 		}
 	}
 

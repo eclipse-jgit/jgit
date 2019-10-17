@@ -133,16 +133,15 @@ public class HttpAuthTest {
 
 		@Override
 		public String getHeaderField(String name) {
-			if (!headerFields.containsKey(name))
+			if (!headerFields.containsKey(name)) {
 				return null;
-			else {
-				int n = headerFields.get(name).size();
-
-				if (n > 0)
-					return headerFields.get(name).get(n - 1);
-				else
-					return null;
 			}
+			int n = headerFields.get(name).size();
+
+			if (n > 0) {
+				return headerFields.get(name).get(n - 1);
+			}
+			return null;
 		}
 
 		@Override

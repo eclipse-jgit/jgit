@@ -243,9 +243,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 			if (repo instanceof FileRepository) {
 				GC gc = new GC((FileRepository) repo);
 				return toProperties(gc.getStatistics());
-			} else {
-				return new Properties();
 			}
+			return new Properties();
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().couldNotGetRepoStatistics, e);

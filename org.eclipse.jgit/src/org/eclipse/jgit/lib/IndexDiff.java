@@ -606,16 +606,17 @@ public class IndexDiff {
 		}
 
 		// consume the remaining work
-		if (monitor != null)
+		if (monitor != null) {
 			monitor.endTask();
+		}
 
 		ignored = indexDiffFilter.getIgnoredPaths();
 		if (added.isEmpty() && changed.isEmpty() && removed.isEmpty()
 				&& missing.isEmpty() && modified.isEmpty()
-				&& untracked.isEmpty())
+				&& untracked.isEmpty()) {
 			return false;
-		else
-			return true;
+		}
+		return true;
 	}
 
 	private boolean hasFiles(File directory) {

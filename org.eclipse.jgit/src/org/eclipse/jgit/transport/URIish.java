@@ -351,10 +351,7 @@ public class URIish implements Serializable {
 	}
 
 	private String n2e(String s) {
-		if (s == null)
-			return ""; //$NON-NLS-1$
-		else
-			return s;
+		return s == null ? "" : s; //$NON-NLS-1$
 	}
 
 	// takes care to cut of a leading slash if a windows drive letter or a

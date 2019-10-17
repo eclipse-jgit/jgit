@@ -98,15 +98,16 @@ public abstract class LimitedInputStream extends FilterInputStream {
 	@Override
 	public int read() throws IOException {
 		if (left == 0) {
-			if (in.available() == 0)
+			if (in.available() == 0) {
 				return -1;
-			else
-				limitExceeded();
+			}
+			limitExceeded();
 		}
 
 		int result = in.read();
-		if (result != -1)
+		if (result != -1) {
 			--left;
+		}
 		return result;
 	}
 
@@ -114,16 +115,17 @@ public abstract class LimitedInputStream extends FilterInputStream {
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (left == 0) {
-			if (in.available() == 0)
+			if (in.available() == 0) {
 				return -1;
-			else
-				limitExceeded();
+			}
+			limitExceeded();
 		}
 
 		len = (int) Math.min(len, left);
 		int result = in.read(b, off, len);
-		if (result != -1)
+		if (result != -1) {
 			left -= result;
+		}
 		return result;
 	}
 

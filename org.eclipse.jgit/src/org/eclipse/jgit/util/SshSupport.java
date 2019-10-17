@@ -109,9 +109,8 @@ public class SshSupport {
 				// wrong exception type :(
 				if (process.waitFor() == 0) {
 					return stdout.toString();
-				} else {
-					return null; // still running after timeout
 				}
+				return null; // still running after timeout
 			} catch (InterruptedException e) {
 				return null; // error
 			}

@@ -103,25 +103,29 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	private static File getSymRef(File workTree, File dotGit, FS fs)
 			throws IOException {
 		byte[] content = IO.readFully(dotGit);
-		if (!isSymRef(content))
+		if (!isSymRef(content)) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+		}
 
 		int pathStart = 8;
 		int lineEnd = RawParseUtils.nextLF(content, pathStart);
 		while (content[lineEnd - 1] == '\n' ||
-		       (content[lineEnd - 1] == '\r' && SystemReader.getInstance().isWindows()))
+				(content[lineEnd - 1] == '\r'
+						&& SystemReader.getInstance().isWindows())) {
 			lineEnd--;
-		if (lineEnd == pathStart)
+		}
+		if (lineEnd == pathStart) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+		}
 
 		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
 		File gitdirFile = fs.resolve(workTree, gitdirPath);
-		if (gitdirFile.isAbsolute())
+		if (gitdirFile.isAbsolute()) {
 			return gitdirFile;
-		else
-			return new File(workTree, gitdirPath).getCanonicalFile();
+		}
+		return new File(workTree, gitdirPath).getCanonicalFile();
 	}
 
 	private FS fs;
@@ -723,9 +727,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 								.getAbsolutePath(), err.getMessage()));
 			}
 			return cfg;
-		} else {
-			return new Config();
 		}
+		return new Config();
 	}
 
 	private File guessWorkTreeOrFail() throws IOException {

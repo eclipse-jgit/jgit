@@ -1751,23 +1751,23 @@ public class PackWriter implements AutoCloseable {
 							NullProgressMonitor.INSTANCE,
 							Collections.singleton(otp));
 					continue;
-				} else {
-					// Object writing already started, we cannot recover.
-					//
-					CorruptObjectException coe;
-					coe = new CorruptObjectException(otp, ""); //$NON-NLS-1$
-					coe.initCause(gone);
-					throw coe;
 				}
+				// Object writing already started, we cannot recover.
+				//
+				CorruptObjectException coe;
+				coe = new CorruptObjectException(otp, ""); //$NON-NLS-1$
+				coe.initCause(gone);
+				throw coe;
 			}
 		}
 
 		// If we reached here, reuse wasn't possible.
 		//
-		if (otp.isDeltaRepresentation())
+		if (otp.isDeltaRepresentation()) {
 			writeDeltaObjectDeflate(out, otp);
-		else
+		} else {
 			writeWholeObjectDeflate(out, otp);
+		}
 		out.endObject();
 		otp.setCRC((int) crc32.getValue());
 	}

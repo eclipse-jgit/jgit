@@ -391,11 +391,10 @@ public class PlotCommitList<L extends PlotLane> extends
 					return pos.intValue();
 				}
 			return positionsAllocated++;
-		} else {
-			final Integer min = freePositions.first();
-			freePositions.remove(min);
-			return min.intValue();
 		}
+		final Integer min = freePositions.first();
+		freePositions.remove(min);
+		return min.intValue();
 	}
 
 	/**

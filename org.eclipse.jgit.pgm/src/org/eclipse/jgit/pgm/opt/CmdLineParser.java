@@ -299,10 +299,10 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	/** {@inheritDoc} */
 	@Override
 	protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
-		if (o instanceof NamedOptionDef)
+		if (o instanceof NamedOptionDef) {
 			return super.createOptionHandler(o, setter);
-		else
-			return super.createOptionHandler(new MyOptionDef(o), setter);
+		}
+		return super.createOptionHandler(new MyOptionDef(o), setter);
 
 	}
 

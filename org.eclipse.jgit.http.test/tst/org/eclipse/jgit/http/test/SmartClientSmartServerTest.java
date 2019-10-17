@@ -331,9 +331,8 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 					String fragment = u.getRawFragment();
 					if (fragment != null) {
 						return u.getRawPath() + '#' + fragment;
-					} else {
-						return u.getRawPath();
 					}
+					return u.getRawPath();
 				} catch (URISyntaxException e) {
 					return url;
 				}

@@ -136,18 +136,15 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 			if (v != null) {
 				item.setValue(new String(v));
 				return true;
-			} else {
-				return false;
 			}
-		} else {
-			String v = cons.readLine("%s: ", item.getPromptText()); //$NON-NLS-1$
-			if (v != null) {
-				item.setValue(v);
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
+		String v = cons.readLine("%s: ", item.getPromptText()); //$NON-NLS-1$
+		if (v != null) {
+			item.setValue(v);
+			return true;
+		}
+		return false;
 	}
 
 	private boolean get(CredentialItem.CharArrayType item) {
@@ -156,18 +153,15 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 			if (v != null) {
 				item.setValueNoCopy(v);
 				return true;
-			} else {
-				return false;
 			}
-		} else {
-			String v = cons.readLine("%s: ", item.getPromptText()); //$NON-NLS-1$
-			if (v != null) {
-				item.setValueNoCopy(v.toCharArray());
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
+		String v = cons.readLine("%s: ", item.getPromptText()); //$NON-NLS-1$
+		if (v != null) {
+			item.setValueNoCopy(v.toCharArray());
+			return true;
+		}
+		return false;
 	}
 
 	private boolean get(CredentialItem.InformationalMessage item) {
@@ -182,8 +176,7 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		if (r != null) {
 			item.setValue(CLIText.get().answerYes.equalsIgnoreCase(r));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }

@@ -83,8 +83,7 @@ public class DefaultUploadPackFactory implements
 				up.setExtraParameters(Arrays.asList(params));
 			}
 			return up;
-		} else {
-			throw new ServiceNotEnabledException();
 		}
+		throw new ServiceNotEnabledException();
 	}
 }

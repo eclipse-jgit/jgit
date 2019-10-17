@@ -138,9 +138,8 @@ class TextHashFunctions extends TextBuiltin {
 				Arrays.fill(buf16, (byte) 0);
 				System.arraycopy(raw, ptr, buf16, 0, end - ptr);
 				return rabin(buf16, 0);
-			} else {
-				return rabin(raw, ptr);
 			}
+			return rabin(raw, ptr);
 		}
 
 		private int rabin(byte[] raw, int ptr) {

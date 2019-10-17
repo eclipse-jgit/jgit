@@ -134,11 +134,9 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			throw new IllegalArgumentException(
 					MessageFormat.format(JGitText.get().enumValueNotSupported3,
 							section, subsection, name, value));
-		} else {
-			throw new IllegalArgumentException(
-					MessageFormat.format(JGitText.get().enumValueNotSupported2,
-							section, name, value));
 		}
+		throw new IllegalArgumentException(MessageFormat.format(
+				JGitText.get().enumValueNotSupported2, section, name, value));
 	}
 
 	/** {@inheritDoc} */

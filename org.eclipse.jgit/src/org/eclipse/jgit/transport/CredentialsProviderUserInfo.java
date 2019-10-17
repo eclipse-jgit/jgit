@@ -107,10 +107,9 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		if (provider.get(uri, v)) {
 			passphrase = v.getValue();
 			return true;
-		} else {
-			passphrase = null;
-			return false;
 		}
+		passphrase = null;
+		return false;
 	}
 
 	/** {@inheritDoc} */
@@ -120,10 +119,9 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		if (provider.get(uri, p)) {
 			password = new String(p.getValue());
 			return true;
-		} else {
-			password = null;
-			return false;
 		}
+		password = null;
+		return false;
 	}
 
 	private CredentialItem.StringType newPrompt(String msg) {

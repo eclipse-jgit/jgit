@@ -239,9 +239,8 @@ public class WalkEncryptionTest {
 				loadEnvVar(ENV_SECRET_KEY, SECRET_KEY, props);
 				loadEnvVar(ENV_BUCKET_NAME, TEST_BUCKET, props);
 				return props;
-			} else {
-				return null;
 			}
+			return null;
 		}
 
 		static Properties fromEnvFile() throws Exception {
@@ -250,12 +249,10 @@ public class WalkEncryptionTest {
 				props.load(new FileInputStream(ENV_CONFIG_FILE));
 				if (checkTestProps(props)) {
 					return props;
-				} else {
-					throw new Error("Environment config file is incomplete.");
 				}
-			} else {
-				return null;
+				throw new Error("Environment config file is incomplete.");
 			}
+			return null;
 		}
 
 		static Properties fromSysProps() {
@@ -266,9 +263,8 @@ public class WalkEncryptionTest {
 				loadSysProp(SYS_SECRET_KEY, SECRET_KEY, props);
 				loadSysProp(SYS_BUCKET_NAME, TEST_BUCKET, props);
 				return props;
-			} else {
-				return null;
 			}
+			return null;
 		}
 
 		static Properties fromSysFile() throws Exception {
@@ -277,12 +273,10 @@ public class WalkEncryptionTest {
 				props.load(new FileInputStream(SYS_CONFIG_FILE));
 				if (checkTestProps(props)) {
 					return props;
-				} else {
-					throw new Error("System props config file is incomplete.");
 				}
-			} else {
-				return null;
+				throw new Error("System props config file is incomplete.");
 			}
+			return null;
 		}
 
 		static Properties fromConfigFile(String path) throws Exception {
@@ -292,12 +286,10 @@ public class WalkEncryptionTest {
 				props.load(new FileInputStream(file));
 				if (checkTestProps(props)) {
 					return props;
-				} else {
-					throw new Error("Props config file is incomplete: " + path);
 				}
-			} else {
-				return null;
+				throw new Error("Props config file is incomplete: " + path);
 			}
+			return null;
 		}
 
 		/**

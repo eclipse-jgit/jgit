@@ -285,9 +285,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			} else if (attributes.isDirectory()) {
 				if (new File(f, Constants.DOT_GIT).exists()) {
 					return FileMode.GITLINK;
-				} else {
-					return FileMode.TREE;
 				}
+				return FileMode.TREE;
 			} else if (attributes.isExecutable()) {
 				return FileMode.EXECUTABLE_FILE;
 			} else {
@@ -425,9 +424,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			if (attributes.isSymbolicLink()) {
 				return new ByteArrayInputStream(fs.readSymLink(getFile())
 						.getBytes(UTF_8));
-			} else {
-				return new FileInputStream(getFile());
 			}
+			return new FileInputStream(getFile());
 		}
 
 		/**

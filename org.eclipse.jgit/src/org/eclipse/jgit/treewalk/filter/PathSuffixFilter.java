@@ -99,10 +99,10 @@ public class PathSuffixFilter extends TreeFilter {
 	@Override
 	public boolean include(TreeWalk walker) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		if (walker.isSubtree())
+		if (walker.isSubtree()) {
 			return true;
-		else
-			return walker.isPathSuffix(pathRaw, pathRaw.length);
+		}
+		return walker.isPathSuffix(pathRaw, pathRaw.length);
 
 	}
 

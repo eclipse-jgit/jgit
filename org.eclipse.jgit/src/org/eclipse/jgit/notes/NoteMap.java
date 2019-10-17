@@ -278,10 +278,10 @@ public class NoteMap implements Iterable<Note> {
 	public byte[] getCachedBytes(AnyObjectId id, int sizeLimit)
 			throws LargeObjectException, MissingObjectException, IOException {
 		ObjectId dataId = get(id);
-		if (dataId != null)
+		if (dataId != null) {
 			return reader.open(dataId).getCachedBytes(sizeLimit);
-		else
-			return null;
+		}
+		return null;
 	}
 
 	/**

@@ -207,11 +207,10 @@ public final class HttpParser {
 						next++;
 					}
 					return next;
-				} else {
-					// This token must be the name of the next authentication
-					// scheme.
-					return start;
 				}
+				// This token must be the name of the next authentication
+				// scheme.
+				return start;
 			}
 			int nextStart = skipWhiteSpace(header, next + 1);
 			if (nextStart >= length) {
@@ -244,11 +243,10 @@ public final class HttpParser {
 					// token, and the equals sign is part of the token
 					challenge.setToken(header.substring(start, end + 1));
 					return nextStart + 1;
-				} else {
-					// Key without value...
-					challenge.addArgument(header.substring(start, end), null);
-					start = nextStart + 1;
 				}
+				// Key without value...
+				challenge.addArgument(header.substring(start, end), null);
+				start = nextStart + 1;
 			} else {
 				if (header.charAt(nextStart) == '"') {
 					int nextEnd[] = { nextStart + 1 };

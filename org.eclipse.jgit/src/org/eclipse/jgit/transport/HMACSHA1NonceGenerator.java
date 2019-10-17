@@ -135,9 +135,8 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 
 		if (nonceStampSlop <= slop) {
 			return NonceStatus.OK;
-		} else {
-			return NonceStatus.SLOP;
 		}
+		return NonceStatus.SLOP;
 	}
 
 	private static final String HEX = "0123456789ABCDEF"; //$NON-NLS-1$

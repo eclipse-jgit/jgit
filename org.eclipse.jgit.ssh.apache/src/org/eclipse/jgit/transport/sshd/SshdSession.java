@@ -354,9 +354,8 @@ public class SshdSession implements RemoteSession {
 			if (path.charAt(0) != '/') {
 				if (cwd.charAt(cwd.length() - 1) == '/') {
 					return cwd + path;
-				} else {
-					return cwd + '/' + path;
 				}
+				return cwd + '/' + path;
 			}
 			return path;
 		}

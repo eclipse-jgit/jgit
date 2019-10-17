@@ -307,10 +307,10 @@ public class NoteMapMerger {
 
 	private static InMemoryNoteBucket addIfNotNull(InMemoryNoteBucket result,
 			Note note) {
-		if (note != null)
+		if (note != null) {
 			return result.append(note);
-		else
-			return result;
+		}
+		return result;
 	}
 
 	private NonNoteEntry mergeNonNotes(NonNoteEntry baseList,

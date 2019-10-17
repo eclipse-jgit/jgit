@@ -90,9 +90,8 @@ class RefDirectoryUpdate extends RefUpdate {
 			dst = database.findRef(name);
 			setOldObjectId(dst != null ? dst.getObjectId() : null);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/** {@inheritDoc} */

@@ -147,15 +147,15 @@ public abstract class FS {
 		 */
 		public FS detect(Boolean cygwinUsed) {
 			if (SystemReader.getInstance().isWindows()) {
-				if (cygwinUsed == null)
+				if (cygwinUsed == null) {
 					cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
-				if (cygwinUsed.booleanValue())
+				}
+				if (cygwinUsed.booleanValue()) {
 					return new FS_Win32_Cygwin();
-				else
-					return new FS_Win32();
-			} else {
-				return new FS_POSIX();
+				}
+				return new FS_Win32();
 			}
+			return new FS_POSIX();
 		}
 	}
 
@@ -1197,14 +1197,13 @@ public abstract class FS {
 					gobbler.join();
 					if (rc == 0 && !gobbler.fail.get()) {
 						return r;
-					} else {
-						if (debug) {
-							LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
-						}
-						throw new CommandFailedException(rc,
-								gobbler.errorMessage.get(),
-								gobbler.exception.get());
 					}
+					if (debug) {
+						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
+					}
+					throw new CommandFailedException(rc,
+							gobbler.errorMessage.get(),
+							gobbler.exception.get());
 				} catch (InterruptedException ie) {
 					// Stop bothering me, I have a zombie to reap.
 				}

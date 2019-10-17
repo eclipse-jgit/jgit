@@ -698,9 +698,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		public CredentialItem[] items() {
 			if (forRepo == null) {
 				return new CredentialItem[] { message, now, always };
-			} else {
-				return new CredentialItem[] { message, now, forRepo, always };
 			}
+			return new CredentialItem[] { message, now, forRepo, always };
 		}
 	}
 
@@ -1076,13 +1075,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		host = host.toLowerCase(Locale.ROOT);
 		if (host.equals(cookieDomain)) {
 			return true;
-		} else {
-			if (!host.endsWith(cookieDomain)) {
-				return false;
-			}
-			return host
-					.charAt(host.length() - cookieDomain.length() - 1) == '.';
 		}
+		if (!host.endsWith(cookieDomain)) {
+			return false;
+		}
+		return host.charAt(host.length() - cookieDomain.length() - 1) == '.';
 	}
 
 	/**

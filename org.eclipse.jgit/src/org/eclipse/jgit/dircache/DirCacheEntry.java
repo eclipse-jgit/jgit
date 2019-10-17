@@ -824,10 +824,10 @@ public class DirCacheEntry {
 	}
 
 	private int getExtendedFlags() {
-		if (isExtended())
+		if (isExtended()) {
 			return NB.decodeUInt16(info, infoOffset + P_FLAGS2) << 16;
-		else
-			return 0;
+		}
+		return 0;
 	}
 
 	private static void checkPath(byte[] path) {

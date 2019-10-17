@@ -303,10 +303,10 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	/** {@inheritDoc} */
 	@Override
 	public final boolean equals(Object o) {
-		if (o instanceof AnyLongObjectId)
+		if (o instanceof AnyLongObjectId) {
 			return equals((AnyLongObjectId) o);
-		else
-			return false;
+		}
+		return false;
 	}
 
 	/**

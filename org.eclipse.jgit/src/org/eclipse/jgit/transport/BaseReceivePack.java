@@ -1579,14 +1579,15 @@ public abstract class BaseReceivePack {
 			RevObject o;
 			while ((o = ow.nextObject()) != null) {
 				checking.update(1);
-				if (o.has(RevFlag.UNINTERESTING))
+				if (o.has(RevFlag.UNINTERESTING)) {
 					continue;
+				}
 
 				if (providedObjects != null) {
-					if (providedObjects.contains(o))
+					if (providedObjects.contains(o)) {
 						continue;
-					else
-						throw new MissingObjectException(o, o.getType());
+					}
+					throw new MissingObjectException(o, o.getType());
 				}
 
 				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
@@ -1597,8 +1598,9 @@ public abstract class BaseReceivePack {
 			if (baseObjects != null) {
 				for (ObjectId id : baseObjects) {
 					o = ow.parseAny(id);
-					if (!o.has(RevFlag.UNINTERESTING))
+					if (!o.has(RevFlag.UNINTERESTING)) {
 						throw new MissingObjectException(o, o.getType());
+					}
 				}
 			}
 		}

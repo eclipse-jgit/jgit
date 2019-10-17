@@ -304,11 +304,11 @@ public class FileNameMatcher {
 
 	private static AbstractHead createWildCardHead(
 			final Character invalidWildgetCharacter, final boolean star) {
-		if (invalidWildgetCharacter != null)
+		if (invalidWildgetCharacter != null) {
 			return new RestrictedWildCardHead(invalidWildgetCharacter
 					.charValue(), star);
-		else
-			return new WildCardHead(star);
+		}
+		return new WildCardHead(star);
 	}
 
 	/**

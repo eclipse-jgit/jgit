@@ -86,10 +86,10 @@ abstract class ServletBinderImpl implements ServletBinder {
 	 * @return the configured servlet, or singleton returning 404 if none.
 	 */
 	protected HttpServlet getServlet() {
-		if (httpServlet != null)
+		if (httpServlet != null) {
 			return httpServlet;
-		else
-			return new ErrorServlet(HttpServletResponse.SC_NOT_FOUND);
+		}
+		return new ErrorServlet(HttpServletResponse.SC_NOT_FOUND);
 	}
 
 	/**

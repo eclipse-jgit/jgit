@@ -152,11 +152,10 @@ class GcLog {
 	boolean commit() {
 		if (nonEmpty) {
 			return lock.commit();
-		} else {
-			logFile.delete();
-			lock.unlock();
-			return true;
 		}
+		logFile.delete();
+		lock.unlock();
+		return true;
 	}
 
 	/**

@@ -422,10 +422,10 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	private String getPathWithSlash() {
-		if (path.endsWith("/")) //$NON-NLS-1$
+		if (path.endsWith("/")) { //$NON-NLS-1$
 			return path;
-		else
-			return path + "/"; //$NON-NLS-1$
+		}
+		return path + "/"; //$NON-NLS-1$
 	}
 
 	/**

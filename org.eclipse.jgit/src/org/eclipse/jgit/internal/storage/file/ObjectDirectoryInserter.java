@@ -109,10 +109,9 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		ObjectId id = idFor(type, data, off, len);
 		if (!createDuplicate && db.has(id)) {
 			return id;
-		} else {
-			File tmp = toTemp(type, data, off, len);
-			return insertOneObject(tmp, id, createDuplicate);
 		}
+		File tmp = toTemp(type, data, off, len);
+		return insertOneObject(tmp, id, createDuplicate);
 	}
 
 	/** {@inheritDoc} */
@@ -141,12 +140,11 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			int actLen = IO.readFully(is, buf, 0);
 			return insert(type, buf, 0, actLen, createDuplicate);
 
-		} else {
-			SHA1 md = digest();
-			File tmp = toTemp(md, type, len, is);
-			ObjectId id = md.toObjectId();
-			return insertOneObject(tmp, id, createDuplicate);
 		}
+		SHA1 md = digest();
+		File tmp = toTemp(md, type, len, is);
+		ObjectId id = md.toObjectId();
+		return insertOneObject(tmp, id, createDuplicate);
 	}
 
 	private ObjectId insertOneObject(

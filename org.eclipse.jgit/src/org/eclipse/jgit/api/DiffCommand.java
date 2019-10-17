@@ -136,28 +136,32 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 				}
 				newTree = new DirCacheIterator(repo.readDirCache());
 			} else {
-				if (oldTree == null)
+				if (oldTree == null) {
 					oldTree = new DirCacheIterator(repo.readDirCache());
-				if (newTree == null)
+				}
+				if (newTree == null) {
 					newTree = new FileTreeIterator(repo);
+				}
 			}
 
 			diffFmt.setPathFilter(pathFilter);
 
 			List<DiffEntry> result = diffFmt.scan(oldTree, newTree);
-			if (showNameAndStatusOnly)
-				return result;
-			else {
-				if (contextLines >= 0)
-					diffFmt.setContext(contextLines);
-				if (destinationPrefix != null)
-					diffFmt.setNewPrefix(destinationPrefix);
-				if (sourcePrefix != null)
-					diffFmt.setOldPrefix(sourcePrefix);
-				diffFmt.format(result);
-				diffFmt.flush();
+			if (showNameAndStatusOnly) {
 				return result;
 			}
+			if (contextLines >= 0) {
+				diffFmt.setContext(contextLines);
+			}
+			if (destinationPrefix != null) {
+				diffFmt.setNewPrefix(destinationPrefix);
+			}
+			if (sourcePrefix != null) {
+				diffFmt.setOldPrefix(sourcePrefix);
+			}
+			diffFmt.format(result);
+			diffFmt.flush();
+			return result;
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}

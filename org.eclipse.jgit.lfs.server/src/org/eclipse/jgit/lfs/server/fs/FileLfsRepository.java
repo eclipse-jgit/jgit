@@ -110,9 +110,8 @@ public class FileLfsRepository implements LargeFileRepository {
 		Path p = getPath(id);
 		if (Files.exists(p)) {
 			return Files.size(p);
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	/**
