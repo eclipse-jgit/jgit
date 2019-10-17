@@ -205,7 +205,7 @@ public class AppServer {
 	}
 
 	private SslContextFactory createTestSslContextFactory(String hostName) {
-		SslContextFactory factory = new SslContextFactory(true);
+		SslContextFactory.Client factory = new SslContextFactory.Client(true);
 
 		String dName = "CN=,OU=,O=,ST=,L=,C=";
 
