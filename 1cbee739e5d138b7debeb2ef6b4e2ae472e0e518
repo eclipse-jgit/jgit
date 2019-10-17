@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e6a87eea_2b80a76b",
+        "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-17T01:06:21Z",
+      "side": 1,
+      "message": "should these be \"error\"?",
+      "range": {
+        "startLine": 95,
+        "startChar": 54,
+        "endLine": 95,
+        "endChar": 61
+      },
+      "revId": "1cbee739e5d138b7debeb2ef6b4e2ae472e0e518",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec3e8219_349f3f7a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 1
