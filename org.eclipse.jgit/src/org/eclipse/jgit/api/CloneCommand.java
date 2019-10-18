@@ -77,8 +77,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Clone a repository into a new working directory
@@ -104,7 +104,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
-	private boolean cloneAllBranches;
+	private FETCH_TYPE fetchType = FETCH_TYPE.ALL_BRANCHES;
 
 	private boolean cloneSubmodules;
 
@@ -117,6 +117,10 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private boolean directoryExistsInitially;
 
 	private boolean gitDirExistsInitially;
+
+	private enum FETCH_TYPE {
+		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
+	}
 
 	/**
 	 * Callback for status of clone operation.
@@ -282,12 +286,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
 		config.addURI(u);
 
-		final String dst = (bare ? Constants.R_HEADS : Constants.R_REMOTES
-				+ config.getName() + '/') + '*';
-		boolean fetchAll = cloneAllBranches || branchesToClone == null
-				|| branchesToClone.isEmpty();
+		boolean fetchAll = fetchType == FETCH_TYPE.ALL_BRANCHES
+				|| fetchType == FETCH_TYPE.MIRROR;
 
-		config.setFetchRefSpecs(calculateRefSpecs(fetchAll, dst));
+		config.setFetchRefSpecs(calculateRefSpecs(fetchType, config.getName()));
+		config.setMirror(fetchType == FETCH_TYPE.MIRROR);
 		config.update(clonedRepo.getConfig());
 
 		clonedRepo.getConfig().save();
@@ -302,26 +305,33 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		return command.call();
 	}
 
-	private List<RefSpec> calculateRefSpecs(boolean fetchAll, String dst) {
-		RefSpec heads = new RefSpec();
-		heads = heads.setForceUpdate(true);
-		heads = heads.setSourceDestination(Constants.R_HEADS + '*', dst);
+	private List<RefSpec> calculateRefSpecs(FETCH_TYPE type,
+			String remoteName) {
 		List<RefSpec> specs = new ArrayList<>();
-		if (!fetchAll) {
-			RefSpec tags = new RefSpec();
-			tags = tags.setForceUpdate(true);
-			tags = tags.setSourceDestination(Constants.R_TAGS + '*',
-					Constants.R_TAGS + '*');
-			for (String selectedRef : branchesToClone) {
-				if (heads.matchSource(selectedRef)) {
-					specs.add(heads.expandFromSource(selectedRef));
-				} else if (tags.matchSource(selectedRef)) {
-					specs.add(tags.expandFromSource(selectedRef));
-				}
-			}
+		if (type == FETCH_TYPE.MIRROR) {
+			specs.add(new RefSpec().setForceUpdate(true).setSourceDestination(
+					Constants.R_REFS + '*', Constants.R_REFS + '*'));
 		} else {
-			// We'll fetch the tags anyway.
-			specs.add(heads);
+			RefSpec heads = new RefSpec();
+			heads = heads.setForceUpdate(true);
+			final String dst = (bare ? Constants.R_HEADS
+					: Constants.R_REMOTES + remoteName + '/') + '*';
+			heads = heads.setSourceDestination(Constants.R_HEADS + '*', dst);
+			if (type == FETCH_TYPE.MULTIPLE_BRANCHES) {
+				RefSpec tags = new RefSpec().setForceUpdate(true)
+						.setSourceDestination(Constants.R_TAGS + '*',
+								Constants.R_TAGS + '*');
+				for (String selectedRef : branchesToClone) {
+					if (heads.matchSource(selectedRef)) {
+						specs.add(heads.expandFromSource(selectedRef));
+					} else if (tags.matchSource(selectedRef)) {
+						specs.add(tags.expandFromSource(selectedRef));
+					}
+				}
+			} else {
+				// We'll fetch the tags anyway.
+				specs.add(heads);
+			}
 		}
 		return specs;
 	}
@@ -609,7 +619,31 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return {@code this}
 	 */
 	public CloneCommand setCloneAllBranches(boolean cloneAllBranches) {
-		this.cloneAllBranches = cloneAllBranches;
+		this.fetchType = cloneAllBranches ? FETCH_TYPE.ALL_BRANCHES
+				: this.fetchType;
+		return this;
+	}
+
+	/**
+	 * Set up a mirror of the source repository. This implies that a bare
+	 * repository will be created. Compared to {@link #setBare},
+	 * {@code #setMirror} not only maps local branches of the source to local
+	 * branches of the target, it maps all refs (including remote-tracking
+	 * branches, notes etc.) and sets up a refspec configuration such that all
+	 * these refs are overwritten by a git remote update in the target
+	 * repository.
+	 *
+	 * @param mirror
+	 *            whether to mirror all refs from the source repository
+	 *
+	 * @return {@code this}
+	 * @since 5.6
+	 */
+	public CloneCommand setMirror(boolean mirror) {
+		if (mirror) {
+			this.fetchType = FETCH_TYPE.MIRROR;
+			setBare(true);
+		}
 		return this;
 	}
 
@@ -641,7 +675,13 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return {@code this}
 	 */
 	public CloneCommand setBranchesToClone(Collection<String> branchesToClone) {
-		this.branchesToClone = branchesToClone;
+		if (branchesToClone == null || branchesToClone.isEmpty()) {
+			// fallback to default
+			fetchType = FETCH_TYPE.ALL_BRANCHES;
+		} else {
+			this.fetchType = FETCH_TYPE.MULTIPLE_BRANCHES;
+			this.branchesToClone = branchesToClone;
+		}
 		return this;
 	}
 
