@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -96,10 +97,15 @@ public class CloneCommandTest extends RepositoryTestCase {
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
 		git.commit().setMessage("Initial commit").call();
-		git.tag().setName("tag-initial").setMessage("Tag initial").call();
+		Ref head = git.tag().setName("tag-initial").setMessage("Tag initial")
+				.call();
 
 		// create a test branch and switch to it
 		git.checkout().setCreateBranch(true).setName("test").call();
+		// create a non-standard ref
+		RefUpdate ru = db.updateRef("refs/meta/foo/bar");
+		ru.setNewObjectId(head.getObjectId());
+		ru.update();
 
 		// commit something on the test branch
 		writeTrashFile("Test.txt", "Some change");
@@ -421,6 +427,32 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(1, specs.size());
 		assertEquals(
 				new RefSpec("+refs/heads/master:refs/heads/master"),
+				specs.get(0));
+	}
+
+	@Test
+	public void testBareCloneRepositoryMirror() throws Exception {
+		File directory = createTempDirectory(
+				"testCloneRepositoryWithBranch_mirror");
+		CloneCommand command = Git.cloneRepository();
+		command.setBranch("refs/heads/master");
+		command.setMirror(true); // implies bare repository
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertNotNull(git2.getRepository().resolve("tag-for-blob"));
+		assertNotNull(git2.getRepository().resolve("tag-initial"));
+		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master, refs/heads/test", allRefNames(
+				git2.branchList().setListMode(ListMode.ALL).call()));
+		assertNotNull(git2.getRepository().exactRef("refs/meta/foo/bar"));
+		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
+				Constants.DEFAULT_REMOTE_NAME);
+		List<RefSpec> specs = cfg.getFetchRefSpecs();
+		assertEquals(1, specs.size());
+		assertEquals(new RefSpec("+refs/*:refs/*"),
 				specs.get(0));
 	}
 
