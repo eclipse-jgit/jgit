@@ -74,6 +74,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 	@Option(name = "--bare", usage = "usage_bareClone")
 	private boolean isBare;
 
+	@Option(name = "--mirror", usage = "usage_mirrorClone")
+	private boolean isMirror;
+
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
 
@@ -103,7 +106,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		if (localName == null) {
 			try {
 				localName = uri.getHumanishName();
-				if (isBare) {
+				if (isBare || isMirror) {
 					localName = localName + Constants.DOT_GIT_EXT;
 				}
 				localNameF = new File(SystemReader.getInstance().getProperty(
@@ -120,6 +123,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 
 		CloneCommand command = Git.cloneRepository();
 		command.setURI(sourceUri).setRemote(remoteName).setBare(isBare)
+				.setMirror(isMirror)
 				.setNoCheckout(noCheckout).setBranch(branch)
 				.setCloneSubmodules(cloneSubmodules);
 
