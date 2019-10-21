@@ -535,10 +535,10 @@ public class IndexDiff {
 		}
 
 		if (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL) {
-			IgnoreSubmoduleMode localIgnoreSubmoduleMode = ignoreSubmoduleMode;
 			try (SubmoduleWalk smw = new SubmoduleWalk(repository)) {
 				smw.setTree(new DirCacheIterator(dirCache));
 				while (smw.next()) {
+					IgnoreSubmoduleMode localIgnoreSubmoduleMode = ignoreSubmoduleMode;
 					try {
 						if (localIgnoreSubmoduleMode == null)
 							localIgnoreSubmoduleMode = smw.getModulesIgnore();
@@ -558,7 +558,7 @@ public class IndexDiff {
 									&& !subHead.equals(smw.getObjectId())) {
 								modified.add(subRepoPath);
 								recordFileMode(subRepoPath, FileMode.GITLINK);
-							} else if (ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
+							} else if (localIgnoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
 								IndexDiff smid = submoduleIndexDiffs
 										.get(smw.getPath());
 								if (smid == null) {
@@ -569,7 +569,7 @@ public class IndexDiff {
 									submoduleIndexDiffs.put(subRepoPath, smid);
 								}
 								if (smid.diff()) {
-									if (ignoreSubmoduleMode == IgnoreSubmoduleMode.UNTRACKED
+									if (localIgnoreSubmoduleMode == IgnoreSubmoduleMode.UNTRACKED
 											&& smid.getAdded().isEmpty()
 											&& smid.getChanged().isEmpty()
 											&& smid.getConflicting().isEmpty()

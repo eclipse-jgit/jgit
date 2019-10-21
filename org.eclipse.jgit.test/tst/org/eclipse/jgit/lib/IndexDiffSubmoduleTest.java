@@ -60,9 +60,11 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk.IgnoreSubmoduleMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -295,4 +297,79 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				indexDiff.getAdded().toString());
 	}
 
+	@Test
+	public void testIndexDiffTwoSubmodules() throws Exception {
+		// Create a second submodule
+		try (Repository submodule2 = createWorkRepository()) {
+			JGitTestUtil.writeTrashFile(submodule2, "fileInSubmodule2",
+					"submodule2");
+			Git subGit = Git.wrap(submodule2);
+			subGit.add().addFilepattern("fileInSubmodule2").call();
+			subGit.commit().setMessage("add file to submodule2").call();
+
+			try (Repository sub2 = Git.wrap(db)
+					.submoduleAdd().setPath("modules/submodule2")
+					.setURI(submodule2.getDirectory().toURI().toString())
+					.call()) {
+				writeTrashFile("fileInRoot", "root+");
+				Git rootGit = Git.wrap(db);
+				rootGit.add().addFilepattern("fileInRoot").call();
+				rootGit.commit().setMessage("add submodule2 and root file")
+						.call();
+				// Now change files in both submodules
+				JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule",
+						"submodule changed");
+				JGitTestUtil.writeTrashFile(sub2, "fileInSubmodule2",
+						"submodule2 changed");
+				// Set up .gitmodules
+				FileBasedConfig gitmodules = new FileBasedConfig(
+						new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
+						db.getFS());
+				gitmodules.load();
+				gitmodules.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
+						"all");
+				gitmodules.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						"modules/submodule2", ConfigConstants.CONFIG_KEY_IGNORE,
+						"none");
+				gitmodules.save();
+				IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+						new FileTreeIterator(db));
+				assertTrue(indexDiff.diff());
+				String[] modified = indexDiff.getModified()
+						.toArray(new String[0]);
+				Arrays.sort(modified);
+				assertEquals("[.gitmodules, modules/submodule2]",
+						Arrays.toString(modified));
+				// Try again with "dirty"
+				gitmodules.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
+						"dirty");
+				gitmodules.save();
+				indexDiff = new IndexDiff(db, Constants.HEAD,
+						new FileTreeIterator(db));
+				assertTrue(indexDiff.diff());
+				modified = indexDiff.getModified().toArray(new String[0]);
+				Arrays.sort(modified);
+				assertEquals("[.gitmodules, modules/submodule2]",
+						Arrays.toString(modified));
+				// Test the config override
+				StoredConfig cfg = db.getConfig();
+				cfg.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
+						"none");
+				cfg.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						"modules/submodule2", ConfigConstants.CONFIG_KEY_IGNORE,
+						"all");
+				cfg.save();
+				indexDiff = new IndexDiff(db, Constants.HEAD,
+						new FileTreeIterator(db));
+				assertTrue(indexDiff.diff());
+				modified = indexDiff.getModified().toArray(new String[0]);
+				Arrays.sort(modified);
+				assertEquals("[.gitmodules, modules/submodule]",
+						Arrays.toString(modified));
+			}
+		}
+	}
 }
