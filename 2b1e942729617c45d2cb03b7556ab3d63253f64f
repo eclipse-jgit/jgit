@@ -22,6 +22,30 @@
       "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e93477ab_2ac6bb43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-21T18:20:14Z",
+      "side": 1,
+      "message": "good point, but assert is pretty widely used in JGit \n\n  https://cs.bazel.build/search?q\u003dr%3Ajgit+assert%5C++lang%3Ajava+r%3Aeclipse\u0026num\u003d50\n\nshould we have a global cleanup to rid the code of asserts?",
+      "parentUuid": "c16c25a8_806e597c",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 8
+      },
+      "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
