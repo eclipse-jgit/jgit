@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0428f267_69c4449b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-10-21T02:02:19Z",
+      "side": 1,
+      "message": "Unrelated to this change but this comment doesn\u0027t make sense in this context.  Same thing as what?\n\nI guess it was copied from L317 where it makes sense because it follows a previous block that clones with different options.",
+      "range": {
+        "startLine": 406,
+        "startChar": 2,
+        "endLine": 406,
+        "endChar": 44
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f50c43_4142fc03",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-10-21T02:02:19Z",
+      "side": 1,
+      "message": "Same thing as what?  See also at L406.",
+      "range": {
+        "startLine": 435,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 16
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22838732_e10e3aaf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-10-21T02:02:19Z",
+      "side": 1,
+      "message": "mirror?",
+      "range": {
+        "startLine": 437,
+        "startChar": 35,
+        "endLine": 437,
+        "endChar": 39
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
