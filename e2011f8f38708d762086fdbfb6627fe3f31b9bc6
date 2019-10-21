@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28975175_bec39669",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1795,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-21T14:54:53Z",
+      "side": 1,
+      "message": "Had forgotten that David had enabled that warning and didn\u0027t check after rebasing.\n\nBut here I felt tempted to add a comment then. I find the \"else\" actually clearer here, so I\u0027ve restructured the code a little to avoid the warning.",
+      "parentUuid": "e910db60_e35962cb",
+      "revId": "e2011f8f38708d762086fdbfb6627fe3f31b9bc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e92309_4669dd0b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-21T14:37:24Z",
       "side": 1,
       "message": "remove unnecessary else clause ?",
+      "revId": "e2011f8f38708d762086fdbfb6627fe3f31b9bc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11acdf92_a48bc461",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-21T14:54:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e92309_4669dd0b",
       "revId": "e2011f8f38708d762086fdbfb6627fe3f31b9bc6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
