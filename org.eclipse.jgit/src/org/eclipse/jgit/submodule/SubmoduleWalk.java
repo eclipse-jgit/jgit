@@ -735,6 +735,13 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
 			ConfigInvalidException {
+		IgnoreSubmoduleMode mode = repoConfig.getEnum(
+				IgnoreSubmoduleMode.values(),
+				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(),
+				ConfigConstants.CONFIG_KEY_IGNORE, null);
+		if (mode != null) {
+			return mode;
+		}
 		lazyLoadModulesConfig();
 		return modulesConfig.getEnum(IgnoreSubmoduleMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(),
