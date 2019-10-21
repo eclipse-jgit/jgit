@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "400eb4c2_7cc7eff9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-21T07:31:26Z",
+      "side": 1,
+      "message": "done in separate change https://git.eclipse.org/r/#/c/151362/",
+      "parentUuid": "0428f267_69c4449b",
+      "range": {
+        "startLine": 406,
+        "startChar": 2,
+        "endLine": 406,
+        "endChar": 44
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f50c43_4142fc03",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "238ae6e6_5c7bb330",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-21T07:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f50c43_4142fc03",
+      "range": {
+        "startLine": 435,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 16
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22838732_e10e3aaf",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2019-10-21T02:02:19Z",
       "side": 1,
       "message": "mirror?",
+      "range": {
+        "startLine": 437,
+        "startChar": 35,
+        "endLine": 437,
+        "endChar": 39
+      },
+      "revId": "12241d140a8bf77dc7cf3d28199d6ba50ffbfc63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b408232_30354cbb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-21T07:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22838732_e10e3aaf",
       "range": {
         "startLine": 437,
         "startChar": 35,
