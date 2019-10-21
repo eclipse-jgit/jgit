@@ -881,9 +881,9 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		}
 
 		StringBuilder result = new StringBuilder();
-		ObjectReader or = r.newObjectReader();
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(or.open(blobId).openStream(), UTF_8))) {
+		try (ObjectReader or = r.newObjectReader();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						or.open(blobId).openStream(), UTF_8))) {
 			String line;
 			boolean first = true;
 			while ((line = br.readLine()) != null) {

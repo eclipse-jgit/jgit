@@ -92,18 +92,22 @@ public class DfsInserterTest {
 
 	@Test
 	public void testReadFromInserterSmallObjects() throws IOException {
-		ObjectInserter ins = db.newObjectInserter();
-		ObjectId id1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ObjectId id2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
-		assertEquals(0, db.getObjectDatabase().listPacks().size());
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("foo"));
+			ObjectId id2 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("bar"));
+			assertEquals(0, db.getObjectDatabase().listPacks().size());
 
-		ObjectReader reader = ins.newReader();
-		assertSame(ins, reader.getCreatedFromInserter());
-		assertEquals("foo", readString(reader.open(id1)));
-		assertEquals("bar", readString(reader.open(id2)));
-		assertEquals(0, db.getObjectDatabase().listPacks().size());
-		ins.flush();
-		assertEquals(1, db.getObjectDatabase().listPacks().size());
+			try (ObjectReader reader = ins.newReader()) {
+				assertSame(ins, reader.getCreatedFromInserter());
+				assertEquals("foo", readString(reader.open(id1)));
+				assertEquals("bar", readString(reader.open(id2)));
+				assertEquals(0, db.getObjectDatabase().listPacks().size());
+				ins.flush();
+				assertEquals(1, db.getObjectDatabase().listPacks().size());
+			}
+		}
 	}
 
 	@Test
@@ -114,17 +118,19 @@ public class DfsInserterTest {
 			.setBlockLimit(2048));
 
 		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(8192);
-		DfsInserter ins = (DfsInserter) db.newObjectInserter();
-		ins.setCompressionLevel(Deflater.NO_COMPRESSION);
-		ObjectId id1 = ins.insert(Constants.OBJ_BLOB, data);
-		assertEquals(0, db.getObjectDatabase().listPacks().size());
+		try (DfsInserter ins = (DfsInserter) db.newObjectInserter()) {
+			ins.setCompressionLevel(Deflater.NO_COMPRESSION);
+			ObjectId id1 = ins.insert(Constants.OBJ_BLOB, data);
+			assertEquals(0, db.getObjectDatabase().listPacks().size());
 
-		ObjectReader reader = ins.newReader();
-		assertSame(ins, reader.getCreatedFromInserter());
-		assertTrue(Arrays.equals(data, readStream(reader.open(id1))));
-		assertEquals(0, db.getObjectDatabase().listPacks().size());
-		ins.flush();
+			try (ObjectReader reader = ins.newReader()) {
+				assertSame(ins, reader.getCreatedFromInserter());
+				assertTrue(Arrays.equals(data, readStream(reader.open(id1))));
+				assertEquals(0, db.getObjectDatabase().listPacks().size());
+			}
+			ins.flush();
 
+		}
 		List<DfsPackDescription> packs = db.getObjectDatabase().listPacks();
 		assertEquals(1, packs.size());
 		assertTrue(packs.get(0).getFileSize(PackExt.PACK) > 2048);
@@ -132,48 +138,58 @@ public class DfsInserterTest {
 
 	@Test
 	public void testReadFromFallback() throws IOException {
-		ObjectInserter ins = db.newObjectInserter();
-		ObjectId id1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ins.flush();
-		ObjectId id2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
-		assertEquals(1, db.getObjectDatabase().listPacks().size());
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("foo"));
+			ins.flush();
+			ObjectId id2 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("bar"));
+			assertEquals(1, db.getObjectDatabase().listPacks().size());
 
-		ObjectReader reader = ins.newReader();
-		assertSame(ins, reader.getCreatedFromInserter());
-		assertEquals("foo", readString(reader.open(id1)));
-		assertEquals("bar", readString(reader.open(id2)));
-		assertEquals(1, db.getObjectDatabase().listPacks().size());
-		ins.flush();
-		assertEquals(2, db.getObjectDatabase().listPacks().size());
+			try (ObjectReader reader = ins.newReader()) {
+				assertSame(ins, reader.getCreatedFromInserter());
+				assertEquals("foo", readString(reader.open(id1)));
+				assertEquals("bar", readString(reader.open(id2)));
+				assertEquals(1, db.getObjectDatabase().listPacks().size());
+			}
+			ins.flush();
+			assertEquals(2, db.getObjectDatabase().listPacks().size());
+		}
 	}
 
 	@Test
 	public void testReaderResolve() throws IOException {
-		ObjectInserter ins = db.newObjectInserter();
-		ObjectId id1 = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ins.flush();
-		ObjectId id2 = ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
-		String abbr1 = ObjectId.toString(id1).substring(0, 4);
-		String abbr2 = ObjectId.toString(id2).substring(0, 4);
-		assertFalse(abbr1.equals(abbr2));
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("foo"));
+			ins.flush();
+			ObjectId id2 = ins.insert(Constants.OBJ_BLOB,
+					Constants.encode("bar"));
+			String abbr1 = ObjectId.toString(id1).substring(0, 4);
+			String abbr2 = ObjectId.toString(id2).substring(0, 4);
+			assertFalse(abbr1.equals(abbr2));
 
-		ObjectReader reader = ins.newReader();
-		assertSame(ins, reader.getCreatedFromInserter());
-		Collection<ObjectId> objs;
-		objs = reader.resolve(AbbreviatedObjectId.fromString(abbr1));
-		assertEquals(1, objs.size());
-		assertEquals(id1, objs.iterator().next());
+			try (ObjectReader reader = ins.newReader()) {
+				assertSame(ins, reader.getCreatedFromInserter());
+				Collection<ObjectId> objs;
+				objs = reader.resolve(AbbreviatedObjectId.fromString(abbr1));
+				assertEquals(1, objs.size());
+				assertEquals(id1, objs.iterator().next());
 
-		objs = reader.resolve(AbbreviatedObjectId.fromString(abbr2));
-		assertEquals(1, objs.size());
-		assertEquals(id2, objs.iterator().next());
+				objs = reader.resolve(AbbreviatedObjectId.fromString(abbr2));
+				assertEquals(1, objs.size());
+				assertEquals(id2, objs.iterator().next());
+			}
+		}
 	}
 
 	@Test
 	public void testGarbageSelectivelyVisible() throws IOException {
-		ObjectInserter ins = db.newObjectInserter();
-		ObjectId fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ins.flush();
+		ObjectId fooId;
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+			ins.flush();
+		}
 		assertEquals(1, db.getObjectDatabase().listPacks().size());
 
 		// Make pack 0 garbage.
@@ -187,36 +203,40 @@ public class DfsInserterTest {
 
 	@Test
 	public void testInserterIgnoresUnreachable() throws IOException {
-		ObjectInserter ins = db.newObjectInserter();
-		ObjectId fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ins.flush();
-		assertEquals(1, db.getObjectDatabase().listPacks().size());
+		ObjectId fooId;
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+			ins.flush();
+			assertEquals(1, db.getObjectDatabase().listPacks().size());
 
-		// Make pack 0 garbage.
-		db.getObjectDatabase().listPacks().get(0).setPackSource(PackSource.UNREACHABLE_GARBAGE);
+			// Make pack 0 garbage.
+			db.getObjectDatabase().listPacks().get(0)
+					.setPackSource(PackSource.UNREACHABLE_GARBAGE);
 
-		// We shouldn't be able to see foo because it's garbage.
-		assertFalse(db.getObjectDatabase().has(fooId, true));
+			// We shouldn't be able to see foo because it's garbage.
+			assertFalse(db.getObjectDatabase().has(fooId, true));
 
-		// But if we re-insert foo, it should become visible again.
-		ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
-		ins.flush();
+			// But if we re-insert foo, it should become visible again.
+			ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+			ins.flush();
+		}
 		assertTrue(db.getObjectDatabase().has(fooId, true));
 
 		// Verify that we have a foo in both packs, and 1 of them is garbage.
-		DfsReader reader = new DfsReader(db.getObjectDatabase());
-		DfsPackFile packs[] = db.getObjectDatabase().getPacks();
-		Set<PackSource> pack_sources = new HashSet<>();
+		try (DfsReader reader = new DfsReader(db.getObjectDatabase())) {
+			DfsPackFile packs[] = db.getObjectDatabase().getPacks();
+			Set<PackSource> pack_sources = new HashSet<>();
 
-		assertEquals(2, packs.length);
+			assertEquals(2, packs.length);
 
-		pack_sources.add(packs[0].getPackDescription().getPackSource());
-		pack_sources.add(packs[1].getPackDescription().getPackSource());
+			pack_sources.add(packs[0].getPackDescription().getPackSource());
+			pack_sources.add(packs[1].getPackDescription().getPackSource());
 
-		assertTrue(packs[0].hasObject(reader, fooId));
-		assertTrue(packs[1].hasObject(reader, fooId));
-		assertTrue(pack_sources.contains(PackSource.UNREACHABLE_GARBAGE));
-		assertTrue(pack_sources.contains(PackSource.INSERT));
+			assertTrue(packs[0].hasObject(reader, fooId));
+			assertTrue(packs[1].hasObject(reader, fooId));
+			assertTrue(pack_sources.contains(PackSource.UNREACHABLE_GARBAGE));
+			assertTrue(pack_sources.contains(PackSource.INSERT));
+		}
 	}
 
 	@Test
@@ -237,17 +257,20 @@ public class DfsInserterTest {
 		assertEquals(2, db.getObjectDatabase().listPacks().size());
 
 		// Verify that we have a foo in both INSERT packs.
-		DfsReader reader = new DfsReader(db.getObjectDatabase());
-		DfsPackFile packs[] = db.getObjectDatabase().getPacks();
+		try (DfsReader reader = new DfsReader(db.getObjectDatabase())) {
+			DfsPackFile packs[] = db.getObjectDatabase().getPacks();
 
-		assertEquals(2, packs.length);
-		DfsPackFile p1 = packs[0];
-		assertEquals(PackSource.INSERT, p1.getPackDescription().getPackSource());
-		assertTrue(p1.hasObject(reader, fooId));
+			assertEquals(2, packs.length);
+			DfsPackFile p1 = packs[0];
+			assertEquals(PackSource.INSERT,
+					p1.getPackDescription().getPackSource());
+			assertTrue(p1.hasObject(reader, fooId));
 
-		DfsPackFile p2 = packs[1];
-		assertEquals(PackSource.INSERT, p2.getPackDescription().getPackSource());
-		assertTrue(p2.hasObject(reader, fooId));
+			DfsPackFile p2 = packs[1];
+			assertEquals(PackSource.INSERT,
+					p2.getPackDescription().getPackSource());
+			assertTrue(p2.hasObject(reader, fooId));
+		}
 	}
 
 	private static String readString(ObjectLoader loader) throws IOException {

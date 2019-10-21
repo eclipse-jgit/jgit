@@ -65,12 +65,13 @@ public class EmptyTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testCreateSubtreeIterator() throws Exception {
 		final EmptyTreeIterator etp = new EmptyTreeIterator();
-		final ObjectReader reader = db.newObjectReader();
-		final AbstractTreeIterator sub = etp.createSubtreeIterator(reader);
-		assertNotNull(sub);
-		assertTrue(sub.first());
-		assertTrue(sub.eof());
-		assertTrue(sub instanceof EmptyTreeIterator);
+		try (ObjectReader reader = db.newObjectReader()) {
+			final AbstractTreeIterator sub = etp.createSubtreeIterator(reader);
+			assertNotNull(sub);
+			assertTrue(sub.first());
+			assertTrue(sub.eof());
+			assertTrue(sub instanceof EmptyTreeIterator);
+		}
 	}
 
 	@Test
@@ -121,8 +122,9 @@ public class EmptyTreeIteratorTest extends RepositoryTestCase {
 				called[0] = true;
 			}
 		};
-		final ObjectReader reader = db.newObjectReader();
-		parent.createSubtreeIterator(reader).stopWalk();
+		try (ObjectReader reader = db.newObjectReader()) {
+			parent.createSubtreeIterator(reader).stopWalk();
+		}
 		assertTrue(called[0]);
 	}
 }
