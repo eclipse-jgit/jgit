@@ -124,9 +124,11 @@ public class IndexDiffTest extends RepositoryTestCase {
 	public void testMissing() throws Exception {
 		File file2 = writeTrashFile("file2", "file2");
 		File file3 = writeTrashFile("dir/file3", "dir/file3");
-		Git git = Git.wrap(db);
-		git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
-		git.commit().setMessage("commit").call();
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern("file2").addFilepattern("dir/file3")
+					.call();
+			git.commit().setMessage("commit").call();
+		}
 		assertTrue(file2.delete());
 		assertTrue(file3.delete());
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD,

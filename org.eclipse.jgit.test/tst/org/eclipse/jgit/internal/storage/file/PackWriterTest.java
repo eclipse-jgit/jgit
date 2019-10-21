@@ -468,22 +468,22 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testDeltaStatistics() throws Exception {
 		config.setDeltaCompress(true);
+		// TestRepository will close repo
 		FileRepository repo = createBareRepository();
 		ArrayList<RevObject> blobs = new ArrayList<>();
 		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
 				repo)) {
 			blobs.add(testRepo.blob(genDeltableData(1000)));
 			blobs.add(testRepo.blob(genDeltableData(1005)));
-		}
-
-		try (PackWriter pw = new PackWriter(repo)) {
-			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
-			pw.preparePack(blobs.iterator());
-			pw.writePack(m, m, os);
-			PackStatistics stats = pw.getStatistics();
-			assertEquals(1, stats.getTotalDeltas());
-			assertTrue("Delta bytes not set.",
-					stats.byObjectType(OBJ_BLOB).getDeltaBytes() > 0);
+			try (PackWriter pw = new PackWriter(repo)) {
+				NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+				pw.preparePack(blobs.iterator());
+				pw.writePack(m, m, os);
+				PackStatistics stats = pw.getStatistics();
+				assertEquals(1, stats.getTotalDeltas());
+				assertTrue("Delta bytes not set.",
+						stats.byObjectType(OBJ_BLOB).getDeltaBytes() > 0);
+			}
 		}
 	}
 
@@ -535,6 +535,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testExclude() throws Exception {
+		// TestRepository closes repo
 		FileRepository repo = createBareRepository();
 
 		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
@@ -568,98 +569,102 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testShallowIsMinimalDepth1() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE);
+			assertContent(idx, Arrays.asList(c2.getId(), c2.getTree().getId(),
+					contentA.getId(), contentB.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE);
-		assertContent(idx, Arrays.asList(c2.getId(), c2.getTree().getId(),
-				contentA.getId(), contentB.getId()));
-
-		// Client already has blobs A and B, verify those are not packed.
-		idx = writeShallowPack(repo, 1, wants(c5), haves(c2), shallows(c2));
-		assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
-				contentC.getId(), contentD.getId(), contentE.getId()));
+			// Client already has blobs A and B, verify those are not packed.
+			idx = writeShallowPack(repo, 1, wants(c5), haves(c2), shallows(c2));
+			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
+					contentC.getId(), contentD.getId(), contentE.getId()));
+		}
 	}
 
 	@Test
 	public void testShallowIsMinimalDepth2() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 2, wants(c2), NONE, NONE);
+			assertContent(idx,
+					Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
+							c2.getTree().getId(), contentA.getId(),
+							contentB.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 2, wants(c2), NONE, NONE);
-		assertContent(idx,
-				Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
-						c2.getTree().getId(), contentA.getId(),
-						contentB.getId()));
-
-		// Client already has blobs A and B, verify those are not packed.
-		idx = writeShallowPack(repo, 2, wants(c5), haves(c1, c2), shallows(c1));
-		assertContent(idx,
-				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
-						c5.getTree().getId(), contentC.getId(),
-						contentD.getId(), contentE.getId()));
+			// Client already has blobs A and B, verify those are not packed.
+			idx = writeShallowPack(repo, 2, wants(c5), haves(c1, c2),
+					shallows(c1));
+			assertContent(idx,
+					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
+							c5.getTree().getId(), contentC.getId(),
+							contentD.getId(), contentE.getId()));
+		}
 	}
 
 	@Test
 	public void testShallowFetchShallowParentDepth1() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
+					contentA.getId(), contentB.getId(), contentC.getId(),
+					contentD.getId(), contentE.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
-		assertContent(idx,
-				Arrays.asList(c5.getId(), c5.getTree().getId(),
-						contentA.getId(), contentB.getId(), contentC.getId(),
-						contentD.getId(), contentE.getId()));
-
-		idx = writeShallowPack(repo, 1, wants(c4), haves(c5), shallows(c5));
-		assertContent(idx, Arrays.asList(c4.getId(), c4.getTree().getId()));
+			idx = writeShallowPack(repo, 1, wants(c4), haves(c5), shallows(c5));
+			assertContent(idx, Arrays.asList(c4.getId(), c4.getTree().getId()));
+		}
 	}
 
 	@Test
 	public void testShallowFetchShallowParentDepth2() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
+			assertContent(idx,
+					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
+							c5.getTree().getId(), contentA.getId(),
+							contentB.getId(), contentC.getId(),
+							contentD.getId(), contentE.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
-		assertContent(idx,
-				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
-						c5.getTree().getId(), contentA.getId(),
-						contentB.getId(), contentC.getId(), contentD.getId(),
-						contentE.getId()));
-
-		idx = writeShallowPack(repo, 2, wants(c3), haves(c4, c5), shallows(c4));
-		assertContent(idx, Arrays.asList(c2.getId(), c3.getId(),
-				c2.getTree().getId(), c3.getTree().getId()));
+			idx = writeShallowPack(repo, 2, wants(c3), haves(c4, c5),
+					shallows(c4));
+			assertContent(idx, Arrays.asList(c2.getId(), c3.getId(),
+					c2.getTree().getId(), c3.getTree().getId()));
+		}
 	}
 
 	@Test
 	public void testShallowFetchShallowAncestorDepth1() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
+					contentA.getId(), contentB.getId(), contentC.getId(),
+					contentD.getId(), contentE.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
-		assertContent(idx,
-				Arrays.asList(c5.getId(), c5.getTree().getId(),
-						contentA.getId(), contentB.getId(), contentC.getId(),
-						contentD.getId(), contentE.getId()));
-
-		idx = writeShallowPack(repo, 1, wants(c3), haves(c5), shallows(c5));
-		assertContent(idx, Arrays.asList(c3.getId(), c3.getTree().getId()));
+			idx = writeShallowPack(repo, 1, wants(c3), haves(c5), shallows(c5));
+			assertContent(idx, Arrays.asList(c3.getId(), c3.getTree().getId()));
+		}
 	}
 
 	@Test
 	public void testShallowFetchShallowAncestorDepth2() throws Exception {
-		FileRepository repo = setupRepoForShallowFetch();
+		try (FileRepository repo = setupRepoForShallowFetch()) {
+			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
+			assertContent(idx,
+					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
+							c5.getTree().getId(), contentA.getId(),
+							contentB.getId(), contentC.getId(),
+							contentD.getId(), contentE.getId()));
 
-		PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
-		assertContent(idx,
-				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
-						c5.getTree().getId(), contentA.getId(),
-						contentB.getId(), contentC.getId(), contentD.getId(),
-						contentE.getId()));
-
-		idx = writeShallowPack(repo, 2, wants(c2), haves(c4, c5), shallows(c4));
-		assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
-				c1.getTree().getId(), c2.getTree().getId()));
+			idx = writeShallowPack(repo, 2, wants(c2), haves(c4, c5),
+					shallows(c4));
+			assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
+					c1.getTree().getId(), c2.getTree().getId()));
+		}
 	}
 
 	private FileRepository setupRepoForShallowFetch() throws Exception {
 		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
 		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
 			BranchBuilder bb = r.branch("refs/heads/master");
 			contentA = r.blob("A");

@@ -625,9 +625,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testCustomFileModeStrategy() throws Exception {
-		Repository nestedRepo = createNestedRepo();
-
-		try (Git git = new Git(nestedRepo)) {
+		try (Repository nestedRepo = createNestedRepo();
+				Git git = new Git(nestedRepo)) {
 			// validate that our custom strategy is honored
 			WorkingTreeIterator customIterator = new FileTreeIterator(
 					nestedRepo, NO_GITLINKS_STRATEGY);
@@ -642,9 +641,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testCustomFileModeStrategyFromParentIterator() throws Exception {
-		Repository nestedRepo = createNestedRepo();
-
-		try (Git git = new Git(nestedRepo)) {
+		try (Repository nestedRepo = createNestedRepo();
+				Git git = new Git(nestedRepo)) {
 			FileTreeIterator customIterator = new FileTreeIterator(nestedRepo,
 					NO_GITLINKS_STRATEGY);
 			File r = new File(nestedRepo.getWorkTree(), "sub");

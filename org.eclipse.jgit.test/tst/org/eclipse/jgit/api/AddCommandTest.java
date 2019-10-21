@@ -1132,41 +1132,42 @@ public class AddCommandTest extends RepositoryTestCase {
 			}
 		};
 
-		Git git = Git.open(db.getDirectory(), executableFs);
 		String path = "a.txt";
 		String path2 = "a.sh";
 		writeTrashFile(path, "content");
 		writeTrashFile(path2, "binary: content");
-		git.add().addFilepattern(path).addFilepattern(path2).call();
-		RevCommit commit1 = git.commit().setMessage("commit").call();
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(commit1.getTree());
-			walk.next();
-			assertEquals(path2, walk.getPathString());
-			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
-			walk.next();
-			assertEquals(path, walk.getPathString());
-			assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+		try (Git git = Git.open(db.getDirectory(), executableFs)) {
+			git.add().addFilepattern(path).addFilepattern(path2).call();
+			RevCommit commit1 = git.commit().setMessage("commit").call();
+			try (TreeWalk walk = new TreeWalk(db)) {
+				walk.addTree(commit1.getTree());
+				walk.next();
+				assertEquals(path2, walk.getPathString());
+				assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+				walk.next();
+				assertEquals(path, walk.getPathString());
+				assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+			}
 		}
-
 		config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, false);
 		config.save();
 
-		Git git2 = Git.open(db.getDirectory(), executableFs);
 		writeTrashFile(path2, "content2");
 		writeTrashFile(path, "binary: content2");
-		git2.add().addFilepattern(path).addFilepattern(path2).call();
-		RevCommit commit2 = git2.commit().setMessage("commit2").call();
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(commit2.getTree());
-			walk.next();
-			assertEquals(path2, walk.getPathString());
-			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
-			walk.next();
-			assertEquals(path, walk.getPathString());
-			assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+		try (Git git2 = Git.open(db.getDirectory(), executableFs)) {
+			git2.add().addFilepattern(path).addFilepattern(path2).call();
+			RevCommit commit2 = git2.commit().setMessage("commit2").call();
+			try (TreeWalk walk = new TreeWalk(db)) {
+				walk.addTree(commit2.getTree());
+				walk.next();
+				assertEquals(path2, walk.getPathString());
+				assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+				walk.next();
+				assertEquals(path, walk.getPathString());
+				assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+			}
 		}
 	}
 
@@ -1291,18 +1292,19 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileRepositoryBuilder nestedBuilder = new FileRepositoryBuilder();
 		nestedBuilder.setWorkTree(gitLinkDir);
 
-		Repository nestedRepo = nestedBuilder.build();
-		nestedRepo.create();
+		try (Repository nestedRepo = nestedBuilder.build()) {
+			nestedRepo.create();
 
-		writeTrashFile(path, "README1.md", "content");
-		writeTrashFile(path, "README2.md", "content");
+			writeTrashFile(path, "README1.md", "content");
+			writeTrashFile(path, "README2.md", "content");
 
-		// Commit these changes in the subrepo
-		try (Git git = new Git(nestedRepo)) {
-			git.add().addFilepattern(".").call();
-			git.commit().setMessage("subrepo commit").call();
-		} catch (GitAPIException e) {
-			throw new RuntimeException(e);
+			// Commit these changes in the subrepo
+			try (Git git = new Git(nestedRepo)) {
+				git.add().addFilepattern(".").call();
+				git.commit().setMessage("subrepo commit").call();
+			} catch (GitAPIException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

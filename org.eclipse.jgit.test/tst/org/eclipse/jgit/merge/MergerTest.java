@@ -1365,8 +1365,8 @@ public class MergerTest extends RepositoryTestCase {
 	}
 
 	private String readBlob(ObjectId treeish, String path) throws Exception {
-		try (TestRepository<?> tr = new TestRepository<>(db)) {
-			RevWalk rw = tr.getRevWalk();
+		try (TestRepository<?> tr = new TestRepository<>(db);
+				RevWalk rw = tr.getRevWalk()) {
 			RevTree tree = rw.parseTree(treeish);
 			RevObject obj = tr.get(tree, path);
 			if (obj == null) {

@@ -145,13 +145,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder()
-				.setGitDir(theDir).build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(repo1Parent, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, Constants.OBJECTS), r.getObjectDatabase()
-				.getDirectory());
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder()
+				.setGitDir(theDir).build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(repo1Parent, r.getWorkTree());
+			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.OBJECTS),
+					r.getObjectDatabase().getDirectory());
+		}
 	}
 
 	/**
@@ -170,14 +171,15 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder()
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder()
 				.setGitDir(theDir).setWorkTree(repo1Parent.getParentFile())
-				.build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, Constants.OBJECTS), r.getObjectDatabase()
-				.getDirectory());
+				.build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(repo1Parent.getParentFile(), r.getWorkTree());
+			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.OBJECTS),
+					r.getObjectDatabase().getDirectory());
+		}
 	}
 
 	/**
@@ -195,13 +197,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder()
-				.setWorkTree(repo1Parent).build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(repo1Parent, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, Constants.OBJECTS), r.getObjectDatabase()
-				.getDirectory());
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder()
+				.setWorkTree(repo1Parent).build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(repo1Parent, r.getWorkTree());
+			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.OBJECTS),
+					r.getObjectDatabase().getDirectory());
+		}
 	}
 
 	/**
@@ -224,13 +227,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder()
-				.setGitDir(theDir).build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(workdir, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, Constants.OBJECTS), r.getObjectDatabase()
-				.getDirectory());
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder()
+				.setGitDir(theDir).build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(workdir, r.getWorkTree());
+			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.OBJECTS),
+					r.getObjectDatabase().getDirectory());
+		}
 	}
 
 	/**
@@ -253,13 +257,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder()
-				.setGitDir(theDir).build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(workdir, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, Constants.OBJECTS), r.getObjectDatabase()
-				.getDirectory());
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder()
+				.setGitDir(theDir).build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(workdir, r.getWorkTree());
+			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.OBJECTS),
+					r.getObjectDatabase().getDirectory());
+		}
 	}
 
 	/**
@@ -306,17 +311,20 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// open when we create it we won't write the object file out as a loose
 		// object (as it already exists in the pack).
 		//
-		final Repository newdb = createBareRepository();
-		try (ObjectInserter oi = newdb.newObjectInserter()) {
-			final ObjectId treeId = oi.insert(new TreeFormatter());
-			assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
-					treeId.name());
-		}
+		try (Repository newdb = createBareRepository()) {
+			try (ObjectInserter oi = newdb.newObjectInserter()) {
+				final ObjectId treeId = oi.insert(new TreeFormatter());
+				assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+						treeId.name());
+			}
 
-		final File o = new File(new File(new File(newdb.getDirectory(),
-				Constants.OBJECTS), "4b"), "825dc642cb6eb9a060e54bf8d69288fbee4904");
-		assertTrue("Exists " + o, o.isFile());
-		assertTrue("Read-only " + o, !o.canWrite());
+			final File o = new File(
+					new File(new File(newdb.getDirectory(), Constants.OBJECTS),
+							"4b"),
+					"825dc642cb6eb9a060e54bf8d69288fbee4904");
+			assertTrue("Exists " + o, o.isFile());
+			assertTrue("Read-only " + o, !o.canWrite());
+		}
 	}
 
 	@Test
