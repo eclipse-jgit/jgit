@@ -46,6 +46,30 @@
       "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfe63881_bf9fb137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-21T19:32:22Z",
+      "side": 1,
+      "message": "I\u0027m totally up for it. \n\nHowever this one is especially dangerous as it won\u0027t fail each time and can produce corrupted results. So I\u0027d prefer to fix that place even if we decide not to do the global refactoring.",
+      "parentUuid": "e93477ab_2ac6bb43",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 8
+      },
+      "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
