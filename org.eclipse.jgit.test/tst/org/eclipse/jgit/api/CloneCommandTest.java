@@ -403,7 +403,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testBareCloneRepositoryOnlyOneBranch() throws Exception {
-		// Same thing, but now test with bare repo
 		File directory = createTempDirectory(
 				"testCloneRepositoryWithBranch_bare");
 		CloneCommand command = Git.cloneRepository();
