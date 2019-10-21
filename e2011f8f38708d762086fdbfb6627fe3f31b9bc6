@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e910db60_e35962cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1795,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-21T14:37:24Z",
+      "side": 1,
+      "message": "remove unnecessary else clause ?",
+      "revId": "e2011f8f38708d762086fdbfb6627fe3f31b9bc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6e92309_4669dd0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-21T14:37:24Z",
+      "side": 1,
+      "message": "remove unnecessary else clause ?",
+      "revId": "e2011f8f38708d762086fdbfb6627fe3f31b9bc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
