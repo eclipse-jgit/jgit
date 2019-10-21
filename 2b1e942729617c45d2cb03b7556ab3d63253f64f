@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c16c25a8_806e597c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-21T18:03:06Z",
+      "side": 1,
+      "message": "Hi\n\nI believe we shouldn\u0027t actually use \"assert\" in our code. It will, throw an error, but assertion should be enabled by java options, so we actually will have undefined behavior here.\n\nCan we instead check and throw illegalstateexception?\n\nThanks",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 8
+      },
+      "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
