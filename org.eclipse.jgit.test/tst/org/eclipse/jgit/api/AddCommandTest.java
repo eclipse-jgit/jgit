@@ -700,26 +700,26 @@ public class AddCommandTest extends RepositoryTestCase {
 			writer.print("content b");
 		}
 
-		ObjectInserter newObjectInserter = db.newObjectInserter();
 		DirCache dc = db.lockDirCache();
-		DirCacheBuilder builder = dc.builder();
+		try (ObjectInserter newObjectInserter = db.newObjectInserter()) {
+			DirCacheBuilder builder = dc.builder();
 
-		addEntryToBuilder("b.txt", file2, newObjectInserter, builder, 0);
-		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 1);
+			addEntryToBuilder("b.txt", file2, newObjectInserter, builder, 0);
+			addEntryToBuilder("a.txt", file, newObjectInserter, builder, 1);
 
-		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
-			writer.print("other content");
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+				writer.print("other content");
+			}
+			addEntryToBuilder("a.txt", file, newObjectInserter, builder, 3);
+
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+				writer.print("our content");
+			}
+			addEntryToBuilder("a.txt", file, newObjectInserter, builder, 2)
+					.getObjectId();
+
+			builder.commit();
 		}
-		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 3);
-
-		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
-			writer.print("our content");
-		}
-		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 2)
-				.getObjectId();
-
-		builder.commit();
-
 		assertEquals(
 				"[a.txt, mode:100644, stage:1, content:content]" +
 				"[a.txt, mode:100644, stage:2, content:our content]" +

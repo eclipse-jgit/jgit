@@ -341,48 +341,56 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 			String... path) throws GitAPIException, IOException {
 		try (Git git = new Git(db);
 				RevWalk revWalk = new RevWalk(git.getRepository())) {
-			ObjectInserter newObjectInserter;
-			newObjectInserter = git.getRepository().newObjectInserter();
-			ObjectId blobId = newObjectInserter.insert(Constants.OBJ_BLOB,
+			ObjectId blobId;
+			try (ObjectInserter newObjectInserter = git.getRepository()
+					.newObjectInserter()) {
+				blobId = newObjectInserter.insert(Constants.OBJ_BLOB,
 					"data".getBytes(UTF_8));
-			newObjectInserter = git.getRepository().newObjectInserter();
+			}
 			FileMode mode = FileMode.REGULAR_FILE;
 			ObjectId insertId = blobId;
-			for (int i = path.length - 1; i >= 0; --i) {
-				TreeFormatter treeFormatter = new TreeFormatter();
-				treeFormatter.append("goodpath", mode, insertId);
-				insertId = newObjectInserter.insert(treeFormatter);
-				mode = FileMode.TREE;
+			try (ObjectInserter newObjectInserter = git.getRepository()
+					.newObjectInserter()) {
+				for (int i = path.length - 1; i >= 0; --i) {
+					TreeFormatter treeFormatter = new TreeFormatter();
+					treeFormatter.append("goodpath", mode, insertId);
+					insertId = newObjectInserter.insert(treeFormatter);
+					mode = FileMode.TREE;
+				}
 			}
-			newObjectInserter = git.getRepository().newObjectInserter();
-			CommitBuilder commitBuilder = new CommitBuilder();
-			commitBuilder.setAuthor(author);
-			commitBuilder.setCommitter(committer);
-			commitBuilder.setMessage("foo#1");
-			commitBuilder.setTreeId(insertId);
-			ObjectId firstCommitId = newObjectInserter.insert(commitBuilder);
-
-			newObjectInserter = git.getRepository().newObjectInserter();
-			mode = FileMode.REGULAR_FILE;
-			insertId = blobId;
-			for (int i = path.length - 1; i >= 0; --i) {
-				TreeFormatter treeFormatter = new TreeFormatter();
-				treeFormatter.append(path[i].getBytes(UTF_8), 0,
-						path[i].getBytes(UTF_8).length,
-							mode, insertId, true);
-				insertId = newObjectInserter.insert(treeFormatter);
-				mode = FileMode.TREE;
+			ObjectId firstCommitId;
+			try (ObjectInserter newObjectInserter = git.getRepository()
+					.newObjectInserter()) {
+				CommitBuilder commitBuilder = new CommitBuilder();
+				commitBuilder.setAuthor(author);
+				commitBuilder.setCommitter(committer);
+				commitBuilder.setMessage("foo#1");
+				commitBuilder.setTreeId(insertId);
+				firstCommitId = newObjectInserter.insert(commitBuilder);
 			}
+			ObjectId commitId;
+			try (ObjectInserter newObjectInserter = git.getRepository()
+					.newObjectInserter()) {
+				mode = FileMode.REGULAR_FILE;
+				insertId = blobId;
+				for (int i = path.length - 1; i >= 0; --i) {
+					TreeFormatter treeFormatter = new TreeFormatter();
+					treeFormatter.append(path[i].getBytes(UTF_8), 0,
+							path[i].getBytes(UTF_8).length, mode, insertId,
+							true);
+					insertId = newObjectInserter.insert(treeFormatter);
+					mode = FileMode.TREE;
+				}
 
-			// Create another commit
-			commitBuilder = new CommitBuilder();
-			commitBuilder.setAuthor(author);
-			commitBuilder.setCommitter(committer);
-			commitBuilder.setMessage("foo#2");
-			commitBuilder.setTreeId(insertId);
-			commitBuilder.setParentId(firstCommitId);
-			ObjectId commitId = newObjectInserter.insert(commitBuilder);
-
+				// Create another commit
+				CommitBuilder commitBuilder = new CommitBuilder();
+				commitBuilder.setAuthor(author);
+				commitBuilder.setCommitter(committer);
+				commitBuilder.setMessage("foo#2");
+				commitBuilder.setTreeId(insertId);
+				commitBuilder.setParentId(firstCommitId);
+				commitId = newObjectInserter.insert(commitBuilder);
+			}
 			if (!secondCheckout)
 				git.checkout().setStartPoint(revWalk.parseCommit(firstCommitId))
 						.setName("refs/heads/master").setCreateBranch(true).call();

@@ -81,10 +81,12 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	static PathEdit add(final Repository db, final File workdir,
 			final String path) throws FileNotFoundException, IOException {
-		ObjectInserter inserter = db.newObjectInserter();
 		final File f = new File(workdir, path);
-		final ObjectId id = inserter.insert(Constants.OBJ_BLOB,
+		ObjectId id;
+		try (ObjectInserter inserter = db.newObjectInserter()) {
+			id = inserter.insert(Constants.OBJ_BLOB,
 				IO.readFully(f));
+		}
 		return new PathEdit(path) {
 			@Override
 			public void apply(DirCacheEntry ent) {

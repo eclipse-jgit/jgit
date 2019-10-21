@@ -349,9 +349,11 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			DirCacheEditor editor = dirCache.editor();
 			for (java.util.Map.Entry<String,String> e : indexEntries.entrySet()) {
 				writeTrashFile(e.getKey(), e.getValue());
-				ObjectInserter inserter = db.newObjectInserter();
-				final ObjectId id = inserter.insert(Constants.OBJ_BLOB,
+				ObjectId id;
+				try (ObjectInserter inserter = db.newObjectInserter()) {
+					id = inserter.insert(Constants.OBJ_BLOB,
 						Constants.encode(e.getValue()));
+				}
 				editor.add(new DirCacheEditor.DeletePath(e.getKey()));
 				editor.add(new DirCacheEditor.PathEdit(e.getKey()) {
 					@Override
