@@ -202,7 +202,7 @@ class BouncyCastleGpgKeyLocator {
 			String fingerprint = Hex.toHexString(keyInfo.getFingerprint())
 					.toLowerCase(Locale.ROOT);
 			if (fingerprint.endsWith(keyId)) {
-				return getFirstPublicKey(keyBlob);
+				return getPublicKey(keyBlob, keyInfo.getFingerprint());
 			}
 		}
 		return null;
@@ -520,6 +520,12 @@ class BouncyCastleGpgKeyLocator {
 	private PGPPublicKey getFirstPublicKey(KeyBlob keyBlob) throws IOException {
 		return ((PublicKeyRingBlob) keyBlob).getPGPPublicKeyRing()
 				.getPublicKey();
+	}
+
+	private PGPPublicKey getPublicKey(KeyBlob blob, byte[] fingerprint)
+			throws IOException {
+		return ((PublicKeyRingBlob) blob).getPGPPublicKeyRing()
+				.getPublicKey(fingerprint);
 	}
 
 	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException,
