@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7d13bf3_aad3ab8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c7f5824_b9e59fe9",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 56
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12432612_89b8a77e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 61
@@ -45,6 +69,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea4b5ef2_f44676e0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12432612_89b8a77e",
+      "range": {
+        "startLine": 119,
+        "startChar": 53,
+        "endLine": 119,
+        "endChar": 64
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fcec9b7d_2d0fdda2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae8e69a_e28f98d0",
+      "range": {
+        "startLine": 922,
+        "startChar": 13,
+        "endLine": 922,
+        "endChar": 25
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eee11dd8_e1dc95b6",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 61
@@ -105,6 +177,30 @@
       "writtenOn": "2019-10-21T22:18:42Z",
       "side": 1,
       "message": "I don\u0027t understand this part. I expect only 2 numbers: what we got, and what the last value was",
+      "range": {
+        "startLine": 326,
+        "startChar": 55,
+        "endLine": 326,
+        "endChar": 81
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e70221_0322f39d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 61
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "it prints the offending filename.",
+      "parentUuid": "eee11dd8_e1dc95b6",
       "range": {
         "startLine": 326,
         "startChar": 55,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "03cb2611_d7d2fc49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "yes. Good idea.",
+      "parentUuid": "c6e75f4f_7920d3ff",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 16
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f5b3d6d_235386ef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -151,6 +271,30 @@
       "writtenOn": "2019-10-21T22:18:42Z",
       "side": 1,
       "message": "What does throwing an exception have to do with this? If the exception is not of the correct type, we could catch and rethrow?",
+      "range": {
+        "startLine": 194,
+        "startChar": 12,
+        "endLine": 194,
+        "endChar": 51
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33090450_fce88a6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "We\u0027d have to do check in the MergedReftable constructor which doesn\u0027t throw exceptions. Isn\u0027t there some style guide advice on throwing from constructors?",
+      "parentUuid": "6f5b3d6d_235386ef",
       "range": {
         "startLine": 194,
         "startChar": 12,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "2d65c157_499a5795",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e03b653e_4c4572dc",
+      "range": {
+        "startLine": 209,
+        "startChar": 6,
+        "endLine": 209,
+        "endChar": 28
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "951196b1_0654a54c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -197,6 +365,30 @@
       "writtenOn": "2019-10-21T22:18:42Z",
       "side": 1,
       "message": "Probably should stop after a number of tries.",
+      "range": {
+        "startLine": 229,
+        "startChar": 12,
+        "endLine": 229,
+        "endChar": 26
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96770138_c3ce62ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "yes, but how many? Should it be tunable? (which property?)",
+      "parentUuid": "951196b1_0654a54c",
       "range": {
         "startLine": 229,
         "startChar": 12,
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "d03635e7_c4395a0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c74812b0_fe99e3d6",
+      "range": {
+        "startLine": 249,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 11
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65eedbf5_ee5cbc84",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -243,6 +459,30 @@
       "writtenOn": "2019-10-21T22:18:42Z",
       "side": 1,
       "message": "From the code below, it seems that file-not-found is one of the expected cases. If yes, this should not throw any exception, but should return an empty list in that case.",
+      "range": {
+        "startLine": 257,
+        "startChar": 46,
+        "endLine": 257,
+        "endChar": 57
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f10233a9_ad27796a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "nice, much better; thanks.",
+      "parentUuid": "65eedbf5_ee5cbc84",
       "range": {
         "startLine": 257,
         "startChar": 46,
@@ -278,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "dd1cd4c1_1bf543ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "I disagree. We care to close here because want to avoid leaking resources. \n\nAFAIK, closing read-only files only fails if the file was already closed.\n\nSomeone (I think Matthias) added some logging. I don\u0027t care much either way, but I added logging.",
+      "parentUuid": "279f42d8_6222c430",
+      "range": {
+        "startLine": 301,
+        "startChar": 23,
+        "endLine": 301,
+        "endChar": 54
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c61f3a5_0a4d0039",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -298,6 +562,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc2b322_437eebd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c61f3a5_0a4d0039",
+      "range": {
+        "startLine": 313,
+        "startChar": 21,
+        "endLine": 313,
+        "endChar": 29
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -324,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "f6e87edc_f0653cf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8f447fe_8db3fed1",
+      "range": {
+        "startLine": 319,
+        "startChar": 9,
+        "endLine": 319,
+        "endChar": 20
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ee14d02_8fff945a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -344,6 +656,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3106fd28_c393a808",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ee14d02_8fff945a",
+      "range": {
+        "startLine": 371,
+        "startChar": 6,
+        "endLine": 371,
+        "endChar": 19
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -370,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "f3fd0992_3590dcfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4c19a4d_096038ee",
+      "range": {
+        "startLine": 493,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 4
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d22dd48_39a44187",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 61
@@ -381,6 +741,30 @@
       "writtenOn": "2019-10-21T22:18:42Z",
       "side": 1,
       "message": "1) .. -\u003e .\n2) The second sentence is true only if backup is true.\n3) It seems that \"backup\" changes 2 things? Both whether the existing refs/ is renamed to refs.old/, and whether the existing reftable dir is deleted. If this is the case, document accordingly. (The \"whether to rename or delete\" seems to imply that we rename if \"backup\" is true and delete if \"backup\" is false.)",
+      "range": {
+        "startLine": 636,
+        "startChar": 58,
+        "endLine": 636,
+        "endChar": 60
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59194b04_859dde79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "clarified.",
+      "parentUuid": "7d22dd48_39a44187",
       "range": {
         "startLine": 636,
         "startChar": 58,
@@ -416,6 +800,30 @@
     },
     {
       "key": {
+        "uuid": "9bf77d7c_76e3fcde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "171b1e8c_b3cbcc98",
+      "range": {
+        "startLine": 719,
+        "startChar": 23,
+        "endLine": 719,
+        "endChar": 34
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816332a4_98017f7d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 61
@@ -436,6 +844,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f895e0_a3294823",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-10-22T12:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "816332a4_98017f7d",
+      "range": {
+        "startLine": 736,
+        "startChar": 23,
+        "endLine": 736,
+        "endChar": 28
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
