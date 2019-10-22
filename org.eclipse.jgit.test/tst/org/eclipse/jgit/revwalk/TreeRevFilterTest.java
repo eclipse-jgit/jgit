@@ -46,25 +46,15 @@ package org.eclipse.jgit.revwalk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.Collections;
-
 import org.eclipse.jgit.revwalk.filter.OrRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
-import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
-import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
 public class TreeRevFilterTest extends RevWalkTestCase {
-	private RevFilter treeRevFilter(String path) {
-		return new TreeRevFilter(rw, treeFilter(path));
-	}
-
-	private static TreeFilter treeFilter(String path) {
-		return AndTreeFilter.create(
-				PathFilterGroup.createFromStrings(Collections.singleton(path)),
-				TreeFilter.ANY_DIFF);
+	private RevFilter treeRevFilter() {
+		return new TreeRevFilter(rw, TreeFilter.ANY_DIFF);
 	}
 
 	@Test
@@ -73,7 +63,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
-		rw.setRevFilter(treeRevFilter("d/f"));
+		rw.setRevFilter(treeRevFilter());
 		markStart(c);
 
 		assertCommit(c, rw.next());
@@ -91,7 +81,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
-		rw.setRevFilter(treeRevFilter("d/f"));
+		rw.setRevFilter(treeRevFilter());
 		markStart(d);
 
 		// d was skipped
@@ -111,7 +101,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
-		rw.setRevFilter(treeRevFilter("d"));
+		rw.setRevFilter(treeRevFilter());
 		markStart(d);
 
 		// d was skipped
@@ -136,7 +126,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit g = commit(tree(file("d/f", blob("b"))), f);
 		RevCommit h = commit(tree(file("d/f", blob("b"))), g);
 		RevCommit i = commit(tree(file("d/f", blob("c"))), h);
-		rw.setRevFilter(treeRevFilter("d/f"));
+		rw.setRevFilter(treeRevFilter());
 		markStart(i);
 
 		assertCommit(i, rw.next());
@@ -156,7 +146,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 
 	@Test
 	public void testPathFilterOrOtherFilter() throws Exception {
-		RevFilter pathFilter = treeRevFilter("d/f");
+		RevFilter pathFilter = treeRevFilter();
 		RevFilter skipFilter = SkipRevFilter.create(1);
 		RevFilter orFilter = OrRevFilter.create(skipFilter, pathFilter);
 
