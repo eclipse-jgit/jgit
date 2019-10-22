@@ -138,7 +138,10 @@ public abstract class ReftableDatabase {
 	 *             on I/O problems
 	 */
 	private Reftable reader() throws IOException {
-		assert lock.isLocked();
+		if (!lock.isLocked()) {
+			throw new IllegalStateException(
+					"must hold lock to access merged table"); //$NON-NLS-1$
+		}
 		if (mergedTables == null) {
 			mergedTables = openMergedReftable();
 		}

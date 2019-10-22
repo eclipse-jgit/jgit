@@ -163,7 +163,9 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 *             if tables cannot be opened.
 	 */
 	protected DfsReftableStack stack() throws IOException {
-		assert getLock().isLocked();
+		if (!getLock().isLocked()) {
+			throw new IllegalStateException("most hold lock to access stack"); //$NON-NLS-1$
+		}
 		DfsObjDatabase odb = getRepository().getObjectDatabase();
 
 		if (ctx == null) {
