@@ -72,12 +72,14 @@ import org.bouncycastle.gpg.keybox.PublicKeyRingBlob;
 import org.bouncycastle.gpg.keybox.UserID;
 import org.bouncycastle.gpg.keybox.jcajce.JcaKeyBoxBuilder;
 import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPKeyFlags;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSecretKeyRing;
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.PBEProtectionRemoverFactory;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculatorProvider;
@@ -212,7 +214,7 @@ class BouncyCastleGpgKeyLocator {
 			throws IOException {
 		for (UserID userID : keyBlob.getUserIds()) {
 			if (containsSigningKey(userID.getUserIDAsString())) {
-				return getFirstPublicKey(keyBlob);
+				return getSigningPublicKey(keyBlob);
 			}
 		}
 		return null;
@@ -517,15 +519,42 @@ class BouncyCastleGpgKeyLocator {
 		return null;
 	}
 
-	private PGPPublicKey getFirstPublicKey(KeyBlob keyBlob) throws IOException {
-		return ((PublicKeyRingBlob) keyBlob).getPGPPublicKeyRing()
-				.getPublicKey();
-	}
-
 	private PGPPublicKey getPublicKey(KeyBlob blob, byte[] fingerprint)
 			throws IOException {
 		return ((PublicKeyRingBlob) blob).getPGPPublicKeyRing()
 				.getPublicKey(fingerprint);
+	}
+
+	private PGPPublicKey getSigningPublicKey(KeyBlob blob) throws IOException {
+		PGPPublicKey masterKey = null;
+		Iterator<PGPPublicKey> keys = ((PublicKeyRingBlob) blob)
+				.getPGPPublicKeyRing().getPublicKeys();
+		while (keys.hasNext()) {
+			PGPPublicKey key = keys.next();
+			// only consider keys that have the [S] usage flag set
+			if (isSigningKey(key)) {
+				if (key.isMasterKey()) {
+					masterKey = key;
+				} else {
+					return key;
+				}
+			}
+		}
+		// return the master key if no other signing key was found or null if
+		// the master key did not have the signing flag set
+		return masterKey;
+	}
+
+	private boolean isSigningKey(PGPPublicKey key) {
+		Iterator signatures = key.getSignatures();
+		while (signatures.hasNext()) {
+			PGPSignature sig = (PGPSignature) signatures.next();
+			if ((sig.getHashedSubPackets().getKeyFlags()
+					& PGPKeyFlags.CAN_SIGN) > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException,
