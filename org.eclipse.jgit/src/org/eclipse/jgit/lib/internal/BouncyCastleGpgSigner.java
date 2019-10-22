@@ -115,7 +115,7 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 			NoSuchAlgorithmException, NoSuchProviderException, PGPException,
 			URISyntaxException {
 		if (gpgSigningKey == null || gpgSigningKey.isEmpty()) {
-			gpgSigningKey = committer.getEmailAddress();
+			gpgSigningKey = '<' + committer.getEmailAddress() + '>';
 		}
 
 		BouncyCastleGpgKeyLocator keyHelper = new BouncyCastleGpgKeyLocator(

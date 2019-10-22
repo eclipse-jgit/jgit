@@ -92,6 +92,7 @@ import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,14 +193,87 @@ class BouncyCastleGpgKeyLocator {
 		}
 	}
 
-	private boolean containsSigningKey(String userId) {
-		return userId.toLowerCase(Locale.ROOT)
-				.contains(signingKey.toLowerCase(Locale.ROOT));
+	/**
+	 * Checks whether a given OpenPGP {@code userId} matches a given
+	 * {@code signingKeySpec}, which is supposed to have one of the formats
+	 * defined by GPG.
+	 * <p>
+	 * Not all formats are supported; only formats starting with '=', '&lt;',
+	 * '@', and '*' are handled. Any other format results in a case-insensitive
+	 * substring match.
+	 * </p>
+	 *
+	 * @param userId
+	 *            of a key
+	 * @param signingKeySpec
+	 *            GPG key identification
+	 * @return whether the {@code userId} matches
+	 * @see <a href=
+	 *      "https://www.gnupg.org/documentation/manuals/gnupg/Specify-a-User-ID.html">GPG
+	 *      Documentation: How to Specify a User ID</a>
+	 */
+	static boolean containsSigningKey(String userId, String signingKeySpec) {
+		if (StringUtils.isEmptyOrNull(userId)
+				|| StringUtils.isEmptyOrNull(signingKeySpec)) {
+			return false;
+		}
+		String toMatch = signingKeySpec;
+		if (toMatch.startsWith("0x") && toMatch.trim().length() > 2) { //$NON-NLS-1$
+			return false; // Explicit fingerprint
+		}
+		int command = toMatch.charAt(0);
+		switch (command) {
+		case '=':
+		case '<':
+		case '@':
+		case '*':
+			toMatch = toMatch.substring(1);
+			if (toMatch.isEmpty()) {
+				return false;
+			}
+			break;
+		default:
+			break;
+		}
+		switch (command) {
+		case '=':
+			return userId.equals(toMatch);
+		case '<': {
+			int begin = userId.indexOf('<');
+			int end = userId.indexOf('>', begin + 1);
+			int stop = toMatch.indexOf('>');
+			return begin >= 0 && end > begin + 1 && stop > 0
+					&& userId.substring(begin + 1, end)
+							.equals(toMatch.substring(0, stop));
+		}
+		case '@': {
+			int begin = userId.indexOf('<');
+			int end = userId.indexOf('>', begin + 1);
+			return begin >= 0 && end > begin + 1
+					&& userId.substring(begin + 1, end).contains(toMatch);
+		}
+		default:
+			if (toMatch.trim().isEmpty()) {
+				return false;
+			}
+			return userId.toLowerCase(Locale.ROOT)
+					.contains(toMatch.toLowerCase(Locale.ROOT));
+		}
+	}
+
+	private String toFingerprint(String keyId) {
+		if (keyId.startsWith("0x")) { //$NON-NLS-1$
+			return keyId.substring(2);
+		}
+		return keyId;
 	}
 
 	private PGPPublicKey findPublicKeyByKeyId(KeyBlob keyBlob)
 			throws IOException {
-		String keyId = signingKey.toLowerCase(Locale.ROOT);
+		String keyId = toFingerprint(signingKey).toLowerCase(Locale.ROOT);
+		if (keyId.isEmpty()) {
+			return null;
+		}
 		for (KeyInformation keyInfo : keyBlob.getKeyInformation()) {
 			String fingerprint = Hex.toHexString(keyInfo.getFingerprint())
 					.toLowerCase(Locale.ROOT);
@@ -213,7 +287,7 @@ class BouncyCastleGpgKeyLocator {
 	private PGPPublicKey findPublicKeyByUserId(KeyBlob keyBlob)
 			throws IOException {
 		for (UserID userID : keyBlob.getUserIds()) {
-			if (containsSigningKey(userID.getUserIDAsString())) {
+			if (containsSigningKey(userID.getUserIDAsString(), signingKey)) {
 				return getSigningPublicKey(keyBlob);
 			}
 		}
@@ -446,7 +520,7 @@ class BouncyCastleGpgKeyLocator {
 					PGPUtil.getDecoderStream(new BufferedInputStream(in)),
 					new JcaKeyFingerprintCalculator());
 
-			String keyId = signingkey.toLowerCase(Locale.ROOT);
+			String keyId = toFingerprint(signingkey).toLowerCase(Locale.ROOT);
 			Iterator<PGPSecretKeyRing> keyrings = pgpSec.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPSecretKeyRing keyRing = keyrings.next();
@@ -464,7 +538,7 @@ class BouncyCastleGpgKeyLocator {
 					Iterator<String> userIDs = key.getUserIDs();
 					while (userIDs.hasNext()) {
 						String userId = userIDs.next();
-						if (containsSigningKey(userId)) {
+						if (containsSigningKey(userId, signingKey)) {
 							return key;
 						}
 					}
@@ -492,7 +566,7 @@ class BouncyCastleGpgKeyLocator {
 					new BufferedInputStream(in),
 					new JcaKeyFingerprintCalculator());
 
-			String keyId = signingKey.toLowerCase(Locale.ROOT);
+			String keyId = toFingerprint(signingKey).toLowerCase(Locale.ROOT);
 			Iterator<PGPPublicKeyRing> keyrings = pgpPub.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPPublicKeyRing keyRing = keyrings.next();
@@ -509,7 +583,7 @@ class BouncyCastleGpgKeyLocator {
 					Iterator<String> userIDs = key.getUserIDs();
 					while (userIDs.hasNext()) {
 						String userId = userIDs.next();
-						if (containsSigningKey(userId)) {
+						if (containsSigningKey(userId, signingKey)) {
 							return key;
 						}
 					}
