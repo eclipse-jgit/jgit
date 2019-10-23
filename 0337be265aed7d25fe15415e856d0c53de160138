@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "045b4649_bfa81f2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "This is almost pure refactoring change. All non-refactoring changes were introduced in the new non-default implementation, which was added in https://git.eclipse.org/r/#/c/150810/\n\nI understand your concern, but most feasible way to completely split them off is to make a new chain with refactoring in first change and new functionality in next, so I\u0027d like to avoid it.",
+      "parentUuid": "698492de_78ce0d8c",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d5e0f86_c87c1cc9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "its",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 2
+      },
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f4cf498_14af0432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d5e0f86_c87c1cc9",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "7f88fc71_645c9de3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b576ba5_5add0e71",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a62e635_7f40f32b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a4b92f_1fb6ca57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a62e635_7f40f32b",
       "revId": "0337be265aed7d25fe15415e856d0c53de160138",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "a1cc9015_4c86712f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2387b878_c0b4ca94",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0abad1fa_9633e979",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
         "patchSetId": 3
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "d01197aa_2b79ece9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0abad1fa_9633e979",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a926327b_d95f4b21",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
         "patchSetId": 3
@@ -127,6 +247,24 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06105b4e_dde498bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a926327b_d95f4b21",
       "revId": "0337be265aed7d25fe15415e856d0c53de160138",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "8b00f5ad_c7e8f532",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d94f0645_3515040a",
+      "range": {
+        "startLine": 1001,
+        "startChar": 11,
+        "endLine": 1001,
+        "endChar": 15
+      },
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a169917_906130cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "0254ae94_9848031d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Yes, I believe we should. I plan to use it to set implementation with additional logging. Also it can be used to implement other fast checks in the future based on repo specific.",
+      "parentUuid": "0a169917_906130cd",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c37e07f4_a6b85203",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
         "patchSetId": 3
@@ -184,6 +364,24 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "220e9755_2027b064",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c37e07f4_a6b85203",
       "revId": "0337be265aed7d25fe15415e856d0c53de160138",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "373b1712_d494b885",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2d32895_d92fa9d0",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94839664_a87215e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
         "patchSetId": 3
@@ -230,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "6adc59e9_b5027f7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94839664_a87215e7",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60b3f24a_fca97681",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
         "patchSetId": 3
@@ -241,6 +481,24 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06c55388_5e303557",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b3f24a_fca97681",
       "revId": "0337be265aed7d25fe15415e856d0c53de160138",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -270,6 +528,30 @@
     },
     {
       "key": {
+        "uuid": "509dbbaa_9f1034aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ff97ae_c489df8a",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a43562_c737741a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
         "patchSetId": 3
@@ -281,6 +563,24 @@
       "writtenOn": "2019-10-21T11:48:00Z",
       "side": 1,
       "message": "no since tag needed here since the class is tagged with the version already",
+      "revId": "0337be265aed7d25fe15415e856d0c53de160138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62c20513_ed7c186f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a43562_c737741a",
       "revId": "0337be265aed7d25fe15415e856d0c53de160138",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
