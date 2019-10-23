@@ -39,6 +39,24 @@
       "revId": "b59fba8e2260f34a20128151955f08223b1947ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1ab1fb3_0f97172e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-23T00:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ec67aa5_97331ac5",
+      "revId": "b59fba8e2260f34a20128151955f08223b1947ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
