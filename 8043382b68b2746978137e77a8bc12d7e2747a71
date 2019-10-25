@@ -96,6 +96,24 @@
       "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f18e1a00_033e2603",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-10-25T21:52:36Z",
+      "side": 1,
+      "message": "There is new guidance on copyright headers: https://www.eclipse.org/projects/handbook/#ip-copyright-headers. https://git.eclipse.org/r/c/147144/10/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java is a new example.",
+      "parentUuid": "cb7a8c40_d163a893",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
