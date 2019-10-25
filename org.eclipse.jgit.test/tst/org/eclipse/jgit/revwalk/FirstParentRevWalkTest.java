@@ -49,6 +49,7 @@ import static org.junit.Assert.assertNull;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.junit.Test;
 
 public class FirstParentRevWalkTest extends RevWalkTestCase {
@@ -423,6 +424,41 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.setFirstParent(true);
 		rw.setRevFilter(RevFilter.MERGE_BASE);
 		markStart(a);
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testWithTopoSortAndTreeFilter() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(tree(file("0", blob("b"))), a);
+		RevCommit c = commit(tree(file("0", blob("c"))), b, a);
+		RevCommit d = commit(tree(file("0", blob("d"))), c);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		rw.sort(RevSort.TOPO, true);
+		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testWithTopoSortAndTreeFilter2() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(tree(file("0", blob("b"))), a);
+		RevCommit c = commit(tree(file("0", blob("c"))), a, b);
+		RevCommit d = commit(tree(file("0", blob("d"))), c);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		rw.sort(RevSort.TOPO, true);
+		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
 		assertNull(rw.next());
 	}
 }
