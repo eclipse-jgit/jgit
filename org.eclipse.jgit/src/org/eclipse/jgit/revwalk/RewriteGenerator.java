@@ -103,11 +103,15 @@ class RewriteGenerator extends Generator {
 		final int nParents = pList.length;
 		for (int i = 0; i < nParents; i++) {
 			final RevCommit oldp = pList[i];
-			if (firstParent && i > 0) {
-				c.parents = new RevCommit[] { rewrite(oldp) };
+			final RevCommit newp = rewrite(oldp);
+			if (firstParent) {
+				if (newp == null) {
+					c.parents = RevCommit.NO_PARENTS;
+				} else {
+					c.parents = new RevCommit[] { newp };
+				}
 				return c;
 			}
-			final RevCommit newp = rewrite(oldp);
 			if (oldp != newp) {
 				pList[i] = newp;
 				rewrote = true;
