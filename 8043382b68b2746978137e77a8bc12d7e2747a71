@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17c40d53_236d3153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-25T22:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dce951e_508fad49",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abcfd352_a9424d7b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-25T02:23:25Z",
       "side": 1,
       "message": "A commit message should be in the imperative mood, as if ordering the code to do something (\"Move all connectivity checks to [...]\").\n\nPlease wrap lines to a consistent width, e.g. 72 characters, and include a blank line between paragraphs.",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c616e264_f23a917f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-25T22:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abcfd352_a9424d7b",
       "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "8a64b236_94e3b1e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-25T22:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbccbaf_44cff63e",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1d35308_06474e5d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
         "patchSetId": 6
@@ -70,6 +130,30 @@
       "writtenOn": "2019-10-25T02:23:25Z",
       "side": 1,
       "message": "As you\u0027ve seen with BaseReceivePack, the `Base*` naming pattern is generally worth avoiding.\n\nIs the intent here \"DefaultConnectivityChecker\"?\n\nCan this class be \"final\", or is it intended to be subclassed from?",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 36
+      },
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab9af50_cd577ef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-25T22:18:11Z",
+      "side": 1,
+      "message": "Renamed to FullConnectivityChecker as this is what it does. I see how we can subclass and improve it in the future, but after consideration I decided to make it final for now, since we might want to refactor it before that.",
+      "parentUuid": "d1d35308_06474e5d",
       "range": {
         "startLine": 73,
         "startChar": 13,
@@ -111,6 +195,24 @@
       "side": 1,
       "message": "There is new guidance on copyright headers: https://www.eclipse.org/projects/handbook/#ip-copyright-headers. https://git.eclipse.org/r/c/147144/10/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java is a new example.",
       "parentUuid": "cb7a8c40_d163a893",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "204a5906_dbb55b31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-10-25T22:18:11Z",
+      "side": 1,
+      "message": "Done, thanks",
+      "parentUuid": "f18e1a00_033e2603",
       "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
