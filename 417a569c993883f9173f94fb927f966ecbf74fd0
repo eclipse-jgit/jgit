@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c88b2916_95986c53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:15:11Z",
+      "side": 1,
+      "message": "Can this javadoc say something about the input needing to have no duplicates?",
+      "revId": "417a569c993883f9173f94fb927f966ecbf74fd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
