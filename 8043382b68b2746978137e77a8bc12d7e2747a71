@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dce951e_508fad49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:23:25Z",
+      "side": 1,
+      "message": "The subject line should describe the intended effect of the change.\n\nIs this a pure refactoring? If so, what is the goal of that refactoring?\n\nIs this a behavior change? If so, what is the intended change in behavior?\n\n(another nit: \"refactor\" should be capitalized, to match the usual style in JGit --- see \"git shortlog\" for some examples)",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abcfd352_a9424d7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:23:25Z",
+      "side": 1,
+      "message": "A commit message should be in the imperative mood, as if ordering the code to do something (\"Move all connectivity checks to [...]\").\n\nPlease wrap lines to a consistent width, e.g. 72 characters, and include a blank line between paragraphs.",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abbccbaf_44cff63e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:23:25Z",
+      "side": 1,
+      "message": "/",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1d35308_06474e5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:23:25Z",
+      "side": 1,
+      "message": "As you\u0027ve seen with BaseReceivePack, the `Base*` naming pattern is generally worth avoiding.\n\nIs the intent here \"DefaultConnectivityChecker\"?\n\nCan this class be \"final\", or is it intended to be subclassed from?",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 36
+      },
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7a8c40_d163a893",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-10-25T02:23:25Z",
+      "side": 1,
+      "message": "These dates and authors don\u0027t seem right.",
+      "revId": "8043382b68b2746978137e77a8bc12d7e2747a71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
