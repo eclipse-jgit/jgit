@@ -80,11 +80,11 @@ class TopoSortGenerator extends Generator {
 			if (c == null) {
 				break;
 			}
-			for (int i = 0; i < c.parents.length; i++) {
-				if (firstParent && i > 0) {
+			for (RevCommit p : c.parents) {
+				p.inDegree++;
+				if (firstParent) {
 					break;
 				}
-				c.parents[i].inDegree++;
 			}
 			pending.add(c);
 		}
@@ -119,11 +119,7 @@ class TopoSortGenerator extends Generator {
 			// All of our children have already produced,
 			// so it is OK for us to produce now as well.
 			//
-			for (int i = 0; i < c.parents.length; i++) {
-				if (firstParent && i > 0) {
-					break;
-				}
-				RevCommit p = c.parents[i];
+			for (RevCommit p : c.parents) {
 				if (--p.inDegree == 0 && (p.flags & TOPO_DELAY) != 0) {
 					// This parent tried to come before us, but we are
 					// his last child. unpop the parent so it goes right
@@ -131,6 +127,9 @@ class TopoSortGenerator extends Generator {
 					//
 					p.flags &= ~TOPO_DELAY;
 					pending.unpop(p);
+				}
+				if (firstParent) {
+					break;
 				}
 			}
 			return c;
