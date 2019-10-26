@@ -844,7 +844,7 @@ public abstract class FS {
 				try {
 					FileUtils.delete(tempFile);
 				} catch (IOException e) {
-					throw new RuntimeException(e); // panic
+					LOG.error(JGitText.get().cannotDeleteFile, tempFile);
 				}
 			}
 		}
