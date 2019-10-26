@@ -384,7 +384,32 @@ public class IndexDiff {
 	 * @throws java.io.IOException
 	 */
 	public boolean diff() throws IOException {
-		return diff(null, 0, 0, ""); //$NON-NLS-1$
+		return diff(null);
+	}
+
+	/**
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * Use
+	 * {@link #diff(ProgressMonitor, int, int, String, RepositoryBuilderFactory)}
+	 * if a progress monitor is required.
+	 * <p>
+	 * The operation may create repositories for submodules using builders
+	 * provided by the given {@code factory}, if any, and will also close these
+	 * submodule repositories again.
+	 * </p>
+	 *
+	 * @param factory
+	 *            the {@link RepositoryBuilderFactory} to use to create builders
+	 *            to create submodule repositories, if needed; if {@code null},
+	 *            submodule repositories will be built using a plain
+	 *            {@link RepositoryBuilder}.
+	 * @return if anything is different between index, tree, and workdir
+	 * @throws java.io.IOException
+	 * @since 5.6
+	 */
+	public boolean diff(RepositoryBuilderFactory factory)
+			throws IOException {
+		return diff(null, 0, 0, "", factory); //$NON-NLS-1$
 	}
 
 	/**
@@ -409,6 +434,45 @@ public class IndexDiff {
 	 */
 	public boolean diff(final ProgressMonitor monitor, int estWorkTreeSize,
 			int estIndexSize, final String title)
+			throws IOException {
+		return diff(monitor, estWorkTreeSize, estIndexSize, title, null);
+	}
+
+	/**
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * <p>
+	 * The operation may be aborted by the progress monitor. In that event it
+	 * will report what was found before the cancel operation was detected.
+	 * Callers should ignore the result if monitor.isCancelled() is true. If a
+	 * progress monitor is not needed, callers should use {@link #diff()}
+	 * instead. Progress reporting is crude and approximate and only intended
+	 * for informing the user.
+	 * </p>
+	 * <p>
+	 * The operation may create repositories for submodules using builders
+	 * provided by the given {@code factory}, if any, and will also close these
+	 * submodule repositories again.
+	 * </p>
+	 *
+	 * @param monitor
+	 *            for reporting progress, may be null
+	 * @param estWorkTreeSize
+	 *            number or estimated files in the working tree
+	 * @param estIndexSize
+	 *            number of estimated entries in the cache
+	 * @param title
+	 *            a {@link java.lang.String} object.
+	 * @param factory
+	 *            the {@link RepositoryBuilderFactory} to use to create builders
+	 *            to create submodule repositories, if needed; if {@code null},
+	 *            submodule repositories will be built using a plain
+	 *            {@link RepositoryBuilder}.
+	 * @return if anything is different between index, tree, and workdir
+	 * @throws java.io.IOException
+	 * @since 5.6
+	 */
+	public boolean diff(ProgressMonitor monitor, int estWorkTreeSize,
+			int estIndexSize, String title, RepositoryBuilderFactory factory)
 			throws IOException {
 		dirCache = repository.readDirCache();
 
@@ -537,6 +601,7 @@ public class IndexDiff {
 		if (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL) {
 			try (SubmoduleWalk smw = new SubmoduleWalk(repository)) {
 				smw.setTree(new DirCacheIterator(dirCache));
+				smw.setBuilderFactory(factory);
 				while (smw.next()) {
 					IgnoreSubmoduleMode localIgnoreSubmoduleMode = ignoreSubmoduleMode;
 					try {
@@ -568,7 +633,7 @@ public class IndexDiff {
 													subRepo));
 									submoduleIndexDiffs.put(subRepoPath, smid);
 								}
-								if (smid.diff()) {
+								if (smid.diff(factory)) {
 									if (localIgnoreSubmoduleMode == IgnoreSubmoduleMode.UNTRACKED
 											&& smid.getAdded().isEmpty()
 											&& smid.getChanged().isEmpty()
