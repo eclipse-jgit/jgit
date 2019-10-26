@@ -57,6 +57,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -66,6 +67,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.lib.RepositoryBuilderFactory;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -260,15 +262,41 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static Repository getSubmoduleRepository(final File parent,
 			final String path, FS fs) throws IOException {
+		return getSubmoduleRepository(parent, path, fs,
+				new RepositoryBuilder());
+	}
+
+	/**
+	 * Get submodule repository at path, using the specified file system
+	 * abstraction and the specified builder
+	 *
+	 * @param parent
+	 *            {@link Repository} that contains the submodule
+	 * @param path
+	 *            of the working tree of the submodule
+	 * @param fs
+	 *            {@link FS} to use
+	 * @param builder
+	 *            {@link BaseRepositoryBuilder} to use to build the submodule
+	 *            repository
+	 * @return the {@link Repository} of the submodule, or {@code null} if it
+	 *         doesn't exist
+	 * @throws IOException
+	 *             on errors
+	 * @since 5.6
+	 */
+	public static Repository getSubmoduleRepository(File parent, String path,
+			FS fs, BaseRepositoryBuilder<?, ? extends Repository> builder)
+			throws IOException {
 		File subWorkTree = new File(parent, path);
-		if (!subWorkTree.isDirectory())
+		if (!subWorkTree.isDirectory()) {
 			return null;
-		File workTree = new File(parent, path);
+		}
 		try {
-			return new RepositoryBuilder() //
+			return builder //
 					.setMustExist(true) //
 					.setFS(fs) //
-					.setWorkTree(workTree) //
+					.setWorkTree(subWorkTree) //
 					.build();
 		} catch (RepositoryNotFoundException e) {
 			return null;
@@ -365,6 +393,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	private String path;
 
 	private Map<String, String> pathToName;
+
+	private RepositoryBuilderFactory factory;
 
 	/**
 	 * Create submodule generator
@@ -639,7 +669,25 @@ public class SubmoduleWalk implements AutoCloseable {
 	}
 
 	/**
-	 * The module name for the current submodule entry (used for the section name of .git/config)
+	 * Sets the {@link RepositoryBuilderFactory} to use for creating submodule
+	 * repositories. If none is set, a plain {@link RepositoryBuilder} is used.
+	 *
+	 * @param factory
+	 *            to set
+	 * @since 5.6
+	 */
+	public void setBuilderFactory(RepositoryBuilderFactory factory) {
+		this.factory = factory;
+	}
+
+	private BaseRepositoryBuilder<?, ? extends Repository> getBuilder() {
+		return factory != null ? factory.get() : new RepositoryBuilder();
+	}
+
+	/**
+	 * The module name for the current submodule entry (used for the section
+	 * name of .git/config)
+	 *
 	 * @since 4.10
 	 * @return name
 	 */
@@ -755,7 +803,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 */
 	public Repository getRepository() throws IOException {
-		return getSubmoduleRepository(repository, path);
+		return getSubmoduleRepository(repository.getWorkTree(), path,
+				repository.getFS(), getBuilder());
 	}
 
 	/**
