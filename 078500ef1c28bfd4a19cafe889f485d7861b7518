@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "271d9392_6c675f7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-26T15:07:58Z",
+      "side": 0,
+      "message": "I don\u0027t grok this. That would rewrite the _second_ parent, wouldn\u0027t it? If one just removes this, both new tests fail with the NPE.",
+      "range": {
+        "startLine": 106,
+        "startChar": 19,
+        "endLine": 106,
+        "endChar": 27
+      },
+      "revId": "078500ef1c28bfd4a19cafe889f485d7861b7518",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bba308f_9d32e6c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-26T15:07:58Z",
+      "side": 0,
+      "message": "This may return null.",
+      "range": {
+        "startLine": 107,
+        "startChar": 34,
+        "endLine": 107,
+        "endChar": 47
+      },
+      "revId": "078500ef1c28bfd4a19cafe889f485d7861b7518",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

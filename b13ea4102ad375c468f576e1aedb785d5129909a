@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00cb90a0_e3635998",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-10-26T15:07:58Z",
+      "side": 1,
+      "message": "Frankly said I don\u0027t know how one would create such a graph. The only way I see is\n\n  commit a\n  commit b\n  reset HEAD to a\n  git merge --no-ff b -\u003e results in c\n  amend c\n  commit d\n\nbut in that sequence c has parents (a, b), not (b, a).\n\n(a, b) is the test case below.\n\n(b, a) triggers the NPE as it happened in bug 552160, so evidently something like this occurred in the wild.",
+      "range": {
+        "startLine": 434,
+        "startChar": 51,
+        "endLine": 434,
+        "endChar": 55
+      },
+      "revId": "b13ea4102ad375c468f576e1aedb785d5129909a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
