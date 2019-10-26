@@ -1787,8 +1787,8 @@ public abstract class FS {
 		}
 		File hookFile = new File(hookDir, hookName);
 		if (hookFile.isAbsolute()) {
-			if (!hookFile.exists() || FS.DETECTED.supportsExecute()
-					&& !FS.DETECTED.canExecute(hookFile)) {
+			if (!hookFile.exists() || (FS.DETECTED.supportsExecute()
+					&& !FS.DETECTED.canExecute(hookFile))) {
 				return null;
 			}
 		} else {
@@ -1803,8 +1803,8 @@ public abstract class FS {
 				if (fs == null) {
 					fs = FS.DETECTED;
 				}
-				if (!Files.exists(hookPath) || fs.supportsExecute()
-						&& !fs.canExecute(hookPath.toFile())) {
+				if (!Files.exists(hookPath) || (fs.supportsExecute()
+						&& !fs.canExecute(hookPath.toFile()))) {
 					return null;
 				}
 				hookFile = hookPath.toFile();
