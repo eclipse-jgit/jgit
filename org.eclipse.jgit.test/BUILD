@@ -57,6 +57,7 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
+        "//lib:junit4",
         "//lib:mockito",
         "//lib:slf4j-simple",
         "//org.eclipse.jgit:jgit",
@@ -76,6 +77,7 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
+        "//lib:junit4",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",

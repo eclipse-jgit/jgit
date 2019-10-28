@@ -19,6 +19,7 @@ junit_tests(
         "//lib:jetty-servlet",
         "//lib:jetty-util",
         "//lib:junit",
+        "//lib:junit4",
         "//lib:servlet-api",
         "//lib:slf4j-api",
         "//lib:slf4j-simple",
@@ -36,6 +37,7 @@ java_library(
     srcs = glob(["src/**/*.java"]),
     deps = [
         "//lib:junit",
+        "//lib:junit4",
         "//lib:servlet-api",
         "//org.eclipse.jgit.http.server:jgit-servlet",
         "//org.eclipse.jgit:jgit",

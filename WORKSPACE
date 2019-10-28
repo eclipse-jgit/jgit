@@ -129,6 +129,38 @@ maven_jar(
     sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
 )
 
+JUNIT_VERSION = "5.5.1"
+
+maven_jar(
+    name = "junit-platform",
+    artifact = "org.junit.platform:junit-platform-launcher:1.5.1",
+    sha1 = "4c3dde4450fffb3d248a186e67b55e1e21fbd822",
+)
+
+maven_jar(
+    name = "junit-jupiter-api",
+    artifact = "org.junit.jupiter:junit-jupiter-api:" + JUNIT_VERSION,
+    sha1 = "fc466b57ceda453119bd630c830ec68b93bba7f4",
+)
+
+maven_jar(
+    name = "junit-jupiter-engine",
+    artifact = "org.junit.jupiter:junit-jupiter-engine:" + JUNIT_VERSION,
+    sha1 = "5e6fdb03ccfc853aca39704c5e97850d732df204",
+)
+
+maven_jar(
+    name = "junit-vintage-engine",
+    artifact = "org.junit.vintage:junit-vintage-engine:" + JUNIT_VERSION,
+    sha1 = "6afaa240f16f69d324178f7f976461dfcfe42a85",
+)
+
+maven_jar(
+    name = "opentest4j",
+    artifact = "org.opentest4j:opentest4j:1.2.0",
+    sha1 = "28c11eb91f9b6d8e200631d46e20a7f407f2a046",
+)
+
 maven_jar(
     name = "hamcrest-library",
     artifact = "org.hamcrest:hamcrest-library:1.3",

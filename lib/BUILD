@@ -187,6 +187,15 @@ java_library(
 )
 
 java_library(
+    name = "junit4",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = [
+        "@junit//jar",
+    ],
+)
+
+java_library(
     name = "junit",
     testonly = 1,
     visibility = ["//visibility:public"],
@@ -195,9 +204,13 @@ java_library(
         "@bytebuddy//jar",
         "@hamcrest-core//jar",
         "@hamcrest-library//jar",
-        "@junit//jar",
+        "@junit-jupiter-api//jar",
+        "@junit-jupiter-engine//jar",
+        "@junit-platform//jar",
+        "@junit-vintage-engine//jar",
         "@mockito//jar",
         "@objenesis//jar",
+        "@opentest4j//jar",
     ],
 )
 
