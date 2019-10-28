@@ -155,6 +155,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_HOOKS_PATH = "hooksPath";
 
+	/**
+	 * The "quotePath" key.
+	 * @since 5.6
+	 */
+	public static final String CONFIG_KEY_QUOTE_PATH = "quotePath";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 

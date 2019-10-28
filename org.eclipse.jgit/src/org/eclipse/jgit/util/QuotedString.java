@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008, 2019 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,7 +54,15 @@ import org.eclipse.jgit.lib.Constants;
  */
 public abstract class QuotedString {
 	/** Quoting style that obeys the rules Git applies to file names */
-	public static final GitPathStyle GIT_PATH = new GitPathStyle();
+	public static final GitPathStyle GIT_PATH = new GitPathStyle(true);
+
+	/**
+	 * Quoting style that obeys the rules Git applies to file names when
+	 * {@code core.quotePath = false}.
+	 *
+	 * @since 5.6
+	 */
+	public static final QuotedString GIT_PATH_MINIMAL = new GitPathStyle(false);
 
 	/**
 	 * Quoting style used by the Bourne shell.
@@ -256,40 +264,48 @@ public abstract class QuotedString {
 			quote['"'] = '"';
 		}
 
+		private final boolean quoteHigh;
+
 		@Override
 		public String quote(String instr) {
-			if (instr.length() == 0)
+			if (instr.isEmpty()) {
 				return "\"\""; //$NON-NLS-1$
+			}
 			boolean reuse = true;
 			final byte[] in = Constants.encode(instr);
-			final StringBuilder r = new StringBuilder(2 + in.length);
-			r.append('"');
+			final byte[] out = new byte[4 * in.length + 2];
+			int o = 0;
+			out[o++] = '"';
 			for (int i = 0; i < in.length; i++) {
 				final int c = in[i] & 0xff;
 				if (c < quote.length) {
 					final byte style = quote[c];
 					if (style == 0) {
-						r.append((char) c);
+						out[o++] = (byte) c;
 						continue;
 					}
 					if (style > 0) {
 						reuse = false;
-						r.append('\\');
-						r.append((char) style);
+						out[o++] = '\\';
+						out[o++] = style;
 						continue;
 					}
+				} else if (!quoteHigh) {
+					out[o++] = (byte) c;
+					continue;
 				}
 
 				reuse = false;
-				r.append('\\');
-				r.append((char) (((c >> 6) & 03) + '0'));
-				r.append((char) (((c >> 3) & 07) + '0'));
-				r.append((char) (((c >> 0) & 07) + '0'));
+				out[o++] = '\\';
+				out[o++] = (byte) (((c >> 6) & 03) + '0');
+				out[o++] = (byte) (((c >> 3) & 07) + '0');
+				out[o++] = (byte) (((c >> 0) & 07) + '0');
 			}
-			if (reuse)
+			if (reuse) {
 				return instr;
-			r.append('"');
-			return r.toString();
+			}
+			out[o++] = '"';
+			return new String(out, 0, o, UTF_8);
 		}
 
 		@Override
@@ -375,8 +391,8 @@ public abstract class QuotedString {
 			return RawParseUtils.decode(UTF_8, r, 0, rPtr);
 		}
 
-		private GitPathStyle() {
-			// Singleton
+		private GitPathStyle(boolean doQuote) {
+			quoteHigh = doQuote;
 		}
 	}
 }
