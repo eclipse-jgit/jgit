@@ -35,6 +35,7 @@ java_library(
     deps = [
         "//lib:args4j",
         "//lib:junit",
+        "//lib:junit4",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.pgm:pgm",

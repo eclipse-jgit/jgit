@@ -46,5 +46,7 @@ java_library(
     name = "helpers",
     testonly = 1,
     srcs = TEST_BASE,
-    deps = DEPS,
+    deps = DEPS + [
+        "//lib:junit4",
+    ],
 )

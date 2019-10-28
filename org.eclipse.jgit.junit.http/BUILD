@@ -15,6 +15,7 @@ java_library(
         "//lib:jetty-servlet",
         "//lib:jetty-util",
         "//lib:junit",
+        "//lib:junit4",
         "//lib:servlet-api",
         "//lib:slf4j-api",
         "//org.eclipse.jgit.http.server:jgit-servlet",
