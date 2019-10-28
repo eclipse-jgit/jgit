@@ -145,6 +145,8 @@ public class DiffFormatter implements AutoCloseable {
 
 	private Repository repository;
 
+	private Boolean quotePaths;
+
 	/**
 	 * Create a new formatter with a default level of context.
 	 *
@@ -199,6 +201,11 @@ public class DiffFormatter implements AutoCloseable {
 		this.closeReader = closeReader;
 		this.reader = reader;
 		this.diffCfg = cfg.get(DiffConfig.KEY);
+		if (quotePaths == null) {
+			quotePaths = Boolean
+					.valueOf(cfg.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+							ConfigConstants.CONFIG_KEY_QUOTE_PATH, true));
+		}
 
 		ContentSource cs = ContentSource.create(reader);
 		source = new ContentSource.Pair(cs, cs);
@@ -376,6 +383,21 @@ public class DiffFormatter implements AutoCloseable {
 	 */
 	public void setProgressMonitor(ProgressMonitor pm) {
 		progressMonitor = pm;
+	}
+
+	/**
+	 * Sets whether or not path names should be quoted.
+	 * <p>
+	 * By default the setting of git config {@code core.quotePath} is active,
+	 * but this can be overridden through this method.
+	 * </p>
+	 *
+	 * @param quote
+	 *            whether to quote path names
+	 * @since 5.6
+	 */
+	public void setQuotePaths(boolean quote) {
+		quotePaths = Boolean.valueOf(quote);
 	}
 
 	/**
@@ -726,8 +748,11 @@ public class DiffFormatter implements AutoCloseable {
 		return id.name();
 	}
 
-	private static String quotePath(String name) {
-		return QuotedString.GIT_PATH.quote(name);
+	private String quotePath(String path) {
+		if (quotePaths == null || quotePaths.booleanValue()) {
+			return QuotedString.GIT_PATH.quote(path);
+		}
+		return QuotedString.GIT_PATH_MINIMAL.quote(path);
 	}
 
 	/**
