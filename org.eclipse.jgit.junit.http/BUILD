@@ -14,6 +14,7 @@ java_library(
         "//lib:jetty-server",
         "//lib:jetty-servlet",
         "//lib:jetty-util",
+        "//lib:junit4",
         "//lib:junit",
         "//lib:servlet-api",
         "//lib:slf4j-api",

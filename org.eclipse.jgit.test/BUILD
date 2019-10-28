@@ -56,6 +56,7 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:jsch",
+        "//lib:junit4",
         "//lib:junit",
         "//lib:mockito",
         "//lib:slf4j-simple",
@@ -75,6 +76,7 @@ java_library(
     ],
     deps = [
         "//lib:jsch",
+        "//lib:junit4",
         "//lib:junit",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",

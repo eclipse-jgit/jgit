@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.14-staging" sequenceNumber="1572002331">
+<target name="jgit-4.14-staging" sequenceNumber="1572216301">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.22.v20191022"/>
@@ -70,12 +70,34 @@
       <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
       <unit id="org.junit" version="4.12.0.v201504281640"/>
       <unit id="org.junit.source" version="4.12.0.v201504281640"/>
+      <unit id="org.junit.jupiter.api" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.api.source" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.engine" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.engine.source" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.migrationsupport" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.migrationsupport.source" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.params" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.jupiter.params.source" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.commons" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.commons.source" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.engine" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.engine.source" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.launcher" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.launcher.source" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.runner" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.runner.source" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.suite.api" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.platform.suite.api.source" version="1.5.1.v20190826-0900"/>
+      <unit id="org.junit.vintage.engine" version="5.5.1.v20190826-0900"/>
+      <unit id="org.junit.vintage.engine.source" version="5.5.1.v20190826-0900"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.mockito" version="2.23.0.v20190527-1420"/>
       <unit id="org.mockito.source" version="2.23.0.v20190527-1420"/>
       <unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
       <unit id="org.objenesis.source" version="2.6.0.v20180420-1519"/>
+      <unit id="org.opentest4j" version="1.2.0.v20190826-0900"/>
+      <unit id="org.opentest4j.source" version="1.2.0.v20190826-0900"/>
       <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
       <unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
       <unit id="org.slf4j.impl.log4j12" version="1.7.2.v20131105-2200"/>

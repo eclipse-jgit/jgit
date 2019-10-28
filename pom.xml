@@ -188,6 +188,8 @@
     <jzlib-version>1.1.1</jzlib-version>
     <javaewah-version>1.1.6</javaewah-version>
     <junit-version>4.12</junit-version>
+    <junit5-version>5.5.1</junit5-version>
+    <junit5-launcher-version>1.5.1</junit5-launcher-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
     <commons-compress-version>1.18</commons-compress-version>
@@ -701,6 +703,36 @@
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit-version}</version>
+        <!-- use junit-vintage-engine to run tests -->
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-launcher</artifactId>
+          <version>${junit5-launcher-version}</version>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>${junit5-version}</version>
+          <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${junit5-version}</version>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+          <version>${junit5-version}</version>
+          <scope>test</scope>
       </dependency>
 
       <dependency>

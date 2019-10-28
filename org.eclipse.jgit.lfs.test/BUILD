@@ -24,6 +24,7 @@ java_library(
     testonly = 1,
     srcs = glob(["src/**/*.java"]),
     deps = [
+        "//lib:junit4",
         "//lib:junit",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",

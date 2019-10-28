@@ -9,6 +9,7 @@ junit_tests(
     tags = ["sshd"],
     deps = [
         "//lib:eddsa",
+        "//lib:junit4",
         "//lib:junit",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",
