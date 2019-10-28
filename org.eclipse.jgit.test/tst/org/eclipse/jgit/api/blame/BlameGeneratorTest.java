@@ -42,9 +42,9 @@
  */
 package org.eclipse.jgit.api.blame;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameGenerator;
@@ -52,7 +52,7 @@ import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests of {@link BlameGenerator}. */
 public class BlameGeneratorTest extends RepositoryTestCase {

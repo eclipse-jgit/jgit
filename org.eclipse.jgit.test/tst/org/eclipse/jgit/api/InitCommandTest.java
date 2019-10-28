@@ -42,9 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,13 +58,13 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class InitCommandTest extends RepositoryTestCase {
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 	}
@@ -150,15 +151,16 @@ public class InitCommandTest extends RepositoryTestCase {
 	// directory is pointing to same dir. Same as
 	// "git init --bare --separate-git-dir /tmp/a /tmp/b"
 	// (works in native git but I guess that's more a bug)
-	@Test(expected = IllegalStateException.class)
-	public void testInitBare_DirAndGitDirMustBeEqual() throws IOException,
-			JGitInternalException, GitAPIException {
-		File gitDir = createTempDirectory("testInitRepository.git");
-		InitCommand command = new InitCommand();
-		command.setBare(true);
-		command.setDirectory(gitDir);
-		command.setGitDir(new File(gitDir, ".."));
-		command.call();
+	public void testInitBare_DirAndGitDirMustBeEqual()
+			throws JGitInternalException {
+		assertThrows(IllegalStateException.class, () -> {
+			File gitDir = createTempDirectory("testInitRepository.git");
+			InitCommand command = new InitCommand();
+			command.setBare(true);
+			command.setDirectory(gitDir);
+			command.setGitDir(new File(gitDir, ".."));
+			command.call();
+		});
 	}
 
 	// If neither directory nor gitDir is set in a non-bare repo make sure
@@ -185,35 +187,37 @@ public class InitCommandTest extends RepositoryTestCase {
 	// If neither directory nor gitDir is set in a bare repo make sure
 	// worktree and gitDir are set correctly. Standard case. Same as
 	// "git init --bare"
-	@Test(expected = NoWorkTreeException.class)
-	public void testInitWithDefaultsBare() throws JGitInternalException,
-			GitAPIException, IOException {
-		MockSystemReader reader = (MockSystemReader) SystemReader.getInstance();
-		reader.setProperty(Constants.OS_USER_DIR, getTemporaryDirectory()
-				.getAbsolutePath());
-		InitCommand command = new InitCommand();
-		command.setBare(true);
-		try (Git git = command.call()) {
-			Repository repository = git.getRepository();
-			assertNotNull(repository);
-			assertEqualsFile(new File(reader.getProperty("user.dir")),
-					repository.getDirectory());
-			assertNull(repository.getWorkTree());
-		}
+	public void testInitWithDefaultsBare() throws JGitInternalException {
+		assertThrows(NoWorkTreeException.class, () -> {
+			MockSystemReader reader = (MockSystemReader) SystemReader
+					.getInstance();
+			reader.setProperty(Constants.OS_USER_DIR,
+					getTemporaryDirectory().getAbsolutePath());
+			InitCommand command = new InitCommand();
+			command.setBare(true);
+			try (Git git = command.call()) {
+				Repository repository = git.getRepository();
+				assertNotNull(repository);
+				assertEqualsFile(new File(reader.getProperty("user.dir")),
+						repository.getDirectory());
+				assertNull(repository.getWorkTree());
+			}
+		});
 	}
 
 	// In a non-bare repo when directory and gitDir is set then they shouldn't
 	// point to the same dir. Same as
 	// "git init --separate-git-dir /tmp/a /tmp/a"
 	// (works in native git but I guess that's more a bug)
-	@Test(expected = IllegalStateException.class)
 	public void testInitNonBare_GitdirAndDirShouldntBeSame()
-			throws JGitInternalException, GitAPIException, IOException {
-		File gitDir = createTempDirectory("testInitRepository.git");
-		InitCommand command = new InitCommand();
-		command.setBare(false);
-		command.setGitDir(gitDir);
-		command.setDirectory(gitDir);
-		command.call().getRepository();
+			throws JGitInternalException {
+		assertThrows(IllegalStateException.class, () -> {
+			File gitDir = createTempDirectory("testInitRepository.git");
+			InitCommand command = new InitCommand();
+			command.setBare(false);
+			command.setGitDir(gitDir);
+			command.setDirectory(gitDir);
+			command.call().getRepository();
+		});
 	}
 }

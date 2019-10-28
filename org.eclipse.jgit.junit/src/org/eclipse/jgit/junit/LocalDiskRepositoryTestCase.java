@@ -46,8 +46,8 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,6 +78,8 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * JUnit TestCase with specialized support for temporary local repository.
@@ -122,6 +124,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tmp = File.createTempFile("jgit_test_", "_tmp");
 		CleanupThread.deleteOnShutdown(tmp);
@@ -197,6 +200,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 */
 	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		RepositoryCache.clear();
 		for (Repository r : toClose)
