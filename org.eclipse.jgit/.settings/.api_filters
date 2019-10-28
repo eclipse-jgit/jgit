@@ -14,4 +14,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/QuotedString.java" type="org.eclipse.jgit.util.QuotedString">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.QuotedString"/>
+                <message_argument value="GIT_PATH_MINIMAL"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
