@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13015179_f031ceea",
+        "filename": "lib/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-29T11:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb85419_00a25580",
+      "range": {
+        "startLine": 207,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 27
+      },
+      "revId": "e48fbd5511c54354771af718aaefe0a55e158b06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80d1ccb9_17c1e03a",
         "filename": "org.eclipse.jgit.http.test/BUILD",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-29T10:32:10Z",
       "side": 1,
       "message": "Does buildifier put them in this order?",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "e48fbd5511c54354771af718aaefe0a55e158b06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b39bb19f_ed38213f",
+        "filename": "org.eclipse.jgit.http.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-29T11:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80d1ccb9_17c1e03a",
       "range": {
         "startLine": 21,
         "startChar": 8,
