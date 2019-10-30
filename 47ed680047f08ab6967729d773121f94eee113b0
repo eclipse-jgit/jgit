@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c23d74d_e6638019",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 66
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-10-30T12:57:52Z",
+      "side": 1,
+      "message": "how is a symRef involved in this test ?",
+      "range": {
+        "startLine": 205,
+        "startChar": 13,
+        "endLine": 205,
+        "endChar": 19
+      },
+      "revId": "47ed680047f08ab6967729d773121f94eee113b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
