@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7812deec_1cb88f9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-01T19:33:49Z",
+      "side": 1,
+      "message": "We do have a near(ish) term goal to combine the BaseReceivePack and ReceivePack classes, so if there aren\u0027t too many parameters being extracted from BaseReceivePack it would be preferable to pass them directly.",
+      "range": {
+        "startLine": 1541,
+        "startChar": 40,
+        "endLine": 1541,
+        "endChar": 44
+      },
+      "revId": "0c0825f6fee16394eb62cbd5d8c4c4d350ebafc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df80fe9f_52016e0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-01T19:33:49Z",
+      "side": 1,
+      "message": "Can we throw something more appropriate here? JGit has had an anti-pattern of throwing IOExceptions everywhere, and it has made it quite difficult to do proper error handling (see https://www.eclipse.org/lists/jgit-dev/msg03582.html).",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "0c0825f6fee16394eb62cbd5d8c4c4d350ebafc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f7da5cc_51293077",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-01T19:33:49Z",
+      "side": 1,
+      "message": "This seems like more of a description for the ConnectivityChecker interface. I think it makes sense to pull out the \"check objects are reachable\" parameter in that interface\u0027s JavaDoc to emphasize the types of connectivity checks that implementers are expected to perform. This JavaDoc would then change to say \"A connectivity checker that uses the entire reference database to perform reachability checks when checking the connectivity of objects.\"",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "0c0825f6fee16394eb62cbd5d8c4c4d350ebafc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "306239d9_94764128",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-01T19:33:49Z",
+      "side": 1,
+      "message": "I agree with Matthias that it is appropriate to split out this performance update as a separate change from the ConnectivityChecker interface refactoring. The latter should be a no-op in performance but needs to be evaluated with an eye towards introducing public API. The former is one of multiple proposed optimizations and needs to be evaluated with an eye towards performance. The concerns are different enough to warrant separate changes. It is also the case that if we miss a corner case in the performance optimization it is nicer to be able to revert that separately from the refactoring.",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 41
+      },
+      "revId": "0c0825f6fee16394eb62cbd5d8c4c4d350ebafc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
