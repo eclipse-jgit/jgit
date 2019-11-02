@@ -160,6 +160,10 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				merger.setCommitNames(new String[] { "BASE", ourName, //$NON-NLS-1$
 						cherryPickName });
 				if (merger.merge(newHead, srcCommit)) {
+					if (!merger.getModifiedFiles().isEmpty()) {
+						repo.fireEvent(new WorkingTreeModifiedEvent(
+								merger.getModifiedFiles(), null));
+					}
 					if (AnyObjectId.isEqual(newHead.getTree().getId(),
 							merger.getResultTreeId())) {
 						continue;
