@@ -53,9 +53,11 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.FilterFailedException;
@@ -141,6 +143,8 @@ public class DirCacheCheckout {
 	private ArrayList<String> conflicts = new ArrayList<>();
 
 	private ArrayList<String> removed = new ArrayList<>();
+
+	private ArrayList<String> kept = new ArrayList<>();
 
 	private ObjectId mergeCommitTree;
 
@@ -432,11 +436,11 @@ public class DirCacheCheckout {
 					if (mtime == null || mtime.equals(Instant.EPOCH)) {
 						entry.setLastModified(f.getEntryLastModifiedInstant());
 					}
-					keep(entry, f);
+					keep(i.getEntryPathString(), entry, f);
 				}
 			} else
 				// The index contains a folder
-				keep(i.getDirCacheEntry(), f);
+				keep(i.getEntryPathString(), i.getDirCacheEntry(), f);
 		} else {
 			// There is no entry in the merge commit. Means: we want to delete
 			// what's currently in the index and working tree
@@ -496,8 +500,11 @@ public class DirCacheCheckout {
 				dc.unlock();
 			} finally {
 				if (performingCheckout) {
+					Set<String> touched = new HashSet<>(conflicts);
+					touched.addAll(getUpdated().keySet());
+					touched.addAll(kept);
 					WorkingTreeModifiedEvent event = new WorkingTreeModifiedEvent(
-							getUpdated().keySet(), getRemoved());
+							touched, getRemoved());
 					if (!event.isEmpty()) {
 						repo.fireEvent(event);
 					}
@@ -826,14 +833,14 @@ public class DirCacheCheckout {
 
 				break;
 			case 0xDFD: // 3 4
-				keep(dce, f);
+				keep(name, dce, f);
 				break;
 			case 0xF0D: // 18
 				remove(name);
 				break;
 			case 0xDFF: // 5 5b 6 6b
 				if (equalIdAndMode(iId, iMode, mId, mMode))
-					keep(dce, f); // 5 6
+					keep(name, dce, f); // 5 6
 				else
 					conflict(name, dce, h, m); // 5b 6b
 				break;
@@ -863,7 +870,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m); // 9
 				break;
 			case 0xFD0: // keep without a rule
-				keep(dce, f);
+				keep(name, dce, f);
 				break;
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
@@ -883,7 +890,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m);
 				break;
 			default:
-				keep(dce, f);
+				keep(name, dce, f);
 			}
 			return;
 		}
@@ -968,7 +975,7 @@ public class DirCacheCheckout {
 					if (initialCheckout)
 						update(name, mId, mMode);
 					else
-						keep(dce, f);
+						keep(name, dce, f);
 				} else
 					conflict(name, dce, h, m);
 			}
@@ -1031,7 +1038,7 @@ public class DirCacheCheckout {
 						// Nothing in Head
 						// Something in Index
 						// -> Merge contains nothing new. Keep the index.
-						keep(dce, f);
+						keep(name, dce, f);
 				} else
 					// Merge contains something and it is not the same as Index
 					// Nothing in Head
@@ -1182,7 +1189,7 @@ public class DirCacheCheckout {
 					// to the other one.
 					// -> In all three cases we don't touch index and file.
 
-					keep(dce, f);
+					keep(name, dce, f);
 				}
 			}
 		}
@@ -1231,12 +1238,13 @@ public class DirCacheCheckout {
 		}
 	}
 
-	private void keep(DirCacheEntry e, WorkingTreeIterator f)
+	private void keep(String path, DirCacheEntry e, WorkingTreeIterator f)
 			throws IOException {
 		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
 			builder.add(e);
 		if (force) {
 			if (f.isModified(e, true, this.walk.getObjectReader())) {
+				kept.add(path);
 				checkoutEntry(repo, e, this.walk.getObjectReader());
 			}
 		}

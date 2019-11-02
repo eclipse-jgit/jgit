@@ -58,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -175,6 +176,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 						+ "This reverts commit " + srcCommit.getId().getName() //$NON-NLS-1$
 						+ ".\n"; //$NON-NLS-1$
 				if (merger.merge(headCommit, srcParent)) {
+					if (!merger.getModifiedFiles().isEmpty()) {
+						repo.fireEvent(new WorkingTreeModifiedEvent(
+								merger.getModifiedFiles(), null));
+					}
 					if (AnyObjectId.isEqual(headCommit.getTree().getId(),
 							merger.getResultTreeId()))
 						continue;

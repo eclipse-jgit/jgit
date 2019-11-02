@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.events;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -99,10 +98,12 @@ public class ChangeRecorder implements WorkingTreeModifiedListener {
 		Arrays.sort(expectedModified);
 		Arrays.sort(actuallyDeleted);
 		Arrays.sort(expectedDeleted);
-		assertArrayEquals("Unexpected modifications reported", expectedModified,
-				actuallyModified);
-		assertArrayEquals("Unexpected deletions reported", expectedDeleted,
-				actuallyDeleted);
+		assertEquals("Unexpected modifications reported",
+				Arrays.toString(expectedModified),
+				Arrays.toString(actuallyModified));
+		assertEquals("Unexpected deletions reported",
+				Arrays.toString(expectedDeleted),
+				Arrays.toString(actuallyDeleted));
 		reset();
 	}
 }

@@ -57,12 +57,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler;
@@ -78,6 +75,7 @@ import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IllegalTodoFileModification;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.ChangeRecorder;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -2014,10 +2012,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/topic");
 		writeTrashFile("sub/file0", "unstaged modified file0");
 
-		Set<String> modifiedFiles = new HashSet<>();
+		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = db.getListenerList()
-				.addWorkingTreeModifiedListener(
-						event -> modifiedFiles.addAll(event.getModified()));
+				.addWorkingTreeModifiedListener(recorder);
 		try {
 			// rebase
 			assertEquals(Status.OK, git.rebase()
@@ -2035,9 +2032,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						+ "[sub/file0, mode:100644, content:file0]",
 				indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
-		List<String> modified = new ArrayList<>(modifiedFiles);
-		Collections.sort(modified);
-		assertEquals("[file1, sub/file0]", modified.toString());
+		recorder.assertEvent(new String[] { "file1", "file2", "sub/file0" },
+				new String[0]);
 	}
 
 	@Test
