@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33039a41_74b4a793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-03T09:03:19Z",
+      "side": 1,
+      "message": "sounds like this should go in a separate change ?",
+      "revId": "e8c8b92ef5bb97df16319eb6a98349e3838103b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f87ac42_8ff20b20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-03T09:03:19Z",
+      "side": 1,
+      "message": "ResolveMerger includes deleted files in the collection returned by getModifiedFiles() whereas WorkingTreeModifiedEvents tracks modified and deleted files separately. This seems inconsistent. Maybe ResolveMerger should also separate modifications from deletions ?",
+      "range": {
+        "startLine": 165,
+        "startChar": 35,
+        "endLine": 165,
+        "endChar": 39
+      },
+      "revId": "e8c8b92ef5bb97df16319eb6a98349e3838103b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
