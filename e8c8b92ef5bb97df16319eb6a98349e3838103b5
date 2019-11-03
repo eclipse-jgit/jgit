@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d59c7f11_5ea077f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-03T09:22:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33039a41_74b4a793",
+      "revId": "e8c8b92ef5bb97df16319eb6a98349e3838103b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f87ac42_8ff20b20",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-03T09:03:19Z",
       "side": 1,
       "message": "ResolveMerger includes deleted files in the collection returned by getModifiedFiles() whereas WorkingTreeModifiedEvents tracks modified and deleted files separately. This seems inconsistent. Maybe ResolveMerger should also separate modifications from deletions ?",
+      "range": {
+        "startLine": 165,
+        "startChar": 35,
+        "endLine": 165,
+        "endChar": 39
+      },
+      "revId": "e8c8b92ef5bb97df16319eb6a98349e3838103b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09f7867c_fe18fcb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-03T09:22:58Z",
+      "side": 1,
+      "message": "But not in this change.\n\nIt should, yes. Or tracking this separately in the event was a mistake. For EGit it doesn\u0027t matter, it refreshes the union. Maybe file a new enhancement request?",
+      "parentUuid": "3f87ac42_8ff20b20",
       "range": {
         "startLine": 165,
         "startChar": 35,
