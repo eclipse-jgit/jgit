@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.lfs" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="924844039">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="5.1.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
