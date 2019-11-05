@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861e6195_da3dbb81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-05T08:41:32Z",
+      "side": 1,
+      "message": "Was fixed on 2019-09-12 https://git.eclipse.org/r/#/c/149331/ and will be in ecj 3.20.0 :-)\n\nPlatform already uses an ecj with that fix: https://git.eclipse.org/r/#/c/151926/1/eclipse-platform-parent/pom.xml",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "5a483ac56b15a33b320c66188c06ae1e6536aa9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
