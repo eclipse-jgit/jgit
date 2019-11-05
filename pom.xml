@@ -1036,8 +1036,8 @@
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
     <module>org.eclipse.jgit.ssh.apache.test</module>
-
     <module>org.eclipse.jgit.coverage</module>
+    <module>org.eclipse.jgit.benchmarks</module>
   </modules>
 
 </project>
