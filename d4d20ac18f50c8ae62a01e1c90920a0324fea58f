@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a54510d_76cf1f67",
+        "filename": "org.eclipse.jgit.benchmarks/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-05T08:30:55Z",
+      "side": 1,
+      "message": "5.2.3",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 19
+      },
+      "revId": "d4d20ac18f50c8ae62a01e1c90920a0324fea58f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
