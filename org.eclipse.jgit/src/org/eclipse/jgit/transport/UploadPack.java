@@ -248,6 +248,10 @@ public class UploadPack {
 
 	private ResponseBufferedOutputStream rawOut;
 
+	private OutputStream packOut;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
+
 	private PacketLineIn pckIn;
 
 	private OutputStream msgOut = NullOutputStream.INSTANCE;
@@ -1075,8 +1079,13 @@ public class UploadPack {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, req, refs == null ? null : refs.values(),
-					unshallowCommits, Collections.emptyList(), pckOut);
+			initializeOutput(req);
+			sendPack(pckOut, req, accumulator,
+					refs == null ? null : refs.values(), unshallowCommits,
+					Collections.emptyList());
+			if (isSideband(req)) {
+				pckOut.end();
+			}
 		}
 	}
 
@@ -1239,14 +1248,17 @@ public class UploadPack {
 				// But sideband-all is not used, so we have to write it ourselves.
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
-			sendPack(new PackStatistics.Accumulator(),
+			initializeOutput(req);
+			sendPack(pckOut,
 					req,
+					new PackStatistics.Accumulator(),
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null,
-					unshallowCommits, deepenNots, pckOut);
-			// sendPack invokes pckOut.end() for us, so we do not
-			// need to invoke it here.
+							? db.getRefDatabase().getRefsByPrefix(R_TAGS)
+							: null,
+					unshallowCommits, deepenNots);
+			if (isSideband(req)) {
+				pckOut.end();
+			}
 		} else {
 			// Invoke pckOut.end() by ourselves.
 			pckOut.end();
@@ -1548,7 +1560,8 @@ public class UploadPack {
 	/**
 	 * Get an underlying stream for sending messages to the client
 	 *
-	 * @return an underlying stream for sending messages to the client, or null.
+	 * @return an underlying stream for sending messages to the client, or
+	 *         NullOutputStream.INSTANCE.
 	 * @since 3.1
 	 */
 	public OutputStream getMessageOutputStream() {
@@ -2116,33 +2129,13 @@ public class UploadPack {
 	}
 
 	/**
-	 * Send the requested objects to the client.
+	 * Initialize output channels.
 	 *
-	 * @param accumulator
-	 *            where to write statistics about the content of the pack.
 	 * @param req
 	 *            request in process
-	 * @param allTags
-	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
-	 * @param unshallowCommits
-	 *            shallow commits on the client that are now becoming unshallow
-	 * @param deepenNots
-	 *            objects that the client specified using --shallow-exclude
-	 * @param pckOut
-	 *            output writer
-	 * @throws IOException
-	 *             if an error occurred while generating or writing the pack.
 	 */
-	private void sendPack(PackStatistics.Accumulator accumulator,
-			FetchRequest req,
-			@Nullable Collection<Ref> allTags,
-			List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots,
-			PacketLineOut pckOut) throws IOException {
-		Set<String> caps = req.getClientCapabilities();
-		boolean sideband = caps.contains(OPTION_SIDE_BAND)
-				|| caps.contains(OPTION_SIDE_BAND_64K);
+	private void initializeOutput(FetchRequest req) {
+		boolean sideband = isSideband(req);
 
 		if (sideband) {
 			errOut = new SideBandErrorWriter();
@@ -2151,34 +2144,30 @@ public class UploadPack {
 			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
 				bufsz = SideBandOutputStream.MAX_BUF;
 			}
-			OutputStream packOut = new SideBandOutputStream(
-					SideBandOutputStream.CH_DATA, bufsz, rawOut);
+			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
+					bufsz, rawOut);
 
-			ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
 				msgOut = new SideBandOutputStream(
 						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
-				pm = new SideBandProgressMonitor(msgOut);
+				monitor = new SideBandProgressMonitor(msgOut);
 			}
-
-			sendPack(pm, pckOut, packOut, req, accumulator, allTags,
-					unshallowCommits, deepenNots);
-			pckOut.end();
 		} else {
-			sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
-					accumulator, allTags, unshallowCommits, deepenNots);
+			packOut = rawOut;
 		}
+	}
+
+	private static boolean isSideband(FetchRequest req) {
+		Set<String> caps = req.getClientCapabilities();
+		return caps.contains(OPTION_SIDE_BAND)
+				|| caps.contains(OPTION_SIDE_BAND_64K);
 	}
 
 	/**
 	 * Send the requested objects to the client.
 	 *
-	 * @param pm
-	 *            progress monitor
 	 * @param pckOut
 	 *            PacketLineOut that shares the output with packOut
-	 * @param packOut
-	 *            packfile output
 	 * @param req
 	 *            request being processed
 	 * @param accumulator
@@ -2193,8 +2182,8 @@ public class UploadPack {
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
-	private void sendPack(ProgressMonitor pm, PacketLineOut pckOut,
-			OutputStream packOut, FetchRequest req,
+	private void sendPack(PacketLineOut pckOut,
+			FetchRequest req,
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
 			List<ObjectId> deepenNots) throws IOException {
@@ -2262,13 +2251,14 @@ public class UploadPack {
 			}
 
 			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase,
+				pw.preparePack(monitor, wantIds, commonBase,
 						req.getClientShallowCommits());
 			} else {
 				walk.reset();
 
 				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
-				pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
+				pw.preparePack(monitor, ow, wantAll, commonBase,
+						PackWriter.NONE);
 				rw = ow;
 			}
 
@@ -2325,7 +2315,8 @@ public class UploadPack {
 					pckOut.writeString("packfile\n"); //$NON-NLS-1$
 				}
 			}
-			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+			pw.writePack(monitor, NullProgressMonitor.INSTANCE,
+					packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {
 				String msg = pw.getStatistics().getMessage() + '\n';
