@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "776501bb_bac4345e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-06T14:43:03Z",
+      "side": 1,
+      "message": "Is that the right location? Or should it be $XDG_CONFIG_HOME/jgit/config if $XDG_CONFIG_HOME is set?\n\n(We should probably also consider supporting $XDG_CONFIG_HOME for the normal user config, but not in this change. But for a new file we might honor this from the start.)",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f14e29d_1fbbd092",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-06T14:43:03Z",
+      "side": 1,
+      "message": "This change is on master now, so this should be @since 5.6.",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6c6122_369331a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-06T14:43:03Z",
+      "side": 1,
+      "message": "Please also see https://git.eclipse.org/r/#/c/149947/ where I have proposed a general mechanism to update parents.",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
