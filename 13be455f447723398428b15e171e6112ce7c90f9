@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "766268d5_a1dd38c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-06T15:06:53Z",
+      "side": 1,
+      "message": "ok, I agree",
+      "parentUuid": "776501bb_bac4345e",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f14e29d_1fbbd092",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c754b658_5929cd55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-06T15:06:53Z",
+      "side": 1,
+      "message": "I intended to push it to stable-5.5 but by mistake I pushed to the wrong branch",
+      "parentUuid": "3f14e29d_1fbbd092",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad6c6122_369331a1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-11-06T14:43:03Z",
       "side": 1,
       "message": "Please also see https://git.eclipse.org/r/#/c/149947/ where I have proposed a general mechanism to update parents.",
+      "revId": "13be455f447723398428b15e171e6112ce7c90f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9353aeea_c4284a41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-06T15:06:53Z",
+      "side": 1,
+      "message": "ok, will use that.\n\nI can review this change but I don\u0027t have a Windows machine available. Did you test this change on Windows ?",
+      "parentUuid": "ad6c6122_369331a1",
       "revId": "13be455f447723398428b15e171e6112ce7c90f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
