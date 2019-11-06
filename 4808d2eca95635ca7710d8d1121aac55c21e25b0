@@ -16,6 +16,23 @@
       "revId": "4808d2eca95635ca7710d8d1121aac55c21e25b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45891d26_441931f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-06T21:19:05Z",
+      "side": 1,
+      "message": "we should skip this if the config file doesn\u0027t exist otherwise this throws a NoSuchFIleException",
+      "revId": "4808d2eca95635ca7710d8d1121aac55c21e25b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
