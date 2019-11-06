@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f28efc25_8bd9d5d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-06T22:43:22Z",
+      "side": 1,
+      "message": "According to [1] the XDG_CONFIG_HOME already _is_ the .config subdirectory.\n\n[1] https://wiki.archlinux.org/index.php/XDG_Base_Directory\n\nAnd I think this needs to be done much more carefully. First, Windows doesn\u0027t have XDG, so the environment variable is probably unset. We could use System.getenv(\"PROGRAMDATA\") on Windows. And if set (even on Linux) the environment variable might contain garbage.\n\nI\u0027d do something like this\n\n  private Path getXDGConfigHome(FS fs) {\n    String configHomePath;\n    if (isWindows()) {\n      // XDG spec doesn\u0027t apply.\n      configHomePath \u003d System.getenv(\"PROGRAMDATA\");\n    } else {\n      configHomePath \u003d System.getenv(Constants.XDG_CONFIG_HOME);\n      if (StringUtils.isEmptyOrNull(configHomePath)) {\n        configHomePath \u003d new File(fs.userHome(), \".config\").getAbsolutePath();\n      }\n    }\n    if (!StringUtils.isEmptyOrNull(configHomePath)) {\n      try {\n        Path xdgHomePath \u003d Paths.get(configHomePath);\n        Files.createDirectories(xdgHomePath);\n        return xdgHomePath;\n      } catch (IOException | InvalidPathException e) {\n        // TODO: log; return null below\n      }\n    }\n    return null;\n  }\n\n  public FileBasedConfig openJGitConfig(Config parent, FS fs) {\n    Path xdgPath \u003d getXDGConfigHome(fs);\n    if (xdgPath !\u003d null) {\n      try {\n        Path configPath \u003d xdgPath.resolve(\"jgit\");\n        Files.createDirectories(configPath);\n        configPath \u003d configPath.resolve(Constants.CONFIG);\n        return new FileBasedConfig(parent, configPath.toFile(), fs);\n      } catch (IOException e) {\n        // TODO: log; return ~/.jgitconfig below\n      }\n    }\n    return new FileBasedConfig(parent, new File(fs.userHome(), \".jgitconfig\"), fs);\n  }",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
