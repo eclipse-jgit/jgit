@@ -85,6 +85,24 @@
       "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af3c38c9_fed74c16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-07T06:43:28Z",
+      "side": 1,
+      "message": "And probably could use SystemReader\u0027s getenv() instead of System.gentenv().",
+      "parentUuid": "f28efc25_8bd9d5d2",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
