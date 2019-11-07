@@ -103,6 +103,24 @@
       "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74a76784_c95c4703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-07T07:15:26Z",
+      "side": 1,
+      "message": "One difference with using PROGRAMDATA on Windows, though: that is host-specific (it\u0027s normally C:\\ProgramData). Not sure all users can write there. At least one would need to set access permissions when creating the jgit sub-directory such that any user can write there, but I\u0027m not sure if the java.nio.file.Files FileAttributes can do this on Windows. (One would assume so, but I just don\u0027t know. Probably via AclFileAttributeView.) Perhaps it\u0027s simpler *not* to use PROGRAMDATA and just use ~/.jgitconfig unconditionally on Windows.\n\nAnd I hope using ~/.jgitconfig doesn\u0027t cause massive slow-downs if the user home is on a network drive. getFileStoreAttributes(Path) will try to read it (via user config) possibly once per FileStore.",
+      "parentUuid": "af3c38c9_fed74c16",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
