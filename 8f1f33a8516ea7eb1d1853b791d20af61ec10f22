@@ -223,6 +223,24 @@
       "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5554cf66_2d43e8e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-07T11:45:58Z",
+      "side": 1,
+      "message": "\u003e * git-for-windows seems to rely on XDG_CONFIG_HOME also on Windows\n\nIndeed it does (implementation of that function is in path.c). But I wonder if that is not a bug. I have yet to see a Windows system on which that environment variable is set :-)\n\nBut OK, let\u0027s use it on Windows, too; with the same fallback.",
+      "parentUuid": "6a6e11fb_1b11d452",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
