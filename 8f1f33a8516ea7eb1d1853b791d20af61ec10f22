@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "74f88410_52c30f33",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-07T10:48:27Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "bde1f9f6_df3f73db",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 356,
+        "endChar": 36
+      },
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493291af_92bdb9fe",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2019-11-07T04:01:35Z",
       "side": 1,
       "message": "Is this intentionally returning null?",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 14
+      },
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6808f91_d0be3deb",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-07T10:48:27Z",
+      "side": 1,
+      "message": "this should \n\n return jgitConfig;",
+      "parentUuid": "493291af_92bdb9fe",
       "range": {
         "startLine": 357,
         "startChar": 2,
@@ -118,6 +166,60 @@
       "side": 1,
       "message": "One difference with using PROGRAMDATA on Windows, though: that is host-specific (it\u0027s normally C:\\ProgramData). Not sure all users can write there. At least one would need to set access permissions when creating the jgit sub-directory such that any user can write there, but I\u0027m not sure if the java.nio.file.Files FileAttributes can do this on Windows. (One would assume so, but I just don\u0027t know. Probably via AclFileAttributeView.) Perhaps it\u0027s simpler *not* to use PROGRAMDATA and just use ~/.jgitconfig unconditionally on Windows.\n\nAnd I hope using ~/.jgitconfig doesn\u0027t cause massive slow-downs if the user home is on a network drive. getFileStoreAttributes(Path) will try to read it (via user config) possibly once per FileStore.",
       "parentUuid": "af3c38c9_fed74c16",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048e7dd8_47b1731f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-07T10:48:27Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "af3c38c9_fed74c16",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e11fb_1b11d452",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-07T10:48:27Z",
+      "side": 1,
+      "message": "I checked git-for-windows/git and found\n* it recently reverted support for the second system level config under PROGRAMDATA [1]\n* git-for-windows seems to rely on XDG_CONFIG_HOME also on Windows [2].\n\nI think we should then use the same approach in JGit.\n\n[1] https://github.com/git-for-windows/git/commit/d8ab53dddb79b6aba12d4ea8934e0a55889e3fdf\n[2] https://github.com/git-for-windows/git/blob/master/cache.h#L1311",
+      "parentUuid": "74a76784_c95c4703",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df544f84_3a3abb77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-07T10:48:27Z",
+      "side": 1,
+      "message": "thanks",
+      "parentUuid": "f28efc25_8bd9d5d2",
       "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
