@@ -1373,15 +1373,9 @@ public class ReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
-		} catch (PackProtocolException e) {
+		} catch (Throwable t) {
 			discardCommands();
-			fatalError(e.getMessage());
-			throw e;
-		} catch (InputOverLimitIOException e) {
-			String msg = JGitText.get().tooManyCommands;
-			discardCommands();
-			fatalError(msg);
-			throw new PackProtocolException(msg);
+			throw t;
 		}
 	}
 
@@ -2180,7 +2174,18 @@ public class ReceivePack {
 			getAdvertisedOrDefaultRefs();
 		if (hasError())
 			return;
-		recvCommands();
+
+		try {
+			recvCommands();
+		} catch (PackProtocolException e) {
+			fatalError(e.getMessage());
+			throw e;
+		} catch (InputOverLimitIOException e) {
+			String msg = JGitText.get().tooManyCommands;
+			fatalError(msg);
+			throw new PackProtocolException(msg);
+		}
+
 		if (hasCommands()) {
 			Throwable unpackError = null;
 			if (needPack()) {
