@@ -299,6 +299,8 @@ public class ReceivePack {
 		// Use the default implementation.
 	};
 
+	private UnpackErrorHandler unpackErrorHandler = new DefaultUnpackErrorHandler();
+
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
 
@@ -2145,6 +2147,15 @@ public class ReceivePack {
 	}
 
 	/**
+	 * @param unpackErrorHandler
+	 *            the unpackErrorHandler to set
+	 * @since 5.7
+	 */
+	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
+		this.unpackErrorHandler = unpackErrorHandler;
+	}
+
+	/**
 	 * Set whether this class will report command failures as warning messages
 	 * before sending the command results.
 	 *
@@ -2220,7 +2231,7 @@ public class ReceivePack {
 					} catch (IOException | RuntimeException
 							| SubmoduleValidationException | Error err) {
 						unlockPack();
-						sendStatusReport(err);
+						unpackErrorHandler.handleUnpackException(err);
 						throw new UnpackException(err);
 					}
 				}
@@ -2287,6 +2298,13 @@ public class ReceivePack {
 		public void close() {
 			postReceive.onPostReceive(ReceivePack.this,
 					filterCommands(Result.OK));
+		}
+	}
+
+	private class DefaultUnpackErrorHandler implements UnpackErrorHandler {
+		@Override
+		public void handleUnpackException(Throwable t) throws IOException {
+			sendStatusReport(t);
 		}
 	}
 }
