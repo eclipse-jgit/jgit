@@ -2346,26 +2346,31 @@ public class PackWriter implements AutoCloseable {
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
-		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits = bitmapPreparer
+		Collection<BitmapCommit> selectedCommits = bitmapPreparer
 				.selectCommits(numCommits, excludeFromBitmapSelection);
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
 		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
-		AnyObjectId last = null;
-		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
-			if (!cmit.isReuseWalker()) {
+		BitmapCommit last = null;
+		for (BitmapCommit c : selectedCommits) {
+			if (!c.isReuseWalker()) {
 				walker = bitmapPreparer.newBitmapWalker();
 			}
 			BitmapBuilder bitmap = walker.findObjects(
-					Collections.singleton(cmit), null, false);
+					Collections.singleton(c), null, false);
 
-			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
+			if (last != null && c.isReuseWalker() && !bitmap.contains(last))
 				throw new IllegalStateException(MessageFormat.format(
-						JGitText.get().bitmapMissingObject, cmit.name(),
+						JGitText.get().bitmapMissingObject, c.name(),
 						last.name()));
-			last = cmit;
-			writeBitmaps.addBitmap(cmit, bitmap.build(), cmit.getFlags());
+
+			last = BitmapCommit.copyFrom(c).setBitmap(bitmap).build();
+			writeBitmaps.processBitmapForWrite(c, bitmap.build(), c.getFlags());
+
+			// The bitmap walker should stop when the walk hits the last
+			// BitmapCommit, which saves time.
+			walker.setBitmapCommit(last);
 
 			pm.update(1);
 		}
