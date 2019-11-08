@@ -295,6 +295,10 @@ public class ReceivePack {
 	/** Hook to validate the update commands before execution. */
 	private PreReceiveHook preReceive;
 
+	private ReceiveCommandErrorHandler receiveCommandErrorHandler = new ReceiveCommandErrorHandler() {
+		// Use the default implementation.
+	};
+
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
 
@@ -1021,6 +1025,17 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set an error handler for {@link ReceiveCommand}.
+	 *
+	 * @param receiveCommandErrorHandler
+	 * @since 5.7
+	 */
+	public void setReceiveCommandErrorHandler(
+			ReceiveCommandErrorHandler receiveCommandErrorHandler) {
+		this.receiveCommandErrorHandler = receiveCommandErrorHandler;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1726,16 +1741,16 @@ public class ReceivePack {
 				try {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-							cmd.getOldId().name());
+					receiveCommandErrorHandler
+							.handleOldIdValidationException(cmd, e);
 					continue;
 				}
 
 				try {
 					newObj = walk.parseAny(cmd.getNewId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-							cmd.getNewId().name());
+					receiveCommandErrorHandler
+							.handleNewIdValidationException(cmd, e);
 					continue;
 				}
 
@@ -1743,16 +1758,14 @@ public class ReceivePack {
 						&& newObj instanceof RevCommit) {
 					try {
 						if (walk.isMergedInto((RevCommit) oldObj,
-								(RevCommit) newObj))
+								(RevCommit) newObj)) {
 							cmd.setTypeFastForwardUpdate();
-						else
-							cmd.setType(
-									ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-					} catch (MissingObjectException e) {
-						cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-								e.getMessage());
+						} else {
+							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+						}
 					} catch (IOException e) {
-						cmd.setResult(Result.REJECTED_OTHER_REASON);
+						receiveCommandErrorHandler
+								.handleFastForwardCheckException(cmd, e);
 					}
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
@@ -1831,11 +1844,9 @@ public class ReceivePack {
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
-		} catch (IOException err) {
-			for (ReceiveCommand cmd : toApply) {
-				if (cmd.getResult() == Result.NOT_ATTEMPTED)
-					cmd.reject(err);
-			}
+		} catch (IOException e) {
+			receiveCommandErrorHandler.handleBatchRefUpdateException(toApply,
+					e);
 		}
 	}
 
