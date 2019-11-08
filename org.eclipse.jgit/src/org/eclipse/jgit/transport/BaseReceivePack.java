@@ -1173,8 +1173,13 @@ public abstract class BaseReceivePack {
 	 *
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
+	 * @throws LargeObjectException
+	 *             an large object needs to be opened for the check.
+	 * @throws SubmoduleValidationException
+	 *             fails to validate the submodule.
 	 */
-	protected void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException,
+			LargeObjectException, SubmoduleValidationException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
@@ -1504,7 +1509,8 @@ public abstract class BaseReceivePack {
 	}
 
 	private void checkSubmodules()
-			throws IOException {
+			throws IOException, LargeObjectException,
+			SubmoduleValidationException {
 		ObjectDatabase odb = db.getObjectDatabase();
 		if (objectChecker == null) {
 			return;
@@ -1513,12 +1519,8 @@ public abstract class BaseReceivePack {
 			AnyObjectId blobId = entry.getBlobId();
 			ObjectLoader blob = odb.open(blobId, Constants.OBJ_BLOB);
 
-			try {
-				SubmoduleValidator.assertValidGitModulesFile(
-						new String(blob.getBytes(), UTF_8));
-			} catch (LargeObjectException | SubmoduleValidationException e) {
-				throw new IOException(e);
-			}
+			SubmoduleValidator.assertValidGitModulesFile(
+					new String(blob.getBytes(), UTF_8));
 		}
 	}
 

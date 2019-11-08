@@ -59,6 +59,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.UnpackException;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -370,7 +371,8 @@ public class ReceivePack extends BaseReceivePack {
 			if (needPack()) {
 				try {
 					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException | Error err) {
+				} catch (IOException | RuntimeException
+						| SubmoduleValidationException | Error err) {
 					unpackError = err;
 				}
 			}
