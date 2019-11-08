@@ -2213,18 +2213,19 @@ public class ReceivePack {
 		}
 
 		if (hasCommands()) {
-			Throwable unpackError = null;
-			if (needPack()) {
-				try {
-					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException
-						| SubmoduleValidationException | Error err) {
-					unpackError = err;
+			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
+				if (needPack()) {
+					try {
+						receivePackAndCheckConnectivity();
+					} catch (IOException | RuntimeException
+							| SubmoduleValidationException | Error err) {
+						unlockPack();
+						sendStatusReport(err);
+						throw new UnpackException(err);
+					}
 				}
-			}
 
-			try {
-				if (unpackError == null) {
+				try {
 					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
 					validateCommands();
@@ -2238,24 +2239,12 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 					executeCommands();
+				} finally {
+					unlockPack();
 				}
-			} finally {
-				unlockPack();
-			}
 
-			sendStatusReport(unpackError);
-
-			if (unpackError != null) {
-				// we already know which exception to throw. Ignore
-				// potential additional exceptions raised in postReceiveHooks
-				try {
-					postReceive.onPostReceive(this, filterCommands(Result.OK));
-				} catch (Throwable e) {
-					// empty
-				}
-				throw new UnpackException(unpackError);
+				sendStatusReport(null);
 			}
-			postReceive.onPostReceive(this, filterCommands(Result.OK));
 			autoGc();
 		}
 	}
@@ -2291,5 +2280,13 @@ public class ReceivePack {
 					JGitText.get().errorInvalidProtocolWantedOldNewRef);
 		}
 		return new ReceiveCommand(oldId, newId, name);
+	}
+
+	private class PostReceiveExecutor implements AutoCloseable {
+		@Override
+		public void close() {
+			postReceive.onPostReceive(ReceivePack.this,
+					filterCommands(Result.OK));
+		}
 	}
 }
