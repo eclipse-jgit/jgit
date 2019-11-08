@@ -1240,13 +1240,8 @@ public abstract class BaseReceivePack {
 	 */
 	public void sendAdvertisedRefs(RefAdvertiser adv)
 			throws IOException, ServiceMayNotContinueException {
-		if (advertiseError != null) {
-			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
-			return;
-		}
-
 		try {
-			advertiseRefsHook.advertiseRefs(this);
+			sendAdvertisedRefsWithExceptionPropagation(adv);
 		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
 				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
@@ -1254,6 +1249,30 @@ public abstract class BaseReceivePack {
 			}
 			throw fail;
 		}
+	}
+
+	/**
+	 * Generate an advertisement of available refs and capabilities.
+	 *
+	 * <p>
+	 * Same as {@link #sendAdvertisedRefs}, but the exceptions are not handled.
+	 *
+	 * @param adv
+	 *            the advertisement formatter.
+	 * @throws java.io.IOException
+	 *             the formatter failed to write an advertisement.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
+	 *             the hook denied advertisement.
+	 * @since 5.6
+	 */
+	public void sendAdvertisedRefsWithExceptionPropagation(RefAdvertiser adv)
+			throws IOException, ServiceMayNotContinueException {
+		if (advertiseError != null) {
+			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
+			return;
+		}
+
+		advertiseRefsHook.advertiseRefs(this);
 
 		adv.init(db);
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
