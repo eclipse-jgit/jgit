@@ -46,7 +46,6 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
-import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +62,6 @@ import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.ConfigConstants;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -82,9 +80,6 @@ public class ReceivePack extends BaseReceivePack {
 
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
-
-	/** If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled. */
-	private boolean reportStatus;
 
 	/** Whether the client intends to use push options. */
 	private boolean usePushOptions;
@@ -341,7 +336,6 @@ public class ReceivePack extends BaseReceivePack {
 	/** {@inheritDoc} */
 	@Override
 	protected void enableCapabilities() {
-		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
 		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		super.enableCapabilities();
 	}
@@ -412,22 +406,7 @@ public class ReceivePack extends BaseReceivePack {
 				unlockPack();
 			}
 
-			if (reportStatus) {
-				sendStatusReport(true, unpackError, new Reporter() {
-					@Override
-					void sendString(String s) throws IOException {
-						pckOut.writeString(s + "\n"); //$NON-NLS-1$
-					}
-				});
-				pckOut.end();
-			} else if (msgOut != null) {
-				sendStatusReport(false, unpackError, new Reporter() {
-					@Override
-					void sendString(String s) throws IOException {
-						msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
-					}
-				});
-			}
+			sendStatusReport(unpackError);
 
 			if (unpackError != null) {
 				// we already know which exception to throw. Ignore

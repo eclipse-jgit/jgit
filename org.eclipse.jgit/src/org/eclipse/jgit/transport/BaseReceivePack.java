@@ -188,6 +188,11 @@ public abstract class BaseReceivePack {
 	private boolean allowPushOptions;
 
 	/**
+	 * If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled.
+	 */
+	private boolean reportStatus;
+
+	/**
 	 * Should the requested ref updates be performed as a single atomic
 	 * transaction?
 	 */
@@ -1418,6 +1423,7 @@ public abstract class BaseReceivePack {
 	 * Enable capabilities based on a previously read capabilities line.
 	 */
 	protected void enableCapabilities() {
+		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
 		if (sideBand) {
@@ -1838,94 +1844,112 @@ public abstract class BaseReceivePack {
 	/**
 	 * Send a status report.
 	 *
-	 * @param forClient
-	 *            true if this report is for a Git client, false if it is for an
-	 *            end-user.
 	 * @param unpackError
 	 *            an error that occurred during unpacking, or {@code null}
-	 * @param out
-	 *            the reporter for sending the status strings.
 	 * @throws java.io.IOException
 	 *             an error occurred writing the status report.
 	 */
-	protected void sendStatusReport(final boolean forClient,
-			final Throwable unpackError, final Reporter out) throws IOException {
-		if (unpackError != null) {
-			out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
-			if (forClient) {
-				for (ReceiveCommand cmd : commands) {
-					out.sendString("ng " + cmd.getRefName() //$NON-NLS-1$
-							+ " n/a (unpacker error)"); //$NON-NLS-1$
+	protected void sendStatusReport(Throwable unpackError) throws IOException {
+		Reporter out = new Reporter() {
+			@Override
+			void sendString(String s) throws IOException {
+				if (reportStatus) {
+					pckOut.writeString(s + "\n"); //$NON-NLS-1$
+				} else if (msgOut != null) {
+					msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 				}
 			}
-			return;
-		}
+		};
 
-		if (forClient)
-			out.sendString("unpack ok"); //$NON-NLS-1$
-		for (ReceiveCommand cmd : commands) {
-			if (cmd.getResult() == Result.OK) {
-				if (forClient)
-					out.sendString("ok " + cmd.getRefName()); //$NON-NLS-1$
-				continue;
+		try {
+			if (unpackError != null) {
+				out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
+				if (reportStatus) {
+					for (ReceiveCommand cmd : commands) {
+						out.sendString("ng " + cmd.getRefName() //$NON-NLS-1$
+								+ " n/a (unpacker error)"); //$NON-NLS-1$
+					}
+				}
+				return;
 			}
 
-			final StringBuilder r = new StringBuilder();
-			if (forClient)
-				r.append("ng ").append(cmd.getRefName()).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
-			else
-				r.append(" ! [rejected] ").append(cmd.getRefName()).append(" ("); //$NON-NLS-1$ //$NON-NLS-2$
-
-			switch (cmd.getResult()) {
-			case NOT_ATTEMPTED:
-				r.append("server bug; ref not processed"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NOCREATE:
-				r.append("creation prohibited"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NODELETE:
-				r.append("deletion prohibited"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NONFASTFORWARD:
-				r.append("non-fast forward"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_CURRENT_BRANCH:
-				r.append("branch is currently checked out"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_MISSING_OBJECT:
-				if (cmd.getMessage() == null)
-					r.append("missing object(s)"); //$NON-NLS-1$
-				else if (cmd.getMessage().length() == Constants.OBJECT_ID_STRING_LENGTH) {
-					r.append("object "); //$NON-NLS-1$
-					r.append(cmd.getMessage());
-					r.append(" missing"); //$NON-NLS-1$
-				} else
-					r.append(cmd.getMessage());
-				break;
-
-			case REJECTED_OTHER_REASON:
-				if (cmd.getMessage() == null)
-					r.append("unspecified reason"); //$NON-NLS-1$
-				else
-					r.append(cmd.getMessage());
-				break;
-
-			case LOCK_FAILURE:
-				r.append("failed to lock"); //$NON-NLS-1$
-				break;
-
-			case OK:
-				// We shouldn't have reached this case (see 'ok' case above).
-				continue;
+			if (reportStatus) {
+				out.sendString("unpack ok"); //$NON-NLS-1$
 			}
-			if (!forClient)
-				r.append(")"); //$NON-NLS-1$
-			out.sendString(r.toString());
+			for (ReceiveCommand cmd : commands) {
+				if (cmd.getResult() == Result.OK) {
+					if (reportStatus) {
+						out.sendString("ok " + cmd.getRefName()); //$NON-NLS-1$
+					}
+					continue;
+				}
+
+				final StringBuilder r = new StringBuilder();
+				if (reportStatus) {
+					r.append("ng ").append(cmd.getRefName()).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					r.append(" ! [rejected] ").append(cmd.getRefName()) //$NON-NLS-1$
+							.append(" ("); //$NON-NLS-1$
+				}
+
+				switch (cmd.getResult()) {
+				case NOT_ATTEMPTED:
+					r.append("server bug; ref not processed"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NOCREATE:
+					r.append("creation prohibited"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NODELETE:
+					r.append("deletion prohibited"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NONFASTFORWARD:
+					r.append("non-fast forward"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_CURRENT_BRANCH:
+					r.append("branch is currently checked out"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_MISSING_OBJECT:
+					if (cmd.getMessage() == null)
+						r.append("missing object(s)"); //$NON-NLS-1$
+					else if (cmd.getMessage()
+							.length() == Constants.OBJECT_ID_STRING_LENGTH) {
+						r.append("object "); //$NON-NLS-1$
+						r.append(cmd.getMessage());
+						r.append(" missing"); //$NON-NLS-1$
+					} else
+						r.append(cmd.getMessage());
+					break;
+
+				case REJECTED_OTHER_REASON:
+					if (cmd.getMessage() == null)
+						r.append("unspecified reason"); //$NON-NLS-1$
+					else
+						r.append(cmd.getMessage());
+					break;
+
+				case LOCK_FAILURE:
+					r.append("failed to lock"); //$NON-NLS-1$
+					break;
+
+				case OK:
+					// We shouldn't have reached this case (see 'ok' case
+					// above).
+					continue;
+				}
+				if (!reportStatus) {
+					r.append(")"); //$NON-NLS-1$
+				}
+				out.sendString(r.toString());
+			}
+		} finally {
+			if (reportStatus) {
+				pckOut.end();
+			}
 		}
 	}
 
