@@ -71,6 +71,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.UnpackException;
@@ -161,6 +162,13 @@ class ReceivePackServlet extends HttpServlet {
 		}
 	}
 
+	@Nullable
+	private final ReceivePackErrorHandler handler;
+
+	ReceivePackServlet(@Nullable ReceivePackErrorHandler handler) {
+		this.handler = handler;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public void doPost(final HttpServletRequest req,
@@ -178,34 +186,42 @@ class ReceivePackServlet extends HttpServlet {
 		};
 
 		ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
-		try {
-			rp.setBiDirectionalPipe(false);
-			rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
+		rp.setBiDirectionalPipe(false);
+		rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
 
-			rp.receive(getInputStream(req), out, null);
-			out.close();
-		} catch (CorruptObjectException e ) {
-			// This should be already reported to the client.
-			getServletContext().log(MessageFormat.format(
-					HttpServerText.get().receivedCorruptObject,
-					e.getMessage(),
-					ServletUtils.identify(rp.getRepository())));
-			consumeRequestBody(req);
-			out.close();
+		if (handler != null) {
+			handler.receive(req, rsp, () -> {
+				rp.receiveWithExceptionPropagation(getInputStream(req), out,
+						null);
+				out.close();
+			});
+		} else {
+			try {
+				rp.receive(getInputStream(req), out, null);
+				out.close();
+			} catch (CorruptObjectException e ) {
+				// This should be already reported to the client.
+				getServletContext().log(MessageFormat.format(
+						HttpServerText.get().receivedCorruptObject,
+						e.getMessage(),
+						ServletUtils.identify(rp.getRepository())));
+				consumeRequestBody(req);
+				out.close();
 
-		} catch (UnpackException | PackProtocolException e) {
-			// This should be already reported to the client.
-			log(rp.getRepository(), e.getCause());
-			consumeRequestBody(req);
-			out.close();
+			} catch (UnpackException | PackProtocolException e) {
+				// This should be already reported to the client.
+				log(rp.getRepository(), e.getCause());
+				consumeRequestBody(req);
+				out.close();
 
-		} catch (Throwable e) {
-			log(rp.getRepository(), e);
-			if (!rsp.isCommitted()) {
-				rsp.reset();
-				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
+			} catch (Throwable e) {
+				log(rp.getRepository(), e);
+				if (!rsp.isCommitted()) {
+					rsp.reset();
+					sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
+				}
+				return;
 			}
-			return;
 		}
 	}
 
