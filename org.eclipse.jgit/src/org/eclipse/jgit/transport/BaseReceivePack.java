@@ -105,7 +105,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.LimitedInputStream;
@@ -1032,7 +1031,15 @@ public abstract class BaseReceivePack {
 		}
 	}
 
-	private void fatalError(String msg) {
+	/**
+	 * Send a fatal error.
+	 *
+	 * <p>
+	 * Unlike {@link #sendError}, this can cancel the current request.
+	 *
+	 * @param msg
+	 */
+	protected void fatalError(String msg) {
 		if (errOut != null) {
 			try {
 				errOut.write(Constants.encode(msg));
@@ -1329,15 +1336,9 @@ public abstract class BaseReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
-		} catch (PackProtocolException e) {
+		} catch (Throwable t) {
 			discardCommands();
-			fatalError(e.getMessage());
-			throw e;
-		} catch (InputOverLimitIOException e) {
-			String msg = JGitText.get().tooManyCommands;
-			discardCommands();
-			fatalError(msg);
-			throw new PackProtocolException(msg);
+			throw t;
 		}
 	}
 

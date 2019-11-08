@@ -58,7 +58,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.UnpackException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -67,6 +69,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
@@ -365,7 +368,18 @@ public class ReceivePack extends BaseReceivePack {
 			getAdvertisedOrDefaultRefs();
 		if (hasError())
 			return;
-		recvCommands();
+
+		try {
+			recvCommands();
+		} catch (PackProtocolException e) {
+			fatalError(e.getMessage());
+			throw e;
+		} catch (InputOverLimitIOException e) {
+			String msg = JGitText.get().tooManyCommands;
+			fatalError(msg);
+			throw new PackProtocolException(msg);
+		}
+
 		if (hasCommands()) {
 			Throwable unpackError = null;
 			if (needPack()) {
