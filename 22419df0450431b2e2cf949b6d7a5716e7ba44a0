@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba64263a_558865d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ec9478_3d7ffe73",
+      "revId": "22419df0450431b2e2cf949b6d7a5716e7ba44a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b45ab7ca_6a01c606",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-08T09:21:05Z",
       "side": 1,
       "message": "Can be null if Paths.get() threw the exception. Use configHomePath here.",
+      "range": {
+        "startLine": 157,
+        "startChar": 56,
+        "endLine": 157,
+        "endChar": 67
+      },
+      "revId": "22419df0450431b2e2cf949b6d7a5716e7ba44a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8917fff1_a2ad0013",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b45ab7ca_6a01c606",
       "range": {
         "startLine": 157,
         "startChar": 56,
