@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "110399dc_bde78a5f",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T00:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74f88410_52c30f33",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 356,
+        "endChar": 36
+      },
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493291af_92bdb9fe",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
         "patchSetId": 2
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "this should \n\n return jgitConfig;",
       "parentUuid": "493291af_92bdb9fe",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 14
+      },
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f58b4f3c_e84ab68e",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T00:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6808f91_d0be3deb",
       "range": {
         "startLine": 357,
         "startChar": 2,
@@ -238,6 +286,42 @@
       "side": 1,
       "message": "\u003e * git-for-windows seems to rely on XDG_CONFIG_HOME also on Windows\n\nIndeed it does (implementation of that function is in path.c). But I wonder if that is not a bug. I have yet to see a Windows system on which that environment variable is set :-)\n\nBut OK, let\u0027s use it on Windows, too; with the same fallback.",
       "parentUuid": "6a6e11fb_1b11d452",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fe4db93_97012b84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T00:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af3c38c9_fed74c16",
+      "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830b03be_dc9b13a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T00:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f28efc25_8bd9d5d2",
       "revId": "8f1f33a8516ea7eb1d1853b791d20af61ec10f22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
