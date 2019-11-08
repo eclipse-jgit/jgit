@@ -277,6 +277,10 @@ public abstract class BaseReceivePack {
 	PushCertificate pushCert;
 	private ReceivedPackStatistics stats;
 
+	private ReceiveCommandErrorHandler receiveCommandErrorHandler = new ReceiveCommandErrorHandler() {
+		// Use the default implementation.
+	};
+
 	/**
 	 * Get the push certificate used to verify the pusher's identity.
 	 * <p>
@@ -997,6 +1001,17 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Set an error handler for {@link ReceiveCommand}.
+	 *
+	 * @param receiveCommandErrorHandler
+	 * @since 5.6
+	 */
+	public void setReceiveCommandErrorHandler(
+			ReceiveCommandErrorHandler receiveCommandErrorHandler) {
+		this.receiveCommandErrorHandler = receiveCommandErrorHandler;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1624,8 +1639,8 @@ public abstract class BaseReceivePack {
 				try {
 					newObj = walk.parseAny(cmd.getNewId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-							cmd.getNewId().name());
+					receiveCommandErrorHandler
+							.handleNewIdValidationException(cmd, e);
 					continue;
 				}
 				if (cmd.getRefName().startsWith(Constants.R_HEADS)
@@ -1721,8 +1736,8 @@ public abstract class BaseReceivePack {
 				try {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getOldId().name());
+					receiveCommandErrorHandler
+							.handleOldIdValidationException(cmd, e);
 					continue;
 				}
 
@@ -1733,11 +1748,9 @@ public abstract class BaseReceivePack {
 							cmd.setTypeFastForwardUpdate();
 						else
 							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-					} catch (MissingObjectException e) {
-						cmd.setResult(Result.REJECTED_MISSING_OBJECT, e
-								.getMessage());
 					} catch (IOException e) {
-						cmd.setResult(Result.REJECTED_OTHER_REASON);
+						receiveCommandErrorHandler
+								.handleFastForwardCheckException(cmd, e);
 					}
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
@@ -1816,11 +1829,9 @@ public abstract class BaseReceivePack {
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
-		} catch (IOException err) {
-			for (ReceiveCommand cmd : toApply) {
-				if (cmd.getResult() == Result.NOT_ATTEMPTED)
-					cmd.reject(err);
-			}
+		} catch (IOException e) {
+			receiveCommandErrorHandler.handleBatchRefUpdateException(toApply,
+					e);
 		}
 	}
 
