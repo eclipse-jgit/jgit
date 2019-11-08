@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0797fdac_3373d181",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-08T02:05:28Z",
+      "side": 1,
+      "message": "Is there a reason for inverting the order of these declarations?\n\nSame below.",
+      "range": {
+        "startLine": 291,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 45
+      },
+      "revId": "75f46768b01b2fab6b97b8178f9bb1268c55e26f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
