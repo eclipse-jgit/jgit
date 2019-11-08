@@ -81,6 +81,8 @@ public class ReceivePack extends BaseReceivePack {
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
 
+	private UnpackErrorHandler unpackErrorHandler = new DefaultUnpackErrorHandler();
+
 	/** Whether the client intends to use push options. */
 	private boolean usePushOptions;
 	private List<String> pushOptions;
@@ -286,6 +288,14 @@ public class ReceivePack extends BaseReceivePack {
 	}
 
 	/**
+	 * @param unpackErrorHandler
+	 *            the unpackErrorHandler to set
+	 */
+	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
+		this.unpackErrorHandler = unpackErrorHandler;
+	}
+
+	/**
 	 * Set whether this class will report command failures as warning messages
 	 * before sending the command results.
 	 *
@@ -382,7 +392,7 @@ public class ReceivePack extends BaseReceivePack {
 					} catch (IOException | RuntimeException
 							| SubmoduleValidationException | Error err) {
 						unlockPack();
-						sendStatusReport(err);
+						unpackErrorHandler.handleUnpackException(err);
 						throw new UnpackException(err);
 					}
 				}
@@ -432,6 +442,13 @@ public class ReceivePack extends BaseReceivePack {
 		public void close() {
 			postReceive.onPostReceive(ReceivePack.this,
 					filterCommands(Result.OK));
+		}
+	}
+
+	private class DefaultUnpackErrorHandler implements UnpackErrorHandler {
+		@Override
+		public void handleUnpackException(Throwable t) throws IOException {
+			sendStatusReport(t);
 		}
 	}
 }
