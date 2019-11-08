@@ -230,6 +230,15 @@ public class PackConfig {
 	 */
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
+	/**
+	 * Default distance threshold to decide whether to keep a bitmap in
+	 * PackBitmapIndexBuilder. Only applies when bitmaps are enabled: {@value}
+	 *
+	 * @see #setDistanceThreshold(int)
+	 * @since 5.5
+	 */
+	public static final int DEFAULT_DISTANCE_THRESHOLD = 2000;
+
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
 	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
@@ -279,6 +288,8 @@ public class PackConfig {
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private int distanceThreshold = DEFAULT_DISTANCE_THRESHOLD;
 
 	private boolean cutDeltaChains;
 
@@ -350,6 +361,7 @@ public class PackConfig {
 		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
+		this.distanceThreshold = cfg.distanceThreshold;
 	}
 
 	/**
@@ -1122,6 +1134,38 @@ public class PackConfig {
 	 */
 	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
 		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	/**
+	 * Get the threshold of distance to tip when deciding whether to keep a
+	 * bitmap of a commit.
+	 *
+	 * Default setting: {@value #DEFAULT_DISTANCE_THRESHOLD}
+	 *
+	 * @return the distance threshold for keeping bitmap.
+	 * @since 5.5
+	 */
+	public int getDistanceThreshold() {
+		return distanceThreshold;
+	}
+
+	/**
+	 * Set the threshold of distance to tip when deciding whether to keep a
+	 * bitmap of a commit.
+	 *
+	 * When constructing a bitmap index file, we only keep bitmaps corresponding
+	 * to old commits in the PackBitmapIndexBuilder to save memory usage. A
+	 * commit is considered as an old commit when its distance from tip is
+	 * greater than the distance threshold.
+	 *
+	 * Default setting: {@value #DEFAULT_DISTANCE_THRESHOLD}
+	 *
+	 * @param distance
+	 *            the distance threshold for keeping bitmap.
+	 * @since 5.5
+	 */
+	public void setDistanceThreshold(int distance) {
+		distanceThreshold = distance;
 	}
 
 	/**

@@ -65,6 +65,7 @@ public class PackBitmapIndexWriterV1 {
 	private final DigestOutputStream out;
 	private final DataOutput dataOutput;
 
+
 	/**
 	 * Creates the version 1 pack bitmap index files.
 	 *
@@ -98,7 +99,7 @@ public class PackBitmapIndexWriterV1 {
 		if (bitmaps == null || packDataChecksum.length != 20)
 			throw new IllegalStateException();
 
-		writeHeader(bitmaps.getOptions(), bitmaps.getBitmapCount(),
+		writeHeader(bitmaps.getOptions(), bitmaps.getEntriesCount(),
 				packDataChecksum);
 		writeBody(bitmaps);
 		writeFooter();
@@ -130,18 +131,18 @@ public class PackBitmapIndexWriterV1 {
 
 	private void writeBitmaps(PackBitmapIndexBuilder bitmaps)
 			throws IOException {
-		int bitmapCount = 0;
+		int entriesCount = 0;
 		for (StoredEntry entry : bitmaps.getCompressedBitmaps()) {
 			writeBitmapEntry(entry);
-			bitmapCount++;
+			entriesCount++;
 		}
 
-		int expectedBitmapCount = bitmaps.getBitmapCount();
-		if (expectedBitmapCount != bitmapCount)
+		int expectedEntriesCount = bitmaps.getEntriesCount();
+		if (expectedEntriesCount != entriesCount)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().expectedGot,
-					String.valueOf(expectedBitmapCount),
-					String.valueOf(bitmapCount)));
+					String.valueOf(expectedEntriesCount),
+					String.valueOf(entriesCount)));
 	}
 
 	private void writeBitmapEntry(StoredEntry entry) throws IOException {
