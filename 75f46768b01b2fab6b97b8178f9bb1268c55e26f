@@ -70,6 +70,23 @@
       "revId": "75f46768b01b2fab6b97b8178f9bb1268c55e26f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85b91afb_783ca830",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-08T07:51:19Z",
+      "side": 1,
+      "message": "This will update the system config twice if we entered the if above. Worth a comment that this happens only on the very first call?",
+      "revId": "75f46768b01b2fab6b97b8178f9bb1268c55e26f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
