@@ -108,6 +108,8 @@ class PackWriterBitmapPreparer {
 	private final int recentCommitSpan;
 	private final int distantCommitSpan;
 	private final int excessiveBranchCount;
+
+	private final int distanceThreshold;
 	private final long inactiveBranchTimestamp;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
@@ -127,6 +129,7 @@ class PackWriterBitmapPreparer {
 		this.recentCommitSpan = config.getBitmapRecentCommitSpan();
 		this.distantCommitSpan = config.getBitmapDistantCommitSpan();
 		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
+		this.distanceThreshold = config.getDistanceThreshold();
 		long now = SystemReader.getInstance().getCurrentTime();
 		long ageInSeconds = config.getBitmapInactiveBranchAgeInDays()
 				* DAY_IN_SECONDS;
@@ -277,6 +280,7 @@ class PackWriterBitmapPreparer {
 					// This commit is selected.
 					// Calculate where to look for the next one.
 					int flags = nextFlg;
+					int currDist = distanceFromTip;
 					nextIn = nextSpan(distanceFromTip);
 					nextFlg = nextIn == distantCommitSpan
 							? PackBitmapIndex.FLAG_REUSE
@@ -312,8 +316,16 @@ class PackWriterBitmapPreparer {
 						longestAncestorChain = new ArrayList<>();
 						chains.add(longestAncestorChain);
 					}
-					longestAncestorChain.add(new BitmapCommit(c,
-							!longestAncestorChain.isEmpty(), flags));
+
+					// The commit bc should reuse bitmap walker from its close
+					// ancestor. And the bitmap of bc should only be added to
+					// PackBitmapIndexBuilder when it's an old commit to save
+					// memory.
+					BitmapCommit bc = BitmapCommit.newBuilder(c).setFlags(flags)
+							.setAddToIndex(currDist >= distanceThreshold)
+							.setReuseWalker(!longestAncestorChain.isEmpty())
+							.build();
+					longestAncestorChain.add(bc);
 					writeBitmaps.addBitmap(c, bitmap, 0);
 				}
 
@@ -501,34 +513,11 @@ class PackWriterBitmapPreparer {
 	}
 
 	/**
-	 * A commit object for which a bitmap index should be built.
-	 */
-	static final class BitmapCommit extends ObjectId {
-		private final boolean reuseWalker;
-		private final int flags;
-
-		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
-			super(objectId);
-			this.reuseWalker = reuseWalker;
-			this.flags = flags;
-		}
-
-		boolean isReuseWalker() {
-			return reuseWalker;
-		}
-
-		int getFlags() {
-			return flags;
-		}
-	}
-
-	/**
 	 * Container for state used in the first phase of selecting commits, which
 	 * walks all of the reachable commits via the branch tips that are not
 	 * covered by a previous pack's bitmaps ({@code newWants}) and stores them
 	 * in {@code newCommitsByOldest}. {@code newCommitsByOldest} is initialized
 	 * with an expected size of all commits, but may be smaller if some commits
-	 * are unreachable and/or some commits are covered by a previous pack's
 	 * bitmaps. {@code commitStartPos} will contain a positive offset to either
 	 * the root commit or the oldest commit not covered by previous bitmaps.
 	 */
