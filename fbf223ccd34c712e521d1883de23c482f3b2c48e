@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4fdb1367_2ed8cfb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T08:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ee0989_a487359b",
+      "range": {
+        "startLine": 571,
+        "startChar": 5,
+        "endLine": 571,
+        "endChar": 23
+      },
+      "revId": "fbf223ccd34c712e521d1883de23c482f3b2c48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b51c0aec_8141f8c1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "545fbb45_d9635f94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T08:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b51c0aec_8141f8c1",
+      "range": {
+        "startLine": 146,
+        "startChar": 27,
+        "endLine": 146,
+        "endChar": 53
+      },
+      "revId": "fbf223ccd34c712e521d1883de23c482f3b2c48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18c284dc_bb94f98e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2019-11-08T08:02:38Z",
       "side": 1,
       "message": "Always true, if-statement can be omitted.",
+      "range": {
+        "startLine": 152,
+        "startChar": 3,
+        "endLine": 152,
+        "endChar": 50
+      },
+      "revId": "fbf223ccd34c712e521d1883de23c482f3b2c48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f38b21d_33d211db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-08T08:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c284dc_bb94f98e",
       "range": {
         "startLine": 152,
         "startChar": 3,
