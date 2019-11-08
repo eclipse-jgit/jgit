@@ -375,18 +375,19 @@ public class ReceivePack extends BaseReceivePack {
 		}
 
 		if (hasCommands()) {
-			Throwable unpackError = null;
-			if (needPack()) {
-				try {
-					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException
-						| SubmoduleValidationException | Error err) {
-					unpackError = err;
+			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
+				if (needPack()) {
+					try {
+						receivePackAndCheckConnectivity();
+					} catch (IOException | RuntimeException
+							| SubmoduleValidationException | Error err) {
+						unlockPack();
+						sendStatusReport(err);
+						throw new UnpackException(err);
+					}
 				}
-			}
 
-			try {
-				if (unpackError == null) {
+				try {
 					boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
 					setAtomic(atomic);
 
@@ -401,24 +402,12 @@ public class ReceivePack extends BaseReceivePack {
 						failPendingCommands();
 					}
 					executeCommands();
+				} finally {
+					unlockPack();
 				}
-			} finally {
-				unlockPack();
-			}
 
-			sendStatusReport(unpackError);
-
-			if (unpackError != null) {
-				// we already know which exception to throw. Ignore
-				// potential additional exceptions raised in postReceiveHooks
-				try {
-					postReceive.onPostReceive(this, filterCommands(Result.OK));
-				} catch (Throwable e) {
-					// empty
-				}
-				throw new UnpackException(unpackError);
+				sendStatusReport(null);
 			}
-			postReceive.onPostReceive(this, filterCommands(Result.OK));
 			autoGc();
 		}
 	}
@@ -436,5 +425,13 @@ public class ReceivePack extends BaseReceivePack {
 	@Override
 	protected String getLockMessageProcessName() {
 		return "jgit receive-pack"; //$NON-NLS-1$
+	}
+
+	private class PostReceiveExecutor implements AutoCloseable {
+		@Override
+		public void close() {
+			postReceive.onPostReceive(ReceivePack.this,
+					filterCommands(Result.OK));
+		}
 	}
 }
