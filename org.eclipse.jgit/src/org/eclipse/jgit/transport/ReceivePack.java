@@ -2194,6 +2194,49 @@ public class ReceivePack {
 		init(input, output, messages);
 		try {
 			service();
+		} catch (PackProtocolException e) {
+			fatalError(e.getMessage());
+			throw e;
+		} catch (InputOverLimitIOException e) {
+			String msg = JGitText.get().tooManyCommands;
+			fatalError(msg);
+			throw new PackProtocolException(msg);
+		} finally {
+			try {
+				close();
+			} finally {
+				release();
+			}
+		}
+	}
+
+	/**
+	 * Execute the receive task on the socket.
+	 *
+	 * <p>
+	 * Same as {@link #receive}, but the exceptions are not reported to the
+	 * client yet.
+	 *
+	 * @param input
+	 *            raw input to read client commands and pack data from. Caller
+	 *            must ensure the input is buffered, otherwise read performance
+	 *            may suffer.
+	 * @param output
+	 *            response back to the Git network client. Caller must ensure
+	 *            the output is buffered, otherwise write performance may
+	 *            suffer.
+	 * @param messages
+	 *            secondary "notice" channel to send additional messages out
+	 *            through. When run over SSH this should be tied back to the
+	 *            standard error channel of the command execution. For most
+	 *            other network connections this should be null.
+	 * @throws java.io.IOException
+	 */
+	public void receiveWithExceptionPropagation(InputStream input,
+			OutputStream output, OutputStream messages) throws IOException {
+		init(input, output, messages);
+		try {
+			service();
 		} finally {
 			try {
 				close();
@@ -2212,16 +2255,7 @@ public class ReceivePack {
 		if (hasError())
 			return;
 
-		try {
-			recvCommands();
-		} catch (PackProtocolException e) {
-			fatalError(e.getMessage());
-			throw e;
-		} catch (InputOverLimitIOException e) {
-			String msg = JGitText.get().tooManyCommands;
-			fatalError(msg);
-			throw new PackProtocolException(msg);
-		}
+		recvCommands();
 
 		if (hasCommands()) {
 			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
