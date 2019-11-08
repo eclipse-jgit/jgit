@@ -1217,8 +1217,13 @@ public class ReceivePack {
 	 *
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
+	 * @throws LargeObjectException
+	 *             an large object needs to be opened for the check.
+	 * @throws SubmoduleValidationException
+	 *             fails to validate the submodule.
 	 */
-	protected void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException,
+			LargeObjectException, SubmoduleValidationException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
@@ -1535,7 +1540,8 @@ public class ReceivePack {
 				|| !getClientShallowCommits().isEmpty();
 	}
 
-	private void checkSubmodules() throws IOException {
+	private void checkSubmodules() throws IOException, LargeObjectException,
+			SubmoduleValidationException {
 		ObjectDatabase odb = db.getObjectDatabase();
 		if (objectChecker == null) {
 			return;
@@ -1544,12 +1550,8 @@ public class ReceivePack {
 			AnyObjectId blobId = entry.getBlobId();
 			ObjectLoader blob = odb.open(blobId, Constants.OBJ_BLOB);
 
-			try {
-				SubmoduleValidator.assertValidGitModulesFile(
-						new String(blob.getBytes(), UTF_8));
-			} catch (LargeObjectException | SubmoduleValidationException e) {
-				throw new IOException(e);
-			}
+			SubmoduleValidator.assertValidGitModulesFile(
+					new String(blob.getBytes(), UTF_8));
 		}
 	}
 
@@ -2184,7 +2186,8 @@ public class ReceivePack {
 			if (needPack()) {
 				try {
 					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException | Error err) {
+				} catch (IOException | RuntimeException
+						| SubmoduleValidationException | Error err) {
 					unpackError = err;
 				}
 			}

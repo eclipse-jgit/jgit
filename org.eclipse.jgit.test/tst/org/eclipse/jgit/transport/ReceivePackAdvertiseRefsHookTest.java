@@ -495,8 +495,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
 		} catch (UnpackException failed) {
-			Throwable err = failed.getCause();
-			assertTrue(err instanceof IOException);
+			// Expected
 		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
