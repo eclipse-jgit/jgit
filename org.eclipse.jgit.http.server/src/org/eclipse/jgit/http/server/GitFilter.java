@@ -96,6 +96,8 @@ public class GitFilter extends MetaFilter {
 
 	private ReceivePackFactory<HttpServletRequest> receivePackFactory = new DefaultReceivePackFactory();
 
+	private ReceivePackErrorHandler receivePackErrorHandler;
+
 	private final List<Filter> uploadPackFilters = new LinkedList<>();
 
 	private final List<Filter> receivePackFilters = new LinkedList<>();
@@ -190,6 +192,17 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Set a custom error handler for git-receive-pack.
+	 *
+	 * @param h
+	 *            A custom error handler for git-receive-pack.
+	 */
+	public void setReceivePackErrorHandler(ReceivePackErrorHandler h) {
+		assertNotInitialized();
+		this.receivePackErrorHandler = h;
+	}
+
+	/**
 	 * Add receive-pack filter
 	 *
 	 * @param filter
@@ -233,7 +246,7 @@ public class GitFilter extends MetaFilter {
 			b = b.through(new ReceivePackServlet.Factory(receivePackFactory));
 			for (Filter f : receivePackFilters)
 				b = b.through(f);
-			b.with(new ReceivePackServlet());
+			b.with(new ReceivePackServlet(receivePackErrorHandler));
 		}
 
 		ServletBinder refs = serve("*/" + Constants.INFO_REFS);
