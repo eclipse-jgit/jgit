@@ -46,6 +46,30 @@
       "revId": "75f46768b01b2fab6b97b8178f9bb1268c55e26f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03e560c8_c89692a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-08T07:32:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "60e89cc0_81b7899b",
+      "range": {
+        "startLine": 291,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 45
+      },
+      "revId": "75f46768b01b2fab6b97b8178f9bb1268c55e26f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
