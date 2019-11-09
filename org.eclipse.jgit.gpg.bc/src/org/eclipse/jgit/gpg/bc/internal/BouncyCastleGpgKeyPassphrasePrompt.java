@@ -1,5 +1,5 @@
 /*-
- * Copyright (C) 2019, Salesforce. and others
+ * Copyright (C) 2019, 2020 Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -97,4 +97,13 @@ class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 		return passphrase.getValue();
 	}
 
+	/**
+	 * Determines whether a passphrase was already obtained.
+	 *
+	 * @return {@code true} if a passphrase is already set, {@code false}
+	 *         otherwise
+	 */
+	public boolean hasPassphrase() {
+		return passphrase != null && passphrase.getValue() != null;
+	}
 }

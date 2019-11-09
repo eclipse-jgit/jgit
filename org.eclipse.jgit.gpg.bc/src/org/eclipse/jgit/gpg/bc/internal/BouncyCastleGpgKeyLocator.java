@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Salesforce. and others
+ * Copyright (C) 2018, 2020 Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -25,7 +25,9 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,6 +73,13 @@ public class BouncyCastleGpgKeyLocator {
 
 	/** Thrown if a keybox file exists but doesn't contain an OpenPGP key. */
 	private static class NoOpenPgpKeyException extends Exception {
+
+		private static final long serialVersionUID = 1L;
+
+	}
+
+	/** Thrown if we try to read an encrypted private key without password. */
+	private static class EncryptedPgpKeyException extends RuntimeException {
 
 		private static final long serialVersionUID = 1L;
 
@@ -433,22 +442,46 @@ public class BouncyCastleGpgKeyLocator {
 		PGPDigestCalculatorProvider calculatorProvider = new JcaPGPDigestCalculatorProviderBuilder()
 				.build();
 
-		PBEProtectionRemoverFactory passphraseProvider = new JcePBEProtectionRemoverFactory(
-				passphrasePrompt.getPassphrase(publicKey.getFingerprint(),
-						userKeyboxPath));
-
 		try (Stream<Path> keyFiles = Files.walk(USER_SECRET_KEY_DIR)) {
-			for (Path keyFile : keyFiles.filter(Files::isRegularFile)
-					.collect(Collectors.toList())) {
-				PGPSecretKey secretKey = attemptParseSecretKey(keyFile,
-						calculatorProvider, passphraseProvider, publicKey);
-				if (secretKey != null) {
-					if (!secretKey.isSigningKey()) {
-						throw new PGPException(MessageFormat.format(
-								BCText.get().gpgNotASigningKey, signingKey));
+			List<Path> allPaths = keyFiles.filter(Files::isRegularFile)
+					.collect(Collectors.toCollection(ArrayList::new));
+			if (allPaths.isEmpty()) {
+				return null;
+			}
+			PBEProtectionRemoverFactory passphraseProvider = p -> {
+				throw new EncryptedPgpKeyException();
+			};
+			for (int attempts = 0; attempts < 2; attempts++) {
+				// Second pass will traverse only the encrypted keys with a real
+				// passphrase provider.
+				Iterator<Path> pathIterator = allPaths.iterator();
+				while (pathIterator.hasNext()) {
+					Path keyFile = pathIterator.next();
+					try {
+						PGPSecretKey secretKey = attemptParseSecretKey(keyFile,
+								calculatorProvider, passphraseProvider,
+								publicKey);
+						pathIterator.remove();
+						if (secretKey != null) {
+							if (!secretKey.isSigningKey()) {
+								throw new PGPException(MessageFormat.format(
+										BCText.get().gpgNotASigningKey,
+										signingKey));
+							}
+							return new BouncyCastleGpgKey(secretKey,
+									userKeyboxPath);
+						}
+					} catch (EncryptedPgpKeyException e) {
+						// Ignore; we'll try again.
 					}
-					return new BouncyCastleGpgKey(secretKey, userKeyboxPath);
 				}
+				if (attempts > 0 || allPaths.isEmpty()) {
+					break;
+				}
+				// allPaths contains only the encrypted keys now.
+				passphraseProvider = new JcePBEProtectionRemoverFactory(
+						passphrasePrompt.getPassphrase(
+								publicKey.getFingerprint(), userKeyboxPath));
 			}
 
 			passphrasePrompt.clear();

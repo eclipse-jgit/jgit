@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Salesforce. and others
+ * Copyright (C) 2018, 2020, Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -104,13 +104,28 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 				throw new JGitInternalException(
 						BCText.get().unableToSignCommitNoSecretKey);
 			}
-			char[] passphrase = passphrasePrompt.getPassphrase(
-					secretKey.getPublicKey().getFingerprint(),
-					gpgKey.getOrigin());
-			PGPPrivateKey privateKey = secretKey
-					.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder()
-							.setProvider(BouncyCastleProvider.PROVIDER_NAME)
-							.build(passphrase));
+			JcePBESecretKeyDecryptorBuilder decryptorBuilder = new JcePBESecretKeyDecryptorBuilder()
+					.setProvider(BouncyCastleProvider.PROVIDER_NAME);
+			PGPPrivateKey privateKey = null;
+			if (!passphrasePrompt.hasPassphrase()) {
+				// Either the key is not encrypted, or it was read from the
+				// legacy secring.gpg. Try getting the private key without
+				// passphrase first.
+				try {
+					privateKey = secretKey.extractPrivateKey(
+							decryptorBuilder.build(new char[0]));
+				} catch (PGPException e) {
+					// Ignore and try again with passphrase below
+				}
+			}
+			if (privateKey == null) {
+				// Try using a passphrase
+				char[] passphrase = passphrasePrompt.getPassphrase(
+						secretKey.getPublicKey().getFingerprint(),
+						gpgKey.getOrigin());
+				privateKey = secretKey
+						.extractPrivateKey(decryptorBuilder.build(passphrase));
+			}
 			PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(
 					new JcaPGPContentSignerBuilder(
 							secretKey.getPublicKey().getAlgorithm(),
