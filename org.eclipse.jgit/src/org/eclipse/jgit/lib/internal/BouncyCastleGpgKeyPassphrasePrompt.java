@@ -98,4 +98,13 @@ class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 		return passphrase.getValue();
 	}
 
+	/**
+	 * Determines whether a passphrase was already obtained.
+	 *
+	 * @return {code true} is a passphrase is already set, {@code false}
+	 *         otherwise
+	 */
+	public boolean hasPassphrase() {
+		return passphrase != null && passphrase.getValue() != null;
+	}
 }
