@@ -50,6 +50,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
@@ -60,6 +64,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -137,6 +142,42 @@ public abstract class SystemReader {
 					fs);
 		}
 
+		private Path getXDGConfigHome(FS fs) {
+			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
+			if (StringUtils.isEmptyOrNull(configHomePath)) {
+				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
+						.getAbsolutePath();
+			}
+			try {
+				Path xdgHomePath = Paths.get(configHomePath);
+				Files.createDirectories(xdgHomePath);
+				return xdgHomePath;
+			} catch (IOException | InvalidPathException e) {
+				LOG.error(JGitText.get().createXDGConfigHomeFailed,
+						configHomePath, e);
+			}
+			return null;
+		}
+
+		@Override
+		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+			Path xdgPath = getXDGConfigHome(fs);
+			if (xdgPath != null) {
+				Path configPath = null;
+				try {
+					configPath = xdgPath.resolve("jgit"); //$NON-NLS-1$
+					Files.createDirectories(configPath);
+					configPath = configPath.resolve(Constants.CONFIG);
+					return new FileBasedConfig(parent, configPath.toFile(), fs);
+				} catch (IOException e) {
+					LOG.error(JGitText.get().createJGitConfigFailed, configPath,
+							e);
+				}
+			}
+			return new FileBasedConfig(parent,
+					new File(fs.userHome(), ".jgitconfig"), fs); //$NON-NLS-1$
+		}
+
 		@Override
 		public String getHostname() {
 			if (hostname == null) {
@@ -197,6 +238,8 @@ public abstract class SystemReader {
 	private AtomicReference<FileBasedConfig> systemConfig = new AtomicReference<>();
 
 	private AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
+
+	private AtomicReference<FileBasedConfig> jgitConfig = new AtomicReference<>();
 
 	private void init() {
 		// Creating ObjectChecker must be deferred. Unit tests change
@@ -275,6 +318,22 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
 
 	/**
+	 * Open the jgit configuration located at $XDG_CONFIG_HOME/jgit/config. Use
+	 * {@link #getJGitConfig()} to get the current jgit configuration in the
+	 * user home since it manages automatic reloading when the jgit config file
+	 * was modified and avoids unnecessary reloads.
+	 *
+	 * @param parent
+	 *            a config with values not found directly in the returned config
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @return the jgit configuration located at $XDG_CONFIG_HOME/jgit/config
+	 * @since 5.5.2
+	 */
+	public abstract FileBasedConfig openJGitConfig(Config parent, FS fs);
+
+	/**
 	 * Get the git configuration found in the user home. The configuration will
 	 * be reloaded automatically if the configuration file was modified. Also
 	 * reloads the system config if the system config file was modified. If the
@@ -288,20 +347,41 @@ public abstract class SystemReader {
 	 * @since 5.1.9
 	 */
 	public StoredConfig getUserConfig()
-			throws IOException, ConfigInvalidException {
+			throws ConfigInvalidException, IOException {
 		FileBasedConfig c = userConfig.get();
 		if (c == null) {
 			userConfig.compareAndSet(null,
 					openUserConfig(getSystemConfig(), FS.DETECTED));
 			c = userConfig.get();
-		} else {
-			// Ensure the parent is up to date
-			getSystemConfig();
 		}
-		if (c.isOutdated()) {
-			LOG.debug("loading user config {}", userConfig); //$NON-NLS-1$
-			c.load();
+		// on the very first call this will check a second time if the system
+		// config is outdated
+		updateAll(c);
+		return c;
+	}
+
+	/**
+	 * Get the jgit configuration located at $XDG_CONFIG_HOME/jgit/config. The
+	 * configuration will be reloaded automatically if the configuration file
+	 * was modified. If the configuration file wasn't modified returns the
+	 * cached configuration.
+	 *
+	 * @return the jgit configuration located at $XDG_CONFIG_HOME/jgit/config
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 * @since 5.5.2
+	 */
+	public StoredConfig getJGitConfig()
+			throws ConfigInvalidException, IOException {
+		FileBasedConfig c = jgitConfig.get();
+		if (c == null) {
+			jgitConfig.compareAndSet(null,
+					openJGitConfig(null, FS.DETECTED));
+			c = jgitConfig.get();
 		}
+		updateAll(c);
 		return c;
 	}
 
@@ -319,18 +399,43 @@ public abstract class SystemReader {
 	 * @since 5.1.9
 	 */
 	public StoredConfig getSystemConfig()
-			throws IOException, ConfigInvalidException {
+			throws ConfigInvalidException, IOException {
 		FileBasedConfig c = systemConfig.get();
 		if (c == null) {
 			systemConfig.compareAndSet(null,
-					openSystemConfig(null, FS.DETECTED));
+					openSystemConfig(getJGitConfig(), FS.DETECTED));
 			c = systemConfig.get();
 		}
-		if (c.isOutdated()) {
-			LOG.debug("loading system config {}", systemConfig); //$NON-NLS-1$
-			c.load();
-		}
+		updateAll(c);
 		return c;
+	}
+
+	/**
+	 * Update config and its parents if they seem modified
+	 *
+	 * @param config
+	 *            configuration to reload if outdated
+	 * @throws ConfigInvalidException
+	 *             if configuration is invalid
+	 * @throws IOException
+	 *             if something went wrong when reading files
+	 */
+	private void updateAll(Config config)
+			throws ConfigInvalidException, IOException {
+		if (config == null) {
+			return;
+		}
+		updateAll(config.getBaseConfig());
+		if (config instanceof FileBasedConfig) {
+			FileBasedConfig cfg = (FileBasedConfig) config;
+			if (!cfg.getFile().exists()) {
+				return;
+			}
+			if (cfg.isOutdated()) {
+				LOG.debug("loading config {}", cfg); //$NON-NLS-1$
+				cfg.load();
+			}
+		}
 	}
 
 	/**

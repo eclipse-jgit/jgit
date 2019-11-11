@@ -103,6 +103,8 @@ public class MockSystemReader extends SystemReader {
 
 	private FileBasedConfig userGitConfig;
 
+	private FileBasedConfig jgitConfig;
+
 	FileBasedConfig systemGitConfig;
 
 	/**
@@ -116,6 +118,16 @@ public class MockSystemReader extends SystemReader {
 		FileBasedConfig old = this.userGitConfig;
 		this.userGitConfig = userGitConfig;
 		return old;
+	}
+
+	/**
+	 * Set the jgit config stored at $XDG_CONFIG_HOME/jgit/config
+	 *
+	 * @param jgitConfig
+	 *            set the jgit configuration
+	 */
+	public void setJGitConfig(FileBasedConfig jgitConfig) {
+		this.jgitConfig = jgitConfig;
 	}
 
 	/**
@@ -142,6 +154,7 @@ public class MockSystemReader extends SystemReader {
 		init(Constants.GIT_COMMITTER_EMAIL_KEY);
 		setProperty(Constants.OS_USER_DIR, ".");
 		userGitConfig = new MockConfig(null, null);
+		jgitConfig = new MockConfig(null, null);
 		systemGitConfig = new MockConfig(null, null);
 		setCurrentPlatform();
 	}
@@ -197,6 +210,11 @@ public class MockSystemReader extends SystemReader {
 	public StoredConfig getUserConfig()
 			throws IOException, ConfigInvalidException {
 		return userGitConfig;
+	}
+
+	@Override
+	public FileBasedConfig getJGitConfig() {
+		return jgitConfig;
 	}
 
 	@Override
@@ -331,6 +349,11 @@ public class MockSystemReader extends SystemReader {
 	@Override
 	public String toString() {
 		return "MockSystemReader";
+	}
+
+	@Override
+	public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+		return jgitConfig;
 	}
 
 }

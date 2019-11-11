@@ -59,7 +59,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FS_POSIXTest {
-	private SystemReader originalSystemReaderInstance;
+	private FileBasedConfig jgitConfig;
 
 	private FileBasedConfig systemConfig;
 
@@ -70,6 +70,7 @@ public class FS_POSIXTest {
 	@Before
 	public void setUp() throws Exception {
 		tmp = Files.createTempDirectory("jgit_test_");
+
 		MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 
@@ -78,7 +79,10 @@ public class FS_POSIXTest {
 		// The MockSystemReader must be configured first since we need to use
 		// the same one here
 		FS.getFileStoreAttributes(tmp.getParent());
-		systemConfig = new FileBasedConfig(
+
+		jgitConfig = new FileBasedConfig(new File(tmp.toFile(), "jgitconfig"),
+				FS.DETECTED);
+		systemConfig = new FileBasedConfig(jgitConfig,
 				new File(tmp.toFile(), "systemgitconfig"), FS.DETECTED);
 		userConfig = new FileBasedConfig(systemConfig,
 				new File(tmp.toFile(), "usergitconfig"), FS.DETECTED);
@@ -89,16 +93,14 @@ public class FS_POSIXTest {
 		userConfig.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTODETACH, false);
 		userConfig.save();
+		mockSystemReader.setJGitConfig(jgitConfig);
 		mockSystemReader.setSystemGitConfig(systemConfig);
 		mockSystemReader.setUserGitConfig(userConfig);
-
-		originalSystemReaderInstance = SystemReader.getInstance();
-		SystemReader.setInstance(mockSystemReader);
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		SystemReader.setInstance(originalSystemReaderInstance);
+		SystemReader.setInstance(null);
 		FileUtils.delete(tmp.toFile(), FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
 

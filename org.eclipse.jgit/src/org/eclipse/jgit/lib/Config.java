@@ -129,9 +129,21 @@ public class Config {
 	}
 
 	/**
+	 * Retrieves this config's base config.
+	 *
+	 * @return the base configuration of this config.
+	 *
+	 * @since 5.5.2
+	 */
+	public Config getBaseConfig() {
+		return baseConfig;
+	}
+
+	/**
 	 * Check if a given string is the "missing" value.
 	 *
-	 * @param value string to be checked.
+	 * @param value
+	 *            string to be checked.
 	 * @return true if the given string is the "missing" value.
 	 * @since 5.4
 	 */

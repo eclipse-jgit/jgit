@@ -246,8 +246,9 @@ public abstract class FS {
 			background.set(async);
 		}
 
-		private static final String javaVersionPrefix = System
-				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+		private static final String javaVersionPrefix = SystemReader
+				.getInstance().getHostname() + '|'
+				+ System.getProperty("java.vendor") + '|' //$NON-NLS-1$
 				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
 
 		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
@@ -547,9 +548,9 @@ public abstract class FS {
 
 		private static void saveToConfig(FileStore s,
 				FileStoreAttributes c) {
-			StoredConfig userConfig;
+			StoredConfig jgitConfig;
 			try {
-				userConfig = SystemReader.getInstance().getUserConfig();
+				jgitConfig = SystemReader.getInstance().getJGitConfig();
 			} catch (IOException | ConfigInvalidException e) {
 				LOG.error(JGitText.get().saveFileStoreAttributesFailed, e);
 				return;
@@ -570,20 +571,19 @@ public abstract class FS {
 			String key = getConfigKey(s);
 			while (!succeeded && retries < max_retries) {
 				try {
-					userConfig.load();
-					userConfig.setString(
+					jgitConfig.setString(
 							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_TIMESTAMP_RESOLUTION,
 							String.format("%d %s", //$NON-NLS-1$
 									Long.valueOf(resolutionValue),
 									resolutionUnit.name().toLowerCase()));
-					userConfig.setString(
+					jgitConfig.setString(
 							ConfigConstants.CONFIG_FILESYSTEM_SECTION, key,
 							ConfigConstants.CONFIG_KEY_MIN_RACY_THRESHOLD,
 							String.format("%d %s", //$NON-NLS-1$
 									Long.valueOf(minRacyThresholdValue),
 									minRacyThresholdUnit.name().toLowerCase()));
-					userConfig.save();
+					jgitConfig.save();
 					succeeded = true;
 				} catch (LockFailedException e) {
 					// race with another thread, wait a bit and try again
@@ -592,11 +592,11 @@ public abstract class FS {
 						if (retries < max_retries) {
 							Thread.sleep(100);
 							LOG.debug("locking {} failed, retries {}/{}", //$NON-NLS-1$
-									userConfig, Integer.valueOf(retries),
+									jgitConfig, Integer.valueOf(retries),
 									Integer.valueOf(max_retries));
 						} else {
 							LOG.warn(MessageFormat.format(
-									JGitText.get().lockFailedRetry, userConfig,
+									JGitText.get().lockFailedRetry, jgitConfig,
 									Integer.valueOf(retries)));
 						}
 					} catch (InterruptedException e1) {
@@ -605,12 +605,7 @@ public abstract class FS {
 					}
 				} catch (IOException e) {
 					LOG.error(MessageFormat.format(
-							JGitText.get().cannotSaveConfig, userConfig), e);
-					break;
-				} catch (ConfigInvalidException e) {
-					LOG.error(MessageFormat.format(
-							JGitText.get().repositoryConfigFileInvalid,
-							userConfig, e.getMessage()));
+							JGitText.get().cannotSaveConfig, jgitConfig), e);
 					break;
 				}
 			}
