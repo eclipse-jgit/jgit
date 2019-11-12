@@ -1,0 +1,557 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5fec6d4_7cb1e5a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "optional: might be more intuitive with a method describing the intent behind this atomic || useReftable factored out --- e.g.\n\n  assertEquals(batchesRefChanges() ? 2 : 3)",
+      "range": {
+        "startLine": 451,
+        "startChar": 16,
+        "endLine": 451,
+        "endChar": 37
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb231ce_90a1f029",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "micronit: missing space (and likewise for the others)",
+      "range": {
+        "startLine": 451,
+        "startChar": 39,
+        "endLine": 451,
+        "endChar": 41
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d69d50_d8ed985b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "optional: could use a comment describing what\u0027s going on here (also, yay for deletion events in reflogs!)",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1160b5a_aa7adae3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c990d360_1c02f983",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "needs license header",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51c4b8d5_4c706f60",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "I thought this could use a javadoc or a more obvious name (at call sites it wasn\u0027t clear what kind of temporary object it is until I looked back at the constructor). But it\u0027s consistent with LocalDiskRepositoryTestCase, so never mind.\n\nCan it be made private?",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceae5200_15b373e2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "optional: can import static",
+      "range": {
+        "startLine": 69,
+        "startChar": 35,
+        "endLine": 69,
+        "endChar": 52
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c216a13_68c05c75",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "optional nit: File::getName",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 25
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a7e751_69e3f100",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "What does this comment refer to?",
+      "range": {
+        "startLine": 244,
+        "startChar": 39,
+        "endLine": 244,
+        "endChar": 50
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84201c20_5fc614ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "Is this thread-safe?\n\nI assume not, and it doesn\u0027t need to be, but might be worth mentioning in the javadoc for avoidance of doubt.",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e3d399_dee6ac5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "Commenting to not forget this.",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 9
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31b6a6c_d99a518a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "maybe, for quicker reading:\n\n  if (rlr !\u003d null) {\n    size \u003d max(rlr.getReverseEntries().size(), size);\n  }",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec34f14_0653ec25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "nit: miswrapped comment",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a0dee9d_411ddf80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "Should this use a try { } finally? Otherwise other Throwables leak.",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c56da46_63fefa95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd0dcfc7_43c845f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "Can you say a bit more? Which function that doesn\u0027t throw IOException would want to perform this check? (Mostly trying to satisfy my own curiosity.)",
+      "range": {
+        "startLine": 197,
+        "startChar": 44,
+        "endLine": 197,
+        "endChar": 61
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12f91db_42b729e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c34203_ae8c45d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "nit: missing newline after /**",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f06b43_e133806c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "optional: maybe file a feature request and point this TODO to the bug",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521a1f7c_1bcc97cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "can use a $NON-NLS-1$ comment to prevent attempted translation\n\nDoes Eclipse know to do the same thing when you use @SuppressWarnings instead?",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75525edf_efa0fce8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb67a2a_06da11ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "Discussed this in person. The reftable spec has as a design goal\n\n* Combine reflog storage with ref storage for small transactions.\n* Separate reflog storage for base refs and historical logs.\n\nIf the operating system is sensible about handling large files then that last goal might not be too important. But e.g. in a DFS where you want to handle less-frequently accessed large files differently from more frequently accessed smaller files, the separation can help.\n\nIf we want to keep supporting this, we\u0027ll have to relax the constraint that each update index appears in exactly one reftable (to allow the base .log and base .ref to use the same update index range).",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 42
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b90c14b_1233ea7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cffe284_01ffe346",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "nit: line wrapping",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b383972_d7820c3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "This makes the semantics diverge between the reftable and non-reftable case.\n\nI prefer the exactRef semantics anyway. Do we know of any callers that would be broken by it? Can we get rid of the findRef hack in the non-reftable case, too (as a preparatory change)?\n\nIf we want to have them diverge here for now, that\u0027s fine with me, but then we should have a TODO comment to clean up.",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 15
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f56fad3_70b7bc32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d905fcc_869e2c46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "probably should be translated. Eclipse has magic to pull it out in the message catalog.",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe68b68b_9820b1f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "likewise (and likewise for others)",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e8fb91_00b0e7ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:47:40Z",
+      "side": 1,
+      "message": "comment wrapping nit",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
