@@ -85,6 +85,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -1873,8 +1874,7 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-			checkNotAdvertisedWants(up, wants,
-					refIdSet(up.getAdvertisedRefs().values()));
+			checkNotAdvertisedWants(up, wants, up.getAdvertisedRefs().values());
 		}
 	}
 
@@ -1911,7 +1911,7 @@ public class UploadPack {
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up, wants,
-					refIdSet(up.getRepository().getRefDatabase().getRefs()));
+					up.getRepository().getRefDatabase().getRefs());
 		}
 	}
 
@@ -1971,9 +1971,10 @@ public class UploadPack {
 	}
 
 	private static void checkNotAdvertisedWants(UploadPack up,
-			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
+			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
 			throws IOException {
 
+		Set<ObjectId> reachableFrom = refIdSet(visibleRefs);
 		ObjectReader reader = up.getRevWalk().getObjectReader();
 		try (RevWalk walk = new RevWalk(reader)) {
 			walk.setRetainBody(false);
@@ -2023,8 +2024,9 @@ public class UploadPack {
 			ReachabilityChecker reachabilityChecker = walk
 					.createReachabilityChecker();
 
-			List<RevCommit> starters = objectIdsToRevCommits(walk,
-					reachableFrom);
+			List<Ref> sortedVisibleRefs = moreImportantRefsFirst(visibleRefs);
+			List<RevCommit> starters = refsToRevCommits(walk,
+					sortedVisibleRefs);
 			Optional<RevCommit> unreachable = reachabilityChecker
 					.areAllReachable(wantsAsCommits, starters);
 			if (unreachable.isPresent()) {
@@ -2034,6 +2036,40 @@ public class UploadPack {
 		} catch (MissingObjectException notFound) {
 			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		}
+	}
+
+	private static List<Ref> moreImportantRefsFirst(
+			Collection<Ref> visibleRefs) {
+		Predicate<Ref> startsWithRefsHeads = ref -> ref.getName()
+				.startsWith(Constants.R_HEADS);
+		Predicate<Ref> startsWithRefsTags = ref -> ref.getName()
+				.startsWith(Constants.R_TAGS);
+		Predicate<Ref> allOther = ref -> !startsWithRefsHeads.test(ref)
+				&& !startsWithRefsTags.test(ref);
+
+		List<Ref> sorted = new ArrayList<>(visibleRefs.size());
+		sorted.addAll(filterRefByPredicate(visibleRefs, startsWithRefsHeads));
+		sorted.addAll(filterRefByPredicate(visibleRefs, startsWithRefsTags));
+		sorted.addAll(filterRefByPredicate(visibleRefs, allOther));
+
+		return sorted;
+	}
+
+	private static List<Ref> filterRefByPredicate(Collection<Ref> refs,
+			Predicate<Ref> predicate) {
+		return refs.stream().filter(predicate).collect(Collectors.toList());
+	}
+
+	private static List<RevCommit> refsToRevCommits(RevWalk walk,
+			List<Ref> refs) throws MissingObjectException, IOException {
+		List<ObjectId> objIds = refs.stream().map(
+				ref -> fistNonNull(ref.getPeeledObjectId(), ref.getObjectId()))
+				.collect(Collectors.toList());
+		return objectIdsToRevCommits(walk, objIds);
+	}
+
+	private static ObjectId fistNonNull(ObjectId one, ObjectId two) {
+		return one != null ? one : two;
 	}
 
 	// Resolve the ObjectIds into RevObjects. Any missing object raises an
