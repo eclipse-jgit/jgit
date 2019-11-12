@@ -339,6 +339,23 @@
     },
     {
       "key": {
+        "uuid": "deb29f40_4df3c314",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-12T23:48:53Z",
+      "side": 1,
+      "message": "Should this do some kind of backoff?",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50c34203_ae8c45d9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
