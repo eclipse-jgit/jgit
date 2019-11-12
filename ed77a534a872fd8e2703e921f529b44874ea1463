@@ -1,0 +1,290 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9a16cf6_777b6751",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "strange name, name this c or commit ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f622400f_dbd1ed48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "usually we name this rw or walk",
+      "range": {
+        "startLine": 86,
+        "startChar": 56,
+        "endLine": 86,
+        "endChar": 60
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8e949a_439df96c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0273df99_a6743536",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2d4d159_cd2b4bac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "name this c or commit ?",
+      "range": {
+        "startLine": 217,
+        "startChar": 48,
+        "endLine": 217,
+        "endChar": 52
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89aae9d5_22da7cfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "remove the extra blank line",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f5647e1_e1857c2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d11adaf1_a8d76a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "name this c or commit ?",
+      "range": {
+        "startLine": 2356,
+        "startChar": 20,
+        "endLine": 2356,
+        "endChar": 24
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cf5c1fd_6f989bbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "Did you remove this line intentionally ? The sentence is now broken.",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24664214_cf0f321c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "- API method should not expose non-API class (BitmapCommit is in an internal package)\n- missing @since 5.6 for new API method",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73e5fa17_4e96b396",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "5.6",
+      "range": {
+        "startLine": 238,
+        "startChar": 11,
+        "endLine": 238,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b148844b_474ff656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "how did you find this number ?",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffcc9447_9bef52b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "5.6",
+      "range": {
+        "startLine": 1146,
+        "startChar": 11,
+        "endLine": 1146,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9e27c0b_57f9483d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-12T23:12:41Z",
+      "side": 1,
+      "message": "5.6",
+      "range": {
+        "startLine": 1165,
+        "startChar": 11,
+        "endLine": 1165,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
