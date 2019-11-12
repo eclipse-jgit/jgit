@@ -388,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "ec8adaf4_1c90ff9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:51:35Z",
+      "side": 1,
+      "message": "Added @since here.\n\nCan I solve the api issue by moving BitmapCommit class out to package org.eclipse.jgit.revwalk? I tried this yesterday but my eclipse IDE said it\u0027s not the right way. I suspect I am fooled by it.",
+      "parentUuid": "24664214_cf0f321c",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73e5fa17_4e96b396",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
