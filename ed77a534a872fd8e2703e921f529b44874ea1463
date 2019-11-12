@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "7301371a_94544529",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f622400f_dbd1ed48",
+      "range": {
+        "startLine": 86,
+        "startChar": 56,
+        "endLine": 86,
+        "endChar": 60
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f53f082f_58039dca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done. Copied the name from org.eclipse.jgit.internal.revwalkAddToBitmapFilter.",
+      "parentUuid": "e9a16cf6_777b6751",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae8e949a_439df96c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 1
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e9d9c55a_4e6f52fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done. Bad copy and paste.",
+      "parentUuid": "ae8e949a_439df96c",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0273df99_a6743536",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2019-11-12T23:12:41Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fd4fd57_1bd97a66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0273df99_a6743536",
       "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "841a5980_73fa67ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d4d159_cd2b4bac",
+      "range": {
+        "startLine": 217,
+        "startChar": 48,
+        "endLine": 217,
+        "endChar": 52
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89aae9d5_22da7cfb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
         "patchSetId": 1
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "da1a881c_934675c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89aae9d5_22da7cfb",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f5647e1_e1857c2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
         "patchSetId": 1
@@ -133,6 +259,24 @@
       "writtenOn": "2019-11-12T23:12:41Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "049cd724_6158ed16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f5647e1_e1857c2d",
       "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "a868a3b2_05335a18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d11adaf1_a8d76a1f",
+      "range": {
+        "startLine": 2356,
+        "startChar": 20,
+        "endLine": 2356,
+        "endChar": 24
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cf5c1fd_6f989bbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -173,6 +341,24 @@
       "writtenOn": "2019-11-12T23:12:41Z",
       "side": 1,
       "message": "Did you remove this line intentionally ? The sentence is now broken.",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b05a59e6_e413cf44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Thanks for catching, I removed this line accidentally.",
+      "parentUuid": "8cf5c1fd_6f989bbe",
       "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -225,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "1d081f86_91a133ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73e5fa17_4e96b396",
+      "range": {
+        "startLine": 238,
+        "startChar": 11,
+        "endLine": 238,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b148844b_474ff656",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -236,6 +446,24 @@
       "writtenOn": "2019-11-12T23:12:41Z",
       "side": 1,
       "message": "how did you find this number ?",
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d23e772_ed54567d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "I ran an experiment on kernel_msm-3.18 and this number just worked(the performance is still good while memory usage reduced significantly).",
+      "parentUuid": "b148844b_474ff656",
       "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -265,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "ce35305e_4be4e980",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffcc9447_9bef52b5",
+      "range": {
+        "startLine": 1146,
+        "startChar": 11,
+        "endLine": 1146,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9e27c0b_57f9483d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -276,6 +528,30 @@
       "writtenOn": "2019-11-12T23:12:41Z",
       "side": 1,
       "message": "5.6",
+      "range": {
+        "startLine": 1165,
+        "startChar": 11,
+        "endLine": 1165,
+        "endChar": 14
+      },
+      "revId": "ed77a534a872fd8e2703e921f529b44874ea1463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57d5c4ef_1d2bbf45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2019-11-12T23:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9e27c0b_57f9483d",
       "range": {
         "startLine": 1165,
         "startChar": 11,
