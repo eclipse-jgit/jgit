@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f55cffc6_fd800f3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T23:37:25Z",
+      "side": 1,
+      "message": "It\u0027s worth a note about the effect on API (this is an API break, but it only affects callers using JGit as a server, and there are very few of those in the wild).",
+      "revId": "9bd46833c97e890516a76e70bf367e4b3c1dcd98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6184f51f_21940794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T23:37:25Z",
+      "side": 1,
+      "message": "can be private (likewise for other fields)",
+      "revId": "9bd46833c97e890516a76e70bf367e4b3c1dcd98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
