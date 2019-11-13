@@ -79,12 +79,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -126,6 +128,7 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.TransferConfig.ProtocolVersion;
+import org.eclipse.jgit.util.MappingIterator;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -2026,17 +2029,45 @@ public class UploadPack {
 					.createReachabilityChecker();
 
 			List<Ref> sortedVisibleRefs = moreImportantRefsFirst(visibleRefs);
-			List<RevCommit> reachableCommits = refsToRevCommits(walk,
-					sortedVisibleRefs);
+
+			Iterator<RevCommit> visibleCommits = new MappingIterator<>(
+					sortedVisibleRefs, new RefToRevCommitTranslator(walk));
 			Optional<RevCommit> unreachable = reachabilityChecker
-					.areAllReachable(wantsAsCommits,
-							reachableCommits.iterator());
+					.areAllReachable(wantsAsCommits, visibleCommits);
 			if (unreachable.isPresent()) {
 				throw new WantNotValidException(unreachable.get());
 			}
 
 		} catch (MissingObjectException notFound) {
 			throw new WantNotValidException(notFound.getObjectId(), notFound);
+		}
+	}
+
+	private static class RefToRevCommitTranslator
+			implements Function<Ref, RevCommit> {
+
+		private RevWalk walk;
+
+		RefToRevCommitTranslator(RevWalk walk) {
+			this.walk = walk;
+		}
+
+		@Override
+		public RevCommit apply(Ref ref) {
+			ObjectId objectId = firstNonNull(ref.getPeeledObjectId(), ref.getObjectId());
+			try {
+				return walk.parseCommit(objectId);
+			} catch (IncorrectObjectTypeException | MissingObjectException e) {
+				// Ref points nowhere or to something that is not an object
+				return null;
+			} catch (IOException e) {
+				// TODO(ifrade): This should be a runtime exception...
+				return null;
+			}
+		}
+
+		private static ObjectId firstNonNull(ObjectId one, ObjectId two) {
+			return one != null ? one : two;
 		}
 	}
 
@@ -2062,17 +2093,6 @@ public class UploadPack {
 		return refs.stream().filter(predicate).collect(Collectors.toList());
 	}
 
-	private static List<RevCommit> refsToRevCommits(RevWalk walk,
-			List<Ref> refs) throws MissingObjectException, IOException {
-		List<ObjectId> objIds = refs.stream().map(
-				ref -> fistNonNull(ref.getPeeledObjectId(), ref.getObjectId()))
-				.collect(Collectors.toList());
-		return objectIdsToRevCommits(walk, objIds);
-	}
-
-	private static ObjectId fistNonNull(ObjectId one, ObjectId two) {
-		return one != null ? one : two;
-	}
 
 	// Resolve the ObjectIds into RevObjects. Any missing object raises an
 	// exception
@@ -2085,23 +2105,6 @@ public class UploadPack {
 		}
 		return result;
 	}
-
-	// Get commits from object ids. If the id is not a commit, ignore it. If the
-	// id doesn't exist, report the missing object in a exception.
-	private static List<RevCommit> objectIdsToRevCommits(RevWalk walk,
-			Iterable<ObjectId> objectIds)
-			throws MissingObjectException, IOException {
-		List<RevCommit> result = new ArrayList<>();
-		for (ObjectId objectId : objectIds) {
-			try {
-				result.add(walk.parseCommit(objectId));
-			} catch (IncorrectObjectTypeException e) {
-				continue;
-			}
-		}
-		return result;
-	}
-
 
 	private void addCommonBase(RevObject o) {
 		if (!o.has(COMMON)) {
