@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "574af08f_6135f1fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92db3d9c_1e100a9d",
+      "range": {
+        "startLine": 166,
+        "startChar": 13,
+        "endLine": 166,
+        "endChar": 25
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ae8e69a_e28f98d0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
         "patchSetId": 61
@@ -213,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "97e496ee_0f529d7e",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 61
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Putting it in quotes might help. E.g.\n\n index numbers not increasing in \u0027\u0027{0}\u0027\u0027: min {1}, last max {2}\n\nThat can help translators understand what\u0027s going on.",
+      "parentUuid": "e8e70221_0322f39d",
+      "range": {
+        "startLine": 326,
+        "startChar": 55,
+        "endLine": 326,
+        "endChar": 81
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6e75f4f_7920d3ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -260,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "84164ebb_e037c281",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03cb2611_d7d2fc49",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 16
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f5b3d6d_235386ef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -295,6 +367,30 @@
       "side": 1,
       "message": "We\u0027d have to do check in the MergedReftable constructor which doesn\u0027t throw exceptions. Isn\u0027t there some style guide advice on throwing from constructors?",
       "parentUuid": "6f5b3d6d_235386ef",
+      "range": {
+        "startLine": 194,
+        "startChar": 12,
+        "endLine": 194,
+        "endChar": 51
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f211e4ce_64fb5b61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Ah, you mean the constructor. That wasn\u0027t obvious to me when reading the comment. So how about \"in the MergedReftable constructor\"?\n\nI think throwing from a constructor is okay --- e.g. it\u0027s not unusual to throw IllegalArgumentException there. (As opposed to my experience in C++, where throwing from a constructor was pretty scary.)",
+      "parentUuid": "33090450_fce88a6f",
       "range": {
         "startLine": 194,
         "startChar": 12,
@@ -401,6 +497,30 @@
     },
     {
       "key": {
+        "uuid": "a6159152_55c3a275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Added a suggestion.\n\nIf we want to make this tunable, we can use the configSupplier, but let\u0027s start with simple-and-hard-coded. :)",
+      "parentUuid": "96770138_c3ce62ce",
+      "range": {
+        "startLine": 229,
+        "startChar": 12,
+        "endLine": 229,
+        "endChar": 26
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c74812b0_fe99e3d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -495,6 +615,30 @@
     },
     {
       "key": {
+        "uuid": "302227b6_3ceab1c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "agreed",
+      "parentUuid": "f10233a9_ad27796a",
+      "range": {
+        "startLine": 257,
+        "startChar": 46,
+        "endLine": 257,
+        "endChar": 57
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "279f42d8_6222c430",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -530,6 +674,30 @@
       "side": 1,
       "message": "I disagree. We care to close here because want to avoid leaking resources. \n\nAFAIK, closing read-only files only fails if the file was already closed.\n\nSomeone (I think Matthias) added some logging. I don\u0027t care much either way, but I added logging.",
       "parentUuid": "279f42d8_6222c430",
+      "range": {
+        "startLine": 301,
+        "startChar": 23,
+        "endLine": 301,
+        "endChar": 54
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b245c38c_f81b9d69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "\u003e AFAIK, closing read-only files only fails if the file was already closed.\n\nDoes that mean we could throw AssertionError here?",
+      "parentUuid": "dd1cd4c1_1bf543ba",
       "range": {
         "startLine": 301,
         "startChar": 23,
@@ -774,6 +942,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ac3a0f_ae7e35a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Looks good, thanks.",
+      "parentUuid": "59194b04_859dde79",
+      "range": {
+        "startLine": 636,
+        "startChar": 58,
+        "endLine": 636,
+        "endChar": 60
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
