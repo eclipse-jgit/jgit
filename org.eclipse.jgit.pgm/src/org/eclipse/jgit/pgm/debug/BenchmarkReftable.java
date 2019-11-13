@@ -51,14 +51,18 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
+import org.eclipse.jgit.internal.storage.file.FileReftableStack;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -74,7 +78,8 @@ class BenchmarkReftable extends TextBuiltin {
 	enum Test {
 		SCAN,
 		SEEK_COLD, SEEK_HOT,
-		BY_ID_COLD, BY_ID_HOT;
+		BY_ID_COLD, BY_ID_HOT,
+		WRITE_STACK,
 	}
 
 	@Option(name = "--tries")
@@ -116,11 +121,41 @@ class BenchmarkReftable extends TextBuiltin {
 		case BY_ID_HOT:
 			byIdHot(ObjectId.fromString(objectId));
 			break;
+		case WRITE_STACK:
+			writeStack();
+			break;
 		}
 	}
 
 	private void printf(String fmt, Object... args) throws IOException {
 		errw.println(String.format(fmt, args));
+	}
+
+	@SuppressWarnings({ "nls", "boxing" })
+	private void writeStack() throws Exception {
+		File dir = new File(reftablePath);
+		File stackFile = new File(reftablePath + ".stack");
+
+		dir.mkdirs();
+
+		long start = System.currentTimeMillis();
+		try (FileReftableStack stack = new FileReftableStack(stackFile, dir,
+				null, () -> new Config())) {
+
+			List<Ref> refs = readLsRemote().asList();
+			for (Ref r : refs) {
+				final long j = stack.getMergedReftable().maxUpdateIndex() + 1;
+				if (!stack.addReftable(w -> {
+					w.setMaxUpdateIndex(j).setMinUpdateIndex(j).begin()
+							.writeRef(r);
+				})) {
+					throw new IOException("should succeed");
+				}
+			}
+			long dt = System.currentTimeMillis() - start;
+			printf("%12s %10d ms  avg %6d us/write", "reftable", dt,
+					(dt * 1000) / refs.size());
+		}
 	}
 
 	@SuppressWarnings({ "nls", "boxing" })
