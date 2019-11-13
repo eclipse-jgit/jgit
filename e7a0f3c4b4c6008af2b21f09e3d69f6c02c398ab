@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da70483d_0f8b855e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 73
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T20:52:22Z",
+      "side": 1,
+      "message": "Eclipse wrapped this wrong (likewise other comments)",
+      "revId": "e7a0f3c4b4c6008af2b21f09e3d69f6c02c398ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
