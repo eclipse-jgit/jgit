@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "531c53ae_987a1a1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T20:35:29Z",
+      "side": 1,
+      "message": "5.6",
+      "range": {
+        "startLine": 1006,
+        "startChar": 11,
+        "endLine": 1006,
+        "endChar": 14
+      },
+      "revId": "be3d4dd60cd3f59f80002c41d1c15e9ef9141239",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
