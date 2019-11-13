@@ -2029,7 +2029,8 @@ public class UploadPack {
 			List<RevCommit> reachableCommits = refsToRevCommits(walk,
 					sortedVisibleRefs);
 			Optional<RevCommit> unreachable = reachabilityChecker
-					.areAllReachable(wantsAsCommits, reachableCommits);
+					.areAllReachable(wantsAsCommits,
+							reachableCommits.iterator());
 			if (unreachable.isPresent()) {
 				throw new WantNotValidException(unreachable.get());
 			}
