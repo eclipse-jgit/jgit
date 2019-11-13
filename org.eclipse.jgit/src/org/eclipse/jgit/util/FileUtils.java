@@ -73,6 +73,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -86,6 +87,8 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
+
+	private static final Random RNG = new Random();
 
 	/**
 	 * Option to delete given {@code File}
@@ -985,5 +988,29 @@ public class FileUtils {
 			// touch
 		}
 		Files.setLastModifiedTime(f, FileTime.from(Instant.now()));
+	}
+
+	/**
+	 * Compute a delay in a {@code min..max} interval with random jitter.
+	 *
+	 * @param last
+	 *            amount of delay waited before the last attempt. This is used
+	 *            to seed the next delay interval. Should be 0 if there was no
+	 *            prior delay.
+	 * @param min
+	 *            shortest amount of allowable delay between attempts.
+	 * @param max
+	 *            longest amount of allowable delay between attempts.
+	 * @return new amount of delay to wait before the next attempt.
+	 *
+	 * @since 5.6
+	 */
+	public static long delay(long last, long min, long max) {
+		long r = Math.max(0, last * 3 - min);
+		if (r > 0) {
+			int c = (int) Math.min(r + 1, Integer.MAX_VALUE);
+			r = RNG.nextInt(c);
+		}
+		return Math.max(Math.min(min + r, max), min);
 	}
 }
