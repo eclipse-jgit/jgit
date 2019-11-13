@@ -539,6 +539,30 @@
     },
     {
       "key": {
+        "uuid": "606e3cf2_7e23de64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-13T15:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c56da46_63fefa95",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd0dcfc7_43c845f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
@@ -586,6 +610,30 @@
     },
     {
       "key": {
+        "uuid": "97e1e130_c1b5cbd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-13T15:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9922d78_e59fc9e0",
+      "range": {
+        "startLine": 197,
+        "startChar": 44,
+        "endLine": 197,
+        "endChar": 61
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12f91db_42b729e8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
@@ -600,6 +648,24 @@
       "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74a47ca0_bf8c3072",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-13T15:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12f91db_42b729e8",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -632,6 +698,24 @@
       "side": 1,
       "message": "Can factor out KetchSystem::delay and use that",
       "parentUuid": "deb29f40_4df3c314",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e6eda3_eb19587e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-13T15:31:47Z",
+      "side": 1,
+      "message": "Done. Please look at the XXX comments.",
+      "parentUuid": "164e2ae6_d7e0a657",
       "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
