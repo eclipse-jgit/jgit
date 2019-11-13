@@ -322,6 +322,30 @@
     },
     {
       "key": {
+        "uuid": "e9922d78_e59fc9e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-13T00:09:54Z",
+      "side": 1,
+      "message": "Consolidating with previous thread on the same subject.",
+      "parentUuid": "cd0dcfc7_43c845f5",
+      "range": {
+        "startLine": 197,
+        "startChar": 44,
+        "endLine": 197,
+        "endChar": 61
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12f91db_42b729e8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
