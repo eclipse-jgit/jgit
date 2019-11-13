@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d633ccc_6026abba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/TransIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-13T21:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a59a15_86918d59",
+      "revId": "2c5a9e721c34fd0877f560d602ded67291186c49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6008d370_87cc7e88",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c9fcf112_e8766437",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-13T21:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6008d370_87cc7e88",
+      "revId": "2c5a9e721c34fd0877f560d602ded67291186c49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce8e0505_278b8e9c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-11-13T19:09:09Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "2c5a9e721c34fd0877f560d602ded67291186c49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26f6a0b9_3d554e75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-13T21:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce8e0505_278b8e9c",
       "revId": "2c5a9e721c34fd0877f560d602ded67291186c49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
