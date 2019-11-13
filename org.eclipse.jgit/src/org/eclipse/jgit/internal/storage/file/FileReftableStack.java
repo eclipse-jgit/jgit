@@ -79,7 +79,7 @@ import org.slf4j.LoggerFactory;
  * A mutable stack of reftables on local filesystem storage. Not thread-safe.
  * This is an AutoCloseable because this object owns the file handles to the open reftables.
  */
-class FileReftableStack implements AutoCloseable {
+public class FileReftableStack implements AutoCloseable {
 
 	private final static Logger LOG = LoggerFactory
 		.getLogger(FileReftableStack.class);
@@ -137,7 +137,7 @@ class FileReftableStack implements AutoCloseable {
 	 * @param onChange hook to call if we notice a new write
 	 * @param configSupplier Config supplier
 	 */
-	FileReftableStack(File stackPath, File reftableDir,
+	public FileReftableStack(File stackPath, File reftableDir,
 		@Nullable Runnable onChange, Supplier<Config> configSupplier)
 		throws IOException {
 		this.stackPath = stackPath;
@@ -272,7 +272,7 @@ class FileReftableStack implements AutoCloseable {
 	 * min/max update index, and then write refs and/or logs. It should not call finish() on the
 	 * writer.
 	 */
-	interface Writer {
+	public interface Writer {
 		void call(ReftableWriter w) throws IOException;
 	}
 
@@ -358,7 +358,7 @@ class FileReftableStack implements AutoCloseable {
 	 * @return true if the transaction.
 	 */
 	@SuppressWarnings("nls")
-	boolean addReftable(Writer w) throws IOException {
+	public boolean addReftable(Writer w) throws IOException {
 		LockFile lock = new LockFile(stackPath);
 		try {
 			if (!lock.lockForAppend()) {
