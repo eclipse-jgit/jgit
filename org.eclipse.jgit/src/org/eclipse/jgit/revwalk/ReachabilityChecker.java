@@ -44,6 +44,7 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -84,7 +85,7 @@ public interface ReachabilityChecker {
 	 *             opened.
 	 */
 	Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
-			Collection<RevCommit> starters)
+			Iterator<RevCommit> starters)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException;
 }
