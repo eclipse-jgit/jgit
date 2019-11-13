@@ -77,6 +77,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -532,9 +533,8 @@ public abstract class KetchReplica {
 		queued.add(0, new ReplicaPushRequest(this, cmds));
 
 		if (!waitingForRetry()) {
-			long delay = KetchSystem.delay(
-					lastRetryMillis,
-					minRetryMillis, maxRetryMillis);
+			long delay = FileUtils
+				.delay(lastRetryMillis, minRetryMillis, maxRetryMillis);
 			if (log.isDebugEnabled()) {
 				log.debug("Retrying {} after {} ms", //$NON-NLS-1$
 						describeForLog(), Long.valueOf(delay));
