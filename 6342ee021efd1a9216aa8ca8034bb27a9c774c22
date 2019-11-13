@@ -710,6 +710,30 @@
     },
     {
       "key": {
+        "uuid": "1781c023_f422182c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-13T05:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b245c38c_f81b9d69",
+      "range": {
+        "startLine": 301,
+        "startChar": 23,
+        "endLine": 301,
+        "endChar": 54
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c61f3a5_0a4d0039",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
