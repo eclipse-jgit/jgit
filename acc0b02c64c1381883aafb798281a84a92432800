@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7b18528_84463b08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-13T18:24:10Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "acc0b02c64c1381883aafb798281a84a92432800",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
