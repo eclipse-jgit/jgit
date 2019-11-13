@@ -134,7 +134,7 @@ public class FileReftableStack implements AutoCloseable {
 	 * @param configSupplier Config supplier
 	 * @throws IOException on I/O problems
 	 */
-	FileReftableStack(File stackPath, File reftableDir,
+	public FileReftableStack(File stackPath, File reftableDir,
 		@Nullable Runnable onChange, Supplier<Config> configSupplier)
 		throws IOException {
 		this.stackPath = stackPath;
@@ -286,7 +286,14 @@ public class FileReftableStack implements AutoCloseable {
 	 * min/max update index, and then write refs and/or logs. It should not call finish() on the
 	 * writer.
 	 */
-	interface Writer {
+	public interface Writer {
+		/**
+		 * Write data to reftable
+		 *
+		 * @param w
+		 *            writer to use
+		 * @throws IOException
+		 */
 		void call(ReftableWriter w) throws IOException;
 	}
 
@@ -373,7 +380,7 @@ public class FileReftableStack implements AutoCloseable {
 	 * @throws IOException on I/O problems
 	 */
 	@SuppressWarnings("nls")
-	boolean addReftable(Writer w) throws IOException {
+	public boolean addReftable(Writer w) throws IOException {
 		LockFile lock = new LockFile(stackPath);
 		try {
 			if (!lock.lockForAppend()) {
