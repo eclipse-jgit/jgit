@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeca4b59_c3ec74a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-13T20:38:42Z",
+      "side": 1,
+      "message": "Can we find a better name? TransformingIterator and TranslatingIterator are both a bit long, but how about MappingIterator?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "cf0dea22d72f91e7e6b1b1fca58fee9275c43d2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadc0ee8_c79c6932",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TransIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-13T20:38:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this throw NoSuchElementException if result \u003d\u003d null?",
+      "revId": "cf0dea22d72f91e7e6b1b1fca58fee9275c43d2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
