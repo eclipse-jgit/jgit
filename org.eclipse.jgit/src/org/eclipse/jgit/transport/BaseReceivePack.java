@@ -1069,6 +1069,20 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Get whether or not a pack has been received.
+	 *
+	 * This can be called before calling {@link #getPackSize()} to avoid causing
+	 * {@code IllegalStateException} when the pack size was not set because no
+	 * pack was received.
+	 *
+	 * @return true if a pack has been received.
+	 * @since 5.6
+	 */
+	public boolean hasReceivedPack() {
+		return packSize != null;
+	}
+
+	/**
 	 * Get the size of the received pack file including the index size.
 	 *
 	 * This can only be called if the pack is already received.
