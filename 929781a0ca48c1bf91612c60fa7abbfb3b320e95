@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3bb2ad5_e1d016ba",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/BenchmarkReftable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-14T02:05:49Z",
+      "side": 1,
+      "message": "removed unused imports",
+      "revId": "929781a0ca48c1bf91612c60fa7abbfb3b320e95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
