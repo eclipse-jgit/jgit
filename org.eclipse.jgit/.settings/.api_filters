@@ -88,6 +88,12 @@
                 <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
             </message_arguments>
         </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
+                <message_argument value="enableCapabilities()"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/SystemReader.java" type="org.eclipse.jgit.util.SystemReader">
         <filter id="336695337">
