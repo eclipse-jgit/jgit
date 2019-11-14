@@ -420,15 +420,6 @@ public class ReceivePack {
 	}
 
 	/**
-	 * Get the process name used for pack lock messages.
-	 *
-	 * @return the process name used for pack lock messages.
-	 */
-	protected String getLockMessageProcessName() {
-		return "jgit receive-pack"; //$NON-NLS-1$
-	}
-
-	/**
 	 * Get the repository this receive completes into.
 	 *
 	 * @return the repository this receive completes into.
