@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "96ef531a_d9f6377d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fc6c3f3_833e7012",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c5eedae_53e81713",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
         "patchSetId": 74
