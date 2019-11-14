@@ -1354,7 +1354,7 @@ public class ReceivePack {
 					continue;
 				}
 
-				ReceiveCommand cmd = ReceivePack.parseCommand(line);
+				ReceiveCommand cmd = parseCommand(line);
 				if (cmd.getRefName().equals(Constants.HEAD)) {
 					cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
 				} else {
