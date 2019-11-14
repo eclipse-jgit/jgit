@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1313d440_7efa6810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-14T11:51:42Z",
+      "side": 1,
+      "message": "If you\u0027re all happy with breaking API instead of doing a JGit 6.0 then please also add the necessary API filters. I get 13 errors from the API checks in Eclipse.",
+      "parentUuid": "2acd83a1_3653e54c",
+      "revId": "9bd46833c97e890516a76e70bf367e4b3c1dcd98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6184f51f_21940794",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 5
