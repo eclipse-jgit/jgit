@@ -1128,7 +1128,7 @@ public class ReceivePack {
 	 *         client is earlier than Git 1.9, or is a full clone.
 	 * @since 3.5
 	 */
-	protected Set<ObjectId> getClientShallowCommits() {
+	private Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
 	}
 
@@ -1137,7 +1137,7 @@ public class ReceivePack {
 	 *
 	 * @return {@code true} if any commands to be executed have been read.
 	 */
-	protected boolean hasCommands() {
+	private boolean hasCommands() {
 		return !commands.isEmpty();
 	}
 
@@ -1146,7 +1146,7 @@ public class ReceivePack {
 	 *
 	 * @return true if an error occurred that should be advertised.
 	 */
-	protected boolean hasError() {
+	private boolean hasError() {
 		return advertiseError != null;
 	}
 
@@ -1167,7 +1167,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 */
-	protected void init(final InputStream input, final OutputStream output,
+	private void init(final InputStream input, final OutputStream output,
 			final OutputStream messages) {
 		origOut = output;
 		rawIn = input;
@@ -1198,7 +1198,7 @@ public class ReceivePack {
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
 	 */
-	protected Map<String, Ref> getAdvertisedOrDefaultRefs() {
+	private Map<String, Ref> getAdvertisedOrDefaultRefs() {
 		if (refs == null)
 			setAdvertisedRefs(null, null);
 		return refs;
@@ -1210,7 +1210,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
 	 */
-	protected void receivePackAndCheckConnectivity() throws IOException {
+	private void receivePackAndCheckConnectivity() throws IOException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
@@ -1225,7 +1225,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             the pack could not be unlocked.
 	 */
-	protected void unlockPack() throws IOException {
+	private void unlockPack() throws IOException {
 		if (packLock != null) {
 			packLock.unlock();
 			packLock = null;
@@ -1302,7 +1302,7 @@ public class ReceivePack {
 	 *
 	 * @throws java.io.IOException
 	 */
-	protected void recvCommands() throws IOException {
+	private void recvCommands() throws IOException {
 		PacketLineIn pck = maxCommandBytes > 0
 				? new PacketLineIn(rawIn, maxCommandBytes)
 				: pckIn;
@@ -1418,7 +1418,7 @@ public class ReceivePack {
 	/**
 	 * Enable capabilities based on a previously read capabilities line.
 	 */
-	protected void enableCapabilities() {
+	private void enableCapabilities() {
 		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
 		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
@@ -1442,11 +1442,11 @@ public class ReceivePack {
 	 *            protocol name identifying the capability.
 	 * @return true if the peer requested the capability to be enabled.
 	 */
-	protected boolean isCapabilityEnabled(String name) {
+	private boolean isCapabilityEnabled(String name) {
 		return enabledCapabilities.contains(name);
 	}
 
-	void checkRequestWasRead() {
+	private void checkRequestWasRead() {
 		if (enabledCapabilities == null)
 			throw new RequestNotYetReadException();
 	}
@@ -1456,7 +1456,7 @@ public class ReceivePack {
 	 *
 	 * @return {@code true} if a pack is expected based on the list of commands.
 	 */
-	protected boolean needPack() {
+	private boolean needPack() {
 		for (ReceiveCommand cmd : commands) {
 			if (cmd.getType() != ReceiveCommand.Type.DELETE)
 				return true;
@@ -1630,7 +1630,7 @@ public class ReceivePack {
 	/**
 	 * Validate the command list.
 	 */
-	protected void validateCommands() {
+	private void validateCommands() {
 		for (ReceiveCommand cmd : commands) {
 			final Ref ref = cmd.getRef();
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
@@ -1775,7 +1775,7 @@ public class ReceivePack {
 	 * @return if any commands have been rejected so far.
 	 * @since 3.6
 	 */
-	protected boolean anyRejects() {
+	private boolean anyRejects() {
 		for (ReceiveCommand cmd : commands) {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED
 					&& cmd.getResult() != Result.OK)
@@ -1789,7 +1789,7 @@ public class ReceivePack {
 	 *
 	 * @since 3.6
 	 */
-	protected void failPendingCommands() {
+	private void failPendingCommands() {
 		ReceiveCommand.abort(commands);
 	}
 
@@ -1801,14 +1801,14 @@ public class ReceivePack {
 	 * @return a copy of the command list containing only those commands with
 	 *         the desired status.
 	 */
-	protected List<ReceiveCommand> filterCommands(Result want) {
+	private List<ReceiveCommand> filterCommands(Result want) {
 		return ReceiveCommand.filter(commands, want);
 	}
 
 	/**
 	 * Execute commands to update references.
 	 */
-	protected void executeCommands() {
+	private void executeCommands() {
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
 		if (toApply.isEmpty())
 			return;
@@ -1850,7 +1850,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             an error occurred writing the status report.
 	 */
-	protected void sendStatusReport(final boolean forClient,
+	private void sendStatusReport(final boolean forClient,
 			final Throwable unpackError, final Reporter out)
 			throws IOException {
 		if (unpackError != null) {
@@ -1939,7 +1939,7 @@ public class ReceivePack {
 	 *
 	 * @throws java.io.IOException
 	 */
-	protected void close() throws IOException {
+	private void close() throws IOException {
 		if (sideBand) {
 			// If we are using side band, we need to send a final
 			// flush-pkt to tell the remote peer the side band is
@@ -1972,7 +1972,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             the pack could not be unlocked.
 	 */
-	protected void release() throws IOException {
+	private void release() throws IOException {
 		walk.close();
 		unlockPack();
 		timeoutIn = null;
