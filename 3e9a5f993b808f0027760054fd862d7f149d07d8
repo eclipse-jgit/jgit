@@ -22,6 +22,30 @@
       "revId": "3e9a5f993b808f0027760054fd862d7f149d07d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9e628ed_9301dc60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-14T00:32:39Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/152624",
+      "parentUuid": "e69ad843_b83cc696",
+      "range": {
+        "startLine": 1357,
+        "startChar": 25,
+        "endLine": 1357,
+        "endChar": 49
+      },
+      "revId": "3e9a5f993b808f0027760054fd862d7f149d07d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
