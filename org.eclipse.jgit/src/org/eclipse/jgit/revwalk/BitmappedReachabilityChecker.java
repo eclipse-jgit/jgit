@@ -52,8 +52,11 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
-import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 /**
  * Checks the reachability using bitmaps.
@@ -86,38 +89,108 @@ class BitmappedReachabilityChecker implements ReachabilityChecker {
 	 * Check all targets are reachable from the starters.
 	 * <p>
 	 * In this implementation, it is recommended to put the most popular
-	 * starters (e.g. refs/heads tips) at the beginning of the collection
+	 * starters (e.g. refs/heads tips) at the beginning.
 	 */
 	@Override
 	public Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
 			Stream<RevCommit> starters) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		BitmapCalculator calculator = new BitmapCalculator(walk);
 
-		/**
-		 * Iterate over starters bitmaps and remove targets as they become
-		 * reachable.
-		 *
-		 * Building the total starters bitmap has the same cost (iterating over
-		 * all starters adding the bitmaps) and this gives us the chance to
-		 * shorcut the loop.
-		 *
-		 * This is based on the assuption that most of the starters will have
-		 * the reachability bitmap precalculated. If many require a walk, the
-		 * walk.reset() could start to take too much time.
-		 */
 		List<RevCommit> remainingTargets = new ArrayList<>(targets);
-		Iterator<RevCommit> it = starters.iterator();
-		while (it.hasNext()) {
-			BitmapBuilder starterBitmap = calculator.getBitmap(it.next(),
-					NullProgressMonitor.INSTANCE);
-			remainingTargets.removeIf(starterBitmap::contains);
-			if (remainingTargets.isEmpty()) {
-				return Optional.empty();
+
+		walk.reset();
+		walk.sort(RevSort.TOPO);
+
+		// Filter emits only commits that are unreachable from previously
+		// visited commits. Internally it keeps a bitmap of everything
+		// reachable so far, which we use to discard reachable targets.
+		BitmapIndex repoBitmaps = walk.getObjectReader().getBitmapIndex();
+		ReachedFilter reachedFilter = new ReachedFilter(repoBitmaps);
+		walk.setRevFilter(reachedFilter);
+
+		Iterator<RevCommit> startersIter = starters.iterator();
+		while (startersIter.hasNext()) {
+			walk.markStart(startersIter.next());
+			while (walk.next() != null) {
+				remainingTargets.removeIf(reachedFilter::isReachable);
+
+				if (remainingTargets.isEmpty()) {
+					return Optional.empty();
+				}
 			}
+			walk.reset();
 		}
 
 		return Optional.of(remainingTargets.get(0));
 	}
 
+	/**
+	 * This filter emits commits that were not bitmap-reachable from anything
+	 * visited before. Or in other words, commits that add something (themselves
+	 * or their bitmap) to the "reached" bitmap.
+	 *
+	 * Current progress can be queried via {@link #isReachable(RevCommit)}.
+	 */
+	private static class ReachedFilter extends RevFilter {
+
+		private final BitmapIndex repoBitmaps;
+		private final BitmapBuilder reached;
+
+		/**
+		 * Create a filter that emits only previously unreachable commits.
+		 *
+		 * @param repoBitmaps
+		 *            bitmap index of the repo
+		 */
+		public ReachedFilter(BitmapIndex repoBitmaps) {
+			this.repoBitmaps = repoBitmaps;
+			this.reached = repoBitmaps.newBitmapBuilder();
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public final boolean include(RevWalk walker, RevCommit cmit) {
+			Bitmap commitBitmap;
+
+			if (reached.contains(cmit)) {
+				// already seen or included
+				dontFollow(cmit);
+				return false;
+			}
+
+			if ((commitBitmap = repoBitmaps.getBitmap(cmit)) != null) {
+				reached.or(commitBitmap);
+				// Emit the commit because there are new contents in the bitmap
+				// but don't follow parents (they are already in the bitmap)
+				dontFollow(cmit);
+				return true;
+			}
+
+			// No bitmaps, keep going
+			reached.addObject(cmit, Constants.OBJ_COMMIT);
+			return true;
+		}
+
+		private static final void dontFollow(RevCommit cmit) {
+			for (RevCommit p : cmit.getParents()) {
+				p.add(RevFlag.SEEN);
+			}
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public final RevFilter clone() {
+			throw new UnsupportedOperationException();
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public final boolean requiresCommitBody() {
+			return false;
+		}
+
+		boolean isReachable(RevCommit commit) {
+			return reached.contains(commit);
+		}
+	}
 }
