@@ -768,7 +768,7 @@ public class ReceiveCommand {
 	 *
 	 * @param rp
 	 *            receive-pack session.
-	 * @since 2.0
+	 * @since 5.6
 	 */
 	public void execute(ReceivePack rp) {
 		try {

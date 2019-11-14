@@ -89,6 +89,7 @@ public interface AdvertiseRefsHook {
 	 *            if necessary.
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
+	 * @since 5.6
 	 */
 	void advertiseRefs(ReceivePack receivePack)
 			throws ServiceMayNotContinueException;

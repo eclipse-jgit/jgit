@@ -124,6 +124,7 @@ public class ReceivePack {
 	 * Data in the first line of a request, the line itself plus capabilities.
 	 *
 	 * @deprecated Use {@link FirstCommand} instead.
+	 * @since 5.6
 	 */
 	@Deprecated
 	public static class FirstLine {
@@ -1849,6 +1850,7 @@ public class ReceivePack {
 	 *            the reporter for sending the status strings.
 	 * @throws java.io.IOException
 	 *             an error occurred writing the status report.
+	 * @since 5.6
 	 */
 	protected void sendStatusReport(final boolean forClient,
 			final Throwable unpackError, final Reporter out)

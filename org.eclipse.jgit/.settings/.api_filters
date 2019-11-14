@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.BaseReceivePack">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="org.eclipse.jgit_5.6.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/Config.java" type="org.eclipse.jgit.lib.Config">
         <filter id="1142947843">
             <message_arguments>
@@ -27,6 +35,57 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
                 <message_argument value="offloadedPackfiles"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/AbstractAdvertiseRefsHook.java" type="org.eclipse.jgit.transport.AbstractAdvertiseRefsHook">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.AbstractAdvertiseRefsHook"/>
+                <message_argument value="advertiseRefs(BaseReceivePack)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/AdvertiseRefsHook.java" type="org.eclipse.jgit.transport.AdvertiseRefsHook">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.AdvertiseRefsHook"/>
+                <message_argument value="advertiseRefs(ReceivePack)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="405901410">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.AdvertiseRefsHook"/>
+                <message_argument value="advertiseRefs(BaseReceivePack)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/AdvertiseRefsHookChain.java" type="org.eclipse.jgit.transport.AdvertiseRefsHookChain">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.AdvertiseRefsHookChain"/>
+                <message_argument value="advertiseRefs(BaseReceivePack)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/ReceiveCommand.java" type="org.eclipse.jgit.transport.ReceiveCommand">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.ReceiveCommand"/>
+                <message_argument value="execute(BaseReceivePack)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/ReceivePack.java" type="org.eclipse.jgit.transport.ReceivePack">
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
+                <message_argument value="getLockMessageProcessName()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
             </message_arguments>
         </filter>
     </resource>
