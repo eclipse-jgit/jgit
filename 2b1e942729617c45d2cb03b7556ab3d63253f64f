@@ -70,6 +70,29 @@
       "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d907e698_ba75eedb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-14T19:30:15Z",
+      "side": 1,
+      "message": "This doesn\u0027t have a license header.",
+      "range": {
+        "startLine": 1,
+        "startChar": 51,
+        "endLine": 1,
+        "endChar": 0
+      },
+      "revId": "2b1e942729617c45d2cb03b7556ab3d63253f64f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
