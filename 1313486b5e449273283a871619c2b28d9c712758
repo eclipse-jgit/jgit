@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fc6c3f3_833e7012",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "nit: unrelated change --- would be nice for this kind of reformatting to happen in a preparatory commit so it\u0027s not mixed with the functional change",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c5eedae_53e81713",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dc0e938_f73f3a2f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "missing @Test?",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fc84dd5_60164f6e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "strange indentation",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
