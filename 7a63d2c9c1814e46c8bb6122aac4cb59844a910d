@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a75a192_6cdc098f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 82
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "This buries the lede. What is FileReftableDatabase and why do I want it?\n\nI have the context to be excited here --- I\u0027d want others reading the commit message to be similarly excited.",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960c4d98_4cf7e816",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae9f8ac8_8f003563",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63c4292b_2b85875c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "nit: wrapping",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d32dbe_9bb0d67b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "Should call Thread.currentThread().interrupt() to not lose the interrupted state. See https://www.ibm.com/developerworks/java/library/j-jtp05236/index.html for more on this subject.\n\nCould use InterruptedIOException here. RuntimeException also seems fine to me.",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b643727a_63066c1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "Very good question. https://www.eclipse.org/lists/jgit-dev/msg03764.html has a proposal for what exceptions to use in general.\n\nMaybe a new DeadlineExceededException.",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85620702_4d090b30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "Probably worth a TODO to abstract this",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f90dcee_15b8c7a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b694316_930aecf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T22:43:36Z",
+      "side": 1,
+      "message": "unrelated change?",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
