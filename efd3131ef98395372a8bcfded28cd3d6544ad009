@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d18e487d_bb397e1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-14T03:45:25Z",
+      "side": 1,
+      "message": "Can drop @since",
+      "revId": "efd3131ef98395372a8bcfded28cd3d6544ad009",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
