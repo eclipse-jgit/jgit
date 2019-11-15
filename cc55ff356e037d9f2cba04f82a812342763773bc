@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "058dab5a_cd2c6c96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-15T18:23:09Z",
+      "side": 1,
+      "message": "Also, I think this is better as a Stream. In that way, some code from the later patches become unnecessary.",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 92,
+        "endChar": 11
+      },
+      "revId": "cc55ff356e037d9f2cba04f82a812342763773bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f96a07b_1c4938c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
         "patchSetId": 1
