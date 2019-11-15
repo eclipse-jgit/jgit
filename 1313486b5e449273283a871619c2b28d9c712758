@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "7b1a4bd9_6f54f435",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dc0e938_f73f3a2f",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fc84dd5_60164f6e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
         "patchSetId": 74
@@ -91,6 +109,24 @@
       "revId": "1313486b5e449273283a871619c2b28d9c712758",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd694af_c0a862ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 74
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc84dd5_60164f6e",
+      "revId": "1313486b5e449273283a871619c2b28d9c712758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
