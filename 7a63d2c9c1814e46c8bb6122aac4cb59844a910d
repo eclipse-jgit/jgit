@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "e83154bd_eb01f753",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-15T02:30:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "587399ff_57926f38",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae9f8ac8_8f003563",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 82
