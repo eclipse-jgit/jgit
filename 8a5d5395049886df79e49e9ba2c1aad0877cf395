@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba28bde3_a0a99474",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/MappingIteratorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-15T06:55:06Z",
+      "side": 1,
+      "message": "Perhaps an additional test: transformation returns null on second and third. Iterator sequence would be 1, 4.",
+      "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccf41c7c_21499b99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/MappingIteratorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-15T06:55:06Z",
+      "side": 1,
+      "message": "Add here\n\n  assertThat(transformAndCount.getInvocationCounter(), is(0));",
+      "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38dc7f48_00c8ecaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/MappingIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-15T06:55:06Z",
+      "side": 1,
+      "message": "Beautiful now!",
+      "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
