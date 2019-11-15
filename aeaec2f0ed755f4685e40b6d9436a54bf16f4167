@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e5c525e_2e557eaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2032,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-15T18:09:08Z",
+      "side": 1,
+      "message": "Does the order in which we pass the commits to reachabilityChecker matter? For bitmaps, I thought that the effective bitmap is calculated before any walking happens, and for non-bitmaps, I thought that all the tips go into a priority queue.",
+      "range": {
+        "startLine": 2032,
+        "startChar": 38,
+        "endLine": 2032,
+        "endChar": 54
+      },
+      "revId": "aeaec2f0ed755f4685e40b6d9436a54bf16f4167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
