@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8fd77ad_d396ea67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 82
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a75a192_6cdc098f",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960c4d98_4cf7e816",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
         "patchSetId": 82
@@ -165,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "8d3f297f_0830b6b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "No, this is used for control flow internal to the class, The wrapping would provide no diagnostic value.",
+      "parentUuid": "94135581_f3854cf5",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b94bca46_5975ef1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -176,6 +218,30 @@
       "writtenOn": "2019-11-15T00:21:43Z",
       "side": 1,
       "message": "Does this mean if a user want to tell if the files are inconsistent or not, it needs to parse the JGitText message?",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdfba85f_9a73edfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "?\n\nthe jgit text message is for i18n. See JGitText.properties.",
+      "parentUuid": "b94bca46_5975ef1f",
       "range": {
         "startLine": 198,
         "startChar": 16,
@@ -205,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "825e9f07_ed7955ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63c4292b_2b85875c",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4aaba28_b3f64592",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -216,6 +300,30 @@
       "writtenOn": "2019-11-15T00:21:43Z",
       "side": 1,
       "message": "Keep the latest RetryException here (or a list of RetryException) and throw them as a cause in !success part. If you keep a list of RetryException, add them as suppressed exceptions.",
+      "range": {
+        "startLine": 250,
+        "startChar": 17,
+        "endLine": 250,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f44374_6198cd64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "see below.",
+      "parentUuid": "f4aaba28_b3f64592",
       "range": {
         "startLine": 250,
         "startChar": 17,
@@ -242,6 +350,24 @@
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e518c65_7a2c6cb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d32dbe_9bb0d67b",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -274,6 +400,24 @@
       "side": 1,
       "message": "When it fails to read one subtable, can the caller tell if it\u0027s caused a filesystem read delay or for some reason a file is permanently missing?",
       "parentUuid": "b643727a_63066c1b",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae13e606_2927b824",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "right now, no. the code assumes that things are well-formed. I added a TODO.",
+      "parentUuid": "d92b003f_86eaf443",
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -328,6 +472,24 @@
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25fc8498_b911fe27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b694316_930aecf6",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
