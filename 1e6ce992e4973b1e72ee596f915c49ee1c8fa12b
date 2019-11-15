@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d95491a3_b37558fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-15T19:25:35Z",
+      "side": 1,
+      "message": "What do you mean by previously unreachable? You mean commits previously marked as unreachable? (But in that case, we mark them before we could ever return them, so this would mean that we just filter all \"want\" commits and their ancestors.)",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 33
+      },
+      "revId": "1e6ce992e4973b1e72ee596f915c49ee1c8fa12b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
