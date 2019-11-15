@@ -207,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "bb8eb23d_39efc120",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T06:21:14Z",
+      "side": 1,
+      "message": "So, if I receive LockFailedException, I have no clue why and which file is actually failing because the exception chain is dropped here. (FileNotFoundException, according to the Javadoc, can be thrown when a file cannot be opened for any reason. It might not just indicate file doesn\u0027t exist. So, without seeing an exception, it might be hard to diagnose why it\u0027s failing.) Can you document why this is OK to drop the exception here and why it won\u0027t be needed for diagnostics? I cannot tell that from the code or from your comment.",
+      "parentUuid": "8d3f297f_0830b6b8",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b94bca46_5975ef1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -242,6 +266,30 @@
       "side": 1,
       "message": "?\n\nthe jgit text message is for i18n. See JGitText.properties.",
       "parentUuid": "b94bca46_5975ef1f",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e479430_c19e534d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T06:21:14Z",
+      "side": 1,
+      "message": "Let me ask in a different way. If I want to programmatically detect this inconsistency, is it true that I need to write:\n\ntry {\n  ...\n} catch (IllegalStateException e) {\n  if (e.getMessage().contains(\"index numbers not increasing\") {\n    throw new ReftableNumberInconsistencyException(e);\n  }\n}\n\nand this is an intended usage?",
+      "parentUuid": "cdfba85f_9a73edfa",
       "range": {
         "startLine": 198,
         "startChar": 16,
