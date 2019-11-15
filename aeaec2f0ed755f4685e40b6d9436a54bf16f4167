@@ -22,6 +22,53 @@
       "revId": "aeaec2f0ed755f4685e40b6d9436a54bf16f4167",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f74aca01_1c1b8c29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2032,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-15T18:22:33Z",
+      "side": 1,
+      "message": "Ah...after looking at the later commits, I realized that it does for the reasons listed in your commit message. The effective bitmap is not calculated; each reference that we want to check is checked as a set against one bitmap at a time. OK, let me review the rest of this patch.",
+      "parentUuid": "5e5c525e_2e557eaf",
+      "range": {
+        "startLine": 2032,
+        "startChar": 38,
+        "endLine": 2032,
+        "endChar": 54
+      },
+      "revId": "aeaec2f0ed755f4685e40b6d9436a54bf16f4167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a8ced6_102d9132",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-15T18:22:33Z",
+      "side": 1,
+      "message": "Spelling of first",
+      "range": {
+        "startLine": 2072,
+        "startChar": 25,
+        "endLine": 2072,
+        "endChar": 36
+      },
+      "revId": "aeaec2f0ed755f4685e40b6d9436a54bf16f4167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
