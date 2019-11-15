@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "365a6bad_3c780d72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-15T00:57:15Z",
+      "side": 1,
+      "message": "I still have to convert all existing license headers to the new shorter form",
+      "parentUuid": "ced84cd2_766d6a2b",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94135581_f3854cf5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
