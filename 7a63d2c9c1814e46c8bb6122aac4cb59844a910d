@@ -59,6 +59,69 @@
     },
     {
       "key": {
+        "uuid": "ced84cd2_766d6a2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T00:21:43Z",
+      "side": 1,
+      "message": "This is an old header. Use the new one. https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94135581_f3854cf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T00:21:43Z",
+      "side": 1,
+      "message": "This should wrap the cause.",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94bca46_5975ef1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T00:21:43Z",
+      "side": 1,
+      "message": "Does this mean if a user want to tell if the files are inconsistent or not, it needs to parse the JGitText message?",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63c4292b_2b85875c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -70,6 +133,29 @@
       "writtenOn": "2019-11-14T22:43:36Z",
       "side": 1,
       "message": "nit: wrapping",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4aaba28_b3f64592",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T00:21:43Z",
+      "side": 1,
+      "message": "Keep the latest RetryException here (or a list of RetryException) and throw them as a cause in !success part. If you keep a list of RetryException, add them as suppressed exceptions.",
+      "range": {
+        "startLine": 250,
+        "startChar": 17,
+        "endLine": 250,
+        "endChar": 0
+      },
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -104,6 +190,24 @@
       "writtenOn": "2019-11-14T22:43:36Z",
       "side": 1,
       "message": "Very good question. https://www.eclipse.org/lists/jgit-dev/msg03764.html has a proposal for what exceptions to use in general.\n\nMaybe a new DeadlineExceededException.",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d92b003f_86eaf443",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-11-15T00:21:43Z",
+      "side": 1,
+      "message": "When it fails to read one subtable, can the caller tell if it\u0027s caused a filesystem read delay or for some reason a file is permanently missing?",
+      "parentUuid": "b643727a_63066c1b",
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
