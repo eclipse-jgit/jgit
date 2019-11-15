@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bd2cc65f_dc97973e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 84
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-15T18:57:03Z",
+      "side": 1,
+      "message": "remove this declaration, the method\u0027s implementation doesn\u0027t throw this exception",
+      "range": {
+        "startLine": 406,
+        "startChar": 54,
+        "endLine": 406,
+        "endChar": 72
+      },
+      "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4577d50b_4ddf4dea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 84
