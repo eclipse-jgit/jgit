@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "79a34dfd_889469f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-15T05:42:09Z",
+      "side": 1,
+      "message": "I tried this, but it opens a box of yakshaving cream b/c MergedReftableTest needs updating for this. \nI\u0027ll keep this here for now.",
+      "parentUuid": "f211e4ce_64fb5b61",
+      "range": {
+        "startLine": 194,
+        "startChar": 12,
+        "endLine": 194,
+        "endChar": 51
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e03b653e_4c4572dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
