@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6fa48e8b_cbcc2e82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/MappingIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-15T00:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0c477dd_0db129ce",
+      "revId": "4f51b44a17d4fa6f63fcb26fe60bfb2db73af1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cb2fcd1_9ba10e55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/MappingIterator.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-13T22:13:51Z",
       "side": 1,
       "message": "I find it strange that the constructor already does some work. Might catch someone by surprise, especially if he wants to concatenate several iterators. I\u0027d like this better if only hasNext() or next() actually advanced. It\u0027s more predictable.\n\nMaybe similar to the logic in CachingKeyPairProvider$CancellingKeyPairIterator . That one is similar to MappingIterator\u003cPath, KeyPair\u003e.",
+      "revId": "4f51b44a17d4fa6f63fcb26fe60bfb2db73af1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51401efc_c2f0776c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/MappingIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-15T00:27:40Z",
+      "side": 1,
+      "message": "Thanks for the example. Implemented now with a flag and doing the work in next/hasNext.",
+      "parentUuid": "1cb2fcd1_9ba10e55",
       "revId": "4f51b44a17d4fa6f63fcb26fe60bfb2db73af1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
