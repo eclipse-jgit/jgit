@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9d88caf8_265fd7e5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/MappingIteratorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-15T08:32:14Z",
+      "side": 1,
+      "message": "Lots of boxing warnings here.\n\nIs there really an advantage of assertThat(it.next(), is(1)) over assertEquals(1, it.next())?",
+      "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba28bde3_a0a99474",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/MappingIteratorTest.java",
         "patchSetId": 5
@@ -47,6 +64,29 @@
       "writtenOn": "2019-11-15T06:55:06Z",
       "side": 1,
       "message": "Beautiful now!",
+      "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da6c46b_3ca80d5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/MappingIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-15T08:32:14Z",
+      "side": 1,
+      "message": "This should be\n\n  Function\u003c? super S, ? extends D\u003e",
+      "range": {
+        "startLine": 47,
+        "startChar": 46,
+        "endLine": 47,
+        "endChar": 60
+      },
       "revId": "8a5d5395049886df79e49e9ba2c1aad0877cf395",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
