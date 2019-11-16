@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a3501e_3fb1f80e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/BenchmarkReftable.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T22:27:55Z",
+      "side": 1,
+      "message": "Is this suppression needed?",
+      "range": {
+        "startLine": 134,
+        "startChar": 28,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "512cff7f02a521c087ef5d9cc38124ab8905fcb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
