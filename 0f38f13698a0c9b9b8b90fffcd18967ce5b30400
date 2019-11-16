@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "7717d525_a3ce85db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 84
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Java is a bit inconsistent, because\n\n   Object o \n   if( .. ) { o \u003d new Object(); }\n\ngenerates warnings about initalization",
+      "parentUuid": "4577d50b_4ddf4dea",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a792d890_c1a64cb1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 84
@@ -59,6 +83,24 @@
       "writtenOn": "2019-11-15T18:31:17Z",
       "side": 1,
       "message": "suppress writing stack trace to avoid runtime cost ?\n\n\t\t// suppress filling in stacktrace to avoid runtime cost\n\t\t@Override\n\t\tpublic synchronized Throwable fillInStackTrace() {\n\t\t\treturn this;\n\t\t}",
+      "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fd74647_0ccbf933",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 84
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a792d890_c1a64cb1",
       "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "f686006c_4a6820d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 84
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d989aabd_043a12b6",
+      "range": {
+        "startLine": 675,
+        "startChar": 13,
+        "endLine": 675,
+        "endChar": 16
+      },
+      "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "836943a0_85d008c0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 84
@@ -99,6 +165,24 @@
       "writtenOn": "2019-11-15T18:31:17Z",
       "side": 1,
       "message": "nit: remove trailing whitespace",
+      "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b391096f_7d436e1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 84
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "836943a0_85d008c0",
       "revId": "0f38f13698a0c9b9b8b90fffcd18967ce5b30400",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
