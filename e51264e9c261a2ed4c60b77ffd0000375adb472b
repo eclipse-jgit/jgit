@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b3d76c80_90a0100b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2233f9df_775fae0b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 86
@@ -76,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "2bdca4ac_2216b1c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Do you remember what was going on here?",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e542d39_117c90db",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 86
@@ -130,6 +170,40 @@
       "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7e5d5d9_491274db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "I\u0027m having trouble following this comment. Can you give an example?",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aab899b_4a17e39d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "can remove this @SuppressWarnings",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
