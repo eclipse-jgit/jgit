@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2233f9df_775fae0b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "many unused imports",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3d325f7_9196c57a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "unused label outer",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720dfade_4eac90c5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11267b5e_fdb400fb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "remove unthrown exception",
+      "range": {
+        "startLine": 406,
+        "startChar": 53,
+        "endLine": 406,
+        "endChar": 72
+      },
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e542d39_117c90db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20e0b605_24c6cd50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8f35526_a9027646",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-16T08:14:14Z",
+      "side": 1,
+      "message": "missing javadoc",
+      "range": {
+        "startLine": 175,
+        "startChar": 38,
+        "endLine": 175,
+        "endChar": 43
+      },
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
