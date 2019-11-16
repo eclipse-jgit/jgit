@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbe97a4d_321db765",
+        "filename": "org.eclipse.jgit.pgm/META-INF/services/org.eclipse.jgit.pgm.TextBuiltin",
+        "patchSetId": 50
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T22:16:12Z",
+      "side": 1,
+      "message": "unsorted",
+      "revId": "227637adb4360de97f697873073e03aa89d244bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddca4f92_0ec18629",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ConvertRefStorage.java",
+        "patchSetId": 50
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T22:16:12Z",
+      "side": 1,
+      "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "227637adb4360de97f697873073e03aa89d244bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6576285_ebee7dff",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ConvertRefStorage.java",
+        "patchSetId": 50
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T22:16:12Z",
+      "side": 1,
+      "message": "Is this a vestige from a previous warning?",
+      "revId": "227637adb4360de97f697873073e03aa89d244bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
