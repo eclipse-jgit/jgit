@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "0aaacd90_69c12206",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "*nod* this is fine here.",
+      "parentUuid": "365a6bad_3c780d72",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94135581_f3854cf5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -252,6 +270,30 @@
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21cf188b_53efbcd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3be1c8_23ac9fb4",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -562,6 +604,24 @@
     },
     {
       "key": {
+        "uuid": "cd2d648d_5ee349a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "I guess LockFailedException is okay, though I\u0027d prefer something more specific.",
+      "parentUuid": "67afa6b6_67d6194c",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85620702_4d090b30",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 82
@@ -579,6 +639,24 @@
     },
     {
       "key": {
+        "uuid": "601e099b_eca58792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85620702_4d090b30",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f90dcee_15b8c7a8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 82
@@ -593,6 +671,24 @@
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a006d8b_af6961bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f90dcee_15b8c7a8",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
