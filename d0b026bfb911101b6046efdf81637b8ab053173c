@@ -377,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "7ab3a8a5_b4abfec4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "c6b4c4cf_c5a31aa3",
+      "range": {
+        "startLine": 244,
+        "startChar": 39,
+        "endLine": 244,
+        "endChar": 50
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84201c20_5fc614ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 68
@@ -412,6 +436,24 @@
     },
     {
       "key": {
+        "uuid": "e529991a_0baa199c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "yay :)",
+      "parentUuid": "a3cea3d4_c32343fa",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4e3d399_dee6ac5e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 68
@@ -432,6 +474,30 @@
       "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0485ad1_d7ee50d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Copying forward the comment.",
+      "parentUuid": "d4e3d399_dee6ac5e",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 9
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -746,6 +812,24 @@
     },
     {
       "key": {
+        "uuid": "26cc5b6d_aea6dec9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Thanks much. Done",
+      "parentUuid": "b8e6eda3_eb19587e",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c34203_ae8c45d9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
@@ -816,6 +900,24 @@
     },
     {
       "key": {
+        "uuid": "9cb00ca6_fda6ebb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "What I meant is that if we consider this a problem then we\u0027d want a bug to track it.\n\nRemoving \"TODO\" text like you did here makes sense to me --- i.e. the comment is just describing the design.",
+      "parentUuid": "696a4ae4_6184fc6c",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "521a1f7c_1bcc97cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 68
@@ -848,6 +950,24 @@
       "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70a239e_62eaf2b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "7499d906_f63cee74",
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -1029,6 +1149,30 @@
       "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dafec22d_15d7fad4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 68
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "The TODO comment for now seems fine.",
+      "parentUuid": "29aa06fd_c78af522",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 15
+      },
+      "revId": "d0b026bfb911101b6046efdf81637b8ab053173c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
