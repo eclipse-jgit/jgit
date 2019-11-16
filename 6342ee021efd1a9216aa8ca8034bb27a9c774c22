@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "8e267e67_22135a43",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 61
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97e496ee_0f529d7e",
+      "range": {
+        "startLine": 326,
+        "startChar": 55,
+        "endLine": 326,
+        "endChar": 81
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6e75f4f_7920d3ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 61
@@ -424,6 +448,30 @@
       "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433239d6_0f74bd3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T18:22:15Z",
+      "side": 1,
+      "message": "Thanks --- the new comment is clearer :)",
+      "parentUuid": "79a34dfd_889469f9",
+      "range": {
+        "startLine": 194,
+        "startChar": 12,
+        "endLine": 194,
+        "endChar": 51
+      },
+      "revId": "6342ee021efd1a9216aa8ca8034bb27a9c774c22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
