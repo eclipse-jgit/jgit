@@ -231,6 +231,30 @@
     },
     {
       "key": {
+        "uuid": "9f3be1c8_23ac9fb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "fair point. Fixed.",
+      "parentUuid": "bb8eb23d_39efc120",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b94bca46_5975ef1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -299,6 +323,30 @@
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d4dfaa_a110d536",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e479430_c19e534d",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -384,6 +432,30 @@
     },
     {
       "key": {
+        "uuid": "591b2f3c_399acf81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79f44374_6198cd64",
+      "range": {
+        "startLine": 250,
+        "startChar": 17,
+        "endLine": 250,
+        "endChar": 0
+      },
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d32dbe_9bb0d67b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 82
@@ -466,6 +538,24 @@
       "side": 1,
       "message": "right now, no. the code assumes that things are well-formed. I added a TODO.",
       "parentUuid": "d92b003f_86eaf443",
+      "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67afa6b6_67d6194c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-16T02:09:57Z",
+      "side": 1,
+      "message": "fixed this now.",
+      "parentUuid": "ae13e606_2927b824",
       "revId": "7a63d2c9c1814e46c8bb6122aac4cb59844a910d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
