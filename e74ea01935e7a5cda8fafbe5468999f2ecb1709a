@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b66b7827_b4b6add9",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-16T00:46:15Z",
+      "side": 1,
+      "message": "should the rest of the formerly-protected methods be listed here, too?",
+      "revId": "e74ea01935e7a5cda8fafbe5468999f2ecb1709a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
