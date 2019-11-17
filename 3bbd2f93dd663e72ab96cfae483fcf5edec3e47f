@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06c307e7_44786cc0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:39:43Z",
+      "side": 1,
+      "message": "remove debug trace",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4845330_3103ce4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:39:43Z",
+      "side": 1,
+      "message": "nit: missing braces",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39dc2d6b_0beb2a65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:39:43Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
