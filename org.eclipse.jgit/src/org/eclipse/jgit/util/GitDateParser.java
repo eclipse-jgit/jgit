@@ -144,7 +144,7 @@ public class GitDateParser {
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
 	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of '
-	 * ' one can use '.' to seperate the words</li>
+	 * ' one can use '.' to separate the words</li>
 	 * <li>"yyyy-MM-dd HH:mm:ss Z" (ISO)</li>
 	 * <li>"EEE, dd MMM yyyy HH:mm:ss Z" (RFC)</li>
 	 * <li>"yyyy-MM-dd"</li>
@@ -186,7 +186,7 @@ public class GitDateParser {
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
 	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of '
-	 * ' one can use '.' to seperate the words</li>
+	 * ' one can use '.' to separate the words</li>
 	 * <li>"yyyy-MM-dd HH:mm:ss Z" (ISO)</li>
 	 * <li>"EEE, dd MMM yyyy HH:mm:ss Z" (RFC)</li>
 	 * <li>"yyyy-MM-dd"</li>
