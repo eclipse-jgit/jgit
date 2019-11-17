@@ -1606,10 +1606,10 @@ public class ReceivePack {
 					continue;
 
 				if (providedObjects != null) {
-					if (providedObjects.contains(o))
+					if (providedObjects.contains(o)) {
 						continue;
-					else
-						throw new MissingObjectException(o, o.getType());
+					}
+					throw new MissingObjectException(o, o.getType());
 				}
 
 				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
