@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "516e3505_7bf8f504",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c307e7_44786cc0",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4845330_3103ce4c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 90
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fd87d56e_0d625974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4845330_3103ce4c",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39dc2d6b_0beb2a65",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 90
@@ -47,6 +83,24 @@
       "writtenOn": "2019-11-17T07:39:43Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd209df2_83a5158c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39dc2d6b_0beb2a65",
       "revId": "3bbd2f93dd663e72ab96cfae483fcf5edec3e47f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
