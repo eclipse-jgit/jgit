@@ -138,13 +138,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		GC_REST,
 
 		/**
-		 * RefTreeGraph pack was created by Git garbage collection.
-		 *
-		 * @see DfsGarbageCollector
-		 */
-		GC_TXN,
-
-		/**
 		 * Pack was created by Git garbage collection.
 		 * <p>
 		 * This pack contains only unreachable garbage that was found during the
@@ -166,7 +159,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 						.add(COMPACT)
 						.add(GC)
 						.add(GC_REST)
-						.add(GC_TXN)
 						.add(UNREACHABLE_GARBAGE)
 						.build();
 

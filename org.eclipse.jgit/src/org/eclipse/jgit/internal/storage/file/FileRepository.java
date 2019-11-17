@@ -68,7 +68,6 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
-import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -208,8 +207,6 @@ public class FileRepository extends Repository {
 			if (StringUtils.equalsIgnoreCase(reftype, "reftable")) { //$NON-NLS-1$
 				refs = new FileReftableDatabase(this,
 						new File(getDirectory(), "refs")); //$NON-NLS-1$
-			} else if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
-				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}

@@ -51,11 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import org.eclipse.jgit.internal.ketch.KetchLeader;
-import org.eclipse.jgit.internal.ketch.KetchLeaderCache;
-import org.eclipse.jgit.internal.ketch.KetchPreReceive;
-import org.eclipse.jgit.internal.ketch.KetchSystem;
-import org.eclipse.jgit.internal.ketch.KetchText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -99,13 +94,6 @@ class Daemon extends TextBuiltin {
 
 	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")
 	boolean exportAll;
-
-	@Option(name = "--ketch", metaVar = "metaVar_ketchServerType", usage = "usage_ketchServerType")
-	KetchServerType ketchServerType;
-
-	enum KetchServerType {
-		LEADER;
-	}
 
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
 	List<File> directory = new ArrayList<>();
@@ -165,9 +153,6 @@ class Daemon extends TextBuiltin {
 			service(d, n).setOverridable(true);
 		for (String n : forbidOverride)
 			service(d, n).setOverridable(false);
-		if (ketchServerType == KetchServerType.LEADER) {
-			startKetchLeader(d);
-		}
 		d.start();
 		outw.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
 	}
@@ -179,25 +164,5 @@ class Daemon extends TextBuiltin {
 		if (svc == null)
 			throw die(MessageFormat.format(CLIText.get().serviceNotSupported, n));
 		return svc;
-	}
-
-	private void startKetchLeader(org.eclipse.jgit.transport.Daemon daemon) {
-		KetchSystem system = new KetchSystem();
-		final KetchLeaderCache leaders = new KetchLeaderCache(system);
-		final ReceivePackFactory<DaemonClient> factory;
-
-		factory = daemon.getReceivePackFactory();
-		daemon.setReceivePackFactory((DaemonClient req, Repository repo) -> {
-			ReceivePack rp = factory.create(req, repo);
-			KetchLeader leader;
-			try {
-				leader = leaders.get(repo);
-			} catch (URISyntaxException err) {
-				throw new ServiceNotEnabledException(
-						KetchText.get().invalidFollowerUri, err);
-			}
-			rp.setPreReceiveHook(new KetchPreReceive(leader));
-			return rp;
-		});
 	}
 }
