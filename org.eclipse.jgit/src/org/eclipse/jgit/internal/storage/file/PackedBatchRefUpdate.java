@@ -366,12 +366,8 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			List<ReceiveCommand> commands) throws IOException {
 		// Construct a new RefList by merging the old list with the updates.
 		// This assumes that each ref occurs at most once as a ReceiveCommand.
-		Collections.sort(commands, new Comparator<ReceiveCommand>() {
-			@Override
-			public int compare(ReceiveCommand a, ReceiveCommand b) {
-				return a.getRefName().compareTo(b.getRefName());
-			}
-		});
+		Collections.sort(commands,
+				Comparator.comparing(ReceiveCommand::getRefName));
 
 		int delta = 0;
 		for (ReceiveCommand c : commands) {
