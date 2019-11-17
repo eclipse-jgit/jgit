@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8c6c93c_062d9995",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-17T23:48:06Z",
+      "side": 1,
+      "message": "This exception is not thrown, which causes the compilation failure:\n\n org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java:[507,17333] The declared exception IOException is not actually thrown by the method isGitRepository() from type FileReftableTest",
+      "range": {
+        "startLine": 507,
+        "startChar": 31,
+        "endLine": 507,
+        "endChar": 49
+      },
+      "revId": "07ac0f6575d432d6e0f99ab5f89d3a1ecc7f71c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
