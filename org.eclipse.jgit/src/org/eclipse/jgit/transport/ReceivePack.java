@@ -2183,8 +2183,7 @@ public class ReceivePack {
 
 			try {
 				if (unpackError == null) {
-					boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
-					setAtomic(atomic);
+					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
 					validateCommands();
 					if (atomic && anyRejects()) {
