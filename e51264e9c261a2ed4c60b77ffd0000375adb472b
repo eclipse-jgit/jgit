@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "829f4f43_c2f057fc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T00:38:31Z",
+      "side": 1,
+      "message": "remove debug trace",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081b31b9_34c49760",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T00:38:31Z",
+      "side": 1,
+      "message": "empty block should be commented",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2233f9df_775fae0b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 86
@@ -53,6 +87,23 @@
       "writtenOn": "2019-11-16T08:14:14Z",
       "side": 1,
       "message": "unused label outer",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f1c6c34_3ce43d27",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T00:38:31Z",
+      "side": 1,
+      "message": "remove this debug trace",
       "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -144,6 +195,23 @@
       "writtenOn": "2019-11-16T08:14:14Z",
       "side": 1,
       "message": "unused import",
+      "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57403362_772fe0a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 86
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T00:38:31Z",
+      "side": 1,
+      "message": "missing serialVersionUID",
       "revId": "e51264e9c261a2ed4c60b77ffd0000375adb472b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
