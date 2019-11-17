@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61038eb9_1b953dca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 88
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T02:42:39Z",
+      "side": 1,
+      "message": "remove the debug trace",
+      "revId": "b8eb81322e6f682b83311fa4c8abc923c4b638d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ed5763_b8a986d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 88
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T02:42:39Z",
+      "side": 1,
+      "message": "bad formatting",
+      "revId": "b8eb81322e6f682b83311fa4c8abc923c4b638d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eaa2762_4cf551c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 88
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T02:42:39Z",
+      "side": 1,
+      "message": "bad formatting",
+      "revId": "b8eb81322e6f682b83311fa4c8abc923c4b638d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a73040_9f719ba8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 88
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T02:42:39Z",
+      "side": 1,
+      "message": "bad formatting",
+      "revId": "b8eb81322e6f682b83311fa4c8abc923c4b638d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bb34dff_76381e25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 88
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-17T02:42:39Z",
+      "side": 1,
+      "message": "this text should also needs i18n",
+      "revId": "b8eb81322e6f682b83311fa4c8abc923c4b638d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
