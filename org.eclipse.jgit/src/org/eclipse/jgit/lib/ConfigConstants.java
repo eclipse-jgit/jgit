@@ -554,12 +554,6 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
 
 	/**
-	 * The "reftree" refStorage format
-	 * @since 5.7
-	 */
-	public static final String CONFIG_REFSTORAGE_REFTREE = "reftree";
-
-	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */
