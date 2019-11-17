@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "389498f7_02291500",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-17T22:44:19Z",
+      "side": 1,
+      "message": "This is no longer used and should be removed.  This is why the build fails:\n\n The method isValidHead(File) from the type RepositoryCache.FileKey is never used locally",
+      "range": {
+        "startLine": 481,
+        "startChar": 2,
+        "endLine": 485,
+        "endChar": 3
+      },
+      "revId": "125fdecdae8530212f186ff29aa321ce5c5b538d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
