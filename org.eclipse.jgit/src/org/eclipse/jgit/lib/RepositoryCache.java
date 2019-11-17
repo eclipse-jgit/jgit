@@ -475,8 +475,7 @@ public class RepositoryCache {
 		 */
 		public static boolean isGitRepository(File dir, FS fs) {
 			return fs.resolve(dir, Constants.OBJECTS).exists()
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
-					&& isValidHead(new File(dir, Constants.HEAD));
+					&& fs.resolve(dir, "refs").exists(); //$NON-NLS-1$
 		}
 
 		private static boolean isValidHead(File head) {
