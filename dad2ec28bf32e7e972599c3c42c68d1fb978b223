@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acac991b_74d9caa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-11-18T10:31:57Z",
+      "side": 1,
+      "message": "It\u0027s still possible for the repo being closed before this executes. Perhaps incrementOpen() should throw an exception if its useCnt.incrementAndGet() \u003d\u003d 1.\n\nOr we could do the increment before submitting the task; line 290 below:\n\n  repo.incrementOpen();\n  try {\n    executor().submit(gcTask);\n  } catch (RuntimeException e) {\n    repo.close(); // Couldn\u0027t submit the task\n    throw e;\n  }\n\nbut that leaves the question of what to do when the task is submitted, but then never runs. (If that can happen at all.)",
+      "revId": "dad2ec28bf32e7e972599c3c42c68d1fb978b223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
