@@ -79,7 +79,7 @@ import org.eclipse.jgit.util.RefMap;
  * and one will fail.
  */
 public class DfsReftableDatabase extends DfsRefDatabase {
-	final ReftableDatabase reftableDatabase;
+	protected final ReftableDatabase reftableDatabase;
 
 	private DfsReader ctx;
 	private DfsReftableStack stack;
