@@ -177,6 +177,49 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void hasObjMapRefs() throws IOException {
+		ArrayList<Ref> refs = new ArrayList<>();
+		refs.add(ref(MASTER, 1));
+		byte[] table = write(refs);
+		ReftableReader t = read(table);
+		assertTrue(t.hasObjectMap());
+	}
+
+	@Test
+	public void hasObjLogs() throws IOException {
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setIndexObjects(false);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buffer)
+			.setMinUpdateIndex(1)
+			.setConfig(cfg)
+			.setMaxUpdateIndex(1)
+			.begin();
+
+		writer.writeLog("master", 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		assertTrue(t.hasObjectMap());
+	}
+
+	@Test
+	public void hasObjMapRefsNoIndexObjects() throws IOException {
+		ArrayList<Ref> refs = new ArrayList<>();
+		refs.add(ref(MASTER, 1));
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setIndexObjects(false);
+		byte[] table = write(refs, cfg);
+
+		ReftableReader t = read(table);
+		assertFalse(t.hasObjectMap());
+	}
+
+	@Test
 	public void oneIdRef() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		byte[] table = write(exp);
@@ -936,9 +979,14 @@ public class ReftableTest {
 	}
 
 	private byte[] write(Collection<Ref> refs) throws IOException {
+		return write(refs, new ReftableConfig());
+	}
+
+	private byte[] write(Collection<Ref> refs, ReftableConfig cfg) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		stats = new ReftableWriter(buffer)
 				.begin()
+				.setConfig(cfg)
 				.sortAndWriteRefs(refs)
 				.finish()
 				.getStats();

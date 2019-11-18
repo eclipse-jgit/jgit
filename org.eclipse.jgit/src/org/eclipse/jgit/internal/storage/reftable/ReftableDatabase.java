@@ -255,6 +255,11 @@ public abstract class ReftableDatabase {
 		return Collections.unmodifiableList(all);
 	}
 
+	/** {@inheritDoc} */
+	public boolean hasFastTipsWithSha1() throws IOException {
+		return reader().hasObjectMap();
+	}
+
 	/**
 	 * Returns all refs that resolve directly to the given {@link ObjectId}.
 	 * Includes peeled {@linkObjectId}s.
