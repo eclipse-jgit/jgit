@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5a36ea7_9f72bcd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-18T23:58:03Z",
+      "side": 1,
+      "message": "Can you write (in the commit message) what these subclasses are, and/or point to the refactoring commit that changed #reader from reachable to unreachable?",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "a2f331b3ad9c0952462b40f79363f20c4f85dd68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
