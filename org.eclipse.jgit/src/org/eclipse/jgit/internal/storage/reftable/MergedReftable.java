@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -96,6 +97,15 @@ public class MergedReftable extends Reftable {
 	public long maxUpdateIndex() throws IOException {
 		return tables.length > 0 ? tables[tables.length - 1].maxUpdateIndex()
 				: 0;
+	}
+
+	@Override
+	public boolean hasObjectMap() throws IOException {
+		boolean has = true;
+		for (int i = 0; has && i < tables.length; i++) {
+			has = has && tables[i].hasObjectMap();
+		};
+		return has;
 	}
 
 	/** {@inheritDoc} */
