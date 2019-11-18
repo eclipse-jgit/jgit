@@ -216,6 +216,11 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return reftableDatabase.getTipsWithSha1(id);
 	}
 
+	@Override
+	public boolean hasFastTipsWithSha1() throws IOException {
+		return reftableDatabase.hasFastTipsWithSha1();
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
