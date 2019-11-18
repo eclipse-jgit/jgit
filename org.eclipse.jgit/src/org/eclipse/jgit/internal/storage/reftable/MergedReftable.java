@@ -100,6 +100,16 @@ public class MergedReftable extends Reftable {
 
 	/** {@inheritDoc} */
 	@Override
+	public boolean hasObjectMap() throws IOException {
+		boolean has = true;
+		for (int i = 0; has && i < tables.length; i++) {
+			has = has && tables[i].hasObjectMap();
+		};
+		return has;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public RefCursor allRefs() throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
 		for (int i = 0; i < tables.length; i++) {
