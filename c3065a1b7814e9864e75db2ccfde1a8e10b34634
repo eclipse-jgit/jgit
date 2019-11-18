@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0804fddd_bcdedaf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2019-11-18T12:59:59Z",
+      "side": 1,
+      "message": "Swap the order of modifiers, like it in all other methods in this class.",
+      "range": {
+        "startLine": 168,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 16
+      },
+      "revId": "c3065a1b7814e9864e75db2ccfde1a8e10b34634",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
