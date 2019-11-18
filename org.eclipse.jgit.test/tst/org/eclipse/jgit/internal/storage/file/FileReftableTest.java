@@ -155,6 +155,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertFalse(b.isSymbolic());
 		assertTrue(b.isPeeled());
 		assertEquals(bCommit, b.getObjectId().name());
+
+		assertTrue(db.getRefDatabase().hasFastTipsWithSha1());
 	}
 
 	@Test
@@ -169,6 +171,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertFalse(b.isSymbolic());
 		assertTrue(b.isPeeled());
 		assertEquals(bCommit, b.getObjectId().name());
+
+		assertFalse(db.getRefDatabase().hasFastTipsWithSha1());
 	}
 
 	@Test
