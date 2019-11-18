@@ -497,6 +497,14 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * @return whether this RefDatabase supports fast inverse ref queries.
+	 * @throws IOException on I/O problems.
+	 */
+	public boolean hasFastTipsWithSha1() throws IOException {
+		return false;
+	}
+
+	/**
 	 * Check if any refs exist in the ref database.
 	 * <p>
 	 * This uses the same definition of refs as {@link #getRefs()}. In
