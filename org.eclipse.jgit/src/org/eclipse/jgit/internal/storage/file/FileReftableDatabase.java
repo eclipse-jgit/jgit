@@ -125,6 +125,12 @@ public class FileReftableDatabase extends RefDatabase {
 				&& new File(repoDir, Constants.REFTABLE).isDirectory();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public boolean hasFastTipsWithSha1() throws IOException {
+		return reftableDatabase.hasFastTipsWithSha1();
+	}
+
 	/**
 	 * Runs a full compaction for GC purposes.
 	 * @throws IOException on I/O errors

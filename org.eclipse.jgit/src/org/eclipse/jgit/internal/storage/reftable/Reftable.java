@@ -162,6 +162,12 @@ public abstract class Reftable {
 	public abstract RefCursor byObjectId(AnyObjectId id) throws IOException;
 
 	/**
+	 * @return whether this reftable can do a fast SHA1 => ref lookup.
+	 * @throws IOException on I/O problems.
+	 */
+	public abstract boolean hasObjectMap() throws IOException;
+
+	/**
 	 * Seek reader to read log records.
 	 *
 	 * @return cursor to iterate; empty cursor if no logs are present.

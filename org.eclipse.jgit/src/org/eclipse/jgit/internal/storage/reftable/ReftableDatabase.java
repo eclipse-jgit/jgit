@@ -299,6 +299,19 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * @return whether there is a fast SHA1 to ref map.
+	 * @throws IOException in case of I/O problems.
+	 */
+	public boolean hasFastTipsWithSha1() throws IOException {
+		lock.lock();
+		try {
+			return reader().hasObjectMap();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	/**
 	 * Returns all refs that resolve directly to the given {@link ObjectId}.
 	 * Includes peeled {@linkObjectId}s.
 	 *
