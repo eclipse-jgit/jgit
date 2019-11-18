@@ -87,6 +87,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -2026,10 +2027,11 @@ public class UploadPack {
 					.createReachabilityChecker();
 
 			List<Ref> sortedVisibleRefs = moreImportantRefsFirst(visibleRefs);
-			List<RevCommit> reachableCommits = refsToRevCommits(walk,
+			Stream<RevCommit> reachableCommits = refsToRevCommits(walk,
 					sortedVisibleRefs);
 			Optional<RevCommit> unreachable = reachabilityChecker
-					.areAllReachable(wantsAsCommits, reachableCommits);
+					.areAllReachable(wantsAsCommits,
+							reachableCommits);
 			if (unreachable.isPresent()) {
 				throw new WantNotValidException(unreachable.get());
 			}
@@ -2061,11 +2063,10 @@ public class UploadPack {
 		return refs.stream().filter(predicate).collect(Collectors.toList());
 	}
 
-	private static List<RevCommit> refsToRevCommits(RevWalk walk,
-			List<Ref> refs) throws MissingObjectException, IOException {
-		List<ObjectId> objIds = refs.stream().map(
-				ref -> firstNonNull(ref.getPeeledObjectId(), ref.getObjectId()))
-				.collect(Collectors.toList());
+	private static Stream<RevCommit> refsToRevCommits(RevWalk walk,
+			List<Ref> refs) {
+		Stream<ObjectId> objIds = refs.stream().map(
+				ref -> firstNonNull(ref.getPeeledObjectId(), ref.getObjectId()));
 		return objectIdsToRevCommits(walk, objIds);
 	}
 
@@ -2087,18 +2088,18 @@ public class UploadPack {
 
 	// Get commits from object ids. If the id is not a commit, ignore it. If the
 	// id doesn't exist, report the missing object in a exception.
-	private static List<RevCommit> objectIdsToRevCommits(RevWalk walk,
-			Iterable<ObjectId> objectIds)
-			throws MissingObjectException, IOException {
-		List<RevCommit> result = new ArrayList<>();
-		for (ObjectId objectId : objectIds) {
+	private static Stream<RevCommit> objectIdsToRevCommits(final RevWalk walk,
+			Stream<ObjectId> objectIds) {
+		return objectIds.flatMap(objectId -> {
 			try {
-				result.add(walk.parseCommit(objectId));
-			} catch (IncorrectObjectTypeException e) {
-				continue;
+				return Stream.of(walk.parseCommit(objectId));
+			} catch (IncorrectObjectTypeException | MissingObjectException e) {
+				return Stream.of();
+			} catch (IOException e) {
+				// TODO(ifrade): This should be a runtime exception...
+				return Stream.of();
 			}
-		}
-		return result;
+		});
 	}
 
 
