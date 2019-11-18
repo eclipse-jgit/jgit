@@ -497,6 +497,20 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * If the ref database does not support fast inverse queries, it may
+	 * be advantageous to build a complete SHA1 to ref map in advance for
+	 * multiple uses. To let applications decide on this decision,
+	 * this function indicates whether the inverse map is available.
+	 *
+	 * @return whether this RefDatabase supports fast inverse ref queries.
+	 * @throws IOException on I/O problems.
+	 * @since 5.6
+	 */
+	public boolean hasFastTipsWithSha1() throws IOException {
+		return false;
+	}
+
+	/**
 	 * Check if any refs exist in the ref database.
 	 * <p>
 	 * This uses the same definition of refs as {@link #getRefs()}. In
