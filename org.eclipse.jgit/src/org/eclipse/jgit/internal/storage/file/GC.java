@@ -257,6 +257,7 @@ public class GC {
 		}
 
 		Callable<Collection<PackFile>> gcTask = () -> {
+			repo.incrementOpen();
 			try {
 				Collection<PackFile> newPacks = doGc();
 				if (automatic && tooManyLooseObjects()) {
@@ -277,7 +278,12 @@ public class GC {
 					LOG.error(e2.getMessage(), e2);
 				}
 			} finally {
-				gcLog.unlock();
+				try {
+					gcLog.unlock();
+				} finally {
+					// Match the incrementOpen().
+					repo.close();
+				}
 			}
 			return Collections.emptyList();
 		};
