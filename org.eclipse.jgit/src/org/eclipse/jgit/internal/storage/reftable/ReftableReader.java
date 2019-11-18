@@ -128,6 +128,16 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return blockSize;
 	}
 
+	@Override
+	public boolean hasObjectMap() throws IOException {
+		if (objIndexPosition == -1) {
+			readFileFooter();
+		}
+
+		// We have the map, we have no refs, or the table is small.
+		return (objPosition > 0 || refEnd == 24 || refIndexPosition == 0);
+	}
+
 	/**
 	 * Get the minimum update index for log entries that appear in this
 	 * reftable.
