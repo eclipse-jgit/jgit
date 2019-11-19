@@ -45,8 +45,10 @@ package org.eclipse.jgit.revwalk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -88,7 +90,7 @@ class BitmappedReachabilityChecker implements ReachabilityChecker {
 	 */
 	@Override
 	public Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
-			Collection<RevCommit> starters) throws MissingObjectException,
+			Stream<RevCommit> starters) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		BitmapCalculator calculator = new BitmapCalculator(walk);
 
@@ -105,8 +107,9 @@ class BitmappedReachabilityChecker implements ReachabilityChecker {
 		 * walk.reset() could start to take too much time.
 		 */
 		List<RevCommit> remainingTargets = new ArrayList<>(targets);
-		for (RevCommit starter : starters) {
-			BitmapBuilder starterBitmap = calculator.getBitmap(starter,
+		Iterator<RevCommit> it = starters.iterator();
+		while (it.hasNext()) {
+			BitmapBuilder starterBitmap = calculator.getBitmap(it.next(),
 					NullProgressMonitor.INSTANCE);
 			remainingTargets.removeIf(starterBitmap::contains);
 			if (remainingTargets.isEmpty()) {
