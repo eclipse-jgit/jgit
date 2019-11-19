@@ -1210,7 +1210,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
 	 */
-	private void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
