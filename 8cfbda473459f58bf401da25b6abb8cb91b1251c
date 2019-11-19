@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf15aabe_4757d00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2046,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-19T22:52:12Z",
+      "side": 1,
+      "message": "I don\u0027t think Java streams are made to \"fork\" like you do here (calling \"filter\" on visibleRefs thrice). Maybe take in a collection, and call \"stream\" multiple times on it?",
+      "range": {
+        "startLine": 2046,
+        "startChar": 15,
+        "endLine": 2046,
+        "endChar": 26
+      },
+      "revId": "8cfbda473459f58bf401da25b6abb8cb91b1251c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "568278c8_6a1052c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-19T22:52:12Z",
+      "side": 1,
+      "message": "Add a note somewhere why it\u0027s OK to return null here instead of throwing an exception - maybe something along the lines of it being OK if reachability check tips are missing.",
+      "range": {
+        "startLine": 2075,
+        "startChar": 10,
+        "endLine": 2075,
+        "endChar": 14
+      },
+      "revId": "8cfbda473459f58bf401da25b6abb8cb91b1251c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
