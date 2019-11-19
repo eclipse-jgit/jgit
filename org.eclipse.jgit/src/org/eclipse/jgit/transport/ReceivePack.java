@@ -1167,7 +1167,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 */
-	private void init(final InputStream input, final OutputStream output,
+	protected void init(final InputStream input, final OutputStream output,
 			final OutputStream messages) {
 		origOut = output;
 		rawIn = input;
@@ -1210,7 +1210,7 @@ public class ReceivePack {
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
 	 */
-	private void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
