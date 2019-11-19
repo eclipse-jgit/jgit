@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb896edd_7d52dcab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-19T22:47:24Z",
+      "side": 1,
+      "message": "You seem to have undone the spelling correction.",
+      "range": {
+        "startLine": 2072,
+        "startChar": 25,
+        "endLine": 2072,
+        "endChar": 36
+      },
+      "revId": "3f5be33710303d65ec4f4584b45c97ee3429dd3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
