@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -1038,7 +1039,7 @@ public class UploadPack {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 			else if (requestValidator instanceof AnyRequestValidator)
-				advertised = Collections.emptySet();
+				advertised = emptySet();
 			else
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
@@ -1051,13 +1052,13 @@ public class UploadPack {
 
 			wantIds = req.getWantIds();
 
-			if (req.getWantIds().isEmpty()) {
-				preUploadHook.onBeginNegotiateRound(this, req.getWantIds(), 0);
-				preUploadHook.onEndNegotiateRound(this, req.getWantIds(), 0, 0,
+			if (wantIds.isEmpty()) {
+				preUploadHook.onBeginNegotiateRound(this, emptySet(), 0);
+				preUploadHook.onEndNegotiateRound(this, emptySet(), 0, 0,
 						false);
 				return;
 			}
-			accumulator.wants = req.getWantIds().size();
+			accumulator.wants = wantIds.size();
 
 			if (req.getClientCapabilities().contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
@@ -1166,7 +1167,7 @@ public class UploadPack {
 		if (requestValidator instanceof TipRequestValidator ||
 				requestValidator instanceof ReachableCommitTipRequestValidator ||
 				requestValidator instanceof AnyRequestValidator) {
-			advertised = Collections.emptySet();
+			advertised = emptySet();
 		} else {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
@@ -1195,9 +1196,8 @@ public class UploadPack {
 		}
 
 		Map<String, ObjectId> wantedRefs = wantedRefs(req);
-		// TODO(ifrade): Avoid mutating the parsed request.
-		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
+		wantIds.addAll(wantedRefs.values());
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1402,7 +1402,7 @@ public class UploadPack {
 			depthWalk.setDeepenSince(req.getDeepenSince());
 
 			// Find all the commits which will be shallow
-			for (ObjectId o : req.getWantIds()) {
+			for (ObjectId o : wantIds) {
 				try {
 					depthWalk.markRoot(depthWalk.parseCommit(o));
 				} catch (IncorrectObjectTypeException notCommit) {
@@ -1709,7 +1709,7 @@ public class UploadPack {
 	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
-		if (wantAll.isEmpty() && !wantIds.isEmpty())
+		if (wantAll.isEmpty())
 			parseWants();
 		if (peerHas.isEmpty())
 			return last;
@@ -1833,7 +1833,6 @@ public class UploadPack {
 						want(obj);
 				}
 			}
-			wantIds.clear();
 		} catch (MissingObjectException notFound) {
 			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		} finally {
@@ -2231,11 +2230,7 @@ public class UploadPack {
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
 			List<ObjectId> deepenNots) throws IOException {
-		if (wantAll.isEmpty()) {
-			preUploadHook.onSendPack(this, wantIds, commonBase);
-		} else {
-			preUploadHook.onSendPack(this, wantAll, commonBase);
-		}
+		preUploadHook.onSendPack(this, wantAll, commonBase);
 		msgOut.flush();
 
 		PackConfig cfg = packConfig;
@@ -2295,7 +2290,7 @@ public class UploadPack {
 			}
 
 			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase,
+				pw.preparePack(pm, emptySet(), commonBase,
 						req.getClientShallowCommits());
 			} else {
 				walk.reset();
@@ -2315,10 +2310,7 @@ public class UploadPack {
 					}
 
 					// If the object was already requested, skip it.
-					if (wantAll.isEmpty()) {
-						if (wantIds.contains(objectId))
-							continue;
-					} else {
+					if (!wantAll.isEmpty()) {
 						RevObject obj = rw.lookupOrNull(objectId);
 						if (obj != null && obj.has(WANT))
 							continue;
