@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98e475a6_91deb1a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2019-11-19T23:26:41Z",
+      "side": 1,
+      "message": "Maybe:\nFilter that collects all previously visited commits into a bitmap, and that uses a repo\u0027s bitmaps to short-circuit the walk whenever possible.\n\nCurrent progress can be queried with isReachable.",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "7faca51b17c8ce92bc58d96724cc2786c3f19ad0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
