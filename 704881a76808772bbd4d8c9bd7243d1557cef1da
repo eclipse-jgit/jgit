@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7e160bc_2fb1886a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2261,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-11-19T18:38:37Z",
+      "side": 1,
+      "message": "it looks like we can delete it actually, as walk with no wants makes no sense",
+      "range": {
+        "startLine": 2260,
+        "startChar": 4,
+        "endLine": 2261,
+        "endChar": 37
+      },
+      "revId": "704881a76808772bbd4d8c9bd7243d1557cef1da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
