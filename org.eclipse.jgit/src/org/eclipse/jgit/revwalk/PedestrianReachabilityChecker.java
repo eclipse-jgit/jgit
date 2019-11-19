@@ -44,7 +44,9 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -75,7 +77,7 @@ class PedestrianReachabilityChecker implements ReachabilityChecker {
 
 	@Override
 	public Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
-			Collection<RevCommit> starters)
+			Stream<RevCommit> starters)
 					throws MissingObjectException, IncorrectObjectTypeException,
 					IOException {
 		walk.reset();
@@ -87,8 +89,9 @@ class PedestrianReachabilityChecker implements ReachabilityChecker {
 			walk.markStart(target);
 		}
 
-		for (RevCommit starter : starters) {
-			walk.markUninteresting(starter);
+		Iterator<RevCommit> iterator = starters.iterator();
+		while (iterator.hasNext()) {
+			walk.markUninteresting(iterator.next());
 		}
 
 		return Optional.ofNullable(walk.next());
