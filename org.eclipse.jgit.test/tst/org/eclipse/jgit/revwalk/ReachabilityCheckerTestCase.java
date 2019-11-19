@@ -47,6 +47,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -83,11 +84,11 @@ public abstract class ReachabilityCheckerTestCase
 		ReachabilityChecker checker = getChecker(repo);
 
 		assertReachable("reachable from one tip",
-				checker.areAllReachable(Arrays.asList(a), Arrays.asList(c2)));
+				checker.areAllReachable(Arrays.asList(a), Stream.of(c2)));
 		assertReachable("reachable from another tip",
-				checker.areAllReachable(Arrays.asList(a), Arrays.asList(b2)));
+				checker.areAllReachable(Arrays.asList(a), Stream.of(b2)));
 		assertReachable("reachable from itself",
-				checker.areAllReachable(Arrays.asList(a), Arrays.asList(b2)));
+				checker.areAllReachable(Arrays.asList(a), Stream.of(b2)));
 	}
 
 	@Test
@@ -104,13 +105,13 @@ public abstract class ReachabilityCheckerTestCase
 
 		assertReachable("reachable through one branch",
 				checker.areAllReachable(Arrays.asList(b1),
-						Arrays.asList(merge)));
+						Stream.of(merge)));
 		assertReachable("reachable through another branch",
 				checker.areAllReachable(Arrays.asList(c1),
-						Arrays.asList(merge)));
+						Stream.of(merge)));
 		assertReachable("reachable, before the branching",
 				checker.areAllReachable(Arrays.asList(a),
-						Arrays.asList(merge)));
+						Stream.of(merge)));
 	}
 
 	@Test
@@ -123,7 +124,7 @@ public abstract class ReachabilityCheckerTestCase
 		ReachabilityChecker checker = getChecker(repo);
 
 		assertUnreachable("unreachable from the future",
-				checker.areAllReachable(Arrays.asList(b2), Arrays.asList(b1)));
+				checker.areAllReachable(Arrays.asList(b2), Stream.of(b1)));
 	}
 
 	@Test
@@ -137,7 +138,7 @@ public abstract class ReachabilityCheckerTestCase
 		ReachabilityChecker checker = getChecker(repo);
 
 		assertUnreachable("unreachable from different branch",
-				checker.areAllReachable(Arrays.asList(c1), Arrays.asList(b2)));
+				checker.areAllReachable(Arrays.asList(c1), Stream.of(b2)));
 	}
 
 	@Test
@@ -152,7 +153,7 @@ public abstract class ReachabilityCheckerTestCase
 		ReachabilityChecker checker = getChecker(repo);
 
 		assertReachable("reachable with long chain in the middle", checker
-				.areAllReachable(Arrays.asList(root), Arrays.asList(head)));
+				.areAllReachable(Arrays.asList(root), Stream.of(head)));
 	}
 
 	private static void assertReachable(String msg,
@@ -164,5 +165,4 @@ public abstract class ReachabilityCheckerTestCase
 			Optional<RevCommit> result) {
 		assertTrue(msg, result.isPresent());
 	}
-
 }
