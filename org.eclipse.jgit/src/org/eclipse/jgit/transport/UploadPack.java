@@ -87,6 +87,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -2025,11 +2026,13 @@ public class UploadPack {
 			ReachabilityChecker reachabilityChecker = walk
 					.createReachabilityChecker();
 
-			List<Ref> sortedVisibleRefs = moreImportantRefsFirst(visibleRefs);
-			List<RevCommit> reachableCommits = refsToRevCommits(walk,
-					sortedVisibleRefs);
+			Stream<RevCommit> reachableCommits = importantRefsFirst(visibleRefs)
+					.map(UploadPack::refToObjectId)
+					.map(objId -> objectIdToRevCommit(walk, objId))
+					.filter(Objects::nonNull); // Ignore missing tips
+
 			Optional<RevCommit> unreachable = reachabilityChecker
-					.areAllReachable(wantsAsCommits, reachableCommits.stream());
+					.areAllReachable(wantsAsCommits, reachableCommits);
 			if (unreachable.isPresent()) {
 				throw new WantNotValidException(unreachable.get());
 			}
@@ -2039,7 +2042,7 @@ public class UploadPack {
 		}
 	}
 
-	private static List<Ref> moreImportantRefsFirst(
+	static Stream<Ref> importantRefsFirst(
 			Collection<Ref> visibleRefs) {
 		Predicate<Ref> startsWithRefsHeads = ref -> ref.getName()
 				.startsWith(Constants.R_HEADS);
@@ -2048,29 +2051,39 @@ public class UploadPack {
 		Predicate<Ref> allOther = ref -> !startsWithRefsHeads.test(ref)
 				&& !startsWithRefsTags.test(ref);
 
-		List<Ref> sorted = new ArrayList<>(visibleRefs.size());
-		sorted.addAll(filterRefByPredicate(visibleRefs, startsWithRefsHeads));
-		sorted.addAll(filterRefByPredicate(visibleRefs, startsWithRefsTags));
-		sorted.addAll(filterRefByPredicate(visibleRefs, allOther));
-
-		return sorted;
+		return Stream.concat(
+				visibleRefs.stream().filter(startsWithRefsHeads),
+				Stream.concat(
+						visibleRefs.stream().filter(startsWithRefsTags),
+						visibleRefs.stream().filter(allOther)));
 	}
 
-	private static List<Ref> filterRefByPredicate(Collection<Ref> refs,
-			Predicate<Ref> predicate) {
-		return refs.stream().filter(predicate).collect(Collectors.toList());
+	private static ObjectId refToObjectId(Ref ref) {
+		return ref.getObjectId() != null ? ref.getObjectId()
+				: ref.getPeeledObjectId();
 	}
 
-	private static List<RevCommit> refsToRevCommits(RevWalk walk,
-			List<Ref> refs) throws MissingObjectException, IOException {
-		List<ObjectId> objIds = refs.stream().map(
-				ref -> firstNonNull(ref.getPeeledObjectId(), ref.getObjectId()))
-				.collect(Collectors.toList());
-		return objectIdsToRevCommits(walk, objIds);
-	}
+	/**
+	 * Translate an object id to a RevCommit.
+	 *
+	 * @param walk
+	 *            walk on the relevant object storae
+	 * @param objectId
+	 *            Object Id
+	 * @return RevCommit instance or null if the object is missing
+	 */
+	@Nullable
+	private static RevCommit objectIdToRevCommit(RevWalk walk,
+			ObjectId objectId) {
+		if (objectId == null) {
+			return null;
+		}
 
-	private static ObjectId firstNonNull(ObjectId one, ObjectId two) {
-		return one != null ? one : two;
+		try {
+			return walk.parseCommit(objectId);
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 	// Resolve the ObjectIds into RevObjects. Any missing object raises an
@@ -2084,23 +2097,6 @@ public class UploadPack {
 		}
 		return result;
 	}
-
-	// Get commits from object ids. If the id is not a commit, ignore it. If the
-	// id doesn't exist, report the missing object in a exception.
-	private static List<RevCommit> objectIdsToRevCommits(RevWalk walk,
-			Iterable<ObjectId> objectIds)
-			throws MissingObjectException, IOException {
-		List<RevCommit> result = new ArrayList<>();
-		for (ObjectId objectId : objectIds) {
-			try {
-				result.add(walk.parseCommit(objectId));
-			} catch (IncorrectObjectTypeException e) {
-				continue;
-			}
-		}
-		return result;
-	}
-
 
 	private void addCommonBase(RevObject o) {
 		if (!o.has(COMMON)) {
