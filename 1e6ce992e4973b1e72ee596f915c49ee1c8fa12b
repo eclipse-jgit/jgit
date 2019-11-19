@@ -22,6 +22,30 @@
       "revId": "1e6ce992e4973b1e72ee596f915c49ee1c8fa12b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebb1e734_0e04b045",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-19T21:05:09Z",
+      "side": 1,
+      "message": "Documenting filters is an art on its own.\n\nThis filter emits commits that were not bitmap-reachable from anything visited before. Or in other words, commits that \"add\" something (themselves or their bitmap) to the \"reached\" bitmap.",
+      "parentUuid": "d95491a3_b37558fe",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 33
+      },
+      "revId": "1e6ce992e4973b1e72ee596f915c49ee1c8fa12b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
