@@ -22,6 +22,53 @@
       "revId": "d22fc6dec14101adc6a8ef16879ea5100aaef9ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966aec1a_79b3eeba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-20T01:53:34Z",
+      "side": 1,
+      "message": "I\u0027d leave the subject as it is, but mention the partial revert in the commit message body, i.e.\n\n This partially reverts commit abcde....",
+      "parentUuid": "cbd1b9f9_0352c400",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "d22fc6dec14101adc6a8ef16879ea5100aaef9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "668fdc22_0bc5e0ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-20T01:53:34Z",
+      "side": 1,
+      "message": "Subclasses where?  JGit was building standalone and in the gerrit tree with those methods private, so I assume you mean they\u0027re used in some other project?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "d22fc6dec14101adc6a8ef16879ea5100aaef9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
