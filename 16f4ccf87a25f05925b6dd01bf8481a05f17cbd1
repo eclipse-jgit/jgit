@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f869eb24_9ddfb885",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-20T00:55:41Z",
+      "side": 1,
+      "message": "Why does a repository converted to reftable contain .git/HEAD ?\nShouldn\u0027t that be deleted by convertToReftable() ?",
+      "revId": "16f4ccf87a25f05925b6dd01bf8481a05f17cbd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
