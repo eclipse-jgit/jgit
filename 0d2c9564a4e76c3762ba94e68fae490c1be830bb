@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbec0c85_d3249424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-20T02:24:45Z",
+      "side": 1,
+      "message": "Thanks.\n\nThis one-liner doesn\u0027t describe what this change does. It tells me it makes isGitRepository better, but it doesn\u0027t tell me what about that method becomes better. How about something like:\n\n reftable: Handle symrefs in conversion and repository detection code\n\nand a short description of what benefits I\u0027ll see by applying this change in the commit message body?",
+      "revId": "0d2c9564a4e76c3762ba94e68fae490c1be830bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
