@@ -123,6 +123,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void additionalRefsAreRemoved() {
+	 	assertFalse(new File(db.getDirectory(), Constants.HEAD).exists());
+	}
+
+	@Test
 	public void testCompactFully() throws Exception {
 		ObjectId c1 = db.resolve("master^^");
 		ObjectId c2 = db.resolve("master^");

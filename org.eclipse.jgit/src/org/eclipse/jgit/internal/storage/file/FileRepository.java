@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -740,6 +742,10 @@ public class FileRepository extends Repository {
 		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
 		File logsDir = new File(getDirectory(), Constants.LOGS);
 
+
+		List<String> additional = getRefDatabase().getAdditionalRefs().stream()
+				.map(Ref::getName).collect(toList());
+		additional.add(Constants.HEAD);
 		if (backup) {
 			FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
 			if (packedRefs.exists()) {
@@ -750,10 +756,17 @@ public class FileRepository extends Repository {
 				FileUtils.rename(logsDir,
 						new File(getDirectory(), Constants.LOGS + ".old"));
 			}
+			for (String r : additional) {
+				FileUtils.rename(new File(getDirectory(), r),
+					new File(getDirectory(), r + ".old"));
+			}
 		} else {
 			packedRefs.delete(); // ignore return value.
 			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
 			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
+			for (String r : additional) {
+				new File(getDirectory(), r).delete();
+			}
 		}
 
 		// Put new data.
