@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9afe0142_406c4d3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-20T04:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d58cde2_1a22553b",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 16
+      },
+      "revId": "8007ed89c81160c89ad30332bef57d11e986d8df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd06e57a_58327a66",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "8007ed89c81160c89ad30332bef57d11e986d8df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a806f5c0_d5fade1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-11-20T04:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd06e57a_58327a66",
+      "range": {
+        "startLine": 503,
+        "startChar": 28,
+        "endLine": 503,
+        "endChar": 30
+      },
+      "revId": "8007ed89c81160c89ad30332bef57d11e986d8df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
