@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69aceb14_33b4c59b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2046,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-20T20:49:50Z",
+      "side": 1,
+      "message": "Indeed. I got overexcited with the Streams. Fixed (and tested).",
+      "parentUuid": "bf15aabe_4757d00a",
+      "range": {
+        "startLine": 2046,
+        "startChar": 15,
+        "endLine": 2046,
+        "endChar": 26
+      },
+      "revId": "8cfbda473459f58bf401da25b6abb8cb91b1251c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "568278c8_6a1052c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "8cfbda473459f58bf401da25b6abb8cb91b1251c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0893dad_36a8ed20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-20T20:49:50Z",
+      "side": 1,
+      "message": "Added javadoc in this function, @nullable tag and an inline comment on the stream.",
+      "parentUuid": "568278c8_6a1052c7",
+      "range": {
+        "startLine": 2075,
+        "startChar": 10,
+        "endLine": 2075,
+        "endChar": 14
+      },
+      "revId": "8cfbda473459f58bf401da25b6abb8cb91b1251c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
