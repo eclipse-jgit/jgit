@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "89c8125f_83117ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-20T21:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966aec1a_79b3eeba",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "d22fc6dec14101adc6a8ef16879ea5100aaef9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "668fdc22_0bc5e0ae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2019-11-20T01:53:34Z",
       "side": 1,
       "message": "Subclasses where?  JGit was building standalone and in the gerrit tree with those methods private, so I assume you mean they\u0027re used in some other project?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "d22fc6dec14101adc6a8ef16879ea5100aaef9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad61c8bb_4f3d59b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-20T21:14:45Z",
+      "side": 1,
+      "message": "Correct. I added \"out-of-tree\" subclasses to the message. JGit by itself is fine with the private methods.\n\nThis is the quick fix. Maybe we could refactor ReceivePack later to avoid these visibility tweaks.",
+      "parentUuid": "668fdc22_0bc5e0ae",
       "range": {
         "startLine": 11,
         "startChar": 35,
