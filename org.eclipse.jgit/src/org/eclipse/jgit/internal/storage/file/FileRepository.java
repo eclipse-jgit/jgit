@@ -59,6 +59,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import java.util.stream.Collectors;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -740,6 +741,10 @@ public class FileRepository extends Repository {
 		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
 		File logsDir = new File(getDirectory(), Constants.LOGS);
 
+
+		List<String> additional = this.getRefDatabase().getAdditionalRefs().stream().map(r -> r.getName()).collect(
+			Collectors.toList());
+		additional.add(Constants.HEAD);
 		if (backup) {
 			FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
 			if (packedRefs.exists()) {
@@ -750,10 +755,17 @@ public class FileRepository extends Repository {
 				FileUtils.rename(logsDir,
 						new File(getDirectory(), Constants.LOGS + ".old"));
 			}
+			for (String r : additional) {
+				FileUtils.rename(new File(getDirectory(), r),
+					new File(getDirectory(), r + ".old"));
+			}
 		} else {
 			packedRefs.delete(); // ignore return value.
 			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
 			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
+			for (String r : additional) {
+				new File(getDirectory(), r).delete();
+			}
 		}
 
 		// Put new data.
