@@ -750,10 +750,17 @@ public class FileRepository extends Repository {
 				FileUtils.rename(logsDir,
 						new File(getDirectory(), Constants.LOGS + ".old"));
 			}
+			for (Ref r : this.getRefDatabase().getAdditionalRefs()) {
+				FileUtils.rename(new File(getDirectory(), r.getName()),
+					new File(getDirectory(), r.getName() + ".old"));
+			}
 		} else {
 			packedRefs.delete(); // ignore return value.
 			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
 			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
+			for (Ref r : this.getRefDatabase().getAdditionalRefs()) {
+				new File(getDirectory(), r.getName()).delete();
+			}
 		}
 
 		// Put new data.
