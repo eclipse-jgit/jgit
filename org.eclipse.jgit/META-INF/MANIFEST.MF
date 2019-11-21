@@ -140,6 +140,7 @@ Export-Package: org.eclipse.jgit.annotations;version="5.8.0",
    org.eclipse.jgit.storage.pack",
  org.eclipse.jgit.transport.http;version="5.8.0";uses:="javax.net.ssl",
  org.eclipse.jgit.transport.resolver;version="5.8.0";uses:="org.eclipse.jgit.lib,org.eclipse.jgit.transport",
+ org.eclipse.jgit.transport.internal,
  org.eclipse.jgit.treewalk;version="5.8.0";
   uses:="org.eclipse.jgit.lib,
    org.eclipse.jgit.revwalk,
