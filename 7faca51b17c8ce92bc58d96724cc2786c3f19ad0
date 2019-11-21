@@ -22,6 +22,30 @@
       "revId": "7faca51b17c8ce92bc58d96724cc2786c3f19ad0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd64278_66378177",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedReachabilityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-21T17:29:08Z",
+      "side": 1,
+      "message": "I updated the description. Note that it collects no only the previously visited, but also everything reachable from them.",
+      "parentUuid": "98e475a6_91deb1a2",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "7faca51b17c8ce92bc58d96724cc2786c3f19ad0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
