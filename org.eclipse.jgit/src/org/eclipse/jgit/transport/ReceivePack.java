@@ -149,7 +149,7 @@ public class ReceivePack {
 	final Repository db;
 
 	/** Revision traversal support over {@link #db}. */
-	private final RevWalk walk;
+	final RevWalk walk;
 
 	/**
 	 * Is the client connection a bi-directional socket or pipe?
