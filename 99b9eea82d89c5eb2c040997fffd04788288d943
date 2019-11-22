@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45bc4965_774d271b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "\"Checks that a received pack only depends on objects which are reachable from a defined set of references.\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da5f9135_520e807a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "nit: s/baseReceivePack/receivePack/ Both here and in the implementation class.\nDescribe this parameter.",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "148b1c20_ae37b244",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "IOException thrown everywhere is the anti-pattern that JGit has fallen into. Is there room to use only more specific exceptions? At a minimum, following what ObjectWalk.nextObject documents makes sense.",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8ecc200_27f85845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "s/if/If/",
+      "range": {
+        "startLine": 32,
+        "startChar": 66,
+        "endLine": 32,
+        "endChar": 68
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fedcaeee_d8b20d16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "s/are/outside of the received pack are/",
+      "range": {
+        "startLine": 34,
+        "startChar": 20,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b649f5c_95085845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "nit: probably fine to only march the progress monitor once per loop iteration",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 22
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f628ff6c_225e5eff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "If PackParser ever changed to return a copy of the object IDs this would become inefficient, so probably worthwhile pulling this into a local variable above the while loop.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 63
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343f7119_48796aff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "Move this above checkObjects() for better readability",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 48
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd6bcf7a_8a39f9e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "If PackParser ever changed to return a copy of the object IDs this would become inefficient, so probably worthwhile pulling this into a local variable above the while loop.",
+      "range": {
+        "startLine": 180,
+        "startChar": 9,
+        "endLine": 180,
+        "endChar": 49
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1cd5e79_c265213c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-22T22:19:35Z",
+      "side": 1,
+      "message": "The conservative thing to do is not publish public API until we know it really will be useful to the community. Moving ConnectivityChecker into org.eclipse.jgit.internal.transport and using a JGit configuration value to override the default connectivity checker would do that.\n\nI\u0027m actually hopeful that our improved algorithm will never be more than a few percent slower than the current implementation, even in the worst case. If so we can make it the new default, and we will regret having added public API.",
+      "range": {
+        "startLine": 1026,
+        "startChar": 0,
+        "endLine": 1026,
+        "endChar": 36
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
