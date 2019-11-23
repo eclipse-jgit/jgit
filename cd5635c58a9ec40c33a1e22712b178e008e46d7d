@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "383f743b_0bd1eaae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "If we avoid public external API these ConnectivityChecker implementations can be in jgit.internal too.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3d46fda_5bca23e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "s/try to do/tries to/",
+      "range": {
+        "startLine": 24,
+        "startChar": 48,
+        "endLine": 24,
+        "endChar": 57
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c916e34b_e0384e39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "s/fail/fails/",
+      "range": {
+        "startLine": 25,
+        "startChar": 33,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7b189e_c0a936f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "s/checking/pm/",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ec54b8a_c555a72c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "I can see how this could do nearly 2x the amount of revwalking if checking connectivity with the limited set of haves fails. We can fix that by:\n1) Making sure it never fails\n2) Reusing the ObjectWalk or ObjectWalk state between the two checkConnectivity() invocations.\n\nFor #1, I we just need to make sure expectedParents is empty (so we execute the fallback check will all advertised haves) unless we know we have added parent commits that are not provided by the new receive pack. To do that, extractAdvertisedParentCommits() should walk back the parent commits until it sees commits that are not in PackParser.getNewObjectIds(). That could become expensive if this is a repository merge (like pushing all of Blink\u0027s history into the Chromium repository), so it can limit that walk to a reasonable depth (like a chain of 20 commits all in the new receive pack) and  return an empty set if the receive pack holds too much history.\n\nThere are only a few classes of topologies that we need to handle:\n1) Pushing a single new commit on top of an existing branch (handled here with the ReceiveCommand parsing)\n2) Pushing a chain of new commits on top of an existing branch (handled here with the ReceiveCommand parsing)\n3) Pushing a single new commit based on an existing branch to a new branch (handled here via extractAdvertisedParentCommits)\n4) Pushing a chain of new commits based on an existing branch to a new branch (not yet handled here, a common Gerrit case)\n5) Pushing a single new commit that is unrelated to anything else (new Gerrit changes/NN/NNNN/meta branch creation; this needs to be handled more optimally--no commits in the original repo need to be marked as uninteresting. Since the meta commit is always pushed atomically with a new branch creation I think we end up being fine in practice)\n6) Pushing a big chain of commits that are unrelated to anything else into a new branch (precursor to merging repos by pushing to a new branch; rare enough that falling back to the non-optimized case is fine)\n7) Pushing a big chain of commits that are unrelated to anything else as a merge into an existing branch (extractAdvertisedParentCommits will extract the parent in the existing object database so I think this change already handles this case optimally)\n\nI can\u0027t think of any others.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 0
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6299ac48_81d9a665",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IterativeConnectivityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-11-23T00:05:44Z",
+      "side": 1,
+      "message": "No need for \"this.\"",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "cd5635c58a9ec40c33a1e22712b178e008e46d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
