@@ -462,7 +462,9 @@ public class UploadPackTest {
 		assertThat(lines, containsInAnyOrder("ls-refs", "fetch", "server-option"));
 	}
 
-	private void checkUnadvertisedIfUnallowed(String fetchCapability) throws Exception {
+	private void checkUnadvertisedIfUnallowed(String configSection,
+			String configName, String fetchCapability) throws Exception {
+		server.getConfig().setBoolean(configSection, null, configName, false);
 		ByteArrayInputStream recvStream =
 				uploadPackV2Setup(null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
@@ -473,9 +475,9 @@ public class UploadPackTest {
 		String line;
 		while (!PacketLineIn.isEnd((line = pckIn.readString()))) {
 			if (line.startsWith("fetch=")) {
-				assertThat(
-					Arrays.asList(line.substring(6).split(" ")),
-					hasItems("shallow"));
+				List<String> fetchItems = Arrays.asList(line.substring(6).split(" "));
+				assertThat(fetchItems, hasItems("shallow"));
+				assertFalse(fetchItems.contains(fetchCapability));
 				lines.add("fetch");
 			} else {
 				lines.add(line);
@@ -487,7 +489,7 @@ public class UploadPackTest {
 	@Test
 	public void testV2CapabilitiesAllowFilter() throws Exception {
 		checkAdvertisedIfAllowed("uploadpack", "allowfilter", "filter");
-		checkUnadvertisedIfUnallowed("filter");
+		checkUnadvertisedIfUnallowed("uploadpack", "allowfilter", "filter");
 	}
 
 	@Test
@@ -497,7 +499,8 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
-		checkUnadvertisedIfUnallowed("ref-in-want");
+		checkUnadvertisedIfUnallowed("uploadpack", "allowrefinwant",
+				"ref-in-want");
 	}
 
 	@Test
@@ -506,7 +509,8 @@ public class UploadPackTest {
 				true);
 		checkAdvertisedIfAllowed("uploadpack", "advertisesidebandall",
 				"sideband-all");
-		checkUnadvertisedIfUnallowed("sideband-all");
+		checkUnadvertisedIfUnallowed("uploadpack", "advertisesidebandall",
+				"sideband-all");
 	}
 
 	@Test
