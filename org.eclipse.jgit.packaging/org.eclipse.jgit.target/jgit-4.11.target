@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.11" sequenceNumber="1573254399">
+<target name="jgit-4.11" sequenceNumber="1574722378">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.22.v20191022"/>
@@ -57,12 +57,12 @@
       <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
-      <unit id="org.bouncycastle.bcpg" version="1.64.0.v20191104-1935"/>
-      <unit id="org.bouncycastle.bcpg.source" version="1.64.0.v20191104-1935"/>
-      <unit id="org.bouncycastle.bcpkix" version="1.64.0.v20191104-1935"/>
-      <unit id="org.bouncycastle.bcpkix.source" version="1.64.0.v20191104-1935"/>
-      <unit id="org.bouncycastle.bcprov" version="1.64.0.v20191104-1935"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.64.0.v20191104-1935"/>
+      <unit id="org.bouncycastle.bcpg" version="1.64.0.v20191109-0815"/>
+      <unit id="org.bouncycastle.bcpg.source" version="1.64.0.v20191109-0815"/>
+      <unit id="org.bouncycastle.bcpkix" version="1.64.0.v20191109-0815"/>
+      <unit id="org.bouncycastle.bcpkix.source" version="1.64.0.v20191109-0815"/>
+      <unit id="org.bouncycastle.bcprov" version="1.64.0.v20191109-0815"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.64.0.v20191109-0815"/>
       <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
       <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
@@ -82,7 +82,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20191106190530/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20191118194249/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
