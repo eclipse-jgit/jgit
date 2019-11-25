@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ed58aee_cdffafe4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-25T19:08:10Z",
+      "side": 1,
+      "message": "Can this get a comment (either implementation comment or javadoc) mentioning that there\u0027s an out-of-tree overrider?\n\nEven better if we can say a little about the contract for overriders.",
+      "revId": "cbbae8b7c93b9cec2505e2ca32ecca35fc1ba033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f659449b_1635acb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-25T19:08:10Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "cbbae8b7c93b9cec2505e2ca32ecca35fc1ba033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
