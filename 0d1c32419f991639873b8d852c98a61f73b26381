@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "ae9431a7_f61d9670",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-25T23:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9de3c03_c1c446c2",
+      "range": {
+        "startLine": 745,
+        "startChar": 28,
+        "endLine": 745,
+        "endChar": 33
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d74a1d_49f9f30d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-25T23:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fdad5e1_a7ecb87c",
+      "range": {
+        "startLine": 745,
+        "startChar": 83,
+        "endLine": 745,
+        "endChar": 99
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab60c040_c3e7ad40",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-11-25T00:36:42Z",
       "side": 1,
       "message": "Import this as static",
+      "range": {
+        "startLine": 746,
+        "startChar": 3,
+        "endLine": 746,
+        "endChar": 22
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4b638f0_12430655",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-25T23:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab60c040_c3e7ad40",
       "range": {
         "startLine": 746,
         "startChar": 3,
