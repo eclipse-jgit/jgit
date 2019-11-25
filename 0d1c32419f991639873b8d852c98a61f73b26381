@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9de3c03_c1c446c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-25T00:36:42Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 745,
+        "startChar": 28,
+        "endLine": 745,
+        "endChar": 33
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fdad5e1_a7ecb87c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-25T00:36:42Z",
+      "side": 1,
+      "message": "Ref::getName",
+      "range": {
+        "startLine": 745,
+        "startChar": 83,
+        "endLine": 745,
+        "endChar": 99
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab60c040_c3e7ad40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-11-25T00:36:42Z",
+      "side": 1,
+      "message": "Import this as static",
+      "range": {
+        "startLine": 746,
+        "startChar": 3,
+        "endLine": 746,
+        "endChar": 22
+      },
+      "revId": "0d1c32419f991639873b8d852c98a61f73b26381",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
