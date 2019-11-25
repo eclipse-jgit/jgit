@@ -24,6 +24,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/revwalk/ReachabilityChecker.java" type="org.eclipse.jgit.revwalk.ReachabilityChecker">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.revwalk.ReachabilityChecker"/>
+                <message_argument value="areAllReachable(Collection&lt;RevCommit&gt;, Stream&lt;RevCommit&gt;)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/storage/pack/PackStatistics.java" type="org.eclipse.jgit.storage.pack.PackStatistics$Accumulator">
         <filter id="336658481">
             <message_arguments>
