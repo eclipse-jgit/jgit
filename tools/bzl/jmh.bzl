@@ -41,6 +41,8 @@
 
 # Definitions to run jmh microbenchmarks
 
+load("@rules_java//java:defs.bzl", "java_binary", "java_plugin")
+
 def jmh_java_benchmarks(name, srcs, deps = [], tags = [], plugins = [], **kwargs):
     """Builds runnable JMH benchmarks.
     This rule builds a runnable target for one or more JMH benchmarks
@@ -48,14 +50,14 @@ def jmh_java_benchmarks(name, srcs, deps = [], tags = [], plugins = [], **kwargs
     except for main_class.
     """
     plugin_name = "_{}_jmh_annotation_processor".format(name)
-    native.java_plugin(
+    java_plugin(
         name = plugin_name,
         deps = ["//lib/jmh:jmh"],
         processor_class = "org.openjdk.jmh.generators.BenchmarkProcessor",
         visibility = ["//visibility:private"],
         tags = tags,
     )
-    native.java_binary(
+    java_binary(
         name = name,
         srcs = srcs,
         main_class = "org.openjdk.jmh.Main",
