@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2507770c_4ad44c3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-26T20:00:26Z",
+      "side": 1,
+      "message": "Is it really needed to pass the whole ReceivePack here? Could we pass just what is needed? (iiuc parser, flag to include blobs, the repo).",
+      "range": {
+        "startLine": 39,
+        "startChar": 47,
+        "endLine": 39,
+        "endChar": 66
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf1aaa0a_b0b03f65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-11-26T20:00:26Z",
+      "side": 1,
+      "message": "Does this class really need to know about receive commands? This should care only about starting objectIds.",
+      "range": {
+        "startLine": 85,
+        "startChar": 7,
+        "endLine": 85,
+        "endChar": 21
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
