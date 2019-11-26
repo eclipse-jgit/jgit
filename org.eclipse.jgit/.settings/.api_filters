@@ -24,6 +24,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/Repository.java" type="org.eclipse.jgit.lib.Repository">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.Repository"/>
+                <message_argument value="incrementOpen()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/revwalk/ReachabilityChecker.java" type="org.eclipse.jgit.revwalk.ReachabilityChecker">
         <filter id="403804204">
             <message_arguments>
