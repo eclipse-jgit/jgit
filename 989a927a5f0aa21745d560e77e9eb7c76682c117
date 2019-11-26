@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0cb301b_ac9fcdcd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackRefSortingForReachabilityTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-11-26T01:38:38Z",
+      "side": 1,
+      "message": "Missing license header (thanks to masayasuzuki for noticing). https://git.eclipse.org/r/153360 to add it.",
+      "revId": "989a927a5f0aa21745d560e77e9eb7c76682c117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
