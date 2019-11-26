@@ -923,9 +923,13 @@ public abstract class Repository implements AutoCloseable {
 
 	/**
 	 * Increment the use counter by one, requiring a matched {@link #close()}.
+	 *
+	 * @return the repository's refcount after incrementing it
+	 *
+	 * @since 6.0
 	 */
-	public void incrementOpen() {
-		useCnt.incrementAndGet();
+	public int incrementOpen() {
+		return useCnt.incrementAndGet();
 	}
 
 	/**
