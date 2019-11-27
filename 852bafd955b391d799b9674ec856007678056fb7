@@ -16,6 +16,24 @@
       "revId": "852bafd955b391d799b9674ec856007678056fb7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21837c9_65c43da0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-11-27T02:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "331e3472_244efd7f",
+      "revId": "852bafd955b391d799b9674ec856007678056fb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
