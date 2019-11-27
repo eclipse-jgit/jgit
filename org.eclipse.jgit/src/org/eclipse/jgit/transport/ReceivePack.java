@@ -1153,6 +1153,9 @@ public class ReceivePack {
 	/**
 	 * Initialize the instance with the given streams.
 	 *
+	 * Visible for out-of-tree subclasses (e.g. tests that need to set the
+	 * streams without going through the {@link #service()} method).
+	 *
 	 * @param input
 	 *            raw input to read client commands and pack data from. Caller
 	 *            must ensure the input is buffered, otherwise read performance
@@ -1167,7 +1170,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 */
-	private void init(final InputStream input, final OutputStream output,
+	protected void init(final InputStream input, final OutputStream output,
 			final OutputStream messages) {
 		origOut = output;
 		rawIn = input;
@@ -1207,10 +1210,15 @@ public class ReceivePack {
 	/**
 	 * Receive a pack from the stream and check connectivity if necessary.
 	 *
+	 * Visible for out-of-tree subclasses. Subclasses overriding this method
+	 * should invoke this implementation, as it alters the instance state (e.g.
+	 * it reads the pack from the input and parses it before running the
+	 * connectivity checks).
+	 *
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
 	 */
-	private void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
