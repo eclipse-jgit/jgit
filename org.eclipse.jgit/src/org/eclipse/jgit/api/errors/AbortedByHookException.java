@@ -67,19 +67,26 @@ public class AbortedByHookException extends GitAPIException {
 	private final int returnCode;
 
 	/**
+	 * The stderr output of the hook.
+	 */
+	private final String hookStdErr;
+
+	/**
 	 * Constructor for AbortedByHookException
 	 *
-	 * @param message
-	 *            The error details.
+	 * @param hookStdErr
+	 *            The error details from the stderr output of the hook
 	 * @param hookName
 	 *            The name of the hook that interrupted the command, must not be
 	 *            null.
 	 * @param returnCode
 	 *            The return code of the hook process that has been run.
 	 */
-	public AbortedByHookException(String message, String hookName,
+	public AbortedByHookException(String hookStdErr, String hookName,
 			int returnCode) {
-		super(message);
+		super(MessageFormat.format(JGitText.get().commandRejectedByHook,
+				hookName, hookStdErr));
+		this.hookStdErr = hookStdErr;
 		this.hookName = hookName;
 		this.returnCode = returnCode;
 	}
@@ -102,10 +109,13 @@ public class AbortedByHookException extends GitAPIException {
 		return returnCode;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public String getMessage() {
-		return MessageFormat.format(JGitText.get().commandRejectedByHook,
-				hookName, super.getMessage());
+	/**
+	 * Get the stderr output of the hook.
+	 *
+	 * @return A string containing the complete stderr output of the hook.
+	 * @since 5.6
+	 */
+	public String getHookStdErr() {
+		return hookStdErr;
 	}
 }
