@@ -145,7 +145,7 @@ public class LfsFactory {
 	}
 
 	/**
-	 * Retrieve a pre-push hook to be applied.
+	 * Retrieve a pre-push hook to be applied using the default error stream.
 	 *
 	 * @param repo
 	 *            the {@link Repository} the hook is applied to.
@@ -156,6 +156,22 @@ public class LfsFactory {
 	public PrePushHook getPrePushHook(Repository repo,
 			PrintStream outputStream) {
 		return null;
+	}
+
+	/**
+	 * Retrieve a pre-push hook to be applied.
+	 *
+	 * @param repo
+	 *            the {@link Repository} the hook is applied to.
+	 * @param outputStream
+	 * @param errorStream
+	 * @return a {@link PrePushHook} implementation or <code>null</code>
+	 * @since 5.6
+	 */
+	@Nullable
+	public PrePushHook getPrePushHook(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
+		return getPrePushHook(repo, outputStream);
 	}
 
 	/**
