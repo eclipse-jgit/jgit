@@ -57,7 +57,8 @@ import org.eclipse.jgit.util.LfsFactory;
 public class Hooks {
 
 	/**
-	 * Create pre-commit hook for the given repository
+	 * Create pre-commit hook for the given repository with the default error
+	 * stream
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
@@ -71,7 +72,25 @@ public class Hooks {
 	}
 
 	/**
-	 * Create post-commit hook for the given repository
+	 * Create pre-commit hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The pre-commit hook for the given repository.
+	 * @since 5.6
+	 */
+	public static PreCommitHook preCommit(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new PreCommitHook(repo, outputStream, errorStream);
+	}
+
+	/**
+	 * Create post-commit hook for the given repository with the default error
+	 * stream
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
@@ -86,7 +105,25 @@ public class Hooks {
 	}
 
 	/**
-	 * Create commit-msg hook for the given repository
+	 * Create post-commit hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The pre-commit hook for the given repository.
+	 * @since 5.6
+	 */
+	public static PostCommitHook postCommit(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new PostCommitHook(repo, outputStream, errorStream);
+	}
+
+	/**
+	 * Create commit-msg hook for the given repository with the default error
+	 * stream
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
@@ -100,7 +137,25 @@ public class Hooks {
 	}
 
 	/**
-	 * Create pre-push hook for the given repository
+	 * Create commit-msg hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The pre-commit hook for the given repository.
+	 * @since 5.6
+	 */
+	public static CommitMsgHook commitMsg(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new CommitMsgHook(repo, outputStream, errorStream);
+	}
+
+	/**
+	 * Create pre-push hook for the given repository with the default error
+	 * stream
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
@@ -126,5 +181,37 @@ public class Hooks {
 			}
 		}
 		return new PrePushHook(repo, outputStream);
+	}
+
+	/**
+	 * Create pre-push hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The pre-push hook for the given repository.
+	 * @since 5.6
+	 */
+	public static PrePushHook prePush(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
+		if (LfsFactory.getInstance().isAvailable()) {
+			PrePushHook hook = LfsFactory.getInstance().getPrePushHook(repo,
+					outputStream, errorStream);
+			if (hook != null) {
+				if (hook.isNativeHookPresent()) {
+					PrintStream ps = outputStream;
+					if (ps == null) {
+						ps = System.out;
+					}
+					ps.println(MessageFormat
+							.format(JGitText.get().lfsHookConflict, repo));
+				}
+				return hook;
+			}
+		}
+		return new PrePushHook(repo, outputStream, errorStream);
 	}
 }

@@ -72,6 +72,9 @@ public class CommitMsgHook extends GitHook<String> {
 
 	/**
 	 * Constructor for CommitMsgHook
+	 * <p>
+	 * This constructor will use the default error stream.
+	 * </p>
 	 *
 	 * @param repo
 	 *            The repository
@@ -81,6 +84,24 @@ public class CommitMsgHook extends GitHook<String> {
 	 */
 	protected CommitMsgHook(Repository repo, PrintStream outputStream) {
 		super(repo, outputStream);
+	}
+
+	/**
+	 * Constructor for CommitMsgHook
+	 *
+	 * @param repo
+	 *            The repository
+	 * @param outputStream
+	 *            The output stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.out}.
+	 * @param errorStream
+	 *            The error stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.err}.
+	 * @since 5.6
+	 */
+	protected CommitMsgHook(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
+		super(repo, outputStream, errorStream);
 	}
 
 	/** {@inheritDoc} */

@@ -107,6 +107,20 @@ public class LfsPrePushHook extends PrePushHook {
 		super(repo, outputStream);
 	}
 
+	/**
+	 * @param repo
+	 *            the repository
+	 * @param outputStream
+	 *            not used by this implementation
+	 * @param errorStream
+	 *            not used by this implementation
+	 * @since 5.6
+	 */
+	public LfsPrePushHook(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
+		super(repo, outputStream, errorStream);
+	}
+
 	@Override
 	public void setRefs(Collection<RemoteRefUpdate> toRefs) {
 		this.refs = toRefs;

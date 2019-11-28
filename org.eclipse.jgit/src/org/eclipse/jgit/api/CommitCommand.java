@@ -143,6 +143,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private HashMap<String, PrintStream> hookOutRedirect = new HashMap<>(3);
 
+	private HashMap<String, PrintStream> hookErrRedirect = new HashMap<>(3);
+
 	private Boolean allowEmpty;
 
 	private Boolean signCommit;
@@ -188,7 +190,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						state.name()));
 
 			if (!noVerify) {
-				Hooks.preCommit(repo, hookOutRedirect.get(PreCommitHook.NAME))
+				Hooks.preCommit(repo, hookOutRedirect.get(PreCommitHook.NAME),
+						hookErrRedirect.get(PreCommitHook.NAME))
 						.call();
 			}
 
@@ -230,7 +233,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (!noVerify) {
 				message = Hooks
 						.commitMsg(repo,
-								hookOutRedirect.get(CommitMsgHook.NAME))
+								hookOutRedirect.get(CommitMsgHook.NAME),
+								hookErrRedirect.get(CommitMsgHook.NAME))
 						.setCommitMessage(message).call();
 			}
 
@@ -311,7 +315,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						repo.writeRevertHead(null);
 					}
 					Hooks.postCommit(repo,
-							hookOutRedirect.get(PostCommitHook.NAME)).call();
+							hookOutRedirect.get(PostCommitHook.NAME),
+							hookErrRedirect.get(PostCommitHook.NAME)).call();
 
 					return revCommit;
 				}
@@ -891,6 +896,23 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the error stream for all hook scripts executed by this command
+	 * (pre-commit, commit-msg, post-commit). If not set it defaults to
+	 * {@code System.err}.
+	 *
+	 * @param hookStdErr
+	 *            the error stream for hook scripts executed by this command
+	 * @return {@code this}
+	 * @since 5.6
+	 */
+	public CommitCommand setHookErrorStream(PrintStream hookStdErr) {
+		setHookErrorStream(PreCommitHook.NAME, hookStdErr);
+		setHookErrorStream(CommitMsgHook.NAME, hookStdErr);
+		setHookErrorStream(PostCommitHook.NAME, hookStdErr);
+		return this;
+	}
+
+	/**
 	 * Set the output stream for a selected hook script executed by this command
 	 * (pre-commit, commit-msg, post-commit). If not set it defaults to
 	 * {@code System.out}.
@@ -912,6 +934,30 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							hookName));
 		}
 		hookOutRedirect.put(hookName, hookStdOut);
+		return this;
+	}
+
+	/**
+	 * Set the error stream for a selected hook script executed by this command
+	 * (pre-commit, commit-msg, post-commit). If not set it defaults to
+	 * {@code System.err}.
+	 *
+	 * @param hookName
+	 *            name of the hook to set the output stream for
+	 * @param hookStdErr
+	 *            the output stream to use for the selected hook
+	 * @return {@code this}
+	 * @since 5.6
+	 */
+	public CommitCommand setHookErrorStream(String hookName,
+			PrintStream hookStdErr) {
+		if (!(PreCommitHook.NAME.equals(hookName)
+				|| CommitMsgHook.NAME.equals(hookName)
+				|| PostCommitHook.NAME.equals(hookName))) {
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().illegalHookName, hookName));
+		}
+		hookErrRedirect.put(hookName, hookStdErr);
 		return this;
 	}
 
