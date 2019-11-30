@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.storage.file.WindowCacheStats;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Before;
@@ -102,8 +103,21 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		checkLimits(cfg);
 
 		final WindowCache cache = WindowCache.getInstance();
-		assertEquals(6, cache.getOpenFiles());
-		assertEquals(17346, cache.getOpenBytes());
+		WindowCacheStats s = cache.getStats();
+		assertEquals(6, s.openFileCount());
+		assertEquals(17346, s.openByteCount());
+		assertEquals(0, s.evictionCount());
+		assertEquals(90, s.hitCount());
+		assertTrue(s.hitRate() > 0.0 && s.hitRate() < 1.0);
+		assertEquals(6, s.loadCount());
+		assertEquals(0, s.loadFailureCount());
+		assertEquals(0, s.loadFailureRate(), 0.001);
+		assertEquals(6, s.loadSuccessCount());
+		assertEquals(6, s.missCount());
+		assertTrue(s.missRate() > 0.0 && s.missRate() < 1.0);
+		assertEquals(96, s.requestCount());
+		assertTrue(s.averageLoadTime() > 0.0);
+		assertTrue(s.totalLoadTime() > 0.0);
 	}
 
 	@Test
@@ -127,10 +141,11 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 	private static void checkLimits(WindowCacheConfig cfg) {
 		final WindowCache cache = WindowCache.getInstance();
-		assertTrue(cache.getOpenFiles() <= cfg.getPackedGitOpenFiles());
-		assertTrue(cache.getOpenBytes() <= cfg.getPackedGitLimit());
-		assertTrue(0 < cache.getOpenFiles());
-		assertTrue(0 < cache.getOpenBytes());
+		WindowCacheStats s = cache.getStats();
+		assertTrue(s.openFileCount() <= cfg.getPackedGitOpenFiles());
+		assertTrue(s.openByteCount() <= cfg.getPackedGitLimit());
+		assertTrue(0 < s.openByteCount());
+		assertTrue(0 < s.openByteCount());
 	}
 
 	private void doCacheTests() throws IOException {
