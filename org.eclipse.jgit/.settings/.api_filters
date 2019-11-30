@@ -45,6 +45,12 @@
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_JMX_SECTION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="CONFIG_FILESYSTEM_SECTION"/>
             </message_arguments>
@@ -75,6 +81,15 @@
             <message_arguments>
                 <message_argument value="4.7.5"/>
                 <message_argument value="getGitsubmodules()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/WindowCacheStats.java" type="org.eclipse.jgit.storage.file.WindowCacheStats">
+        <filter id="337809484">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.file.WindowCacheStats"/>
+                <message_argument value="4"/>
+                <message_argument value="8"/>
             </message_arguments>
         </filter>
     </resource>
@@ -229,6 +244,14 @@
             <message_arguments>
                 <message_argument value="5.1.8"/>
                 <message_argument value="touch(Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/Monitoring.java" type="org.eclipse.jgit.util.Monitoring">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="org.eclipse.jgit.util.Monitoring"/>
             </message_arguments>
         </filter>
     </resource>
