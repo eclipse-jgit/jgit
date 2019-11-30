@@ -48,13 +48,15 @@ import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.storage.file.WindowCacheStats;
 
 /**
  * Caches slices of a {@link org.eclipse.jgit.internal.storage.file.PackFile} in
@@ -124,6 +126,148 @@ import org.eclipse.jgit.storage.file.WindowCacheConfig;
  * other threads.
  */
 public class WindowCache {
+
+	/**
+	 * Accumulates statistics for a cache
+	 */
+	interface Counter {
+		/**
+		 * Record cache hits. Called when cache returns a cached entry.
+		 *
+		 * @param count
+		 *            number of cache hits to record
+		 */
+		void recordHits(int count);
+
+		/**
+		 * Record cache misses. Called when the cache returns an entry which had
+		 * to be loaded.
+		 *
+		 * @param count
+		 *            number of cache misses to record
+		 */
+		void recordMisses(int count);
+
+		/**
+		 * Record a successful load of a cache entry
+		 *
+		 * @param loadTimeNanos
+		 *            time to load a cache entry
+		 */
+		void recordLoadSuccess(long loadTimeNanos);
+
+		/**
+		 * Record a failed load of a cache entry
+		 *
+		 * @param loadTimeNanos
+		 *            time used trying to load a cache entry
+		 */
+		void recordLoadFailure(long loadTimeNanos);
+
+		/**
+		 * Record cache evictions due to the cache evictions strategy
+		 *
+		 * @param count
+		 *            number of evictions to record
+		 */
+		void recordEvictions(int count);
+
+		/**
+		 * Record files opened by cache
+		 *
+		 * @param count
+		 *            delta of number of files opened by cache
+		 */
+		void recordOpenFiles(int count);
+
+		/**
+		 * Record cached bytes
+		 *
+		 * @param count
+		 *            delta of cached bytes
+		 */
+		void recordOpenBytes(int count);
+
+		/**
+		 * Returns a snapshot of this counter's values. Note that this may be an
+		 * inconsistent view, as it may be interleaved with update operations.
+		 *
+		 * @return a snapshot of this counter's values
+		 */
+		@NonNull
+		WindowCacheStats snapshot();
+	}
+
+	static class CounterImpl implements Counter {
+		private final LongAdder hitCount;
+		private final LongAdder missCount;
+		private final LongAdder loadSuccessCount;
+		private final LongAdder loadFailureCount;
+		private final LongAdder totalLoadTime;
+		private final LongAdder evictionCount;
+		private final LongAdder openFileCount;
+		private final LongAdder openByteCount;
+
+		  /**
+		   * Constructs an instance with all counts initialized to zero.
+		   */
+		public CounterImpl() {
+		    hitCount = new LongAdder();
+		    missCount = new LongAdder();
+		    loadSuccessCount = new LongAdder();
+		    loadFailureCount = new LongAdder();
+		    totalLoadTime = new LongAdder();
+		    evictionCount = new LongAdder();
+			openFileCount = new LongAdder();
+			openByteCount = new LongAdder();
+		  }
+
+		@Override
+		public void recordHits(int count) {
+			hitCount.add(count);
+		}
+
+		@Override
+		public void recordMisses(int count) {
+			missCount.add(count);
+		}
+
+		@Override
+		public void recordLoadSuccess(long loadTimeNanos) {
+			loadSuccessCount.increment();
+			totalLoadTime.add(loadTimeNanos);
+		}
+
+		@Override
+		public void recordLoadFailure(long loadTimeNanos) {
+			loadFailureCount.increment();
+			totalLoadTime.add(loadTimeNanos);
+		}
+
+		@Override
+		public void recordEvictions(int count) {
+			evictionCount.add(count);
+		}
+
+		@Override
+		public void recordOpenFiles(int count) {
+			openFileCount.add(count);
+		}
+
+		@Override
+		public void recordOpenBytes(int count) {
+			openByteCount.add(count);
+		}
+
+		@Override
+		public WindowCacheStats snapshot() {
+			return new WindowCacheStats(hitCount.sum(), missCount.sum(),
+					loadSuccessCount.sum(), loadFailureCount.sum(),
+					totalLoadTime.sum(), evictionCount.sum(),
+					openFileCount.sum(), openByteCount.sum());
+		}
+	}
+
 	private static final int bits(int newSize) {
 		if (newSize < 4096)
 			throw new IllegalArgumentException(JGitText.get().invalidWindowSize);
@@ -228,9 +372,7 @@ public class WindowCache {
 
 	private final int windowSize;
 
-	private final AtomicInteger openFiles;
-
-	private final AtomicLong openBytes;
+	private final Counter statsCounter;
 
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -263,8 +405,7 @@ public class WindowCache {
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 
-		openFiles = new AtomicInteger();
-		openBytes = new AtomicLong();
+		statsCounter = new CounterImpl();
 
 		if (maxFiles < 1)
 			throw new IllegalArgumentException(JGitText.get().openFilesMustBeAtLeast1);
@@ -273,17 +414,10 @@ public class WindowCache {
 	}
 
 	/**
-	 * @return the number of open files.
+	 * @return cache statistics for the WindowCache
 	 */
-	public int getOpenFiles() {
-		return openFiles.get();
-	}
-
-	/**
-	 * @return the number of open bytes.
-	 */
-	public long getOpenBytes() {
-		return openBytes.get();
+	public WindowCacheStats getStats() {
+		return statsCounter.snapshot();
 	}
 
 	private int hash(int packHash, long off) {
@@ -292,42 +426,46 @@ public class WindowCache {
 
 	private ByteWindow load(PackFile pack, long offset)
 			throws IOException {
+		long startTime = System.nanoTime();
 		if (pack.beginWindowCache())
-			openFiles.incrementAndGet();
+			statsCounter.recordOpenFiles(1);
 		try {
 			if (mmap)
 				return pack.mmap(offset, windowSize);
-			return pack.read(offset, windowSize);
-		} catch (IOException e) {
+			ByteArrayWindow w = pack.read(offset, windowSize);
+			statsCounter.recordLoadSuccess(System.nanoTime() - startTime);
+			return w;
+		} catch (IOException | RuntimeException | Error e) {
 			close(pack);
+			statsCounter.recordLoadFailure(System.nanoTime() - startTime);
 			throw e;
-		} catch (RuntimeException e) {
-			close(pack);
-			throw e;
-		} catch (Error e) {
-			close(pack);
-			throw e;
+		} finally {
+			statsCounter.recordMisses(1);
 		}
 	}
 
 	private Ref createRef(PackFile p, long o, ByteWindow v) {
 		final Ref ref = new Ref(p, o, v, queue);
-		openBytes.addAndGet(ref.size);
+		statsCounter.recordOpenBytes(ref.size);
 		return ref;
 	}
 
 	private void clear(Ref ref) {
-		openBytes.addAndGet(-ref.size);
+		statsCounter.recordOpenBytes(-ref.size);
+		statsCounter.recordEvictions(1);
 		close(ref.pack);
 	}
 
 	private void close(PackFile pack) {
-		if (pack.endWindowCache())
-			openFiles.decrementAndGet();
+		if (pack.endWindowCache()) {
+			statsCounter.recordOpenFiles(-1);
+		}
 	}
 
 	private boolean isFull() {
-		return maxFiles < openFiles.get() || maxBytes < openBytes.get();
+		WindowCacheStats stats = statsCounter.snapshot();
+		return maxFiles < stats.openFileCount()
+				|| maxBytes < stats.openByteCount();
 	}
 
 	private long toStart(long offset) {
@@ -365,15 +503,19 @@ public class WindowCache {
 		final int slot = slot(pack, position);
 		final Entry e1 = table.get(slot);
 		ByteWindow v = scan(e1, pack, position);
-		if (v != null)
+		if (v != null) {
+			statsCounter.recordHits(1);
 			return v;
+		}
 
 		synchronized (lock(pack, position)) {
 			Entry e2 = table.get(slot);
 			if (e2 != e1) {
 				v = scan(e2, pack, position);
-				if (v != null)
+				if (v != null) {
+					statsCounter.recordHits(1);
 					return v;
+				}
 			}
 
 			v = load(pack, position);
