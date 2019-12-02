@@ -52,6 +52,9 @@ import static org.junit.Assume.assumeFalse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -140,6 +143,32 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("b.txt").call();
 			git.commit().setMessage("commit2").setCommitter(committer).call();
 
+			// create third file
+			Path includeSubdir = Paths.get(db.getWorkTree().toString(), "subdir-include");
+			includeSubdir.toFile().mkdirs();
+			file = Paths.get(includeSubdir.toString(), "c.txt").toFile();
+			FileUtils.createNewFile(file);
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+				writer.print("content3");
+			}
+
+			// Third commit - c.txt file
+			git.add().addFilepattern("subdir-include").call();
+			git.commit().setMessage("commit3").setCommitter(committer).call();
+
+			// create fourth file
+			Path excludeSubdir = Paths.get(db.getWorkTree().toString(), "subdir-exclude");
+			excludeSubdir.toFile().mkdirs();
+			file = Paths.get(excludeSubdir.toString(), "d.txt").toFile();
+			FileUtils.createNewFile(file);
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+				writer.print("content4");
+			}
+
+			// Fourth commit - d.txt file
+			git.add().addFilepattern("subdir-exclude").call();
+			git.commit().setMessage("commit4").setCommitter(committer).call();
+
 			// First log - a.txt filter
 			int count = 0;
 			for (RevCommit c : git.log().addPath("a.txt").call()) {
@@ -156,12 +185,77 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			}
 			assertEquals(1, count);
 
-			// Third log - without filter
+			// Third log - c.txt filter
+			count = 0;
+			for (RevCommit c : git.log().addPath("subdir-include").call()) {
+				assertEquals("commit3", c.getFullMessage());
+				count++;
+			}
+			assertEquals(1, count);
+
+			// Fourth log - d.txt filter
+			count = 0;
+			Iterator it = git.log()
+				.excludePath("subdir-exclude")
+				.call()
+				.iterator();
+			while (it.hasNext()) {
+				it.next();
+				count++;
+			}
+			// of all the commits, we expect to filter out only d.txt
+			assertEquals(3, count);
+
+			// Fifth log - without filter
 			count = 0;
 			for (RevCommit c : git.log().call()) {
 				assertEquals(committer, c.getCommitterIdent());
 				count++;
 			}
+			assertEquals(4, count);
+
+			// Sixth log - include and exclude filter
+			count = 0;
+			it = git.log()
+				.addPath("subdir-include")
+				.excludePath("subdir-exclude")
+				.call()
+				.iterator();
+			while (it.hasNext()) {
+				it.next();
+				count++;
+			}
+			// we expect to include c.txt
+			assertEquals(1, count);
+
+			// Seventh log - include and exclude same files
+			count = 0;
+			it = git.log()
+				.addPath("subdir-exclude")
+				.excludePath("subdir-exclude")
+				.call()
+				.iterator();
+
+			while (it.hasNext()) {
+				it.next();
+				count++;
+			}
+			// we expect the exclude to trump everything
+			assertEquals(0, count);
+
+			// Eighth log - exclude directory and file
+			count = 0;
+			it = git.log()
+				.excludePath("b.txt")
+				.excludePath("subdir-exclude")
+				.call()
+				.iterator();
+
+			while (it.hasNext()) {
+				it.next();
+				count++;
+			}
+			// we expect a.txt and c.txt
 			assertEquals(2, count);
 		}
 	}
