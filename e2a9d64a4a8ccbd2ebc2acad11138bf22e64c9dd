@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fee5a12c_bf00c1a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-12-02T04:14:43Z",
+      "side": 1,
+      "message": "\"miss count\" for consistency with the previous line",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "e2a9d64a4a8ccbd2ebc2acad11138bf22e64c9dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
