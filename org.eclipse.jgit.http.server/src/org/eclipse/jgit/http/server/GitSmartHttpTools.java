@@ -48,8 +48,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
 
@@ -64,14 +62,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.internal.transport.parser.FirstCommand;
-import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RequestNotYetReadException;
 import org.eclipse.jgit.transport.SideBandOutputStream;
-import org.eclipse.jgit.transport.UploadPack;
 
 /**
  * Utility functions for handling the Git-over-HTTP protocol.
@@ -220,42 +216,13 @@ public class GitSmartHttpTools {
 
 	private static void sendUploadPackError(HttpServletRequest req,
 			HttpServletResponse res, String textForGit) throws IOException {
+		// Do not use sideband. Sideband is acceptable only while packfile is
+		// being sent. Other places, like acknowledgement section, do not
+		// support sideband. Use an error packet.
 		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
 		PacketLineOut pckOut = new PacketLineOut(buf);
-
-		boolean sideband;
-		UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-		if (up != null) {
-			try {
-				sideband = up.isSideBand();
-			} catch (RequestNotYetReadException e) {
-				sideband = isUploadPackSideBand(req);
-			}
-		} else
-			sideband = isUploadPackSideBand(req);
-
-		if (sideband)
-			writeSideBand(buf, textForGit);
-		else
-			writePacket(pckOut, textForGit);
+		writePacket(pckOut, textForGit);
 		send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
-	}
-
-	private static boolean isUploadPackSideBand(HttpServletRequest req) {
-		try {
-			// The client may be in a state where they have sent the sideband
-			// capability and are expecting a response in the sideband, but we might
-			// not have an UploadPack, or it might not have read any of the request.
-			// So, cheat and read the first line.
-			String line = new PacketLineIn(req.getInputStream()).readString();
-			FirstWant parsed = FirstWant.fromLine(line);
-			return (parsed.getCapabilities().contains(OPTION_SIDE_BAND)
-					|| parsed.getCapabilities().contains(OPTION_SIDE_BAND_64K));
-		} catch (IOException e) {
-			// Probably the connection is closed and a subsequent write will fail, but
-			// try it just in case.
-			return false;
-		}
 	}
 
 	private static void sendReceivePackError(HttpServletRequest req,
@@ -308,7 +275,7 @@ public class GitSmartHttpTools {
 
 	private static void writePacket(PacketLineOut pckOut, String textForGit)
 			throws IOException {
-		pckOut.writeString("error: " + textForGit);
+		pckOut.writeString("ERR " + textForGit);
 	}
 
 	private static void send(HttpServletRequest req, HttpServletResponse res,

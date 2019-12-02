@@ -1214,7 +1214,7 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 						Collections.<ObjectId> emptySet());
 				fail("Successfully served ref with value " + c.getRef(master));
 			} catch (TransportException err) {
-				assertEquals("internal server error", err.getMessage());
+				assertEquals("Internal server error", err.getMessage());
 			}
 		} finally {
 			noRefServer.tearDown();
