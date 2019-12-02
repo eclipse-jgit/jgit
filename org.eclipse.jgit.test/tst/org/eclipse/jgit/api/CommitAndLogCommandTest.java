@@ -40,6 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -110,59 +111,6 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			assertTrue(reader.getLastEntry().getComment().startsWith("commit:"));
 			reader = db.getReflogReader(db.getBranch());
 			assertTrue(reader.getLastEntry().getComment().startsWith("commit:"));
-		}
-	}
-
-	@Test
-	public void testLogWithFilter() throws IOException, JGitInternalException,
-			GitAPIException {
-
-		try (Git git = new Git(db)) {
-			// create first file
-			File file = new File(db.getWorkTree(), "a.txt");
-			FileUtils.createNewFile(file);
-			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
-				writer.print("content1");
-			}
-
-			// First commit - a.txt file
-			git.add().addFilepattern("a.txt").call();
-			git.commit().setMessage("commit1").setCommitter(committer).call();
-
-			// create second file
-			file = new File(db.getWorkTree(), "b.txt");
-			FileUtils.createNewFile(file);
-			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
-				writer.print("content2");
-			}
-
-			// Second commit - b.txt file
-			git.add().addFilepattern("b.txt").call();
-			git.commit().setMessage("commit2").setCommitter(committer).call();
-
-			// First log - a.txt filter
-			int count = 0;
-			for (RevCommit c : git.log().addPath("a.txt").call()) {
-				assertEquals("commit1", c.getFullMessage());
-				count++;
-			}
-			assertEquals(1, count);
-
-			// Second log - b.txt filter
-			count = 0;
-			for (RevCommit c : git.log().addPath("b.txt").call()) {
-				assertEquals("commit2", c.getFullMessage());
-				count++;
-			}
-			assertEquals(1, count);
-
-			// Third log - without filter
-			count = 0;
-			for (RevCommit c : git.log().call()) {
-				assertEquals(committer, c.getCommitterIdent());
-				count++;
-			}
-			assertEquals(2, count);
 		}
 	}
 
