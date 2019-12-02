@@ -22,6 +22,30 @@
       "revId": "d9716b6215c1375d961a28907f9c132eabd33052",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "433c8ac7_fedc8c1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-12-02T04:11:23Z",
+      "side": 1,
+      "message": "I think 2017 is intentional.  This class was created in [1] where it was split out from an existing class with the copyright 2017. The license header was added in a follow-up [2].\n\n[1] https://git.eclipse.org/r/#/c/147301/\n[2] https://git.eclipse.org/r/#/c/153361/",
+      "parentUuid": "90f2dbbd_b9d03a20",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d9716b6215c1375d961a28907f9c132eabd33052",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
