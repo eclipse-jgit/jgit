@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b30d655_a6db07cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T18:02:23Z",
+      "side": 1,
+      "message": "Both methods throw the IOException, so saying something more specific like \"errors are not reported on the sideband channel\" makes it clearer.",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 65
+      },
+      "revId": "bc8867498763d8fc8702b3719aa05ce634e25f0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
