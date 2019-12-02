@@ -105,6 +105,20 @@ public interface WindowCacheStatsMXBean {
 	long getEvictionCount();
 
 	/**
+	 * Ratio of cache evictions. This is defined as
+	 * {@code evictionCount / requestCount}, or {@code 0.0} when
+	 * {@code requestCount == 0}.
+	 *
+	 * @return the ratio of cache loading attempts which threw exceptions
+	 */
+	default double getEvictionRatio() {
+		long evictionCount = getEvictionCount();
+		long requestCount = getRequestCount();
+		return (requestCount == 0) ? 0.0
+				: (double) evictionCount / requestCount;
+	}
+
+	/**
 	 * Number of times the cache returned either a cached or uncached value.
 	 * This is defined as {@code hitCount + missCount}.
 	 *
