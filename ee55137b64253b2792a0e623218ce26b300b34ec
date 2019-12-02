@@ -22,6 +22,30 @@
       "revId": "ee55137b64253b2792a0e623218ce26b300b34ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9abe92_6e37497a",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-12-02T22:18:19Z",
+      "side": 1,
+      "message": "Moved two lines.",
+      "parentUuid": "d8cb3b3f_fcf42093",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 16
+      },
+      "revId": "ee55137b64253b2792a0e623218ce26b300b34ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
