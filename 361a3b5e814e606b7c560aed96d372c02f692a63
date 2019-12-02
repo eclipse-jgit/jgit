@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a690b20_0ef17fda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommandErrorHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T17:43:52Z",
+      "side": 1,
+      "message": "Looks like these should be updated to 5.7: https://www.eclipse.org/lists/jgit-dev/msg03870.html",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 13
+      },
+      "revId": "361a3b5e814e606b7c560aed96d372c02f692a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
