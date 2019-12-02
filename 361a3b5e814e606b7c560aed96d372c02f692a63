@@ -22,6 +22,30 @@
       "revId": "361a3b5e814e606b7c560aed96d372c02f692a63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "499fc9d0_9e497312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommandErrorHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2019-12-02T22:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a690b20_0ef17fda",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 13
+      },
+      "revId": "361a3b5e814e606b7c560aed96d372c02f692a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
