@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b72dc9a_4b1f970d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T22:40:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"referenced by diff\" means here. Does it mean base objects for deltas?",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2507770c_4ad44c3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
         "patchSetId": 5
@@ -89,6 +112,29 @@
         "startChar": 7,
         "endLine": 85,
         "endChar": 21
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750e9282_9d51c303",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T22:40:06Z",
+      "side": 1,
+      "message": "Unneeded comment",
+      "range": {
+        "startLine": 138,
+        "startChar": 38,
+        "endLine": 138,
+        "endChar": 40
       },
       "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
