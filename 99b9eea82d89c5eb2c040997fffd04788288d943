@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "e75b6485_1ef63479",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T22:40:06Z",
+      "side": 1,
+      "message": "I don\u0027t see any ProgressMonitor updating in the original ReceivePack.checkConnectivity() code that marks commits as starts or as uninteresting, only when iterating ow.next() and ow.nextObject().  I think it is fine to increment the PM on every node visited, so maybe move this up one line to be in the \"if\" block that marks the object as uninteresting.",
+      "parentUuid": "4f7612cf_443f9914",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 22
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f628ff6c_225e5eff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
         "patchSetId": 4
@@ -460,6 +484,30 @@
       "side": 1,
       "message": "I have several reasons to do it that way:\n\n1. It can be used to collect statistic about this step by wrapping checker.\n2. It can be used to gradually rollout this feature and check how effective this algorithm\n3. It is possible that in some cases other algorithm will be more effective. For example if number of \"hidden\" blobs\\commits are relatively small we can maintain blacklist and say if something in database and is not in blacklist - it\u0027s fine.",
       "parentUuid": "e1cd5e79_c265213c",
+      "range": {
+        "startLine": 1026,
+        "startChar": 0,
+        "endLine": 1026,
+        "endChar": 36
+      },
+      "revId": "99b9eea82d89c5eb2c040997fffd04788288d943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89e037e_42f2ebaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T22:40:06Z",
+      "side": 1,
+      "message": "#1 can still be done by having it be internal public API (in an internal class) rather than external public API.\n#3 can still be met using internal classes\n#2 is hard to do without this kind of added flexibility.  https://git.eclipse.org/r/c/152924 made ReceivePack#receivePackAndCheckConnectivity protected so I think we can override things there without adding this API. As part of this change you can update the receivePackAndCheckConnectivity JavaDoc to say something like \"This method can change the connectivityChecker member variable to change the algorithm used by the checkConnectivity() method\".\n\nI\u0027m suggesting you drop this method and move ConnectivityChecker and its implementers into the internal class. No need for a JGit configuration value. We can deploy all of our experiments to googlesource.com using that. If testing shows an updated algorithm is clearly superior we can replace FullConnectivityChecker. If we find there are multiple algorithms that work better on different subsets of repos we can introduce public API.",
+      "parentUuid": "a3f2c832_aec38d4a",
       "range": {
         "startLine": 1026,
         "startChar": 0,
