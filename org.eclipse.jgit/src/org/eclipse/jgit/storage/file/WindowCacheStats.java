@@ -40,7 +40,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.storage.file;
 
 import org.eclipse.jgit.internal.storage.file.WindowCache;
@@ -51,14 +50,14 @@ import org.eclipse.jgit.internal.storage.file.WindowCache;
  * @since 4.11
  *
  */
-public class WindowCacheStats {
+public class WindowCacheStats implements WindowCacheStatsMXBean {
 	/**
 	 * @return the number of open files.
 	 * @deprecated use {@link #getStats()} instead
 	 */
 	@Deprecated
 	public static int getOpenFiles() {
-		return (int) WindowCache.getInstance().getStats().openFileCount();
+		return (int) WindowCache.getInstance().getStats().getOpenFileCount();
 	}
 
 	/**
@@ -67,14 +66,14 @@ public class WindowCacheStats {
 	 */
 	@Deprecated
 	public static long getOpenBytes() {
-		return WindowCache.getInstance().getStats().openByteCount();
+		return WindowCache.getInstance().getStats().getOpenByteCount();
 	}
 
 	/**
 	 * @return cache statistics for the WindowCache
 	 * @since 5.1.13
 	 */
-	public static WindowCacheStats getStats() {
+	public static WindowCacheStatsMXBean getStats() {
 		return WindowCache.getInstance().getStats();
 	}
 
@@ -113,162 +112,127 @@ public class WindowCacheStats {
 		this.openByteCount = openByteCount;
 	}
 
-	/**
-	 * Number of cache hits
-	 *
-	 * @return number of cache hits
-	 * @since 5.1.13
-	 */
-	public long hitCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getHitCount() {
 		return hitCount;
 	}
 
-	/**
-	 * Ratio of cache requests which were hits defined as
-	 * {@code hitCount / requestCount}, or {@code 1.0} when
-	 * {@code requestCount == 0}. Note that {@code hitRate + missRate =~ 1.0}.
-	 *
-	 * @return the ratio of cache requests which were hits
-	 * @since 5.1.13
-	 */
-	public double hitRatio() {
-		long requestCount = requestCount();
-		return (requestCount == 0) ? 1.0 : (double) hitCount / requestCount;
-	}
-
-	/**
-	 * Number of cache misses.
-	 *
-	 * @return number of cash misses
-	 * @since 5.1.13
-	 */
-	public long missCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getMissCount() {
 		return missCount;
 	}
 
-	/**
-	 * Ratio of cache requests which were misses defined as
-	 * {@code missCount / requestCount}, or {@code 0.0} when
-	 * {@code requestCount == 0}. Note that {@code hitRate + missRate =~ 1.0}.
-	 * Cache misses include all requests which weren't cache hits, including
-	 * requests which resulted in either successful or failed loading attempts.
-	 *
-	 * @return the ratio of cache requests which were misses
-	 * @since 5.1.13
-	 */
-	public double missRatio() {
-		long requestCount = requestCount();
-		return (requestCount == 0) ? 0.0 : (double) missCount / requestCount;
-	}
-
-	/**
-	 * Number of successful loads
-	 *
-	 * @return number of successful loads
-	 * @since 5.1.13
-	 */
-	public long loadSuccessCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getLoadSuccessCount() {
 		return loadSuccessCount;
 	}
 
-	/**
-	 * Number of failed loads
-	 *
-	 * @return number of failed loads
-	 * @since 5.1.13
-	 */
-	public long loadFailureCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getLoadFailureCount() {
 		return loadFailureCount;
 	}
 
-	/**
-	 * Ratio of cache load attempts which threw exceptions. This is defined as
-	 * {@code loadFailureCount / (loadSuccessCount + loadFailureCount)}, or
-	 * {@code 0.0} when {@code loadSuccessCount + loadFailureCount == 0}.
-	 *
-	 * @return the ratio of cache loading attempts which threw exceptions
-	 * @since 5.1.13
-	 */
-	public double loadFailureRatio() {
-		long totalLoadCount = loadSuccessCount + loadFailureCount;
-		return (totalLoadCount == 0) ? 0.0
-				: (double) loadFailureCount / totalLoadCount;
-	}
-
-	/**
-	 * Total number of times that the cache attempted to load new values. This
-	 * includes both successful load operations, as well as failed loads. This
-	 * is defined as {@code loadSuccessCount + loadFailureCount}.
-	 *
-	 * @return the {@code loadSuccessCount + loadFailureCount}
-	 * @since 5.1.13
-	 */
-	public long loadCount() {
-		return loadSuccessCount + loadFailureCount;
-	}
-
-	/**
-	 * Number of cache evictions
-	 *
-	 * @return number of evictions
-	 * @since 5.1.13
-	 */
-	public long evictionCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getEvictionCount() {
 		return evictionCount;
 	}
 
-	/**
-	 * Number of times the cache returned either a cached or uncached value.
-	 * This is defined as {@code hitCount + missCount}.
-	 *
-	 * @return the {@code hitCount + missCount}
-	 * @since 5.1.13
-	 */
-	public long requestCount() {
-		return hitCount + missCount;
-	}
-
-	/**
-	 * Average time in nanoseconds for loading new values. This is
-	 * {@code totalLoadTime / (loadSuccessCount + loadFailureCount)}.
-	 *
-	 * @return the average time spent loading new values
-	 * @since 5.1.13
-	 */
-	public double averageLoadTime() {
-		long totalLoadCount = loadSuccessCount + loadFailureCount;
-		return (totalLoadCount == 0) ? 0.0
-				: (double) totalLoadTime / totalLoadCount;
-	}
-
-	/**
-	 * Total time in nanoseconds the cache spent loading new values.
-	 *
-	 * @return the total number of nanoseconds the cache has spent loading new
-	 *         values
-	 * @since 5.1.13
-	 */
-	public long totalLoadTime() {
+	/** {@inheritDoc} */
+	@Override
+	public long getTotalLoadTime() {
 		return totalLoadTime;
 	}
 
-	/**
-	 * Number of pack files kept open by the cache
-	 *
-	 * @return number of files kept open by cache
-	 * @since 5.1.13
-	 */
-	public long openFileCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getOpenFileCount() {
 		return openFileCount;
 	}
 
-	/**
-	 * Number of bytes cached
-	 *
-	 * @return number of bytes cached
-	 * @since 5.1.13
-	 */
-	public long openByteCount() {
+	/** {@inheritDoc} */
+	@Override
+	public long getOpenByteCount() {
 		return openByteCount;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (int) (evictionCount ^ (evictionCount >>> 32));
+		result = prime * result + (int) (hitCount ^ (hitCount >>> 32));
+		result = prime * result
+				+ (int) (loadFailureCount ^ (loadFailureCount >>> 32));
+		result = prime * result
+				+ (int) (loadSuccessCount ^ (loadSuccessCount >>> 32));
+		result = prime * result + (int) (missCount ^ (missCount >>> 32));
+		result = prime * result
+				+ (int) (openByteCount ^ (openByteCount >>> 32));
+		result = prime * result
+				+ (int) (openFileCount ^ (openFileCount >>> 32));
+		result = prime * result
+				+ (int) (totalLoadTime ^ (totalLoadTime >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		WindowCacheStats other = (WindowCacheStats) obj;
+		if (evictionCount != other.evictionCount) {
+			return false;
+		}
+		if (hitCount != other.hitCount) {
+			return false;
+		}
+		if (loadFailureCount != other.loadFailureCount) {
+			return false;
+		}
+		if (loadSuccessCount != other.loadSuccessCount) {
+			return false;
+		}
+		if (missCount != other.missCount) {
+			return false;
+		}
+		if (openByteCount != other.openByteCount) {
+			return false;
+		}
+		if (openFileCount != other.openFileCount) {
+			return false;
+		}
+		if (totalLoadTime != other.totalLoadTime) {
+			return false;
+		}
+		return true;
+	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		return "WindowCacheStats [hitCount=" + hitCount + ", missCount="
+				+ missCount + ", loadSuccessCount=" + loadSuccessCount
+				+ ", loadFailureCount=" + loadFailureCount + ", totalLoadTime="
+				+ totalLoadTime + ", evictionCount=" + evictionCount
+				+ ", openFileCount=" + openFileCount + ", openByteCount="
+				+ openByteCount + "]";
+	}
+
+	@Override
+	public void resetCounters() {
+		WindowCache.getInstance().resetStats();
 	}
 }

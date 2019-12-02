@@ -94,91 +94,15 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.13"/>
-                <message_argument value="averageLoadTime()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="evictionCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
                 <message_argument value="getStats()"/>
             </message_arguments>
         </filter>
-        <filter id="1142947843">
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/WindowCacheStatsMXBean.java" type="org.eclipse.jgit.storage.file.WindowCacheStatsMXBean">
+        <filter id="1109393411">
             <message_arguments>
                 <message_argument value="5.1.13"/>
-                <message_argument value="hitCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="hitRatio()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="loadCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="loadFailureCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="loadFailureRatio()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="loadSuccessCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="missCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="missRatio()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="openByteCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="openFileCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="requestCount()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="totalLoadTime()"/>
+                <message_argument value="org.eclipse.jgit.storage.file.WindowCacheStatsMXBean"/>
             </message_arguments>
         </filter>
     </resource>

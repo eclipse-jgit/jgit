@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
-import org.eclipse.jgit.storage.file.WindowCacheStats;
+import org.eclipse.jgit.storage.file.WindowCacheStatsMXBean;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Before;
@@ -103,21 +103,21 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		checkLimits(cfg);
 
 		final WindowCache cache = WindowCache.getInstance();
-		WindowCacheStats s = cache.getStats();
-		assertEquals(6, s.openFileCount());
-		assertEquals(17346, s.openByteCount());
-		assertEquals(0, s.evictionCount());
-		assertEquals(90, s.hitCount());
-		assertTrue(s.hitRatio() > 0.0 && s.hitRatio() < 1.0);
-		assertEquals(6, s.loadCount());
-		assertEquals(0, s.loadFailureCount());
-		assertEquals(0, s.loadFailureRatio(), 0.001);
-		assertEquals(6, s.loadSuccessCount());
-		assertEquals(6, s.missCount());
-		assertTrue(s.missRatio() > 0.0 && s.missRatio() < 1.0);
-		assertEquals(96, s.requestCount());
-		assertTrue(s.averageLoadTime() > 0.0);
-		assertTrue(s.totalLoadTime() > 0.0);
+		WindowCacheStatsMXBean s = cache.getStats();
+		assertEquals(6, s.getOpenFileCount());
+		assertEquals(17346, s.getOpenByteCount());
+		assertEquals(0, s.getEvictionCount());
+		assertEquals(90, s.getHitCount());
+		assertTrue(s.getHitRatio() > 0.0 && s.getHitRatio() < 1.0);
+		assertEquals(6, s.getLoadCount());
+		assertEquals(0, s.getLoadFailureCount());
+		assertEquals(0, s.getLoadFailureRatio(), 0.001);
+		assertEquals(6, s.getLoadSuccessCount());
+		assertEquals(6, s.getMissCount());
+		assertTrue(s.getMissRatio() > 0.0 && s.getMissRatio() < 1.0);
+		assertEquals(96, s.getRequestCount());
+		assertTrue(s.getAverageLoadTime() > 0.0);
+		assertTrue(s.getTotalLoadTime() > 0.0);
 	}
 
 	@Test
@@ -141,27 +141,27 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 	private static void checkLimits(WindowCacheConfig cfg) {
 		final WindowCache cache = WindowCache.getInstance();
-		WindowCacheStats s = cache.getStats();
-		assertTrue(0 < s.averageLoadTime());
-		assertTrue(0 < s.openByteCount());
-		assertTrue(0 < s.openByteCount());
-		assertTrue(0.0 < s.averageLoadTime());
-		assertTrue(0 <= s.evictionCount());
-		assertTrue(0 < s.hitCount());
-		assertTrue(0 < s.hitRatio());
-		assertTrue(1 > s.hitRatio());
-		assertTrue(0 < s.loadCount());
-		assertTrue(0 <= s.loadFailureCount());
-		assertTrue(0.0 <= s.loadFailureRatio());
-		assertTrue(1 > s.loadFailureRatio());
-		assertTrue(0 < s.loadSuccessCount());
-		assertTrue(s.openByteCount() <= cfg.getPackedGitLimit());
-		assertTrue(s.openFileCount() <= cfg.getPackedGitOpenFiles());
-		assertTrue(0 <= s.missCount());
-		assertTrue(0 <= s.missRatio());
-		assertTrue(1 > s.missRatio());
-		assertTrue(0 < s.requestCount());
-		assertTrue(0 < s.totalLoadTime());
+		WindowCacheStatsMXBean s = cache.getStats();
+		assertTrue(0 < s.getAverageLoadTime());
+		assertTrue(0 < s.getOpenByteCount());
+		assertTrue(0 < s.getOpenByteCount());
+		assertTrue(0.0 < s.getAverageLoadTime());
+		assertTrue(0 <= s.getEvictionCount());
+		assertTrue(0 < s.getHitCount());
+		assertTrue(0 < s.getHitRatio());
+		assertTrue(1 > s.getHitRatio());
+		assertTrue(0 < s.getLoadCount());
+		assertTrue(0 <= s.getLoadFailureCount());
+		assertTrue(0.0 <= s.getLoadFailureRatio());
+		assertTrue(1 > s.getLoadFailureRatio());
+		assertTrue(0 < s.getLoadSuccessCount());
+		assertTrue(s.getOpenByteCount() <= cfg.getPackedGitLimit());
+		assertTrue(s.getOpenFileCount() <= cfg.getPackedGitOpenFiles());
+		assertTrue(0 <= s.getMissCount());
+		assertTrue(0 <= s.getMissRatio());
+		assertTrue(1 > s.getMissRatio());
+		assertTrue(0 < s.getRequestCount());
+		assertTrue(0 < s.getTotalLoadTime());
 	}
 
 	private void doCacheTests() throws IOException {

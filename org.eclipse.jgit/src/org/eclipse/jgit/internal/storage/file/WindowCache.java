@@ -45,6 +45,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Random;
@@ -53,10 +54,19 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.file.WindowCacheStats;
+import org.eclipse.jgit.storage.file.WindowCacheStatsMXBean;
 
 /**
  * Caches slices of a {@link org.eclipse.jgit.internal.storage.file.PackFile} in
@@ -130,7 +140,7 @@ public class WindowCache {
 	/**
 	 * Record statistics for a cache
 	 */
-	interface StatsRecorder {
+	static interface StatsRecorder {
 		/**
 		 * Record cache hits. Called when cache returns a cached entry.
 		 *
@@ -195,10 +205,11 @@ public class WindowCache {
 		 * @return a snapshot of this recorder's stats
 		 */
 		@NonNull
-		WindowCacheStats snapshot();
+		WindowCacheStatsMXBean snapshot();
 	}
 
-	static class StatsRecorderImpl implements StatsRecorder {
+	static class StatsRecorderImpl
+			implements StatsRecorder, WindowCacheStatsMXBean {
 		private final LongAdder hitCount;
 		private final LongAdder missCount;
 		private final LongAdder loadSuccessCount;
@@ -208,19 +219,19 @@ public class WindowCache {
 		private final LongAdder openFileCount;
 		private final LongAdder openByteCount;
 
-		  /**
-		   * Constructs an instance with all counts initialized to zero.
-		   */
+		/**
+		 * Constructs an instance with all counts initialized to zero.
+		 */
 		public StatsRecorderImpl() {
-		    hitCount = new LongAdder();
-		    missCount = new LongAdder();
-		    loadSuccessCount = new LongAdder();
-		    loadFailureCount = new LongAdder();
-		    totalLoadTime = new LongAdder();
-		    evictionCount = new LongAdder();
+			hitCount = new LongAdder();
+			missCount = new LongAdder();
+			loadSuccessCount = new LongAdder();
+			loadFailureCount = new LongAdder();
+			totalLoadTime = new LongAdder();
+			evictionCount = new LongAdder();
 			openFileCount = new LongAdder();
 			openByteCount = new LongAdder();
-		  }
+		}
 
 		@Override
 		public void recordHits(int count) {
@@ -260,19 +271,71 @@ public class WindowCache {
 		}
 
 		@Override
-		public WindowCacheStats snapshot() {
+		public WindowCacheStatsMXBean snapshot() {
 			return new WindowCacheStats(hitCount.sum(), missCount.sum(),
 					loadSuccessCount.sum(), loadFailureCount.sum(),
 					totalLoadTime.sum(), evictionCount.sum(),
 					openFileCount.sum(), openByteCount.sum());
 		}
+
+		@Override
+		public long getHitCount() {
+			return hitCount.sum();
+		}
+
+		@Override
+		public long getMissCount() {
+			return missCount.sum();
+		}
+
+		@Override
+		public long getLoadSuccessCount() {
+			return loadSuccessCount.sum();
+		}
+
+		@Override
+		public long getLoadFailureCount() {
+			return loadFailureCount.sum();
+		}
+
+		@Override
+		public long getEvictionCount() {
+			return evictionCount.sum();
+		}
+
+		@Override
+		public long getTotalLoadTime() {
+			return totalLoadTime.sum();
+		}
+
+		@Override
+		public long getOpenFileCount() {
+			return openFileCount.sum();
+		}
+
+		@Override
+		public long getOpenByteCount() {
+			return openByteCount.sum();
+		}
+
+		@Override
+		public void resetCounters() {
+			hitCount.reset();
+			missCount.reset();
+			loadSuccessCount.reset();
+			loadFailureCount.reset();
+			totalLoadTime.reset();
+			evictionCount.reset();
+		}
 	}
 
 	private static final int bits(int newSize) {
 		if (newSize < 4096)
-			throw new IllegalArgumentException(JGitText.get().invalidWindowSize);
+			throw new IllegalArgumentException(
+					JGitText.get().invalidWindowSize);
 		if (Integer.bitCount(newSize) != 1)
-			throw new IllegalArgumentException(JGitText.get().windowSizeMustBePowerOf2);
+			throw new IllegalArgumentException(
+					JGitText.get().windowSizeMustBePowerOf2);
 		return Integer.numberOfTrailingZeros(newSize);
 	}
 
@@ -322,8 +385,7 @@ public class WindowCache {
 		return cache;
 	}
 
-	static final ByteWindow get(PackFile pack, long offset)
-			throws IOException {
+	static final ByteWindow get(PackFile pack, long offset) throws IOException {
 		final WindowCache c = cache;
 		final ByteWindow r = c.getOrLoad(pack, c.toStart(offset));
 		if (c != cache) {
@@ -374,13 +436,17 @@ public class WindowCache {
 
 	private final StatsRecorder statsRecorder;
 
+	private final StatsRecorderImpl mbean;
+
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		final int lockCount = lockCount(cfg);
 		if (tableSize < 1)
-			throw new IllegalArgumentException(JGitText.get().tSizeMustBeGreaterOrEqual1);
+			throw new IllegalArgumentException(
+					JGitText.get().tSizeMustBeGreaterOrEqual1);
 		if (lockCount < 1)
-			throw new IllegalArgumentException(JGitText.get().lockCountMustBeGreaterOrEqual1);
+			throw new IllegalArgumentException(
+					JGitText.get().lockCountMustBeGreaterOrEqual1);
 
 		queue = new ReferenceQueue<>();
 		clock = new AtomicLong(1);
@@ -405,27 +471,49 @@ public class WindowCache {
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 
-		statsRecorder = new StatsRecorderImpl();
+		mbean = new StatsRecorderImpl();
+		statsRecorder = mbean;
+		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+		try {
+			ObjectName mbeanName = new ObjectName(
+					"org.eclipse.jgit/block_cache:type=WindowCacheStats"); //$NON-NLS-1$
+			if (server.isRegistered(mbeanName)) {
+				server.unregisterMBean(mbeanName);
+			}
+			server.registerMBean(mbean, mbeanName);
+		} catch (MalformedObjectNameException | InstanceAlreadyExistsException
+				| MBeanRegistrationException | NotCompliantMBeanException
+				| InstanceNotFoundException e) {
+			System.err.println(e);
+		}
 
 		if (maxFiles < 1)
-			throw new IllegalArgumentException(JGitText.get().openFilesMustBeAtLeast1);
+			throw new IllegalArgumentException(
+					JGitText.get().openFilesMustBeAtLeast1);
 		if (maxBytes < windowSize)
-			throw new IllegalArgumentException(JGitText.get().windowSizeMustBeLesserThanLimit);
+			throw new IllegalArgumentException(
+					JGitText.get().windowSizeMustBeLesserThanLimit);
 	}
 
 	/**
-	 * @return cache statistics for the WindowCache
+	 * @return snapshot of cache statistics for the WindowCache
 	 */
-	public WindowCacheStats getStats() {
+	public WindowCacheStatsMXBean getStats() {
 		return statsRecorder.snapshot();
+	}
+
+	/**
+	 * Reset stats. Does not reset open bytes and open files stats.
+	 */
+	public void resetStats() {
+		mbean.resetCounters();
 	}
 
 	private int hash(int packHash, long off) {
 		return packHash + (int) (off >>> windowSizeShift);
 	}
 
-	private ByteWindow load(PackFile pack, long offset)
-			throws IOException {
+	private ByteWindow load(PackFile pack, long offset) throws IOException {
 		long startTime = System.nanoTime();
 		if (pack.beginWindowCache())
 			statsRecorder.recordOpenFiles(1);
@@ -463,9 +551,8 @@ public class WindowCache {
 	}
 
 	private boolean isFull() {
-		WindowCacheStats stats = statsRecorder.snapshot();
-		return maxFiles < stats.openFileCount()
-				|| maxBytes < stats.openByteCount();
+		return maxFiles < mbean.getOpenFileCount()
+				|| maxBytes < mbean.getOpenByteCount();
 	}
 
 	private long toStart(long offset) {
@@ -476,9 +563,11 @@ public class WindowCache {
 		final int wsz = cfg.getPackedGitWindowSize();
 		final long limit = cfg.getPackedGitLimit();
 		if (wsz <= 0)
-			throw new IllegalArgumentException(JGitText.get().invalidWindowSize);
+			throw new IllegalArgumentException(
+					JGitText.get().invalidWindowSize);
 		if (limit < wsz)
-			throw new IllegalArgumentException(JGitText.get().windowSizeMustBeLesserThanLimit);
+			throw new IllegalArgumentException(
+					JGitText.get().windowSizeMustBeLesserThanLimit);
 		return (int) Math.min(5 * (limit / wsz) / 2, 2000000000);
 	}
 
