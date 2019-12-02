@@ -46,6 +46,30 @@
       "revId": "d9716b6215c1375d961a28907f9c132eabd33052",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "980abc18_76fb228d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-12-02T15:32:52Z",
+      "side": 1,
+      "message": "I\u0027m fine either way.",
+      "parentUuid": "433c8ac7_fedc8c1e",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d9716b6215c1375d961a28907f9c132eabd33052",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
