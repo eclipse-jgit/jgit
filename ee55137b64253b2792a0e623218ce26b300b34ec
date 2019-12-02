@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8cb3b3f_fcf42093",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-02T18:16:19Z",
+      "side": 1,
+      "message": "It would be nice to get rid of this duplication, but I understand that one calls receive() and the other calls receiveWithExceptionPropagation(). I\u0027m not thinking of anything obvious yet.",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 16
+      },
+      "revId": "ee55137b64253b2792a0e623218ce26b300b34ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
