@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb66d281_ca7e5237",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-12-03T23:12:23Z",
+      "side": 1,
+      "message": "Is this always true? What about sideband-all?",
+      "range": {
+        "startLine": 219,
+        "startChar": 26,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "2d4196b966a1f55f5c97dfd0682a29cd882acc66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
