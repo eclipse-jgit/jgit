@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faeb022f_e59eb47f",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-12-03T22:09:11Z",
+      "side": 1,
+      "message": "Why would this be needed? The test works for me also without this.",
+      "revId": "4f6b6586f73fdd71356dda4e0d9476fd5aa941fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
