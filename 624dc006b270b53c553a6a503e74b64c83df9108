@@ -71,6 +71,53 @@
     },
     {
       "key": {
+        "uuid": "fbdd2eb1_69df236b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-12-03T19:47:35Z",
+      "side": 1,
+      "message": "Indeed, see for example the recently introduced CachedPackUriProvider:\nhttps://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/CachedPackUriProvider.java?id\u003d52408c6afbefbf2482b7be70ed2543ee74b041d3",
+      "parentUuid": "e9157bc5_871bd05c",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ae9252_00c696ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-12-03T19:47:35Z",
+      "side": 1,
+      "message": "Could this field have a more descriptve name? \"db\" could be ref db, object db...",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b6a8c29_bdefd2c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
         "patchSetId": 9
