@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a103299e_7bac7c9f",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-12-03T23:10:30Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "75ec5b746dcaabbd0448dcffb8e3d2ed0d0f3943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f144abe_0e14d662",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2019-12-03T23:10:30Z",
+      "side": 1,
+      "message": "5.7",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "75ec5b746dcaabbd0448dcffb8e3d2ed0d0f3943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
