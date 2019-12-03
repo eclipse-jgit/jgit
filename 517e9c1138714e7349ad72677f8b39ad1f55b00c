@@ -1,0 +1,340 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1208edef_5bff397b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "this commit message header is too wide, see [1]\n\ns/taht/that/\n\nExplain what does this test test ? Which class doesn\u0027t work as expected ?\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207fb74_ef522812",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "did you ever try to run this test ?",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa283ac_2e3282bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "Every source file needs to start with the license header [1]\n\nthis package is not under jgit\u0027s domain org.eclipse.jgit\n\n package org.eclipse.jgit.api;\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bc41a8b_4b2ffe2e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "we use slf4j not log4j",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb2a3c3c_f55a7636",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "This license header is plain wrong. \n\nIt\u0027s the wrong license, JGit is licensed under EDL which is the Eclipse flavour of the 3-clause BSD license [1]. The license header must match the template given in [1].\n\nThe year in the copyright statement is missing.\n\nUse your company\u0027s name (if you are contributing this for your employer) otherwise use your own name.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d771e9aa_7e1b8d60",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "I think there is no need to derive from this class\n\nI recommend you derive this test class from RepositoryTestCase which already prepares a git repository and cares for generic stuff like using a test directory under java.io.tmpdir, setting MockSystemReader etc.",
+      "range": {
+        "startLine": 30,
+        "startChar": 59,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcbe94c5_d56d03b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "remove all trailing whitespace, the easiest way to achieve that is to use the automated Eclipse setup described in [1], select the code to be formatted and click CTRL-Shift-F (Mac CMD-Shift-F).\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Automated_Developer_Setup",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677520c5_ec1ad563",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "nit: we use tabs not spaces",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd656f93_b13ee5a2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "setup method needs JUnit annotation @Before\n\nwhy protected and not public ?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0176211c_76a0a18e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of setting up a logger here which seems not to be used at all?",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2ccde75_f59fbcab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "why is this needed ?",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b539ddc_1b35618b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "deleting test resources should happen in tearDown method annotated with @After, see RepositoryTestCase",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802bcef_918d49fc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "missing import for FileUtils",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 15
+      },
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db0fe18_741c0b4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "what is this ?",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78f37e6c_dfed69f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "missing static import",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 16
+      },
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48c9181c_d5048535",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "JGitTestUtil has helpers to create files with a given content",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e8a9ba4_7a4a0506",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "this outer try catch isn\u0027t necessary, the method declares it\u0027s throwing IOException so let the exception be thrown",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c34018d_739a934c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T10:31:33Z",
+      "side": 1,
+      "message": "I think this test shouldn\u0027t need logging",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
