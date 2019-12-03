@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -49,11 +49,15 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -221,6 +225,31 @@ public abstract class FS {
 		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
 				.ofMillis(10);
 
+		private static final AtomicInteger threadNumber = new AtomicInteger(1);
+
+		/**
+		 * Don't use the default thread factory of the ForkJoinPool for the
+		 * CompletableFuture; it runs without any privileges, which causes
+		 * trouble if a SecurityManager is present.
+		 * <p>
+		 * Instead use normal daemon threads. They'll belong to the
+		 * SecurityManager's thread group, or use the one of the calling thread,
+		 * as appropriate.
+		 * </p>
+		 *
+		 * @see java.util.concurrent.Executors#newCachedThreadPool()
+		 */
+		private static final Executor FUTURE_RUNNER = new ThreadPoolExecutor(0,
+				5, 30L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
+				runnable -> {
+					Thread t = new Thread(runnable, "FileStoreAttributeReader-" //$NON-NLS-1$
+							+ threadNumber.getAndIncrement());
+					// Make sure these threads don't prevent application/JVM
+					// shutdown.
+					t.setDaemon(true);
+					return t;
+				});
+
 		/**
 		 * Configures size and purge factor of the path-based cache for file
 		 * system attributes. Caching of file system attributes avoids recurring
@@ -304,8 +333,7 @@ public abstract class FS {
 								// Some earlier future might have set the value
 								// and removed itself since we checked for the
 								// value above. Hence check cache again.
-								FileStoreAttributes c = attributeCache
-										.get(s);
+								FileStoreAttributes c = attributeCache.get(s);
 								if (c != null) {
 									return Optional.of(c);
 								}
@@ -339,7 +367,7 @@ public abstract class FS {
 								locks.remove(s);
 							}
 							return attributes;
-						});
+						}, FUTURE_RUNNER);
 				f = f.exceptionally(e -> {
 					LOG.error(e.getLocalizedMessage(), e);
 					return Optional.empty();
@@ -450,6 +478,11 @@ public abstract class FS {
 				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
 						Thread.currentThread(), s, dir);
 				return Optional.of(fsResolution);
+			} catch (SecurityException e) {
+				// Log it here; most likely deleteProbe() below will also run
+				// into a SecurityException, and then this one will be lost
+				// without trace.
+				LOG.warn(e.getLocalizedMessage(), e);
 			} catch (AccessDeniedException e) {
 				LOG.warn(e.getLocalizedMessage(), e); // see bug 548648
 			} catch (IOException e) {
