@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "accfd585_7ec23b84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-03T02:22:39Z",
+      "side": 1,
+      "message": "Unneeded blank comment line.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a917a2_8bf7db53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-03T02:22:39Z",
+      "side": 1,
+      "message": "not needed for internal api",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9157bc5_871bd05c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-03T02:22:39Z",
+      "side": 1,
+      "message": "Oftentimes in JGit a tightly coupled config/param object like this becomes a static nested class. Let\u0027s ask Ivan how common that is and follow convention of what is already in the code base.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b6a8c29_bdefd2c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-03T02:22:39Z",
+      "side": 1,
+      "message": "Not needed for internal API.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
