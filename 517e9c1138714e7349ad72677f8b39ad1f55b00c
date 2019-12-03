@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "d0029c5d_965c6c7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-03T12:48:03Z",
+      "side": 1,
+      "message": "add another footer before the ChangeId:\n\nBug: 153691/\n\nto link this to the bug you filed",
+      "revId": "517e9c1138714e7349ad72677f8b39ad1f55b00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7207fb74_ef522812",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
         "patchSetId": 1
