@@ -16,6 +16,24 @@
       "revId": "af518a1d6163ac5cfaf2cfc6db0d28e643deeca4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9725ed9d_6926d3f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2019-12-04T17:27:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b976be0f_eb2f022e",
+      "revId": "af518a1d6163ac5cfaf2cfc6db0d28e643deeca4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
