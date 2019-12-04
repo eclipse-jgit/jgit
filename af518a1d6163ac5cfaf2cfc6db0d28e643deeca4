@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b976be0f_eb2f022e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2019-12-04T17:13:09Z",
+      "side": 1,
+      "message": "{@inheritDoc} missing?",
+      "revId": "af518a1d6163ac5cfaf2cfc6db0d28e643deeca4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
