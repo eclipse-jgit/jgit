@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "585b5a34_bc6435b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-12-04T23:31:06Z",
+      "side": 1,
+      "message": "nit: redundant semicolon",
+      "range": {
+        "startLine": 107,
+        "startChar": 3,
+        "endLine": 107,
+        "endChar": 4
+      },
+      "revId": "5185d288c11171a21a3057f0df906782493d0b39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
