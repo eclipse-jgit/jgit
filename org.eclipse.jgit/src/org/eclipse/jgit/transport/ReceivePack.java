@@ -2231,6 +2231,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 * @since 5.7
 	 */
 	public void receiveWithExceptionPropagation(InputStream input,
 			OutputStream output, OutputStream messages) throws IOException {
