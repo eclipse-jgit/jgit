@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0494849_37030367",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-05T21:43:25Z",
+      "side": 1,
+      "message": "we can implement this in a later change using org.eclipse.jgit.fnmatch.FileNameMatcher or org.eclipse.jgit.ignore.internal.PathMatcher, not sure which one is the better match. Ask Andrey Loskutov I guess he knows",
+      "range": {
+        "startLine": 326,
+        "startChar": 36,
+        "endLine": 327,
+        "endChar": 17
+      },
+      "revId": "5bf226d50c96f643e9ee3161155c7ba4e641568a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
