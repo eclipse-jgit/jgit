@@ -149,12 +149,13 @@ public class ReftableTest {
 		assertEquals(expBytes, table.length);
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void estimateCurrentBytesWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		ReftableConfig cfg = new ReftableConfig();
@@ -229,7 +230,9 @@ public class ReftableTest {
 		// Fill up 5 blocks.
 		int N = 256 * 5 / 25;
 		for (int i= 0; i < N; i++) {
-			refs.add(ref(String.format("%02d/xxxxxxxxxx", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("%02d/xxxxxxxxxx", i), i);
+			refs.add(ref);
 		}
 		byte[] table = write(refs, cfg);
 
@@ -425,12 +428,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void indexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -439,12 +443,13 @@ public class ReftableTest {
 		assertScan(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void indexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -453,12 +458,13 @@ public class ReftableTest {
 		assertSeek(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void noIndexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
-			refs.add(ref(String.format("refs/heads/%03d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -468,12 +474,13 @@ public class ReftableTest {
 		assertScan(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void noIndexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
-			refs.add(ref(String.format("refs/heads/%03d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -646,6 +653,7 @@ public class ReftableTest {
 		// Fill out the 1st ref block.
 		List<String> names = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
+			@SuppressWarnings("boxing")
 			String name = new String(new char[220]).replace("\0", String.format("%c", i + 'a'));
 			names.add(name);
 			writer.writeRef(ref(name, i));
@@ -785,7 +793,6 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void logScan() throws IOException {
 		ReftableConfig cfg = new ReftableConfig();
@@ -798,6 +805,7 @@ public class ReftableTest {
 
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
+			@SuppressWarnings("boxing")
 			Ref ref = ref(String.format("refs/heads/%04d", i), i);
 			refs.add(ref);
 			writer.writeRef(ref);
@@ -830,12 +838,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void byObjectIdOneRefNoIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 200; i++) {
-			refs.add(ref(String.format("refs/heads/%02d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%02d", i), i);
+			refs.add(ref);
 		}
 		refs.add(ref("refs/heads/master", 100));
 
@@ -863,12 +872,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void byObjectIdOneRefWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5200; i++) {
-			refs.add(ref(String.format("refs/heads/%02d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%02d", i), i);
+			refs.add(ref);
 		}
 		refs.add(ref("refs/heads/master", 100));
 
