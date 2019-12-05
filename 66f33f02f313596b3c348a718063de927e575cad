@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab001b0a_d98aca11",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-05T21:36:43Z",
+      "side": 1,
+      "message": "nit: bad indentation, we use tabs\n\nmove the tests with filter into a separate class then you can use the usual junit setup and teardown methods",
+      "revId": "66f33f02f313596b3c348a718063de927e575cad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823e5c66_82452998",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-05T21:36:43Z",
+      "side": 1,
+      "message": "5.6 since we can include this in the 5.6 release",
+      "revId": "66f33f02f313596b3c348a718063de927e575cad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
