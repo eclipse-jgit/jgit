@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5efa7948_292e2839",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541a18c2_da8ad8f5",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "cbadc1e8208aa8292ae42548a6458e24dce657cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "beb31d50_574460f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-05T19:31:44Z",
       "side": 1,
       "message": "Please copy the ObjectWalk.nextObject documentation of exceptions here to more precisely document the thrown exception types.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "cbadc1e8208aa8292ae42548a6458e24dce657cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f5eefe5_9aecfc1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Acknowledged. Interface shouldn\u0027t know about implementations - we might end with different implementation which won\u0027t throw MissingObjectException.",
+      "parentUuid": "beb31d50_574460f2",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c5ebf0f9_ce1a6988",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185acb95_dfe1663e",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 0
+      },
+      "revId": "cbadc1e8208aa8292ae42548a6458e24dce657cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3789406f_f6ca1e7a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2019-12-05T19:31:44Z",
       "side": 1,
       "message": "s/objects./objects outside of the received pack are reachable./",
+      "range": {
+        "startLine": 93,
+        "startChar": 37,
+        "endLine": 93,
+        "endChar": 44
+      },
+      "revId": "cbadc1e8208aa8292ae42548a6458e24dce657cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0e18f40_d8c3e2c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3789406f_f6ca1e7a",
       "range": {
         "startLine": 93,
         "startChar": 37,
