@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c7b4abc_51cb9858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-05T23:07:24Z",
+      "side": 1,
+      "message": "nit: Eclipse convention is \"pm\" for local variables and \"monitor\" for instance members.",
+      "range": {
+        "startLine": 286,
+        "startChar": 25,
+        "endLine": 286,
+        "endChar": 40
+      },
+      "revId": "aaf8aa9bec6bbdf42e253fbc30bc894532e29553",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11a3ce1b_93b833e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-05T23:07:24Z",
+      "side": 1,
+      "message": "Not true post this commit.",
+      "range": {
+        "startLine": 1295,
+        "startChar": 0,
+        "endLine": 1296,
+        "endChar": 29
+      },
+      "revId": "aaf8aa9bec6bbdf42e253fbc30bc894532e29553",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3934dd02_dbd51c87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2175,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-05T23:07:24Z",
+      "side": 1,
+      "message": "Can use isSideband() here",
+      "range": {
+        "startLine": 2173,
+        "startChar": 0,
+        "endLine": 2175,
+        "endChar": 43
+      },
+      "revId": "aaf8aa9bec6bbdf42e253fbc30bc894532e29553",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
