@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff200ae_893f7b18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-12-05T20:35:52Z",
+      "side": 1,
+      "message": "1. Missing @since 5.7 tag\n2. This exposes as API a field whose type is non-API.\n\nPlease fix.",
+      "revId": "945d43d50730277f875ff46e823e72f35493ccad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
