@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d1bce54_d05e623e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "accfd585_7ec23b84",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16a917a2_8bf7db53",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-03T02:22:39Z",
       "side": 1,
       "message": "not needed for internal api",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8ecd74_3d4bf51e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16a917a2_8bf7db53",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "66cdd744_ec782eb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97ae9252_00c696ae",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47c6edc3_eb2be3a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
         "patchSetId": 9
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "916439b8_697e3417",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityCheckInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "checkObjects then, as this is what we\u0027re doing",
+      "parentUuid": "47c6edc3_eb2be3a3",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 51
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b6a8c29_bdefd2c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
         "patchSetId": 9
@@ -152,6 +248,30 @@
       "writtenOn": "2019-12-03T02:22:39Z",
       "side": 1,
       "message": "Not needed for internal API.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "624dc006b270b53c553a6a503e74b64c83df9108",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41da1e07_b1398ae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6a8c29_bdefd2c8",
       "range": {
         "startLine": 24,
         "startChar": 0,
