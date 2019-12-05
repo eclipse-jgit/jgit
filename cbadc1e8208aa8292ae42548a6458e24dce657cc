@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a34e7053_c6c2c59b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-05T20:07:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7a0802c8_8b15472f",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "cbadc1e8208aa8292ae42548a6458e24dce657cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "185acb95_dfe1663e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/ConnectivityChecker.java",
         "patchSetId": 10
