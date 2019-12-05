@@ -288,7 +288,10 @@ public class ReceivePack {
 
 	private ReceivedPackStatistics stats;
 
-	/** Connectivity checker to use. */
+	/**
+	 * Connectivity checker to use.
+	 * @since 5.7
+	 */
 	protected ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
 
 	/** Hook to validate the update commands before execution. */
