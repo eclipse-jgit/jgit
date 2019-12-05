@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51c4a61d_04a3000e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b72dc9a_4b1f970d",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2507770c_4ad44c3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
         "patchSetId": 5
@@ -130,6 +154,30 @@
       "writtenOn": "2019-12-02T22:40:06Z",
       "side": 1,
       "message": "Unneeded comment",
+      "range": {
+        "startLine": 138,
+        "startChar": 38,
+        "endLine": 138,
+        "endChar": 40
+      },
+      "revId": "7961dfbfbbf3cdc0f9cd01624fef0fa85141cbd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d71ffa0_e3663915",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FullConnectivityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-05T19:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "750e9282_9d51c303",
       "range": {
         "startLine": 138,
         "startChar": 38,
