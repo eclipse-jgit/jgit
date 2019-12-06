@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898950c7_395a0722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-06T23:20:19Z",
+      "side": 1,
+      "message": "Please reformat. Previous formatting was in the 100 line limit.",
+      "range": {
+        "startLine": 1285,
+        "startChar": 0,
+        "endLine": 1285,
+        "endChar": 65
+      },
+      "revId": "a6db1ff0ac172f6145c464a977daf69d81e62f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5cf7ad_2685b33f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-06T23:20:19Z",
+      "side": 1,
+      "message": "Order of parameters of V2PackSender and V0PackSender can be consistent.",
+      "range": {
+        "startLine": 1292,
+        "startChar": 29,
+        "endLine": 1292,
+        "endChar": 42
+      },
+      "revId": "a6db1ff0ac172f6145c464a977daf69d81e62f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e149f8_f1e379a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2247,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-06T23:20:19Z",
+      "side": 1,
+      "message": "Please reformat",
+      "range": {
+        "startLine": 2245,
+        "startChar": 0,
+        "endLine": 2247,
+        "endChar": 40
+      },
+      "revId": "a6db1ff0ac172f6145c464a977daf69d81e62f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8acedf6a_b7911dd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2286,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-06T23:20:19Z",
+      "side": 1,
+      "message": "These protected methods are API changes, so need @since annotations.",
+      "range": {
+        "startLine": 2286,
+        "startChar": 0,
+        "endLine": 2286,
+        "endChar": 53
+      },
+      "revId": "a6db1ff0ac172f6145c464a977daf69d81e62f10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
