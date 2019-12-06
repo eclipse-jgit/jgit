@@ -64,10 +64,7 @@ import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
-import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.treewalk.filter.*;
 
 /**
  * A class used to execute a {@code Log} command. It has setters for all
@@ -105,6 +102,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	private RevFilter revFilter;
 
 	private final List<PathFilter> pathFilters = new ArrayList<>();
+	private final List<TreeFilter> excludeTreeFilters = new ArrayList<>();
 
 	private int maxCount = -1;
 
@@ -133,9 +131,22 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	@Override
 	public Iterable<RevCommit> call() throws GitAPIException, NoHeadException {
 		checkCallable();
-		if (!pathFilters.isEmpty())
-			walk.setTreeFilter(AndTreeFilter.create(
-					PathFilterGroup.create(pathFilters), TreeFilter.ANY_DIFF));
+		List<TreeFilter> filters = new ArrayList<>();
+		if (!pathFilters.isEmpty()) {
+			filters.add(AndTreeFilter.create(PathFilterGroup.create(pathFilters), TreeFilter.ANY_DIFF));
+		}
+		if (!excludeTreeFilters.isEmpty()) {
+			for (TreeFilter f : excludeTreeFilters) {
+				filters.add(AndTreeFilter.create(f, TreeFilter.ANY_DIFF));
+			}
+		}
+		if (!filters.isEmpty()) {
+			if (filters.size() == 1) {
+				filters.add(TreeFilter.ANY_DIFF);
+			}
+			walk.setTreeFilter(AndTreeFilter.create(filters));
+
+		}
 		if (skip > -1 && maxCount > -1)
 			walk.setRevFilter(AndRevFilter.create(SkipRevFilter.create(skip),
 					MaxCountRevFilter.create(maxCount)));
@@ -306,6 +317,24 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	public LogCommand addPath(String path) {
 		checkCallable();
 		pathFilters.add(PathFilter.create(path));
+		return this;
+	}
+
+	/**
+	 * Show all commits that are not within any of the specified paths. The path
+	 * must either name a file or a directory exactly and use <code>/</code>
+	 * (slash) as separator. Note that regular expressions or wildcards are not
+	 * yet supported. If a path is both added and excluded from the search, then
+	 * the exclusion wins.
+	 *
+	 * @param path
+	 *            a repository-relative path (with <code>/</code> as separator)
+	 * @return {@code this}
+	 * @since 5.6
+	 */
+	public LogCommand excludePath(String path) {
+		checkCallable();
+		excludeTreeFilters.add(PathFilter.create(path).negate());
 		return this;
 	}
 
