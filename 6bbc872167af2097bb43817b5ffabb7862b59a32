@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b0bb307_3a9e40a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/AbortedByHookException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-08T23:55:35Z",
+      "side": 1,
+      "message": "from the stderr output of the hook",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 32
+      },
+      "revId": "6bbc872167af2097bb43817b5ffabb7862b59a32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
