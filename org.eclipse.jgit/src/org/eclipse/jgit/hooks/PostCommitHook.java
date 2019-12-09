@@ -61,6 +61,9 @@ public class PostCommitHook extends GitHook<Void> {
 
 	/**
 	 * Constructor for PostCommitHook
+	 * <p>
+	 * This constructor will use the default error stream.
+	 * </p>
 	 *
 	 * @param repo
 	 *            The repository
@@ -70,6 +73,24 @@ public class PostCommitHook extends GitHook<Void> {
 	 */
 	protected PostCommitHook(Repository repo, PrintStream outputStream) {
 		super(repo, outputStream);
+	}
+
+	/**
+	 * Constructor for PostCommitHook
+	 *
+	 * @param repo
+	 *            The repository
+	 * @param outputStream
+	 *            The output stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.out}.
+	 * @param errorStream
+	 *            The error stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.err}.
+	 * @since 5.6
+	 */
+	protected PostCommitHook(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
+		super(repo, outputStream, errorStream);
 	}
 
 	/** {@inheritDoc} */

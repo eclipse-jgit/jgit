@@ -50,6 +50,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Callable;
 
+import org.bouncycastle.util.io.TeeOutputStream;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
@@ -79,7 +80,15 @@ abstract class GitHook<T> implements Callable<T> {
 	protected final PrintStream outputStream;
 
 	/**
-	 * Constructor for GitHook
+	 * The error stream to be used by the hook.
+	 */
+	protected final PrintStream errorStream;
+
+	/**
+	 * Constructor for GitHook.
+	 * <p>
+	 * This constructor will use stderr for the error stream.
+	 * </p>
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
@@ -88,8 +97,26 @@ abstract class GitHook<T> implements Callable<T> {
 	 *            in which case the hook will use {@code System.out}.
 	 */
 	protected GitHook(Repository repo, PrintStream outputStream) {
+		this(repo, outputStream, null);
+	}
+
+	/**
+	 * Constructor for GitHook
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.out}.
+	 * @param errorStream
+	 *            The error stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.err}.
+	 */
+	protected GitHook(Repository repo, PrintStream outputStream,
+			PrintStream errorStream) {
 		this.repo = repo;
 		this.outputStream = outputStream;
+		this.errorStream = errorStream;
 	}
 
 	/**
@@ -148,6 +175,16 @@ abstract class GitHook<T> implements Callable<T> {
 	}
 
 	/**
+	 * Get error stream
+	 *
+	 * @return The error stream the hook must use. Never {@code null},
+	 *         {@code System.err} is returned by default.
+	 */
+	protected PrintStream getErrorStream() {
+		return errorStream == null ? System.err : errorStream;
+	}
+
+	/**
 	 * Runs the hook, without performing any validity checks.
 	 *
 	 * @throws org.eclipse.jgit.api.errors.AbortedByHookException
@@ -155,9 +192,11 @@ abstract class GitHook<T> implements Callable<T> {
 	 */
 	protected void doRun() throws AbortedByHookException {
 		final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+		final TeeOutputStream stderrStream = new TeeOutputStream(errorByteArray,
+				getErrorStream());
 		PrintStream hookErrRedirect = null;
 		try {
-			hookErrRedirect = new PrintStream(errorByteArray, false,
+			hookErrRedirect = new PrintStream(stderrStream, false,
 					UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
 			// UTF-8 is guaranteed to be available
