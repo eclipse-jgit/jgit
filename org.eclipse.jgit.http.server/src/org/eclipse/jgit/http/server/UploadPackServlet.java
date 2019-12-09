@@ -70,7 +70,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.http.server.UploadPackErrorHandler.UploadPackRunnable;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.InternalHttpServerGlue;
@@ -212,7 +214,8 @@ class UploadPackServlet extends HttpServlet {
 			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
 
 			try {
-				up.upload(getInputStream(req), out, null);
+				up.uploadWithExceptionPropagation(getInputStream(req), out,
+						null);
 				out.close();
 			} catch (ServiceMayNotContinueException e) {
 				if (e.isOutput()) {
@@ -245,7 +248,9 @@ class UploadPackServlet extends HttpServlet {
 			log(up.getRepository(), e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
-				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
+				String msg = e instanceof PackProtocolException ? e.getMessage()
+						: null;
+				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR, msg);
 			}
 		}
 	}

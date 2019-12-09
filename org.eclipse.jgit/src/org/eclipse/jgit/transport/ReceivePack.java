@@ -74,7 +74,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LargeObjectException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.UnpackException;
@@ -93,24 +92,21 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.internal.ConnectivityChecker.ConnectivityCheckInfo;
+import org.eclipse.jgit.transport.internal.ConnectivityChecker;
+import org.eclipse.jgit.transport.internal.FullConnectivityChecker;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.LimitedInputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -273,7 +269,7 @@ public class ReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
-	private boolean checkReferencedIsReachable;
+	private boolean checkReferencedAreReachable;
 
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
@@ -292,8 +288,20 @@ public class ReceivePack {
 
 	private ReceivedPackStatistics stats;
 
+	/**
+	 * Connectivity checker to use.
+	 * @since 5.7
+	 */
+	protected ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
+
 	/** Hook to validate the update commands before execution. */
 	private PreReceiveHook preReceive;
+
+	private ReceiveCommandErrorHandler receiveCommandErrorHandler = new ReceiveCommandErrorHandler() {
+		// Use the default implementation.
+	};
+
+	private UnpackErrorHandler unpackErrorHandler = new DefaultUnpackErrorHandler();
 
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
@@ -508,7 +516,7 @@ public class ReceivePack {
 	 *         reference.
 	 */
 	public boolean isCheckReferencedObjectsAreReachable() {
-		return checkReferencedIsReachable;
+		return checkReferencedAreReachable;
 	}
 
 	/**
@@ -533,7 +541,7 @@ public class ReceivePack {
 	 *            {@code true} to enable the additional check.
 	 */
 	public void setCheckReferencedObjectsAreReachable(boolean b) {
-		this.checkReferencedIsReachable = b;
+		this.checkReferencedAreReachable = b;
 	}
 
 	/**
@@ -1021,6 +1029,17 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set an error handler for {@link ReceiveCommand}.
+	 *
+	 * @param receiveCommandErrorHandler
+	 * @since 5.7
+	 */
+	public void setReceiveCommandErrorHandler(
+			ReceiveCommandErrorHandler receiveCommandErrorHandler) {
+		this.receiveCommandErrorHandler = receiveCommandErrorHandler;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1153,6 +1172,9 @@ public class ReceivePack {
 	/**
 	 * Initialize the instance with the given streams.
 	 *
+	 * Visible for out-of-tree subclasses (e.g. tests that need to set the
+	 * streams without going through the {@link #service()} method).
+	 *
 	 * @param input
 	 *            raw input to read client commands and pack data from. Caller
 	 *            must ensure the input is buffered, otherwise read performance
@@ -1167,7 +1189,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 */
-	private void init(final InputStream input, final OutputStream output,
+	protected void init(final InputStream input, final OutputStream output,
 			final OutputStream messages) {
 		origOut = output;
 		rawIn = input;
@@ -1207,10 +1229,20 @@ public class ReceivePack {
 	/**
 	 * Receive a pack from the stream and check connectivity if necessary.
 	 *
+	 * Visible for out-of-tree subclasses. Subclasses overriding this method
+	 * should invoke this implementation, as it alters the instance state (e.g.
+	 * it reads the pack from the input and parses it before running the
+	 * connectivity checks).
+	 *
 	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
+	 * @throws LargeObjectException
+	 *             an large object needs to be opened for the check.
+	 * @throws SubmoduleValidationException
+	 *             fails to validate the submodule.
 	 */
-	private void receivePackAndCheckConnectivity() throws IOException {
+	protected void receivePackAndCheckConnectivity() throws IOException,
+			LargeObjectException, SubmoduleValidationException {
 		receivePack();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
@@ -1360,15 +1392,9 @@ public class ReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
-		} catch (PackProtocolException e) {
+		} catch (Throwable t) {
 			discardCommands();
-			fatalError(e.getMessage());
-			throw e;
-		} catch (InputOverLimitIOException e) {
-			String msg = JGitText.get().tooManyCommands;
-			discardCommands();
-			fatalError(msg);
-			throw new PackProtocolException(msg);
+			throw t;
 		}
 	}
 
@@ -1490,10 +1516,10 @@ public class ReceivePack {
 
 			parser = ins.newPackParser(packInputStream());
 			parser.setAllowThin(true);
-			parser.setNeedNewObjectIds(checkReferencedIsReachable);
-			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
-			parser.setCheckEofAfterPackFooter(
-					!biDirectionalPipe && !isExpectDataAfterPackFooter());
+			parser.setNeedNewObjectIds(checkReferencedAreReachable);
+			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
+			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
+					&& !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
 			parser.setObjectChecker(objectChecker);
 			parser.setLockMessage(lockMsg);
@@ -1527,7 +1553,8 @@ public class ReceivePack {
 				|| !getClientShallowCommits().isEmpty();
 	}
 
-	private void checkSubmodules() throws IOException {
+	private void checkSubmodules() throws IOException, LargeObjectException,
+			SubmoduleValidationException {
 		ObjectDatabase odb = db.getObjectDatabase();
 		if (objectChecker == null) {
 			return;
@@ -1536,18 +1563,12 @@ public class ReceivePack {
 			AnyObjectId blobId = entry.getBlobId();
 			ObjectLoader blob = odb.open(blobId, Constants.OBJ_BLOB);
 
-			try {
-				SubmoduleValidator.assertValidGitModulesFile(
-						new String(blob.getBytes(), UTF_8));
-			} catch (LargeObjectException | SubmoduleValidationException e) {
-				throw new IOException(e);
-			}
+			SubmoduleValidator.assertValidGitModulesFile(
+					new String(blob.getBytes(), UTF_8));
 		}
 	}
 
 	private void checkConnectivity() throws IOException {
-		ObjectIdSubclassMap<ObjectId> baseObjects = null;
-		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 		ProgressMonitor checking = NullProgressMonitor.INSTANCE;
 		if (sideBand && !quiet) {
 			SideBandProgressMonitor m = new SideBandProgressMonitor(msgOut);
@@ -1555,76 +1576,18 @@ public class ReceivePack {
 			checking = m;
 		}
 
-		if (checkReferencedIsReachable) {
-			baseObjects = parser.getBaseObjectIds();
-			providedObjects = parser.getNewObjectIds();
-		}
-		parser = null;
+		connectivityChecker.checkConnectivity(createConnectivityCheckInfo(),
+				advertisedHaves, checking);
+	}
 
-		try (ObjectWalk ow = new ObjectWalk(db)) {
-			if (baseObjects != null) {
-				ow.sort(RevSort.TOPO);
-				if (!baseObjects.isEmpty())
-					ow.sort(RevSort.BOUNDARY, true);
-			}
-
-			for (ReceiveCommand cmd : commands) {
-				if (cmd.getResult() != Result.NOT_ATTEMPTED)
-					continue;
-				if (cmd.getType() == ReceiveCommand.Type.DELETE)
-					continue;
-				ow.markStart(ow.parseAny(cmd.getNewId()));
-			}
-			for (ObjectId have : advertisedHaves) {
-				RevObject o = ow.parseAny(have);
-				ow.markUninteresting(o);
-
-				if (baseObjects != null && !baseObjects.isEmpty()) {
-					o = ow.peel(o);
-					if (o instanceof RevCommit)
-						o = ((RevCommit) o).getTree();
-					if (o instanceof RevTree)
-						ow.markUninteresting(o);
-				}
-			}
-
-			checking.beginTask(JGitText.get().countingObjects,
-					ProgressMonitor.UNKNOWN);
-			RevCommit c;
-			while ((c = ow.next()) != null) {
-				checking.update(1);
-				if (providedObjects != null //
-						&& !c.has(RevFlag.UNINTERESTING) //
-						&& !providedObjects.contains(c))
-					throw new MissingObjectException(c, Constants.TYPE_COMMIT);
-			}
-
-			RevObject o;
-			while ((o = ow.nextObject()) != null) {
-				checking.update(1);
-				if (o.has(RevFlag.UNINTERESTING))
-					continue;
-
-				if (providedObjects != null) {
-					if (providedObjects.contains(o))
-						continue;
-					else
-						throw new MissingObjectException(o, o.getType());
-				}
-
-				if (o instanceof RevBlob && !db.getObjectDatabase().has(o))
-					throw new MissingObjectException(o, Constants.TYPE_BLOB);
-			}
-			checking.endTask();
-
-			if (baseObjects != null) {
-				for (ObjectId id : baseObjects) {
-					o = ow.parseAny(id);
-					if (!o.has(RevFlag.UNINTERESTING))
-						throw new MissingObjectException(o, o.getType());
-				}
-			}
-		}
+	private ConnectivityCheckInfo createConnectivityCheckInfo() {
+		ConnectivityCheckInfo info = new ConnectivityCheckInfo();
+		info.setCheckObjects(checkReferencedAreReachable);
+		info.setCommands(getAllCommands());
+		info.setRepository(db);
+		info.setParser(parser);
+		info.setWalk(walk);
+		return info;
 	}
 
 	/**
@@ -1722,16 +1685,16 @@ public class ReceivePack {
 				try {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-							cmd.getOldId().name());
+					receiveCommandErrorHandler
+							.handleOldIdValidationException(cmd, e);
 					continue;
 				}
 
 				try {
 					newObj = walk.parseAny(cmd.getNewId());
 				} catch (IOException e) {
-					cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-							cmd.getNewId().name());
+					receiveCommandErrorHandler
+							.handleNewIdValidationException(cmd, e);
 					continue;
 				}
 
@@ -1739,16 +1702,14 @@ public class ReceivePack {
 						&& newObj instanceof RevCommit) {
 					try {
 						if (walk.isMergedInto((RevCommit) oldObj,
-								(RevCommit) newObj))
+								(RevCommit) newObj)) {
 							cmd.setTypeFastForwardUpdate();
-						else
-							cmd.setType(
-									ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-					} catch (MissingObjectException e) {
-						cmd.setResult(Result.REJECTED_MISSING_OBJECT,
-								e.getMessage());
+						} else {
+							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+						}
 					} catch (IOException e) {
-						cmd.setResult(Result.REJECTED_OTHER_REASON);
+						receiveCommandErrorHandler
+								.handleFastForwardCheckException(cmd, e);
 					}
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
@@ -1827,109 +1788,122 @@ public class ReceivePack {
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
-		} catch (IOException err) {
-			for (ReceiveCommand cmd : toApply) {
-				if (cmd.getResult() == Result.NOT_ATTEMPTED)
-					cmd.reject(err);
-			}
+		} catch (IOException e) {
+			receiveCommandErrorHandler.handleBatchRefUpdateException(toApply,
+					e);
 		}
 	}
 
 	/**
 	 * Send a status report.
 	 *
-	 * @param forClient
-	 *            true if this report is for a Git client, false if it is for an
-	 *            end-user.
 	 * @param unpackError
 	 *            an error that occurred during unpacking, or {@code null}
-	 * @param out
-	 *            the reporter for sending the status strings.
 	 * @throws java.io.IOException
 	 *             an error occurred writing the status report.
 	 * @since 5.6
 	 */
-	private void sendStatusReport(final boolean forClient,
-			final Throwable unpackError, final Reporter out)
-			throws IOException {
-		if (unpackError != null) {
-			out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
-			if (forClient) {
-				for (ReceiveCommand cmd : commands) {
-					out.sendString("ng " + cmd.getRefName() //$NON-NLS-1$
-							+ " n/a (unpacker error)"); //$NON-NLS-1$
+	private void sendStatusReport(Throwable unpackError) throws IOException {
+		Reporter out = new Reporter() {
+			@Override
+			void sendString(String s) throws IOException {
+				if (reportStatus) {
+					pckOut.writeString(s + "\n"); //$NON-NLS-1$
+				} else if (msgOut != null) {
+					msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 				}
 			}
-			return;
-		}
+		};
 
-		if (forClient)
-			out.sendString("unpack ok"); //$NON-NLS-1$
-		for (ReceiveCommand cmd : commands) {
-			if (cmd.getResult() == Result.OK) {
-				if (forClient)
-					out.sendString("ok " + cmd.getRefName()); //$NON-NLS-1$
-				continue;
+		try {
+			if (unpackError != null) {
+				out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
+				if (reportStatus) {
+					for (ReceiveCommand cmd : commands) {
+						out.sendString("ng " + cmd.getRefName() //$NON-NLS-1$
+								+ " n/a (unpacker error)"); //$NON-NLS-1$
+					}
+				}
+				return;
 			}
 
-			final StringBuilder r = new StringBuilder();
-			if (forClient)
-				r.append("ng ").append(cmd.getRefName()).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
-			else
-				r.append(" ! [rejected] ").append(cmd.getRefName()) //$NON-NLS-1$
-						.append(" ("); //$NON-NLS-1$
-
-			switch (cmd.getResult()) {
-			case NOT_ATTEMPTED:
-				r.append("server bug; ref not processed"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NOCREATE:
-				r.append("creation prohibited"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NODELETE:
-				r.append("deletion prohibited"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_NONFASTFORWARD:
-				r.append("non-fast forward"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_CURRENT_BRANCH:
-				r.append("branch is currently checked out"); //$NON-NLS-1$
-				break;
-
-			case REJECTED_MISSING_OBJECT:
-				if (cmd.getMessage() == null)
-					r.append("missing object(s)"); //$NON-NLS-1$
-				else if (cmd.getMessage()
-						.length() == Constants.OBJECT_ID_STRING_LENGTH) {
-					r.append("object "); //$NON-NLS-1$
-					r.append(cmd.getMessage());
-					r.append(" missing"); //$NON-NLS-1$
-				} else
-					r.append(cmd.getMessage());
-				break;
-
-			case REJECTED_OTHER_REASON:
-				if (cmd.getMessage() == null)
-					r.append("unspecified reason"); //$NON-NLS-1$
-				else
-					r.append(cmd.getMessage());
-				break;
-
-			case LOCK_FAILURE:
-				r.append("failed to lock"); //$NON-NLS-1$
-				break;
-
-			case OK:
-				// We shouldn't have reached this case (see 'ok' case above).
-				continue;
+			if (reportStatus) {
+				out.sendString("unpack ok"); //$NON-NLS-1$
 			}
-			if (!forClient)
-				r.append(")"); //$NON-NLS-1$
-			out.sendString(r.toString());
+			for (ReceiveCommand cmd : commands) {
+				if (cmd.getResult() == Result.OK) {
+					if (reportStatus) {
+						out.sendString("ok " + cmd.getRefName()); //$NON-NLS-1$
+					}
+					continue;
+				}
+
+				final StringBuilder r = new StringBuilder();
+				if (reportStatus) {
+					r.append("ng ").append(cmd.getRefName()).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					r.append(" ! [rejected] ").append(cmd.getRefName()) //$NON-NLS-1$
+							.append(" ("); //$NON-NLS-1$
+				}
+
+				switch (cmd.getResult()) {
+				case NOT_ATTEMPTED:
+					r.append("server bug; ref not processed"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NOCREATE:
+					r.append("creation prohibited"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NODELETE:
+					r.append("deletion prohibited"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_NONFASTFORWARD:
+					r.append("non-fast forward"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_CURRENT_BRANCH:
+					r.append("branch is currently checked out"); //$NON-NLS-1$
+					break;
+
+				case REJECTED_MISSING_OBJECT:
+					if (cmd.getMessage() == null)
+						r.append("missing object(s)"); //$NON-NLS-1$
+					else if (cmd.getMessage()
+							.length() == Constants.OBJECT_ID_STRING_LENGTH) {
+						r.append("object "); //$NON-NLS-1$
+						r.append(cmd.getMessage());
+						r.append(" missing"); //$NON-NLS-1$
+					} else
+						r.append(cmd.getMessage());
+					break;
+
+				case REJECTED_OTHER_REASON:
+					if (cmd.getMessage() == null)
+						r.append("unspecified reason"); //$NON-NLS-1$
+					else
+						r.append(cmd.getMessage());
+					break;
+
+				case LOCK_FAILURE:
+					r.append("failed to lock"); //$NON-NLS-1$
+					break;
+
+				case OK:
+					// We shouldn't have reached this case (see 'ok' case
+					// above).
+					continue;
+				}
+				if (!reportStatus) {
+					r.append(")"); //$NON-NLS-1$
+				}
+				out.sendString(r.toString());
+			}
+		} finally {
+			if (reportStatus) {
+				pckOut.end();
+			}
 		}
 	}
 
@@ -2115,6 +2089,15 @@ public class ReceivePack {
 	}
 
 	/**
+	 * @param unpackErrorHandler
+	 *            the unpackErrorHandler to set
+	 * @since 5.7
+	 */
+	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
+		this.unpackErrorHandler = unpackErrorHandler;
+	}
+
+	/**
 	 * Set whether this class will report command failures as warning messages
 	 * before sending the command results.
 	 *
@@ -2153,6 +2136,50 @@ public class ReceivePack {
 		init(input, output, messages);
 		try {
 			service();
+		} catch (PackProtocolException e) {
+			fatalError(e.getMessage());
+			throw e;
+		} catch (InputOverLimitIOException e) {
+			String msg = JGitText.get().tooManyCommands;
+			fatalError(msg);
+			throw new PackProtocolException(msg);
+		} finally {
+			try {
+				close();
+			} finally {
+				release();
+			}
+		}
+	}
+
+	/**
+	 * Execute the receive task on the socket.
+	 *
+	 * <p>
+	 * Same as {@link #receive}, but the exceptions are not reported to the
+	 * client yet.
+	 *
+	 * @param input
+	 *            raw input to read client commands and pack data from. Caller
+	 *            must ensure the input is buffered, otherwise read performance
+	 *            may suffer.
+	 * @param output
+	 *            response back to the Git network client. Caller must ensure
+	 *            the output is buffered, otherwise write performance may
+	 *            suffer.
+	 * @param messages
+	 *            secondary "notice" channel to send additional messages out
+	 *            through. When run over SSH this should be tied back to the
+	 *            standard error channel of the command execution. For most
+	 *            other network connections this should be null.
+	 * @throws java.io.IOException
+	 * @since 5.7
+	 */
+	public void receiveWithExceptionPropagation(InputStream input,
+			OutputStream output, OutputStream messages) throws IOException {
+		init(input, output, messages);
+		try {
+			service();
 		} finally {
 			try {
 				close();
@@ -2170,21 +2197,24 @@ public class ReceivePack {
 			getAdvertisedOrDefaultRefs();
 		if (hasError())
 			return;
-		recvCommands();
-		if (hasCommands()) {
-			Throwable unpackError = null;
-			if (needPack()) {
-				try {
-					receivePackAndCheckConnectivity();
-				} catch (IOException | RuntimeException | Error err) {
-					unpackError = err;
-				}
-			}
 
-			try {
-				if (unpackError == null) {
-					boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
-					setAtomic(atomic);
+		recvCommands();
+
+		if (hasCommands()) {
+			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
+				if (needPack()) {
+					try {
+						receivePackAndCheckConnectivity();
+					} catch (IOException | RuntimeException
+							| SubmoduleValidationException | Error err) {
+						unlockPack();
+						unpackErrorHandler.handleUnpackException(err);
+						throw new UnpackException(err);
+					}
+				}
+
+				try {
+					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
 					validateCommands();
 					if (atomic && anyRejects()) {
@@ -2197,39 +2227,12 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 					executeCommands();
+				} finally {
+					unlockPack();
 				}
-			} finally {
-				unlockPack();
-			}
 
-			if (reportStatus) {
-				sendStatusReport(true, unpackError, new Reporter() {
-					@Override
-					void sendString(String s) throws IOException {
-						pckOut.writeString(s + "\n"); //$NON-NLS-1$
-					}
-				});
-				pckOut.end();
-			} else if (msgOut != null) {
-				sendStatusReport(false, unpackError, new Reporter() {
-					@Override
-					void sendString(String s) throws IOException {
-						msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
-					}
-				});
+				sendStatusReport(null);
 			}
-
-			if (unpackError != null) {
-				// we already know which exception to throw. Ignore
-				// potential additional exceptions raised in postReceiveHooks
-				try {
-					postReceive.onPostReceive(this, filterCommands(Result.OK));
-				} catch (Throwable e) {
-					// empty
-				}
-				throw new UnpackException(unpackError);
-			}
-			postReceive.onPostReceive(this, filterCommands(Result.OK));
 			autoGc();
 		}
 	}
@@ -2265,5 +2268,20 @@ public class ReceivePack {
 					JGitText.get().errorInvalidProtocolWantedOldNewRef);
 		}
 		return new ReceiveCommand(oldId, newId, name);
+	}
+
+	private class PostReceiveExecutor implements AutoCloseable {
+		@Override
+		public void close() {
+			postReceive.onPostReceive(ReceivePack.this,
+					filterCommands(Result.OK));
+		}
+	}
+
+	private class DefaultUnpackErrorHandler implements UnpackErrorHandler {
+		@Override
+		public void handleUnpackException(Throwable t) throws IOException {
+			sendStatusReport(t);
+		}
 	}
 }

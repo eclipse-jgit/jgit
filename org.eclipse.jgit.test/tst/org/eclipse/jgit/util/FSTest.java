@@ -254,7 +254,9 @@ public class FSTest {
 						formatter.format(t1.toInstant()),
 						Long.valueOf(resolutionNs)), t2.compareTo(t1) > 0);
 			} finally {
-				Files.delete(f);
+				if (f != null) {
+					Files.delete(f);
+				}
 			}
 		}
 	}

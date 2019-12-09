@@ -73,6 +73,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -123,6 +124,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void additionalRefsAreRemoved() {
+	 	assertFalse(new File(db.getDirectory(), Constants.HEAD).exists());
+	}
+
+	@Test
 	public void testCompactFully() throws Exception {
 		ObjectId c1 = db.resolve("master^^");
 		ObjectId c2 = db.resolve("master^");
@@ -149,6 +155,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertFalse(b.isSymbolic());
 		assertTrue(b.isPeeled());
 		assertEquals(bCommit, b.getObjectId().name());
+
+		assertTrue(db.getRefDatabase().hasFastTipsWithSha1());
 	}
 
 	@Test
@@ -163,6 +171,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertFalse(b.isSymbolic());
 		assertTrue(b.isPeeled());
 		assertEquals(bCommit, b.getObjectId().name());
+
+		assertFalse(db.getRefDatabase().hasFastTipsWithSha1());
 	}
 
 	@Test
@@ -500,6 +510,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			String want = "Branch: renamed b to new/name";
 			assertEquals(want, last.getComment());
 		}
+	}
+
+	@Test
+	public void isGitRepository() {
+		assertTrue(RepositoryCache.FileKey.isGitRepository(db.getDirectory(), db.getFS()));
 	}
 
 	@Test

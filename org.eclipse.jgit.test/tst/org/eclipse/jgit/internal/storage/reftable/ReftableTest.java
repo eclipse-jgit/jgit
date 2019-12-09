@@ -149,12 +149,13 @@ public class ReftableTest {
 		assertEquals(expBytes, table.length);
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void estimateCurrentBytesWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		ReftableConfig cfg = new ReftableConfig();
@@ -174,6 +175,69 @@ public class ReftableTest {
 		}
 		assertEquals(1, stats.refIndexLevels());
 		assertEquals(expBytes, table.length);
+	}
+
+	@Test
+	public void hasObjMapRefs() throws IOException {
+		ArrayList<Ref> refs = new ArrayList<>();
+		refs.add(ref(MASTER, 1));
+		byte[] table = write(refs);
+		ReftableReader t = read(table);
+		assertTrue(t.hasObjectMap());
+	}
+
+	@Test
+	public void hasObjMapRefsSmallTable() throws IOException {
+		ArrayList<Ref> refs = new ArrayList<>();
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setIndexObjects(false);
+		refs.add(ref(MASTER, 1));
+		byte[] table = write(refs);
+		ReftableReader t = read(table);
+		assertTrue(t.hasObjectMap());
+	}
+
+	@Test
+	public void hasObjLogs() throws IOException {
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setIndexObjects(false);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buffer)
+			.setMinUpdateIndex(1)
+			.setConfig(cfg)
+			.setMaxUpdateIndex(1)
+			.begin();
+
+		writer.writeLog("master", 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		assertTrue(t.hasObjectMap());
+	}
+
+	@Test
+	public void hasObjMapRefsNoIndexObjects() throws IOException {
+		ArrayList<Ref> refs = new ArrayList<>();
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setIndexObjects(false);
+		cfg.setRefBlockSize(256);
+		cfg.setAlignBlocks(true);
+
+		// Fill up 5 blocks.
+		int N = 256 * 5 / 25;
+		for (int i= 0; i < N; i++) {
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("%02d/xxxxxxxxxx", i), i);
+			refs.add(ref);
+		}
+		byte[] table = write(refs, cfg);
+
+		ReftableReader t = read(table);
+		assertFalse(t.hasObjectMap());
 	}
 
 	@Test
@@ -364,12 +428,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void indexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -378,12 +443,13 @@ public class ReftableTest {
 		assertScan(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void indexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
-			refs.add(ref(String.format("refs/heads/%04d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -392,12 +458,13 @@ public class ReftableTest {
 		assertSeek(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void noIndexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
-			refs.add(ref(String.format("refs/heads/%03d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -407,12 +474,13 @@ public class ReftableTest {
 		assertScan(refs, read(table));
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void noIndexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
-			refs.add(ref(String.format("refs/heads/%03d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			refs.add(ref);
 		}
 
 		byte[] table = write(refs);
@@ -585,6 +653,7 @@ public class ReftableTest {
 		// Fill out the 1st ref block.
 		List<String> names = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
+			@SuppressWarnings("boxing")
 			String name = new String(new char[220]).replace("\0", String.format("%c", i + 'a'));
 			names.add(name);
 			writer.writeRef(ref(name, i));
@@ -724,7 +793,6 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void logScan() throws IOException {
 		ReftableConfig cfg = new ReftableConfig();
@@ -737,6 +805,7 @@ public class ReftableTest {
 
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
+			@SuppressWarnings("boxing")
 			Ref ref = ref(String.format("refs/heads/%04d", i), i);
 			refs.add(ref);
 			writer.writeRef(ref);
@@ -769,12 +838,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void byObjectIdOneRefNoIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 200; i++) {
-			refs.add(ref(String.format("refs/heads/%02d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%02d", i), i);
+			refs.add(ref);
 		}
 		refs.add(ref("refs/heads/master", 100));
 
@@ -802,12 +872,13 @@ public class ReftableTest {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void byObjectIdOneRefWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5200; i++) {
-			refs.add(ref(String.format("refs/heads/%02d", i), i));
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%02d", i), i);
+			refs.add(ref);
 		}
 		refs.add(ref("refs/heads/master", 100));
 
@@ -936,8 +1007,13 @@ public class ReftableTest {
 	}
 
 	private byte[] write(Collection<Ref> refs) throws IOException {
+		return write(refs, new ReftableConfig());
+	}
+
+	private byte[] write(Collection<Ref> refs, ReftableConfig cfg) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		stats = new ReftableWriter(buffer)
+				.setConfig(cfg)
 				.begin()
 				.sortAndWriteRefs(refs)
 				.finish()

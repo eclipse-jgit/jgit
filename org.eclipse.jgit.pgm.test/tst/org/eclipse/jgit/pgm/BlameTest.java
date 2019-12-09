@@ -42,8 +42,14 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -85,7 +91,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 			git.add().addFilepattern("inIndex.txt").call();
 		}
 		assertStringArrayEquals(
-				"         (Not Committed Yet          1) index",
+				"00000000 (Not Committed Yet 2009-08-15 20:12:58 -0330 1) index",
 				execute("git blame inIndex.txt"));
 	}
 
@@ -118,5 +124,37 @@ public class BlameTest extends CLIRepositoryTestCase {
 		thrown.expect(Die.class);
 		thrown.expectMessage("no such path 'sub/does_not_exist.txt' in HEAD");
 		execute("git blame sub/does_not_exist.txt");
+	}
+
+	@Test
+	public void testBlameMergeConflict() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file", "Origin\n");
+			git.add().addFilepattern("file").call();
+			git.commit().setMessage("initial commit").call();
+			git.checkout().setCreateBranch(true)
+					.setName("side").call();
+			writeTrashFile("file",
+					"Conflicting change from side branch\n");
+			git.add().addFilepattern("file").call();
+			RevCommit side = git.commit().setMessage("side commit")
+					.setCommitter(new PersonIdent("gitter", "")).call();
+			git.checkout().setName(Constants.MASTER).call();
+			writeTrashFile("file", "Change on master branch\n");
+			git.add().addFilepattern("file").call();
+			git.commit().setMessage("Commit conflict on master")
+					.setCommitter(new PersonIdent("gitter", "")).call();
+			MergeResult result = git.merge()
+					.include("side", side).call();
+			assertTrue("Expected conflict on 'file'",
+					result.getConflicts().containsKey("file"));
+		}
+		String[] expected = {
+				"00000000 (Not Committed Yet 2009-08-15 20:12:58 -0330 1) <<<<<<< HEAD",
+				"0f5b671c (gitter            2009-08-15 20:12:58 -0330 2) Change on master branch",
+				"00000000 (Not Committed Yet 2009-08-15 20:12:58 -0330 3) =======",
+				"ae78cff6 (gitter            2009-08-15 20:12:58 -0330 4) Conflicting change from side branch",
+				"00000000 (Not Committed Yet 2009-08-15 20:12:58 -0330 5) >>>>>>> side" };
+		assertArrayOfLinesEquals(expected, execute("git blame file"));
 	}
 }
