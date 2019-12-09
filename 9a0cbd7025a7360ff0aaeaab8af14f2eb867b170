@@ -1,0 +1,249 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93c1dd_4e646dcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of squashing all these changes ?\n\n- I think this humongous change needs to be split into digestable changes\n- this needs (a lot of) tests\n- for all the new files use the new license header [1] which is a lot shorter, I will change all license headers to the new format soon \n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "703b1756_e2638f86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "this change will not reach 5.6 hence change since tags to 5.7",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21f46d67_b91b4fe1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "why don\u0027t you use 2 fields: boolean value and boolean default ?",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb758bf3_2c7c2ffa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "implement this in the corresponding platform specific subclasses of FS to avoid nasty type checks ?",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed06bf86_d690e47a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "move this to corresponding FS subclasses",
+      "range": {
+        "startLine": 182,
+        "startChar": 9,
+        "endLine": 182,
+        "endChar": 19
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f986bd6b_77a8a98c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "move to FS subclass, we have FS_Win32 and FS_cygwin, add another subclass for msys2",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b955a880_b4457a75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "if we need one comment per line of code something is wrong, try to make the code speak for itself",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2b2f5d5_c80d4420",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "javadoc needs more than parameter doc",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213635e7_a5c504c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "we don\u0027t use IXXX for interfaces",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c713c12_738fa437",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "why is it called MergeToolConfig if it\u0027s for difftools ?",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2bf4f9_0d88c56a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "merge is not compare and involves at least three versions",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e91786c_55e09516",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "don\u0027t swallow exceptions but at least log them",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "027984a7_6f36cc98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/Utils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 1,
+      "message": "this class name is meaningless and too generic",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

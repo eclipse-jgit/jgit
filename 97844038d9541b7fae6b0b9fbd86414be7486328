@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be294e5_aa1088ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-09T23:03:44Z",
+      "side": 0,
+      "message": "move this refactoring to a separate change",
+      "revId": "97844038d9541b7fae6b0b9fbd86414be7486328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
