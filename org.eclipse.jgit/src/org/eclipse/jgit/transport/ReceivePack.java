@@ -290,6 +290,7 @@ public class ReceivePack {
 
 	/**
 	 * Connectivity checker to use.
+	 *
 	 * @since 5.7
 	 */
 	protected ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
