@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8949779d_e4fac818",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/internal/IterativeConnectivityCheckerTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-11T22:28:50Z",
+      "side": 1,
+      "message": "Sorry for confusion, work was in progress, done now.",
+      "parentUuid": "0607b39b_3c5d2e35",
+      "revId": "ddb6a2dd5b5a6b53e616f043e996bacdcb107ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58879d34_299673ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
         "patchSetId": 13
@@ -30,6 +48,30 @@
       "writtenOn": "2019-12-11T02:46:03Z",
       "side": 1,
       "message": "Is this the correct license?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "ddb6a2dd5b5a6b53e616f043e996bacdcb107ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ff3dbd_0d75f99f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-11T22:28:50Z",
+      "side": 1,
+      "message": "It should be",
+      "parentUuid": "58879d34_299673ce",
       "range": {
         "startLine": 1,
         "startChar": 0,
