@@ -561,7 +561,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 	private class LogCursorImpl extends LogCursor {
 		private final long scanEnd;
 		private final byte[] match;
-	    
+
 		private String refName;
 		private long updateIndex;
 		private ReflogEntry entry;
