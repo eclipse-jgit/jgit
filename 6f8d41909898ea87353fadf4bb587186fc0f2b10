@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ea2b7d5_2589370b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2019-12-12T07:42:23Z",
+      "side": 1,
+      "message": "Not needed since already done in BlameResult.\n\nBut in general I wonder if this mailmap transformation shouldn\u0027t be applied at a far lower level. Basically whenever a RevWalk produces a commit. Then BlameGenerator, LogCommand, etc could use a walk with setUseMailmap(true). Only problem might be signed commits? (Author as mailmap-translated would be different from author in signature...) Perhaps a RevCommit/RevTag then would need to distinguish between \"author\" (possibly mailmap-translated) and \"original author\" (as stored), and the same for \"committer\".\n\nNot sure... but something that might be worth having a design discussion about?",
+      "range": {
+        "startLine": 352,
+        "startChar": 23,
+        "endLine": 352,
+        "endChar": 42
+      },
+      "revId": "6f8d41909898ea87353fadf4bb587186fc0f2b10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
