@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3bc4e5c_396c1574",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/mailmap/MailmapParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-12-12T07:56:22Z",
+      "side": 1,
+      "message": "Missing copyright/license header on all newly added files",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc092856_12219e67",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/mailmap/MailmapParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2019-12-12T07:56:22Z",
+      "side": 1,
+      "message": "Indent with tabs.  Please use the Eclipse formatter to format all newly added files.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
