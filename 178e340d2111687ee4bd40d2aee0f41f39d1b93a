@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1960a99_35aafbb2",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-13T20:21:41Z",
+      "side": 1,
+      "message": "I think the convention is to import the missing package rather than using require-bundle. IIRC the IDE often does this but it is the equivalent messiness of import org.eclipse.jgit.* in a Java file.",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f22e5c6_d537efb7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FakeRevCommit.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-13T20:21:41Z",
+      "side": 1,
+      "message": "TestRepository.commit(RevComit... parents) should let you do this rather than creating a new class.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8371f6f_8e044744",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-13T20:21:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure there is any point doing this for the non-CREATE case. The ReceiveCommand will fail the atomic read and swap.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 25
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b11049c5_27a7988c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-13T20:21:41Z",
+      "side": 1,
+      "message": "If this walk is limited we can avoid the 2x behavior. Scenarios are:\n1) User pushes either a single commit or a \"small\" chain of commits, and this loop will find the ancestor commits in the advertisedHaves. We successfully limit the search space for the fallback checker from O(ref_database_size) to O(receive_command_size).\n2) User pushes either a single commit or a \"small\" chain of commits, and this loop will NOT find the ancestor commits in the advertisedHaves. The fallback FullConnectivityChecker uses all branches to do its maximally expensive work, and this walk here is potentially as expensive as that, so 2x behavior.\n3) User pushes a \"large\" chain of commits and this loop will find the ancestor commits in the advertisedHaves. We limit the fallback checker\u0027s search space but may have done substantial work in this walk.\n4) User pushes a \"large\" chain of commits and this loop will NOT find the ancestor commits in the advertisedHaves. This is the same as case #2.\n\nPushing a large chain of commits is relatively rare. Our servers see p95 of 7 and p99 of 108, and that includes new repo creation via fork, where advertisedHaves is empty so already optimal. It also includes cases where the lack of negotiation in push and a fast moving branch tip causes the client to repush data that the server already has. Pushing a large chain happens mainly when merging two repos. I know that some of our customers limit these chains to 5 because they want history merges to go through a more vetted process. Limiting the walk to 100 won\u0027t the improvements in scenarios 1 \u0026 3, but it will keep 2 \u0026 4 from doubling the work.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 54
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
