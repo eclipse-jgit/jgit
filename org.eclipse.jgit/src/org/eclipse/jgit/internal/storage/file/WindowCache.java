@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.LongAdder;
@@ -85,9 +86,16 @@ import org.eclipse.jgit.util.Monitoring;
  * comprised of roughly 10% of the cache, and evicting the oldest accessed entry
  * within that window.
  * <p>
- * Entities created by the cache are held under SoftReferences, permitting the
- * Java runtime's garbage collector to evict entries when heap memory gets low.
- * Most JREs implement a loose least recently used algorithm for this eviction.
+ * Entities created by the cache are held under SoftReferences if
+ * {@link WindowCacheConfig#setPackedGitUseStrongRefs(boolean)} or git config
+ * option {@code core.packedGitUseStrongRefs} is set to {@code false} (this is
+ * the default), permitting the Java runtime's garbage collector to evict
+ * entries when heap memory gets low. Most JREs implement a loose least recently
+ * used algorithm for this eviction. When this option is set to {@code true}
+ * strong references are used which means that Java gc cannot evict the
+ * WindowCache to reclaim memory. On the other hand this provides more
+ * predictable performance since the cache isn't flushed when used heap comes
+ * close to the maximum heap size.
  * <p>
  * The internal hash table does not expand at runtime, instead it is fixed in
  * size at cache creation time. The internal lock table used to gate load
@@ -104,7 +112,7 @@ import org.eclipse.jgit.util.Monitoring;
  * for a given <code>(PackFile,position)</code> tuple.</li>
  * <li>For every <code>load()</code> invocation there is exactly one
  * {@link #createRef(PackFile, long, ByteWindow)} invocation to wrap a
- * SoftReference around the cached entity.</li>
+ * SoftReference or a StrongReference around the cached entity.</li>
  * <li>For every Reference created by <code>createRef()</code> there will be
  * exactly one call to {@link #clear(Ref)} to cleanup any resources associated
  * with the (now expired) cached entity.</li>
@@ -390,8 +398,8 @@ public class WindowCache {
 		cache.removeAll(pack);
 	}
 
-	/** ReferenceQueue to cleanup released and garbage collected windows. */
-	private final ReferenceQueue<ByteWindow> queue;
+	/** cleanup released and/or garbage collected windows. */
+	private final CleanupQueue queue;
 
 	/** Number of entries in {@link #table}. */
 	private final int tableSize;
@@ -425,6 +433,8 @@ public class WindowCache {
 
 	private final StatsRecorderImpl mbean;
 
+	private boolean useStrongRefs;
+
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		final int lockCount = lockCount(cfg);
@@ -433,7 +443,6 @@ public class WindowCache {
 		if (lockCount < 1)
 			throw new IllegalArgumentException(JGitText.get().lockCountMustBeGreaterOrEqual1);
 
-		queue = new ReferenceQueue<>();
 		clock = new AtomicLong(1);
 		table = new AtomicReferenceArray<>(tableSize);
 		locks = new Lock[lockCount];
@@ -455,6 +464,9 @@ public class WindowCache {
 		mmap = cfg.isPackedGitMMAP();
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
+		useStrongRefs = cfg.isPackedGitUseStrongRefs();
+		queue = useStrongRefs ? new StrongCleanupQueue(this)
+				: new SoftCleanupQueue(this);
 
 		mbean = new StatsRecorderImpl();
 		statsRecorder = mbean;
@@ -503,16 +515,18 @@ public class WindowCache {
 		}
 	}
 
-	private Ref createRef(PackFile p, long o, ByteWindow v) {
-		final Ref ref = new Ref(p, o, v, queue);
-		statsRecorder.recordOpenBytes(ref.size);
+	private Ref<ByteWindow> createRef(PackFile p, long o, ByteWindow v) {
+		final Ref<ByteWindow> ref = useStrongRefs
+				? new StrongRef(p, o, v, queue)
+				: new SoftRef(p, o, v, (SoftCleanupQueue) queue);
+		statsRecorder.recordOpenBytes(ref.getSize());
 		return ref;
 	}
 
-	private void clear(Ref ref) {
-		statsRecorder.recordOpenBytes(-ref.size);
+	private void clear(Ref<ByteWindow> ref) {
+		statsRecorder.recordOpenBytes(-ref.getSize());
 		statsRecorder.recordEvictions(1);
-		close(ref.pack);
+		close(ref.getPack());
 	}
 
 	private void close(PackFile pack) {
@@ -577,7 +591,7 @@ public class WindowCache {
 			}
 
 			v = load(pack, position);
-			final Ref ref = createRef(pack, position, v);
+			final Ref<ByteWindow> ref = createRef(pack, position, v);
 			hit(ref);
 			for (;;) {
 				final Entry n = new Entry(clean(e2), ref);
@@ -601,8 +615,8 @@ public class WindowCache {
 
 	private ByteWindow scan(Entry n, PackFile pack, long position) {
 		for (; n != null; n = n.next) {
-			final Ref r = n.ref;
-			if (r.pack == pack && r.position == position) {
+			final Ref<ByteWindow> r = n.ref;
+			if (r.getPack() == pack && r.getPosition() == position) {
 				final ByteWindow v = r.get();
 				if (v != null) {
 					hit(r);
@@ -625,7 +639,7 @@ public class WindowCache {
 		//
 		final long c = clock.get();
 		clock.compareAndSet(c, c + 1);
-		r.lastAccess = c;
+		r.setLastAccess(c);
 	}
 
 	private void evict() {
@@ -639,7 +653,8 @@ public class WindowCache {
 				for (Entry e = table.get(ptr); e != null; e = e.next) {
 					if (e.dead)
 						continue;
-					if (old == null || e.ref.lastAccess < old.ref.lastAccess) {
+					if (old == null || e.ref.getLastAccess() < old.ref
+							.getLastAccess()) {
 						old = e;
 						slot = ptr;
 					}
@@ -692,7 +707,7 @@ public class WindowCache {
 			final Entry e1 = table.get(s);
 			boolean hasDead = false;
 			for (Entry e = e1; e != null; e = e.next) {
-				if (e.ref.pack == pack) {
+				if (e.ref.getPack() == pack) {
 					e.kill();
 					hasDead = true;
 				} else if (e.dead)
@@ -705,20 +720,7 @@ public class WindowCache {
 	}
 
 	private void gc() {
-		Ref r;
-		while ((r = (Ref) queue.poll()) != null) {
-			clear(r);
-
-			final int s = slot(r.pack, r.position);
-			final Entry e1 = table.get(s);
-			for (Entry n = e1; n != null; n = n.next) {
-				if (n.ref == r) {
-					n.dead = true;
-					table.compareAndSet(s, e1, clean(e1));
-					break;
-				}
-			}
-		}
+		queue.gc();
 	}
 
 	private int slot(PackFile pack, long position) {
@@ -731,7 +733,7 @@ public class WindowCache {
 
 	private static Entry clean(Entry top) {
 		while (top != null && top.dead) {
-			top.ref.enqueue();
+			top.ref.kill();
 			top = top.next;
 		}
 		if (top == null)
@@ -745,7 +747,7 @@ public class WindowCache {
 		final Entry next;
 
 		/** The referenced object. */
-		final Ref ref;
+		final Ref<ByteWindow> ref;
 
 		/**
 		 * Marked true when ref.get() returns null and the ref is dead.
@@ -756,33 +758,274 @@ public class WindowCache {
 		 */
 		volatile boolean dead;
 
-		Entry(Entry n, Ref r) {
+		Entry(Entry n, Ref<ByteWindow> r) {
 			next = n;
 			ref = r;
 		}
 
 		final void kill() {
 			dead = true;
-			ref.enqueue();
+			ref.kill();
 		}
 	}
 
+	private static interface Ref<T> {
+		/**
+		 * Returns this reference object's referent. If this reference object
+		 * has been cleared, either by the program or by the garbage collector,
+		 * then this method returns <code>null</code>.
+		 *
+		 * @return The object to which this reference refers, or
+		 *         <code>null</code> if this reference object has been cleared
+		 */
+		T get();
+
+	    /**
+		 * Kill this ref
+		 *
+		 * @return <code>true</code> if this reference object was successfully
+		 *         killed; <code>false</code> if it was already killed
+		 */
+		boolean kill();
+
+		/**
+		 * Get the packfile the referenced cache page is allocated for
+		 *
+		 * @return the packfile the referenced cache page is allocated for
+		 */
+		PackFile getPack();
+
+		/**
+		 * Get the position of the referenced cache page in the packfile
+		 *
+		 * @return the position of the referenced cache page in the packfile
+		 */
+		long getPosition();
+
+		/**
+		 * Get size of cache page
+		 *
+		 * @return size of cache page
+		 */
+		int getSize();
+
+		/**
+		 * Get pseudo time of last access to this cache page
+		 *
+		 * @return pseudo time of last access to this cache page
+		 */
+		long getLastAccess();
+
+		/**
+		 * Set pseudo time of last access to this cache page
+		 *
+		 * @param time
+		 *            pseudo time of last access to this cache page
+		 */
+		void setLastAccess(long time);
+
+		/**
+		 * Whether this is a strong reference.
+		 * @return {@code true} if this is a strong reference
+		 */
+		boolean isStrongRef();
+	}
+
 	/** A soft reference wrapped around a cached object. */
-	private static class Ref extends SoftReference<ByteWindow> {
-		final PackFile pack;
+	private static class SoftRef extends SoftReference<ByteWindow>
+			implements Ref<ByteWindow> {
+		private final PackFile pack;
 
-		final long position;
+		private final long position;
 
-		final int size;
+		private final int size;
 
-		long lastAccess;
+		private long lastAccess;
 
-		protected Ref(final PackFile pack, final long position,
-				final ByteWindow v, final ReferenceQueue<ByteWindow> queue) {
+		protected SoftRef(final PackFile pack, final long position,
+				final ByteWindow v, final SoftCleanupQueue queue) {
 			super(v, queue);
 			this.pack = pack;
 			this.position = position;
 			this.size = v.size();
+		}
+
+		@Override
+		public PackFile getPack() {
+			return pack;
+		}
+
+		@Override
+		public long getPosition() {
+			return position;
+		}
+
+		@Override
+		public int getSize() {
+			return size;
+		}
+
+		@Override
+		public long getLastAccess() {
+			return lastAccess;
+		}
+
+		@Override
+		public void setLastAccess(long time) {
+			this.lastAccess = time;
+		}
+
+		@Override
+		public boolean kill() {
+			return enqueue();
+		}
+
+		@Override
+		public boolean isStrongRef() {
+			return false;
+		}
+	}
+
+	/** A strong reference wrapped around a cached object. */
+	private static class StrongRef implements Ref<ByteWindow> {
+		private ByteWindow referent;
+
+		private final PackFile pack;
+
+		private final long position;
+
+		private final int size;
+
+		private long lastAccess;
+
+		private CleanupQueue queue;
+
+		protected StrongRef(final PackFile pack, final long position,
+				final ByteWindow v, final CleanupQueue queue) {
+			this.pack = pack;
+			this.position = position;
+			this.referent = v;
+			this.size = v.size();
+			this.queue = queue;
+		}
+
+		@Override
+		public PackFile getPack() {
+			return pack;
+		}
+
+		@Override
+		public long getPosition() {
+			return position;
+		}
+
+		@Override
+		public int getSize() {
+			return size;
+		}
+
+		@Override
+		public long getLastAccess() {
+			return lastAccess;
+		}
+
+		@Override
+		public void setLastAccess(long time) {
+			this.lastAccess = time;
+		}
+
+		@Override
+		public ByteWindow get() {
+			return referent;
+		}
+
+		@Override
+		public boolean kill() {
+			if (referent == null) {
+				return false;
+			}
+			referent = null;
+			return queue.enqueue(this);
+		}
+
+		@Override
+		public boolean isStrongRef() {
+			return true;
+		}
+	}
+
+	private static interface CleanupQueue {
+		boolean enqueue(Ref<ByteWindow> r);
+		void gc();
+	}
+
+	private static class SoftCleanupQueue extends ReferenceQueue<ByteWindow>
+			implements CleanupQueue {
+		private final WindowCache wc;
+
+		SoftCleanupQueue(WindowCache cache) {
+			this.wc = cache;
+		}
+
+		@Override
+		public boolean enqueue(Ref<ByteWindow> r) {
+			// no need to explicitly add soft references which are enqueued by
+			// the JVM
+			return false;
+		}
+
+		@Override
+		public void gc() {
+			SoftRef r;
+			while ((r = (SoftRef) poll()) != null) {
+				wc.clear(r);
+
+				final int s = wc.slot(r.getPack(), r.getPosition());
+				final Entry e1 = wc.table.get(s);
+				for (Entry n = e1; n != null; n = n.next) {
+					if (n.ref == r) {
+						n.dead = true;
+						wc.table.compareAndSet(s, e1, clean(e1));
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private static class StrongCleanupQueue implements CleanupQueue {
+		private final WindowCache wc;
+
+		private final ConcurrentLinkedQueue<Ref<ByteWindow>> queue = new ConcurrentLinkedQueue<>();
+
+		StrongCleanupQueue(WindowCache wc) {
+			this.wc = wc;
+		}
+
+		@Override
+		public boolean enqueue(Ref<ByteWindow> r) {
+			if (queue.contains(r)) {
+				return false;
+			}
+			return queue.add(r);
+		}
+
+		@Override
+		public void gc() {
+			Ref<ByteWindow> r;
+			while ((r = queue.poll()) != null) {
+				wc.clear(r);
+
+				final int s = wc.slot(r.getPack(), r.getPosition());
+				final Entry e1 = wc.table.get(s);
+				for (Entry n = e1; n != null; n = n.next) {
+					if (n.ref == r) {
+						n.dead = true;
+						wc.table.compareAndSet(s, e1, clean(e1));
+						break;
+					}
+				}
+			}
 		}
 	}
 
