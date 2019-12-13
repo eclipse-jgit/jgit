@@ -177,10 +177,28 @@ abstract class GitHook<T> implements Callable<T> {
 				getParameters(), getOutputStream(), hookErrRedirect,
 				getStdinArgs());
 		if (result.isExecutedWithError()) {
-			throw new AbortedByHookException(
-					new String(errorByteArray.toByteArray(), UTF_8),
-					getHookName(), result.getExitCode());
+			processError(errorByteArray, result);
 		}
+	}
+
+	/**
+	 * Process that the hook exited with an error. This default implementation
+	 * throws an {@link AbortedByHookException }. Hooks which need a different
+	 * behavior can overwrite this method.
+	 *
+	 * @param errorByteArray
+	 *            The byte array output stream used as stderr of the hook
+	 * @param result
+	 *            The process result of the hook
+	 * @throws AbortedByHookException
+	 *             When the hook should be aborted
+	 * @since 5.9
+	 */
+	protected void processError(final ByteArrayOutputStream errorByteArray,
+			final ProcessResult result) throws AbortedByHookException {
+		throw new AbortedByHookException(
+				new String(errorByteArray.toByteArray(), UTF_8), getHookName(),
+				result.getExitCode());
 	}
 
 	/**
