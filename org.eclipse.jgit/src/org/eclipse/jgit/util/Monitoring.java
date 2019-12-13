@@ -39,19 +39,26 @@ public class Monitoring {
 	 * Register a MBean with the platform MBean server
 	 *
 	 * @param mbean
-	 *            the mbean interface to register
+	 *            the mbean object to register
 	 * @param metricName
 	 *            name of the JGit metric, will be prefixed with
 	 *            "org.eclipse.jgit/"
 	 * @return the registered mbean's object instance
 	 */
-	public static @Nullable ObjectInstance registerMBean(Class mbean,
+	public static @Nullable ObjectInstance registerMBean(Object mbean,
 			String metricName) {
-		boolean register;
+		boolean register = false;
 		try {
-			register = SystemReader.getInstance().getUserConfig().getBoolean(
+			Class<?> interfaces[] = mbean.getClass().getInterfaces();
+			for (Class<?> i : interfaces) {
+				register = SystemReader.getInstance().getUserConfig()
+						.getBoolean(
 					ConfigConstants.CONFIG_JMX_SECTION,
-					mbean.getSimpleName(), false);
+								i.getSimpleName(), false);
+				if (register) {
+					break;
+				}
+			}
 		} catch (IOException | ConfigInvalidException e) {
 			LOG.error(e.getMessage(), e);
 			return null;
@@ -61,7 +68,7 @@ public class Monitoring {
 		}
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 		try {
-			ObjectName mbeanName = objectName(mbean, metricName);
+			ObjectName mbeanName = objectName(mbean.getClass(), metricName);
 			if (server.isRegistered(mbeanName)) {
 				server.unregisterMBean(mbeanName);
 			}
