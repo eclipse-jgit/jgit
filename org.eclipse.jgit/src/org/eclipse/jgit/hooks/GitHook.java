@@ -163,7 +163,7 @@ public abstract class GitHook<T> implements Callable<T> {
 		final TeeOutputStream stderrStream = new TeeOutputStream(errorByteArray,
 				getErrorStream());
 		PrintStream hookErrRedirect = null;
-		hookErrRedirect = new PrintStream(stderrStream, false,
+			hookErrRedirect = new PrintStream(stderrStream, false,
 				Charset.defaultCharset().name());
 		Repository repository = getRepository();
 		FS fs = repository.getFS();
@@ -174,11 +174,32 @@ public abstract class GitHook<T> implements Callable<T> {
 				getParameters(), getOutputStream(), hookErrRedirect,
 				getStdinArgs());
 		if (result.isExecutedWithError()) {
+			handleError(errorByteArray, result);
+		}
+	}
+
+	/**
+	 * Process that the hook exited with an error. This default implementation
+	 * throws an {@link AbortedByHookException }. Hooks which need a different
+	 * behavior can overwrite this method.
+	 *
+	 * @param errorByteArray
+	 *            The byte array output stream used as stderr of the hook
+	 * @param result
+	 *            The process result of the hook
+	 * @throws AbortedByHookException
+	 *             When the hook should be aborted
+	 * @throws IOException
+	 *             if an IO error occurred
+	 * @since 5.11
+	 */
+	protected void handleError(final ByteArrayOutputStream errorByteArray,
+			final ProcessResult result)
+			throws AbortedByHookException, IOException {
 			throw new AbortedByHookException(
 					new String(errorByteArray.toByteArray(),
 							Charset.defaultCharset().name()),
 					getHookName(), result.getExitCode());
-		}
 	}
 
 	/**
