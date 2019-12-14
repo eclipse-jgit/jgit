@@ -46,15 +46,15 @@ package org.eclipse.jgit.pgm;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.kohsuke.args4j.Option;
 
-@Command(common=true, usage="usage_convertRefStorage")
+@Command(common = true, usage = "usage_convertRefStorage")
 class ConvertRefStorage extends TextBuiltin {
 
-    @Option(name = "--format", usage = "usage_convertRefStorageFormat")
+	@Option(name = "--format", usage = "usage_convertRefStorageFormat")
 	private String format = "reftable"; //$NON-NLS-1$
 
-    /** {@inheritDoc} */
-    @Override
-    protected void run() throws Exception {
-        ((FileRepository) db).convertRefStorage(format, true, true);
-    }
+	/** {@inheritDoc} */
+	@Override
+	protected void run() throws Exception {
+		((FileRepository) db).convertRefStorage(format, true, true);
+	}
 }
