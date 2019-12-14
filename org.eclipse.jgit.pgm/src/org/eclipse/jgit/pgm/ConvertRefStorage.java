@@ -57,9 +57,13 @@ class ConvertRefStorage extends TextBuiltin {
 			"-b" }, usage = "usage_convertRefStorageBackup")
 	private boolean backup = true;
 
+	@Option(name = "--reflogs", handler = ExplicitBooleanOptionHandler.class, aliases = {
+			"-r" }, usage = "usage_convertRefStorageRefLogs")
+	private boolean writeLogs = true;
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		((FileRepository) db).convertRefStorage(format, true, backup);
+		((FileRepository) db).convertRefStorage(format, writeLogs, backup);
 	}
 }
