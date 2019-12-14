@@ -205,12 +205,15 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 
 		String reftype = repoConfig.getString(
-				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
+				ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REFSTORAGE);
 		if (repositoryFormatVersion >= 1 && reftype != null) {
-			if (StringUtils.equalsIgnoreCase(reftype, "reftable")) { //$NON-NLS-1$
+			if (StringUtils.equalsIgnoreCase(reftype,
+					ConfigConstants.CONFIG_REFSTORAGE_REFTABLE)) {
 				refs = new FileReftableDatabase(this,
 						new File(getDirectory(), "refs")); //$NON-NLS-1$
-			} else if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
+			} else if (StringUtils.equalsIgnoreCase(reftype,
+					ConfigConstants.CONFIG_REFSTORAGE_REFTREE)) {
 				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
@@ -721,6 +724,10 @@ public class FileRepository extends Repository {
 			FileUtils.delete(reftableDir,
 					FileUtils.RECURSIVE | FileUtils.IGNORE_ERRORS);
 		}
+
+		repoConfig.unset(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REFSTORAGE);
+		repoConfig.save();
 	}
 
 	@SuppressWarnings("nls")
@@ -774,6 +781,11 @@ public class FileRepository extends Repository {
 
 		refs.close();
 		refs = new FileReftableDatabase(this, refsFile);
+
+		repoConfig.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REFSTORAGE,
+				ConfigConstants.CONFIG_REFSTORAGE_REFTABLE);
+		repoConfig.save();
 	}
 
 	/**
