@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7fe2b122_e2b92a68",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AmazonS3Client.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-14T19:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72fa792e_0711ee25",
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd37d289_179c92d9",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
         "patchSetId": 15
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Not sure, that means I have to rename the variable cmd everywhere. Is that better?",
       "parentUuid": "bd37d289_179c92d9",
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7dd922f_658481b4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-14T19:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20a599f_ca3d13ee",
       "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -95,6 +131,47 @@
         "endLine": 239,
         "endChar": 20
       },
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb2d11c_5b9d0bdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-14T19:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3617701_a30544d3",
+      "range": {
+        "startLine": 239,
+        "startChar": 19,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f597c00a_c18b4837",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-14T19:41:43Z",
+      "side": 1,
+      "message": "this isn\u0027t easier to read",
       "revId": "6f594943b31c2ceb9d7494b8ba839ca7b9c5bc95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
