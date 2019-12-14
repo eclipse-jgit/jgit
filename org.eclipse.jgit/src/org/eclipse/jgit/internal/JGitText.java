@@ -780,6 +780,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;
+	/***/ public String unknownRefStorageFormat;
 	/***/ public String unknownRepositoryFormat;
 	/***/ public String unknownRepositoryFormat2;
 	/***/ public String unknownTransportCommand;

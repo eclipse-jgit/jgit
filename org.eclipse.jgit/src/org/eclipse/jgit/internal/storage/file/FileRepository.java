@@ -788,7 +788,6 @@ public class FileRepository extends Repository {
 	 * @throws IOException
 	 *             on I/O problems.
 	 */
-	@SuppressWarnings("nls")
 	public void convertRefStorage(String format, boolean writeLogs,
 			boolean backup) throws IOException {
 		if (format.equals("reftable")) { //$NON-NLS-1$
@@ -800,8 +799,8 @@ public class FileRepository extends Repository {
 				convertToPackedRefs(backup);
 			}
 		} else {
-			throw new IOException(String.format(
-					"unknown supported ref storage format '%s'", format));
+			throw new IOException(MessageFormat
+					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
 	}
 }
