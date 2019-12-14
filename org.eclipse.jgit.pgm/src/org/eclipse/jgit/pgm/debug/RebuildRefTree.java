@@ -52,6 +52,7 @@ import java.util.List;
 import org.eclipse.jgit.internal.storage.reftree.RefTree;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -133,8 +134,11 @@ class RebuildRefTree extends TextBuiltin {
 
 			if (enable && !(db.getRefDatabase() instanceof RefTreeDatabase)) {
 				StoredConfig cfg = db.getConfig();
-				cfg.setInt("core", null, "repositoryformatversion", 1); //$NON-NLS-1$ //$NON-NLS-2$
-				cfg.setString("extensions", null, "refStorage", "reftree"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+				cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+						ConfigConstants.CONFIG_KEY_REFSTORAGE,
+						ConfigConstants.CONFIG_REFSTORAGE_REFTREE);
 				cfg.save();
 				errw.println("Enabled reftree."); //$NON-NLS-1$
 				errw.flush();

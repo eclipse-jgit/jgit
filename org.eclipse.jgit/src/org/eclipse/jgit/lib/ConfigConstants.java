@@ -507,4 +507,24 @@ public final class ConfigConstants {
 	 * @since 5.1.9
 	 */
 	public static final String CONFIG_KEY_MIN_RACY_THRESHOLD = "minRacyThreshold";
+
+	/**
+	 * The "extensions" section
+	 */
+	public static final String CONFIG_EXTENSIONS_SECTION = "extensions";
+
+	/**
+	 * The extensions.refStorage key
+	 */
+	public static final String CONFIG_KEY_REFSTORAGE = "refStorage";
+
+	/**
+	 * The "reftable" refStorage format
+	 */
+	public static final String CONFIG_REFSTORAGE_REFTABLE = "reftable";
+
+	/**
+	 * The "reftree" refStorage format
+	 */
+	public static final String CONFIG_REFSTORAGE_REFTREE = "reftree";
 }
