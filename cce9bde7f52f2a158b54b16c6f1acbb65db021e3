@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54b05548_5382aa0a",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72c137b2_2b53f4f3",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3bc4e5c_396c1574",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/mailmap/MailmapParserTest.java",
         "patchSetId": 1
@@ -158,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "f5548080_f2681715",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1991,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd520b2f_a0d04924",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af2752f0_a41789fc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -198,6 +234,30 @@
     },
     {
       "key": {
+        "uuid": "5c23c212_91168da7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fac10fa_d317afcd",
+      "range": {
+        "startLine": 1997,
+        "startChar": 40,
+        "endLine": 1997,
+        "endChar": 49
+      },
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31e4992c_31107ef2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -209,6 +269,24 @@
       "writtenOn": "2019-12-17T22:26:36Z",
       "side": 1,
       "message": "don\u0027t swallow exceptions, either throw them or at least log them",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f132cfed_bf06dc01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e4992c_31107ef2",
       "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -238,6 +316,30 @@
     },
     {
       "key": {
+        "uuid": "1d1ae07c_b2dd894e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2016,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7371e596_ef6c9c5f",
+      "range": {
+        "startLine": 2016,
+        "startChar": 49,
+        "endLine": 2016,
+        "endChar": 59
+      },
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dfc7e39_55f6aadd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
         "patchSetId": 1
@@ -249,6 +351,24 @@
       "writtenOn": "2019-12-17T22:26:36Z",
       "side": 1,
       "message": "missing @since 5.7 annotation for new API",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d175a0f_99bab3f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dfc7e39_55f6aadd",
       "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -318,6 +438,24 @@
     },
     {
       "key": {
+        "uuid": "eede9950_e8d5a23e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ade7ee_d7bc467b",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc46073c_f9bde1d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
         "patchSetId": 1
@@ -329,6 +467,24 @@
       "writtenOn": "2019-12-17T22:26:36Z",
       "side": 1,
       "message": "missing @since 5.7 annotation\nmaybe the implementation could be moved to an internal package",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "549a7e61_368ac971",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc46073c_f9bde1d6",
       "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -352,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "4867c754_b4c99c13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d6fa6b0_91e23934",
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1837f2c_e2994314",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
         "patchSetId": 1
@@ -363,6 +537,30 @@
       "writtenOn": "2019-12-17T22:26:36Z",
       "side": 1,
       "message": "use single quote to make this a Char",
+      "range": {
+        "startLine": 86,
+        "startChar": 28,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "cce9bde7f52f2a158b54b16c6f1acbb65db021e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905aec3e_22899942",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1837f2c_e2994314",
       "range": {
         "startLine": 86,
         "startChar": 28,
