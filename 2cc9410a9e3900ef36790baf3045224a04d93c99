@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7f1bd38_ffe495bb",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:26:54Z",
+      "side": 1,
+      "message": "This requires to import the package of MailMap otherwise it\u0027s not visible in OSGi runtime (when JGit runs in Eclipse)",
+      "revId": "2cc9410a9e3900ef36790baf3045224a04d93c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
