@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ea8a841c_d388bdcd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T22:33:50Z",
+      "side": 1,
+      "message": "removed this",
+      "parentUuid": "0ea2b7d5_2589370b",
+      "range": {
+        "startLine": 352,
+        "startChar": 23,
+        "endLine": 352,
+        "endChar": 42
+      },
+      "revId": "6f8d41909898ea87353fadf4bb587186fc0f2b10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5dcae41_1bac1838",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameResult.java",
         "patchSetId": 1
