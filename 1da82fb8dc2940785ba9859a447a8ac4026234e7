@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db448493_c2734844",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T09:38:04Z",
+      "side": 1,
+      "message": "achieved",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "1da82fb8dc2940785ba9859a447a8ac4026234e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0490f2_b21e4559",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T09:38:04Z",
+      "side": 1,
+      "message": "This default implementation throws an AbortedByHookException. Hooks which need a different behaviour can overwrite this method.",
+      "revId": "1da82fb8dc2940785ba9859a447a8ac4026234e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a234f591_ad7eb74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCommitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-17T09:38:04Z",
+      "side": 1,
+      "message": "this is the post-commit hook",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 47
+      },
+      "revId": "1da82fb8dc2940785ba9859a447a8ac4026234e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
