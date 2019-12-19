@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1448a2c4_db16a9f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2019-12-19T20:01:02Z",
+      "side": 1,
+      "message": "Commits were removed in order to use bitmaps in pack writer if we unshallow all commits:\nhttps://git.eclipse.org/r/#/c/21227/2/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java\n\nIs not doing it in the new code expected?",
+      "range": {
+        "startLine": 1385,
+        "startChar": 53,
+        "endLine": 1385,
+        "endChar": 61
+      },
+      "revId": "df44f00a2ce951d17fa37c710a05fe7c89e3ac2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
