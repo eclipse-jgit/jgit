@@ -349,7 +349,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 						untrackedBuilder.add(entry);
 					untrackedBuilder.finish();
 
-					builder.setParentIds(new ObjectId[0]);
+					builder.setParentIds();
 					builder.setTreeId(untrackedDirCache.writeTree(inserter));
 					builder.setMessage(MessageFormat.format(MSG_UNTRACKED,
 							branch, headCommit.abbreviate(7).name(),

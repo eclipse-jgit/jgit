@@ -290,7 +290,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	public static TreeWalk forPath(final Repository db, final String path,
 			final RevTree tree) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		return forPath(db, path, new ObjectId[] { tree });
+		return forPath(db, path, tree);
 	}
 
 	private final ObjectReader reader;

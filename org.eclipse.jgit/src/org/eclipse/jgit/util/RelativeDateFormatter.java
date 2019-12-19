@@ -126,9 +126,9 @@ public class RelativeDateFormatter {
 			String monthLabel = (months > 1) ? JGitText.get().months : //
 					(months == 1 ? JGitText.get().month : ""); //$NON-NLS-1$
 			return MessageFormat.format(
-					months == 0 ? JGitText.get().years0MonthsAgo : JGitText
-							.get().yearsMonthsAgo,
-					new Object[] { years, yearLabel, months, monthLabel });
+					months == 0 ? JGitText.get().years0MonthsAgo
+							: JGitText.get().yearsMonthsAgo,
+					years, yearLabel, months, monthLabel);
 		}
 
 		// years
