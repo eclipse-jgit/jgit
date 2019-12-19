@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e463ccb_d529c6d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-19T23:08:14Z",
+      "side": 1,
+      "message": "this makes this call call this same method recursively which leads to a StackOverflowException instead of calling forPath(Repository, String, AnyObjectId...) which has a different implementation calling forPath(Repository, ObjectReader, String, AnyObjectId...)",
+      "revId": "89ffa751ef7e9293a3843d6c6be7ea39b38ef485",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
