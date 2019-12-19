@@ -142,43 +142,42 @@ public class PackWriter implements AutoCloseable {
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<>();
 
-	private static final Iterable<PackWriter> instancesIterable = new Iterable<PackWriter>() {
+	private static final Iterable<PackWriter> instancesIterable = () -> new Iterator<PackWriter>() {
+
+		private final Iterator<WeakReference<PackWriter>> it = instances
+				.keySet().iterator();
+
+		private PackWriter next;
+
 		@Override
-		public Iterator<PackWriter> iterator() {
-			return new Iterator<PackWriter>() {
-				private final Iterator<WeakReference<PackWriter>> it =
-						instances.keySet().iterator();
-				private PackWriter next;
-
-				@Override
-				public boolean hasNext() {
-					if (next != null)
-						return true;
-					while (it.hasNext()) {
-						WeakReference<PackWriter> ref = it.next();
-						next = ref.get();
-						if (next != null)
-							return true;
-						it.remove();
-					}
-					return false;
+		public boolean hasNext() {
+			if (next != null) {
+				return true;
+			}
+			while (it.hasNext()) {
+				WeakReference<PackWriter> ref = it.next();
+				next = ref.get();
+				if (next != null) {
+					return true;
 				}
+				it.remove();
+			}
+			return false;
+		}
 
-				@Override
-				public PackWriter next() {
-					if (hasNext()) {
-						PackWriter result = next;
-						next = null;
-						return result;
-					}
-					throw new NoSuchElementException();
-				}
+		@Override
+		public PackWriter next() {
+			if (hasNext()) {
+				PackWriter result = next;
+				next = null;
+				return result;
+			}
+			throw new NoSuchElementException();
+		}
 
-				@Override
-				public void remove() {
-					throw new UnsupportedOperationException();
-				}
-			};
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
 		}
 	};
 
