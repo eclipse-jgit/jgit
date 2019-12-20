@@ -56,6 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Collection;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -390,6 +391,7 @@ public class Daemon {
 		if (acceptThread != null) {
 			acceptThread.shutDown();
 		}
+		Git.shutdown();
 	}
 
 	/**

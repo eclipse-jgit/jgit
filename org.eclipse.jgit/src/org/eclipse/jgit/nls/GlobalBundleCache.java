@@ -103,4 +103,8 @@ class GlobalBundleCache {
 			throw new Error(e);
 		}
 	}
+
+	static void clear() {
+		cachedBundles.clear();
+	}
 }
