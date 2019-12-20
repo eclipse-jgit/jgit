@@ -52,8 +52,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
