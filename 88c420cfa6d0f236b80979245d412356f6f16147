@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2f8642_41395469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "s/.../the Code Aurora Linux kernel repo/",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4264d814_578d675c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "The description is focussing a bit too much on the mechanics rather than the algorithmic change. Something like this will help people understand (please update when I get details wrong):\nHistorically, bitmap index creation happened in 3 phases:\n1) Select the commits to which bitmaps should be attached\n2) Create all of the bitmaps for them, stored in undeltified (uncompressed?) format\n3) Write the bitmap index to disk\n\nI/We investigated interleaving steps 2 \u0026 3, but for phase 2 it is most efficient to create bitmaps starting with the oldest commit and moving to the newest commit, because the newer commits are able to reuse the work for the older ones. But bitmap deltification is more optimal when a newer commit\u0027s bitmap is the base, and the current disk format writes bitmaps out for the newest commits first.\n\nSo instead this change introduces a new collection to hold the deltified \u0026 compressed representations of the bitmaps, keeping a smaller subset of commits in the PackBitmapIndexBuilder to help make the revwalks more efficient.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 71
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76a158a_47425e17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "... and only using it to optimize the revwalks.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f64523_59ecc9aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "There is new guidance on copyright headers: https://www.eclipse.org/projects/handbook/#ip-copyright-headers. https://git.eclipse.org/r/c/147144/10/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java is a new example.\n\nPlease apply that to any new files (no need to clean up existing ones).",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64994813_8111c074",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "It seems like doing this step before creating the filter would allow reusing AddToBitmapFilter. E.g., rather than:\n  BitmapCommit c \u003d prevCommit;\n  BitmapBuilder b \u003d new BitmapBuilder();\n  RevFilter f\u003d new AddToBitmapWithCacheFilter(c, b);\nreuse existing classes this way:\n  BitmapBuilder b \u003d new BitmapBuilder();\n  b.or(prevCommit.getBitmap();\n  RevFilter f\u003d new AddToBitmapFilter(b);\n\nThis would probably allow you to revert the changes in BitmapWalker too. If I\u0027m wrong about this it is because I\u0027m having trouble reviewing this large a change on my laptop screen. Splitting out any no-op refactorings first would help.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 37
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3a9f57_11fe1ec4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "If after other reworks it is still beneficial to make this a top-level class, please split it out as a separate change to make the review easier.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac4dce97_c83a8dd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2019-12-20T01:37:13Z",
+      "side": 1,
+      "message": "The other configuration parameters here actually affect how the packfile and/or its bitmap indices are constructed, whereas this parameter is purely for optimization of memory usage. Through experimentation we can probably find an optimal value here and hardcode it, rather than cluttering the public API.\n\nSo please revert this and hardcode with a value that is a no op. We can use internal patches to experiment and find the optimal value.",
+      "range": {
+        "startLine": 1148,
+        "startChar": 0,
+        "endLine": 1149,
+        "endChar": 0
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
