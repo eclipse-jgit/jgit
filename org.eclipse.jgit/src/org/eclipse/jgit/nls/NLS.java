@@ -100,6 +100,15 @@ public class NLS {
 		return b.get(type);
 	}
 
+	/**
+	 * Release resources held by NLS
+	 * @since 5.8
+	 */
+	public static void clear() {
+		local.remove();
+		GlobalBundleCache.clear();
+	}
+
 	private final Locale locale;
 	private final ConcurrentHashMap<Class, TranslationBundle> map = new ConcurrentHashMap<>();
 
