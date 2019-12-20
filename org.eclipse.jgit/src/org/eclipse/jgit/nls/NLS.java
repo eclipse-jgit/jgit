@@ -133,6 +133,15 @@ public class NLS {
 		return b.get(type);
 	}
 
+	/**
+	 * Release resources held by NLS
+	 * @since 5.7
+	 */
+	public static void clear() {
+		local.remove();
+		GlobalBundleCache.clear();
+	}
+
 	final private Locale locale;
 	final private ConcurrentHashMap<Class, TranslationBundle> map = new ConcurrentHashMap<>();
 

@@ -51,6 +51,8 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.internal.WorkQueue;
+import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -201,6 +203,15 @@ public class Git implements AutoCloseable {
 	 */
 	public static InitCommand init() {
 		return new InitCommand();
+	}
+
+	/**
+	 * Shutdown JGit and release resources it holds like NLS and thread pools
+	 * @since 5.7
+	 */
+	public static void shutdown() {
+		WorkQueue.getExecutor().shutdownNow();
+		NLS.clear();
 	}
 
 	/**
