@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -1004,7 +1005,7 @@ public class UploadPack {
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
-		FetchRequest req;
+		FetchV0Request req;
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -1048,7 +1049,7 @@ public class UploadPack {
 				}, unshallow -> {
 					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
 					unshallowCommits.add(unshallow);
-				}, Collections.emptyList());
+				}, emptyList());
 				pckOut.end();
 			}
 
@@ -1080,9 +1081,12 @@ public class UploadPack {
 
 		if (sendPack) {
 			initializeOutput(req);
-			sendPack(pckOut, req, accumulator,
-					refs == null ? null : refs.values(), unshallowCommits,
-					Collections.emptyList());
+			V0PackSender sender = new V0PackSender(req,
+					(refs == null && req.getClientCapabilities()
+							.contains(OPTION_INCLUDE_TAG)) ? emptyList()
+									: refs.values(),
+					unshallowCommits);
+			sender.sendPack(accumulator);
 			if (isSideband(req)) {
 				pckOut.end();
 			}
@@ -1243,19 +1247,20 @@ public class UploadPack {
 
 			if (sectionSent)
 				pckOut.writeDelim();
+
 			if (!pckOut.isUsingSideband()) {
 				// sendPack will write "packfile\n" for us if sideband-all is used.
 				// But sideband-all is not used, so we have to write it ourselves.
-				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+				pckOut.writeString("packfile\n"); // $NON-NLS-1$
 			}
 			initializeOutput(req);
-			sendPack(pckOut,
-					req,
-					new PackStatistics.Accumulator(),
+			V2PackSender sender = new V2PackSender(req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 							? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-							: null,
-					unshallowCommits, deepenNots);
+							: emptyList(),
+					unshallowCommits, pckOut,
+					deepenNots);
+			sender.sendPack(new PackStatistics.Accumulator());
 			if (isSideband(req)) {
 				pckOut.end();
 			}
@@ -2163,45 +2168,84 @@ public class UploadPack {
 				|| caps.contains(OPTION_SIDE_BAND_64K);
 	}
 
-	/**
-	 * Send the requested objects to the client.
-	 *
-	 * @param pckOut
-	 *            PacketLineOut that shares the output with packOut
-	 * @param req
-	 *            request being processed
-	 * @param accumulator
-	 *            where to write statistics about the content of the pack.
-	 * @param allTags
-	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
-	 * @param unshallowCommits
-	 *            shallow commits on the client that are now becoming unshallow
-	 * @param deepenNots
-	 *            objects that the client specified using --shallow-exclude
-	 * @throws IOException
-	 *             if an error occurred while generating or writing the pack.
-	 */
-	private void sendPack(PacketLineOut pckOut,
-			FetchRequest req,
-			PackStatistics.Accumulator accumulator,
-			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots) throws IOException {
-		if (wantAll.isEmpty()) {
-			preUploadHook.onSendPack(this, wantIds, commonBase);
-		} else {
-			preUploadHook.onSendPack(this, wantAll, commonBase);
-		}
-		msgOut.flush();
+	private class PackSender<R extends FetchRequest> {
+		protected final R req;
 
-		PackConfig cfg = packConfig;
-		if (cfg == null)
-			cfg = new PackConfig(db);
-		@SuppressWarnings("resource") // PackWriter is referenced in the finally
-										// block, and is closed there
-		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
-				accumulator);
-		try {
+		protected final Collection<Ref> allTags;
+
+		private final List<ObjectId> unshallowCommits;
+
+		public PackSender(R req, Collection<Ref> allTags,
+				List<ObjectId> unshallowCommits) {
+			this.req = req;
+			this.allTags = allTags;
+			this.unshallowCommits = unshallowCommits;
+		}
+
+		/**
+		 * Send the requested objects to the client.
+		 *
+		 * @param accumulator
+		 *            where to write statistics about the content of the pack.
+		 * @throws IOException
+		 *             if an error occurred while generating or writing the
+		 *             pack.
+		 */
+		public void sendPack(PackStatistics.Accumulator accumulator)
+				throws IOException {
+			if (wantAll.isEmpty()) {
+				preUploadHook.onSendPack(UploadPack.this, wantIds, commonBase);
+			} else {
+				preUploadHook.onSendPack(UploadPack.this, wantAll, commonBase);
+			}
+			msgOut.flush();
+
+			PackConfig cfg = packConfig;
+			if (cfg == null)
+				cfg = new PackConfig(db);
+			@SuppressWarnings("resource")
+			// PackWriter is referenced in the finally block, and is closed there.
+			final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
+					accumulator);
+			try {
+				configurePackWriter(pw);
+
+				// Objects named directly by references go at the beginning
+				// of the pack.
+				if (commonBase.isEmpty() && refs != null) {
+					Set<ObjectId> tagTargets = new HashSet<>();
+					for (Ref ref : refs.values()) {
+						if (ref.getPeeledObjectId() != null)
+							tagTargets.add(ref.getPeeledObjectId());
+						else if (ref.getObjectId() == null) {
+							continue;
+						} else if (ref.getName()
+								.startsWith(Constants.R_HEADS)) {
+							tagTargets.add(ref.getObjectId());
+						}
+					}
+					pw.setTagTargets(tagTargets);
+				}
+
+				preparePack(pw, walk);
+				writePack(pw);
+
+				if (msgOut != NullOutputStream.INSTANCE) {
+					String msg = pw.getStatistics().getMessage() + '\n';
+					msgOut.write(Constants.encode(msg));
+					msgOut.flush();
+				}
+
+			} finally {
+				statistics = pw.getStatistics();
+				if (statistics != null) {
+					postUploadHook.onPostUpload(statistics);
+				}
+				pw.close();
+			}
+		}
+
+		protected void configurePackWriter(PackWriter pw) {
 			pw.setIndexDisabled(true);
 			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
@@ -2209,127 +2253,151 @@ public class UploadPack {
 				pw.setFilterSpec(req.getFilterSpec());
 				pw.setUseCachedPacks(false);
 			}
-			pw.setUseBitmaps(
-					req.getDepth() == 0
-							&& req.getClientShallowCommits().isEmpty()
-							&& req.getFilterSpec().getTreeDepthLimit() == -1);
+			pw.setUseBitmaps(req.getDepth() == 0
+					&& req.getClientShallowCommits().isEmpty()
+					&& req.getFilterSpec().getTreeDepthLimit() == -1);
 			pw.setClientShallowCommits(req.getClientShallowCommits());
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(
 					req.getClientCapabilities().contains(OPTION_OFS_DELTA));
 			pw.setThin(req.getClientCapabilities().contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
+		}
 
-			// Objects named directly by references go at the beginning
-			// of the pack.
-			if (commonBase.isEmpty() && refs != null) {
-				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
-					if (ref.getPeeledObjectId() != null)
-						tagTargets.add(ref.getPeeledObjectId());
-					else if (ref.getObjectId() == null)
-						continue;
-					else if (ref.getName().startsWith(Constants.R_HEADS))
-						tagTargets.add(ref.getObjectId());
-				}
-				pw.setTagTargets(tagTargets);
-			}
-
-			RevWalk rw = walk;
-			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
-				int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
-						: req.getDepth() - 1;
-				pw.setShallowPack(req.getDepth(), unshallowCommits);
-
-				@SuppressWarnings("resource") // Ownership is transferred below
-				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
-						walk.getObjectReader(), walkDepth);
-				dw.setDeepenSince(req.getDeepenSince());
-				dw.setDeepenNots(deepenNots);
-				dw.assumeShallow(req.getClientShallowCommits());
-				rw = dw;
-			}
-
+		protected RevWalk preparePack(PackWriter pw, RevWalk rw)
+				throws IOException {
 			if (wantAll.isEmpty()) {
 				pw.preparePack(monitor, wantIds, commonBase,
 						req.getClientShallowCommits());
+				return rw;
 			} else {
 				walk.reset();
 
 				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
 				pw.preparePack(monitor, ow, wantAll, commonBase,
 						PackWriter.NONE);
-				rw = ow;
+				return ow;
 			}
+		}
 
-			if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-					&& allTags != null) {
-				for (Ref ref : allTags) {
-					ObjectId objectId = ref.getObjectId();
-					if (objectId == null) {
-						// skip unborn branch
-						continue;
-					}
-
-					// If the object was already requested, skip it.
-					if (wantAll.isEmpty()) {
-						if (wantIds.contains(objectId))
-							continue;
-					} else {
-						RevObject obj = rw.lookupOrNull(objectId);
-						if (obj != null && obj.has(WANT))
-							continue;
-					}
-
-					if (!ref.isPeeled())
-						ref = db.getRefDatabase().peel(ref);
-
-					ObjectId peeledId = ref.getPeeledObjectId();
-					objectId = ref.getObjectId();
-					if (peeledId == null || objectId == null)
-						continue;
-
-					objectId = ref.getObjectId();
-					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
-						RevObject o = rw.parseAny(objectId);
-						addTagChain(o, pw);
-						pw.addObject(o);
-					}
-				}
-			}
-
-			if (pckOut.isUsingSideband()) {
-				if (req instanceof FetchV2Request &&
-						cachedPackUriProvider != null &&
-						!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
-					FetchV2Request reqV2 = (FetchV2Request) req;
-					pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(
-							pckOut,
-							reqV2.getPackfileUriProtocols(),
-							cachedPackUriProvider));
-				} else {
-					// PackWriter will write "packfile-uris\n" and "packfile\n"
-					// for us if provided a PackfileUriConfig. In this case, we
-					// are not providing a PackfileUriConfig, so we have to
-					// write this line ourselves.
-					pckOut.writeString("packfile\n"); //$NON-NLS-1$
-				}
-			}
+		protected void writePack(PackWriter pw) throws IOException {
 			pw.writePack(monitor, NullProgressMonitor.INSTANCE,
 					packOut);
+		}
 
-			if (msgOut != NullOutputStream.INSTANCE) {
-				String msg = pw.getStatistics().getMessage() + '\n';
-				msgOut.write(Constants.encode(msg));
-				msgOut.flush();
+		protected void applyTags(PackWriter pw, RevWalk rw) throws IOException {
+			for (Ref ref : allTags) {
+				ObjectId objectId = ref.getObjectId();
+				if (objectId == null) {
+					// skip unborn branch
+					continue;
+				}
+
+				// If the object was already requested, skip it.
+				if (wantAll.isEmpty()) {
+					if (wantIds.contains(objectId))
+						continue;
+				} else {
+					RevObject obj = rw.lookupOrNull(objectId);
+					if (obj != null && obj.has(WANT))
+						continue;
+				}
+
+				if (!ref.isPeeled())
+					ref = db.getRefDatabase().peel(ref);
+
+				ObjectId peeledId = ref.getPeeledObjectId();
+				objectId = ref.getObjectId();
+				if (peeledId == null || objectId == null)
+					continue;
+
+				objectId = ref.getObjectId();
+				if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
+					RevObject o = rw.parseAny(objectId);
+					addTagChain(o, pw);
+					pw.addObject(o);
+				}
+			}
+		}
+
+		protected DepthWalk.RevWalk applyDepth(PackWriter pw) {
+			int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
+					: req.getDepth() - 1;
+			pw.setShallowPack(req.getDepth(), unshallowCommits);
+
+			DepthWalk.RevWalk dw = new DepthWalk.RevWalk(walk.getObjectReader(),
+					walkDepth);
+			dw.setDeepenSince(req.getDeepenSince());
+			dw.assumeShallow(req.getClientShallowCommits());
+			return dw;
+		}
+	}
+
+	private class V0PackSender extends PackSender<FetchV0Request> {
+		public V0PackSender(FetchV0Request req, Collection<Ref> allTags,
+				List<ObjectId> unshallowCommits) {
+			super(req, allTags, unshallowCommits);
+		}
+
+		@Override
+		protected RevWalk preparePack(PackWriter pw, RevWalk rw)
+				throws IOException {
+			if (req.getDepth() > 0 || req.getDeepenSince() != 0) {
+				rw = applyDepth(pw);
 			}
 
-		} finally {
-			statistics = pw.getStatistics();
-			if (statistics != null) {
-				postUploadHook.onPostUpload(statistics);
+			rw = super.preparePack(pw, rw);
+			applyTags(pw, rw);
+			return rw;
+		}
+	}
+
+	private class V2PackSender extends PackSender<FetchV2Request> {
+		private final PacketLineOut pckOut;
+
+		private final List<ObjectId> deepenNots;
+
+		public V2PackSender(FetchV2Request req, Collection<Ref> allTags,
+				List<ObjectId> unshallowCommits, PacketLineOut pckOut,
+				List<ObjectId> deepenNots) {
+			super(req, allTags, unshallowCommits);
+			this.pckOut = pckOut;
+			this.deepenNots = deepenNots;
+		}
+
+		@Override
+		protected RevWalk preparePack(PackWriter pw, RevWalk rw)
+				throws IOException {
+			if (req.getDepth() > 0 || req.getDeepenSince() != 0
+					|| !deepenNots.isEmpty()) {
+				rw = applyDepth(pw);
 			}
-			pw.close();
+			rw = super.preparePack(pw, rw);
+			applyTags(pw, rw);
+			return rw;
+		}
+
+		@Override
+		protected void writePack(PackWriter pw) throws IOException {
+			if (pckOut.isUsingSideband() && cachedPackUriProvider != null
+					&& !req.getPackfileUriProtocols().isEmpty()) {
+				pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(pckOut,
+						req.getPackfileUriProtocols(), cachedPackUriProvider));
+			} else if (pckOut.isUsingSideband()) {
+				// PackWriter will write "packfile-uris\n" and "packfile\n"
+				// for us if provided a PackfileUriConfig. In this case, we
+				// are not providing a PackfileUriConfig, so we have to
+				// write this line ourselves.
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+			}
+			super.writePack(pw);
+		}
+
+		@Override
+		protected DepthWalk.RevWalk applyDepth(PackWriter pw) {
+			DepthWalk.RevWalk dw = super.applyDepth(pw);
+			dw.setDeepenNots(deepenNots);
+			return dw;
 		}
 	}
 
