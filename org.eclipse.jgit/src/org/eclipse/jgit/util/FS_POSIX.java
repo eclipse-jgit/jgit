@@ -261,7 +261,7 @@ public class FS_POSIX extends FS {
 		List<String> argv = new ArrayList<>(4 + args.length);
 		argv.add("sh"); //$NON-NLS-1$
 		argv.add("-c"); //$NON-NLS-1$
-		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
+		argv.add("$0 \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);
 		argv.addAll(Arrays.asList(args));
 		ProcessBuilder proc = new ProcessBuilder();
