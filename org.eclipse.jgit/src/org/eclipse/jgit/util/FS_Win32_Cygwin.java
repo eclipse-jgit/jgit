@@ -149,7 +149,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		List<String> argv = new ArrayList<>(4 + args.length);
 		argv.add("sh.exe"); //$NON-NLS-1$
 		argv.add("-c"); //$NON-NLS-1$
-		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
+		argv.add("$0 \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);
 		argv.addAll(Arrays.asList(args));
 		ProcessBuilder proc = new ProcessBuilder();
