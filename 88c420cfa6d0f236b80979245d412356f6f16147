@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2c62a250_e08d01a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "nit: this commit message header is a bit too wide, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2f8642_41395469",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -13,6 +30,30 @@
       "writtenOn": "2019-12-20T01:37:13Z",
       "side": 1,
       "message": "s/.../the Code Aurora Linux kernel repo/",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89837cea_1d3a4354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "can you add the git url for this example so that we can verify your patch",
+      "parentUuid": "8d2f8642_41395469",
       "range": {
         "startLine": 11,
         "startChar": 48,
@@ -71,6 +112,46 @@
     },
     {
       "key": {
+        "uuid": "7e753258_c36aab8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "did you mean previous ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 8
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d35c7245_267c56a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "I think there\u0027s no need to add the author as a redundant footer in the commit message since Git is already tracking author and committer for each commit.",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f64523_59ecc9aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
         "patchSetId": 4
@@ -117,6 +198,149 @@
     },
     {
       "key": {
+        "uuid": "e86d853f_897dde3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "move this refactoring into a separate change",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c316a376_5f3519df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "use active voice: \"Process a commit and prepare its bitmap ...\"",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 46
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3751b39_5f97e2fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand this",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f186eed_1bd1a384",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "inline this ?\n\n bitmapsToWrite.add(generateStoredEntry(oldest));",
+      "range": {
+        "startLine": 228,
+        "startChar": 15,
+        "endLine": 228,
+        "endChar": 25
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c602865e_f28a4816",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "reduce",
+      "range": {
+        "startLine": 233,
+        "startChar": 9,
+        "endLine": 233,
+        "endChar": 13
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c9659e0_a50cadb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "what are the conditions when we don\u0027t need to keep the bitmap ?",
+      "range": {
+        "startLine": 233,
+        "startChar": 33,
+        "endLine": 234,
+        "endChar": 21
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ba0dba4_b6530576",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "inline ?",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3a9f57_11fe1ec4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
         "patchSetId": 4
@@ -137,6 +361,160 @@
       "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b57105e8_82c33ddb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "objectId or oid if you want it short ?",
+      "range": {
+        "startLine": 100,
+        "startChar": 11,
+        "endLine": 100,
+        "endChar": 16
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fd233eb_3c228e0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "that\u0027s a strange abbreviation, either commit or c if you like it short",
+      "range": {
+        "startLine": 116,
+        "startChar": 45,
+        "endLine": 116,
+        "endChar": 49
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dca9beb_6857ad5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "nit: remove the extra empty line",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95e37181_4343d5fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "comment empty block",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52c10509_5308c0ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "this is hard to understand, better:\n\nSet whether the bitmap of the BitmapCommit ...",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea6f388e_e39e03e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "the new BitmapCommit",
+      "range": {
+        "startLine": 214,
+        "startChar": 13,
+        "endLine": 214,
+        "endChar": 35
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4da6087d_ef9641a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "next release is now 5.7, rebase your change on origin/master and update to @since 5.7",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a7011a7_f5eecae8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-12-26T09:33:36Z",
+      "side": 1,
+      "message": "leaky abstraction: public API must not expose internal classes",
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
