@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, 2020 Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -69,6 +69,7 @@ import java.util.stream.Collectors;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 
 import org.apache.http.Header;
@@ -89,14 +90,18 @@ import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.util.PublicSuffixMatcherLoader;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContexts;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
+import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
@@ -153,10 +158,11 @@ public class HttpClientConnection implements HttpConnection {
 				configBuilder
 						.setRedirectsEnabled(followRedirects.booleanValue());
 			}
+			SSLConnectionSocketFactory sslConnectionFactory = getSSLSocketFactory();
+			clientBuilder.setSSLSocketFactory(sslConnectionFactory);
 			if (hostnameverifier != null) {
-				SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(
-						getSSLContext(), hostnameverifier);
-				clientBuilder.setSSLSocketFactory(sslConnectionFactory);
+				// Using a custom verifier: we don't want pooled connections
+				// with this.
 				Registry<ConnectionSocketFactory> registry = RegistryBuilder
 						.<ConnectionSocketFactory> create()
 						.register("https", sslConnectionFactory)
@@ -172,6 +178,32 @@ public class HttpClientConnection implements HttpConnection {
 		}
 
 		return client;
+	}
+
+	private SSLConnectionSocketFactory getSSLSocketFactory() {
+		HostnameVerifier verifier = hostnameverifier;
+		SSLContext context;
+		if (verifier == null) {
+			// Use defaults
+			context = SSLContexts.createDefault();
+			verifier = new DefaultHostnameVerifier(
+					PublicSuffixMatcherLoader.getDefault());
+		} else {
+			// Using a custom verifier. Attention: configure() must have been
+			// called already, otherwise one gets a "context not initialized"
+			// exception. In JGit this branch is reached only when hostname
+			// verification is switched off, and JGit _does_ call configure()
+			// before we get here.
+			context = getSSLContext();
+		}
+		return new SSLConnectionSocketFactory(context, verifier) {
+
+			@Override
+			protected void prepareSocket(SSLSocket socket) throws IOException {
+				super.prepareSocket(socket);
+				HttpSupport.configureTLS(socket);
+			}
+		};
 	}
 
 	private SSLContext getSSLContext() {

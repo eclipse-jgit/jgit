@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, 2020 Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -61,9 +61,12 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.transport.internal.DelegatingSSLSocketFactory;
+import org.eclipse.jgit.util.HttpSupport;
 /**
  * A {@link org.eclipse.jgit.transport.http.HttpConnection} which simply
  * delegates every call to a {@link java.net.HttpURLConnection}. This is the
@@ -265,7 +268,15 @@ public class JDKHttpConnection implements HttpConnection {
 			KeyManagementException {
 		SSLContext ctx = SSLContext.getInstance("TLS"); //$NON-NLS-1$
 		ctx.init(km, tm, random);
-		((HttpsURLConnection) wrappedUrlConnection).setSSLSocketFactory(ctx
-				.getSocketFactory());
+		((HttpsURLConnection) wrappedUrlConnection).setSSLSocketFactory(
+				new DelegatingSSLSocketFactory(ctx.getSocketFactory()) {
+
+					@Override
+					protected void configure(SSLSocket socket)
+							throws IOException {
+						HttpSupport.configureTLS(socket);
+					}
+				});
 	}
+
 }
