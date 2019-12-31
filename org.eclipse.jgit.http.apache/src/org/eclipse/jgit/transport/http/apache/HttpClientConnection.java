@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, 2020 Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -69,6 +69,7 @@ import java.util.stream.Collectors;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 
 import org.apache.http.Header;
@@ -97,6 +98,7 @@ import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
+import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
@@ -155,7 +157,15 @@ public class HttpClientConnection implements HttpConnection {
 			}
 			if (hostnameverifier != null) {
 				SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(
-						getSSLContext(), hostnameverifier);
+						getSSLContext(), hostnameverifier) {
+
+					@Override
+					protected void prepareSocket(SSLSocket socket)
+							throws IOException {
+						super.prepareSocket(socket);
+						HttpSupport.configureTLS(socket);
+					}
+				};
 				clientBuilder.setSSLSocketFactory(sslConnectionFactory);
 				Registry<ConnectionSocketFactory> registry = RegistryBuilder
 						.<ConnectionSocketFactory> create()
