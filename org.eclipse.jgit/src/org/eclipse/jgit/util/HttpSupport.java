@@ -59,19 +59,29 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extra utilities to support usage of HTTP.
  */
 public class HttpSupport {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(HttpSupport.class);
+
 	/** The {@code GET} HTTP method. */
 	public static final String METHOD_GET = "GET"; //$NON-NLS-1$
 
@@ -190,6 +200,8 @@ public class HttpSupport {
 	 * @since 5.4
 	 */
 	public static final String HDR_SET_COOKIE2 = "Set-Cookie2"; //$NON-NLS-1$
+
+	private static Set<String> configuredHttpsProtocols;
 
 	/**
 	 * URL encode a value string into an output buffer.
@@ -356,6 +368,92 @@ public class HttpSupport {
 		public boolean verify(String hostname, SSLSession session) {
 			// always accept
 			return true;
+		}
+	}
+
+	/**
+	 * Enables all supported TLS protocol versions on the socket given. If
+	 * system property "https.protocols" is set, only protocols specified there
+	 * are enabled.
+	 * <p>
+	 * This is primarily a mechanism to deal with using TLS on IBM JDK. IBM JDK
+	 * returns sockets that support all TLS protocol versions but have only the
+	 * one specified in the context enabled. Oracle or OpenJDK return sockets
+	 * that have all available protocols enabled already, up to the one
+	 * specified.
+	 * <p>
+	 * <table>
+	 * <tr>
+	 * <td>SSLContext.getInstance()</td>
+	 * <td>OpenJDK</td>
+	 * <td>IDM JDK</td>
+	 * </tr>
+	 * <tr>
+	 * <td>"TLS"</td>
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)<br />
+	 * Enabled: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)</td>
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * Enabled: TLSv1</td>
+	 * </tr>
+	 * <tr>
+	 * <td>"TLSv1.2"</td>
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * Enabled: TLSv1, TLSV1.1, TLSv1.2</td>
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * Enabled: TLSv1.2</td>
+	 * </tr>
+	 * </table>
+	 *
+	 * @param socket
+	 *            to configure
+	 * @see <a href=
+	 *      "https://www.ibm.com/support/knowledgecenter/en/SSYKE2_8.0.0/com.ibm.java.security.component.80.doc/security-component/jsse2Docs/matchsslcontext_tls.html">Behavior
+	 *      of SSLContext.getInstance("TLS") on IBM JDK</a>
+	 * @see <a href=
+	 *      "https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#InstallationAndCustomization">Customizing
+	 *      JSSE about https.protocols</a>
+	 * @since 5.7
+	 */
+	public static void configureTLS(SSLSocket socket) {
+		// 1. Enable all available TLS protocol versions
+		Set<String> enabled = new LinkedHashSet<>(
+				Arrays.asList(socket.getEnabledProtocols()));
+		for (String s : socket.getSupportedProtocols()) {
+			if (s.startsWith("TLS")) { //$NON-NLS-1$
+				enabled.add(s);
+			}
+		}
+		// 2. Respect the https.protocols system property
+		Set<String> configured = getConfiguredProtocols();
+		if (!configured.isEmpty()) {
+			enabled.retainAll(configured);
+		}
+		if (!enabled.isEmpty()) {
+			socket.setEnabledProtocols(enabled.toArray(new String[0]));
+		}
+	}
+
+	private static Set<String> getConfiguredProtocols() {
+		Set<String> result = configuredHttpsProtocols;
+		if (result == null) {
+			String configured = getProperty("https.protocols"); //$NON-NLS-1$
+			if (StringUtils.isEmptyOrNull(configured)) {
+				result = Collections.emptySet();
+			} else {
+				result = new LinkedHashSet<>(
+						Arrays.asList(configured.split("\\s*,\\s*"))); //$NON-NLS-1$
+			}
+			configuredHttpsProtocols = result;
+		}
+		return result;
+	}
+
+	private static String getProperty(String property) {
+		try {
+			return SystemReader.getInstance().getProperty(property);
+		} catch (SecurityException e) {
+			LOG.warn(JGitText.get().failedReadHttpsProtocols, e);
+			return null;
 		}
 	}
 
