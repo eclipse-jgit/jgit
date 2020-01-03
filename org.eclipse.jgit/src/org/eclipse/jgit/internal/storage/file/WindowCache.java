@@ -47,12 +47,16 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
@@ -192,10 +196,13 @@ public class WindowCache {
 		/**
 		 * Record cached bytes
 		 *
+		 * @param pack
+		 *            pack file the bytes are read from
+		 *
 		 * @param count
 		 *            delta of cached bytes
 		 */
-		void recordOpenBytes(int count);
+		void recordOpenBytes(PackFile pack, int count);
 
 		/**
 		 * Returns a snapshot of this recorder's stats. Note that this may be an
@@ -217,6 +224,7 @@ public class WindowCache {
 		private final LongAdder evictionCount;
 		private final LongAdder openFileCount;
 		private final LongAdder openByteCount;
+		private final Map<String, LongAdder> openByteCountPerRepository;
 
 		/**
 		 * Constructs an instance with all counts initialized to zero.
@@ -230,6 +238,7 @@ public class WindowCache {
 			evictionCount = new LongAdder();
 			openFileCount = new LongAdder();
 			openByteCount = new LongAdder();
+			openByteCountPerRepository = new ConcurrentHashMap<>();
 		}
 
 		@Override
@@ -265,8 +274,18 @@ public class WindowCache {
 		}
 
 		@Override
-		public void recordOpenBytes(int count) {
+		public void recordOpenBytes(PackFile pack, int count) {
 			openByteCount.add(count);
+			LongAdder la = openByteCountPerRepository.computeIfAbsent(
+					repositoryId(pack), key -> new LongAdder());
+			la.add(count);
+		}
+
+		private static String repositoryId(PackFile pack) {
+			// hack to get the repository's gitdir since packfile doesn't know
+			// its repository
+			return pack.getPackFile().getParentFile().getParentFile()
+					.getParent();
 		}
 
 		@Override
@@ -322,6 +341,15 @@ public class WindowCache {
 			loadFailureCount.reset();
 			totalLoadTime.reset();
 			evictionCount.reset();
+		}
+
+		@Override
+		public Map<String, Long> getOpenByteCountPerRepository() {
+			return Collections.unmodifiableMap(
+					openByteCountPerRepository.entrySet().stream()
+							.collect(Collectors.toMap(Map.Entry::getKey,
+									e -> Long.valueOf(e.getValue().sum()),
+									(u, v) -> v)));
 		}
 	}
 
@@ -519,12 +547,12 @@ public class WindowCache {
 		final Ref<ByteWindow> ref = useStrongRefs
 				? new StrongRef(p, o, v, queue)
 				: new SoftRef(p, o, v, (SoftCleanupQueue) queue);
-		statsRecorder.recordOpenBytes(ref.getSize());
+		statsRecorder.recordOpenBytes(ref.getPack(), ref.getSize());
 		return ref;
 	}
 
 	private void clear(Ref<ByteWindow> ref) {
-		statsRecorder.recordOpenBytes(-ref.getSize());
+		statsRecorder.recordOpenBytes(ref.getPack(), -ref.getSize());
 		statsRecorder.recordEvictions(1);
 		close(ref.getPack());
 	}
