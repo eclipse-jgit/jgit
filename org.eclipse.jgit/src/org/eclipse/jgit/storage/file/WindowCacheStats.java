@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.storage.file;
 
+import java.util.Map;
+
 import javax.management.MXBean;
 
 import org.eclipse.jgit.internal.storage.file.WindowCache;
@@ -224,6 +226,13 @@ public interface WindowCacheStats {
 	 * @return number of bytes cached
 	 */
 	long getOpenByteCount();
+
+	/**
+	 * Number of bytes cached per repository
+	 *
+	 * @return number of bytes cached per repository
+	 */
+	Map<String, Long> getOpenByteCountPerRepository();
 
 	/**
 	 * Reset counters. Does not reset open bytes and open files counters.
