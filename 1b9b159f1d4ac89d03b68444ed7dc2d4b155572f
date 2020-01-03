@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38500d2b_9c4fdca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-03T19:40:46Z",
+      "side": 1,
+      "message": "how about logging the exception ?",
+      "revId": "1b9b159f1d4ac89d03b68444ed7dc2d4b155572f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
