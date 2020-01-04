@@ -1471,6 +1471,23 @@ public class ConfigTest {
 		assertEquals("tr   ue", parseEscapedValue("tr \\\r\n  ue"));
 	}
 
+	@Test
+	public void testCommitTemplateConfig() throws ConfigInvalidException {
+
+		// no values defined nowhere
+		Config config = new Config(null);
+		assertFalse(config.get(CommitConfig.KEY).getCommitTemplatePath()
+				.isPresent());
+
+		// values are defined in the configuration
+		String expectedTemplatePath = "git commit template path";
+		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+		String templatePath = config.get(CommitConfig.KEY)
+				.getCommitTemplatePath()
+				.get();
+		assertEquals(expectedTemplatePath, templatePath);
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);
