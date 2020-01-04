@@ -111,7 +111,14 @@ public final class ConfigConstants {
 	public static final String CONFIG_COMMIT_SECTION = "commit";
 
 	/**
+	 * The "template" key
+	 * @since 5.7
+	 */
+	public static final String CONFIG_KEY_COMMIT_TEMPLATE = "template";
+
+	/**
 	 * The "gpgSign" key
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_GPGSIGN = "gpgSign";
