@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9725803_4bfe58f5",
+        "filename": "org.eclipse.jgit.ant.test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T00:10:21Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "85e08ba5e82bda00728b8c4216da284ea2c6347b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12f8628e_341bc5ae",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T00:10:21Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "85e08ba5e82bda00728b8c4216da284ea2c6347b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b392ced_ab046f94",
+        "filename": "org.eclipse.jgit.archive/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T00:10:21Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "85e08ba5e82bda00728b8c4216da284ea2c6347b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
