@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cae3b23_5f5677f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T16:28:18Z",
+      "side": 1,
+      "message": "This class captures options in the config section \"user\" hence this is the wrong class for handling option \"commit.template\".",
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca5dff43_ef3c06ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T16:28:18Z",
+      "side": 1,
+      "message": "define constant for section key in ConfigConstants",
+      "range": {
+        "startLine": 254,
+        "startChar": 31,
+        "endLine": 254,
+        "endChar": 39
+      },
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11a60bb3_766ca007",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-04T16:28:18Z",
+      "side": 1,
+      "message": "define constant for option key in ConfigConstants",
+      "range": {
+        "startLine": 254,
+        "startChar": 47,
+        "endLine": 254,
+        "endChar": 57
+      },
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
