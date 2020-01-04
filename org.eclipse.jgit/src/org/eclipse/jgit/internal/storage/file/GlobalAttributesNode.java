@@ -17,6 +17,7 @@ import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Attribute node loaded from global system-wide file.
@@ -47,13 +48,7 @@ public class GlobalAttributesNode extends AttributesNode {
 		String path = repository.getConfig().get(CoreConfig.KEY)
 				.getAttributesFile();
 		if (path != null) {
-			File attributesFile;
-			if (path.startsWith("~/")) { //$NON-NLS-1$
-				attributesFile = fs.resolve(fs.userHome(),
-						path.substring(2));
-			} else {
-				attributesFile = fs.resolve(null, path);
-			}
+			File attributesFile = FileUtils.resolveFile(fs, path);
 			FileRepository.AttributesNodeProviderImpl.loadRulesFromFile(r, attributesFile);
 		}
 		return r.getRules().isEmpty() ? null : r;

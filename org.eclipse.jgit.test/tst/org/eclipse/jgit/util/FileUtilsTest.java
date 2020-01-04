@@ -12,6 +12,7 @@ package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -546,5 +547,24 @@ public class FileUtilsTest {
 			throws Exception {
 		assertTrue(FileUtils
 				.isStaleFileHandleInCausalChain(IO_EXCEPTION_WITH_CAUSE));
+	}
+
+	@Test
+	public void testResolveFile() throws IOException {
+		String homeDir = System.getProperty("user.home");
+		File tempFileInHomeDirectory = File.createTempFile("testResolveFile",
+				".tmp", new File(homeDir));
+		tempFileInHomeDirectory.deleteOnExit();
+
+		assertNotNull(FileUtils.resolveFile(FS.DETECTED,
+				tempFileInHomeDirectory.getPath()));
+
+		String pathWithTilde = tempFileInHomeDirectory.getPath()
+				.replace(homeDir, "~");
+
+		File resolvedFile = FileUtils.resolveFile(FS.DETECTED, pathWithTilde);
+		assertNotNull(resolvedFile);
+		assertEquals("tilde should be resolved",
+				tempFileInHomeDirectory.getPath(), resolvedFile.getPath());
 	}
 }
