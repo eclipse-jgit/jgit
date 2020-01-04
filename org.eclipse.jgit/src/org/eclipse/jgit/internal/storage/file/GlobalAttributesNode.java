@@ -47,13 +47,7 @@ public class GlobalAttributesNode extends AttributesNode {
 		String path = repository.getConfig().get(CoreConfig.KEY)
 				.getAttributesFile();
 		if (path != null) {
-			File attributesFile;
-			if (path.startsWith("~/")) { //$NON-NLS-1$
-				attributesFile = fs.resolve(fs.userHome(),
-						path.substring(2));
-			} else {
-				attributesFile = fs.resolve(null, path);
-			}
+			File attributesFile = fs.resolve(path);
 			FileRepository.AttributesNodeProviderImpl.loadRulesFromFile(r, attributesFile);
 		}
 		return r.getRules().isEmpty() ? null : r;

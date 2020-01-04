@@ -1013,6 +1013,24 @@ public abstract class FS {
 	}
 
 	/**
+	 * Home directory aware conversion of a String containing a path into a
+	 * {@link java.io.File}
+	 *
+	 * @param path
+	 * @return file representation of the given {@code path}
+	 * @since 5.7
+	 */
+	public File resolve(String path) {
+		File file;
+		if (path.startsWith("~/")) { //$NON-NLS-1$
+			file = resolve(userHome(), path.substring(2));
+		} else {
+			file = resolve(null, path);
+		}
+		return file;
+	}
+
+	/**
 	 * Determine the user's home directory (location where preferences are).
 	 * <p>
 	 * This method can be expensive on the first invocation if path name

@@ -13,6 +13,7 @@ package org.eclipse.jgit.util;
 import static java.time.Instant.EPOCH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeTrue;
@@ -233,5 +234,21 @@ public class FSTest {
 	public void testRepoCacheRelativePathUnbornRepo() {
 		assertFalse(RepositoryCache.FileKey
 				.isGitRepository(new File("repo.git"), FS.DETECTED));
+	}
+
+	@Test
+	public void testResolveHomeAware() throws IOException {
+		String homeDir = System.getProperty("user.home");
+		File tempFileInHomeDirectory = File.createTempFile("testResolveFile",
+				".tmp", new File(homeDir));
+		tempFileInHomeDirectory.deleteOnExit();
+		assertNotNull(FS.DETECTED.resolve(tempFileInHomeDirectory.getPath()));
+
+		String pathWithTilde = tempFileInHomeDirectory.getPath()
+				.replace(homeDir, "~");
+		File resolvedFile = FS.DETECTED.resolve(pathWithTilde);
+		assertNotNull(resolvedFile);
+		assertEquals("tilde should be resolved",
+				tempFileInHomeDirectory.getPath(), resolvedFile.getPath());
 	}
 }
