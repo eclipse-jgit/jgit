@@ -278,7 +278,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (s.getPort() == SSH_PORT) {
 			return s.getHost();
 		}
-		return String.format("[%s]:%d", s.getHost(), s.getPort()); //$NON-NLS-1$
+		return String.format("[%s]:%d", s.getHost(), //$NON-NLS-1$
+				Integer.valueOf(s.getPort()));
 	}
 
 	private void copyConfigValueToSession(Session session, Config cfg,
