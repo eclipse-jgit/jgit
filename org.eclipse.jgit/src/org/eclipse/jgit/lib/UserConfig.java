@@ -60,6 +60,7 @@ public class UserConfig {
 			committerEmail = getDefaultEmail();
 			isCommitterEmailImplicit = true;
 		}
+
 	}
 
 	/**
