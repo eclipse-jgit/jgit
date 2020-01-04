@@ -34,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.MessageFormat;
@@ -1463,6 +1464,33 @@ public class ConfigTest {
 		assertEquals("tr   ue", parseEscapedValue("tr \\\r\n  ue"));
 	}
 
+	@Test
+	public void testCommitTemplateConfig()
+			throws ConfigInvalidException, IOException {
+
+		// no values defined nowhere
+		Config config = new Config(null);
+		assertFalse(config.get(CommitConfig.KEY).getCommitTemplatePath()
+				.isPresent());
+		assertFalse(config.get(CommitConfig.KEY).getCommitTemplateContent()
+				.isPresent());
+
+		File tempFile = File.createTempFile("testCommitTemplate-", ".tmp");
+		tempFile.deleteOnExit();
+		String templateContent = "content of the template";
+		writeToFile(tempFile, templateContent);
+
+		// values are defined in the configuration
+		String expectedTemplatePath = tempFile.getPath();
+		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+		String templatePath = config.get(CommitConfig.KEY)
+				.getCommitTemplatePath()
+				.get();
+		assertEquals(expectedTemplatePath, templatePath);
+		assertEquals(templateContent,
+				config.get(CommitConfig.KEY).getCommitTemplateContent().get());
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);
@@ -1533,5 +1561,12 @@ public class ConfigTest {
 				FS.DETECTED);
 		config.load();
 		return config;
+	}
+
+	private static void writeToFile(File actFile, String content)
+			throws IOException {
+		try (FileOutputStream fos = new FileOutputStream(actFile)) {
+			fos.write(content.getBytes(UTF_8));
+		}
 	}
 }
