@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.lib;
 
+import java.util.Optional;
+
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -62,6 +64,8 @@ public class UserConfig {
 	private String committerName;
 
 	private String committerEmail;
+
+	private String commitTemplatePath;
 
 	private boolean isAuthorNameImplicit;
 
@@ -93,6 +97,10 @@ public class UserConfig {
 			committerEmail = getDefaultEmail();
 			isCommitterEmailImplicit = true;
 		}
+
+		commitTemplatePath = getCommitTemplatePathInternal(rc,
+				Constants.GIT_COMMIT_TEMPLATE_KEY);
+
 	}
 
 	/**
@@ -138,6 +146,18 @@ public class UserConfig {
 	 */
 	public String getCommitterEmail() {
 		return committerEmail;
+	}
+
+	/**
+	 * Get the commit template as defined in the git variables and
+	 * configurations.
+	 *
+	 * @return the commit template as defined in the git variables and
+	 *         configurations. (might be null)
+	 * @since 5.7
+	 */
+	public Optional<String> getCommitTemplatePath() {
+		return Optional.ofNullable(commitTemplatePath);
 	}
 
 	/**
@@ -223,6 +243,18 @@ public class UserConfig {
 		}
 
 		return stripInvalidCharacters(email);
+	}
+
+	private static String getCommitTemplatePathInternal(Config rc, String envKey) {
+		// try to get the template for the system property GIT_COMMIT_TEMPLATE
+		String templatePath = system().getenv(envKey);
+
+		if (templatePath == null) {
+			// try to get the template from the local and global configurations.
+			templatePath = rc.getString("commit", null, "template"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		return templatePath;
 	}
 
 	private static String stripInvalidCharacters(String s) {

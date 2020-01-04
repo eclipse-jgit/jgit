@@ -335,6 +335,12 @@ public final class Constants {
 	/** The environment variable that contains the author's email */
 	public static final String GIT_AUTHOR_EMAIL_KEY = "GIT_AUTHOR_EMAIL";
 
+	/**
+	 * The environment variable that contains the commit template
+	 * @since 5.7
+	 */
+	public static final String GIT_COMMIT_TEMPLATE_KEY = "GIT_COMMIT_TEMPLATE";
+
 	/** The environment variable that contains the commiter's name */
 	public static final String GIT_COMMITTER_NAME_KEY = "GIT_COMMITTER_NAME";
 
