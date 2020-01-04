@@ -981,4 +981,23 @@ public class FileUtils {
 		}
 		return Math.max(Math.min(min + r, max), min);
 	}
+
+	/**
+	 * home directory aware conversion of a String containing a path into a
+	 * {@link java.io.File}
+	 *
+	 * @param fs
+	 * @param path
+	 * @return file representation of the given {@code path}
+	 * @since 5.7
+	 */
+	public static File resolveFile(FS fs, String path) {
+		File file;
+		if (path.startsWith("~/")) { //$NON-NLS-1$
+			file = fs.resolve(fs.userHome(), path.substring(2));
+		} else {
+			file = fs.resolve(null, path);
+		}
+		return file;
+	}
 }
