@@ -105,17 +105,16 @@ class SmartOutputStream extends TemporaryBuffer {
 			// If output hasn't started yet, the entire thing fit into our
 			// buffer. Try to use a proper Content-Length header, and also
 			// deflate the response with gzip if it will be smaller.
-			TemporaryBuffer out = this;
-
-			if (256 < out.length() && acceptsGzipEncoding(req)) {
+			if (256 < this.length() && acceptsGzipEncoding(req)) {
 				TemporaryBuffer gzbuf = new TemporaryBuffer.Heap(LIMIT);
 				try {
 					try (GZIPOutputStream gzip = new GZIPOutputStream(gzbuf)) {
-						out.writeTo(gzip, null);
+						this.writeTo(gzip, null);
 					}
-					if (gzbuf.length() < out.length()) {
-						out = gzbuf;
+					if (gzbuf.length() < this.length()) {
 						rsp.setHeader(HDR_CONTENT_ENCODING, ENCODING_GZIP);
+						writeResponse(gzbuf);
+						return;
 					}
 				} catch (IOException err) {
 					// Most likely caused by overflowing the buffer, meaning
@@ -123,15 +122,18 @@ class SmartOutputStream extends TemporaryBuffer {
 					// copy and use the original.
 				}
 			}
+			writeResponse(this);
+		}
+	}
 
-			// The Content-Length cannot overflow when cast to an int, our
-			// hardcoded LIMIT constant above assures us we wouldn't store
-			// more than 2 GiB of content in memory.
-			rsp.setContentLength((int) out.length());
-			try (OutputStream os = rsp.getOutputStream()) {
-				out.writeTo(os, null);
-				os.flush();
-			}
+	private void writeResponse(TemporaryBuffer out) throws IOException {
+		// The Content-Length cannot overflow when cast to an int, our
+		// hardcoded LIMIT constant above assures us we wouldn't store
+		// more than 2 GiB of content in memory.
+		rsp.setContentLength((int) out.length());
+		try (OutputStream os = rsp.getOutputStream()) {
+			out.writeTo(os, null);
+			os.flush();
 		}
 	}
 }
