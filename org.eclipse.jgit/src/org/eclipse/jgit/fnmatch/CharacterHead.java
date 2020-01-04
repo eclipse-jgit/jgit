@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2008, Florian Koeberle <florianskarten@web.de>
  * Copyright (C) 2008, Florian Köberle <florianskarten@web.de> and others
  *
  * This program and the accompanying materials are made available under the

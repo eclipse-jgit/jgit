@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2008, Florian Koeberle <florianskarten@web.de>
  * Copyright (C) 2008, Florian Köberle <florianskarten@web.de>
  * Copyright (C) 2009, Vasyl' Vavrychuk <vvavrychuk@gmail.com> and others
  *
