@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a42da759_d7e7d784",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-04T19:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cae3b23_5f5677f0",
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca5dff43_ef3c06ad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
         "patchSetId": 2
@@ -58,6 +76,54 @@
         "startChar": 47,
         "endLine": 254,
         "endChar": 57
+      },
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8c48f47_86c1e8d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-04T19:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a60bb3_766ca007",
+      "range": {
+        "startLine": 254,
+        "startChar": 47,
+        "endLine": 254,
+        "endChar": 57
+      },
+      "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "551221ed_347ec699",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/UserConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-04T19:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca5dff43_ef3c06ad",
+      "range": {
+        "startLine": 254,
+        "startChar": 31,
+        "endLine": 254,
+        "endChar": 39
       },
       "revId": "29d855a8991ca4d23325673ac5da1a99849177bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
