@@ -235,6 +235,42 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void test008_readCommitTemplateConfig() {
+		final MockSystemReader mockSystemReader = new MockSystemReader();
+		SystemReader.setInstance(mockSystemReader);
+		final Config userGitConfig = mockSystemReader.openUserConfig(null,
+				FS.DETECTED);
+		final Config localConfig = new Config(userGitConfig);
+		mockSystemReader.clearProperties();
+
+		String templatePath;
+
+		// no values defined nowhere
+
+		assertFalse(localConfig.get(CommitConfig.KEY).getCommitTemplatePath()
+				.isPresent());
+
+		String expectedTemplatePath = "git commit template path";
+
+		// the values are defined in the global configuration
+		// first clear environment variables since they would override
+		// configuration files
+		mockSystemReader.clearProperties();
+		userGitConfig.setString("commit", null, "template",
+				expectedTemplatePath + "global");
+		templatePath = localConfig.get(CommitConfig.KEY).getCommitTemplatePath()
+				.get();
+		assertEquals(expectedTemplatePath + "global", templatePath);
+
+		// the values are defined in the local configuration
+		localConfig.setString("commit", null, "template",
+				expectedTemplatePath + "local");
+		templatePath = localConfig.get(CommitConfig.KEY).getCommitTemplatePath()
+				.get();
+		assertEquals(expectedTemplatePath + "local", templatePath);
+	}
+
+	@Test
 	public void testReadUserConfigWithInvalidCharactersStripped() {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		final Config localConfig = new Config(mockSystemReader.openUserConfig(
