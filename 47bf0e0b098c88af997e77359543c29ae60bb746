@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9f56fc0_3817ea6b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "This is overly complex for simple config sections like this one.\nThere is no need to care about user level config etc.\nUse a simpler approach like e.g. testGetFastForwardMergeoptions",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf875ad_074c5eb1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "I think this isn\u0027t necessary as commit template configuration isn\u0027t supported using an environment variable",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2c9f9b_7d28bf2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "please replace this with the new SPDX-compliant license header format [1] we just switched to this new format in [2]\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header\n[2] https://git.eclipse.org/r/#/c/155190/",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d68805a1_1c255c1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "you use Optional and to avoid null",
+      "range": {
+        "startLine": 73,
+        "startChar": 28,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ef70c36_2ea824d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "remote this redundant @since annotation which is already defined on the class",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08572984_ea469aa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-05T20:22:53Z",
+      "side": 1,
+      "message": "inline this method which is called from a single method which itself is a one liner",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
