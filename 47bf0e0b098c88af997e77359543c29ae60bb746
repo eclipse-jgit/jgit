@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48175412_ee4009b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f56fc0_3817ea6b",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cf875ad_074c5eb1",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-01-05T20:22:53Z",
       "side": 1,
       "message": "I think this isn\u0027t necessary as commit template configuration isn\u0027t supported using an environment variable",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3831c18d_21b08bd8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cf875ad_074c5eb1",
       "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2ede8dcc_713cead4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2c9f9b_7d28bf2f",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d68805a1_1c255c1a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 5
@@ -64,6 +118,30 @@
       "writtenOn": "2020-01-05T20:22:53Z",
       "side": 1,
       "message": "you use Optional and to avoid null",
+      "range": {
+        "startLine": 73,
+        "startChar": 28,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29809156_d366a07e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d68805a1_1c255c1a",
       "range": {
         "startLine": 73,
         "startChar": 28,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "50f1ed15_af75d798",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ef70c36_2ea824d0",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08572984_ea469aa9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 5
@@ -110,6 +212,24 @@
       "writtenOn": "2020-01-05T20:22:53Z",
       "side": 1,
       "message": "inline this method which is called from a single method which itself is a one liner",
+      "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5bde853_e89a29cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-01-06T13:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08572984_ea469aa9",
       "revId": "47bf0e0b098c88af997e77359543c29ae60bb746",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
