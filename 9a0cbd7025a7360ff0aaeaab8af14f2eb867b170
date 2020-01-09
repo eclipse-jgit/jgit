@@ -70,6 +70,29 @@
     },
     {
       "key": {
+        "uuid": "2b432be6_a521aad3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-09T16:33:31Z",
+      "side": 1,
+      "message": "Why is this Windows only? If the path is absolute, exists and is executable, I would expect the command is available on all file-systems?",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed06bf86_d690e47a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 6
