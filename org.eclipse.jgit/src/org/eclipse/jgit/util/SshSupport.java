@@ -61,6 +61,7 @@ public class SshSupport {
 		CommandFailedException failure = null;
 		@SuppressWarnings("resource")
 		MessageWriter stderr = new MessageWriter();
+		String out;
 		try (MessageWriter stdout = new MessageWriter()) {
 			session = SshSessionFactory.getInstance().getSession(sshUri,
 					provider, fs, 1000 * timeout);
@@ -75,11 +76,12 @@ public class SshSupport {
 				// waitFor with timeout has a bug - JSch' exitValue() throws the
 				// wrong exception type :(
 				if (process.waitFor() == 0) {
-					return stdout.toString();
+					out = stdout.toString();
+				} else {
+					out = null; // still running after timeout
 				}
-				return null; // still running after timeout
 			} catch (InterruptedException e) {
-				return null; // error
+				out = null; // error
 			}
 		} finally {
 			if (errorThread != null) {
@@ -113,10 +115,11 @@ public class SshSupport {
 			if (session != null) {
 				SshSessionFactory.getInstance().releaseSession(session);
 			}
-			if (failure != null) {
-				throw failure;
-			}
 		}
+		if (failure != null) {
+			throw failure;
+		}
+		return out;
 	}
 
 }

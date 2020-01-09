@@ -28,6 +28,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.storage.file.WindowCacheStats;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Before;
@@ -69,8 +70,21 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		checkLimits(cfg);
 
 		final WindowCache cache = WindowCache.getInstance();
-		assertEquals(6, cache.getOpenFiles());
-		assertEquals(17346, cache.getOpenBytes());
+		WindowCacheStats s = cache.getStats();
+		assertEquals(6, s.getOpenFileCount());
+		assertEquals(17346, s.getOpenByteCount());
+		assertEquals(0, s.getEvictionCount());
+		assertEquals(90, s.getHitCount());
+		assertTrue(s.getHitRatio() > 0.0 && s.getHitRatio() < 1.0);
+		assertEquals(6, s.getLoadCount());
+		assertEquals(0, s.getLoadFailureCount());
+		assertEquals(0, s.getLoadFailureRatio(), 0.001);
+		assertEquals(6, s.getLoadSuccessCount());
+		assertEquals(6, s.getMissCount());
+		assertTrue(s.getMissRatio() > 0.0 && s.getMissRatio() < 1.0);
+		assertEquals(96, s.getRequestCount());
+		assertTrue(s.getAverageLoadTime() > 0.0);
+		assertTrue(s.getTotalLoadTime() > 0.0);
 	}
 
 	@Test
@@ -94,10 +108,27 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 	private static void checkLimits(WindowCacheConfig cfg) {
 		final WindowCache cache = WindowCache.getInstance();
-		assertTrue(cache.getOpenFiles() <= cfg.getPackedGitOpenFiles());
-		assertTrue(cache.getOpenBytes() <= cfg.getPackedGitLimit());
-		assertTrue(0 < cache.getOpenFiles());
-		assertTrue(0 < cache.getOpenBytes());
+		WindowCacheStats s = cache.getStats();
+		assertTrue(0 < s.getAverageLoadTime());
+		assertTrue(0 < s.getOpenByteCount());
+		assertTrue(0 < s.getOpenByteCount());
+		assertTrue(0.0 < s.getAverageLoadTime());
+		assertTrue(0 <= s.getEvictionCount());
+		assertTrue(0 < s.getHitCount());
+		assertTrue(0 < s.getHitRatio());
+		assertTrue(1 > s.getHitRatio());
+		assertTrue(0 < s.getLoadCount());
+		assertTrue(0 <= s.getLoadFailureCount());
+		assertTrue(0.0 <= s.getLoadFailureRatio());
+		assertTrue(1 > s.getLoadFailureRatio());
+		assertTrue(0 < s.getLoadSuccessCount());
+		assertTrue(s.getOpenByteCount() <= cfg.getPackedGitLimit());
+		assertTrue(s.getOpenFileCount() <= cfg.getPackedGitOpenFiles());
+		assertTrue(0 <= s.getMissCount());
+		assertTrue(0 <= s.getMissRatio());
+		assertTrue(1 > s.getMissRatio());
+		assertTrue(0 < s.getRequestCount());
+		assertTrue(0 < s.getTotalLoadTime());
 	}
 
 	private void doCacheTests() throws IOException {

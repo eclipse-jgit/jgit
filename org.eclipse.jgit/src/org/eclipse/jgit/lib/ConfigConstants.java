@@ -497,4 +497,10 @@ public final class ConfigConstants {
 	 * @since 5.7
 	 */
 	public static final String CONFIG_REFSTORAGE_REFTREE = "reftree";
+
+	/**
+	 * The "jmx" section
+	 * @since 5.1.13
+	 */
+	public static final String CONFIG_JMX_SECTION = "jmx";
 }
