@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.eclipse.jgit.transport.internal;
+package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,12 +18,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PackParser;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Checks that a received pack only depends on objects which are reachable from
  * a defined set of references.
+ *
+ * @since 5.7
  */
 public interface ConnectivityChecker {
 
