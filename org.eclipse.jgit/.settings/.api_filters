@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
     <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.BaseReceivePack">
-        <filter comment="Merged BaseReceivePack into ReceivePack, replace BaseReceivePack with ReceivePack" id="305324134">
+        <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
-                <message_argument value="org.eclipse.jgit_5.6.0"/>
+                <message_argument value="org.eclipse.jgit_5.6.1"/>
             </message_arguments>
         </filter>
     </resource>
@@ -13,6 +13,14 @@
             <message_arguments>
                 <message_argument value="5.5.2"/>
                 <message_argument value="getBaseConfig()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_JMX_SECTION"/>
             </message_arguments>
         </filter>
     </resource>
@@ -29,6 +37,15 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.revwalk.ReachabilityChecker"/>
                 <message_argument value="areAllReachable(Collection&lt;RevCommit&gt;, Stream&lt;RevCommit&gt;)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/WindowCacheStats.java" type="org.eclipse.jgit.storage.file.WindowCacheStats">
+        <filter id="337809484">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.file.WindowCacheStats"/>
+                <message_argument value="4"/>
+                <message_argument value="8"/>
             </message_arguments>
         </filter>
     </resource>
@@ -100,6 +117,14 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
                 <message_argument value="enableCapabilities()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/Monitoring.java" type="org.eclipse.jgit.util.Monitoring">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="org.eclipse.jgit.util.Monitoring"/>
             </message_arguments>
         </filter>
     </resource>

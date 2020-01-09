@@ -507,4 +507,10 @@ public final class ConfigConstants {
 	 * @since 5.1.9
 	 */
 	public static final String CONFIG_KEY_MIN_RACY_THRESHOLD = "minRacyThreshold";
+
+	/**
+	 * The "jmx" section
+	 * @since 5.1.13
+	 */
+	public static final String CONFIG_JMX_SECTION = "jmx";
 }
