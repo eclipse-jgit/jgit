@@ -156,6 +156,30 @@
     },
     {
       "key": {
+        "uuid": "ff090ab4_bbfca537",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-09T16:37:55Z",
+      "side": 1,
+      "message": "One option would be to add \"FS.isPermissionDeniedReturnCode(int)\", \"FS.isCommandNotFoundReturnCode(int)\" and \"FS.isProgramNotRecognizedReturnCode(int)\". Not great, but no other ideas so far.",
+      "parentUuid": "04aa64cc_124f3066",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b955a880_b4457a75",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
         "patchSetId": 6
