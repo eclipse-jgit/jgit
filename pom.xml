@@ -835,7 +835,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>${maven-compiler-plugin-version}</version>
             <configuration>
               <encoding>UTF-8</encoding>
               <source>1.8</source>
@@ -904,7 +903,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>${maven-compiler-plugin-version}</version>
             <configuration>
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>
