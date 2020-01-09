@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cd4555f_11090019",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-09T05:49:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"\u003c\"?  Same for most of the others below, the message is different to what is being asserted.",
+      "range": {
+        "startLine": 162,
+        "startChar": 42,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
