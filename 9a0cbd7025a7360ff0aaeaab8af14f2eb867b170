@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "5575cab2_bfae7086",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-09T16:46:23Z",
+      "side": 1,
+      "message": "Do you want this changed?\n\nIMO two booleans are easier to understand but an enum should be fine here too. The public methods of this class will not change by much.\n\nI would like to rename NOT_DEFINED_X to DEFAULT_X though, if the enum stays.",
+      "parentUuid": "21f46d67_b91b4fe1",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb758bf3_2c7c2ffa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 6
