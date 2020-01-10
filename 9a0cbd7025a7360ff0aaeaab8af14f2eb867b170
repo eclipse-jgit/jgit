@@ -656,6 +656,30 @@
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41700069_bcf5ce95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/Utils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-10T10:47:15Z",
+      "side": 1,
+      "message": "\"ExternalToolUtils\"?",
+      "parentUuid": "ac9b0308_ca6542fa",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
