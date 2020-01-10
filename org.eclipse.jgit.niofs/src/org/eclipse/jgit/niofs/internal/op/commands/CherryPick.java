@@ -24,54 +24,46 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class CherryPick {
 
-    private final Git git;
-    private final String targetBranch;
-    private final String[] commits;
+	private final Git git;
+	private final String targetBranch;
+	private final String[] commits;
 
-    public CherryPick(final Git git,
-                      final String targetBranch,
-                      final String... commits) {
-        this.git = git;
-        this.targetBranch = targetBranch;
-        this.commits = commits;
-    }
+	public CherryPick(final Git git, final String targetBranch, final String... commits) {
+		this.git = git;
+		this.targetBranch = targetBranch;
+		this.commits = commits;
+	}
 
-    public void execute() throws IOException {
-        final List<ObjectId> commits = git.resolveObjectIds(this.commits);
-        if (commits.size() != this.commits.length) {
-            throw new IOException("Couldn't resolve some commits.");
-        }
+	public void execute() throws IOException {
+		final List<ObjectId> commits = git.resolveObjectIds(this.commits);
+		if (commits.size() != this.commits.length) {
+			throw new IOException("Couldn't resolve some commits.");
+		}
 
-        final Ref headRef = git.getRef(targetBranch);
-        if (headRef == null) {
-            throw new IOException("Branch not found.");
-        }
+		final Ref headRef = git.getRef(targetBranch);
+		if (headRef == null) {
+			throw new IOException("Branch not found.");
+		}
 
-        try {
-            // loop through all refs to be cherry-picked
-            for (final ObjectId src : commits) {
-                final RevCommit srcCommit = git.resolveRevCommit(src);
+		try {
+			// loop through all refs to be cherry-picked
+			for (final ObjectId src : commits) {
+				final RevCommit srcCommit = git.resolveRevCommit(src);
 
-                // get the parent of the commit to cherry-pick
-                if (srcCommit.getParentCount() != 1) {
-                    throw new IOException(new MultipleParentsNotAllowedException(
-                            MessageFormat.format(
-                                    JGitText.get().canOnlyCherryPickCommitsWithOneParent,
-                                    srcCommit.name(),
-                                    srcCommit.getParentCount())));
-                }
+				// get the parent of the commit to cherry-pick
+				if (srcCommit.getParentCount() != 1) {
+					throw new IOException(new MultipleParentsNotAllowedException(
+							MessageFormat.format(JGitText.get().canOnlyCherryPickCommitsWithOneParent, srcCommit.name(),
+									srcCommit.getParentCount())));
+				}
 
-                git.refUpdate(targetBranch,
-                              srcCommit);
-            }
-        } catch (final java.io.IOException e) {
-            throw new IOException(new JGitInternalException(
-                    MessageFormat.format(
-                            JGitText.get().exceptionCaughtDuringExecutionOfCherryPickCommand,
-                            e),
-                    e));
-        } catch (final Exception e) {
-            throw new IOException(e);
-        }
-    }
+				git.refUpdate(targetBranch, srcCommit);
+			}
+		} catch (final java.io.IOException e) {
+			throw new IOException(new JGitInternalException(
+					MessageFormat.format(JGitText.get().exceptionCaughtDuringExecutionOfCherryPickCommand, e), e));
+		} catch (final Exception e) {
+			throw new IOException(e);
+		}
+	}
 }

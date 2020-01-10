@@ -34,116 +34,101 @@ import static org.eclipse.jgit.niofs.internal.JGitFileSystemProviderConfiguratio
 
 public class JGitCacheInvalidationTest extends AbstractTestInfra {
 
-    private JGitFileSystemsCache fsCache;
-    private JGitFileSystemsManager fsManager;
+	private JGitFileSystemsCache fsCache;
+	private JGitFileSystemsManager fsManager;
 
-    @Before
-    public void createGitFsProvider() throws IOException {
-        Map<String, String> gitPreferences = getGitPreferences();
-        gitPreferences.put(JGIT_CACHE_EVICT_THRESHOLD_DURATION, "1");
-        gitPreferences.put(JGIT_CACHE_EVICT_THRESHOLD_TIME_UNIT, TimeUnit.MILLISECONDS.name());
-        gitPreferences.put(JGIT_CACHE_INSTANCES, "2");
-        provider = new JGitFileSystemProvider(gitPreferences);
-        fsManager = provider.getFsManager();
-        fsCache = fsManager.getFsCache();
-    }
+	@Before
+	public void createGitFsProvider() throws IOException {
+		Map<String, String> gitPreferences = getGitPreferences();
+		gitPreferences.put(JGIT_CACHE_EVICT_THRESHOLD_DURATION, "1");
+		gitPreferences.put(JGIT_CACHE_EVICT_THRESHOLD_TIME_UNIT, TimeUnit.MILLISECONDS.name());
+		gitPreferences.put(JGIT_CACHE_INSTANCES, "2");
+		provider = new JGitFileSystemProvider(gitPreferences);
+		fsManager = provider.getFsManager();
+		fsCache = fsManager.getFsCache();
+	}
 
-    @Test
-    public void testTwoInstancesForSameFS() throws IOException {
-        String fs1Name = "dora";
-        String fs2Name = "bento";
-        String fs3Name = "bela";
+	@Test
+	public void testTwoInstancesForSameFS() throws IOException {
+		String fs1Name = "dora";
+		String fs2Name = "bento";
+		String fs3Name = "bela";
 
-        final JGitFileSystemProxy fs1 = (JGitFileSystemProxy) provider.newFileSystem(URI.create("git://" + fs1Name),
-                                                                                     EMPTY_ENV);
-        final JGitFileSystemImpl realInstanceFs1 = (JGitFileSystemImpl) fs1.getRealJGitFileSystem();
+		final JGitFileSystemProxy fs1 = (JGitFileSystemProxy) provider.newFileSystem(URI.create("git://" + fs1Name),
+				EMPTY_ENV);
+		final JGitFileSystemImpl realInstanceFs1 = (JGitFileSystemImpl) fs1.getRealJGitFileSystem();
 
-        final FileSystem fs2 = provider.newFileSystem(URI.create("git://" + fs2Name),
-                                                      EMPTY_ENV);
-        final FileSystem fs3 = provider.newFileSystem(URI.create("git://" + fs3Name),
-                                                      EMPTY_ENV);
+		final FileSystem fs2 = provider.newFileSystem(URI.create("git://" + fs2Name), EMPTY_ENV);
+		final FileSystem fs3 = provider.newFileSystem(URI.create("git://" + fs3Name), EMPTY_ENV);
 
-        assertThat(fs1).isNotNull();
-        assertThat(fs2).isNotNull();
-        assertThat(fs3).isNotNull();
+		assertThat(fs1).isNotNull();
+		assertThat(fs2).isNotNull();
+		assertThat(fs3).isNotNull();
 
-        //only proxies instances
-        assertThat(fs1).isInstanceOf(JGitFileSystemProxy.class);
-        assertThat(fs2).isInstanceOf(JGitFileSystemProxy.class);
-        assertThat(fs3).isInstanceOf(JGitFileSystemProxy.class);
+		// only proxies instances
+		assertThat(fs1).isInstanceOf(JGitFileSystemProxy.class);
+		assertThat(fs2).isInstanceOf(JGitFileSystemProxy.class);
+		assertThat(fs3).isInstanceOf(JGitFileSystemProxy.class);
 
-        //all the fs have suppliers registered
-        assertThat(fsCache.getFileSystems()).contains(fs1.getName());
-        assertThat(fsCache.getFileSystems()).contains(((JGitFileSystem) fs2).getName());
-        assertThat(fsCache.getFileSystems()).contains(((JGitFileSystem) fs3).getName());
+		// all the fs have suppliers registered
+		assertThat(fsCache.getFileSystems()).contains(fs1.getName());
+		assertThat(fsCache.getFileSystems()).contains(((JGitFileSystem) fs2).getName());
+		assertThat(fsCache.getFileSystems()).contains(((JGitFileSystem) fs3).getName());
 
-        //only the last two FS are memoized
-        JGitFileSystemsCache.JGitFileSystemsCacheInfo cacheInfo = fsCache.getCacheInfo();
+		// only the last two FS are memoized
+		JGitFileSystemsCache.JGitFileSystemsCacheInfo cacheInfo = fsCache.getCacheInfo();
 
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs2).getName());
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs3).getName());
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs2).getName());
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs3).getName());
 
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).doesNotContain(fs1.getName());
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).doesNotContain(fs1.getName());
 
-        //a hit on fs1 in order to put him on cache
-        JGitFileSystemProxy anotherInstanceOfFs1Proxy = (JGitFileSystemProxy) fsManager.get(fs1Name);
-        JGitFileSystemImpl anotherInstanceOfFs1 = (JGitFileSystemImpl) anotherInstanceOfFs1Proxy.getRealJGitFileSystem();
+		// a hit on fs1 in order to put him on cache
+		JGitFileSystemProxy anotherInstanceOfFs1Proxy = (JGitFileSystemProxy) fsManager.get(fs1Name);
+		JGitFileSystemImpl anotherInstanceOfFs1 = (JGitFileSystemImpl) anotherInstanceOfFs1Proxy
+				.getRealJGitFileSystem();
 
-        //now fs2 are not memoized
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(fs1.getName());
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs3).getName());
+		// now fs2 are not memoized
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(fs1.getName());
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).contains(((JGitFileSystem) fs3).getName());
 
-        assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).doesNotContain(((JGitFileSystem) fs2).getName());
+		assertThat(cacheInfo.memoizedFileSystemsCacheKeys()).doesNotContain(((JGitFileSystem) fs2).getName());
 
-        //asserting that fs1 and anotherInstanceOfFs1 are instances of the same fs
-        assertThat(realInstanceFs1.getName()).isEqualToIgnoringCase(anotherInstanceOfFs1.getName());
-        //they share the same lock
-        assertThat(realInstanceFs1.getLock()).isEqualTo(anotherInstanceOfFs1.getLock());
+		// asserting that fs1 and anotherInstanceOfFs1 are instances of the same fs
+		assertThat(realInstanceFs1.getName()).isEqualToIgnoringCase(anotherInstanceOfFs1.getName());
+		// they share the same lock
+		assertThat(realInstanceFs1.getLock()).isEqualTo(anotherInstanceOfFs1.getLock());
 
-        //now lets commit on both instances and read with other one
-        new Commit(realInstanceFs1.getGit(),
-                   "master",
-                   "user1",
-                   "user1@example.com",
-                   "commitx",
-                   null,
-                   null,
-                   false,
-                   new HashMap<String, File>() {{
-                       put("realInstanceFs1File.txt",
-                           tempFile("dora"));
-                   }}).execute();
+		// now lets commit on both instances and read with other one
+		new Commit(realInstanceFs1.getGit(), "master", "user1", "user1@example.com", "commitx", null, null, false,
+				new HashMap<String, File>() {
+					{
+						put("realInstanceFs1File.txt", tempFile("dora"));
+					}
+				}).execute();
 
-        InputStream stream = provider.newInputStream(anotherInstanceOfFs1.getPath("realInstanceFs1File.txt"));
-        assertNotNull(stream);
-        String content = new Scanner(stream).useDelimiter("\\A").next();
-        assertEquals("dora",
-                     content);
+		InputStream stream = provider.newInputStream(anotherInstanceOfFs1.getPath("realInstanceFs1File.txt"));
+		assertNotNull(stream);
+		String content = new Scanner(stream).useDelimiter("\\A").next();
+		assertEquals("dora", content);
 
-        new Commit(anotherInstanceOfFs1.getGit(),
-                   "master",
-                   "user1",
-                   "user1@example.com",
-                   "commitx",
-                   null,
-                   null,
-                   false,
-                   new HashMap<String, File>() {{
-                       put("anotherInstanceOfFs1File.txt",
-                           tempFile("bento"));
-                   }}).execute();
+		new Commit(anotherInstanceOfFs1.getGit(), "master", "user1", "user1@example.com", "commitx", null, null, false,
+				new HashMap<String, File>() {
+					{
+						put("anotherInstanceOfFs1File.txt", tempFile("bento"));
+					}
+				}).execute();
 
-        stream = provider.newInputStream(realInstanceFs1.getPath("anotherInstanceOfFs1File.txt"));
-        assertNotNull(stream);
-        content = new Scanner(stream).useDelimiter("\\A").next();
-        assertEquals("bento",
-                     content);
+		stream = provider.newInputStream(realInstanceFs1.getPath("anotherInstanceOfFs1File.txt"));
+		assertNotNull(stream);
+		content = new Scanner(stream).useDelimiter("\\A").next();
+		assertEquals("bento", content);
 
-        realInstanceFs1.lock();
-        assertThat(realInstanceFs1.hasBeenInUse()).isTrue();
-        assertThat(anotherInstanceOfFs1.hasBeenInUse()).isTrue();
+		realInstanceFs1.lock();
+		assertThat(realInstanceFs1.hasBeenInUse()).isTrue();
+		assertThat(anotherInstanceOfFs1.hasBeenInUse()).isTrue();
 
-        // Unlock the lock so that cleanup can finish on Windows
-        realInstanceFs1.unlock();
-    }
+		// Unlock the lock so that cleanup can finish on Windows
+		realInstanceFs1.unlock();
+	}
 }

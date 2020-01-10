@@ -17,5 +17,5 @@ import java.nio.file.attribute.BasicFileAttributes;
  */
 public interface VersionAttributes extends BasicFileAttributes {
 
-    VersionHistory history();
+	VersionHistory history();
 }

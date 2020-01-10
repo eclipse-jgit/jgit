@@ -14,5 +14,5 @@ import org.eclipse.jgit.niofs.fs.FileSystemState;
 
 public interface FileSystemStateAware {
 
-    FileSystemState getState();
+	FileSystemState getState();
 }

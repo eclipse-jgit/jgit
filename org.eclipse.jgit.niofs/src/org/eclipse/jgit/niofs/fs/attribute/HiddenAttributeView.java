@@ -15,7 +15,7 @@ import java.nio.file.attribute.BasicFileAttributeView;
 
 public interface HiddenAttributeView extends BasicFileAttributeView {
 
-    String name();
+	String name();
 
-    HiddenAttributes readAttributes() throws IOException;
+	HiddenAttributes readAttributes() throws IOException;
 }

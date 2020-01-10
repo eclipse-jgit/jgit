@@ -17,26 +17,21 @@ import java.util.concurrent.TimeUnit;
 
 public class FileSystemLockManager {
 
-    final Map<String, FileSystemLock> fileSystemsLocks = new ConcurrentHashMap<>();
+	final Map<String, FileSystemLock> fileSystemsLocks = new ConcurrentHashMap<>();
 
-    private static class LazyHolder {
+	private static class LazyHolder {
 
-        static final FileSystemLockManager INSTANCE = new FileSystemLockManager();
-    }
+		static final FileSystemLockManager INSTANCE = new FileSystemLockManager();
+	}
 
-    public static FileSystemLockManager getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+	public static FileSystemLockManager getInstance() {
+		return LazyHolder.INSTANCE;
+	}
 
-    public FileSystemLock getFileSystemLock(File directory,
-                                            String lockName,
-                                            TimeUnit lastAccessTimeUnit,
-                                            long lastAccessThreshold) {
+	public FileSystemLock getFileSystemLock(File directory, String lockName, TimeUnit lastAccessTimeUnit,
+			long lastAccessThreshold) {
 
-        return fileSystemsLocks.computeIfAbsent(directory.getAbsolutePath(),
-                                                key -> new FileSystemLock(directory,
-                                                                          lockName,
-                                                                          lastAccessTimeUnit,
-                                                                          lastAccessThreshold));
-    }
+		return fileSystemsLocks.computeIfAbsent(directory.getAbsolutePath(),
+				key -> new FileSystemLock(directory, lockName, lastAccessTimeUnit, lastAccessThreshold));
+	}
 }

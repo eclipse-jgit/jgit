@@ -24,85 +24,81 @@ import org.eclipse.jgit.niofs.internal.JGitFileSystemProxy;
 
 public class JGitFileSystemsCache {
 
-    //supplier for creation of new fs
-    final Map<String, Supplier<JGitFileSystem>> fileSystemsSuppliers = new ConcurrentHashMap<>();
+	// supplier for creation of new fs
+	final Map<String, Supplier<JGitFileSystem>> fileSystemsSuppliers = new ConcurrentHashMap<>();
 
-    //limited amount of real instances of FS
-    final Map<String, Supplier<JGitFileSystem>> memoizedSuppliers;
+	// limited amount of real instances of FS
+	final Map<String, Supplier<JGitFileSystem>> memoizedSuppliers;
 
-    public JGitFileSystemsCache(JGitFileSystemProviderConfiguration config) {
+	public JGitFileSystemsCache(JGitFileSystemProviderConfiguration config) {
 
-        memoizedSuppliers = JGitFileSystemsCacheDataStructure.create(config);
-    }
+		memoizedSuppliers = JGitFileSystemsCacheDataStructure.create(config);
+	}
 
-    public void addSupplier(String fsKey,
-                            Supplier<JGitFileSystem> createFSSupplier) {
-        checkNotNull("fsKey", fsKey);
-        checkNotNull("fsSupplier", createFSSupplier);
+	public void addSupplier(String fsKey, Supplier<JGitFileSystem> createFSSupplier) {
+		checkNotNull("fsKey", fsKey);
+		checkNotNull("fsSupplier", createFSSupplier);
 
-        fileSystemsSuppliers.putIfAbsent(fsKey, createFSSupplier);
+		fileSystemsSuppliers.putIfAbsent(fsKey, createFSSupplier);
 
-        createMemoizedSupplier(fsKey, createFSSupplier);
-    }
+		createMemoizedSupplier(fsKey, createFSSupplier);
+	}
 
-    public void remove(String fsName) {
-        fileSystemsSuppliers.remove(fsName);
-        memoizedSuppliers.remove(fsName);
-    }
+	public void remove(String fsName) {
+		fileSystemsSuppliers.remove(fsName);
+		memoizedSuppliers.remove(fsName);
+	}
 
-    public JGitFileSystem get(String fsName) {
+	public JGitFileSystem get(String fsName) {
 
-        Supplier<JGitFileSystem> memoizedSupplier = memoizedSuppliers.get(fsName);
-        if (memoizedSupplier != null) {
-            return new JGitFileSystemProxy(fsName,
-                                           memoizedSupplier);
-        } else if (fileSystemsSuppliers.get(fsName) != null) {
-            Supplier<JGitFileSystem> newMemoizedSupplier = createMemoizedSupplier(fsName,
-                                                                                  fileSystemsSuppliers.get(fsName));
-            return new JGitFileSystemProxy(fsName,
-                                           newMemoizedSupplier);
-        }
-        return null;
-    }
+		Supplier<JGitFileSystem> memoizedSupplier = memoizedSuppliers.get(fsName);
+		if (memoizedSupplier != null) {
+			return new JGitFileSystemProxy(fsName, memoizedSupplier);
+		} else if (fileSystemsSuppliers.get(fsName) != null) {
+			Supplier<JGitFileSystem> newMemoizedSupplier = createMemoizedSupplier(fsName,
+					fileSystemsSuppliers.get(fsName));
+			return new JGitFileSystemProxy(fsName, newMemoizedSupplier);
+		}
+		return null;
+	}
 
-    private Supplier<JGitFileSystem> createMemoizedSupplier(String fsKey,
-                                                            Supplier<JGitFileSystem> createFSSupplier) {
-        Supplier<JGitFileSystem> memoizedFSSupplier = MemoizedFileSystemsSupplier.of(createFSSupplier);
-        memoizedSuppliers.putIfAbsent(fsKey,
-                                      memoizedFSSupplier);
-        return memoizedFSSupplier;
-    }
+	private Supplier<JGitFileSystem> createMemoizedSupplier(String fsKey, Supplier<JGitFileSystem> createFSSupplier) {
+		Supplier<JGitFileSystem> memoizedFSSupplier = MemoizedFileSystemsSupplier.of(createFSSupplier);
+		memoizedSuppliers.putIfAbsent(fsKey, memoizedFSSupplier);
+		return memoizedFSSupplier;
+	}
 
-    public void clear() {
-        memoizedSuppliers.clear();
-        fileSystemsSuppliers.clear();
-    }
+	public void clear() {
+		memoizedSuppliers.clear();
+		fileSystemsSuppliers.clear();
+	}
 
-    public boolean containsKey(String fsName) {
-        return fileSystemsSuppliers.containsKey(fsName);
-    }
+	public boolean containsKey(String fsName) {
+		return fileSystemsSuppliers.containsKey(fsName);
+	}
 
-    public Collection<String> getFileSystems() {
-        return fileSystemsSuppliers.keySet();
-    }
+	public Collection<String> getFileSystems() {
+		return fileSystemsSuppliers.keySet();
+	}
 
-    public JGitFileSystemsCacheInfo getCacheInfo() {
-        return new JGitFileSystemsCacheInfo();
-    }
+	public JGitFileSystemsCacheInfo getCacheInfo() {
+		return new JGitFileSystemsCacheInfo();
+	}
 
-    public class JGitFileSystemsCacheInfo {
+	public class JGitFileSystemsCacheInfo {
 
-        public int fileSystemsCacheSize() {
-            return memoizedSuppliers.size();
-        }
+		public int fileSystemsCacheSize() {
+			return memoizedSuppliers.size();
+		}
 
-        public Set<String> memoizedFileSystemsCacheKeys() {
-            return memoizedSuppliers.keySet();
-        }
+		public Set<String> memoizedFileSystemsCacheKeys() {
+			return memoizedSuppliers.keySet();
+		}
 
-        @Override
-        public String toString() {
-            return "JGitFileSystemsCacheInfo{fileSystemsCacheSize[" + fileSystemsCacheSize() + "], memoizedFileSystemsCacheKeys[" + memoizedFileSystemsCacheKeys() + "]}";
-        }
-    }
+		@Override
+		public String toString() {
+			return "JGitFileSystemsCacheInfo{fileSystemsCacheSize[" + fileSystemsCacheSize()
+					+ "], memoizedFileSystemsCacheKeys[" + memoizedFileSystemsCacheKeys() + "]}";
+		}
+	}
 }

@@ -25,43 +25,41 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JGitGetCommonAncestorCommitTest extends AbstractTestInfra {
 
-    private Git git;
+	private Git git;
 
-    private static final String MASTER_BRANCH = "master";
-    private static final String DEVELOP_BRANCH = "develop";
+	private static final String MASTER_BRANCH = "master";
+	private static final String DEVELOP_BRANCH = "develop";
 
-    @Before
-    public void setup() throws IOException {
-        final File parentFolder = createTempDirectory();
+	@Before
+	public void setup() throws IOException {
+		final File parentFolder = createTempDirectory();
 
-        final File gitSource = new File(parentFolder, "source/source.git");
+		final File gitSource = new File(parentFolder, "source/source.git");
 
-        git = new CreateRepository(gitSource).execute().get();
-    }
+		git = new CreateRepository(gitSource).execute().get();
+	}
 
-    @Test
-    public void successTest() throws IOException {
-        commit(git, MASTER_BRANCH, "Adding file", content("file.txt", "file content"));
+	@Test
+	public void successTest() throws IOException {
+		commit(git, MASTER_BRANCH, "Adding file", content("file.txt", "file content"));
 
-        RevCommit expectedCommonAncestorCommit = git.getLastCommit(MASTER_BRANCH);
+		RevCommit expectedCommonAncestorCommit = git.getLastCommit(MASTER_BRANCH);
 
-        new CreateBranch((GitImpl) git, MASTER_BRANCH, DEVELOP_BRANCH).execute();
+		new CreateBranch((GitImpl) git, MASTER_BRANCH, DEVELOP_BRANCH).execute();
 
-        commit(git, MASTER_BRANCH, "Updating file", content("file.txt", "file content 1"));
-        commit(git, MASTER_BRANCH, "Updating file", content("file.txt", "file content 2"));
+		commit(git, MASTER_BRANCH, "Updating file", content("file.txt", "file content 1"));
+		commit(git, MASTER_BRANCH, "Updating file", content("file.txt", "file content 2"));
 
-        commit(git, DEVELOP_BRANCH, "Updating file", content("file.txt", "file content 3"));
-        commit(git, DEVELOP_BRANCH, "Updating file", content("file.txt", "file content 4"));
+		commit(git, DEVELOP_BRANCH, "Updating file", content("file.txt", "file content 3"));
+		commit(git, DEVELOP_BRANCH, "Updating file", content("file.txt", "file content 4"));
 
-        RevCommit actualCommonAncestorCommit = git.getCommonAncestorCommit(MASTER_BRANCH,
-                                                                           DEVELOP_BRANCH);
+		RevCommit actualCommonAncestorCommit = git.getCommonAncestorCommit(MASTER_BRANCH, DEVELOP_BRANCH);
 
-        assertThat(actualCommonAncestorCommit.getName()).isEqualTo(expectedCommonAncestorCommit.getName());
-    }
+		assertThat(actualCommonAncestorCommit.getName()).isEqualTo(expectedCommonAncestorCommit.getName());
+	}
 
-    @Test(expected = IllegalArgumentException.class)
-    public void invalidBranchTest() {
-        git.getCommonAncestorCommit(MASTER_BRANCH,
-                                    "invalid-branch");
-    }
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidBranchTest() {
+		git.getCommonAncestorCommit(MASTER_BRANCH, "invalid-branch");
+	}
 }

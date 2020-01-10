@@ -46,294 +46,175 @@ import org.eclipse.jgit.transport.RefSpec;
 
 public interface Git {
 
-    static Git createRepository(final File repoDir) throws IOException {
-        return createRepository(repoDir,
-                                null,
-                                JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY);
-    }
+	static Git createRepository(final File repoDir) throws IOException {
+		return createRepository(repoDir, null, JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY);
+	}
 
-    static Git createRepository(final File repoDir,
-                                final boolean sslVerify) throws IOException {
-        return createRepository(repoDir,
-                                null,
-                                sslVerify);
-    }
+	static Git createRepository(final File repoDir, final boolean sslVerify) throws IOException {
+		return createRepository(repoDir, null, sslVerify);
+	}
 
-    static Git createRepository(final File repoDir,
-                                final File hookDir) throws IOException {
-        return createRepository(repoDir,
-                                hookDir,
-                                null,
-                                JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY);
-    }
+	static Git createRepository(final File repoDir, final File hookDir) throws IOException {
+		return createRepository(repoDir, hookDir, null,
+				JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY);
+	}
 
-    static Git createRepository(final File repoDir,
-                                final File hookDir,
-                                final boolean sslVerify) throws IOException {
-        return createRepository(repoDir,
-                                hookDir,
-                                null,
-                                sslVerify);
-    }
+	static Git createRepository(final File repoDir, final File hookDir, final boolean sslVerify) throws IOException {
+		return createRepository(repoDir, hookDir, null, sslVerify);
+	}
 
-    static Git createRepository(final File repoDir,
-                                final File hookDir,
-                                final KetchLeaderCache leaders) throws IOException {
-        return new CreateRepository(repoDir,
-                                    hookDir,
-                                    leaders,
-                                    JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute().get();
-    }
+	static Git createRepository(final File repoDir, final File hookDir, final KetchLeaderCache leaders)
+			throws IOException {
+		return new CreateRepository(repoDir, hookDir, leaders,
+				JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute().get();
+	}
 
-    static Git createRepository(final File repoDir,
-                                final File hookDir,
-                                final KetchLeaderCache leaders,
-                                final boolean sslVerify) {
-        try {
-            return new CreateRepository(repoDir,
-                                        hookDir,
-                                        leaders,
-                                        sslVerify).execute().get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	static Git createRepository(final File repoDir, final File hookDir, final KetchLeaderCache leaders,
+			final boolean sslVerify) {
+		try {
+			return new CreateRepository(repoDir, hookDir, leaders, sslVerify).execute().get();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    static Git fork(final File gitRepoContainerDir,
-                    final String origin,
-                    final String name,
-                    final List<String> branches,
-                    final CredentialsProvider credential,
-                    final KetchLeaderCache leaders,
-                    final File hookDir) throws IOException {
-        return new Fork(gitRepoContainerDir,
-                        origin,
-                        name,
-                        branches,
-                        credential,
-                        leaders,
-                        hookDir,
-                        JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute();
-    }
+	static Git fork(final File gitRepoContainerDir, final String origin, final String name, final List<String> branches,
+			final CredentialsProvider credential, final KetchLeaderCache leaders, final File hookDir)
+			throws IOException {
+		return new Fork(gitRepoContainerDir, origin, name, branches, credential, leaders, hookDir,
+				JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute();
+	}
 
-    static Git fork(final File gitRepoContainerDir,
-                    final String origin,
-                    final String name,
-                    final List<String> branches,
-                    final CredentialsProvider credential,
-                    final KetchLeaderCache leaders,
-                    final File hookDir,
-                    final boolean sslVerify) throws IOException {
-        return new Fork(gitRepoContainerDir,
-                        origin,
-                        name,
-                        branches,
-                        credential,
-                        leaders,
-                        hookDir,
-                        sslVerify).execute();
-    }
+	static Git fork(final File gitRepoContainerDir, final String origin, final String name, final List<String> branches,
+			final CredentialsProvider credential, final KetchLeaderCache leaders, final File hookDir,
+			final boolean sslVerify) throws IOException {
+		return new Fork(gitRepoContainerDir, origin, name, branches, credential, leaders, hookDir, sslVerify).execute();
+	}
 
-    static Git clone(final File repoDest,
-                     final String origin,
-                     final boolean isMirror,
-                     final List<String> branches,
-                     final CredentialsProvider credential,
-                     final KetchLeaderCache leaders,
-                     final File hookDir) throws IOException {
-        return new Clone(repoDest,
-                         origin,
-                         isMirror,
-                         branches,
-                         credential,
-                         leaders,
-                         hookDir,
-                         JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute().get();
-    }
+	static Git clone(final File repoDest, final String origin, final boolean isMirror, final List<String> branches,
+			final CredentialsProvider credential, final KetchLeaderCache leaders, final File hookDir)
+			throws IOException {
+		return new Clone(repoDest, origin, isMirror, branches, credential, leaders, hookDir,
+				JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute().get();
+	}
 
-    static Git clone(final File repoDest,
-                     final String origin,
-                     final boolean isMirror,
-                     final List<String> branches,
-                     final CredentialsProvider credential,
-                     final KetchLeaderCache leaders,
-                     final File hookDir,
-                     final boolean sslVerify) throws IOException {
-        return new Clone(repoDest,
-                         origin,
-                         isMirror,
-                         branches,
-                         credential,
-                         leaders,
-                         hookDir,
-                         sslVerify).execute().get();
-    }
+	static Git clone(final File repoDest, final String origin, final boolean isMirror, final List<String> branches,
+			final CredentialsProvider credential, final KetchLeaderCache leaders, final File hookDir,
+			final boolean sslVerify) throws IOException {
+		return new Clone(repoDest, origin, isMirror, branches, credential, leaders, hookDir, sslVerify).execute().get();
+	}
 
-    static Git cloneSubdirectory(final File repoDest,
-                                 final String origin,
-                                 final String subdirectory,
-                                 final List<String> branches,
-                                 final CredentialsProvider credential,
-                                 final KetchLeaderCache leaders,
-                                 final File hookDir) throws IOException {
-        return new SubdirectoryClone(repoDest,
-                                     origin,
-                                     subdirectory,
-                                     branches,
-                                     credential,
-                                     leaders,
-                                     hookDir,
-                                     JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute();
-    }
+	static Git cloneSubdirectory(final File repoDest, final String origin, final String subdirectory,
+			final List<String> branches, final CredentialsProvider credential, final KetchLeaderCache leaders,
+			final File hookDir) throws IOException {
+		return new SubdirectoryClone(repoDest, origin, subdirectory, branches, credential, leaders, hookDir,
+				JGitFileSystemProviderConfiguration.DEFAULT_GIT_HTTP_SSL_VERIFY).execute();
+	}
 
-    static Git cloneSubdirectory(final File repoDest,
-                                 final String origin,
-                                 final String subdirectory,
-                                 final List<String> branches,
-                                 final CredentialsProvider credential,
-                                 final KetchLeaderCache leaders,
-                                 final File hookDir,
-                                 final boolean sslVerify) throws IOException {
-        return new SubdirectoryClone(repoDest,
-                                     origin,
-                                     subdirectory,
-                                     branches,
-                                     credential,
-                                     leaders,
-                                     hookDir,
-                                     sslVerify).execute();
-    }
+	static Git cloneSubdirectory(final File repoDest, final String origin, final String subdirectory,
+			final List<String> branches, final CredentialsProvider credential, final KetchLeaderCache leaders,
+			final File hookDir, final boolean sslVerify) throws IOException {
+		return new SubdirectoryClone(repoDest, origin, subdirectory, branches, credential, leaders, hookDir, sslVerify)
+				.execute();
+	}
 
-    void convertRefTree();
+	void convertRefTree();
 
-    void deleteRef(final Ref ref) throws IOException;
+	void deleteRef(final Ref ref) throws IOException;
 
-    Ref getRef(final String ref);
+	Ref getRef(final String ref);
 
-    void push(final CredentialsProvider credentialsProvider,
-              final Map.Entry<String, String> remote,
-              final boolean force,
-              final Collection<RefSpec> refSpecs) throws InvalidRemoteException;
+	void push(final CredentialsProvider credentialsProvider, final Map.Entry<String, String> remote,
+			final boolean force, final Collection<RefSpec> refSpecs) throws InvalidRemoteException;
 
-    void gc();
+	void gc();
 
-    RevCommit getCommit(final String commitId);
+	RevCommit getCommit(final String commitId);
 
-    RevCommit getLastCommit(final String refName);
+	RevCommit getLastCommit(final String refName);
 
-    RevCommit getLastCommit(final Ref ref) throws IOException;
+	RevCommit getLastCommit(final Ref ref) throws IOException;
 
-    RevCommit getCommonAncestorCommit(final String branchA,
-                                      final String branchB);
+	RevCommit getCommonAncestorCommit(final String branchA, final String branchB);
 
-    CommitHistory listCommits(final Ref ref,
-                              final String path) throws IOException, GitAPIException;
+	CommitHistory listCommits(final Ref ref, final String path) throws IOException, GitAPIException;
 
-    List<RevCommit> listCommits(final String startCommitId,
-                                final String endCommitId);
+	List<RevCommit> listCommits(final String startCommitId, final String endCommitId);
 
-    List<RevCommit> listCommits(final ObjectId startRange,
-                                final ObjectId endRange);
+	List<RevCommit> listCommits(final ObjectId startRange, final ObjectId endRange);
 
-    Repository getRepository();
+	Repository getRepository();
 
-    ObjectId getTreeFromRef(final String treeRef);
+	ObjectId getTreeFromRef(final String treeRef);
 
-    void fetch(final CredentialsProvider credential,
-               final Map.Entry<String, String> remote,
-               final Collection<RefSpec> refSpecs) throws InvalidRemoteException;
+	void fetch(final CredentialsProvider credential, final Map.Entry<String, String> remote,
+			final Collection<RefSpec> refSpecs) throws InvalidRemoteException;
 
-    void syncRemote(final Map.Entry<String, String> remote) throws InvalidRemoteException;
+	void syncRemote(final Map.Entry<String, String> remote) throws InvalidRemoteException;
 
-    List<String> merge(final String source,
-                       final String target) throws IOException;
+	List<String> merge(final String source, final String target) throws IOException;
 
-    List<String> merge(final String source,
-                       final String target,
-                       final boolean noFastForward) throws IOException;
+	List<String> merge(final String source, final String target, final boolean noFastForward) throws IOException;
 
-    boolean revertMerge(final String source,
-                        final String target,
-                        final String commonAncestorCommitId,
-                        final String mergeCommitId);
+	boolean revertMerge(final String source, final String target, final String commonAncestorCommitId,
+			final String mergeCommitId);
 
-    void cherryPick(final JGitPathImpl target,
-                    final String... commits) throws IOException;
+	void cherryPick(final JGitPathImpl target, final String... commits) throws IOException;
 
-    void cherryPick(final String targetBranch,
-                    final String... commitsIDs) throws IOException;
+	void cherryPick(final String targetBranch, final String... commitsIDs) throws IOException;
 
-    void createRef(final String source,
-                   final String target);
+	void createRef(final String source, final String target);
 
-    List<FileDiff> diffRefs(final String branchA,
-                            final String branchB);
+	List<FileDiff> diffRefs(final String branchA, final String branchB);
 
-    List<TextualDiff> textualDiffRefs(final String branchA,
-                                      final String branchB);
+	List<TextualDiff> textualDiffRefs(final String branchA, final String branchB);
 
-    List<TextualDiff> textualDiffRefs(final String branchA,
-                                      final String branchB,
-                                      final String commitIdBranchA,
-                                      final String commitIdBranchB);
+	List<TextualDiff> textualDiffRefs(final String branchA, final String branchB, final String commitIdBranchA,
+			final String commitIdBranchB);
 
-    List<String> conflictBranchesChecker(final String branchA,
-                                         final String branchB);
+	List<String> conflictBranchesChecker(final String branchA, final String branchB);
 
-    void squash(final String branch,
-                final String startCommit,
-                final String commitMessage);
+	void squash(final String branch, final String startCommit, final String commitMessage);
 
-    boolean commit(final String branchName,
-                   final CommitInfo commitInfo,
-                   final boolean amend,
-                   final ObjectId originId,
-                   final CommitContent content);
+	boolean commit(final String branchName, final CommitInfo commitInfo, final boolean amend, final ObjectId originId,
+			final CommitContent content);
 
-    List<DiffEntry> listDiffs(final String startCommitId,
-                              final String endCommitId);
+	List<DiffEntry> listDiffs(final String startCommitId, final String endCommitId);
 
-    List<DiffEntry> listDiffs(final ObjectId refA,
-                              final ObjectId refB);
+	List<DiffEntry> listDiffs(final ObjectId refA, final ObjectId refB);
 
-    Map<String, File> mapDiffContent(final String branch,
-                                     final String startCommitId,
-                                     final String endCommitId);
+	Map<String, File> mapDiffContent(final String branch, final String startCommitId, final String endCommitId);
 
-    InputStream blobAsInputStream(final String treeRef,
-                                  final String path) throws NoSuchFileException;
+	InputStream blobAsInputStream(final String treeRef, final String path) throws NoSuchFileException;
 
-    RevCommit getFirstCommit(final Ref ref) throws IOException;
+	RevCommit getFirstCommit(final Ref ref) throws IOException;
 
-    List<Ref> listRefs();
+	List<Ref> listRefs();
 
-    List<ObjectId> resolveObjectIds(final String... commits);
+	List<ObjectId> resolveObjectIds(final String... commits);
 
-    RevCommit resolveRevCommit(final ObjectId objectId) throws IOException;
+	RevCommit resolveRevCommit(final ObjectId objectId) throws IOException;
 
-    List<RefSpec> updateRemoteConfig(final Map.Entry<String, String> remote,
-                                     final Collection<RefSpec> refSpecs) throws IOException, URISyntaxException;
+	List<RefSpec> updateRemoteConfig(final Map.Entry<String, String> remote, final Collection<RefSpec> refSpecs)
+			throws IOException, URISyntaxException;
 
-    PathInfo getPathInfo(final String branchName,
-                         final String path);
+	PathInfo getPathInfo(final String branchName, final String path);
 
-    List<PathInfo> listPathContent(final String branchName,
-                                   final String path);
+	List<PathInfo> listPathContent(final String branchName, final String path);
 
-    boolean isHEADInitialized();
+	boolean isHEADInitialized();
 
-    void setHeadAsInitialized();
+	void setHeadAsInitialized();
 
-    void refUpdate(final String branch,
-                   final RevCommit commit) throws IOException, ConcurrentRefUpdateException;
+	void refUpdate(final String branch, final RevCommit commit) throws IOException, ConcurrentRefUpdateException;
 
-    KetchLeader getKetchLeader();
+	KetchLeader getKetchLeader();
 
-    boolean isKetchEnabled();
+	boolean isKetchEnabled();
 
-    void enableKetch();
+	void enableKetch();
 
-    void updateRepo(Repository repo);
+	void updateRepo(Repository repo);
 
-    void updateLeaders(final KetchLeaderCache leaders);
+	void updateLeaders(final KetchLeaderCache leaders);
 }

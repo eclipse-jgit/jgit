@@ -23,66 +23,58 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.UploadPack;
 
-public abstract class JGitFileSystem extends FileSystem implements FileSystemStateAware,
-                                                                   FileSystemId,
-                                                                   LockableFileSystem,
-                                                                   Disposable {
+public abstract class JGitFileSystem extends FileSystem
+		implements FileSystemStateAware, FileSystemId, LockableFileSystem, Disposable {
 
-    abstract public Git getGit();
+	abstract public Git getGit();
 
-    abstract CredentialsProvider getCredential();
+	abstract CredentialsProvider getCredential();
 
-    abstract void checkClosed() throws IllegalStateException;
+	abstract void checkClosed() throws IllegalStateException;
 
-    abstract void publishEvents(Path watchable,
-                                List<WatchEvent<?>> elist);
+	abstract void publishEvents(Path watchable, List<WatchEvent<?>> elist);
 
-    abstract boolean isOnBatch();
+	abstract boolean isOnBatch();
 
-    abstract void setState(String state);
+	abstract void setState(String state);
 
-    abstract CommitInfo buildCommitInfo(String defaultMessage,
-                                        CommentedOption op);
+	abstract CommitInfo buildCommitInfo(String defaultMessage, CommentedOption op);
 
-    abstract void setBatchCommitInfo(String defaultMessage,
-                                     CommentedOption op);
+	abstract void setBatchCommitInfo(String defaultMessage, CommentedOption op);
 
-    abstract void setHadCommitOnBatchState(Path path,
-                                           boolean hadCommitOnBatchState);
+	abstract void setHadCommitOnBatchState(Path path, boolean hadCommitOnBatchState);
 
-    abstract void setHadCommitOnBatchState(boolean value);
+	abstract void setHadCommitOnBatchState(boolean value);
 
-    abstract boolean isHadCommitOnBatchState(Path path);
+	abstract boolean isHadCommitOnBatchState(Path path);
 
-    abstract void setBatchCommitInfo(CommitInfo batchCommitInfo);
+	abstract void setBatchCommitInfo(CommitInfo batchCommitInfo);
 
-    abstract CommitInfo getBatchCommitInfo();
+	abstract CommitInfo getBatchCommitInfo();
 
-    abstract int incrementAndGetCommitCount();
+	abstract int incrementAndGetCommitCount();
 
-    abstract void resetCommitCount();
+	abstract void resetCommitCount();
 
-    abstract int getNumberOfCommitsSinceLastGC();
+	abstract int getNumberOfCommitsSinceLastGC();
 
-    abstract void addPostponedWatchEvents(List<WatchEvent<?>> postponedWatchEvents);
+	abstract void addPostponedWatchEvents(List<WatchEvent<?>> postponedWatchEvents);
 
-    abstract List<WatchEvent<?>> getPostponedWatchEvents();
+	abstract List<WatchEvent<?>> getPostponedWatchEvents();
 
-    abstract void clearPostponedWatchEvents();
+	abstract void clearPostponedWatchEvents();
 
-    abstract boolean hasPostponedEvents();
+	abstract boolean hasPostponedEvents();
 
-    abstract public boolean hasBeenInUse();
+	abstract public boolean hasBeenInUse();
 
-    abstract void notifyExternalUpdate();
+	abstract void notifyExternalUpdate();
 
-    abstract void notifyPostCommit(int exitCode);
+	abstract void notifyPostCommit(int exitCode);
 
-    abstract void checkBranchAccess(ReceiveCommand command,
-                                    User user);
+	abstract void checkBranchAccess(ReceiveCommand command, User user);
 
-    abstract void filterBranchAccess(UploadPack uploadPack,
-                                     User user);
+	abstract void filterBranchAccess(UploadPack uploadPack, User user);
 
-    public abstract String getName();
+	public abstract String getName();
 }

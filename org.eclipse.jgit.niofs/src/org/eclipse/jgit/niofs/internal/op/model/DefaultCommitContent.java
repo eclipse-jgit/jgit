@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class DefaultCommitContent implements CommitContent {
 
-    private final Map<String, File> content;
+	private final Map<String, File> content;
 
-    public DefaultCommitContent(final Map<String, File> content) {
-        this.content = content;
-    }
+	public DefaultCommitContent(final Map<String, File> content) {
+		this.content = content;
+	}
 
-    public Map<String, File> getContent() {
-        return content;
-    }
+	public Map<String, File> getContent() {
+		return content;
+	}
 }

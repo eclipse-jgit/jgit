@@ -12,18 +12,16 @@ package org.eclipse.jgit.niofs.internal.hook;
 
 public enum FileSystemHooks {
 
-    ExternalUpdate,
-    PostCommit,
-    BranchAccessCheck,
-    BranchAccessFilter;
+	ExternalUpdate, PostCommit, BranchAccessCheck, BranchAccessFilter;
 
-    @FunctionalInterface
-    public interface FileSystemHook {
+	@FunctionalInterface
+	public interface FileSystemHook {
 
-        /**
-         * Performs this operation in a FileSystemHooks
-         * @param context execution context
-         */
-        void execute(FileSystemHookExecutionContext context);
-    }
+		/**
+		 * Performs this operation in a FileSystemHooks
+		 * 
+		 * @param context execution context
+		 */
+		void execute(FileSystemHookExecutionContext context);
+	}
 }

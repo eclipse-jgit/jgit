@@ -19,15 +19,14 @@ import org.eclipse.jgit.niofs.internal.JGitFileSystemProvider;
 
 public final class JGitFileSystemBuilder {
 
-    private static final JGitFileSystemProvider PROVIDER = new JGitFileSystemProvider();
-    private static final Map<String, String> DEFAULT_OPTIONS = new HashMap<>();
+	private static final JGitFileSystemProvider PROVIDER = new JGitFileSystemProvider();
+	private static final Map<String, String> DEFAULT_OPTIONS = new HashMap<>();
 
-    private JGitFileSystemBuilder() {
-        DEFAULT_OPTIONS.put("init", "true");
-    }
+	private JGitFileSystemBuilder() {
+		DEFAULT_OPTIONS.put("init", "true");
+	}
 
-    public static FileSystem newFileSystem(final String repoName) throws IOException {
-        return PROVIDER.newFileSystem(URI.create("git://" + repoName),
-                                      DEFAULT_OPTIONS);
-    }
+	public static FileSystem newFileSystem(final String repoName) throws IOException {
+		return PROVIDER.newFileSystem(URI.create("git://" + repoName), DEFAULT_OPTIONS);
+	}
 }

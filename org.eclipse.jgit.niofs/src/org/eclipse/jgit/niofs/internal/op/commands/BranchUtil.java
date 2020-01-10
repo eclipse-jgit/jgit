@@ -21,35 +21,26 @@ import org.eclipse.jgit.niofs.internal.op.exceptions.GitException;
 
 public class BranchUtil {
 
-    private BranchUtil() {
+	private BranchUtil() {
 
-    }
+	}
 
-    public static void deleteUnfilteredBranches(final Repository repository,
-                                                final List<String> branchesToKeep) throws GitAPIException {
-        if (branchesToKeep == null || branchesToKeep.isEmpty()) {
-            return;
-        }
+	public static void deleteUnfilteredBranches(final Repository repository, final List<String> branchesToKeep)
+			throws GitAPIException {
+		if (branchesToKeep == null || branchesToKeep.isEmpty()) {
+			return;
+		}
 
-        final org.eclipse.jgit.api.Git git = org.eclipse.jgit.api.Git.wrap(repository);
-        final String[] toDelete = git.branchList()
-                .call()
-                .stream()
-                .map(Ref::getName)
-                .map(fullname -> fullname.substring(fullname.lastIndexOf('/') + 1))
-                .filter(name -> !branchesToKeep.contains(name))
-                .toArray(String[]::new);
-        git.branchDelete()
-                .setBranchNames(toDelete)
-                .setForce(true)
-                .call();
-    }
+		final org.eclipse.jgit.api.Git git = org.eclipse.jgit.api.Git.wrap(repository);
+		final String[] toDelete = git.branchList().call().stream().map(Ref::getName)
+				.map(fullname -> fullname.substring(fullname.lastIndexOf('/') + 1))
+				.filter(name -> !branchesToKeep.contains(name)).toArray(String[]::new);
+		git.branchDelete().setBranchNames(toDelete).setForce(true).call();
+	}
 
-    public static void existsBranch(final Git git,
-                                    final String branch) {
-        if (git.getRef(branch) == null) {
-            throw new GitException(String.format("Branch <<%s>> does not exist",
-                                                 branch));
-        }
-    }
+	public static void existsBranch(final Git git, final String branch) {
+		if (git.getRef(branch) == null) {
+			throw new GitException(String.format("Branch <<%s>> does not exist", branch));
+		}
+	}
 }

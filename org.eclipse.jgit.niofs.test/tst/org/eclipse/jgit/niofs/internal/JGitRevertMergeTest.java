@@ -28,124 +28,99 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JGitRevertMergeTest extends AbstractTestInfra {
 
-    private Git git;
+	private Git git;
 
-    private static final String MASTER_BRANCH = "master";
-    private static final String DEVELOP_BRANCH = "develop";
+	private static final String MASTER_BRANCH = "master";
+	private static final String DEVELOP_BRANCH = "develop";
 
-    private static final List<String> TXT_FILES =
-            Stream.of("file0", "file1", "file2", "file3", "file4")
-                    .collect(Collectors.toList());
+	private static final List<String> TXT_FILES = Stream.of("file0", "file1", "file2", "file3", "file4")
+			.collect(Collectors.toList());
 
-    private static final String[] COMMON_TXT_LINES = {"Line1", "Line2", "Line3", "Line4"};
+	private static final String[] COMMON_TXT_LINES = { "Line1", "Line2", "Line3", "Line4" };
 
-    private String commonAncestorCommitId;
+	private String commonAncestorCommitId;
 
-    @Before
-    public void setup() throws IOException {
-        final File parentFolder = createTempDirectory();
+	@Before
+	public void setup() throws IOException {
+		final File parentFolder = createTempDirectory();
 
-        final File gitSource = new File(parentFolder, "source/source.git");
+		final File gitSource = new File(parentFolder, "source/source.git");
 
-        git = new CreateRepository(gitSource).execute().get();
+		git = new CreateRepository(gitSource).execute().get();
 
-        commit(git, MASTER_BRANCH, "Adding files into master",
-               content(TXT_FILES.get(0), multiline(TXT_FILES.get(0), COMMON_TXT_LINES)),
-               content(TXT_FILES.get(1), multiline(TXT_FILES.get(1), COMMON_TXT_LINES)),
-               content(TXT_FILES.get(2), multiline(TXT_FILES.get(2), COMMON_TXT_LINES)));
+		commit(git, MASTER_BRANCH, "Adding files into master",
+				content(TXT_FILES.get(0), multiline(TXT_FILES.get(0), COMMON_TXT_LINES)),
+				content(TXT_FILES.get(1), multiline(TXT_FILES.get(1), COMMON_TXT_LINES)),
+				content(TXT_FILES.get(2), multiline(TXT_FILES.get(2), COMMON_TXT_LINES)));
 
-        new CreateBranch((GitImpl) git, MASTER_BRANCH, DEVELOP_BRANCH).execute();
+		new CreateBranch((GitImpl) git, MASTER_BRANCH, DEVELOP_BRANCH).execute();
 
-        commit(git, DEVELOP_BRANCH, "Adding files",
-               content(TXT_FILES.get(3), multiline(TXT_FILES.get(3), COMMON_TXT_LINES)),
-               content(TXT_FILES.get(4), multiline(TXT_FILES.get(4), COMMON_TXT_LINES)));
+		commit(git, DEVELOP_BRANCH, "Adding files",
+				content(TXT_FILES.get(3), multiline(TXT_FILES.get(3), COMMON_TXT_LINES)),
+				content(TXT_FILES.get(4), multiline(TXT_FILES.get(4), COMMON_TXT_LINES)));
 
-        commonAncestorCommitId = git.getCommonAncestorCommit(DEVELOP_BRANCH,
-                                                             MASTER_BRANCH).getName();
-    }
+		commonAncestorCommitId = git.getCommonAncestorCommit(DEVELOP_BRANCH, MASTER_BRANCH).getName();
+	}
 
-    @Test(expected = GitException.class)
-    public void testInvalidSourceBranch() throws IOException {
-        String mergeCommitId = doMerge();
+	@Test(expected = GitException.class)
+	public void testInvalidSourceBranch() throws IOException {
+		String mergeCommitId = doMerge();
 
-        git.revertMerge("invalid-branch",
-                        MASTER_BRANCH,
-                        commonAncestorCommitId,
-                        mergeCommitId);
-    }
+		git.revertMerge("invalid-branch", MASTER_BRANCH, commonAncestorCommitId, mergeCommitId);
+	}
 
-    @Test(expected = GitException.class)
-    public void testInvalidTargetBranch() throws IOException {
-        String mergeCommitId = doMerge();
+	@Test(expected = GitException.class)
+	public void testInvalidTargetBranch() throws IOException {
+		String mergeCommitId = doMerge();
 
-        git.revertMerge(DEVELOP_BRANCH,
-                        "invalid-branch",
-                        commonAncestorCommitId,
-                        mergeCommitId);
-    }
+		git.revertMerge(DEVELOP_BRANCH, "invalid-branch", commonAncestorCommitId, mergeCommitId);
+	}
 
-    @Test
-    public void testRevertFailedMergeIsNotLastTargetCommit() throws IOException {
-        String mergeCommitId = doMerge();
+	@Test
+	public void testRevertFailedMergeIsNotLastTargetCommit() throws IOException {
+		String mergeCommitId = doMerge();
 
-        commit(git, MASTER_BRANCH, "Updating file",
-               content(TXT_FILES.get(0), "new content"));
+		commit(git, MASTER_BRANCH, "Updating file", content(TXT_FILES.get(0), "new content"));
 
-        boolean result = git.revertMerge(DEVELOP_BRANCH,
-                                         MASTER_BRANCH,
-                                         commonAncestorCommitId,
-                                         mergeCommitId);
+		boolean result = git.revertMerge(DEVELOP_BRANCH, MASTER_BRANCH, commonAncestorCommitId, mergeCommitId);
 
-        assertThat(result).isFalse();
-    }
+		assertThat(result).isFalse();
+	}
 
-    @Test
-    public void testRevertFailedMergeParentTargetIsNotCommonAncestor() throws IOException {
-        commit(git, MASTER_BRANCH, "Updating file",
-               content(TXT_FILES.get(0), "new content"));
+	@Test
+	public void testRevertFailedMergeParentTargetIsNotCommonAncestor() throws IOException {
+		commit(git, MASTER_BRANCH, "Updating file", content(TXT_FILES.get(0), "new content"));
 
-        String mergeCommitId = doMerge();
+		String mergeCommitId = doMerge();
 
-        boolean result = git.revertMerge(DEVELOP_BRANCH,
-                                         MASTER_BRANCH,
-                                         commonAncestorCommitId,
-                                         mergeCommitId);
+		boolean result = git.revertMerge(DEVELOP_BRANCH, MASTER_BRANCH, commonAncestorCommitId, mergeCommitId);
 
-        assertThat(result).isFalse();
-    }
+		assertThat(result).isFalse();
+	}
 
-    @Test
-    public void testRevertFailedMergeSourceParentIsNotLastSourceCommit() throws IOException {
-        String mergeCommitId = doMerge();
+	@Test
+	public void testRevertFailedMergeSourceParentIsNotLastSourceCommit() throws IOException {
+		String mergeCommitId = doMerge();
 
-        commit(git, DEVELOP_BRANCH, "Updating file",
-               content(TXT_FILES.get(0), "new content"));
+		commit(git, DEVELOP_BRANCH, "Updating file", content(TXT_FILES.get(0), "new content"));
 
-        boolean result = git.revertMerge(DEVELOP_BRANCH,
-                                         MASTER_BRANCH,
-                                         commonAncestorCommitId,
-                                         mergeCommitId);
+		boolean result = git.revertMerge(DEVELOP_BRANCH, MASTER_BRANCH, commonAncestorCommitId, mergeCommitId);
 
-        assertThat(result).isFalse();
-    }
+		assertThat(result).isFalse();
+	}
 
-    @Test
-    public void testRevertSucceeded() throws IOException {
-        String mergeCommitId = doMerge();
+	@Test
+	public void testRevertSucceeded() throws IOException {
+		String mergeCommitId = doMerge();
 
-        boolean result = git.revertMerge(DEVELOP_BRANCH,
-                                         MASTER_BRANCH,
-                                         commonAncestorCommitId,
-                                         mergeCommitId);
+		boolean result = git.revertMerge(DEVELOP_BRANCH, MASTER_BRANCH, commonAncestorCommitId, mergeCommitId);
 
-        assertThat(result).isTrue();
-    }
+		assertThat(result).isTrue();
+	}
 
-    private String doMerge() throws IOException {
-        git.merge(DEVELOP_BRANCH,
-                  MASTER_BRANCH,
-                  true);
+	private String doMerge() throws IOException {
+		git.merge(DEVELOP_BRANCH, MASTER_BRANCH, true);
 
-        return git.getLastCommit(MASTER_BRANCH).getName();
-    }
+		return git.getLastCommit(MASTER_BRANCH).getName();
+	}
 }

@@ -27,105 +27,77 @@ import static org.junit.Assert.assertNull;
 
 public class JGitFileSystemImplProviderHttpProxyTest {
 
-    @Test
-    public void testHttpProxy() throws IOException {
-        final String userName = "user";
-        final String passw = "passwd";
+	@Test
+	public void testHttpProxy() throws IOException {
+		final String userName = "user";
+		final String passw = "passwd";
 
-        final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {{
-            put("http.proxyUser",
-                "user");
-            put("http.proxyPassword",
-                "passwd");
-            put(GIT_DAEMON_ENABLED,
-                "false");
-            put(GIT_SSH_ENABLED,
-                "false");
-        }});
+		final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {
+			{
+				put("http.proxyUser", "user");
+				put("http.proxyPassword", "passwd");
+				put(GIT_DAEMON_ENABLED, "false");
+				put(GIT_SSH_ENABLED, "false");
+			}
+		});
 
-        final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
-                                                                                InetAddress.getLocalHost(),
-                                                                                8080,
-                                                                                "http",
-                                                                                "xxx",
-                                                                                "http",
-                                                                                new URL("http://localhost"),
-                                                                                Authenticator.RequestorType.PROXY);
+		final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost", InetAddress.getLocalHost(),
+				8080, "http", "xxx", "http", new URL("http://localhost"), Authenticator.RequestorType.PROXY);
 
-        assertEquals(userName,
-                     passwdAuth.getUserName());
-        assertEquals(passw,
-                     new String(passwdAuth.getPassword()));
+		assertEquals(userName, passwdAuth.getUserName());
+		assertEquals(passw, new String(passwdAuth.getPassword()));
 
-        provider.dispose();
-    }
+		provider.dispose();
+	}
 
-    @Test
-    public void testHttpsProxy() throws IOException {
-        final String userName = "user";
-        final String passw = "passwd";
+	@Test
+	public void testHttpsProxy() throws IOException {
+		final String userName = "user";
+		final String passw = "passwd";
 
-        final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {{
-            put("https.proxyUser",
-                "user");
-            put("https.proxyPassword",
-                "passwd");
-            put(GIT_DAEMON_ENABLED,
-                "false");
-            put(GIT_SSH_ENABLED,
-                "false");
-        }});
+		final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {
+			{
+				put("https.proxyUser", "user");
+				put("https.proxyPassword", "passwd");
+				put(GIT_DAEMON_ENABLED, "false");
+				put(GIT_SSH_ENABLED, "false");
+			}
+		});
 
-        final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
-                                                                                InetAddress.getLocalHost(),
-                                                                                8080,
-                                                                                "https",
-                                                                                "xxx",
-                                                                                "https",
-                                                                                new URL("https://localhost"),
-                                                                                Authenticator.RequestorType.PROXY);
+		final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost", InetAddress.getLocalHost(),
+				8080, "https", "xxx", "https", new URL("https://localhost"), Authenticator.RequestorType.PROXY);
 
-        assertEquals(userName,
-                     passwdAuth.getUserName());
-        assertEquals(passw,
-                     new String(passwdAuth.getPassword()));
+		assertEquals(userName, passwdAuth.getUserName());
+		assertEquals(passw, new String(passwdAuth.getPassword()));
 
-        provider.dispose();
-    }
+		provider.dispose();
+	}
 
-    @Test
-    public void testNoProxyInfo() throws IOException {
-        final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {{
-            put(GIT_DAEMON_ENABLED, "false");
-            put(GIT_SSH_ENABLED, "false");
-        }});
+	@Test
+	public void testNoProxyInfo() throws IOException {
+		final JGitFileSystemProvider provider = new JGitFileSystemProvider(new HashMap<String, String>() {
+			{
+				put(GIT_DAEMON_ENABLED, "false");
+				put(GIT_SSH_ENABLED, "false");
+			}
+		});
 
-        {
-            final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
-                                                                                    InetAddress.getLocalHost(),
-                                                                                    8080,
-                                                                                    "https",
-                                                                                    "xxx",
-                                                                                    "https",
-                                                                                    new URL("https://localhost"),
-                                                                                    Authenticator.RequestorType.PROXY);
+		{
+			final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
+					InetAddress.getLocalHost(), 8080, "https", "xxx", "https", new URL("https://localhost"),
+					Authenticator.RequestorType.PROXY);
 
-            assertNull(passwdAuth);
-        }
+			assertNull(passwdAuth);
+		}
 
-        {
-            final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
-                                                                                    InetAddress.getLocalHost(),
-                                                                                    8080,
-                                                                                    "http",
-                                                                                    "xxx",
-                                                                                    "http",
-                                                                                    new URL("http://localhost"),
-                                                                                    Authenticator.RequestorType.PROXY);
+		{
+			final PasswordAuthentication passwdAuth = requestPasswordAuthentication("localhost",
+					InetAddress.getLocalHost(), 8080, "http", "xxx", "http", new URL("http://localhost"),
+					Authenticator.RequestorType.PROXY);
 
-            assertNull(passwdAuth);
-        }
+			assertNull(passwdAuth);
+		}
 
-        provider.dispose();
-    }
+		provider.dispose();
+	}
 }

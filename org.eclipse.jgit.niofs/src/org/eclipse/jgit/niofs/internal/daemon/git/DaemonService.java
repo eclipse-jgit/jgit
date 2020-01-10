@@ -22,121 +22,108 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 public abstract class DaemonService {
 
-    private final String command;
+	private final String command;
 
-    private final SectionParser<ServiceConfig> configKey;
+	private final SectionParser<ServiceConfig> configKey;
 
-    private boolean enabled;
+	private boolean enabled;
 
-    private boolean overridable;
+	private boolean overridable;
 
-    DaemonService(final String cmdName,
-                  final String cfgName) {
-        command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName;
-        configKey = cfg -> new ServiceConfig(DaemonService.this,
-                                             cfg,
-                                             cfgName);
-        overridable = true;
-    }
+	DaemonService(final String cmdName, final String cfgName) {
+		command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName;
+		configKey = cfg -> new ServiceConfig(DaemonService.this, cfg, cfgName);
+		overridable = true;
+	}
 
-    private static class ServiceConfig {
+	private static class ServiceConfig {
 
-        final boolean enabled;
+		final boolean enabled;
 
-        ServiceConfig(final DaemonService service,
-                      final Config cfg,
-                      final String name) {
-            enabled = cfg.getBoolean("daemon",
-                                     name,
-                                     service.isEnabled());
-        }
-    }
+		ServiceConfig(final DaemonService service, final Config cfg, final String name) {
+			enabled = cfg.getBoolean("daemon", name, service.isEnabled());
+		}
+	}
 
-    /**
-     * @return is this service enabled for invocation?
-     */
-    public boolean isEnabled() {
-        return enabled;
-    }
+	/**
+	 * @return is this service enabled for invocation?
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    /**
-     * @param on true to allow this service to be used; false to deny it.
-     */
-    public void setEnabled(final boolean on) {
-        enabled = on;
-    }
+	/**
+	 * @param on true to allow this service to be used; false to deny it.
+	 */
+	public void setEnabled(final boolean on) {
+		enabled = on;
+	}
 
-    /**
-     * @return can this service be configured in the repository config file?
-     */
-    public boolean isOverridable() {
-        return overridable;
-    }
+	/**
+	 * @return can this service be configured in the repository config file?
+	 */
+	public boolean isOverridable() {
+		return overridable;
+	}
 
-    /**
-     * @param on true to permit repositories to override this service's enabled
-     * state with the <code>daemon.servicename</code> config setting.
-     */
-    public void setOverridable(final boolean on) {
-        overridable = on;
-    }
+	/**
+	 * @param on true to permit repositories to override this service's enabled
+	 *           state with the <code>daemon.servicename</code> config setting.
+	 */
+	public void setOverridable(final boolean on) {
+		overridable = on;
+	}
 
-    /**
-     * @return name of the command requested by clients.
-     */
-    public String getCommandName() {
-        return command;
-    }
+	/**
+	 * @return name of the command requested by clients.
+	 */
+	public String getCommandName() {
+		return command;
+	}
 
-    /**
-     * Determine if this service can handle the requested command.
-     * @param commandLine input line from the client.
-     * @return true if this command can accept the given command line.
-     */
-    public boolean handles(final String commandLine) {
-        return command.length() + 1 < commandLine.length()
-                && commandLine.charAt(command.length()) == ' '
-                && commandLine.startsWith(command);
-    }
+	/**
+	 * Determine if this service can handle the requested command.
+	 * 
+	 * @param commandLine input line from the client.
+	 * @return true if this command can accept the given command line.
+	 */
+	public boolean handles(final String commandLine) {
+		return command.length() + 1 < commandLine.length() && commandLine.charAt(command.length()) == ' '
+				&& commandLine.startsWith(command);
+	}
 
-    void execute(final org.eclipse.jgit.niofs.internal.daemon.git.DaemonClient client,
-                 final String commandLine)
-            throws IOException, ServiceNotEnabledException,
-            ServiceNotAuthorizedException {
-        final String name = commandLine.substring(command.length() + 1);
-        Repository db;
-        try {
-            db = client.getDaemon().openRepository(client,
-                                                   name);
-        } catch (ServiceMayNotContinueException e) {
-            // An error when opening the repo means the client is expecting a ref
-            // advertisement, so use that style of error.
-            PacketLineOut pktOut = new PacketLineOut(client.getOutputStream());
-            pktOut.writeString("ERR " + e.getMessage() + "\n");
-            db = null;
-        }
-        if (db == null) {
-            return;
-        }
-        try {
-            if (isEnabledFor(db)) {
-                execute(client,
-                        db);
-            }
-        } finally {
-            db.close();
-        }
-    }
+	void execute(final org.eclipse.jgit.niofs.internal.daemon.git.DaemonClient client, final String commandLine)
+			throws IOException, ServiceNotEnabledException, ServiceNotAuthorizedException {
+		final String name = commandLine.substring(command.length() + 1);
+		Repository db;
+		try {
+			db = client.getDaemon().openRepository(client, name);
+		} catch (ServiceMayNotContinueException e) {
+			// An error when opening the repo means the client is expecting a ref
+			// advertisement, so use that style of error.
+			PacketLineOut pktOut = new PacketLineOut(client.getOutputStream());
+			pktOut.writeString("ERR " + e.getMessage() + "\n");
+			db = null;
+		}
+		if (db == null) {
+			return;
+		}
+		try {
+			if (isEnabledFor(db)) {
+				execute(client, db);
+			}
+		} finally {
+			db.close();
+		}
+	}
 
-    private boolean isEnabledFor(final Repository db) {
-        if (isOverridable()) {
-            return db.getConfig().get(configKey).enabled;
-        }
-        return isEnabled();
-    }
+	private boolean isEnabledFor(final Repository db) {
+		if (isOverridable()) {
+			return db.getConfig().get(configKey).enabled;
+		}
+		return isEnabled();
+	}
 
-    abstract void execute(org.eclipse.jgit.niofs.internal.daemon.git.DaemonClient client,
-                          Repository db)
-            throws IOException, ServiceNotEnabledException,
-            ServiceNotAuthorizedException;
+	abstract void execute(org.eclipse.jgit.niofs.internal.daemon.git.DaemonClient client, Repository db)
+			throws IOException, ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

@@ -17,15 +17,15 @@ import java.util.Date;
  */
 public interface VersionRecord {
 
-    String id();
+	String id();
 
-    String author();
+	String author();
 
-    String email();
+	String email();
 
-    String comment();
+	String comment();
 
-    Date date();
+	Date date();
 
-    String uri();
+	String uri();
 }

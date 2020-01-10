@@ -16,20 +16,19 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class GetTreeFromRef {
 
-    private final Git git;
-    private final String treeRefName;
+	private final Git git;
+	private final String treeRefName;
 
-    public GetTreeFromRef(final Git git,
-                          final String treeRefName) {
-        this.git = git;
-        this.treeRefName = treeRefName;
-    }
+	public GetTreeFromRef(final Git git, final String treeRefName) {
+		this.git = git;
+		this.treeRefName = treeRefName;
+	}
 
-    public ObjectId execute() {
-        final RevCommit commit = git.getLastCommit(treeRefName);
-        if (commit == null) {
-            return null;
-        }
-        return commit.getTree().getId();
-    }
+	public ObjectId execute() {
+		final RevCommit commit = git.getLastCommit(treeRefName);
+		if (commit == null) {
+			return null;
+		}
+		return commit.getTree().getId();
+	}
 }

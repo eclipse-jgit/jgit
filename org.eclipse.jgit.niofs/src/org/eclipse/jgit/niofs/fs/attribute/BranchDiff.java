@@ -14,5 +14,5 @@ import java.util.List;
 
 public interface BranchDiff {
 
-    List<FileDiff> diffs();
+	List<FileDiff> diffs();
 }

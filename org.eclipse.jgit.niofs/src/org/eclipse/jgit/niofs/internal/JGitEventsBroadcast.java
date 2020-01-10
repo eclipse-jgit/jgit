@@ -20,56 +20,46 @@ import org.eclipse.jgit.niofs.cluster.ClusterMessageService;
 
 public class JGitEventsBroadcast {
 
-    public static final String DEFAULT_TOPIC = "default-niogit-topic";
+	public static final String DEFAULT_TOPIC = "default-niogit-topic";
 
-    private String nodeId = UUID.randomUUID().toString();
-    private Consumer<WatchEventsWrapper> eventsPublisher;
-    private final ClusterMessageService clusterMessageService;
+	private String nodeId = UUID.randomUUID().toString();
+	private Consumer<WatchEventsWrapper> eventsPublisher;
+	private final ClusterMessageService clusterMessageService;
 
-    public JGitEventsBroadcast(ClusterMessageService clusterMessageService,
-                               Consumer<WatchEventsWrapper> eventsPublisher) {
-        this.clusterMessageService = clusterMessageService;
-        this.eventsPublisher = eventsPublisher;
-        setupJMSConnection();
-    }
+	public JGitEventsBroadcast(ClusterMessageService clusterMessageService,
+			Consumer<WatchEventsWrapper> eventsPublisher) {
+		this.clusterMessageService = clusterMessageService;
+		this.eventsPublisher = eventsPublisher;
+		setupJMSConnection();
+	}
 
-    private void setupJMSConnection() {
-        clusterMessageService.connect();
-    }
+	private void setupJMSConnection() {
+		clusterMessageService.connect();
+	}
 
-    public void createWatchService(String topicName) {
-        clusterMessageService.createConsumer(
-                ClusterMessageService.DestinationType.PubSub,
-                getChannelName(topicName),
-                WatchEventsWrapper.class,
-                (we) -> {
-                    if (!we.getNodeId().equals(nodeId)) {
-                        eventsPublisher.accept(we);
-                    }
-                });
-    }
+	public void createWatchService(String topicName) {
+		clusterMessageService.createConsumer(ClusterMessageService.DestinationType.PubSub, getChannelName(topicName),
+				WatchEventsWrapper.class, (we) -> {
+					if (!we.getNodeId().equals(nodeId)) {
+						eventsPublisher.accept(we);
+					}
+				});
+	}
 
-    public synchronized void broadcast(String fsName,
-                                       Path watchable,
-                                       List<WatchEvent<?>> events) {
-        clusterMessageService.broadcast(ClusterMessageService.DestinationType.PubSub,
-                                        getChannelName(fsName),
-                                        new WatchEventsWrapper(nodeId,
-                                                               fsName,
-                                                               watchable,
-                                                               events));
-    }
+	public synchronized void broadcast(String fsName, Path watchable, List<WatchEvent<?>> events) {
+		clusterMessageService.broadcast(ClusterMessageService.DestinationType.PubSub, getChannelName(fsName),
+				new WatchEventsWrapper(nodeId, fsName, watchable, events));
+	}
 
-    private String getChannelName(String fsName) {
-        String channelName = DEFAULT_TOPIC;
-        if (fsName.contains("/")) {
-            channelName = fsName.substring(0,
-                                           fsName.indexOf("/"));
-        }
-        return channelName;
-    }
+	private String getChannelName(String fsName) {
+		String channelName = DEFAULT_TOPIC;
+		if (fsName.contains("/")) {
+			channelName = fsName.substring(0, fsName.indexOf("/"));
+		}
+		return channelName;
+	}
 
-    public void close() {
-        clusterMessageService.close();
-    }
+	public void close() {
+		clusterMessageService.close();
+	}
 }

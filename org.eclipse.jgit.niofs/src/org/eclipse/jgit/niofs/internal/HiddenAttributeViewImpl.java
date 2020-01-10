@@ -21,43 +21,44 @@ import org.eclipse.jgit.niofs.fs.attribute.HiddenAttributeView;
 import org.eclipse.jgit.niofs.fs.attribute.HiddenAttributes;
 
 /**
- * This is a view that extends a Basic Attribute View and adds the "isHidden" attribute.
- * That attribute lets you know if the branch you are querying is a hidden branch or not.
- * Hidden branches should not be used, are just a mechanism to merge.
+ * This is a view that extends a Basic Attribute View and adds the "isHidden"
+ * attribute. That attribute lets you know if the branch you are querying is a
+ * hidden branch or not. Hidden branches should not be used, are just a
+ * mechanism to merge.
  */
-public abstract class HiddenAttributeViewImpl<P extends Path>
-        extends AbstractBasicFileAttributeView<P> implements HiddenAttributeView {
+public abstract class HiddenAttributeViewImpl<P extends Path> extends AbstractBasicFileAttributeView<P>
+		implements HiddenAttributeView {
 
-    public static final String HIDDEN = "hidden";
+	public static final String HIDDEN = "hidden";
 
-    public HiddenAttributeViewImpl(final P path) {
-        super(path);
-    }
+	public HiddenAttributeViewImpl(final P path) {
+		super(path);
+	}
 
-    @Override
-    public String name() {
-        return HIDDEN;
-    }
+	@Override
+	public String name() {
+		return HIDDEN;
+	}
 
-    @Override
-    public Map<String, Object> readAttributes(final String... attributes) throws IOException {
-        final HiddenAttributes attrs = readAttributes();
+	@Override
+	public Map<String, Object> readAttributes(final String... attributes) throws IOException {
+		final HiddenAttributes attrs = readAttributes();
 
-        return new HashMap<String, Object>(super.readAttributes(attributes)) {{
+		return new HashMap<String, Object>(super.readAttributes(attributes)) {
+			{
 
-            for (final String attribute : attributes) {
-                checkNotEmpty("attribute",
-                              attribute);
+				for (final String attribute : attributes) {
+					checkNotEmpty("attribute", attribute);
 
-                if (attribute.equals("*") || attribute.equals(HIDDEN)) {
-                    put(HIDDEN,
-                        attrs.isHidden());
-                }
+					if (attribute.equals("*") || attribute.equals(HIDDEN)) {
+						put(HIDDEN, attrs.isHidden());
+					}
 
-                if (attribute.equals("*")) {
-                    break;
-                }
-            }
-        }};
-    }
+					if (attribute.equals("*")) {
+						break;
+					}
+				}
+			}
+		};
+	}
 }

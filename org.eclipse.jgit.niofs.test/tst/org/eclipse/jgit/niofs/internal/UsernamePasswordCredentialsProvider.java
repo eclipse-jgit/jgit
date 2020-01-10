@@ -17,30 +17,27 @@ import org.eclipse.jgit.transport.URIish;
 /**
  * Mock CredentialsProvider that handles Yes/No requests
  */
-public class UsernamePasswordCredentialsProvider extends org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider {
+public class UsernamePasswordCredentialsProvider
+		extends org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider {
 
-    public UsernamePasswordCredentialsProvider(final String username,
-                                               final String password) {
-        super(username,
-              password);
-    }
+	public UsernamePasswordCredentialsProvider(final String username, final String password) {
+		super(username, password);
+	}
 
-    @Override
-    public boolean get(final URIish uri,
-                       final CredentialItem... items) throws UnsupportedCredentialItem {
-        try {
-            return super.get(uri,
-                             items);
-        } catch (UnsupportedCredentialItem e) {
-            for (CredentialItem i : items) {
-                if (i instanceof CredentialItem.YesNoType) {
-                    ((CredentialItem.YesNoType) i).setValue(true);
-                    return true;
-                } else {
-                    continue;
-                }
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean get(final URIish uri, final CredentialItem... items) throws UnsupportedCredentialItem {
+		try {
+			return super.get(uri, items);
+		} catch (UnsupportedCredentialItem e) {
+			for (CredentialItem i : items) {
+				if (i instanceof CredentialItem.YesNoType) {
+					((CredentialItem.YesNoType) i).setValue(true);
+					return true;
+				} else {
+					continue;
+				}
+			}
+		}
+		return false;
+	}
 }

@@ -23,59 +23,57 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class JGitFileSystemWatchServices implements Serializable {
 
-    private final Collection<JGitWatchService> watchServices = new CopyOnWriteArrayList<>();
+	private final Collection<JGitWatchService> watchServices = new CopyOnWriteArrayList<>();
 
-    public JGitFileSystemWatchServices() {
-    }
+	public JGitFileSystemWatchServices() {
+	}
 
-    public WatchService newWatchService(String fsName) {
-        final JGitWatchService ws = new JGitWatchService(fsName,
-                                                         p -> watchServices.remove(p));
-        watchServices.add(ws);
-        return ws;
-    }
+	public WatchService newWatchService(String fsName) {
+		final JGitWatchService ws = new JGitWatchService(fsName, p -> watchServices.remove(p));
+		watchServices.add(ws);
+		return ws;
+	}
 
-    public synchronized void publishEvents(Path watchable,
-                                           List<WatchEvent<?>> elist) {
-        if (watchServices.isEmpty()) {
-            return;
-        }
+	public synchronized void publishEvents(Path watchable, List<WatchEvent<?>> elist) {
+		if (watchServices.isEmpty()) {
+			return;
+		}
 
-        for (JGitWatchService ws : watchServices) {
-            ws.publish(new WatchKey() {
+		for (JGitWatchService ws : watchServices) {
+			ws.publish(new WatchKey() {
 
-                @Override
-                public boolean isValid() {
-                    return true;
-                }
+				@Override
+				public boolean isValid() {
+					return true;
+				}
 
-                @Override
-                public List<WatchEvent<?>> pollEvents() {
-                    return new CopyOnWriteArrayList<>(elist);
-                }
+				@Override
+				public List<WatchEvent<?>> pollEvents() {
+					return new CopyOnWriteArrayList<>(elist);
+				}
 
-                @Override
-                public boolean reset() {
-                    return !watchServices.isEmpty();
-                }
+				@Override
+				public boolean reset() {
+					return !watchServices.isEmpty();
+				}
 
-                @Override
-                public void cancel() {
-                }
+				@Override
+				public void cancel() {
+				}
 
-                @Override
-                public Watchable watchable() {
-                    return watchable;
-                }
-            });
-            synchronized (ws) {
-                ws.notifyAll();
-            }
-        }
-    }
+				@Override
+				public Watchable watchable() {
+					return watchable;
+				}
+			});
+			synchronized (ws) {
+				ws.notifyAll();
+			}
+		}
+	}
 
-    public void close() {
-        watchServices.forEach(ws -> ws.closeWithoutNotifyParent());
-        watchServices.clear();
-    }
+	public void close() {
+		watchServices.forEach(ws -> ws.closeWithoutNotifyParent());
+		watchServices.clear();
+	}
 }

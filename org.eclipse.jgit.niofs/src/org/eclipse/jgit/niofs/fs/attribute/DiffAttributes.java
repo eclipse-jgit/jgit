@@ -13,12 +13,11 @@ package org.eclipse.jgit.niofs.fs.attribute;
 import java.nio.file.attribute.BasicFileAttributes;
 
 /**
- * Represents files attributes with the addition of a hidden field.
- * That hidden attribute tell if a branch is hidden or not.
- * I.E.: A Pull Request hidden branch.
- * You should not use those branches unless you have to use them.
+ * Represents files attributes with the addition of a hidden field. That hidden
+ * attribute tell if a branch is hidden or not. I.E.: A Pull Request hidden
+ * branch. You should not use those branches unless you have to use them.
  */
 public interface DiffAttributes extends BasicFileAttributes {
 
-    BranchDiff branchDiff();
+	BranchDiff branchDiff();
 }

@@ -15,7 +15,7 @@ import java.nio.file.attribute.BasicFileAttributeView;
 
 public interface VersionAttributeView extends BasicFileAttributeView {
 
-    String name();
+	String name();
 
-    VersionAttributes readAttributes() throws IOException;
+	VersionAttributes readAttributes() throws IOException;
 }

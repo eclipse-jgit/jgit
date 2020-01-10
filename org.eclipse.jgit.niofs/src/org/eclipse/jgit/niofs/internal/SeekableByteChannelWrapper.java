@@ -21,50 +21,49 @@ import java.nio.channels.SeekableByteChannel;
  */
 public class SeekableByteChannelWrapper implements SeekableByteChannel {
 
-    private final SeekableByteChannel channel;
+	private final SeekableByteChannel channel;
 
-    public SeekableByteChannelWrapper(final SeekableByteChannel channel) {
-        this.channel = checkNotNull("channel",
-                                    channel);
-    }
+	public SeekableByteChannelWrapper(final SeekableByteChannel channel) {
+		this.channel = checkNotNull("channel", channel);
+	}
 
-    @Override
-    public long position() throws IOException {
-        return channel.position();
-    }
+	@Override
+	public long position() throws IOException {
+		return channel.position();
+	}
 
-    @Override
-    public SeekableByteChannel position(final long newPosition) throws IOException {
-        return channel.position(newPosition);
-    }
+	@Override
+	public SeekableByteChannel position(final long newPosition) throws IOException {
+		return channel.position(newPosition);
+	}
 
-    @Override
-    public long size() throws IOException {
-        return channel.size();
-    }
+	@Override
+	public long size() throws IOException {
+		return channel.size();
+	}
 
-    @Override
-    public SeekableByteChannel truncate(final long size) throws IOException {
-        return channel.truncate(size);
-    }
+	@Override
+	public SeekableByteChannel truncate(final long size) throws IOException {
+		return channel.truncate(size);
+	}
 
-    @Override
-    public int read(final ByteBuffer dst) throws java.io.IOException {
-        return channel.read(dst);
-    }
+	@Override
+	public int read(final ByteBuffer dst) throws java.io.IOException {
+		return channel.read(dst);
+	}
 
-    @Override
-    public int write(final ByteBuffer src) throws java.io.IOException {
-        return channel.write(src);
-    }
+	@Override
+	public int write(final ByteBuffer src) throws java.io.IOException {
+		return channel.write(src);
+	}
 
-    @Override
-    public boolean isOpen() {
-        return channel.isOpen();
-    }
+	@Override
+	public boolean isOpen() {
+		return channel.isOpen();
+	}
 
-    @Override
-    public void close() throws java.io.IOException {
-        channel.close();
-    }
+	@Override
+	public void close() throws java.io.IOException {
+		channel.close();
+	}
 }

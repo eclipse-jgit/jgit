@@ -20,29 +20,26 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 public class GetFirstCommit {
 
-    private final Git git;
-    private final Ref ref;
+	private final Git git;
+	private final Ref ref;
 
-    public GetFirstCommit(final Git git,
-                          final String branchName) {
-        this(git,
-             git.getRef(branchName));
-    }
+	public GetFirstCommit(final Git git, final String branchName) {
+		this(git, git.getRef(branchName));
+	}
 
-    public GetFirstCommit(final Git git,
-                          final Ref ref) {
-        this.git = git;
-        this.ref = ref;
-    }
+	public GetFirstCommit(final Git git, final Ref ref) {
+		this.git = git;
+		this.ref = ref;
+	}
 
-    public RevCommit execute() throws IOException {
-        try (final RevWalk rw = new RevWalk(git.getRepository())) {
-            final RevCommit root = rw.parseCommit(ref.getObjectId());
-            rw.sort(RevSort.REVERSE);
-            rw.markStart(root);
-            return rw.next();
-        } catch (final IOException ignored) {
-        }
-        return null;
-    }
+	public RevCommit execute() throws IOException {
+		try (final RevWalk rw = new RevWalk(git.getRepository())) {
+			final RevCommit root = rw.parseCommit(ref.getObjectId());
+			rw.sort(RevSort.REVERSE);
+			rw.markStart(root);
+			return rw.next();
+		} catch (final IOException ignored) {
+		}
+		return null;
+	}
 }

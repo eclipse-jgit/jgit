@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface VersionHistory {
 
-    List<VersionRecord> records();
+	List<VersionRecord> records();
 }

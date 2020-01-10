@@ -14,5 +14,5 @@ import java.security.PublicKey;
 
 public interface PublicKeyAuthenticator {
 
-    User authenticate(String userName, PublicKey key);
+	User authenticate(String userName, PublicKey key);
 }

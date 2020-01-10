@@ -32,95 +32,92 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class JGitFSHooksTest {
 
-    private static final String FS_NAME = "dora";
-    private static final Integer EXIT_CODE = 0;
+	private static final String FS_NAME = "dora";
+	private static final Integer EXIT_CODE = 0;
 
-    @Captor
-    private ArgumentCaptor<FileSystemHookExecutionContext> contextArgumentCaptor;
+	@Captor
+	private ArgumentCaptor<FileSystemHookExecutionContext> contextArgumentCaptor;
 
-    @Test
-    public void executeFSHooksTest() {
+	@Test
+	public void executeFSHooksTest() {
 
-        FileSystemHookExecutionContext ctx = new FileSystemHookExecutionContext(FS_NAME);
+		FileSystemHookExecutionContext ctx = new FileSystemHookExecutionContext(FS_NAME);
 
-        testExecuteFSHooks(ctx, FileSystemHooks.ExternalUpdate);
+		testExecuteFSHooks(ctx, FileSystemHooks.ExternalUpdate);
 
-        ctx.addParam(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE, EXIT_CODE);
+		ctx.addParam(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE, EXIT_CODE);
 
-        testExecuteFSHooks(ctx, FileSystemHooks.PostCommit);
-    }
+		testExecuteFSHooks(ctx, FileSystemHooks.PostCommit);
+	}
 
-    private void testExecuteFSHooks(FileSystemHookExecutionContext ctx, FileSystemHooks hookType) {
-        AtomicBoolean executedWithLambda = new AtomicBoolean(false);
+	private void testExecuteFSHooks(FileSystemHookExecutionContext ctx, FileSystemHooks hookType) {
+		AtomicBoolean executedWithLambda = new AtomicBoolean(false);
 
-        FileSystemHooks.FileSystemHook hook = spy(new FileSystemHooks.FileSystemHook() {
-            @Override
-            public void execute(FileSystemHookExecutionContext context) {
-                assertEquals(FS_NAME, context.getFsName());
-            }
-        });
+		FileSystemHooks.FileSystemHook hook = spy(new FileSystemHooks.FileSystemHook() {
+			@Override
+			public void execute(FileSystemHookExecutionContext context) {
+				assertEquals(FS_NAME, context.getFsName());
+			}
+		});
 
-        FileSystemHooks.FileSystemHook lambdaHook = context -> {
-            assertEquals(FS_NAME, context.getFsName());
-            executedWithLambda.set(true);
-        };
+		FileSystemHooks.FileSystemHook lambdaHook = context -> {
+			assertEquals(FS_NAME, context.getFsName());
+			executedWithLambda.set(true);
+		};
 
-        JGitFSHooks.executeFSHooks(hook, hookType, ctx);
-        JGitFSHooks.executeFSHooks(lambdaHook, hookType, ctx);
+		JGitFSHooks.executeFSHooks(hook, hookType, ctx);
+		JGitFSHooks.executeFSHooks(lambdaHook, hookType, ctx);
 
-        verifyFSHook(hook, hookType);
+		verifyFSHook(hook, hookType);
 
-        assertTrue(executedWithLambda.get());
-    }
+		assertTrue(executedWithLambda.get());
+	}
 
-    @Test
-    public void executeFSHooksArrayTest() {
+	@Test
+	public void executeFSHooksArrayTest() {
 
-        FileSystemHookExecutionContext ctx = new FileSystemHookExecutionContext(FS_NAME);
+		FileSystemHookExecutionContext ctx = new FileSystemHookExecutionContext(FS_NAME);
 
-        testExecuteFSHooksArray(ctx, FileSystemHooks.ExternalUpdate);
+		testExecuteFSHooksArray(ctx, FileSystemHooks.ExternalUpdate);
 
-        ctx.addParam(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE, EXIT_CODE);
+		ctx.addParam(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE, EXIT_CODE);
 
-        testExecuteFSHooksArray(ctx, FileSystemHooks.PostCommit);
-    }
+		testExecuteFSHooksArray(ctx, FileSystemHooks.PostCommit);
+	}
 
-    private void testExecuteFSHooksArray(FileSystemHookExecutionContext ctx, FileSystemHooks hookType) {
+	private void testExecuteFSHooksArray(FileSystemHookExecutionContext ctx, FileSystemHooks hookType) {
 
-        AtomicBoolean executedWithLambda = new AtomicBoolean(false);
+		AtomicBoolean executedWithLambda = new AtomicBoolean(false);
 
-        FileSystemHooks.FileSystemHook hook = spy(new FileSystemHooks.FileSystemHook() {
-            @Override
-            public void execute(FileSystemHookExecutionContext context) {
-                assertEquals(FS_NAME, context.getFsName());
-            }
-        });
+		FileSystemHooks.FileSystemHook hook = spy(new FileSystemHooks.FileSystemHook() {
+			@Override
+			public void execute(FileSystemHookExecutionContext context) {
+				assertEquals(FS_NAME, context.getFsName());
+			}
+		});
 
-        FileSystemHooks.FileSystemHook lambdaHook = context -> {
-            assertEquals(FS_NAME, context.getFsName());
-            executedWithLambda.set(true);
-        };
+		FileSystemHooks.FileSystemHook lambdaHook = context -> {
+			assertEquals(FS_NAME, context.getFsName());
+			executedWithLambda.set(true);
+		};
 
-        JGitFSHooks.executeFSHooks(Arrays.asList(hook, lambdaHook), hookType, ctx);
+		JGitFSHooks.executeFSHooks(Arrays.asList(hook, lambdaHook), hookType, ctx);
 
-        verifyFSHook(hook, hookType);
+		verifyFSHook(hook, hookType);
 
-        assertTrue(executedWithLambda.get());
-    }
+		assertTrue(executedWithLambda.get());
+	}
 
-    private void verifyFSHook(FileSystemHooks.FileSystemHook hook, FileSystemHooks hookType) {
-        verify(hook).execute(contextArgumentCaptor.capture());
+	private void verifyFSHook(FileSystemHooks.FileSystemHook hook, FileSystemHooks hookType) {
+		verify(hook).execute(contextArgumentCaptor.capture());
 
-        FileSystemHookExecutionContext ctx = contextArgumentCaptor.getValue();
+		FileSystemHookExecutionContext ctx = contextArgumentCaptor.getValue();
 
-        Assertions.assertThat(ctx)
-                .isNotNull()
-                .hasFieldOrPropertyWithValue("fsName", FS_NAME);
+		Assertions.assertThat(ctx).isNotNull().hasFieldOrPropertyWithValue("fsName", FS_NAME);
 
-        if (hookType.equals(FileSystemHooks.PostCommit)) {
-            Assertions.assertThat(ctx.getParamValue(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE))
-                    .isNotNull()
-                    .isEqualTo(EXIT_CODE);
-        }
-    }
+		if (hookType.equals(FileSystemHooks.PostCommit)) {
+			Assertions.assertThat(ctx.getParamValue(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE)).isNotNull()
+					.isEqualTo(EXIT_CODE);
+		}
+	}
 }

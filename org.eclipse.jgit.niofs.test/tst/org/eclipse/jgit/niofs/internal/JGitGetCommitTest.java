@@ -23,34 +23,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JGitGetCommitTest extends AbstractTestInfra {
 
-    private Git git;
+	private Git git;
 
-    private static final String MASTER_BRANCH = "master";
+	private static final String MASTER_BRANCH = "master";
 
-    @Before
-    public void setup() throws IOException {
-        final File parentFolder = createTempDirectory();
+	@Before
+	public void setup() throws IOException {
+		final File parentFolder = createTempDirectory();
 
-        final File gitSource = new File(parentFolder, "source/source.git");
+		final File gitSource = new File(parentFolder, "source/source.git");
 
-        git = new CreateRepository(gitSource).execute().get();
-    }
+		git = new CreateRepository(gitSource).execute().get();
+	}
 
-    @Test
-    public void successTest() throws IOException {
-        commit(git, MASTER_BRANCH, "Adding file", content("file.txt", "file content"));
+	@Test
+	public void successTest() throws IOException {
+		commit(git, MASTER_BRANCH, "Adding file", content("file.txt", "file content"));
 
-        RevCommit lastCommit = git.getLastCommit(MASTER_BRANCH);
+		RevCommit lastCommit = git.getLastCommit(MASTER_BRANCH);
 
-        RevCommit commit = git.getCommit(lastCommit.getName());
+		RevCommit commit = git.getCommit(lastCommit.getName());
 
-        assertThat(commit.getName()).isEqualTo(lastCommit.getName());
-    }
+		assertThat(commit.getName()).isEqualTo(lastCommit.getName());
+	}
 
-    @Test
-    public void notFoundTest() {
-        RevCommit commit = git.getCommit("non-existent-commit-id");
+	@Test
+	public void notFoundTest() {
+		RevCommit commit = git.getCommit("non-existent-commit-id");
 
-        assertThat(commit).isNull();
-    }
+		assertThat(commit).isNull();
+	}
 }

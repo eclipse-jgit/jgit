@@ -23,38 +23,38 @@ import org.eclipse.jgit.niofs.fs.attribute.VersionAttributes;
 /**
  *
  */
-public abstract class VersionAttributeViewImpl<P extends Path>
-        extends AbstractBasicFileAttributeView<P> implements VersionAttributeView {
+public abstract class VersionAttributeViewImpl<P extends Path> extends AbstractBasicFileAttributeView<P>
+		implements VersionAttributeView {
 
-    public static final String VERSION = "version";
+	public static final String VERSION = "version";
 
-    public VersionAttributeViewImpl(final P path) {
-        super(path);
-    }
+	public VersionAttributeViewImpl(final P path) {
+		super(path);
+	}
 
-    @Override
-    public String name() {
-        return VERSION;
-    }
+	@Override
+	public String name() {
+		return VERSION;
+	}
 
-    @Override
-    public Map<String, Object> readAttributes(final String... attributes) throws IOException {
-        final VersionAttributes attrs = readAttributes();
+	@Override
+	public Map<String, Object> readAttributes(final String... attributes) throws IOException {
+		final VersionAttributes attrs = readAttributes();
 
-        return new HashMap<String, Object>(super.readAttributes(attributes)) {{
-            for (final String attribute : attributes) {
-                checkNotEmpty("attribute",
-                              attribute);
+		return new HashMap<String, Object>(super.readAttributes(attributes)) {
+			{
+				for (final String attribute : attributes) {
+					checkNotEmpty("attribute", attribute);
 
-                if (attribute.equals("*") || attribute.equals(VERSION)) {
-                    put(VERSION,
-                        attrs.history());
-                }
+					if (attribute.equals("*") || attribute.equals(VERSION)) {
+						put(VERSION, attrs.history());
+					}
 
-                if (attribute.equals("*")) {
-                    break;
-                }
-            }
-        }};
-    }
+					if (attribute.equals("*")) {
+						break;
+					}
+				}
+			}
+		};
+	}
 }

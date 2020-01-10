@@ -12,10 +12,10 @@ package org.eclipse.jgit.niofs.fs;
 
 public class AmbiguousFileSystemNameException extends RuntimeException {
 
-    public AmbiguousFileSystemNameException() {
-    }
+	public AmbiguousFileSystemNameException() {
+	}
 
-    public AmbiguousFileSystemNameException(String msg) {
-        super(msg);
-    }
+	public AmbiguousFileSystemNameException(String msg) {
+		super(msg);
+	}
 }

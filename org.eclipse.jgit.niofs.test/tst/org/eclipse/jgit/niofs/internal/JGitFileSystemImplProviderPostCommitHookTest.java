@@ -45,111 +45,109 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class JGitFileSystemImplProviderPostCommitHookTest extends AbstractTestInfra {
 
-    private static final Integer SUCCESS = 0;
-    private static final Integer WARNING = 10;
-    private static final Integer ERROR = 50;
+	private static final Integer SUCCESS = 0;
+	private static final Integer WARNING = 10;
+	private static final Integer ERROR = 50;
 
-    private static final String SCRIPT = "exit ";
+	private static final String SCRIPT = "exit ";
 
-    private static final String HOOKS_FOLDER = "hooks";
+	private static final String HOOKS_FOLDER = "hooks";
 
-    private static final String GIT = "git://";
+	private static final String GIT = "git://";
 
-    private static final String REPO_NAME = "repo";
+	private static final String REPO_NAME = "repo";
 
-    private static final String NEW_FILE_PATH = "/folder/file.txt";
+	private static final String NEW_FILE_PATH = "/folder/file.txt";
 
-    @Mock
-    private FileSystemHooks.FileSystemHook postCommitHook;
+	@Mock
+	private FileSystemHooks.FileSystemHook postCommitHook;
 
-    @Captor
-    private ArgumentCaptor<FileSystemHookExecutionContext> contextCaptor;
+	@Captor
+	private ArgumentCaptor<FileSystemHookExecutionContext> contextCaptor;
 
-    private JGitFileSystem fs;
+	private JGitFileSystem fs;
 
-    @Before
-    public void init() throws IOException {
-        final URI newRepo = URI.create(GIT + REPO_NAME);
+	@Before
+	public void init() throws IOException {
+		final URI newRepo = URI.create(GIT + REPO_NAME);
 
-        final Map<String, Object> env = new HashMap<>();
-        env.put(FileSystemHooks.PostCommit.name(), postCommitHook);
+		final Map<String, Object> env = new HashMap<>();
+		env.put(FileSystemHooks.PostCommit.name(), postCommitHook);
 
-        fs = (JGitFileSystem) provider.newFileSystem(newRepo, env);
+		fs = (JGitFileSystem) provider.newFileSystem(newRepo, env);
 
-        assertThat(fs).isNotNull();
-    }
+		assertThat(fs).isNotNull();
+	}
 
-    @Test
-    public void testPostCommitWithoutHook() throws IOException {
-        commitFile();
+	@Test
+	public void testPostCommitWithoutHook() throws IOException {
+		commitFile();
 
-        verify(postCommitHook, never()).execute(any());
-    }
+		verify(postCommitHook, never()).execute(any());
+	}
 
-    @Test
-    public void testPostCommitHookSuccess() throws IOException {
+	@Test
+	public void testPostCommitHookSuccess() throws IOException {
 
-        testPostCommit(SUCCESS);
-    }
+		testPostCommit(SUCCESS);
+	}
 
-    @Test
-    public void testPostCommitHookWarning() throws IOException {
+	@Test
+	public void testPostCommitHookWarning() throws IOException {
 
-        testPostCommit(WARNING);
-    }
+		testPostCommit(WARNING);
+	}
 
-    @Test
-    public void testPostCommitHookError() throws IOException {
+	@Test
+	public void testPostCommitHookError() throws IOException {
 
-        testPostCommit(ERROR);
-    }
+		testPostCommit(ERROR);
+	}
 
-    private void testPostCommit(final Integer exitCode) throws IOException {
-        prepareHook(exitCode);
+	private void testPostCommit(final Integer exitCode) throws IOException {
+		prepareHook(exitCode);
 
-        commitFile();
+		commitFile();
 
-        verify(postCommitHook).execute(contextCaptor.capture());
+		verify(postCommitHook).execute(contextCaptor.capture());
 
-        FileSystemHookExecutionContext context = contextCaptor.getValue();
+		FileSystemHookExecutionContext context = contextCaptor.getValue();
 
-        Assertions.assertThat(context)
-                .isNotNull()
-                .hasFieldOrPropertyWithValue("fsName", REPO_NAME);
+		Assertions.assertThat(context).isNotNull().hasFieldOrPropertyWithValue("fsName", REPO_NAME);
 
-        Assertions.assertThat(context.getParamValue(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE))
-                .isNotNull()
-                .isEqualTo(exitCode);
-    }
+		Assertions.assertThat(context.getParamValue(FileSystemHooksConstants.POST_COMMIT_EXIT_CODE)).isNotNull()
+				.isEqualTo(exitCode);
+	}
 
-    private void prepareHook(final Integer code) throws IOException {
+	private void prepareHook(final Integer code) throws IOException {
 
-        File destHookFile = fs.getGit().getRepository().getDirectory().toPath().resolve(HOOKS_FOLDER).resolve("post-commit").toFile();
+		File destHookFile = fs.getGit().getRepository().getDirectory().toPath().resolve(HOOKS_FOLDER)
+				.resolve("post-commit").toFile();
 
-        FileUtils.write(destHookFile, SCRIPT + code, Charset.defaultCharset());
+		FileUtils.write(destHookFile, SCRIPT + code, Charset.defaultCharset());
 
-        if (SystemReader.getInstance().isWindows()) {
-            destHookFile.setReadable(true);
-            destHookFile.setWritable(true);
-            destHookFile.setExecutable(true);
-        } else {
-            Set<PosixFilePermission> perms = new HashSet<>();
-            perms.add(PosixFilePermission.OWNER_READ);
-            perms.add(PosixFilePermission.OWNER_WRITE);
-            perms.add(PosixFilePermission.GROUP_EXECUTE);
-            perms.add(PosixFilePermission.OTHERS_EXECUTE);
-            perms.add(PosixFilePermission.OWNER_EXECUTE);
+		if (SystemReader.getInstance().isWindows()) {
+			destHookFile.setReadable(true);
+			destHookFile.setWritable(true);
+			destHookFile.setExecutable(true);
+		} else {
+			Set<PosixFilePermission> perms = new HashSet<>();
+			perms.add(PosixFilePermission.OWNER_READ);
+			perms.add(PosixFilePermission.OWNER_WRITE);
+			perms.add(PosixFilePermission.GROUP_EXECUTE);
+			perms.add(PosixFilePermission.OTHERS_EXECUTE);
+			perms.add(PosixFilePermission.OWNER_EXECUTE);
 
-            Files.setPosixFilePermissions(destHookFile.toPath(), perms);
-        }
-    }
+			Files.setPosixFilePermissions(destHookFile.toPath(), perms);
+		}
+	}
 
-    private void commitFile() throws IOException {
-        final Path path = provider.getPath(URI.create(GIT + REPO_NAME + NEW_FILE_PATH));
+	private void commitFile() throws IOException {
+		final Path path = provider.getPath(URI.create(GIT + REPO_NAME + NEW_FILE_PATH));
 
-        final OutputStream outStream = provider.newOutputStream(path);
-        assertThat(outStream).isNotNull();
-        outStream.write(("my content").getBytes());
-        outStream.close();
-    }
+		final OutputStream outStream = provider.newOutputStream(path);
+		assertThat(outStream).isNotNull();
+		outStream.write(("my content").getBytes());
+		outStream.close();
+	}
 }

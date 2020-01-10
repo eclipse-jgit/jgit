@@ -17,13 +17,8 @@ import org.eclipse.jgit.niofs.internal.op.Git;
 
 public class JGitFileSystemLock extends FileSystemLock {
 
-    public JGitFileSystemLock(Git git,
-                              TimeUnit t,
-                              long duration) {
+	public JGitFileSystemLock(Git git, TimeUnit t, long duration) {
 
-        super(git.getRepository().getDirectory(),
-              "af.lock",
-              t,
-              duration);
-    }
+		super(git.getRepository().getDirectory(), "af.lock", t, duration);
+	}
 }

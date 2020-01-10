@@ -16,14 +16,13 @@ import java.util.Map;
 
 public interface ExtendedAttributeView extends AttributeView {
 
-    Map<String, Object> readAllAttributes() throws IOException;
+	Map<String, Object> readAllAttributes() throws IOException;
 
-    Map<String, Object> readAttributes(final String... attributes) throws IOException;
+	Map<String, Object> readAttributes(final String... attributes) throws IOException;
 
-    void setAttribute(final String attribute,
-                      final Object value) throws IOException;
+	void setAttribute(final String attribute, final Object value) throws IOException;
 
-    Class[] viewTypes();
+	Class[] viewTypes();
 
-    boolean isSerializable();
+	boolean isSerializable();
 }

@@ -22,49 +22,45 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 public class ListPathContent {
 
-    private final Git git;
-    private final String branchName;
-    private final String path;
+	private final Git git;
+	private final String branchName;
+	private final String path;
 
-    public ListPathContent(final Git git,
-                           final String branchName,
-                           final String path) {
-        this.git = git;
-        this.branchName = branchName;
-        this.path = path;
-    }
+	public ListPathContent(final Git git, final String branchName, final String path) {
+		this.git = git;
+		this.branchName = branchName;
+		this.path = path;
+	}
 
-    public List<PathInfo> execute() throws IOException {
+	public List<PathInfo> execute() throws IOException {
 
-        final String gitPath = PathUtil.normalize(path);
-        final List<PathInfo> result = new ArrayList<>();
-        final ObjectId tree = git.getTreeFromRef(branchName);
-        if (tree == null) {
-            return result;
-        }
-        try (final TreeWalk tw = new TreeWalk(git.getRepository())) {
-            boolean found = false;
-            if (gitPath.isEmpty()) {
-                found = true;
-            } else {
-                tw.setFilter(PathFilter.create(gitPath));
-            }
-            tw.reset(tree);
-            while (tw.next()) {
-                if (!found && tw.isSubtree()) {
-                    tw.enterSubtree();
-                }
-                if (tw.getPathString().equals(gitPath)) {
-                    found = true;
-                    continue;
-                }
-                if (found) {
-                    result.add(new PathInfo(tw.getObjectId(0),
-                                            tw.getPathString(),
-                                            tw.getFileMode(0)));
-                }
-            }
-            return result;
-        }
-    }
+		final String gitPath = PathUtil.normalize(path);
+		final List<PathInfo> result = new ArrayList<>();
+		final ObjectId tree = git.getTreeFromRef(branchName);
+		if (tree == null) {
+			return result;
+		}
+		try (final TreeWalk tw = new TreeWalk(git.getRepository())) {
+			boolean found = false;
+			if (gitPath.isEmpty()) {
+				found = true;
+			} else {
+				tw.setFilter(PathFilter.create(gitPath));
+			}
+			tw.reset(tree);
+			while (tw.next()) {
+				if (!found && tw.isSubtree()) {
+					tw.enterSubtree();
+				}
+				if (tw.getPathString().equals(gitPath)) {
+					found = true;
+					continue;
+				}
+				if (found) {
+					result.add(new PathInfo(tw.getObjectId(0), tw.getPathString(), tw.getFileMode(0)));
+				}
+			}
+			return result;
+		}
+	}
 }

@@ -26,90 +26,82 @@ import org.eclipse.jgit.niofs.internal.op.GitImpl;
 
 public class SyncRemote {
 
-    private final GitImpl git;
-    private final Map.Entry<String, String> remote;
+	private final GitImpl git;
+	private final Map.Entry<String, String> remote;
 
-    public SyncRemote(final GitImpl git,
-                      final Map.Entry<String, String> remote) {
-        this.git = git;
-        this.remote = remote;
-    }
+	public SyncRemote(final GitImpl git, final Map.Entry<String, String> remote) {
+		this.git = git;
+		this.remote = remote;
+	}
 
-    public Optional execute() throws InvalidRemoteException {
-        try {
-            final List<Ref> branches = git._branchList().setListMode(ListBranchCommand.ListMode.ALL).call();
-            final Set<String> remoteBranches = new HashSet<>();
-            final Set<String> localBranches = new HashSet<>();
-            fillBranches(branches, remoteBranches, localBranches);
+	public Optional execute() throws InvalidRemoteException {
+		try {
+			final List<Ref> branches = git._branchList().setListMode(ListBranchCommand.ListMode.ALL).call();
+			final Set<String> remoteBranches = new HashSet<>();
+			final Set<String> localBranches = new HashSet<>();
+			fillBranches(branches, remoteBranches, localBranches);
 
-            /*
-             * We filter out HEAD below because otherwise it appears
-             * as a branch in the UI importing repositories.
-             *
-             * We may need to revisit this in the future when we support
-             * mirror repositories.
-             */
+			/*
+			 * We filter out HEAD below because otherwise it appears as a branch in the UI
+			 * importing repositories.
+			 *
+			 * We may need to revisit this in the future when we support mirror
+			 * repositories.
+			 */
 
-            for (final String localBranch : localBranches) {
-                if (localBranch.equals(Constants.HEAD)) {
-                    continue;
-                }
-                if (remoteBranches.contains(localBranch)) {
-                    try {
-                        git._branchCreate()
-                                .setName(localBranch)
-                                .setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM)
-                                .setStartPoint(remote.getKey() + "/" + localBranch)
-                                .setForce(true)
-                                .call();
-                    } catch (Throwable t) {
-                        throw new RuntimeException("Error creating branch [" + localBranch + "].");
-                    }
-                }
-            }
+			for (final String localBranch : localBranches) {
+				if (localBranch.equals(Constants.HEAD)) {
+					continue;
+				}
+				if (remoteBranches.contains(localBranch)) {
+					try {
+						git._branchCreate().setName(localBranch)
+								.setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM)
+								.setStartPoint(remote.getKey() + "/" + localBranch).setForce(true).call();
+					} catch (Throwable t) {
+						throw new RuntimeException("Error creating branch [" + localBranch + "].");
+					}
+				}
+			}
 
-            remoteBranches.removeAll(localBranches);
+			remoteBranches.removeAll(localBranches);
 
-            for (final String branch : remoteBranches) {
-                if (branch.equals(Constants.HEAD)) {
-                    continue;
-                }
-                try {
-                    git._branchCreate()
-                            .setName(branch)
-                            .setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM)
-                            .setStartPoint(remote.getKey() + "/" + branch)
-                            .setForce(true)
-                            .call();
-                } catch (Throwable t) {
-                    throw new RuntimeException("Error creating branch [" + branch + "].");
-                }
-            }
-            return null;
-        } catch (final InvalidRemoteException e) {
-            throw e;
-        } catch (final RuntimeException re) {
-            throw re;
-        } catch (final Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+			for (final String branch : remoteBranches) {
+				if (branch.equals(Constants.HEAD)) {
+					continue;
+				}
+				try {
+					git._branchCreate().setName(branch)
+							.setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM)
+							.setStartPoint(remote.getKey() + "/" + branch).setForce(true).call();
+				} catch (Throwable t) {
+					throw new RuntimeException("Error creating branch [" + branch + "].");
+				}
+			}
+			return null;
+		} catch (final InvalidRemoteException e) {
+			throw e;
+		} catch (final RuntimeException re) {
+			throw re;
+		} catch (final Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 
-    void fillBranches(final List<Ref> branches,
-                      final Collection<String> remoteBranches,
-                      final Collection<String> localBranches) {
-        for (final Ref branch : branches) {
-            final String branchFullName = branch.getName();
-            final String remotePrefix = "refs/remotes/" + remote.getKey() + "/";
-            final String localPrefix = "refs/heads/";
+	void fillBranches(final List<Ref> branches, final Collection<String> remoteBranches,
+			final Collection<String> localBranches) {
+		for (final Ref branch : branches) {
+			final String branchFullName = branch.getName();
+			final String remotePrefix = "refs/remotes/" + remote.getKey() + "/";
+			final String localPrefix = "refs/heads/";
 
-            if (branchFullName.startsWith(remotePrefix)) {
-                remoteBranches.add(branchFullName.replaceFirst(remotePrefix, ""));
-            } else if (branchFullName.startsWith(localPrefix)) {
-                localBranches.add(branchFullName.replaceFirst(localPrefix, ""));
-            } else {
-                localBranches.add(branchFullName.substring(branchFullName.lastIndexOf("/") + 1));
-            }
-        }
-    }
+			if (branchFullName.startsWith(remotePrefix)) {
+				remoteBranches.add(branchFullName.replaceFirst(remotePrefix, ""));
+			} else if (branchFullName.startsWith(localPrefix)) {
+				localBranches.add(branchFullName.replaceFirst(localPrefix, ""));
+			} else {
+				localBranches.add(branchFullName.substring(branchFullName.lastIndexOf("/") + 1));
+			}
+		}
+	}
 }

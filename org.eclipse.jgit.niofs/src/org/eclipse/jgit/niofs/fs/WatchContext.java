@@ -14,13 +14,13 @@ import java.nio.file.Path;
 
 public interface WatchContext {
 
-    Path getPath();
+	Path getPath();
 
-    Path getOldPath();
+	Path getOldPath();
 
-    String getSessionId();
+	String getSessionId();
 
-    String getMessage();
+	String getMessage();
 
-    String getUser();
+	String getUser();
 }

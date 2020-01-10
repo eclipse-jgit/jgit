@@ -14,21 +14,21 @@ import java.util.List;
 
 public interface FileDiff {
 
-    List<String> getLinesA();
+	List<String> getLinesA();
 
-    List<String> getLinesB();
+	List<String> getLinesB();
 
-    String getChangeType();
+	String getChangeType();
 
-    String getNameA();
+	String getNameA();
 
-    String getNameB();
+	String getNameB();
 
-    int getStartA();
+	int getStartA();
 
-    int getEndA();
+	int getEndA();
 
-    int getStartB();
+	int getStartB();
 
-    int getEndB();
+	int getEndB();
 }

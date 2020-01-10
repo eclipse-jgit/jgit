@@ -20,38 +20,38 @@ import java.util.Map;
 import org.eclipse.jgit.niofs.fs.attribute.DiffAttributeView;
 import org.eclipse.jgit.niofs.fs.attribute.DiffAttributes;
 
-public abstract class DiffAttributeViewImpl<P extends Path>
-        extends AbstractBasicFileAttributeView<P> implements DiffAttributeView {
+public abstract class DiffAttributeViewImpl<P extends Path> extends AbstractBasicFileAttributeView<P>
+		implements DiffAttributeView {
 
-    public static final String DIFF = "diff";
+	public static final String DIFF = "diff";
 
-    public DiffAttributeViewImpl(final P path) {
-        super(path);
-    }
+	public DiffAttributeViewImpl(final P path) {
+		super(path);
+	}
 
-    @Override
-    public String name() {
-        return DIFF;
-    }
+	@Override
+	public String name() {
+		return DIFF;
+	}
 
-    @Override
-    public Map<String, Object> readAttributes(final String... attributes) throws IOException {
-        final DiffAttributes attrs = readAttributes();
+	@Override
+	public Map<String, Object> readAttributes(final String... attributes) throws IOException {
+		final DiffAttributes attrs = readAttributes();
 
-        return new HashMap<String, Object>(super.readAttributes(attributes)) {{
-            for (final String attribute : attributes) {
-                checkNotEmpty("attribute",
-                              attribute);
+		return new HashMap<String, Object>(super.readAttributes(attributes)) {
+			{
+				for (final String attribute : attributes) {
+					checkNotEmpty("attribute", attribute);
 
-                if (attribute.equals("*") || attribute.equals(DIFF)) {
-                    put(DIFF,
-                        attrs.branchDiff());
-                }
+					if (attribute.equals("*") || attribute.equals(DIFF)) {
+						put(DIFF, attrs.branchDiff());
+					}
 
-                if (attribute.equals("*")) {
-                    break;
-                }
-            }
-        }};
-    }
+					if (attribute.equals("*")) {
+						break;
+					}
+				}
+			}
+		};
+	}
 }

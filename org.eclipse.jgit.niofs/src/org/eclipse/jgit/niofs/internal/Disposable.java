@@ -17,5 +17,5 @@ import java.io.IOException;
  */
 public interface Disposable {
 
-    void dispose() throws IOException;
+	void dispose() throws IOException;
 }

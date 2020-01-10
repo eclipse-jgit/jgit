@@ -22,24 +22,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JGitFileSystemImplProviderMigrationTest extends AbstractTestInfra {
 
-    @Test
-    public void testCreateANewDirectoryWithMigrationEnv() throws IOException {
+	@Test
+	public void testCreateANewDirectoryWithMigrationEnv() throws IOException {
 
-        final Map<String, ?> envMigrate = new HashMap<String, Object>() {{
-            put("init",
-                Boolean.TRUE);
-            put("migrate-from",
-                URI.create("git://old"));
-        }};
+		final Map<String, ?> envMigrate = new HashMap<String, Object>() {
+			{
+				put("init", Boolean.TRUE);
+				put("migrate-from", URI.create("git://old"));
+			}
+		};
 
-        String newPath = "git://test/old";
-        final URI newUri = URI.create(newPath);
-        provider.newFileSystem(newUri,
-                               envMigrate);
+		String newPath = "git://test/old";
+		final URI newUri = URI.create(newPath);
+		provider.newFileSystem(newUri, envMigrate);
 
-        provider.getFileSystem(newUri);
-        assertThat(new File(provider.getGitRepoContainerDir(),
-                            "test/old" + ".git")).exists();
-        assertThat(provider.getFileSystem(newUri)).isNotNull();
-    }
+		provider.getFileSystem(newUri);
+		assertThat(new File(provider.getGitRepoContainerDir(), "test/old" + ".git")).exists();
+		assertThat(provider.getFileSystem(newUri)).isNotNull();
+	}
 }

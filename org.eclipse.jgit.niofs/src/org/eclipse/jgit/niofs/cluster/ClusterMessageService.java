@@ -15,23 +15,17 @@ import java.util.function.Consumer;
 
 public interface ClusterMessageService {
 
-    void connect();
+	void connect();
 
-    <T> void createConsumer(DestinationType type,
-                            String channel,
-                            Class<T> clazz,
-                            Consumer<T> listener);
+	<T> void createConsumer(DestinationType type, String channel, Class<T> clazz, Consumer<T> listener);
 
-    void broadcast(DestinationType type,
-                   String channel,
-                   Serializable object);
+	void broadcast(DestinationType type, String channel, Serializable object);
 
-    boolean isSystemClustered();
+	boolean isSystemClustered();
 
-    void close();
+	void close();
 
-    enum DestinationType {
-        PubSub,
-        LoadBalancer
-    }
+	enum DestinationType {
+		PubSub, LoadBalancer
+	}
 }

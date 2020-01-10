@@ -12,7 +12,7 @@ package org.eclipse.jgit.niofs.internal;
 
 public interface LockableFileSystem {
 
-    void lock();
+	void lock();
 
-    void unlock();
+	void unlock();
 }

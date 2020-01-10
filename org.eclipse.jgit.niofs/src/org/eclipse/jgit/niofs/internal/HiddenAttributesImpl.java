@@ -15,24 +15,21 @@ import java.nio.file.attribute.BasicFileAttributes;
 import org.eclipse.jgit.niofs.fs.attribute.HiddenAttributes;
 
 /**
- * HiddenAttribute implementation. Receives a BasicFIleAttributes,
- * and if file is hidden or not so creates a new object that has all those
- * attributes together.
+ * HiddenAttribute implementation. Receives a BasicFIleAttributes, and if file
+ * is hidden or not so creates a new object that has all those attributes
+ * together.
  */
-public class HiddenAttributesImpl
-        extends AbstractJGitBasicAttributesImpl
-        implements HiddenAttributes {
+public class HiddenAttributesImpl extends AbstractJGitBasicAttributesImpl implements HiddenAttributes {
 
-    private final boolean hidden;
+	private final boolean hidden;
 
-    public HiddenAttributesImpl(final BasicFileAttributes attributes,
-                                final boolean isHidden) {
-        super(attributes);
-        this.hidden = isHidden;
-    }
+	public HiddenAttributesImpl(final BasicFileAttributes attributes, final boolean isHidden) {
+		super(attributes);
+		this.hidden = isHidden;
+	}
 
-    @Override
-    public boolean isHidden() {
-        return this.hidden;
-    }
+	@Override
+	public boolean isHidden() {
+		return this.hidden;
+	}
 }

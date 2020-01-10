@@ -18,9 +18,10 @@ package org.eclipse.jgit.niofs.internal.util;
 @FunctionalInterface
 public interface ThrowableSupplier<T> {
 
-    /**
-     * Gets a result.
-     * @return a result
-     */
-    T get() throws Throwable;
+	/**
+	 * Gets a result.
+	 * 
+	 * @return a result
+	 */
+	T get() throws Throwable;
 }

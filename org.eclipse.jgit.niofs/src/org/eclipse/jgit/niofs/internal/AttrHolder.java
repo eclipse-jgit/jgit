@@ -14,11 +14,11 @@ import java.nio.file.attribute.AttributeView;
 
 public interface AttrHolder {
 
-    AttrsStorage getAttrStorage();
+	AttrsStorage getAttrStorage();
 
-    <V extends AttributeView> void addAttrView(final V view);
+	<V extends AttributeView> void addAttrView(final V view);
 
-    <V extends AttributeView> V getAttrView(final Class<V> type);
+	<V extends AttributeView> V getAttrView(final Class<V> type);
 
-    <V extends AttributeView> V getAttrView(final String name);
+	<V extends AttributeView> V getAttrView(final String name);
 }

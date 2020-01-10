@@ -19,24 +19,23 @@ import org.slf4j.LoggerFactory;
 
 public class GarbageCollector {
 
-    private Logger logger = LoggerFactory.getLogger(GarbageCollector.class);
+	private Logger logger = LoggerFactory.getLogger(GarbageCollector.class);
 
-    private final GitImpl git;
+	private final GitImpl git;
 
-    public GarbageCollector(final GitImpl git) {
-        this.git = git;
-    }
+	public GarbageCollector(final GitImpl git) {
+		this.git = git;
+	}
 
-    public void execute() {
-        try {
-            if (!(git.getRepository().getRefDatabase() instanceof RefTreeDatabase)) {
-                git._gc().call();
-            }
-        } catch (GitAPIException | JGitInternalException e) {
-            if (this.logger.isDebugEnabled()) {
-                this.logger.error("Garbage collector can't perform this operation right now, please try it later.",
-                                  e);
-            }
-        }
-    }
+	public void execute() {
+		try {
+			if (!(git.getRepository().getRefDatabase() instanceof RefTreeDatabase)) {
+				git._gc().call();
+			}
+		} catch (GitAPIException | JGitInternalException e) {
+			if (this.logger.isDebugEnabled()) {
+				this.logger.error("Garbage collector can't perform this operation right now, please try it later.", e);
+			}
+		}
+	}
 }

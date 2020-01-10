@@ -24,61 +24,47 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 public class GetPathInfo {
 
-    private final Git git;
-    private final String branchName;
-    private final String path;
+	private final Git git;
+	private final String branchName;
+	private final String path;
 
-    public GetPathInfo(final Git git,
-                       final String branchName,
-                       final String path) {
-        this.git = git;
-        this.branchName = branchName;
-        this.path = path;
-    }
+	public GetPathInfo(final Git git, final String branchName, final String path) {
+		this.git = git;
+		this.branchName = branchName;
+		this.path = path;
+	}
 
-    public PathInfo execute() throws IOException {
+	public PathInfo execute() throws IOException {
 
-        final String gitPath = PathUtil.normalize(path);
+		final String gitPath = PathUtil.normalize(path);
 
-        if (gitPath.isEmpty()) {
-            return new PathInfo(null,
-                                gitPath,
-                                PathType.DIRECTORY);
-        }
+		if (gitPath.isEmpty()) {
+			return new PathInfo(null, gitPath, PathType.DIRECTORY);
+		}
 
-        final ObjectId tree = git.getTreeFromRef(branchName);
-        if (tree == null) {
-            return new PathInfo(null,
-                                gitPath,
-                                PathType.NOT_FOUND);
-        }
-        try (final TreeWalk tw = new TreeWalk(git.getRepository())) {
-            tw.setFilter(PathFilter.create(gitPath));
-            tw.reset(tree);
-            while (tw.next()) {
-                if (tw.getPathString().equals(gitPath)) {
-                    if (tw.getFileMode(0).equals(FileMode.TYPE_TREE)) {
-                        return new PathInfo(tw.getObjectId(0),
-                                            gitPath,
-                                            PathType.DIRECTORY);
-                    } else if (tw.getFileMode(0).equals(FileMode.TYPE_FILE) ||
-                            tw.getFileMode(0).equals(FileMode.EXECUTABLE_FILE) ||
-                            tw.getFileMode(0).equals(FileMode.REGULAR_FILE)) {
-                        final long size = tw.getObjectReader().getObjectSize(tw.getObjectId(0),
-                                                                             OBJ_BLOB);
-                        return new PathInfo(tw.getObjectId(0),
-                                            gitPath,
-                                            PathType.FILE,
-                                            size);
-                    }
-                }
-                if (tw.isSubtree()) {
-                    tw.enterSubtree();
-                }
-            }
-        }
-        return new PathInfo(null,
-                            gitPath,
-                            PathType.NOT_FOUND);
-    }
+		final ObjectId tree = git.getTreeFromRef(branchName);
+		if (tree == null) {
+			return new PathInfo(null, gitPath, PathType.NOT_FOUND);
+		}
+		try (final TreeWalk tw = new TreeWalk(git.getRepository())) {
+			tw.setFilter(PathFilter.create(gitPath));
+			tw.reset(tree);
+			while (tw.next()) {
+				if (tw.getPathString().equals(gitPath)) {
+					if (tw.getFileMode(0).equals(FileMode.TYPE_TREE)) {
+						return new PathInfo(tw.getObjectId(0), gitPath, PathType.DIRECTORY);
+					} else if (tw.getFileMode(0).equals(FileMode.TYPE_FILE)
+							|| tw.getFileMode(0).equals(FileMode.EXECUTABLE_FILE)
+							|| tw.getFileMode(0).equals(FileMode.REGULAR_FILE)) {
+						final long size = tw.getObjectReader().getObjectSize(tw.getObjectId(0), OBJ_BLOB);
+						return new PathInfo(tw.getObjectId(0), gitPath, PathType.FILE, size);
+					}
+				}
+				if (tw.isSubtree()) {
+					tw.enterSubtree();
+				}
+			}
+		}
+		return new PathInfo(null, gitPath, PathType.NOT_FOUND);
+	}
 }

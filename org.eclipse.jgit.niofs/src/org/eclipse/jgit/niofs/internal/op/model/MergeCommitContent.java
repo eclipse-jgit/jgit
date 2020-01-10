@@ -18,16 +18,15 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class MergeCommitContent extends DefaultCommitContent {
 
-    private final List<RevCommit> parents;
+	private final List<RevCommit> parents;
 
-    public MergeCommitContent(final Map<String, File> content,
-                              final List<RevCommit> parents) {
-        super(content);
+	public MergeCommitContent(final Map<String, File> content, final List<RevCommit> parents) {
+		super(content);
 
-        this.parents = parents;
-    }
+		this.parents = parents;
+	}
 
-    public List<RevCommit> getParents() {
-        return parents;
-    }
+	public List<RevCommit> getParents() {
+		return parents;
+	}
 }

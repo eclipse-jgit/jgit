@@ -62,287 +62,249 @@ import static org.eclipse.jgit.niofs.internal.JGitFileSystemProviderConfiguratio
 
 public abstract class AbstractTestInfra {
 
-    static class TestFile {
+	static class TestFile {
 
-        final String path;
-        final String content;
+		final String path;
+		final String content;
 
-        TestFile(final String path,
-                 final String content) {
-            this.path = path;
-            this.content = content;
-        }
-    }
+		TestFile(final String path, final String content) {
+			this.path = path;
+			this.content = content;
+		}
+	}
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractTestInfra.class);
+	private static final Logger logger = LoggerFactory.getLogger(AbstractTestInfra.class);
 
-    protected static final Map<String, Object> EMPTY_ENV = Collections.emptyMap();
+	protected static final Map<String, Object> EMPTY_ENV = Collections.emptyMap();
 
-    protected static final List<File> tempFiles = new ArrayList<>();
+	protected static final List<File> tempFiles = new ArrayList<>();
 
-    protected JGitFileSystemProvider provider;
+	protected JGitFileSystemProvider provider;
 
-    @Before
-    public void createGitFsProvider() throws IOException {
-        provider = new JGitFileSystemProvider(getGitPreferences());
-    }
+	@Before
+	public void createGitFsProvider() throws IOException {
+		provider = new JGitFileSystemProvider(getGitPreferences());
+	}
 
-    /*
-     * Default Git preferences suitable for most of the tests. If specific test needs some custom configuration, it needs to
-     * override this method and provide own map of preferences.
-     */
-    public Map<String, String> getGitPreferences() {
-        Map<String, String> gitPrefs = new HashMap<>();
-        // disable the daemons by default as they not needed in most of the cases
-        gitPrefs.put(GIT_DAEMON_ENABLED, "false");
-        gitPrefs.put(GIT_SSH_ENABLED, "false");
-        return gitPrefs;
-    }
+	/*
+	 * Default Git preferences suitable for most of the tests. If specific test
+	 * needs some custom configuration, it needs to override this method and provide
+	 * own map of preferences.
+	 */
+	public Map<String, String> getGitPreferences() {
+		Map<String, String> gitPrefs = new HashMap<>();
+		// disable the daemons by default as they not needed in most of the cases
+		gitPrefs.put(GIT_DAEMON_ENABLED, "false");
+		gitPrefs.put(GIT_SSH_ENABLED, "false");
+		return gitPrefs;
+	}
 
-    @After
-    public void destroyGitFsProvider() throws IOException {
-        if (provider == null) {
-            // this would mean that setup failed. no need to clean up.
-            return;
-        }
+	@After
+	public void destroyGitFsProvider() throws IOException {
+		if (provider == null) {
+			// this would mean that setup failed. no need to clean up.
+			return;
+		}
 
-        provider.shutdown();
+		provider.shutdown();
 
-        if (provider.getGitRepoContainerDir() != null && provider.getGitRepoContainerDir().exists()) {
-            FileUtils.delete(provider.getGitRepoContainerDir(),
-                             FileUtils.RECURSIVE);
-        }
-    }
+		if (provider.getGitRepoContainerDir() != null && provider.getGitRepoContainerDir().exists()) {
+			FileUtils.delete(provider.getGitRepoContainerDir(), FileUtils.RECURSIVE);
+		}
+	}
 
-    @AfterClass
-    @BeforeClass
-    public static void cleanup() {
-        for (final File tempFile : tempFiles) {
-            try {
-                FileUtils.delete(tempFile,
-                                 FileUtils.RECURSIVE);
-            } catch (IOException e) {
-            }
-        }
-    }
+	@AfterClass
+	@BeforeClass
+	public static void cleanup() {
+		for (final File tempFile : tempFiles) {
+			try {
+				FileUtils.delete(tempFile, FileUtils.RECURSIVE);
+			} catch (IOException e) {
+			}
+		}
+	}
 
-    protected Git setupGit() throws IOException, GitAPIException {
-        return setupGit(createTempDirectory());
-    }
+	protected Git setupGit() throws IOException, GitAPIException {
+		return setupGit(createTempDirectory());
+	}
 
-    protected Git setupGit(final File tempDir) throws IOException, GitAPIException {
+	protected Git setupGit(final File tempDir) throws IOException, GitAPIException {
 
-        final Git git = Git.createRepository(tempDir);
+		final Git git = Git.createRepository(tempDir);
 
-        new Commit(git,
-                   "master",
-                   new CommitInfo(null,
-                                  "name",
-                                  "name@example.com",
-                                  "cool1",
-                                  null,
-                                  null),
-                   false,
-                   null,
-                   new DefaultCommitContent(new HashMap<String, File>() {{
-                       put("file1.txt",
-                           tempFile("content"));
-                       put("file2.txt",
-                           tempFile("content2"));
-                   }})).execute();
+		new Commit(git, "master", new CommitInfo(null, "name", "name@example.com", "cool1", null, null), false, null,
+				new DefaultCommitContent(new HashMap<String, File>() {
+					{
+						put("file1.txt", tempFile("content"));
+						put("file2.txt", tempFile("content2"));
+					}
+				})).execute();
 
-        return git;
-    }
+		return git;
+	}
 
-    protected static File createTempDirectory()
-            throws IOException {
-        final File temp = File.createTempFile("temp",
-                                              Long.toString(System.nanoTime()));
-        if (!(temp.delete())) {
-            throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
-        }
+	protected static File createTempDirectory() throws IOException {
+		final File temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
+		if (!(temp.delete())) {
+			throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
+		}
 
-        if (!(temp.mkdir())) {
-            throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
-        }
+		if (!(temp.mkdir())) {
+			throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
+		}
 
-        tempFiles.add(temp);
+		tempFiles.add(temp);
 
-        return temp;
-    }
+		return temp;
+	}
 
-    public static File tempFile(final String content) throws IOException {
-        final File file = File.createTempFile("bar",
-                                              "foo");
-        final OutputStream out = new FileOutputStream(file);
+	public static File tempFile(final String content) throws IOException {
+		final File file = File.createTempFile("bar", "foo");
+		final OutputStream out = new FileOutputStream(file);
 
-        if (content != null && !content.isEmpty()) {
-            out.write(content.getBytes());
-            out.flush();
-        }
+		if (content != null && !content.isEmpty()) {
+			out.write(content.getBytes());
+			out.flush();
+		}
 
-        out.close();
-        return file;
-    }
+		out.close();
+		return file;
+	}
 
-    public File tempFile(final byte[] content) throws IOException {
-        final File file = File.createTempFile("bar",
-                                              "foo");
-        final FileOutputStream out = new FileOutputStream(file);
+	public File tempFile(final byte[] content) throws IOException {
+		final File file = File.createTempFile("bar", "foo");
+		final FileOutputStream out = new FileOutputStream(file);
 
-        if (content != null && content.length > 0) {
-            out.write(content);
-            out.flush();
-        }
+		if (content != null && content.length > 0) {
+			out.write(content);
+			out.flush();
+		}
 
-        out.close();
-        return file;
-    }
+		out.close();
+		return file;
+	}
 
-    public PersonIdent getAuthor() {
-        return new PersonIdent("user",
-                               "user@example.com");
-    }
+	public PersonIdent getAuthor() {
+		return new PersonIdent("user", "user@example.com");
+	}
 
-    public static int findFreePort() {
-        int port = 0;
-        try {
-            ServerSocket server = new ServerSocket(0);
-            port = server.getLocalPort();
-            server.close();
-        } catch (IOException e) {
-            Assert.fail("Can't find free port!");
-        }
-        logger.debug("Found free port " + port);
-        return port;
-    }
+	public static int findFreePort() {
+		int port = 0;
+		try {
+			ServerSocket server = new ServerSocket(0);
+			port = server.getLocalPort();
+			server.close();
+		} catch (IOException e) {
+			Assert.fail("Can't find free port!");
+		}
+		logger.debug("Found free port " + port);
+		return port;
+	}
 
-    protected byte[] loadImage(final String path) throws IOException {
-        final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
-        StringWriter writer = new StringWriter();
-        IOUtils.copy(stream, writer, Charset.defaultCharset());
-        return writer.toString().getBytes();
-    }
+	protected byte[] loadImage(final String path) throws IOException {
+		final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(stream, writer, Charset.defaultCharset());
+		return writer.toString().getBytes();
+	}
 
-    static void commit(final Git origin,
-                       final String branchName,
-                       final String message,
-                       final TestFile... testFiles) throws IOException {
-        final Map<String, File> data = Arrays.stream(testFiles)
-                .collect(toMap(f -> f.path,
-                               f -> tmpFile(f.content)));
-        new Commit(origin,
-                   branchName,
-                   "name",
-                   "name@example.com",
-                   message,
-                   null,
-                   null,
-                   false,
-                   data).execute();
-    }
+	static void commit(final Git origin, final String branchName, final String message, final TestFile... testFiles)
+			throws IOException {
+		final Map<String, File> data = Arrays.stream(testFiles).collect(toMap(f -> f.path, f -> tmpFile(f.content)));
+		new Commit(origin, branchName, "name", "name@example.com", message, null, null, false, data).execute();
+	}
 
-    public static File tmpFile(final String content) {
-        try {
-            return tempFile(content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public static File tmpFile(final String content) {
+		try {
+			return tempFile(content);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    static TestFile content(final String path,
-                            final String content) {
-        return new TestFile(path,
-                            content);
-    }
+	static TestFile content(final String path, final String content) {
+		return new TestFile(path, content);
+	}
 
-    /**
-     * Creates mock hook in defined hooks directory.
-     * @param hooksDirectory Directory in which mock hook is created.
-     * @param hookName Name of the created hook. This is the filename of created hook file.
-     * @throws FileNotFoundException
-     * @throws UnsupportedEncodingException
-     */
-    void writeMockHook(final File hooksDirectory,
-                       final String hookName)
-            throws FileNotFoundException, UnsupportedEncodingException {
-        final PrintWriter writer = new PrintWriter(new File(hooksDirectory,
-                                                            hookName),
-                                                   "UTF-8");
-        writer.println("# something");
-        writer.close();
-    }
+	/**
+	 * Creates mock hook in defined hooks directory.
+	 * 
+	 * @param hooksDirectory Directory in which mock hook is created.
+	 * @param hookName       Name of the created hook. This is the filename of
+	 *                       created hook file.
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+	void writeMockHook(final File hooksDirectory, final String hookName)
+			throws FileNotFoundException, UnsupportedEncodingException {
+		final PrintWriter writer = new PrintWriter(new File(hooksDirectory, hookName), "UTF-8");
+		writer.println("# something");
+		writer.close();
+	}
 
-    /**
-     * Tests if defined hook was executed or not.
-     * @param gitRepoName Name of test git repository that is created for committing changes.
-     * @param testedHookName Tested hook name. This hook is checked for its execution.
-     * @param wasExecuted Expected hook execution state. If true, test expects that defined hook is executed.
-     * If false, test expects that defined hook is not executed.
-     * @throws IOException
-     */
-    void testHook(final String gitRepoName,
-                  final String testedHookName,
-                  final boolean wasExecuted) throws IOException {
-        final URI newRepo = URI.create("git://" + gitRepoName);
+	/**
+	 * Tests if defined hook was executed or not.
+	 * 
+	 * @param gitRepoName    Name of test git repository that is created for
+	 *                       committing changes.
+	 * @param testedHookName Tested hook name. This hook is checked for its
+	 *                       execution.
+	 * @param wasExecuted    Expected hook execution state. If true, test expects
+	 *                       that defined hook is executed. If false, test expects
+	 *                       that defined hook is not executed.
+	 * @throws IOException
+	 */
+	void testHook(final String gitRepoName, final String testedHookName, final boolean wasExecuted) throws IOException {
+		final URI newRepo = URI.create("git://" + gitRepoName);
 
-        final AtomicBoolean hookExecuted = new AtomicBoolean(false);
-        final FileSystem fs = provider.newFileSystem(newRepo,
-                                                     EMPTY_ENV);
+		final AtomicBoolean hookExecuted = new AtomicBoolean(false);
+		final FileSystem fs = provider.newFileSystem(newRepo, EMPTY_ENV);
 
-        provider.setDetectedFS(new FS_POSIX() {
-            @Override
-            public ProcessResult runHookIfPresent(Repository repox,
-                                                  String hookName,
-                                                  String[] args) throws JGitInternalException {
-                if (hookName.equals(testedHookName)) {
-                    hookExecuted.set(true);
-                }
-                return new ProcessResult(ProcessResult.Status.OK);
-            }
-        });
+		provider.setDetectedFS(new FS_POSIX() {
+			@Override
+			public ProcessResult runHookIfPresent(Repository repox, String hookName, String[] args)
+					throws JGitInternalException {
+				if (hookName.equals(testedHookName)) {
+					hookExecuted.set(true);
+				}
+				return new ProcessResult(ProcessResult.Status.OK);
+			}
+		});
 
-        assertThat(fs).isNotNull();
+		assertThat(fs).isNotNull();
 
-        final Path path = provider.getPath(URI.create("git://user_branch@" + gitRepoName + "/some/path/myfile.txt"));
+		final Path path = provider.getPath(URI.create("git://user_branch@" + gitRepoName + "/some/path/myfile.txt"));
 
-        final OutputStream outStream = provider.newOutputStream(path);
-        assertThat(outStream).isNotNull();
-        outStream.write("my cool content".getBytes());
-        outStream.close();
+		final OutputStream outStream = provider.newOutputStream(path);
+		assertThat(outStream).isNotNull();
+		outStream.write("my cool content".getBytes());
+		outStream.close();
 
-        final InputStream inStream = provider.newInputStream(path);
+		final InputStream inStream = provider.newInputStream(path);
 
-        final String content = new Scanner(inStream).useDelimiter("\\A").next();
+		final String content = new Scanner(inStream).useDelimiter("\\A").next();
 
-        inStream.close();
+		inStream.close();
 
-        assertThat(content).isNotNull().isEqualTo("my cool content");
+		assertThat(content).isNotNull().isEqualTo("my cool content");
 
-        if (wasExecuted) {
-            assertThat(hookExecuted.get()).isTrue();
-        } else {
-            assertThat(hookExecuted.get()).isFalse();
-        }
-    }
+		if (wasExecuted) {
+			assertThat(hookExecuted.get()).isTrue();
+		} else {
+			assertThat(hookExecuted.get()).isFalse();
+		}
+	}
 
-    protected Ref branch(Git origin, String source, String target) throws Exception {
-        final Repository repo = origin.getRepository();
-        return org.eclipse.jgit.api.Git.wrap(repo)
-                .branchCreate()
-                .setName(target)
-                .setStartPoint(source)
-                .call();
-    }
+	protected Ref branch(Git origin, String source, String target) throws Exception {
+		final Repository repo = origin.getRepository();
+		return org.eclipse.jgit.api.Git.wrap(repo).branchCreate().setName(target).setStartPoint(source).call();
+	}
 
-    protected List<Ref> listRefs(final Git cloned) {
-        return new ListRefs(cloned.getRepository()).execute();
-    }
+	protected List<Ref> listRefs(final Git cloned) {
+		return new ListRefs(cloned.getRepository()).execute();
+	}
 
-    protected static String multiline(String prefix, String... lines) {
-        return Arrays.stream(lines)
-                .map(s -> prefix + s)
-                .reduce((s1, s2) -> s1 + "\n" + s2)
-                .orElse("");
-    }
+	protected static String multiline(String prefix, String... lines) {
+		return Arrays.stream(lines).map(s -> prefix + s).reduce((s1, s2) -> s1 + "\n" + s2).orElse("");
+	}
 }

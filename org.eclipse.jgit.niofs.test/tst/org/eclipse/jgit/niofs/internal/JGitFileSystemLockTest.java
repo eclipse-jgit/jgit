@@ -28,42 +28,40 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class JGitFileSystemLockTest {
 
-    @Test
-    public void thresholdMaxTest() {
-        long lastAccessThreshold = Long.MAX_VALUE;
-        JGitFileSystemLock lock = createLock(lastAccessThreshold);
-        lock.registerAccess();
-        assertTrue(lock.hasBeenInUse());
-    }
+	@Test
+	public void thresholdMaxTest() {
+		long lastAccessThreshold = Long.MAX_VALUE;
+		JGitFileSystemLock lock = createLock(lastAccessThreshold);
+		lock.registerAccess();
+		assertTrue(lock.hasBeenInUse());
+	}
 
-    @Test
-    public void thresholdMinTest() {
-        long lastAccessThreshold = Long.MIN_VALUE;
-        JGitFileSystemLock lock = createLock(lastAccessThreshold);
-        lock.registerAccess();
+	@Test
+	public void thresholdMinTest() {
+		long lastAccessThreshold = Long.MIN_VALUE;
+		JGitFileSystemLock lock = createLock(lastAccessThreshold);
+		lock.registerAccess();
 
-        lock.lock.lock();
-        assertTrue(lock.hasBeenInUse());
-        lock.lock.unlock();
-        assertFalse(lock.hasBeenInUse());
-    }
+		lock.lock.lock();
+		assertTrue(lock.hasBeenInUse());
+		lock.lock.unlock();
+		assertFalse(lock.hasBeenInUse());
+	}
 
-    private JGitFileSystemLock createLock(long lastAccessThreshold) {
-        Git gitMock = mock(Git.class);
-        Repository repo = mock(Repository.class);
-        File directory = mock(File.class);
-        when(directory.isDirectory()).thenReturn(true);
-        when(directory.toURI()).thenReturn(URI.create(""));
-        when(repo.getDirectory()).thenReturn(directory);
-        when(gitMock.getRepository()).thenReturn(repo);
-        return new JGitFileSystemLock(gitMock,
-                                      TimeUnit.MILLISECONDS,
-                                      lastAccessThreshold) {
+	private JGitFileSystemLock createLock(long lastAccessThreshold) {
+		Git gitMock = mock(Git.class);
+		Repository repo = mock(Repository.class);
+		File directory = mock(File.class);
+		when(directory.isDirectory()).thenReturn(true);
+		when(directory.toURI()).thenReturn(URI.create(""));
+		when(repo.getDirectory()).thenReturn(directory);
+		when(gitMock.getRepository()).thenReturn(repo);
+		return new JGitFileSystemLock(gitMock, TimeUnit.MILLISECONDS, lastAccessThreshold) {
 
-            @Override
-            Path createLockInfra(URI uri) {
-                return mock(Path.class);
-            }
-        };
-    }
+			@Override
+			Path createLockInfra(URI uri) {
+				return mock(Path.class);
+			}
+		};
+	}
 }

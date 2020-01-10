@@ -27,137 +27,120 @@ import org.slf4j.LoggerFactory;
 
 public class JGitFileSystemsEventsManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JGitFileSystemsEventsManager.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JGitFileSystemsEventsManager.class);
 
-    private final Map<String, JGitFileSystemWatchServices> fsWatchServices = new ConcurrentHashMap<>();
+	private final Map<String, JGitFileSystemWatchServices> fsWatchServices = new ConcurrentHashMap<>();
 
-    private final ClusterMessageService clusterMessageService;
+	private final ClusterMessageService clusterMessageService;
 
-    JGitEventsBroadcast jGitEventsBroadcast;
+	JGitEventsBroadcast jGitEventsBroadcast;
 
-    public JGitFileSystemsEventsManager() {
-        clusterMessageService = getClusterMessageService();
+	public JGitFileSystemsEventsManager() {
+		clusterMessageService = getClusterMessageService();
 
-        if (clusterMessageService.isSystemClustered()) {
-            setupJGitEventsBroadcast();
-        }
-    }
+		if (clusterMessageService.isSystemClustered()) {
+			setupJGitEventsBroadcast();
+		}
+	}
 
-    ClusterMessageService getClusterMessageService() {
-        return new ClusterMessageService() {
-            @Override
-            public void connect() {
+	ClusterMessageService getClusterMessageService() {
+		return new ClusterMessageService() {
+			@Override
+			public void connect() {
 
-            }
+			}
 
-            @Override
-            public <T> void createConsumer(DestinationType type, String channel, Class<T> clazz, Consumer<T> listener) {
+			@Override
+			public <T> void createConsumer(DestinationType type, String channel, Class<T> clazz, Consumer<T> listener) {
 
-            }
+			}
 
-            @Override
-            public void broadcast(DestinationType type, String channel, Serializable object) {
+			@Override
+			public void broadcast(DestinationType type, String channel, Serializable object) {
 
-            }
+			}
 
-            @Override
-            public boolean isSystemClustered() {
-                return false;
-            }
+			@Override
+			public boolean isSystemClustered() {
+				return false;
+			}
 
-            @Override
-            public void close() {
+			@Override
+			public void close() {
 
-            }
-        };
-    }
+			}
+		};
+	}
 
-    void setupJGitEventsBroadcast() {
-        jGitEventsBroadcast = new JGitEventsBroadcast(clusterMessageService,
-                                                      w -> publishEvents(w.getFsName(),
-                                                                         w.getWatchable(),
-                                                                         w.getEvents(),
-                                                                         false));
-    }
+	void setupJGitEventsBroadcast() {
+		jGitEventsBroadcast = new JGitEventsBroadcast(clusterMessageService,
+				w -> publishEvents(w.getFsName(), w.getWatchable(), w.getEvents(), false));
+	}
 
-    public WatchService newWatchService(String fsName)
-            throws UnsupportedOperationException, IOException {
-        fsWatchServices.putIfAbsent(fsName,
-                                    createFSWatchServicesManager());
+	public WatchService newWatchService(String fsName) throws UnsupportedOperationException, IOException {
+		fsWatchServices.putIfAbsent(fsName, createFSWatchServicesManager());
 
-        if (jGitEventsBroadcast != null) {
-            jGitEventsBroadcast.createWatchService(fsName);
-        }
+		if (jGitEventsBroadcast != null) {
+			jGitEventsBroadcast.createWatchService(fsName);
+		}
 
-        return fsWatchServices.get(fsName).newWatchService(fsName);
-    }
+		return fsWatchServices.get(fsName).newWatchService(fsName);
+	}
 
-    JGitFileSystemWatchServices createFSWatchServicesManager() {
-        return new JGitFileSystemWatchServices();
-    }
+	JGitFileSystemWatchServices createFSWatchServicesManager() {
+		return new JGitFileSystemWatchServices();
+	}
 
-    public void publishEvents(String fsName,
-                              Path watchable,
-                              List<WatchEvent<?>> elist) {
+	public void publishEvents(String fsName, Path watchable, List<WatchEvent<?>> elist) {
 
-        publishEvents(fsName,
-                      watchable,
-                      elist,
-                      true);
-    }
+		publishEvents(fsName, watchable, elist, true);
+	}
 
-    public void publishEvents(String fsName,
-                              Path watchable,
-                              List<WatchEvent<?>> elist,
-                              boolean broadcastEvents) {
+	public void publishEvents(String fsName, Path watchable, List<WatchEvent<?>> elist, boolean broadcastEvents) {
 
-        JGitFileSystemWatchServices watchService = fsWatchServices.get(fsName);
+		JGitFileSystemWatchServices watchService = fsWatchServices.get(fsName);
 
-        if (watchService == null) {
-            return;
-        }
+		if (watchService == null) {
+			return;
+		}
 
-        watchService.publishEvents(watchable,
-                                   elist);
+		watchService.publishEvents(watchable, elist);
 
-        if (shouldIBroadcast(broadcastEvents)) {
-            jGitEventsBroadcast.broadcast(fsName,
-                                          watchable,
-                                          elist);
-        }
-    }
+		if (shouldIBroadcast(broadcastEvents)) {
+			jGitEventsBroadcast.broadcast(fsName, watchable, elist);
+		}
+	}
 
-    private boolean shouldIBroadcast(boolean broadcastEvents) {
-        return broadcastEvents && jGitEventsBroadcast != null;
-    }
+	private boolean shouldIBroadcast(boolean broadcastEvents) {
+		return broadcastEvents && jGitEventsBroadcast != null;
+	}
 
-    public void close(String name) {
+	public void close(String name) {
 
-        JGitFileSystemWatchServices watchService = fsWatchServices.get(name);
+		JGitFileSystemWatchServices watchService = fsWatchServices.get(name);
 
-        if (watchService != null) {
-            try {
-                watchService.close();
-            } catch (final Exception ex) {
-                LOGGER.error("Can't close watch service [" + toString() + "]",
-                             ex);
-            }
-        }
-    }
+		if (watchService != null) {
+			try {
+				watchService.close();
+			} catch (final Exception ex) {
+				LOGGER.error("Can't close watch service [" + toString() + "]", ex);
+			}
+		}
+	}
 
-    public void shutdown() {
-        fsWatchServices.keySet().forEach(key -> this.close(key));
+	public void shutdown() {
+		fsWatchServices.keySet().forEach(key -> this.close(key));
 
-        if (jGitEventsBroadcast != null) {
-            jGitEventsBroadcast.close();
-        }
-    }
+		if (jGitEventsBroadcast != null) {
+			jGitEventsBroadcast.close();
+		}
+	}
 
-    JGitEventsBroadcast getjGitEventsBroadcast() {
-        return jGitEventsBroadcast;
-    }
+	JGitEventsBroadcast getjGitEventsBroadcast() {
+		return jGitEventsBroadcast;
+	}
 
-    Map<String, JGitFileSystemWatchServices> getFsWatchServices() {
-        return fsWatchServices;
-    }
+	Map<String, JGitFileSystemWatchServices> getFsWatchServices() {
+		return fsWatchServices;
+	}
 }

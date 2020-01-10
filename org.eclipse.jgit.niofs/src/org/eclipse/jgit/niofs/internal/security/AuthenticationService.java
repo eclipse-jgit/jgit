@@ -11,22 +11,25 @@
 package org.eclipse.jgit.niofs.internal.security;
 
 /**
- * AuthenticationService service for authenticating users and getting their roles.
+ * AuthenticationService service for authenticating users and getting their
+ * roles.
+ * 
  * @author edewit@redhat.com
  */
 public interface AuthenticationService {
 
-    User login(String username, String password);
+	User login(String username, String password);
 
-    /**
-     * @return True iff the user is currently logged in.
-     */
-    boolean isLoggedIn();
+	/**
+	 * @return True iff the user is currently logged in.
+	 */
+	boolean isLoggedIn();
 
-    /**
-     * Log out the currently authenticated user. Has no effect if there is no current user.
-     */
-    void logout();
+	/**
+	 * Log out the currently authenticated user. Has no effect if there is no
+	 * current user.
+	 */
+	void logout();
 
-    User getUser();
+	User getUser();
 }

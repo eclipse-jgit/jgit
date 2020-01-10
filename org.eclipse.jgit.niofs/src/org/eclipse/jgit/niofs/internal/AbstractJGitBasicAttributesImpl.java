@@ -15,54 +15,54 @@ import java.nio.file.attribute.FileTime;
 
 public class AbstractJGitBasicAttributesImpl implements BasicFileAttributes {
 
-    private BasicFileAttributes attributes;
+	private BasicFileAttributes attributes;
 
-    public AbstractJGitBasicAttributesImpl(final BasicFileAttributes attributes) {
-        this.attributes = attributes;
-    }
+	public AbstractJGitBasicAttributesImpl(final BasicFileAttributes attributes) {
+		this.attributes = attributes;
+	}
 
-    @Override
-    public FileTime lastModifiedTime() {
-        return attributes.lastModifiedTime();
-    }
+	@Override
+	public FileTime lastModifiedTime() {
+		return attributes.lastModifiedTime();
+	}
 
-    @Override
-    public FileTime lastAccessTime() {
-        return attributes.lastAccessTime();
-    }
+	@Override
+	public FileTime lastAccessTime() {
+		return attributes.lastAccessTime();
+	}
 
-    @Override
-    public FileTime creationTime() {
-        return attributes.creationTime();
-    }
+	@Override
+	public FileTime creationTime() {
+		return attributes.creationTime();
+	}
 
-    @Override
-    public boolean isRegularFile() {
-        return attributes.isRegularFile();
-    }
+	@Override
+	public boolean isRegularFile() {
+		return attributes.isRegularFile();
+	}
 
-    @Override
-    public boolean isDirectory() {
-        return attributes.isDirectory();
-    }
+	@Override
+	public boolean isDirectory() {
+		return attributes.isDirectory();
+	}
 
-    @Override
-    public boolean isSymbolicLink() {
-        return attributes.isSymbolicLink();
-    }
+	@Override
+	public boolean isSymbolicLink() {
+		return attributes.isSymbolicLink();
+	}
 
-    @Override
-    public boolean isOther() {
-        return attributes.isOther();
-    }
+	@Override
+	public boolean isOther() {
+		return attributes.isOther();
+	}
 
-    @Override
-    public long size() {
-        return attributes.size();
-    }
+	@Override
+	public long size() {
+		return attributes.size();
+	}
 
-    @Override
-    public Object fileKey() {
-        return attributes.fileKey();
-    }
+	@Override
+	public Object fileKey() {
+		return attributes.fileKey();
+	}
 }
