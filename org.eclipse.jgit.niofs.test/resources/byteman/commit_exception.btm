@@ -1,0 +1,12 @@
+#
+#   This Byteman creates an exception on JGitUtil.commit()
+#
+
+RULE exception on commit
+CLASS org.eclipse.jgit.lib.RefUpdate
+METHOD forceUpdate
+AT ENTRY
+IF TRUE
+DO
+   throw RuntimeException("dummy");
+ENDRULE

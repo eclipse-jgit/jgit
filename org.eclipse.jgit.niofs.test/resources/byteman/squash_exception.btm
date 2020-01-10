@@ -1,0 +1,10 @@
+#
+# This scripts throws an Exception after invoking LOCK method.
+#
+#
+RULE force exception
+CLASS me.porcelli.nio.jgit.impl.op.commands.Squash
+METHOD execute
+IF TRUE
+DO throw RuntimeException("check lock after")
+ENDRULE

@@ -1,0 +1,22 @@
+#
+#   This Byteman script makes both threads to reach locking
+#   state and cannot resolve it, so they remain locked for ever.
+#
+#
+
+RULE define rendezvous
+CLASS me.porcelli.nio.jgit.impl.JGitFileSystemProvider
+METHOD lockAndSquash
+AT INVOKE me.porcelli.nio.jgit.impl.JGitFileSystem.lock
+IF TRUE
+DO createRendezvous("rendezvous", 2, true);
+ENDRULE
+
+RULE catch threads
+CLASS me.porcelli.nio.jgit.impl.JGitFileSystemProvider
+METHOD lockAndSquash
+AFTER INVOKE me.porcelli.nio.jgit.impl.JGitFileSystem.lock
+IF isRendezvous("rendezvous", 2)
+DO rendezvous("rendezvous");
+   rendezvous("rendezvous")
+ENDRULE

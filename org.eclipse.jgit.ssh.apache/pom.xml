@@ -43,13 +43,11 @@
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-osgi</artifactId>
-      <version>${apache-sshd-version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
-      <version>${apache-sshd-version}</version>
     </dependency>
 
     <dependency>

@@ -1,0 +1,24 @@
+#
+#   This Byteman script makes both threads to reach locking
+#   state at the same time but then it resolve it.
+#
+#
+
+RULE define rendezvous
+CLASS me.porcelli.nio.jgit.impl.JGitFileSystemProvider
+METHOD lockAndSquash
+AT INVOKE java.nio.file.Path.getFileSystem
+IF NOT isRendezvous("squash", 2)
+DO createRendezvous("squash", 2, true);
+   traceln("rendezvous created");
+ENDRULE
+
+RULE catch threads
+CLASS me.porcelli.nio.jgit.impl.JGitFileSystemProvider
+METHOD lockAndSquash
+AFTER INVOKE java.nio.file.Path.getFileSystem
+BIND threadName = Thread.currentThread().getName();
+IF isRendezvous("squash", 2)
+DO rendezvous("squash");
+   rendezvous("squash")
+ENDRULE

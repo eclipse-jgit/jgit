@@ -1,0 +1,22 @@
+#
+#   This Byteman creates an exception on JGitUtil, to simulate random
+#   issue found on Windows. (see RHBPMS-4105)
+#
+
+RULE increment counter testRetryGetCommits
+CLASS org.eclipse.jgit.revwalk.RevWalk
+METHOD markStart(org.eclipse.jgit.revwalk.RevCommit)
+AT ENTRY
+IF TRUE
+DO
+   incrementCounter("testRetryGetCommits");
+ENDRULE
+
+RULE catch counter testRetryGetCommits
+CLASS org.eclipse.jgit.revwalk.RevWalk
+METHOD markStart(org.eclipse.jgit.revwalk.RevCommit)
+AT EXIT
+IF readCounter("testRetryGetCommits") > 3
+DO
+   throw RuntimeException("almost random failure");
+ENDRULE
