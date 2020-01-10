@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.13" sequenceNumber="1580289407">
+<target name="jgit-4.13" sequenceNumber="1580305848">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
@@ -45,6 +45,8 @@
       <unit id="org.apache.commons.codec.source" version="1.13.0.v20200108-0001"/>
       <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
       <unit id="org.apache.commons.compress.source" version="1.19.0.v20200106-2343"/>
+      <unit id="org.apache.commons.io" version="2.6.0.v20190123-2029"/>
+      <unit id="org.apache.commons.io.source" version="2.6.0.v20190123-2029"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.10.v20200114-1512"/>
