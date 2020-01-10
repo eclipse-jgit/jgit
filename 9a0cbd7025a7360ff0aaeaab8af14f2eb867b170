@@ -151,6 +151,24 @@
     },
     {
       "key": {
+        "uuid": "f8a98ce4_a77da666",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-10T09:54:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this works with jgit.usemsys2bash\u003dauto, since apparently in this case \"useMsys2\" depends on the script type and not on the file system.\n\nCould you discuss this with each other Matthias, Andre?",
+      "parentUuid": "f986bd6b_77a8a98c",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04aa64cc_124f3066",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 6
