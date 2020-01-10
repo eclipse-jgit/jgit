@@ -1725,15 +1725,17 @@ public class ReceivePack {
 	 *            desired status to filter by.
 	 * @return a copy of the command list containing only those commands with
 	 *         the desired status.
+	 * @since 5.7
 	 */
-	private List<ReceiveCommand> filterCommands(Result want) {
+	protected List<ReceiveCommand> filterCommands(Result want) {
 		return ReceiveCommand.filter(commands, want);
 	}
 
 	/**
 	 * Execute commands to update references.
+	 * @since 5.7
 	 */
-	private void executeCommands() {
+	protected void executeCommands() {
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
 		if (toApply.isEmpty())
 			return;
