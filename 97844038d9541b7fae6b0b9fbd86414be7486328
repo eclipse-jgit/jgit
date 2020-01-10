@@ -16,6 +16,24 @@
       "revId": "97844038d9541b7fae6b0b9fbd86414be7486328",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0358bc30_907cbc45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 0,
+      "message": "It it serapated in chain before this squash. OK: will move it to one commit before using this method from other context.",
+      "parentUuid": "4be294e5_aa1088ad",
+      "revId": "97844038d9541b7fae6b0b9fbd86414be7486328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

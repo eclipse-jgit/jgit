@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa1ac23a_aece379f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "I do not understand why this was squashed. I\u0027ve pushed such a version with all chnanges and it was rejected, because to big. I understand this and have split the stuff to smaller more understandable changes. Can we remove or jump over this squash?\n\nI was busy with other projects not related to eclipse. We have already newer cleaned up version in our company and i\u0027m waiting for internal clearing. I hope we can push this now as we have new developer responsible for eclipse only stuff.\n\n@Matthias: I will go through your comments and adapt in the other changes. Is it OK? Please review the chain of related changes. So i want to continue with my last change set and ignore this squash.",
+      "parentUuid": "be93c1dd_4e646dcb",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "703b1756_e2638f86",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "this change will not reach 5.6 hence change since tags to 5.7",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2699b9a4_9dd37b5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "703b1756_e2638f86",
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "4c308be7_7ec5a8f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Hm for me and my internal reviewers it was clearer to use this explicit NOT_DEFINED word, because it makes clear it was not defined by user (parameter, configuration etc.). But yes, if you want i can change to 2 fields. DEFAULT name is also OK...",
+      "parentUuid": "5575cab2_bfae7086",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb758bf3_2c7c2ffa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 6
@@ -82,6 +136,24 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "implement this in the corresponding platform specific subclasses of FS to avoid nasty type checks ?",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1a9e0bd_241838ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Yes, i thought about this, but had difficulties to understand if we need this really. May be it will work with Cygwin mode too. I will investigate...",
+      "parentUuid": "cb758bf3_2c7c2ffa",
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "ce9d7cdb_30656ce3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "It did not work during my test for all systems. I will investigate again...",
+      "parentUuid": "2b432be6_a521aad3",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed06bf86_d690e47a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 6
@@ -122,6 +218,30 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "move this to corresponding FS subclasses",
+      "range": {
+        "startLine": 182,
+        "startChar": 9,
+        "endLine": 182,
+        "endChar": 19
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "714fc62f_d8fdd4d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "OK, will check",
+      "parentUuid": "ed06bf86_d690e47a",
       "range": {
         "startLine": 182,
         "startChar": 9,
@@ -163,6 +283,24 @@
       "side": 1,
       "message": "I don\u0027t think this works with jgit.usemsys2bash\u003dauto, since apparently in this case \"useMsys2\" depends on the script type and not on the file system.\n\nCould you discuss this with each other Matthias, Andre?",
       "parentUuid": "f986bd6b_77a8a98c",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93bd7853_d471e3be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "The question is how do we execute sh-files at windows. Here i want to use windows FS most times, except we have configured sh-scripts, then we need Msys2 or Cygwin support. May be i should drop the auto mode and if Msys2 or Cygwin is configured try to execute all windows specific script or executables (bat, cmd, exe) with configured sh/bash.exe ?",
+      "parentUuid": "f8a98ce4_a77da666",
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -216,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "b510f454_bd753475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Yes, if we moving all this stuff to FS, your idea is also OK for me.",
+      "parentUuid": "ff090ab4_bbfca537",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b955a880_b4457a75",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
         "patchSetId": 6
@@ -227,6 +389,24 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "if we need one comment per line of code something is wrong, try to make the code speak for itself",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17309f54_e2b35c57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b955a880_b4457a75",
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -250,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "c9a6bf4b_062cda96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2b2f5d5_c80d4420",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213635e7_a5c504c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
         "patchSetId": 6
@@ -261,6 +459,30 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "we don\u0027t use IXXX for interfaces",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9bb6b70_346c447f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/IDiffTool.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "OK, the no \"interface / Ix\" in names then?",
+      "parentUuid": "213635e7_a5c504c3",
       "range": {
         "startLine": 51,
         "startChar": 17,
@@ -296,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "bdb8da30_ce55947f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "The comment is not right, it\u0027s mainly for merge tools and if now available it falls back to merge tool configuration. Will fix...",
+      "parentUuid": "8c713c12_738fa437",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2bf4f9_0d88c56a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 6
@@ -307,6 +553,24 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "merge is not compare and involves at least three versions",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb2a129d_fdcd778b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2bf4f9_0d88c56a",
       "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -330,6 +594,24 @@
     },
     {
       "key": {
+        "uuid": "5f3c5a3a_4f33c165",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e91786c_55e09516",
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "027984a7_6f36cc98",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/Utils.java",
         "patchSetId": 6
@@ -341,6 +623,30 @@
       "writtenOn": "2019-12-09T23:03:44Z",
       "side": 1,
       "message": "this class name is meaningless and too generic",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "9a0cbd7025a7360ff0aaeaab8af14f2eb867b170",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac9b0308_ca6542fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/Utils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-10T10:40:44Z",
+      "side": 1,
+      "message": "It\u0027s in a package that has meaningfull name. So here we have just \"utils\". Hm how to name?",
+      "parentUuid": "027984a7_6f36cc98",
       "range": {
         "startLine": 62,
         "startChar": 13,
