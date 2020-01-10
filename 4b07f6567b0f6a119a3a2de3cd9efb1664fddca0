@@ -22,6 +22,30 @@
       "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ff2c322_6185dae7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-10T12:38:08Z",
+      "side": 1,
+      "message": "I think the message is similar to what is being asserted. It is asserted that the average load time is greater than 0, and thats also the statement of the message. Only the operands of the comparison are switched between assertion and message - that\u0027s why it looks odd and a \u0027\u003c\u0027 becomes a \u0027\u003e\u0027",
+      "parentUuid": "6cd4555f_11090019",
+      "range": {
+        "startLine": 162,
+        "startChar": 42,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
