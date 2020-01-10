@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2019 Red Hat, Inc. and/or its affiliates. Copyright (C)
+	2020, Matthias Sohn <matthias.sohn@sap.com> and others This program and the
+	accompanying materials are made available under the terms of the Eclipse
+	Distribution License v. 1.0 which is available at https://www.eclipse.org/org/documents/edl-v10.php.
+	SPDX-License-Identifier: BSD-3-Clause -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.eclipse.jgit</groupId>
+		<artifactId>org.eclipse.jgit-parent</artifactId>
+		<version>5.10.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>org.eclipse.jgit.niofs.test</artifactId>
+	<name>JGit - NIO2 filesystem tests</name>
+
+	<description>
+    NIO2 filesystem tests
+  </description>
+
+	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+	</properties>
+
+	<dependencies>
+		<!--URICodec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+		</dependency>
+
+
+		<!-- HTTP Support -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Core Library -->
+		<dependency>
+			<groupId>org.apache.sshd</groupId>
+			<artifactId>sshd-osgi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.niofs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.http.server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<testSourceDirectory>tst/</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>resources/</directory>
+			</testResource>
+		</testResources>
+
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>plugin.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>resources/</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

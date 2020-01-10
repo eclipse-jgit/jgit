@@ -1,0 +1,27 @@
+# Copyright 2019 Red Hat, Inc. and/or its affiliates.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0 which is available at
+# https://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# This Byteman script makes both threads to reach locking
+# state and cannot resolve it, so they remain locked for ever.
+
+RULE define rendezvous
+CLASS org.eclipse.jgit.niofs.internal.JGitFileSystemProvider
+METHOD lockAndSquash
+AT INVOKE org.eclipse.jgit.niofs.internal.JGitFileSystem.lock
+IF TRUE
+DO createRendezvous("rendezvous", 2, true);
+ENDRULE
+
+RULE catch threads
+CLASS org.eclipse.jgit.niofs.internal.JGitFileSystemProvider
+METHOD lockAndSquash
+AFTER INVOKE org.eclipse.jgit.niofs.internal.JGitFileSystem.lock
+IF isRendezvous("rendezvous", 2)
+DO rendezvous("rendezvous");
+   rendezvous("rendezvous")
+ENDRULE

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2019 Red Hat, Inc. and/or its affiliates. Copyright (C)
+	2020, Matthias Sohn <matthias.sohn@sap.com> and others This program and the
+	accompanying materials are made available under the terms of the Eclipse
+	Distribution License v. 1.0 which is available at https://www.eclipse.org/org/documents/edl-v10.php.
+	SPDX-License-Identifier: BSD-3-Clause -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.eclipse.jgit</groupId>
+		<artifactId>org.eclipse.jgit-parent</artifactId>
+		<version>5.10.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>org.eclipse.jgit.niofs.bytemantest</artifactId>
+	<name>JGit - NIO2 filesystem byteman tests</name>
+
+	<description>
+    NIO2 filesystem byteman tests
+  </description>
+
+	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+	</properties>
+
+	<dependencies>
+		<!--URICodec -->
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.niofs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.niofs.test</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.byteman</groupId>
+			<artifactId>byteman</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.byteman</groupId>
+			<artifactId>byteman-submit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.byteman</groupId>
+			<artifactId>byteman-install</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.byteman</groupId>
+			<artifactId>byteman-bmunit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<testSourceDirectory>tst/</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>resources/</directory>
+			</testResource>
+		</testResources>
+
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>plugin.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>resources/</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.byteman</groupId>
+				<artifactId>byteman-rulecheck-maven-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>resources/**/*.btm</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>rulecheck-test</id>
+						<goals>
+							<goal>rulecheck</goal>
+						</goals>
+						<phase>test-compile</phase>
+						<configuration>
+							<includes>
+								<include>resources/**/*.btm</include>
+							</includes>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<useManifestOnlyJar>true</useManifestOnlyJar>
+					<forkMode>once</forkMode>
+					<!-- byteman doesn't support fork -->
+					<forkCount>1</forkCount>
+					<!-- ensure we don't inherit a byteman jar from any env settings -->
+					<environmentVariables>
+						<BYTEMAN_HOME></BYTEMAN_HOME>
+					</environmentVariables>
+					<systemProperties>
+						<property>
+							<name>org.jboss.byteman.home</name>
+							<value></value>
+						</property>
+						<property>
+							<name>nio.git.dirname</name>
+							<value>${project.build.directory}/.niogit</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
