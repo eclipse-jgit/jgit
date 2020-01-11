@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2012-2013, Robin Rosenberg and others
+ * Copyright (C) 2012-2013, Robin Rosenberg
  * Copyright (C) 2019-2020, Andre Bossert <andre.bossert@siemens.com>
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,6 +11,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 package org.eclipse.jgit.lib;
 
 /**
@@ -66,7 +68,7 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
 
 	/**
-	 * The "cmd" key within "difftool.*." section
+	 * The "cmd" key within "difftool.*." or "mergetool.*." section
 	 *
 	 * @since 5.7
 	 */
