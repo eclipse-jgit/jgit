@@ -88,7 +88,7 @@ class DiffTool extends TextBuiltin {
 
 	private BooleanOption gui = BooleanOption.DEFAULT_FALSE;
 
-	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_Gui")
+	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
 		gui = BooleanOption.TRUE;
 	}
@@ -191,8 +191,8 @@ class DiffTool extends TextBuiltin {
 						outw.println(e.getResultStdout());
 						outw.flush();
 						errw.println(e.getMessage());
-						throw die("external diff died, stopping at " //$NON-NLS-1$
-								+ mergedFilePath, e);
+						throw die(MessageFormat.format(
+								CLIText.get().diffToolDied, mergedFilePath), e);
 					}
 				} else {
 					break;
@@ -203,12 +203,12 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private boolean isLaunchCompare(int fileIndex, int fileCount,
 			String fileName, String toolNamePrompt) throws IOException {
 		boolean launchCompare = true;
-		outw.println("Viewing (" + fileIndex + "/" + fileCount //$NON-NLS-1$ //$NON-NLS-2$
-				+ "): '" + fileName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		outw.print("Launch '" + toolNamePrompt + "' [Y/n]? "); //$NON-NLS-1$ //$NON-NLS-2$
+		outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
+				fileIndex, fileCount, fileName, toolNamePrompt));
 		outw.flush();
 		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
 		String line = null;
