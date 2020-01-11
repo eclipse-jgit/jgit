@@ -21,6 +21,14 @@ public interface IMergeTool extends IDiffTool {
 	/**
 	 * @return the tool "trust exit code" option
 	 */
-	public boolean isTrustExitCode();
+	public BooleanOption getTrustExitCode();
+
+	/**
+	 * @param withBase
+	 *            get command with base present (true) or without base present
+	 *            (false)
+	 * @return the tool command
+	 */
+	abstract public String getCommand(boolean withBase);
 
 }
