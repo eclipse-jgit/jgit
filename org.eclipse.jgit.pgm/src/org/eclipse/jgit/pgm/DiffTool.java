@@ -88,7 +88,7 @@ class DiffTool extends TextBuiltin {
 
 	private BooleanOption gui = BooleanOption.DEFAULT_FALSE;
 
-	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_Gui")
+	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
 		gui = BooleanOption.TRUE;
 	}

@@ -22,7 +22,7 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	/**
 	 * the merge tool "trust exit code" option
 	 */
-	protected final BooleanOption trustExitCode;
+	protected BooleanOption trustExitCode;
 
 	/**
 	 * Creates the merge tool
@@ -46,15 +46,19 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	 * @return the "trust exit code" flag
 	 */
 	@Override
-	public boolean isTrustExitCode() {
-		return trustExitCode.toBoolean();
+	public BooleanOption getTrustExitCode() {
+		return trustExitCode;
 	}
 
 	/**
-	 * @return the "trust exit code" option
+	 * @param withBase
+	 *            not used, because user-defined merge tool can only define one
+	 *            cmd -> it must handle with and without base present (empty)
+	 * @return the tool command
 	 */
-	public BooleanOption getTrustExitCode() {
-		return trustExitCode;
+	@Override
+	public String getCommand(boolean withBase) {
+		return getCommand();
 	}
 
 }
