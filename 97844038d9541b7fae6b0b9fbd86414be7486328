@@ -34,6 +34,24 @@
       "revId": "97844038d9541b7fae6b0b9fbd86414be7486328",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b286c7_fcd20741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-12T19:06:13Z",
+      "side": 0,
+      "message": "moved refactoring to own commit: https://git.eclipse.org/r/#/c/155670/",
+      "parentUuid": "0358bc30_907cbc45",
+      "revId": "97844038d9541b7fae6b0b9fbd86414be7486328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
