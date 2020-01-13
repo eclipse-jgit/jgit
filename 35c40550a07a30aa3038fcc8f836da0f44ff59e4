@@ -46,6 +46,30 @@
       "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97f8b2f2_0bc894bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-13T12:37:48Z",
+      "side": 1,
+      "message": "IMO its dangerous to leave it to the caller to ask the exception for relevant information, since the standard way to handle exceptions is to log their message and stack trace (and nothing else). So likely the caller will just not log the relevant information.\n\nI have no knowledge on JGit though, e.g. if there its expected that the caller asks the exception for its properties.",
+      "parentUuid": "b591aee8_7c3e47f4",
+      "range": {
+        "startLine": 82,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
