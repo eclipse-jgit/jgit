@@ -25,7 +25,7 @@ import com.jcraft.jsch.Session;
  * If user interactivity is required by SSH (e.g. to obtain a password), the
  * connection will immediately fail.
  */
-class DefaultSshSessionFactory extends JschConfigSessionFactory {
+public class DefaultSshSessionFactory extends JschConfigSessionFactory {
 	/** {@inheritDoc} */
 	@Override
 	protected void configure(OpenSshConfig.Host hc, Session session) {
