@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "adae165d_8e8bce8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T12:49:34Z",
+      "side": 1,
+      "message": "ACK, it cannot be directly called without ExternalMergeTool. It can be private too or we make getTool() public. Anyway the long list of parameters are is not good. Should we pack some of them in configure or options class and pass instance of it?",
+      "parentUuid": "101d484f_7b32c49c",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f46b39a2_7fd83fe5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-13T11:53:25Z",
       "side": 1,
       "message": "Why can\u0027t PreDefinedMergeTool take a PreDefinedMergeTools enum object in the constructor?\n\nAlso I think the ending \"s\" in PreDefinedMergeTools is unusual for enum type naming? It certainly makes the code awkward to read.",
+      "range": {
+        "startLine": 352,
+        "startChar": 21,
+        "endLine": 353,
+        "endChar": 30
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "815b46be_c8ad45f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T12:49:34Z",
+      "side": 1,
+      "message": "Yes, we can add another contrustor that accepts \"PreDefinedMergeTools \" enum object.\n\nOK, how should we name \"PreDefinedMergeTools\" enum type?",
+      "parentUuid": "f46b39a2_7fd83fe5",
       "range": {
         "startLine": 352,
         "startChar": 21,
