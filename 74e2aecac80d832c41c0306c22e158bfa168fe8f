@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3dde434_ccdbed29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-13T23:38:31Z",
+      "side": 1,
+      "message": "I think checkout has different semantics and involves the DirCache, if not I think it\u0027s not checkout\n\nI am not convinced this should be public API of DirCacheCheckout",
+      "revId": "74e2aecac80d832c41c0306c22e158bfa168fe8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
