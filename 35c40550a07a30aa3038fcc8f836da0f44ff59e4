@@ -70,6 +70,30 @@
       "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912a92_c581457b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T12:54:45Z",
+      "side": 1,
+      "message": "@Matthias, Andrey or Thomas: how should we handle this additional information in the exception?",
+      "parentUuid": "97f8b2f2_0bc894bd",
+      "range": {
+        "startLine": 82,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
