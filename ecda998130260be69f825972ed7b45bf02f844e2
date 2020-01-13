@@ -22,6 +22,30 @@
       "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e6e0e69_7f4cc159",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-13T15:16:10Z",
+      "side": 1,
+      "message": "I\u0027ve rebased today and see no conflicts.\n\nThe method is used in EGit patch, see https://git.eclipse.org/r/#/c/153907/2/org.eclipse.egit.ui/src/org/eclipse/egit/ui/internal/CompareUtils.java@402",
+      "parentUuid": "347fb752_bdf8c40f",
+      "range": {
+        "startLine": 229,
+        "startChar": 1,
+        "endLine": 231,
+        "endChar": 44
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
