@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9cf1c29_bf9416fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-13T21:14:33Z",
+      "side": 1,
+      "message": "What is the purpose of this constructor (compared to the above)?\nCan we really work with a gitDir that is located on a different FS and with unrelated workTree and config?",
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "347fb752_bdf8c40f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 5
@@ -84,6 +101,30 @@
       "side": 1,
       "message": "See line 60, it does not holds the Repository, but gets from parameter the needed FS, gitDir, worktree and config.\nShould we store Repository then instead or additionally?",
       "parentUuid": "30e31ed7_d46f7104",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e643bf_baf90dc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-13T21:14:33Z",
+      "side": 1,
+      "message": "I wonder why do we need a second constructor, see my comment above. So yes, probably we should just store repo too.",
+      "parentUuid": "5cb6833d_2c208104",
       "range": {
         "startLine": 230,
         "startChar": 3,
