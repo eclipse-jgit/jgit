@@ -16,6 +16,24 @@
       "revId": "b78804603b0e23524083b6f7ad4e1a6f0231a8cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df815303_017d8136",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T21:06:13Z",
+      "side": 1,
+      "message": "create and return file inside: the temp file creation is done differently at caller site, so need to be given from outside...\n\nFS argument: ACK :) so then also private runExternalFilterCommand() does not need this argument, can be derived --\u003e done\n\nIOException: ACK --\u003e done",
+      "parentUuid": "e8c2dcef_1d1b7d1d",
+      "revId": "b78804603b0e23524083b6f7ad4e1a6f0231a8cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
