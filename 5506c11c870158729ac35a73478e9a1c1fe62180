@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "baa81d41_f6c393b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-13T14:53:25Z",
+      "side": 1,
+      "message": "OK, I see this method: org.eclipse.jgit.diffmergetool.MergeToolManager.getUserDefinedTools()\n\nI think this is enough, since the caller can look-up the tool in the respective map.\n\nAlso note that those methods should return a Collection.unmodifiableMap() wrapper. Just in case.",
+      "parentUuid": "adae165d_8e8bce8b",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f46b39a2_7fd83fe5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
