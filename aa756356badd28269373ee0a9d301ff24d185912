@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b13a0a2_f41a437f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-13T08:44:44Z",
+      "side": 1,
+      "message": "Have no idea how I\u0027ve managed to create all the white space changes here with patch set 8, I will push a cleanup in a moment. I\u0027m sorry!",
+      "revId": "aa756356badd28269373ee0a9d301ff24d185912",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
