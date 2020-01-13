@@ -69,6 +69,30 @@
       "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cb6833d_2c208104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T20:14:58Z",
+      "side": 1,
+      "message": "See line 60, it does not holds the Repository, but gets from parameter the needed FS, gitDir, worktree and config.\nShould we store Repository then instead or additionally?",
+      "parentUuid": "30e31ed7_d46f7104",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
