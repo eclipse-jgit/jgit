@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8c2dcef_1d1b7d1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-13T20:39:20Z",
+      "side": 1,
+      "message": "Some observations :\n\nthe method is void, but it would probably make sense to return the file (that is currently given as argument)? This would mean we move temp file creation snippet from the caller to this method. I haven\u0027t checked what we do later with this code, so please ignore if we need this file to be given from outside. \n\nHiwecer, the FS argument is not necessary, as it can be derived from repo.\n\nThe throws contains three subclasses from IOException. I think we don\u0027t need that, similar to caller, one super type should be enough?",
+      "revId": "b78804603b0e23524083b6f7ad4e1a6f0231a8cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
