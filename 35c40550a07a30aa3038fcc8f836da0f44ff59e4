@@ -22,6 +22,30 @@
       "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b591aee8_7c3e47f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T12:29:09Z",
+      "side": 1,
+      "message": "Yes, the exit code should be printed, but here we have no logging in the whole diffmergetool package. Should we add logging or add exit code to the exception message or caller should do it?",
+      "parentUuid": "524cb8a9_9e3aa04c",
+      "range": {
+        "startLine": 82,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
