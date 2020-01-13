@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "f764c417_e7a4f161",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T19:30:52Z",
+      "side": 1,
+      "message": "Add LOG support",
+      "parentUuid": "b0aff985_295ebb53",
+      "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13db9d8c_c976e6d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
         "patchSetId": 16
@@ -149,6 +167,24 @@
       "writtenOn": "2020-01-13T19:29:59Z",
       "side": 1,
       "message": "don\u0027t swallow exceptions but at least log them",
+      "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "130a605a_1f4a116f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T19:30:52Z",
+      "side": 1,
+      "message": "Add LOG support",
+      "parentUuid": "13db9d8c_c976e6d6",
       "revId": "35c40550a07a30aa3038fcc8f836da0f44ff59e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
