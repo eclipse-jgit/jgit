@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c72955f_c9feb68f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T22:00:15Z",
+      "side": 1,
+      "message": "It is not used, may be was related with passing git-dir and worktree as parameter, cannot remember. I will remove this constructor from last change and just store repo like it was before. If needed it can be done yeasily later differently again...",
+      "parentUuid": "e9cf1c29_bf9416fe",
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "347fb752_bdf8c40f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 5
@@ -125,6 +143,30 @@
       "side": 1,
       "message": "I wonder why do we need a second constructor, see my comment above. So yes, probably we should just store repo too.",
       "parentUuid": "5cb6833d_2c208104",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db70c071_3868fb2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T22:00:15Z",
+      "side": 1,
+      "message": "see above, i will adapt previous change to use repo instead of FS etc.",
+      "parentUuid": "50e643bf_baf90dc3",
       "range": {
         "startLine": 230,
         "startChar": 3,
