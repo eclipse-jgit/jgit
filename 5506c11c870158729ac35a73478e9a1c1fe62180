@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "bdc024ca_1d955bd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T19:36:26Z",
+      "side": 1,
+      "message": "OK, so no change needed?",
+      "parentUuid": "baa81d41_f6c393b9",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f46b39a2_7fd83fe5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "What about CommandLineMergeTool? I\u0027m not seeing many options.",
       "parentUuid": "815b46be_c8ad45f8",
+      "range": {
+        "startLine": 352,
+        "startChar": 21,
+        "endLine": 353,
+        "endChar": 30
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8703d97a_e4249be8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T19:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5306fe1_2f6f6625",
       "range": {
         "startLine": 352,
         "startChar": 21,
