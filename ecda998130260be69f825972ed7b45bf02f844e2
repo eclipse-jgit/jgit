@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "347fb752_bdf8c40f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-13T15:13:22Z",
+      "side": 1,
+      "message": "Where is this method used? Am I missing another change? Also note that the change can no longer be rebased on top of the newest changes for bug 356832 (due to conflicts).",
+      "range": {
+        "startLine": 229,
+        "startChar": 1,
+        "endLine": 231,
+        "endChar": 44
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
