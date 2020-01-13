@@ -46,6 +46,29 @@
       "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30e31ed7_d46f7104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-13T17:19:19Z",
+      "side": 1,
+      "message": "Is the parameter necessary? This class already holds a reference to the repository. At the caller, the repository is the same as the one in the constructor of this class.",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
