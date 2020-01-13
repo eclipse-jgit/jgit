@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "51e4ee3b_d34a95b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T22:25:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c72955f_c9feb68f",
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "347fb752_bdf8c40f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 5
@@ -167,6 +185,30 @@
       "side": 1,
       "message": "see above, i will adapt previous change to use repo instead of FS etc.",
       "parentUuid": "50e643bf_baf90dc3",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af142e98_d29fe0e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-13T22:25:23Z",
+      "side": 1,
+      "message": "Please rebase at new previous change, remove the parameter repository and use member db instead",
+      "parentUuid": "db70c071_3868fb2a",
       "range": {
         "startLine": 230,
         "startChar": 3,
