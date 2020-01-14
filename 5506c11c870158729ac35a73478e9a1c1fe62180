@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "86cab087_12c1df0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-14T07:07:14Z",
+      "side": 1,
+      "message": "I think so yes. Just make the returned maps unmodifiable; they are API after all.",
+      "parentUuid": "bdc024ca_1d955bd4",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0c5ca68_011da2fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
