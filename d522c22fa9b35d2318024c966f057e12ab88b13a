@@ -22,6 +22,30 @@
       "revId": "d522c22fa9b35d2318024c966f057e12ab88b13a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c1b7342_d51e3743",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-14T16:28:54Z",
+      "side": 1,
+      "message": "learning: never push code just before leaving the office ;)",
+      "parentUuid": "2c021805_e24a79c5",
+      "range": {
+        "startLine": 47,
+        "startChar": 45,
+        "endLine": 47,
+        "endChar": 54
+      },
+      "revId": "d522c22fa9b35d2318024c966f057e12ab88b13a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
