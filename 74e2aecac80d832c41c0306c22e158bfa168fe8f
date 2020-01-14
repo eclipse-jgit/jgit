@@ -34,6 +34,24 @@
       "revId": "74e2aecac80d832c41c0306c22e158bfa168fe8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e309efa_e6672c3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-14T14:43:39Z",
+      "side": 1,
+      "message": "Matthias and I talked long about this method. We looked at different other places (e.g. hows does EGit populates diff views with the help of EGits Filtering class). In the end we like your proposal. Only this remarks:\n\u0027checkout....\u0027 is not a good name because that implies that a working tree is updated, index entries are updated, ... . I fear that with such a name developers would use this method to update working tree files without doing all the checks. Then they may overwrite user content, changing FileModes unintentionally (before it was an executable file afterwards not executable anymore), write to workingtree files which are symbolic links to somewhere else ... don\u0027t underestimate the dozens problematic situations when updating a workingtree file.\nWe think it\u0027s ok to have a public method which gives you the filtered content as stream. Then it\u0027s clear that the caller has to take care to e.g. write it into proper Files.\n\nSomething like:\n\n \tpublic static void getContent(Repository repo, String path,\n\t\t\tCheckoutMetadata checkoutMetadata, ObjectLoader ol,\n\t\t\tWorkingTreeOptions opt, OutputStream os)\n\nOne side question: do you know of difftools which would also show differences in filemode. E.g. you compare an executable file to a non-executable.",
+      "parentUuid": "45cf2d34_b4f7ec2a",
+      "revId": "74e2aecac80d832c41c0306c22e158bfa168fe8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
