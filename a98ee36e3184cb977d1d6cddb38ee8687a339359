@@ -22,6 +22,30 @@
       "revId": "a98ee36e3184cb977d1d6cddb38ee8687a339359",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0007e4f4_8ca73598",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diffmergetool/ExternalMergeToolTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-14T15:17:12Z",
+      "side": 1,
+      "message": "Also seen when running the test, no hang but an exception:\n\norg.eclipse.jgit.diffmergetool.ToolException: JGit: tool execution return code: 123\ncheckExitCode: true\nexecError: false\nstderr: \nThe filename, directory name, or volume label syntax is incorrect.\n\n\tat org.eclipse.jgit.diffmergetool.CommandExecutor.run(CommandExecutor.java:87)\n\tat org.eclipse.jgit.diffmergetool.MergeToolManager.merge(MergeToolManager.java:162)\n\tat org.eclipse.jgit.diffmergetool.MergeToolManager.merge(MergeToolManager.java:120)\n\tat org.eclipse.jgit.diffmergetool.ExternalMergeToolTest.testDefaultToolExecutionWithPrompt(ExternalMergeToolTest.java:216)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\n\tat java.lang.reflect.Method.invoke(Unknown Source)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:89)\n\tat org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:210)\n\nI\u0027m not really seeing anything wrong in the command that the merge tool code is executing.",
+      "parentUuid": "60417f08_18010fa1",
+      "range": {
+        "startLine": 200,
+        "startChar": 13,
+        "endLine": 200,
+        "endChar": 47
+      },
+      "revId": "a98ee36e3184cb977d1d6cddb38ee8687a339359",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
