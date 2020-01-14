@@ -13,14 +13,24 @@
 
 package org.eclipse.jgit.diffmergetool;
 
-import java.util.TreeMap;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
+import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -30,7 +40,11 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class DiffToolManager {
 
-	private final Repository db;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final DiffToolConfig config;
 
@@ -45,10 +59,26 @@ public class DiffToolManager {
 	 *            the repository database
 	 */
 	public DiffToolManager(Repository db) {
-		this.db = db;
-		this.config = db.getConfig().get(DiffToolConfig.KEY);
+		this(db, db.getConfig());
+	}
+
+	/**
+	 * Creates the external merge-tools manager for given configuration.
+	 *
+	 * @param config
+	 *            the git configuration
+	 */
+	public DiffToolManager(StoredConfig config) {
+		this(null, config);
+	}
+
+	private DiffToolManager(Repository db, StoredConfig config) {
+		this.config = config.get(DiffToolConfig.KEY);
+		this.gitDir = db == null ? null : db.getDirectory();
+		this.fs = db == null ? FS.DETECTED : db.getFS();
+		this.workTree = db == null ? null : db.getWorkTree();
 		predefinedTools = setupPredefinedTools();
-		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
+		userDefinedTools = setupUserDefinedTools(predefinedTools);
 	}
 
 	/**
@@ -92,11 +122,11 @@ public class DiffToolManager {
 			toolNameToUse = toolName.get();
 		} else {
 			toolNameToUse = getDefaultToolName(gui);
+		}
 
-			if (toolNameToUse == null || toolNameToUse.isEmpty()) {
-				noToolHandler.inform(new ArrayList<>(predefinedTools.keySet()));
-				toolNameToUse = getFirstAvailableTool();
-			}
+		if (toolNameToUse == null || toolNameToUse.isEmpty()) {
+			throw new ToolException(
+					"No tool provided and no defaults configured."); //$NON-NLS-1$
 		}
 
 		@SuppressWarnings("boxing")
@@ -131,17 +161,20 @@ public class DiffToolManager {
 			FileElement remoteFile, ExternalDiffTool tool,
 			boolean trustExitCode) throws ToolException {
 		try {
+			if (tool == null) {
+				throw new ToolException(
+						"External diff tool specified in git attributes can not be found."); //$NON-NLS-1$
+			}
 			// prepare the command (replace the file paths)
 			String command = ExternalToolUtils.prepareCommand(tool.getCommand(),
 					localFile, remoteFile, null, null);
 			// prepare the environment
 			Map<String, String> env = ExternalToolUtils.prepareEnvironment(
-					db.getDirectory(), localFile, remoteFile, null, null);
+					gitDir, localFile, remoteFile, null, null);
 
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(db.getFS(),
-					trustExitCode);
-			return cmdExec.run(command, db.getWorkTree(), env);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trustExitCode);
+			return cmdExec.run(command, workTree, env);
 
 		} catch (IOException | InterruptedException e) {
 			throw new ToolException(e);
@@ -179,6 +212,67 @@ public class DiffToolManager {
 	}
 
 	/**
+	 * Provides {@link Optional} with the name of an external diff tool if
+	 * specified in git configuration for a path.
+	 *
+	 * The formed git configuration results from global rules as well as merged
+	 * rules from info and worktree attributes.
+	 *
+	 * Triggers {@link TreeWalk} until specified path found in the tree.
+	 *
+	 * @param repository
+	 *            target repository to traverse into
+	 * @param path
+	 *            path to the node in repository to parse git attributes for
+	 * @return name of the difftool if set
+	 * @throws ToolException
+	 */
+	public Optional<String> getExternalToolFromAttributes(
+			final Repository repository,
+			final String path) throws ToolException {
+		try {
+			WorkingTreeIterator treeIterator = new FileTreeIterator(repository);
+			try (TreeWalk walk = new TreeWalk(repository)) {
+				walk.addTree(treeIterator);
+				walk.setFilter(new NotIgnoredFilter(0));
+				while (walk.next()) {
+					String treePath = walk.getPathString();
+					if (treePath.equals(path)) {
+						Attributes attrs = walk.getAttributes();
+						if (attrs.containsKey("difftool")) { //$NON-NLS-1$
+							return Optional.of(attrs.getValue("difftool")); //$NON-NLS-1$
+						}
+					}
+					if (walk.isSubtree()) {
+						walk.enterSubtree();
+					}
+				}
+				// no external tool specified
+				return Optional.empty();
+			}
+
+		} catch (RevisionSyntaxException | IOException e) {
+			throw new ToolException(e);
+		}
+	}
+
+	/**
+	 * Checks the availability of the predefined tools in the system.
+	 *
+	 * @return set of predefined available tools
+	 */
+	public Set<String> getPredefinedAvailableTools() {
+		Map<String, ExternalDiffTool> defTools = getPredefinedTools(true);
+		Set<String> availableTools = new HashSet<>();
+		for (Entry<String, ExternalDiffTool> elem : defTools.entrySet()) {
+			if (elem.getValue().isAvailable()) {
+				availableTools.add(elem.getKey());
+			}
+		}
+		return availableTools;
+	}
+
+	/**
 	 * @return the user defined tools
 	 */
 	public Map<String, ExternalDiffTool> getUserDefinedTools() {
@@ -199,9 +293,8 @@ public class DiffToolManager {
 		if (checkAvailability) {
 			for (ExternalDiffTool tool : predefinedTools.values()) {
 				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) tool;
-				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(
-						db.getFS(), db.getDirectory(), db.getWorkTree(),
-						predefTool.getPath()));
+				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(fs,
+						gitDir, workTree, predefTool.getPath()));
 			}
 		}
 		return predefinedTools;
@@ -212,8 +305,8 @@ public class DiffToolManager {
 	 */
 	public String getFirstAvailableTool() {
 		for (ExternalDiffTool tool : predefinedTools.values()) {
-			if (ExternalToolUtils.isToolAvailable(db.getFS(), db.getDirectory(),
-					db.getWorkTree(), tool.getPath())) {
+			if (ExternalToolUtils.isToolAvailable(fs, gitDir, workTree,
+					tool.getPath())) {
 				return tool.getName();
 			}
 		}
@@ -226,8 +319,15 @@ public class DiffToolManager {
 	 * @return the default tool name
 	 */
 	public String getDefaultToolName(boolean gui) {
-		return gui ? config.getDefaultGuiToolName()
-				: config.getDefaultToolName();
+		String guiToolName;
+		if (gui) {
+			guiToolName = config.getDefaultGuiToolName();
+			if (guiToolName != null) {
+				return guiToolName;
+			}
+			return config.getDefaultToolName();
+		}
+		return config.getDefaultToolName();
 	}
 
 	/**
@@ -254,9 +354,9 @@ public class DiffToolManager {
 	}
 
 	private Map<String, ExternalDiffTool> setupUserDefinedTools(
-			DiffToolConfig cfg, Map<String, ExternalDiffTool> predefTools) {
+			Map<String, ExternalDiffTool> predefTools) {
 		Map<String, ExternalDiffTool> tools = new TreeMap<>();
-		Map<String, ExternalDiffTool> userTools = cfg.getTools();
+		Map<String, ExternalDiffTool> userTools = config.getTools();
 		for (String name : userTools.keySet()) {
 			ExternalDiffTool userTool = userTools.get(name);
 			// if difftool.<name>.cmd is defined we have user defined tool

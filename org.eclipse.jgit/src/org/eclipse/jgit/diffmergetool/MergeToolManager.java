@@ -27,6 +27,8 @@ import java.util.Set;
 
 import org.eclipse.jgit.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -36,7 +38,11 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class MergeToolManager {
 
-	private final Repository db;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final MergeToolConfig config;
 
@@ -51,10 +57,26 @@ public class MergeToolManager {
 	 *            the repository database
 	 */
 	public MergeToolManager(Repository db) {
-		this.db = db;
-		this.config = db.getConfig().get(MergeToolConfig.KEY);
+		this(db, db.getConfig());
+	}
+
+	/**
+	 * Creates the external diff-tools manager for given configuration.
+	 *
+	 * @param config
+	 *            the git configuration
+	 */
+	public MergeToolManager(StoredConfig config) {
+		this(null, config);
+	}
+
+	private MergeToolManager(Repository db, StoredConfig config) {
+		this.config = config.get(MergeToolConfig.KEY);
+		this.gitDir = db == null ? null : db.getDirectory();
+		this.fs = db == null ? FS.DETECTED : db.getFS();
+		this.workTree = db == null ? null : db.getWorkTree();
 		predefinedTools = setupPredefinedTools();
-		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
+		userDefinedTools = setupUserDefinedTools(predefinedTools);
 	}
 
 	/**
@@ -144,22 +166,20 @@ public class MergeToolManager {
 		FileElement backup = null;
 		ExecutionResult result = null;
 		try {
-			File workingDir = db.getWorkTree();
 			// create additional backup file (copy worktree file)
 			backup = createBackupFile(mergedFile,
-					tempDir != null ? tempDir : workingDir);
+					tempDir != null ? tempDir : workTree);
 			// prepare the command (replace the file paths)
 			String command = ExternalToolUtils.prepareCommand(
 					tool.getCommand(baseFile != null), localFile, remoteFile,
 					mergedFile, baseFile);
 			// prepare the environment
 			Map<String, String> env = ExternalToolUtils.prepareEnvironment(
-					db.getDirectory(), localFile, remoteFile, mergedFile,
-					baseFile);
+					gitDir, localFile, remoteFile, mergedFile, baseFile);
 			boolean trust = tool.getTrustExitCode().toBoolean();
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
-			result = cmdExec.run(command, workingDir, env);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trust);
+			result = cmdExec.run(command, workTree, env);
 			// keep backup as .orig file
 			keepBackupFile(mergedFile.getPath(), backup);
 			return result;
@@ -257,9 +277,8 @@ public class MergeToolManager {
 		if (checkAvailability) {
 			for (ExternalMergeTool tool : predefinedTools.values()) {
 				PreDefinedMergeTool predefTool = (PreDefinedMergeTool) tool;
-				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(
-						db.getFS(), db.getDirectory(), db.getWorkTree(),
-						predefTool.getPath()));
+				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(fs,
+						gitDir, workTree, predefTool.getPath()));
 			}
 		}
 		return predefinedTools;
@@ -271,41 +290,41 @@ public class MergeToolManager {
 	public String getFirstAvailableTool() {
 		String name = null;
 		for (ExternalMergeTool tool : predefinedTools.values()) {
-			if (ExternalToolUtils.isToolAvailable(db.getFS(), db.getDirectory(),
-					db.getWorkTree(), tool.getPath())) {
-						name = tool.getName();
-						break;
-					}
-				}
-				return name;
+			if (ExternalToolUtils.isToolAvailable(fs, gitDir, workTree,
+					tool.getPath())) {
+				name = tool.getName();
+				break;
 			}
+		}
+		return name;
+	}
 
-			/**
-			 * @param gui
-			 *            use the diff.guitool setting ?
-			 * @return the default tool name
-			 */
-			public String getDefaultToolName(BooleanOption gui) {
-				return gui.toBoolean() ? config.getDefaultGuiToolName()
-						: config.getDefaultToolName();
-			}
+	/**
+	 * @param gui
+	 *            use the diff.guitool setting ?
+	 * @return the default tool name
+	 */
+	public String getDefaultToolName(BooleanOption gui) {
+		return gui.toBoolean() ? config.getDefaultGuiToolName()
+				: config.getDefaultToolName();
+	}
 
-			/**
-			 * @return id prompt enabled?
-			 */
-			public boolean isPrompt() {
-				return config.isPrompt();
-			}
+	/**
+	 * @return id prompt enabled?
+	 */
+	public boolean isPrompt() {
+		return config.isPrompt();
+	}
 
-			/**
-			 * @param gui
-			 *            use the diff.guitool setting ?
-			 * @return the default tool name
-			 */
-			public String getDefaultToolName(boolean gui) {
-				return gui ? config.getDefaultGuiToolName()
-						: config.getDefaultToolName();
-			}
+	/**
+	 * @param gui
+	 *            use the diff.guitool setting ?
+	 * @return the default tool name
+	 */
+	public String getDefaultToolName(boolean gui) {
+		return gui ? config.getDefaultGuiToolName()
+				: config.getDefaultToolName();
+	}
 
 	private ExternalMergeTool getTool(final String name) {
 		ExternalMergeTool tool = userDefinedTools.get(name);
@@ -335,9 +354,9 @@ public class MergeToolManager {
 	}
 
 	private Map<String, ExternalMergeTool> setupUserDefinedTools(
-			MergeToolConfig cfg, Map<String, ExternalMergeTool> predefTools) {
+			Map<String, ExternalMergeTool> predefTools) {
 		Map<String, ExternalMergeTool> tools = new TreeMap<>();
-		Map<String, ExternalMergeTool> userTools = cfg.getTools();
+		Map<String, ExternalMergeTool> userTools = config.getTools();
 		for (String name : userTools.keySet()) {
 			ExternalMergeTool userTool = userTools.get(name);
 			// if mergetool.<name>.cmd is defined we have user defined tool
