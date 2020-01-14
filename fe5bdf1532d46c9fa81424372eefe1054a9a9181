@@ -183,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "f8502bef_1881e471",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T19:06:23Z",
+      "side": 1,
+      "message": "Yes it\u0027s needed, because path can be overloaded by user defined configuration.",
+      "parentUuid": "4d601b60_b1bb3098",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9e6de39_dbb9b89a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
         "patchSetId": 19
