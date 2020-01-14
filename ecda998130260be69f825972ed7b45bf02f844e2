@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d57ed439_47b5cda5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-14T09:18:56Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve realized too late UI patch depends on StoredConfig, and that means we need a second constructor and another rework.\n\nI will push updated patch shortly.",
+      "parentUuid": "51e4ee3b_d34a95b1",
+      "revId": "ecda998130260be69f825972ed7b45bf02f844e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "347fb752_bdf8c40f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 5
