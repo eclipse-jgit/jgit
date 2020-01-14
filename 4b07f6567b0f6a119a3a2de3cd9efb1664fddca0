@@ -46,6 +46,30 @@
       "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa1321c_35c9fb9d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-14T06:03:18Z",
+      "side": 1,
+      "message": "OK, but in that case the ones at L178 and L180 are inconsistent.",
+      "parentUuid": "5ff2c322_6185dae7",
+      "range": {
+        "startLine": 162,
+        "startChar": 42,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
