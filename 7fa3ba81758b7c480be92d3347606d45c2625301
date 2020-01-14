@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e19d622d_fc3d48e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diffmergetool/ExternalDiffToolTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-14T15:59:46Z",
+      "side": 1,
+      "message": "tes -\u003e test\n\nI\u0027ll update with the next patch set.",
+      "range": {
+        "startLine": 228,
+        "startChar": 13,
+        "endLine": 228,
+        "endChar": 16
+      },
+      "revId": "7fa3ba81758b7c480be92d3347606d45c2625301",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
