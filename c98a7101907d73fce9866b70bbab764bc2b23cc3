@@ -90,6 +90,29 @@
       "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1e6a97_dda815dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalDiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:08:02Z",
+      "side": 1,
+      "message": "empty interface methods not declared default are always abstract and interface methods are always public so these two modifiers can be omitted",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
