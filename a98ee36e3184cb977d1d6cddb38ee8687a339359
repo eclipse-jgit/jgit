@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60417f08_18010fa1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diffmergetool/ExternalMergeToolTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-14T15:10:34Z",
+      "side": 1,
+      "message": "This hangs when executed in Windows 10:\n\n\"main\" #1 prio\u003d5 os_prio\u003d0 tid\u003d0x0000000002e83800 nid\u003d0x39b8 runnable [0x0000000002e3d000]\n   java.lang.Thread.State: RUNNABLE\n        at java.lang.ProcessImpl.waitForInterruptibly(Native Method)\n        at java.lang.ProcessImpl.waitFor(Unknown Source)\n        at org.eclipse.jgit.util.FS.runProcess(FS.java:1904)\n        at org.eclipse.jgit.util.FS.execute(FS.java:2012)\n        at org.eclipse.jgit.diffmergetool.CommandExecutor.run(CommandExecutor.java:82)\n        at org.eclipse.jgit.diffmergetool.MergeToolManager.merge(MergeToolManager.java:162)\n        at org.eclipse.jgit.diffmergetool.MergeToolManager.merge(MergeToolManager.java:120)\n        at org.eclipse.jgit.diffmergetool.ExternalMergeToolTest.testDefaultToolExecutionWithPrompt(ExternalMergeToolTest.java:216)\n        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)\n        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\n        at java.lang.reflect.Method.invoke(Unknown Source)\n        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\n        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\n        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n        at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n        at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\n        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\n        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\n        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n        at org.junit.runners.Suite.runChild(Suite.java:128)\n        at org.junit.runners.Suite.runChild(Suite.java:27)\n        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n        at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:89)\n        at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41)\n        at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542)\n        at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770)\n        at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464)\n        at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:210)\n\nI\u0027m not sure why. My Notepad++ opened some file while the test is running; in theory all we do is print some text in a file...\n\nI can always re-add the \"assume Linux\" statements.",
+      "range": {
+        "startLine": 200,
+        "startChar": 13,
+        "endLine": 200,
+        "endChar": 47
+      },
+      "revId": "a98ee36e3184cb977d1d6cddb38ee8687a339359",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
