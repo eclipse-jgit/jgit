@@ -1,0 +1,392 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "286b7c2b_51c41fe4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "nit: use present tense for what the commit adds or changes\n\ngeneric functionality should be moved to a separate commit and have unit tests\n\nit seems this reimplements functionality already available in FS and subclasses",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be06de61_22f8e98f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "this should go into FS and OS specific subclasses",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ff21ee7_f6435ef1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "why isn\u0027t this already a separate method in the first commit introducing this class ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 16
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37e65337_01c45b51",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "avoid unnecessary comments, instead try to make the code speak itself",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d22e8dd0_03c0b4a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "nit: use active voice",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 10
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a293f85_13320ff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "this class seems generic and not directly tied to diff and merge tools hence I think this is in the wrong package\n\ndon\u0027t we already have similar functionality in FS which could be extended if necessary instead of adding yet another implementation ?",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fed44f2_820c8d9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "externalize error messages and use MessageFormat for concatenation",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb92a768_7ab1998f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "isn\u0027t any return code !\u003d 0 an error ?",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df37eb21_901a1864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "instead of using instanceof implement this in the corresponding subclass of FS ?",
+      "range": {
+        "startLine": 166,
+        "startChar": 21,
+        "endLine": 166,
+        "endChar": 31
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eaea38d_a4b4e42c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "I don\u0027t get why we need these magic numbers if any rc !\u003d null is an error",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "598f19af_ee1ebe98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f36f74_85971aee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "incomplete javadoc, the method itself doesn\u0027t have a description",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfde559d_baf9ca05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "isInteractive ?",
+      "range": {
+        "startLine": 146,
+        "startChar": 16,
+        "endLine": 146,
+        "endChar": 24
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "252ab73e_8dbaf5f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "we have StringUtils.isEmptyOrNull(String)",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d34dc854_548a09dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "I find it strange that there are two collections of tools, isn\u0027t only one map keyed by tool name containing both pre-defined and user-defined tools sufficient ? This would simplify lookup and ensure that there can be only one tool per name",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c33a75d_da41825a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "implement Closable to manage destroying temp file at the end ?\nThis would allow to use the try with resource idiom to manage cleanup\n\ntry (FileElement f \u003d new FileElement(...)) {\n   // use the FileElement\n}",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c140a77_51451dce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "what is a file id ?",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa191701_0b41e644",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "why is this needed ?",
+      "range": {
+        "startLine": 135,
+        "startChar": 34,
+        "endLine": 135,
+        "endChar": 45
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4125ce94_3344a981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "use org.eclipse.jgit.util.QuotedString ?",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61572cca_26590322",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:54:02Z",
+      "side": 1,
+      "message": "1L",
+      "range": {
+        "startLine": 29,
+        "startChar": 46,
+        "endLine": 29,
+        "endChar": 66
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
