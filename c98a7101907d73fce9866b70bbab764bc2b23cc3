@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "65e4ade9_023a5d68",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:04:20Z",
+      "side": 1,
+      "message": "I\u0027d prefer if you do such improvements in place in the commit which needs to be improved. Otherwise you make code review more tedious which means it will take longer since reviewers have to take additional notes to remember what wasn\u0027t finished here in this commit but in another commit on top. And this increases likelihood that some of the comments slip through the cracks and some problems are left in the final code.\n\nI recommend to use interactive rebase [1] for such rewriting. As long as you do not reorder commits touching the same code section during an interactive rebase this should not introduce conflicts.\n\nIf you want to see a review which really went through many iterations look at Han-Wen\u0027s implementation of FileReftableDatabase [2]\n\n[1] https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History\nhttps://wiki.eclipse.org/EGit/User_Guide#Interactive_Rebase\n[2] https://git.eclipse.org/r/#/c/146568/",
+      "parentUuid": "6277ca65_2402ff68",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4842f618_30709db5",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 20
