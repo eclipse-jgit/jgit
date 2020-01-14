@@ -13,14 +13,21 @@
 
 package org.eclipse.jgit.diffmergetool;
 
-import java.util.TreeMap;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
+import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 /**
@@ -92,11 +99,11 @@ public class DiffToolManager {
 			toolNameToUse = toolName.get();
 		} else {
 			toolNameToUse = getDefaultToolName(gui);
+		}
 
-			if (toolNameToUse == null || toolNameToUse.isEmpty()) {
-				noToolHandler.inform(new ArrayList<>(predefinedTools.keySet()));
-				toolNameToUse = getFirstAvailableTool();
-			}
+		if (toolNameToUse == null || toolNameToUse.isEmpty()) {
+			throw new ToolException(
+					"No tool provided and no defaults configured."); //$NON-NLS-1$
 		}
 
 		@SuppressWarnings("boxing")
@@ -131,6 +138,10 @@ public class DiffToolManager {
 			FileElement remoteFile, ExternalDiffTool tool,
 			boolean trustExitCode) throws ToolException {
 		try {
+			if (tool == null) {
+				throw new ToolException(
+						"External diff tool specified in git attributes can not be found."); //$NON-NLS-1$
+			}
 			// prepare the command (replace the file paths)
 			String command = ExternalToolUtils.prepareCommand(tool.getCommand(),
 					localFile, remoteFile, null, null);
@@ -176,6 +187,67 @@ public class DiffToolManager {
 		}
 		return ExternalToolUtils.createSortedToolSet(defaultName,
 				getUserDefinedToolNames(), getPredefinedToolNames());
+	}
+
+	/**
+	 * Provides {@link Optional} with the name of an external diff tool if
+	 * specified in git configuration for a path.
+	 *
+	 * The formed git configuration results from global rules as well as merged
+	 * rules from info and worktree attributes.
+	 *
+	 * Triggers {@link TreeWalk} until specified path found in the tree.
+	 *
+	 * @param repository
+	 *            target repository to traverse into
+	 * @param path
+	 *            path to the node in repository to parse git attributes for
+	 * @return name of the difftool if set
+	 * @throws ToolException
+	 */
+	public Optional<String> getExternalToolFromAttributes(
+			final Repository repository,
+			final String path) throws ToolException {
+		try {
+			WorkingTreeIterator treeIterator = new FileTreeIterator(repository);
+			try (TreeWalk walk = new TreeWalk(repository)) {
+				walk.addTree(treeIterator);
+				walk.setFilter(new NotIgnoredFilter(0));
+				while (walk.next()) {
+					String treePath = walk.getPathString();
+					if (treePath.equals(path)) {
+						Attributes attrs = walk.getAttributes();
+						if (attrs.containsKey("difftool")) { //$NON-NLS-1$
+							return Optional.of(attrs.getValue("difftool")); //$NON-NLS-1$
+						}
+					}
+					if (walk.isSubtree()) {
+						walk.enterSubtree();
+					}
+				}
+				// no external tool specified
+				return Optional.empty();
+			}
+
+		} catch (RevisionSyntaxException | IOException e) {
+			throw new ToolException(e);
+		}
+	}
+
+	/**
+	 * Checks the availability of the predefined tools in the system.
+	 *
+	 * @return set of predefined available tools
+	 */
+	public Set<String> getPredefinedAvailableTools() {
+		Map<String, ExternalDiffTool> defTools = getPredefinedTools(true);
+		Set<String> availableTools = new HashSet<>();
+		for (Entry<String, ExternalDiffTool> elem : defTools.entrySet()) {
+			if (elem.getValue().isAvailable()) {
+				availableTools.add(elem.getKey());
+			}
+		}
+		return availableTools;
 	}
 
 	/**
@@ -226,8 +298,15 @@ public class DiffToolManager {
 	 * @return the default tool name
 	 */
 	public String getDefaultToolName(boolean gui) {
-		return gui ? config.getDefaultGuiToolName()
-				: config.getDefaultToolName();
+		String guiToolName;
+		if (gui) {
+			guiToolName = config.getDefaultGuiToolName();
+			if (guiToolName != null) {
+				return guiToolName;
+			}
+			return config.getDefaultToolName();
+		}
+		return config.getDefaultToolName();
 	}
 
 	/**
