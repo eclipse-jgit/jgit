@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16caca45_f09c1d22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2020-01-14T15:07:05Z",
+      "side": 1,
+      "message": "Changed to:\n\n\"Added tests for the external diff and merge tools support\"\n\nWill be updated with the next patch set.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "00495bdf93956651aed5a417157893bc24df160a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
