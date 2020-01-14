@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "805460ab_83f6325e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:19:09Z",
+      "side": 1,
+      "message": "OK, will do",
+      "parentUuid": "86cab087_12c1df0c",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0c5ca68_011da2fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
