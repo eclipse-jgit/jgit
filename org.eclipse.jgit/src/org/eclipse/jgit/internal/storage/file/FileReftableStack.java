@@ -145,6 +145,11 @@ public class FileReftableStack implements AutoCloseable {
 			this.lastMax = lastMax;
 			this.min = min;
 		}
+
+		@Override
+		public String toString() {
+			return String.format("ReftableNumbersNotIncreasingException %s: min %d, lastMax %d", name, min, lastMax);
+		}
 	}
 
 	/**
