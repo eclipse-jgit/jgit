@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10d0396d_3230b3e9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "ACK, should i rework all the commits in this series? or can we add some kind of clean-up / codereview commit on top (like done for unit tests now)?",
+      "parentUuid": "ab695433_55393bd5",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4842f618_30709db5",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3596985e_ba362509",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4842f618_30709db5",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87cb365f_91cb3124",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
         "patchSetId": 20
@@ -47,6 +83,24 @@
       "writtenOn": "2020-01-13T23:47:20Z",
       "side": 1,
       "message": "this class looks pretty weird and seems to mix definition of a boolean option with setting a default",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0937bfa_5a4fbdd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "I\u0027ve reworked this calss now lot times after review comments. It looks like my idea about the enum usage is not streight forward for other developers. I\u0027m not convinced using two booleans is better. Please give me a hint how optional with default value can be implemented in Java here.",
+      "parentUuid": "87cb365f_91cb3124",
       "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "362263f7_b1b0f895",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e7a0e50_44094afb",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff5dbf2c_ebd31633",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 20
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "26af4b49_ee9c32a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "Because this is part of bigger change that cannot be done perfect stepo by step with small changes, it\u0027 a hint for next commit work what is planed to do. Will remove the comment...",
+      "parentUuid": "ff5dbf2c_ebd31633",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f1e6a97_dda815dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalDiffTool.java",
         "patchSetId": 20
@@ -104,6 +200,30 @@
       "writtenOn": "2020-01-14T00:08:02Z",
       "side": 1,
       "message": "empty interface methods not declared default are always abstract and interface methods are always public so these two modifiers can be omitted",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49e6312f_1b30ba5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalDiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:12:07Z",
+      "side": 1,
+      "message": "ok, my foult, i\u0027m mainly C++ developer, will fix",
+      "parentUuid": "5f1e6a97_dda815dd",
       "range": {
         "startLine": 24,
         "startChar": 1,
