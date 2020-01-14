@@ -16,6 +16,24 @@
       "revId": "74e2aecac80d832c41c0306c22e158bfa168fe8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45cf2d34_b4f7ec2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T09:03:55Z",
+      "side": 1,
+      "message": "Sorry i do not understand why it canot be API. We need this in context of external diff and merge tools. For me it\u0027s checkout to file not located in default worktree. In C-Git it\u0027s similar.\n\nIf it\u0027s not checkout how can we call this? getContent, writeContentToFile?",
+      "parentUuid": "b3dde434_ccdbed29",
+      "revId": "74e2aecac80d832c41c0306c22e158bfa168fe8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
