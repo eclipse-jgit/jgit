@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "039edeec_d1e4db12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T23:47:00Z",
+      "side": 1,
+      "message": "i think these comments aren\u0027t necessary, we want javadoc for API but inline comments should be necessary only rarely.\n\nhttps://www.freecodecamp.org/news/code-comments-the-good-the-bad-and-the-ugly-be9cc65fbf83/",
+      "revId": "d5ac0ffa6d4b5672fab639a9b2b68fdb75ba1e12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
