@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6277ca65_2402ff68",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T18:42:36Z",
+      "side": 1,
+      "message": "I will do this and other review changes on top of all commits from this series before unit test commit, because then the messages are final and do not want waste more time with rebasing and conflict reloving. Is it ok?",
+      "parentUuid": "ab695433_55393bd5",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4842f618_30709db5",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 20
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I\u0027ve reworked this calss now lot times after review comments. It looks like my idea about the enum usage is not streight forward for other developers. I\u0027m not convinced using two booleans is better. Please give me a hint how optional with default value can be implemented in Java here.",
       "parentUuid": "87cb365f_91cb3124",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e55a50_e9b41c9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T18:42:36Z",
+      "side": 1,
+      "message": "I\u0027m waiting for better alternative and will not change for next PS...",
+      "parentUuid": "d0937bfa_5a4fbdd1",
       "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "14c4cd65_127b7822",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T18:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26af4b49_ee9c32a4",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f1e6a97_dda815dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalDiffTool.java",
         "patchSetId": 20
@@ -224,6 +278,30 @@
       "side": 1,
       "message": "ok, my foult, i\u0027m mainly C++ developer, will fix",
       "parentUuid": "5f1e6a97_dda815dd",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c834d5bd_78c072d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalDiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-14T18:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49e6312f_1b30ba5d",
       "range": {
         "startLine": 24,
         "startChar": 1,
