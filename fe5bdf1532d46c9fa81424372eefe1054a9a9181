@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "771051d6_c300a16c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "it seems you are putting multiple things in a single commit which can\u0027t be summarized under this commits subject line",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc500d8a_042bd73f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "this class needs a unit test in the same commit, see ConfigTest",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0385b626_6d54d2ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "nit: use active voice: Create a pre-defined diff tool",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c6dea59_04ff75a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 33,
+        "startChar": 27,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6df250b5_264dfaff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "why is this setter necessary ? Isn\u0027t it sufficient to have a constructor ?",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9e6de39_dbb9b89a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be String... if it\u0027s plural ?",
+      "range": {
+        "startLine": 169,
+        "startChar": 34,
+        "endLine": 169,
+        "endChar": 51
+      },
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d3d0640_032c6a8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "final",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8b0d8a_79d2af3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTools.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "final",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6fc8d82_3e07639b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-14T00:09:11Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "fe5bdf1532d46c9fa81424372eefe1054a9a9181",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
