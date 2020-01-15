@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "011dc010_e40dfc0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:23:15Z",
+      "side": 1,
+      "message": "isn\u0027t this done already in the new method in DirCacheCheckout ?\nAlso in EGit we have Filtering, we should try to avoid having multiple implementations",
+      "revId": "c9f412b5e836f06e3b86ef2fd4fd6c3754b534ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
