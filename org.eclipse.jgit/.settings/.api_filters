@@ -65,6 +65,30 @@
         </filter>
         <filter id="1142947843">
             <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_LIMIT"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_MMAP"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_OPENFILES"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_WINDOWSIZE"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="CONFIG_FILESYSTEM_SECTION"/>
             </message_arguments>
