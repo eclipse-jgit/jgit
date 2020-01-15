@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d541c198_038a8702",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:42:40Z",
+      "side": 1,
+      "message": "use same version range as for other packages",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "7fa3ba81758b7c480be92d3347606d45c2625301",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e19d622d_fc3d48e4",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diffmergetool/ExternalDiffToolTest.java",
         "patchSetId": 7
@@ -18,6 +41,29 @@
         "startChar": 13,
         "endLine": 228,
         "endChar": 16
+      },
+      "revId": "7fa3ba81758b7c480be92d3347606d45c2625301",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f83c37a1_ba3c0327",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diffmergetool/ExternalToolTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:42:40Z",
+      "side": 1,
+      "message": "and others\n\nsee https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 68
       },
       "revId": "7fa3ba81758b7c480be92d3347606d45c2625301",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
