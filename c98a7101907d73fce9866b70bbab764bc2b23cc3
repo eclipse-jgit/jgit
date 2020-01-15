@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "34ad05c9_fe0b429e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-15T11:28:34Z",
+      "side": 1,
+      "message": "Yes, i\u0027m using interactive rebase. I understand the effort of code reviews for both contributer and reviewer. I will try to rework the stuff in the commits, but need now more time to do it as i have only the one internal verson at company and try to understand also how it can be separated to peaces that makes sense for me and the reviewers @ eclipse.org. I hope we can invest more time until end of this week...",
+      "parentUuid": "65e4ade9_023a5d68",
+      "revId": "c98a7101907d73fce9866b70bbab764bc2b23cc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4842f618_30709db5",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 20
