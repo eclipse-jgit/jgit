@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "062604c9_a655ffc9",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 24
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:08:23Z",
+      "side": 1,
+      "message": "do you mean conflict resolution or merge conflict resolution?",
+      "range": {
+        "startLine": 301,
+        "startChar": 27,
+        "endLine": 301,
+        "endChar": 43
+      },
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "055bc75e_6ad32718",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:08:23Z",
+      "side": 1,
+      "message": "import org.eclipse.jgit.api.Status ?",
+      "range": {
+        "startLine": 205,
+        "startChar": 3,
+        "endLine": 205,
+        "endChar": 30
+      },
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec2341f_54d1917c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedMergeTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:08:23Z",
+      "side": 1,
+      "message": "don\u0027t do this globally, it\u0027s ok if you do this on a small method which only uses technical strings",
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b1dda0f_c55a2707",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedMergeTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:08:23Z",
+      "side": 1,
+      "message": "this should be factored out and needs unit tests, there is another class in this patch series having the same implementation",
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "862fd8e6_4db22bc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-15T00:08:23Z",
+      "side": 1,
+      "message": "and others\n\nsee https://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 68
+      },
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
