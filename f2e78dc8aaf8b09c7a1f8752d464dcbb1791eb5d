@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e396e19a_767e6190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-15T11:26:03Z",
+      "side": 1,
+      "message": "Since this is API we have to be more precise:\n\nI would skip mentioning the \u0027mode\u0027 here. We are explicitly just returning content and no filemodes. \n\nWe are not returning content from the index as said in the javadoc but from a blob returned by the given ObjectLoader. So any version stored in the repo can be returned here. Index, HEAD, .... . Hopefully objectloader and path somehow match ... but we can\u0027t check that here.\n\nI would mention one important aspect of the method: It returns filtered content for an object. We don\u0027t return the raw blob data but do EOL handling and smudge filter handling before returning it to the caller.\n\nMaybe: \"Return filtered content for a specific object. EOL handling and smudge-filter handling are applied in the same way as it would be done during a checkout\"",
+      "range": {
+        "startLine": 1523,
+        "startChar": 0,
+        "endLine": 1523,
+        "endChar": 51
+      },
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907d4f46_22e7f45e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-15T11:26:03Z",
+      "side": 1,
+      "message": "Maybe add: \"This path is used to determine the correct filters\"\n\nI want to avoid that people misinterpret that as the path where the content is written to.",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a04d4abd_ff084512",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-15T11:26:03Z",
+      "side": 1,
+      "message": "Isn\u0027t \u0027object\u0027 or \u0027blob\u0027 more appropriate than \u0027element\u0027?",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd80cb3_31ac1719",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1534,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-15T11:26:03Z",
+      "side": 1,
+      "message": "This looks too similar to checkoutMetadata. In fact WorkingTreeOptions don\u0027t deal with etc filters. They deal with a limited set of config options: core.filemode, core.autocrlf, core.eol, core.checkstat, core.symlinks, core.hidedotfiles, core.dirnotgitlinks . Whereas checkoutMetadata deals only with smudge filters and eol handling attributes which we collect from .gitattributes files while traversing the workingtree. I know: horribly complicated.",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aef9597f_35860696",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-15T11:26:03Z",
+      "side": 1,
+      "message": "I would add \"... where the filtered content is written to\".\n\nHmm, does the caller has to close the outputstream? Not sure in the moment, but if yes we have to tell here.",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
