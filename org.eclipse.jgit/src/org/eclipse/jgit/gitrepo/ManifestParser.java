@@ -1,44 +1,11 @@
 /*
- * Copyright (C) 2015, Google Inc.
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2015, Google Inc. and others
  *
- * This program and the accompanying materials are made available
- * under the terms of the Eclipse Distribution License v1.0 which
- * accompanies this distribution, is reproduced below, and is
- * available at http://www.eclipse.org/org/documents/edl-v10.php
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * - Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *
- * - Redistributions in binary form must reproduce the above
- *   copyright notice, this list of conditions and the following
- *   disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- *
- * - Neither the name of the Eclipse Foundation, Inc. nor the
- *   names of its contributors may be used to endorse or promote
- *   products derived from this software without specific prior
- *   written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 package org.eclipse.jgit.gitrepo;
 
@@ -183,54 +150,61 @@ public class ManifestParser extends DefaultHandler {
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("nls")
 	@Override
 	public void startElement(
 			String uri,
 			String localName,
 			String qName,
 			Attributes attributes) throws SAXException {
-		if ("project".equals(qName)) { //$NON-NLS-1$
-			if (attributes.getValue("name") == null) { //$NON-NLS-1$
+		if (qName == null) {
+			return;
+		}
+		switch (qName) {
+		case "project":
+			if (attributes.getValue("name") == null) {
 				throw new SAXException(RepoText.get().invalidManifest);
 			}
-			currentProject = new RepoProject(
-					attributes.getValue("name"), //$NON-NLS-1$
-					attributes.getValue("path"), //$NON-NLS-1$
-					attributes.getValue("revision"), //$NON-NLS-1$
-					attributes.getValue("remote"), //$NON-NLS-1$
-					attributes.getValue("groups")); //$NON-NLS-1$
-			currentProject.setRecommendShallow(
-				attributes.getValue("clone-depth")); //$NON-NLS-1$
-		} else if ("remote".equals(qName)) { //$NON-NLS-1$
-			String alias = attributes.getValue("alias"); //$NON-NLS-1$
-			String fetch = attributes.getValue("fetch"); //$NON-NLS-1$
-			String revision = attributes.getValue("revision"); //$NON-NLS-1$
+			currentProject = new RepoProject(attributes.getValue("name"),
+					attributes.getValue("path"),
+					attributes.getValue("revision"),
+					attributes.getValue("remote"),
+					attributes.getValue("groups"));
+			currentProject
+					.setRecommendShallow(attributes.getValue("clone-depth"));
+			break;
+		case "remote":
+			String alias = attributes.getValue("alias");
+			String fetch = attributes.getValue("fetch");
+			String revision = attributes.getValue("revision");
 			Remote remote = new Remote(fetch, revision);
-			remotes.put(attributes.getValue("name"), remote); //$NON-NLS-1$
-			if (alias != null)
+			remotes.put(attributes.getValue("name"), remote);
+			if (alias != null) {
 				remotes.put(alias, remote);
-		} else if ("default".equals(qName)) { //$NON-NLS-1$
-			defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
-			defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
-		} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
-			if (currentProject == null)
-				throw new SAXException(RepoText.get().invalidManifest);
-			currentProject.addCopyFile(new CopyFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
-						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("linkfile".equals(qName)) { //$NON-NLS-1$
+			}
+			break;
+		case "default":
+			defaultRemote = attributes.getValue("remote");
+			defaultRevision = attributes.getValue("revision");
+			break;
+		case "copyfile":
 			if (currentProject == null) {
 				throw new SAXException(RepoText.get().invalidManifest);
 			}
-			currentProject.addLinkFile(new LinkFile(
-						rootRepo,
-						currentProject.getPath(),
-						attributes.getValue("src"), //$NON-NLS-1$
-						attributes.getValue("dest"))); //$NON-NLS-1$
-		} else if ("include".equals(qName)) { //$NON-NLS-1$
-			String name = attributes.getValue("name"); //$NON-NLS-1$
+			currentProject.addCopyFile(new CopyFile(rootRepo,
+					currentProject.getPath(), attributes.getValue("src"),
+					attributes.getValue("dest")));
+			break;
+		case "linkfile":
+			if (currentProject == null) {
+				throw new SAXException(RepoText.get().invalidManifest);
+			}
+			currentProject.addLinkFile(new LinkFile(rootRepo,
+					currentProject.getPath(), attributes.getValue("src"),
+					attributes.getValue("dest")));
+			break;
+		case "include":
+			String name = attributes.getValue("name");
 			if (includedReader != null) {
 				try (InputStream is = includedReader.readIncludeFile(name)) {
 					if (is == null) {
@@ -239,8 +213,8 @@ public class ManifestParser extends DefaultHandler {
 					}
 					read(is);
 				} catch (Exception e) {
-					throw new SAXException(MessageFormat.format(
-							RepoText.get().errorIncludeFile, name), e);
+					throw new SAXException(MessageFormat
+							.format(RepoText.get().errorIncludeFile, name), e);
 				}
 			} else if (filename != null) {
 				int index = filename.lastIndexOf('/');
@@ -248,13 +222,18 @@ public class ManifestParser extends DefaultHandler {
 				try (InputStream is = new FileInputStream(path)) {
 					read(is);
 				} catch (IOException e) {
-					throw new SAXException(MessageFormat.format(
-							RepoText.get().errorIncludeFile, path), e);
+					throw new SAXException(MessageFormat
+							.format(RepoText.get().errorIncludeFile, path), e);
 				}
 			}
-		} else if ("remove-project".equals(qName)) { //$NON-NLS-1$
-			String name = attributes.getValue("name"); //$NON-NLS-1$
-			projects.removeIf((p) -> p.getName().equals(name));
+			break;
+		case "remove-project": {
+			String name2 = attributes.getValue("name");
+			projects.removeIf((p) -> p.getName().equals(name2));
+			break;
+		}
+		default:
+			break;
 		}
 	}
 
