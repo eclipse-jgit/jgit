@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e96a7afa_f8d4de10",
+        "filename": "org.eclipse.jgit.junit.ssh/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:13:47Z",
+      "side": 0,
+      "message": "moved version definition to dependencyManagement in parent pom.xml",
+      "revId": "b1f2848945c9dbbc05b9a59acda1c613d7f6aae2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
