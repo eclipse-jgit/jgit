@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "e9c21a74_6d00ffe2",
+        "filename": "org.eclipse.jgit.niofs.test/resources/byteman/commit_exception.btm",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afd56e11_d89c9676",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "688b90e9_efdd5db4",
         "filename": "org.eclipse.jgit.niofs.test/resources/images/drools.png",
         "patchSetId": 1
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "27a76fce_89bfbeea",
+        "filename": "org.eclipse.jgit.niofs.test/resources/simplelogger.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d89cbaa_2ead8c44",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "230d7d91_3b449d22",
         "filename": "org.eclipse.jgit.niofs.test/tst/org/eclipse/jgit/niofs/internal/AbstractTestInfra.java",
         "patchSetId": 1
@@ -98,6 +134,24 @@
       "writtenOn": "2020-01-17T00:13:47Z",
       "side": 1,
       "message": "nit: remove empty line after license header, same in many other files",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd4ebffd_57100023",
+        "filename": "org.eclipse.jgit.niofs.test/tst/org/eclipse/jgit/niofs/internal/AbstractTestInfra.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "230d7d91_3b449d22",
       "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "f4d5789e_8dd8aeeb",
+        "filename": "org.eclipse.jgit.niofs.test/tst/org/eclipse/jgit/niofs/internal/JGitFileSystemBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "718000cf_211bcd32",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebeb0325_3fb1b9ed",
         "filename": "org.eclipse.jgit.niofs.test/tst/org/eclipse/jgit/niofs/internal/JGitFileSystemImplProviderBytemanTest.java",
         "patchSetId": 1
@@ -132,6 +204,24 @@
       "writtenOn": "2020-01-17T00:13:47Z",
       "side": 1,
       "message": "remove extra trailing blank line",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e3f6272_11d6a5a4",
+        "filename": "org.eclipse.jgit.niofs.test/tst/org/eclipse/jgit/niofs/internal/JGitFileSystemImplProviderBytemanTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebeb0325_3fb1b9ed",
       "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -304,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "d42e0140_0cbc9e6d",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efdf064d_a142c5cc",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790c9076_f42158af",
         "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemProviderConfiguration.java",
         "patchSetId": 1
@@ -315,6 +423,24 @@
       "writtenOn": "2020-01-17T00:13:47Z",
       "side": 1,
       "message": "remove extra blank line",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883c3901_802a59b3",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemProviderConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "790c9076_f42158af",
       "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -338,6 +464,24 @@
     },
     {
       "key": {
+        "uuid": "d0813ffe_8ede9d0a",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemWatchServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e42ac2d_4c103de7",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7a633bc_aba2e8b3",
         "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemsEventsManager.java",
         "patchSetId": 1
@@ -349,6 +493,24 @@
       "writtenOn": "2020-01-17T00:13:47Z",
       "side": 1,
       "message": "remove extra blank line",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d264ad6d_b3322903",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemsEventsManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-17T00:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7a633bc_aba2e8b3",
       "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
