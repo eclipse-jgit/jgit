@@ -70,6 +70,64 @@
       "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b07a19b_f6f69d46",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-17T15:50:09Z",
+      "side": 1,
+      "message": "I\u0027ll comment on that lines",
+      "parentUuid": "baa1321c_35c9fb9d",
+      "range": {
+        "startLine": 162,
+        "startChar": 42,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c509d14f_4679055f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-17T15:50:09Z",
+      "side": 1,
+      "message": "I think the test is consistent.\nMessage says:\n  open byte count should be \u003c\u003d core.packedGitLimit\nCode says:\n  s.getOpenByteCount() \u003c\u003d cfg.getPackedGitLimit()\n\nThat fit\u0027s, or?",
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a8284cf_d73affd8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/WindowCacheGetTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-17T15:50:09Z",
+      "side": 1,
+      "message": "Same as in L178. Message and test are in sync in my eyes",
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
