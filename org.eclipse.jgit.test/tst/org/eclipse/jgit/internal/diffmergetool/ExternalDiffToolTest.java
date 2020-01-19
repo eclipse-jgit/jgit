@@ -10,13 +10,17 @@
 package org.eclipse.jgit.internal.diffmergetool;
 
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFFTOOL_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_GUITOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -25,12 +29,61 @@ import java.util.Set;
 
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.junit.Test;
 
 /**
  * Testing external diff tools.
  */
 public class ExternalDiffToolTest extends ExternalToolTest {
+
+	@Test(expected = ToolException.class)
+	public void testUserToolWithError() throws Exception {
+		String toolName = "customTool";
+
+		int errorReturnCode = 1;
+		String command = "exit " + errorReturnCode;
+
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+
+		DiffTools manager = new DiffTools(db);
+
+		BooleanTriState prompt = BooleanTriState.UNSET;
+		BooleanTriState gui = BooleanTriState.UNSET;
+		BooleanTriState trustExitCode = BooleanTriState.TRUE;
+
+		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
+				gui, trustExitCode);
+
+		fail("Expected exception to be thrown due to external tool exiting with error code: "
+				+ errorReturnCode);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testUserToolWithCommandNotFoundError() throws Exception {
+		String toolName = "customTool";
+
+		int errorReturnCode = 127; // command not found
+		String command = "exit " + errorReturnCode;
+
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+
+		DiffTools manager = new DiffTools(db);
+
+		BooleanTriState prompt = BooleanTriState.UNSET;
+		BooleanTriState gui = BooleanTriState.UNSET;
+		BooleanTriState trustExitCode = BooleanTriState.FALSE;
+
+		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
+				gui, trustExitCode);
+
+		fail("Expected exception to be thrown due to external tool exiting with error code: "
+				+ errorReturnCode);
+	}
 
 	@Test
 	public void testToolNames() {
@@ -86,11 +139,11 @@ public class ExternalDiffToolTest extends ExternalToolTest {
 		config.setString(CONFIG_DIFFTOOL_SECTION, customToolname,
 				CONFIG_KEY_PATH, "/usr/bin/echo");
 		config.setString(CONFIG_DIFFTOOL_SECTION, customToolname,
-				CONFIG_KEY_PROMPT, "--no-prompt");
+				CONFIG_KEY_PROMPT, String.valueOf(false));
 		config.setString(CONFIG_DIFFTOOL_SECTION, customToolname,
-				CONFIG_KEY_GUITOOL, "--no-gui");
+				CONFIG_KEY_GUITOOL, String.valueOf(false));
 		config.setString(CONFIG_DIFFTOOL_SECTION, customToolname,
-				CONFIG_KEY_TRUST_EXIT_CODE, "--no-trust-exit-code");
+				CONFIG_KEY_TRUST_EXIT_CODE, String.valueOf(false));
 		DiffTools manager = new DiffTools(db);
 		Set<String> actualToolNames = manager.getUserDefinedTools().keySet();
 		Set<String> expectedToolNames = new LinkedHashSet<>();
@@ -109,38 +162,50 @@ public class ExternalDiffToolTest extends ExternalToolTest {
 	}
 
 	@Test
-	public void testCompare() {
-		DiffTools manager = new DiffTools(db);
+	public void testCompare() throws ToolException {
+		String toolName = "customTool";
 
-		String newPath = "";
-		String oldPath = "";
-		String newId = "";
-		String oldId = "";
-		String toolName = "";
+		FileBasedConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_TOOL,
+				toolName);
+
+		String command = getEchoCommand();
+
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+
 		BooleanTriState prompt = BooleanTriState.UNSET;
 		BooleanTriState gui = BooleanTriState.UNSET;
 		BooleanTriState trustExitCode = BooleanTriState.UNSET;
 
+		DiffTools manager = new DiffTools(db);
+
 		int expectedCompareResult = 0;
-		int compareResult = manager.compare(newPath, oldPath, newId, oldId,
-				toolName, prompt, gui, trustExitCode);
+		ExecutionResult compareResult = manager.compare(db, local, remote,
+				merged.getPath(), toolName, prompt, gui, trustExitCode);
 		assertEquals("Incorrect compare result for external diff tool",
-				expectedCompareResult, compareResult);
+				expectedCompareResult, compareResult.getRc());
 	}
 
 	@Test
 	public void testDefaultTool() throws Exception {
+		String toolName = "customTool";
+		String guiToolName = "customGuiTool";
+
 		FileBasedConfig config = db.getConfig();
 		// the default diff tool is configured without a subsection
 		String subsection = null;
-		config.setString("diff", subsection, "tool", "customTool");
+		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_TOOL,
+				toolName);
 
 		DiffTools manager = new DiffTools(db);
 		BooleanTriState gui = BooleanTriState.UNSET;
 		String defaultToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured difftool to be the default external diff tool",
-				"my_default_toolname", defaultToolName);
+				toolName, defaultToolName);
 
 		gui = BooleanTriState.TRUE;
 		String defaultGuiToolName = manager.getDefaultToolName(gui);
@@ -148,11 +213,63 @@ public class ExternalDiffToolTest extends ExternalToolTest {
 				"Expected configured difftool to be the default external diff tool",
 				"my_gui_tool", defaultGuiToolName);
 
-		config.setString("diff", subsection, "guitool", "customGuiTool");
+		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_GUITOOL,
+				guiToolName);
 		manager = new DiffTools(db);
 		defaultGuiToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured difftool to be the default external diff guitool",
 				"my_gui_tool", defaultGuiToolName);
+	}
+
+	@Test
+	public void testOverridePreDefinedToolPath() {
+		String newToolPath = "/tmp/path/";
+
+		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
+		assertTrue("Expected to find pre-defined external diff tools",
+				defaultTools.length > 0);
+
+		CommandLineDiffTool overridenTool = defaultTools[0];
+		String overridenToolName = overridenTool.name();
+		String overridenToolPath = newToolPath + overridenToolName;
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_DIFFTOOL_SECTION, overridenToolName,
+				CONFIG_KEY_PATH, overridenToolPath);
+
+		DiffTools manager = new DiffTools(db);
+		Map<String, ExternalDiffTool> availableTools = manager
+				.getAvailableTools();
+		ExternalDiffTool externalDiffTool = availableTools
+				.get(overridenToolName);
+		String actualDiffToolPath = externalDiffTool.getPath();
+		assertEquals(
+				"Expected pre-defined external diff tool to have overriden path",
+				overridenToolPath, actualDiffToolPath);
+		String expectedDiffToolCommand = overridenToolPath + " "
+				+ overridenTool.getParameters();
+		String actualDiffToolCommand = externalDiffTool.getCommand();
+		assertEquals(
+				"Expected pre-defined external diff tool to have overriden command",
+				expectedDiffToolCommand, actualDiffToolCommand);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testUndefinedTool() throws Exception {
+		DiffTools manager = new DiffTools(db);
+
+		String toolName = "undefined";
+		BooleanTriState prompt = BooleanTriState.UNSET;
+		BooleanTriState gui = BooleanTriState.UNSET;
+		BooleanTriState trustExitCode = BooleanTriState.UNSET;
+
+		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
+				gui, trustExitCode);
+		fail("Expected exception to be thrown due to not defined external diff tool");
+	}
+
+	private String getEchoCommand() {
+		return "(echo \"$LOCAL\" \"$REMOTE\") > "
+				+ commandResult.getAbsolutePath();
 	}
 }

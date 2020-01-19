@@ -49,9 +49,10 @@ public class DiffToolConfig {
 		toolName = rc.getString(CONFIG_DIFF_SECTION, null, CONFIG_KEY_TOOL);
 		guiToolName = rc.getString(CONFIG_DIFF_SECTION, null,
 				CONFIG_KEY_GUITOOL);
-		prompt = rc.getBoolean(CONFIG_DIFFTOOL_SECTION, CONFIG_KEY_PROMPT,
+		prompt = rc.getBoolean(CONFIG_DIFFTOOL_SECTION, toolName,
+				CONFIG_KEY_PROMPT,
 				true);
-		String trustStr = rc.getString(CONFIG_DIFFTOOL_SECTION, null,
+		String trustStr = rc.getString(CONFIG_DIFFTOOL_SECTION, toolName,
 				CONFIG_KEY_TRUST_EXIT_CODE);
 		if (trustStr != null) {
 			trustExitCode = Boolean.parseBoolean(trustStr)
