@@ -201,17 +201,17 @@ class DiffTool extends TextBuiltin {
 	private void showToolHelp() throws IOException {
 		String availableToolNames = new String();
 		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			availableToolNames += String.format("\t\t%s\n", name); //$NON-NLS-1$
 		}
 		String notAvailableToolNames = new String();
 		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			notAvailableToolNames += String.format("\t\t%s\n", name); //$NON-NLS-1$
 		}
 		String userToolNames = new String();
 		Map<String, ExternalDiffTool> userTools = diffTools
 				.getUserDefinedTools();
 		for (String name : userTools.keySet()) {
-			availableToolNames += String.format("\t\t{0}.cmd {1}\n", //$NON-NLS-1$
+			userToolNames += String.format("\t\t%s.cmd %s\n", //$NON-NLS-1$
 					name, userTools.get(name).getCommand());
 		}
 		outw.println(MessageFormat.format(
