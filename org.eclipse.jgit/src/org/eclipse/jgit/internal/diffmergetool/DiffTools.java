@@ -12,13 +12,11 @@ package org.eclipse.jgit.internal.diffmergetool;
 
 import java.util.TreeMap;
 import java.util.Collections;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.StringUtils;
@@ -29,6 +27,8 @@ import org.eclipse.jgit.util.StringUtils;
  * @since 5.13
  */
 public class DiffTools {
+
+	private final Repository repo;
 
 	private final DiffToolConfig config;
 
@@ -43,6 +43,7 @@ public class DiffTools {
 	 *            the repository
 	 */
 	public DiffTools(Repository repo) {
+		this.repo = repo;
 		config = repo.getConfig().get(DiffToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
@@ -51,14 +52,13 @@ public class DiffTools {
 	/**
 	 * Compare two versions of a file.
 	 *
-	 * @param repo
-	 *            the repository
 	 * @param localFile
 	 *            the local file element
 	 * @param remoteFile
 	 *            the remote file element
-	 * @param mergedFilePath
-	 *            the path of 'merged' file, it equals local or remote path
+	 * @param mergedFile
+	 *            the merged file element, it's path equals local or remote
+	 *            element path
 	 * @param toolName
 	 *            the selected tool name (can be null)
 	 * @param prompt
@@ -70,36 +70,31 @@ public class DiffTools {
 	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
-	public ExecutionResult compare(Repository repo, FileElement localFile,
-			FileElement remoteFile, String mergedFilePath, String toolName,
+	public ExecutionResult compare(FileElement localFile,
+			FileElement remoteFile, FileElement mergedFile, String toolName,
 			Optional<Boolean> prompt, Optional<Boolean> gui,
 			Optional<Boolean> trustExitCode) throws ToolException {
-		ExternalDiffTool tool = guessTool(toolName, gui);
 		try {
-			File workingDir = repo.getWorkTree();
-			String localFilePath = localFile.getFile().getPath();
-			String remoteFilePath = remoteFile.getFile().getPath();
-			String command = tool.getCommand();
-			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
-			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
-			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
-			Map<String, String> env = new TreeMap<>();
-			env.put(Constants.GIT_DIR_KEY,
-					repo.getDirectory().getAbsolutePath());
-			env.put("LOCAL", localFilePath); //$NON-NLS-1$
-			env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
-			env.put("MERGED", mergedFilePath); //$NON-NLS-1$
+			// prepare the command (replace the file paths)
+			String command = ExternalToolUtils.prepareCommand(
+					guessTool(toolName, gui).getCommand(), localFile,
+					remoteFile, mergedFile, null);
+			// prepare the environment
+			Map<String, String> env = ExternalToolUtils.prepareEnvironment(repo,
+					localFile, remoteFile, mergedFile, null);
 			boolean trust = config.isTrustExitCode();
 			if (trustExitCode.isPresent()) {
 				trust = trustExitCode.get().booleanValue();
 			}
+			// execute the tool
 			CommandExecutor cmdExec = new CommandExecutor(repo.getFS(), trust);
-			return cmdExec.run(command, workingDir, env);
+			return cmdExec.run(command, repo.getWorkTree(), env);
 		} catch (IOException | InterruptedException e) {
 			throw new ToolException(e);
 		} finally {
 			localFile.cleanTemporaries();
 			remoteFile.cleanTemporaries();
+			mergedFile.cleanTemporaries();
 		}
 	}
 
