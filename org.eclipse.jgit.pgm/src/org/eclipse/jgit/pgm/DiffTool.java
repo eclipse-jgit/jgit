@@ -191,7 +191,7 @@ class DiffTool extends TextBuiltin {
 						outw.flush();
 						errw.println(e.getMessage());
 						throw die(MessageFormat.format(
-								CLIText.get().diffToolDied, mergedFilePath, e));
+								CLIText.get().diffToolDied, mergedFilePath), e);
 					}
 				} else {
 					break;
