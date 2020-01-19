@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1613139_03a52be2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9beef130_5dbd911b",
+      "range": {
+        "startLine": 270,
+        "startChar": 7,
+        "endLine": 270,
+        "endChar": 26
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2f9f386_5e6ab662",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-13T19:56:17Z",
       "side": 1,
       "message": "add new constructor for CommandLineDiffTool",
+      "range": {
+        "startLine": 271,
+        "startChar": 49,
+        "endLine": 272,
+        "endChar": 41
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9cf91ab_3edaa746",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2f9f386_5e6ab662",
       "range": {
         "startLine": 271,
         "startChar": 49,
@@ -215,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "fbeab113_8571c9c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T14:08:15Z",
+      "side": 1,
+      "message": "using return Collections.unmodifiableMap() in next commit\nDONE",
+      "parentUuid": "805460ab_83f6325e",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0c5ca68_011da2fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
         "patchSetId": 14
@@ -345,6 +417,30 @@
       "side": 1,
       "message": "add new constructor for CommandLineMergeTool",
       "parentUuid": "8703d97a_e4249be8",
+      "range": {
+        "startLine": 352,
+        "startChar": 21,
+        "endLine": 353,
+        "endChar": 30
+      },
+      "revId": "5506c11c870158729ac35a73478e9a1c1fe62180",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ef1175a_b9210f9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeToolManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b6f583_979bca0e",
       "range": {
         "startLine": 352,
         "startChar": 21,
