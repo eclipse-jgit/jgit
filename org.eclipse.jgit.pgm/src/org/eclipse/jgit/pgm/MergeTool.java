@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.api.Git;
@@ -29,30 +31,29 @@ import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.ContentSource;
-import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
 import org.eclipse.jgit.internal.diffmergetool.FileElement;
+import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.internal.diffmergetool.ToolException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.IndexDiff.StageState;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.internal.BooleanTriState;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.StringUtils;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.internal.BooleanTriState;
-import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
-import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -62,9 +63,13 @@ import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
 class MergeTool extends TextBuiltin {
 	private MergeTools mergeTools;
 
+	private Optional<String> toolName = Optional.empty();
+
 	@Option(name = "--tool", aliases = {
 			"-t" }, metaVar = "metaVar_tool", usage = "usage_ToolForMerge")
-	private String toolName;
+	void setToolName(String name) {
+		toolName = Optional.of(name);
+	}
 
 	private BooleanTriState prompt = BooleanTriState.UNSET;
 
@@ -81,16 +86,16 @@ class MergeTool extends TextBuiltin {
 	@Option(name = "--tool-help", usage = "usage_toolHelp")
 	private boolean toolHelp;
 
-	private BooleanTriState gui = BooleanTriState.UNSET;
+	private boolean gui = false;
 
 	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_MergeGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanTriState.TRUE;
+		gui = true;
 	}
 
 	@Option(name = "--no-gui", usage = "usage_noGui")
 	void noGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanTriState.FALSE;
+		gui = false;
 	}
 
 	@Argument(required = false, index = 0, metaVar = "metaVar_paths")
@@ -116,17 +121,10 @@ class MergeTool extends TextBuiltin {
 			if (toolHelp) {
 				showToolHelp();
 			} else {
-				// get prompt
-				boolean showPrompt = mergeTools.isInteractive();
-				if (prompt != BooleanTriState.UNSET) {
-					showPrompt = prompt == BooleanTriState.TRUE;
-				}
-				// get passed or default tool name
-				String toolNameToUse = promptToolName();
 				// get the changed files
 				Map<String, StageState> files = getFiles();
 				if (files.size() > 0) {
-					merge(files, showPrompt, toolNameToUse);
+					merge(files);
 				} else {
 					outw.println(CLIText.get().mergeToolNoFiles);
 				}
@@ -137,32 +135,21 @@ class MergeTool extends TextBuiltin {
 		}
 	}
 
-	private String promptToolName() throws IOException {
-		String toolNameToUse = toolName;
-		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
-			toolNameToUse = mergeTools.getDefaultToolName(gui);
-		}
-		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
-			Map<String, ExternalMergeTool> predefTools = mergeTools
-					.getPredefinedTools(false);
+	private void informUserNoTool(List<String> tools) {
+		try {
 			StringBuilder toolNames = new StringBuilder();
-			for (String name : predefTools.keySet()) {
+			for (String name : tools) {
 				toolNames.append(name + " "); //$NON-NLS-1$
 			}
 			outw.println(MessageFormat
 					.format(CLIText.get().mergeToolPromptToolName, toolNames));
 			outw.flush();
-			toolNameToUse = mergeTools.getFirstAvailableTool();
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
 		}
-		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
-			throw new IOException(MessageFormat
-					.format(CLIText.get().mergeToolUnknownToolName, toolName));
-		}
-		return toolNameToUse;
 	}
 
-	private void merge(Map<String, StageState> files, boolean showPrompt,
-			String toolNamePrompt) throws Exception {
+	private void merge(Map<String, StageState> files) throws Exception {
 		// sort file names
 		List<String> mergedFilePaths = new ArrayList<>(files.keySet());
 		Collections.sort(mergedFilePaths);
@@ -174,6 +161,10 @@ class MergeTool extends TextBuiltin {
 		outw.println(MessageFormat.format(CLIText.get().mergeToolMerging,
 				mergedFiles));
 		outw.flush();
+		boolean showPrompt = mergeTools.isInteractive();
+		if (prompt != BooleanTriState.UNSET) {
+			showPrompt = prompt == BooleanTriState.TRUE;
+		}
 		// merge the files
 		MergeResult mergeResult = MergeResult.SUCCESSFUL;
 		for (String mergedFilePath : mergedFilePaths) {
@@ -191,8 +182,7 @@ class MergeTool extends TextBuiltin {
 			// get file stage state and merge
 			StageState fileState = files.get(mergedFilePath);
 			if (fileState == StageState.BOTH_MODIFIED) {
-				mergeResult = mergeModified(mergedFilePath, showPrompt,
-						toolNamePrompt);
+				mergeResult = mergeModified(mergedFilePath, showPrompt);
 			} else if ((fileState == StageState.DELETED_BY_US)
 					|| (fileState == StageState.DELETED_BY_THEM)) {
 				mergeResult = mergeDeleted(mergedFilePath,
@@ -206,19 +196,11 @@ class MergeTool extends TextBuiltin {
 		}
 	}
 
-	private MergeResult mergeModified(String mergedFilePath, boolean showPrompt,
-			String toolNamePrompt) throws Exception {
+	private MergeResult mergeModified(String mergedFilePath, boolean showPrompt)
+			throws Exception {
 		outw.println(MessageFormat.format(CLIText.get().mergeToolNormalConflict,
 				mergedFilePath));
 		outw.flush();
-		// check if user wants to launch merge resolution tool
-		boolean launch = true;
-		if (showPrompt) {
-			launch = isLaunch(toolNamePrompt);
-		}
-		if (!launch) {
-			return MergeResult.ABORTED; // abort
-		}
 		boolean isMergeSuccessful = true;
 		ContentSource baseSource = ContentSource.create(db.newObjectReader());
 		ContentSource localSource = ContentSource.create(db.newObjectReader());
@@ -232,8 +214,8 @@ class MergeTool extends TextBuiltin {
 			FileElement base = null;
 			FileElement local = null;
 			FileElement remote = null;
-			FileElement merged = new FileElement(mergedFilePath,
-					Type.MERGED);
+			FileElement merged = new FileElement(mergedFilePath, Type.MERGED,
+					db.getWorkTree());
 			DirCache cache = db.readDirCache();
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
@@ -251,7 +233,8 @@ class MergeTool extends TextBuiltin {
 							.get(WorkingTreeOptions.KEY);
 					CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
 							eolStreamType, filterCommand);
-					DirCacheEntry entry = treeWalk.getTree(DirCacheIterator.class).getDirCacheEntry();
+					DirCacheEntry entry = treeWalk
+							.getTree(DirCacheIterator.class).getDirCacheEntry();
 					ObjectId id = entry.getObjectId();
 					switch (entry.getStage()) {
 					case DirCacheEntry.STAGE_1:
@@ -290,23 +273,27 @@ class MergeTool extends TextBuiltin {
 				// TODO: check how to return the exit-code of the
 				// tool to jgit / java runtime ?
 				// int rc =...
-				ExecutionResult executionResult = mergeTools.merge(local,
-						remote, merged, base, tempDir, toolName, prompt, gui);
-				outw.println(
-						new String(executionResult.getStdout().toByteArray()));
-				outw.flush();
-				errw.println(
-						new String(executionResult.getStderr().toByteArray()));
-				errw.flush();
+				Optional<ExecutionResult> optionalResult = mergeTools.merge(
+						local, remote, merged, base, tempDir, toolName, prompt,
+						gui, this::promptForLaunch, this::informUserNoTool);
+				if (optionalResult.isPresent()) {
+					ExecutionResult result = optionalResult.get();
+					outw.println(new String(result.getStdout().toByteArray()));
+					outw.flush();
+					errw.println(new String(result.getStderr().toByteArray()));
+					errw.flush();
+				} else {
+					return MergeResult.ABORTED;
+				}
 			} catch (ToolException e) {
 				isMergeSuccessful = false;
 				outw.println(e.getResultStdout());
 				outw.flush();
+				errw.println(e.getMessage());
 				errw.println(MessageFormat.format(
 						CLIText.get().mergeToolMergeFailed, mergedFilePath));
 				errw.flush();
 				if (e.isCommandExecutionError()) {
-					errw.println(e.getMessage());
 					throw die(CLIText.get().mergeToolExecutionError, e);
 				}
 			}
@@ -395,19 +382,23 @@ class MergeTool extends TextBuiltin {
 		return hasUserAccepted(CLIText.get().mergeToolWasMergeSuccessfull);
 	}
 
-	private boolean isLaunch(String toolNamePrompt) throws IOException {
-		boolean launch = true;
-		outw.print(MessageFormat.format(CLIText.get().mergeToolLaunch,
-				toolNamePrompt) + " "); //$NON-NLS-1$
-		outw.flush();
-		BufferedReader br = inputReader;
-		String line = null;
-		if ((line = br.readLine()) != null) {
-			if (!line.equalsIgnoreCase("y") && !line.equalsIgnoreCase("")) { //$NON-NLS-1$ //$NON-NLS-2$
-				launch = false;
+	private boolean promptForLaunch(String toolNamePrompt) {
+		try {
+			boolean launch = true;
+			outw.print(MessageFormat.format(CLIText.get().mergeToolLaunch,
+					toolNamePrompt) + " "); //$NON-NLS-1$
+			outw.flush();
+			BufferedReader br = inputReader;
+			String line = null;
+			if ((line = br.readLine()) != null) {
+				if (!line.equalsIgnoreCase("y") && !line.equalsIgnoreCase("")) { //$NON-NLS-1$ //$NON-NLS-2$
+					launch = false;
+				}
 			}
+			return launch;
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
 		}
-		return launch;
 	}
 
 	private int getDeletedMergeDecision() throws IOException {

@@ -57,6 +57,8 @@ public class FileElement {
 
 	private final Type type;
 
+	private final File workDir;
+
 	private InputStream stream;
 
 	private File tempFile;
@@ -70,7 +72,7 @@ public class FileElement {
 	 *            the element type
 	 */
 	public FileElement(String path, Type type) {
-		this(path, type, null, null);
+		this(path, type, null);
 	}
 
 	/**
@@ -80,17 +82,31 @@ public class FileElement {
 	 *            the file path
 	 * @param type
 	 *            the element type
-	 * @param tempFile
-	 *            the temporary file to be used (can be null and will be created
-	 *            then)
-	 * @param stream
-	 *            the object stream to load instead of file
+	 * @param workDir
+	 *            the working directory of the path (can be null, then current
+	 *            working dir is used)
 	 */
-	public FileElement(String path, Type type, File tempFile,
+	public FileElement(String path, Type type, File workDir) {
+		this(path, type, workDir, null);
+	}
+
+	/**
+	 * @param path
+	 *            the file path
+	 * @param type
+	 *            the element type
+	 * @param workDir
+	 *            the working directory of the path (can be null, then current
+	 *            working dir is used)
+	 * @param stream
+	 *            the object stream to load and write on demand, @see getFile(),
+	 *            to tempFile once (can be null)
+	 */
+	public FileElement(String path, Type type, File workDir,
 			InputStream stream) {
 		this.path = path;
 		this.type = type;
-		this.tempFile = tempFile;
+		this.workDir = workDir;
 		this.stream = stream;
 	}
 
@@ -109,41 +125,39 @@ public class FileElement {
 	}
 
 	/**
-	 * Return a temporary file within passed directory and fills it with stream
-	 * if valid.
-	 *
-	 * @param directory
-	 *            the directory where the temporary file is created
-	 * @param midName
-	 *            name added in the middle of generated temporary file name
-	 * @return the object stream
-	 * @throws IOException
-	 */
-	public File getFile(File directory, String midName) throws IOException {
-		if ((tempFile != null) && (stream == null)) {
-			return tempFile;
-		}
-		tempFile = getTempFile(path, directory, midName);
-		return copyFromStream(tempFile, stream);
-	}
-
-	/**
-	 * Return a real file from work tree or a temporary file with content if
-	 * stream is valid or if path is "/dev/null"
+	 * Return
+	 * <ul>
+	 * <li>a temporary file if already created and stream is not valid</li>
+	 * <li>OR a real file from work tree: if no temp file was created (@see
+	 * createTempFile()) and if no stream was set</li>
+	 * <li>OR an empty temporary file if path is "/dev/null"</li>
+	 * <li>OR a temporary file with stream content if stream is valid (not
+	 * null); stream is closed and invalidated (set to null) after write to temp
+	 * file, so stream is used only once during first call!</li>
+	 * </ul>
 	 *
 	 * @return the object stream
 	 * @throws IOException
 	 */
 	public File getFile() throws IOException {
+		// if we have already temp file and no stream
+		// then just return this temp file (it was filled from outside)
 		if ((tempFile != null) && (stream == null)) {
 			return tempFile;
 		}
-		File file = new File(path);
-		// if we have a stream or file is missing ("/dev/null") then create
-		// temporary file
+		File file = new File(workDir, path);
+		// if we have a stream or file is missing (path is "/dev/null")
+		// then optionally create temporary file and fill it with stream content
 		if ((stream != null) || isNullPath()) {
-			tempFile = getTempFile(file);
-			return copyFromStream(tempFile, stream);
+			if (tempFile == null) {
+				tempFile = getTempFile(file, type.name(), null);
+			}
+			if (stream != null) {
+				copyFromStream(tempFile, stream);
+			}
+			// invalidate the stream, because it is used once
+			stream = null;
+			return tempFile;
 		}
 		return file;
 	}
@@ -158,7 +172,7 @@ public class FileElement {
 	}
 
 	/**
-	 * Create temporary file in given or system temporary directory
+	 * Create temporary file in given or system temporary directory.
 	 *
 	 * @param directory
 	 *            the directory for the file (can be null); if null system
@@ -168,75 +182,23 @@ public class FileElement {
 	 */
 	public File createTempFile(File directory) throws IOException {
 		if (tempFile == null) {
-			File file = new File(path);
-			if (directory != null) {
-				tempFile = getTempFile(file, directory, type.name());
-			} else {
-				tempFile = getTempFile(file);
-			}
+			tempFile = getTempFile(new File(path), type.name(), directory);
 		}
 		return tempFile;
-	}
-
-	private static File getTempFile(File file) throws IOException {
-		return File.createTempFile(".__", "__" + file.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	private static File getTempFile(File file, File directory, String midName)
-			throws IOException {
-		String[] fileNameAndExtension = splitBaseFileNameAndExtension(file);
-		return File.createTempFile(
-				fileNameAndExtension[0] + "_" + midName + "_", //$NON-NLS-1$ //$NON-NLS-2$
-				fileNameAndExtension[1], directory);
-	}
-
-	private static File getTempFile(String path, File directory, String midName)
-			throws IOException {
-		return getTempFile(new File(path), directory, midName);
 	}
 
 	/**
 	 * Delete and invalidate temporary file if necessary.
 	 */
 	public void cleanTemporaries() {
-		if (tempFile != null && tempFile.exists())
-		tempFile.delete();
+		if (tempFile != null && tempFile.exists()) {
+			tempFile.delete();
+		}
 		tempFile = null;
 	}
 
-	private static File copyFromStream(File file, final InputStream stream)
-			throws IOException, FileNotFoundException {
-		if (stream != null) {
-			try (OutputStream outStream = new FileOutputStream(file)) {
-				int read = 0;
-				byte[] bytes = new byte[8 * 1024];
-				while ((read = stream.read(bytes)) != -1) {
-					outStream.write(bytes, 0, read);
-				}
-			} finally {
-				// stream can only be consumed once --> close it
-				stream.close();
-			}
-		}
-		return file;
-	}
-
-	private static String[] splitBaseFileNameAndExtension(File file) {
-		String[] result = new String[2];
-		result[0] = file.getName();
-		result[1] = ""; //$NON-NLS-1$
-		int idx = result[0].lastIndexOf("."); //$NON-NLS-1$
-		// if "." was found (>-1) and last-index is not first char (>0), then
-		// split (same behavior like cgit)
-		if (idx > 0) {
-			result[1] = result[0].substring(idx, result[0].length());
-			result[0] = result[0].substring(0, idx);
-		}
-		return result;
-	}
-
 	/**
-	 * Replace variable in input
+	 * Replace variable in input.
 	 *
 	 * @param input
 	 *            the input string
@@ -256,6 +218,45 @@ public class FileElement {
 	 */
 	public void addToEnv(Map<String, String> env) throws IOException {
 		env.put(type.name(), getFile().getPath());
+	}
+
+	private static File getTempFile(final File file, final String midName,
+			final File workingDir) throws IOException {
+		String[] fileNameAndExtension = splitBaseFileNameAndExtension(file);
+		// TODO: avoid long random file name (number generated by
+		// createTempFile)
+		return File.createTempFile(
+				fileNameAndExtension[0] + "_" + midName + "_", //$NON-NLS-1$ //$NON-NLS-2$
+				fileNameAndExtension[1], workingDir);
+	}
+
+	private static void copyFromStream(final File file,
+			final InputStream stream)
+			throws IOException, FileNotFoundException {
+		try (OutputStream outStream = new FileOutputStream(file)) {
+			int read = 0;
+			byte[] bytes = new byte[8 * 1024];
+			while ((read = stream.read(bytes)) != -1) {
+				outStream.write(bytes, 0, read);
+			}
+		} finally {
+			// stream can only be consumed once --> close it and invalidate
+			stream.close();
+		}
+	}
+
+	private static String[] splitBaseFileNameAndExtension(File file) {
+		String[] result = new String[2];
+		result[0] = file.getName();
+		result[1] = ""; //$NON-NLS-1$
+		int idx = result[0].lastIndexOf("."); //$NON-NLS-1$
+		// if "." was found (>-1) and last-index is not first char (>0), then
+		// split (same behavior like cgit)
+		if (idx > 0) {
+			result[1] = result[0].substring(idx, result[0].length());
+			result[0] = result[0].substring(0, idx);
+		}
+		return result;
 	}
 
 }
