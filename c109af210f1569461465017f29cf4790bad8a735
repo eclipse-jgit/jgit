@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77e5b861_0a6bb541",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-19T15:47:11Z",
+      "side": 1,
+      "message": "Do we really need this to be here and now? It is unusual to have \"unfinished\" commits in jgit.",
+      "revId": "c109af210f1569461465017f29cf4790bad8a735",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
