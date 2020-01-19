@@ -10,13 +10,18 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
@@ -29,6 +34,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
 
 /**
  * Base test case for the {@code difftool} and {@code mergetool} commands.
@@ -64,8 +70,23 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		return runAndCaptureUsingInitRaw(inputStream, args);
 	}
 
+	protected String[] runAndCaptureUsingInitRaw(
+			List<String> expectedErrorOutput, String... args) throws Exception {
+		InputStream inputStream = null; // no input stream
+		return runAndCaptureUsingInitRaw(inputStream, expectedErrorOutput,
+				args);
+	}
+
 	protected String[] runAndCaptureUsingInitRaw(InputStream inputStream,
 			String... args) throws Exception {
+		List<String> expectedErrorOutput = Collections.emptyList();
+		return runAndCaptureUsingInitRaw(inputStream, expectedErrorOutput,
+				args);
+	}
+
+	protected String[] runAndCaptureUsingInitRaw(InputStream inputStream,
+			List<String> expectedErrorOutput, String... args)
+			throws CmdLineException, Exception, IOException {
 		CLIGitCommand.Result result = new CLIGitCommand.Result();
 
 		GitCliJGitWrapperParser bean = new GitCliJGitWrapperParser();
@@ -86,7 +107,7 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 				.filter(l -> !l.isBlank()) // we care only about error messages
 				.collect(Collectors.toList());
 		assertEquals("Expected no standard error output from tool",
-				Collections.EMPTY_LIST.toString(), errLines.toString());
+				expectedErrorOutput.toString(), errLines.toString());
 
 		return result.outLines().toArray(new String[0]);
 	}
@@ -176,6 +197,13 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		return changes;
 	}
 
+	protected Path getFullPath(String repositoryFilename) {
+		Path dotGitPath = db.getDirectory().toPath();
+		Path repositoryRoot = dotGitPath.getParent();
+		Path repositoryFilePath = repositoryRoot.resolve(repositoryFilename);
+		return repositoryFilePath;
+	}
+
 	protected static InputStream createInputStream(String[] inputLines) {
 		return createInputStream(Arrays.asList(inputLines));
 	}
@@ -191,11 +219,24 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		assertEquals(failMessage, toString(expected), toString(actual));
 	}
 
-	protected static String getEchoCommand() {
-		/*
-		 * use 'MERGED' placeholder, as both 'LOCAL' and 'REMOTE' will be
-		 * replaced with full paths to a temporary file during some of the tests
-		 */
-		return "(echo \"$MERGED\")";
+	protected static void assertArrayOfMatchingLines(String failMessage,
+			Pattern[] expected, String[] actual) {
+		assertEquals(failMessage + System.lineSeparator()
+				+ "Expected and actual lines count don't match. Expected: "
+				+ Arrays.asList(expected) + ", actual: "
+				+ Arrays.asList(actual), expected.length, actual.length);
+		int n = expected.length;
+		for (int i = 0; i < n; ++i) {
+			Pattern expectedPattern = expected[i];
+			String actualLine = actual[i];
+			Matcher matcher = expectedPattern.matcher(actualLine);
+			boolean matches = matcher.matches();
+			assertTrue(failMessage + System.lineSeparator() + "Line " + i + " '"
+					+ actualLine + "' doesn't match expected pattern: "
+					+ expectedPattern + System.lineSeparator() + "Expected: "
+					+ Arrays.asList(expected) + ", actual: "
+					+ Arrays.asList(actual),
+					matches);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,22 +16,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
-import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Manages merge tools.
  */
 public class MergeTools {
 
-	Repository repo;
+	private final FS fs;
+
+	private final File gitDir;
+
+	private final File workTree;
 
 	private final MergeToolConfig config;
 
@@ -39,17 +48,111 @@ public class MergeTools {
 	private final Map<String, ExternalMergeTool> userDefinedTools;
 
 	/**
+	 * Creates the external merge-tools manager for given repository.
+	 *
 	 * @param repo
 	 *            the repository
 	 */
 	public MergeTools(Repository repo) {
-		this.repo = repo;
-		config = repo.getConfig().get(MergeToolConfig.KEY);
-		predefinedTools = setupPredefinedTools();
-		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
+		this(repo, repo.getConfig());
 	}
 
 	/**
+	 * Creates the external diff-tools manager for given configuration.
+	 *
+	 * @param config
+	 *            the git configuration
+	 */
+	public MergeTools(StoredConfig config) {
+		this(null, config);
+	}
+
+	private MergeTools(Repository repo, StoredConfig config) {
+		this.config = config.get(MergeToolConfig.KEY);
+		this.gitDir = repo == null ? null : repo.getDirectory();
+		this.fs = repo == null ? FS.DETECTED : repo.getFS();
+		this.workTree = repo == null ? null : repo.getWorkTree();
+		predefinedTools = setupPredefinedTools();
+		userDefinedTools = setupUserDefinedTools(predefinedTools);
+	}
+
+	/**
+	 * Merge two versions of a file with optional base file.
+	 *
+	 * @param localFile
+	 *            The local/left version of the file.
+	 * @param remoteFile
+	 *            The remote/right version of the file.
+	 * @param mergedFile
+	 *            The file for the result.
+	 * @param baseFile
+	 *            The base version of the file. May be null.
+	 * @param tempDir
+	 *            The tmepDir used for the files. May be null.
+	 * @param toolName
+	 *            Optionally the name of the tool to use. If not given the
+	 *            default tool will be used.
+	 * @param prompt
+	 *            Optionally a flag whether to prompt the user before compare.
+	 *            If not given the default will be used.
+	 * @param gui
+	 *            A flag whether to prefer a gui tool.
+	 * @param promptHandler
+	 *            The handler to use when needing to prompt the user if he wants
+	 *            to continue.
+	 * @param noToolHandler
+	 *            The handler to use when needing to inform the user, that no
+	 *            tool is configured.
+	 * @return the optional result of executing the tool if it was executed
+	 * @throws ToolException
+	 *             when the tool fails
+	 */
+	public Optional<ExecutionResult> merge(FileElement localFile,
+			FileElement remoteFile, FileElement mergedFile,
+			FileElement baseFile, File tempDir, Optional<String> toolName,
+			BooleanTriState prompt, boolean gui,
+			PromptContinueHandler promptHandler,
+			InformNoToolHandler noToolHandler) throws ToolException {
+
+		String toolNameToUse;
+
+		if (toolName.isPresent()) {
+			toolNameToUse = toolName.get();
+		} else {
+			toolNameToUse = getDefaultToolName(gui);
+
+			if (toolNameToUse == null || toolNameToUse.isEmpty()) {
+				noToolHandler.inform(new ArrayList<>(predefinedTools.keySet()));
+				toolNameToUse = getFirstAvailableTool();
+			}
+		}
+
+		boolean doPrompt;
+		if (prompt != BooleanTriState.UNSET) {
+			doPrompt = prompt == BooleanTriState.TRUE;
+		} else {
+			doPrompt = isInteractive();
+		}
+
+		if (doPrompt) {
+			if (!promptHandler.prompt(toolNameToUse)) {
+				return Optional.empty();
+			}
+		}
+
+		ExternalMergeTool tool = getTool(toolNameToUse);
+		if (tool == null) {
+			throw new ToolException(
+					"External merge tool is not defined: " + toolNameToUse); //$NON-NLS-1$
+		}
+
+		return Optional.of(merge(localFile, remoteFile, mergedFile, baseFile,
+				tempDir, tool));
+	}
+
+	/**
+	 * Merge two versions of a file with optional base file.
+	 *
 	 * @param localFile
 	 *            the local file element
 	 * @param remoteFile
@@ -61,38 +164,31 @@ public class MergeTools {
 	 * @param tempDir
 	 *            the temporary directory (needed for backup and auto-remove,
 	 *            can be null)
-	 * @param toolName
-	 *            the selected tool name (can be null)
-	 * @param prompt
-	 *            the prompt option
-	 * @param gui
-	 *            the GUI option
+	 * @param tool
+	 *            the selected tool
 	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
 	public ExecutionResult merge(FileElement localFile, FileElement remoteFile,
 			FileElement mergedFile, FileElement baseFile, File tempDir,
-			String toolName, BooleanTriState prompt, BooleanTriState gui)
-			throws ToolException {
-		ExternalMergeTool tool = guessTool(toolName, gui);
+			ExternalMergeTool tool) throws ToolException {
 		FileElement backup = null;
 		ExecutionResult result = null;
 		try {
-			File workingDir = repo.getWorkTree();
 			// create additional backup file (copy worktree file)
-			backup = createBackupFile(mergedFile.getPath(),
-					tempDir != null ? tempDir : workingDir);
+			backup = createBackupFile(mergedFile,
+					tempDir != null ? tempDir : workTree);
 			// prepare the command (replace the file paths)
-			boolean trust = tool.getTrustExitCode() == BooleanTriState.TRUE;
 			String command = ExternalToolUtils.prepareCommand(
 					tool.getCommand(baseFile != null), localFile, remoteFile,
 					mergedFile, baseFile);
 			// prepare the environment
-			Map<String, String> env = ExternalToolUtils.prepareEnvironment(repo,
-					localFile, remoteFile, mergedFile, baseFile);
+			Map<String, String> env = ExternalToolUtils.prepareEnvironment(
+					gitDir, localFile, remoteFile, mergedFile, baseFile);
+			boolean trust = tool.getTrustExitCode() == BooleanTriState.TRUE;
 			// execute the tool
-			CommandExecutor cmdExec = new CommandExecutor(repo.getFS(), trust);
-			result = cmdExec.run(command, workingDir, env);
+			CommandExecutor cmdExec = new CommandExecutor(fs, trust);
+			result = cmdExec.run(command, workTree, env);
 			// keep backup as .orig file
 			if (backup != null) {
 				keepBackupFile(mergedFile.getPath(), backup);
@@ -124,19 +220,21 @@ public class MergeTools {
 		}
 	}
 
-	private FileElement createBackupFile(String filePath, File parentDir)
+	private FileElement createBackupFile(FileElement from, File toParentDir)
 			throws IOException {
 		FileElement backup = null;
-		Path path = Paths.get(filePath);
+		Path path = Paths.get(from.getPath());
 		if (Files.exists(path)) {
-			backup = new FileElement(filePath, Type.BACKUP);
-			Files.copy(path, backup.createTempFile(parentDir).toPath(),
+			backup = new FileElement(from.getPath(), Type.BACKUP);
+			Files.copy(path, backup.createTempFile(toParentDir).toPath(),
 					StandardCopyOption.REPLACE_EXISTING);
 		}
 		return backup;
 	}
 
 	/**
+	 * Create temporary directory.
+	 *
 	 * @return the created temporary directory if (mergetol.writeToTemp == true)
 	 *         or null if not configured or false.
 	 * @throws IOException
@@ -148,20 +246,46 @@ public class MergeTools {
 	}
 
 	/**
-	 * @return the tool names
+	 * Get user defined tool names.
+	 *
+	 * @return the user defined tool names
 	 */
-	public Set<String> getToolNames() {
-		return config.getToolNames();
+	public Set<String> getUserDefinedToolNames() {
+		return userDefinedTools.keySet();
+	}
+
+	/**
+	 * @return the predefined tool names
+	 */
+	public Set<String> getPredefinedToolNames() {
+		return predefinedTools.keySet();
+	}
+
+	/**
+	 * Get all tool names.
+	 *
+	 * @return the all tool names (default or available tool name is the first
+	 *         in the set)
+	 */
+	public Set<String> getAllToolNames() {
+		String defaultName = getDefaultToolName(false);
+		if (defaultName == null) {
+			defaultName = getFirstAvailableTool();
+		}
+		return ExternalToolUtils.createSortedToolSet(defaultName,
+				getUserDefinedToolNames(), getPredefinedToolNames());
 	}
 
 	/**
 	 * @return the user defined tools
 	 */
 	public Map<String, ExternalMergeTool> getUserDefinedTools() {
-		return userDefinedTools;
+		return Collections.unmodifiableMap(userDefinedTools);
 	}
 
 	/**
+	 * Get predefined tools map.
+	 *
 	 * @param checkAvailability
 	 *            true: for checking if tools can be executed; ATTENTION: this
 	 *            check took some time, do not execute often (store the map for
@@ -175,20 +299,23 @@ public class MergeTools {
 		if (checkAvailability) {
 			for (ExternalMergeTool tool : predefinedTools.values()) {
 				PreDefinedMergeTool predefTool = (PreDefinedMergeTool) tool;
-				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(repo,
-						predefTool.getPath()));
+				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(fs,
+						gitDir, workTree, predefTool.getPath()));
 			}
 		}
-		return predefinedTools;
+		return Collections.unmodifiableMap(predefinedTools);
 	}
 
 	/**
+	 * Get first available tool name.
+	 *
 	 * @return the name of first available predefined tool or null
 	 */
 	public String getFirstAvailableTool() {
 		String name = null;
 		for (ExternalMergeTool tool : predefinedTools.values()) {
-			if (ExternalToolUtils.isToolAvailable(repo, tool.getPath())) {
+			if (ExternalToolUtils.isToolAvailable(fs, gitDir, workTree,
+					tool.getPath())) {
 				name = tool.getName();
 				break;
 			}
@@ -197,35 +324,24 @@ public class MergeTools {
 	}
 
 	/**
-	 * @param gui
-	 *            use the diff.guitool setting ?
-	 * @return the default tool name
-	 */
-	public String getDefaultToolName(BooleanTriState gui) {
-		return gui != BooleanTriState.UNSET ? "my_gui_tool" //$NON-NLS-1$
-				: config.getDefaultToolName();
-	}
-
-	/**
+	 * Is interactive merge (prompt enabled) ?
+	 *
 	 * @return is interactive (config prompt enabled) ?
 	 */
 	public boolean isInteractive() {
 		return config.isPrompt();
 	}
 
-	private ExternalMergeTool guessTool(String toolName, BooleanTriState gui)
-			throws ToolException {
-		if (StringUtils.isEmptyOrNull(toolName)) {
-			toolName = getDefaultToolName(gui);
-		}
-		ExternalMergeTool tool = null;
-		if (!StringUtils.isEmptyOrNull(toolName)) {
-			tool = getTool(toolName);
-		}
-		if (tool == null) {
-			throw new ToolException("Unknown merge tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return tool;
+	/**
+	 * Get the default (gui-)tool name.
+	 *
+	 * @param gui
+	 *            use the diff.guitool setting ?
+	 * @return the default tool name
+	 */
+	public String getDefaultToolName(boolean gui) {
+		return gui ? config.getDefaultGuiToolName()
+				: config.getDefaultToolName();
 	}
 
 	private ExternalMergeTool getTool(final String name) {
@@ -256,9 +372,9 @@ public class MergeTools {
 	}
 
 	private Map<String, ExternalMergeTool> setupUserDefinedTools(
-			MergeToolConfig cfg, Map<String, ExternalMergeTool> predefTools) {
+			Map<String, ExternalMergeTool> predefTools) {
 		Map<String, ExternalMergeTool> tools = new TreeMap<>();
-		Map<String, ExternalMergeTool> userTools = cfg.getTools();
+		Map<String, ExternalMergeTool> userTools = config.getTools();
 		for (String name : userTools.keySet()) {
 			ExternalMergeTool userTool = userTools.get(name);
 			// if mergetool.<name>.cmd is defined we have user defined tool
