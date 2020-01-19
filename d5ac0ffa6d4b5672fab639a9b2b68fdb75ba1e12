@@ -16,6 +16,24 @@
       "revId": "d5ac0ffa6d4b5672fab639a9b2b68fdb75ba1e12",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b20626_b9976f16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T10:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "039edeec_d1e4db12",
+      "revId": "d5ac0ffa6d4b5672fab639a9b2b68fdb75ba1e12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
