@@ -20,7 +20,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Config.SectionParser;
 
 /**
- * Keeps track of difftool related configuration options.
+ * Keeps track of merge tool related configuration options.
  *
  * @since 5.7
  */
@@ -74,9 +74,8 @@ public class MergeToolConfig {
 						.toConfigured(Boolean.parseBoolean(trustStr));
 			}
 			if ((cmd != null) || (path != null)) {
-				tools.put(name,
-						new UserDefinedMergeTool(name, path, cmd,
-								trustExitCode));
+				tools.put(name, new UserDefinedMergeTool(name, path, cmd,
+						trustExitCode));
 			}
 		}
 	}
