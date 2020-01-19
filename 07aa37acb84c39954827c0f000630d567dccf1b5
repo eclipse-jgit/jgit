@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "93598c21_33488b1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T22:16:48Z",
+      "side": 1,
+      "message": "Yes, but not yet done...",
+      "parentUuid": "be06de61_22f8e98f",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ff21ee7_f6435ef1",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 24
@@ -264,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "d8133341_3712e41e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T22:16:48Z",
+      "side": 1,
+      "message": "no, we have to differentiate the execution errors like tool/script not found (config error) and return code from the tool itself.",
+      "parentUuid": "fb92a768_7ab1998f",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df37eb21_901a1864",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 24
@@ -298,6 +334,24 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "I don\u0027t get why we need these magic numbers if any rc !\u003d null is an error",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61c1adb1_0056173a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T22:16:48Z",
+      "side": 1,
+      "message": "we have to differentiate the execution errors like tool/script not found (config error) and return code from the tool itself.",
+      "parentUuid": "7eaea38d_a4b4e42c",
       "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -514,6 +568,24 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "implement Closable to manage destroying temp file at the end ?\nThis would allow to use the try with resource idiom to manage cleanup\n\ntry (FileElement f \u003d new FileElement(...)) {\n   // use the FileElement\n}",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a24f75d_d282df05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T22:16:48Z",
+      "side": 1,
+      "message": "OK, will see how it works...",
+      "parentUuid": "6c33a75d_da41825a",
       "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
