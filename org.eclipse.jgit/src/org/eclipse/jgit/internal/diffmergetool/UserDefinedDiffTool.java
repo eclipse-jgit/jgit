@@ -15,6 +15,8 @@ package org.eclipse.jgit.internal.diffmergetool;
  */
 public class UserDefinedDiffTool implements ExternalDiffTool {
 
+	private boolean available;
+
 	/**
 	 * the diff tool name
 	 */
@@ -96,6 +98,23 @@ public class UserDefinedDiffTool implements ExternalDiffTool {
 	@Override
 	public String getCommand() {
 		return cmd;
+	}
+
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	@Override
+	public boolean isAvailable() {
+		return available;
+	}
+
+	/**
+	 * @param available
+	 *            true if tool can be found and false if not
+	 */
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 	/**
