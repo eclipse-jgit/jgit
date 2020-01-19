@@ -18,13 +18,20 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.internal.BooleanTriState;
@@ -48,14 +55,7 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
 				command);
 
-		DiffTools manager = new DiffTools(db);
-
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-		BooleanTriState trustExitCode = BooleanTriState.TRUE;
-
-		manager.compare(local, remote, merged, toolName, prompt, gui,
-				trustExitCode);
+		invokeCompare(toolName);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -72,33 +72,84 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
 				command);
 
-		DiffTools manager = new DiffTools(db);
-
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-		BooleanTriState trustExitCode = BooleanTriState.FALSE;
-
-		manager.compare(local, remote, merged, toolName, prompt, gui,
-				trustExitCode);
-
+		invokeCompare(toolName);
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
 	}
 
 	@Test
-	public void testToolNames() {
+	public void testUserDefinedTool() throws Exception {
+		String command = getEchoCommand();
+
+		FileBasedConfig config = db.getConfig();
+		String customToolName = "customTool";
+		config.setString(CONFIG_DIFFTOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, command);
+
 		DiffTools manager = new DiffTools(db);
-		Set<String> actualToolNames = manager.getToolNames();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of external diff tool names",
-				expectedToolNames, actualToolNames);
+
+		Map<String, ExternalDiffTool> tools = manager.getUserDefinedTools();
+		ExternalDiffTool externalTool = tools.get(customToolName);
+		boolean trustExitCode = true;
+		manager.compare(local, remote, externalTool, trustExitCode);
+
+		assertEchoCommandHasCorrectOutput();
+	}
+
+	@Test
+	public void testUserDefinedToolWithPrompt() throws Exception {
+		String command = getEchoCommand();
+
+		FileBasedConfig config = db.getConfig();
+		String customToolName = "customTool";
+		config.setString(CONFIG_DIFFTOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, command);
+
+		DiffTools manager = new DiffTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		manager.compare(local, remote, Optional.of(customToolName),
+				BooleanTriState.TRUE, false, BooleanTriState.TRUE,
+				promptHandler, noToolHandler);
+
+		assertEchoCommandHasCorrectOutput();
+
+		List<String> actualToolPrompts = promptHandler.toolPrompts;
+		List<String> expectedToolPrompts = Arrays.asList("customTool");
+		assertEquals("Expected a user prompt for custom tool call",
+				expectedToolPrompts, actualToolPrompts);
+
+		assertEquals("Expected to no informing about missing tools",
+				Collections.EMPTY_LIST, noToolHandler.missingTools);
+	}
+
+	@Test
+	public void testUserDefinedToolWithCancelledPrompt() throws Exception {
+		DiffTools manager = new DiffTools(db);
+
+		PromptHandler promptHandler = PromptHandler.cancelPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<ExecutionResult> result = manager.compare(local, remote,
+				Optional.empty(), BooleanTriState.TRUE, false,
+				BooleanTriState.TRUE, promptHandler, noToolHandler);
+		assertFalse("Expected no result if user cancels the operation",
+				result.isPresent());
 	}
 
 	@Test
 	public void testAllTools() {
+		FileBasedConfig config = db.getConfig();
+		String customToolName = "customTool";
+		config.setString(CONFIG_DIFFTOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, "echo");
+
 		DiffTools manager = new DiffTools(db);
-		Set<String> actualToolNames = manager.getPredefinedTools(true).keySet();
+		Set<String> actualToolNames = manager.getAllToolNames();
 		Set<String> expectedToolNames = new LinkedHashSet<>();
+		expectedToolNames.add(customToolName);
 		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
 		for (CommandLineDiffTool defaultTool : defaultTools) {
 			String toolName = defaultTool.name();
@@ -166,18 +217,12 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
 				command);
-
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-		BooleanTriState trustExitCode = BooleanTriState.UNSET;
-
-		DiffTools manager = new DiffTools(db);
-
+		Optional<ExecutionResult> result = invokeCompare(toolName);
+		assertTrue("Expected external diff tool result to be available",
+				result.isPresent());
 		int expectedCompareResult = 0;
-		ExecutionResult compareResult = manager.compare(local, remote, merged,
-				toolName, prompt, gui, trustExitCode);
 		assertEquals("Incorrect compare result for external diff tool",
-				expectedCompareResult, compareResult.getRc());
+				expectedCompareResult, result.get().getRc());
 	}
 
 	@Test
@@ -192,17 +237,16 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 				toolName);
 
 		DiffTools manager = new DiffTools(db);
-		BooleanTriState gui = BooleanTriState.UNSET;
+		boolean gui = false;
 		String defaultToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured difftool to be the default external diff tool",
 				toolName, defaultToolName);
 
-		gui = BooleanTriState.TRUE;
+		gui = true;
 		String defaultGuiToolName = manager.getDefaultToolName(gui);
-		assertEquals(
-				"Expected configured difftool to be the default external diff tool",
-				"my_gui_tool", defaultGuiToolName);
+		assertNull("Expected default difftool to not be set",
+				defaultGuiToolName);
 
 		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_GUITOOL,
 				guiToolName);
@@ -210,7 +254,7 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		defaultGuiToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured difftool to be the default external diff guitool",
-				"my_gui_tool", defaultGuiToolName);
+				guiToolName, defaultGuiToolName);
 	}
 
 	@Test
@@ -247,20 +291,39 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 	@Test(expected = ToolException.class)
 	public void testUndefinedTool() throws Exception {
+		String toolName = "undefined";
+		invokeCompare(toolName);
+		fail("Expected exception to be thrown due to not defined external diff tool");
+	}
+
+	private Optional<ExecutionResult> invokeCompare(String toolName)
+			throws ToolException {
 		DiffTools manager = new DiffTools(db);
 
-		String toolName = "undefined";
 		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-		BooleanTriState trustExitCode = BooleanTriState.UNSET;
+		boolean gui = false;
+		BooleanTriState trustExitCode = BooleanTriState.TRUE;
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
 
-		manager.compare(local, remote, merged, toolName, prompt, gui,
-				trustExitCode);
-		fail("Expected exception to be thrown due to not defined external diff tool");
+		Optional<ExecutionResult> result = manager.compare(local, remote,
+				Optional.of(toolName), prompt, gui, trustExitCode,
+				promptHandler, noToolHandler);
+		return result;
 	}
 
 	private String getEchoCommand() {
 		return "(echo \"$LOCAL\" \"$REMOTE\") > "
 				+ commandResult.getAbsolutePath();
+	}
+
+	private void assertEchoCommandHasCorrectOutput() throws IOException {
+		List<String> actualLines = Files.readAllLines(commandResult.toPath());
+		String actualContent = String.join(System.lineSeparator(), actualLines);
+		actualLines = Arrays.asList(actualContent.split(" "));
+		List<String> expectedLines = Arrays.asList(localFile.getAbsolutePath(),
+				remoteFile.getAbsolutePath());
+		assertEquals("Dummy test tool called with unexpected arguments",
+				expectedLines, actualLines);
 	}
 }
