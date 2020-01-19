@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2020, Andre Bossert <andre.bossert@siemens.com>
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,94 +12,87 @@
 package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
-import java.util.Collections;
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS.ExecutionResult;
-import org.eclipse.jgit.util.StringUtils;
 
 /**
- * Manages diff tools.
+ * Manages merge tools.
  *
  * @since 5.7
  */
-public class DiffTools {
+public class MergeTools {
 
-	private final DiffToolConfig config;
+	private final MergeToolConfig config;
 
-	private final Map<String, ExternalDiffTool> predefinedTools;
+	private final Map<String, ExternalMergeTool> predefinedTools;
 
-	private final Map<String, ExternalDiffTool> userDefinedTools;
+	private final Map<String, ExternalMergeTool> userDefinedTools;
 
 	/**
-	 * Creates the external diff-tools manager for given repository.
-	 *
-	 * @param db
-	 *            the repository database
+	 * @param db the repository database
 	 */
-	public DiffTools(Repository db) {
-		config = db.getConfig().get(DiffToolConfig.KEY);
+	public MergeTools(Repository db) {
+		config = db.getConfig().get(MergeToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
 	}
 
 	/**
-	 * Compare two versions of a file.
-	 *
 	 * @param db
 	 *            the repository
 	 * @param localFile
 	 *            the local file element
 	 * @param remoteFile
 	 *            the remote file element
+	 * @param baseFile
+	 *            the base file element
 	 * @param mergedFilePath
-	 *            the path of 'merged' file, it equals local or remote path
+	 *            the path of 'merged' file
 	 * @param toolName
 	 *            the selected tool name (can be null)
 	 * @param prompt
 	 *            the prompt option
 	 * @param gui
 	 *            the GUI option
-	 * @param trustExitCode
-	 *            the "trust exit code" option
 	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
-	public ExecutionResult compare(Repository db, FileElement localFile,
-			FileElement remoteFile, String mergedFilePath,
+	public ExecutionResult merge(Repository db, FileElement localFile,
+			FileElement remoteFile, FileElement baseFile, String mergedFilePath,
 			String toolName, BooleanOption prompt,
-			BooleanOption gui, BooleanOption trustExitCode)
+			BooleanOption gui)
 			throws ToolException {
-		ExternalDiffTool tool = guessTool(toolName, gui);
+		ExternalMergeTool tool = guessTool(toolName, gui);
 		try {
 			File workingDir = db.getWorkTree();
 			String localFilePath = localFile.getFile().getPath();
 			String remoteFilePath = remoteFile.getFile().getPath();
+			String baseFilePath = baseFile.getFile().getPath();
 			String command = tool.getCommand();
 			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
 			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
 			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
+			command = command.replace("$BASE", baseFilePath); //$NON-NLS-1$
 			Map<String, String> env = new TreeMap<>();
 			env.put(Constants.GIT_DIR_KEY, db.getDirectory().getAbsolutePath());
 			env.put("LOCAL", localFilePath); //$NON-NLS-1$
 			env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
 			env.put("MERGED", mergedFilePath); //$NON-NLS-1$
-			boolean trust = config.isTrustExitCode();
-			if (trustExitCode.isConfigured()) {
-				trust = trustExitCode.toBoolean();
-			}
+			env.put("BASE", baseFilePath); //$NON-NLS-1$
+			boolean trust = tool.getTrustExitCode().toBoolean();
 			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
 			return cmdExec.run(command, workingDir, env);
-		} catch (IOException | InterruptedException e) {
+		} catch (Exception e) {
 			throw new ToolException(e);
 		} finally {
 			localFile.cleanTemporaries();
 			remoteFile.cleanTemporaries();
+			baseFile.cleanTemporaries();
 		}
 	}
 
@@ -112,22 +106,22 @@ public class DiffTools {
 	/**
 	 * @return the user defined tools
 	 */
-	public Map<String, ExternalDiffTool> getUserDefinedTools() {
-		return Collections.unmodifiableMap(userDefinedTools);
+	public Map<String, ExternalMergeTool> getUserDefinedTools() {
+		return userDefinedTools;
 	}
 
 	/**
 	 * @return the available predefined tools
 	 */
-	public Map<String, ExternalDiffTool> getAvailableTools() {
-		return Collections.unmodifiableMap(predefinedTools);
+	public Map<String, ExternalMergeTool> getAvailableTools() {
+		return predefinedTools;
 	}
 
 	/**
 	 * @return the NOT available predefined tools
 	 */
-	public Map<String, ExternalDiffTool> getNotAvailableTools() {
-		return Collections.unmodifiableMap(new TreeMap<>());
+	public Map<String, ExternalMergeTool> getNotAvailableTools() {
+		return new TreeMap<>();
 	}
 
 	/**
@@ -147,50 +141,54 @@ public class DiffTools {
 		return config.isPrompt();
 	}
 
-	private ExternalDiffTool guessTool(String toolName, BooleanOption gui)
+	private ExternalMergeTool guessTool(String toolName, BooleanOption gui)
 			throws ToolException {
-		if (StringUtils.isEmptyOrNull(toolName)) {
+		if ((toolName == null) || toolName.isEmpty()) {
 			toolName = getDefaultToolName(gui);
 		}
-		ExternalDiffTool tool = getTool(toolName);
+		ExternalMergeTool tool = getTool(toolName);
 		if (tool == null) {
 			throw new ToolException("Unknown diff tool " + toolName); //$NON-NLS-1$
 		}
 		return tool;
 	}
 
-	private ExternalDiffTool getTool(final String name) {
-		ExternalDiffTool tool = userDefinedTools.get(name);
+	private ExternalMergeTool getTool(final String name) {
+		ExternalMergeTool tool = userDefinedTools.get(name);
 		if (tool == null) {
 			tool = predefinedTools.get(name);
 		}
 		return tool;
 	}
 
-	private Map<String, ExternalDiffTool> setupPredefinedTools() {
-		Map<String, ExternalDiffTool> tools = new TreeMap<>();
-		for (CommandLineDiffTool tool : CommandLineDiffTool.values()) {
-			tools.put(tool.name(), new PreDefinedDiffTool(tool));
+	private Map<String, ExternalMergeTool> setupPredefinedTools() {
+		Map<String, ExternalMergeTool> tools = new TreeMap<>();
+		for (CommandLineMergeTool tool : CommandLineMergeTool.values()) {
+			tools.put(tool.name(), new PreDefinedMergeTool(tool));
 		}
 		return tools;
 	}
 
-	private Map<String, ExternalDiffTool> setupUserDefinedTools(
-			DiffToolConfig cfg, Map<String, ExternalDiffTool> predefTools) {
-		Map<String, ExternalDiffTool> tools = new TreeMap<>();
-		Map<String, ExternalDiffTool> userTools = cfg.getTools();
+	private Map<String, ExternalMergeTool> setupUserDefinedTools(
+			MergeToolConfig cfg, Map<String, ExternalMergeTool> predefTools) {
+		Map<String, ExternalMergeTool> tools = new TreeMap<>();
+		Map<String, ExternalMergeTool> userTools = cfg.getTools();
 		for (String name : userTools.keySet()) {
-			ExternalDiffTool userTool = userTools.get(name);
-			// if difftool.<name>.cmd is defined we have user defined tool
+			ExternalMergeTool userTool = userTools.get(name);
+			// if mergetool.<name>.cmd is defined we have user defined tool
 			if (userTool.getCommand() != null) {
 				tools.put(name, userTool);
 			} else if (userTool.getPath() != null) {
-				// if difftool.<name>.path is defined we just overload the path
+				// if mergetool.<name>.path is defined we just overload the path
 				// of predefined tool
-				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefTools
+				PreDefinedMergeTool predefTool = (PreDefinedMergeTool) predefTools
 						.get(name);
 				if (predefTool != null) {
 					predefTool.setPath(userTool.getPath());
+					if (userTool.getTrustExitCode().isConfigured()) {
+						predefTool
+								.setTrustExitCode(userTool.getTrustExitCode());
+					}
 				}
 			}
 		}
