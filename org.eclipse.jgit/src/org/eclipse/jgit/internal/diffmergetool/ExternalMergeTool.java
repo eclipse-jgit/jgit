@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.diffmergetool;
 
+import org.eclipse.jgit.lib.internal.BooleanTriState;
+
 /**
  * The merge tool interface.
  */
@@ -18,6 +20,14 @@ public interface ExternalMergeTool extends ExternalDiffTool {
 	/**
 	 * @return the tool "trust exit code" option
 	 */
-	boolean isTrustExitCode();
+	BooleanTriState getTrustExitCode();
+
+	/**
+	 * @param withBase
+	 *            get command with base present (true) or without base present
+	 *            (false)
+	 * @return the tool command
+	 */
+	String getCommand(boolean withBase);
 
 }
