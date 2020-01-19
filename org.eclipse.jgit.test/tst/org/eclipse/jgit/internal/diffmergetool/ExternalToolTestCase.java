@@ -36,6 +36,14 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 
 	protected File commandResult;
 
+	protected FileElement local;
+
+	protected FileElement remote;
+
+	protected FileElement merged;
+
+	protected FileElement base;
+
 	@Before
 	@Override
 	public void setUp() throws Exception {
@@ -51,6 +59,11 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 		baseFile.deleteOnExit();
 		commandResult = writeTrashFile("commandResult.txt", "");
 		commandResult.deleteOnExit();
+
+		local = new FileElement(localFile.getAbsolutePath(), "LOCAL");
+		remote = new FileElement(remoteFile.getAbsolutePath(), "REMOTE");
+		merged = new FileElement(mergedFile.getAbsolutePath(), "MERGED");
+		base = new FileElement(baseFile.getAbsolutePath(), "BASE");
 	}
 
 	@After
