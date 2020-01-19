@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "73e813e8_b33892eb",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T19:59:27Z",
+      "side": 1,
+      "message": "moved to first commit introducing this\nDONE",
+      "parentUuid": "5ff21ee7_f6435ef1",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 16
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37e65337_01c45b51",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 24
