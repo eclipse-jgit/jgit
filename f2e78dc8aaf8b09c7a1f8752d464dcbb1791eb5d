@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fbde8564_4e78688e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396e19a_767e6190",
+      "range": {
+        "startLine": 1523,
+        "startChar": 0,
+        "endLine": 1523,
+        "endChar": 51
+      },
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907d4f46_22e7f45e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2020-01-15T11:26:03Z",
       "side": 1,
       "message": "Maybe add: \"This path is used to determine the correct filters\"\n\nI want to avoid that people misinterpret that as the path where the content is written to.",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08620de1_9f3a0487",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907d4f46_22e7f45e",
       "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cd3e027a_fd74763f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a04d4abd_ff084512",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bd80cb3_31ac1719",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "b5de2c67_c45a7436",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1534,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bd80cb3_31ac1719",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aef9597f_35860696",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -87,6 +165,24 @@
       "writtenOn": "2020-01-15T11:26:03Z",
       "side": 1,
       "message": "I would add \"... where the filtered content is written to\".\n\nHmm, does the caller has to close the outputstream? Not sure in the moment, but if yes we have to tell here.",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9c939fa_b151ca4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aef9597f_35860696",
       "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
