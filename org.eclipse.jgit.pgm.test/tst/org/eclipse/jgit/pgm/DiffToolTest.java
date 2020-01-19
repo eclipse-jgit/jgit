@@ -21,10 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.internal.diffmergetool.CommandLineDiffTool;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,9 +47,8 @@ public class DiffToolTest extends ToolTestCase {
 				"y", // accept launching diff tool
 		};
 
-		RevCommit commit = createUnstagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedCompareOutput(changes);
+		String[] conflictingFilenames = createUnstagedChanges();
+		String[] expectedOutput = getExpectedCompareOutput(conflictingFilenames);
 
 		String option = "--tool";
 
@@ -68,10 +65,9 @@ public class DiffToolTest extends ToolTestCase {
 				"n", // don't launch diff tool
 		};
 
-		RevCommit commit = createUnstagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
+		String[] conflictingFilenames = createUnstagedChanges();
 		int abortIndex = 1;
-		String[] expectedOutput = getExpectedAbortOutput(changes, abortIndex);
+		String[] expectedOutput = getExpectedAbortOutput(conflictingFilenames, abortIndex);
 
 		String option = "--tool";
 
@@ -92,9 +88,8 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test
 	public void testTool() throws Exception {
-		RevCommit commit = createUnstagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
+		String[] conflictFilenames = createUnstagedChanges();
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(conflictFilenames);
 
 		String[] options = {
 				"--tool",
@@ -111,9 +106,8 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolTrustExitCode() throws Exception {
-		RevCommit commit = createUnstagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
+		String[] conflictingFilenames = createUnstagedChanges();
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(conflictingFilenames);
 
 		String[] options = { "--tool", "-t", };
 
@@ -126,9 +120,8 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolNoGuiNoPromptNoTrustExitcode() throws Exception {
-		RevCommit commit = createUnstagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
+		String[] conflictingFilenames = createUnstagedChanges();
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(conflictingFilenames);
 
 		String[] options = { "--tool", "-t", };
 
@@ -142,9 +135,8 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolCached() throws Exception {
-		RevCommit commit = createStagedChanges();
-		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
+		String[] conflictingFilenames = createStagedChanges();
+		String[] expectedOutput = getExpectedToolOutputNoPrompt(conflictingFilenames);
 
 		String[] options = { "--cached", "--staged", };
 
@@ -201,23 +193,21 @@ public class DiffToolTest extends ToolTestCase {
 				String.valueOf(false));
 	}
 
-	private static String[] getExpectedToolOutputNoPrompt(List<DiffEntry> changes) {
-		String[] expectedToolOutput = new String[changes.size()];
-		for (int i = 0; i < changes.size(); ++i) {
-			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
+	private static String[] getExpectedToolOutputNoPrompt(String[] conflictingFilenames) {
+		String[] expectedToolOutput = new String[conflictingFilenames.length];
+		for (int i = 0; i < conflictingFilenames.length; ++i) {
+			String newPath = conflictingFilenames[i];
 			String expectedLine = newPath;
 			expectedToolOutput[i] = expectedLine;
 		}
 		return expectedToolOutput;
 	}
 
-	private static String[] getExpectedCompareOutput(List<DiffEntry> changes) {
+	private static String[] getExpectedCompareOutput(String[] conflictingFilenames) {
 		List<String> expected = new ArrayList<>();
-		int n = changes.size();
+		int n = conflictingFilenames.length;
 		for (int i = 0; i < n; ++i) {
-			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
+			String newPath = conflictingFilenames[i];
 			expected.add(
 					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
 			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");
@@ -226,13 +216,12 @@ public class DiffToolTest extends ToolTestCase {
 		return expected.toArray(new String[0]);
 	}
 
-	private static String[] getExpectedAbortOutput(List<DiffEntry> changes,
+	private static String[] getExpectedAbortOutput(String[] conflictingFilenames,
 			int abortIndex) {
 		List<String> expected = new ArrayList<>();
-		int n = changes.size();
+		int n = conflictingFilenames.length;
 		for (int i = 0; i < n; ++i) {
-			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
+			String newPath = conflictingFilenames[i];
 			expected.add(
 					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
 			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");

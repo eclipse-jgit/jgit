@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.util.FS.ExecutionResult;
@@ -29,6 +29,8 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
  */
 public class MergeTools {
 
+	Repository repo;
+
 	private final MergeToolConfig config;
 
 	private final Map<String, ExternalMergeTool> predefinedTools;
@@ -37,25 +39,27 @@ public class MergeTools {
 
 	/**
 	 * @param repo
-	 *            the repository database
+	 *            the repository
 	 */
 	public MergeTools(Repository repo) {
+		this.repo = repo;
 		config = repo.getConfig().get(MergeToolConfig.KEY);
 		predefinedTools = setupPredefinedTools();
 		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
 	}
 
 	/**
-	 * @param repo
-	 *            the repository
 	 * @param localFile
 	 *            the local file element
 	 * @param remoteFile
 	 *            the remote file element
+	 * @param mergedFile
+	 *            the merged file element
 	 * @param baseFile
 	 *            the base file element (can be null)
-	 * @param mergedFilePath
-	 *            the path of 'merged' file
+	 * @param tempDir
+	 *            the temporary directory (needed for backup and auto-remove,
+	 *            can be null)
 	 * @param toolName
 	 *            the selected tool name (can be null)
 	 * @param prompt
@@ -65,47 +69,35 @@ public class MergeTools {
 	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
-	public ExecutionResult merge(Repository repo, FileElement localFile,
-			FileElement remoteFile, FileElement baseFile, String mergedFilePath,
+	public ExecutionResult merge(FileElement localFile, FileElement remoteFile,
+			FileElement mergedFile, FileElement baseFile, File tempDir,
 			String toolName, BooleanTriState prompt, BooleanTriState gui)
 			throws ToolException {
 		ExternalMergeTool tool = guessTool(toolName, gui);
 		FileElement backup = null;
-		File tempDir = null;
 		ExecutionResult result = null;
 		try {
 			File workingDir = repo.getWorkTree();
-			// crate temp-directory or use working directory
-			tempDir = config.isWriteToTemp()
-					? Files.createTempDirectory("jgit-mergetool-").toFile() //$NON-NLS-1$
-					: workingDir;
 			// create additional backup file (copy worktree file)
-			backup = createBackupFile(mergedFilePath, tempDir);
-			// get local, remote and base file paths
-			String localFilePath = localFile.getFile(tempDir, "LOCAL") //$NON-NLS-1$
-					.getPath();
-			String remoteFilePath = remoteFile.getFile(tempDir, "REMOTE") //$NON-NLS-1$
-					.getPath();
-			String baseFilePath = ""; //$NON-NLS-1$
-			if (baseFile != null) {
-				baseFilePath = baseFile.getFile(tempDir, "BASE").getPath(); //$NON-NLS-1$
-			}
+			backup = createBackupFile(mergedFile.getPath(),
+					tempDir != null ? tempDir : workingDir);
 			// prepare the command (replace the file paths)
 			boolean trust = tool.getTrustExitCode() == BooleanTriState.TRUE;
-			String command = prepareCommand(mergedFilePath, localFilePath,
-					remoteFilePath, baseFilePath,
-					tool.getCommand(baseFile != null));
+			String command = ExternalToolUtils.prepareCommand(
+					tool.getCommand(baseFile != null), localFile, remoteFile,
+					mergedFile, baseFile);
 			// prepare the environment
-			Map<String, String> env = prepareEnvironment(repo, mergedFilePath,
-					localFilePath, remoteFilePath, baseFilePath);
+			Map<String, String> env = ExternalToolUtils.prepareEnvironment(repo,
+					localFile, remoteFile, mergedFile, baseFile);
+			// execute the tool
 			CommandExecutor cmdExec = new CommandExecutor(repo.getFS(), trust);
 			result = cmdExec.run(command, workingDir, env);
 			// keep backup as .orig file
 			if (backup != null) {
-				keepBackupFile(mergedFilePath, backup);
+				keepBackupFile(mergedFile.getPath(), backup);
 			}
 			return result;
-		} catch (Exception e) {
+		} catch (IOException | InterruptedException e) {
 			throw new ToolException(e);
 		} finally {
 			// always delete backup file (ignore that it was may be already
@@ -131,16 +123,27 @@ public class MergeTools {
 		}
 	}
 
-	private static FileElement createBackupFile(String mergedFilePath,
-			File tempDir) throws IOException {
+	private FileElement createBackupFile(String filePath, File parentDir)
+			throws IOException {
 		FileElement backup = null;
-		Path path = Paths.get(tempDir.getPath(), mergedFilePath);
+		Path path = Paths.get(filePath);
 		if (Files.exists(path)) {
-			backup = new FileElement(mergedFilePath, "NOID", null); //$NON-NLS-1$
-			Files.copy(path, backup.getFile(tempDir, "BACKUP").toPath(), //$NON-NLS-1$
+			backup = new FileElement(filePath, Type.BACKUP);
+			Files.copy(path, backup.createTempFile(parentDir).toPath(),
 					StandardCopyOption.REPLACE_EXISTING);
 		}
 		return backup;
+	}
+
+	/**
+	 * @return the created temporary directory if (mergetol.writeToTemp == true)
+	 *         or null if not configured or false.
+	 * @throws IOException
+	 */
+	public File createTempDirectory() throws IOException {
+		return config.isWriteToTemp()
+				? Files.createTempDirectory("jgit-mergetool-").toFile() //$NON-NLS-1$
+				: null;
 	}
 
 	/**
@@ -206,27 +209,6 @@ public class MergeTools {
 			tool = predefinedTools.get(name);
 		}
 		return tool;
-	}
-
-	private String prepareCommand(String mergedFilePath, String localFilePath,
-			String remoteFilePath, String baseFilePath, String command) {
-		command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
-		command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
-		command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
-		command = command.replace("$BASE", baseFilePath); //$NON-NLS-1$
-		return command;
-	}
-
-	private Map<String, String> prepareEnvironment(Repository repo,
-			String mergedFilePath, String localFilePath, String remoteFilePath,
-			String baseFilePath) {
-		Map<String, String> env = new TreeMap<>();
-		env.put(Constants.GIT_DIR_KEY, repo.getDirectory().getAbsolutePath());
-		env.put("LOCAL", localFilePath); //$NON-NLS-1$
-		env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
-		env.put("MERGED", mergedFilePath); //$NON-NLS-1$
-		env.put("BASE", baseFilePath); //$NON-NLS-1$
-		return env;
 	}
 
 	private void keepBackupFile(String mergedFilePath, FileElement backup)
