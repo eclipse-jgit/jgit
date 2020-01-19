@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36e968e5_b5851032",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcdd8220_3655a1c8",
+      "range": {
+        "startLine": 91,
+        "startChar": 22,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "42a6ea532b6c9e4a6ffe52eac1d1cf06cef78b00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101ee11b_8748f546",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 19
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9b5216a3_aeb58e50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101ee11b_8748f546",
+      "range": {
+        "startLine": 91,
+        "startChar": 19,
+        "endLine": 91,
+        "endChar": 36
+      },
+      "revId": "42a6ea532b6c9e4a6ffe52eac1d1cf06cef78b00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fe134a2_a5d43023",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
         "patchSetId": 19
@@ -59,6 +107,24 @@
       "writtenOn": "2020-01-15T00:18:03Z",
       "side": 1,
       "message": "if this substitution is done in the Java code why do we need to set the environment variables below ? Wouldn\u0027t the latter be sufficient ?",
+      "revId": "42a6ea532b6c9e4a6ffe52eac1d1cf06cef78b00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf350886_89181cb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:50:45Z",
+      "side": 1,
+      "message": "Yes for Unix/Linux-shell, but for windows we may have unix variables in the config like $LOCAL and they are not substituted from environment then if not executing with cygwin or MSYS. So replace them here and set as env additionally. May be need more testing with windows or different solution just to replace in case of windows FS (no cygwin or MSYS) ?",
+      "parentUuid": "0fe134a2_a5d43023",
       "revId": "42a6ea532b6c9e4a6ffe52eac1d1cf06cef78b00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
