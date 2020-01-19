@@ -10,10 +10,14 @@
 package org.eclipse.jgit.internal.diffmergetool;
 
 import java.util.TreeMap;
+import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Utilities for diff- and merge-tools.
@@ -59,8 +63,8 @@ public class ExternalToolUtils {
 	/**
 	 * Prepare environment needed for execution.
 	 *
-	 * @param repo
-	 *            the repository
+	 * @param gitDir
+	 *            the .git directory
 	 * @param localFile
 	 *            the local file (ours)
 	 * @param remoteFile
@@ -72,11 +76,13 @@ public class ExternalToolUtils {
 	 * @return the environment map with variables and values (file paths)
 	 * @throws IOException
 	 */
-	public static Map<String, String> prepareEnvironment(Repository repo,
+	public static Map<String, String> prepareEnvironment(File gitDir,
 			FileElement localFile, FileElement remoteFile,
 			FileElement mergedFile, FileElement baseFile) throws IOException {
 		Map<String, String> env = new TreeMap<>();
-		env.put(Constants.GIT_DIR_KEY, repo.getDirectory().getAbsolutePath());
+		if (gitDir != null) {
+			env.put(Constants.GIT_DIR_KEY, gitDir.getAbsolutePath());
+		}
 		if (localFile != null) {
 			localFile.addToEnv(env);
 		}
@@ -114,22 +120,60 @@ public class ExternalToolUtils {
 	}
 
 	/**
-	 * @param repo
-	 *            the repository
+	 * @param fs
+	 *            the file system abstraction
+	 * @param gitDir
+	 *            the .git directory
+	 * @param directory
+	 *            the working directory
 	 * @param path
 	 *            the tool path
 	 * @return true if tool available and false otherwise
 	 */
-	public static boolean isToolAvailable(Repository repo, String path) {
+	public static boolean isToolAvailable(FS fs, File gitDir, File directory,
+			String path) {
 		boolean available = true;
 		try {
-			CommandExecutor cmdExec = new CommandExecutor(repo.getFS(), false);
-			available = cmdExec.checkExecutable(path, repo.getWorkTree(),
-					prepareEnvironment(repo, null, null, null, null));
+			CommandExecutor cmdExec = new CommandExecutor(fs, false);
+			available = cmdExec.checkExecutable(path, directory,
+					prepareEnvironment(gitDir, null, null, null, null));
 		} catch (Exception e) {
 			available = false;
 		}
 		return available;
+	}
+
+	/**
+	 * @param defaultName
+	 *            the default tool name
+	 * @param userDefinedNames
+	 *            the user defined tool names
+	 * @param preDefinedNames
+	 *            the pre defined tool names
+	 * @return the sorted tool names set: first element is default tool name if
+	 *         valid, then user defined tool names and then pre defined tool
+	 *         names
+	 */
+	public static Set<String> createSortedToolSet(String defaultName,
+			Set<String> userDefinedNames, Set<String> preDefinedNames) {
+		Set<String> names = new LinkedHashSet<>();
+		if (defaultName != null) {
+			// remove defaultName from both sets
+			Set<String> namesPredef = new LinkedHashSet<>();
+			Set<String> namesUser = new LinkedHashSet<>();
+			namesUser.addAll(userDefinedNames);
+			namesUser.remove(defaultName);
+			namesPredef.addAll(preDefinedNames);
+			namesPredef.remove(defaultName);
+			// add defaultName as first in set
+			names.add(defaultName);
+			names.addAll(namesUser);
+			names.addAll(namesPredef);
+		} else {
+			names.addAll(userDefinedNames);
+			names.addAll(preDefinedNames);
+		}
+		return names;
 	}
 
 }
