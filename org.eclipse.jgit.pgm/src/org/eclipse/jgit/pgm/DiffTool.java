@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -191,7 +191,7 @@ class DiffTool extends TextBuiltin {
 						outw.flush();
 						errw.println(e.getMessage());
 						throw die(MessageFormat.format(
-								CLIText.get().diffToolDied, mergedFilePath, e));
+								CLIText.get().diffToolDied, mergedFilePath), e);
 					}
 				} else {
 					break;
