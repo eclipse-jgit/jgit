@@ -20,6 +20,14 @@ public interface ExternalMergeTool extends ExternalDiffTool {
 	/**
 	 * @return the tool "trust exit code" option
 	 */
-	boolean isTrustExitCode();
+	BooleanOption getTrustExitCode();
+
+	/**
+	 * @param withBase
+	 *            get command with base present (true) or without base present
+	 *            (false)
+	 * @return the tool command
+	 */
+	String getCommand(boolean withBase);
 
 }
