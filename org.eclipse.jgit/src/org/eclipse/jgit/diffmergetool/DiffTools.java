@@ -12,10 +12,15 @@ package org.eclipse.jgit.diffmergetool;
 
 import java.util.TreeMap;
 import java.util.Collections;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Manages diff tools.
@@ -26,9 +31,9 @@ public class DiffTools {
 
 	private final DiffToolConfig config;
 
-	private Map<String, ExternalDiffTool> predefinedTools;
+	private final Map<String, ExternalDiffTool> predefinedTools;
 
-	private Map<String, ExternalDiffTool> userDefinedTools;
+	private final Map<String, ExternalDiffTool> userDefinedTools;
 
 	/**
 	 * Creates the external diff-tools manager for given repository.
@@ -38,21 +43,22 @@ public class DiffTools {
 	 */
 	public DiffTools(Repository db) {
 		config = db.getConfig().get(DiffToolConfig.KEY);
-		setupPredefinedTools();
-		setupUserDefinedTools();
+		predefinedTools = setupPredefinedTools();
+		userDefinedTools = setupUserDefinedTools(config, predefinedTools);
 	}
 
 	/**
 	 * Compare two versions of a file.
 	 *
-	 * @param newPath
-	 *            the new file path
-	 * @param oldPath
-	 *            the old file path
-	 * @param newId
-	 *            the new object ID
-	 * @param oldId
-	 *            the old object ID
+	 * @param db
+	 *            the repository
+	 * @param localFile
+	 *            the local file element
+	 * @param remoteFile
+	 *            the remote file element
+	 * @param mergedFilePath
+	 *            the path of 'merged' file, it equals local or remote path for
+	 *            difftool
 	 * @param toolName
 	 *            the selected tool name (can be null)
 	 * @param prompt
@@ -62,11 +68,39 @@ public class DiffTools {
 	 * @param trustExitCode
 	 *            the "trust exit code" option
 	 * @return the return code from executed tool
+	 * @throws ToolException
 	 */
-	public int compare(String newPath, String oldPath, String newId,
-			String oldId, String toolName, BooleanOption prompt,
-			BooleanOption gui, BooleanOption trustExitCode) {
-		return 0;
+	public ExecutionResult compare(Repository db, FileElement localFile,
+			FileElement remoteFile, String mergedFilePath,
+			String toolName, BooleanOption prompt,
+			BooleanOption gui, BooleanOption trustExitCode)
+			throws ToolException {
+		ExternalDiffTool tool = guessTool(toolName, gui);
+		try {
+			File workingDir = db.getWorkTree();
+			String localFilePath = localFile.getFile().getPath();
+			String remoteFilePath = remoteFile.getFile().getPath();
+			String command = tool.getCommand();
+			command = command.replace("$LOCAL", localFilePath); //$NON-NLS-1$
+			command = command.replace("$REMOTE", remoteFilePath); //$NON-NLS-1$
+			command = command.replace("$MERGED", mergedFilePath); //$NON-NLS-1$
+			Map<String, String> env = new TreeMap<>();
+			env.put(Constants.GIT_DIR_KEY, db.getDirectory().getAbsolutePath());
+			env.put("LOCAL", localFilePath); //$NON-NLS-1$
+			env.put("REMOTE", remoteFilePath); //$NON-NLS-1$
+			env.put("MERGED", mergedFilePath); //$NON-NLS-1$
+			boolean trust = config.isTrustExitCode();
+			if (trustExitCode.isConfigured()) {
+				trust = trustExitCode.toBoolean();
+			}
+			CommandExecutor cmdExec = new CommandExecutor(db.getFS(), trust);
+			return cmdExec.run(command, workingDir, env);
+		} catch (IOException | InterruptedException e) {
+			throw new ToolException(e);
+		} finally {
+			localFile.cleanTemporaries();
+			remoteFile.cleanTemporaries();
+		}
 	}
 
 	/**
@@ -103,42 +137,65 @@ public class DiffTools {
 	 * @return the default tool name
 	 */
 	public String getDefaultToolName(BooleanOption gui) {
-		return gui.toBoolean() ? "my_gui_tool" //$NON-NLS-1$
-				: "my_default_toolname"; //$NON-NLS-1$
+		return gui.toBoolean() ? config.getDefaultGuiToolName()
+				: config.getDefaultToolName();
 	}
 
 	/**
 	 * @return is interactive (config prompt enabled) ?
 	 */
 	public boolean isInteractive() {
-		return false;
+		return config.isPrompt();
 	}
 
-	private void setupPredefinedTools() {
-		predefinedTools = new TreeMap<>();
-		for (CommandLineDiffTool tool : CommandLineDiffTool.values()) {
-			predefinedTools.put(tool.name(), new PreDefinedDiffTool(tool));
+	private ExternalDiffTool guessTool(String toolName, BooleanOption gui)
+			throws ToolException {
+		if (StringUtils.isEmptyOrNull(toolName)) {
+			toolName = getDefaultToolName(gui);
 		}
+		ExternalDiffTool tool = getTool(toolName);
+		if (tool == null) {
+			throw new ToolException("Unknown diff tool " + toolName); //$NON-NLS-1$
+		}
+		return tool;
 	}
 
-	private void setupUserDefinedTools() {
-		userDefinedTools = new TreeMap<>();
-		Map<String, ExternalDiffTool> userTools = config.getTools();
+	private ExternalDiffTool getTool(final String name) {
+		ExternalDiffTool tool = userDefinedTools.get(name);
+		if (tool == null) {
+			tool = predefinedTools.get(name);
+		}
+		return tool;
+	}
+
+	private Map<String, ExternalDiffTool> setupPredefinedTools() {
+		Map<String, ExternalDiffTool> tools = new TreeMap<>();
+		for (CommandLineDiffTool tool : CommandLineDiffTool.values()) {
+			tools.put(tool.name(), new PreDefinedDiffTool(tool));
+		}
+		return tools;
+	}
+
+	private Map<String, ExternalDiffTool> setupUserDefinedTools(
+			DiffToolConfig cfg, Map<String, ExternalDiffTool> predefTools) {
+		Map<String, ExternalDiffTool> tools = new TreeMap<>();
+		Map<String, ExternalDiffTool> userTools = cfg.getTools();
 		for (String name : userTools.keySet()) {
 			ExternalDiffTool userTool = userTools.get(name);
 			// if difftool.<name>.cmd is defined we have user defined tool
 			if (userTool.getCommand() != null) {
-				userDefinedTools.put(name, userTool);
+				tools.put(name, userTool);
 			} else if (userTool.getPath() != null) {
 				// if difftool.<name>.path is defined we just overload the path
 				// of predefined tool
-				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefinedTools
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefTools
 						.get(name);
 				if (predefTool != null) {
 					predefTool.setPath(userTool.getPath());
 				}
 			}
 		}
+		return tools;
 	}
 
 }
