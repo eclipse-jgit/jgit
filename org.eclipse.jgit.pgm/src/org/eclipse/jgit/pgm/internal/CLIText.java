@@ -139,6 +139,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String diffToolHelpSetToFollowing;
 	/***/ public String diffToolLaunch;
 	/***/ public String diffToolDied;
+	/***/ public String diffToolPromptToolName;
+	/***/ public String diffToolUnknownToolName;
 	/***/ public String doesNotExist;
 	/***/ public String dontOverwriteLocalChanges;
 	/***/ public String everythingUpToDate;
@@ -185,6 +187,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String mergeToolContinueUnresolvedPaths;
 	/***/ public String mergeToolWasMergeSuccessfull;
 	/***/ public String mergeToolDeletedMergeDecision;
+	/***/ public String mergeToolPromptToolName;
+	/***/ public String mergeToolUnknownToolName;
 	/***/ public String mergeFailed;
 	/***/ public String mergeCheckoutFailed;
 	/***/ public String mergeMadeBy;

@@ -140,19 +140,14 @@ class DiffTool extends TextBuiltin {
 				if (prompt.isPresent()) {
 					showPrompt = prompt.get().booleanValue();
 				}
-				String toolNamePrompt = toolName;
-				if (showPrompt) {
-					if (StringUtils.isEmptyOrNull(toolNamePrompt)) {
-						toolNamePrompt = diffTools.getDefaultToolName(gui);
-					}
-				}
+				// get passed or default tool name
+				String toolNameToUse = promptToolName();
 				// get the changed files
 				List<DiffEntry> files = getFiles();
 				if (files.size() > 0) {
-					compare(files, showPrompt, toolNamePrompt);
+					compare(files, showPrompt, toolNameToUse);
 				}
 			}
-			outw.flush();
 		} catch (RevisionSyntaxException | IOException e) {
 			throw die(e.getMessage(), e);
 		} finally {
@@ -160,8 +155,32 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
+	private String promptToolName() throws IOException {
+		String toolNameToUse = toolName;
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			toolNameToUse = diffTools.getDefaultToolName(gui);
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			Map<String, ExternalDiffTool> predefTools = diffTools
+					.getPredefinedTools(false);
+			String toolNames = new String();
+			for (String name : predefTools.keySet()) {
+				toolNames += name + " "; //$NON-NLS-1$
+			}
+			outw.println(MessageFormat.format(
+					CLIText.get().diffToolPromptToolName, toolNames));
+			outw.flush();
+			toolNameToUse = diffTools.getFirstAvailableTool();
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			throw new IOException(MessageFormat
+					.format(CLIText.get().diffToolUnknownToolName, toolName));
+		}
+		return toolNameToUse;
+	}
+
 	private void compare(List<DiffEntry> files, boolean showPrompt,
-			String toolNamePrompt) throws IOException {
+			String toolNameToUse) throws IOException {
 		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
 				source(newTree));
 		try {
@@ -175,7 +194,7 @@ class DiffTool extends TextBuiltin {
 				boolean launchCompare = true;
 				if (showPrompt) {
 					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-							mergedFilePath, toolNamePrompt);
+							mergedFilePath, toolNameToUse);
 				}
 				if (launchCompare) {
 					try {
@@ -191,11 +210,13 @@ class DiffTool extends TextBuiltin {
 						// to jgit / java runtime ?
 						// int rc =...
 						ExecutionResult result = diffTools.compare(local,
-								remote, merged, toolName, prompt, gui,
+								remote, merged, toolNameToUse, prompt, gui,
 								trustExitCode);
 						outw.println(new String(result.getStdout().toByteArray()));
+						outw.flush();
 						errw.println(
 								new String(result.getStderr().toByteArray()));
+						errw.flush();
 					} catch (ToolException e) {
 						outw.println(e.getResultStdout());
 						outw.flush();
@@ -230,13 +251,16 @@ class DiffTool extends TextBuiltin {
 	}
 
 	private void showToolHelp() throws IOException {
+		Map<String, ExternalDiffTool> predefTools = diffTools
+				.getPredefinedTools(true);
 		String availableToolNames = new String();
-		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
-		}
 		String notAvailableToolNames = new String();
-		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			} else {
+				notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			}
 		}
 		String userToolNames = new String();
 		Map<String, ExternalDiffTool> userTools = diffTools

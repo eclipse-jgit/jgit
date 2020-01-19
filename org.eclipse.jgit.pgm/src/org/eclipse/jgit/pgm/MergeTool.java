@@ -51,6 +51,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.kohsuke.args4j.Argument;
@@ -118,14 +119,11 @@ class MergeTool extends TextBuiltin {
 					showPrompt = prompt.get().booleanValue();
 				}
 				// get passed or default tool name
-				String toolNameSelected = toolName;
-				if ((toolNameSelected == null) || toolNameSelected.isEmpty()) {
-					toolNameSelected = mergeTools.getDefaultToolName(gui);
-				}
+				String toolNameToUse = promptToolName();
 				// get the changed files
 				Map<String, StageState> files = getFiles();
 				if (files.size() > 0) {
-					merge(files, showPrompt, toolNameSelected);
+					merge(files, showPrompt, toolNameToUse);
 				} else {
 					outw.println(CLIText.get().mergeToolNoFiles);
 				}
@@ -134,6 +132,30 @@ class MergeTool extends TextBuiltin {
 		} catch (Exception e) {
 			throw die(e.getMessage(), e);
 		}
+	}
+
+	private String promptToolName() throws IOException {
+		String toolNameToUse = toolName;
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			toolNameToUse = mergeTools.getDefaultToolName(gui);
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			Map<String, ExternalMergeTool> predefTools = mergeTools
+					.getPredefinedTools(false);
+			String toolNames = new String();
+			for (String name : predefTools.keySet()) {
+				toolNames += name + " "; //$NON-NLS-1$
+			}
+			outw.println(MessageFormat
+					.format(CLIText.get().mergeToolPromptToolName, toolNames));
+			outw.flush();
+			toolNameToUse = mergeTools.getFirstAvailableTool();
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			throw new IOException(MessageFormat
+					.format(CLIText.get().mergeToolUnknownToolName, toolName));
+		}
+		return toolNameToUse;
 	}
 
 	private void merge(Map<String, StageState> files, boolean showPrompt,
@@ -413,13 +435,16 @@ class MergeTool extends TextBuiltin {
 	}
 
 	private void showToolHelp() throws IOException {
+		Map<String, ExternalMergeTool> predefTools = mergeTools
+				.getPredefinedTools(true);
 		String availableToolNames = new String();
-		for (String name : mergeTools.getAvailableTools().keySet()) {
-			availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
-		}
 		String notAvailableToolNames = new String();
-		for (String name : mergeTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			} else {
+				notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			}
 		}
 		String userToolNames = new String();
 		Map<String, ExternalMergeTool> userTools = mergeTools
