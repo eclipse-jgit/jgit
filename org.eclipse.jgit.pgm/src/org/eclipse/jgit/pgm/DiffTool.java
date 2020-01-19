@@ -11,9 +11,11 @@
 package org.eclipse.jgit.pgm;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -25,27 +27,36 @@ import org.eclipse.jgit.diff.ContentSource;
 import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.AmbiguousObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.RevisionSyntaxException;
-import org.eclipse.jgit.internal.diffmergetool.DiffTools;
-import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
-import org.eclipse.jgit.internal.diffmergetool.FileElement;
 import org.eclipse.jgit.internal.diffmergetool.ToolException;
+import org.eclipse.jgit.internal.diffmergetool.DiffTools;
+import org.eclipse.jgit.internal.diffmergetool.FileElement;
+import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.FS.ExecutionResult;
@@ -164,12 +175,6 @@ class DiffTool extends TextBuiltin {
 				if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
 					mergedFilePath = ent.getOldPath();
 				}
-				FileElement local = new FileElement(ent.getOldPath(),
-						ent.getOldId().name(),
-						getObjectStream(sourcePair, Side.OLD, ent));
-				FileElement remote = new FileElement(ent.getNewPath(),
-						ent.getNewId().name(),
-						getObjectStream(sourcePair, Side.NEW, ent));
 				// check if user wants to launch compare
 				boolean launchCompare = true;
 				if (showPrompt) {
@@ -178,15 +183,20 @@ class DiffTool extends TextBuiltin {
 				}
 				if (launchCompare) {
 					try {
-						// TODO: check how to return the exit-code of
-						// the
-						// tool
-						// to
-						// jgit / java runtime ?
+						FileElement local = createFileElement(
+								FileElement.Type.LOCAL, sourcePair, Side.OLD,
+								ent);
+						FileElement remote = createFileElement(
+								FileElement.Type.REMOTE, sourcePair, Side.NEW,
+								ent);
+						FileElement merged = new FileElement(mergedFilePath,
+								FileElement.Type.MERGED);
+						// TODO: check how to return the exit-code of the tool
+						// to jgit / java runtime ?
 						// int rc =...
-						ExecutionResult result = diffTools.compare(db, local,
-								remote, mergedFilePath,
-								toolName, prompt, gui, trustExitCode);
+						ExecutionResult result = diffTools.compare(local,
+								remote, merged, toolName, prompt, gui,
+								trustExitCode);
 						outw.println(new String(result.getStdout().toByteArray()));
 						errw.println(
 								new String(result.getStderr().toByteArray()));
@@ -278,16 +288,46 @@ class DiffTool extends TextBuiltin {
 		return files;
 	}
 
-	private ObjectStream getObjectStream(Pair pair, Side side, DiffEntry ent) {
-		ObjectStream stream = null;
-		if (!pair.isWorkingTreeSource(side)) {
-			try {
-				stream = pair.open(side, ent).openStream();
-			} catch (Exception e) {
-				stream = null;
+	private FileElement createFileElement(FileElement.Type elementType,
+			Pair pair, Side side, DiffEntry entry)
+			throws NoWorkTreeException, CorruptObjectException, IOException,
+			ToolException {
+		String entryPath = side == Side.NEW ? entry.getNewPath()
+				: entry.getOldPath();
+		FileElement fileElement = new FileElement(entryPath, elementType);
+		if (!pair.isWorkingTreeSource(side) && !fileElement.isNullPath()) {
+			try (RevWalk revWalk = new RevWalk(db);
+					TreeWalk treeWalk = new TreeWalk(db,
+							revWalk.getObjectReader())) {
+				treeWalk.setFilter(
+						PathFilterGroup.createFromStrings(entryPath));
+				if (side == Side.NEW) {
+					newTree.reset();
+					treeWalk.addTree(newTree);
+				} else {
+					oldTree.reset();
+					treeWalk.addTree(oldTree);
+				}
+				if (treeWalk.next()) {
+					final EolStreamType eolStreamType = treeWalk
+							.getEolStreamType(CHECKOUT_OP);
+					final String filterCommand = treeWalk.getFilterCommand(
+							Constants.ATTR_FILTER_TYPE_SMUDGE);
+					WorkingTreeOptions opt = db.getConfig()
+							.get(WorkingTreeOptions.KEY);
+					CheckoutMetadata checkoutMetadata = new CheckoutMetadata(
+							eolStreamType, filterCommand);
+					DirCacheCheckout.getContent(db, entryPath,
+							checkoutMetadata, pair.open(side, entry), opt,
+							new FileOutputStream(
+									fileElement.createTempFile(null)));
+				} else {
+					throw new ToolException("cannot find path '" + entryPath //$NON-NLS-1$
+							+ "' in staging area!", null); //$NON-NLS-1$
+				}
 			}
 		}
-		return stream;
+		return fileElement;
 	}
 
 	private ContentSource source(AbstractTreeIterator iterator) {
