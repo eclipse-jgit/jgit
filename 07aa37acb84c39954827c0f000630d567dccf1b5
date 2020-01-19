@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8c2e619_e23dd18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "286b7c2b_51c41fe4",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be06de61_22f8e98f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 24
@@ -82,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "6ea71462_ef8125fe",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37e65337_01c45b51",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22e8dd0_03c0b4a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
         "patchSetId": 24
@@ -105,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "c5c5a8da_34e712b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22e8dd0_03c0b4a9",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 10
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a293f85_13320ff5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
         "patchSetId": 24
@@ -116,6 +182,24 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "this class seems generic and not directly tied to diff and merge tools hence I think this is in the wrong package\n\ndon\u0027t we already have similar functionality in FS which could be extended if necessary instead of adding yet another implementation ?",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f04add5b_4b1b8605",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/CommandExecutor.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Yes, will check how to do this with next series, to complicated for now...",
+      "parentUuid": "0a293f85_13320ff5",
       "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -219,6 +303,30 @@
     },
     {
       "key": {
+        "uuid": "b3d6d0c5_a2c92d11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "this is a final field, what is wrong?",
+      "parentUuid": "598f19af_ee1ebe98",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f36f74_85971aee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 24
@@ -230,6 +338,24 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "incomplete javadoc, the method itself doesn\u0027t have a description",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cbbdf4d_7fe6a108",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56f36f74_85971aee",
       "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -259,6 +385,30 @@
     },
     {
       "key": {
+        "uuid": "28d299db_9a4290f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfde559d_baf9ca05",
+      "range": {
+        "startLine": 146,
+        "startChar": 16,
+        "endLine": 146,
+        "endChar": 24
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "252ab73e_8dbaf5f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 24
@@ -276,6 +426,24 @@
     },
     {
       "key": {
+        "uuid": "4be86966_810fbe1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252ab73e_8dbaf5f0",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d34dc854_548a09dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
         "patchSetId": 24
@@ -287,6 +455,24 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "I find it strange that there are two collections of tools, isn\u0027t only one map keyed by tool name containing both pre-defined and user-defined tools sufficient ? This would simplify lookup and ensure that there can be only one tool per name",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5d043eb_7000eaa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffToolManager.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "We have to deferentiate the two collections: the predefined one and the one from user that can overload some of the predefined tools and add new. For me it is not strange to have them separated to make it clear they are different. In the end we look up both: first the user defined and then the pre defined, but this is not propagated to user.",
+      "parentUuid": "d34dc854_548a09dc",
       "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -327,6 +513,24 @@
     },
     {
       "key": {
+        "uuid": "43f21931_1c3de66b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "it\u0027s a Type like LOCAL, REMOTE, MERGED etc. see latest version after refactoring",
+      "parentUuid": "7c140a77_51451dce",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa191701_0b41e644",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
         "patchSetId": 24
@@ -338,6 +542,30 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "why is this needed ?",
+      "range": {
+        "startLine": 135,
+        "startChar": 34,
+        "endLine": 135,
+        "endChar": 45
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ce0103_c1b82fb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "similar format like C-Git",
+      "parentUuid": "fa191701_0b41e644",
       "range": {
         "startLine": 135,
         "startChar": 34,
@@ -367,6 +595,24 @@
     },
     {
       "key": {
+        "uuid": "ad879ddd_15acbb97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "may be, not yet needed, refactored to Utils, see next patches",
+      "parentUuid": "4125ce94_3344a981",
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61572cca_26590322",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
         "patchSetId": 24
@@ -378,6 +624,30 @@
       "writtenOn": "2020-01-14T23:54:02Z",
       "side": 1,
       "message": "1L",
+      "range": {
+        "startLine": 29,
+        "startChar": 46,
+        "endLine": 29,
+        "endChar": 66
+      },
+      "revId": "07aa37acb84c39954827c0f000630d567dccf1b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5cd5ec_9863324d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ToolException.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61572cca_26590322",
       "range": {
         "startLine": 29,
         "startChar": 46,
