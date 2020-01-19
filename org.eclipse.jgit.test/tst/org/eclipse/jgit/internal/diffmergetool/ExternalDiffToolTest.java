@@ -54,8 +54,8 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		BooleanTriState gui = BooleanTriState.UNSET;
 		BooleanTriState trustExitCode = BooleanTriState.TRUE;
 
-		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
-				gui, trustExitCode);
+		manager.compare(local, remote, merged, toolName, prompt, gui,
+				trustExitCode);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -78,8 +78,8 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		BooleanTriState gui = BooleanTriState.UNSET;
 		BooleanTriState trustExitCode = BooleanTriState.FALSE;
 
-		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
-				gui, trustExitCode);
+		manager.compare(local, remote, merged, toolName, prompt, gui,
+				trustExitCode);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -183,8 +183,8 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		DiffTools manager = new DiffTools(db);
 
 		int expectedCompareResult = 0;
-		ExecutionResult compareResult = manager.compare(db, local, remote,
-				merged.getPath(), toolName, prompt, gui, trustExitCode);
+		ExecutionResult compareResult = manager.compare(local, remote, merged,
+				toolName, prompt, gui, trustExitCode);
 		assertEquals("Incorrect compare result for external diff tool",
 				expectedCompareResult, compareResult.getRc());
 	}
@@ -263,8 +263,8 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		BooleanTriState gui = BooleanTriState.UNSET;
 		BooleanTriState trustExitCode = BooleanTriState.UNSET;
 
-		manager.compare(db, local, remote, merged.getPath(), toolName, prompt,
-				gui, trustExitCode);
+		manager.compare(local, remote, merged, toolName, prompt, gui,
+				trustExitCode);
 		fail("Expected exception to be thrown due to not defined external diff tool");
 	}
 
