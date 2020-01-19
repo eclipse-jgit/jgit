@@ -20,8 +20,10 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
+import org.eclipse.jgit.diff.ContentSource;
+import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.Side;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
@@ -29,8 +31,11 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.diffmergetool.DiffTools;
 import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
+import org.eclipse.jgit.internal.diffmergetool.FileElement;
+import org.eclipse.jgit.internal.diffmergetool.ToolException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
@@ -39,8 +44,10 @@ import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -144,40 +151,54 @@ class DiffTool extends TextBuiltin {
 
 	private void compare(List<DiffEntry> files, boolean showPrompt,
 			String toolNamePrompt) throws IOException {
-		for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
-			DiffEntry ent = files.get(fileIndex);
-			String mergedFilePath = ent.getNewPath();
-			if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
-				mergedFilePath = ent.getOldPath();
-			}
-			// check if user wants to launch compare
-			boolean launchCompare = true;
-			if (showPrompt) {
-				launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-						mergedFilePath, toolNamePrompt);
-			}
-			if (launchCompare) {
-				switch (ent.getChangeType()) {
-				case MODIFY:
-					outw.println("M\t" + ent.getNewPath() //$NON-NLS-1$
-							+ " (" + ent.getNewId().name() + ")" //$NON-NLS-1$ //$NON-NLS-2$
-							+ "\t" + ent.getOldPath() //$NON-NLS-1$
-							+ " (" + ent.getOldId().name() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-					int ret = diffTools.compare(ent.getNewPath(),
-							ent.getOldPath(), ent.getNewId().name(),
-							ent.getOldId().name(), toolName, prompt, gui,
-							trustExitCode);
-					if (ret != 0) {
+		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
+				source(newTree));
+		try {
+			for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
+				DiffEntry ent = files.get(fileIndex);
+				String mergedFilePath = ent.getNewPath();
+				if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
+					mergedFilePath = ent.getOldPath();
+				}
+				FileElement local = new FileElement(ent.getOldPath(),
+						ent.getOldId().name(),
+						getObjectStream(sourcePair, Side.OLD, ent));
+				FileElement remote = new FileElement(ent.getNewPath(),
+						ent.getNewId().name(),
+						getObjectStream(sourcePair, Side.NEW, ent));
+				// check if user wants to launch compare
+				boolean launchCompare = true;
+				if (showPrompt) {
+					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
+							mergedFilePath, toolNamePrompt);
+				}
+				if (launchCompare) {
+					try {
+						// TODO: check how to return the exit-code of
+						// the
+						// tool
+						// to
+						// jgit / java runtime ?
+						// int rc =...
+						ExecutionResult result = diffTools.compare(db, local,
+								remote, mergedFilePath,
+								toolName, prompt, gui, trustExitCode);
+						outw.println(new String(result.getStdout().toByteArray()));
+						errw.println(
+								new String(result.getStderr().toByteArray()));
+					} catch (ToolException e) {
+						outw.println(e.getResultStdout());
+						outw.flush();
+						errw.println(e.getMessage());
 						throw die(MessageFormat.format(
-								CLIText.get().diffToolDied, mergedFilePath));
+								CLIText.get().diffToolDied, mergedFilePath, e));
 					}
-					break;
-				default:
+				} else {
 					break;
 				}
-			} else {
-				break;
 			}
+		} finally {
+			sourcePair.close();
 		}
 	}
 
@@ -250,6 +271,25 @@ class DiffTool extends TextBuiltin {
 
 		List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
 		return files;
+	}
+
+	private ObjectStream getObjectStream(Pair pair, Side side, DiffEntry ent) {
+		ObjectStream stream = null;
+		if (!pair.isWorkingTreeSource(side)) {
+			try {
+				stream = pair.open(side, ent).openStream();
+			} catch (Exception e) {
+				stream = null;
+			}
+		}
+		return stream;
+	}
+
+	private ContentSource source(AbstractTreeIterator iterator) {
+		if (iterator instanceof WorkingTreeIterator) {
+			return ContentSource.create((WorkingTreeIterator) iterator);
+		}
+		return ContentSource.create(db.newObjectReader());
 	}
 
 }
