@@ -23,6 +23,7 @@ import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Manages merge tools.
@@ -161,17 +162,38 @@ public class MergeTools {
 	}
 
 	/**
-	 * @return the available predefined tools
+	 * @param checkAvailability
+	 *            true: for checking if tools can be executed; ATTENTION: this
+	 *            check took some time, do not execute often (store the map for
+	 *            other actions); false: availability is NOT checked:
+	 *            isAvailable() returns default false is this case!
+	 * @return the predefined tools with optionally checked availability (long
+	 *         running operation)
 	 */
-	public Map<String, ExternalMergeTool> getAvailableTools() {
+	public Map<String, ExternalMergeTool> getPredefinedTools(
+			boolean checkAvailability) {
+		if (checkAvailability) {
+			for (ExternalMergeTool tool : predefinedTools.values()) {
+				PreDefinedMergeTool predefTool = (PreDefinedMergeTool) tool;
+				predefTool.setAvailable(ExternalToolUtils.isToolAvailable(repo,
+						predefTool.getPath()));
+			}
+		}
 		return predefinedTools;
 	}
 
 	/**
-	 * @return the NOT available predefined tools
+	 * @return the name of first available predefined tool or null
 	 */
-	public Map<String, ExternalMergeTool> getNotAvailableTools() {
-		return new TreeMap<>();
+	public String getFirstAvailableTool() {
+		String name = null;
+		for (ExternalMergeTool tool : predefinedTools.values()) {
+			if (ExternalToolUtils.isToolAvailable(repo, tool.getPath())) {
+				name = tool.getName();
+				break;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -193,12 +215,15 @@ public class MergeTools {
 
 	private ExternalMergeTool guessTool(String toolName, BooleanTriState gui)
 			throws ToolException {
-		if ((toolName == null) || toolName.isEmpty()) {
+		if (StringUtils.isEmptyOrNull(toolName)) {
 			toolName = getDefaultToolName(gui);
 		}
-		ExternalMergeTool tool = getTool(toolName);
+		ExternalMergeTool tool = null;
+		if (!StringUtils.isEmptyOrNull(toolName)) {
+			tool = getTool(toolName);
+		}
 		if (tool == null) {
-			throw new ToolException("Unknown diff tool " + toolName); //$NON-NLS-1$
+			throw new ToolException("Unknown merge tool '" + toolName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return tool;
 	}
