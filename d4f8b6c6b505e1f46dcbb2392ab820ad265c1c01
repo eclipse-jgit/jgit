@@ -210,6 +210,30 @@
       "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a19a1bb4_a22e98a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T20:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "862fd8e6_4db22bc9",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 68
+      },
+      "revId": "d4f8b6c6b505e1f46dcbb2392ab820ad265c1c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
