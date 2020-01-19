@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2018-2020, Andre Bossert <andre.bossert@siemens.com>
- * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -90,7 +89,7 @@ public class PreDefinedMergeTool extends UserDefinedMergeTool {
 	 */
 	@Override
 	public String getCommand(boolean withBase) {
-		return path + " " //$NON-NLS-1$
+		return ExternalToolUtils.quotePath(path) + " " //$NON-NLS-1$
 				+ (withBase ? super.getCommand() : parametersWithoutBase);
 	}
 
