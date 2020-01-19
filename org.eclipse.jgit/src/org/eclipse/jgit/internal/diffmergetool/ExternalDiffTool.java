@@ -30,4 +30,10 @@ public interface ExternalDiffTool {
 	 */
 	String getCommand();
 
+	/**
+	 * @return availability of the tool: true if tool can be executed and false
+	 *         if not
+	 */
+	boolean isAvailable();
+
 }
