@@ -20,9 +20,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.internal.diffmergetool.CommandLineDiffTool;
+import org.eclipse.jgit.internal.diffmergetool.DiffTools;
+import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
@@ -157,20 +159,38 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolHelp() throws Exception {
-		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
 		List<String> expectedOutput = new ArrayList<>();
+
+		DiffTools diffTools = new DiffTools(db);
+		Map<String, ExternalDiffTool> predefinedTools = diffTools
+				.getPredefinedTools(true);
+		List<ExternalDiffTool> availableTools = new ArrayList<>();
+		List<ExternalDiffTool> notAvailableTools = new ArrayList<>();
+		for (ExternalDiffTool tool : predefinedTools.values()) {
+			if (tool.isAvailable()) {
+				availableTools.add(tool);
+			} else {
+				notAvailableTools.add(tool);
+			}
+		}
+
 		expectedOutput.add(
 				"'git difftool --tool=<tool>' may be set to one of the following:");
-		for (CommandLineDiffTool defaultTool : defaultTools) {
-			String toolName = defaultTool.name();
+		for (ExternalDiffTool tool : availableTools) {
+			String toolName = tool.getName();
 			expectedOutput.add(toolName);
 		}
 		String customToolHelpLine = TOOL_NAME + "." + CONFIG_KEY_CMD + " "
 				+ getEchoCommand();
 		expectedOutput.add("user-defined:");
 		expectedOutput.add(customToolHelpLine);
+		expectedOutput.add(
+				"The following tools are valid, but not currently available:");
+		for (ExternalDiffTool tool : notAvailableTools) {
+			String toolName = tool.getName();
+			expectedOutput.add(toolName);
+		}
 		String[] userDefinedToolsHelp = {
-				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
 				"environment. If run in a terminal-only session, they will fail.",
 		};
