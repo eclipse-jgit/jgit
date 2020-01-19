@@ -55,8 +55,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		BooleanTriState prompt = BooleanTriState.UNSET;
 		BooleanTriState gui = BooleanTriState.UNSET;
 
-		manager.merge(db, local, remote, base, merged.getPath(), toolName,
-				prompt, gui);
+		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -78,8 +77,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		BooleanTriState prompt = BooleanTriState.UNSET;
 		BooleanTriState gui = BooleanTriState.UNSET;
 
-		manager.merge(db, local, remote, base, merged.getPath(), toolName,
-				prompt, gui);
+		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -182,8 +180,8 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		MergeTools manager = new MergeTools(db);
 
 		int expectedCompareResult = 0;
-		ExecutionResult compareResult = manager.merge(db, local, remote, base,
-				merged.getPath(), toolName, prompt, gui);
+		ExecutionResult compareResult = manager.merge(local, remote, merged,
+				base, null, toolName, prompt, gui);
 		assertEquals("Incorrect compare result for external merge tool",
 				expectedCompareResult, compareResult.getRc());
 	}
@@ -262,8 +260,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		BooleanTriState prompt = BooleanTriState.UNSET;
 		BooleanTriState gui = BooleanTriState.UNSET;
 
-		manager.merge(db, local, remote, base, merged.getPath(), toolName,
-				prompt, gui);
+		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
 		fail("Expected exception to be thrown due to not defined external merge tool");
 	}
 

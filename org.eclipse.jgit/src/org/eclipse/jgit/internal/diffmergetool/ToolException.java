@@ -113,7 +113,7 @@ public class ToolException extends Exception {
 		try {
 			return new String(result.getStderr().toByteArray());
 		} catch (Exception e) {
-			LOG.warn(e.getMessage());
+			LOG.warn("Failed to retrieve standard error output", e); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -125,7 +125,7 @@ public class ToolException extends Exception {
 		try {
 			return new String(result.getStdout().toByteArray());
 		} catch (Exception e) {
-			LOG.warn(e.getMessage());
+			LOG.warn("Failed to retrieve standard output", e); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
