@@ -14,21 +14,27 @@ package org.eclipse.jgit.pgm;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.diff.ContentSource;
+import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
 import org.eclipse.jgit.diffmergetool.BooleanOption;
+import org.eclipse.jgit.diffmergetool.ToolException;
 import org.eclipse.jgit.diffmergetool.DiffTools;
+import org.eclipse.jgit.diffmergetool.FileElement;
 import org.eclipse.jgit.diffmergetool.ExternalDiffTool;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -42,6 +48,7 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -117,96 +124,166 @@ class DiffTool extends TextBuiltin {
 	protected void run() {
 		try {
 			if (toolHelp) {
-				String availableToolNames = new String();
-				for (String name : diffTools.getAvailableTools().keySet()) {
-					availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+				showToolHelp();
+			} else {
+				boolean showPrompt = diffTools.isInteractive();
+				if (prompt.isConfigured()) {
+					showPrompt = prompt.toBoolean();
 				}
-				String notAvailableToolNames = new String();
-				for (String name : diffTools.getNotAvailableTools().keySet()) {
-					notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
-				}
-				String userToolNames = new String();
-				Map<String, ExternalDiffTool> userTools = diffTools
-						.getUserDefinedTools();
-				for (String name : userTools.keySet()) {
-					availableToolNames += String.format("\t\t{0}.cmd {1}\n", //$NON-NLS-1$
-							name,
-							userTools.get(name).getCommand());
-				}
-				outw.println(MessageFormat.format(
-						CLIText.get().diffToolHelpSetToFollowing,
-						availableToolNames, userToolNames,
-						notAvailableToolNames));
-				return;
-			}
-			diffFmt.setRepository(db);
-			if (cached) {
-				if (oldTree == null) {
-					ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
-					if (head == null) {
-						die(MessageFormat.format(CLIText.get().notATree, HEAD));
+				String toolNamePrompt = toolName;
+				if (showPrompt) {
+					if ((toolNamePrompt == null) || toolNamePrompt.isEmpty()) {
+						toolNamePrompt = diffTools.getDefaultToolName(gui);
 					}
-					CanonicalTreeParser p = new CanonicalTreeParser();
-					try (ObjectReader reader = db.newObjectReader()) {
-						p.reset(reader, head);
-					}
-					oldTree = p;
 				}
-				newTree = new DirCacheIterator(db.readDirCache());
-			} else if (oldTree == null) {
-				oldTree = new DirCacheIterator(db.readDirCache());
-				newTree = new FileTreeIterator(db);
-			} else if (newTree == null) {
-				newTree = new FileTreeIterator(db);
-			}
-
-			TextProgressMonitor pm = new TextProgressMonitor(errw);
-			pm.setDelayStart(2, TimeUnit.SECONDS);
-			diffFmt.setProgressMonitor(pm);
-			diffFmt.setPathFilter(pathFilter);
-
-			List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
-			ContentSource.Pair sourcePair = new ContentSource.Pair(
-					source(oldTree), source(newTree));
-
-			/*
-			 * TODO: this only is for prototyping and will be removed with next
-			 * commit:
-			 */
-			for (DiffEntry ent : files) {
-				switch (ent.getChangeType()) {
-				case MODIFY:
-					outw.println("M\t" + ent.getNewPath() //$NON-NLS-1$
-							+ " (" + ent.getNewId().name() + ")" //$NON-NLS-1$ //$NON-NLS-2$
-							+ "\t" + ent.getOldPath() //$NON-NLS-1$
-							+ " (" + ent.getOldId().name() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-					outw.println("--- NEW-DATA ---"); //$NON-NLS-1$
-
-					ObjectStream newFileStream = sourcePair.open(Side.NEW, ent)
-							.openStream();
-					showStream(newFileStream);
-					outw.println("--- OLD-DATA ---"); //$NON-NLS-1$
-					ObjectStream oldFileStream = sourcePair.open(Side.OLD, ent)
-							.openStream();
-					showStream(oldFileStream);
-
-					diffTools.compare(ent.getNewPath(),
-							ent.getOldPath(), ent.getNewId().name(),
-							ent.getOldId().name(), toolName, prompt, gui,
-							trustExitCode);
-					break;
-				default:
-					break;
+				// get the changed files
+				List<DiffEntry> files = getFiles();
+				if (files.size() > 0) {
+					compare(files, showPrompt, toolNamePrompt);
 				}
 			}
-
 			outw.flush();
 		} catch (RevisionSyntaxException | IOException e) {
 			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
 		}
+	}
 
+	private void compare(List<DiffEntry> files, boolean showPrompt,
+			String toolNamePrompt) throws IOException {
+		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
+				source(newTree));
+		try {
+			for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
+				DiffEntry ent = files.get(fileIndex);
+				String mergedFilePath = ent.getNewPath();
+				if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
+					mergedFilePath = ent.getOldPath();
+				}
+				FileElement local = new FileElement(ent.getOldPath(),
+						ent.getOldId().name(),
+						getObjectStream(sourcePair, Side.OLD, ent));
+				FileElement remote = new FileElement(ent.getNewPath(),
+						ent.getNewId().name(),
+						getObjectStream(sourcePair, Side.NEW, ent));
+				// check if user wants to launch compare
+				boolean launchCompare = true;
+				if (showPrompt) {
+					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
+							mergedFilePath, toolNamePrompt);
+				}
+				if (launchCompare) {
+					try {
+						// TODO: check how to return the exit-code of
+						// the
+						// tool
+						// to
+						// jgit / java runtime ?
+						// int rc =...
+						ExecutionResult result = diffTools.compare(db, local,
+								remote, mergedFilePath,
+								toolName, prompt, gui, trustExitCode);
+						outw.println(new String(result.getStdout().toByteArray()));
+						errw.println(
+								new String(result.getStderr().toByteArray()));
+					} catch (ToolException e) {
+						outw.println(e.getResultStdout());
+						outw.flush();
+						errw.println(e.getMessage());
+						throw die("external diff died, stopping at " //$NON-NLS-1$
+								+ mergedFilePath, e);
+					}
+				} else {
+					break;
+				}
+			}
+		} finally {
+			sourcePair.close();
+		}
+	}
+
+	private boolean isLaunchCompare(int fileIndex, int fileCount,
+			String fileName, String toolNamePrompt) throws IOException {
+		boolean launchCompare = true;
+		outw.println("Viewing (" + fileIndex + "/" + fileCount //$NON-NLS-1$ //$NON-NLS-2$
+				+ "): '" + fileName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		outw.print("Launch '" + toolNamePrompt + "' [Y/n]? "); //$NON-NLS-1$ //$NON-NLS-2$
+		outw.flush();
+		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+		String line = null;
+		if ((line = br.readLine()) != null) {
+			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
+				launchCompare = false;
+			}
+		}
+		return launchCompare;
+	}
+
+	private void showToolHelp() throws IOException {
+		String availableToolNames = new String();
+		for (String name : diffTools.getAvailableTools().keySet()) {
+			availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+		}
+		String notAvailableToolNames = new String();
+		for (String name : diffTools.getNotAvailableTools().keySet()) {
+			notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+		}
+		String userToolNames = new String();
+		Map<String, ExternalDiffTool> userTools = diffTools
+				.getUserDefinedTools();
+		for (String name : userTools.keySet()) {
+			availableToolNames += String.format("\t\t{0}.cmd {1}\n", //$NON-NLS-1$
+					name, userTools.get(name).getCommand());
+		}
+		outw.println(MessageFormat.format(
+				CLIText.get().diffToolHelpSetToFollowing, availableToolNames,
+				userToolNames, notAvailableToolNames));
+	}
+
+	private List<DiffEntry> getFiles()
+			throws RevisionSyntaxException, AmbiguousObjectException,
+			IncorrectObjectTypeException, IOException {
+		diffFmt.setRepository(db);
+		if (cached) {
+			if (oldTree == null) {
+				ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
+				if (head == null) {
+					die(MessageFormat.format(CLIText.get().notATree, HEAD));
+				}
+				CanonicalTreeParser p = new CanonicalTreeParser();
+				try (ObjectReader reader = db.newObjectReader()) {
+					p.reset(reader, head);
+				}
+				oldTree = p;
+			}
+			newTree = new DirCacheIterator(db.readDirCache());
+		} else if (oldTree == null) {
+			oldTree = new DirCacheIterator(db.readDirCache());
+			newTree = new FileTreeIterator(db);
+		} else if (newTree == null) {
+			newTree = new FileTreeIterator(db);
+		}
+
+		TextProgressMonitor pm = new TextProgressMonitor(errw);
+		pm.setDelayStart(2, TimeUnit.SECONDS);
+		diffFmt.setProgressMonitor(pm);
+		diffFmt.setPathFilter(pathFilter);
+
+		List<DiffEntry> files = diffFmt.scan(oldTree, newTree);
+		return files;
+	}
+
+	private ObjectStream getObjectStream(Pair pair, Side side, DiffEntry ent) {
+		ObjectStream stream = null;
+		if (!pair.isWorkingTreeSource(side)) {
+			try {
+				stream = pair.open(side, ent).openStream();
+			} catch (Exception e) {
+				stream = null;
+			}
+		}
+		return stream;
 	}
 
 	private ContentSource source(AbstractTreeIterator iterator) {
@@ -216,12 +293,4 @@ class DiffTool extends TextBuiltin {
 		return ContentSource.create(db.newObjectReader());
 	}
 
-	private void showStream(ObjectStream stream)
-			throws UnsupportedEncodingException, IOException {
-		int read = 0;
-		byte[] bytes = new byte[1024];
-		while ((read = stream.read(bytes)) != -1) {
-			outw.write(new String(bytes, "UTF-8").toCharArray(), 0, read); //$NON-NLS-1$
-		}
-	}
 }
