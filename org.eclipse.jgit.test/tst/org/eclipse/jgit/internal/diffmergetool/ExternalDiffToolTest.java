@@ -12,8 +12,10 @@ package org.eclipse.jgit.internal.diffmergetool;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
@@ -37,19 +39,37 @@ public class ExternalDiffToolTest extends ExternalToolTest {
 	public void testAllTools() {
 		DiffTools manager = new DiffTools(db);
 		Set<String> actualToolNames = manager.getAvailableTools().keySet();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of available external diff tools",
-				expectedToolNames,
+		Set<String> expectedToolNames = new LinkedHashSet<>();
+		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
+		for (CommandLineDiffTool defaultTool : defaultTools) {
+			String toolName = defaultTool.name();
+			expectedToolNames.add(toolName);
+		}
+		assertEquals("Incorrect set of external diff tools", expectedToolNames,
 				actualToolNames);
 	}
 
 	@Test
 	public void testUserDefinedTools() {
+		FileBasedConfig config = db.getConfig();
+		String customToolname = "customTool";
+		config.setString(ConfigConstants.CONFIG_DIFFTOOL_SECTION,
+				customToolname,
+				"cmd", "echo");
+		config.setString(ConfigConstants.CONFIG_DIFF_SECTION, customToolname,
+				ConfigConstants.CONFIG_KEY_PATH, "/usr/bin/echo");
+		config.setString(ConfigConstants.CONFIG_DIFF_SECTION, customToolname,
+				ConfigConstants.CONFIG_KEY_PROMPT, "--no-prompt");
+		config.setString(ConfigConstants.CONFIG_DIFF_SECTION, customToolname,
+				ConfigConstants.CONFIG_KEY_GUITOOL, "--no-gui");
+		config.setString(ConfigConstants.CONFIG_DIFF_SECTION, customToolname,
+				ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE,
+				"--no-trust-exit-code");
 		DiffTools manager = new DiffTools(db);
 		Set<String> actualToolNames = manager.getUserDefinedTools().keySet();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of user defined external diff tools",
-				expectedToolNames,
+		Set<String> expectedToolNames = new LinkedHashSet<>();
+		expectedToolNames.add(customToolname);
+		assertEquals("Incorrect set of external diff tools", expectedToolNames,
 				actualToolNames);
 	}
 
