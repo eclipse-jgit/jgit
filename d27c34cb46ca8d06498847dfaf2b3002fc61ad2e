@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "004e9325_3a664da2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T13:04:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac48f9c_13b01fe6",
+      "range": {
+        "startLine": 160,
+        "startChar": 16,
+        "endLine": 160,
+        "endChar": 32
+      },
+      "revId": "d27c34cb46ca8d06498847dfaf2b3002fc61ad2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1afaeb2_58d6bfee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
         "patchSetId": 15
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1483fd2b_b0a33079",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T13:04:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1afaeb2_58d6bfee",
+      "revId": "d27c34cb46ca8d06498847dfaf2b3002fc61ad2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35754b84_2943a23a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
         "patchSetId": 15
@@ -53,6 +95,24 @@
       "writtenOn": "2020-01-15T00:29:26Z",
       "side": 1,
       "message": "use StringUtils.emptyOrNull",
+      "revId": "d27c34cb46ca8d06498847dfaf2b3002fc61ad2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44be2c8f_3cd85377",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T13:04:59Z",
+      "side": 1,
+      "message": "StringUtils.isEmptyOrNull\nDONE\nsame for DiffTools",
+      "parentUuid": "35754b84_2943a23a",
       "revId": "d27c34cb46ca8d06498847dfaf2b3002fc61ad2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
