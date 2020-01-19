@@ -46,17 +46,6 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	 */
 	@Override
 	public void setPath(String path) {
-		// handling of spaces in path
-		if (path.contains(" ")) { //$NON-NLS-1$
-			// add quotes before if needed
-			if (!path.startsWith("\"")) { //$NON-NLS-1$
-				path = "\"" + path; //$NON-NLS-1$
-			}
-			// add quotes after if needed
-			if (!path.endsWith("\"")) { //$NON-NLS-1$
-				path = path + "\""; //$NON-NLS-1$
-			}
-		}
 		super.setPath(path);
 	}
 
