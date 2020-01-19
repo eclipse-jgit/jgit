@@ -11,6 +11,8 @@ package org.eclipse.jgit.internal.diffmergetool;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FS;
@@ -87,5 +89,40 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 		Assume.assumeTrue(
 				"This test can run only in Linux tests",
 				FS.DETECTED instanceof FS_POSIX);
+	}
+
+	protected static class PromptHandler implements PromptContinueHandler {
+
+		private final boolean promptResult;
+
+		final List<String> toolPrompts = new ArrayList<>();
+
+		private PromptHandler(boolean promptResult) {
+			this.promptResult = promptResult;
+		}
+
+		static PromptHandler acceptPrompt() {
+			return new PromptHandler(true);
+		}
+
+		static PromptHandler cancelPrompt() {
+			return new PromptHandler(false);
+		}
+
+		@Override
+		public boolean prompt(String toolName) {
+			toolPrompts.add(toolName);
+			return promptResult;
+		}
+	}
+
+	protected static class MissingToolHandler implements InformNoToolHandler {
+
+		final List<String> missingTools = new ArrayList<>();
+
+		@Override
+		public void inform(List<String> toolNames) {
+			missingTools.addAll(toolNames);
+		}
 	}
 }
