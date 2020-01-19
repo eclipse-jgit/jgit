@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 
 /**
- * Keeps track of difftool related configuration options.
+ * Keeps track of merge tool related configuration options.
  */
 public class MergeToolConfig {
 
