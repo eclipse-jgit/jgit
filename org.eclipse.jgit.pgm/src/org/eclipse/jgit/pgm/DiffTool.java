@@ -199,20 +199,20 @@ class DiffTool extends TextBuiltin {
 	}
 
 	private void showToolHelp() throws IOException {
-		String availableToolNames = new String();
+		StringBuilder availableToolNames = new StringBuilder();
 		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			availableToolNames.append(String.format("\t\t%s\n", name)); //$NON-NLS-1$
 		}
-		String notAvailableToolNames = new String();
+		StringBuilder notAvailableToolNames = new StringBuilder();
 		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames += String.format("\t\t{0}\n", name); //$NON-NLS-1$
+			notAvailableToolNames.append(String.format("\t\t%s\n", name)); //$NON-NLS-1$
 		}
-		String userToolNames = new String();
+		StringBuilder userToolNames = new StringBuilder();
 		Map<String, ExternalDiffTool> userTools = diffTools
 				.getUserDefinedTools();
 		for (String name : userTools.keySet()) {
-			availableToolNames += String.format("\t\t{0}.cmd {1}\n", //$NON-NLS-1$
-					name, userTools.get(name).getCommand());
+			userToolNames.append(String.format("\t\t%s.cmd %s\n", //$NON-NLS-1$
+					name, userTools.get(name).getCommand()));
 		}
 		outw.println(MessageFormat.format(
 				CLIText.get().diffToolHelpSetToFollowing, availableToolNames,
