@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -56,8 +56,7 @@ public class DiffTools {
 	 * @param remoteFile
 	 *            the remote file element
 	 * @param mergedFilePath
-	 *            the path of 'merged' file, it equals local or remote path for
-	 *            difftool
+	 *            the path of 'merged' file, it equals local or remote path
 	 * @param toolName
 	 *            the selected tool name (can be null)
 	 * @param prompt
@@ -66,7 +65,7 @@ public class DiffTools {
 	 *            the GUI option
 	 * @param trustExitCode
 	 *            the "trust exit code" option
-	 * @return the return code from executed tool
+	 * @return the execution result from tool
 	 * @throws ToolException
 	 */
 	public ExecutionResult compare(Repository repo, FileElement localFile,
