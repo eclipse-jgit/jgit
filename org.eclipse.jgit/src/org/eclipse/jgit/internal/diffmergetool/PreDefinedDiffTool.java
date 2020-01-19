@@ -56,7 +56,7 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	 */
 	@Override
 	public String getCommand() {
-		return getPath() + " " + super.getCommand(); //$NON-NLS-1$
+		return ExternalToolUtils.quotePath(getPath()) + " " + super.getCommand(); //$NON-NLS-1$
 	}
 
 }
