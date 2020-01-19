@@ -89,7 +89,7 @@ public class PreDefinedMergeTool extends UserDefinedMergeTool {
 	 */
 	@Override
 	public String getCommand(boolean withBase) {
-		return path + " " //$NON-NLS-1$
+		return ExternalToolUtils.quotePath(path) + " " //$NON-NLS-1$
 				+ (withBase ? super.getCommand() : parametersWithoutBase);
 	}
 
