@@ -97,7 +97,7 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 	@Test
 	public void testAllTools() {
 		DiffTools manager = new DiffTools(db);
-		Set<String> actualToolNames = manager.getAvailableTools().keySet();
+		Set<String> actualToolNames = manager.getPredefinedTools(true).keySet();
 		Set<String> expectedToolNames = new LinkedHashSet<>();
 		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
 		for (CommandLineDiffTool defaultTool : defaultTools) {
@@ -150,15 +150,6 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		expectedToolNames.add(customToolname);
 		assertEquals("Incorrect set of external diff tools", expectedToolNames,
 				actualToolNames);
-	}
-
-	@Test
-	public void testNotAvailableTools() {
-		DiffTools manager = new DiffTools(db);
-		Set<String> actualToolNames = manager.getNotAvailableTools().keySet();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of not available external diff tools",
-				expectedToolNames, actualToolNames);
 	}
 
 	@Test
@@ -239,7 +230,7 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 		DiffTools manager = new DiffTools(db);
 		Map<String, ExternalDiffTool> availableTools = manager
-				.getAvailableTools();
+				.getPredefinedTools(true);
 		ExternalDiffTool externalDiffTool = availableTools
 				.get(overridenToolName);
 		String actualDiffToolPath = externalDiffTool.getPath();
