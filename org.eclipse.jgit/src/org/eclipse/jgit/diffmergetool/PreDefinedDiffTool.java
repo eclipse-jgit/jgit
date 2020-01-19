@@ -15,7 +15,6 @@ package org.eclipse.jgit.diffmergetool;
  *
  * @since 5.7
  */
-@SuppressWarnings("nls")
 public class PreDefinedDiffTool extends UserDefinedDiffTool {
 
 	/**
@@ -56,7 +55,7 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 	 */
 	@Override
 	public String getCommand() {
-		return path + " " + super.getCommand();
+		return path + " " + super.getCommand(); //$NON-NLS-1$
 	}
 
 }
