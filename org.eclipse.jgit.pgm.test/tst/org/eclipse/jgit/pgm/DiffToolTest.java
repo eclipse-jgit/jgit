@@ -16,11 +16,14 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.internal.diffmergetool.DiffTools;
@@ -42,6 +45,60 @@ public class DiffToolTest extends ToolTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		configureEchoTool(TOOL_NAME);
+	}
+
+	@Test(expected = Die.class)
+	public void testUndefinedTool() throws Exception {
+		String toolName = "undefined";
+		RevCommit commit = createUnstagedChanges();
+		List<DiffEntry> changes = getRepositoryChanges(commit);
+
+		List<String> expectedErrors = new ArrayList<>();
+		for (DiffEntry change : changes) {
+			String changedFilename = change.getNewPath();
+			expectedErrors.add("External diff tool is not defined: " + toolName);
+			expectedErrors.add("compare of " + changedFilename + " failed");
+		}
+
+		runAndCaptureUsingInitRaw(expectedErrors, DIFF_TOOL, "--no-prompt",
+				"--tool", toolName);
+		fail("Expected exception to be thrown due to undefined external tool");
+	}
+
+	@Test(expected = Die.class)
+	public void testUserToolWithCommandNotFoundError() throws Exception {
+		String toolName = "customTool";
+
+		int errorReturnCode = 127; // command not found
+		String command = "exit " + errorReturnCode;
+
+		StoredConfig config = db.getConfig();
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+
+		createMergeConflict();
+		runAndCaptureUsingInitRaw(DIFF_TOOL, "--no-prompt", "--tool", toolName);
+
+		fail("Expected exception to be thrown due to external tool exiting with error code: "
+				+ errorReturnCode);
+	}
+
+	@Test
+	public void testEmptyToolName() throws Exception {
+		String emptyToolName = "";
+
+		StoredConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_TOOL,
+				emptyToolName);
+
+		createUnstagedChanges();
+
+		String araxisErrorLine = "compare: unrecognized option `-wait' @ error/compare.c/CompareImageCommand/1123.";
+		String[] expectedErrorOutput = { araxisErrorLine, araxisErrorLine, };
+		runAndCaptureUsingInitRaw(Arrays.asList(expectedErrorOutput), DIFF_TOOL,
+				"--no-prompt");
 	}
 
 	@Test
@@ -146,12 +203,12 @@ public class DiffToolTest extends ToolTestCase {
 	public void testToolCached() throws Exception {
 		RevCommit commit = createStagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedToolOutputNoPrompt(changes);
+		Pattern[] expectedOutput = getExpectedCachedToolOutputNoPrompt(changes);
 
 		String[] options = { "--cached", "--staged", };
 
 		for (String option : options) {
-			assertArrayOfLinesEquals("Incorrect output for option: " + option,
+			assertArrayOfMatchingLines("Incorrect output for option: " + option,
 					expectedOutput, runAndCaptureUsingInitRaw(DIFF_TOOL,
 							option, "--tool", TOOL_NAME));
 		}
@@ -221,46 +278,76 @@ public class DiffToolTest extends ToolTestCase {
 				String.valueOf(false));
 	}
 
-	private static String[] getExpectedToolOutputNoPrompt(List<DiffEntry> changes) {
+	private String[] getExpectedToolOutputNoPrompt(List<DiffEntry> changes) {
 		String[] expectedToolOutput = new String[changes.size()];
 		for (int i = 0; i < changes.size(); ++i) {
 			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
-			String expectedLine = newPath;
-			expectedToolOutput[i] = expectedLine;
+			String changedFilename = change.getNewPath();
+			Path fullPath = getFullPath(changedFilename);
+			expectedToolOutput[i] = fullPath.toString();
 		}
 		return expectedToolOutput;
 	}
 
-	private static String[] getExpectedCompareOutput(List<DiffEntry> changes) {
+	private Pattern[] getExpectedCachedToolOutputNoPrompt(
+			List<DiffEntry> changes) {
+		String tmpDir = System.getProperty("java.io.tmpdir");
+		Pattern emptyPattern = Pattern.compile("");
+		List<Pattern> expectedToolOutput = new ArrayList<>();
+		for (int i = 0; i < changes.size(); ++i) {
+			DiffEntry change = changes.get(i);
+			String changedFilename = change.getNewPath();
+			String regexp = tmpDir + File.separatorChar + changedFilename
+					+ "_REMOTE_.*";
+			Pattern pattern = Pattern.compile(regexp);
+			expectedToolOutput.add(pattern);
+			expectedToolOutput.add(emptyPattern);
+		}
+		expectedToolOutput.add(emptyPattern);
+		return expectedToolOutput.toArray(new Pattern[0]);
+	}
+
+	private String[] getExpectedCompareOutput(List<DiffEntry> changes) {
 		List<String> expected = new ArrayList<>();
 		int n = changes.size();
 		for (int i = 0; i < n; ++i) {
 			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
+			String changedFilename = change.getNewPath();
 			expected.add(
-					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
+					"Viewing (" + (i + 1) + "/" + n + "): '" + changedFilename
+							+ "'");
 			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");
-			expected.add(newPath);
+			Path fullPath = getFullPath(changedFilename);
+			expected.add(fullPath.toString());
 		}
 		return expected.toArray(new String[0]);
 	}
 
-	private static String[] getExpectedAbortOutput(List<DiffEntry> changes,
+	private String[] getExpectedAbortOutput(List<DiffEntry> changes,
 			int abortIndex) {
 		List<String> expected = new ArrayList<>();
 		int n = changes.size();
 		for (int i = 0; i < n; ++i) {
 			DiffEntry change = changes.get(i);
-			String newPath = change.getNewPath();
+			String changedFilename = change.getNewPath();
 			expected.add(
-					"Viewing (" + (i + 1) + "/" + n + "): '" + newPath + "'");
+					"Viewing (" + (i + 1) + "/" + n + "): '" + changedFilename
+							+ "'");
 			expected.add("Launch '" + TOOL_NAME + "' [Y/n]?");
 			if (i == abortIndex) {
 				break;
 			}
-			expected.add(newPath);
+			Path fullPath = getFullPath(changedFilename);
+			expected.add(fullPath.toString());
 		}
 		return expected.toArray(new String[0]);
+	}
+
+	private static String getEchoCommand() {
+		/*
+		 * use 'REMOTE' placeholder, as it will be replaced by a file path
+		 * within the repository.
+		 */
+		return "(echo \"$REMOTE\")";
 	}
 }
