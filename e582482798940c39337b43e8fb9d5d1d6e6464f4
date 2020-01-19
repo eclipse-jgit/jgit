@@ -16,6 +16,24 @@
       "revId": "e582482798940c39337b43e8fb9d5d1d6e6464f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6e4fcc2_a9bb82aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/FileElement.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T11:51:27Z",
+      "side": 1,
+      "message": "May be, but looks more complicated now...",
+      "parentUuid": "07ffee90_79383367",
+      "revId": "e582482798940c39337b43e8fb9d5d1d6e6464f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
