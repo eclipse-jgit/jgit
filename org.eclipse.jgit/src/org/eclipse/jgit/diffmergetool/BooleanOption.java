@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.diffmergetool;
 
+import java.util.Optional;
+
 /**
  * Optional boolean that can be configured to true or false; or be default true
  * or false
@@ -88,8 +90,20 @@ public enum BooleanOption {
 	 * @return the default boolean option
 	 */
 	public static BooleanOption toDefault(boolean value) {
-		return value ? BooleanOption.DEFAULT_TRUE
-				: BooleanOption.DEFAULT_FALSE;
+		return value ? BooleanOption.DEFAULT_TRUE : BooleanOption.DEFAULT_FALSE;
+	}
+
+	/**
+	 * From an optional
+	 *
+	 * @param orig
+	 *            the optional
+	 * @return the boolean option
+	 */
+	public static BooleanOption from(Optional<Boolean> orig) {
+		if (!orig.isPresent())
+			return DEFAULT_FALSE;
+		return toConfigured(orig.get().booleanValue());
 	}
 
 }
