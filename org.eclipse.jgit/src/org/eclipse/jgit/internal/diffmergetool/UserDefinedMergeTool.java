@@ -21,7 +21,7 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	/**
 	 * the merge tool "trust exit code" option
 	 */
-	private final BooleanTriState trustExitCode;
+	private BooleanTriState trustExitCode;
 
 	/**
 	 * Creates the merge tool
@@ -40,20 +40,30 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 		super(name, path, cmd);
 		this.trustExitCode = trustExitCode;
 	}
-
 	/**
 	 * @return the "trust exit code" flag
 	 */
 	@Override
-	public boolean isTrustExitCode() {
-		return trustExitCode == BooleanTriState.TRUE;
-	}
-
-	/**
-	 * @return the "trust exit code" option
-	 */
 	public BooleanTriState getTrustExitCode() {
 		return trustExitCode;
 	}
 
+	/**
+	 * @param trustExitCode
+	 *            the new "trust exit code" flag
+	 */
+	protected void setTrustExitCode(BooleanTriState trustExitCode) {
+		this.trustExitCode = trustExitCode;
+	}
+
+	/**
+	 * @param withBase
+	 *            not used, because user-defined merge tool can only define one
+	 *            cmd -> it must handle with and without base present (empty)
+	 * @return the tool command
+	 */
+	@Override
+	public String getCommand(boolean withBase) {
+		return getCommand();
+	}
 }
