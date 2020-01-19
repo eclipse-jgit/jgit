@@ -16,6 +16,24 @@
       "revId": "c9f412b5e836f06e3b86ef2fd4fd6c3754b534ed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95033eae_e49c1105",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T12:48:22Z",
+      "side": 1,
+      "message": "Yes, it was before refactoring. Now handled with new method. Changed description:\nAdd filtering with help of DirCacheCheckout.getContent()",
+      "parentUuid": "011dc010_e40dfc0e",
+      "revId": "c9f412b5e836f06e3b86ef2fd4fd6c3754b534ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
