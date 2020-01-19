@@ -16,6 +16,24 @@
       "revId": "c109af210f1569461465017f29cf4790bad8a735",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e9ed33_c8c57a46",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-19T19:05:20Z",
+      "side": 1,
+      "message": "No, we do not need this here anymore. Will remove.\n\nPlease comment at newest PS ;)",
+      "parentUuid": "77e5b861_0a6bb541",
+      "revId": "c109af210f1569461465017f29cf4790bad8a735",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
