@@ -22,29 +22,30 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.diff.ContentSource;
 import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
-import org.eclipse.jgit.internal.diffmergetool.ToolException;
-import org.eclipse.jgit.internal.diffmergetool.DiffTools;
-import org.eclipse.jgit.internal.diffmergetool.FileElement;
-import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.internal.diffmergetool.DiffTools;
+import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
+import org.eclipse.jgit.internal.diffmergetool.FileElement;
+import org.eclipse.jgit.internal.diffmergetool.ToolException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -57,8 +58,8 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -143,19 +144,14 @@ class DiffTool extends TextBuiltin {
 				if (prompt != BooleanTriState.UNSET) {
 					showPrompt = prompt == BooleanTriState.TRUE;
 				}
-				String toolNamePrompt = toolName;
-				if (showPrompt) {
-					if (StringUtils.isEmptyOrNull(toolNamePrompt)) {
-						toolNamePrompt = diffTools.getDefaultToolName(gui);
-					}
-				}
+				// get passed or default tool name
+				String toolNameToUse = promptToolName();
 				// get the changed files
 				List<DiffEntry> files = getFiles();
 				if (files.size() > 0) {
-					compare(files, showPrompt, toolNamePrompt);
+					compare(files, showPrompt, toolNameToUse);
 				}
 			}
-			outw.flush();
 		} catch (RevisionSyntaxException | IOException e) {
 			throw die(e.getMessage(), e);
 		} finally {
@@ -163,8 +159,32 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
+	private String promptToolName() throws IOException {
+		String toolNameToUse = toolName;
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			toolNameToUse = diffTools.getDefaultToolName(gui);
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			Map<String, ExternalDiffTool> predefTools = diffTools
+					.getPredefinedTools(false);
+			StringBuilder toolNames = new StringBuilder();
+			for (String name : predefTools.keySet()) {
+				toolNames.append(name + " "); //$NON-NLS-1$
+			}
+			outw.println(MessageFormat.format(
+					CLIText.get().diffToolPromptToolName, toolNames));
+			outw.flush();
+			toolNameToUse = diffTools.getFirstAvailableTool();
+		}
+		if (StringUtils.isEmptyOrNull(toolNameToUse)) {
+			throw new IOException(MessageFormat
+					.format(CLIText.get().diffToolUnknownToolName, toolName));
+		}
+		return toolNameToUse;
+	}
+
 	private void compare(List<DiffEntry> files, boolean showPrompt,
-			String toolNamePrompt) throws IOException {
+			String toolNameToUse) throws IOException {
 		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
 				source(newTree));
 		try {
@@ -178,7 +198,7 @@ class DiffTool extends TextBuiltin {
 				boolean launchCompare = true;
 				if (showPrompt) {
 					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-							mergedFilePath, toolNamePrompt);
+							mergedFilePath, toolNameToUse);
 				}
 				if (launchCompare) {
 					try {
@@ -194,11 +214,13 @@ class DiffTool extends TextBuiltin {
 						// to jgit / java runtime ?
 						// int rc =...
 						ExecutionResult result = diffTools.compare(local,
-								remote, merged, toolName, prompt, gui,
+								remote, merged, toolNameToUse, prompt, gui,
 								trustExitCode);
 						outw.println(new String(result.getStdout().toByteArray()));
+						outw.flush();
 						errw.println(
 								new String(result.getStderr().toByteArray()));
+						errw.flush();
 					} catch (ToolException e) {
 						outw.println(e.getResultStdout());
 						outw.flush();
@@ -231,16 +253,17 @@ class DiffTool extends TextBuiltin {
 		}
 		return launchCompare;
 	}
-
 	private void showToolHelp() throws IOException {
+		Map<String, ExternalDiffTool> predefTools = diffTools
+				.getPredefinedTools(true);
 		StringBuilder availableToolNames = new StringBuilder();
-		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
-		}
 		StringBuilder notAvailableToolNames = new StringBuilder();
-		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames
-					.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				availableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+			} else {
+				notAvailableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+			}
 		}
 		StringBuilder userToolNames = new StringBuilder();
 		Map<String, ExternalDiffTool> userTools = diffTools

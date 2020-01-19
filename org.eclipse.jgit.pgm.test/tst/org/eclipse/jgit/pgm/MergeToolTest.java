@@ -19,8 +19,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.jgit.internal.diffmergetool.CommandLineMergeTool;
+import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
+import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -157,20 +159,38 @@ public class MergeToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolHelp() throws Exception {
-		CommandLineMergeTool[] defaultTools = CommandLineMergeTool.values();
 		List<String> expectedOutput = new ArrayList<>();
+
+		MergeTools diffTools = new MergeTools(db);
+		Map<String, ExternalMergeTool> predefinedTools = diffTools
+				.getPredefinedTools(true);
+		List<ExternalMergeTool> availableTools = new ArrayList<>();
+		List<ExternalMergeTool> notAvailableTools = new ArrayList<>();
+		for (ExternalMergeTool tool : predefinedTools.values()) {
+			if (tool.isAvailable()) {
+				availableTools.add(tool);
+			} else {
+				notAvailableTools.add(tool);
+			}
+		}
+
 		expectedOutput.add(
 				"'git mergetool --tool=<tool>' may be set to one of the following:");
-		for (CommandLineMergeTool defaultTool : defaultTools) {
-			String toolName = defaultTool.name();
+		for (ExternalMergeTool tool : availableTools) {
+			String toolName = tool.getName();
 			expectedOutput.add(toolName);
 		}
 		String customToolHelpLine = TOOL_NAME + "." + CONFIG_KEY_CMD + " "
 				+ getEchoCommand();
 		expectedOutput.add("user-defined:");
 		expectedOutput.add(customToolHelpLine);
+		expectedOutput.add(
+				"The following tools are valid, but not currently available:");
+		for (ExternalMergeTool tool : notAvailableTools) {
+			String toolName = tool.getName();
+			expectedOutput.add(toolName);
+		}
 		String[] userDefinedToolsHelp = {
-				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
 				"environment. If run in a terminal-only session, they will fail.", };
 		expectedOutput.addAll(Arrays.asList(userDefinedToolsHelp));

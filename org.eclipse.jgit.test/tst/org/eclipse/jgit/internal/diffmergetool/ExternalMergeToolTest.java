@@ -9,14 +9,14 @@
  */
 package org.eclipse.jgit.internal.diffmergetool;
 
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_GUITOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -95,7 +95,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 	@Test
 	public void testAllTools() {
 		MergeTools manager = new MergeTools(db);
-		Set<String> actualToolNames = manager.getAvailableTools().keySet();
+		Set<String> actualToolNames = manager.getPredefinedTools(true).keySet();
 		Set<String> expectedToolNames = new LinkedHashSet<>();
 		CommandLineMergeTool[] defaultTools = CommandLineMergeTool.values();
 		for (CommandLineMergeTool defaultTool : defaultTools) {
@@ -148,15 +148,6 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		expectedToolNames.add(customToolname);
 		assertEquals("Incorrect set of external merge tools", expectedToolNames,
 				actualToolNames);
-	}
-
-	@Test
-	public void testNotAvailableTools() {
-		MergeTools manager = new MergeTools(db);
-		Set<String> actualToolNames = manager.getNotAvailableTools().keySet();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of not available external merge tools",
-				expectedToolNames, actualToolNames);
 	}
 
 	@Test
@@ -236,7 +227,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 
 		MergeTools manager = new MergeTools(db);
 		Map<String, ExternalMergeTool> availableTools = manager
-				.getAvailableTools();
+				.getPredefinedTools(true);
 		ExternalMergeTool externalMergeTool = availableTools
 				.get(overridenToolName);
 		String actualMergeToolPath = externalMergeTool.getPath();
