@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e112274_b1eeb0a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-20T08:33:20Z",
+      "side": 1,
+      "message": "Use the full name?",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcbf872_6be99a55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-20T08:33:20Z",
+      "side": 1,
+      "message": "Remove this blank line",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
