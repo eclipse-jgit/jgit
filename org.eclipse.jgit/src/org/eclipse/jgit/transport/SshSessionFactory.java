@@ -45,9 +45,6 @@ public abstract class SshSessionFactory {
 	}
 	/**
 	 * Get the currently configured JVM-wide factory.
-	 * <p>
-	 * A factory is always available. By default the factory will read from the
-	 * user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
 	 *
 	 * @return factory the current factory for this JVM.
 	 */
@@ -60,7 +57,7 @@ public abstract class SshSessionFactory {
 	 *
 	 * @param newFactory
 	 *            factory for future sessions to be created through. If null the
-	 *            default factory will be restored.s
+	 *            default factory will be restored.
 	 */
 	public static void setInstance(SshSessionFactory newFactory) {
 		if (newFactory != null) {

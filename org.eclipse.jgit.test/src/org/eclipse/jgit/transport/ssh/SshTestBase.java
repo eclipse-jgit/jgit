@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.CredentialItem;
-import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.jsch.JschConfigSessionFactory;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theory;

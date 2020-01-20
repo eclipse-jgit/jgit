@@ -235,7 +235,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String createRequiresZeroOldId;
 	/***/ public String createXDGConfigHomeFailed;
 	/***/ public String credentialPassword;
-	/***/ public String credentialPassphrase;
 	/***/ public String credentialUsername;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String daysAgo;
@@ -332,15 +331,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String funnyRefname;
 	/***/ public String gcFailed;
 	/***/ public String gcTooManyUnpruned;
-	/***/ public String gpgFailedToParseSecretKey;
-	/***/ public String gpgNoCredentialsProvider;
-	/***/ public String gpgNoKeyring;
-	/***/ public String gpgNoKeyInLegacySecring;
-	/***/ public String gpgNoPublicKeyFound;
-	/***/ public String gpgNoSecretKeyForPublicKey;
-	/***/ public String gpgNotASigningKey;
-	/***/ public String gpgKeyInfo;
-	/***/ public String gpgSigningCancelled;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
 	/***/ public String httpConfigCannotNormalizeURL;
@@ -655,7 +645,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;
 	/***/ public String sshCommandFailed;
-	/***/ public String sshUserNameError;
 	/***/ public String sslFailureExceptionMessage;
 	/***/ public String sslFailureInfo;
 	/***/ public String sslFailureCause;
@@ -716,7 +705,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportProtoSSH;
 	/***/ public String transportProtoTest;
 	/***/ public String transportProvidedRefWithNoObjectId;
-	/***/ public String transportSSHRetryInterrupt;
 	/***/ public String treeEntryAlreadyExists;
 	/***/ public String treeFilterMarkerTooManyFilters;
 	/***/ public String treeWalkMustHaveExactlyTwoTrees;
