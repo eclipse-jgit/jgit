@@ -1,1 +1,1 @@
-org.eclipse.jgit.transport.DefaultSshSessionFactory
+org.eclipse.jgit.transport.jsch.JschConfigSessionFactory
