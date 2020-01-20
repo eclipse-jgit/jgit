@@ -222,6 +222,24 @@
       "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40ceb870_858fafea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T08:49:58Z",
+      "side": 1,
+      "message": "no need to shout:\n\nthe output stream the filtered content is written to. The caller is responsible to close the stream.",
+      "parentUuid": "01ea3e13_bdebe847",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
