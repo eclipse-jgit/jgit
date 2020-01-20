@@ -393,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "abf03bee_39280833",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-20T22:46:49Z",
+      "side": 1,
+      "message": "unit test added",
+      "parentUuid": "ad7d4c71_d0f8bc80",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24b0c2e9_e76f283b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
         "patchSetId": 2
@@ -615,6 +633,24 @@
       "writtenOn": "2020-01-20T12:22:10Z",
       "side": 1,
       "message": "thanks for doing this\n\nthis class\n- should be moved to a separate change\n- needs unit tests",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14dd447f_ca81438a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/TeeOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-20T22:46:49Z",
+      "side": 1,
+      "message": "unit test added",
+      "parentUuid": "0fb1574d_afe0ba64",
       "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
