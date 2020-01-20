@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "040f6d69_040d9f29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T16:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c028aa90_1a396dd6",
+      "range": {
+        "startLine": 89,
+        "startChar": 63,
+        "endLine": 90,
+        "endChar": 63
+      },
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edfb288b_dc2d9ea0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
         "patchSetId": 3
@@ -171,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "91fedb0f_67ad72b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T16:57:31Z",
+      "side": 1,
+      "message": "This class doesn\u0027t override the other Ref class but uses the same simple name. I thought that\u0027s not a problem since this is a private inner class of WindowCache which doesn\u0027t deal with the other type of Refs. Based on your feedback I will rename it anyway to avoid misunderstandings.",
+      "parentUuid": "edfb288b_dc2d9ea0",
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6c4b1ff_c224ca0f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
         "patchSetId": 3
@@ -182,6 +224,24 @@
       "writtenOn": "2020-01-20T09:49:01Z",
       "side": 1,
       "message": "I am a bit confused by the term \u0027cache page\u0027. I always thought \u0027pages\u0027 are fixed length [1], means all pages\ninside the cache would have the same size. And inside one page potentially multiple objects are stored. \nAm I wrong or does this method return the position of the referenced object inside the packfile. If I am\ndealing with a Ref to object X, will getPosition() return something pointing to X or to the cache page\nwhich among other objects contain X?\n\n[1] https://en.wikipedia.org/wiki/Page_(computer_memory)",
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a909978f_c9ecde26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T16:57:31Z",
+      "side": 1,
+      "message": "AFAICS the position of a cache page (ByteWindow) is the offset of the byte[] it loads from the packfile relative to the the start of the packfile.\n\nSee methods\n\n static final ByteWindow get(PackFile pack, long offset)\n\nand\n\n private long toStart(long offset)\n\nI think the lookup works in the following way:\n- find packfile and offset in packfile containing object to be loaded in git pack indexes cached in memory\n- translate object offset in given packfile to start of the respective cache page which will contain the object we want to load, done by method toStart(long offset)\n- load this cache page from the packfile and return corresponding ByteWindow instance\n- parsing objects from the cache page (ByteWindow) is done after that",
+      "parentUuid": "f6c4b1ff_c224ca0f",
       "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
