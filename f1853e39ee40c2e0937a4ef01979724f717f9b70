@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "6775580a_450b76e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "yes, no pseudonyms please",
+      "parentUuid": "6e112274_b1eeb0a4",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a99ee27a_270eca26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "split this into 2 separate changes to decouple them",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcbf872_6be99a55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +83,296 @@
       "writtenOn": "2020-01-20T08:33:20Z",
       "side": 1,
       "message": "Remove this blank line",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d38a9df_72facc0c",
+        "filename": "org.eclipse.jgit.gpg.bc.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "should this be your name and 2020 ?",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dde89399_85a9b554",
+        "filename": "org.eclipse.jgit.gpg.bc/nb-configuration.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "If you really want this do it for all the projects in a separate change.\nBut this only makes sense if there is someone maintaining that. I don\u0027t want to maintain configuration for another IDE. Otherwise don\u0027t check it in to git.",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001e46ff_59c133ce",
+        "filename": "org.eclipse.jgit.gpg.bc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "was Thomas involved in this change ?",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13e18323_4471460c",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "wrong copyright ?",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f85c765_48633f41",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "why is this necessary ?",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96d64599_94109948",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "why is this necessary ?",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a7bafcc_e9b0730f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of a defaultSigner which isn\u0027t set and cannot be set since there is no setter ?\n\nI think this should be combined with a service loader to ensure we still load the same default signer if GPG signing is called via API. If that\u0027s called in an application not having the new bc bundle on the class path it will fail\n\nsee https://git.eclipse.org/r/#/c/155782/ which does this for the ssh client, the same could be done for the signing implementation.",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad7d4c71_d0f8bc80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "thanks for doing this\n\nthis class\n- should be moved to a separate change\n- needs unit tests",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24b0c2e9_e76f283b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bbaf55_212654cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "missing @since 5.7 annotation for new API",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab226f46_afcd7cb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "empty",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3e0e46c_02081142",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "use active voice: Decode ...",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 11
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ce2d54_3fdccae4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "Encode ...",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 11
+      },
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fb1574d_afe0ba64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/TeeOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "thanks for doing this\n\nthis class\n- should be moved to a separate change\n- needs unit tests",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8891d51_0d1c5b52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/TeeOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904ddf69_defa9537",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/TeeOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-20T12:22:10Z",
+      "side": 1,
+      "message": "missing @since 5.7 annotation for new API",
       "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
