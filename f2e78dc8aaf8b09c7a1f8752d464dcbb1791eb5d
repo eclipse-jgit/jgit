@@ -186,6 +186,24 @@
       "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ea5ee92_02448baf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-20T06:46:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we tell the caller that he is reponsible to close the stream. He could think we close the stream when we are finished with writing to it.",
+      "parentUuid": "c9c939fa_b151ca4a",
+      "revId": "f2e78dc8aaf8b09c7a1f8752d464dcbb1791eb5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
