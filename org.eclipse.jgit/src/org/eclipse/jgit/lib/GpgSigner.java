@@ -12,7 +12,6 @@ package org.eclipse.jgit.lib;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
@@ -22,7 +21,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  */
 public abstract class GpgSigner {
 
-	private static GpgSigner defaultSigner = new BouncyCastleGpgSigner();
+	private static GpgSigner defaultSigner;
 
 	/**
 	 * Get the default signer, or <code>null</code>.
