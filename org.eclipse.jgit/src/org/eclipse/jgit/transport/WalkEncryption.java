@@ -34,9 +34,9 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.Hex;
 
 abstract class WalkEncryption {
 	static final WalkEncryption NONE = new NoEncryption();
