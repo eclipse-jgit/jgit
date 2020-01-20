@@ -37,16 +37,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jzlib</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.googlecode.javaewah</groupId>
       <artifactId>JavaEWAH</artifactId>
     </dependency>
@@ -54,21 +44,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpg-jdk15on</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
     </dependency>
 
   </dependencies>
@@ -169,7 +144,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
@@ -235,7 +210,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
