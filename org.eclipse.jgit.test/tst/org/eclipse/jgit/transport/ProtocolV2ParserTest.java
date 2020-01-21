@@ -9,12 +9,12 @@
  */
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
