@@ -9,11 +9,12 @@
  */
 package org.eclipse.jgit.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class LRUMapTest {
@@ -38,8 +39,7 @@ public class LRUMapTest {
 		expectedMap.put(0, 0);
 		expectedMap.put(3, 3);
 
-		Assert.assertThat(map.entrySet(),
-				IsIterableContainingInOrder
-						.contains(expectedMap.entrySet().toArray()));
+		assertThat(map.entrySet(), IsIterableContainingInOrder
+				.contains(expectedMap.entrySet().toArray()));
 	}
 }

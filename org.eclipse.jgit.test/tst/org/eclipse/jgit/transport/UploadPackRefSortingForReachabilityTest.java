@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
