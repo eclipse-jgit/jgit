@@ -265,6 +265,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
+	/***/ public String diffToolNotGivenError;
+	/***/ public String diffToolNotSpecifiedInGitAttributesError;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
