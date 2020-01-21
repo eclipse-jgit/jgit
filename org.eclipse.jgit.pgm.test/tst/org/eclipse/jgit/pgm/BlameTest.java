@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.api.Git;
@@ -17,14 +18,9 @@ import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class BlameTest extends CLIRepositoryTestCase {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
 	public void testBlameNoHead() throws Exception {
@@ -32,9 +28,8 @@ public class BlameTest extends CLIRepositoryTestCase {
 			writeTrashFile("inIndex.txt", "index");
 			git.add().addFilepattern("inIndex.txt").call();
 		}
-		thrown.expect(Die.class);
-		thrown.expectMessage("no such ref: HEAD");
-		execute("git blame inIndex.txt");
+		assertThrows("no such ref: HEAD", Die.class,
+				() -> execute("git blame inIndex.txt"));
 	}
 
 	@Test
@@ -68,9 +63,8 @@ public class BlameTest extends CLIRepositoryTestCase {
 			git.commit().setMessage("initial commit").call();
 		}
 		writeTrashFile("onlyInWorkingTree.txt", "not in repo");
-		thrown.expect(Die.class);
-		thrown.expectMessage("no such path 'onlyInWorkingTree.txt' in HEAD");
-		execute("git blame onlyInWorkingTree.txt");
+		assertThrows("no such path 'onlyInWorkingTree.txt' in HEAD", Die.class,
+				() -> execute("git blame onlyInWorkingTree.txt"));
 	}
 
 	@Test
@@ -78,9 +72,8 @@ public class BlameTest extends CLIRepositoryTestCase {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 		}
-		thrown.expect(Die.class);
-		thrown.expectMessage("no such path 'does_not_exist.txt' in HEAD");
-		execute("git blame does_not_exist.txt");
+		assertThrows("no such path 'does_not_exist.txt' in HEAD", Die.class,
+				() -> execute("git blame does_not_exist.txt"));
 	}
 
 	@Test
@@ -88,9 +81,8 @@ public class BlameTest extends CLIRepositoryTestCase {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 		}
-		thrown.expect(Die.class);
-		thrown.expectMessage("no such path 'sub/does_not_exist.txt' in HEAD");
-		execute("git blame sub/does_not_exist.txt");
+		assertThrows("no such path 'sub/does_not_exist.txt' in HEAD", Die.class,
+				() -> execute("git blame sub/does_not_exist.txt"));
 	}
 
 	@Test

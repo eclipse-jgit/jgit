@@ -32,9 +32,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test combinations of:
@@ -45,9 +43,6 @@ import org.junit.rules.ExpectedException;
  * </ul>
  */
 public class UploadPackReachabilityTest {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	private URIish uri;
 
