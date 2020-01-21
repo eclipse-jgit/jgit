@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a620073e_ad44739d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 25
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:34:25Z",
+      "side": 1,
+      "message": "Is it possible to wrap this long line?\n\nSame for long lines below.",
+      "revId": "0921ec7fe2519e91985657a0a7ec6a89fa2af620",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e97579_1476874b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:34:25Z",
+      "side": 1,
+      "message": "This class seems like something that could be useful elsewhere, not only in the diff tool implementation.  Can it be moved to a more general package?\n\nAlso, maybe add it as a separate commit, with its own tests?",
+      "revId": "0921ec7fe2519e91985657a0a7ec6a89fa2af620",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
