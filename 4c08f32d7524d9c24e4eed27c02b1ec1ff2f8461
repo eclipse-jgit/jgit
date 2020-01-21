@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6790f72_f2aa5be1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "\"diff tool\"?",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 128,
+        "endChar": 13
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84715c64_b953f8bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "This should be an externalized string.",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01970edf_6b2e163c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "cannot",
+      "range": {
+        "startLine": 167,
+        "startChar": 54,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26e70109_41e4e4e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Same here, should be an externalized string",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7333f95a_d16a4803",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27305a12_bb783cdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9b91da8_6ba82ff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc0b840a_84b7f348",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27ef1076_a0493e6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "\"or {@code Optional.empty() otherwise\"?",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1370864_7b4f570f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecf31d3d_b1a958a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Are the \u0027final\u0027 modifiers necessary?",
+      "range": {
+        "startLine": 216,
+        "startChar": 3,
+        "endLine": 216,
+        "endChar": 8
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42478ea6_e1a3bfdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d8a03a6_77274c07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T05:28:54Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
