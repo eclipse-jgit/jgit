@@ -83,7 +83,7 @@ public class DiffToolTest extends ToolTestCase {
 				+ errorReturnCode);
 	}
 
-	@Test
+	@Test(expected = Die.class)
 	public void testEmptyToolName() throws Exception {
 		String emptyToolName = "";
 
@@ -99,6 +99,7 @@ public class DiffToolTest extends ToolTestCase {
 		String[] expectedErrorOutput = { araxisErrorLine, araxisErrorLine, };
 		runAndCaptureUsingInitRaw(Arrays.asList(expectedErrorOutput), DIFF_TOOL,
 				"--no-prompt");
+		fail("Expected exception to be thrown due to external tool exiting with an error");
 	}
 
 	@Test
