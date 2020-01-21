@@ -65,18 +65,27 @@ public abstract class Reftable {
 		includeDeletes = deletes;
 	}
 
-
 	/**
-	 * Get the maximum update index for log entries that appear in this
+	 * Get the maximum update index for ref entries that appear in this
 	 * reftable.
 	 *
-	 * @return the maximum update index for log entries that appear in this
-	 *         reftable. This should be 1 higher than the prior reftable's
-	 *         {@code maxUpdateIndex} if this table is used in a stack.
+	 * @return the maximum update index for ref entries that appear in this
+	 *         reftable.
 	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
 	public abstract long maxUpdateIndex() throws IOException;
+
+	/**
+	 * Get the minimum update index for ref entries that appear in this
+	 * reftable.
+	 *
+	 * @return the minimum update index for ref entries that appear in this
+	 *         reftable.
+	 * @throws java.io.IOException
+	 *             file cannot be read.
+	 */
+	public abstract long minUpdateIndex() throws IOException;
 
 	/**
 	 * Seek to the first reference, to iterate in order.
