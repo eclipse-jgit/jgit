@@ -156,7 +156,7 @@
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
     <javaewah-version>1.1.7</javaewah-version>
-    <junit-version>4.12</junit-version>
+    <junit-version>4.13</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
     <commons-compress-version>1.19</commons-compress-version>
