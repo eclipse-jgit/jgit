@@ -38,11 +38,9 @@ public class ReftableCompactor {
 	private final ReftableWriter writer;
 	private final ArrayDeque<ReftableReader> tables = new ArrayDeque<>();
 
-	private long compactBytesLimit;
-	private long bytesToCompact;
 	private boolean includeDeletes;
-	private long minUpdateIndex = -1;
-	private long maxUpdateIndex;
+	private long minUpdateIndex = 0;
+	private long maxUpdateIndex = Long.MAX_VALUE;
 	private long oldestReflogTimeMillis;
 	private Stats stats;
 
@@ -66,18 +64,6 @@ public class ReftableCompactor {
 	 */
 	public ReftableCompactor setConfig(ReftableConfig cfg) {
 		writer.setConfig(cfg);
-		return this;
-	}
-
-	/**
-	 * Set limit on number of bytes from source tables to compact.
-	 *
-	 * @param bytes
-	 *            limit on number of bytes from source tables to compact.
-	 * @return {@code this}
-	 */
-	public ReftableCompactor setCompactBytesLimit(long bytes) {
-		compactBytesLimit = bytes;
 		return this;
 	}
 
@@ -144,9 +130,6 @@ public class ReftableCompactor {
 
 	/**
 	 * Add all of the tables, in the specified order.
-	 * <p>
-	 * Unconditionally adds all tables, ignoring the
-	 * {@link #setCompactBytesLimit(long)}.
 	 *
 	 * @param readers
 	 *            tables to compact. Tables should be ordered oldest first/most
@@ -158,44 +141,7 @@ public class ReftableCompactor {
 	public void addAll(List<ReftableReader> readers) throws IOException {
 		for (ReftableReader r : readers) {
 			tables.add(r);
-			adjustUpdateIndexes(r);
 		}
-	}
-
-	/**
-	 * Try to add this reader at the bottom of the stack.
-	 * <p>
-	 * A reader may be rejected by returning {@code false} if the compactor is
-	 * already rewriting its {@link #setCompactBytesLimit(long)}. When this
-	 * happens the caller should stop trying to add tables, and execute the
-	 * compaction.
-	 *
-	 * @param reader
-	 *            the reader to insert at the bottom of the stack. Caller is
-	 *            responsible for closing the reader.
-	 * @return {@code true} if the compactor accepted this table; {@code false}
-	 *         if the compactor has reached its limit.
-	 * @throws java.io.IOException
-	 *             if size of {@code reader}, or its update indexes cannot be read.
-	 */
-	public boolean tryAddFirst(ReftableReader reader) throws IOException {
-		long sz = reader.size();
-		if (compactBytesLimit > 0 && bytesToCompact + sz > compactBytesLimit) {
-			return false;
-		}
-		bytesToCompact += sz;
-		adjustUpdateIndexes(reader);
-		tables.addFirst(reader);
-		return true;
-	}
-
-	private void adjustUpdateIndexes(ReftableReader reader) throws IOException {
-		if (minUpdateIndex == -1) {
-			minUpdateIndex = reader.minUpdateIndex();
-		} else {
-			minUpdateIndex = Math.min(minUpdateIndex, reader.minUpdateIndex());
-		}
-		maxUpdateIndex = Math.max(maxUpdateIndex, reader.maxUpdateIndex());
 	}
 
 	/**
@@ -208,8 +154,9 @@ public class ReftableCompactor {
 		MergedReftable mr = new MergedReftable(new ArrayList<>(tables));
 		mr.setIncludeDeletes(includeDeletes);
 
-		writer.setMinUpdateIndex(Math.max(minUpdateIndex, 0));
-		writer.setMaxUpdateIndex(maxUpdateIndex);
+		writer.setMaxUpdateIndex(mr.maxUpdateIndex());
+		writer.setMinUpdateIndex(mr.minUpdateIndex());
+
 		writer.begin();
 		mergeRefs(mr);
 		mergeLogs(mr);
@@ -242,9 +189,7 @@ public class ReftableCompactor {
 		try (LogCursor lc = mr.allLogs()) {
 			while (lc.next()) {
 				long updateIndex = lc.getUpdateIndex();
-				if (updateIndex < minUpdateIndex
-						|| updateIndex > maxUpdateIndex) {
-					// Cannot merge log records outside the header's range.
+				if (updateIndex > maxUpdateIndex || updateIndex < minUpdateIndex) {
 					continue;
 				}
 

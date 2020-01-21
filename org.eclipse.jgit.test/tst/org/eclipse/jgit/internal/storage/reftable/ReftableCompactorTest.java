@@ -19,7 +19,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
@@ -63,7 +65,9 @@ public class ReftableCompactorTest {
 		ReftableCompactor compactor;
 		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
 			compactor = new ReftableCompactor(outBuf);
-			compactor.tryAddFirst(read(inTab));
+			List<ReftableReader> readers = new ArrayList<>();
+			readers.add(read(inTab));
+			compactor.addAll(readers);
 			compactor.compact();
 			outTab = outBuf.toByteArray();
 		}
