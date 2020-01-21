@@ -60,6 +60,66 @@
     },
     {
       "key": {
+        "uuid": "c5a77374_bb6ea62d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84715c64_b953f8bf",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e445cd18_4f030480",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6790f72_f2aa5be1",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 128,
+        "endChar": 13
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba00b64f_de562f88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f45263_0f72e6e4",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01970edf_6b2e163c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
         "patchSetId": 13
@@ -112,6 +172,72 @@
       "side": 1,
       "message": "@Mykola and Andrey: as i cannot push other reworked commits, please take over here...",
       "parentUuid": "01970edf_6b2e163c",
+      "range": {
+        "startLine": 167,
+        "startChar": 54,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37cc2a4c_21d84f0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26e70109_41e4e4e9",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4a9177_7d729eb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01970edf_6b2e163c",
+      "range": {
+        "startLine": 167,
+        "startChar": 54,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dbf324e_ef386500",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-01-21T10:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cd1e3f0_71fec3c9",
       "range": {
         "startLine": 167,
         "startChar": 54,
