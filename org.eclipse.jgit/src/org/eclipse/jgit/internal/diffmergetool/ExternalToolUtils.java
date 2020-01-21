@@ -14,9 +14,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -25,6 +33,16 @@ import org.eclipse.jgit.util.FS;
  * @since 5.13
  */
 public class ExternalToolUtils {
+
+	/**
+	 * Key for merge tool git configuration section
+	 */
+	public static final String KEY_MERGE_TOOL = "mergetool"; //$NON-NLS-1$
+
+	/**
+	 * Key for diff tool git configuration section
+	 */
+	public static final String KEY_DIFF_TOOL = "difftool"; //$NON-NLS-1$
 
 	/**
 	 * Prepare command for execution.
@@ -174,6 +192,53 @@ public class ExternalToolUtils {
 			names.addAll(preDefinedNames);
 		}
 		return names;
+	}
+
+	/**
+	 * Provides {@link Optional} with the name of an external tool if specified
+	 * in git configuration for a path.
+	 *
+	 * The formed git configuration results from global rules as well as merged
+	 * rules from info and worktree attributes.
+	 *
+	 * Triggers {@link TreeWalk} until specified path found in the tree.
+	 *
+	 * @param repository
+	 *            target repository to traverse into
+	 * @param path
+	 *            path to the node in repository to parse git attributes for
+	 * @param toolKey
+	 *            config key name for the tool
+	 * @return attribute value for the given tool key if set
+	 * @throws ToolException
+	 */
+	public static Optional<String> getExternalToolFromAttributes(
+			final Repository repository, final String path,
+			final String toolKey) throws ToolException {
+		try {
+			WorkingTreeIterator treeIterator = new FileTreeIterator(repository);
+			try (TreeWalk walk = new TreeWalk(repository)) {
+				walk.addTree(treeIterator);
+				walk.setFilter(new NotIgnoredFilter(0));
+				while (walk.next()) {
+					String treePath = walk.getPathString();
+					if (treePath.equals(path)) {
+						Attributes attrs = walk.getAttributes();
+						if (attrs.containsKey(toolKey)) {
+							return Optional.of(attrs.getValue(toolKey));
+						}
+					}
+					if (walk.isSubtree()) {
+						walk.enterSubtree();
+					}
+				}
+				// no external tool specified
+				return Optional.empty();
+			}
+
+		} catch (RevisionSyntaxException | IOException e) {
+			throw new ToolException(e);
+		}
 	}
 
 }

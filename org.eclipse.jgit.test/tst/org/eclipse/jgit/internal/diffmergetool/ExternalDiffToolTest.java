@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -34,6 +35,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS.ExecutionResult;
@@ -127,13 +130,20 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 	@Test
 	public void testUserDefinedToolWithCancelledPrompt() throws Exception {
+		String command = getEchoCommand();
+
+		FileBasedConfig config = db.getConfig();
+		String customToolName = "customTool";
+		config.setString(CONFIG_DIFFTOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, command);
+
 		DiffTools manager = new DiffTools(db);
 
 		PromptHandler promptHandler = PromptHandler.cancelPrompt();
 		MissingToolHandler noToolHandler = new MissingToolHandler();
 
 		Optional<ExecutionResult> result = manager.compare(local, remote,
-				Optional.empty(), BooleanTriState.TRUE, false,
+				Optional.of(customToolName), BooleanTriState.TRUE, false,
 				BooleanTriState.TRUE, promptHandler, noToolHandler);
 		assertFalse("Expected no result if user cancels the operation",
 				result.isPresent());
@@ -245,8 +255,9 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 		gui = true;
 		String defaultGuiToolName = manager.getDefaultToolName(gui);
-		assertNull("Expected default difftool to not be set",
-				defaultGuiToolName);
+		assertEquals(
+				"Expected default gui difftool to be the default tool if no gui tool is set",
+				toolName, defaultGuiToolName);
 
 		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_GUITOOL,
 				guiToolName);
@@ -294,6 +305,119 @@ public class ExternalDiffToolTest extends ExternalToolTestCase {
 		String toolName = "undefined";
 		invokeCompare(toolName);
 		fail("Expected exception to be thrown due to not defined external diff tool");
+	}
+
+	@Test
+	public void testDefaultToolExecutionWithPrompt() throws Exception {
+		FileBasedConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString("diff", subsection, "tool", "customTool");
+
+		String command = getEchoCommand();
+
+		config.setString("difftool", "customTool", "cmd", command);
+
+		DiffTools manager = new DiffTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		manager.compare(local, remote, Optional.empty(), BooleanTriState.TRUE,
+				false, BooleanTriState.TRUE, promptHandler, noToolHandler);
+
+		assertEchoCommandHasCorrectOutput();
+	}
+
+	@Test
+	public void testNoDefaultToolName() {
+		DiffTools manager = new DiffTools(db);
+		boolean gui = false;
+		String defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+
+		gui = true;
+		defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+	}
+
+	@Test
+	public void testExternalToolInGitAttributes() throws Exception {
+		String content = "attributes:\n*.txt 		difftool=customTool";
+		File gitattributes = writeTrashFile(".gitattributes", content);
+		gitattributes.deleteOnExit();
+		try (TestRepository<Repository> testRepository = new TestRepository<>(
+				db)) {
+			FileBasedConfig config = db.getConfig();
+			config.setString("difftool", "customTool", "cmd", "echo");
+			testRepository.git().add().addFilepattern(localFile.getName())
+					.call();
+
+			testRepository.git().add().addFilepattern(".gitattributes").call();
+
+			testRepository.branch("master").commit().message("first commit")
+					.create();
+
+			DiffTools manager = new DiffTools(db);
+			Optional<String> tool = manager
+					.getExternalToolFromAttributes(localFile.getName());
+			assertTrue("Failed to find user defined tool", tool.isPresent());
+			assertEquals("Failed to find user defined tool", "customTool",
+					tool.get());
+		} finally {
+			Files.delete(gitattributes.toPath());
+		}
+	}
+
+	@Test
+	public void testNotExternalToolInGitAttributes() throws Exception {
+		String content = "";
+		File gitattributes = writeTrashFile(".gitattributes", content);
+		gitattributes.deleteOnExit();
+		try (TestRepository<Repository> testRepository = new TestRepository<>(
+				db)) {
+			FileBasedConfig config = db.getConfig();
+			config.setString("difftool", "customTool", "cmd", "echo");
+			testRepository.git().add().addFilepattern(localFile.getName())
+					.call();
+
+			testRepository.git().add().addFilepattern(".gitattributes").call();
+
+			testRepository.branch("master").commit().message("first commit")
+					.create();
+
+			DiffTools manager = new DiffTools(db);
+			Optional<String> tool = manager
+					.getExternalToolFromAttributes(localFile.getName());
+			assertFalse(
+					"Expected no external tool if no default tool is specified in .gitattributes",
+					tool.isPresent());
+		} finally {
+			Files.delete(gitattributes.toPath());
+		}
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullTool() throws Exception {
+		DiffTools manager = new DiffTools(db);
+
+		boolean trustExitCode = true;
+		ExternalDiffTool tool = null;
+		manager.compare(local, remote, tool, trustExitCode);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullToolWithPrompt() throws Exception {
+		DiffTools manager = new DiffTools(db);
+
+		PromptHandler promptHandler = PromptHandler.cancelPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<String> tool = null;
+		manager.compare(local, remote, tool, BooleanTriState.TRUE, false,
+				BooleanTriState.TRUE, promptHandler, noToolHandler);
 	}
 
 	private Optional<ExecutionResult> invokeCompare(String toolName)
