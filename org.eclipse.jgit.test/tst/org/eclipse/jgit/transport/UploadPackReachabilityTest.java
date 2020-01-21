@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.MoreAsserts.assertThrows;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
