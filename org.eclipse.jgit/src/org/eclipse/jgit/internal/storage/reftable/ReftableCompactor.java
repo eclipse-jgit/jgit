@@ -61,22 +61,20 @@ import org.eclipse.jgit.lib.ReflogEntry;
  * to shadow any lower reftable that may have the reference present.
  * <p>
  * By default all log entries within the range defined by
- * {@link #setMinUpdateIndex(long)} and {@link #setMaxUpdateIndex(long)} are
+ * {@link #setReflogExpireMinUpdateIndex(long)} and {@link #setReflogExpireMaxUpdateIndex(long)} are
  * copied, even if no references in the output file match the log records.
  * Callers may truncate the log to a more recent time horizon with
- * {@link #setOldestReflogTimeMillis(long)}, or disable the log altogether with
+ * {@link #setReflogExpireOldestReflogTimeMillis(long)}, or disable the log altogether with
  * {@code setOldestReflogTimeMillis(Long.MAX_VALUE)}.
  */
 public class ReftableCompactor {
 	private final ReftableWriter writer;
 	private final ArrayDeque<ReftableReader> tables = new ArrayDeque<>();
 
-	private long compactBytesLimit;
-	private long bytesToCompact;
 	private boolean includeDeletes;
-	private long minUpdateIndex = -1;
-	private long maxUpdateIndex;
-	private long oldestReflogTimeMillis;
+	private long reflogExpireMinUpdateIndex = 0;
+	private long reflogExpireMaxUpdateIndex = Long.MAX_VALUE;
+	private long reflogExpireOldestReflogTimeMillis;
 	private Stats stats;
 
 	/**
@@ -99,18 +97,6 @@ public class ReftableCompactor {
 	 */
 	public ReftableCompactor setConfig(ReftableConfig cfg) {
 		writer.setConfig(cfg);
-		return this;
-	}
-
-	/**
-	 * Set limit on number of bytes from source tables to compact.
-	 *
-	 * @param bytes
-	 *            limit on number of bytes from source tables to compact.
-	 * @return {@code this}
-	 */
-	public ReftableCompactor setCompactBytesLimit(long bytes) {
-		compactBytesLimit = bytes;
 		return this;
 	}
 
@@ -139,8 +125,8 @@ public class ReftableCompactor {
 	 *            in a stack.
 	 * @return {@code this}
 	 */
-	public ReftableCompactor setMinUpdateIndex(long min) {
-		minUpdateIndex = min;
+	public ReftableCompactor setReflogExpireMinUpdateIndex(long min) {
+		reflogExpireMinUpdateIndex = min;
 		return this;
 	}
 
@@ -155,8 +141,8 @@ public class ReftableCompactor {
 	 *            used in a stack.
 	 * @return {@code this}
 	 */
-	public ReftableCompactor setMaxUpdateIndex(long max) {
-		maxUpdateIndex = max;
+	public ReftableCompactor setReflogExpireMaxUpdateIndex(long max) {
+		reflogExpireMaxUpdateIndex = max;
 		return this;
 	}
 
@@ -170,16 +156,13 @@ public class ReftableCompactor {
 	 *            Specified in Java standard milliseconds since the epoch.
 	 * @return {@code this}
 	 */
-	public ReftableCompactor setOldestReflogTimeMillis(long timeMillis) {
-		oldestReflogTimeMillis = timeMillis;
+	public ReftableCompactor setReflogExpireOldestReflogTimeMillis(long timeMillis) {
+		reflogExpireOldestReflogTimeMillis = timeMillis;
 		return this;
 	}
 
 	/**
 	 * Add all of the tables, in the specified order.
-	 * <p>
-	 * Unconditionally adds all tables, ignoring the
-	 * {@link #setCompactBytesLimit(long)}.
 	 *
 	 * @param readers
 	 *            tables to compact. Tables should be ordered oldest first/most
@@ -191,44 +174,7 @@ public class ReftableCompactor {
 	public void addAll(List<ReftableReader> readers) throws IOException {
 		for (ReftableReader r : readers) {
 			tables.add(r);
-			adjustUpdateIndexes(r);
 		}
-	}
-
-	/**
-	 * Try to add this reader at the bottom of the stack.
-	 * <p>
-	 * A reader may be rejected by returning {@code false} if the compactor is
-	 * already rewriting its {@link #setCompactBytesLimit(long)}. When this
-	 * happens the caller should stop trying to add tables, and execute the
-	 * compaction.
-	 *
-	 * @param reader
-	 *            the reader to insert at the bottom of the stack. Caller is
-	 *            responsible for closing the reader.
-	 * @return {@code true} if the compactor accepted this table; {@code false}
-	 *         if the compactor has reached its limit.
-	 * @throws java.io.IOException
-	 *             if size of {@code reader}, or its update indexes cannot be read.
-	 */
-	public boolean tryAddFirst(ReftableReader reader) throws IOException {
-		long sz = reader.size();
-		if (compactBytesLimit > 0 && bytesToCompact + sz > compactBytesLimit) {
-			return false;
-		}
-		bytesToCompact += sz;
-		adjustUpdateIndexes(reader);
-		tables.addFirst(reader);
-		return true;
-	}
-
-	private void adjustUpdateIndexes(ReftableReader reader) throws IOException {
-		if (minUpdateIndex == -1) {
-			minUpdateIndex = reader.minUpdateIndex();
-		} else {
-			minUpdateIndex = Math.min(minUpdateIndex, reader.minUpdateIndex());
-		}
-		maxUpdateIndex = Math.max(maxUpdateIndex, reader.maxUpdateIndex());
 	}
 
 	/**
@@ -241,8 +187,9 @@ public class ReftableCompactor {
 		MergedReftable mr = new MergedReftable(new ArrayList<>(tables));
 		mr.setIncludeDeletes(includeDeletes);
 
-		writer.setMinUpdateIndex(Math.max(minUpdateIndex, 0));
-		writer.setMaxUpdateIndex(maxUpdateIndex);
+		writer.setMaxUpdateIndex(mr.maxUpdateIndex());
+		writer.setMinUpdateIndex(mr.minUpdateIndex());
+
 		writer.begin();
 		mergeRefs(mr);
 		mergeLogs(mr);
@@ -268,16 +215,14 @@ public class ReftableCompactor {
 	}
 
 	private void mergeLogs(MergedReftable mr) throws IOException {
-		if (oldestReflogTimeMillis == Long.MAX_VALUE) {
+		if (reflogExpireOldestReflogTimeMillis == Long.MAX_VALUE) {
 			return;
 		}
 
 		try (LogCursor lc = mr.allLogs()) {
 			while (lc.next()) {
 				long updateIndex = lc.getUpdateIndex();
-				if (updateIndex < minUpdateIndex
-						|| updateIndex > maxUpdateIndex) {
-					// Cannot merge log records outside the header's range.
+				if (updateIndex > reflogExpireMaxUpdateIndex || updateIndex < reflogExpireMinUpdateIndex) {
 					continue;
 				}
 
@@ -291,7 +236,7 @@ public class ReftableCompactor {
 				}
 
 				PersonIdent who = log.getWho();
-				if (who.getWhen().getTime() >= oldestReflogTimeMillis) {
+				if (who.getWhen().getTime() >= reflogExpireOldestReflogTimeMillis) {
 					writer.writeLog(
 							refName,
 							updateIndex,
