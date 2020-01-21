@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "71cb4b6e_3ac710d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T08:09:06Z",
+      "side": 1,
+      "message": "Ah, sorry, I missed that this whole class already has @since 5.7",
+      "parentUuid": "8f4456b3_cefd6da3",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27305a12_bb783cdb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
         "patchSetId": 13
