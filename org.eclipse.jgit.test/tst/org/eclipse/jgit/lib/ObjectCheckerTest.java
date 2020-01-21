@@ -34,6 +34,7 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
@@ -41,9 +42,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ObjectCheckerTest {
 	private static final ObjectChecker SECRET_KEY_CHECKER = new ObjectChecker() {
@@ -84,9 +83,6 @@ public class ObjectCheckerTest {
 
 	private ObjectChecker checker;
 
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
-
 	@Before
 	public void setUp() throws Exception {
 		checker = new ObjectChecker();
@@ -116,9 +112,9 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCheckBlobCorrupt() throws CorruptObjectException {
-		thrown.expect(CorruptObjectException.class);
-		SECRET_KEY_CHECKER.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
+	public void testCheckBlobCorrupt() {
+		assertThrows(CorruptObjectException.class, () -> SECRET_KEY_CHECKER
+				.check(OBJ_BLOB, encodeASCII("key = \"secret_key\"")));
 	}
 
 	@Test
@@ -129,11 +125,9 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCheckBlobWithBlobObjectCheckerCorrupt()
-			throws CorruptObjectException {
-		thrown.expect(CorruptObjectException.class);
-		SECRET_KEY_BLOB_CHECKER.check(OBJ_BLOB,
-				encodeASCII("key = \"secret_key\""));
+	public void testCheckBlobWithBlobObjectCheckerCorrupt() {
+		assertThrows(CorruptObjectException.class, () -> SECRET_KEY_BLOB_CHECKER
+				.check(OBJ_BLOB, encodeASCII("key = \"secret_key\"")));
 	}
 
 	@Test

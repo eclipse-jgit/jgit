@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.eclipse.jgit.internal.storage.file.FileReftableStack.Segment;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
@@ -31,9 +33,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class FileReftableStackTest {
 
@@ -113,9 +113,6 @@ public class FileReftableStackTest {
 		testCompaction(1024);
 	}
 
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
-
 	@SuppressWarnings({ "resource", "unused" })
 	@Test
 	public void missingReftable() throws Exception {
@@ -143,9 +140,9 @@ public class FileReftableStackTest {
 				}
 			}
 		}
-		thrown.expect(FileNotFoundException.class);
-		new FileReftableStack(new File(reftableDir, "refs"), reftableDir, null,
-				() -> new Config());
+		assertThrows(FileNotFoundException.class,
+				() -> new FileReftableStack(new File(reftableDir, "refs"),
+						reftableDir, null, () -> new Config()));
 	}
 
 	@Test

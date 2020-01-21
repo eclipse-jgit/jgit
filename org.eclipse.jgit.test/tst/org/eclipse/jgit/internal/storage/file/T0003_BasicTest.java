@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,13 +54,9 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class T0003_BasicTest extends SampleDataRepositoryTestCase {
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
 	public void test001_Initalize() {
@@ -311,10 +308,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// We won't create a tree entry with an empty filename
 		//
 		final TreeFormatter formatter = new TreeFormatter();
-		expectedException.expect(IllegalArgumentException.class);
-		expectedException.expectMessage(JGitText.get().invalidTreeZeroLengthName);
-		formatter.append("", FileMode.TREE,
-				ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
+		assertThrows(JGitText.get().invalidTreeZeroLengthName,
+				IllegalArgumentException.class,
+				() -> formatter.append("", FileMode.TREE, ObjectId.fromString(
+						"4b825dc642cb6eb9a060e54bf8d69288fbee4904")));
 	}
 
 	@Test
