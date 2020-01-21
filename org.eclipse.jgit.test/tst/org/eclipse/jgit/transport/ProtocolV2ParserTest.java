@@ -14,6 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -27,14 +28,9 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ProtocolV2ParserTest {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	private TestRepository<InMemoryRepository> testRepo;
 
@@ -236,8 +232,8 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 
-		thrown.expect(PackProtocolException.class);
-		parser.parseFetchRequest(pckIn);
+		assertThrows(PackProtocolException.class,
+				() -> parser.parseFetchRequest(pckIn));
 	}
 
 	@Test
@@ -247,8 +243,8 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
 
-		thrown.expect(PackProtocolException.class);
-		parser.parseFetchRequest(pckIn);
+		assertThrows(PackProtocolException.class,
+				() -> parser.parseFetchRequest(pckIn));
 	}
 
 	@Test

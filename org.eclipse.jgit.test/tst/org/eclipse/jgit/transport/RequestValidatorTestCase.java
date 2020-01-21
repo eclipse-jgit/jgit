@@ -9,12 +9,14 @@
  */
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -25,16 +27,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UploadPack.RequestValidator;
-import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.function.ThrowingRunnable;
 
 public abstract class RequestValidatorTestCase {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	private RevCommit reachableCommit;
 
@@ -111,156 +108,165 @@ public abstract class RequestValidatorTestCase {
 	protected abstract boolean isUnreachableBlobValid();
 
 	@Test
-	public void validateReachableCommitWithBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isReachableCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers
-					.containsString(
-							"want " + reachableCommit.name() + " not valid"));
-
-		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
+	public void validateReachableCommitWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(reachableCommit));
-	}
-
-	@Test
-	public void validateReachableCommitWithoutBitmaps()
-			throws PackProtocolException, IOException {
 		if (!isReachableCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + reachableCommit.name() + " not valid"));
-
+			assertTransportException(r,
+					"want " + reachableCommit.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
+		r.run();
+	}
+
+	@Test
+	public void validateReachableCommitWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(reachableCommit));
+		if (!isReachableCommitValid()) {
+			assertTransportException(r,
+					"want " + reachableCommit.name() + " not valid");
+			return;
+		}
+		r.run();
 	}
 
 	@Test
-	public void validateAdvertisedTipWithBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isAdvertisedTipValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + tipAdvertisedCommit.name() + " not valid"));
-
-		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
+	public void validateAdvertisedTipWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(tipAdvertisedCommit));
-	}
-
-	@Test
-	public void validateAdvertisedTipWithoutBitmaps()
-			throws PackProtocolException, IOException {
 		if (!isAdvertisedTipValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + tipAdvertisedCommit.name() + " not valid"));
-
+			assertTransportException(r,
+					"want " + tipAdvertisedCommit.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
+		r.run();
+	}
+
+	@Test
+	public void validateAdvertisedTipWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(tipAdvertisedCommit));
+		if (!isAdvertisedTipValid()) {
+			assertTransportException(r,
+					"want " + tipAdvertisedCommit.name() + " not valid");
+			return;
+		}
+		r.run();
 	}
 
 	@Test
-	public void validateUnadvertisedTipWithBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isUnadvertisedTipCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + tipUnadvertisedCommit.name() + " not valid"));
-
-		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
+	public void validateUnadvertisedTipWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(tipUnadvertisedCommit));
-	}
-
-	@Test
-	public void validateUnadvertisedTipWithoutBitmaps()
-			throws PackProtocolException, IOException {
 		if (!isUnadvertisedTipCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + tipUnadvertisedCommit.name() + " not valid"));
-
+			assertTransportException(r,
+					"want " + tipUnadvertisedCommit.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
+		r.run();
+	}
+
+	@Test
+	public void validateUnadvertisedTipWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(tipUnadvertisedCommit));
-	}
-
-	@Test
-	public void validateUnreachableCommitWithBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isUnreachableCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + unreachableCommit.name() + " not valid"));
-
+		if (!isUnadvertisedTipCommitValid()) {
+			assertTransportException(r,
+					"want " + tipUnadvertisedCommit.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
-				Arrays.asList(unreachableCommit));
+		r.run();
 	}
 
 	@Test
-	public void validateUnreachableCommitWithoutBitmaps()
-			throws PackProtocolException, IOException {
+	public void validateUnreachableCommitWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
+				Arrays.asList(unreachableCommit));
 		if (!isUnreachableCommitValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + unreachableCommit.name() + " not valid"));
-
+			assertTransportException(r,
+					"want " + unreachableCommit.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
-				Arrays.asList(unreachableCommit));
+		r.run();
 	}
 
 	@Test
-	public void validateReachableBlobWithBitmaps()
-			throws PackProtocolException, IOException {
+	public void validateUnreachableCommitWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
+				Arrays.asList(unreachableCommit));
+		if (!isUnreachableCommitValid()) {
+			assertTransportException(r,
+					"want " + unreachableCommit.name() + " not valid");
+			return;
+		}
+		r.run();
+	}
+
+	@Test
+	public void validateReachableBlobWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
+				Arrays.asList(reachableBlob));
 		if (!isReachableBlobValid_withBitmaps()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + reachableBlob.name() + " not valid"));
+			assertTransportException(r,
+					"want " + reachableBlob.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
-				Arrays.asList(reachableBlob));
+		r.run();
 	}
 
 	@Test
-	public void validateReachableBlobWithoutBitmaps()
-			throws PackProtocolException, IOException {
+	public void validateReachableBlobWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
+				Arrays.asList(reachableBlob));
 		if (!isReachableBlobValid_withoutBitmaps()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + reachableBlob.name() + " not valid"));
+			assertTransportException(r,
+					"want " + reachableBlob.name() + " not valid");
+			return;
 		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
-				Arrays.asList(reachableBlob));
+		r.run();
 	}
 
 	@Test
-	public void validateUnreachableBlobWithBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isUnreachableBlobValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + unreachableBlob.name() + " not valid"));
-		}
-		createValidator().checkWants(getUploadPack(getRepoWithBitmaps()),
+	public void validateUnreachableBlobWithBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(unreachableBlob));
+		if (!isUnreachableBlobValid()) {
+			assertTransportException(r,
+					"want " + unreachableBlob.name() + " not valid");
+			return;
+		}
+		r.run();
 	}
 
 	@Test
-	public void validateUnreachableBlobWithoutBitmaps()
-			throws PackProtocolException, IOException {
-		if (!isUnreachableBlobValid()) {
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + unreachableBlob.name() + " not valid"));
-		}
-		createValidator().checkWants(getUploadPack(getRepoWithoutBitmaps()),
+	public void validateUnreachableBlobWithoutBitmaps() throws Throwable {
+		ThrowingRunnable r = () -> createValidator().checkWants(
+				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(unreachableBlob));
+		if (!isUnreachableBlobValid()) {
+			assertTransportException(r,
+					"want " + unreachableBlob.name() + " not valid");
+			return;
+		}
+		r.run();
+	}
+
+	private void assertTransportException(ThrowingRunnable r,
+			String messageContent) throws AssertionError {
+		Exception e = assertThrows(TransportException.class, r);
+		assertTrue(e.getMessage().contains(messageContent));
 	}
 
 	private UploadPack getUploadPack(Repository repository) throws IOException {
