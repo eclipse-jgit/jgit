@@ -265,6 +265,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
+	/***/ public String diffToolNotGivenError;
+	/***/ public String diffToolNotSpecifiedInGitAttributesError;
+	/***/ public String diffToolNullError;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
@@ -481,6 +484,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String mergeRecursiveConflictsWhenMergingCommonAncestors;
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
+	/***/ public String mergeToolNotGivenError;
+	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;
