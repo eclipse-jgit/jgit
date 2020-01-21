@@ -98,6 +98,15 @@ public class MergedReftable extends Reftable {
 				: 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long minUpdateIndex() throws IOException {
+		return tables.length > 0 ? tables[0].minUpdateIndex()
+			: 0;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public boolean hasObjectMap() throws IOException {
