@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "03d4e29b_883c7ed2",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 25
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T08:07:45Z",
+      "side": 1,
+      "message": "OK.  I wasn\u0027t sure if it was possible to wrap them.",
+      "parentUuid": "688b7885_35fc12b5",
+      "revId": "0921ec7fe2519e91985657a0a7ec6a89fa2af620",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84e97579_1476874b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
         "patchSetId": 25
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yes, it can be moved to Utils?",
       "parentUuid": "84e97579_1476874b",
+      "revId": "0921ec7fe2519e91985657a0a7ec6a89fa2af620",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c8f8064_772349a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-21T08:07:45Z",
+      "side": 1,
+      "message": "I guess so. Matthias might be able to suggest if that\u0027s appropriate, or if it should be somewhere else.",
+      "parentUuid": "371a9368_d044212b",
       "revId": "0921ec7fe2519e91985657a0a7ec6a89fa2af620",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
