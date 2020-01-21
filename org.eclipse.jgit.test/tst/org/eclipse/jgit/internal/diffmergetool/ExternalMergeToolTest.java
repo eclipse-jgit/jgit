@@ -329,6 +329,68 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		fail("Expected exception to be thrown due to not defined external merge tool");
 	}
 
+	@Test
+	public void testDefaultToolExecutionWithPrompt() throws Exception {
+		FileBasedConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString("merge", subsection, "tool", "customTool");
+
+		String command = getEchoCommand();
+
+		config.setString("mergetool", "customTool", "cmd", command);
+
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		manager.merge(local, remote, merged, base, null, Optional.empty(),
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+
+		assertEchoCommandHasCorrectOutput();
+	}
+
+	@Test
+	public void testNoDefaultToolName() {
+		MergeTools manager = new MergeTools(db);
+		boolean gui = false;
+		String defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+
+		gui = true;
+		defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullTool() throws Exception {
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = null;
+		MissingToolHandler noToolHandler = null;
+
+		Optional<String> tool = null;
+
+		manager.merge(local, remote, merged, base, null, tool,
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullToolWithPrompt() throws Exception {
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.cancelPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<String> tool = null;
+
+		manager.merge(local, remote, merged, base, null, tool,
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+	}
+
 	private Optional<ExecutionResult> invokeMerge(String toolName)
 			throws ToolException {
 		BooleanTriState prompt = BooleanTriState.UNSET;
