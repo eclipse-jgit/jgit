@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "89f45263_0f72e6e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "@Mykola and Andrey: as i cannot push other reworked commits, please take over here...",
+      "parentUuid": "84715c64_b953f8bf",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01970edf_6b2e163c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
         "patchSetId": 13
@@ -82,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "9cd1e3f0_71fec3c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "@Mykola and Andrey: as i cannot push other reworked commits, please take over here...",
+      "parentUuid": "01970edf_6b2e163c",
+      "range": {
+        "startLine": 167,
+        "startChar": 54,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7333f95a_d16a4803",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
         "patchSetId": 13
@@ -93,6 +135,24 @@
       "writtenOn": "2020-01-21T05:28:54Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f4456b3_cefd6da3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "I think it\u0027s not needed, because the class is new and the patch series hopefully will be merged together for v5.7",
+      "parentUuid": "7333f95a_d16a4803",
       "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -116,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "cbcdbaf5_61602420",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/DiffTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "27305a12_bb783cdb",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9b91da8_6ba82ff1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
         "patchSetId": 13
@@ -127,6 +205,24 @@
       "writtenOn": "2020-01-21T05:28:54Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bfc2ff6_17d221a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "I think it\u0027s not needed, because the class is new and the patch series hopefully will be merged together for v5.7",
+      "parentUuid": "b9b91da8_6ba82ff1",
       "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -150,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "fb2ba053_59afeed4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "cc0b840a_84b7f348",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27ef1076_a0493e6d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
         "patchSetId": 13
@@ -167,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "55924d92_d4222f35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "@Mykola and Andrey: as i cannot push other reworked commits, please take over here...",
+      "parentUuid": "27ef1076_a0493e6d",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1370864_7b4f570f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
         "patchSetId": 13
@@ -178,6 +310,24 @@
       "writtenOn": "2020-01-21T05:28:54Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d96c1c17_9960f889",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "c1370864_7b4f570f",
       "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -207,6 +357,30 @@
     },
     {
       "key": {
+        "uuid": "16baf262_67f664e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/ExternalToolUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "I\u0027ve learned from other reviews: https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier\n\nShould be avoided: \"Never in method parameters: similar to local variables\"\n\n@Mykola and Andrey: as i cannot push other reworked commits, please take over here...",
+      "parentUuid": "ecf31d3d_b1a958a2",
+      "range": {
+        "startLine": 216,
+        "startChar": 3,
+        "endLine": 216,
+        "endChar": 8
+      },
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42478ea6_e1a3bfdc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
         "patchSetId": 13
@@ -224,6 +398,24 @@
     },
     {
       "key": {
+        "uuid": "b4f098a3_79806091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "I think it\u0027s not needed, because the class is new and the patch series hopefully will be merged together for v5.7",
+      "parentUuid": "42478ea6_e1a3bfdc",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d8a03a6_77274c07",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
         "patchSetId": 13
@@ -235,6 +427,24 @@
       "writtenOn": "2020-01-21T05:28:54Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1288f739_404341f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/MergeTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-01-21T07:20:31Z",
+      "side": 1,
+      "message": "see above...",
+      "parentUuid": "2d8a03a6_77274c07",
       "revId": "4c08f32d7524d9c24e4eed27c02b1ec1ff2f8461",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
