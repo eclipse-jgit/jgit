@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cb6d5c7_c35c5456",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-01-22T23:17:11Z",
+      "side": 1,
+      "message": "Isn\u0027t there an equivalent of the pattern used in the truth library?  I.e.:\n\n  assertThat(thrown).hasMessageThat().contains(...);",
+      "range": {
+        "startLine": 464,
+        "startChar": 3,
+        "endLine": 465,
+        "endChar": 57
+      },
+      "revId": "62674d143e9d30090b7e18b8597652977773d642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
