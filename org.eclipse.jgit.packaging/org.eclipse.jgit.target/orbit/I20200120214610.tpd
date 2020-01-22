@@ -36,6 +36,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202001202146
 	org.apache.sshd.osgi.source [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
 	org.apache.sshd.sftp [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
 	org.apache.sshd.sftp.source [2.2.0.v20190425-2127,2.2.0.v20190425-2127]
+	org.assertj [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
+	org.assertj.source [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
 	org.bouncycastle.bcpg [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
 	org.bouncycastle.bcpg.source [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
 	org.bouncycastle.bcpkix [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
