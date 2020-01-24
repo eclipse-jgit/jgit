@@ -756,6 +756,19 @@ public class PackWriter implements AutoCloseable {
 
 	/**
 	 * Prepare the list of objects to be written to the pack stream.
+	 *
+	 * <p>
+	 * PackWriter will concat and write out the specified packs as-is.
+	 *
+	 * @param c
+	 *            cached packs to be written.
+	 */
+	public void preparePack(Collection<? extends CachedPack> c) {
+		cachedPacks.addAll(c);
+	}
+
+	/**
+	 * Prepare the list of objects to be written to the pack stream.
 	 * <p>
 	 * Basing on these 2 sets, another set of objects to put in a pack file is
 	 * created: this set consists of all objects reachable (ancestors) from
