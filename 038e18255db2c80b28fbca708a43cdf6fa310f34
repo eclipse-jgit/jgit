@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13d346e7_bebe4b41",
+        "filename": "org.eclipse.jgit.gpg.bc.test/.project",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1efc37af_1dcbcd56",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74907589_a232f874",
         "filename": "org.eclipse.jgit.gpg.bc.test/META-INF/MANIFEST.MF",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "these names must match the bundle, you just copied that from ssh.apache.test which is wrong",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 53
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62dcfe3e_dcf115b5",
+        "filename": "org.eclipse.jgit.gpg.bc.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74907589_a232f874",
       "range": {
         "startLine": 4,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "fe303767_24cbe140",
+        "filename": "org.eclipse.jgit.gpg.bc.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65a2629f_139709f5",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f70ac15c_405e2919",
         "filename": "org.eclipse.jgit.gpg.bc/.project",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "gpg.bc",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a358640_e50d94cd",
+        "filename": "org.eclipse.jgit.gpg.bc/.project",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f70ac15c_405e2919",
       "range": {
         "startLine": 3,
         "startChar": 24,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "defb5c45_0a4795a7",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "469e2908_0f96872a",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef15bc62_4f8d5bc4",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
         "patchSetId": 5
@@ -122,6 +236,24 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "you can\u0027t export packages this bundle doesn\u0027t contain",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab9a8219_c4702d3b",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef15bc62_4f8d5bc4",
       "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "cb009731_ba0e4a9d",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c8f9007_59ad667a",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ebff4c_a802b285",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/SOURCE-MANIFEST.MF",
         "patchSetId": 5
@@ -156,6 +306,24 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "this is all wrongly copied from another bundle",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a86698_779c8c5a",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2ebff4c_a802b285",
       "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "206d9f19_c4d31a1c",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/.project",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ce0a849_a496968b",
+      "range": {
+        "startLine": 3,
+        "startChar": 28,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1872010_654731cf",
         "filename": "org.eclipse.jgit.ssh.jsch.test/META-INF/MANIFEST.MF",
         "patchSetId": 5
@@ -196,6 +388,24 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "randomly copied from another bundle",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4dc857_e8e262d7",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1872010_654731cf",
       "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "17de6eae_2e6d32b1",
+        "filename": "org.eclipse.jgit.ssh.jsch/.project",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46fd8e12_33f39b31",
+      "range": {
+        "startLine": 3,
+        "startChar": 28,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4e62f25_8ca926c3",
         "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
         "patchSetId": 5
@@ -236,6 +470,24 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "wrong copy of another bundle\u0027s manifest",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "629bb7aa_34e1182b",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e62f25_8ca926c3",
       "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -259,6 +511,24 @@
     },
     {
       "key": {
+        "uuid": "a2fd9cb0_77cabd00",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef68e52a_3c2899c5",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d55a2070_5626a7eb",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HexTest.java",
         "patchSetId": 5
@@ -270,6 +540,24 @@
       "writtenOn": "2020-01-25T14:55:06Z",
       "side": 1,
       "message": "did a Googler contribute to this ?",
+      "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2370c53_1ffaf20a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HexTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-01-25T23:59:13Z",
+      "side": 1,
+      "message": "Substantially copied from Base64Test, so yes",
+      "parentUuid": "d55a2070_5626a7eb",
       "revId": "038e18255db2c80b28fbca708a43cdf6fa310f34",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
