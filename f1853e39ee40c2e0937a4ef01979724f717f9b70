@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "1fe2a866_17fc5fd5",
+        "filename": "org.eclipse.jgit.gpg.bc.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-25T14:55:06Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "280007d9_59971d0a",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dde89399_85a9b554",
         "filename": "org.eclipse.jgit.gpg.bc/nb-configuration.xml",
         "patchSetId": 2
@@ -236,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "d5bc928d_278c44dc",
+        "filename": "org.eclipse.jgit.gpg.bc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-25T14:55:06Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "e86c1bc0_c5d63345",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13e18323_4471460c",
         "filename": "org.eclipse.jgit.ssh.jsch.test/pom.xml",
         "patchSetId": 2
@@ -265,6 +301,24 @@
       "side": 1,
       "message": "Same deal re: copyright",
       "parentUuid": "13e18323_4471460c",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb726c77_afc4ecb5",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-25T14:55:06Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "24a03fd9_fc3501fa",
       "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -370,6 +424,24 @@
       "side": 1,
       "message": "There is a setter, it is right below this changeset (line 42).\n\nThat being said I have added a service provider default based on the SSH client changeset.",
       "parentUuid": "0a7bafcc_e9b0730f",
+      "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaad717f_05703ccf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-25T14:55:06Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "2e48430b_3ddcd5fc",
       "revId": "f1853e39ee40c2e0937a4ef01979724f717f9b70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
