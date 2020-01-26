@@ -16,6 +16,24 @@
       "revId": "54b1c7cc6a2ba6031b97d8a5c455d93ffd4ce5f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "219dd40c_b9ca27db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-26T21:14:16Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/#/c/156587/",
+      "parentUuid": "03aeabff_1d669d88",
+      "revId": "54b1c7cc6a2ba6031b97d8a5c455d93ffd4ce5f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
