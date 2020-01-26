@@ -245,6 +245,24 @@
       "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58df05f2_3bc8695c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-26T18:02:09Z",
+      "side": 1,
+      "message": "Ok, now I understand this. We really have fixed length cache pages. LGTM",
+      "parentUuid": "a909978f_c9ecde26",
+      "revId": "4b07f6567b0f6a119a3a2de3cd9efb1664fddca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
