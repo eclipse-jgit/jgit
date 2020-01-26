@@ -63,10 +63,11 @@ public abstract class SshSessionFactory {
 	 *            default factory will be restored.s
 	 */
 	public static void setInstance(SshSessionFactory newFactory) {
-		if (newFactory != null)
+		if (newFactory != null) {
 			INSTANCE = newFactory;
-		else
-			INSTANCE = new DefaultSshSessionFactory();
+		} else {
+			INSTANCE = loadSshSessionFactory();
+		}
 	}
 
 	/**
