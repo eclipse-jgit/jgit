@@ -601,7 +601,10 @@ public final class Constants {
 				throw new CorruptObjectException(id, JGitText.get().corruptObjectInvalidType);
 			}
 		} catch (ArrayIndexOutOfBoundsException bad) {
-			throw new CorruptObjectException(id, JGitText.get().corruptObjectInvalidType);
+			CorruptObjectException coe = new CorruptObjectException(id,
+					JGitText.get().corruptObjectInvalidType);
+			coe.initCause(bad);
+			throw coe;
 		}
 	}
 

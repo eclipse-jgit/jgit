@@ -46,7 +46,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			return StringUtils.toBoolean(n);
 		} catch (IllegalArgumentException err) {
 			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().invalidBooleanValue, section, name, n));
+					JGitText.get().invalidBooleanValue, section, name, n), err);
 		}
 	}
 
@@ -152,7 +152,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			return mul * Long.parseLong(n);
 		} catch (NumberFormatException nfe) {
 			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().invalidIntegerValue, section, name, str));
+					JGitText.get().invalidIntegerValue, section, name, str),
+					nfe);
 		}
 	}
 
@@ -239,7 +240,10 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			return wantUnit.convert(Long.parseLong(digits) * inputMul,
 					inputUnit);
 		} catch (NumberFormatException nfe) {
-			throw notTimeUnit(section, subsection, unitName, valueString);
+			IllegalArgumentException iae = notTimeUnit(section, subsection,
+					unitName, valueString);
+			iae.initCause(nfe);
+			throw iae;
 		}
 	}
 

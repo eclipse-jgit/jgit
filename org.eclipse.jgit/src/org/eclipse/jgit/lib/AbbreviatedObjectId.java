@@ -114,8 +114,11 @@ public final class AbbreviatedObjectId implements Serializable {
 			final int d = hexUInt32(bs, ptr + 24, end);
 			final int e = hexUInt32(bs, ptr + 32, end);
 			return new AbbreviatedObjectId(end - ptr, a, b, c, d, e);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidObjectIdException(bs, ptr, end - ptr);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidObjectIdException e1 = new InvalidObjectIdException(bs, ptr,
+					end - ptr);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

@@ -1071,7 +1071,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		} catch (DataFormatException e) {
 			throw new CorruptObjectException(MessageFormat.format(
 					JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-					getPackFile()));
+					getPackFile()), e);
 		}
 	}
 

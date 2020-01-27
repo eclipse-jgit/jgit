@@ -149,7 +149,9 @@ public class TimeoutOutputStreamTest {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						throw new InterruptedIOException();
+						InterruptedIOException e1 = new InterruptedIOException();
+						e1.initCause(e);
+						throw e1;
 					}
 				}
 			}
@@ -202,7 +204,9 @@ public class TimeoutOutputStreamTest {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						throw new InterruptedIOException();
+						InterruptedIOException e1 = new InterruptedIOException();
+						e1.initCause(e);
+						throw e1;
 					}
 				}
 			}

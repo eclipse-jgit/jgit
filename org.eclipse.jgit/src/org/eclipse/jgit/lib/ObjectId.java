@@ -213,9 +213,11 @@ public class ObjectId extends AnyObjectId implements Serializable {
 			final int d = RawParseUtils.parseHexInt32(bs, p + 24);
 			final int e = RawParseUtils.parseHexInt32(bs, p + 32);
 			return new ObjectId(a, b, c, d, e);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidObjectIdException(bs, p,
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidObjectIdException e1 = new InvalidObjectIdException(bs, p,
 					Constants.OBJECT_ID_STRING_LENGTH);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

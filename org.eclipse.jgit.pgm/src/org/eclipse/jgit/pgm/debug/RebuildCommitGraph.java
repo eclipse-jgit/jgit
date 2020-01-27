@@ -235,7 +235,9 @@ class RebuildCommitGraph extends TextBuiltin {
 				try {
 					lck.write(content);
 				} catch (IOException ioe) {
-					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
+					throw new ObjectWritingException(
+							MessageFormat.format(CLIText.get().cantWrite, file),
+							ioe);
 				}
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
@@ -266,7 +268,9 @@ class RebuildCommitGraph extends TextBuiltin {
 						errw.println(MessageFormat.format(CLIText.get().skippingObject, type, name));
 						continue;
 					}
-					throw new MissingObjectException(id, type);
+					MissingObjectException mue1 = new MissingObjectException(id, type);
+					mue1.initCause(mue);
+					throw mue1;
 				}
 				refs.put(name, new ObjectIdRef.Unpeeled(Ref.Storage.PACKED,
 						name, id));

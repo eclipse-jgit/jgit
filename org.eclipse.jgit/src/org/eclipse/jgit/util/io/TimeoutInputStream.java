@@ -70,7 +70,7 @@ public class TimeoutInputStream extends FilterInputStream {
 			beginRead();
 			return super.read();
 		} catch (InterruptedIOException e) {
-			throw readTimedOut();
+			throw readTimedOut(e);
 		} finally {
 			endRead();
 		}
@@ -89,7 +89,7 @@ public class TimeoutInputStream extends FilterInputStream {
 			beginRead();
 			return super.read(buf, off, cnt);
 		} catch (InterruptedIOException e) {
-			throw readTimedOut();
+			throw readTimedOut(e);
 		} finally {
 			endRead();
 		}
@@ -102,7 +102,7 @@ public class TimeoutInputStream extends FilterInputStream {
 			beginRead();
 			return super.skip(cnt);
 		} catch (InterruptedIOException e) {
-			throw readTimedOut();
+			throw readTimedOut(e);
 		} finally {
 			endRead();
 		}
@@ -116,8 +116,11 @@ public class TimeoutInputStream extends FilterInputStream {
 		myTimer.end();
 	}
 
-	private InterruptedIOException readTimedOut() {
-		return new InterruptedIOException(MessageFormat.format(
-				JGitText.get().readTimedOut, Integer.valueOf(timeout)));
+	private InterruptedIOException readTimedOut(InterruptedIOException e) {
+		InterruptedIOException interrupted = new InterruptedIOException(
+				MessageFormat.format(JGitText.get().readTimedOut,
+						Integer.valueOf(timeout)));
+		interrupted.initCause(e);
+		return interrupted;
 	}
 }

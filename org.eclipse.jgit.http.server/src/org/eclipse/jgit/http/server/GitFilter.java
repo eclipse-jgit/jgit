@@ -298,7 +298,8 @@ public class GitFilter extends MetaFilter {
 		try {
 			return StringUtils.toBoolean(n);
 		} catch (IllegalArgumentException err) {
-			throw new ServletException(MessageFormat.format(HttpServerText.get().invalidBoolean, param, n));
+			throw new ServletException(MessageFormat.format(
+					HttpServerText.get().invalidBoolean, param, n), err);
 		}
 	}
 

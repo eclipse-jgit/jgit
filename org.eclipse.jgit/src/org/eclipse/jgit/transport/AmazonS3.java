@@ -655,7 +655,8 @@ public class AmazonS3 {
 					try {
 						xr = XMLReaderFactory.createXMLReader();
 					} catch (SAXException e) {
-						throw new IOException(JGitText.get().noXMLParserAvailable);
+						throw new IOException(
+								JGitText.get().noXMLParserAvailable, e);
 					}
 					xr.setContentHandler(this);
 					try (InputStream in = c.getInputStream()) {

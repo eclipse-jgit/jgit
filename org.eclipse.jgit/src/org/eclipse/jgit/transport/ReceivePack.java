@@ -2110,7 +2110,7 @@ public class ReceivePack {
 		} catch (InputOverLimitIOException e) {
 			String msg = JGitText.get().tooManyCommands;
 			fatalError(msg);
-			throw new PackProtocolException(msg);
+			throw new PackProtocolException(msg, e);
 		} finally {
 			try {
 				close();

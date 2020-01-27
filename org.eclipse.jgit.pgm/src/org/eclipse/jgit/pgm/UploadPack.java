@@ -50,7 +50,7 @@ class UploadPack extends TextBuiltin {
 			up.upload(ins, outs, errs);
 		} catch (RepositoryNotFoundException notFound) {
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository,
-					srcGitdir.getPath()));
+					srcGitdir.getPath()), notFound);
 		} catch (IOException e) {
 			throw die(e.getMessage(), e);
 		}

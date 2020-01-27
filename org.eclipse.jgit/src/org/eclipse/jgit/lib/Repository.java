@@ -550,9 +550,11 @@ public abstract class Repository implements AutoCloseable {
 						try {
 							pnum = Integer.parseInt(parentnum);
 						} catch (NumberFormatException e) {
-							throw new RevisionSyntaxException(
+							RevisionSyntaxException rse = new RevisionSyntaxException(
 									JGitText.get().invalidCommitParentNumber,
 									revstr);
+							rse.initCause(e);
+							throw rse;
 						}
 						if (pnum != 0) {
 							RevCommit commit = (RevCommit) rev;
@@ -647,8 +649,10 @@ public abstract class Repository implements AutoCloseable {
 					try {
 						dist = Integer.parseInt(distnum);
 					} catch (NumberFormatException e) {
-						throw new RevisionSyntaxException(
+						RevisionSyntaxException rse = new RevisionSyntaxException(
 								JGitText.get().invalidAncestryLength, revstr);
+						rse.initCause(e);
+						throw rse;
 					}
 				} else
 					dist = 1;
@@ -707,7 +711,10 @@ public abstract class Repository implements AutoCloseable {
 							remoteConfig = new RemoteConfig(getConfig(),
 									"origin"); //$NON-NLS-1$
 						} catch (URISyntaxException e) {
-							throw new RevisionSyntaxException(revstr);
+							RevisionSyntaxException rse = new RevisionSyntaxException(
+									revstr);
+							rse.initCause(e);
+							throw rse;
 						}
 						String remoteBranchName = getConfig()
 								.getString(
@@ -874,8 +881,11 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			number = Integer.parseInt(time);
 		} catch (NumberFormatException nfe) {
-			throw new RevisionSyntaxException(MessageFormat.format(
-					JGitText.get().invalidReflogRevision, time));
+			RevisionSyntaxException rse = new RevisionSyntaxException(
+					MessageFormat.format(JGitText.get().invalidReflogRevision,
+							time));
+			rse.initCause(nfe);
+			throw rse;
 		}
 		assert number >= 0;
 		ReflogReader reader = getReflogReader(ref.getName());

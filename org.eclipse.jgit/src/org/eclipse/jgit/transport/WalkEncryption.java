@@ -282,9 +282,12 @@ abstract class WalkEncryption {
 		String REGEX_TRANS = "(.+)/(.+)/(.+)"; //$NON-NLS-1$
 	}
 
-	static GeneralSecurityException securityError(String message) {
-		return new GeneralSecurityException(
+	static GeneralSecurityException securityError(String message,
+			Throwable cause) {
+		GeneralSecurityException e = new GeneralSecurityException(
 				MessageFormat.format(JGitText.get().encryptionError, message));
+		e.initCause(cause);
+		return e;
 	}
 
 	/**
@@ -332,21 +335,21 @@ abstract class WalkEncryption {
 			try {
 				size = Integer.parseInt(keySize);
 			} catch (Exception e) {
-				throw securityError(X_KEY_SIZE + EMPTY + keySize);
+				throw securityError(X_KEY_SIZE + EMPTY + keySize, e);
 			}
 
 			final int iter;
 			try {
 				iter = Integer.parseInt(keyIter);
 			} catch (Exception e) {
-				throw securityError(X_KEY_ITER + EMPTY + keyIter);
+				throw securityError(X_KEY_ITER + EMPTY + keyIter, e);
 			}
 
 			final byte[] salt;
 			try {
 				salt = Hex.decode(keySalt.replaceAll(REGEX_WS, EMPTY));
 			} catch (Exception e) {
-				throw securityError(X_KEY_SALT + EMPTY + keySalt);
+				throw securityError(X_KEY_SALT + EMPTY + keySalt, e);
 			}
 
 			KeySpec keySpec = new PBEKeySpec(pass.toCharArray(), salt, iter, size);
