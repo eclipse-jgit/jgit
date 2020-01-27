@@ -204,26 +204,22 @@ public abstract class FS {
 		public static final FileStoreAttributes FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributes(
 				FALLBACK_TIMESTAMP_RESOLUTION);
 
-		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
-
-		private static final SimpleLruCache<Path, FileStoreAttributes> attrCacheByPath = new SimpleLruCache<>(
-				100, 0.2f);
-
-		private static AtomicBoolean background = new AtomicBoolean();
-
-		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
-
-		private static void setBackground(boolean async) {
-			background.set(async);
-		}
-
-		private static final String javaVersionPrefix = SystemReader
+		private static final String JAVA_VERSION_PREFIX = SystemReader
 				.getInstance().getHostname() + '|'
 				+ System.getProperty("java.vendor") + '|' //$NON-NLS-1$
 				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
 
 		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
 				.ofMillis(10);
+
+		private static final Map<FileStore, FileStoreAttributes> attributeCache = new ConcurrentHashMap<>();
+
+		private static final SimpleLruCache<Path, FileStoreAttributes> attrCacheByPath = new SimpleLruCache<>(
+				100, 0.2f);
+
+		private static final AtomicBoolean background = new AtomicBoolean();
+
+		private static final Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
 
 		private static final AtomicInteger threadNumber = new AtomicInteger(1);
 
@@ -249,6 +245,10 @@ public abstract class FS {
 					t.setDaemon(true);
 					return t;
 				});
+
+		private static void setBackground(boolean async) {
+			background.set(async);
+		}
 
 		/**
 		 * Configures size and purge factor of the path-based cache for file
@@ -628,7 +628,7 @@ public abstract class FS {
 			} else {
 				storeKey = s.name();
 			}
-			return javaVersionPrefix + storeKey;
+			return JAVA_VERSION_PREFIX + storeKey;
 		}
 
 		private static TimeUnit getUnit(long nanos) {
