@@ -973,7 +973,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		try {
 			lck.write(bin);
 		} catch (IOException ioe) {
-			throw new ObjectWritingException("Can't write " + p);
+			throw new ObjectWritingException("Can't write " + p, ioe);
 		}
 		if (!lck.commit())
 			throw new ObjectWritingException("Can't write " + p);

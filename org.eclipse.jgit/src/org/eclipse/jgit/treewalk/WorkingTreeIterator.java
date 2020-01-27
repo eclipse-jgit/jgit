@@ -1159,7 +1159,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			} catch (CharacterCodingException e) {
 				// This should so never happen.
 				throw new RuntimeException(MessageFormat.format(
-						JGitText.get().unencodeableFile, getName()));
+						JGitText.get().unencodeableFile, getName()), e);
 			}
 
 			encodedNameLen = b.limit();

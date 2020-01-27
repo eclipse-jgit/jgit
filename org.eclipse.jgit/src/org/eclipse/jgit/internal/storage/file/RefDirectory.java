@@ -1035,7 +1035,10 @@ public class RefDirectory extends RefDatabase {
 					lck.waitForStatChange();
 				} catch (InterruptedException e) {
 					lck.unlock();
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().interruptedWriting, name));
+					throw new ObjectWritingException(
+							MessageFormat.format(
+									JGitText.get().interruptedWriting, name),
+							e);
 				}
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));

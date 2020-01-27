@@ -769,7 +769,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 						shallowCommitsIds.add(ObjectId.fromString(line));
 					} catch (IllegalArgumentException ex) {
 						throw new IOException(MessageFormat
-								.format(JGitText.get().badShallowLine, line));
+								.format(JGitText.get().badShallowLine, line),
+								ex);
 					}
 				}
 			}

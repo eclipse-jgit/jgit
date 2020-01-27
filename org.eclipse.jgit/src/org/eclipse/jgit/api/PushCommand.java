@@ -153,7 +153,7 @@ public class PushCommand extends
 
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
-					JGitText.get().invalidRemote, remote));
+					JGitText.get().invalidRemote, remote), e);
 		} catch (TransportException e) {
 			throw new org.eclipse.jgit.api.errors.TransportException(
 					e.getMessage(), e);
