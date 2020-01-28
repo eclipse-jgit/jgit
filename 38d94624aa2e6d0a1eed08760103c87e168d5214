@@ -22,6 +22,30 @@
       "revId": "38d94624aa2e6d0a1eed08760103c87e168d5214",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3783496_afd81623",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-01-28T10:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38bf75d1_44d68e0d",
+      "range": {
+        "startLine": 137,
+        "startChar": 29,
+        "endLine": 137,
+        "endChar": 45
+      },
+      "revId": "38d94624aa2e6d0a1eed08760103c87e168d5214",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
