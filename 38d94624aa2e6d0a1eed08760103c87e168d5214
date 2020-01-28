@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38bf75d1_44d68e0d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-01-28T10:13:15Z",
+      "side": 1,
+      "message": "I like that when a user doesn\u0027t specify an explicit configfile for the daemon command that we use the default ones. I am not so sure in the case where the user\nexplicitly specifies a configfile for the daemon process.\nShould we take that explicitly specified configfile as the only source for config data or should we use the\nexplicitly specified config file only as one additional config file inheriting unspecified options from global and system (as it is done in this proposal). I would go for\nthe first option and take an explicitly specified configfile as only source and don\u0027t inherit from user and system config.",
+      "range": {
+        "startLine": 137,
+        "startChar": 29,
+        "endLine": 137,
+        "endChar": 45
+      },
+      "revId": "38d94624aa2e6d0a1eed08760103c87e168d5214",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
