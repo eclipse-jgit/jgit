@@ -22,6 +22,30 @@
       "revId": "cce03464442a159e02d68ce7ea99576087381c85",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09fb0ae5_deb2d77e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-01-29T14:03:41Z",
+      "side": 1,
+      "message": "No, I don\u0027t think so.  in l.157, 158 we set the update_index that we use for delta compressing ref updates. For the compacted table to be valid in its stack, we have to copy the range of update indices. this previously happened in l.192 (see above).\n\nHowever, this meant that reflog entries could be dropped -  for example,    \n\n  https://eclipse.googlesource.com/jgit/jgit/+/refs/heads/master/Documentation/technical/reftable.md#log-record\n\nsays \n\n\"The log_type \u003d 0x0 is mostly useful for git stash drop, removing an entry from the reflog of refs/stash in a transaction file (below), without needing to rewrite larger files. Readers reading a stack of reflogs must treat this as a deletion.\"\n\nif you delete an existing log entry, by definition, you\u0027d write it at an update_index outside of the range of the table you\u0027re writing. This would cause it to be (erroneously) deleted on the next compaction.\n\nit took a while before I understood this finesse, and now it\u0027s also not obvious to you from this code, so I should add a test.",
+      "parentUuid": "5202edb4_b57110a8",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 68
+      },
+      "revId": "cce03464442a159e02d68ce7ea99576087381c85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
