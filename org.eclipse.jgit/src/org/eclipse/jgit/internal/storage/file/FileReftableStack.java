@@ -396,7 +396,7 @@ public class FileReftableStack implements AutoCloseable {
 	 *
 	 * @param w
 	 *            writer to write data to a reftable under construction
-	 * @return true if the transaction.
+	 * @return true if the transaction was succesful.
 	 * @throws IOException
 	 *             on I/O problems
 	 */
