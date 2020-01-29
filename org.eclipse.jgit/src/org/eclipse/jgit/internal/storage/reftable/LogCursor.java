@@ -45,7 +45,7 @@ public abstract class LogCursor implements AutoCloseable {
 	/**
 	 * Get current log entry.
 	 *
-	 * @return current log entry.
+	 * @return current log entry. Maybe null if we are producing deletions.
 	 */
 	public abstract ReflogEntry getReflogEntry();
 
