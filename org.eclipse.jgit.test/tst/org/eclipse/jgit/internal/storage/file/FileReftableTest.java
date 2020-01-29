@@ -510,9 +510,81 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void compactFully() throws Exception {
+		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
+		PersonIdent person = new PersonIdent("jane", "jane@invalid");
+
+		ObjectId aId  = db.exactRef("refs/heads/a").getObjectId();
+		ObjectId bId  = db.exactRef("refs/heads/b").getObjectId();
+
+		SecureRandom random = new SecureRandom();
+		List<String> strs = new ArrayList<>();
+		for (int i = 0; i < 1024; i++) {
+			strs.add(String.format("%02x", random.nextInt(256)));
+		}
+
+		String randomStr = String.join("", strs);
+		String refName = "branch";
+		for (long i = 0; i < 2; i++) {
+			RefUpdate ru = refDb.newUpdate(refName, false);
+			ru.setNewObjectId(i % 2 == 0 ? aId : bId);
+			ru.setForceUpdate(true);
+			ru.setRefLogMessage(i == 0 ? randomStr : "short", false);
+			ru.setRefLogIdent(person);
+
+			RefUpdate.Result res = ru.update();
+			assertTrue(res == Result.NEW || res == FORCED);
+		}
+
+		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
+		refDb.compactFully();
+		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
+	}
+
+	@Test
 	public void reftableRefsStorageClass() throws IOException {
 		Ref b = db.exactRef("refs/heads/b");
 		assertEquals(Ref.Storage.PACKED, b.getStorage());
+	}
+
+	@Test
+	public void reflogTombstoneCompaction() throws Exception {
+		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
+		PersonIdent person = new PersonIdent("jane", "jane@invalid");
+
+		ObjectId aId  = db.exactRef("refs/heads/a").getObjectId();
+		ObjectId bId  = db.exactRef("refs/heads/b").getObjectId();
+
+		String refName = "refs/heads/log";
+		List<String> messages = new ArrayList<>();
+		int N = 6;
+		for (long i = 0; i < 10; i++) {
+			if (i == N) {
+				ReflogEntry entry = refDb.getReflogReader(refName).getReverseEntry(N-2);
+				assertEquals(messages.get(1), entry.getComment());
+				assertTrue(refDb.deleteLog(refName, N-2));
+				entry = refDb.getReflogReader(refName).getReverseEntry(N-2);
+				assertEquals(messages.get(0), entry.getComment());
+			}
+
+			String msg = String.format("msg %d", i);
+			messages.add(msg);
+			RefUpdate ru = refDb.newUpdate(refName, false);
+			ru.setNewObjectId(i % 2 == 0 ? aId : bId);
+			ru.setForceUpdate(true);
+			ru.setRefLogMessage(msg, false);
+			ru.setRefLogIdent(person);
+
+			RefUpdate.Result res = ru.update();
+			assertTrue(res == Result.NEW || res == FORCED);
+		}
+
+		messages.remove(1);
+		List<String> entries =
+			refDb.getReflogReader(refName).getReverseEntries().stream().map(x -> x.getComment()).collect(Collectors.toList());
+		Collections.reverse(entries);
+
+		assertEquals(messages, entries);
 	}
 
 	private RefUpdate updateRef(String name) throws IOException {
