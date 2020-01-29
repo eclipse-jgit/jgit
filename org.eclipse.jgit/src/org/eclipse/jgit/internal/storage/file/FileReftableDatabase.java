@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -114,6 +115,31 @@ public class FileReftableDatabase extends RefDatabase {
 
 	ReflogReader getReflogReader(String refname) throws IOException {
 		return reftableDatabase.getReflogReader(refname);
+	}
+
+	/**
+	 * Deletes an entry from the reflog, where index 0 is the newest entry.
+	 *
+	 * @param refName the ref from which a long entry has to be deleted.
+	 * @param index 0-based index (newest entry first) to delete.
+	 * @return whether the entry was deleted successfully.
+	 * @throws IOException on I/O problems.
+	 */
+	public boolean deleteLog(String refName, int index) throws IOException
+	{
+		reftableDatabase.getLock().lock();
+		try {
+			Optional<Long> idx = reftableDatabase.logEntryUpdateIndex(refName, index);
+			if (!idx.isPresent()) {
+				return  false;
+			}
+			long next = reftableDatabase.nextUpdateIndex();
+			return addReftable(wr -> {
+				wr.setMinUpdateIndex(next).setMaxUpdateIndex(next).begin().deleteLog(refName, idx.get());
+			});
+		} finally {
+			reftableDatabase.getLock().unlock();
+		}
 	}
 
 	/**
@@ -350,7 +376,10 @@ public class FileReftableDatabase extends RefDatabase {
 				true);
 	}
 
-	private boolean addReftable(FileReftableStack.Writer w) throws IOException {
+	// Visible for testing.
+
+	// Visible for testing.
+	boolean addReftable(FileReftableStack.Writer w) throws IOException {
 		if (!reftableStack.addReftable(w)) {
 			reftableStack.reload();
 			reftableDatabase.clearCache();

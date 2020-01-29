@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
@@ -108,6 +109,24 @@ public abstract class ReftableDatabase {
 		lock.lock();
 		try {
 			return new ReftableReflogReader(lock, reader(), refname);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public Optional<Long> logEntryUpdateIndex(String refname, int index) throws IOException {
+		lock.lock();
+		try {
+			Reftable r = reader();
+			LogCursor c = r.seekLog(refname);
+			while (index >= 0) {
+				if (!c.next()) {
+					 return Optional.empty();
+				}
+				index--;
+			}
+
+			return Optional.of(c.getUpdateIndex());
 		} finally {
 			lock.unlock();
 		}
