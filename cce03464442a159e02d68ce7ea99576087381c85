@@ -46,6 +46,30 @@
       "revId": "cce03464442a159e02d68ce7ea99576087381c85",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cbc18e3_cc76a43b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-01-29T18:15:12Z",
+      "side": 1,
+      "message": "I tried writing a test, but it\u0027s actually hard.\n\nHere is the scenario where the original code would do something wrong:\n\nwrite a bunch of log entries\n\n  \"branch @ 0\" - reftable 0-0   // minUpdateIdx \u003d 0, maxUpdateIdx \u003d 0\n  \"branch @ 1\" - reftable 1-1\n  \"branch @ 2\" - reftable 2-2\n  \"branch @ 3\" - reftable 3-3\n\nnow issue a tombstone for the first entry: \n\n  \"DELETE branch @ 0\" - reftable 4-4  \n\nNow imagine we run a compaction of the last 2 tables, ie.\n\n  \"branch @ 3\" - reftable 3-3\n  \"DELETE branch @ 0\" - reftable 4-4  \n\nThe previous code would set min\u003d3, max\u003d4 and then throw out the DELETE entry on compaction.\n\nIt\u0027s hard to test because the deletion logic is in the spec, but it is not exposed in JGit, and the API doesn\u0027t allow the amount of control to create just that compaction that would create a problem.",
+      "parentUuid": "09fb0ae5_deb2d77e",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 68
+      },
+      "revId": "cce03464442a159e02d68ce7ea99576087381c85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
