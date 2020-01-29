@@ -285,9 +285,6 @@ public class FileReftableStack implements AutoCloseable {
 		}
 
 		if (!success) {
-			// TODO: should reexamine the 'refs' file to see if it was the same
-			// if it didn't change, then we must have corruption. If it did,
-			// retry.
 			throw new LockFailedException(stackPath);
 		}
 
