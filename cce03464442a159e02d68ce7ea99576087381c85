@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5202edb4_b57110a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-01-29T00:05:56Z",
+      "side": 1,
+      "message": "These update indices come from the setters, while the writer in line 157 and 158 uses indices from the reader. Should they be consistent?",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 68
+      },
+      "revId": "cce03464442a159e02d68ce7ea99576087381c85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
