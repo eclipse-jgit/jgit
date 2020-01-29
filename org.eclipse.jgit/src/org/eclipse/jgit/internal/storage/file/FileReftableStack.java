@@ -237,8 +237,12 @@ public class FileReftableStack implements AutoCloseable {
 		long max = 1000;
 		long delay = 0;
 		boolean success = false;
-		while (System.currentTimeMillis() < deadline) {
+
+		// Don't check deadline at first to aid step-debugging.
+		int tries = 0;
+		while (tries < 3 || System.currentTimeMillis() < deadline) {
 			List<String> names = readTableNames();
+			tries++;
 			try {
 				reloadOnce(names);
 				success = true;
