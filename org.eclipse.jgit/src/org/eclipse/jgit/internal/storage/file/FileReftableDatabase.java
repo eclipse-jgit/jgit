@@ -139,6 +139,7 @@ public class FileReftableDatabase extends RefDatabase {
 		reftableDatabase.getLock().lock();
 		try {
 			reftableStack.compactFully();
+			reftableDatabase.clearCache();
 		} finally {
 			reftableDatabase.getLock().unlock();
 		}
