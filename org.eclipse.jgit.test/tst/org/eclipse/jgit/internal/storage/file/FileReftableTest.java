@@ -59,6 +59,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -540,6 +541,43 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		updateRef.setForceUpdate(true);
 		assertEquals(FORCED, updateRef.update());
 		assertEquals(RefUpdate.Result.LOCK_FAILURE, rename.rename());
+	}
+
+	@Test
+	public void compactFully() throws Exception {
+		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
+		PersonIdent person = new PersonIdent("jane", "jane@invalid");
+
+		ObjectId aId  = db.exactRef("refs/heads/a").getObjectId();
+		ObjectId bId  = db.exactRef("refs/heads/b").getObjectId();
+
+		SecureRandom random = new SecureRandom();
+		List<String> strs = new ArrayList<>();
+		for (int i = 0; i < 1024; i++) {
+			strs.add(String.format("%02x",
+					Integer.valueOf(random.nextInt(256))));
+		}
+
+		String randomStr = String.join("", strs);
+		String refName = "branch";
+		for (long i = 0; i < 2; i++) {
+			RefUpdate ru = refDb.newUpdate(refName, false);
+			ru.setNewObjectId(i % 2 == 0 ? aId : bId);
+			ru.setForceUpdate(true);
+			// Only write a large string in the first table, so it becomes much larger
+			// than the second, and the result is not autocompacted.
+			ru.setRefLogMessage(i == 0 ? randomStr : "short", false);
+			ru.setRefLogIdent(person);
+
+			RefUpdate.Result res = ru.update();
+			assertTrue(res == Result.NEW || res == FORCED);
+		}
+
+		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
+		refDb.compactFully();
+		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
 	}
 
 	@Test
