@@ -254,6 +254,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PACKED_GIT_OPENFILES = "packedgitopenfiles";
 
+	/**
+	 * The "packedGitUseStrongRefs" key
+	 * @since 5.1.13
+	 */
+	public static final String CONFIG_KEY_PACKED_GIT_USE_STRONGREFS = "packedgitusestrongrefs";
+
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
