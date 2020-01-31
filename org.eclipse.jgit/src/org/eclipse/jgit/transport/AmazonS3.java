@@ -44,6 +44,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.time.Instant;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -311,7 +313,10 @@ public class AmazonS3 {
 		do {
 			lp.list();
 		} while (lp.truncated);
-		return lp.entries;
+
+		// Sort keys so most recently modified are first.
+		Collections.sort(lp.entries);
+		return lp.entries.stream().map(anEntity -> anEntity.name).collect(Collectors.toList());
 	}
 
 	/**
@@ -620,8 +625,31 @@ public class AmazonS3 {
 		return p;
 	}
 
+        // KeyInfo class exists so we can record the LastModified time of each key and then sort
+        // to put recently modified keys first in a List of keys.
+        private class KeyInfo implements Comparable<KeyInfo> {
+	    String name;
+	    long lastModifiedSecs;
+	    public KeyInfo(String aname, long lsecs) {
+		name = aname;
+		lastModifiedSecs = lsecs;
+	    }
+
+	    // So sort() will put more recently modified keys first.
+	    @Override
+	    public int compareTo(KeyInfo other) {
+		if (this.lastModifiedSecs < other.lastModifiedSecs) {
+		    return 1;
+		} else if (this.lastModifiedSecs == other.lastModifiedSecs) {
+		    return 0;
+		} else {
+		    return -1;
+		}
+	    }
+	}
+
 	private final class ListParser extends DefaultHandler {
-		final List<String> entries = new ArrayList<>();
+		final List<KeyInfo> entries = new ArrayList<>();
 
 		private final String bucket;
 
@@ -630,6 +658,8 @@ public class AmazonS3 {
 		boolean truncated;
 
 		private StringBuilder data;
+	        private String keyName;
+	        private Instant keyLastModified;
 
 		ListParser(String bn, String p) {
 			bucket = bn;
@@ -641,7 +671,7 @@ public class AmazonS3 {
 			if (prefix.length() > 0)
 				args.put("prefix", prefix); //$NON-NLS-1$
 			if (!entries.isEmpty())
-				args.put("marker", prefix + entries.get(entries.size() - 1)); //$NON-NLS-1$
+				args.put("marker", prefix + entries.get(entries.size() - 1).name); //$NON-NLS-1$
 
 			for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 				final HttpURLConnection c = open("GET", bucket, "", args); //$NON-NLS-1$ //$NON-NLS-2$
@@ -650,6 +680,8 @@ public class AmazonS3 {
 				case HttpURLConnection.HTTP_OK:
 					truncated = false;
 					data = null;
+					keyName = null;
+					keyLastModified = null;
 
 					final XMLReader xr;
 					try {
@@ -683,8 +715,13 @@ public class AmazonS3 {
 		public void startElement(final String uri, final String name,
 				final String qName, final Attributes attributes)
 				throws SAXException {
-			if ("Key".equals(name) || "IsTruncated".equals(name)) //$NON-NLS-1$ //$NON-NLS-2$
+		        if ("Key".equals(name) || "IsTruncated".equals(name) || "LastModified".equals(name)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				data = new StringBuilder();
+			}
+			if ("Contents".equals(name)) {
+			        keyName = null;
+			        keyLastModified = null;
+			}
 		}
 
 		@Override
@@ -704,10 +741,16 @@ public class AmazonS3 {
 		@Override
 		public void endElement(final String uri, final String name,
 				final String qName) throws SAXException {
-			if ("Key".equals(name)) //$NON-NLS-1$
-				entries.add(data.toString().substring(prefix.length()));
-			else if ("IsTruncated".equals(name)) //$NON-NLS-1$
+		        if ("Key".equals(name))  { //$NON-NLS-1$
+			        keyName = data.toString().substring(prefix.length());
+		        } else if ("IsTruncated".equals(name)) { //$NON-NLS-1$
 				truncated = StringUtils.equalsIgnoreCase("true", data.toString()); //$NON-NLS-1$
+			} else if ("LastModified".equals(name)) {
+			        keyLastModified = Instant.parse(data.toString());
+		        } else if ("Contents".equals(name)) {
+			        entries.add(new KeyInfo(keyName, keyLastModified.getEpochSecond()));
+			}
+
 			data = null;
 		}
 	}
