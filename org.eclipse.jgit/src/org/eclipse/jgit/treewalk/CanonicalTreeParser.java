@@ -354,14 +354,13 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		tmp = pathOffset;
 		for (;; tmp++) {
 			c = raw[ptr++];
-			if (c == 0)
+			if (c == 0) {
 				break;
-			try {
-				path[tmp] = c;
-			} catch (ArrayIndexOutOfBoundsException e) {
-				growPath(tmp);
-				path[tmp] = c;
 			}
+			if (tmp >= path.length) {
+				growPath(tmp);
+			}
+			path[tmp] = c;
 		}
 		pathLen = tmp;
 		nextPtr = ptr + OBJECT_ID_LENGTH;

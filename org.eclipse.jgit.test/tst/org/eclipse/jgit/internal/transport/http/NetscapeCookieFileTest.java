@@ -9,6 +9,10 @@
  */
 package org.eclipse.jgit.internal.transport.http;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
@@ -27,10 +31,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
 import org.eclipse.jgit.util.http.HttpCookiesMatcher;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -81,11 +83,10 @@ public class NetscapeCookieFileTest {
 		cookie = new HttpCookie("key3", "valueFromSet2");
 		cookiesExpectedMergedSet.add(cookie);
 
-		Assert.assertThat(
-				NetscapeCookieFile.mergeCookies(cookieSet1, cookieSet2),
+		assertThat(NetscapeCookieFile.mergeCookies(cookieSet1, cookieSet2),
 				HttpCookiesMatcher.containsInOrder(cookiesExpectedMergedSet));
 
-		Assert.assertThat(NetscapeCookieFile.mergeCookies(cookieSet1, null),
+		assertThat(NetscapeCookieFile.mergeCookies(cookieSet1, null),
 				HttpCookiesMatcher.containsInOrder(cookieSet1));
 	}
 
@@ -110,8 +111,7 @@ public class NetscapeCookieFileTest {
 		String expectedExpiration = String
 				.valueOf(creationDate.getTime() + (cookie.getMaxAge() * 1000));
 
-		Assert.assertThat(
-				Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
+		assertThat(Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
 				CoreMatchers
 						.equalTo(Arrays.asList("mydomain.com\tTRUE\t/\tTRUE\t"
 								+ expectedExpiration + "\tkey2\tvalue")));
@@ -136,8 +136,7 @@ public class NetscapeCookieFileTest {
 		String expectedExpiration = String
 				.valueOf(creationDate.getTime() + (cookie.getMaxAge() * 1000));
 
-		Assert.assertThat(
-				Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
+		assertThat(Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
 				CoreMatchers.equalTo(
 						Arrays.asList("domain.com\tTRUE\t/my/path\tFALSE\t"
 								+ expectedExpiration + "\tkey2\tvalue2")));
@@ -154,7 +153,7 @@ public class NetscapeCookieFileTest {
 		// now imitate another process/thread holding the lock file
 		LockFile lockFile = new LockFile(tmpFile.toFile());
 		try {
-			Assert.assertTrue("Could not acquire lock", lockFile.lock());
+			assertTrue("Could not acquire lock", lockFile.lock());
 			cookieFile.write(baseUrl);
 		} finally {
 			lockFile.unlock();
@@ -184,7 +183,7 @@ public class NetscapeCookieFileTest {
 		List<String> lines = Files.readAllLines(tmpFile,
 				StandardCharsets.US_ASCII);
 
-		Assert.assertEquals("Expected 3 lines", 3, lines.size());
+		assertEquals("Expected 3 lines", 3, lines.size());
 		assertStringMatchesPatternWithInexactNumber(lines.get(0),
 				"some-domain1\tTRUE\t/some/path1\tFALSE\t(\\d*)\tkey1\tvalueFromSimple2",
 				JAN_01_2030_NOON, 1000);
@@ -202,12 +201,12 @@ public class NetscapeCookieFileTest {
 			long delta) {
 		java.util.regex.Matcher matcher = Pattern.compile(pattern)
 				.matcher(string);
-		Assert.assertTrue("Given string '" + string + "' does not match '"
-				+ pattern + "'", matcher.matches());
+		assertTrue("Given string '" + string + "' does not match '" + pattern
+				+ "'", matcher.matches());
 		// extract numeric value
 		Long actualNumericValue = Long.decode(matcher.group(1));
 
-		Assert.assertTrue(
+		assertTrue(
 				"Value is supposed to be close to " + expectedNumericValue
 						+ " but is " + actualNumericValue + ".",
 				Math.abs(expectedNumericValue - actualNumericValue) <= delta);
@@ -238,8 +237,7 @@ public class NetscapeCookieFileTest {
 		}
 		Set<HttpCookie> actualCookies = new NetscapeCookieFile(tmpFile,
 				creationDate).getCookies(true);
-		Assert.assertThat(actualCookies,
-				HttpCookiesMatcher.containsInOrder(cookies));
+		assertThat(actualCookies, HttpCookiesMatcher.containsInOrder(cookies));
 	}
 
 	@Test
@@ -259,8 +257,7 @@ public class NetscapeCookieFileTest {
 			NetscapeCookieFile.write(writer, cookies, baseUrl, creationDate);
 		}
 		// compare original file with newly written one, they should not differ
-		Assert.assertEquals(Files.readAllLines(tmpFile),
-				Files.readAllLines(tmpFile2));
+		assertEquals(Files.readAllLines(tmpFile), Files.readAllLines(tmpFile2));
 	}
 
 	@Test
@@ -289,8 +286,7 @@ public class NetscapeCookieFileTest {
 
 		Set<HttpCookie> actualCookies = new NetscapeCookieFile(tmpFile, creationDate)
 				.getCookies(true);
-		Assert.assertThat(actualCookies,
-				HttpCookiesMatcher.containsInOrder(cookies));
+		assertThat(actualCookies, HttpCookiesMatcher.containsInOrder(cookies));
 	}
 
 	@Test

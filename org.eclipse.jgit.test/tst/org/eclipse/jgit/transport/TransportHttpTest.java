@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpCookie;
@@ -120,7 +122,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 			cookie.setMaxAge(1234);
 			expectedCookies.add(cookie);
 
-			Assert.assertThat(
+			assertThat(
 					new NetscapeCookieFile(cookieFile.toPath())
 							.getCookies(true),
 					HttpCookiesMatcher.containsInOrder(expectedCookies, 5));

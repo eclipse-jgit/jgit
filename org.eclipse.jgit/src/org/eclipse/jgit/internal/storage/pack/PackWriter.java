@@ -1579,8 +1579,8 @@ public class PackWriter implements AutoCloseable {
 						if (pool.awaitTermination(60, TimeUnit.SECONDS))
 							break;
 					} catch (InterruptedException e) {
-						throw new IOException(
-								JGitText.get().packingCancelledDuringObjectsWriting);
+						throw new IOException(JGitText
+								.get().packingCancelledDuringObjectsWriting, e);
 					}
 				}
 			}
@@ -1604,7 +1604,8 @@ public class PackWriter implements AutoCloseable {
 				// Cross our fingers and just break out anyway.
 				//
 				throw new IOException(
-						JGitText.get().packingCancelledDuringObjectsWriting);
+						JGitText.get().packingCancelledDuringObjectsWriting,
+						ie);
 			}
 		}
 
@@ -1645,7 +1646,7 @@ public class PackWriter implements AutoCloseable {
 			for (Future<?> f : futures)
 				f.cancel(true);
 			throw new IOException(
-					JGitText.get().packingCancelledDuringObjectsWriting);
+					JGitText.get().packingCancelledDuringObjectsWriting, ie);
 		}
 	}
 

@@ -160,7 +160,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			verifyDirectories(u);
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(
-					MessageFormat.format(JGitText.get().invalidURL, uri));
+					MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
 		@SuppressWarnings("resource") // Closed by caller
 		Repository repository = init();
@@ -180,8 +180,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 				repository.close();
 			}
 			cleanup();
-			throw new InvalidRemoteException(MessageFormat.format(
-					JGitText.get().invalidRemote, remote));
+			throw new InvalidRemoteException(
+					MessageFormat.format(JGitText.get().invalidRemote, remote),
+					e);
 		} catch (GitAPIException | RuntimeException e) {
 			if (repository != null) {
 				repository.close();

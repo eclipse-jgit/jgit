@@ -350,6 +350,7 @@ public class SimilarityIndex {
 		return (1 << idHashBits) * (idHashBits - 3) / idHashBits;
 	}
 
+	@SuppressWarnings("UnusedException")
 	private void grow() throws TableFullException {
 		if (idHashBits == 30)
 			throw new TableFullException();

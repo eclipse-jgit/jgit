@@ -214,6 +214,15 @@ java_library(
 )
 
 java_library(
+    name = "assertj-core",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = [
+        "@assertj-core//jar",
+    ],
+)
+
+java_library(
     name = "servlet-api",
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",

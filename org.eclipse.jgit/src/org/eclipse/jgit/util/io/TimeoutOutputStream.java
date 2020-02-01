@@ -72,7 +72,7 @@ public class TimeoutOutputStream extends OutputStream {
 			beginWrite();
 			dst.write(b);
 		} catch (InterruptedIOException e) {
-			throw writeTimedOut();
+			throw writeTimedOut(e);
 		} finally {
 			endWrite();
 		}
@@ -91,7 +91,7 @@ public class TimeoutOutputStream extends OutputStream {
 			beginWrite();
 			dst.write(buf, off, len);
 		} catch (InterruptedIOException e) {
-			throw writeTimedOut();
+			throw writeTimedOut(e);
 		} finally {
 			endWrite();
 		}
@@ -104,7 +104,7 @@ public class TimeoutOutputStream extends OutputStream {
 			beginWrite();
 			dst.flush();
 		} catch (InterruptedIOException e) {
-			throw writeTimedOut();
+			throw writeTimedOut(e);
 		} finally {
 			endWrite();
 		}
@@ -117,7 +117,7 @@ public class TimeoutOutputStream extends OutputStream {
 			beginWrite();
 			dst.close();
 		} catch (InterruptedIOException e) {
-			throw writeTimedOut();
+			throw writeTimedOut(e);
 		} finally {
 			endWrite();
 		}
@@ -131,8 +131,11 @@ public class TimeoutOutputStream extends OutputStream {
 		myTimer.end();
 	}
 
-	private InterruptedIOException writeTimedOut() {
-		return new InterruptedIOException(MessageFormat.format(
-				JGitText.get().writeTimedOut, Integer.valueOf(timeout)));
+	private InterruptedIOException writeTimedOut(InterruptedIOException cause) {
+		InterruptedIOException e = new InterruptedIOException(
+				MessageFormat.format(JGitText.get().writeTimedOut,
+						Integer.valueOf(timeout)));
+		e.initCause(cause);
+		return e;
 	}
 }

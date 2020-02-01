@@ -165,9 +165,10 @@ public class SubmoduleValidator {
 				}
 			}
 		} catch (ConfigInvalidException e) {
-			throw new SubmoduleValidationException(
-					JGitText.get().invalidGitModules,
-					GITMODULES_PARSE);
+			SubmoduleValidationException sve = new SubmoduleValidationException(
+					JGitText.get().invalidGitModules, GITMODULES_PARSE);
+			sve.initCause(e);
+			throw sve;
 		}
 	}
 }

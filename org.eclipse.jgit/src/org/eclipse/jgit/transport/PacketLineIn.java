@@ -286,7 +286,7 @@ public class PacketLineIn {
 		try {
 			len = RawParseUtils.parseHexInt16(lineBuffer, 0);
 		} catch (ArrayIndexOutOfBoundsException err) {
-			throw invalidHeader();
+			throw invalidHeader(err);
 		}
 
 		if (len == 0) {
@@ -318,6 +318,12 @@ public class PacketLineIn {
 		return new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
 				"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
 				+ (char) lineBuffer[2] + (char) lineBuffer[3]));
+	}
+
+	private IOException invalidHeader(Throwable cause) {
+		IOException ioe = invalidHeader();
+		ioe.initCause(cause);
+		return ioe;
 	}
 
 	/**

@@ -149,8 +149,10 @@ public class UnpackedObject {
 			}
 			return new LargeObject(type, size, path, id, wc.db);
 		} catch (ZipException badStream) {
-			throw new CorruptObjectException(id,
+			CorruptObjectException coe = new CorruptObjectException(id,
 					JGitText.get().corruptObjectBadStream);
+			coe.initCause(badStream);
+			throw coe;
 		}
 	}
 
@@ -192,8 +194,10 @@ public class UnpackedObject {
 			}
 			return size;
 		} catch (ZipException badStream) {
-			throw new CorruptObjectException(id,
+			CorruptObjectException coe = new CorruptObjectException(id,
 					JGitText.get().corruptObjectBadStream);
+			coe.initCause(badStream);
+			throw coe;
 		}
 	}
 
@@ -205,8 +209,10 @@ public class UnpackedObject {
 			try {
 				r = inf.inflate(buf);
 			} catch (DataFormatException e) {
-				throw new CorruptObjectException(id,
+				CorruptObjectException coe = new CorruptObjectException(id,
 						JGitText.get().corruptObjectBadStream);
+				coe.initCause(e);
+				throw coe;
 			}
 			if (r != 0)
 				throw new CorruptObjectException(id,
@@ -277,8 +283,10 @@ public class UnpackedObject {
 						remaining -= r;
 					return r;
 				} catch (ZipException badStream) {
-					throw new CorruptObjectException(id,
+					CorruptObjectException coe = new CorruptObjectException(id,
 							JGitText.get().corruptObjectBadStream);
+					coe.initCause(badStream);
+					throw coe;
 				}
 			}
 

@@ -223,9 +223,11 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 			final long c = RawParseUtils.parseHexInt64(bs, p + 32);
 			final long d = RawParseUtils.parseHexInt64(bs, p + 48);
 			return new LongObjectId(a, b, c, d);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidLongObjectIdException(bs, p,
-					Constants.LONG_OBJECT_ID_STRING_LENGTH);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidLongObjectIdException e1 = new InvalidLongObjectIdException(
+					bs, p, Constants.LONG_OBJECT_ID_STRING_LENGTH);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

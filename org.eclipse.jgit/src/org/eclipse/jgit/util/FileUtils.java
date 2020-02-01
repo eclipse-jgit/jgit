@@ -300,7 +300,8 @@ public class FileUtils {
 			} catch (InterruptedException e) {
 				throw new IOException(
 						MessageFormat.format(JGitText.get().renameFileFailed,
-								src.getAbsolutePath(), dst.getAbsolutePath()));
+								src.getAbsolutePath(), dst.getAbsolutePath()),
+						e);
 			}
 		}
 		throw new IOException(

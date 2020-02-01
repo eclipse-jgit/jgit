@@ -55,6 +55,7 @@ java_library(
     srcs = HELPERS,
     resources = DATA,
     deps = [
+        "//lib:assertj-core",
         "//lib:jsch",
         "//lib:junit",
         "//lib:mockito",
