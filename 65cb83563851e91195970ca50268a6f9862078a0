@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1c91c661_79f0ae23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Thanks for the comments. This function doesn\u0027t return the lastmodfiedtime so there isn\u0027t enough information to sort at the caller unless I either change the signature or introduce a new method.  It looks like the only other user of this method besides TransportAmazonS3 is AmazonS3Client in org.eclipse.jgit.pgm, which uses list() for a basic \"ls\" command and doesn\u0027t specify the return order of the files. Will move comment into doc string and let me know if you think we should do something different.",
+      "parentUuid": "d6e83f44_e916259b",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1422b2a6_8be5c037",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b30114f8_dc90a3f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done - collected the sorting logic here and removed it from KeyInfo.",
+      "parentUuid": "1422b2a6_8be5c037",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f107089f_6744459c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2020-02-01T15:14:43Z",
       "side": 1,
       "message": "shorten this to \n\n map(e -\u003e e.name)",
+      "range": {
+        "startLine": 319,
+        "startChar": 33,
+        "endLine": 319,
+        "endChar": 41
+      },
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec851e5c_8df2252e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f107089f_6744459c",
       "range": {
         "startLine": 319,
         "startChar": 33,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fdff7c35_dc4eeabb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8c19ad_c7531cdf",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 629,
+        "endChar": 65
+      },
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61fd2f55_a244f1d7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -93,6 +177,24 @@
       "writtenOn": "2020-02-01T15:14:43Z",
       "side": 1,
       "message": "remove comment",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f1a8c9_882a8ca4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61fd2f55_a244f1d7",
       "revId": "65cb83563851e91195970ca50268a6f9862078a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "86502e09_04c99d96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc75a6ce_08bbb6ae",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d11e07c1_1268baa6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -127,6 +247,24 @@
       "writtenOn": "2020-02-01T15:14:43Z",
       "side": 1,
       "message": "nit: bad indentation",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba1dd83_9cee4095",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d11e07c1_1268baa6",
       "revId": "65cb83563851e91195970ca50268a6f9862078a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "fc160883_142a5208",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "495e76a1_b09cc055",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b71fe824_dd247bb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "ceca2aab_7435d60e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b71fe824_dd247bb9",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf20e4b2_b315eb87",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -178,6 +352,24 @@
       "writtenOn": "2020-02-01T15:14:43Z",
       "side": 1,
       "message": "nit: suppress non externalized String warning",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39365e44_c9b342f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 796
+      },
+      "writtenOn": "2020-02-01T17:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf20e4b2_b315eb87",
       "revId": "65cb83563851e91195970ca50268a6f9862078a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
