@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.5.2"/>
-                <message_argument value="5.5.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/dircache/DirCacheEntry.java" type="org.eclipse.jgit.dircache.DirCacheEntry">
         <filter id="1142947843">
             <message_arguments>
@@ -54,6 +46,36 @@
         </filter>
         <filter id="1142947843">
             <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_LIMIT"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_MMAP"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_OPENFILES"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_USE_STRONGREFS"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_WINDOWSIZE"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="CONFIG_FILESYSTEM_SECTION"/>
             </message_arguments>
@@ -76,6 +98,20 @@
             <message_arguments>
                 <message_argument value="5.5.2"/>
                 <message_argument value="XDG_CONFIG_HOME"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/WindowCacheConfig.java" type="org.eclipse.jgit.storage.file.WindowCacheConfig">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="isPackedGitUseStrongRefs()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="setPackedGitUseStrongRefs(boolean)"/>
             </message_arguments>
         </filter>
     </resource>
