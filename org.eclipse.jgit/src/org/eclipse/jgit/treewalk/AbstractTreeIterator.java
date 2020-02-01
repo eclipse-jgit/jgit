@@ -206,12 +206,10 @@ public abstract class AbstractTreeIterator {
 		path = p.path;
 		pathOffset = p.pathLen + 1;
 
-		try {
-			path[pathOffset - 1] = '/';
-		} catch (ArrayIndexOutOfBoundsException e) {
+		if (pathOffset > path.length) {
 			growPath(p.pathLen);
-			path[pathOffset - 1] = '/';
 		}
+		path[pathOffset - 1] = '/';
 	}
 
 	/**
