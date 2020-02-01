@@ -44,6 +44,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -51,12 +52,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.ketch.KetchLeader;
 import org.eclipse.jgit.internal.ketch.KetchLeaderCache;
 import org.eclipse.jgit.internal.ketch.KetchPreReceive;
 import org.eclipse.jgit.internal.ketch.KetchSystem;
 import org.eclipse.jgit.internal.ketch.KetchText;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
@@ -68,6 +71,7 @@ import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -120,19 +124,20 @@ class Daemon extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		PackConfig packConfig = new PackConfig();
-
-		if (configFile != null) {
+		StoredConfig cfg;
+		if (configFile == null) {
+			cfg = getUserConfig();
+		} else {
 			if (!configFile.exists()) {
 				throw die(MessageFormat.format(
 						CLIText.get().configFileNotFound, //
 						configFile.getAbsolutePath()));
 			}
-
-			FileBasedConfig cfg = new FileBasedConfig(configFile, FS.DETECTED);
-			cfg.load();
-			new WindowCacheConfig().fromConfig(cfg).install();
-			packConfig.fromConfig(cfg);
+			cfg = new FileBasedConfig(configFile, FS.DETECTED);
 		}
+		cfg.load();
+		new WindowCacheConfig().fromConfig(cfg).install();
+		packConfig.fromConfig(cfg);
 
 		int threads = packConfig.getThreads();
 		if (threads <= 0)
@@ -170,6 +175,16 @@ class Daemon extends TextBuiltin {
 		}
 		d.start();
 		outw.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
+	}
+
+	private StoredConfig getUserConfig() throws IOException {
+		StoredConfig userConfig = null;
+		try {
+			userConfig = SystemReader.getInstance().getUserConfig();
+		} catch (ConfigInvalidException e) {
+			throw die(e.getMessage());
+		}
+		return userConfig;
 	}
 
 	private static DaemonService service(
