@@ -23,6 +23,36 @@
                 <message_argument value="CONFIG_JMX_SECTION"/>
             </message_arguments>
         </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_LIMIT"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_MMAP"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_OPENFILES"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_USE_STRONGREFS"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="CONFIG_KEY_PACKED_GIT_WINDOWSIZE"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
         <filter id="1142947843">
@@ -37,6 +67,20 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.revwalk.ReachabilityChecker"/>
                 <message_argument value="areAllReachable(Collection&lt;RevCommit&gt;, Stream&lt;RevCommit&gt;)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/file/WindowCacheConfig.java" type="org.eclipse.jgit.storage.file.WindowCacheConfig">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="isPackedGitUseStrongRefs()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.13"/>
+                <message_argument value="setPackedGitUseStrongRefs(boolean)"/>
             </message_arguments>
         </filter>
     </resource>
