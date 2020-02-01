@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e83f44_e916259b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "move this comment to the javadoc of this method or maybe sort at the call site which needs this list sorted, or do other callers also benefit from reverse sorting by lastModified ?",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1422b2a6_8be5c037",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "use Stream.sorted(Comparator.reverseOrder()) this also makes clear you sort in reverse order so no comment is needed and KeyInfo can sort in normal order\n\nhttps://www.baeldung.com/java-8-sort-lambda#stream-sort-reversed",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f107089f_6744459c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "shorten this to \n\n map(e -\u003e e.name)",
+      "range": {
+        "startLine": 319,
+        "startChar": 33,
+        "endLine": 319,
+        "endChar": 41
+      },
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8c19ad_c7531cdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "- make this javadoc\n- shorten this to something like: KeyInfo enables sorting of keys by lastModified time\n- bad indentation, we use tabs, if you use Eclipse import formatter settings from tools/eclipse-JGit-Format.xml\n- class should be static\n- members should be private final",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 629,
+        "endChar": 65
+      },
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61fd2f55_a244f1d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc75a6ce_08bbb6ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "use Long.compare(long a, long b) ?",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d11e07c1_1268baa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "nit: bad indentation",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "495e76a1_b09cc055",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "nit: suppress non externalized String warning\n\nmaybe define String constants in this class for all these Strings used in the protocol",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71fe824_dd247bb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "nit: suppress non externalized String warning",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf20e4b2_b315eb87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-01T15:14:43Z",
+      "side": 1,
+      "message": "nit: suppress non externalized String warning",
+      "revId": "65cb83563851e91195970ca50268a6f9862078a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
