@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -241,11 +242,14 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 
 		@Override
 		Collection<String> getPackNames() throws IOException {
+			// s3.list returns most recently modified packs first.
+			// These are the packs most likely to contain missing refs.
+			final List<String> packList = s3.list(bucket, resolveKey("pack")); //$NON-NLS-1$
 			final HashSet<String> have = new HashSet<>();
-			have.addAll(s3.list(bucket, resolveKey("pack"))); //$NON-NLS-1$
+			have.addAll(packList);
 
 			final Collection<String> packs = new ArrayList<>();
-			for (String n : have) {
+			for (String n : packList) {
 				if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 					continue;
 
