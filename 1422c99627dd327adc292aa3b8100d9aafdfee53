@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf2cd104_f87def62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-04T20:20:15Z",
+      "side": 1,
+      "message": "Can this use a more specific link, like https://lore.kernel.org/git/CAFQ2z_PvKiz\u003d\u003dGyS6J1H1uG0FRPL86JvDj+LjX1We4-yCSVQ+g@mail.gmail.com/?",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f91c8c7_f48b2e11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-04T20:20:15Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5baf3000_3412e078",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-04T20:20:15Z",
+      "side": 1,
+      "message": "\"must contain\"",
+      "range": {
+        "startLine": 809,
+        "startChar": 30,
+        "endLine": 809,
+        "endChar": 43
+      },
+      "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
