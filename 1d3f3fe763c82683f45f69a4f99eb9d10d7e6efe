@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbdaf59e_9b28f9e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-02-04T00:32:56Z",
+      "side": 1,
+      "message": "wantIds \u003d req.getWantIds() assigns the reference, so it is still modifying the request.",
+      "revId": "1d3f3fe763c82683f45f69a4f99eb9d10d7e6efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9585f4_8481bb62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-02-04T00:32:56Z",
+      "side": 1,
+      "message": "One of the reasons this code is difficult to follow, is the use of member variables as implicit argument between methods.\n\nThe intention here is to use req.getWantIds() and pass the request around, eventually removing the member variable.\n\nAlthough this two lines do the same as before: a. they don\u0027t solve the TODO and b. go back to use wantIds member.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 2,
+        "endLine": 1199,
+        "endChar": 9
+      },
+      "revId": "1d3f3fe763c82683f45f69a4f99eb9d10d7e6efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
