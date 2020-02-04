@@ -773,9 +773,6 @@ A repository must set its `$GIT_DIR/config` to configure reftable:
 
 ### Layout
 
-The `$GIT_DIR/refs` path is a file when reftable is configured, not a
-directory.  This prevents loose references from being stored.
-
 A collection of reftable files are stored in the `$GIT_DIR/reftable/`
 directory:
 
@@ -789,28 +786,38 @@ the function `${min_update_index}-${max_update_index}.ref`.
 Log-only files use the `.log` extension, while ref-only and mixed ref
 and log files use `.ref`.  extension.
 
-The stack ordering file is `$GIT_DIR/refs` and lists the current
-files, one per line, in order, from oldest (base) to newest (most
-recent):
 
-    $ cat .git/refs
+The stack ordering file is `$GIT_DIR/reftable/tables.list` and lists the current
+files, one per line, in order, from oldest (base) to newest (most recent):
+
+    $ cat .git/reftable/tables.list
     00000001-00000001.log
     00000002-00000002.ref
     00000003-00000003.ref
 
-Readers must read `$GIT_DIR/refs` to determine which files are
-relevant right now, and search through the stack in reverse order
-(last reftable is examined first).
+Readers must read `$GIT_DIR/reftable/tables.list` to determine which files are
+relevant right now, and search through the stack in reverse order (last reftable
+is examined first).
 
-Reftable files not listed in `refs` may be new (and about to be added
+Reftable files not listed in `tables.list` may be new (and about to be added
 to the stack by the active writer), or ancient and ready to be pruned.
+
+### Backward compatibility
+
+Older clients should continue to recognize the directory as a git repository so
+they don't look for an enclosing repository in parent directories. To this end,
+a reftable-enabled repository must contain the following dummy files
+
+*   `.git/HEAD`, a regular file containing `ref: refs/heads/.invalid`.
+*   `.git/refs/`, a directory
+*   `.git/refs/heads`, a regular file
 
 ### Readers
 
 Readers can obtain a consistent snapshot of the reference space by
 following:
 
-1.  Open and read the `refs` file.
+1.  Open and read the `tables.list` file.
 2.  Open each of the reftable files that it mentions.
 3.  If any of the files is missing, goto 1.
 4.  Read from the now-open files as long as necessary.
@@ -820,13 +827,13 @@ following:
 Although reftables are immutable, mutations are supported by writing a
 new reftable and atomically appending it to the stack:
 
-1. Acquire `refs.lock`.
-2. Read `refs` to determine current reftables.
+1. Acquire `tables.list.lock`.
+2. Read `tables.list` to determine current reftables.
 3. Select `update_index` to be most recent file's `max_update_index + 1`.
 4. Prepare temp reftable `tmp_XXXXXX`, including log entries.
 5. Rename `tmp_XXXXXX` to `${update_index}-${update_index}.ref`.
-6. Copy `refs` to `refs.lock`, appending file from (5).
-7. Rename `refs.lock` to `refs`.
+6. Copy `tables.list` to `tables.list.lock`, appending file from (5).
+7. Rename `tables.list.lock` to `tables.list`.
 
 During step 4 the new file's `min_update_index` and `max_update_index`
 are both set to the `update_index` selected by step 3.  All log
@@ -834,9 +841,9 @@ records for the transaction use the same `update_index` in their keys.
 This enables later correlation of which references were updated by the
 same transaction.
 
-Because a single `refs.lock` file is used to manage locking, the
+Because a single `tables.list.lock` file is used to manage locking, the
 repository is single-threaded for writers.  Writers may have to
-busy-spin (with backoff) around creating `refs.lock`, for up to an
+busy-spin (with backoff) around creating `tables.list.lock`, for up to an
 acceptable wait period, aborting if the repository is too busy to
 mutate.  Application servers wrapped around repositories (e.g.  Gerrit
 Code Review) can layer their own lock/wait queue to improve fairness
@@ -864,21 +871,21 @@ For sake of illustration, assume the stack currently consists of
 reftable files (from oldest to newest): A, B, C, and D. The compactor
 is going to compact B and C, leaving A and D alone.
 
-1.  Obtain lock `refs.lock` and read the `refs` file.
+1.  Obtain lock `tables.list.lock` and read the `tables.list` file.
 2.  Obtain locks `B.lock` and `C.lock`.
     Ownership of these locks prevents other processes from trying
     to compact these files.
-3.  Release `refs.lock`.
+3.  Release `tables.list.lock`.
 4.  Compact `B` and `C` into a temp file `${min_update_index}-${max_update_index}_XXXXXX`.
-5.  Reacquire lock `refs.lock`.
+5.  Reacquire lock `tables.list.lock`.
 6.  Verify that `B` and `C` are still in the stack, in that order. This
     should always be the case, assuming that other processes are adhering
     to the locking protocol.
 7.  Rename `${min_update_index}-${max_update_index}_XXXXXX` to
     `${min_update_index}-${max_update_index}.ref`.
-8.  Write the new stack to `refs.lock`, replacing `B` and `C` with the
+8.  Write the new stack to `tables.list.lock`, replacing `B` and `C` with the
     file from (4).
-9.  Rename `refs.lock` to `refs`.
+9.  Rename `tables.list.lock` to `tables.list`.
 10. Delete `B` and `C`, perhaps after a short sleep to avoid forcing
     readers to backtrack.
 
