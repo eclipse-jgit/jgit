@@ -198,6 +198,30 @@
     },
     {
       "key": {
+        "uuid": "9e8a7b4d_4cdd796b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-02-05T04:30:00Z",
+      "side": 1,
+      "message": "Ok, after talking offline I see that the walk is used to build up a bitmap of all objects reachable from a commit, and that you can only use a shortcut when you are sure the commit is an ancestor of the commit in question, which isn\u0027t necessarily true in my suggested rework. Let me think a bit more about how this can be made more clear.",
+      "parentUuid": "64994813_8111c074",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 37
+      },
+      "revId": "88c420cfa6d0f236b80979245d412356f6f16147",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e86d853f_897dde3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 4
