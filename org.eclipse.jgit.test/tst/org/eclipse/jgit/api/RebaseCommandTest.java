@@ -466,8 +466,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Rebase topic onto master, not rewriting E. The merge resulting in D is
-	 * confliicting to show that the manual merge resolution survives the
-	 * rebase.
+	 * conflicting to show that the manual merge resolution survives the rebase.
 	 *
 	 * <pre>
 	 * A - B - G (master)
@@ -563,10 +562,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 			RevCommit newD = rw.next();
 			assertDerivedFrom(newD, d);
 			assertEquals(2, newD.getParentCount());
-			RevCommit newC = rw.next();
-			assertDerivedFrom(newC, c);
 			RevCommit newE = rw.next();
 			assertEquals(e, newE);
+			RevCommit newC = rw.next();
+			assertDerivedFrom(newC, c);
 			assertEquals(newC, newD.getParent(0));
 			assertEquals(e, newD.getParent(1));
 			assertEquals(g, rw.next());
