@@ -125,11 +125,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Temporary mark for use within {@link TopoSortGenerator}.
 	 * <p>
-	 * This mark indicates the commit could not produce when it wanted to, as at
-	 * least one child was behind it. Commits with this flag are delayed until
-	 * all children have been output first.
+	 * This mark indicates the commit has already been produced by the
+	 * {@link TopoSortGenerator} and should not be produced again.
 	 */
-	static final int TOPO_DELAY = 1 << 5;
+	static final int TOPO_PRODUCED = 1 << 5;
 
 	/** Number of flag bits we keep internal for our own use. See above flags. */
 	static final int RESERVED_FLAGS = 6;
