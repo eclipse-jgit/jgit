@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b4909a7d_3211b12d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-05T11:28:20Z",
+      "side": 1,
+      "message": "lore is indexed by message ID. I prefer to keep as is because it is the canonical link",
+      "parentUuid": "7196b77a_6d313ab7",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f91c8c7_f48b2e11",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -63,6 +87,24 @@
       "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa9d6b13_577bcba5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-05T11:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f91c8c7_f48b2e11",
+      "revId": "1422c99627dd327adc292aa3b8100d9aafdfee53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
