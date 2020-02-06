@@ -118,6 +118,30 @@
       "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29833581_12f1a539",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-02-06T19:39:33Z",
+      "side": 1,
+      "message": "In that case, we could just remove the comment all together, since the code is pretty clear about trying 3 times then check deadline. The fact that this behavior is good for debugging doesn\u0027t change the behavior, and a comment like that would tempt future viewer to revert the code...",
+      "parentUuid": "30103222_3d96aa20",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 57
+      },
+      "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
