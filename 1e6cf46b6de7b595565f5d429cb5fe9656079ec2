@@ -22,6 +22,30 @@
       "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09587b0d_ca50508d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-06T18:28:18Z",
+      "side": 1,
+      "message": "no, the retry is not for debugging. The retry is for robusness with multiple writers.\n\nbut if you step through the code too slowly, the deadline will pass, and it will fail. So we don\u0027t check the deadline at first.",
+      "parentUuid": "bd090dce_c326fb0f",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 57
+      },
+      "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
