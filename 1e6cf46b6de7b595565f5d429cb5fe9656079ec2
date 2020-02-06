@@ -70,6 +70,30 @@
       "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30103222_3d96aa20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-06T19:04:15Z",
+      "side": 1,
+      "message": "It always retries 3 times. If the deadline hasn\u0027t passed, it will try more often.",
+      "parentUuid": "c1a3d172_83365ff3",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 57
+      },
+      "revId": "1e6cf46b6de7b595565f5d429cb5fe9656079ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
