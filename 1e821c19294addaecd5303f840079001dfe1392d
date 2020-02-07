@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11155eb8_1e09de25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-02-07T23:23:31Z",
+      "side": 1,
+      "message": "When is this case triggered? If a commit is produced only when all other commits referencing it have been emitted... how can it be reached again? Is this because some interaction with other generators?",
+      "range": {
+        "startLine": 85,
+        "startChar": 18,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "1e821c19294addaecd5303f840079001dfe1392d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31207b90_ccf9eeff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-02-07T23:23:31Z",
+      "side": 1,
+      "message": "This comment is outdated now.\n\nI would move the comment above (\"All of our children have already produced...\") here.",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "1e821c19294addaecd5303f840079001dfe1392d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
