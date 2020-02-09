@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707cc48a_b78c76a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/LogCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-09T21:21:08Z",
+      "side": 1,
+      "message": "annotate with @Nullable ?",
+      "revId": "14429c03ee374db5c69720270915c3ccb70740e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
