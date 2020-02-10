@@ -16,6 +16,24 @@
       "revId": "14429c03ee374db5c69720270915c3ccb70740e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6dec994_e9151102",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/LogCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-10T11:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707cc48a_b78c76a1",
+      "revId": "14429c03ee374db5c69720270915c3ccb70740e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
