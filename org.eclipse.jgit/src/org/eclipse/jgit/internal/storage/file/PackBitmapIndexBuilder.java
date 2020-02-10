@@ -134,16 +134,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            the flags to be stored with the bitmap
 	 */
 	public void addBitmap(AnyObjectId objectId, Bitmap bitmap, int flags) {
-		if (bitmap instanceof BitmapBuilder)
-			bitmap = ((BitmapBuilder) bitmap).build();
-
-		EWAHCompressedBitmap compressed;
-		if (bitmap instanceof CompressedBitmap)
-			compressed = ((CompressedBitmap) bitmap).getEwahCompressedBitmap();
-		else
-			throw new IllegalArgumentException(bitmap.getClass().toString());
-
-		addBitmap(objectId, compressed, flags);
+		addBitmap(objectId, bitmap.retrieveCompressed(), flags);
 	}
 
 	/**
