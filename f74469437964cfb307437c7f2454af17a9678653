@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "924f0320_3e5e338f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-10T11:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02c30b8_3bd2198a",
+      "revId": "f74469437964cfb307437c7f2454af17a9678653",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dae2e12_32bdfe75",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2020-02-06T18:13:23Z",
       "side": 1,
       "message": "Do we need assertions for refs as well as refLogs?",
+      "range": {
+        "startLine": 540,
+        "startChar": 2,
+        "endLine": 543,
+        "endChar": 2
+      },
+      "revId": "f74469437964cfb307437c7f2454af17a9678653",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b81b2cd_e8b4a93a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-10T11:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dae2e12_32bdfe75",
       "range": {
         "startLine": 540,
         "startChar": 2,
