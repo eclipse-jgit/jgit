@@ -17,11 +17,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
@@ -134,16 +132,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            the flags to be stored with the bitmap
 	 */
 	public void addBitmap(AnyObjectId objectId, Bitmap bitmap, int flags) {
-		if (bitmap instanceof BitmapBuilder)
-			bitmap = ((BitmapBuilder) bitmap).build();
-
-		EWAHCompressedBitmap compressed;
-		if (bitmap instanceof CompressedBitmap)
-			compressed = ((CompressedBitmap) bitmap).getEwahCompressedBitmap();
-		else
-			throw new IllegalArgumentException(bitmap.getClass().toString());
-
-		addBitmap(objectId, compressed, flags);
+		addBitmap(objectId, bitmap.retrieveCompressed(), flags);
 	}
 
 	/**
