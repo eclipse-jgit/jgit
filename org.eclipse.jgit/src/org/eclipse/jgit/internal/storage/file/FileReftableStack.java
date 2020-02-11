@@ -237,8 +237,13 @@ public class FileReftableStack implements AutoCloseable {
 		long max = 1000;
 		long delay = 0;
 		boolean success = false;
-		while (System.currentTimeMillis() < deadline) {
+
+		// Don't check deadline for the first 3 retries, so we can step with a
+		// debugger without worrying about deadlines.
+		int tries = 0;
+		while (tries < 3 || System.currentTimeMillis() < deadline) {
 			List<String> names = readTableNames();
+			tries++;
 			try {
 				reloadOnce(names);
 				success = true;
@@ -260,9 +265,6 @@ public class FileReftableStack implements AutoCloseable {
 		}
 
 		if (!success) {
-			// TODO: should reexamine the 'refs' file to see if it was the same
-			// if it didn't change, then we must have corruption. If it did,
-			// retry.
 			throw new LockFailedException(stackPath);
 		}
 
@@ -374,7 +376,7 @@ public class FileReftableStack implements AutoCloseable {
 	 *
 	 * @param w
 	 *            writer to write data to a reftable under construction
-	 * @return true if the transaction.
+	 * @return true if the transaction was successful.
 	 * @throws IOException
 	 *             on I/O problems
 	 */
