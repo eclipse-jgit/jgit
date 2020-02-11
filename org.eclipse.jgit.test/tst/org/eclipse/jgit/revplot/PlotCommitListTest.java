@@ -254,12 +254,12 @@ public class PlotCommitListTest extends RevWalkTestCase {
 			int posI = test.commit(i).lanePos(childPositions).parents(h)
 					.getLanePos();
 			test.commit(h).lanePos(posI).parents(f);
-			test.commit(g).lanePos(childPositions).parents(a);
 			test.commit(f).lanePos(posI).parents(e, d);
+			test.commit(d).lanePos(1).parents(b);
 			test.commit(e).lanePos(posI).parents(c);
-			test.commit(d).lanePos(2).parents(b);
 			test.commit(c).lanePos(posI).parents(b);
 			test.commit(b).lanePos(posI).parents(a);
+			test.commit(g).lanePos(childPositions).parents(a);
 			test.commit(a).lanePos(0).parents();
 		}
 	}
@@ -325,42 +325,42 @@ public class PlotCommitListTest extends RevWalkTestCase {
 					.lanePos(mainPos);
 			test.commit(merge_update_eclipse)
 					.parents(add_a_clear, update_eclipse).lanePos(mainPos);
+			test.commit(update_eclipse).parents(add_Maven).lanePos(2);
 			test.commit(add_a_clear).parents(fix_broken).lanePos(mainPos);
 			test.commit(fix_broken).parents(merge_disable_comment)
 					.lanePos(mainPos);
 			test.commit(merge_disable_comment)
 					.parents(merge_resolve_handler, disable_comment)
 					.lanePos(mainPos);
-			test.commit(disable_comment).parents(clone_operation).lanePos(2);
+			test.commit(disable_comment).parents(clone_operation).lanePos(3);
 			test.commit(merge_resolve_handler)
 					.parents(clone_operation, resolve_handler).lanePos(mainPos);
-			test.commit(update_eclipse).parents(add_Maven).lanePos(3);
+			test.commit(resolve_handler).parents(merge_fix).lanePos(4);
 			test.commit(clone_operation).parents(merge_changeset_implementation)
 					.lanePos(mainPos);
 			test.commit(merge_changeset_implementation)
 					.parents(merge_disable_source, changeset_implementation)
 					.lanePos(mainPos);
+			test.commit(changeset_implementation).parents(clear_repositorycache)
+					.lanePos(1);
 			test.commit(merge_disable_source)
 					.parents(update_eclipse_iplog2, disable_source)
 					.lanePos(mainPos);
+			test.commit(disable_source).parents(merge_use_remote).lanePos(3);
 			test.commit(update_eclipse_iplog2).parents(merge_use_remote)
 					.lanePos(mainPos);
-			test.commit(disable_source).parents(merge_use_remote).lanePos(1);
 			test.commit(merge_use_remote)
 					.parents(update_eclipse_iplog, use_remote).lanePos(mainPos);
-			test.commit(changeset_implementation).parents(clear_repositorycache)
-					.lanePos(2);
+			test.commit(use_remote).parents(clear_repositorycache).lanePos(3);
 			test.commit(update_eclipse_iplog).parents(merge_add_Maven)
 					.lanePos(mainPos);
 			test.commit(merge_add_Maven).parents(findToolBar_layout, add_Maven)
 					.lanePos(mainPos);
+			test.commit(add_Maven).parents(clear_repositorycache).lanePos(2);
 			test.commit(findToolBar_layout).parents(clear_repositorycache)
 					.lanePos(mainPos);
-			test.commit(use_remote).parents(clear_repositorycache).lanePos(1);
-			test.commit(add_Maven).parents(clear_repositorycache).lanePos(3);
 			test.commit(clear_repositorycache).parents(merge_remove)
 					.lanePos(mainPos);
-			test.commit(resolve_handler).parents(merge_fix).lanePos(4);
 			test.commit(merge_remove).parents(add_simple, remove_unused)
 					.lanePos(mainPos);
 			test.commit(remove_unused).parents(merge_fix).lanePos(1);
@@ -453,33 +453,36 @@ public class PlotCommitListTest extends RevWalkTestCase {
 			pcl.source(pw);
 			pcl.fillTo(Integer.MAX_VALUE);
 
-			// test that the commits b1, b2 and b3 are on the same position
-			int bPos = pcl.get(9).lane.position; // b1
-			assertEquals("b2 is an a different position", bPos,
-					pcl.get(7).lane.position);
-			assertEquals("b3 is on a different position", bPos,
-					pcl.get(4).lane.position);
-
-			// test that nothing blocks the connections between b1, b2 and b3
-			assertNotEquals("b lane is blocked by c", bPos,
-					pcl.get(8).lane.position);
-			assertNotEquals("b lane is blocked by a2", bPos,
-					pcl.get(6).lane.position);
-			assertNotEquals("b lane is blocked by d", bPos,
-					pcl.get(5).lane.position);
+			Set<Integer> positions = asSet(0, 1);
+			CommitListAssert test = new CommitListAssert(pcl);
+			int posA = test.commit(a5).lanePos(positions).getLanePos();
+			test.commit(a4);
+			test.commit(a3).lanePos(posA);
+			test.commit(e);
+			test.commit(d);
+			test.commit(a2).lanePos(posA);
+			int posB = test.commit(b3).lanePos(positions).getLanePos();
+			test.commit(b2).lanePos(posB);
+			test.commit(b1).lanePos(posB);
+			test.commit(c);
+			test.commit(a1).lanePos(posA);
+			test.noMoreCommits();
+			assertNotEquals("a lane is the same as b lane", posA, posB);
 		}
 	}
 
 	/**
 	 * <pre>
 	 *    b3
+	 * a5 |
+	 * |  |
 	 * a4 |
 	 * | \|
 	 * |  b2
 	 * a3 |
 	 * | \|
-	 * a2 |
 	 * |  b1
+	 * a2 |
 	 * | /
 	 * a1
 	 * </pre>
@@ -494,10 +497,11 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a3 = commit(a2, b1);
 		final RevCommit b2 = commit(b1);
 		final RevCommit a4 = commit(a3, b2);
+		final RevCommit a5 = commit(a4);
 		final RevCommit b3 = commit(b2);
 
 		try (PlotWalk pw = new PlotWalk(db)) {
-			pw.markStart(pw.lookupCommit(a4));
+			pw.markStart(pw.lookupCommit(a5));
 			pw.markStart(pw.lookupCommit(b3));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 			pcl.source(pw);
@@ -506,11 +510,12 @@ public class PlotCommitListTest extends RevWalkTestCase {
 			Set<Integer> positions = asSet(0, 1);
 			CommitListAssert test = new CommitListAssert(pcl);
 			int posB = test.commit(b3).lanePos(positions).getLanePos();
-			int posA = test.commit(a4).lanePos(positions).getLanePos();
+			int posA = test.commit(a5).lanePos(positions).getLanePos();
+			test.commit(a4).lanePos(posA);
 			test.commit(b2).lanePos(posB);
 			test.commit(a3).lanePos(posA);
-			test.commit(a2).lanePos(posA);
 			test.commit(b1).lanePos(posB);
+			test.commit(a2).lanePos(posA);
 			test.commit(a1).lanePos(posA);
 			test.noMoreCommits();
 		}
@@ -519,13 +524,17 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	/**
 	 * <pre>
 	 * a4
-	 * |   b3
-	 * a3  |
-	 * | \\|
-	 * |   |\\
-	 * |   b2||
-	 * a2  | //
-	 * |   b1
+	 * |
+	 * a3
+	 * | \\
+	 * a2  \\
+	 * |    \\
+	 * |  b3 ||
+	 * |  |  ||
+	 * |  b2 ||
+	 * |  | //
+	 * |  b1
+	 * |  |
 	 * | /
 	 * a1
 	 * </pre>
@@ -552,10 +561,10 @@ public class PlotCommitListTest extends RevWalkTestCase {
 			Set<Integer> positions = asSet(0, 1);
 			CommitListAssert test = new CommitListAssert(pcl);
 			int posA = test.commit(a4).lanePos(positions).getLanePos();
-			int posB = test.commit(b3).lanePos(positions).getLanePos();
 			test.commit(a3).lanePos(posA);
-			test.commit(b2).lanePos(posB);
 			test.commit(a2).lanePos(posA);
+			int posB = test.commit(b3).lanePos(positions).getLanePos();
+			test.commit(b2).lanePos(posB);
 			// b1 is not repositioned, uses "detour lane"
 			// (drawn as a double arc in the ascii graph above)
 			test.commit(b1).lanePos(posB);
@@ -569,13 +578,14 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 *      b2
 	 * a4   |
 	 * |  \ |
-	 * a3  \|
+	 * |    b1
+	 * a3   |
 	 * | \  |
 	 * |  c |
 	 * | /  |
 	 * a2   |
-	 * |    b1
-	 *     /
+	 * |    |
+	 * |   /
 	 * |  /
 	 * a1
 	 * </pre>
@@ -604,10 +614,10 @@ public class PlotCommitListTest extends RevWalkTestCase {
 			CommitListAssert test = new CommitListAssert(pcl);
 			int posB = test.commit(b2).lanePos(positions).getLanePos();
 			int posA = test.commit(a4).lanePos(positions).getLanePos();
+			test.commit(b1).lanePos(posB); // repositioned to go around c
 			test.commit(a3).lanePos(posA);
 			test.commit(c).lanePos(positions);
 			test.commit(a2).lanePos(posA);
-			test.commit(b1).lanePos(posB); // repositioned to go around c
 			test.commit(a1).lanePos(posA);
 			test.noMoreCommits();
 		}
