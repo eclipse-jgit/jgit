@@ -28,7 +28,7 @@ and read the `$GIT_DIR/refs` directory.
 
 - Near constant time lookup for any single reference, even when the
   repository is cold and not in process or kernel cache.
-- Near constant time verification if a SHA-1 is referred to by at
+- Near constant time verification if a object id is referred to by at
   least one reference (for allow-tip-sha1-in-want).
 - Efficient lookup of an entire namespace, such as `refs/tags/`.
 - Support atomic push with `O(size_of_update)` operations.
@@ -178,10 +178,16 @@ ref index to reduce total file size.
 A 24-byte header appears at the beginning of the file:
 
     'REFT'
-    uint8( version_number = 1 )
+    uint8( format_version )
     uint24( block_size )
     uint64( min_update_index )
     uint64( max_update_index )
+
+The `format_version` is a byte that indicates the version of the
+on-disk format. Currently, there are 2 versions known, and they only
+differ in the size of the hash. `format_version=1` indicates the SHA1
+hash, so all hash values are 20 bytes wide. `format_version=2`
+indicates SHA256, with 32 byte hash values.
 
 Aligned files must specify `block_size` to configure readers with the
 expected block alignment.  Unaligned files must set `block_size = 0`.
@@ -271,8 +277,8 @@ The `value` follows.  Its format is determined by `value_type`, one of
 the following:
 
 - `0x0`: deletion; no value data (see transactions, below)
-- `0x1`: one 20-byte object id; value of the ref
-- `0x2`: two 20-byte object ids; value of the ref, peeled target
+- `0x1`: one object id; value of the ref
+- `0x2`: two object ids; value of the ref, peeled target
 - `0x3`: symbolic reference: `varint( target_len ) target`
 
 Symbolic references use `0x3`, followed by the complete name of the
@@ -622,7 +628,7 @@ A 68-byte footer appears at the end:
 
 ```
     'REFT'
-    uint8( version_number = 1 )
+    uint8( format_version )
     uint24( block_size )
     uint64( min_update_index )
     uint64( max_update_index )
@@ -964,11 +970,3 @@ A common format that can be supported by all major Git implementations
 (git-core, JGit, libgit2) is strongly preferred.
 
 [dt-lmdb]: https://public-inbox.org/git/1455772670-21142-26-git-send-email-dturner@twopensource.com/
-
-## Future
-
-### Longer hashes
-
-Version will bump (e.g.  2) to indicate `value` uses a different
-object id length other than 20.  The length could be stored in an
-expanded file header, or hardcoded as part of the version.
