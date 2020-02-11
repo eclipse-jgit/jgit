@@ -17,7 +17,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 
 /** Sorts commits in topological order. */
 class TopoSortGenerator extends Generator {
-	private static final int TOPO_DELAY = RevWalk.TOPO_DELAY;
+	private static final int TOPO_QUEUED = RevWalk.TOPO_QUEUED;
 
 	private final FIFORevQueue pending;
 
@@ -47,12 +47,16 @@ class TopoSortGenerator extends Generator {
 			if (c == null) {
 				break;
 			}
-			for (RevCommit p : c.parents) {
-				p.inDegree++;
-				if (firstParent) {
-					break;
+			if ((c.flags & TOPO_QUEUED) == 0) {
+				for (RevCommit p : c.parents) {
+					p.inDegree++;
+
+					if (firstParent) {
+						break;
+					}
 				}
 			}
+			c.flags |= TOPO_QUEUED;
 			pending.add(c);
 		}
 	}
@@ -71,34 +75,42 @@ class TopoSortGenerator extends Generator {
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
-			final RevCommit c = pending.next();
-			if (c == null)
+			RevCommit c = pending.next();
+			if (c == null) {
 				return null;
+			}
 
 			if (c.inDegree > 0) {
 				// At least one of our children is missing. We delay
 				// production until all of our children are output.
 				//
-				c.flags |= TOPO_DELAY;
 				continue;
 			}
 
-			// All of our children have already produced,
-			// so it is OK for us to produce now as well.
-			//
+			if ((c.flags & TOPO_QUEUED) == 0) {
+				// c is a parent that already produced or a parent that
+				// was never in the priority queue and should never produce.
+				//
+				continue;
+			}
+
 			for (RevCommit p : c.parents) {
-				if (--p.inDegree == 0 && (p.flags & TOPO_DELAY) != 0) {
-					// This parent tried to come before us, but we are
-					// his last child. unpop the parent so it goes right
-					// behind this child.
+				if (--p.inDegree == 0 && (p.flags & TOPO_QUEUED) != 0) {
+					// The parent has no unproduced interesting children. unpop
+					// the parent so it goes right behind this child. This means
+					// that this parent commit may appear in "pending" more than
+					// once, but this is safe since upon the second and
+					// subsequent iterations with this commit, it will no longer
+					// have TOPO_QUEUED set, and thus will be skipped.
 					//
-					p.flags &= ~TOPO_DELAY;
 					pending.unpop(p);
 				}
 				if (firstParent) {
 					break;
 				}
 			}
+
+			c.flags &= ~TOPO_QUEUED;
 			return c;
 		}
 	}
