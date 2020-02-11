@@ -140,6 +140,9 @@ public class AmazonS3 {
 	/** Decoded form of the private AWSSecretAccessKey, to sign requests. */
 	private final SecretKeySpec privateKey;
 
+	/** Security token in case of temporary credentials. */
+	private final String token;
+
 	/** Our HTTP proxy support, in case we are behind a firewall. */
 	private final ProxySelector proxySelector;
 
@@ -162,6 +165,8 @@ public class AmazonS3 {
 	interface Keys {
 		String ACCESS_KEY = "accesskey"; //$NON-NLS-1$
 		String SECRET_KEY = "secretkey"; //$NON-NLS-1$
+
+		String TOKEN = "token"; //$NON-NLS-1$
 		String PASSWORD = "password"; //$NON-NLS-1$
 		String CRYPTO_ALG = "crypto.algorithm"; //$NON-NLS-1$
 		String CRYPTO_VER = "crypto.version"; //$NON-NLS-1$
@@ -182,6 +187,10 @@ public class AmazonS3 {
 	 * # AWS Access and Secret Keys (required)
 	 * accesskey: &lt;YourAWSAccessKey&gt;
 	 * secretkey: &lt;YourAWSSecretKey&gt;
+	 *
+	 * # Security Token (required for temporary security credentials, e.g. generated for an IAM role)
+	 * # See: https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html
+	 * token: &lt;YourAWSSecurityToken&gt;
 	 *
 	 * # Access Control List setting to apply to uploads, must be one of:
 	 * # PRIVATE, PUBLIC_READ (defaults to PRIVATE).
@@ -213,6 +222,8 @@ public class AmazonS3 {
 		if (secret == null)
 			throw new IllegalArgumentException(JGitText.get().missingSecretkey);
 		privateKey = new SecretKeySpec(Constants.encodeASCII(secret), HMAC);
+
+		token = props.getProperty(Keys.TOKEN);
 
 		final String pacl = props.getProperty(Keys.ACL, "PRIVATE"); //$NON-NLS-1$
 		if (StringUtils.equalsIgnoreCase("PRIVATE", pacl)) //$NON-NLS-1$
@@ -573,6 +584,11 @@ public class AmazonS3 {
 	}
 
 	void authorize(HttpURLConnection c) throws IOException {
+		/** pass the security token if provided, it is also expected to be signed */
+		if (token != null) {
+			c.setRequestProperty("x-amz-security-token", token); //$NON-NLS-1$
+		}
+
 		final Map<String, List<String>> reqHdr = c.getRequestProperties();
 		final SortedMap<String, String> sigHdr = new TreeMap<>();
 		for (Map.Entry<String, List<String>> entry : reqHdr.entrySet()) {

@@ -118,6 +118,8 @@ public class WalkEncryptionTest {
 
 		String ENV_SECRET_KEY = "JGIT_S3_SECRET_KEY";
 
+		String ENV_TOKEN = "JGIT_S3_TOKEN";
+
 		String ENV_BUCKET_NAME = "JGIT_S3_BUCKET_NAME";
 
 		// Name of test environment variable file path for CI.
@@ -129,6 +131,8 @@ public class WalkEncryptionTest {
 		String SYS_ACCESS_KEY = "jgit.s3.access.key";
 
 		String SYS_SECRET_KEY = "jgit.s3.secret.key";
+
+		String SYS_TOKEN = "jgit.s3.token";
 
 		String SYS_BUCKET_NAME = "jgit.s3.bucket.name";
 
@@ -205,6 +209,9 @@ public class WalkEncryptionTest {
 				loadEnvVar(ENV_ACCESS_KEY, ACCESS_KEY, props);
 				loadEnvVar(ENV_SECRET_KEY, SECRET_KEY, props);
 				loadEnvVar(ENV_BUCKET_NAME, TEST_BUCKET, props);
+				if (haveEnvVar(ENV_TOKEN)) {
+					loadEnvVar(ENV_TOKEN, TOKEN, props);
+				}
 				return props;
 			}
 			return null;
@@ -229,6 +236,9 @@ public class WalkEncryptionTest {
 				loadSysProp(SYS_ACCESS_KEY, ACCESS_KEY, props);
 				loadSysProp(SYS_SECRET_KEY, SECRET_KEY, props);
 				loadSysProp(SYS_BUCKET_NAME, TEST_BUCKET, props);
+				if (haveSysProp(SYS_TOKEN)) {
+					loadSysProp(SYS_TOKEN, TOKEN, props);
+				}
 				return props;
 			}
 			return null;
