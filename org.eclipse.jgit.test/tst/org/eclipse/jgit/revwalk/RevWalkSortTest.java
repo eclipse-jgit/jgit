@@ -144,4 +144,85 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertCommit(d, rw.next());
 		assertNull(rw.next());
 	}
+
+        @Test
+	public void testSort_TOPO_OutOfOrderCommitTimes() throws Exception {
+		// b is committed before c2 in a different line of history.
+		//
+		final RevCommit a = commit();
+		final RevCommit c1 = commit(a);
+		final RevCommit b = commit(a);
+		final RevCommit c2 = commit(c1);
+		final RevCommit d = commit(b, c2);
+
+		rw.sort(RevSort.TOPO);
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c2, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+        @Test
+	public void testSort_TOPO_MultipleLinesOfHistory() throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b1 = commit(a);
+		final RevCommit c1 = commit(a);
+		final RevCommit b2 = commit(a, b1);
+		final RevCommit c2 = commit(b2, c1);
+
+		rw.sort(RevSort.TOPO);
+		markStart(c2);
+		assertCommit(c2, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(b2, rw.next());
+		assertCommit(b1, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_REVERSE_MultipleLinesOfHistory()
+			throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b1 = commit(a);
+		final RevCommit c1 = commit(a);
+		final RevCommit b2 = commit(a, b1);
+		final RevCommit c2 = commit(b2, c1);
+
+		rw.sort(RevSort.TOPO);
+		rw.sort(RevSort.REVERSE, true);
+		markStart(c2);
+		assertCommit(a, rw.next());
+		assertCommit(b1, rw.next());
+		assertCommit(b2, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(c2, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_ParentOfMultipleStartChildren() throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(a);
+		final RevCommit d1 = commit(a);
+		final RevCommit d2 = commit(d1);
+		final RevCommit e = commit(a);
+
+		rw.sort(RevSort.TOPO);
+		markStart(b);
+		markStart(c);
+		markStart(d2);
+		markStart(e);
+		assertCommit(e, rw.next());
+		assertCommit(d2, rw.next());
+		assertCommit(d1, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
 }
