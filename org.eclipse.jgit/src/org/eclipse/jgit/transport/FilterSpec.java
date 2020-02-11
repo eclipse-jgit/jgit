@@ -154,6 +154,11 @@ public final class FilterSpec {
 			return GitProtocolConstants.OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
 		}
 
+		if (treeDepthLimit >= 0) {
+			return GitProtocolConstants.OPTION_FILTER + " tree:" //$NON-NLS-1$
+					+ treeDepthLimit;
+		}
+
 		return null;
 	}
 }
