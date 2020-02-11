@@ -17,7 +17,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 
 /** Sorts commits in topological order. */
 class TopoSortGenerator extends Generator {
-	private static final int TOPO_DELAY = RevWalk.TOPO_DELAY;
+	private static final int TOPO_QUEUED = RevWalk.TOPO_QUEUED;
+
+        private static final int UNINTERESTING = RevWalk.TOPO_QUEUED;
 
 	private final FIFORevQueue pending;
 
@@ -48,11 +50,15 @@ class TopoSortGenerator extends Generator {
 				break;
 			}
 			for (RevCommit p : c.parents) {
-				p.inDegree++;
+                                if ((c.flags & UNINTERESTING) == 0) {
+                                        p.inDegree++;
+                                }
+				
 				if (firstParent) {
 					break;
 				}
 			}
+                        c.flags |= TOPO_QUEUED;
 			pending.add(c);
 		}
 	}
@@ -79,7 +85,10 @@ class TopoSortGenerator extends Generator {
 				// At least one of our children is missing. We delay
 				// production until all of our children are output.
 				//
-				c.flags |= TOPO_DELAY;
+				continue;
+			}
+
+			if ((c.flags & TOPO_QUEUED) == 0) {
 				continue;
 			}
 
@@ -87,18 +96,19 @@ class TopoSortGenerator extends Generator {
 			// so it is OK for us to produce now as well.
 			//
 			for (RevCommit p : c.parents) {
-				if (--p.inDegree == 0 && (p.flags & TOPO_DELAY) != 0) {
+				if (--p.inDegree == 0 && (p.flags & TOPO_QUEUED) != 0) {
 					// This parent tried to come before us, but we are
 					// his last child. unpop the parent so it goes right
 					// behind this child.
 					//
-					p.flags &= ~TOPO_DELAY;
 					pending.unpop(p);
 				}
 				if (firstParent) {
 					break;
 				}
 			}
+
+                        c.flags &= ~TOPO_QUEUED;
 			return c;
 		}
 	}
