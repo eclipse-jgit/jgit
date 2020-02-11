@@ -12,12 +12,12 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
+import org.eclipse.jgit.internal.storage.pack.BitmapCommit;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
@@ -41,8 +41,12 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap blobs;
 	private final EWAHCompressedBitmap tags;
 	private final BlockList<PositionEntry> byOffset;
-	final BlockList<StoredBitmap>
-			byAddOrder = new BlockList<>();
+
+	private final LinkedList<StoredBitmap>
+			bitmapsToWriteXorBuffer = new LinkedList<>();
+
+	private final List<StoredEntry> bitmapsToWrite = new LinkedList<>();
+
 	final ObjectIdOwnerMap<PositionEntry>
 			positionEntries = new ObjectIdOwnerMap<>();
 
@@ -151,6 +155,63 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	}
 
 	/**
+	 * Processes a commit and prepares its bitmap to write to the bitmap index
+	 * file.
+	 *
+	 * @param c
+	 *            the commit corresponds to the bitmap.
+	 * @param bitmap
+	 *            the bitmap to be written.
+	 * @param flags
+	 *            the flags of the commit.
+	 */
+	public void processBitmapForWrite(BitmapCommit c, Bitmap bitmap,
+			int flags) {
+		EWAHCompressedBitmap compressed = retrieveCompressed(bitmap);
+		compressed.trim();
+		StoredBitmap newest = new StoredBitmap(c, compressed, null, flags);
+
+		bitmapsToWriteXorBuffer.add(newest);
+		if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
+			bitmapsToWrite.add(
+					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+		}
+
+		if (c.isAddToIndex()) {
+			// The Bitmap map in the base class is used to make revwalks
+			// efficient, so only add bitmaps that keep it efficient without
+			// bloating memory.
+			addBitmap(c, bitmap, flags);
+		}
+	}
+
+	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite) {
+		int bestXorOffset = 0;
+		EWAHCompressedBitmap bestBitmap = bitmapToWrite.getBitmap();
+
+		int offset = 1;
+		for (StoredBitmap curr : bitmapsToWriteXorBuffer) {
+			EWAHCompressedBitmap bitmap = curr.getBitmap()
+					.xor(bitmapToWrite.getBitmap());
+			if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
+				bestBitmap = bitmap;
+				bestXorOffset = offset;
+			}
+			offset++;
+		}
+
+		PositionEntry entry = positionEntries.get(bitmapToWrite);
+		if (entry == null) {
+			throw new IllegalStateException();
+		}
+		bestBitmap.trim();
+		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
+				bestXorOffset, bitmapToWrite.getFlags());
+
+		return result;
+	}
+
+	/**
 	 * Stores the bitmap for the objectId.
 	 *
 	 * @param objectId
@@ -165,7 +226,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		bitmap.trim();
 		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
 		getBitmaps().add(result);
-		byAddOrder.add(result);
 	}
 
 	/** {@inheritDoc} */
@@ -255,10 +315,18 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	}
 
 	/**
+	 * Get the number of entries of the output bitmap index file.
+	 *
+	 * @return the number of entries in the output bitmap index file.
+	 */
+	public int getEntriesCount() {
+		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
+	}
+
+	/**
 	 * Remove all the bitmaps entries added.
 	 */
 	public void clearBitmaps() {
-		byAddOrder.clear();
 		getBitmaps().clear();
 	}
 
@@ -269,64 +337,17 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	}
 
 	/**
-	 * Get an iterator over the xor compressed entries.
+	 * Get list of xor compressed entries that need to be written.
 	 *
-	 * @return an iterator over the xor compressed entries.
+	 * @return a list of the xor compressed entries.
 	 */
-	public Iterable<StoredEntry> getCompressedBitmaps() {
-		// Add order is from oldest to newest. The reverse add order is the
-		// output order.
-		return () -> new Iterator<StoredEntry>() {
-
-			private int index = byAddOrder.size() - 1;
-
-			@Override
-			public boolean hasNext() {
-				return index >= 0;
-			}
-
-			@Override
-			public StoredEntry next() {
-				if (!hasNext()) {
-					throw new NoSuchElementException();
-				}
-				StoredBitmap item = byAddOrder.get(index);
-				int bestXorOffset = 0;
-				EWAHCompressedBitmap bestBitmap = item.getBitmap();
-
-				// Attempt to compress the bitmap with an XOR of the
-				// previously written entries.
-				for (int i = 1; i <= MAX_XOR_OFFSET_SEARCH; i++) {
-					int curr = i + index;
-					if (curr >= byAddOrder.size()) {
-						break;
-					}
-
-					StoredBitmap other = byAddOrder.get(curr);
-					EWAHCompressedBitmap bitmap = other.getBitmap()
-							.xor(item.getBitmap());
-
-					if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
-						bestBitmap = bitmap;
-						bestXorOffset = i;
-					}
-				}
-				index--;
-
-				PositionEntry entry = positionEntries.get(item);
-				if (entry == null) {
-					throw new IllegalStateException();
-				}
-				bestBitmap.trim();
-				return new StoredEntry(entry.namePosition, bestBitmap,
-						bestXorOffset, item.getFlags());
-			}
-
-			@Override
-			public void remove() {
-				throw new UnsupportedOperationException();
-			}
-		};
+	public List<StoredEntry> getCompressedBitmaps() {
+		while (!bitmapsToWriteXorBuffer.isEmpty()) {
+			bitmapsToWrite.add(
+					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+		}
+		Collections.reverse(bitmapsToWrite);
+		return bitmapsToWrite;
 	}
 
 	/** Data object for the on disk representation of a bitmap entry. */

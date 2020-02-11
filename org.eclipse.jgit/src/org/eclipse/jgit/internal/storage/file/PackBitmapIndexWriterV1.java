@@ -65,7 +65,7 @@ public class PackBitmapIndexWriterV1 {
 		if (bitmaps == null || packDataChecksum.length != 20)
 			throw new IllegalStateException();
 
-		writeHeader(bitmaps.getOptions(), bitmaps.getBitmapCount(),
+		writeHeader(bitmaps.getOptions(), bitmaps.getEntriesCount(),
 				packDataChecksum);
 		writeBody(bitmaps);
 		writeFooter();
@@ -74,12 +74,12 @@ public class PackBitmapIndexWriterV1 {
 	}
 
 	private void writeHeader(
-			int options, int bitmapCount, byte[] packDataChecksum)
+			int options, int entriesCount, byte[] packDataChecksum)
 			throws IOException {
 		out.write(PackBitmapIndexV1.MAGIC);
 		dataOutput.writeShort(1);
 		dataOutput.writeShort(options);
-		dataOutput.writeInt(bitmapCount);
+		dataOutput.writeInt(entriesCount);
 		out.write(packDataChecksum);
 	}
 
@@ -97,18 +97,18 @@ public class PackBitmapIndexWriterV1 {
 
 	private void writeBitmaps(PackBitmapIndexBuilder bitmaps)
 			throws IOException {
-		int bitmapCount = 0;
+		int entriesCount = 0;
 		for (StoredEntry entry : bitmaps.getCompressedBitmaps()) {
 			writeBitmapEntry(entry);
-			bitmapCount++;
+			entriesCount++;
 		}
 
-		int expectedBitmapCount = bitmaps.getBitmapCount();
-		if (expectedBitmapCount != bitmapCount)
+		int expectedEntriesCount = bitmaps.getEntriesCount();
+		if (expectedEntriesCount != entriesCount)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().expectedGot,
-					String.valueOf(expectedBitmapCount),
-					String.valueOf(bitmapCount)));
+					String.valueOf(expectedEntriesCount),
+					String.valueOf(entriesCount)));
 	}
 
 	private void writeBitmapEntry(StoredEntry entry) throws IOException {
