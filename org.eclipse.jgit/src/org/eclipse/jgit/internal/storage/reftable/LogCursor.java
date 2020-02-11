@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ReflogEntry;
 
 /**
@@ -45,8 +46,9 @@ public abstract class LogCursor implements AutoCloseable {
 	/**
 	 * Get current log entry.
 	 *
-	 * @return current log entry.
+	 * @return current log entry. Maybe null if we are producing deletions.
 	 */
+	@Nullable
 	public abstract ReflogEntry getReflogEntry();
 
 	/** {@inheritDoc} */
