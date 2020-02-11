@@ -28,7 +28,7 @@ and read the `$GIT_DIR/refs` directory.
 
 - Near constant time lookup for any single reference, even when the
   repository is cold and not in process or kernel cache.
-- Near constant time verification if a SHA-1 is referred to by at
+- Near constant time verification if a object id is referred to by at
   least one reference (for allow-tip-sha1-in-want).
 - Efficient lookup of an entire namespace, such as `refs/tags/`.
 - Support atomic push with `O(size_of_update)` operations.
@@ -178,10 +178,15 @@ ref index to reduce total file size.
 A 24-byte header appears at the beginning of the file:
 
     'REFT'
-    uint8( version_number = 1 )
+    uint8( format_version )
     uint24( block_size )
     uint64( min_update_index )
     uint64( max_update_index )
+
+The `format_version` is a byte that indicates the version of the on-disk format.
+`format_version=1` indicates the SHA1 hash, so all hash values are 20 bytes
+wide. `format_version=2` indicates a 32 byte hash values. The hash function
+picked is mentioned in the trailer.
 
 Aligned files must specify `block_size` to configure readers with the
 expected block alignment.  Unaligned files must set `block_size = 0`.
@@ -271,8 +276,8 @@ The `value` follows.  Its format is determined by `value_type`, one of
 the following:
 
 - `0x0`: deletion; no value data (see transactions, below)
-- `0x1`: one 20-byte object id; value of the ref
-- `0x2`: two 20-byte object ids; value of the ref, peeled target
+- `0x1`: one object id; value of the ref
+- `0x2`: two object ids; value of the ref, peeled target
 - `0x3`: symbolic reference: `varint( target_len ) target`
 
 Symbolic references use `0x3`, followed by the complete name of the
@@ -613,16 +618,16 @@ refer to the start of a log block.
 Readers loading the log index must first read the footer (below) to
 obtain `log_index_position`. If not present, the position will be 0.
 
-### Footer
+### Footer (format_version=1)
 
 After the last block of the file, a file footer is written.  It begins
 like the file header, but is extended with additional data.
 
-A 68-byte footer appears at the end:
+For `format_version=1`, a 68-byte footer appears at the end:
 
 ```
     'REFT'
-    uint8( version_number = 1 )
+    uint8( format_version )
     uint24( block_size )
     uint64( min_update_index )
     uint64( max_update_index )
@@ -648,7 +653,7 @@ field (e.g. `ref_index_position`) will be 0.
 - `obj_index_position`: byte position for the start of the obj index.
 - `log_index_position`: byte position for the start of the log index.
 
-#### Reading the footer
+#### Reading the footer (format_version = 1)
 
 Readers must seek to `file_length - 68` to access the footer.  A
 trusted external source (such as `stat(2)`) is necessary to obtain
@@ -659,6 +664,53 @@ trusted external source (such as `stat(2)`) is necessary to obtain
 - 4-byte CRC-32 matches the other 64 bytes (including magic, and version)
 
 Once verified, the other fields of the footer can be accessed.
+
+### Footer (format_version = 2)
+
+For `format_version=2` and beyond, the trailer is variable sized:
+
+```
+    'REFT'
+    uint8( format_version )
+    uint24( block_size )
+    uint64( min_update_index )
+    uint64( max_update_index )
+
+    uint64( ref_index_position )
+    uint64( (obj_position << 5) | obj_id_len )
+    uint64( obj_index_position )
+
+    uint64( log_position )
+    uint64( log_index_position )
+
+    uint32( hash_id )
+
+    (room for future extensions)
+
+    uint16( trailer_size )
+    uint32( CRC-32 of above )
+```
+
+The `hash_id` is the 4-byte hash identifier, eg. "sha2".
+
+Readers must seek to `file_length - 6` to access the `trailer_size`, which
+encodes the length of the trailer up to the `trailer_size` field. Then, readers
+seek to `file_length - 6 - trailer_size`, and read the trailer.
+
+When reading the footer, readers should verify
+
+- 4-byte magic number
+- 1-byte version number is recognized
+- 4-byte CRC-32 matches the rest of the data
+
+The `trailer_size` allows deploying for backward compatible extensions without
+the need to rewrite existing data. If `trailer_size` goes beyond what the reader
+supports, it should ignore that data in the field. This allows for gradual
+rollout of (backward compatible) format changes.
+
+Extensions to the format that add fields will change `trailer_size`, and they
+must be coordinated with the reftable specification, to ensure that all
+implementations agree on what data means.
 
 ### Varint encoding
 
@@ -964,11 +1016,3 @@ A common format that can be supported by all major Git implementations
 (git-core, JGit, libgit2) is strongly preferred.
 
 [dt-lmdb]: https://public-inbox.org/git/1455772670-21142-26-git-send-email-dturner@twopensource.com/
-
-## Future
-
-### Longer hashes
-
-Version will bump (e.g.  2) to indicate `value` uses a different
-object id length other than 20.  The length could be stored in an
-expanded file header, or hardcoded as part of the version.
