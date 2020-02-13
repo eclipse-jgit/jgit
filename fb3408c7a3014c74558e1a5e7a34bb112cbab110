@@ -22,6 +22,30 @@
       "revId": "fb3408c7a3014c74558e1a5e7a34bb112cbab110",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c7c70e_beee3b22",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-13T11:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0f90365_bd835c72",
+      "range": {
+        "startLine": 186,
+        "startChar": 39,
+        "endLine": 187,
+        "endChar": 6
+      },
+      "revId": "fb3408c7a3014c74558e1a5e7a34bb112cbab110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
