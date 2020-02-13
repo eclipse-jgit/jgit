@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3008dda8_18e9178f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-02-13T19:00:12Z",
+      "side": 1,
+      "message": "Could you add a test marking a commit as uninteresting?",
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
