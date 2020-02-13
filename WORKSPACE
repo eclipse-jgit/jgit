@@ -20,7 +20,7 @@ check_bazel_version()
 
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "f53f51fb660552d0581aa0ba52c3836ed63d56a3")
+load_bazlets(commit = "f30a992da9fc855dce819875afb59f9dd6f860cd")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
