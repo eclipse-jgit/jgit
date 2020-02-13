@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0f90365_bd835c72",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-13T11:11:14Z",
+      "side": 1,
+      "message": "was this sentence intended to end with \"and ... something else\", or is the word \"both\" misplaced?",
+      "range": {
+        "startLine": 186,
+        "startChar": 39,
+        "endLine": 187,
+        "endChar": 6
+      },
+      "revId": "fb3408c7a3014c74558e1a5e7a34bb112cbab110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
