@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "69c2b9e3_7330cdc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-13T19:11:32Z",
+      "side": 1,
+      "message": "Yes. It\u0027s package-visible only, which is considered internal as far as PDE API rules are concerned.",
+      "parentUuid": "b9df263d_aa69f14f",
+      "range": {
+        "startLine": 131,
+        "startChar": 18,
+        "endLine": 131,
+        "endChar": 29
+      },
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "859a863f_fbd7d631",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 8
