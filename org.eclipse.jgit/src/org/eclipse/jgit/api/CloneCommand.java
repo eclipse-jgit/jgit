@@ -71,7 +71,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
-	private FETCH_TYPE fetchType = FETCH_TYPE.ALL_BRANCHES;
+	private boolean cloneAllBranches;
+
+	private boolean mirror;
 
 	private boolean cloneSubmodules;
 
@@ -84,6 +86,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private boolean directoryExistsInitially;
 
 	private boolean gitDirExistsInitially;
+
+	private FETCH_TYPE fetchType;
 
 	private enum FETCH_TYPE {
 		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
@@ -162,6 +166,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			throw new InvalidRemoteException(
 					MessageFormat.format(JGitText.get().invalidURL, uri));
 		}
+		setFetchType();
 		@SuppressWarnings("resource") // Closed by caller
 		Repository repository = init();
 		FetchResult fetchResult = null;
@@ -203,6 +208,20 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			}
 		}
 		return new Git(repository, true);
+	}
+
+	private void setFetchType() {
+		if (mirror) {
+			fetchType = FETCH_TYPE.MIRROR;
+			setBare(true);
+		} else if (cloneAllBranches) {
+			fetchType = FETCH_TYPE.ALL_BRANCHES;
+		} else if (branchesToClone != null && !branchesToClone.isEmpty()) {
+			fetchType = FETCH_TYPE.MULTIPLE_BRANCHES;
+		} else {
+			// Default: neither mirror nor all nor specific refs given
+			fetchType = FETCH_TYPE.ALL_BRANCHES;
+		}
 	}
 
 	private static boolean isNonEmptyDirectory(File dir) {
@@ -586,8 +605,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return {@code this}
 	 */
 	public CloneCommand setCloneAllBranches(boolean cloneAllBranches) {
-		this.fetchType = cloneAllBranches ? FETCH_TYPE.ALL_BRANCHES
-				: this.fetchType;
+		this.cloneAllBranches = cloneAllBranches;
 		return this;
 	}
 
@@ -607,10 +625,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @since 5.6
 	 */
 	public CloneCommand setMirror(boolean mirror) {
-		if (mirror) {
-			this.fetchType = FETCH_TYPE.MIRROR;
-			setBare(true);
-		}
+		this.mirror = mirror;
 		return this;
 	}
 
@@ -631,8 +646,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * Set the branches or tags to clone.
 	 * <p>
 	 * This is ignored if {@link #setCloneAllBranches(boolean)
-	 * setCloneAllBranches(true)} is used. If {@code branchesToClone} is
-	 * {@code null} or empty, it's also ignored and all branches will be cloned.
+	 * setCloneAllBranches(true)} or {@link #setMirror(boolean) setMirror(true)}
+	 * is used. If {@code branchesToClone} is {@code null} or empty, it's also
+	 * ignored.
 	 * </p>
 	 *
 	 * @param branchesToClone
@@ -642,13 +658,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return {@code this}
 	 */
 	public CloneCommand setBranchesToClone(Collection<String> branchesToClone) {
-		if (branchesToClone == null || branchesToClone.isEmpty()) {
-			// fallback to default
-			fetchType = FETCH_TYPE.ALL_BRANCHES;
-		} else {
-			this.fetchType = FETCH_TYPE.MULTIPLE_BRANCHES;
-			this.branchesToClone = branchesToClone;
-		}
+		this.branchesToClone = branchesToClone;
 		return this;
 	}
 
