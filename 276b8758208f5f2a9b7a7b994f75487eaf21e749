@@ -123,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "0b3bb18b_9225e8d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-13T21:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8688efb_25bdb6df",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "902149ec_525f5be0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 8
@@ -134,6 +158,30 @@
       "writtenOn": "2020-02-13T19:00:12Z",
       "side": 1,
       "message": "This comment is outdated, right? This parent doesn\u0027t necessarily appeared before.",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 43
+      },
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6df28c6c_a6dacf1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-13T21:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "902149ec_525f5be0",
       "range": {
         "startLine": 103,
         "startChar": 8,
