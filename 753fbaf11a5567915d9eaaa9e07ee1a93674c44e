@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42aa9538_d9146ca1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-13T11:03:24Z",
+      "side": 1,
+      "message": "other change? This is venturing beyond fixing the compactor.",
+      "parentUuid": "b58e0fe2_b9cecc14",
+      "range": {
+        "startLine": 110,
+        "startChar": 22,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "753fbaf11a5567915d9eaaa9e07ee1a93674c44e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aad4325d_031038e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-12T23:54:10Z",
       "side": 1,
       "message": "maybe rename this to minRefUpdateIndex to make clear it\u0027s only about refs ?",
+      "range": {
+        "startLine": 121,
+        "startChar": 22,
+        "endLine": 121,
+        "endChar": 36
+      },
+      "revId": "753fbaf11a5567915d9eaaa9e07ee1a93674c44e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "730b5fed_6ac9736d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-13T11:03:24Z",
+      "side": 1,
+      "message": "idem.",
+      "parentUuid": "aad4325d_031038e1",
       "range": {
         "startLine": 121,
         "startChar": 22,
