@@ -16,6 +16,24 @@
       "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0e62a0_064eef25",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-13T21:18:17Z",
+      "side": 1,
+      "message": "Added a test for uninteresting. Additionally, testV2FetchDeepenNot in UploadPackTest for DepthWalk.RevWalk breaks when inDepth is incremented with UNINTERESTING commits.",
+      "parentUuid": "3008dda8_18e9178f",
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
