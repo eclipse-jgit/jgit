@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1d180b7_06db0a7b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-13T07:16:25Z",
+      "side": 1,
+      "message": "Please use tabs for indentation.",
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "859a863f_fbd7d631",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-13T07:16:25Z",
+      "side": 1,
+      "message": "Please use tabs for indentation.",
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "783f16ca_d600ab2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-13T07:16:25Z",
+      "side": 1,
+      "message": "Please use tabs for indentation.",
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702b9a68_6b4e6515",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-13T07:16:25Z",
+      "side": 1,
+      "message": "Please use tabs for indentation.",
+      "revId": "276b8758208f5f2a9b7a7b994f75487eaf21e749",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
