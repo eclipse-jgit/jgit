@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.6.1"/>
-                <message_argument value="5.6.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.BaseReceivePack">
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
-                <message_argument value="org.eclipse.jgit_5.6.1"/>
+                <message_argument value="org.eclipse.jgit_5.6.2"/>
             </message_arguments>
         </filter>
     </resource>
