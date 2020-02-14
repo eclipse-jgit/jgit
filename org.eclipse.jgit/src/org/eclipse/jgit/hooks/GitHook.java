@@ -17,11 +17,11 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Callable;
 
-import org.bouncycastle.util.io.TeeOutputStream;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.ProcessResult;
+import org.eclipse.jgit.util.io.TeeOutputStream;
 
 /**
  * Git can fire off custom scripts when certain important actions occur. These
