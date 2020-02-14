@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50f8f6b0_396cae87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-14T01:33:10Z",
+      "side": 1,
+      "message": "nit: fix the name here too",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 16
+      },
+      "revId": "eb75bbcec0ca15feb1a6e297ac1a359dd98d30c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e8bf140_c2437e3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-14T01:33:10Z",
+      "side": 1,
+      "message": "Is there a bug that can be referenced here?",
+      "revId": "eb75bbcec0ca15feb1a6e297ac1a359dd98d30c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986bbdce_f2a25d39",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HexTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-14T01:33:10Z",
+      "side": 1,
+      "message": "Why is the google copyright added?",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "eb75bbcec0ca15feb1a6e297ac1a359dd98d30c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
