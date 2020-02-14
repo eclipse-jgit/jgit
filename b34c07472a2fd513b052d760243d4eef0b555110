@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d56caa_af496b17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-14T01:31:34Z",
+      "side": 1,
+      "message": "nit: Fix the name here too",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 16
+      },
+      "revId": "b34c07472a2fd513b052d760243d4eef0b555110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "181c6d25_b26ebeb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-14T01:31:34Z",
+      "side": 1,
+      "message": "nit: remove this blank line",
+      "revId": "b34c07472a2fd513b052d760243d4eef0b555110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
