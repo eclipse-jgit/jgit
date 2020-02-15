@@ -34,6 +34,98 @@
       "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "419a72cb_b767e2fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "Also mention that this mark will be removed when this commit has been produced.",
+      "range": {
+        "startLine": 129,
+        "startChar": 41,
+        "endLine": 129,
+        "endChar": 49
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b01718_e95d2ce0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "The ordering of this for loop means that if a commit is the last child of several parents, those parents will be unpopped in reverse parent order (instead of parent order or commit time order). I downloaded this patch and tried to change it and found that other tests fail. So this behavior might be confusing, but Git itself does not prescribe any order in this case, so it might not be worth changing.",
+      "range": {
+        "startLine": 98,
+        "startChar": 3,
+        "endLine": 98,
+        "endChar": 32
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93491439_972719a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "I think this comment is in the wrong place. Isn\u0027t this true only if p.inDegree \u003d\u003d 0? Also, it is not only OK for us to produce, we *must* produce it.",
+      "range": {
+        "startLine": 103,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ba1d104_88eba473",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "Do we really know that we really tried to produce this parent? I thought we just knew that the parent is in the queue.",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 33
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
