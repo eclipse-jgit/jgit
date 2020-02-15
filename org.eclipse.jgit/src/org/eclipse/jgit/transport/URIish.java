@@ -266,7 +266,10 @@ public class URIish implements Serializable {
 				try {
 					val = parseHexByte(c1, c2);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
+					URISyntaxException use = new URISyntaxException(s,
+							JGitText.get().cannotParseGitURIish);
+					use.initCause(e);
+					throw use;
 				}
 				os[j++] = (byte) val;
 				i += 2;

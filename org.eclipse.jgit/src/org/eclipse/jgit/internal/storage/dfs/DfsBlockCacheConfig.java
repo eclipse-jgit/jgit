@@ -236,7 +236,7 @@ public class DfsBlockCacheConfig {
 						JGitText.get().enumValueNotSupported3,
 						CONFIG_CORE_SECTION,
 						CONFIG_DFS_SECTION,
-						CONFIG_KEY_STREAM_RATIO, v));
+						CONFIG_KEY_STREAM_RATIO, v), e);
 			}
 		}
 		return this;

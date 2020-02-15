@@ -101,8 +101,10 @@ public class AbstractTreeIteratorHandler extends
 		try (ObjectReader curs = clp.getRepository().newObjectReader()) {
 			p.reset(curs, clp.getRevWalk().parseTree(id));
 		} catch (MissingObjectException | IncorrectObjectTypeException e) {
-			throw new CmdLineException(clp,
+			CmdLineException cle = new CmdLineException(clp,
 					CLIText.format(CLIText.get().notATree), name);
+			cle.initCause(e);
+			throw cle;
 		} catch (IOException e) {
 			throw new CmdLineException(clp,
 					CLIText.format(CLIText.get().cannotReadBecause), name,

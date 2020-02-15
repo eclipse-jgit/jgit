@@ -541,7 +541,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				inputStream = new FileInputStream(manifestPath);
 			} catch (IOException e) {
 				throw new IllegalArgumentException(
-						JGitText.get().pathNotConfigured);
+						JGitText.get().pathNotConfigured, e);
 			}
 		}
 

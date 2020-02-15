@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
@@ -25,9 +26,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Unit tests of {@link RenameBranchCommand}
@@ -39,9 +38,6 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	private RevCommit head;
 
 	private Git git;
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Override
 	@Before
@@ -57,8 +53,8 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	@Test
 	public void renameToExisting() throws Exception {
 		assertNotNull(git.branchCreate().setName("foo").call());
-		thrown.expect(RefAlreadyExistsException.class);
-		git.branchRename().setOldName("master").setNewName("foo").call();
+		assertThrows(RefAlreadyExistsException.class, () -> git.branchRename()
+				.setOldName("master").setNewName("foo").call());
 	}
 
 	@Test

@@ -234,9 +234,11 @@ public class MutableObjectId extends AnyObjectId {
 			w3 = RawParseUtils.parseHexInt32(bs, p + 16);
 			w4 = RawParseUtils.parseHexInt32(bs, p + 24);
 			w5 = RawParseUtils.parseHexInt32(bs, p + 32);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidObjectIdException(bs, p,
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidObjectIdException e1 = new InvalidObjectIdException(bs, p,
 					Constants.OBJECT_ID_STRING_LENGTH);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

@@ -121,8 +121,11 @@ public final class AbbreviatedLongObjectId implements Serializable {
 			final long c = hexUInt64(bs, ptr + 32, end);
 			final long d = hexUInt64(bs, ptr + 48, end);
 			return new AbbreviatedLongObjectId(end - ptr, a, b, c, d);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidLongObjectIdException(bs, ptr, end - ptr);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidLongObjectIdException e1 = new InvalidLongObjectIdException(
+					bs, ptr, end - ptr);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -58,7 +59,6 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 /**
@@ -74,9 +74,6 @@ public class ConfigTest {
 	private static final String REFS_UPSTREAM = "+refs/heads/*:refs/remotes/upstream/*";
 
 	private static final String REFS_BACKUP = "+refs/heads/*:refs/remotes/backup/*";
-
-	@Rule
-	public ExpectedException expectedEx = ExpectedException.none();
 
 	@Rule
 	public TemporaryFolder tmp = new TemporaryFolder();
@@ -721,24 +718,22 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeInvalidName() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
-		parse("[include]\nbar\n");
+	public void testIncludeInvalidName() {
+		assertThrows(JGitText.get().invalidLineInConfigFile,
+				ConfigInvalidException.class, () -> parse("[include]\nbar\n"));
 	}
 
 	@Test
-	public void testIncludeNoValue() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
-		parse("[include]\npath\n");
+	public void testIncludeNoValue() {
+		assertThrows(JGitText.get().invalidLineInConfigFile,
+				ConfigInvalidException.class, () -> parse("[include]\npath\n"));
 	}
 
 	@Test
-	public void testIncludeEmptyValue() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
-		parse("[include]\npath=\n");
+	public void testIncludeEmptyValue() {
+		assertThrows(JGitText.get().invalidLineInConfigFile,
+				ConfigInvalidException.class,
+				() -> parse("[include]\npath=\n"));
 	}
 
 	@Test
@@ -1269,25 +1264,24 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testTimeUnitInvalid() throws ConfigInvalidException {
-		expectedEx.expect(IllegalArgumentException.class);
-		expectedEx
-				.expectMessage("Invalid time unit value: a.a=1 monttthhh");
-		parseTime("1 monttthhh", DAYS);
+	public void testTimeUnitInvalid() {
+		assertThrows("Invalid time unit value: a.a=1 monttthhh",
+				IllegalArgumentException.class,
+				() -> parseTime("1 monttthhh", DAYS));
 	}
 
 	@Test
 	public void testTimeUnitInvalidWithSection() throws ConfigInvalidException {
 		Config c = parse("[a \"b\"]\na=1 monttthhh\n");
-		expectedEx.expect(IllegalArgumentException.class);
-		expectedEx.expectMessage("Invalid time unit value: a.b.a=1 monttthhh");
-		c.getTimeUnit("a", "b", "a", 0, DAYS);
+		assertThrows("Invalid time unit value: a.b.a=1 monttthhh",
+				IllegalArgumentException.class,
+				() -> c.getTimeUnit("a", "b", "a", 0, DAYS));
 	}
 
 	@Test
-	public void testTimeUnitNegative() throws ConfigInvalidException {
-		expectedEx.expect(IllegalArgumentException.class);
-		parseTime("-1", MILLISECONDS);
+	public void testTimeUnitNegative() {
+		assertThrows(IllegalArgumentException.class,
+				() -> parseTime("-1", MILLISECONDS));
 	}
 
 	@Test
@@ -1430,10 +1424,10 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testInvalidGroupHeader() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage(JGitText.get().badGroupHeader);
-		parse("[foo \"bar\" ]\nfoo=bar\n");
+	public void testInvalidGroupHeader() {
+		assertThrows(JGitText.get().badGroupHeader,
+				ConfigInvalidException.class,
+				() -> parse("[foo \"bar\" ]\nfoo=bar\n"));
 	}
 
 	@Test
@@ -1447,17 +1441,15 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testCrCharContinuation() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage("Bad escape: \\u000d");
-		parseEscapedValue("tr\\\rue");
+	public void testCrCharContinuation() {
+		assertThrows("Bad escape: \\u000d", ConfigInvalidException.class,
+				() -> parseEscapedValue("tr\\\rue"));
 	}
 
 	@Test
-	public void testCrEOFContinuation() throws ConfigInvalidException {
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage("Bad escape: \\u000d");
-		parseEscapedValue("tr\\\r");
+	public void testCrEOFContinuation() {
+		assertThrows("Bad escape: \\u000d", ConfigInvalidException.class,
+				() -> parseEscapedValue("tr\\\r"));
 	}
 
 	@Test

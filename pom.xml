@@ -155,27 +155,27 @@
     <apache-sshd-version>2.2.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
-    <javaewah-version>1.1.6</javaewah-version>
-    <junit-version>4.12</junit-version>
+    <javaewah-version>1.1.7</javaewah-version>
+    <junit-version>4.13</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
-    <commons-compress-version>1.18</commons-compress-version>
+    <commons-compress-version>1.19</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>3.1.0</servlet-api-version>
     <jetty-version>9.4.25.v20191220</jetty-version>
-    <japicmp-version>0.14.1</japicmp-version>
-    <httpclient-version>4.5.6</httpclient-version>
-    <httpcore-version>4.4.10</httpcore-version>
+    <japicmp-version>0.14.3</japicmp-version>
+    <httpclient-version>4.5.10</httpclient-version>
+    <httpcore-version>4.4.12</httpcore-version>
     <slf4j-version>1.7.2</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
-    <tycho-extras-version>1.5.1</tycho-extras-version>
+    <tycho-extras-version>1.6.0</tycho-extras-version>
     <gson-version>2.8.2</gson-version>
     <bouncycastle-version>1.64</bouncycastle-version>
     <spotbugs-maven-plugin-version>3.1.12.2</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
-    <maven-surefire-plugin-version>3.0.0-M3</maven-surefire-plugin-version>
+    <maven-surefire-plugin-version>3.0.0-M4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
 
@@ -298,7 +298,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.12.0</version>
+          <version>3.13.0</version>
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
@@ -775,6 +775,11 @@
         <version>${bouncycastle-version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.14.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -831,9 +836,6 @@
                 <configuration>
                   <compilerId>javac-with-errorprone</compilerId>
                   <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                  <compilerArgs>
-                    <arg>-Xep:ExpectedExceptionChecker:ERROR</arg>
-                  </compilerArgs>
                   <excludes>
                     <exclude>org/eclipse/jgit/transport/InsecureCipherFactory.java</exclude>
                   </excludes>

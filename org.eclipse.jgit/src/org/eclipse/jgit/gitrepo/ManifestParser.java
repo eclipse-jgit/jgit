@@ -139,7 +139,7 @@ public class ManifestParser extends DefaultHandler {
 		try {
 			xr = XMLReaderFactory.createXMLReader();
 		} catch (SAXException e) {
-			throw new IOException(JGitText.get().noXMLParserAvailable);
+			throw new IOException(JGitText.get().noXMLParserAvailable, e);
 		}
 		xr.setContentHandler(this);
 		try {

@@ -100,7 +100,7 @@ class Checkout extends TextBuiltin {
 						.format(CLIText.get().pathspecDidNotMatch, name), e);
 			} catch (RefAlreadyExistsException e) {
 				throw die(MessageFormat
-						.format(CLIText.get().branchAlreadyExists, name));
+						.format(CLIText.get().branchAlreadyExists, name), e);
 			} catch (CheckoutConflictException e) {
 				StringBuilder builder = new StringBuilder();
 				builder.append(CLIText.get().checkoutConflict);

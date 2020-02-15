@@ -71,13 +71,12 @@ import org.slf4j.LoggerFactory;
  */
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private final static Logger LOG = LoggerFactory.getLogger(PackFile.class);
-	/** Sorts PackFiles to be most recently created to least recently created. */
-	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
-		@Override
-		public int compare(PackFile a, PackFile b) {
-			return b.packLastModified.compareTo(a.packLastModified);
-		}
-	};
+
+	/**
+	 * Sorts PackFiles to be most recently created to least recently created.
+	 */
+	public static final Comparator<PackFile> SORT = (a, b) -> b.packLastModified
+			.compareTo(a.packLastModified);
 
 	private final File packFile;
 
@@ -1071,7 +1070,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		} catch (DataFormatException e) {
 			throw new CorruptObjectException(MessageFormat.format(
 					JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-					getPackFile()));
+					getPackFile()), e);
 		}
 	}
 

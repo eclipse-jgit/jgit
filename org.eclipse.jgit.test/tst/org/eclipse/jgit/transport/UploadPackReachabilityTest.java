@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.MoreAsserts.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -32,9 +32,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test combinations of:
@@ -45,9 +43,6 @@ import org.junit.rules.ExpectedException;
  * </ul>
  */
 public class UploadPackReachabilityTest {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	private URIish uri;
 

@@ -290,9 +290,12 @@ public class FsckPackParser extends PackParser {
 							ErrorType.MISMATCH_CRC);
 				}
 			} catch (MissingObjectException e) {
-				throw new CorruptPackIndexException(MessageFormat
-						.format(JGitText.get().missingCRC, entry.getName()),
+				CorruptPackIndexException cpe = new CorruptPackIndexException(
+						MessageFormat.format(JGitText.get().missingCRC,
+								entry.getName()),
 						ErrorType.MISSING_CRC);
+				cpe.initCause(e);
+				throw cpe;
 			}
 		}
 

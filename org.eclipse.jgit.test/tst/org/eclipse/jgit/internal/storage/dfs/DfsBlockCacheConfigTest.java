@@ -40,23 +40,18 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThrows;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class DfsBlockCacheConfigTest {
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-
 	@Test
 	public void blockSizeNotPowerOfTwoExpectsException() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage(is(JGitText.get().blockSizeNotPowerOf2));
-
-		new DfsBlockCacheConfig().setBlockSize(1000);
+		assertThrows(JGitText.get().blockSizeNotPowerOf2,
+				IllegalArgumentException.class,
+				() -> new DfsBlockCacheConfig().setBlockSize(1000));
 	}
 
 	@Test

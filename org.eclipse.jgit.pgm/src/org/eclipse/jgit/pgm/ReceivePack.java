@@ -42,7 +42,7 @@ class ReceivePack extends TextBuiltin {
 			db = key.open(true /* must exist */);
 		} catch (RepositoryNotFoundException notFound) {
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository,
-					dstGitdir.getPath()));
+					dstGitdir.getPath()), notFound);
 		} catch (IOException e) {
 			throw die(e.getMessage(), e);
 		}

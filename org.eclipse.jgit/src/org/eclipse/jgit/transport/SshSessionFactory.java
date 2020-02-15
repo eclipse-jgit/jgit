@@ -13,6 +13,8 @@ package org.eclipse.jgit.transport;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Iterator;
+import java.util.ServiceLoader;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
@@ -31,8 +33,16 @@ import org.eclipse.jgit.util.SystemReader;
  * SshSessionFactory for the duration of the period they are using the Session.
  */
 public abstract class SshSessionFactory {
-	private static SshSessionFactory INSTANCE = new DefaultSshSessionFactory();
+	private static SshSessionFactory INSTANCE = loadSshSessionFactory();
 
+	private static SshSessionFactory loadSshSessionFactory() {
+		ServiceLoader<SshSessionFactory> loader = ServiceLoader.load(SshSessionFactory.class);
+		Iterator<SshSessionFactory> iter = loader.iterator();
+		if(iter.hasNext()) {
+			return iter.next();
+		}
+		return null;
+	}
 	/**
 	 * Get the currently configured JVM-wide factory.
 	 * <p>
@@ -53,10 +63,11 @@ public abstract class SshSessionFactory {
 	 *            default factory will be restored.s
 	 */
 	public static void setInstance(SshSessionFactory newFactory) {
-		if (newFactory != null)
+		if (newFactory != null) {
 			INSTANCE = newFactory;
-		else
-			INSTANCE = new DefaultSshSessionFactory();
+		} else {
+			INSTANCE = loadSshSessionFactory();
+		}
 	}
 
 	/**

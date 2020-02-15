@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -110,7 +109,6 @@ public class LfsPointer implements Comparable<LfsPointer> {
 			ps.print(size + "\n"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			// should not happen, we are using a standard charset
-			throw new UnsupportedCharsetException(UTF_8.name());
 		}
 	}
 

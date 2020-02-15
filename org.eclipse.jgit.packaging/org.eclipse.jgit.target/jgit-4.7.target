@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1579098024">
+<target name="jgit-4.7" sequenceNumber="1580289413">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
@@ -29,8 +29,8 @@
       <unit id="com.jcraft.jsch.source" version="0.1.55.v20190404-1902"/>
       <unit id="com.jcraft.jzlib" version="1.1.1.v201205102305"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
-      <unit id="javaewah" version="1.1.6.v20160919-1400"/>
-      <unit id="javaewah.source" version="1.1.6.v20160919-1400"/>
+      <unit id="javaewah" version="1.1.7.v20200107-0831"/>
+      <unit id="javaewah.source" version="1.1.7.v20200107-0831"/>
       <unit id="javax.servlet" version="3.1.0.v201410161800"/>
       <unit id="javax.servlet.source" version="3.1.0.v201410161800"/>
       <unit id="net.bytebuddy.byte-buddy" version="1.9.0.v20181107-1410"/>
@@ -41,22 +41,24 @@
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
       <unit id="org.apache.ant" version="1.10.7.v20190926-0324"/>
       <unit id="org.apache.ant.source" version="1.10.7.v20190926-0324"/>
-      <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
-      <unit id="org.apache.commons.codec.source" version="1.10.0.v20180409-1845"/>
-      <unit id="org.apache.commons.compress" version="1.18.0.v20181121-2221"/>
-      <unit id="org.apache.commons.compress.source" version="1.18.0.v20181121-2221"/>
+      <unit id="org.apache.commons.codec" version="1.13.0.v20200108-0001"/>
+      <unit id="org.apache.commons.codec.source" version="1.13.0.v20200108-0001"/>
+      <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
+      <unit id="org.apache.commons.compress.source" version="1.19.0.v20200106-2343"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.6.v20190503-0009"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.6.v20190503-0009"/>
-      <unit id="org.apache.httpcomponents.httpcore" version="4.4.10.v20190123-2214"/>
-      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.10.v20190123-2214"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.10.v20200114-1512"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.10.v20200114-1512"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="4.4.12.v20200108-1212"/>
+      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.12.v20200108-1212"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
       <unit id="org.apache.sshd.osgi" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
       <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
+      <unit id="org.assertj" version="3.14.0.v20200120-1926"/>
+      <unit id="org.assertj.source" version="3.14.0.v20200120-1926"/>
       <unit id="org.bouncycastle.bcpg" version="1.64.0.v20191109-0815"/>
       <unit id="org.bouncycastle.bcpg.source" version="1.64.0.v20191109-0815"/>
       <unit id="org.bouncycastle.bcpkix" version="1.64.0.v20191109-0815"/>
@@ -68,8 +70,8 @@
       <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
       <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
-      <unit id="org.junit" version="4.12.0.v201504281640"/>
-      <unit id="org.junit.source" version="4.12.0.v201504281640"/>
+      <unit id="org.junit" version="4.13.0.v20200128-1312"/>
+      <unit id="org.junit.source" version="4.13.0.v20200128-1312"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.mockito" version="2.23.0.v20190527-1420"/>
@@ -82,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20191126223242/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200128200239/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
