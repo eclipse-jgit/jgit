@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15daa55b_a3a65d92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "It\u0027s best to quote from the C Git documentation here, since the term \"topological sort\" on its own does not imply any avoidance of mixing.\n\n\u003e Show no parents before all of its children are shown, and avoid showing commits on multiple lines of history intermixed.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b6e071_acb9a903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "I think an \"only\" is missing. Also, the TOPO_DELAY flag is controlled by TopoSortGenerator and could be any name - mentioning it here has no use. Maybe reword as:\n\nThis is because TopoSortGenerator merely delays a commit until all its parents have been produced; it does not immediately produce a commit after its last parent has been produced.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a486e3f1_c43f5bb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "There is no TOPO_QUEUED flag to be used - we are merely introducing a new flag and naming it TOPO_QUEUED. Change the wording accordingly.",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ffa44e_e17ddcc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "What is the relation between TopoSortGenerator and DepthGenerator, and why is this compatibility needed? And if this compatibility is needed, why was the code working before (or was it not working before)?",
+      "range": {
+        "startLine": 20,
+        "startChar": 53,
+        "endLine": 20,
+        "endChar": 66
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b41db92_40edf755",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-15T07:14:48Z",
+      "side": 1,
+      "message": "Also update the graphic above the test method showing the topology (same comments for the other methods).",
+      "range": {
+        "startLine": 456,
+        "startChar": 3,
+        "endLine": 456,
+        "endChar": 6
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
