@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48890f04_bc214425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-15T21:04:33Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of using Optional instead of returning null? In what way would it make a caller\u0027s life easier? I suspect instead of simply checking for null a caller will end up doing Optional.isPresent checks (maybe hidden in an ifPresent with a lambda thrown in for additional complexity).",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78917a03_c9d3d646",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-15T21:04:33Z",
+      "side": 1,
+      "message": "Standard C git performs tilde expansion on commit.template.",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34b08658_8a1c6fe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-15T21:04:33Z",
+      "side": 1,
+      "message": "Can this really return null? And is this the right place anyway to do this? Wouldn\u0027t reading the file be better left to higher code layers that may have more information about the encoding (for instance from i18n.commitEncoding)?",
+      "range": {
+        "startLine": 68,
+        "startChar": 20,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5fa958c_a17b3efe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-15T21:04:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this exception be propagated so that the called can decide what to do with it and whether and how to log it?",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
