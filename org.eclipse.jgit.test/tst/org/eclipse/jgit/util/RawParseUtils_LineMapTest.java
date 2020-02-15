@@ -13,16 +13,12 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 
 import org.eclipse.jgit.errors.BinaryBlobException;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class RawParseUtils_LineMapTest {
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
-
 
 	@Test
 	public void testEmpty() throws Exception {
@@ -62,8 +58,8 @@ public class RawParseUtils_LineMapTest {
 	@Test
 	public void testLineMapOrBinary() throws Exception {
 		final byte[] buf = "xxxfoo\nb\0ar".getBytes(ISO_8859_1);
-		exception.expect(BinaryBlobException.class);
-		RawParseUtils.lineMapOrBinary(buf, 3, buf.length);
+		assertThrows(BinaryBlobException.class,
+				() -> RawParseUtils.lineMapOrBinary(buf, 3, buf.length));
 	}
 
 	@Test

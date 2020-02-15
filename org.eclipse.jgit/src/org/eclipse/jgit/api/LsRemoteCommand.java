@@ -180,7 +180,7 @@ public class LsRemoteCommand extends
 			}
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
-					JGitText.get().invalidRemote, remote));
+					JGitText.get().invalidRemote, remote), e);
 		} catch (NotSupportedException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,

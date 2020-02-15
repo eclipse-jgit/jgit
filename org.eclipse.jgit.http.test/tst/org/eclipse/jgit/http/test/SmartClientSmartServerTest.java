@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -88,17 +89,11 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
-import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	private AdvertiseRefsHook advertiseRefsHook;
 
@@ -462,11 +457,12 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		try (Repository dst = createBareRepository();
 				Transport t = Transport.open(dst, remoteURI)) {
 			assertFalse(dst.getObjectDatabase().has(A_txt));
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
+			Exception e = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							Collections.singletonList(
+									new RefSpec(unreachableCommit.name()))));
+			assertTrue(e.getMessage().contains(
 					"want " + unreachableCommit.name() + " not valid"));
-			t.fetch(NullProgressMonitor.INSTANCE, Collections
-					.singletonList(new RefSpec(unreachableCommit.name())));
 		}
 	}
 
@@ -484,11 +480,11 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		try (Repository dst = createBareRepository();
 				Transport t = Transport.open(dst, remoteURI)) {
 			assertFalse(dst.getObjectDatabase().has(A_txt));
-			thrown.expect(TransportException.class);
-			thrown.expectMessage(Matchers.containsString(
-					"want " + A.name() + " not valid"));
-			t.fetch(NullProgressMonitor.INSTANCE, Collections
-					.singletonList(new RefSpec(A.name())));
+			Exception e = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							Collections.singletonList(new RefSpec(A.name()))));
+			assertTrue(
+					e.getMessage().contains("want " + A.name() + " not valid"));
 		}
 	}
 

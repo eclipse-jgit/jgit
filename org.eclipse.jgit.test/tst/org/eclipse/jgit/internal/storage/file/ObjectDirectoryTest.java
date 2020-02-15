@@ -44,6 +44,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -67,14 +68,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ObjectDirectoryTest extends RepositoryTestCase {
-
-	@Rule
-	public ExpectedException expectedEx = ExpectedException.none();
 
 	@Test
 	public void testConcurrentInsertionOfBlobsToTheSameNewFanOutDirectory()
@@ -199,8 +195,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFileCorrupt()
-			throws Exception {
+	public void testShallowFileCorrupt() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
 
@@ -210,11 +205,9 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				UTF_8.name())) {
 			writer.println(commit);
 		}
-
-		expectedEx.expect(IOException.class);
-		expectedEx.expectMessage(MessageFormat
-				.format(JGitText.get().badShallowLine, commit));
-		dir.getShallowCommits();
+		assertThrows(
+				MessageFormat.format(JGitText.get().badShallowLine, commit),
+				IOException.class, () -> dir.getShallowCommits());
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(

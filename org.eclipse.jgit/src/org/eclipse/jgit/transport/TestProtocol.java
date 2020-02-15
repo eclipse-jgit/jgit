@@ -140,7 +140,7 @@ public class TestProtocol<C> extends TransportProtocol {
 			int n = handles.size();
 			uri = new URIish(SCHEME + "://test/conn" + n); //$NON-NLS-1$
 		} catch (URISyntaxException e) {
-			throw new IllegalStateException();
+			throw new IllegalStateException(e);
 		}
 		handles.put(uri, new Handle(req, remote));
 		return uri;

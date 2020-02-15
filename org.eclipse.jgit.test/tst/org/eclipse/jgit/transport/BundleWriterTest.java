@@ -17,6 +17,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -44,36 +45,30 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class BundleWriterTest extends SampleDataRepositoryTestCase {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
 	public void testEmptyBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
-		thrown.expect(TransportException.class);
-		fetchFromBundle(newRepo, new byte[0]);
+		assertThrows(TransportException.class,
+				() -> fetchFromBundle(newRepo, new byte[0]));
 	}
 
 	@Test
 	public void testNonBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
-		thrown.expect(TransportException.class);
-		fetchFromBundle(newRepo, "Not a bundle file".getBytes(UTF_8));
+		assertThrows(TransportException.class, () -> fetchFromBundle(newRepo,
+				"Not a bundle file".getBytes(UTF_8)));
 	}
 
 	@Test
 	public void testGarbageBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
-		thrown.expect(TransportException.class);
-		fetchFromBundle(newRepo,
+		assertThrows(TransportException.class, () -> fetchFromBundle(newRepo,
 				(TransportBundle.V2_BUNDLE_SIGNATURE + '\n' + "Garbage")
-						.getBytes(UTF_8));
+						.getBytes(UTF_8)));
 	}
 
 	@Test

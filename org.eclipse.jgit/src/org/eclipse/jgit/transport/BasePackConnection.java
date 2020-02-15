@@ -203,7 +203,9 @@ abstract class BasePackConnection extends BaseConnection {
 			try {
 				id  = ObjectId.fromString(line.substring(0, 40));
 			} catch (InvalidObjectIdException e) {
-				throw invalidRefAdvertisementLine(line);
+				PackProtocolException ppe = invalidRefAdvertisementLine(line);
+				ppe.initCause(e);
+				throw ppe;
 			}
 			if (name.equals(".have")) { //$NON-NLS-1$
 				additionalHaves.add(id);

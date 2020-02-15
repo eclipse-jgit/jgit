@@ -213,9 +213,11 @@ public class MutableLongObjectId extends AnyLongObjectId {
 			w2 = RawParseUtils.parseHexInt64(bs, p + 16);
 			w3 = RawParseUtils.parseHexInt64(bs, p + 32);
 			w4 = RawParseUtils.parseHexInt64(bs, p + 48);
-		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidLongObjectIdException(bs, p,
-					Constants.LONG_OBJECT_ID_STRING_LENGTH);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidLongObjectIdException e1 = new InvalidLongObjectIdException(
+					bs, p, Constants.LONG_OBJECT_ID_STRING_LENGTH);
+			e1.initCause(e);
+			throw e1;
 		}
 	}
 

@@ -110,7 +110,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 				outw.println(CLIText.get().clonedEmptyRepository);
 		} catch (InvalidRemoteException e) {
 			throw die(MessageFormat.format(CLIText.get().doesNotExist,
-					sourceUri));
+					sourceUri), e);
 		} finally {
 			if (db != null)
 				db.close();
