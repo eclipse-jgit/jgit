@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9bf9b859_babe6fc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T15:04:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89842bd_d2beff64",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78917a03_c9d3d646",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 9
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "commit.template \u003d ~/myCustomCommitTemplate.txt\n\nThat gets expanded and reads the file from the user\u0027s home directory. File::new doesn\u0027t do that, so it has to be done explicitly.",
       "parentUuid": "0034b4a8_47b464e1",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbebcb2b_b5a35d4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T15:04:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d84e1253_96d75f83",
       "range": {
         "startLine": 64,
         "startChar": 38,
@@ -202,6 +244,24 @@
       "side": 1,
       "message": "Will do.",
       "parentUuid": "a5fa958c_a17b3efe",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60004417_a68a2582",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T15:04:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fa36299_c698bb55",
       "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
