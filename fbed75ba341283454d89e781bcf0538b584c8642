@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e71076d_49ca233e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T09:10:27Z",
+      "side": 1,
+      "message": "True, however, Optional\u003c\u003e makes it explicit to the caller that \u0027emptiness\u0027 is a valid response that he needs to deal with. Checking for null is not explicit and might be forgotten.\nI can live with one or the other.",
+      "parentUuid": "48890f04_bc214425",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78917a03_c9d3d646",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2020-02-15T21:04:33Z",
       "side": 1,
       "message": "Standard C git performs tilde expansion on commit.template.",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0034b4a8_47b464e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T09:10:27Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t get your point.",
+      "parentUuid": "78917a03_c9d3d646",
       "range": {
         "startLine": 64,
         "startChar": 38,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a96f7d0f_8fa0fc7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T09:10:27Z",
+      "side": 1,
+      "message": "Good point!  Do you have a proposal for a better place?",
+      "parentUuid": "34b08658_8a1c6fe2",
+      "range": {
+        "startLine": 68,
+        "startChar": 20,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5fa958c_a17b3efe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 9
@@ -76,6 +142,24 @@
       "writtenOn": "2020-02-15T21:04:33Z",
       "side": 1,
       "message": "Shouldn\u0027t this exception be propagated so that the called can decide what to do with it and whether and how to log it?",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fa36299_c698bb55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-16T09:10:27Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "a5fa958c_a17b3efe",
       "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
