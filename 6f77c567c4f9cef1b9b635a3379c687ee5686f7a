@@ -22,6 +22,30 @@
       "revId": "6f77c567c4f9cef1b9b635a3379c687ee5686f7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40a80dd8_e5cc88b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T17:46:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter; it\u0027s just the default message from git merge. But done anyway.",
+      "parentUuid": "700ec5cd_08b98863",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 60
+      },
+      "revId": "6f77c567c4f9cef1b9b635a3379c687ee5686f7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
