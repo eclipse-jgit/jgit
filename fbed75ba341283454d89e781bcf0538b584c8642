@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a89842bd_d2beff64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T10:13:31Z",
+      "side": 1,
+      "message": "Optional makes most sense for function chaining. I don\u0027t see that use case here, and personally I\u0027d stick with the style used by other XYZConfig classes, which don\u0027t use it. We do have null annotations, so if one wanted to make it explicit that the result could be null, the return type could be @Nullable String. (Though nullable is the default anyway.) But that\u0027s just my personal opinion.",
+      "parentUuid": "1e71076d_49ca233e",
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78917a03_c9d3d646",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 9
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Sorry, I don\u0027t get your point.",
       "parentUuid": "78917a03_c9d3d646",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "fbed75ba341283454d89e781bcf0538b584c8642",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d84e1253_96d75f83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T10:13:31Z",
+      "side": 1,
+      "message": "commit.template \u003d ~/myCustomCommitTemplate.txt\n\nThat gets expanded and reads the file from the user\u0027s home directory. File::new doesn\u0027t do that, so it has to be done explicitly.",
+      "parentUuid": "0034b4a8_47b464e1",
       "range": {
         "startLine": 64,
         "startChar": 38,
