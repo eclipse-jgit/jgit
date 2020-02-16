@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d69e12e9_0f44226a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T18:12:43Z",
+      "side": 1,
+      "message": "Extra empty line.",
+      "revId": "ef442ec00355e24eea4cd7fb3dfb3f5f24a6fb35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3237a002_9dde4f08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T18:12:43Z",
+      "side": 1,
+      "message": "Hmmm. I just mentioned that as an example. If we do handle it here, I guess we also need to handle it wherever we create commit messages (CommitCommand). Anyway using templates will require handling comment lines properly; see bug 553065.",
+      "revId": "ef442ec00355e24eea4cd7fb3dfb3f5f24a6fb35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ccde707_b26a6462",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T18:12:43Z",
+      "side": 1,
+      "message": "What if this throws an exception? Should probably be mapped to a ConfigInvalidException, and the caller should report the error.",
+      "revId": "ef442ec00355e24eea4cd7fb3dfb3f5f24a6fb35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29f53fa9_f800de56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-16T18:12:43Z",
+      "side": 1,
+      "message": "First, this should replace only \"~/\" . Unix also has ~someone/ , which resolves to the home directory of user \"someone\" instead of the current user, but we don\u0027t handle that at all. (I don\u0027t think we can.)\n\nSecond, use FS.DETECTED.userHome() instead of user.home.\n\nSee for instance GlobalAttributesNode.load().",
+      "revId": "ef442ec00355e24eea4cd7fb3dfb3f5f24a6fb35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
