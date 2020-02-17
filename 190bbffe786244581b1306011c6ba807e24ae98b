@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9134210_142bafec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-17T23:21:08Z",
+      "side": 1,
+      "message": "nit: revert all these unrelated formatting changes",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c0f2996_f2cdd119",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-17T23:21:08Z",
+      "side": 1,
+      "message": "- instead of implementing many tests in a single test method, split this up into one method per test\n- use org.junit.Assert.assertThrows to assert expected exceptions",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aff31f2d_f19f7810",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1504,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-17T23:21:08Z",
+      "side": 1,
+      "message": "this fails when running the test using bazel due to test sandboxing:\n\nThere was 1 failure:\n1) testCommitTemplateConfig(org.eclipse.jgit.lib.ConfigTest)\njava.io.IOException: Operation not permitted\n\tat java.io.UnixFileSystem.createFileExclusively(Native Method)\n\tat java.io.File.createTempFile(File.java:2024)\n\tat org.eclipse.jgit.lib.ConfigTest.testCommitTemplateConfig(ConfigTest.java:1504)\n\nlooks like we need to mock the home directory to a folder writable from test sandbox",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a19045d_10e1d8f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-17T23:21:08Z",
+      "side": 1,
+      "message": "similar helpers exist already in JGitTestUtil",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2af9a9e9_7cee1db0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-17T23:21:08Z",
+      "side": 1,
+      "message": "it seems more natural to add this as a new method to FS itself",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
