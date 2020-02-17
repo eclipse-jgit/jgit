@@ -12,7 +12,6 @@ package org.eclipse.jgit.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.jgit.util.Stats;
 import org.junit.Test;
 
 public class StatsTest {
