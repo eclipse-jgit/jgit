@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4011b3f_1d63e1fd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-18T22:24:14Z",
+      "side": 1,
+      "message": "This is done by automatic save actions. So I assume the next one will stumble upon these lines once he edits the file. Of coure, this can be done in a separate change later.",
+      "parentUuid": "a9134210_142bafec",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c0f2996_f2cdd119",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-17T23:21:08Z",
       "side": 1,
       "message": "- instead of implementing many tests in a single test method, split this up into one method per test\n- use org.junit.Assert.assertThrows to assert expected exceptions",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38bc1e58_c5c4ff4d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-18T22:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c0f2996_f2cdd119",
       "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2020-02-17T23:21:08Z",
       "side": 1,
       "message": "similar helpers exist already in JGitTestUtil",
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43b92649_a60d3a42",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-18T22:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a19045d_10e1d8f8",
       "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
