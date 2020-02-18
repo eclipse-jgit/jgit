@@ -152,6 +152,24 @@
       "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4936435_1e9bf30c",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-18T19:07:07Z",
+      "side": 1,
+      "message": "\u003e afaics, we have essentially 1 bit of information that we want to store, which is whether to use SHA256 (32 bytes) or SHA1 (20bytes).\n\nNot quite. The hash function transition is set up to make it straightforward to move to another hash later (e.g. if someone wants to move to sha3).\n\n \u003e what would code handling the reftable format do with this new mandatory field containing \"sha1\" or \"sha2\" ?\n\nThey would use it to look up the object type. In particular:\n* bytes per object id\n* checking that it matches the object type specified in the repository\u0027s extensions.objectFormat setting\n\nIf it is an unrecognized object type, they would use it to print an error message saying so.",
+      "parentUuid": "da0ded59_d53b56e0",
+      "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
