@@ -116,6 +116,24 @@
       "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bbc9ff_ac6300e3",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-18T18:35:49Z",
+      "side": 1,
+      "message": "\u003e When you say \"object type\", do you mean something like \"sha1\" vs \"sha2\" ?\n\nYes. hash-function-transition calls this \"4-byte format identifier (e.g., sha1 for SHA-1)\".\n\n \u003e Currently, the format has no spare room to store extra data\n\nI don\u0027t follow. Do you mean mandatory or optional fields?\n\nIf mandatory, this is exactly what format_version is for: we can add new mandatory fields, but we have to bump the format_version at the same time.",
+      "parentUuid": "c8235d28_94e6a192",
+      "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
