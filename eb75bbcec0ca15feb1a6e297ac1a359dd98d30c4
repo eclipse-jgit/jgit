@@ -62,6 +62,30 @@
       "revId": "eb75bbcec0ca15feb1a6e297ac1a359dd98d30c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40548f21_bc4c314a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HexTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 134541
+      },
+      "writtenOn": "2020-02-18T21:47:35Z",
+      "side": 1,
+      "message": "Per https://git.eclipse.org/r/#/c/156153/ it was substantially copied from Base64Test",
+      "parentUuid": "986bbdce_f2a25d39",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "eb75bbcec0ca15feb1a6e297ac1a359dd98d30c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
