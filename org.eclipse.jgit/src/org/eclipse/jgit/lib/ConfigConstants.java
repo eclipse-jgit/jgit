@@ -444,6 +444,12 @@ public final class ConfigConstants {
 	public static final String CONFIG_RENAMELIMIT_COPIES = "copies";
 
 	/**
+	 * A "refStorage" value in the "extensions".
+	 * @since 5.7
+	 */
+	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
+
+	/**
 	 * The "renames" key in the "diff" section
 	 * @since 3.0
 	 */
@@ -538,9 +544,23 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_MIN_RACY_THRESHOLD = "minRacyThreshold";
 
+
+	/**
+	 * The "refStorage" key
+	 *
+	 * @since 5.7
+	 */
+	public static final String CONFIG_KEY_REF_STORAGE = "refStorage";
+
 	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */
 	public static final String CONFIG_JMX_SECTION = "jmx";
+
+	/**
+	 * The "extensions" section
+	 * @since 5.7
+	 */
+	public static final String CONFIG_EXTENSIONS_SECTION = "extensions";
 }
