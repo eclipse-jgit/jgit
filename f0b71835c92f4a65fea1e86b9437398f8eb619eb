@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "a623030c_b90253a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-18T18:53:50Z",
+      "side": 1,
+      "message": "Good note - I defer to you all on that one. Looking at C Git commit.c, there\u0027s quite a bit of code around ordering parents in the priority queue prior to emission that isn\u0027t being done here. Did any of the failing tests look like real breakages and not just reliance on order of parent popping?",
+      "parentUuid": "55b01718_e95d2ce0",
+      "range": {
+        "startLine": 98,
+        "startChar": 3,
+        "endLine": 98,
+        "endChar": 32
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93491439_972719a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 9
@@ -106,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "daff8c00_4dc81e8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-18T18:53:50Z",
+      "side": 1,
+      "message": "Good call - I removed this block comment. The comment inside the if block covers what it says.",
+      "parentUuid": "93491439_972719a3",
+      "range": {
+        "startLine": 103,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ba1d104_88eba473",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 9
@@ -126,6 +174,30 @@
       "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af7e4cb4_a09cc663",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-18T18:53:50Z",
+      "side": 1,
+      "message": "Thanks - I modified the comment in patchset 11 to: \"The parent has no unproduced interesting children. unpop the parent so it goes right behind this child.\"",
+      "parentUuid": "0ba1d104_88eba473",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 33
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
