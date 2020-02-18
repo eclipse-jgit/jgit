@@ -70,6 +70,29 @@
     },
     {
       "key": {
+        "uuid": "44a758be_c19ebfbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2020-02-18T07:01:08Z",
+      "side": 1,
+      "message": "will make this public static final",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 45
+      },
+      "revId": "190bbffe786244581b1306011c6ba807e24ae98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2af9a9e9_7cee1db0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 12
