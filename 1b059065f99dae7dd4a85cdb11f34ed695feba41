@@ -134,6 +134,24 @@
       "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da0ded59_d53b56e0",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-18T18:45:36Z",
+      "side": 1,
+      "message": "afaics, we have essentially 1 bit of information that we want to store, which is whether to use SHA256 (32 bytes) or SHA1 (20bytes). My stance is that the 1 bit can be in the format_version, and adding further fields needlessly complicates the code.\n\nwhat would code handling the reftable format do with this new mandatory field containing \"sha1\" or \"sha2\" ?",
+      "parentUuid": "70bbc9ff_ac6300e3",
+      "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
