@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e247f8c_a97b38fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-18T22:15:10Z",
+      "side": 1,
+      "message": "Also mention where this is from (the man page for git log).",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "61e69329a95693419d716e5ba86a5995ec73fcf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b1ba7a_01907dc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-18T22:15:10Z",
+      "side": 1,
+      "message": "This paragraph is still hard to understand, because TOPO_QUEUED has nothing to do with unpopping parent commits without requiring that they be popped beforehand. Maybe reword this paragraph as:\n\nTherefore, when the last child of a commit has been produced, unpop the commit so that it will be returned upon the subsequent call to next(). To avoid producing duplicates, mark commits that have not yet been produced as TOPO_QUEUED so that when a commit popped, it is produced if and only if TOPO_QUEUED is set.",
+      "range": {
+        "startLine": 19,
+        "startChar": 30,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "61e69329a95693419d716e5ba86a5995ec73fcf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f192752_30260671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-18T22:15:10Z",
+      "side": 1,
+      "message": "This paragraph still doesn\u0027t explain what DepthGenerator has to do with TopoSortGenerator, but I did some digging and now I understand. Maybe reword this paragraph as:\n\nIn order to support nesting with other generators that may produce the same commit twice like DepthGenerator (for example, StartGenerator does this), do not increment parent inDegree for the same child commit more than once.",
+      "range": {
+        "startLine": 25,
+        "startChar": 40,
+        "endLine": 25,
+        "endChar": 54
+      },
+      "revId": "61e69329a95693419d716e5ba86a5995ec73fcf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fdc4165_709acef9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-18T22:15:10Z",
+      "side": 1,
+      "message": "Also add to the comment:\n\nThis means that this parent commit may appear in \"pending\" more than once, but this is safe since upon the second and subsequent iterations with this commit, it will no longer have TOPO_QUEUED set, and thus will be skipped.",
+      "range": {
+        "startLine": 100,
+        "startChar": 48,
+        "endLine": 100,
+        "endChar": 53
+      },
+      "revId": "61e69329a95693419d716e5ba86a5995ec73fcf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
