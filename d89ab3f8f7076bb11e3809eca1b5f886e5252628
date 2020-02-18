@@ -282,6 +282,30 @@
       "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91912187_af22db24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-02-18T23:18:53Z",
+      "side": 1,
+      "message": "Done - for the tests that had a graphic",
+      "parentUuid": "bcafbd6b_0fa2a923",
+      "range": {
+        "startLine": 456,
+        "startChar": 3,
+        "endLine": 456,
+        "endChar": 6
+      },
+      "revId": "d89ab3f8f7076bb11e3809eca1b5f886e5252628",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
