@@ -125,11 +125,6 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void additionalRefsAreRemoved() {
-	 	assertFalse(new File(db.getDirectory(), Constants.HEAD).exists());
-	}
-
-	@Test
 	public void testCompactFully() throws Exception {
 		ObjectId c1 = db.resolve("master^^");
 		ObjectId c2 = db.resolve("master^");
@@ -141,9 +136,15 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		}
 
 		File tableDir = new File(db.getDirectory(), Constants.REFTABLE);
-		assertTrue(tableDir.listFiles().length > 1);
+		assertTrue(tableDir.listFiles().length > 2);
 		((FileReftableDatabase)db.getRefDatabase()).compactFully();
-		assertEquals(tableDir.listFiles().length,1);
+		assertEquals(tableDir.listFiles().length,2);
+	}
+
+	@Test
+	public void testOpenConvert() throws Exception {
+		FileRepository repo = new FileRepository(db.getDirectory());
+		assertTrue(repo.getRefDatabase() instanceof FileReftableDatabase);
 	}
 
 	@Test
