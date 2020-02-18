@@ -56,6 +56,24 @@
       "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8235d28_94e6a192",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-18T18:21:01Z",
+      "side": 1,
+      "message": "no, format_version is only in the latest git patchseries for reftable in git-core.\n\nWhen you say \"object type\", do you mean something like \"sha1\" vs \"sha2\" ?\n\nI think the practical solution is to define \"1\" \u003d\u003d \"sha1, 20 byte\", and \"2\" \u003d\u003d \"sha256, 32 byte\". Note that reftable the format is agnostic to the nature of the hash. If you want to store sha256 truncated to 20-byte, you could just use reftable v1. \n\nIf we could redesign reftable from scratch there are some changes that I would want to make, but we are not.\nCurrently, the format has no spare room to store extra data, and I think it is prudent to wait until we have a pressing\nneed to store more metadata, so we can think of a way to do it generically. It\u0027s something to consider when we want to store more records in indexed block storage. Or when we have more global metadata (maybe a block of json in the footer)?",
+      "parentUuid": "1041c79f_2184615b",
+      "revId": "1b059065f99dae7dd4a85cdb11f34ed695feba41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
