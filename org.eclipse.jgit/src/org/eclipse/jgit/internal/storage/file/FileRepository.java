@@ -51,7 +51,9 @@ import static java.util.stream.Collectors.toList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -204,19 +206,23 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 
-		String reftype = repoConfig.getString(
-				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
+		String reftype = repoConfig.getString("extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (repositoryFormatVersion >= 1 && reftype != null) {
 			if (StringUtils.equalsIgnoreCase(reftype, "reftable")) { //$NON-NLS-1$
-				refs = new FileReftableDatabase(this,
-						new File(getDirectory(), "refs")); //$NON-NLS-1$
+				refs = new FileReftableDatabase(this); // $NON-NLS-1$
 			} else if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
 				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
-		} else if (FileReftableDatabase.isReftable(getDirectory())) {
-			refs = new FileReftableDatabase(this, new File(getDirectory(), "refs")); //$NON-NLS-1$
+		} else if (FileReftableDatabase
+				.isTransitionalReftable(getDirectory())) {
+			/*
+			 * The initial spec of reftable used a file .git/refs ; provide
+			 * backward compatibility for this.
+			 */
+			refs = new FileReftableDatabase(this,
+					new File(getDirectory(), "refs")); //$NON-NLS-1$
 		} else {
 			refs = new RefDirectory(this);
 		}
@@ -657,20 +663,14 @@ public class FileRepository extends Repository {
 		}
 
 		File refsFile = new File(getDirectory(), "refs"); //$NON-NLS-1$
+		File refsHeadFile = new File(refsFile, "heads");
 
 		refs.close();
 
-		if (backup) {
-			File refsOld = new File(getDirectory(), "refs.old"); //$NON-NLS-1$
-			if (refsOld.exists()) {
-				throw new IOException(MessageFormat.format(
-					JGitText.get().fileAlreadyExists,
-						"refs.old")); //$NON-NLS-1$
-			}
-			FileUtils.rename(refsFile, refsOld);
-		} else {
-			refsFile.delete();
-		}
+		// Make place for refs/heads/
+		refsHeadFile.delete();
+		// RefDirectory wants to create refs/
+		refsFile.delete();
 
 		// This is not atomic, but there is no way to instantiate a RefDirectory
 		// that is disconnected from the current repo.
@@ -709,7 +709,7 @@ public class FileRepository extends Repository {
 			RefUpdate up = refs.newUpdate(s.getName(), false);
 			up.setForceUpdate(true);
 			RefUpdate.Result res = up.link(s.getTarget().getName());
-			if (res != RefUpdate.Result.NEW
+			if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED
 					&& res != RefUpdate.Result.NO_CHANGE) {
 				throw new IOException(
 						String.format("ref %s: %s", s.getName(), res)); //$NON-NLS-1$
@@ -721,20 +721,20 @@ public class FileRepository extends Repository {
 			FileUtils.delete(reftableDir,
 					FileUtils.RECURSIVE | FileUtils.IGNORE_ERRORS);
 		}
+		repoConfig.unset("extensions", null, "refStorage");
 	}
 
 	@SuppressWarnings("nls")
 	void convertToReftable(boolean writeLogs, boolean backup)
 			throws IOException {
-		File newRefs = new File(getDirectory(), "refs.new");
 		File reftableDir = new File(getDirectory(), Constants.REFTABLE);
-
+		File headFile = new File(getDirectory(), Constants.HEAD);
 		if (reftableDir.exists() && reftableDir.listFiles().length > 0) {
 			throw new IOException(JGitText.get().reftableDirExists);
 		}
 
 		// Ignore return value, as it is tied to temporary newRefs file.
-		FileReftableDatabase.convertFrom(this, newRefs, writeLogs);
+		FileReftableDatabase.convertFrom(this, writeLogs);
 
 		File refsFile = new File(getDirectory(), "refs");
 
@@ -742,12 +742,12 @@ public class FileRepository extends Repository {
 		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
 		File logsDir = new File(getDirectory(), Constants.LOGS);
 
-
 		List<String> additional = getRefDatabase().getAdditionalRefs().stream()
 				.map(Ref::getName).collect(toList());
 		additional.add(Constants.HEAD);
 		if (backup) {
 			FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
+			FileUtils.rename(headFile, new File(getDirectory(), "HEAD.old"));
 			if (packedRefs.exists()) {
 				FileUtils.rename(packedRefs, new File(getDirectory(),
 						Constants.PACKED_REFS + ".old"));
@@ -762,6 +762,7 @@ public class FileRepository extends Repository {
 			}
 		} else {
 			packedRefs.delete(); // ignore return value.
+			FileUtils.delete(headFile);
 			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
 			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
 			for (String r : additional) {
@@ -769,11 +770,21 @@ public class FileRepository extends Repository {
 			}
 		}
 
-		// Put new data.
-		FileUtils.rename(newRefs, refsFile);
+		// Put placeholder data to appease older Git versions
+		FileUtils.mkdir(refsFile);
+		FileUtils.createNewFile(new File(refsFile, "heads"));
+		OutputStream os = new FileOutputStream(headFile);
+		os.write(Constants.encodeASCII("ref: refs/heads/.invalid"));
+		os.close();
 
+		repoConfig.setString(
+			"extensions", null, "refStorage", "reftable"); //$NON-NLS-1$ //$NON-NLS-2$
+		repoConfig.setLong(
+			ConfigConstants.CONFIG_CORE_SECTION, null,
+			ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+		repoConfig.save();
 		refs.close();
-		refs = new FileReftableDatabase(this, refsFile);
+		refs = new FileReftableDatabase(this);
 	}
 
 	/**
