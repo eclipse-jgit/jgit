@@ -97,6 +97,12 @@ public class FileReftableDatabase extends RefDatabase {
 
 	private final FileReftableStack reftableStack;
 
+	FileReftableDatabase(FileRepository repo) throws IOException {
+		this(repo, new  File(
+			new File(repo.getDirectory(), Constants.REFTABLE),
+			Constants.TABLES_LIST));
+	}
+
 	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
 		this.reftableStack = new FileReftableStack(refstackName,
@@ -121,8 +127,16 @@ public class FileReftableDatabase extends RefDatabase {
 	 * @return whether the given repo uses reftable for refdb storage.
 	 */
 	public static boolean isReftable(File repoDir) {
-		return new File(repoDir, "refs").isFile() //$NON-NLS-1$
-				&& new File(repoDir, Constants.REFTABLE).isDirectory();
+		return new File(repoDir, Constants.REFTABLE).isDirectory();
+	}
+
+	/**
+	 * @param repoDir
+	 * @return whether the given repo was created as reftable between Nov 2019 and Feb 2020.
+	 */
+	public static boolean isTransitionalReftable(File repoDir) {
+		return !new File(repoDir, "refs").isDirectory() &&
+			new File(repoDir, Constants.REFTABLE).isDirectory();
 	}
 
 	/** {@inheritDoc} */
@@ -626,31 +640,30 @@ public class FileReftableDatabase extends RefDatabase {
 	/**
 	 * @param repo
 	 *            the repository
-	 * @param refstackName
-	 *            the filename for the stack
 	 * @param writeLogs
 	 *            whether to write reflogs
 	 * @return a reftable based RefDB from an existing repository.
 	 * @throws IOException
 	 *             on IO error
 	 */
-	public static FileReftableDatabase convertFrom(FileRepository repo,
-			File refstackName, boolean writeLogs) throws IOException {
+	public static FileReftableDatabase convertFrom(FileRepository repo, boolean writeLogs) throws IOException {
 		FileReftableDatabase newDb = null;
+		File reftableList = null;
 		try {
 			File reftableDir = new File(repo.getDirectory(), Constants.REFTABLE);
+			reftableList = new File(reftableDir, Constants.TABLES_LIST);
 			if (!reftableDir.isDirectory()) {
 				reftableDir.mkdir();
 			}
 
-			try (FileReftableStack stack = new FileReftableStack(refstackName,
+			try (FileReftableStack stack = new FileReftableStack(reftableList,
 					reftableDir, null, () -> repo.getConfig())) {
 				stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
 			}
-			refstackName = null;
+			reftableList = null;
 		} finally {
-			if (refstackName != null) {
-				refstackName.delete();
+			if (reftableList != null) {
+				reftableList.delete();
 			}
 		}
 		return newDb;
