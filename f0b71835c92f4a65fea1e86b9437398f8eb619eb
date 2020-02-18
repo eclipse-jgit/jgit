@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "d71c7a72_291d553b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-18T22:15:10Z",
+      "side": 1,
+      "message": "I didn\u0027t check all the failing tests, but the ones I looked at seemed to be order of commits (which may or may not have been order of parent popping). I\u0027m OK with leaving it as-is.",
+      "parentUuid": "a623030c_b90253a7",
+      "range": {
+        "startLine": 98,
+        "startChar": 3,
+        "endLine": 98,
+        "endChar": 32
+      },
+      "revId": "f0b71835c92f4a65fea1e86b9437398f8eb619eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93491439_972719a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortGenerator.java",
         "patchSetId": 9
