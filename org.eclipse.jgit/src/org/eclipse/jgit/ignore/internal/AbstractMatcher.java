@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.ignore.internal;
 
+import org.eclipse.jgit.ignore.IMatcher;
+
 /**
  * Base class for default methods as {@link #toString()} and such.
  * <p>
