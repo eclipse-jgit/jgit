@@ -338,11 +338,11 @@ class SimilarityRenameDetector {
 		int aDirLen = a.lastIndexOf('/') + 1;
 		int bDirLen = b.lastIndexOf('/') + 1;
 
-	    int dirMin = Math.min(aDirLen, bDirLen);
-	    int dirMax = Math.max(aDirLen, bDirLen);
+		int dirMin = Math.min(aDirLen, bDirLen);
+		int dirMax = Math.max(aDirLen, bDirLen);
 
-	    final int dirScoreLtr;
-	    final int dirScoreRtl;
+		final int dirScoreLtr;
+		final int dirScoreRtl;
 
 		if (dirMax == 0) {
 			dirScoreLtr = 100;
