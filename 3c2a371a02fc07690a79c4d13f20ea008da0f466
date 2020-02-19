@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fa09516_225d2ef1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:47:25Z",
+      "side": 1,
+      "message": "1 (or can omit the NON-NLS comments for consistency with the rest of the method)",
+      "range": {
+        "startLine": 783,
+        "startChar": 73,
+        "endLine": 783,
+        "endChar": 74
+      },
+      "revId": "3c2a371a02fc07690a79c4d13f20ea008da0f466",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
