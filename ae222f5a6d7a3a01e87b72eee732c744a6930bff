@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b641e0a_648658f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T14:17:10Z",
+      "side": 1,
+      "message": "good question.\n\nI think this here is a definite improvement over what we had, so even if it changes, I think we should consider this.\n\nAlso, the longer we wait with this, the larger the chance that we\u0027ll see reftable repos in the wild that are using this deprecated repo layout, so it is worth taking the chance that there will be no further changes.",
+      "parentUuid": "71880b00_b9172f5a",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "ae222f5a6d7a3a01e87b72eee732c744a6930bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3d265_699323b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2020-02-19T13:52:19Z",
       "side": 1,
       "message": "I was confused by the removal of this at first, but it seems we are doing the backup (moving content) now in l.748?",
+      "revId": "ae222f5a6d7a3a01e87b72eee732c744a6930bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c5a41f7_af2a661c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T14:17:10Z",
+      "side": 1,
+      "message": "in the new repo layout, there is no more conflict between \"refs\" (file, list of reftables) and \"refs/heads/\" (directory with ref storage), so there is no need to rename things. So the backup just means leaving the reftable/ directory in place.",
+      "parentUuid": "84a3d265_699323b8",
       "revId": "ae222f5a6d7a3a01e87b72eee732c744a6930bff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
