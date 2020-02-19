@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71880b00_b9172f5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2020-02-19T13:52:19Z",
+      "side": 1,
+      "message": "Should we wait for the change series to land in Git-core to be sure that there won\u0027t be more things that will be changed before this gets baked into stone?",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "ae222f5a6d7a3a01e87b72eee732c744a6930bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3d265_699323b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2020-02-19T13:52:19Z",
+      "side": 1,
+      "message": "I was confused by the removal of this at first, but it seems we are doing the backup (moving content) now in l.748?",
+      "revId": "ae222f5a6d7a3a01e87b72eee732c744a6930bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
