@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16e35964_7476649b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "nit: when viewing this change offline or if some day the project changes hosting providers, this URL doesn\u0027t tell someone where to find the relevant commit\n\nThe most common approach in jgit.git seems to be to use either the abbreviated Change-Id (`Ic0b974fa`) or \"git log --format\u003dreference\" output (`c217d33ff (Documentation/technical/reftable: improve repo layout, 2020-02-04)`).",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69c90b41_fe9d31ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "optional nit, not about this patch: this would probably be more readable with an \"import static\"",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 51
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5239e139_06b08a02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "Do we want to maintain this backward compatibility for a long time? If not, might be worth a TODO to say that we plan to remove it eventually.",
+      "range": {
+        "startLine": 221,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 38
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3637eed6_6c886e0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "language nit: Does this mean \"Make room\"?",
+      "range": {
+        "startLine": 670,
+        "startChar": 5,
+        "endLine": 670,
+        "endChar": 15
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e9818e_203d0eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "Is this part of the backward-compat code? If so, please update the comment to say so.",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4efc3d5a_eee0fb74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part. Can the commit message say a little about it?",
+      "range": {
+        "startLine": 712,
+        "startChar": 38,
+        "endLine": 712,
+        "endChar": 68
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d91b1899_78613823",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "optional: could detect the backward compat refs dir that doesn\u0027t have any user data and avoid backing it up",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f589df07_61e0e8ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "nit: may make sense to describe what kind of appeasement this is in this comment. Is it to help it detect the repo, to prevent writing refs in the old format (doesn\u0027t affect Git but could affect hacky custom tools), to avoid tools like \"git fsck\" complaining, or something else?",
+      "range": {
+        "startLine": 773,
+        "startChar": 29,
+        "endLine": 773,
+        "endChar": 36
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd96209c_18477602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-19T19:04:47Z",
+      "side": 1,
+      "message": "nit: missing $NON-NLS-1$ comment (or do we mean to rely on SuppressWarnings(\"nls\") here? If so, why do some other lines have the $NON-NLS-1$ comments?)",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
