@@ -452,10 +452,6 @@ public class FileReftableStack implements AutoCloseable {
 		try (FileOutputStream fos = new FileOutputStream(tmpTable)) {
 			ReftableCompactor c = new ReftableCompactor(fos)
 					.setConfig(reftableConfig())
-					.setMinUpdateIndex(
-							stack.get(first).reftableReader.minUpdateIndex())
-					.setMaxUpdateIndex(
-							stack.get(last).reftableReader.maxUpdateIndex())
 					.setIncludeDeletes(first > 0);
 
 			List<ReftableReader> compactMe = new ArrayList<>();
