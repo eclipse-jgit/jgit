@@ -22,6 +22,30 @@
       "revId": "c0bb992845e6ba5df9f420739fe9075ed20e9ee2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8473d27c_99a0cc22",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2020-02-19T06:31:45Z",
+      "side": 1,
+      "message": "puh, if I just could remember xD\n\nI /think/ there was something with upstream GIT LFS always using the first remote, and only supporting a single remote, but that information might be wrong/outdated.\n\nIt does look fishy somehow :)",
+      "parentUuid": "dde2c8aa_91711144",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 9
+      },
+      "revId": "c0bb992845e6ba5df9f420739fe9075ed20e9ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
