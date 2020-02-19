@@ -243,11 +243,11 @@ public class IndexDiff {
 		}
 	}
 
-	private final static int TREE = 0;
+	private static final int TREE = 0;
 
-	private final static int INDEX = 1;
+	private static final int INDEX = 1;
 
-	private final static int WORKDIR = 2;
+	private static final int WORKDIR = 2;
 
 	private final Repository repository;
 

@@ -109,7 +109,7 @@ import org.slf4j.LoggerFactory;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ObjectDirectory.class);
 
 	private static final PackList NO_PACKS = new PackList(

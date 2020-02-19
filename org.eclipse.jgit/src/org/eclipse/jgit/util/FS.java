@@ -213,7 +213,7 @@ public abstract class FS {
 	 *
 	 * @since 5.1.9
 	 */
-	public final static class FileStoreAttributes {
+	public static final class FileStoreAttributes {
 
 		private static final Duration UNDEFINED_DURATION = Duration
 				.ofNanos(Long.MAX_VALUE);
@@ -691,7 +691,7 @@ public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
 
-	private volatile static FSFactory factory;
+	private static volatile FSFactory factory;
 
 	/**
 	 * Auto-detect the appropriate file system abstraction.

@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.0
  */
 public class FS_Win32_Cygwin extends FS_Win32 {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FS_Win32_Cygwin.class);
 
 	private static String cygpath;

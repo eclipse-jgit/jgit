@@ -275,7 +275,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		/**
 		 * a singleton instance of the default FileModeStrategy
 		 */
-		public final static DefaultFileModeStrategy INSTANCE =
+		public static final DefaultFileModeStrategy INSTANCE =
 				new DefaultFileModeStrategy();
 
 		@Override
@@ -308,7 +308,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		/**
 		 * a singleton instance of the default FileModeStrategy
 		 */
-		public final static NoGitlinksStrategy INSTANCE = new NoGitlinksStrategy();
+		public static final NoGitlinksStrategy INSTANCE = new NoGitlinksStrategy();
 
 		@Override
 		public FileMode getMode(File f, FS.Attributes attributes) {

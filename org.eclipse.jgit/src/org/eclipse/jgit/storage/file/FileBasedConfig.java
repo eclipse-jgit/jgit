@@ -77,7 +77,7 @@ import org.slf4j.LoggerFactory;
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FileBasedConfig.class);
 
 	private final File configFile;

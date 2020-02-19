@@ -78,7 +78,7 @@ public abstract class TranslationBundleException extends RuntimeException {
 	 *
 	 * @return bundle class for which the exception occurred
 	 */
-	final public Class getBundleClass() {
+	public final Class getBundleClass() {
 		return bundleClass;
 	}
 
@@ -87,7 +87,7 @@ public abstract class TranslationBundleException extends RuntimeException {
 	 *
 	 * @return locale for which the exception occurred
 	 */
-	final public Locale getLocale() {
+	public final Locale getLocale() {
 		return locale;
 	}
 }

@@ -73,7 +73,7 @@ public class InflaterCache {
 		return r != null ? r : new Inflater(false);
 	}
 
-	private synchronized static Inflater getImpl() {
+	private static synchronized Inflater getImpl() {
 		if (openInflaterCount > 0) {
 			final Inflater r = inflaterCache[--openInflaterCount];
 			inflaterCache[openInflaterCount] = null;

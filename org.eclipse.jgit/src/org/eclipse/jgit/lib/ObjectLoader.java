@@ -333,7 +333,7 @@ public abstract class ObjectLoader {
 	 *
 	 * @since 4.10
 	 */
-	public static abstract class Filter extends ObjectLoader {
+	public abstract static class Filter extends ObjectLoader {
 		/**
 		 * @return delegate ObjectLoader to handle all processing.
 		 * @since 4.10

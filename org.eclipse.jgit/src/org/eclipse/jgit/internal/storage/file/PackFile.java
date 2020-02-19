@@ -103,7 +103,7 @@ import org.slf4j.LoggerFactory;
  * objects are similar.
  */
 public class PackFile implements Iterable<PackIndex.MutableEntry> {
-	private final static Logger LOG = LoggerFactory.getLogger(PackFile.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PackFile.class);
 	/** Sorts PackFiles to be most recently created to least recently created. */
 	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
 		@Override

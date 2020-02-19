@@ -52,19 +52,19 @@ import org.eclipse.jgit.internal.JGitText;
  * in the format defined by {@code git log --relative-date}.
  */
 public class RelativeDateFormatter {
-	final static long SECOND_IN_MILLIS = 1000;
+	static final long SECOND_IN_MILLIS = 1000;
 
-	final static long MINUTE_IN_MILLIS = 60 * SECOND_IN_MILLIS;
+	static final long MINUTE_IN_MILLIS = 60 * SECOND_IN_MILLIS;
 
-	final static long HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
+	static final long HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
 
-	final static long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
+	static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
 
-	final static long WEEK_IN_MILLIS = 7 * DAY_IN_MILLIS;
+	static final long WEEK_IN_MILLIS = 7 * DAY_IN_MILLIS;
 
-	final static long MONTH_IN_MILLIS = 30 * DAY_IN_MILLIS;
+	static final long MONTH_IN_MILLIS = 30 * DAY_IN_MILLIS;
 
-	final static long YEAR_IN_MILLIS = 365 * DAY_IN_MILLIS;
+	static final long YEAR_IN_MILLIS = 365 * DAY_IN_MILLIS;
 
 	/**
 	 * Get age of given {@link java.util.Date} compared to now formatted in the

@@ -705,7 +705,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/** Snapshot of packs scanned in a single pass. */
-	public static abstract class PackList {
+	public abstract static class PackList {
 		/** All known packs, sorted. */
 		public final DfsPackFile[] packs;
 

@@ -185,7 +185,7 @@ public class EGitPatchHistoryTest {
 		}
 	}
 
-	static abstract class CommitReader {
+	abstract static class CommitReader {
 		private Process proc;
 
 		CommitReader(String[] args) throws IOException {

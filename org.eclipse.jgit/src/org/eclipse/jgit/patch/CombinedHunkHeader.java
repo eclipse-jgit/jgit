@@ -58,7 +58,7 @@ import org.eclipse.jgit.util.MutableInteger;
  * Hunk header for a hunk appearing in a "diff --cc" style patch.
  */
 public class CombinedHunkHeader extends HunkHeader {
-	private static abstract class CombinedOldImage extends OldImage {
+	private abstract static class CombinedOldImage extends OldImage {
 		int nContext;
 	}
 

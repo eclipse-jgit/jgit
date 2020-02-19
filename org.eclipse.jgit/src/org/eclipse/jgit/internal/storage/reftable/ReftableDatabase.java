@@ -80,7 +80,7 @@ public abstract class ReftableDatabase {
 	 * @throws IOException
 	 *             on I/O problems.
 	 */
-	abstract protected MergedReftable openMergedReftable() throws IOException;
+	protected abstract MergedReftable openMergedReftable() throws IOException;
 
 	/**
 	 * @return the next available logical timestamp for an additional reftable

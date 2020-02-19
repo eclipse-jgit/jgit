@@ -90,7 +90,7 @@ import org.eclipse.jgit.transport.TagOpt;
  */
 public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
-	private final static String DOT = "."; //$NON-NLS-1$
+	private static final String DOT = "."; //$NON-NLS-1$
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 

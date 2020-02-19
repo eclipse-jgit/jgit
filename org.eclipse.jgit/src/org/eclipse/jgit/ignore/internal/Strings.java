@@ -233,7 +233,7 @@ public class Strings {
 		LEADING_ASTERISK_ONLY, TRAILING_ASTERISK_ONLY, COMPLEX, NONE
 	}
 
-	final static List<String> POSIX_CHAR_CLASSES = Arrays.asList(
+	static final List<String> POSIX_CHAR_CLASSES = Arrays.asList(
 			"alnum", "alpha", "blank", "cntrl", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			// [:alnum:] [:alpha:] [:blank:] [:cntrl:]
 			"digit", "graph", "lower", "print", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -248,7 +248,7 @@ public class Strings {
 
 	private static final String DL = "\\p{javaDigit}\\p{javaLetter}"; //$NON-NLS-1$
 
-	final static List<String> JAVA_CHAR_CLASSES = Arrays
+	static final List<String> JAVA_CHAR_CLASSES = Arrays
 			.asList("\\p{Alnum}", "\\p{javaLetter}", "\\p{Blank}", "\\p{Cntrl}", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					// [:alnum:] [:alpha:] [:blank:] [:cntrl:]
 					"\\p{javaDigit}", "[\\p{Graph}" + DL + "]", "\\p{Ll}", "[\\p{Print}" + DL + "]", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
@@ -261,7 +261,7 @@ public class Strings {
 
 	// Collating symbols [[.a.]] or equivalence class expressions [[=a=]] are
 	// not supported by CLI git (at least not by 1.9.1)
-	final static Pattern UNSUPPORTED = Pattern
+	static final Pattern UNSUPPORTED = Pattern
 			.compile("\\[\\[[.=]\\w+[.=]\\]\\]"); //$NON-NLS-1$
 
 	/**

@@ -286,7 +286,7 @@ class BlockWriter {
 		return aLen - bLen;
 	}
 
-	static abstract class Entry {
+	abstract static class Entry {
 		static int compare(Entry ea, Entry eb) {
 			byte[] a = ea.key;
 			byte[] b = eb.key;

@@ -443,7 +443,7 @@ class TextHashFunctions extends TextBuiltin {
 	}
 
 	/** Base class for any hashCode function to be tested. */
-	private static abstract class Hash extends RawTextComparator {
+	private abstract static class Hash extends RawTextComparator {
 		String name;
 
 		@Override
@@ -453,7 +453,7 @@ class TextHashFunctions extends TextBuiltin {
 	}
 
 	/** Base class for any hashCode folding function to be tested. */
-	private static abstract class Fold {
+	private abstract static class Fold {
 		String name;
 
 		/**

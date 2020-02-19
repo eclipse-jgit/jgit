@@ -98,7 +98,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 	}
 
 	/** Wraps a delegate ObjectInserter. */
-	public static abstract class Filter extends ObjectInserter {
+	public abstract static class Filter extends ObjectInserter {
 		/** @return delegate ObjectInserter to handle all processing. */
 		protected abstract ObjectInserter delegate();
 

@@ -85,7 +85,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class SystemReader {
 
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SystemReader.class);
 
 	private static final SystemReader DEFAULT;
