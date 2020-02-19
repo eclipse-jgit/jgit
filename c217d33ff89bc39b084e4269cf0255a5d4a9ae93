@@ -22,6 +22,30 @@
       "revId": "c217d33ff89bc39b084e4269cf0255a5d4a9ae93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b01fa2e_58af5bdb",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T17:03:34Z",
+      "side": 1,
+      "message": "it seems pretty obvious to me, given that they\u0027re called \u0027dummy files\u0027.",
+      "parentUuid": "f93e4f3a_42eaea8f",
+      "range": {
+        "startLine": 812,
+        "startChar": 20,
+        "endLine": 812,
+        "endChar": 21
+      },
+      "revId": "c217d33ff89bc39b084e4269cf0255a5d4a9ae93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
