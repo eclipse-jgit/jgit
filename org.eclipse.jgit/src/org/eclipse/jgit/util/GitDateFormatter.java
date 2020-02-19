@@ -68,7 +68,7 @@ public class GitDateFormatter {
 	/**
 	 * Git and JGit formats
 	 */
-	static public enum Format {
+	public enum Format {
 
 		/**
 		 * Git format: Time and original time zone

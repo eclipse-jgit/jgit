@@ -103,7 +103,7 @@ public abstract class PackParser {
 	private static final int BUFFER_SIZE = 8192;
 
 	/** Location data is being obtained from. */
-	public static enum Source {
+	public enum Source {
 		/** Data is read from the incoming stream. */
 		INPUT,
 

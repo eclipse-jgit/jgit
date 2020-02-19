@@ -137,7 +137,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  */
 public class UploadPack {
 	/** Policy the server uses to validate client requests */
-	public static enum RequestPolicy {
+	public enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
 		ADVERTISED,
 

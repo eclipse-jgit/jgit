@@ -104,7 +104,7 @@ public class FileHeader extends DiffEntry {
 	static final byte[] NEW_NAME = encodeASCII("+++ "); //$NON-NLS-1$
 
 	/** Type of patch used by this file. */
-	public static enum PatchType {
+	public enum PatchType {
 		/** A traditional unified diff style patch of a text file. */
 		UNIFIED,
 

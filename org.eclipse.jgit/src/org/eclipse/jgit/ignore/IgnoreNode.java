@@ -59,7 +59,7 @@ import java.util.List;
  */
 public class IgnoreNode {
 	/** Result from {@link IgnoreNode#isIgnored(String, boolean)}. */
-	public static enum MatchResult {
+	public enum MatchResult {
 		/** The file is not ignored, due to a rule saying its not ignored. */
 		NOT_IGNORED,
 

@@ -83,7 +83,7 @@ class ShowCommands extends TextBuiltin {
 		errw.println();
 	}
 
-	static enum Format {
+	enum Format {
 		/** */
 		USAGE {
 			@Override

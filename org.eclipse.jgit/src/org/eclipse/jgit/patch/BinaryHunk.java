@@ -58,7 +58,7 @@ public class BinaryHunk {
 	private static final byte[] DELTA = encodeASCII("delta "); //$NON-NLS-1$
 
 	/** Type of information stored in a binary hunk. */
-	public static enum Type {
+	public enum Type {
 		/** The full content is stored, deflated. */
 		LITERAL_DEFLATED,
 

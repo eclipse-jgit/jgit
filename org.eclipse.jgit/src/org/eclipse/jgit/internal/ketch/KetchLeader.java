@@ -126,7 +126,7 @@ public abstract class KetchLeader {
 	private static final Logger log = LoggerFactory.getLogger(KetchLeader.class);
 
 	/** Current state of the leader instance. */
-	public static enum State {
+	public enum State {
 		/** Newly created instance trying to elect itself leader. */
 		CANDIDATE,
 

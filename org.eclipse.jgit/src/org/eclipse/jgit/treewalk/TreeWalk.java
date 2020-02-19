@@ -111,7 +111,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	/**
 	 * @since 4.2
 	 */
-	public static enum OperationType {
+	public enum OperationType {
 		/**
 		 * Represents a checkout operation (for example a checkout or reset
 		 * operation).

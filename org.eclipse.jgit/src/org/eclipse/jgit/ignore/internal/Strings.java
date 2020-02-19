@@ -229,7 +229,7 @@ public class Strings {
 		return PatternState.COMPLEX;
 	}
 
-	static enum PatternState {
+	enum PatternState {
 		LEADING_ASTERISK_ONLY, TRAILING_ASTERISK_ONLY, COMPLEX, NONE
 	}
 

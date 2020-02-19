@@ -137,7 +137,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	/**
 	 * Stage to check out, see {@link CheckoutCommand#setStage(Stage)}.
 	 */
-	public static enum Stage {
+	public enum Stage {
 		/**
 		 * Base stage (#1)
 		 */

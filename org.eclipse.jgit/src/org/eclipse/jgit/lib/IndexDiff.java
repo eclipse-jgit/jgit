@@ -108,7 +108,7 @@ public class IndexDiff {
 	 * @see IndexDiff#getConflictingStageStates()
 	 * @since 3.0
 	 */
-	public static enum StageState {
+	public enum StageState {
 		/**
 		 * Exists in base, but neither in ours nor in theirs.
 		 */

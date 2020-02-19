@@ -66,7 +66,7 @@ public abstract class RefUpdate {
 	 * unknown values are failures, and may generally treat them the same as
 	 * {@link #REJECTED_OTHER_REASON}.
 	 */
-	public static enum Result {
+	public enum Result {
 		/** The ref update/delete has not been attempted by the caller. */
 		NOT_ATTEMPTED,
 

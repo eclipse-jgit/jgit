@@ -90,7 +90,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public abstract class TransportProtocol {
 	/** Fields within a {@link URIish} that a transport uses. */
-	public static enum URIishField {
+	public enum URIishField {
 		/** the user field */
 		USER,
 		/** the pass (aka password) field */

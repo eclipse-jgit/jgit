@@ -51,7 +51,7 @@ public class ProcessResult {
 	/**
 	 * Status of a process' execution.
 	 */
-	public static enum Status {
+	public enum Status {
 		/**
 		 * The script was found and launched properly. It may still have exited
 		 * with a non-zero {@link #exitCode}.

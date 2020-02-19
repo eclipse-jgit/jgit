@@ -58,7 +58,7 @@ public class RebaseTodoLine {
 	 * Describes rebase actions
 	 */
 	@SuppressWarnings("nls")
-	public static enum Action {
+	public enum Action {
 		/** Use commit */
 		PICK("pick", "p"),
 

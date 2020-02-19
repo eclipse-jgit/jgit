@@ -64,7 +64,7 @@ package org.eclipse.jgit.diff;
  */
 public class Edit {
 	/** Type of edit */
-	public static enum Type {
+	public enum Type {
 		/** Sequence B has inserted the region. */
 		INSERT,
 

@@ -97,7 +97,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * comparator based on {@link Enum#compareTo}. Prefer {@link
 	 * #DEFAULT_COMPARATOR} or your own {@link ComparatorBuilder}.
 	 */
-	public static enum PackSource {
+	public enum PackSource {
 		/** The pack is created by ObjectInserter due to local activity. */
 		INSERT,
 

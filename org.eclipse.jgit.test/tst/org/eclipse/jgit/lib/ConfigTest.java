@@ -341,7 +341,7 @@ public class ConfigTest {
 		assertFalse(c.getBoolean("s", "b", true));
 	}
 
-	static enum TestEnum {
+	enum TestEnum {
 		ONE_TWO;
 	}
 

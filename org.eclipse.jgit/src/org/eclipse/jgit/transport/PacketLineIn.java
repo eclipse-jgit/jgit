@@ -95,7 +95,7 @@ public class PacketLineIn {
 	@Deprecated
 	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
 
-	static enum AckNackResult {
+	enum AckNackResult {
 		/** NAK */
 		NAK,
 		/** ACK */

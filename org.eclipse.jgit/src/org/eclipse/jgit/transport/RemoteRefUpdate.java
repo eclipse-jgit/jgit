@@ -72,7 +72,7 @@ public class RemoteRefUpdate {
 	/**
 	 * Represent current status of a remote ref update.
 	 */
-	public static enum Status {
+	public enum Status {
 		/**
 		 * Push process hasn't yet attempted to update this ref. This is the
 		 * default status, prior to push process execution.
