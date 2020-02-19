@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
+import static org.eclipse.jgit.ignore.IMatcher.NO_MATCH;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
-import org.eclipse.jgit.ignore.internal.IMatcher;
+import org.eclipse.jgit.ignore.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
 
 /**

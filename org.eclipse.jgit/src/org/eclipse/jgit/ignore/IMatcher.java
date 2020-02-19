@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, 2017 Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2020 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -7,10 +7,16 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.ignore.internal;
+package org.eclipse.jgit.ignore;
+
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.errors.InvalidPatternException;
+import org.eclipse.jgit.ignore.internal.PathMatcher;
 
 /**
- * Generic string matcher
+ * Generic path matcher.
+ *
+ * @since 5.7
  */
 public interface IMatcher {
 
@@ -18,6 +24,7 @@ public interface IMatcher {
 	 * Matcher that does not match any pattern.
 	 */
 	public static final IMatcher NO_MATCH = new IMatcher() {
+
 		@Override
 		public boolean matches(String path, boolean assumeDirectory,
 				boolean pathMatch) {
@@ -31,6 +38,25 @@ public interface IMatcher {
 	};
 
 	/**
+	 * Creates a path matcher for the given pattern. A pattern may contain the
+	 * wildcards "?", "*", and "**". The directory separator is '/'.
+	 *
+	 * @param pattern
+	 *            to match
+	 * @param dirOnly
+	 *            whether to match only directories
+	 * @return a matcher for the given pattern
+	 * @throws InvalidPatternException
+	 *             if the pattern is invalid
+	 */
+	@NonNull
+	public static IMatcher createPathMatcher(@NonNull String pattern,
+			boolean dirOnly) throws InvalidPatternException {
+		return PathMatcher.createPathMatcher(pattern,
+				Character.valueOf(FastIgnoreRule.PATH_SEPARATOR), dirOnly);
+	}
+
+	/**
 	 * Matches entire given string
 	 *
 	 * @param path
@@ -40,10 +66,7 @@ public interface IMatcher {
 	 *            with a slash)
 	 * @param pathMatch
 	 *            {@code true} if the match is for the full path: prefix-only
-	 *            matches are not allowed, and
-	 *            {@link org.eclipse.jgit.ignore.internal.NameMatcher}s must
-	 *            match only the last component (if they can -- they may not, if
-	 *            they are anchored at the beginning)
+	 *            matches are not allowed
 	 * @return true if this matcher pattern matches given string
 	 */
 	boolean matches(String path, boolean assumeDirectory, boolean pathMatch);
