@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "73da466d_db24077d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "I don\u0027t know, TBH. JGit is very conservative. OTOH, maybe we can consider reftable to be experimental, which means we can skip this backward hack altogether?",
+      "parentUuid": "5239e139_06b08a02",
+      "range": {
+        "startLine": 221,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 38
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3637eed6_6c886e0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "8778eac3_b2542a4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3637eed6_6c886e0c",
+      "range": {
+        "startLine": 670,
+        "startChar": 5,
+        "endLine": 670,
+        "endChar": 15
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80e9818e_203d0eaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -111,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e8e37d99_85c340cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80e9818e_203d0eaa",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4efc3d5a_eee0fb74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -122,6 +188,30 @@
       "writtenOn": "2020-02-19T19:04:47Z",
       "side": 1,
       "message": "I don\u0027t understand this part. Can the commit message say a little about it?",
+      "range": {
+        "startLine": 712,
+        "startChar": 38,
+        "endLine": 712,
+        "endChar": 68
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de86f92_030b23b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "it\u0027s because the HEAD file with \u0027ref: invalid\u0027 is causing the update to be considered forced. \n\nFixed.",
+      "parentUuid": "4efc3d5a_eee0fb74",
       "range": {
         "startLine": 712,
         "startChar": 38,
@@ -151,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "398f2d20_2860b0d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "backup is a best effort anyway, so I think i\u0027ll leave as is.",
+      "parentUuid": "d91b1899_78613823",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f589df07_61e0e8ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -174,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "cfb1ce45_c733f11c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f589df07_61e0e8ec",
+      "range": {
+        "startLine": 773,
+        "startChar": 29,
+        "endLine": 773,
+        "endChar": 36
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd96209c_18477602",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -188,6 +320,24 @@
       "revId": "42063808de0f72408150407108347671411908c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde6a61c_36bfb3a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-19T19:38:36Z",
+      "side": 1,
+      "message": "I don\u0027t know. I do what is necessary to make CI pass, and then sometimes someone cleans up after me ;-)",
+      "parentUuid": "dd96209c_18477602",
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
