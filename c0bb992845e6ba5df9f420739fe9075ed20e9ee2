@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dde2c8aa_91711144",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-19T04:28:19Z",
+      "side": 1,
+      "message": "Is this break intentionally here, or was it supposed to be inside the preceding if block?\n\nAs it is, this will cause the for-loop to always exit on the first iteration.",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 9
+      },
+      "revId": "c0bb992845e6ba5df9f420739fe9075ed20e9ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
