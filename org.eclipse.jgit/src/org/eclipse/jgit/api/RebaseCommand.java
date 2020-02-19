@@ -833,7 +833,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		sb.append("# This is a combination of ").append(count)
 				.append(" commits.\n");
 		// Add the previous message without header (i.e first line)
-		sb.append(currSquashMessage.substring(currSquashMessage.indexOf("\n") + 1));
+		sb.append(currSquashMessage
+				.substring(currSquashMessage.indexOf('\n') + 1));
 		sb.append("\n");
 		if (isSquash) {
 			sb.append("# This is the ").append(count).append(ordinal)
@@ -871,7 +872,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	static int parseSquashFixupSequenceCount(String currSquashMessage) {
 		String regex = "This is a combination of (.*) commits"; //$NON-NLS-1$
 		String firstLine = currSquashMessage.substring(0,
-				currSquashMessage.indexOf("\n")); //$NON-NLS-1$
+				currSquashMessage.indexOf('\n'));
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(firstLine);
 		if (!matcher.find())
