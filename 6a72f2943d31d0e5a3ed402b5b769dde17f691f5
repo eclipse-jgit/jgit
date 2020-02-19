@@ -22,6 +22,30 @@
       "revId": "6a72f2943d31d0e5a3ed402b5b769dde17f691f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a1b60e5_65751003",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-02-19T11:36:02Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/157973",
+      "parentUuid": "d157dd34_9c0befa3",
+      "range": {
+        "startLine": 341,
+        "startChar": 1,
+        "endLine": 341,
+        "endChar": 5
+      },
+      "revId": "6a72f2943d31d0e5a3ed402b5b769dde17f691f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
