@@ -143,6 +143,8 @@ A log-only file omits the `ref_block`, `ref_index`, `obj_block` and
 in a log-only file the first log block immediately follows the file
 header, without padding to block alignment.
 
+A reftable file must have a non-empty first block.
+
 ### Block size
 
 The file's block size is arbitrarily determined by the writer, and
