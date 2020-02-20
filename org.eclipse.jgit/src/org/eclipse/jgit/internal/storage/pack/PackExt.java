@@ -48,7 +48,7 @@ public class PackExt {
 	 *            the file extension.
 	 * @return the PackExt for the ext
 	 */
-	public synchronized static PackExt newPackExt(String ext) {
+	public static synchronized PackExt newPackExt(String ext) {
 		PackExt[] dst = new PackExt[VALUES.length + 1];
 		for (int i = 0; i < VALUES.length; i++) {
 			PackExt packExt = VALUES[i];

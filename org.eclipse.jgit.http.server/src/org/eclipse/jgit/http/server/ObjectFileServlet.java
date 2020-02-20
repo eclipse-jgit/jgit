@@ -50,7 +50,7 @@ abstract class ObjectFileServlet extends HttpServlet {
 		}
 	}
 
-	private static abstract class PackData extends ObjectFileServlet {
+	private abstract static class PackData extends ObjectFileServlet {
 		private static final long serialVersionUID = 1L;
 
 		PackData(String contentType) {

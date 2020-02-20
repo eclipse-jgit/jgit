@@ -97,7 +97,7 @@ import org.slf4j.LoggerFactory;
  * overall size of a Git repository on disk.
  */
 public class RefDirectory extends RefDatabase {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(RefDirectory.class);
 
 	/** Magic string denoting the start of a symbolic reference file. */
@@ -1376,7 +1376,7 @@ public class RefDirectory extends RefDatabase {
 		LooseRef peel(ObjectIdRef newLeaf);
 	}
 
-	private final static class LoosePeeledTag extends ObjectIdRef.PeeledTag
+	private static final class LoosePeeledTag extends ObjectIdRef.PeeledTag
 			implements LooseRef {
 		private final FileSnapshot snapShot;
 
@@ -1397,7 +1397,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private final static class LooseNonTag extends ObjectIdRef.PeeledNonTag
+	private static final class LooseNonTag extends ObjectIdRef.PeeledNonTag
 			implements LooseRef {
 		private final FileSnapshot snapShot;
 
@@ -1418,7 +1418,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private final static class LooseUnpeeled extends ObjectIdRef.Unpeeled
+	private static final class LooseUnpeeled extends ObjectIdRef.Unpeeled
 			implements LooseRef {
 		private FileSnapshot snapShot;
 
@@ -1453,7 +1453,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private final static class LooseSymbolicRef extends SymbolicRef implements
+	private static final class LooseSymbolicRef extends SymbolicRef implements
 			LooseRef {
 		private final FileSnapshot snapShot;
 

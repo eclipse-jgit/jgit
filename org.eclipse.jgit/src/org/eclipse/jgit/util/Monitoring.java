@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @since 5.1.13
  */
 public class Monitoring {
-	private final static Logger LOG = LoggerFactory.getLogger(Monitoring.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Monitoring.class);
 
 	/**
 	 * Register a MBean with the platform MBean server

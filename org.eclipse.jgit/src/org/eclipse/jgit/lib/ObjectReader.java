@@ -462,7 +462,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *
 	 * @since 4.4
 	 */
-	public static abstract class Filter extends ObjectReader {
+	public abstract static class Filter extends ObjectReader {
 		/**
 		 * @return delegate ObjectReader to handle all processing.
 		 * @since 4.4

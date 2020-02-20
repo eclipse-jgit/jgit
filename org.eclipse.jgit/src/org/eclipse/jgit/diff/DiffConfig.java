@@ -26,7 +26,7 @@ public class DiffConfig {
 	public static final Config.SectionParser<DiffConfig> KEY = DiffConfig::new;
 
 	/** Permissible values for {@code diff.renames}. */
-	public static enum RenameDetectionType {
+	public enum RenameDetectionType {
 		/** Rename detection is disabled. */
 		FALSE,
 

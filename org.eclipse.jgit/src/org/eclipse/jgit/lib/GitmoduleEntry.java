@@ -9,8 +9,6 @@
  */
 package org.eclipse.jgit.lib;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-
 /**
  * A .gitmodules file found in the pack. Store the blob of the file itself (e.g.
  * to access its contents) and the tree where it was found (e.g. to check if it

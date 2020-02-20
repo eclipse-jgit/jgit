@@ -21,7 +21,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 public class FormatError {
 	/** Classification of an error. */
-	public static enum Severity {
+	public enum Severity {
 		/** The error is unexpected, but can be worked around. */
 		WARNING,
 

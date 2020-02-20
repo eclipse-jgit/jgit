@@ -1937,7 +1937,7 @@ public class ReceivePack {
 	}
 
 	/** Interface for reporting status messages. */
-	static abstract class Reporter {
+	abstract static class Reporter {
 		abstract void sendString(String s) throws IOException;
 	}
 
