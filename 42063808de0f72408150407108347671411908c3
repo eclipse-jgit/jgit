@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "47464e3a_ac64bf8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-20T10:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "840331ed_c7a286bf",
+      "range": {
+        "startLine": 221,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 38
+      },
+      "revId": "42063808de0f72408150407108347671411908c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3637eed6_6c886e0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
