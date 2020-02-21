@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33af1d7b_fbbd15bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "refsHeadsFile",
+      "range": {
+        "startLine": 658,
+        "startChar": 7,
+        "endLine": 658,
+        "endChar": 19
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "069cbb3c_b483de48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "isn\u0027t that Constants.HEAD ?",
+      "range": {
+        "startLine": 659,
+        "startChar": 43,
+        "endLine": 659,
+        "endChar": 49
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad208c06_ba96b72b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "ConfigConstants.CONFIG_EXTENSIONS_SECTION",
+      "range": {
+        "startLine": 721,
+        "startChar": 19,
+        "endLine": 721,
+        "endChar": 31
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bc27ad7_142ec19a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "ConfigConstants.CONFIG_KEY_REFSTORAGE",
+      "range": {
+        "startLine": 721,
+        "startChar": 39,
+        "endLine": 721,
+        "endChar": 51
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d8b9f0d_715496c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "ConfigConstants.CONFIG_EXTENSIONS_SECTION",
+      "range": {
+        "startLine": 783,
+        "startChar": 3,
+        "endLine": 783,
+        "endChar": 15
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aff18e7_d84240ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "ConfigConstants.CONFIG_REFSTORAGE_REFTABLE",
+      "range": {
+        "startLine": 783,
+        "startChar": 37,
+        "endLine": 783,
+        "endChar": 47
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7536975_2fde33b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-21T22:07:29Z",
+      "side": 1,
+      "message": "ConfigConstants.CONFIG_KEY_REFSTORAGE",
+      "range": {
+        "startLine": 783,
+        "startChar": 23,
+        "endLine": 783,
+        "endChar": 35
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
