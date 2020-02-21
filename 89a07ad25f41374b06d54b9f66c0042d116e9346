@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "842eae3d_59716171",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-21T22:54:24Z",
+      "side": 1,
+      "message": "CONFIG_EXTENSIONS_SECTION, CONFIG_KEY_REFSTORAGE",
+      "range": {
+        "startLine": 209,
+        "startChar": 40,
+        "endLine": 209,
+        "endChar": 52
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e73305_bced99e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-21T22:54:24Z",
+      "side": 1,
+      "message": "unneeded comment (there isn\u0027t a string on this line)",
+      "range": {
+        "startLine": 212,
+        "startChar": 42,
+        "endLine": 212,
+        "endChar": 57
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33af1d7b_fbbd15bc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -160,6 +206,29 @@
       "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7edb1b17_3b17f3b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-21T22:54:24Z",
+      "side": 1,
+      "message": "5.7",
+      "range": {
+        "startLine": 292,
+        "startChar": 11,
+        "endLine": 292,
+        "endChar": 14
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
