@@ -246,9 +246,8 @@ public abstract class FS {
 			background.set(async);
 		}
 
-		private static final String javaVersionPrefix = SystemReader
-				.getInstance().getHostname() + '|'
-				+ System.getProperty("java.vendor") + '|' //$NON-NLS-1$
+		private static final String javaVersionPrefix = System
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
 				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
 
 		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
