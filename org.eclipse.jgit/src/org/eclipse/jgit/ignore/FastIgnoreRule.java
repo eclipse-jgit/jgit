@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.6
  */
 public class FastIgnoreRule {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FastIgnoreRule.class);
 
 	/**

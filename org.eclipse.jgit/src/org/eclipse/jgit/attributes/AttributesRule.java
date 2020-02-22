@@ -58,7 +58,7 @@ public class AttributesRule {
 				continue;
 			}
 
-			final int equalsIndex = attribute.indexOf("="); //$NON-NLS-1$
+			final int equalsIndex = attribute.indexOf('=');
 			if (equalsIndex == -1)
 				result.add(new Attribute(attribute, State.SET));
 			else {

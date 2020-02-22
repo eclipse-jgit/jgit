@@ -46,7 +46,7 @@ public class GitDateParserBadlyFormattedTest {
 	}
 
 	@DataPoints
-	static public String[] getDataPoints() {
+	public static String[] getDataPoints() {
 		return new String[] { "", "1970", "3000.3000.3000", "3 yesterday ago",
 				"now yesterday ago", "yesterdays", "3.day. 2.week.ago",
 				"day ago", "Gra Feb 21 15:35:00 2007 +0100",

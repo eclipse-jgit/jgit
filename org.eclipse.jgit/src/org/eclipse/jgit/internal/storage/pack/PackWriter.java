@@ -2399,7 +2399,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/** Possible states that a PackWriter can be in. */
-	public static enum PackingPhase {
+	public enum PackingPhase {
 		/** Counting objects phase. */
 		COUNTING,
 

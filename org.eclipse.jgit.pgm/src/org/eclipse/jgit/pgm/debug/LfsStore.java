@@ -128,11 +128,11 @@ class LfsStore extends TextBuiltin {
 		}
 	}
 
-	private static enum StoreType {
+	private enum StoreType {
 		FS, S3;
 	}
 
-	private static enum StorageClass {
+	private enum StorageClass {
 		REDUCED_REDUNDANCY, STANDARD
 	}
 

@@ -294,7 +294,7 @@ abstract class WalkEncryption {
 	 * Base implementation of JGit symmetric encryption. Supports V2 properties
 	 * format.
 	 */
-	static abstract class SymmetricEncryption extends WalkEncryption
+	abstract static class SymmetricEncryption extends WalkEncryption
 			implements Keys, Vals {
 
 		/** Encryption profile, root name of group of related properties. */

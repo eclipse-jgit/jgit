@@ -98,7 +98,7 @@ import org.slf4j.LoggerFactory;
  * adapted to FileRepositories.
  */
 public class GC {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(GC.class);
 
 	private static final String PRUNE_EXPIRE_DEFAULT = "2.weeks.ago"; //$NON-NLS-1$

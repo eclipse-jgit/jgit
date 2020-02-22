@@ -34,7 +34,7 @@ public final class Attribute {
 	 * The attribute value state
 	 * see also https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html
 	 */
-	public static enum State {
+	public enum State {
 		/** the attribute is set */
 		SET,
 
