@@ -30,7 +30,7 @@ public class NoMergeBaseException extends IOException {
 	 * An enum listing the different reason why no merge base could be
 	 * determined.
 	 */
-	public static enum MergeBaseFailureReason {
+	public enum MergeBaseFailureReason {
 		/**
 		 * Multiple merge bases have been found (e.g. the commits to be merged
 		 * have multiple common predecessors) but the merge strategy doesn't

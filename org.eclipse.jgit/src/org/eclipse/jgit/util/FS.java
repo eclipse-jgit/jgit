@@ -184,7 +184,7 @@ public abstract class FS {
 	 *
 	 * @since 5.1.9
 	 */
-	public final static class FileStoreAttributes {
+	public static final class FileStoreAttributes {
 
 		private static final Duration UNDEFINED_DURATION = Duration
 				.ofNanos(Long.MAX_VALUE);
@@ -249,6 +249,13 @@ public abstract class FS {
 		private static void setBackground(boolean async) {
 			background.set(async);
 		}
+
+		private static final String javaVersionPrefix = System
+				.getProperty("java.vendor") + '|' //$NON-NLS-1$
+				+ System.getProperty("java.version") + '|'; //$NON-NLS-1$
+
+		private static final Duration FALLBACK_MIN_RACY_INTERVAL = Duration
+				.ofMillis(10);
 
 		/**
 		 * Configures size and purge factor of the path-based cache for file
@@ -691,7 +698,7 @@ public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
 
-	private volatile static FSFactory factory;
+	private static volatile FSFactory factory;
 
 	/**
 	 * Auto-detect the appropriate file system abstraction.

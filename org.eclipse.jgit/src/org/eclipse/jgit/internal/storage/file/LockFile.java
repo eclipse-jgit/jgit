@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  * name.
  */
 public class LockFile {
-	private final static Logger LOG = LoggerFactory.getLogger(LockFile.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LockFile.class);
 
 	/**
 	 * Unlock the given file.

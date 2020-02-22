@@ -25,7 +25,7 @@ public class RebaseTodoLine {
 	 * Describes rebase actions
 	 */
 	@SuppressWarnings("nls")
-	public static enum Action {
+	public enum Action {
 		/** Use commit */
 		PICK("pick", "p"),
 
@@ -72,7 +72,7 @@ public class RebaseTodoLine {
 		 * @param token
 		 * @return the Action
 		 */
-		static public Action parse(String token) {
+		public static Action parse(String token) {
 			for (Action action : Action.values()) {
 				if (action.token.equals(token)
 						|| action.shortToken.equals(token))

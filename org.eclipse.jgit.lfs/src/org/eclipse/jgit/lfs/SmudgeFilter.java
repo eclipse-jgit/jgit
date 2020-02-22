@@ -59,7 +59,7 @@ public class SmudgeFilter extends FilterCommand {
 	 * The factory is responsible for creating instances of
 	 * {@link org.eclipse.jgit.lfs.SmudgeFilter}
 	 */
-	public final static FilterCommandFactory FACTORY = SmudgeFilter::new;
+	public static final FilterCommandFactory FACTORY = SmudgeFilter::new;
 
 	/**
 	 * Register this filter in JGit

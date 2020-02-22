@@ -27,7 +27,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.FS;
 
 abstract class FileObjectDatabase extends ObjectDatabase {
-	static enum InsertLooseObjectResult {
+	enum InsertLooseObjectResult {
 		INSERTED, EXISTS_PACKED, EXISTS_LOOSE, FAILURE;
 	}
 

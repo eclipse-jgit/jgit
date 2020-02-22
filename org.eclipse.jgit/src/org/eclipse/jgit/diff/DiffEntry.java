@@ -39,7 +39,7 @@ public class DiffEntry {
 	public static final String DEV_NULL = "/dev/null"; //$NON-NLS-1$
 
 	/** General type of change a single file-level patch describes. */
-	public static enum ChangeType {
+	public enum ChangeType {
 		/** Add a new file to the project */
 		ADD,
 
@@ -57,7 +57,7 @@ public class DiffEntry {
 	}
 
 	/** Specify the old or new side for more generalized access. */
-	public static enum Side {
+	public enum Side {
 		/** The old side of a DiffEntry. */
 		OLD,
 
