@@ -17,6 +17,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
@@ -56,6 +57,11 @@ public class FileUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
 	private static final Random RNG = new Random();
+
+	private static final boolean IS_WINDOWS = SystemReader.getInstance()
+			.isWindows();
+
+	private static final String FAKE_JUNCTION_TARGET = ""; //$NON-NLS-1$
 
 	/**
 	 * Option to delete given {@code File}
@@ -440,6 +446,9 @@ public class FileUtils {
 			if (attrs.isRegularFile() || attrs.isSymbolicLink()) {
 				delete(path);
 			} else {
+				// This is most likely a directory, or maybe a Windows junction
+				// junctions are handled by delete as empty directories, so
+				// that's ok
 				delete(path, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
 			}
 		}
@@ -461,6 +470,10 @@ public class FileUtils {
 	 */
 	public static String readSymLink(File path) throws IOException {
 		Path nioPath = toPath(path);
+		if (isWindowsJunction(nioPath)) {
+			// Java cannot read junctions: use a fake target path
+			return FAKE_JUNCTION_TARGET;
+		}
 		Path target = Files.readSymbolicLink(nioPath);
 		String targetString = target.toString();
 		if (SystemReader.getInstance().isWindows()) {
@@ -643,7 +656,8 @@ public class FileUtils {
 	 * @return {@code true} if the passed file is a symbolic link
 	 */
 	static boolean isSymlink(File file) {
-		return Files.isSymbolicLink(file.toPath());
+		return Files.isSymbolicLink(file.toPath())
+				|| isWindowsJunction(file.toPath());
 	}
 
 	/**
@@ -761,6 +775,10 @@ public class FileUtils {
 		if (Files.isSymbolicLink(nioPath))
 			return Files.readSymbolicLink(nioPath).toString()
 					.getBytes(UTF_8).length;
+		if (isWindowsJunction(file.toPath())) {
+			// Java cannot read junctions: use a fake target path
+			return FAKE_JUNCTION_TARGET.length();
+		}
 		return Files.size(nioPath);
 	}
 
@@ -770,7 +788,8 @@ public class FileUtils {
 	 *         symbolic links
 	 */
 	static boolean isDirectory(File file) {
-		return Files.isDirectory(file.toPath(), LinkOption.NOFOLLOW_LINKS);
+		return Files.isDirectory(file.toPath(), LinkOption.NOFOLLOW_LINKS)
+				&& !isWindowsJunction(file.toPath());
 	}
 
 	/**
@@ -811,11 +830,12 @@ public class FileUtils {
 					.getFileAttributeView(nioPath,
 							BasicFileAttributeView.class,
 							LinkOption.NOFOLLOW_LINKS).readAttributes();
+			boolean isJunction = isWindowsJunction(readAttributes);
 			Attributes attributes = new Attributes(fs, file,
 					true,
-					readAttributes.isDirectory(),
+					readAttributes.isDirectory() && !isJunction,
 					fs.supportsExecute() ? file.canExecute() : false,
-					readAttributes.isSymbolicLink(),
+					readAttributes.isSymbolicLink() || isJunction,
 					readAttributes.isRegularFile(), //
 					readAttributes.creationTime().toMillis(), //
 					readAttributes.lastModifiedTime().toInstant(),
@@ -863,6 +883,44 @@ public class FileUtils {
 		} catch (IOException e) {
 			return new Attributes(file, fs);
 		}
+	}
+
+	/**
+	 * Tests whether a path denotes a Windows junction.
+	 *
+	 * @param path
+	 *            a {@link Path}.
+	 * @return a boolean true if the passed path is a junction, false otherwise.
+	 */
+	private static boolean isWindowsJunction(Path path) {
+		if (!IS_WINDOWS) {
+			return false;
+		}
+		if (!Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)) {
+			return false;
+		}
+		try {
+			Boolean b = (Boolean) Files.getAttribute(path, "isOther", //$NON-NLS-1$
+					LinkOption.NOFOLLOW_LINKS);
+			return b.booleanValue();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Tests whether a set of file attributes belongs to a Windows junction.
+	 *
+	 * @param attributes
+	 *            a {@link BasicFileAttributes} read from a file.
+	 * @return a boolean true if the passed attributes belong to a junction,
+	 *         false otherwise.
+	 */
+	private static boolean isWindowsJunction(BasicFileAttributes attributes) {
+		if (!IS_WINDOWS) {
+			return false;
+		}
+		return attributes.isDirectory() && attributes.isOther();
 	}
 
 	/**
