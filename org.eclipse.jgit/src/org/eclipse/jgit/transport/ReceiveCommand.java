@@ -39,7 +39,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ReceiveCommand {
 	/** Type of operation requested. */
-	public static enum Type {
+	public enum Type {
 		/** Create a new ref; the ref must not already exist. */
 		CREATE,
 
@@ -65,7 +65,7 @@ public class ReceiveCommand {
 	}
 
 	/** Result of the update command. */
-	public static enum Result {
+	public enum Result {
 		/** The command has not yet been attempted by the server. */
 		NOT_ATTEMPTED,
 

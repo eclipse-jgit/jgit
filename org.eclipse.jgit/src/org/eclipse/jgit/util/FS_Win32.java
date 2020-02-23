@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.0
  */
 public class FS_Win32 extends FS {
-	private final static Logger LOG = LoggerFactory.getLogger(FS_Win32.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FS_Win32.class);
 
 	/**
 	 * Constructor

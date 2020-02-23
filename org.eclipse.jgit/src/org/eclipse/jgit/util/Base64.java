@@ -28,26 +28,26 @@ import org.eclipse.jgit.internal.JGitText;
  */
 public class Base64 {
 	/** The equals sign (=) as a byte. */
-	private final static byte EQUALS_SIGN = (byte) '=';
+	private static final byte EQUALS_SIGN = (byte) '=';
 
 	/** Indicates equals sign in encoding. */
-	private final static byte EQUALS_SIGN_DEC = -1;
+	private static final byte EQUALS_SIGN_DEC = -1;
 
 	/** Indicates white space in encoding. */
-	private final static byte WHITE_SPACE_DEC = -2;
+	private static final byte WHITE_SPACE_DEC = -2;
 
 	/** Indicates an invalid byte during decoding. */
-	private final static byte INVALID_DEC = -3;
+	private static final byte INVALID_DEC = -3;
 
 	/** The 64 valid Base64 values. */
-	private final static byte[] ENC;
+	private static final byte[] ENC;
 
 	/**
 	 * Translates a Base64 value to either its 6-bit reconstruction value or a
 	 * negative number indicating some other meaning. The table is only 7 bits
 	 * wide, as the 8th bit is discarded during decoding.
 	 */
-	private final static byte[] DEC;
+	private static final byte[] DEC;
 
 	static {
 		ENC = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" // //$NON-NLS-1$

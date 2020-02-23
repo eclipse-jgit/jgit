@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * Cache of active {@link org.eclipse.jgit.lib.Repository} instances.
  */
 public class RepositoryCache {
-	private final static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(RepositoryCache.class);
 
 	private static final RepositoryCache cache = new RepositoryCache();

@@ -50,7 +50,7 @@ public final class MergeAlgorithm {
 
 	// An special edit which acts as a sentinel value by marking the end the
 	// list of edits
-	private final static Edit END_EDIT = new Edit(Integer.MAX_VALUE,
+	private static final Edit END_EDIT = new Edit(Integer.MAX_VALUE,
 			Integer.MAX_VALUE);
 
 	@SuppressWarnings("ReferenceEquality")

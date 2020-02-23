@@ -491,7 +491,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			int position = Collections.binarySearch(only, p);
 			if (position >= 0)
 				return position;
-			int l = p.lastIndexOf("/"); //$NON-NLS-1$
+			int l = p.lastIndexOf('/');
 			if (l < 1)
 				break;
 			p = p.substring(0, l);

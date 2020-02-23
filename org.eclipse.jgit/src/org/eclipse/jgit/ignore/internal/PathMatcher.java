@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
+import org.eclipse.jgit.ignore.IMatcher;
 import org.eclipse.jgit.ignore.internal.Strings.PatternState;
 
 /**

@@ -247,7 +247,7 @@ public final class GitProtocolConstants {
 	 */
 	public static final String COMMAND_FETCH = "fetch"; //$NON-NLS-1$
 
-	static enum MultiAck {
+	enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
 
