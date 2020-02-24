@@ -20,17 +20,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GcOrphanFilesTest extends GcTestCase {
-	private final static String PACK = "pack";
+	private static final String PACK = "pack";
 
-	private final static String BITMAP_File_1 = PACK + "-1.bitmap";
+	private static final String BITMAP_File_1 = PACK + "-1.bitmap";
 
-	private final static String IDX_File_2 = PACK + "-2.idx";
+	private static final String IDX_File_2 = PACK + "-2.idx";
 
-	private final static String IDX_File_malformed = PACK + "-1234idx";
+	private static final String IDX_File_malformed = PACK + "-1234idx";
 
-	private final static String PACK_File_2 = PACK + "-2.pack";
+	private static final String PACK_File_2 = PACK + "-2.pack";
 
-	private final static String PACK_File_3 = PACK + "-3.pack";
+	private static final String PACK_File_3 = PACK + "-3.pack";
 
 	private File packDir;
 

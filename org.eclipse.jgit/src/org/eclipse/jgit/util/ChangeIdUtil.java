@@ -148,7 +148,7 @@ public class ChangeIdUtil {
 			ret.append(CHANGE_ID);
 			ret.append(" I"); //$NON-NLS-1$
 			ret.append(ObjectId.toString(changeId));
-			int indexOfNextLineBreak = message.indexOf("\n", //$NON-NLS-1$
+			int indexOfNextLineBreak = message.indexOf('\n',
 					indexOfChangeId);
 			if (indexOfNextLineBreak > 0)
 				ret.append(message.substring(indexOfNextLineBreak));

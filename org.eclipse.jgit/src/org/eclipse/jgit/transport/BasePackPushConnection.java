@@ -358,7 +358,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 				refNameEnd = refLine.length();
 			} else if (refLine.startsWith("ng ")) { //$NON-NLS-1$
 				ok = false;
-				refNameEnd = refLine.indexOf(" ", 3); //$NON-NLS-1$
+				refNameEnd = refLine.indexOf(' ', 3);
 			}
 			if (refNameEnd == -1)
 				throw new PackProtocolException(MessageFormat.format(JGitText.get().unexpectedReportLine2

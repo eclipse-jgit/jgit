@@ -1147,7 +1147,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @since 5.0
 	 */
-	public static abstract class Entry {
+	public abstract static class Entry {
 		byte[] encodedName;
 
 		int encodedNameLen;

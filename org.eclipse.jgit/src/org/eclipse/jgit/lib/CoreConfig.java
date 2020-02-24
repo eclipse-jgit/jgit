@@ -27,7 +27,7 @@ public class CoreConfig {
 	public static final Config.SectionParser<CoreConfig> KEY = CoreConfig::new;
 
 	/** Permissible values for {@code core.autocrlf}. */
-	public static enum AutoCRLF {
+	public enum AutoCRLF {
 		/** Automatic CRLF-&gt;LF conversion is disabled. */
 		FALSE,
 
@@ -45,7 +45,7 @@ public class CoreConfig {
 	 *
 	 * @since 4.3
 	 */
-	public static enum EOL {
+	public enum EOL {
 		/** Check in with LF, check out with CRLF. */
 		CRLF,
 
@@ -61,7 +61,7 @@ public class CoreConfig {
 	 *
 	 * @since 4.3
 	 */
-	public static enum EolStreamType {
+	public enum EolStreamType {
 		/** Convert to CRLF without binary detection. */
 		TEXT_CRLF,
 
@@ -83,7 +83,7 @@ public class CoreConfig {
 	 *
 	 * @since 3.0
 	 */
-	public static enum CheckStat {
+	public enum CheckStat {
 		/**
 		 * Only check the size and whole second part of time stamp when
 		 * comparing the stat info in the dircache with actual file stat info.
@@ -102,7 +102,7 @@ public class CoreConfig {
 	 *
 	 * @since 5.6
 	 */
-	public static enum LogRefUpdates {
+	public enum LogRefUpdates {
 		/** Don't create ref logs; default for bare repositories. */
 		FALSE,
 
@@ -131,7 +131,7 @@ public class CoreConfig {
 	 *
 	 * @since 3.3
 	 */
-	public static enum SymLinks {
+	public enum SymLinks {
 		/** Check out symbolic links as plain files . */
 		FALSE,
 
@@ -144,7 +144,7 @@ public class CoreConfig {
 	 *
 	 * @since 3.5
 	 */
-	public static enum HideDotFiles {
+	public enum HideDotFiles {
 		/** Do not hide .files. */
 		FALSE,
 

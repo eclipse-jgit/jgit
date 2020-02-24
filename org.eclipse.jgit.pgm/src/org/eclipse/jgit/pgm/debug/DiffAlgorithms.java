@@ -317,7 +317,7 @@ class DiffAlgorithms extends TextBuiltin {
 		return false;
 	}
 
-	private static abstract class Algorithm {
+	private abstract static class Algorithm {
 		String name;
 
 		abstract DiffAlgorithm create();

@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.0
  */
 public class FS_POSIX extends FS {
-	private final static Logger LOG = LoggerFactory.getLogger(FS_POSIX.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FS_POSIX.class);
 
 	private static final int DEFAULT_UMASK = 0022;
 	private volatile int umask = -1;

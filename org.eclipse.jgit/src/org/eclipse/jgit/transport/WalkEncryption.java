@@ -34,9 +34,9 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.Hex;
 
 abstract class WalkEncryption {
 	static final WalkEncryption NONE = new NoEncryption();
@@ -294,7 +294,7 @@ abstract class WalkEncryption {
 	 * Base implementation of JGit symmetric encryption. Supports V2 properties
 	 * format.
 	 */
-	static abstract class SymmetricEncryption extends WalkEncryption
+	abstract static class SymmetricEncryption extends WalkEncryption
 			implements Keys, Vals {
 
 		/** Encryption profile, root name of group of related properties. */
