@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f26e3141_bdd3a7e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "842eae3d_59716171",
+      "range": {
+        "startLine": 209,
+        "startChar": 40,
+        "endLine": 209,
+        "endChar": 52
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2e73305_bced99e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48d8c7be_199f85cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2e73305_bced99e3",
+      "range": {
+        "startLine": 212,
+        "startChar": 42,
+        "endLine": 212,
+        "endChar": 57
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ae4c92c8_da3421ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33af1d7b_fbbd15bc",
+      "range": {
+        "startLine": 658,
+        "startChar": 7,
+        "endLine": 658,
+        "endChar": 19
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069cbb3c_b483de48",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2020-02-21T22:07:29Z",
       "side": 1,
       "message": "isn\u0027t that Constants.HEAD ?",
+      "range": {
+        "startLine": 659,
+        "startChar": 43,
+        "endLine": 659,
+        "endChar": 49
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3361ca_b2a0e6ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "069cbb3c_b483de48",
       "range": {
         "startLine": 659,
         "startChar": 43,
@@ -128,6 +224,54 @@
       "writtenOn": "2020-02-21T22:07:29Z",
       "side": 1,
       "message": "ConfigConstants.CONFIG_KEY_REFSTORAGE",
+      "range": {
+        "startLine": 721,
+        "startChar": 39,
+        "endLine": 721,
+        "endChar": 51
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d53bb58f_00da0b58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad208c06_ba96b72b",
+      "range": {
+        "startLine": 721,
+        "startChar": 19,
+        "endLine": 721,
+        "endChar": 31
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117290f9_0b354513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bc27ad7_142ec19a",
       "range": {
         "startLine": 721,
         "startChar": 39,
@@ -209,6 +353,78 @@
     },
     {
       "key": {
+        "uuid": "9ac47f57_ae58c2c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aff18e7_d84240ea",
+      "range": {
+        "startLine": 783,
+        "startChar": 37,
+        "endLine": 783,
+        "endChar": 47
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3d9dbbf_538b8217",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d8b9f0d_715496c6",
+      "range": {
+        "startLine": 783,
+        "startChar": 3,
+        "endLine": 783,
+        "endChar": 15
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c70b7c3_58776ad2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7536975_2fde33b4",
+      "range": {
+        "startLine": 783,
+        "startChar": 23,
+        "endLine": 783,
+        "endChar": 35
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7edb1b17_3b17f3b3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 4
@@ -229,6 +445,30 @@
       "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a65e1ff6_6c78d838",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-02-24T13:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edb1b17_3b17f3b3",
+      "range": {
+        "startLine": 292,
+        "startChar": 11,
+        "endLine": 292,
+        "endChar": 14
+      },
+      "revId": "89a07ad25f41374b06d54b9f66c0042d116e9346",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
