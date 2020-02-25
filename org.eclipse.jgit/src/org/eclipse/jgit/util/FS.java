@@ -242,7 +242,16 @@ public abstract class FS {
 
 		private static Map<FileStore, Lock> locks = new ConcurrentHashMap<>();
 
-		private static void setBackground(boolean async) {
+		/**
+		 * Whether FileStore attributes should be determined asynchronously
+		 *
+		 * @param async
+		 *            whether FileStore attributes should be determined
+		 *            asynchronously. If false access to cached attributes may block
+		 *            for some seconds for the first call per FileStore
+		 * @since 5.6.2
+		 */
+		public static void setBackground(boolean async) {
 			background.set(async);
 		}
 
@@ -709,7 +718,9 @@ public abstract class FS {
 	 *            asynchronously. If false access to cached attributes may block
 	 *            for some seconds for the first call per FileStore
 	 * @since 5.1.9
+	 * @deprecated Use {@link FileStoreAttributes#setBackground} instead
 	 */
+	@Deprecated
 	public static void setAsyncFileStoreAttributes(boolean asynch) {
 		FileStoreAttributes.setBackground(asynch);
 	}
