@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5d8c703_041aa2f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-02-25T22:22:33Z",
+      "side": 1,
+      "message": "please remove the dirt",
+      "revId": "92bc1085870fe30778dc4cafe8039718acac72bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
