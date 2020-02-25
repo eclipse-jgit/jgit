@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "287c6fa3_d19507ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-25T23:12:14Z",
+      "side": 1,
+      "message": "Typo, and I\u0027d remove that comment here and put the text into the commit message.",
+      "range": {
+        "startLine": 222,
+        "startChar": 18,
+        "endLine": 222,
+        "endChar": 21
+      },
+      "revId": "ed12da07f4b2b7ee4b0c388f1f02e23e918afd4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae4fb5d_5c22bdc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-25T23:12:14Z",
+      "side": 1,
+      "message": "This comment is not really needed; it\u0027s kind of obvious. If we have no keys, there\u0027s nothing to order.",
+      "range": {
+        "startLine": 225,
+        "startChar": 2,
+        "endLine": 225,
+        "endChar": 70
+      },
+      "revId": "ed12da07f4b2b7ee4b0c388f1f02e23e918afd4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
