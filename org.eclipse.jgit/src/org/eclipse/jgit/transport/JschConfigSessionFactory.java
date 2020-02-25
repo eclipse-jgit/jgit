@@ -219,7 +219,13 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 	private static void setPreferredKeyTypesOrder(Session session) {
 		HostKeyRepository hkr = session.getHostKeyRepository();
-		List<String> known = Stream.of(hkr.getHostKey(hostName(session), null))
+		HostKey[] hostKeys = hkr.getHostKey(hostName(session), null);
+
+		if (hostKeys == null) {
+			return;
+		}
+
+		List<String> known = Stream.of(hostKeys)
 				.map(HostKey::getType)
 				.collect(toList());
 
