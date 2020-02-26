@@ -28,7 +28,8 @@ public enum RevSort {
 	/**
 	 * Sort by commit time, descending (newest first, oldest last).
 	 * <p>
-	 * This strategy can be combined with {@link #TOPO}.
+	 * This strategy can be combined with {@link #TOPO} or
+	 * {@link #TOPO_NON_INTERMIX}.
 	 */
 	COMMIT_TIME_DESC,
 
@@ -38,6 +39,14 @@ public enum RevSort {
 	 * This strategy can be combined with {@link #COMMIT_TIME_DESC}.
 	 */
 	TOPO,
+
+	/**
+	 * Topological sorting (all children before parents) without intermixing
+	 * lines of history.
+	 * <p>
+	 * This strategy can be combined with {@link #COMMIT_TIME_DESC}.
+	 */
+	TOPO_NON_INTERMIX,
 
 	/**
 	 * Flip the output into the reverse ordering.
