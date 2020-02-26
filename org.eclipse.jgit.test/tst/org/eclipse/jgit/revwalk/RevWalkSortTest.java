@@ -10,9 +10,12 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.junit.Test;
 
 public class RevWalkSortTest extends RevWalkTestCase {
@@ -143,5 +146,172 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertCommit(c2, rw.next());
 		assertCommit(d, rw.next());
 		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX() throws Exception {
+		// c1 is back dated before its parent.
+		//
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c1 = commit(-5, b);
+		final RevCommit c2 = commit(10, b);
+		final RevCommit d = commit(c1, c2);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c2, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_OutOfOrderCommitTimes()
+			throws Exception {
+		// b is committed before c2 in a different line of history.
+		//
+		final RevCommit a = commit();
+		final RevCommit c1 = commit(a);
+		final RevCommit b = commit(a);
+		final RevCommit c2 = commit(c1);
+		final RevCommit d = commit(b, c2);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c2, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_MultipleLinesOfHistory()
+			throws Exception {
+		final RevCommit a1 = commit();
+		final RevCommit b1 = commit(a1);
+		final RevCommit a2 = commit(a1, b1);
+		final RevCommit b2 = commit(b1);
+		final RevCommit b3 = commit(b1);
+		final RevCommit a3 = commit(a2, b2);
+		final RevCommit a4 = commit(a3, b3);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		markStart(a4);
+		assertCommit(a4, rw.next());
+		assertCommit(b3, rw.next());
+		assertCommit(a3, rw.next());
+		assertCommit(b2, rw.next());
+		assertCommit(a2, rw.next());
+		assertCommit(b1, rw.next());
+		assertCommit(a1, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_REVERSE() throws Exception {
+		// c1 is back dated before its parent.
+		//
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c1 = commit(-5, b);
+		final RevCommit c2 = commit(10, b);
+		final RevCommit d = commit(c1, c2);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		rw.sort(RevSort.REVERSE, true);
+		markStart(d);
+		assertCommit(a, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(c1, rw.next());
+		assertCommit(c2, rw.next());
+		assertCommit(d, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_REVERSE_MultipleLinesOfHistory()
+			throws Exception {
+		final RevCommit a1 = commit();
+		final RevCommit b1 = commit(a1);
+		final RevCommit a2 = commit(a1, b1);
+		final RevCommit b2 = commit(b1);
+		final RevCommit b3 = commit(b1);
+		final RevCommit a3 = commit(a2, b2);
+		final RevCommit a4 = commit(a3, b3);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		rw.sort(RevSort.REVERSE, true);
+		markStart(a4);
+		assertCommit(a1, rw.next());
+		assertCommit(b1, rw.next());
+		assertCommit(a2, rw.next());
+		assertCommit(b2, rw.next());
+		assertCommit(a3, rw.next());
+		assertCommit(b3, rw.next());
+		assertCommit(a4, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_ParentOfMultipleStartChildren()
+			throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(a);
+		final RevCommit d1 = commit(a);
+		final RevCommit d2 = commit(d1);
+		final RevCommit e = commit(a);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		markStart(b);
+		markStart(c);
+		markStart(d2);
+		markStart(e);
+		assertCommit(e, rw.next());
+		assertCommit(d2, rw.next());
+		assertCommit(d1, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_Uninteresting() throws Exception {
+		final RevCommit a1 = commit();
+		final RevCommit a2 = commit(a1);
+		final RevCommit a3 = commit(a2);
+		final RevCommit b = commit(a1);
+		final RevCommit a4 = commit(a3, b);
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		markStart(a4);
+		markUninteresting(a2);
+		assertCommit(a4, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a3, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testSort_TOPO_NON_INTERMIX_and_TOPO_throws() throws Exception {
+		final RevCommit a = commit();
+
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		rw.sort(RevSort.TOPO, true);
+		markStart(a);
+		try {
+			rw.next();
+			fail("did not throw IllegalStateException");
+		} catch (IllegalStateException e) {
+			assertEquals(
+					JGitText.get().cannotCombineTopoSortWithTopoNonIntermixSort,
+					e.getMessage());
+		}
 	}
 }
