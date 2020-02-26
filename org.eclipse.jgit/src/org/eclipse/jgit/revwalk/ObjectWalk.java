@@ -364,7 +364,9 @@ public class ObjectWalk extends RevWalk {
 	 * @since 5.4
 	 */
 	public void skipTree() {
-		currVisit.ptr = currVisit.buf.length;
+		if (currVisit != null) {
+			currVisit.ptr = currVisit.buf.length;
+		}
 	}
 
 	/**
