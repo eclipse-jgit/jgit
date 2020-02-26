@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0390cfe6_f576a8b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-26T18:53:20Z",
+      "side": 1,
+      "message": "nit: PlotWalk",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "5d74b0135e842aeb7515ee2a608205853e7d1e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c95cacaa_e123d6ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-02-26T18:53:20Z",
+      "side": 1,
+      "message": "please remove this blank line",
+      "revId": "5d74b0135e842aeb7515ee2a608205853e7d1e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
