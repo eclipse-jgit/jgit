@@ -22,6 +22,30 @@
       "revId": "8e6c31460f3c8aa4268e946418220c882f3150bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1feb6bfd_f22c5ca4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-02-26T16:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cd3dc17_d35ae297",
+      "range": {
+        "startLine": 367,
+        "startChar": 23,
+        "endLine": 367,
+        "endChar": 24
+      },
+      "revId": "8e6c31460f3c8aa4268e946418220c882f3150bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
