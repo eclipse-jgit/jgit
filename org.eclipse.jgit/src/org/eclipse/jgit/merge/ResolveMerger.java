@@ -143,7 +143,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.0
 	 */
-	protected String commitNames[];
+	protected String[] commitNames;
 
 	/**
 	 * Index of the base tree within the {@link #tw tree walk}.

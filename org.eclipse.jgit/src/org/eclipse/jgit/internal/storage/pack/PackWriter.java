@@ -225,7 +225,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	@SuppressWarnings("unchecked")
-	BlockList<ObjectToPack> objectsLists[] = new BlockList[OBJ_TAG + 1];
+	BlockList<ObjectToPack>[] objectsLists = new BlockList[OBJ_TAG + 1];
 	{
 		objectsLists[OBJ_COMMIT] = new BlockList<>();
 		objectsLists[OBJ_TREE] = new BlockList<>();
@@ -270,7 +270,7 @@ public class PackWriter implements AutoCloseable {
 
 	private List<ObjectToPack> sortedByName;
 
-	private byte packcsum[];
+	private byte[] packcsum;
 
 	private boolean deltaBaseAsOffset;
 

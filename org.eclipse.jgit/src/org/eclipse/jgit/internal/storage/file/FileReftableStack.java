@@ -674,7 +674,7 @@ public class FileReftableStack implements AutoCloseable {
 		}
 	}
 
-	static List<Segment> segmentSizes(long sizes[]) {
+	static List<Segment> segmentSizes(long[] sizes) {
 		List<Segment> segments = new ArrayList<>();
 		Segment cur = new Segment();
 		for (int i = 0; i < sizes.length; i++) {
@@ -694,7 +694,7 @@ public class FileReftableStack implements AutoCloseable {
 		return segments;
 	}
 
-	private static Optional<Segment> autoCompactCandidate(long sizes[]) {
+	private static Optional<Segment> autoCompactCandidate(long[] sizes) {
 		if (sizes.length == 0) {
 			return Optional.empty();
 		}

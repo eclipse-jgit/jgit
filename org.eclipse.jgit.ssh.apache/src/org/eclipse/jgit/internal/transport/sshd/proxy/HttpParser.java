@@ -249,7 +249,7 @@ public final class HttpParser {
 				start = nextStart + 1;
 			} else {
 				if (header.charAt(nextStart) == '"') {
-					int nextEnd[] = { nextStart + 1 };
+					int[] nextEnd = { nextStart + 1 };
 					String value = scanQuotedString(header, nextStart + 1,
 							nextEnd);
 					challenge.addArgument(header.substring(start, end), value);
