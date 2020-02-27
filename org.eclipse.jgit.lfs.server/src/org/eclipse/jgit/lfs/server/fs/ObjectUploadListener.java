@@ -71,7 +71,7 @@ import org.eclipse.jgit.lfs.lib.Constants;
  */
 public class ObjectUploadListener implements ReadListener {
 
-	private static Logger LOG = Logger
+	private static final Logger LOG = Logger
 			.getLogger(ObjectUploadListener.class.getName());
 
 	private final AsyncContext context;

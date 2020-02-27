@@ -106,7 +106,8 @@ import org.slf4j.LoggerFactory;
  * This class handles checking out one or two trees merging with the index.
  */
 public class DirCacheCheckout {
-	private static Logger LOG = LoggerFactory.getLogger(DirCacheCheckout.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(DirCacheCheckout.class);
 
 	private static final int MAX_EXCEPTION_TEXT_SIZE = 10 * 1024;
 

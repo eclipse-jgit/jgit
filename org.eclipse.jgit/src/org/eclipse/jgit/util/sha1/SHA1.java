@@ -78,7 +78,7 @@ import org.slf4j.LoggerFactory;
  * @since 4.7
  */
 public class SHA1 {
-	private static Logger LOG = LoggerFactory.getLogger(SHA1.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SHA1.class);
 	private static final boolean DETECT_COLLISIONS;
 
 	static {
