@@ -482,6 +482,7 @@ public abstract class KetchLeader {
 	 * @param replica
 	 *            replica posting a completion event.
 	 */
+	@SuppressWarnings("boxing")
 	void onReplicaUpdate(KetchReplica replica) {
 		if (log.isDebugEnabled()) {
 			log.debug("Replica {} finished:\n{}", //$NON-NLS-1$
@@ -515,7 +516,7 @@ public abstract class KetchLeader {
 			term = ((ElectionRound) runningRound).getTerm();
 			state = LEADER;
 			if (log.isDebugEnabled()) {
-				log.debug("Won election, running term " + term); //$NON-NLS-1$
+				log.debug("Won election, running term {}", term); //$NON-NLS-1$
 			}
 
 			//$FALL-THROUGH$

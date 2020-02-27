@@ -201,7 +201,7 @@ public class PacketLineIn {
 			len--;
 
 		String s = RawParseUtils.decode(UTF_8, raw, 0, len);
-		log.debug("git< " + s); //$NON-NLS-1$
+		log.debug("git< {}", s); //$NON-NLS-1$
 		return s;
 	}
 
@@ -247,7 +247,7 @@ public class PacketLineIn {
 		IO.readFully(in, raw, 0, len);
 
 		String s = RawParseUtils.decode(UTF_8, raw, 0, len);
-		log.debug("git< " + s); //$NON-NLS-1$
+		log.debug("git< {}", s); //$NON-NLS-1$
 		return s;
 	}
 

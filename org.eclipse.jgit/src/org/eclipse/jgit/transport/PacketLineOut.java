@@ -174,7 +174,7 @@ public class PacketLineOut {
 		out.write(buf, pos, len);
 		if (log.isDebugEnabled()) {
 			String s = RawParseUtils.decode(UTF_8, buf, pos, len);
-			log.debug("git> " + s); //$NON-NLS-1$
+			log.debug("git> {}", s); //$NON-NLS-1$
 		}
 	}
 

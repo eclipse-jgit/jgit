@@ -1148,6 +1148,7 @@ public abstract class FS {
 	 *             thrown when the command failed (return code was non-zero)
 	 * @since 4.0
 	 */
+	@SuppressWarnings("boxing")
 	@Nullable
 	protected static String readPipe(File dir, String[] command,
 			String encoding, Map<String, String> env)
@@ -1178,7 +1179,7 @@ public abstract class FS {
 					new InputStreamReader(p.getInputStream(), encoding))) {
 				r = lineRead.readLine();
 				if (debug) {
-					LOG.debug("readpipe may return '" + r + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+					LOG.debug("readpipe may return '{}'", r); //$NON-NLS-1$
 					LOG.debug("remaining output:\n"); //$NON-NLS-1$
 					String l;
 					while ((l = lineRead.readLine()) != null) {
@@ -1195,7 +1196,7 @@ public abstract class FS {
 						return r;
 					}
 					if (debug) {
-						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
+						LOG.debug("readpipe rc={}", rc); //$NON-NLS-1$
 					}
 					throw new CommandFailedException(rc,
 							gobbler.errorMessage.get(),
