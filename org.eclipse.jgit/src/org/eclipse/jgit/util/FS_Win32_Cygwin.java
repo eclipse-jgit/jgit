@@ -150,7 +150,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		argv.add("sh.exe"); //$NON-NLS-1$
 		argv.add("-c"); //$NON-NLS-1$
 		argv.add("$0 \"$@\""); //$NON-NLS-1$
-		argv.add(cmd);
+		argv.add(cmd.replace(File.separatorChar, '/'));
 		argv.addAll(Arrays.asList(args));
 		ProcessBuilder proc = new ProcessBuilder();
 		proc.command(argv);
