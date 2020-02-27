@@ -122,8 +122,8 @@ public class DeltaIndex {
 		// logic linear in the size of the input rather than quadratic.
 		//
 		int cnt = 0;
-		for (int i = 0; i < table.length; i++) {
-			int h = table[i];
+		for (int element : table) {
+			int h = element;
 			if (h == 0)
 				continue;
 

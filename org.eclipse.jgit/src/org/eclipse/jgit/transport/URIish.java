@@ -303,8 +303,8 @@ public class URIish implements Serializable {
 			return null;
 		ByteArrayOutputStream os = new ByteArrayOutputStream(s.length());
 		byte[] bytes = s.getBytes(UTF_8);
-		for (int i = 0; i < bytes.length; ++i) {
-			int b = bytes[i] & 0xFF;
+		for (byte c : bytes) {
+			int b = c & 0xFF;
 			if (b <= 32 || (encodeNonAscii && b > 127) || b == '%'
 					|| (escapeReservedChars && reservedChars.get(b))) {
 				os.write('%');

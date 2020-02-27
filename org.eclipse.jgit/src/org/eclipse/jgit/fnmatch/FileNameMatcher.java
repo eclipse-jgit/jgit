@@ -380,8 +380,8 @@ public class FileNameMatcher {
 	 * @return a boolean.
 	 */
 	public boolean canAppendMatch() {
-		for (int i = 0; i < heads.size(); i++) {
-			if (heads.get(i) != LastHead.INSTANCE) {
+		for (Head head : heads) {
+			if (head != LastHead.INSTANCE) {
 				return true;
 			}
 		}
