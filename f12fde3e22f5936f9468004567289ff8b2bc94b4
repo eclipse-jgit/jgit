@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "641739ef_7d2948b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-27T00:41:32Z",
+      "side": 1,
+      "message": "Also mention the previous commit that did a similar thing, and the commit that reverted it.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 6
+      },
+      "revId": "f12fde3e22f5936f9468004567289ff8b2bc94b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bbe5b54_859cce0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-27T00:41:32Z",
+      "side": 1,
+      "message": "If we plan to produce a formatted message, also assert on the exception message.",
+      "range": {
+        "startLine": 298,
+        "startChar": 2,
+        "endLine": 298,
+        "endChar": 6
+      },
+      "revId": "f12fde3e22f5936f9468004567289ff8b2bc94b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "306269b2_ed762cf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-02-27T00:41:32Z",
+      "side": 1,
+      "message": "Does this work? The template seems not to contain any {0} or {1}.",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 8
+      },
+      "revId": "f12fde3e22f5936f9468004567289ff8b2bc94b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18f40945_45b419e2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoNonIntermixSortGenerator.java",
         "patchSetId": 2
