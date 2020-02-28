@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
  * @since 4.3
  */
 public abstract class LfsProtocolServlet extends HttpServlet {
-	private static Logger LOG = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(LfsProtocolServlet.class);
 
 	private static final long serialVersionUID = 1L;

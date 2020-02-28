@@ -2270,7 +2270,7 @@ public abstract class FS {
 
 		void copy() throws IOException {
 			boolean writeFailure = false;
-			byte buffer[] = new byte[4096];
+			byte[] buffer = new byte[4096];
 			int readBytes;
 			while ((readBytes = in.read(buffer)) != -1) {
 				// Do not try to write again after a failure, but keep
