@@ -33,6 +33,24 @@
       "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b5fca0_363d43c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-28T22:13:30Z",
+      "side": 1,
+      "message": "I think this could be more efficient if debug logging is off since concatenation will be skipped in this case",
+      "parentUuid": "0d36924f_550b353b",
+      "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
