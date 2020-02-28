@@ -145,6 +145,10 @@ public abstract class SystemReader {
 		private Path getXDGConfigHome(FS fs) {
 			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
 			if (StringUtils.isEmptyOrNull(configHomePath)) {
+				if (isWindows() || isMacOS()) {
+					return null;
+				}
+
 				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
 						.getAbsolutePath();
 			}
