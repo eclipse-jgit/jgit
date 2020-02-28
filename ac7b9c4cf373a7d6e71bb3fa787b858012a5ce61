@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2033b866_a5e97e39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-28T22:07:52Z",
+      "side": 1,
+      "message": "if backup is true, shouldn\u0027t we rename reftable to reftable.old ?",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54d921ea_43f6b4d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-28T22:07:52Z",
+      "side": 1,
+      "message": "with that we will try to backup HEAD twice, first rename succeeds and the second one fails since HEAD was already renamed",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75ae5713_f7765e64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-28T22:07:52Z",
+      "side": 1,
+      "message": "also use FileUtils.delete(packedRefs) here ?",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
