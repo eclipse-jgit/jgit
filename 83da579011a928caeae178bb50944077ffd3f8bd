@@ -16,6 +16,24 @@
       "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "036ee67e_58729d6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-28T23:45:34Z",
+      "side": 1,
+      "message": "according to https://wiki.archlinux.org/index.php/XDG_Base_Directory the default is $HOME/.config",
+      "parentUuid": "14258ed0_916ec592",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
