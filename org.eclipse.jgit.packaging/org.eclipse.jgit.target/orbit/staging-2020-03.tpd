@@ -1,7 +1,7 @@
 target "staging-2020-03" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20200219023850/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20200224183213/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
