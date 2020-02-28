@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea8e7deb_f7c777ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-28T14:58:50Z",
+      "side": 1,
+      "message": "I can see the benefit of {} if it\u0027s somewhere in the middle, or if there are several, but here?",
+      "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d36924f_550b353b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-28T14:58:50Z",
+      "side": 1,
+      "message": "I don\u0027t really see the benefit here if it requires us to add this suppression. It\u0027s probably also less efficient, and executed anyway only if debug logging is enabled.",
+      "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
