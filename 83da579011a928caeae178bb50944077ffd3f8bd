@@ -34,6 +34,42 @@
       "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c80f7a2_eae10806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-02-29T08:54:21Z",
+      "side": 1,
+      "message": "Thanks, I will fix this for the next patch.",
+      "parentUuid": "14258ed0_916ec592",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb3e8145_b1814775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-02-29T08:54:21Z",
+      "side": 1,
+      "message": "How does this conflict with my patch?\n\nFor Linux, I agree with the current code. For Windows, jgit is currently the first application which creates %USERPROFILE%\\.config.\n\n$ git config --global user.name \"foo bar\"\n\nwill create %USERPROFILE%\\.gitconfig .\n\nI\u0027m not sure on MacOS for which an even better location might be $HOME/Library/Preferences . But $HOME should be a good choice, too (again it\u0027s in accordance with Git and its .gitconfig).",
+      "parentUuid": "036ee67e_58729d6c",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
