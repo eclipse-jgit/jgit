@@ -88,6 +88,24 @@
       "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecfa1a9e_65c737ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-02-29T16:43:32Z",
+      "side": 1,
+      "message": "\u003e and also git for Windows\n\u003e https://github.com/git-for-windows/git/blob/master/path.c#L1543\n\nI see. I agree that `getXDGConfigHome` should not be changed (this way).\n\nI have done some more experiments with Git for Windows: due to the `path.c` code you have mentioned, it will actually return values from %HOME/.config/git regardless of `XDG_CONFIG_HOME` being set or not. But: `git config --global` will not *write* to this file if %HOME%/.gitconfig exists. It will always give precedence to %HOME%/.gitconfig according to:\n\nhttps://github.com/git-for-windows/git/blob/master/builtin/config.c#L640\n\nThis is true for all platforms:\n\nhttps://github.com/git/git/blob/master/builtin/config.c#L659\n\nSo for me, %HOME/.config/jgit still remains an unexpected location which is further away from %HOME/.gitconfig as necessary (especially on Windows).\n\nEither way, I understand now that it\u0027s more a matter of taste. So should I provide another patch for Windows or abandon this change?",
+      "parentUuid": "3e2edb4b_c27a72b5",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
