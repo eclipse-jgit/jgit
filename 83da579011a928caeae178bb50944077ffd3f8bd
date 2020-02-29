@@ -70,6 +70,24 @@
       "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2edb4b_c27a72b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-02-29T10:31:58Z",
+      "side": 1,
+      "message": "it\u0027s using the same path as git is using\nhttps://github.com/git/git/blob/master/path.c#L1501\nand also git for Windows\nhttps://github.com/git-for-windows/git/blob/master/path.c#L1543",
+      "parentUuid": "4c80f7a2_eae10806",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
