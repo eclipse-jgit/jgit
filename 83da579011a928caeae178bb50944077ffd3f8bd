@@ -106,6 +106,24 @@
       "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fc2a9f2_2371c72f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-02-29T16:48:47Z",
+      "side": 1,
+      "message": "\u003e an unexpected location\n \u003e which is further away from %HOME/.gitconfig as necessary\n\nWhich is probably actually a good thing. This jgit config file is not supposed to be edited by the user; it stores internal data about the filesystem(s). If it were at ~/.jgitconfig, there\u0027s a non-negligible chance that users start putting git configurations in there and then wonder why they\u0027re never respected.",
+      "parentUuid": "ecfa1a9e_65c737ae",
+      "revId": "83da579011a928caeae178bb50944077ffd3f8bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
