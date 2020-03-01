@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "7efc2fed_c5ea7a8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-03-01T09:44:43Z",
+      "side": 1,
+      "message": "BTW: can anybody show me where this sort order has any effect at all? The sort generator *always* uses a DateRevQueue (since commit 4cbdf0f7, when it was still org.spearce.jgit/src/org/spearce/jgit/revwalk/StartGenerator.java). I can\u0027t find any use of RevSort.COMMIT_TIME_DESC in the various commit generators...\n\nWith Commits generally being sorted by date in the input, TOPO doesn\u0027t do much; it just ensures that parents come after all their children. The new TOPO_NON_INTERMIX ignores this date ordering.",
+      "revId": "03e76a669fad80d2b7d6a1cf6ff747beb6719ba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f21ea257_0ca8ed71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-03-01T09:44:43Z",
+      "side": 1,
+      "message": "It may be clear for us what this means, but will it be clear for JGit users? Right now I don\u0027t have a better proposal, but the difference between the two is that NON_INTERMIX gives precedence to parent links, while TOPO gives precedence to commit dates.",
+      "range": {
+        "startLine": 44,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 21
+      },
+      "revId": "03e76a669fad80d2b7d6a1cf6ff747beb6719ba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3745e3_c67d7b38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
         "patchSetId": 3
@@ -13,6 +53,29 @@
       "writtenOn": "2020-02-28T16:03:43Z",
       "side": 1,
       "message": "API change.",
+      "revId": "03e76a669fad80d2b7d6a1cf6ff747beb6719ba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1623142e_7e18f7ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-03-01T09:44:43Z",
+      "side": 1,
+      "message": "Can we find a better name for this? Also, it needs a @since 5.8 or @since 6.0, dependeing on where this ends up.",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 18
+      },
       "revId": "03e76a669fad80d2b7d6a1cf6ff747beb6719ba3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
