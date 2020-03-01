@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e873e4e7_acdd088c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GlobalAttributesNode.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-03-01T11:30:57Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this already have done ~ expansion?",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "9e4781878b7d0a9e373b73d6e15dc0860047b183",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
