@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "4f506ec3_5c527c58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-03-02T07:49:51Z",
+      "side": 1,
+      "message": "We can add an example to show the difference, or link to the cgit description of git log --topo-sort [1], which I think explains it well:\n\nhttps://git-scm.com/docs/git-log#Documentation/git-log.txt---topo-order",
+      "parentUuid": "f21ea257_0ca8ed71",
+      "range": {
+        "startLine": 44,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 21
+      },
+      "revId": "03e76a669fad80d2b7d6a1cf6ff747beb6719ba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3745e3_c67d7b38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
         "patchSetId": 3
