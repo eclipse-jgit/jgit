@@ -421,6 +421,25 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Set the skip worktree flag for this entry,
+	 *
+	 * @since 5.7
+	 * @param skipWorktree
+	 *            When reading an entry, if it is marked as skip-worktree, then
+	 *            Git pretends its working directory version is up to date and
+	 *            read the index version instead.
+	 */
+	public void setSkipWorktree(boolean skipWorktree) {
+		if (!isExtended()) {
+			info[infoOffset + P_FLAGS] |= (byte) EXTENDED;
+		}
+		if (skipWorktree)
+			info[infoOffset + P_FLAGS2] |= (byte) SKIP_WORKTREE;
+		else
+			info[infoOffset + P_FLAGS2] &= (byte) ~SKIP_WORKTREE;
+	}
+
+	/**
 	 * Whether this entry should be checked for changes
 	 *
 	 * @return {@code true} if this entry should be checked for changes

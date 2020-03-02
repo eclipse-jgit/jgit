@@ -23,7 +23,7 @@ import org.junit.Test;
 public class HugeCommitMessageTest extends RepositoryTestCase {
 
 	private static final int HUGE_SIZE = Math.max(15 * WindowCacheConfig.MB,
-			PackConfig.DEFAULT_BIG_FILE_THRESHOLD + WindowCacheConfig.MB);
+			PackConfig.DEFAULT_BIG_FILE_THRESHOLD + 1024);
 	// Larger than the 5MB fallback limit in RevWalk.getCachedBytes(RevObject
 	// obj, ObjectLoader ldr), and also larger than the default
 	// streamFileThreshold.
