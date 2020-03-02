@@ -370,6 +370,7 @@ public class DirCacheCheckout {
 			checkValidPath(m);
 			// There is an entry in the merge commit. Means: we want to update
 			// what's currently in the index and working-tree to that one
+			DirCacheEntry dce = i == null ? null : i.getDirCacheEntry();
 			if (i == null) {
 				// The index entry is missing
 				if (f != null && !FileMode.TREE.equals(f.getEntryFileMode())
@@ -391,7 +392,8 @@ public class DirCacheCheckout {
 				// The working tree file is missing or the merge content differs
 				// from index content
 				update(m.getEntryPathString(), m.getEntryObjectId(),
-						m.getEntryFileMode());
+						m.getEntryFileMode(),
+						dce == null ? false : dce.isSkipWorkTree());
 			} else if (i.getDirCacheEntry() != null) {
 				// The index contains a file (and not a folder)
 				if (f.isModified(i.getDirCacheEntry(), true,
@@ -400,7 +402,8 @@ public class DirCacheCheckout {
 					// The working tree file is dirty or the index contains a
 					// conflict
 					update(m.getEntryPathString(), m.getEntryObjectId(),
-							m.getEntryFileMode());
+							m.getEntryFileMode(),
+							dce == null ? false : dce.isSkipWorkTree());
 				else {
 					// update the timestamp of the index with the one from the
 					// file if not set, as we are sure to be in sync here.
@@ -1128,7 +1131,8 @@ public class DirCacheCheckout {
 
 						// TODO check that we don't overwrite some unsaved
 						// file content
-						update(name, mId, mMode);
+						update(name, mId, mMode,
+								dce == null ? false : dce.isSkipWorkTree());
 					} else if (dce != null
 							&& (f != null && f.isModified(dce, true,
 									this.walk.getObjectReader()))) {
@@ -1147,7 +1151,8 @@ public class DirCacheCheckout {
 						// -> Standard case when switching between branches:
 						// Nothing new in index but something different in
 						// Merge. Update index and file
-						update(name, mId, mMode);
+						update(name, mId, mMode,
+								dce == null ? false : dce.isSkipWorkTree());
 					}
 				} else {
 					// Head differs from index or merge is same as index
@@ -1232,6 +1237,12 @@ public class DirCacheCheckout {
 
 	private void update(String path, ObjectId mId, FileMode mode)
 			throws IOException {
+		update(path, mId, mode, false);
+	}
+
+	private void update(String path, ObjectId mId, FileMode mode,
+			boolean skipWorktree)
+			throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
 			updated.put(path, new CheckoutMetadata(
 					walk.getEolStreamType(CHECKOUT_OP),
@@ -1240,6 +1251,9 @@ public class DirCacheCheckout {
 			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
 			entry.setObjectId(mId);
 			entry.setFileMode(mode);
+			if (skipWorktree) {
+				entry.setSkipWorktree(true);
+			}
 			builder.add(entry);
 		}
 	}
