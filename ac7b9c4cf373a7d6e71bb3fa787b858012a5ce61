@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5f995677_1f82b0ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-03-03T18:21:38Z",
+      "side": 1,
+      "message": "no. The reftable/ dir isn\u0027t used in the new configuration, so there is no need to rename it.",
+      "parentUuid": "2033b866_a5e97e39",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54d921ea_43f6b4d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "03e62edb_495e0a64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-03-03T18:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d921ea_43f6b4d0",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75ae5713_f7765e64",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-28T22:07:52Z",
       "side": 1,
       "message": "also use FileUtils.delete(packedRefs) here ?",
+      "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b20974d_36fd1f05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-03-03T18:21:38Z",
+      "side": 1,
+      "message": "clarified comment.",
+      "parentUuid": "75ae5713_f7765e64",
       "revId": "ac7b9c4cf373a7d6e71bb3fa787b858012a5ce61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
