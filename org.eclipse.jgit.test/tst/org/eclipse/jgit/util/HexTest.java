@@ -40,6 +40,11 @@ public class HexTest {
 		for (String e : testStrings) {
 			JGitTestUtil.assertEquals(b(e), decode(toHexString(b(e))));
 		}
+    }
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testIllegal() {
+		decode("0011test00");
 	}
 
 	private static byte[] b(String str) {
