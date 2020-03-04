@@ -69,6 +69,24 @@
       "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3be292a_4b9e2e93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-03-04T15:01:53Z",
+      "side": 1,
+      "message": "you are right",
+      "parentUuid": "d6c94a70_7e88eacf",
+      "revId": "1a743532b5e76e6af0111408a2a828769bc212f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
