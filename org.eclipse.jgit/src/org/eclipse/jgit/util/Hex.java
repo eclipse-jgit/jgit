@@ -10,6 +10,10 @@
 
 package org.eclipse.jgit.util;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.internal.JGitText;
+
 /**
  * Encodes and decodes to and from hexadecimal notation.
  *
@@ -27,7 +31,8 @@ public final class Hex {
 	/**
 	 * Decode a hexadecimal string to a byte array.
 	 *
-	 * Note this method performs no validation on input content.
+	 * Note this method is not guaranteed to perform any validation on input
+	 * content.
 	 *
 	 * @param s hexadecimal string
 	 * @return decoded array
@@ -37,7 +42,16 @@ public final class Hex {
 		byte[] b = new byte[len / 2];
 
 		for (int i = 0; i < len; i += 2) {
-			b[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) | Character.digit(s.charAt(i + 1), 16));
+			int left = Character.digit(s.charAt(i), 16);
+			int right = Character.digit(s.charAt(i + 1), 16);
+
+			if (left == -1 || right == -1) {
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().invalidHexString,
+						s));
+			}
+
+			b[i / 2] = (byte) (left << 4 | right);
 		}
 		return b;
 	}
