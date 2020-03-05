@@ -254,6 +254,12 @@ public final class Constants {
 	 */
 	public static final String REFTABLE = "reftable";
 
+	/**
+	 * Reftable table list name.
+	 * @since 5.6.2
+	 */
+	public static final String TABLES_LIST = "tables.list";
+
 	/** Info refs folder */
 	public static final String INFO_REFS = "info/refs";
 
