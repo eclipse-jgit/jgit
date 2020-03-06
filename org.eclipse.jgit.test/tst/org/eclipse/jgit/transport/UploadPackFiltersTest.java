@@ -218,6 +218,47 @@ public class UploadPackFiltersTest {
 	}
 
 	@Test
+	public void testFetchWithCombinedFilters() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
+				server2)) {
+
+			RevBlob longBlob = remote2.blob("foobar");
+			RevBlob shortBlob = remote2.blob("fooba");
+			RevBlob deeperBlob = remote2.blob("content-a1");
+			RevTree tree = remote2.tree(remote2.file("1", longBlob),
+					remote2.file("2", shortBlob),
+					remote2.file("a/1", deeperBlob));
+			RevCommit commit = remote2.commit(tree);
+			remote2.update("master", commit);
+
+			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
+					true);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				return up;
+			}, null);
+			uri = testProtocol.register(ctx, server2);
+
+			try (Transport tn = testProtocol.open(uri, client, "server2")) {
+				tn.setFilterSpec(FilterSpec
+						.fromFilterLine("combine:tree:1+blob:limit=5"));
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(new RefSpec(commit.name())));
+				assertTrue(client.getObjectDatabase().has(commit.toObjectId()));
+				assertTrue(client.getObjectDatabase().has(tree.toObjectId()));
+				assertTrue(
+						client.getObjectDatabase().has(shortBlob.toObjectId()));
+				assertFalse(
+						client.getObjectDatabase().has(longBlob.toObjectId()));
+				assertFalse(client.getObjectDatabase()
+						.has(deeperBlob.toObjectId()));
+			}
+		}
+	}
+
+	@Test
 	public void testFetchExplicitBlobWithFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(

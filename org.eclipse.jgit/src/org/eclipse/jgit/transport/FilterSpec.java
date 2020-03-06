@@ -11,6 +11,8 @@
 package org.eclipse.jgit.transport;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -23,6 +25,14 @@ import org.eclipse.jgit.internal.JGitText;
  * @since 5.4
  */
 public final class FilterSpec {
+
+	private final static String COMBINE = "combine:"; //$NON-NLS-1$
+
+	private final static String BLOB_NONE = "blob:none"; //$NON-NLS-1$
+
+	private final static String BLOB_LIMIT = "blob:limit="; //$NON-NLS-1$
+
+	private final static String TREE = "tree:"; //$NON-NLS-1$
 
 	private final long blobLimit;
 
@@ -38,9 +48,10 @@ public final class FilterSpec {
 	 * like:
 	 *
 	 * <ul>
-	 *   <li>"blob:none"
-	 *   <li>"blob:limit=N", with N &gt;= 0
-	 *   <li>"tree:DEPTH", with DEPTH &gt;= 0
+	 * <li>"blob:none"
+	 * <li>"blob:limit=N", with N &gt;= 0
+	 * <li>"tree:DEPTH", with DEPTH &gt;= 0
+	 * <li>"combine:&gt;filter&lt;+&gt;filter&lt; , (since 5.8)
 	 * </ul>
 	 *
 	 * @param filterLine
@@ -52,37 +63,52 @@ public final class FilterSpec {
 	 */
 	public static FilterSpec fromFilterLine(String filterLine)
 			throws PackProtocolException {
-		if (filterLine.equals("blob:none")) { //$NON-NLS-1$
-			return FilterSpec.withBlobLimit(0);
-		} else if (filterLine.startsWith("blob:limit=")) { //$NON-NLS-1$
-			long blobLimit = -1;
-			try {
-				blobLimit = Long
-						.parseLong(filterLine.substring("blob:limit=".length())); //$NON-NLS-1$
-			} catch (NumberFormatException e) {
-				// Do not change blobLimit so that we throw a
-				// PackProtocolException later.
+
+		String[] filters = filterLine.startsWith(COMBINE)
+				? filterLine.substring(COMBINE.length()).split("\\+") //$NON-NLS-1$
+				: new String[] { filterLine };
+
+		long blobLimit = -1;
+		long treeDepthLimit = -1;
+		for (String filter : filters) {
+			if (filter.equals(BLOB_NONE)) {
+				blobLimit = 0;
+				continue;
 			}
-			if (blobLimit >= 0) {
-				return FilterSpec.withBlobLimit(blobLimit);
+
+			if (filter.startsWith(BLOB_LIMIT)) {
+				blobLimit = parsePositive(filter, BLOB_LIMIT.length());
+				continue;
 			}
-		} else if (filterLine.startsWith("tree:")) { //$NON-NLS-1$
-			long treeDepthLimit = -1;
-			try {
-				treeDepthLimit = Long
-						.parseLong(filterLine.substring("tree:".length())); //$NON-NLS-1$
-			} catch (NumberFormatException e) {
-				// Do not change blobLimit so that we throw a
-				// PackProtocolException later.
+
+			if (filter.startsWith(TREE)) {
+				treeDepthLimit = parsePositive(filter, TREE.length());
+				continue;
 			}
-			if (treeDepthLimit >= 0) {
-				return FilterSpec.withTreeDepthLimit(treeDepthLimit);
-			}
+
+			// Did not match any known filter format.
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().invalidFilter, filterLine));
 		}
 
-		// Did not match any known filter format.
-		throw new PackProtocolException(
-				MessageFormat.format(JGitText.get().invalidFilter, filterLine));
+		return new FilterSpec(blobLimit, treeDepthLimit);
+	}
+
+	private static long parsePositive(String filterSpec, int offset)
+			throws PackProtocolException {
+		long value;
+		try {
+			value = Long.parseLong(filterSpec.substring(offset));
+			if (value < 0) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidFilter, filterSpec));
+			}
+
+			return value;
+		} catch (NumberFormatException e) {
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().invalidFilter, filterSpec));
+		}
 	}
 
 	/**
@@ -146,19 +172,22 @@ public final class FilterSpec {
 	 */
 	@Nullable
 	public String filterLine() {
-		if (blobLimit == 0) {
-			return GitProtocolConstants.OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+		if (isNoOp()) {
+			return null;
 		}
 
-		if (blobLimit > 0) {
-			return GitProtocolConstants.OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
+		List<String> filters = new ArrayList<>();
+		if (blobLimit == 0) {
+			filters.add(BLOB_NONE);
+		} else if (blobLimit > 0) {
+			filters.add(BLOB_LIMIT + blobLimit);
 		}
 
 		if (treeDepthLimit >= 0) {
-			return GitProtocolConstants.OPTION_FILTER + " tree:" //$NON-NLS-1$
-					+ treeDepthLimit;
+			filters.add(TREE + treeDepthLimit);
 		}
 
-		return null;
+		return GitProtocolConstants.OPTION_FILTER + " " //$NON-NLS-1$
+				+ String.join("+", filters); //$NON-NLS-1$
 	}
 }
