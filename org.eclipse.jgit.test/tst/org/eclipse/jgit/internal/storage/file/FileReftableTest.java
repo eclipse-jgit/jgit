@@ -92,11 +92,6 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void additionalRefsAreRemoved() {
-	 	assertFalse(new File(db.getDirectory(), Constants.HEAD).exists());
-	}
-
-	@Test
 	public void testCompactFully() throws Exception {
 		ObjectId c1 = db.resolve("master^^");
 		ObjectId c2 = db.resolve("master^");
@@ -108,9 +103,16 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		}
 
 		File tableDir = new File(db.getDirectory(), Constants.REFTABLE);
-		assertTrue(tableDir.listFiles().length > 1);
+		assertTrue(tableDir.listFiles().length > 2);
 		((FileReftableDatabase)db.getRefDatabase()).compactFully();
-		assertEquals(tableDir.listFiles().length,1);
+		assertEquals(tableDir.listFiles().length,2);
+	}
+
+	@Test
+	public void testOpenConvert() throws Exception {
+		try (FileRepository repo = new FileRepository(db.getDirectory())) {
+			assertTrue(repo.getRefDatabase() instanceof FileReftableDatabase);
+		}
 	}
 
 	@Test
@@ -129,7 +131,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testConvertToRefdir() throws Exception {
-		db.convertToPackedRefs(false);
+		db.convertToPackedRefs(false, false);
 		assertTrue(db.getRefDatabase() instanceof RefDirectory);
 		Ref h = db.exactRef("HEAD");
 		assertTrue(h.isSymbolic());
@@ -141,6 +143,30 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(bCommit, b.getObjectId().name());
 
 		assertFalse(db.getRefDatabase().hasFastTipsWithSha1());
+	}
+
+	@Test
+	public void testConvertToRefdirReflog() throws Exception {
+		Ref a = db.exactRef("refs/heads/a");
+		String aCommit = a.getObjectId().getName();
+		RefUpdate u = db.updateRef("refs/heads/master");
+		u.setForceUpdate(true);
+		u.setNewObjectId(ObjectId.fromString(aCommit));
+		u.setForceRefLog(true);
+		u.setRefLogMessage("apple", false);
+		u.update();
+
+		RefUpdate v = db.updateRef("refs/heads/master");
+		v.setForceUpdate(true);
+		v.setNewObjectId(ObjectId.fromString(bCommit));
+		v.setForceRefLog(true);
+		v.setRefLogMessage("banana", false);
+		v.update();
+
+		db.convertToPackedRefs(true, false);
+		List<ReflogEntry> logs = db.getReflogReader("refs/heads/master").getReverseEntries(2);
+		assertEquals(logs.get(0).getComment(), "banana");
+		assertEquals(logs.get(1).getComment(), "apple");
 	}
 
 	@Test

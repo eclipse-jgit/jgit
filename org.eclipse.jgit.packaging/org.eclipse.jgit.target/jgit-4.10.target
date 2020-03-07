@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.10" sequenceNumber="1582498070">
+<target name="jgit-4.10" sequenceNumber="1583183009">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
@@ -84,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200219023850/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

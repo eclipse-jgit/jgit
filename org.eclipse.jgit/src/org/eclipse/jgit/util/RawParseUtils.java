@@ -559,8 +559,8 @@ public final class RawParseUtils {
 		}
 		while (ptr < b.length - (headerName.length + 1)) {
 			boolean found = true;
-			for (int i = 0; i < headerName.length; i++) {
-				if (headerName[i] != b[ptr++]) {
+			for (byte element : headerName) {
+				if (element != b[ptr++]) {
 					found = false;
 					break;
 				}

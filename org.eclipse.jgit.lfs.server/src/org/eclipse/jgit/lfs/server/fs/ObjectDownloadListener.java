@@ -34,7 +34,7 @@ import org.eclipse.jgit.util.HttpSupport;
  */
 public class ObjectDownloadListener implements WriteListener {
 
-	private static Logger LOG = Logger
+	private static final Logger LOG = Logger
 			.getLogger(ObjectDownloadListener.class.getName());
 
 	private final AsyncContext context;
