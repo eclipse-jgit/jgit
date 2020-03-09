@@ -216,4 +216,12 @@ public class ObjectWalkTest extends RevWalkTestCase {
 		assertSame(rw.lookupBlob(bId), objw.nextObject());
 		assertNull(objw.nextObject());
 	}
+
+	@Test
+	public void testSkipTreeWhenStartFromBlob() throws Exception {
+		final RevBlob f1 = blob("1");
+		objw.markStart(f1);
+		assertSame(f1, objw.nextObject());
+		objw.skipTree();
+	}
 }

@@ -338,8 +338,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						steps, false);
 			}
 			checkSteps(steps);
-			for (int i = 0; i < steps.size(); i++) {
-				RebaseTodoLine step = steps.get(i);
+			for (RebaseTodoLine step : steps) {
 				popSteps(1);
 				RebaseResult result = processStep(step, true);
 				if (result != null) {

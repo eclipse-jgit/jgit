@@ -45,7 +45,7 @@ import org.junit.runners.model.Statement;
  */
 public class RepeatRule implements TestRule {
 
-	private static Logger LOG = Logger
+	private static final Logger LOG = Logger
 			.getLogger(RepeatRule.class.getName());
 
 	/**

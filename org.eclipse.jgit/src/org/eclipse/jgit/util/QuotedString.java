@@ -243,8 +243,8 @@ public abstract class QuotedString {
 			final byte[] out = new byte[4 * in.length + 2];
 			int o = 0;
 			out[o++] = '"';
-			for (int i = 0; i < in.length; i++) {
-				final int c = in[i] & 0xff;
+			for (byte element : in) {
+				final int c = element & 0xff;
 				if (c < quote.length) {
 					final byte style = quote[c];
 					if (style == 0) {

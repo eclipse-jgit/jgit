@@ -49,7 +49,7 @@ public class Monitoring {
 			String metricName) {
 		boolean register = false;
 		try {
-			Class<?> interfaces[] = mbean.getClass().getInterfaces();
+			Class<?>[] interfaces = mbean.getClass().getInterfaces();
 			for (Class<?> i : interfaces) {
 				register = SystemReader.getInstance().getUserConfig()
 						.getBoolean(

@@ -1,7 +1,7 @@
-target "staging-2020-03" with source configurePhase
+target "R20200224183213-2020-03" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20200128200239/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -49,8 +49,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202001282002
 	org.hamcrest.core.source [1.3.0.v20180420-1519,1.3.0.v20180420-1519]
 	org.hamcrest.library [1.3.0.v20180524-2246,1.3.0.v20180524-2246]
 	org.hamcrest.library.source [1.3.0.v20180524-2246,1.3.0.v20180524-2246]
-	org.junit [4.13.0.v20200128-1312,4.13.0.v20200128-1312]
-	org.junit.source [4.13.0.v20200128-1312,4.13.0.v20200128-1312]
+	org.junit [4.13.0.v20200204-1500,4.13.0.v20200204-1500]
+	org.junit.source [4.13.0.v20200204-1500,4.13.0.v20200204-1500]
 	org.kohsuke.args4j [2.33.0.v20160323-2218,2.33.0.v20160323-2218]
 	org.kohsuke.args4j.source [2.33.0.v20160323-2218,2.33.0.v20160323-2218]
 	org.mockito [2.23.0.v20190527-1420,2.23.0.v20190527-1420]
@@ -64,4 +64,3 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202001282002
 	org.tukaani.xz [1.8.0.v20180207-1613,1.8.0.v20180207-1613]
 	org.tukaani.xz.source [1.8.0.v20180207-1613,1.8.0.v20180207-1613]
 }
-

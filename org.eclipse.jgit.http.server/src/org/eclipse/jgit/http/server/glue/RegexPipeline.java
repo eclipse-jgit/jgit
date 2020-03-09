@@ -105,7 +105,7 @@ class RegexPipeline extends UrlPipeline {
 				// build a request for them so RegexGroupFilter can pick
 				// a different capture group later. Continue using the
 				// first capture group as the path info.
-				WrappedRequest groups[] = new WrappedRequest[cur.groupCount()];
+				WrappedRequest[] groups = new WrappedRequest[cur.groupCount()];
 				for (int groupId = 1; groupId <= cur.groupCount(); groupId++) {
 					final int s = cur.start(groupId);
 					final String path, info;

@@ -37,6 +37,26 @@
                 <message_argument value="CONFIG_KEY_PACKED_GIT_WINDOWSIZE"/>
             </message_arguments>
         </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.6.2"/>
+                <message_argument value="CONFIG_EXTENSIONS_SECTION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.6.2"/>
+                <message_argument value="CONFIG_KEY_REF_STORAGE"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.6.2"/>
+                <message_argument value="TABLES_LIST"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/storage/file/WindowCacheConfig.java" type="org.eclipse.jgit.storage.file.WindowCacheConfig">
         <filter id="1142947843">
@@ -66,6 +86,14 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.ReceivePack"/>
                 <message_argument value="connectivityChecker"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$FileStoreAttributes">
+        <filter id="1226833923">
+            <message_arguments>
+                <message_argument value="5.6.2"/>
+                <message_argument value="setBackground(boolean)"/>
             </message_arguments>
         </filter>
     </resource>

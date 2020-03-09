@@ -415,7 +415,7 @@ public class RawText extends Sequence {
 				}
 			}
 
-			byte data[];
+			byte[] data;
 			try {
 				data = new byte[(int)sz];
 			} catch (OutOfMemoryError e) {

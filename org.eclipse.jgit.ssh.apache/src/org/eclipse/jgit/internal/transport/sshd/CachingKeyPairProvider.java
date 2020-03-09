@@ -88,7 +88,7 @@ public class CachingKeyPairProvider extends FileKeyPairProvider
 		if (cache == null) {
 			return loadKey(session, resource, path, getPasswordFinder());
 		}
-		Throwable t[] = { null };
+		Throwable[] t = { null };
 		KeyPair key = cache.get(path, p -> {
 			try {
 				return loadKey(session, resource, p, getPasswordFinder());

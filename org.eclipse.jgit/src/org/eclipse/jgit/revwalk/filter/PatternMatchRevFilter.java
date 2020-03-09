@@ -42,8 +42,8 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	protected static final String forceToRaw(String patternText) {
 		final byte[] b = Constants.encode(patternText);
 		final StringBuilder needle = new StringBuilder(b.length);
-		for (int i = 0; i < b.length; i++)
-			needle.append((char) (b[i] & 0xff));
+		for (byte element : b)
+			needle.append((char) (element & 0xff));
 		return needle.toString();
 	}
 
