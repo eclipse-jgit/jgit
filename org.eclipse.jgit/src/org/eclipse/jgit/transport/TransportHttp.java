@@ -549,6 +549,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				case HttpConnection.HTTP_MOVED_PERM:
 				case HttpConnection.HTTP_MOVED_TEMP:
 				case HttpConnection.HTTP_SEE_OTHER:
+				case HttpConnection.HTTP_11_MOVED_PERM:
 				case HttpConnection.HTTP_11_MOVED_TEMP:
 					// SEE_OTHER should actually never be sent by a git server,
 					// and in general should occur only on POST requests. But it
@@ -1412,6 +1413,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 					case HttpConnection.HTTP_MOVED_PERM:
 					case HttpConnection.HTTP_MOVED_TEMP:
+					case HttpConnection.HTTP_11_MOVED_PERM:
 					case HttpConnection.HTTP_11_MOVED_TEMP:
 						// SEE_OTHER after a POST doesn't make sense for a git
 						// server, so we don't handle it here and thus we'll
