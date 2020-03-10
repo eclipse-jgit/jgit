@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46d97ce2_4ed59d9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-10T02:21:00Z",
+      "side": 1,
+      "message": "nit: I wonder if there\u0027s a different name that would be more intuitive. The Git commit that introduces it is `d2d02a4906 (Add \"--topo-order\" flag to use new topological sort, 2005-07-06)`.\n\nE.g. would some name like KEEP_BRANCH_TOGETHER make sense?",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "502a73a3f20ca5aeac218a37d9566c78c89d6dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e141f79_cc5ec027",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-10T02:21:00Z",
+      "side": 1,
+      "message": "optional: might be simpler to put this check out of line:\n\n  if (walker.hasRevSort(TOPO) \u0026\u0026 walker.hasRevSort(TOPO_NON_INTERMIX)) {\n   throw new IllegalStateException(...);\n  }\n\n  if (walker.hasRevSort(TOPO) \u0026\u0026 ...",
+      "revId": "502a73a3f20ca5aeac218a37d9566c78c89d6dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
