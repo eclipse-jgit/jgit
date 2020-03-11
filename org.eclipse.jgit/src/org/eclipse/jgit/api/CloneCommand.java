@@ -89,6 +89,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private FETCH_TYPE fetchType;
 
+	private TagOpt tagOption;
+
 	private enum FETCH_TYPE {
 		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
 	}
@@ -278,6 +280,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 		config.setFetchRefSpecs(calculateRefSpecs(fetchType, config.getName()));
 		config.setMirror(fetchType == FETCH_TYPE.MIRROR);
+		if (tagOption != null) {
+			config.setTagOpt(tagOption);
+		}
 		config.update(clonedRepo.getConfig());
 
 		clonedRepo.getConfig().save();
@@ -286,7 +291,12 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		FetchCommand command = new FetchCommand(clonedRepo);
 		command.setRemote(remote);
 		command.setProgressMonitor(monitor);
-		command.setTagOpt(fetchAll ? TagOpt.FETCH_TAGS : TagOpt.AUTO_FOLLOW);
+		if (tagOption != null) {
+			command.setTagOpt(tagOption);
+		} else {
+			command.setTagOpt(
+					fetchAll ? TagOpt.FETCH_TAGS : TagOpt.AUTO_FOLLOW);
+		}
 		configure(command);
 
 		return command.call();
@@ -660,6 +670,19 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setBranchesToClone(Collection<String> branchesToClone) {
 		this.branchesToClone = branchesToClone;
+		return this;
+	}
+
+	/**
+	 * Set the tag option used for the remote configuration explicitly.
+	 *
+	 * @param tagOption
+	 *            tag option to be used for the remote config
+	 * @return {@code this}
+	 * @since 5.8
+	 */
+	public CloneCommand setTagOption(TagOpt tagOption) {
+		this.tagOption = tagOption;
 		return this;
 	}
 
