@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eba6b98b_a84464ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevSort.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-03-11T22:14:21Z",
+      "side": 1,
+      "message": "I agree that\u0027s more intuitive for users. Changed to TOPO_KEEP_BRANCH_TOGETHER. My preference is to keep the name TopoNonIntermixSortGenerator since it more accurately describes the algorithm.",
+      "parentUuid": "46d97ce2_4ed59d9f",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "502a73a3f20ca5aeac218a37d9566c78c89d6dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e141f79_cc5ec027",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "502a73a3f20ca5aeac218a37d9566c78c89d6dec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f1a935_f819c623",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 244001
+      },
+      "writtenOn": "2020-03-11T22:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e141f79_cc5ec027",
+      "revId": "502a73a3f20ca5aeac218a37d9566c78c89d6dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
