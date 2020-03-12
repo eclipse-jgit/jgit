@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
@@ -40,14 +39,15 @@ import org.apache.sshd.server.ServerAuthenticationManager;
 import org.apache.sshd.server.ServerFactoryManager;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.UserAuthFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.keyboard.DefaultKeyboardInteractiveAuthenticator;
 import org.apache.sshd.server.command.AbstractCommandSupport;
-import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.UnknownCommand;
+import org.apache.sshd.server.subsystem.SubsystemFactory;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.Repository;
@@ -117,14 +117,14 @@ public class SshTestGitServer {
 
 		configureAuthentication();
 
-		List<NamedFactory<Command>> subsystems = configureSubsystems();
+		List<SubsystemFactory> subsystems = configureSubsystems();
 		if (!subsystems.isEmpty()) {
 			server.setSubsystemFactories(subsystems);
 		}
 
 		configureShell();
 
-		server.setCommandFactory(command -> {
+		server.setCommandFactory((channel, command) -> {
 			if (command.startsWith(RemoteConfig.DEFAULT_UPLOAD_PACK)) {
 				return new GitUploadPackCommand(command, executorService);
 			} else if (command.startsWith(RemoteConfig.DEFAULT_RECEIVE_PACK)) {
@@ -155,11 +155,12 @@ public class SshTestGitServer {
 		}
 	}
 
-	private List<NamedFactory<UserAuth>> getAuthFactories() {
-		List<NamedFactory<UserAuth>> authentications = new ArrayList<>();
+	private List<UserAuthFactory> getAuthFactories() {
+		List<UserAuthFactory> authentications = new ArrayList<>();
 		authentications.add(new UserAuthGSSFactory() {
 			@Override
-			public UserAuth create() {
+			public UserAuth createUserAuth(ServerSession session)
+					throws IOException {
 				return new FakeUserAuthGSS();
 			}
 		});
@@ -208,7 +209,7 @@ public class SshTestGitServer {
 	 * @return A possibly empty collection of subsystems.
 	 */
 	@NonNull
-	protected List<NamedFactory<Command>> configureSubsystems() {
+	protected List<SubsystemFactory> configureSubsystems() {
 		// SFTP.
 		server.setFileSystemFactory(new VirtualFileSystemFactory() {
 

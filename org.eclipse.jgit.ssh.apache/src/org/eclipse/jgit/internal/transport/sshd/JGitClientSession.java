@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.transport.sshd;
 import static java.text.MessageFormat.format;
 
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -309,18 +310,6 @@ public class JGitClientSession extends ClientSessionImpl {
 		return newNames;
 	}
 
-	@Override
-	protected boolean readIdentification(Buffer buffer) throws IOException {
-		// Propagate a failure from doReadIdentification.
-		// TODO: remove for sshd > 2.3.0; its doReadIdentification throws
-		// StreamCorruptedException instead of IllegalStateException.
-		try {
-			return super.readIdentification(buffer);
-		} catch (IllegalStateException e) {
-			throw new IOException(e.getLocalizedMessage(), e);
-		}
-	}
-
 	/**
 	 * Reads the RFC 4253, section 4.2 protocol version identification. The
 	 * Apache MINA sshd default implementation checks for NUL bytes also in any
@@ -336,12 +325,14 @@ public class JGitClientSession extends ClientSessionImpl {
 	 * @return the lines read, with the server identification line last, or
 	 *         {@code null} if no identification line was found and more bytes
 	 *         are needed
-	 *
+	 * @throws StreamCorruptedException
+	 *             if the identification is malformed
 	 * @see <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253,
 	 *      section 4.2</a>
 	 */
 	@Override
-	protected List<String> doReadIdentification(Buffer buffer, boolean server) {
+	protected List<String> doReadIdentification(Buffer buffer, boolean server)
+			throws StreamCorruptedException {
 		if (server) {
 			// Should never happen. No translation; internal bug.
 			throw new IllegalStateException(
@@ -379,12 +370,12 @@ public class JGitClientSession extends ClientSessionImpl {
 				ident.add(line);
 				if (line.startsWith("SSH-")) { //$NON-NLS-1$
 					if (hasNul) {
-						throw new IllegalStateException(
+						throw new StreamCorruptedException(
 								format(SshdText.get().serverIdWithNul,
 										escapeControls(line)));
 					}
 					if (line.length() + eol > 255) {
-						throw new IllegalStateException(
+						throw new StreamCorruptedException(
 								format(SshdText.get().serverIdTooLong,
 										escapeControls(line)));
 					}
@@ -406,7 +397,7 @@ public class JGitClientSession extends ClientSessionImpl {
 					log.debug(msg);
 					log.debug(buffer.toHex());
 				}
-				throw new IllegalStateException(msg);
+				throw new StreamCorruptedException(msg);
 			}
 		}
 		// Need more data
