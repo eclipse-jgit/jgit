@@ -151,7 +151,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>5.6.0.201912101111-r</jgit-last-release-version>
+    <jgit-last-release-version>5.7.0.202003110725-r</jgit-last-release-version>
     <apache-sshd-version>2.2.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
