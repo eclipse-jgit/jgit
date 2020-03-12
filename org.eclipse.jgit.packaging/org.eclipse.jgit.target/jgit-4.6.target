@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.6" sequenceNumber="1583183021">
+<target name="jgit-4.6" sequenceNumber="1584648748">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
@@ -53,10 +53,10 @@
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.12.v20200108-1212"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
-      <unit id="org.apache.sshd.osgi" version="2.2.0.v20190425-2127"/>
-      <unit id="org.apache.sshd.osgi.source" version="2.2.0.v20190425-2127"/>
-      <unit id="org.apache.sshd.sftp" version="2.2.0.v20190425-2127"/>
-      <unit id="org.apache.sshd.sftp.source" version="2.2.0.v20190425-2127"/>
+      <unit id="org.apache.sshd.osgi" version="2.4.0.v20200318-1614"/>
+      <unit id="org.apache.sshd.osgi.source" version="2.4.0.v20200318-1614"/>
+      <unit id="org.apache.sshd.sftp" version="2.4.0.v20200319-1547"/>
+      <unit id="org.apache.sshd.sftp.source" version="2.4.0.v20200319-1547"/>
       <unit id="org.assertj" version="3.14.0.v20200120-1926"/>
       <unit id="org.assertj.source" version="3.14.0.v20200120-1926"/>
       <unit id="org.bouncycastle.bcpg" version="1.64.0.v20191109-0815"/>
@@ -74,8 +74,8 @@
       <unit id="org.junit.source" version="4.13.0.v20200204-1500"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
-      <unit id="org.mockito" version="2.23.0.v20190527-1420"/>
-      <unit id="org.mockito.source" version="2.23.0.v20190527-1420"/>
+      <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
+      <unit id="org.mockito.source" version="2.23.0.v20200310-1642"/>
       <unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
       <unit id="org.objenesis.source" version="2.6.0.v20180420-1519"/>
       <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
@@ -84,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20200319180910/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

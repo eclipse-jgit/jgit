@@ -9,9 +9,12 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import java.io.IOException;
+
 import org.apache.sshd.client.auth.AbstractUserAuthFactory;
-import org.apache.sshd.client.auth.UserAuth;
+import org.apache.sshd.client.auth.password.UserAuthPassword;
 import org.apache.sshd.client.auth.password.UserAuthPasswordFactory;
+import org.apache.sshd.client.session.ClientSession;
 
 /**
  * A customized {@link UserAuthPasswordFactory} that creates instance of
@@ -27,7 +30,8 @@ public class JGitPasswordAuthFactory extends AbstractUserAuthFactory {
 	}
 
 	@Override
-	public UserAuth create() {
+	public UserAuthPassword createUserAuth(ClientSession session)
+			throws IOException {
 		return new JGitPasswordAuthentication();
 	}
 }
