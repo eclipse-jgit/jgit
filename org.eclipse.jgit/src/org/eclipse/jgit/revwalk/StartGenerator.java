@@ -137,7 +137,7 @@ class StartGenerator extends Generator {
 		if (walker.hasRevSort(RevSort.TOPO)
 				&& walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)) {
 			throw new IllegalStateException(JGitText
-					.get().cannotCombineTopoSortWithTopoNonIntermixSort);
+					.get().cannotCombineTopoSortWithTopoKeepBranchTogetherSort);
 		}
 
 		if (walker.hasRevSort(RevSort.TOPO)

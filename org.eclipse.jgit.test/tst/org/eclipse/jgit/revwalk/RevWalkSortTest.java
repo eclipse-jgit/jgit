@@ -310,7 +310,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 			fail("did not throw IllegalStateException");
 		} catch (IllegalStateException e) {
 			assertEquals(
-					JGitText.get().cannotCombineTopoSortWithTopoNonIntermixSort,
+					JGitText.get().cannotCombineTopoSortWithTopoKeepBranchTogetherSort,
 					e.getMessage());
 		}
 	}

@@ -82,7 +82,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotCheckoutFromUnbornBranch;
 	/***/ public String cannotCheckoutOursSwitchBranch;
 	/***/ public String cannotCombineSquashWithNoff;
-	/***/ public String cannotCombineTopoSortWithTopoNonIntermixSort;
+	/***/ public String cannotCombineTopoSortWithTopoKeepBranchTogetherSort;
 	/***/ public String cannotCombineTreeFilterWithRevFilter;
 	/***/ public String cannotCommitOnARepoWithState;
 	/***/ public String cannotCommitWriteTo;
