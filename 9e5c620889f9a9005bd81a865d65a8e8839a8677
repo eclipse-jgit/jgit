@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88bf9926_c3b188a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignerFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-03-13T14:16:09Z",
+      "side": 1,
+      "message": "I doubt this is the correct copyright, your email address looks like you work for Redhat",
+      "revId": "9e5c620889f9a9005bd81a865d65a8e8839a8677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
