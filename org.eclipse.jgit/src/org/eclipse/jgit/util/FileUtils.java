@@ -183,6 +183,9 @@ public class FileUtils {
 			Throwable t = null;
 			Path p = f.toPath();
 			try {
+				if (!f.canWrite()) {
+					f.setWritable(true);
+				}
 				Files.delete(p);
 				return;
 			} catch (FileNotFoundException e) {
