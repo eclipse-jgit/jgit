@@ -16,6 +16,24 @@
       "revId": "8ac5678ac1179d1ac6e8ee67a73a75deb764e548",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ef1c455_30886f32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 236689
+      },
+      "writtenOn": "2020-03-13T07:23:25Z",
+      "side": 1,
+      "message": "Thank you for the feedback. Do you mean that there should be an additional setNoTags-method or that it should replace the proposed setTagOption-method.\nThe purpose of this change as stated in the bugzilla is to allow configuring the remote configuration from the very start (and only the setNoTags-part is not helpful for our use case) rather than cloning (via EGit), configuring and having to do another fetch.",
+      "parentUuid": "1542d144_04c83ec9",
+      "revId": "8ac5678ac1179d1ac6e8ee67a73a75deb764e548",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
