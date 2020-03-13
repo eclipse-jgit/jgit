@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.LinkOption;
@@ -180,21 +181,31 @@ public class FileUtils {
 		}
 
 		if (delete) {
-			Throwable t = null;
+			IOException t = null;
 			Path p = f.toPath();
-			try {
-				Files.delete(p);
-				return;
-			} catch (FileNotFoundException e) {
-				if ((options & (SKIP_MISSING | IGNORE_ERRORS)) == 0) {
-					throw new IOException(MessageFormat.format(
-							JGitText.get().deleteFileFailed,
-							f.getAbsolutePath()), e);
+			boolean tryAgain;
+			do {
+				tryAgain = false;
+				try {
+					Files.delete(p);
+					return;
+				} catch (NoSuchFileException | FileNotFoundException e) {
+					handleDeleteException(f, e, options,
+							SKIP_MISSING | IGNORE_ERRORS);
+					return;
+				} catch (DirectoryNotEmptyException e) {
+					handleDeleteException(f, e, options, IGNORE_ERRORS);
+					return;
+				} catch (IOException e) {
+					if (!f.canWrite()) {
+						tryAgain = f.setWritable(true);
+					}
+					if (!tryAgain) {
+						t = e;
+					}
 				}
-				return;
-			} catch (IOException e) {
-				t = e;
-			}
+			} while (tryAgain);
+
 			if ((options & RETRY) != 0) {
 				for (int i = 1; i < 10; i++) {
 					try {
@@ -210,11 +221,15 @@ public class FileUtils {
 					}
 				}
 			}
-			if ((options & IGNORE_ERRORS) == 0) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().deleteFileFailed, f.getAbsolutePath()),
-						t);
-			}
+			handleDeleteException(f, t, options, IGNORE_ERRORS);
+		}
+	}
+
+	private static void handleDeleteException(File f, IOException e,
+			int allOptions, int checkOptions) throws IOException {
+		if (e != null && (allOptions & checkOptions) == 0) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().deleteFileFailed, f.getAbsolutePath()), e);
 		}
 	}
 
