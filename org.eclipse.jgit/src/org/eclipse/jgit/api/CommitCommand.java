@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
 import org.eclipse.jgit.lib.GpgSigner;
+import org.eclipse.jgit.lib.GpgSignerFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -55,7 +56,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -575,14 +575,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		if (signingKey == null) {
 			signingKey = gpgConfig.getSigningKey();
 		}
-		if (gpgSigner == null) {
-			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
-				throw new UnsupportedSigningFormatException(
-						JGitText.get().onlyOpenPgpSupportedForSigning);
-			}
-			gpgSigner = GpgSigner.getDefault();
+		if (signCommit) {
 			if (gpgSigner == null) {
-				gpgSigner = new BouncyCastleGpgSigner();
+				if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
+					throw new UnsupportedSigningFormatException(
+						JGitText.get().onlyOpenPgpSupportedForSigning);
+				}
+				gpgSigner = GpgSignerFactory.getGpgSigner();
 			}
 		}
 	}

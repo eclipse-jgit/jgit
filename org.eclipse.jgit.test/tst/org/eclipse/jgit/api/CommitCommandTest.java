@@ -38,6 +38,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgSigner;
+import org.eclipse.jgit.lib.GpgSignerFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -758,7 +759,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			String[] signingKey = new String[1];
 			PersonIdent[] signingCommitters = new PersonIdent[1];
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			GpgSignerFactory.setDefault(new GpgSigner() {
 				@Override
 				public void sign(CommitBuilder commit, String gpgSigningKey,
 						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
@@ -823,7 +824,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file1").call();
 
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			GpgSignerFactory.setDefault(new GpgSigner() {
 				@Override
 				public void sign(CommitBuilder commit, String gpgSigningKey,
 						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {

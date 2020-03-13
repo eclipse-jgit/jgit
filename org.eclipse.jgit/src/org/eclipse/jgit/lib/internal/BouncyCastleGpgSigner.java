@@ -42,7 +42,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 /**
  * GPG Signer using BouncyCastle library
  */
-public class BouncyCastleGpgSigner extends GpgSigner {
+public class BouncyCastleGpgSigner implements GpgSigner {
 
 	private static void registerBouncyCastleProviderIfNecessary() {
 		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
