@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "327d1cf4_46841fe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-03-15T08:35:33Z",
+      "side": 1,
+      "message": "signing",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "9e5c620889f9a9005bd81a865d65a8e8839a8677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bf9926_c3b188a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignerFactory.java",
         "patchSetId": 1
