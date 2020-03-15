@@ -44,6 +44,7 @@ import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
@@ -111,6 +112,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 				.size());
 		assertEquals(new RefSpec("+refs/heads/*:refs/remotes/origin/*"),
 				fetchRefSpec(git2.getRepository()));
+		assertTagOption(git2.getRepository(), TagOpt.AUTO_FOLLOW);
 	}
 
 	@Test
@@ -799,6 +801,50 @@ public class CloneCommandTest extends RepositoryTestCase {
 					g.getRepository().getFullBranch());
 			checkFile(new File(directory, "Test.txt"), "Hello world");
 		}
+	}
+
+	@Test
+	public void testCloneNoTags() throws IOException, JGitInternalException,
+			GitAPIException, URISyntaxException {
+		File directory = createTempDirectory("testCloneRepository");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setNoTags();
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertNotNull(git2.getRepository().resolve("refs/heads/test"));
+		assertNull(git2.getRepository().resolve("tag-initial"));
+		assertNull(git2.getRepository().resolve("tag-for-blob"));
+		assertTagOption(git2.getRepository(), TagOpt.NO_TAGS);
+	}
+
+	@Test
+	public void testCloneFollowTags() throws IOException, JGitInternalException,
+			GitAPIException, URISyntaxException {
+		File directory = createTempDirectory("testCloneRepository");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setBranch("refs/heads/master");
+		command.setBranchesToClone(
+				Collections.singletonList("refs/heads/master"));
+		command.setTagOption(TagOpt.FETCH_TAGS);
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertNull(git2.getRepository().resolve("refs/heads/test"));
+		assertNotNull(git2.getRepository().resolve("tag-initial"));
+		assertNotNull(git2.getRepository().resolve("tag-for-blob"));
+		assertTagOption(git2.getRepository(), TagOpt.FETCH_TAGS);
+	}
+
+	private void assertTagOption(Repository repo, TagOpt expectedTagOption)
+			throws URISyntaxException {
+		RemoteConfig remoteConfig = new RemoteConfig(
+				repo.getConfig(), "origin");
+		assertEquals(expectedTagOption, remoteConfig.getTagOpt());
 	}
 
 	private String fileUri() {
