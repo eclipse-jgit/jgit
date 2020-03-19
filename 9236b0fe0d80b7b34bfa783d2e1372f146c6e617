@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65bc51e9_6f9162a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-19T23:26:21Z",
+      "side": 1,
+      "message": "unrelated change?",
+      "revId": "9236b0fe0d80b7b34bfa783d2e1372f146c6e617",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
