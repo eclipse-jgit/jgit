@@ -268,6 +268,8 @@ public class MergedReftableTest {
 				ref("refs/heads/c", 4)),
 				2);
 		MergedReftable mr = merge(base, delta);
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(3, mr.maxUpdateIndex());
 		try (RefCursor rc = mr.allRefs()) {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/a", rc.getRef().getName());
