@@ -61,8 +61,16 @@ public class MergedReftable extends Reftable {
 	 */
 	@Override
 	public long maxUpdateIndex() throws IOException {
-		return tables.length > 0 ? tables[tables.length - 1].maxUpdateIndex()
-				: 0;
+		if (tables.length == 0) {
+			return 0;
+		}
+		long maxUpdateIndex = tables[tables.length - 1].maxUpdateIndex();
+		for (int i = tables.length - 2; i >= 0; i--) {
+			if (maxUpdateIndex < tables[i].maxUpdateIndex()) {
+				maxUpdateIndex = tables[i].maxUpdateIndex();
+			}
+		}
+		return maxUpdateIndex;
 	}
 
 	/**
@@ -70,8 +78,16 @@ public class MergedReftable extends Reftable {
 	 */
 	@Override
 	public long minUpdateIndex() throws IOException {
-		return tables.length > 0 ? tables[0].minUpdateIndex()
-			: 0;
+		if (tables.length == 0) {
+			return 0;
+		}
+		long minUpdateIndex = tables[0].minUpdateIndex();
+		for (int i = 0; i < tables.length - 1; i++) {
+			if (tables[i].minUpdateIndex() < minUpdateIndex) {
+				minUpdateIndex = tables[i].minUpdateIndex();
+			}
+		}
+		return minUpdateIndex;
 	}
 
 	/** {@inheritDoc} */
