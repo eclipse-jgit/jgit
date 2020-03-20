@@ -22,6 +22,30 @@
       "revId": "3251458e0386b4843e13191918e8457a51f5aa90",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11559e74_74a64560",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-03-20T10:08:07Z",
+      "side": 1,
+      "message": "Nevermind, I\u0027ve figured it out, and I was making the wrong assumptions.\n\nI\u0027ll update the spec to spell this out and update the code.",
+      "parentUuid": "caab2eaf_fec61030",
+      "range": {
+        "startLine": 266,
+        "startChar": 37,
+        "endLine": 268,
+        "endChar": 28
+      },
+      "revId": "3251458e0386b4843e13191918e8457a51f5aa90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
