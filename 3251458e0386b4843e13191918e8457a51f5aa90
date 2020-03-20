@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caab2eaf_fec61030",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-03-20T09:35:20Z",
+      "side": 1,
+      "message": "Ugh. \n\nThis isn\u0027t spelled out very well in the spec, and currently will trigger other ISEs, but only for the file based storage. \n https://eclipse.googlesource.com/jgit/jgit/+/6e0a923e90ac6d5a91cafadd85637fda3da9b432/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java#196\n\nunder what conditions can we create a set of reftables that have overlapping ranges?",
+      "range": {
+        "startLine": 266,
+        "startChar": 37,
+        "endLine": 268,
+        "endChar": 28
+      },
+      "revId": "3251458e0386b4843e13191918e8457a51f5aa90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
