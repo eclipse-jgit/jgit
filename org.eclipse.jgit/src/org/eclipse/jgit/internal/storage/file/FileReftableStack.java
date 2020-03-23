@@ -161,25 +161,6 @@ public class FileReftableStack implements AutoCloseable {
 		return stats;
 	}
 
-	/** Thrown if the update indices in the stack are not monotonic */
-	public static class ReftableNumbersNotIncreasingException
-			extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		String name;
-
-		long lastMax;
-
-		long min;
-
-		ReftableNumbersNotIncreasingException(String name, long lastMax,
-				long min) {
-			this.name = name;
-			this.lastMax = lastMax;
-			this.min = min;
-		}
-	}
-
 	/**
 	 * Reloads the stack, potentially reusing opened reftableReaders.
 	 *
@@ -198,7 +179,6 @@ public class FileReftableStack implements AutoCloseable {
 		List<ReftableReader> newTables = new ArrayList<>();
 		List<StackEntry> newStack = new ArrayList<>(stack.size() + 1);
 		try {
-			ReftableReader last = null;
 			for (String name : names) {
 				StackEntry entry = new StackEntry();
 				entry.name = name;
@@ -215,15 +195,6 @@ public class FileReftableStack implements AutoCloseable {
 					t = new ReftableReader(BlockSource.from(is));
 					newTables.add(t);
 				}
-
-				if (last != null) {
-					// TODO: move this to MergedReftable
-					if (last.maxUpdateIndex() >= t.minUpdateIndex()) {
-						throw new ReftableNumbersNotIncreasingException(name,
-								last.maxUpdateIndex(), t.minUpdateIndex());
-					}
-				}
-				last = t;
 
 				entry.reftableReader = t;
 				newStack.add(entry);
