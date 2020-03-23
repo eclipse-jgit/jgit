@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47867575_28b4262c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-03-23T22:28:31Z",
+      "side": 1,
+      "message": "this fix was done on master while this change targets stable-5.6 ? Is that intended ?",
+      "range": {
+        "startLine": 15,
+        "startChar": 55,
+        "endLine": 15,
+        "endChar": 66
+      },
+      "revId": "6e930c69c5336c659694689bb8449acb25785048",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
