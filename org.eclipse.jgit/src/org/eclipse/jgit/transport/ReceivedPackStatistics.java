@@ -19,6 +19,8 @@ import org.eclipse.jgit.lib.Constants;
  */
 public class ReceivedPackStatistics {
 	private long numBytesRead;
+	private long numBytesTransferred;
+	private long numBytesDuplicated;
 
 	private long numWholeCommit;
 	private long numWholeTree;
@@ -26,6 +28,7 @@ public class ReceivedPackStatistics {
 	private long numWholeTag;
 	private long numOfsDelta;
 	private long numRefDelta;
+	private long numDuplicated;
 
 	private long numDeltaCommit;
 	private long numDeltaTree;
@@ -40,6 +43,20 @@ public class ReceivedPackStatistics {
 	public long getNumBytesRead() {
 		return numBytesRead;
 	}
+
+	/**
+	 * Get number of bytes transferred in the receive pack
+	 *
+	 * @return number of bytes transferred in the receive pack
+	 */
+	public long getNumBytesTransferred() { return numBytesTransferred; }
+
+	/**
+	 * Get number of bytes of objects appeared in both receive pack and local database
+	 *
+	 * @return number of bytes of objects appeared in both receive pack and local database
+	 */
+	public long getNumBytesDuplicated() { return numBytesDuplicated; }
 
 	/**
 	 * Get number of whole commit objects in the pack
@@ -96,6 +113,15 @@ public class ReceivedPackStatistics {
 	}
 
 	/**
+	 * Get number of objects appeared in both receive pack and local database
+	 *
+	 * @return number of objects appeared in both receive pack and local database
+	 */
+	public long getNumDuplicated() {
+		return numDuplicated;
+	}
+
+	/**
 	 * Get number of delta commit objects in the pack
 	 *
 	 * @return number of delta commit objects in the pack
@@ -134,6 +160,8 @@ public class ReceivedPackStatistics {
 	/** A builder for {@link ReceivedPackStatistics}. */
 	public static class Builder {
 		private long numBytesRead;
+		private long numBytesTransferred;
+		private long numBytesDuplicated;
 
 		private long numWholeCommit;
 		private long numWholeTree;
@@ -141,6 +169,7 @@ public class ReceivedPackStatistics {
 		private long numWholeTag;
 		private long numOfsDelta;
 		private long numRefDelta;
+		private long numDuplicated;
 
 		private long numDeltaCommit;
 		private long numDeltaTree;
@@ -153,6 +182,24 @@ public class ReceivedPackStatistics {
 		 */
 		public Builder setNumBytesRead(long numBytesRead) {
 			this.numBytesRead = numBytesRead;
+			return this;
+		}
+
+		/**
+		 * @param size number of bytes of an object in the receive pack
+		 * @return this
+		 */
+		public Builder addNumBytesTransferred(long size) {
+			numBytesTransferred += numBytesTransferred;
+			return this;
+		}
+
+		/**
+		 * @param size number of bytes of an object which appear in the receive pack and local database
+		 * @return this
+		 */
+		public Builder addNumBytesDuplicated(long size) {
+			numBytesDuplicated+= numBytesDuplicated;
 			return this;
 		}
 
@@ -195,6 +242,12 @@ public class ReceivedPackStatistics {
 			return this;
 		}
 
+		/** @return this */
+		public Builder addDuplicated() {
+			numDuplicated++;
+			return this;
+		}
+
 		/**
 		 * Increment a delta object count.
 		 *
@@ -226,6 +279,8 @@ public class ReceivedPackStatistics {
 		ReceivedPackStatistics build() {
 			ReceivedPackStatistics s = new ReceivedPackStatistics();
 			s.numBytesRead = numBytesRead;
+			s.numBytesTransferred = numBytesTransferred;
+			s.numBytesDuplicated = numBytesDuplicated;
 			s.numWholeCommit = numWholeCommit;
 			s.numWholeTree = numWholeTree;
 			s.numWholeBlob = numWholeBlob;
@@ -236,6 +291,7 @@ public class ReceivedPackStatistics {
 			s.numDeltaTree = numDeltaTree;
 			s.numDeltaBlob = numDeltaBlob;
 			s.numDeltaTag = numDeltaTag;
+			s.numDuplicated = numDuplicated;
 			return s;
 		}
 	}
