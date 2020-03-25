@@ -968,6 +968,7 @@ public abstract class PackParser {
 		}
 
 		checkIfTooLarge(typeCode, sz);
+		stats.addNumBytesTransferred(sz);
 
 		switch (typeCode) {
 		case Constants.OBJ_COMMIT:
@@ -1147,6 +1148,8 @@ public abstract class PackParser {
 					}
 					sz -= n;
 				}
+				stats.addNumBytesDuplicated(sz);
+				stats.addDuplicated();
 			}
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
