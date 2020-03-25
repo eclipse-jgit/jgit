@@ -28,6 +28,7 @@ import java.util.zip.Inflater;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
+import org.eclipse.jgit.ignore.internal.Strings;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
@@ -88,6 +89,7 @@ public abstract class PackParser {
 	private byte[] hdrBuf;
 
 	private final SHA1 objectHasher = SHA1.newInstance();
+
 	private final MutableObjectId tempObjectId;
 
 	private InputStream in;
@@ -156,8 +158,7 @@ public abstract class PackParser {
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
 
-	private final ReceivedPackStatistics.Builder stats =
-			new ReceivedPackStatistics.Builder();
+	private final ReceivedPackStatistics.Builder stats = new ReceivedPackStatistics.Builder();
 
 	/**
 	 * Initialize a pack parser.
@@ -596,8 +597,7 @@ public abstract class PackParser {
 		resolving.endTask();
 	}
 
-	private void resolveDeltas(ProgressMonitor progress)
-			throws IOException {
+	private void resolveDeltas(ProgressMonitor progress) throws IOException {
 		final int last = entryCount;
 		for (int i = 0; i < last; i++) {
 			resolveDeltas(entries[i], progress);
@@ -626,9 +626,9 @@ public abstract class PackParser {
 			visit.id = oe;
 			break;
 		default:
-			throw new IOException(MessageFormat.format(
-					JGitText.get().unknownObjectType,
-					Integer.valueOf(info.type)));
+			throw new IOException(
+					MessageFormat.format(JGitText.get().unknownObjectType,
+							Integer.valueOf(info.type)));
 		}
 
 		if (!checkCRC(oe.getCRC())) {
@@ -653,9 +653,9 @@ public abstract class PackParser {
 				break;
 
 			default:
-				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownObjectType,
-						Integer.valueOf(info.type)));
+				throw new IOException(
+						MessageFormat.format(JGitText.get().unknownObjectType,
+								Integer.valueOf(info.type)));
 			}
 
 			byte[] delta = inflateAndReturn(Source.DATABASE, info.size);
@@ -679,7 +679,8 @@ public abstract class PackParser {
 
 			verifySafeObject(tempObjectId, type, visit.data);
 			if (isCheckObjectCollisions() && readCurs.has(tempObjectId)) {
-				checkObjectCollision(tempObjectId, type, visit.data);
+				checkObjectCollision(tempObjectId, type, visit.data,
+						visit.delta.sizeBeforeInflating);
 			}
 
 			PackedObjectInfo oe;
@@ -703,20 +704,23 @@ public abstract class PackParser {
 			case Constants.OBJ_TREE:
 			case Constants.OBJ_BLOB:
 			case Constants.OBJ_TAG:
-				throw new TooLargeObjectInPackException(size, maxObjectSizeLimit);
+				throw new TooLargeObjectInPackException(size,
+						maxObjectSizeLimit);
 
 			case Constants.OBJ_OFS_DELTA:
 			case Constants.OBJ_REF_DELTA:
-				throw new TooLargeObjectInPackException(size, maxObjectSizeLimit);
+				throw new TooLargeObjectInPackException(size,
+						maxObjectSizeLimit);
 
 			default:
-				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownObjectType,
-						Integer.valueOf(typeCode)));
+				throw new IOException(
+						MessageFormat.format(JGitText.get().unknownObjectType,
+								Integer.valueOf(typeCode)));
 			}
 		}
 		if (size > Integer.MAX_VALUE - 8) {
-			throw new TooLargeObjectInPackException(size, Integer.MAX_VALUE - 8);
+			throw new TooLargeObjectInPackException(size,
+					Integer.MAX_VALUE - 8);
 		}
 	}
 
@@ -772,16 +776,17 @@ public abstract class PackParser {
 			break;
 
 		case Constants.OBJ_REF_DELTA:
-			System.arraycopy(buf, fill(Source.DATABASE, 20), hdrBuf, hdrPtr, 20);
+			System.arraycopy(buf, fill(Source.DATABASE, 20), hdrBuf, hdrPtr,
+					20);
 			hdrPtr += 20;
 			use(20);
 			onObjectHeader(Source.DATABASE, hdrBuf, 0, hdrPtr);
 			break;
 
 		default:
-			throw new IOException(MessageFormat.format(
-					JGitText.get().unknownObjectType,
-					Integer.valueOf(info.type)));
+			throw new IOException(
+					MessageFormat.format(JGitText.get().unknownObjectType,
+							Integer.valueOf(info.type)));
 		}
 		return info;
 	}
@@ -864,8 +869,8 @@ public abstract class PackParser {
 			if (onAppendBase(typeCode, visit.data, oe))
 				entries[entryCount++] = oe;
 			visit.nextChild = firstChildOf(oe);
-			resolveDeltas(visit.next(), typeCode,
-					new ObjectTypeAndSize(), progress);
+			resolveDeltas(visit.next(), typeCode, new ObjectTypeAndSize(),
+					progress);
 
 			if (progress.isCancelled())
 				throw new IOException(
@@ -922,15 +927,15 @@ public abstract class PackParser {
 		use(20);
 
 		if (bAvail != 0 && !expectDataAfterPackFooter)
-			throw new CorruptObjectException(MessageFormat.format(
-					JGitText.get().expectedEOFReceived,
-					"\\x" + Integer.toHexString(buf[bOffset] & 0xff))); //$NON-NLS-1$
+			throw new CorruptObjectException(
+					MessageFormat.format(JGitText.get().expectedEOFReceived,
+							"\\x" + Integer.toHexString(buf[bOffset] & 0xff))); //$NON-NLS-1$
 		if (isCheckEofAfterPackFooter()) {
 			int eof = in.read();
 			if (0 <= eof)
-				throw new CorruptObjectException(MessageFormat.format(
-						JGitText.get().expectedEOFReceived,
-						"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
+				throw new CorruptObjectException(
+						MessageFormat.format(JGitText.get().expectedEOFReceived,
+								"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
 		} else if (bAvail > 0 && expectDataAfterPackFooter) {
 			in.reset();
 			IO.skipFully(in, bOffset);
@@ -999,6 +1004,7 @@ public abstract class PackParser {
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
 			n.next = baseByPos.put(base, n);
+			n.sizeBeforeInflating = streamPosition() - streamPosition;
 			deltaCount++;
 			break;
 		}
@@ -1020,6 +1026,7 @@ public abstract class PackParser {
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
+			n.sizeBeforeInflating = streamPosition() - streamPosition;
 			r.add(n);
 			deltaCount++;
 			break;
@@ -1032,8 +1039,7 @@ public abstract class PackParser {
 		}
 	}
 
-	private void whole(long pos, int type, long sz)
-			throws IOException {
+	private void whole(long pos, int type, long sz) throws IOException {
 		SHA1 objectDigest = objectHasher.reset();
 		objectDigest.update(Constants.encodedTypeString(type));
 		objectDigest.update((byte) ' ');
@@ -1071,9 +1077,12 @@ public abstract class PackParser {
 			verifySafeObject(tempObjectId, type, data);
 		}
 
+		long currPtr = streamPosition();
+		long sizeBeforeInflating = currPtr - pos;
 		PackedObjectInfo obj = newInfo(tempObjectId, null, null);
 		obj.setOffset(pos);
 		obj.setType(type);
+		obj.setSize(sizeBeforeInflating);
 		onEndWholeObject(obj);
 		if (data != null)
 			onInflatedObjectData(obj, type, data);
@@ -1123,16 +1132,15 @@ public abstract class PackParser {
 		}
 	}
 
-	private void checkObjectCollision(PackedObjectInfo obj)
-			throws IOException {
+	private void checkObjectCollision(PackedObjectInfo obj) throws IOException {
 		ObjectTypeAndSize info = openDatabase(obj, new ObjectTypeAndSize());
 		final byte[] readBuffer = buffer();
 		final byte[] curBuffer = new byte[readBuffer.length];
 		long sz = info.size;
 		try (ObjectStream cur = readCurs.open(obj, info.type).openStream()) {
 			if (cur.getSize() != sz) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, obj.name()));
+				throw new IOException(MessageFormat
+						.format(JGitText.get().collisionOn, obj.name()));
 			}
 			try (InputStream pck = inflate(Source.DATABASE, sz)) {
 				while (0 < sz) {
@@ -1148,6 +1156,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.incrementObjectsDuplicated();
+			stats.increaseNumBytesDuplicated(obj.getSize());
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
@@ -1155,15 +1165,17 @@ public abstract class PackParser {
 		}
 	}
 
-	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data)
-			throws IOException {
+	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data,
+			long sizeBeforeInflating) throws IOException {
 		try {
 			final ObjectLoader ldr = readCurs.open(obj, type);
 			final byte[] existingData = ldr.getCachedBytes(data.length);
 			if (!Arrays.equals(data, existingData)) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, obj.name()));
+				throw new IOException(MessageFormat
+						.format(JGitText.get().collisionOn, obj.name()));
 			}
+			stats.incrementObjectsDuplicated();
+			stats.increaseNumBytesDuplicated(sizeBeforeInflating);
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually its
@@ -1297,7 +1309,8 @@ public abstract class PackParser {
 	 * If external implementation wants to overwrite the expectedObjectCount,
 	 * they should call this method during {@link #onPackHeader(long)}.
 	 *
-	 * @param expectedObjectCount a long.
+	 * @param expectedObjectCount
+	 *            a long.
 	 * @since 4.9
 	 */
 	protected void setExpectedObjectCount(long expectedObjectCount) {
@@ -1537,7 +1550,7 @@ public abstract class PackParser {
 	/**
 	 * Event notifying the current object.
 	 *
-	 *@param info
+	 * @param info
 	 *            object information.
 	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
@@ -1585,7 +1598,7 @@ public abstract class PackParser {
 	/**
 	 * Event notifying the current object.
 	 *
-	 *@return object information that must be populated with at least the
+	 * @return object information that must be populated with at least the
 	 *         offset.
 	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
@@ -1652,6 +1665,9 @@ public abstract class PackParser {
 		int crc;
 
 		UnresolvedDelta next;
+
+		// The size of the delta object before inflating.
+		long sizeBeforeInflating;
 
 		/** @return offset within the input stream. */
 		public long getOffset() {
@@ -1792,8 +1808,9 @@ public abstract class PackParser {
 				actualSize += n;
 				return 0 < n ? n : -1;
 			} catch (DataFormatException dfe) {
-				throw new CorruptObjectException(MessageFormat.format(JGitText
-						.get().packfileCorruptionDetected, dfe.getMessage()));
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().packfileCorruptionDetected,
+						dfe.getMessage()));
 			}
 		}
 
@@ -1804,8 +1821,8 @@ public abstract class PackParser {
 			// caller was supposed to consume all content.
 			//
 			if (read(skipBuffer) != -1 || actualSize != expectedSize) {
-				throw new CorruptObjectException(MessageFormat.format(JGitText
-						.get().packfileCorruptionDetected,
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().packfileCorruptionDetected,
 						JGitText.get().wrongDecompressedLength));
 			}
 
