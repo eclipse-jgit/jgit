@@ -679,7 +679,8 @@ public abstract class PackParser {
 
 			verifySafeObject(tempObjectId, type, visit.data);
 			if (isCheckObjectCollisions() && readCurs.has(tempObjectId)) {
-				checkObjectCollision(tempObjectId, type, visit.data);
+				checkObjectCollision(tempObjectId, type, visit.data,
+						visit.delta.sizeBeforeInflating);
 			}
 
 			PackedObjectInfo oe;
@@ -977,7 +978,9 @@ public abstract class PackParser {
 			stats.addWholeObject(typeCode);
 			onBeginWholeObject(streamPosition, typeCode, sz);
 			onObjectHeader(Source.INPUT, hdrBuf, 0, hdrPtr);
-			whole(streamPosition, typeCode, sz);
+			// Difference between the current stream position and the previous
+			// stream position is the size of the header.
+			whole(streamPosition, typeCode, sz, streamPosition() - streamPosition);
 			break;
 
 		case Constants.OBJ_OFS_DELTA: {
@@ -993,12 +996,21 @@ public abstract class PackParser {
 				ofs += (c & 127);
 			}
 			final long base = streamPosition - ofs;
+			long numBytesReadBefore = inflater.numBytesRead();
 			onBeginOfsDelta(streamPosition, base, sz);
 			onObjectHeader(Source.INPUT, hdrBuf, 0, hdrPtr);
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
 			n.next = baseByPos.put(base, n);
+			// Difference between the current stream position and the previous
+			// stream position is the size of the header. Difference between the
+			// current number of compressed bytes read by the inflater and the
+			// previous number of compressed bytes read by the inflater is the
+			// size of the body. Size of the delta object equals header size
+			// plus body size.
+			n.sizeBeforeInflating = inflater.numBytesRead() - numBytesReadBefore
+					+ streamPosition() - streamPosition;
 			deltaCount++;
 			break;
 		}
@@ -1015,11 +1027,14 @@ public abstract class PackParser {
 				r = new DeltaChain(base);
 				baseById.add(r);
 			}
+			long numBytesReadBefore = inflater.numBytesRead();
 			onBeginRefDelta(streamPosition, base, sz);
 			onObjectHeader(Source.INPUT, hdrBuf, 0, hdrPtr);
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
+			n.sizeBeforeInflating = inflater.numBytesRead() - numBytesReadBefore
+					+ streamPosition() - streamPosition;
 			r.add(n);
 			deltaCount++;
 			break;
@@ -1032,13 +1047,14 @@ public abstract class PackParser {
 		}
 	}
 
-	private void whole(long pos, int type, long sz)
+	private void whole(long pos, int type, long sz, long headSizeBeforeInflating)
 			throws IOException {
 		SHA1 objectDigest = objectHasher.reset();
 		objectDigest.update(Constants.encodedTypeString(type));
 		objectDigest.update((byte) ' ');
 		objectDigest.update(Constants.encodeASCII(sz));
 		objectDigest.update((byte) 0);
+		long numBytesReadBefore = inflater.numBytesRead();
 
 		final byte[] data;
 		if (type == Constants.OBJ_BLOB) {
@@ -1071,9 +1087,12 @@ public abstract class PackParser {
 			verifySafeObject(tempObjectId, type, data);
 		}
 
+		long sizeBeforeInflating = headSizeBeforeInflating
+				+ inflater.numBytesRead() - numBytesReadBefore;
 		PackedObjectInfo obj = newInfo(tempObjectId, null, null);
 		obj.setOffset(pos);
 		obj.setType(type);
+		obj.setSize(sizeBeforeInflating);
 		onEndWholeObject(obj);
 		if (data != null)
 			onInflatedObjectData(obj, type, data);
@@ -1148,6 +1167,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.incrementObjectsDuplicated();
+			stats.increaseNumBytesDuplicated(obj.getSize());
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
@@ -1155,7 +1176,8 @@ public abstract class PackParser {
 		}
 	}
 
-	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data)
+	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data,
+			long sizeBeforeInflating)
 			throws IOException {
 		try {
 			final ObjectLoader ldr = readCurs.open(obj, type);
@@ -1164,6 +1186,8 @@ public abstract class PackParser {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().collisionOn, obj.name()));
 			}
+			stats.incrementObjectsDuplicated();
+			stats.increaseNumBytesDuplicated(sizeBeforeInflating);
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually its
@@ -1653,6 +1677,9 @@ public abstract class PackParser {
 
 		UnresolvedDelta next;
 
+		// The size of the delta object before inflating.
+		long sizeBeforeInflating;
+
 		/** @return offset within the input stream. */
 		public long getOffset() {
 			return position;
@@ -1766,6 +1793,10 @@ public abstract class PackParser {
 		public int read() throws IOException {
 			int n = read(skipBuffer, 0, 1);
 			return n == 1 ? skipBuffer[0] & 0xff : -1;
+		}
+
+		long numBytesRead() {
+			return inf.getBytesRead();
 		}
 
 		@Override
