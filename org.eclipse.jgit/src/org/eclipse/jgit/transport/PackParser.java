@@ -1147,6 +1147,8 @@ public abstract class PackParser {
 					}
 					sz -= n;
 				}
+				stats.addNumBytesDuplicated(sz);
+				stats.incrementDuplicatedObjects();
 			}
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
