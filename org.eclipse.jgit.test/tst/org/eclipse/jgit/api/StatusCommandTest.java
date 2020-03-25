@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Sets;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class StatusCommandTest extends RepositoryTestCase {
@@ -166,6 +169,28 @@ public class StatusCommandTest extends RepositoryTestCase {
 			// do not filter at all
 			stat = git.status().call();
 			assertEquals(Sets.of("a", "D/b", "D/D/d"), stat.getModified());
+		}
+	}
+
+	@Test
+	public void testExecutableWithNonNormalizedIndex() throws Exception {
+		assumeTrue(FS.DETECTED.supportsExecute());
+		try (Git git = new Git(db)) {
+			// Commit a file with CR/LF into the index
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "autocrlf", "false");
+			config.save();
+			File testFile = writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
+			FS.DETECTED.setExecute(testFile, true);
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Initial").call();
+			assertEquals(
+					"[file.txt, mode:100755, content:line 1\r\nline 2\r\n]",
+					indexState(CONTENT));
+			config.setString("core", null, "autocrlf", "true");
+			config.save();
+			Status status = git.status().call();
+			assertTrue("Expected no differences", status.isClean());
 		}
 	}
 }

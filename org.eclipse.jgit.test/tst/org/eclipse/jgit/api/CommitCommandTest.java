@@ -49,6 +49,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.util.Date;
@@ -633,38 +634,61 @@ public class CommitCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
+	private void nonNormalizedIndexTest(boolean executable) throws Exception {
+		String mode = executable ? "100755" : "100644";
 		try (Git git = new Git(db)) {
 			// Commit a file with CR/LF into the index
 			FileBasedConfig config = db.getConfig();
 			config.setString("core", null, "autocrlf", "false");
 			config.save();
-			writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
+			File testFile = writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
+			if (executable) {
+				FS.DETECTED.setExecute(testFile, true);
+			}
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("Initial").call();
 			assertEquals(
-					"[file.txt, mode:100644, content:line 1\r\nline 2\r\n]",
+					"[file.txt, mode:" + mode
+							+ ", content:line 1\r\nline 2\r\n]",
 					indexState(CONTENT));
 			config.setString("core", null, "autocrlf", "true");
 			config.save();
 			writeTrashFile("file.txt", "line 1\r\nline 1.5\r\nline 2\r\n");
-			writeTrashFile("file2.txt", "new\r\nfile\r\n");
+			testFile = writeTrashFile("file2.txt", "new\r\nfile\r\n");
+			if (executable) {
+				FS.DETECTED.setExecute(testFile, true);
+			}
 			git.add().addFilepattern("file.txt").addFilepattern("file2.txt")
 					.call();
 			git.commit().setMessage("Second").call();
 			assertEquals(
-					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
-							+ "[file2.txt, mode:100644, content:new\nfile\n]",
+					"[file.txt, mode:" + mode
+							+ ", content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:" + mode
+							+ ", content:new\nfile\n]",
 					indexState(CONTENT));
 			writeTrashFile("file2.txt", "new\r\nfile\r\ncontent\r\n");
 			git.add().addFilepattern("file2.txt").call();
 			git.commit().setMessage("Third").call();
 			assertEquals(
-					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
-							+ "[file2.txt, mode:100644, content:new\nfile\ncontent\n]",
+					"[file.txt, mode:" + mode
+							+ ", content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:" + mode
+							+ ", content:new\nfile\ncontent\n]",
 					indexState(CONTENT));
 		}
+	}
+
+	@Test
+	public void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
+		nonNormalizedIndexTest(false);
+	}
+
+	@Test
+	public void commitExecutableWithAutoCrlfAndNonNormalizedIndex()
+			throws Exception {
+		assumeTrue(FS.DETECTED.supportsExecute());
+		nonNormalizedIndexTest(true);
 	}
 
 	@Test
