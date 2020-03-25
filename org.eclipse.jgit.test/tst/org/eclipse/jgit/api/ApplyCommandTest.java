@@ -260,6 +260,26 @@ public class ApplyCommandTest extends RepositoryTestCase {
 				b.getString(0, b.size(), false));
 	}
 
+	@Test
+	public void testRenameWithHunks() throws Exception {
+		ApplyResult result = init("RenameWithHunks", true, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "RenameWithHunks"), result.getUpdatedFiles()
+				.get(0));
+		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testCopyWithHunks() throws Exception {
+		ApplyResult result = init("CopyWithHunks", true, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "CopyWithHunks"), result.getUpdatedFiles()
+				.get(0));
+		checkFile(new File(db.getWorkTree(), "CopyResult"),
+				b.getString(0, b.size(), false));
+	}
+
 	private static byte[] readFile(String patchFile) throws IOException {
 		final InputStream in = getTestResource(patchFile);
 		if (in == null) {
