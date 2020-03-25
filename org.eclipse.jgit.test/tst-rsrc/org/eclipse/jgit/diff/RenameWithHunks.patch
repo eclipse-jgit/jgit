@@ -1,0 +1,13 @@
+diff --git a/RenameWithHunks b/nested/subdir/Renamed
+similarity index 75%
+rename from RenameWithHunks
+rename to nested/subdir/Renamed
+index 0000000..de98044
+--- a/RenameWithHunks
++++ b/nested/subdir/Renamed
+@@ -1,4 +1,4 @@
+ line1
+-line2
++lineB
+ line3
+ line4
