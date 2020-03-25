@@ -1,0 +1,13 @@
+diff --git a/CopyWithHunks b/CopyResult
+similarity index 75%
+copy from CopyWithHunks
+copy to CopyResult
+index 0000000..de98044
+--- a/CopyWithHunks
++++ b/CopyResult
+@@ -1,4 +1,4 @@
+ line1
+-line2
++lineB
+ line3
+ line4
