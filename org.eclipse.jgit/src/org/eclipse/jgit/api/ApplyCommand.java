@@ -120,6 +120,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().renameFileFailed, f, dest), e);
 					}
+					apply(dest, fh);
 					break;
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
