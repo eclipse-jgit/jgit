@@ -1060,6 +1060,67 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testUploadNewBytes() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwx";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.delimiter(),
+			"want " + child.toObjectId().getName() + "\n",
+			"ofs-delta\n",
+			"done\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		ReceivedPackStatistics receivedStats = parsePack(recvStream);
+		assertTrue(receivedStats.getNumBytesDuplicated() == 0);
+		assertTrue(receivedStats.getNumObjectsDuplicated() == 0);
+	}
+
+	@Test
+	public void testUploadRedundantBytes() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		TestRepository<InMemoryRepository> local = new TestRepository<>(client);
+		RevBlob localParentBlob = local.blob(commonInBlob + "a");
+		RevCommit localParent = local.commit(local.tree(local.file("foo", localParentBlob)));
+		RevBlob localChildBlob = local.blob(commonInBlob + "b");
+		RevCommit localChild = local.commit(
+				local.tree(local.file("foo", localChildBlob)), localParent);
+		local.update("branch1", localChild);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + child.toObjectId().getName() + "\n",
+				"ofs-delta\n",
+				"done\n",
+					PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		ReceivedPackStatistics receivedStats = parsePack(recvStream);
+
+		long sizeOfHeader = 12;
+		long sizeOfTrailer = 20;
+		long expectedSize = receivedStats.getNumBytesRead() - sizeOfHeader
+				- sizeOfTrailer;
+		assertTrue(receivedStats.getNumBytesDuplicated() == expectedSize);
+		assertTrue(receivedStats.getNumObjectsDuplicated() == 6);
+	}
+
+	@Test
 	public void testV2FetchOfsDelta() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
