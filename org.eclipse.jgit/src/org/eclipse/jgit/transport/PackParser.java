@@ -1129,6 +1129,7 @@ public abstract class PackParser {
 		final byte[] readBuffer = buffer();
 		final byte[] curBuffer = new byte[readBuffer.length];
 		long sz = info.size;
+		long szForRecord = sz;
 		try (ObjectStream cur = readCurs.open(obj, info.type).openStream()) {
 			if (cur.getSize() != sz) {
 				throw new IOException(MessageFormat.format(
@@ -1148,6 +1149,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.increaseNumBytesDuplicated(szForRecord);
+			stats.incrementObjectsDuplicated();
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
@@ -1164,6 +1167,8 @@ public abstract class PackParser {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().collisionOn, obj.name()));
 			}
+			stats.increaseNumBytesDuplicated(data.length);
+			stats.incrementObjectsDuplicated();
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually its
