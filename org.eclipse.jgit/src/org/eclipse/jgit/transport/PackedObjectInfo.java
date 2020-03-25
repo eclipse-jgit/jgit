@@ -29,6 +29,9 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 
 	private int type = Constants.OBJ_BAD;
 
+	// Size of the object before inflating;
+	private long size;
+
 	PackedObjectInfo(final long headerOffset, final int packedCRC,
 			final AnyObjectId id) {
 		super(id);
@@ -107,5 +110,13 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	 */
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	void setSize(long sizeBeforeInflating) {
+		this.size = sizeBeforeInflating;
+	}
+
+	long getSize() {
+		return size;
 	}
 }
