@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c07780_c65218e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-25T01:47:48Z",
+      "side": 1,
+      "message": "nit: can leave off the ReceiveCommand. qualifier, since this class already imports Result",
+      "range": {
+        "startLine": 1817,
+        "startChar": 27,
+        "endLine": 1817,
+        "endChar": 48
+      },
+      "revId": "0dfa14bf1bf44b1658cb529b8fe166b51c52f6f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cadf4b3_7606b9fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-25T01:47:48Z",
+      "side": 1,
+      "message": "Can this get a TODO comment to stop using the message property for this?",
+      "revId": "0dfa14bf1bf44b1658cb529b8fe166b51c52f6f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "079c4e3e_f264cbb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1833,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-25T01:47:48Z",
+      "side": 1,
+      "message": "Not about this change: why are these marked as not for translation?",
+      "revId": "0dfa14bf1bf44b1658cb529b8fe166b51c52f6f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31c91eb7_180da3e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-03-25T01:47:48Z",
+      "side": 1,
+      "message": "Can this throw AssertionError?",
+      "revId": "0dfa14bf1bf44b1658cb529b8fe166b51c52f6f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
