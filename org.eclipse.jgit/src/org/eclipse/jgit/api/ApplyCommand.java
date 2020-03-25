@@ -121,18 +121,19 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().renameFileFailed, f, dest), e);
 					}
+					apply(dest, fh);
 					break;
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
 					byte[] bs = IO.readFully(f);
-					FileOutputStream fos = new FileOutputStream(getFile(
-							fh.getNewPath(),
-							true));
+					File target = getFile(fh.getNewPath(), true);
+					FileOutputStream fos = new FileOutputStream(target);
 					try {
 						fos.write(bs);
 					} finally {
 						fos.close();
 					}
+					apply(target, fh);
 				}
 				r.addUpdatedFile(f);
 			}
