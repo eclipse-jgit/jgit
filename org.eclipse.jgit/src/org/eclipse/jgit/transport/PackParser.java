@@ -1148,6 +1148,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.increaseNumBytesDuplicated(sz);
+			stats.incrementObjectsDuplicated();
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
