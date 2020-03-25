@@ -1148,6 +1148,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.increaseNumBytesDuplicated(sz);
+			stats.incrementObjectsDuplicated();
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
@@ -1164,6 +1166,8 @@ public abstract class PackParser {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().collisionOn, obj.name()));
 			}
+			stats.increaseNumBytesDuplicated(data.length);
+			stats.incrementObjectsDuplicated();
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually its
