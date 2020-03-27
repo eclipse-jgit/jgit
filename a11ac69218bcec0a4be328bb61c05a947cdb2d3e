@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9cf2a6c_d1184fb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-03-27T08:08:39Z",
+      "side": 1,
+      "message": "This can be fairly expensive, especially on Windows. We found in other contexts that accessing file attributes is a fairly slow operation on Windows. As a quick fix, I would suggest doing this in the IOException handler instead, so that we incur this cost only if the original delete failed.\n\nBesides, this code should probably also handle NoSuchFileException.\n\nSomething like\n\n  boolean tryAgain;\n  do {\n    tryAgain \u003d false;\n    try {\n      Files.delete(p);\n      return;\n    } catch (NoSuchFileException | FileNotFoundException e) {\n      if ((options \u0026 (SKIP_MISSING | IGNORE_ERRORS)) \u003d\u003d 0) {\n        throw new IOException(MessageFormat.format(\n            JGitText.get().deleteFileFailed,\n            f.getAbsolutePath()), e);\n      }\n      return;\n    } catch (DirectoryNotEmptyException e) {\n      if ((options \u0026 IGNORE_ERRORS) \u003d\u003d 0) {\n        throw new IOException(MessageFormat.format(\n            JGitText.get().deleteFileFailed,\n            f.getAbsolutePath()), e);\n      }\n      return;\n    } catch (IOException e) {\n      if (!f.canWrite()) {\n        tryAgain \u003d f.setWritable(true);\n      }\n      if (!tryAgain) {\n        t \u003d e;\n      }\n    }\n  } while (tryAgain);\n\nCompare also a similar problem in JUnit 5, where they also solved it in such a way: https://github.com/junit-team/junit5/issues/2046 and https://github.com/junit-team/junit5/pull/2047/files .\n\nFinally, please add a test case to FileUtilsTest that verifies that a read-only file can be deleted.",
+      "revId": "a11ac69218bcec0a4be328bb61c05a947cdb2d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
