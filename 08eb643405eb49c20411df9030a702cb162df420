@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ef16c35_b719308b",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-03-30T01:08:51Z",
+      "side": 1,
+      "message": "missing preceding space, compared to the other entries",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "08eb643405eb49c20411df9030a702cb162df420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1a633b_a75c18d2",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-03-30T01:08:51Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "08eb643405eb49c20411df9030a702cb162df420",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
