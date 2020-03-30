@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0716291d_c48afea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-03-30T18:17:44Z",
+      "side": 1,
+      "message": "I don\u0027t think so. In PackParser, we\u0027re using the data from the pack itself and the local database. numBytesTransferred is the size of the pack and numBytesRead is the total number of bytes read in the local database.\n\nSee endInput() method in PackParser.",
+      "parentUuid": "2089c8cc_cb636319",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "a9cd542c3bbaf5c21286fdb67de30eec24226abf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9711101d_d933e753",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-26T20:32:41Z",
       "side": 1,
       "message": "I think we want numObjectsDuplicated too.",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "a9cd542c3bbaf5c21286fdb67de30eec24226abf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c90cc12c_f93d4e3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-03-30T18:17:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9711101d_d933e753",
       "range": {
         "startLine": 23,
         "startChar": 14,
