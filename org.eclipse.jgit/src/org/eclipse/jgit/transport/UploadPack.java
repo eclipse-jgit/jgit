@@ -80,12 +80,12 @@ import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
@@ -1910,36 +1910,6 @@ public class UploadPack {
 		}
 	}
 
-	private static void checkReachabilityByWalkingObjects(ObjectWalk walk,
-			List<RevObject> wants, Set<ObjectId> reachableFrom) throws IOException {
-
-		walk.sort(RevSort.TOPO);
-		for (RevObject want : wants) {
-			walk.markStart(want);
-		}
-		for (ObjectId have : reachableFrom) {
-			RevObject o = walk.parseAny(have);
-			walk.markUninteresting(o);
-
-			RevObject peeled = walk.peel(o);
-			if (peeled instanceof RevCommit) {
-				// By default, for performance reasons, ObjectWalk does not mark a
-				// tree as uninteresting when we mark a commit. Mark it ourselves so
-				// that we can determine reachability exactly.
-				walk.markUninteresting(((RevCommit) peeled).getTree());
-			}
-		}
-
-		RevCommit commit = walk.next();
-		if (commit != null) {
-			throw new WantNotValidException(commit);
-		}
-		RevObject object = walk.nextObject();
-		if (object != null) {
-			throw new WantNotValidException(object);
-		}
-	}
-
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
 			throws IOException {
@@ -1967,8 +1937,17 @@ public class UploadPack {
 						// operator is willing to pay the cost of these
 						// reachability checks.
 						try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
-							checkReachabilityByWalkingObjects(objWalk,
-									wantsAsObjs, reachableFrom);
+							List<RevObject> havesAsObjs = objectIdsToRevObjects(
+									objWalk, reachableFrom);
+							PedestrianObjectReachabilityChecker reachabilityChecker = new PedestrianObjectReachabilityChecker(
+									objWalk);
+							Optional<RevObject> unreachable = reachabilityChecker
+									.areAllReachable(wantsAsObjs,
+											havesAsObjs.stream());
+							if (unreachable.isPresent()) {
+								throw new WantNotValidException(
+										unreachable.get());
+							}
 						}
 						return;
 					}
