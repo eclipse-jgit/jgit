@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.Repository;
  * <pre>
  * new FileRepositoryBuilder() //
  * 		.setGitDir(gitDirArgument) // --git-dir if supplied, no-op if null
- * 		.readEnviroment() // scan environment GIT_* variables
+ * 		.readEnvironment() // scan environment GIT_* variables
  * 		.findGitDir() // scan up the file system tree
  * 		.build()
  * </pre>
