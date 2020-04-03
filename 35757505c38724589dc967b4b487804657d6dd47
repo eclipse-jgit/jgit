@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1129866b_d5744297",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-03T17:30:53Z",
+      "side": 1,
+      "message": "Get number of bytes of objects already in local database",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 83
+      },
+      "revId": "35757505c38724589dc967b4b487804657d6dd47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c0789bd_91bd9e1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-03T17:30:53Z",
+      "side": 1,
+      "message": "Get number of objects already in local database",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 74
+      },
+      "revId": "35757505c38724589dc967b4b487804657d6dd47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
