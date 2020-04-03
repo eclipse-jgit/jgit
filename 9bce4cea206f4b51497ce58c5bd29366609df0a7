@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c06c5f04_248a09f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-03T02:47:26Z",
+      "side": 1,
+      "message": "Please add a standard git revert line somewhere in the commit message, i.e.\n\n  This reverts commit 2323d7a1ef909f9deb3f21329cf30bd1173ee9cf.\n\nI would put this between the line \"Add a test for ...\" and the footer block.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "9bce4cea206f4b51497ce58c5bd29366609df0a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
