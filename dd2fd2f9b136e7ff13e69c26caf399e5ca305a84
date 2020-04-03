@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc5dad9f_abf5e99f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-03T16:48:08Z",
+      "side": 1,
+      "message": "incrementDuplicated?",
+      "range": {
+        "startLine": 246,
+        "startChar": 17,
+        "endLine": 246,
+        "endChar": 30
+      },
+      "revId": "dd2fd2f9b136e7ff13e69c26caf399e5ca305a84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd26e0ed_2e2f7d54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-03T16:48:08Z",
+      "side": 1,
+      "message": "Is numDuplicated missing here?",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 34
+      },
+      "revId": "dd2fd2f9b136e7ff13e69c26caf399e5ca305a84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
