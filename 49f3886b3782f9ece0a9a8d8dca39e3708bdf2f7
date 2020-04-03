@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0b2605c_957d4272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-03T21:59:50Z",
+      "side": 1,
+      "message": "Nit: Grammar seems wrong (I am not a native speaker). I think you need to either remove the \"since\" or the \"which means that\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "49f3886b3782f9ece0a9a8d8dca39e3708bdf2f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d98f5f62_96612a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-03T21:59:50Z",
+      "side": 1,
+      "message": "@since 5.8 (same for the other new methods)",
+      "range": {
+        "startLine": 112,
+        "startChar": 13,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "49f3886b3782f9ece0a9a8d8dca39e3708bdf2f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
