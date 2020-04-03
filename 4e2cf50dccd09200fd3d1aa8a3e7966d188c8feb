@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25bf8609_b8a44b3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-03T17:36:17Z",
+      "side": 1,
+      "message": "Nit: [The first line...] It is recommended to start with the modified subsystem, followed by a colon and a description starting with capital letter and without period at the end.\n\nCapital letter in Add and no period at the end.\n\nOptional: I would use a title like \"ReceivePackStats: Add count of unnecessary pushed objects\"",
+      "revId": "4e2cf50dccd09200fd3d1aa8a3e7966d188c8feb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e93cc0b5_7a12da21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-03T17:36:17Z",
+      "side": 1,
+      "message": "Most of the people seeing this commit will miss the context: there is no negotiation for a push, which means that the client is probably sending more objects that needed. We are counting objects sent by the client that are already in the server to quantify this.\n\nExplain that in the first paragraph of the commit message.\n\nSecond paragraph could explain that it is adding fields in the stats and populating them in PackParser.",
+      "revId": "4e2cf50dccd09200fd3d1aa8a3e7966d188c8feb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a77acb_f91e268a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-03T17:36:17Z",
+      "side": 1,
+      "message": "numDuplicatedObjects? To make explicit what is counting",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "4e2cf50dccd09200fd3d1aa8a3e7966d188c8feb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
