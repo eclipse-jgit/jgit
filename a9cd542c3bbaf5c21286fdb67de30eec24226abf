@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "73219499_cbf30228",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-03T16:48:08Z",
+      "side": 1,
+      "message": "in endInput(), numBytesRead is set to streamPosition(), which is the position of the input stream being parsed. I do not think that is the local database bytes read.",
+      "parentUuid": "0716291d_c48afea6",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "a9cd542c3bbaf5c21286fdb67de30eec24226abf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9711101d_d933e753",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 1
