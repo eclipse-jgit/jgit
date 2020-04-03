@@ -1747,7 +1747,7 @@ public abstract class FS {
 			return new ProcessResult(Status.NOT_PRESENT);
 		}
 		String cmd = hookFile.getAbsolutePath();
-		ProcessBuilder hookProcess = runInShell(cmd, args);
+		ProcessBuilder hookProcess = runInShell(shellQuote(cmd), args);
 		hookProcess.directory(runDirectory.getAbsoluteFile());
 		Map<String, String> environment = hookProcess.environment();
 		environment.put(Constants.GIT_DIR_KEY,
@@ -1770,6 +1770,21 @@ public abstract class FS {
 		}
 	}
 
+	/**
+	 * Quote a string (such as a file system path obtained from a Java
+	 * {@link File} or {@link Path} object) such that it can be passed as first
+	 * argument to {@link #runInShell(String, String[])}.
+	 * <p>
+	 * This default implementation returns the string unchanged.
+	 * </p>
+	 *
+	 * @param cmd
+	 *            the String to quote
+	 * @return the quoted string
+	 */
+	String shellQuote(String cmd) {
+		return cmd;
+	}
 
 	/**
 	 * Tries to find a hook matching the given one in the given repository.
