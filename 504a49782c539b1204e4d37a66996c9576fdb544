@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73064a30_036b019e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-03T02:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5b6a90a_90615e29",
+      "range": {
+        "startLine": 607,
+        "startChar": 30,
+        "endLine": 607,
+        "endChar": 34
+      },
+      "revId": "504a49782c539b1204e4d37a66996c9576fdb544",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4da07c_c51ea6d9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-30T01:06:17Z",
       "side": 1,
       "message": "missing space",
+      "range": {
+        "startLine": 613,
+        "startChar": 19,
+        "endLine": 613,
+        "endChar": 23
+      },
+      "revId": "504a49782c539b1204e4d37a66996c9576fdb544",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40caa338_28b5f679",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-03T02:51:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4da07c_c51ea6d9",
       "range": {
         "startLine": 613,
         "startChar": 19,
