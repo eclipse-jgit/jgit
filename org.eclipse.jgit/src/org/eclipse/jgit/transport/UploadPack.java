@@ -66,8 +66,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.transport.parser.FirstWant;
-import org.eclipse.jgit.lib.BitmapIndex;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,7 +75,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
-import org.eclipse.jgit.revwalk.BitmapWalker;
+import org.eclipse.jgit.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -1899,18 +1897,6 @@ public class UploadPack {
 		}
 	}
 
-	private static void checkNotAdvertisedWantsUsingBitmap(ObjectReader reader,
-			BitmapIndex bitmapIndex, List<ObjectId> notAdvertisedWants,
-			Set<ObjectId> reachableFrom) throws IOException {
-		BitmapWalker bitmapWalker = new BitmapWalker(new ObjectWalk(reader), bitmapIndex, null);
-		BitmapBuilder reachables = bitmapWalker.findObjects(reachableFrom, null, false);
-		for (ObjectId oid : notAdvertisedWants) {
-			if (!reachables.contains(oid)) {
-				throw new WantNotValidException(oid);
-			}
-		}
-	}
-
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
 			throws IOException {
@@ -1965,9 +1951,17 @@ public class UploadPack {
 					throw new WantNotValidException(nonCommit);
 
 				}
-				checkNotAdvertisedWantsUsingBitmap(reader,
-						reader.getBitmapIndex(), notAdvertisedWants,
-						reachableFrom);
+				try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
+					List<RevObject> havesAsObjs = objectIdsToRevObjects(objWalk,
+							reachableFrom);
+					ObjectReachabilityChecker reachabilityChecker = new BitmappedObjectReachabilityChecker(
+							objWalk);
+					Optional<RevObject> unreachable = reachabilityChecker
+							.areAllReachable(wantsAsObjs, havesAsObjs.stream());
+					if (unreachable.isPresent()) {
+						throw new WantNotValidException(unreachable.get());
+					}
+				}
 				return;
 			}
 
