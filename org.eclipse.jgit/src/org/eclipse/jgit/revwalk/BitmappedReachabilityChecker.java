@@ -42,7 +42,7 @@ class BitmappedReachabilityChecker implements ReachabilityChecker {
 	 * @throws IOException
 	 *             if the index or the object reader cannot be opened.
 	 */
-	public BitmappedReachabilityChecker(RevWalk walk)
+	BitmappedReachabilityChecker(RevWalk walk)
 			throws IOException {
 		this.walk = walk;
 		if (walk.getObjectReader().getBitmapIndex() == null) {
