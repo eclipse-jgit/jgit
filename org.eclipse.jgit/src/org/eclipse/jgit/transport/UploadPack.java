@@ -75,11 +75,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
-import org.eclipse.jgit.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -1918,44 +1916,24 @@ public class UploadPack {
 			boolean repoHasBitmaps = reader.getBitmapIndex() != null;
 
 			if (!allWantsAreCommits) {
-				if (!repoHasBitmaps) {
-					if (up.transferConfig.isAllowFilter()) {
-						// Use allowFilter as an indication that the server
-						// operator is willing to pay the cost of these
-						// reachability checks.
-						try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
-							List<RevObject> havesAsObjs = objectIdsToRevObjects(
-									objWalk, reachableFrom);
-							ObjectReachabilityChecker reachabilityChecker = new PedestrianObjectReachabilityChecker(
-									objWalk);
-							Optional<RevObject> unreachable = reachabilityChecker
-									.areAllReachable(wantsAsObjs,
-											havesAsObjs.stream());
-							if (unreachable.isPresent()) {
-								throw new WantNotValidException(
-										unreachable.get());
-							}
-						}
-						return;
-					}
-
-					// If unadvertized non-commits are requested, use
-					// bitmaps. If there are no bitmaps, instead of
-					// incurring the expense of a manual walk, reject
-					// the request.
+				if (!repoHasBitmaps && !up.transferConfig.isAllowFilter()) {
+					// Checking unadvertised non-commits without bitmaps
+					// requires an expensive manual walk. Use allowFilter as an
+					// indication that the server operator is willing to pay
+					// this cost. Reject the request otherwise.
 					RevObject nonCommit = wantsAsObjs
 							.stream()
 							.filter(obj -> !(obj instanceof RevCommit))
 							.limit(1)
 							.collect(Collectors.toList()).get(0);
 					throw new WantNotValidException(nonCommit);
-
 				}
+
 				try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
 					List<RevObject> havesAsObjs = objectIdsToRevObjects(objWalk,
 							reachableFrom);
-					ObjectReachabilityChecker reachabilityChecker = new BitmappedObjectReachabilityChecker(
-							objWalk);
+					ObjectReachabilityChecker reachabilityChecker = objWalk
+							.createObjectReachabilityChecker();
 					Optional<RevObject> unreachable = reachabilityChecker
 							.areAllReachable(wantsAsObjs, havesAsObjs.stream());
 					if (unreachable.isPresent()) {

@@ -22,7 +22,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * Checks if all objects are reachable from certain starting points doing a
  * walk.
  */
-public class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
+class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
 	private ObjectWalk walk;
 
 	/**
@@ -31,7 +31,7 @@ public class PedestrianObjectReachabilityChecker implements ObjectReachabilityCh
 	 * @param walk
 	 *            ObjectWalk instance to reuse. Caller retains ownership.
 	 */
-	public PedestrianObjectReachabilityChecker(ObjectWalk walk) {
+	PedestrianObjectReachabilityChecker(ObjectWalk walk) {
 		this.walk = walk;
 	}
 
