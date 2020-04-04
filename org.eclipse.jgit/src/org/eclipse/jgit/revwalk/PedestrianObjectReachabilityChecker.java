@@ -10,27 +10,19 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.AnyObjectId;
 
 /**
  * Checks if all objects are reachable from certain starting points doing a
  * walk.
- *
- * This is an expensive check that browses commits, trees, blobs and tags. For
- * reachability just between commits see {@link ReachabilityChecker}
- * implementations.
- *
- * TODO(ifrade): This class won't be public when the interface is introduced.
- * Skipping the @since.
  */
-public class PedestrianObjectReachabilityChecker {
+public class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
 	private ObjectWalk walk;
 
 	/**
@@ -44,60 +36,46 @@ public class PedestrianObjectReachabilityChecker {
 	}
 
 	/**
-	 * Checks that all targets are reachable from the starters.
-	 *
-	 * @param targets
-	 *            objects we want to reach from the starters
-	 * @param starters
-	 *            objects known to be reachable to the caller
-	 * @return Optional with an unreachable target if there is any (there could
-	 *         be more than one). Empty optional means all targets are
-	 *         reachable.
-	 * @throws MissingObjectException
-	 *             An object was missing. This should not happen as the caller
-	 *             checked this while doing
-	 *             {@link RevWalk#parseAny(AnyObjectId)} to convert ObjectIds to
-	 *             RevObjects.
-	 * @throws IncorrectObjectTypeException
-	 *             Incorrect object type. As with missing objects, this should
-	 *             not happen if the caller used
-	 *             {@link RevWalk#parseAny(AnyObjectId)}.
-	 * @throws IOException
-	 *             Cannot access underlying storage
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Optional<RevObject> areAllReachable(Collection<RevObject> targets,
-			Stream<RevObject> starters) throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
-		walk.reset();
-		walk.sort(RevSort.TOPO);
-		for (RevObject target : targets) {
-			walk.markStart(target);
-		}
-
-		Iterator<RevObject> iterator = starters.iterator();
-		while (iterator.hasNext()) {
-			RevObject o = iterator.next();
-			walk.markUninteresting(o);
-
-			RevObject peeled = walk.peel(o);
-			if (peeled instanceof RevCommit) {
-				// By default, for performance reasons, ObjectWalk does not mark
-				// a tree as uninteresting when we mark a commit. Mark it
-				// ourselves so that we can determine reachability exactly.
-				walk.markUninteresting(((RevCommit) peeled).getTree());
+			Stream<RevObject> starters) throws IOException {
+		try {
+			walk.reset();
+			walk.sort(RevSort.TOPO);
+			for (RevObject target : targets) {
+				walk.markStart(target);
 			}
-		}
 
-		RevCommit commit = walk.next();
-		if (commit != null) {
-			return Optional.of(commit);
-		}
+			Iterator<RevObject> iterator = starters.iterator();
+			while (iterator.hasNext()) {
+				RevObject o = iterator.next();
+				walk.markUninteresting(o);
 
-		RevObject object = walk.nextObject();
-		if (object != null) {
-			return Optional.of(object);
-		}
+				RevObject peeled = walk.peel(o);
+				if (peeled instanceof RevCommit) {
+					// By default, for performance reasons, ObjectWalk does not
+					// mark
+					// a tree as uninteresting when we mark a commit. Mark it
+					// ourselves so that we can determine reachability exactly.
+					walk.markUninteresting(((RevCommit) peeled).getTree());
+				}
+			}
 
-		return Optional.empty();
+			RevCommit commit = walk.next();
+			if (commit != null) {
+				return Optional.of(commit);
+			}
+
+			RevObject object = walk.nextObject();
+			if (object != null) {
+				return Optional.of(object);
+			}
+
+			return Optional.empty();
+		} catch (MissingObjectException | InvalidObjectException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }

@@ -79,6 +79,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.DepthWalk;
+import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -1939,7 +1940,7 @@ public class UploadPack {
 						try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
 							List<RevObject> havesAsObjs = objectIdsToRevObjects(
 									objWalk, reachableFrom);
-							PedestrianObjectReachabilityChecker reachabilityChecker = new PedestrianObjectReachabilityChecker(
+							ObjectReachabilityChecker reachabilityChecker = new PedestrianObjectReachabilityChecker(
 									objWalk);
 							Optional<RevObject> unreachable = reachabilityChecker
 									.areAllReachable(wantsAsObjs,
