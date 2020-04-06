@@ -1903,7 +1903,6 @@ public class UploadPack {
 
 		try (RevWalk walk = new RevWalk(reader)) {
 			walk.setRetainBody(false);
-			Set<ObjectId> reachableFrom = refIdSet(visibleRefs);
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
 					notAdvertisedWants);
@@ -1930,12 +1929,15 @@ public class UploadPack {
 				}
 
 				try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
-					List<RevObject> havesAsObjs = objectIdsToRevObjects(objWalk,
-							reachableFrom);
+					Stream<RevObject> startersAsObjs = importantRefsFirst(visibleRefs)
+							.map(UploadPack::refToObjectId)
+							.map(objId -> objectIdToRevObject(objWalk, objId))
+							.filter(Objects::nonNull); // Ignore missing tips
+
 					ObjectReachabilityChecker reachabilityChecker = objWalk
 							.createObjectReachabilityChecker();
 					Optional<RevObject> unreachable = reachabilityChecker
-							.areAllReachable(wantsAsObjs, havesAsObjs.stream());
+							.areAllReachable(wantsAsObjs, startersAsObjs);
 					if (unreachable.isPresent()) {
 						throw new WantNotValidException(unreachable.get());
 					}
@@ -2002,6 +2004,29 @@ public class UploadPack {
 
 		try {
 			return walk.parseCommit(objectId);
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Translate an object id to a RevObject.
+	 *
+	 * @param walk
+	 *            walk on the relevant object storage
+	 * @param objectId
+	 *            Object Id
+	 * @return RevObject instance or null if the object is missing
+	 */
+	@Nullable
+	private static RevObject objectIdToRevObject(RevWalk walk,
+			ObjectId objectId) {
+		if (objectId == null) {
+			return null;
+		}
+
+		try {
+			return walk.parseAny(objectId);
 		} catch (IOException e) {
 			return null;
 		}
