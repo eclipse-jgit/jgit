@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "c7279d91_533d5f5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1833,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-06T15:20:34Z",
+      "side": 1,
+      "message": "Sounds like we should cycle back and add these as translatable messages, but the current change looks good.",
+      "parentUuid": "079c4e3e_f264cbb6",
+      "revId": "0dfa14bf1bf44b1658cb529b8fe166b51c52f6f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31c91eb7_180da3e9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
