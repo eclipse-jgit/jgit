@@ -168,6 +168,8 @@ public final class EolStreamTypeUtil {
 		switch (options.getAutoCRLF()) {
 		case TRUE:
 			return EolStreamType.TEXT_CRLF;
+		case INPUT:
+			return EolStreamType.DIRECT;
 		default:
 			// no decision
 		}
