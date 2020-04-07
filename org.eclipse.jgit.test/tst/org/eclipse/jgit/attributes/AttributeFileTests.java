@@ -26,7 +26,9 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
@@ -37,6 +39,36 @@ import org.junit.Test;
  * contents again.
  */
 public class AttributeFileTests extends RepositoryTestCase {
+
+	@Test
+	public void testTextAutoCoreEolCoreAutoCrLfInput() throws Exception {
+		FileBasedConfig cfg = db.getConfig();
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+		cfg.save();
+		final String content = "Line1\nLine2\n";
+		try (Git git = Git.wrap(db)) {
+			writeTrashFile(".gitattributes", "* text=auto");
+			File dummy = writeTrashFile("dummy.txt", content);
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("Commit with LF").call();
+			assertEquals("Unexpected index state",
+					"[.gitattributes, mode:100644, content:* text=auto]"
+							+ "[dummy.txt, mode:100644, content:" + content
+							+ ']',
+					indexState(CONTENT));
+			assertTrue("Should be able to delete " + dummy, dummy.delete());
+			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_EOL, "crlf");
+			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+			cfg.save();
+			git.reset().setMode(ResetType.HARD).call();
+			assertTrue("File " + dummy + "should exist", dummy.isFile());
+			String textFile = RawParseUtils.decode(IO.readFully(dummy, 512));
+			assertEquals("Unexpected text content", content, textFile);
+		}
+	}
 
 	@Test
 	public void testTextAutoEolLf() throws Exception {
