@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3c1fb4f_6350d363",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e60ce2_21a9d35c",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7a31259_8be124cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd393e46_6623296a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "I don\u0027t think so, I think we should put these 2 line inside the try block to make sure the object we\u0027re counting is a duplicated one.",
+      "parentUuid": "c7a31259_8be124cd",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e9bf77ec_3dd3a6da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4643da5b_84046b96",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ba5c70d_d38f4098",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "6f904cc1_ebc49788",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ba5c70d_d38f4098",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed222837_0093124c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 8
@@ -84,6 +156,24 @@
       "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "607aae80_8cabcd58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done, is the preferred max line width in jgit 80? Just want to double check.",
+      "parentUuid": "ed222837_0093124c",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "c23f87d2_0b0a9985",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1641dded_7660e83d",
+      "range": {
+        "startLine": 187,
+        "startChar": 17,
+        "endLine": 187,
+        "endChar": 38
+      },
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f08a5c7a_e52c02c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 8
@@ -124,6 +238,24 @@
       "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d8c1c5_7fc84d91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f08a5c7a_e52c02c4",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -195,6 +327,30 @@
       "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e7ebee_31c5799b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-08T23:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c720f6_e782be08",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 16
+      },
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
