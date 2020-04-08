@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "610a064e_74cad1b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-08T17:04:15Z",
+      "side": 1,
+      "message": "nit: can we rename it so that the noun-adjective order is consistent, ie numBytesDuplicated and numObjectsDuplicated? Thanks!",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "90bfebd27479a0c4dec9b957e4231f68affebc7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
