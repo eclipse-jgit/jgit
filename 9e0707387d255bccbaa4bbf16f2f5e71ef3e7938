@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e98671e_deb7ece7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-08T17:27:29Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 16
+      },
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
