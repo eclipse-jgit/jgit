@@ -224,8 +224,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		final int refcnt;
 
 		public FormatEntry(Format<?> format, int refcnt) {
-			if (format == null)
+			if (format == null) {
 				throw new NullPointerException();
+			}
 			this.format = format;
 			this.refcnt = refcnt;
 		}
@@ -250,15 +251,18 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	private static <K, V> boolean replace(ConcurrentMap<K, V> map,
 			K key, V oldValue, V newValue) {
-		if (oldValue == null && newValue == null) // Nothing to do.
+		if (oldValue == null && newValue == null) {
+			// Nothing to do.
 			return true;
+		}
 
-		if (oldValue == null)
+		if (oldValue == null) {
 			return map.putIfAbsent(key, newValue) == null;
-		else if (newValue == null)
+		} else if (newValue == null) {
 			return map.remove(key, oldValue);
-		else
+		} else {
 			return map.replace(key, oldValue, newValue);
+		}
 	}
 
 	/**
@@ -284,8 +288,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 *              already registered.
 	 */
 	public static void registerFormat(String name, Format<?> fmt) {
-		if (fmt == null)
+		if (fmt == null) {
 			throw new NullPointerException();
+		}
 
 		FormatEntry old, entry;
 		do {
@@ -294,10 +299,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				entry = new FormatEntry(fmt, 1);
 				continue;
 			}
-			if (!old.format.equals(fmt))
+			if (!old.format.equals(fmt)) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().archiveFormatAlreadyRegistered,
 						name));
+			}
 			entry = new FormatEntry(old.format, old.refcnt + 1);
 		} while (!replace(formats, name, old, entry));
 	}
@@ -318,10 +324,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		FormatEntry old, entry;
 		do {
 			old = formats.get(name);
-			if (old == null)
+			if (old == null) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().archiveFormatAlreadyAbsent,
 						name));
+			}
 			if (old.refcnt == 1) {
 				entry = null;
 				continue;
@@ -332,20 +339,24 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	private static Format<?> formatBySuffix(String filenameSuffix)
 			throws UnsupportedFormatException {
-		if (filenameSuffix != null)
+		if (filenameSuffix != null) {
 			for (FormatEntry entry : formats.values()) {
 				Format<?> fmt = entry.format;
-				for (String sfx : fmt.suffixes())
-					if (filenameSuffix.endsWith(sfx))
+				for (String sfx : fmt.suffixes()) {
+					if (filenameSuffix.endsWith(sfx)) {
 						return fmt;
+					}
+				}
 			}
+		}
 		return lookupFormat("tar"); //$NON-NLS-1$
 	}
 
 	private static Format<?> lookupFormat(String formatName) throws UnsupportedFormatException {
 		FormatEntry entry = formats.get(formatName);
-		if (entry == null)
+		if (entry == null) {
 			throw new UnsupportedFormatException(formatName);
+		}
 		return entry.format;
 	}
 
@@ -396,8 +407,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					String name = pfx + walk.getPathString();
 					FileMode mode = walk.getFileMode(0);
 
-					if (walk.isSubtree())
+					if (walk.isSubtree()) {
 						walk.enterSubtree();
+					}
 
 					if (mode == FileMode.GITLINK) {
 						// TODO(jrn): Take a callback to recurse
@@ -429,10 +441,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		checkCallable();
 
 		Format<?> fmt;
-		if (format == null)
+		if (format == null) {
 			fmt = formatBySuffix(suffix);
-		else
+		} else {
 			fmt = lookupFormat(format);
+		}
 		return writeArchive(fmt);
 	}
 
@@ -444,8 +457,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 * @return this
 	 */
 	public ArchiveCommand setTree(ObjectId tree) {
-		if (tree == null)
+		if (tree == null) {
 			throw new IllegalArgumentException();
+		}
 
 		this.tree = tree;
 		setCallable(true);
@@ -479,10 +493,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		int slash = filename.lastIndexOf('/');
 		int dot = filename.indexOf('.', slash + 1);
 
-		if (dot == -1)
+		if (dot == -1) {
 			this.suffix = ""; //$NON-NLS-1$
-		else
+		} else {
 			this.suffix = filename.substring(dot);
+		}
 		return this;
 	}
 
