@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "182fe92e_0bc55606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-10T23:21:39Z",
+      "side": 1,
+      "message": "nit: indent continuation line",
+      "revId": "d7e2d5242fa3d3c3df03a4010886f7c6dde39ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f9fd6c2_879c8cf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-10T23:21:39Z",
+      "side": 1,
+      "message": "nit: appears",
+      "range": {
+        "startLine": 188,
+        "startChar": 52,
+        "endLine": 188,
+        "endChar": 58
+      },
+      "revId": "d7e2d5242fa3d3c3df03a4010886f7c6dde39ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
