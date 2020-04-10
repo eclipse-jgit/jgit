@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2ee45c07_672ecffb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-10T23:21:39Z",
+      "side": 1,
+      "message": "Ah, I see. That means it should be in the outer try {} block but doesn\u0027t need to be in the inner try {} block, right? Moving it out one level would make the intent clearer.",
+      "parentUuid": "cd393e46_6623296a",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4643da5b_84046b96",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 8
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "Done, is the preferred max line width in jgit 80? Just want to double check.",
       "parentUuid": "ed222837_0093124c",
+      "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6b5c77_47f7beb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-10T23:21:39Z",
+      "side": 1,
+      "message": "Yes: org.eclipse.jgit/.settings/org.eclipse.jdt.core.prefs:org.eclipse.jdt.core.formatter.lineSplit\u003d80\n\nBut also keep in mind the tab stop of 4: org.eclipse.jdt.core.formatter.indentation.size\u003d4",
+      "parentUuid": "607aae80_8cabcd58",
       "revId": "9e0707387d255bccbaa4bbf16f2f5e71ef3e7938",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
