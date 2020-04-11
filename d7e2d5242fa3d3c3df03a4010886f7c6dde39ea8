@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa84ed84_6096f173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-11T01:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "182fe92e_0bc55606",
+      "revId": "d7e2d5242fa3d3c3df03a4010886f7c6dde39ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f9fd6c2_879c8cf0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "d7e2d5242fa3d3c3df03a4010886f7c6dde39ea8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35f5c4ca_be6573ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-11T01:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f9fd6c2_879c8cf0",
+      "range": {
+        "startLine": 188,
+        "startChar": 52,
+        "endLine": 188,
+        "endChar": 58
+      },
+      "revId": "d7e2d5242fa3d3c3df03a4010886f7c6dde39ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
