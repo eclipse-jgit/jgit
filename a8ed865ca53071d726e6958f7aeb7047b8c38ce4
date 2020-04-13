@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45ae58b0_571fdeaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-13T15:05:10Z",
+      "side": 1,
+      "message": "Are you missing duplicated bytes here by not instrumenting this method (for deltas) too?",
+      "range": {
+        "startLine": 1160,
+        "startChar": 0,
+        "endLine": 1162,
+        "endChar": 0
+      },
+      "revId": "a8ed865ca53071d726e6958f7aeb7047b8c38ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
