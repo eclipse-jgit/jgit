@@ -16,6 +16,29 @@
       "revId": "7d251222283c1bae08cfb021dc61e8d8dcbd6362",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa015ce_6cbdc1c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-13T17:47:09Z",
+      "side": 1,
+      "message": "Without something like the BitmappedReachabilityChecker.ReachedFilter class here, it seems like this can still explode memory.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 0
+      },
+      "revId": "7d251222283c1bae08cfb021dc61e8d8dcbd6362",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
