@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d07604_4474d136",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-13T17:19:01Z",
+      "side": 1,
+      "message": "Nit: extra newline.",
+      "revId": "7d251222283c1bae08cfb021dc61e8d8dcbd6362",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
