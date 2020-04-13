@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "577e1cac_4e3f9475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1931,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-13T17:57:13Z",
+      "side": 1,
+      "message": "Can inline this like is done below for the reachabiltyChecker.",
+      "range": {
+        "startLine": 1931,
+        "startChar": 0,
+        "endLine": 1931,
+        "endChar": 48
+      },
+      "revId": "69ab537def5649cc6e6e9ae156d28d17e44cc790",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
