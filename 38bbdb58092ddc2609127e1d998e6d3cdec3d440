@@ -22,6 +22,213 @@
       "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11cbbbcd_584e30a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "It actually is set to 10. If it were set to 0 then xoring against other bitmaps would be disabled, which would be bad. So there should be a memory savings with this commit. Can you report how much it saves it for one of the Code Aurora repos?",
+      "range": {
+        "startLine": 31,
+        "startChar": 51,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4589eae1_fd0204dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "s/searchOffset/bitmapsToWriteXorBuffer/\nI know it is a long name but it is buffering the bitmapsToWrite entries so we can create smaller xor representations.",
+      "range": {
+        "startLine": 45,
+        "startChar": 40,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2cd6fec_d7ce8d5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "BlockList would be more efficient for insertions but you can\u0027t use it with Collections.reverse(). It could be nearly as efficient if we changed \"clearBitmaps()\" to be \"resetBitmaps(int newsize)\" and right-sized this collection in that method.",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52c8fa6_087b1ae3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "byAddOrder is no longer needed.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833986ab_1d8ec756",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "s/to/to the/",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 159,
+        "endChar": 56
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b772f9f4_b97d8244",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "s/Process/Processes/",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "716287b1_bf9b16ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "You can inline this variable.",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 25
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2057972_462924e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "Be a bit more general: \"The Bitmap map in the base class is used to make revwalks efficient, so only add bitmaps that keep it efficient without bloating memory.\"",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 67
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09d8e557_231217fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T00:46:46Z",
+      "side": 1,
+      "message": "Please inline this variable.",
+      "range": {
+        "startLine": 349,
+        "startChar": 15,
+        "endLine": 349,
+        "endChar": 25
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
