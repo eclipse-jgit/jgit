@@ -22,6 +22,30 @@
       "revId": "a8ed865ca53071d726e6958f7aeb7047b8c38ce4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21146ae1_43b9f41a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-15T17:48:50Z",
+      "side": 1,
+      "message": "Thanks for the catch!",
+      "parentUuid": "45ae58b0_571fdeaa",
+      "range": {
+        "startLine": 1160,
+        "startChar": 0,
+        "endLine": 1162,
+        "endChar": 0
+      },
+      "revId": "a8ed865ca53071d726e6958f7aeb7047b8c38ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
