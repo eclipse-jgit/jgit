@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "381a8073_71f98812",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-15T15:12:58Z",
+      "side": 1,
+      "message": "Ok, I now see you were talking about PackWriterBitmapPreparer.DISTANCE_THRESHOLD, not PackBitmapIndexBuilder.MAX_XOR_OFFSET_SEARCH. So I agree that there should be minimal change to memory usage in this commit.\n\nCan you add an additional commit to this set that changes the DISTANCE_THRESHOLD, and reports the memory savings? Thanks.",
+      "parentUuid": "11cbbbcd_584e30a3",
+      "range": {
+        "startLine": 31,
+        "startChar": 51,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4589eae1_fd0204dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
