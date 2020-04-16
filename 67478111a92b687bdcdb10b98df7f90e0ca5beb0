@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca6dd69b_588a7026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-16T22:31:25Z",
+      "side": 1,
+      "message": "Hm, isn\u0027t sz always 0 here?",
+      "revId": "67478111a92b687bdcdb10b98df7f90e0ca5beb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
