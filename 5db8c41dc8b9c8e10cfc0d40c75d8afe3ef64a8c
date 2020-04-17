@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e94c34_6c9386e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-04-17T00:45:50Z",
+      "side": 1,
+      "message": "nit: can use info.size here and avoid a local.\n\nActually... sz is the inflated size, but we want the compressed size because we\u0027re trying to see how much of the data sent over the wire was redundant. I think this will require instrumenting the InflaterStream.",
+      "revId": "5db8c41dc8b9c8e10cfc0d40c75d8afe3ef64a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
