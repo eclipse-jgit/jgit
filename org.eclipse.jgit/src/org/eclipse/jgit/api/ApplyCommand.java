@@ -114,6 +114,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					f = getFile(fh.getOldPath(), false);
 					File dest = getFile(fh.getNewPath(), false);
 					try {
+						FileUtils.mkdirs(dest.getParentFile(), true);
 						FileUtils.rename(f, dest,
 								StandardCopyOption.ATOMIC_MOVE);
 					} catch (IOException e) {

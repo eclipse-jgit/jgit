@@ -1,0 +1,4 @@
+diff --git a/RenameNoHunks b/nested/subdir/Renamed
+similarity index 100%
+rename from RenameNoHunks
+rename to nested/subdir/Renamed
