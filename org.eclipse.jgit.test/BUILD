@@ -40,6 +40,7 @@ DATA = [
 
 EXCLUDED = [
     PKG + "api/SecurityManagerTest.java",
+    PKG + "api/SecurityManagerMissingPermissionsTest.java",
 ]
 
 RESOURCES = glob(["resources/**"])
