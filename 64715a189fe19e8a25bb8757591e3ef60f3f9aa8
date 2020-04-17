@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bc9dcf0_4f2c6d6b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:59:53Z",
+      "side": 1,
+      "message": "This broke Bazel build, as this dependency is not known in this package: [1].\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d562274",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 39
+      },
+      "revId": "64715a189fe19e8a25bb8757591e3ef60f3f9aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a81ab602_35fbd021",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SecurityManagerMissingPermissionsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:59:53Z",
+      "side": 1,
+      "message": "Even if I add missing dependency to log4j library the tests are not passing in Bazel:\n\n  There were 2 failures:\n1) testCreateNewRepos_MissingPermissions(org.eclipse.jgit.api.SecurityManagerMissingPermissionsTest)\njava.lang.SecurityException: GoogleTestSecurityManager is not designed to handle other security managers.\n\tat com.google.testing.junit.runner.util.GoogleTestSecurityManager.checkPermission(GoogleTestSecurityManager.java:58)\n\tat java.lang.System.setSecurityManager0(System.java:302)\n\tat java.lang.System.setSecurityManager(System.java:293)\n\tat org.eclipse.jgit.api.SecurityManagerMissingPermissionsTest.setUp(SecurityManagerMissingPermissionsTest.java:62)\n2) testCreateNewRepos_MissingPermissions(org.eclipse.jgit.api.SecurityManagerMissingPermissionsTest)\njava.lang.SecurityException: GoogleTestSecurityManager is not designed to handle other security managers.\n\tat com.google.testing.junit.runner.util.GoogleTestSecurityManager.checkPermission(GoogleTestSecurityManager.java:58)\n\tat java.lang.System.setSecurityManager0(System.java:302)\n\tat java.lang.System.setSecurityManager(System.java:293)\n\tat org.eclipse.jgit.api.SecurityManagerMissingPermissionsTest.tearDown(SecurityManagerMissingPermissionsTest.java:94)\n\nFAILURES!!!\nTests run: 1,  Failures: 2\n\nShould we rather disable/exclude this test from Bazel build entirely? Then we don\u0027t have to add additional Log4J library only for this test.",
+      "revId": "64715a189fe19e8a25bb8757591e3ef60f3f9aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
