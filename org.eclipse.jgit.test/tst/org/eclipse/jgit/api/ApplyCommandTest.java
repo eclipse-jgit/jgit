@@ -250,6 +250,16 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "NonASCIIDel").exists());
 	}
 
+	@Test
+	public void testRenameNoHunks() throws Exception {
+		ApplyResult result = init("RenameNoHunks", true, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "RenameNoHunks"), result.getUpdatedFiles()
+				.get(0));
+		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
+				b.getString(0, b.size(), false));
+	}
+
 	private static byte[] readFile(String patchFile) throws IOException {
 		final InputStream in = getTestResource(patchFile);
 		if (in == null) {
