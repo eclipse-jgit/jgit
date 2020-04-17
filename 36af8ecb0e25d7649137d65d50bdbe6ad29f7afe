@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a1648e0_30f2a09a",
+        "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This is not visible here.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb4309a_f52cbc3b",
+        "filename": "org.eclipse.jgit.gpg.bc/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "It\u0027s not visible here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b7f8562_a6669322",
+        "filename": "org.eclipse.jgit.gpg.bc/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "It\u0027s not visible here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "509bf292_85827ec5",
+        "filename": "org.eclipse.jgit.gpg.bc/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "It\u0027s not visible here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fe1296b_bb7b8ae8",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "You can only omit the target, if its is called the same, as the package: \"bc\", but the target is called \"gpg-bc\", so that it must be:\n\n  \"//org.eclipse.jgit.gpg.bc:gpg-bc\"",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94aa6664_5e858d38",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This package doesn\u0027t exist, this should be:\n\n  \"//org.eclipse.jgit.ssh.jsch:ssh-jsch\"",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b2aeb8f_d35ce9f0",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This is not visible:\n\n  in java_test rule //org.eclipse.jgit.ssh.jsch.test:jsch: target \u0027//lib:eddsa\u0027\n  is not visible from target \u0027//org.eclipse.jgit.ssh.jsch.test:jsch\u0027.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47d8b44c_91b36b6b",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This is not visible:\n\n  in java_test rule //org.eclipse.jgit.ssh.jsch.test:jsch: target \u0027//org.eclipse.jgit.test:sshd-helpers\u0027\n  is not visible from target \u0027//org.eclipse.jgit.ssh.jsch.test:jsch\u0027.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b859cb2_68fcba6a",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "Bazel strict dependency error, these deps are missing here:\n\n  //lib:jsch\n  //org.eclipse.jgit.junit:junit\n\nEven worse, //lib:jsch is not visible.",
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b577ff_c674a9e2",
+        "filename": "org.eclipse.jgit.ssh.jsch/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This is not visible.",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6dce4f_269bff66",
+        "filename": "org.eclipse.jgit.ssh.jsch/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This is not visible from this package:\n\n  in java_library rule //org.eclipse.jgit.ssh.jsch:ssh-jsch: target \u0027//lib:jzlib\u0027 is not visible from target \u0027//org.eclipse.jgit.ssh.jsch:ssh-jsch\u0027.\n  Check the visibility declaration of the former target if you think the dependency is legitimate",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f83d558_1148f6ed",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T21:29:10Z",
+      "side": 1,
+      "message": "This would add the dependency to the //org.eclipse.jgit.ssh.jsch that wasn\u0027t added to the BUILD file, for sshd-helpers target:\n\n  $ bazel build org.eclipse.jgit.test:sshd-helpers\n  rg.eclipse.jgit.test/src/org/eclipse/jgit/transport/ssh/SshTestBase.java:28: error: package org.eclipse.jgit.transport.jsch does not exist\nimport org.eclipse.jgit.transport.jsch.JschConfigSessionFactory;\n                                      ^\norg.eclipse.jgit.test/src/org/eclipse/jgit/transport/ssh/SshTestBase.java:151: error: cannot find symbol\n\t\tif (getSessionFactory() instanceof JschConfigSessionFactory) {\n\nThis dependency is missing there:\n\n  \"//org.eclipse.jgit.ssh.jsch:ssh-jsch\",",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "36af8ecb0e25d7649137d65d50bdbe6ad29f7afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
