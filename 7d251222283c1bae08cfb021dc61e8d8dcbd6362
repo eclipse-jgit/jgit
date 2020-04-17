@@ -39,6 +39,30 @@
       "revId": "7d251222283c1bae08cfb021dc61e8d8dcbd6362",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55997b5d_f33e383b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmappedObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-17T15:50:28Z",
+      "side": 1,
+      "message": "What concerned me here is StoredBitmap.getBitmap()\u0027s comment that it \"Computes and returns the full bitmap\". But I looked closer and saw that it is still returning a EWAHCompressedBitmap. Its action is to dedeltafy the xor\u0027ed representations of the EWAHCompressedBitmaps. I don\u0027t think there is a way to do the logical bitmap operations directly on the xor\u0027ed representations of bitmaps. So there may be no way around that step. I would like you to verify that the \"visited\" variable here is returned as the minimally-sized yet still viable representation of the bitmap.",
+      "parentUuid": "1aa015ce_6cbdc1c3",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 0
+      },
+      "revId": "7d251222283c1bae08cfb021dc61e8d8dcbd6362",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
