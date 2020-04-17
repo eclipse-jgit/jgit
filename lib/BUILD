@@ -237,6 +237,14 @@ java_library(
 )
 
 java_library(
+    name = "log4j",
+    visibility = [
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@log4j//jar"],
+)
+
+java_library(
     name = "slf4j-api",
     visibility = ["//visibility:public"],
     exports = ["@log-api//jar"],
