@@ -42,6 +42,10 @@ def tests(tests):
             additional_deps = [
                 "//lib:jsch",
             ]
+        if src.endswith("SecurityManagerMissingPermissionsTest.java"):
+            additional_deps = [
+                "//lib:log4j",
+            ]
         if src.endswith("JSchSshTest.java"):
             additional_deps = [
                 "//lib:jsch",
