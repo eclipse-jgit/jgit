@@ -9,8 +9,10 @@ junit_tests(
     tags = ["jsch"],
     deps = [
         "//lib:eddsa",
+        "//lib:jsch",
         "//lib:junit",
         "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.ssh.jsch:ssh-jsch",
         "//org.eclipse.jgit.test:sshd-helpers",
     ],

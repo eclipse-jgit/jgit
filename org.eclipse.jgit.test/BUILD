@@ -73,7 +73,9 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.test/resources",
     resources = RESOURCES,
     visibility = [
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
     deps = [
         "//lib:jsch",
@@ -83,6 +85,7 @@ java_library(
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.junit.ssh:junit-ssh",
+        "//org.eclipse.jgit.ssh.jsch:ssh-jsch",
     ],
 )
 
