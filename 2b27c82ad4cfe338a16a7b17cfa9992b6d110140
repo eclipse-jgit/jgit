@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bff3b0b4_6c664ed1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-17T22:11:06Z",
+      "side": 1,
+      "message": "I think Bazel test framework is not made for junit tests, that them self messing around with Security manager, see: [1].\n\n* [1] https://github.com/bazelbuild/bazel/blob/master/src/java_tools/junitrunner/java/com/google/testing/junit/runner/util/GoogleTestSecurityManager.java#L24-L61",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 105
+      },
+      "revId": "2b27c82ad4cfe338a16a7b17cfa9992b6d110140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
