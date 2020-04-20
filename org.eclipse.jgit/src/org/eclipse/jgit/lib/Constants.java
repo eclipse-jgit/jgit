@@ -386,6 +386,13 @@ public final class Constants {
 	public static final String DOT_GIT_EXT = ".git";
 
 	/**
+	 * The default extension for local bundle files
+	 *
+	 * @since 5.8
+	 */
+	public static final String DOT_BUNDLE_EXT = ".bundle";
+
+	/**
 	 * Name of the attributes file
 	 *
 	 * @since 3.7
