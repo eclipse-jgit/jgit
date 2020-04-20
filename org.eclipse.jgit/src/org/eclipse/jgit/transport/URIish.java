@@ -738,6 +738,11 @@ public class URIish implements Serializable {
 		else if (result.endsWith(Constants.DOT_GIT_EXT))
 			result = result.substring(0, result.length()
 					- Constants.DOT_GIT_EXT.length());
+		if (("file".equals(scheme) || LOCAL_FILE.matcher(s).matches())
+				&& result.endsWith(Constants.DOT_BUNDE_EXT)) {
+			result = result.substring(0,
+					result.length() - Constants.DOT_BUNDE_EXT.length());
+		}
 		return result;
 	}
 

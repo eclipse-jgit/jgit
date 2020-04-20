@@ -953,6 +953,17 @@ public class URIishTest {
 		assertEquals(-1, u.getPort());
 		assertNull(u.getUser());
 		assertEquals("b.txt", u.getHumanishName());
+
+		u = new URIish("file:/a/test.bundle");
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertNull(u.getHost());
+		assertNull(u.getPass());
+		assertEquals("/a/test.bundle", u.getRawPath());
+		assertEquals("/a/test.bundle", u.getPath());
+		assertEquals(-1, u.getPort());
+		assertNull(u.getUser());
+		assertEquals("test", u.getHumanishName());
 	}
 
 	@Test

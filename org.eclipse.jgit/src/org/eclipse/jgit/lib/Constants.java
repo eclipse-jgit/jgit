@@ -385,6 +385,13 @@ public final class Constants {
 	/** A bare repository typically ends with this string */
 	public static final String DOT_GIT_EXT = ".git";
 
+	/** 
+	 * The default extension for local bundle files 
+	 * 
+	 * @since 5.8
+	 */
+	public static final String DOT_BUNDE_EXT = ".bundle";
+
 	/**
 	 * Name of the attributes file
 	 *
