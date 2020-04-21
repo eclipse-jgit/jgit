@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bac627d1_a43a8023",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-21T00:09:06Z",
+      "side": 1,
+      "message": "This variable only contains the size of the object header so far. You will need to get the number of compressed bytes out of the java.util.zip.Inflater class directly.\n\nSimilar for the delta cases.",
+      "range": {
+        "startLine": 1082,
+        "startChar": 14,
+        "endLine": 1082,
+        "endChar": 33
+      },
+      "revId": "a92ad2797566e40c96fd24421535361125813868",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
