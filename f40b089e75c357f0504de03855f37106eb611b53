@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92411e13_49c79312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-21T01:55:14Z",
+      "side": 1,
+      "message": "BUNDLE",
+      "range": {
+        "startLine": 393,
+        "startChar": 32,
+        "endLine": 393,
+        "endChar": 37
+      },
+      "revId": "f40b089e75c357f0504de03855f37106eb611b53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
