@@ -298,7 +298,7 @@ public class UploadPack {
 
 	private boolean sentReady;
 
-	/** Objects we sent in our advertisement list, clients can ask for these. */
+	/** Objects we sent in our advertisement list. */
 	private Set<ObjectId> advertised;
 
 	/** Marked on objects the client has asked us to give them. */
@@ -381,8 +381,10 @@ public class UploadPack {
 	/**
 	 * Get refs which were advertised to the client.
 	 *
-	 * @return all refs which were advertised to the client, or null if
-	 *         {@link #setAdvertisedRefs(Map)} has not been called yet.
+	 * @return all refs which were advertised to the client. Only valid during
+	 *         the negotiation phase. Will return {@code null} if
+	 *         {@link #setAdvertisedRefs(Map)} has not been called yet or if
+	 *         {@code #sendPack()} has been called.
 	 */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
@@ -2204,6 +2206,11 @@ public class UploadPack {
 			preUploadHook.onSendPack(this, wantAll, commonBase);
 		}
 		msgOut.flush();
+
+		// Advertised objects and refs are not used from here on and can be
+		// cleared.
+		advertised = null;
+		refs = null;
 
 		PackConfig cfg = packConfig;
 		if (cfg == null)
