@@ -173,9 +173,8 @@ public class S3Repository implements LargeFileRepository {
 
 	private URL getObjectUrl(AnyLongObjectId oid) {
 		try {
-			return new URL(String.format("https://s3-%s.amazonaws.com/%s/%s", //$NON-NLS-1$
-					s3Config.getRegion(), s3Config.getBucket(),
-					getPath(oid)));
+			String url = s3Config.getBaseUrl()+getPath(oid);
+			return new URL(url);
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					LfsServerText.get().unparsableEndpoint, e.getMessage()));

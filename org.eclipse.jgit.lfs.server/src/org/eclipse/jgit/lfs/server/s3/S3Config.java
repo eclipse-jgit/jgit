@@ -115,8 +115,11 @@ public class S3Config {
 	 * @return {@code true} if Amazon server certificate and hostname
 	 *         verification is disabled
 	 */
-	boolean isDisableSslVerify() {
+	public boolean isDisableSslVerify() {
 		return disableSslVerify;
 	}
 
+	public String getBaseUrl() {
+		return String.format("https://s3-%s.amazonaws.com/%s/%s", region, bucket);
+	}
 }
