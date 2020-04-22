@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.GcTestCase;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
-import org.eclipse.jgit.internal.storage.pack.PackWriterBitmapPreparer.BitmapCommit;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;

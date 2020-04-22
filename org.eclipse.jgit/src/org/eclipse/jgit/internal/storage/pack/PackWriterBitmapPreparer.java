@@ -468,28 +468,6 @@ class PackWriterBitmapPreparer {
 	}
 
 	/**
-	 * A commit object for which a bitmap index should be built.
-	 */
-	static final class BitmapCommit extends ObjectId {
-		private final boolean reuseWalker;
-		private final int flags;
-
-		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
-			super(objectId);
-			this.reuseWalker = reuseWalker;
-			this.flags = flags;
-		}
-
-		boolean isReuseWalker() {
-			return reuseWalker;
-		}
-
-		int getFlags() {
-			return flags;
-		}
-	}
-
-	/**
 	 * Container for state used in the first phase of selecting commits, which
 	 * walks all of the reachable commits via the branch tips that are not
 	 * covered by a previous pack's bitmaps ({@code newWants}) and stores them
