@@ -44,6 +44,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -2238,4 +2239,81 @@ public class UploadPackTest {
 		}
 	}
 
+	@Test
+	public void testSafeToClearRefsInFetchV0() throws Exception {
+		server =
+			new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			return up;
+		}, null);
+		uri = testProtocol.register(ctx, server);
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.fetch(NullProgressMonitor.INSTANCE,
+				Collections.singletonList(new RefSpec(one.name())));
+		}
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+	}
+
+	@Test
+	public void testSafeToClearRefsInFetchV2() throws Exception {
+		server =
+			new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.delimiter(),
+			"want-ref refs/heads/one\n",
+			"want-ref refs/heads/two\n",
+			"done\n",
+			PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			hasItems(
+				one.toObjectId().getName() + " refs/heads/one",
+				two.toObjectId().getName() + " refs/heads/two"));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
+		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+	}
+
+	private class RefCallsCountingRepository extends InMemoryRepository {
+		private final InMemoryRepository.MemRefDatabase refdb;
+		private int numRefCalls;
+
+		public RefCallsCountingRepository(DfsRepositoryDescription repoDesc) {
+			super(repoDesc);
+			refdb = new InMemoryRepository.MemRefDatabase() {
+				@Override
+				public List<Ref> getRefs() throws IOException {
+					numRefCalls++;
+					return super.getRefs();
+				}
+			};
+		}
+
+		public int numRefCalls() {
+			return numRefCalls;
+		}
+
+		@Override
+		public RefDatabase getRefDatabase() {
+			return refdb;
+		}
+	}
 }
