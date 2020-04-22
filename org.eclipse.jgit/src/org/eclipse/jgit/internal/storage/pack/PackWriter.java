@@ -2313,14 +2313,14 @@ public class PackWriter implements AutoCloseable {
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
-		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits = bitmapPreparer
+		Collection<BitmapCommit> selectedCommits = bitmapPreparer
 				.selectCommits(numCommits, excludeFromBitmapSelection);
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
 		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
 		AnyObjectId last = null;
-		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
+		for (BitmapCommit cmit : selectedCommits) {
 			if (!cmit.isReuseWalker()) {
 				walker = bitmapPreparer.newBitmapWalker();
 			}
