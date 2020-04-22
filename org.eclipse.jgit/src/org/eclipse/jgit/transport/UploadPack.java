@@ -2205,6 +2205,9 @@ public class UploadPack {
 		}
 		msgOut.flush();
 
+		// Advertised refs map are not used after this point and can be cleared.
+		refs = null;
+
 		PackConfig cfg = packConfig;
 		if (cfg == null)
 			cfg = new PackConfig(db);
