@@ -18,7 +18,6 @@ import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 import com.googlecode.javaewah.IntIterator;
@@ -34,7 +33,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
-	private final ObjectIdOwnerMap<StoredBitmap> convertedBitmaps;
 	private final BitSet inflated;
 	private final int[] prevToNewMapping;
 
@@ -65,7 +63,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	private PackBitmapIndexRemapper(PackBitmapIndex newPackIndex) {
 		this.oldPackIndex = null;
 		this.newPackIndex = newPackIndex;
-		this.convertedBitmaps = null;
 		this.inflated = null;
 		this.prevToNewMapping = null;
 	}
@@ -74,7 +71,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			BasePackBitmapIndex oldPackIndex, PackBitmapIndex newPackIndex) {
 		this.oldPackIndex = oldPackIndex;
 		this.newPackIndex = newPackIndex;
-		convertedBitmaps = new ObjectIdOwnerMap<>();
 		inflated = new BitSet(newPackIndex.getObjectCount());
 
 		prevToNewMapping = new int[oldPackIndex.getObjectCount()];
@@ -152,10 +148,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		if (bitmap != null || oldPackIndex == null)
 			return bitmap;
 
-		StoredBitmap stored = convertedBitmaps.get(objectId);
-		if (stored != null)
-			return stored.getBitmap();
-
 		StoredBitmap oldBitmap = oldPackIndex.getBitmaps().get(objectId);
 		if (oldBitmap == null)
 			return null;
@@ -168,8 +160,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			inflated.set(prevToNewMapping[i.next()]);
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
-		convertedBitmaps.add(
-				new StoredBitmap(objectId, bitmap, null, oldBitmap.getFlags()));
 		return bitmap;
 	}
 
