@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -12,7 +12,6 @@ package org.eclipse.jgit.internal.transport.sshd;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.flag;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.Map;
@@ -22,61 +21,36 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
-import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
-import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.HostEntry;
+import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.transport.SshSessionFactory;
 
 /**
- * A {@link HostConfigEntryResolver} adapted specifically for JGit.
- * <p>
- * We use our own config file parser and entry resolution since the default
- * {@link org.apache.sshd.client.config.hosts.ConfigFileHostEntryResolver
- * ConfigFileHostEntryResolver} has a number of problems:
- * </p>
- * <ul>
- * <li>It does case-insensitive pattern matching. Matching in OpenSsh is
- * case-sensitive! Compare also bug 531118.</li>
- * <li>It only merges values from the global items (before the first "Host"
- * line) into the host entries. Otherwise it selects the most specific match.
- * OpenSsh processes <em>all</em> entries in the order they appear in the file
- * and whenever one matches, it updates values as appropriate.</li>
- * <li>We have to ensure that ~ replacement uses the same HOME directory as
- * JGit. Compare bug bug 526175.</li>
- * </ul>
- * Therefore, this re-uses the parsing and caching from
- * {@link OpenSshConfigFile}.
- *
+ * A bridge between a JGit {@link SshConfigStore} and the Apache MINA sshd
+ * {@link HostConfigEntryResolver}.
  */
 public class JGitSshConfig implements HostConfigEntryResolver {
 
-	private final OpenSshConfigFile configFile;
-
-	private final String localUserName;
+	private final SshConfigStore configFile;
 
 	/**
-	 * Creates a new {@link OpenSshConfigFile} that will read the config from
-	 * file {@code config} use the given file {@code home} as "home" directory.
+	 * Creates a new {@link JGitSshConfig} that will read the config from the
+	 * given {@link SshConfigStore}.
 	 *
-	 * @param home
-	 *            user's home directory for the purpose of ~ replacement
-	 * @param config
-	 *            file to load; may be {@code null} if no ssh config file
-	 *            handling is desired
-	 * @param localUserName
-	 *            user name of the current user on the local host OS
+	 * @param store
+	 *            to use
 	 */
-	public JGitSshConfig(@NonNull File home, File config,
-			@NonNull String localUserName) {
-		this.localUserName = localUserName;
-		configFile = config == null ?  null : new OpenSshConfigFile(home, config, localUserName);
+	public JGitSshConfig(SshConfigStore store) {
+		configFile = store;
 	}
 
 	@Override
 	public HostConfigEntry resolveEffectiveHost(String host, int port,
 			SocketAddress localAddress, String username,
 			AttributeRepository attributes) throws IOException {
-		HostEntry entry = configFile == null ? new HostEntry() : configFile.lookup(host, port, username);
+		SshConfigStore.HostConfig entry = configFile == null
+				? SshConfigStore.EMPTY_CONFIG
+				: configFile.lookup(host, port, username);
 		JGitHostConfigEntry config = new JGitHostConfigEntry();
 		// Apache MINA conflates all keys, even multi-valued ones, in one map
 		// and puts multiple values separated by commas in one string. See
@@ -102,7 +76,7 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 		String user = username != null && !username.isEmpty() ? username
 				: entry.getValue(SshConstants.USER);
 		if (user == null || user.isEmpty()) {
-			user = localUserName;
+			user = SshSessionFactory.getLocalUserName();
 		}
 		config.setUsername(user);
 		config.setProperty(SshConstants.USER, user);
