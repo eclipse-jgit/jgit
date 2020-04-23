@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8010f751_46d4d77b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-23T18:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9469d555_1e1c60a5",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "bc08295ccfcb4db17181711fd42a39737538ba91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e835c0e8_a09ab3a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9821804d_e1f9f936",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-23T18:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e835c0e8_a09ab3a3",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 34
+      },
+      "revId": "bc08295ccfcb4db17181711fd42a39737538ba91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7702265c_075fb4cb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-04-23T18:28:25Z",
       "side": 1,
       "message": "This change makes this claim no longer valid. And this is public API. \n\nAdvertisedRefHooks and RequestValidators and potentially PreUploadHooks need this information to do their work, so this has to be public API. All of these are only invoked during the ref advertisement/negotiation phases of the protocol (PreUploadHook.onSendPack() is invoked at the very beginning of sendPack()), so this change of clearing \"refs\" at the beginning of sendPack() (but after after the PreUploadHook.onSendPack() invocation) doesn\u0027t break those use cases.\n\nWith the growth of popular repos having \u003e2M refs (chromium.googlesource.com/chromium/src just passed that threshold earlier this month) we have to do things that help us reign in our memory usage, so I\u0027m ok with changing this aspect of how this method behaves. Users can get statistics about the advertised refs in the PackStatistics class, and if they want more information they can install their own AdvertisedRefHook or PreUploadHook to query this data at the point it is being used.\n\nSo, please update this JavaDoc to say:\n@return all refs which were advertised to the client. Only valid during the negotiation phase. Will return {@code null} if {@link #setAdvertisedRefs(Map)} has not been called yet or if {@code #sendPack()} has been called.",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 385,
+        "endChar": 68
+      },
+      "revId": "bc08295ccfcb4db17181711fd42a39737538ba91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8adace3_a33ddf9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-04-23T18:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7702265c_075fb4cb",
       "range": {
         "startLine": 384,
         "startChar": 0,
