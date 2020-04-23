@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b9f00129_f9d9967f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Will add a commit to the end of the change series about that.",
+      "parentUuid": "381a8073_71f98812",
+      "range": {
+        "startLine": 31,
+        "startChar": 51,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4589eae1_fd0204dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "df457cdb_7952be97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4589eae1_fd0204dc",
+      "range": {
+        "startLine": 45,
+        "startChar": 40,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2cd6fec_d7ce8d5e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
@@ -106,6 +154,30 @@
       "writtenOn": "2020-04-15T00:46:46Z",
       "side": 1,
       "message": "BlockList would be more efficient for insertions but you can\u0027t use it with Collections.reverse(). It could be nearly as efficient if we changed \"clearBitmaps()\" to be \"resetBitmaps(int newsize)\" and right-sized this collection in that method.",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51185755_ca26dcc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "\u003e BlockList would be more efficient for insertions but you can\u0027t use it with Collections.reverse(). \n\nIt seems that Collections.reverse is essential in the class so I prefer stick to LinkedList here.\n\n\u003e It could be nearly as efficient if we changed \"clearBitmaps()\" to be \"resetBitmaps(int newsize)\" and right-sized this collection in that method.\n\nThis sounds not relevant to this commit?",
+      "parentUuid": "c2cd6fec_d7ce8d5e",
       "range": {
         "startLine": 47,
         "startChar": 15,
@@ -138,6 +210,30 @@
       "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d306206d_da3e3f41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d52c8fa6_087b1ae3",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -187,6 +283,54 @@
     },
     {
       "key": {
+        "uuid": "a970cd51_6c1bcd48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833986ab_1d8ec756",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 159,
+        "endChar": 56
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b24157d1_3aa9787d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b772f9f4_b97d8244",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "716287b1_bf9b16ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
@@ -207,6 +351,30 @@
       "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5590786a_6ce00a91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "716287b1_bf9b16ba",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 25
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -233,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "37b0c907_26bbbe69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2057972_462924e0",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 67
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09d8e557_231217fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
@@ -253,6 +445,30 @@
       "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "679e147b_85c91030",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09d8e557_231217fb",
+      "range": {
+        "startLine": 349,
+        "startChar": 15,
+        "endLine": 349,
+        "endChar": 25
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
