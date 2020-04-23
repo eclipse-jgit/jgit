@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -43,9 +43,9 @@ import org.junit.Test;
 
 /**
  * Test for using the SshdSessionFactory without files in ~/.ssh but with an
- * in-memory setup.
+ * in-memory setup, creating the factory via the builder API.
  */
-public class NoFilesSshTest extends SshTestHarness {
+public class NoFilesSshBuilderTest extends SshTestHarness {
 
 	private PublicKey testServerKey;
 
@@ -53,18 +53,10 @@ public class NoFilesSshTest extends SshTestHarness {
 
 	@Override
 	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null) {
-
-			@Override
-			protected File getSshConfig(File dir) {
-				return null;
-			}
-
-			@Override
-			protected ServerKeyDatabase getServerKeyDatabase(File homeDir,
-					File dir) {
-				return new ServerKeyDatabase() {
+		return new SshdSessionFactoryBuilder() //
+				.setConfigStoreFactory((h, f, u) -> null)
+				.setDefaultKeysProvider(f -> new KeyAuthenticator())
+				.setServerKeyDatabase((h, s) -> new ServerKeyDatabase() {
 
 					@Override
 					public List<PublicKey> lookup(String connectAddress,
@@ -81,31 +73,15 @@ public class NoFilesSshTest extends SshTestHarness {
 						return KeyUtils.compareKeys(serverKey, testServerKey);
 					}
 
-				};
-			}
-
-			@Override
-			protected Iterable<KeyPair> getDefaultKeys(File dir) {
-				// This would work for this simple test case:
-				// return Collections.singletonList(testUserKey);
-				// But let's see if we can check the host and username that's used.
-				// For that, we need access to the sshd SessionContext:
-				return new KeyAuthenticator();
-			}
-
-			@Override
-			protected String getDefaultPreferredAuthentications() {
-				return "publickey";
-			}
-		};
-
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+				}) //
+				.setPreferredAuthentications("publickey")
+				.setHomeDirectory(FS.DETECTED.userHome())
+				.setSshDirectory(sshDir) //
+				.build(new JGitKeyCache());
 	}
 
-	private class KeyAuthenticator implements KeyIdentityProvider, Iterable<KeyPair> {
+	private class KeyAuthenticator
+			implements KeyIdentityProvider, Iterable<KeyPair> {
 
 		@Override
 		public Iterator<KeyPair> iterator() {
