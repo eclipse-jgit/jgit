@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e72be5a8_0d83ac03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-23T19:06:32Z",
+      "side": 1,
+      "message": "We still need to null out \"advertised\" to free up all of the memory involved with the ref advertisement.",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 34
+      },
+      "revId": "f8794e48b4ec28e7f86ab3bea2c847bd4936fe46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
