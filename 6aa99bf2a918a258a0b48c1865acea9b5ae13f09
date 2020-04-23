@@ -22,6 +22,30 @@
       "revId": "6aa99bf2a918a258a0b48c1865acea9b5ae13f09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fca353e_e984c2a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapWithCacheFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b0019c_99c753d0",
+      "range": {
+        "startLine": 24,
+        "startChar": 58,
+        "endLine": 24,
+        "endChar": 68
+      },
+      "revId": "6aa99bf2a918a258a0b48c1865acea9b5ae13f09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
