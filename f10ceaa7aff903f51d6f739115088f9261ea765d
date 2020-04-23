@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19dc1af2_6e62d8e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11542837_76c19de3",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "f10ceaa7aff903f51d6f739115088f9261ea765d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00fb6513_23f15115",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-25T14:28:41Z",
       "side": 1,
       "message": "nit: too many spaces",
+      "range": {
+        "startLine": 2,
+        "startChar": 33,
+        "endLine": 2,
+        "endChar": 35
+      },
+      "revId": "f10ceaa7aff903f51d6f739115088f9261ea765d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cfd997f_5ad2e8c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BitmapCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-23T21:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00fb6513_23f15115",
       "range": {
         "startLine": 2,
         "startChar": 33,
