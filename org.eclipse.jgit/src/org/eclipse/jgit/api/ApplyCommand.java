@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2012, IBM Corporation and others. and others
+ * Copyright (C) 2011, 2020 IBM Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,18 +9,15 @@
  */
 package org.eclipse.jgit.api;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -168,7 +165,17 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		for (int i = 0; i < rt.size(); i++)
 			oldLines.add(rt.getString(i));
 		List<String> newLines = new ArrayList<>(oldLines);
+		int afterLastHunk = 0;
+		int lineNumberShift = 0;
+		int lastHunkNewLine = -1;
 		for (HunkHeader hh : fh.getHunks()) {
+
+			// We assume hunks to be ordered
+			if (hh.getNewStartLine() <= lastHunkNewLine) {
+				throw new PatchApplyException(MessageFormat
+						.format(JGitText.get().patchApplyException, hh));
+			}
+			lastHunkNewLine = hh.getNewStartLine();
 
 			byte[] b = new byte[hh.getEndOffset() - hh.getStartOffset()];
 			System.arraycopy(hh.getBuffer(), hh.getStartOffset(), b, 0,
@@ -176,61 +183,136 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			RawText hrt = new RawText(b);
 
 			List<String> hunkLines = new ArrayList<>(hrt.size());
-			for (int i = 0; i < hrt.size(); i++)
+			for (int i = 0; i < hrt.size(); i++) {
 				hunkLines.add(hrt.getString(i));
-			int pos = 0;
-			for (int j = 1; j < hunkLines.size(); j++) {
+			}
+
+			if (hh.getNewStartLine() == 0) {
+				// Must be the single hunk for clearing all content
+				if (fh.getHunks().size() == 1
+						&& canApplyAt(hunkLines, newLines, 0)) {
+					newLines.clear();
+					break;
+				}
+				throw new PatchApplyException(MessageFormat
+						.format(JGitText.get().patchApplyException, hh));
+			}
+			// Hunk lines as reported by the hunk may be off, so don't rely on
+			// them.
+			int applyAt = hh.getNewStartLine() - 1 + lineNumberShift;
+			// But they definitely should not go backwards.
+			if (applyAt < afterLastHunk && lineNumberShift < 0) {
+				applyAt = hh.getNewStartLine() - 1;
+				lineNumberShift = 0;
+			}
+			if (applyAt < afterLastHunk) {
+				throw new PatchApplyException(MessageFormat
+						.format(JGitText.get().patchApplyException, hh));
+			}
+			boolean applies = false;
+			int oldLinesInHunk = hh.getLinesContext()
+					+ hh.getOldImage().getLinesDeleted();
+			if (oldLinesInHunk <= 1) {
+				// Don't shift hunks without context lines. Just try the
+				// position corrected by the current lineNumberShift, and if
+				// that fails, the position recorded in the hunk header.
+				applies = canApplyAt(hunkLines, newLines, applyAt);
+				if (!applies && lineNumberShift != 0) {
+					applyAt = hh.getNewStartLine() - 1;
+					applies = applyAt >= afterLastHunk
+							&& canApplyAt(hunkLines, newLines, applyAt);
+				}
+			} else {
+				int maxShift = applyAt - afterLastHunk;
+				for (int shift = 0; shift <= maxShift; shift++) {
+					if (canApplyAt(hunkLines, newLines, applyAt - shift)) {
+						applies = true;
+						applyAt -= shift;
+						break;
+					}
+				}
+				if (!applies) {
+					// Try shifting the hunk downwards
+					applyAt = hh.getNewStartLine() - 1 + lineNumberShift;
+					maxShift = newLines.size() - applyAt - oldLinesInHunk;
+					for (int shift = 1; shift <= maxShift; shift++) {
+						if (canApplyAt(hunkLines, newLines, applyAt + shift)) {
+							applies = true;
+							applyAt += shift;
+							break;
+						}
+					}
+				}
+			}
+			if (!applies) {
+				throw new PatchApplyException(MessageFormat
+						.format(JGitText.get().patchApplyException, hh));
+			}
+			// Hunk applies at applyAt. Apply it, and update afterLastHunk and
+			// lineNumberShift
+			lineNumberShift = applyAt - hh.getNewStartLine() + 1;
+			int sz = hunkLines.size();
+			for (int j = 1; j < sz; j++) {
 				String hunkLine = hunkLines.get(j);
 				switch (hunkLine.charAt(0)) {
 				case ' ':
-					if (!newLines.get(hh.getNewStartLine() - 1 + pos).equals(
-							hunkLine.substring(1))) {
-						throw new PatchApplyException(MessageFormat.format(
-								JGitText.get().patchApplyException, hh));
-					}
-					pos++;
+					applyAt++;
 					break;
 				case '-':
-					if (hh.getNewStartLine() == 0) {
-						newLines.clear();
-					} else {
-						if (!newLines.get(hh.getNewStartLine() - 1 + pos)
-								.equals(hunkLine.substring(1))) {
-							throw new PatchApplyException(MessageFormat.format(
-									JGitText.get().patchApplyException, hh));
-						}
-						newLines.remove(hh.getNewStartLine() - 1 + pos);
-					}
+					newLines.remove(applyAt);
 					break;
 				case '+':
-					newLines.add(hh.getNewStartLine() - 1 + pos,
-							hunkLine.substring(1));
-					pos++;
+					newLines.add(applyAt++, hunkLine.substring(1));
+					break;
+				default:
 					break;
 				}
 			}
+			afterLastHunk = applyAt;
 		}
-		if (!isNoNewlineAtEndOfFile(fh))
+		if (!isNoNewlineAtEndOfFile(fh)) {
 			newLines.add(""); //$NON-NLS-1$
-		if (!rt.isMissingNewlineAtEnd())
+		}
+		if (!rt.isMissingNewlineAtEnd()) {
 			oldLines.add(""); //$NON-NLS-1$
-		if (!isChanged(oldLines, newLines))
-			return; // don't touch the file
-		StringBuilder sb = new StringBuilder();
-		for (String l : newLines) {
-			// don't bother handling line endings - if it was windows, the \r is
-			// still there!
-			sb.append(l).append('\n');
 		}
-		if (sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
+		if (!isChanged(oldLines, newLines)) {
+			return; // Don't touch the file
 		}
-		try (Writer fw = new OutputStreamWriter(new FileOutputStream(f),
-				UTF_8)) {
-			fw.write(sb.toString());
+		try (Writer fw = Files.newBufferedWriter(f.toPath())) {
+			for (Iterator<String> l = newLines.iterator(); l.hasNext();) {
+				fw.write(l.next());
+				if (l.hasNext()) {
+					// Don't bother handling line endings - if it was Windows,
+					// the \r is still there!
+					fw.write('\n');
+				}
+			}
 		}
-
 		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
+	}
+
+	private boolean canApplyAt(List<String> hunkLines, List<String> newLines,
+			int line) {
+		int sz = hunkLines.size();
+		int limit = newLines.size();
+		int pos = line;
+		for (int j = 1; j < sz; j++) {
+			String hunkLine = hunkLines.get(j);
+			switch (hunkLine.charAt(0)) {
+			case ' ':
+			case '-':
+				if (pos >= limit
+						|| !newLines.get(pos).equals(hunkLine.substring(1))) {
+					return false;
+				}
+				pos++;
+				break;
+			default:
+				break;
+			}
+		}
+		return true;
 	}
 
 	private static boolean isChanged(List<String> ol, List<String> nl) {

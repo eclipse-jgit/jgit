@@ -1,0 +1,14 @@
+diff --git a/ShiftUp b/ShiftUp
+index e1ee19c..5c6e9bc 100644
+--- a/ShiftUp
++++ b/ShiftUp
+@@ -52,6 +52,9 @@
+ 			something("A.b", "bar");
+ 		}
+ 
++		public void methodC() {
++			something("A.c", "bar");
++		}
+ 	}
+ 
+ 	public class B {
