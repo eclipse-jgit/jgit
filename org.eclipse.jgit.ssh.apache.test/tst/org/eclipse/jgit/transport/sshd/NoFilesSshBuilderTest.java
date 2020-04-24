@@ -32,7 +32,7 @@ import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.SshTestHarness;
+import org.eclipse.jgit.junit.ssh.SshTestHarness;
 import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Test;

@@ -21,8 +21,6 @@ java_library(
     deps = [
         ":insecure_cipher_factory",
         "//lib:javaewah",
-        "//lib:jsch",
-        "//lib:jzlib",
         "//lib:slf4j-api",
     ],
 )
