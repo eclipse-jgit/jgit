@@ -34,25 +34,9 @@ def tests(tests):
             additional_deps = [
                 "//org.eclipse.jgit:insecure_cipher_factory",
             ]
-        if src.endswith("OpenSshConfigTest.java"):
-            additional_deps = [
-                "//lib:jsch",
-            ]
-        if src.endswith("JschConfigSessionFactoryTest.java"):
-            additional_deps = [
-                "//lib:jsch",
-            ]
         if src.endswith("SecurityManagerMissingPermissionsTest.java"):
             additional_deps = [
                 "//lib:log4j",
-            ]
-        if src.endswith("JSchSshTest.java"):
-            additional_deps = [
-                "//lib:jsch",
-                "//lib:jzlib",
-                "//lib:sshd-osgi",
-                "//lib:sshd-sftp",
-                ":sshd-helpers",
             ]
         if src.endswith("JDKHttpConnectionTest.java"):
             additional_deps = [

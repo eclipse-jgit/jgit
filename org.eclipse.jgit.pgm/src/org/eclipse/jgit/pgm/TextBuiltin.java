@@ -36,6 +36,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.SshDriver;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
@@ -224,6 +225,9 @@ public abstract class TextBuiltin {
 			break;
 		}
 		case JSCH:
+			JschConfigSessionFactory factory = new JschConfigSessionFactory();
+			SshSessionFactory.setInstance(factory);
+			break;
 		default:
 			SshSessionFactory.setInstance(null);
 			break;

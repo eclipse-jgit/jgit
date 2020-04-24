@@ -40,6 +40,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-osgi</artifactId>
       <version>${apache-sshd-version}</version>
@@ -49,6 +55,16 @@
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
       <version>${apache-sshd-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jzlib</artifactId>
     </dependency>
 
     <dependency>
@@ -67,6 +83,9 @@
         <includes>
           <include>plugin.properties</include>
         </includes>
+      </resource>
+      <resource>
+        <directory>resources/</directory>
       </resource>
     </resources>
 
