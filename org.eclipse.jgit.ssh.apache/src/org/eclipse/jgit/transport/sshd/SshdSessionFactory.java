@@ -66,6 +66,8 @@ import org.eclipse.jgit.util.FS;
  */
 public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
+	private static final String MINA_SSHD = "mina-sshd"; //$NON-NLS-1$
+
 	private final AtomicBoolean closing = new AtomicBoolean();
 
 	private final Set<SshdSession> sessions = new HashSet<>();
@@ -131,6 +133,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		// I consider this limit too low. The time increases linearly with the
 		// number of rounds.
 		BCryptKdfOptions.setMaxAllowedRounds(16384);
+	}
+
+	@Override
+	public String getType() {
+		return MINA_SSHD;
 	}
 
 	/** A simple general map key. */

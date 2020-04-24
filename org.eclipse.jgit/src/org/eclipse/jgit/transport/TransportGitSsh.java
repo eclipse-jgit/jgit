@@ -50,6 +50,8 @@ import org.eclipse.jgit.util.io.StreamCopyThread;
  * enumeration, save file modification and hook execution.
  */
 public class TransportGitSsh extends SshTransport implements PackTransport {
+	private static final String EXT = "ext"; //$NON-NLS-1$
+
 	static final TransportProtocol PROTO_SSH = new TransportProtocol() {
 		private final String[] schemeNames = { "ssh", "ssh+git", "git+ssh" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -126,6 +128,11 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 						CredentialsProvider credentialsProvider, FS fs, int tms)
 						throws TransportException {
 					return new ExtSession();
+				}
+
+				@Override
+				public String getType() {
+					return EXT;
 				}
 			});
 		}
