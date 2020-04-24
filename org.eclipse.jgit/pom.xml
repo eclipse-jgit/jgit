@@ -37,16 +37,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jzlib</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.googlecode.javaewah</groupId>
       <artifactId>JavaEWAH</artifactId>
     </dependency>
@@ -169,7 +159,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
@@ -235,7 +225,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
