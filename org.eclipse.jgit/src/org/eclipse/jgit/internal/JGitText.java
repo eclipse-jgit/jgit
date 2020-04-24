@@ -649,7 +649,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;
 	/***/ public String sshCommandFailed;
-	/***/ public String sshUserNameError;
 	/***/ public String sslFailureExceptionMessage;
 	/***/ public String sslFailureInfo;
 	/***/ public String sslFailureCause;
@@ -710,7 +709,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportProtoSSH;
 	/***/ public String transportProtoTest;
 	/***/ public String transportProvidedRefWithNoObjectId;
-	/***/ public String transportSSHRetryInterrupt;
 	/***/ public String treeEntryAlreadyExists;
 	/***/ public String treeFilterMarkerTooManyFilters;
 	/***/ public String treeWalkMustHaveExactlyTwoTrees;
