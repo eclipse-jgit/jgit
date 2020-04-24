@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "441cd018_ed79d711",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-24T21:10:08Z",
+      "side": 1,
+      "message": "It is relevant, it is about avoiding memory reallocations when adding new elements to the list, which is what BlockList is really good at. I\u0027m asking you to change clearBitmaps() to resetBitmaps(int newSize), and change the call site to pass the number of bitmaps that will be stored, and no additional memory allocations are performed.",
+      "parentUuid": "51185755_ca26dcc3",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d52c8fa6_087b1ae3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
