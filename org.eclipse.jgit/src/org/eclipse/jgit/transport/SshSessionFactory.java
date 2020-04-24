@@ -43,11 +43,12 @@ public abstract class SshSessionFactory {
 		}
 		return null;
 	}
+	
 	/**
 	 * Get the currently configured JVM-wide factory.
 	 * <p>
-	 * A factory is always available. By default the factory will read from the
-	 * user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
+	 * By default the factory will read from the user's <code>$HOME/.ssh</code>
+	 * and assume OpenSSH compatibility.
 	 *
 	 * @return factory the current factory for this JVM.
 	 */
@@ -60,7 +61,7 @@ public abstract class SshSessionFactory {
 	 *
 	 * @param newFactory
 	 *            factory for future sessions to be created through. If null the
-	 *            default factory will be restored.s
+	 *            default factory will be restored.
 	 */
 	public static void setInstance(SshSessionFactory newFactory) {
 		if (newFactory != null) {
@@ -108,6 +109,15 @@ public abstract class SshSessionFactory {
 	public abstract RemoteSession getSession(URIish uri,
 			CredentialsProvider credentialsProvider, FS fs, int tms)
 			throws TransportException;
+
+	/**
+	 * The name of the type of session factory.
+	 *
+	 * @return the name of the type of session factory.
+	 *
+	 * @since 5.8
+	 */
+	public abstract String getType();
 
 	/**
 	 * Close (or recycle) a session to a host.
