@@ -86,6 +86,11 @@
       <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
       <version>${project.version}</version>
     </dependency>
+   <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ui</artifactId>
