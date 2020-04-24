@@ -14,6 +14,6 @@ junit_tests(
         "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.ssh.apache:ssh-apache",
-        "//org.eclipse.jgit.test:sshd-helpers",
+        "//org.eclipse.jgit.junit.ssh:junit-ssh",
     ],
 )
