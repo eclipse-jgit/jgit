@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee028a43_2552677c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-24T21:02:23Z",
+      "side": 1,
+      "message": "s/.../This filter updates a client-provided {@code BitmapBuilder} as a side effect of a revwalk. Similar to {@code AddToBitmapFilter}), it short circuits the walk when it encounters a commit that has a bitmap associated with it. It also short circuits the walk if it encounters the client-provided cached commit./",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "7109a8d07d484ed7be5b1d8b4b3aeac1272f3a7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
