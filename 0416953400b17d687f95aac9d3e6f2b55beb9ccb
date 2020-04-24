@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c928a7_d371d634",
+        "filename": "org.eclipse.jgit.gpg.bc.test/plugin.properties",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-24T19:03:03Z",
+      "side": 1,
+      "message": "Wrong bundle name",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e812565_27a2e98e",
+        "filename": "org.eclipse.jgit.gpg.bc/plugin.properties",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-24T19:03:03Z",
+      "side": 1,
+      "message": "Bundle name is wrong.",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab309eb7_ddc1dfde",
         "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/ssh/SshTestBase.java",
         "patchSetId": 13
