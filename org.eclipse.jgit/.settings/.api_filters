@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.CredentialsProviderUserInfo">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.CredentialsProviderUserInfo"/>
+                <message_argument value="org.eclipse.jgit_5.8.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.DefaultSshSessionFactory">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.DefaultSshSessionFactory"/>
+                <message_argument value="org.eclipse.jgit_5.8.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.JschConfigSessionFactory">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.JschConfigSessionFactory"/>
+                <message_argument value="org.eclipse.jgit_5.8.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.JschSession">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.JschSession"/>
+                <message_argument value="org.eclipse.jgit_5.8.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.transport.OpenSshConfig">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.OpenSshConfig"/>
+                <message_argument value="org.eclipse.jgit_5.8.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/SshSessionFactory.java" type="org.eclipse.jgit.transport.SshSessionFactory">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.SshSessionFactory"/>
+                <message_argument value="getType()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
         <filter id="403767336">
             <message_arguments>

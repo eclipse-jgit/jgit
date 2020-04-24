@@ -7,6 +7,7 @@ Bundle-Version: 5.8.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
+Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.jgit.annotations;version="5.8.0",
  org.eclipse.jgit.api;version="5.8.0";
   uses:="org.eclipse.jgit.revwalk,
@@ -88,7 +89,7 @@ Export-Package: org.eclipse.jgit.annotations;version="5.8.0",
  org.eclipse.jgit.internal.submodule;version="5.8.0";x-internal:=true,
  org.eclipse.jgit.internal.transport.http;version="5.8.0";x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.transport.parser;version="5.8.0";x-friends:="org.eclipse.jgit.http.server,org.eclipse.jgit.test",
- org.eclipse.jgit.internal.transport.ssh;version="5.8.0";x-friends:="org.eclipse.jgit.ssh.apache",
+ org.eclipse.jgit.internal.transport.ssh;version="5.8.0";x-friends:="org.eclipse.jgit.ssh.apache,org.eclipse.jgit.ssh.jsch",
  org.eclipse.jgit.lib;version="5.8.0";
   uses:="org.eclipse.jgit.revwalk,
    org.eclipse.jgit.treewalk.filter,
@@ -158,7 +159,6 @@ Export-Package: org.eclipse.jgit.annotations;version="5.8.0",
  org.eclipse.jgit.util.time;version="5.8.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
- com.jcraft.jsch;version="[0.1.37,0.2.0)",
  javax.crypto,
  javax.net.ssl,
  org.bouncycastle;version="[1.61.0,2.0.0)",
