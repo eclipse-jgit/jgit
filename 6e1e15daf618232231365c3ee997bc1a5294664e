@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1e0fff_d62225e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-24T20:44:38Z",
+      "side": 1,
+      "message": "nit: It is nice to point to the end goal of these initial refactorings, so:\ns/for later use/in preparation for improving the memory footprint of GC\u0027s bitmap generation phase./\n\nThis is true for all of the commits in this series.",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "6e1e15daf618232231365c3ee997bc1a5294664e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
