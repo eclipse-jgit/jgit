@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab309eb7_ddc1dfde",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/transport/ssh/SshTestBase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-24T18:46:26Z",
+      "side": 1,
+      "message": "I see no package import in MANIFEST.MF for this.",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3506218_4244f167",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.transport.SshSessionFactory",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-24T18:46:26Z",
+      "side": 1,
+      "message": "How is this going to work in OSGi when there is absolutely no dependency, not even an optional one, on the jsch bundle? How does OSGi even know which bundle to load/start/activate?",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
