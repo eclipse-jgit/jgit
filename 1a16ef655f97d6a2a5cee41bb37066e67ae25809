@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe32b113_c40813a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-24T21:33:08Z",
+      "side": 1,
+      "message": "nit: don\u0027t end commit subject lines with punctuation",
+      "range": {
+        "startLine": 7,
+        "startChar": 56,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "1a16ef655f97d6a2a5cee41bb37066e67ae25809",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

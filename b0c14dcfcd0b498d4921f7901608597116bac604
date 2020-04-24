@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea01f789_76eec44a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-24T21:33:08Z",
+      "side": 0,
+      "message": "Removing convertedBitmpas seems like a big memory win if the caching rate is really that low!\n\nFor some large repository, can you run a GC, stick a \"total\" counter at the top of this method and a \"cacheHit\" counter above this line, add a commit, and then rerun the GC and report the ratio of cacheHit/total?",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "b0c14dcfcd0b498d4921f7901608597116bac604",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
