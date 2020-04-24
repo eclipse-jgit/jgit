@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0f63c98_271310ab",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-24T07:48:48Z",
+      "side": 1,
+      "message": "Can this just be:\n\n  KeyAuthenticator::new\n\n?",
+      "range": {
+        "startLine": 58,
+        "startChar": 28,
+        "endLine": 58,
+        "endChar": 55
+      },
+      "revId": "aff8dc5ffbe37cb6502d1516ee9cdf1969e0ec62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a44c66f0_8eae57ce",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-24T07:48:48Z",
+      "side": 0,
+      "message": "Unnecessary change?",
+      "revId": "a0802ff9c26b27486fcab2922a4a469945fe8ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
