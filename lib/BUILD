@@ -35,6 +35,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
     exports = ["@eddsa//jar"],
 )
@@ -145,7 +146,9 @@ java_library(
     name = "jsch",
     visibility = [
         "//org.eclipse.jgit:__pkg__",
-        "//org.eclipse.jgit.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
+        "//org.eclipse.jgit.junit.ssh:__pkg__",
     ],
     exports = ["@jsch//jar"],
 )
@@ -181,6 +184,7 @@ java_library(
     name = "jzlib",
     visibility = [
         "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@jzlib//jar"],
