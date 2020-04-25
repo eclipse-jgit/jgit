@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f6030fa_6fda330a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-25T13:30:43Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s true. (At least not for the JGit implementation. Don\u0027t know what C git does.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 77
+      },
+      "revId": "49108d8d53d9b354581faebe6e51bf714088627e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93f58fc7_4743a32b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-25T13:30:43Z",
+      "side": 1,
+      "message": "Looks like this would be needed here, too.",
+      "range": {
+        "startLine": 129,
+        "startChar": 7,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "49108d8d53d9b354581faebe6e51bf714088627e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
