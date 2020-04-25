@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d248552_b0a868f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-25T13:31:16Z",
+      "side": 1,
+      "message": "Is this needed in the copy case, too?",
+      "revId": "b4a9b5586fa927227bfc17e643c2dd0fcf05c378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
