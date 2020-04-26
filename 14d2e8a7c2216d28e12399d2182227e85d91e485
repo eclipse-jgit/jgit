@@ -22,6 +22,30 @@
       "revId": "14d2e8a7c2216d28e12399d2182227e85d91e485",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a2a2646_d006d6a7",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T13:06:05Z",
+      "side": 1,
+      "message": "Exactly. When I originally wrote the ssh test harness I didn\u0027t find anything in sshd to create a key, so I decided to use jsch for creating test keys and just load the key.\n\nMaybe we should look again; perhaps something got added in sshd since sshd 2.0.0. If we have a way to generate a KeyPair in memory with sshd, we could ge rid of jsch in the test harness and wouldn\u0027t need a conversion either.\n\nAlso, I didn\u0027t look too hard. Perhaps it\u0027s doable with some effort without jsch using lower-level sshd classes. My focus at the time was not on this but on getting a test server up and running, and testing both ssh implementations. We had no tests at all in this area before I started implementing the MINA sshd client. And we didn\u0027t have bouncy castle either (and that is about to go away as a hard dependency again). But for tests it might perhaps be possible to use BC to generate keys in memory.",
+      "parentUuid": "c964ccde_2828f54a",
+      "range": {
+        "startLine": 108,
+        "startChar": 37,
+        "endLine": 108,
+        "endChar": 48
+      },
+      "revId": "14d2e8a7c2216d28e12399d2182227e85d91e485",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
