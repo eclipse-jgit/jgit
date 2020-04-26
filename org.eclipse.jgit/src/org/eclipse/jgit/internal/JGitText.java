@@ -333,15 +333,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String funnyRefname;
 	/***/ public String gcFailed;
 	/***/ public String gcTooManyUnpruned;
-	/***/ public String gpgFailedToParseSecretKey;
-	/***/ public String gpgNoCredentialsProvider;
-	/***/ public String gpgNoKeyring;
-	/***/ public String gpgNoKeyInLegacySecring;
-	/***/ public String gpgNoPublicKeyFound;
-	/***/ public String gpgNoSecretKeyForPublicKey;
-	/***/ public String gpgNotASigningKey;
-	/***/ public String gpgKeyInfo;
-	/***/ public String gpgSigningCancelled;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
 	/***/ public String httpConfigCannotNormalizeURL;
@@ -647,6 +638,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
 	/***/ public String signingNotSupportedOnTag;
+	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String skipMustBeNonNegative;
 	/***/ public String skipNotAccessiblePath;

@@ -264,9 +264,9 @@ maven_jar(
 
 maven_jar(
     name = "bcprov",
-    artifact = "org.bouncycastle:bcprov-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "320b989112f00a63a3bcfa5a98f31a4f865a20fa",
-    src_sha1 = "ef2676604015c183bb29f8e17846cb3aa4b80c24",
+    artifact = "org.bouncycastle:bcprov-jdk15on:1.65.01",
+    sha1 = "0fbd478ea7b07acc3902b9585a37fd88393f8427",
+    src_sha1 = "8f54635075628c69b6c037e800dd0b03ffb8dd51",
 )
 
 maven_jar(
