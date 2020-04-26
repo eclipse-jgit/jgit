@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c964ccde_2828f54a",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-04-26T10:43:40Z",
+      "side": 1,
+      "message": "Where is this user key coming from?\n\nAm I understand correctly, it was created by JSch and then written to file, and then loaded?\n\nSo the question is remaining how can keep the whole process from creating to using the keys as a pure memory operation?\n\nWhat Gerrit acceptance test framework is currently doing using JSch ssh client is generating key pair:\n\n  JSch jsch \u003d new JSch();\n  com.jcraft.jsch.KeyPair keypair \u003d KeyPair.genKeyPair(jsch, KeyPair.ECDSA, 256);\n\nand using it with:\n\n  JSch jsch \u003d getJSch(hc, FS.DETECTED);\n  jsch.addIdentity(\n      \"KeyPair\", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);\n\nAll this is pure memory operation. I think part of that problem is missing tool chain in MINA SSHD to generate public/key pair and also conversion from com.jcraft.jsch.KeyPair to java.security.KeyPair.",
+      "range": {
+        "startLine": 108,
+        "startChar": 37,
+        "endLine": 108,
+        "endChar": 48
+      },
+      "revId": "14d2e8a7c2216d28e12399d2182227e85d91e485",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
