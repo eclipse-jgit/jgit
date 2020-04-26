@@ -27,6 +27,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.ServiceUnavailableException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
@@ -55,7 +56,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -140,12 +140,16 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
+	 *
+	 * @throws ServiceUnavailableException
+	 *             if signing service is not available e.g. since it isn't
+	 *             installed
 	 */
 	@Override
-	public RevCommit call() throws GitAPIException, NoHeadException,
-			NoMessageException, UnmergedPathsException,
-			ConcurrentRefUpdateException, WrongRepositoryStateException,
-			AbortedByHookException {
+	public RevCommit call() throws GitAPIException, AbortedByHookException,
+			ConcurrentRefUpdateException, NoHeadException, NoMessageException,
+			ServiceUnavailableException, UnmergedPathsException,
+			WrongRepositoryStateException {
 		checkCallable();
 		Collections.sort(only);
 
@@ -239,6 +243,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				commit.setTreeId(indexTreeId);
 
 				if (signCommit.booleanValue()) {
+					if (gpgSigner == null) {
+						throw new ServiceUnavailableException(
+								JGitText.get().signingServiceUnavailable);
+					}
 					gpgSigner.sign(commit, signingKey, committer,
 							credentialsProvider);
 				}
@@ -510,7 +518,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
-	 * @throws UnsupportedSigningFormatException if the configured gpg.format is not supported
+	 * @throws UnsupportedSigningFormatException
+	 *             if the configured gpg.format is not supported
 	 */
 	private void processOptions(RepositoryState state, RevWalk rw)
 			throws NoMessageException, UnsupportedSigningFormatException {
@@ -581,9 +590,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						JGitText.get().onlyOpenPgpSupportedForSigning);
 			}
 			gpgSigner = GpgSigner.getDefault();
-			if (gpgSigner == null) {
-				gpgSigner = new BouncyCastleGpgSigner();
-			}
 		}
 	}
 

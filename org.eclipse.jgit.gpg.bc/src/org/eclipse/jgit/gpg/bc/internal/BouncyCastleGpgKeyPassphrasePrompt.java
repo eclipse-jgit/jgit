@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.lib.internal;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -17,7 +17,6 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.CredentialItem.CharArrayType;
 import org.eclipse.jgit.transport.CredentialItem.InformationalMessage;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -79,21 +78,21 @@ class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 			throws PGPException, CanceledException, UnsupportedCredentialItem,
 			URISyntaxException {
 		if (passphrase == null) {
-			passphrase = new CharArrayType(JGitText.get().credentialPassphrase,
+			passphrase = new CharArrayType(BCText.get().credentialPassphrase,
 					true);
 		}
 
 		if (credentialsProvider == null) {
-			throw new PGPException(JGitText.get().gpgNoCredentialsProvider);
+			throw new PGPException(BCText.get().gpgNoCredentialsProvider);
 		}
 
 		if (passphrase.getValue() == null
 				&& !credentialsProvider.get(createURI(keyLocation),
 						new InformationalMessage(
-								MessageFormat.format(JGitText.get().gpgKeyInfo,
+								MessageFormat.format(BCText.get().gpgKeyInfo,
 										Hex.toHexString(keyFingerprint))),
 						passphrase)) {
-			throw new CanceledException(JGitText.get().gpgSigningCancelled);
+			throw new CanceledException(BCText.get().gpgSigningCancelled);
 		}
 		return passphrase.getValue();
 	}
