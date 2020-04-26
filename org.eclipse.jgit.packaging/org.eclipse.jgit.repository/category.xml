@@ -30,6 +30,9 @@
    <bundle id="org.eclipse.jgit.archive" version="0.0.0">
       <category name="JGit-additional-bundles"/>
    </bundle>
+   <feature id="org.eclipse.jgit.gpg.bc" version="0.0.0">
+      <category name="JGit"/>
+   </feature>
    <bundle id="org.eclipse.jgit.ui" version="0.0.0">
       <category name="JGit-additional-bundles"/>
    </bundle>

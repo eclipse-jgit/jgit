@@ -766,7 +766,7 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk15on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <version>1.65.01</version>
       </dependency>
 
       <dependency>
@@ -988,6 +988,7 @@
     <module>org.eclipse.jgit.ant</module>
     <module>org.eclipse.jgit.archive</module>
     <module>org.eclipse.jgit.ui</module>
+    <module>org.eclipse.jgit.gpg.bc</module>
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.ssh.apache</module>
@@ -1000,6 +1001,7 @@
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
+    <module>org.eclipse.jgit.gpg.bc.test</module>
     <module>org.eclipse.jgit.http.test</module>
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
