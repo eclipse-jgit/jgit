@@ -6,7 +6,10 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.pgm/resources",
     resources = glob(["resources/**"]),
     visibility = ["//visibility:public"],
-    runtime_deps = [":services"],
+    runtime_deps = [
+        ":services",
+        "//org.eclipse.jgit.gpg.bc:gpg-bc",
+    ],
     deps = [
         "//lib:args4j",
         "//lib:commons-logging",
