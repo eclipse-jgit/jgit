@@ -73,6 +73,7 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.test/resources",
     resources = RESOURCES,
     visibility = [
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
     ],
     deps = [

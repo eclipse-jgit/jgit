@@ -55,7 +55,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -581,9 +580,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						JGitText.get().onlyOpenPgpSupportedForSigning);
 			}
 			gpgSigner = GpgSigner.getDefault();
-			if (gpgSigner == null) {
-				gpgSigner = new BouncyCastleGpgSigner();
-			}
 		}
 	}
 
