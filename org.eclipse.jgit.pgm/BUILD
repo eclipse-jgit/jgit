@@ -20,6 +20,7 @@ java_library(
         "//lib:jetty-util",
         "//lib:servlet-api",
         "//org.eclipse.jgit.archive:jgit-archive",
+        "//org.eclipse.jgit.gpg.bc:gpg-bc",
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.lfs:jgit-lfs",
