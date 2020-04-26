@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -252,11 +252,24 @@ public class SshTestGitServer {
 					.loadKeyPairIdentities(null,
 							NamedResource.ofName(key.toString()), in, null)
 					.iterator().next();
-			if (inFront) {
-				hostKeys.add(0, pair);
-			} else {
-				hostKeys.add(pair);
-			}
+			addHostKey(pair, inFront);
+		}
+	}
+
+	/**
+	 * Adds an additional host key to the server.
+	 *
+	 * @param key
+	 *            {@link KeyPair} to add
+	 * @param inFront
+	 *            whether to add the new key before other existing keys
+	 * @since 5.8
+	 */
+	public void addHostKey(@NonNull KeyPair key, boolean inFront) {
+		if (inFront) {
+			hostKeys.add(0, key);
+		} else {
+			hostKeys.add(key);
 		}
 	}
 
@@ -320,6 +333,18 @@ public class SshTestGitServer {
 			throws IOException, GeneralSecurityException {
 		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
 				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+	}
+
+	/**
+	 * Sets the test user's public key on the server.
+	 *
+	 * @param key
+	 *            to set
+	 *
+	 * @since 5.8
+	 */
+	public void setTestUserPublicKey(@NonNull PublicKey key) {
+		this.testKey = key;
 	}
 
 	/**
