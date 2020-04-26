@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "8b7cf89d_2fba0c4e",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T09:43:15Z",
+      "side": 1,
+      "message": "Should be a singleton?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae40ee67_81ba0d80",
         "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -82,6 +99,29 @@
       "writtenOn": "2020-04-26T08:21:56Z",
       "side": 1,
       "message": "Needs a version range. Remember the trouble we had with the smartimport fragment in EGit?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6f2da16_c004dd53",
+        "filename": "org.eclipse.jgit.ssh.jsch/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T09:43:15Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 40
+      },
       "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
