@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.lib.internal;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

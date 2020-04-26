@@ -56,21 +56,6 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpg-jdk15on</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -169,7 +154,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
@@ -235,7 +220,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>
