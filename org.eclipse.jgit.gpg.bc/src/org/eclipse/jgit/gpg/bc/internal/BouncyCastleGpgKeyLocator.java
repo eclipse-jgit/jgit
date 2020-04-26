@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.lib.internal;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newInputStream;
@@ -57,7 +57,6 @@ import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -179,7 +178,8 @@ class BouncyCastleGpgKeyLocator {
 	 *      "https://www.gnupg.org/documentation/manuals/gnupg/Specify-a-User-ID.html">GPG
 	 *      Documentation: How to Specify a User ID</a>
 	 */
-	static boolean containsSigningKey(String userId, String signingKeySpec) {
+	static boolean containsSigningKey(String userId,
+			String signingKeySpec) {
 		if (StringUtils.isEmptyOrNull(userId)
 				|| StringUtils.isEmptyOrNull(signingKeySpec)) {
 			return false;
@@ -338,11 +338,11 @@ class BouncyCastleGpgKeyLocator {
 							return key;
 						}
 						throw new PGPException(MessageFormat.format(
-								JGitText.get().gpgNoSecretKeyForPublicKey,
+								BCText.get().gpgNoSecretKeyForPublicKey,
 								Long.toHexString(publicKey.getKeyID())));
 					}
 					throw new PGPException(MessageFormat.format(
-							JGitText.get().gpgNoPublicKeyFound, signingKey));
+							BCText.get().gpgNoPublicKeyFound, signingKey));
 				} catch (NoOpenPgpKeyException e) {
 					// There are no OpenPGP keys in the keybox at all: try the
 					// pubring.gpg, if it exists.
@@ -370,7 +370,7 @@ class BouncyCastleGpgKeyLocator {
 			}
 			if (publicKey == null) {
 				throw new PGPException(MessageFormat.format(
-						JGitText.get().gpgNoPublicKeyFound, signingKey));
+						BCText.get().gpgNoPublicKeyFound, signingKey));
 			}
 			// We found a public key, but didn't find the secret key in the
 			// private key directory. Go try the secring.gpg.
@@ -385,14 +385,14 @@ class BouncyCastleGpgKeyLocator {
 		}
 		if (publicKey != null) {
 			throw new PGPException(MessageFormat.format(
-					JGitText.get().gpgNoSecretKeyForPublicKey,
+					BCText.get().gpgNoSecretKeyForPublicKey,
 					Long.toHexString(publicKey.getKeyID())));
 		} else if (hasSecring) {
 			// publicKey == null: user has _only_ pubring.gpg/secring.gpg.
 			throw new PGPException(MessageFormat.format(
-					JGitText.get().gpgNoKeyInLegacySecring, signingKey));
+					BCText.get().gpgNoKeyInLegacySecring, signingKey));
 		} else {
-			throw new PGPException(JGitText.get().gpgNoKeyring);
+			throw new PGPException(BCText.get().gpgNoKeyring);
 		}
 	}
 
@@ -414,7 +414,7 @@ class BouncyCastleGpgKeyLocator {
 		if (secretKey != null) {
 			if (!secretKey.isSigningKey()) {
 				throw new PGPException(MessageFormat
-						.format(JGitText.get().gpgNotASigningKey, signingKey));
+						.format(BCText.get().gpgNotASigningKey, signingKey));
 			}
 			return new BouncyCastleGpgKey(secretKey, secring);
 		}
@@ -446,7 +446,7 @@ class BouncyCastleGpgKeyLocator {
 				if (secretKey != null) {
 					if (!secretKey.isSigningKey()) {
 						throw new PGPException(MessageFormat.format(
-								JGitText.get().gpgNotASigningKey, signingKey));
+								BCText.get().gpgNotASigningKey, signingKey));
 					}
 					return new BouncyCastleGpgKey(secretKey, userKeyboxPath);
 				}
@@ -460,7 +460,7 @@ class BouncyCastleGpgKeyLocator {
 		} catch (IOException e) {
 			passphrasePrompt.clear();
 			throw new PGPException(MessageFormat.format(
-					JGitText.get().gpgFailedToParseSecretKey,
+					BCText.get().gpgFailedToParseSecretKey,
 					USER_SECRET_KEY_DIR.toAbsolutePath()), e);
 		}
 	}
