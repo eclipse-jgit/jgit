@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3b929f9_2727c9d9",
+        "filename": "org.eclipse.jgit.junit.ssh/build.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "Is this needed? It\u0027s a src package on the classpath; should be included anyway.",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "982666ec_72638e44",
+        "filename": "org.eclipse.jgit.junit.ssh/build.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "That\u0027s strange.",
+      "range": {
+        "startLine": 8,
+        "startChar": 15,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4856bbd1_5c32be3c",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/plugin.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "JSch",
+      "range": {
+        "startLine": 1,
+        "startChar": 36,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae40ee67_81ba0d80",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "Needs a version range. Remember the trouble we had with the smartimport fragment in EGit?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68fb4ad7_e3da3d10",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "Why remove the upper bound?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfdae97_8008840c",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-04-26T08:21:56Z",
+      "side": 1,
+      "message": "Aren\u0027t these all x-internal:\u003dtrue?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
