@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2019, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
@@ -166,15 +167,20 @@ public class NoFilesSshTest extends SshTestHarness {
 	@Test
 	public void testCloneWithBuiltInKeys() throws Exception {
 		// This test should fail unless our in-memory setup is taken: no
-		// known_hosts file, and a config that specifies a non-existing key.
+		// known_hosts file, a config that specifies a non-existing key,
+		// and the test is using a newly generated KeyPair for the test user
+		// anyway.
 		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
 		copyTestResource("id_ed25519", newHostKey);
 		server.addHostKey(newHostKey.toPath(), true);
 		testServerKey = load(newHostKey.toPath()).getPublic();
 		assertTrue(newHostKey.delete());
-		testUserKey = load(privateKey1.getAbsoluteFile().toPath());
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
+		testUserKey = generator.generateKeyPair();
 		assertNotNull(testServerKey);
 		assertNotNull(testUserKey);
+		server.setTestUserPublicKey(testUserKey.getPublic());
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",

@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
@@ -148,9 +149,12 @@ public class NoFilesSshBuilderTest extends SshTestHarness {
 		server.addHostKey(newHostKey.toPath(), true);
 		testServerKey = load(newHostKey.toPath()).getPublic();
 		assertTrue(newHostKey.delete());
-		testUserKey = load(privateKey1.getAbsoluteFile().toPath());
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
+		testUserKey = generator.generateKeyPair();
 		assertNotNull(testServerKey);
 		assertNotNull(testUserKey);
+		server.setTestUserPublicKey(testUserKey.getPublic());
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",

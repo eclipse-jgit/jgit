@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -320,6 +320,18 @@ public class SshTestGitServer {
 			throws IOException, GeneralSecurityException {
 		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
 				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+	}
+
+	/**
+	 * Sets the test user's public key on the server.
+	 *
+	 * @param key
+	 *            to set
+	 *
+	 * @since 5.8
+	 */
+	public void setTestUserPublicKey(@NonNull PublicKey key) {
+		this.testKey = key;
 	}
 
 	/**
