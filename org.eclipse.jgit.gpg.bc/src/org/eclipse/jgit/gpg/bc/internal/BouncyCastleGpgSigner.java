@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.lib.internal;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,7 +32,6 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.GpgSignature;
 import org.eclipse.jgit.lib.GpgSigner;
@@ -102,7 +101,7 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 			PGPSecretKey secretKey = gpgKey.getSecretKey();
 			if (secretKey == null) {
 				throw new JGitInternalException(
-						JGitText.get().unableToSignCommitNoSecretKey);
+						BCText.get().unableToSignCommitNoSecretKey);
 			}
 			char[] passphrase = passphrasePrompt.getPassphrase(
 					secretKey.getPublicKey().getFingerprint(),
