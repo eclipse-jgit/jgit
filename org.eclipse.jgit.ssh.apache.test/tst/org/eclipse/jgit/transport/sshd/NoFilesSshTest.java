@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2019, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,29 +10,25 @@
 package org.eclipse.jgit.transport.sshd;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
-import org.apache.sshd.common.util.security.SecurityUtils;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
@@ -154,27 +150,20 @@ public class NoFilesSshTest extends SshTestHarness {
 		}
 	}
 
-	private KeyPair load(Path path) throws Exception {
-		try (InputStream in = Files.newInputStream(path)) {
-			return SecurityUtils
-					.loadKeyPairIdentities(null,
-							NamedResource.ofName(path.toString()), in, null)
-					.iterator().next();
-		}
-	}
-
 	@Test
 	public void testCloneWithBuiltInKeys() throws Exception {
 		// This test should fail unless our in-memory setup is taken: no
-		// known_hosts file, and a config that specifies a non-existing key.
-		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
-		copyTestResource("id_ed25519", newHostKey);
-		server.addHostKey(newHostKey.toPath(), true);
-		testServerKey = load(newHostKey.toPath()).getPublic();
-		assertTrue(newHostKey.delete());
-		testUserKey = load(privateKey1.getAbsoluteFile().toPath());
+		// known_hosts file, a config that specifies a non-existing key,
+		// and the test is using a newly generated KeyPairs anyway.
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
+		testUserKey = generator.generateKeyPair();
+		KeyPair hostKey = generator.generateKeyPair();
+		server.addHostKey(hostKey, true);
+		testServerKey = hostKey.getPublic();
 		assertNotNull(testServerKey);
 		assertNotNull(testUserKey);
+		server.setTestUserPublicKey(testUserKey.getPublic());
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",
