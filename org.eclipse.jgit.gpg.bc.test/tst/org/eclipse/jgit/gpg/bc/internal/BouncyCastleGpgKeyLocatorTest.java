@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.lib.internal;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +21,9 @@ public class BouncyCastleGpgKeyLocatorTest {
 	private static final String USER_ID = "Heinrich Heine <heinrichh@uni-duesseldorf.de>";
 
 	private static boolean match(String userId, String pattern) {
-		return BouncyCastleGpgKeyLocator.containsSigningKey(userId, pattern);
+		return BouncyCastleGpgKeyLocator
+				.containsSigningKey(userId,
+				pattern);
 	}
 
 	@Test
