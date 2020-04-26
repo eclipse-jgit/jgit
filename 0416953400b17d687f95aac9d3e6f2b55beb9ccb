@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da5ca903_a83c5a9a",
+        "filename": "org.eclipse.jgit.gpg.bc.test/plugin.properties",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-26T02:14:57Z",
+      "side": 1,
+      "message": "JGit tests for bouncycastle based GPG implementation",
+      "parentUuid": "a7c928a7_d371d634",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e812565_27a2e98e",
         "filename": "org.eclipse.jgit.gpg.bc/plugin.properties",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-24T19:03:03Z",
       "side": 1,
       "message": "Bundle name is wrong.",
+      "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79232a56_0c91945d",
+        "filename": "org.eclipse.jgit.gpg.bc/plugin.properties",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-26T02:14:57Z",
+      "side": 1,
+      "message": "JGit bouncycastle based GPG support",
+      "parentUuid": "1e812565_27a2e98e",
       "revId": "0416953400b17d687f95aac9d3e6f2b55beb9ccb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
