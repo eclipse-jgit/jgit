@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0f4c166_324842ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T11:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "672c77e1_b3ca38fd",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "6baa29f52acf0b23033f9563fe4cad1b968beab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79e6d956_dd4c4a1a",
         "filename": "org.eclipse.jgit.gpg.bc.test/plugin.properties",
         "patchSetId": 2
