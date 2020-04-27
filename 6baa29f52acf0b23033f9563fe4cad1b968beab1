@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "01fcee88_10f6514a",
+        "filename": "org.eclipse.jgit.gpg.bc.test/plugin.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T10:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79e6d956_dd4c4a1a",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "6baa29f52acf0b23033f9563fe4cad1b968beab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aa639a6_5e895b8b",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/SOURCE-MANIFEST.MF",
         "patchSetId": 2
@@ -59,6 +83,24 @@
       "writtenOn": "2020-04-27T10:15:18Z",
       "side": 1,
       "message": "add this to the source feature",
+      "revId": "6baa29f52acf0b23033f9563fe4cad1b968beab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "373431b3_ead93a9f",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T10:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aa639a6_5e895b8b",
       "revId": "6baa29f52acf0b23033f9563fe4cad1b968beab1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
