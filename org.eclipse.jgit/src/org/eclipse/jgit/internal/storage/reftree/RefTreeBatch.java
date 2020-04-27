@@ -88,8 +88,9 @@ class RefTreeBatch extends BatchRefUpdate {
 			tree = RefTree.read(rw.getObjectReader(), c.getTree());
 		} else {
 			parentCommitId = ObjectId.zeroId();
-			parentTreeId = new ObjectInserter.Formatter()
-					.idFor(OBJ_TREE, new byte[] {});
+			try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+				parentTreeId = fmt.idFor(OBJ_TREE, new byte[] {});
+			}
 			tree = RefTree.newEmptyTree();
 		}
 	}
