@@ -16,6 +16,24 @@
       "revId": "767055306a5c4cd981d0965eb9cf540507bda328",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c29f303_31084d6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-04-27T23:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "159b3cb5_0c834828",
+      "revId": "767055306a5c4cd981d0965eb9cf540507bda328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
