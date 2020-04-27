@@ -142,12 +142,14 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					dco.setProgressMonitor(monitor);
 					dco.checkout();
 					if (!noCommit) {
-						newHead = new Git(getRepository()).commit()
-								.setMessage(srcCommit.getFullMessage())
-								.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
-										+ srcCommit.getShortMessage())
-								.setAuthor(srcCommit.getAuthorIdent())
-								.setNoVerify(true).call();
+						try (Git git = new Git(getRepository())) {
+							newHead = git.commit()
+									.setMessage(srcCommit.getFullMessage())
+									.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
+											+ srcCommit.getShortMessage())
+									.setAuthor(srcCommit.getAuthorIdent())
+									.setNoVerify(true).call();
+						}
 					}
 					cherryPickedRefs.add(src);
 				} else {
