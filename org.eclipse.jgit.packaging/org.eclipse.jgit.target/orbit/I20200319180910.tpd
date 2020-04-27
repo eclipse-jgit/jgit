@@ -1,5 +1,5 @@
 target "I20200319180910" with source configurePhase
-// see http://download.eclipse.org/tools/orbit/downloads/
+// see https://download.eclipse.org/tools/orbit/downloads/
 
 location "https://download.eclipse.org/tools/orbit/downloads/drops/I20200319180910/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]

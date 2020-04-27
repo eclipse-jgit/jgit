@@ -88,7 +88,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/staging/2020-03/"/>
+      <repository location="https://download.eclipse.org/staging/2020-03/"/>
     </location>
   </locations>
 </target>
