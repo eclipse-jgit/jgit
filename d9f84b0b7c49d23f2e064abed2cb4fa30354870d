@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8a48993_a2f01e50",
+        "filename": "org.eclipse.jgit.junit.ssh/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2897924c_9f5b28e1",
+      "revId": "d9f84b0b7c49d23f2e064abed2cb4fa30354870d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00500029_ecd3ed69",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshSessionFactory.java",
         "patchSetId": 14

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7af8a97_ad86fcc4",
+        "filename": "org.eclipse.jgit.junit.ssh/build.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b929f9_2727c9d9",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "982666ec_72638e44",
         "filename": "org.eclipse.jgit.junit.ssh/build.properties",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-26T08:21:56Z",
       "side": 1,
       "message": "That\u0027s strange.",
+      "range": {
+        "startLine": 8,
+        "startChar": 15,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65dcb60a_e499cdef",
+        "filename": "org.eclipse.jgit.junit.ssh/build.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "982666ec_72638e44",
       "range": {
         "startLine": 8,
         "startChar": 15,
@@ -71,6 +119,53 @@
     },
     {
       "key": {
+        "uuid": "b1d58168_c07f18e3",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/plugin.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4856bbd1_5c32be3c",
+      "range": {
+        "startLine": 1,
+        "startChar": 36,
+        "endLine": 1,
+        "endChar": 52
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "665eb6d3_0bb441ad",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "duplicate dependency",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b7cf89d_2fba0c4e",
         "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -88,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "5475c733_c03d4c47",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b7cf89d_2fba0c4e",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae40ee67_81ba0d80",
         "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -99,6 +212,24 @@
       "writtenOn": "2020-04-26T08:21:56Z",
       "side": 1,
       "message": "Needs a version range. Remember the trouble we had with the smartimport fragment in EGit?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa2cbf66_b1f730f7",
+        "filename": "org.eclipse.jgit.ssh.jsch/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done, version range seems not possible, doesn\u0027t compile in Eclipse",
+      "parentUuid": "ae40ee67_81ba0d80",
       "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -128,6 +259,47 @@
     },
     {
       "key": {
+        "uuid": "6c6951a6_4b336b47",
+        "filename": "org.eclipse.jgit.ssh.jsch/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f2da16_c004dd53",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c01b2f37_c1e97ceb",
+        "filename": "org.eclipse.jgit.ssh.jsch/src/org/eclipse/jgit/internal/transport/jsch/JSchText.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68fb4ad7_e3da3d10",
         "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -145,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "80d4e41e_ee78ca70",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68fb4ad7_e3da3d10",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcfdae97_8008840c",
         "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -156,6 +346,24 @@
       "writtenOn": "2020-04-26T08:21:56Z",
       "side": 1,
       "message": "Aren\u0027t these all x-internal:\u003dtrue?",
+      "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "669e7865_0953fbe5",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-27T12:28:41Z",
+      "side": 1,
+      "message": "I think there is no need to export anything from the test bundle, the SshTestBase and SshTestHarness are now in o.e.j.junit.ssh",
+      "parentUuid": "dcfdae97_8008840c",
       "revId": "c021081df0e5426aa3262cf406bae527036e3db5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
