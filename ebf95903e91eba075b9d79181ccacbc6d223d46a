@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc5ffd97_ffa66b83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-04-29T22:42:50Z",
+      "side": 1,
+      "message": "we can avoid this negation if we don\u0027t change the order of statements:\n\n if (bitmap instanceof CompressedBitmap) {\n    return ((CompressedBitmap) bitmap).getEwahCompressedBitmap()\n }\n throw new IllegalArgumentException(bitmap.getClass().toString();\n\nI think this is easier to read\n\n\nUsing instanceof and downcasting are pretty ugly, maybe we can turn this around and add a method to the different bitmap implementations which implements the corresponding behavior ?",
+      "revId": "ebf95903e91eba075b9d79181ccacbc6d223d46a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
