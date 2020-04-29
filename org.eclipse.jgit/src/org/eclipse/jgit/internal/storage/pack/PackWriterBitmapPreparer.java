@@ -58,7 +58,7 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
-	private static final int DISTANCE_THRESHOLD = 0;
+	private static final int DISTANCE_THRESHOLD = 2000;
 
 	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = (
 			RevCommit a, RevCommit b) -> Integer
