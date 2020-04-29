@@ -37,6 +37,8 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	private final ObjectIdOwnerMap<StoredBitmap> convertedBitmaps;
 	private final BitSet inflated;
 	private final int[] prevToNewMapping;
+	private int totalNumCalled;
+	private int numHit;
 
 	/**
 	 * A PackBitmapIndex that maps the positions in the prevBitmapIndex to the
@@ -149,12 +151,19 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap bitmap = newPackIndex.getBitmap(objectId);
+		totalNumCalled++;
+		if(totalNumCalled % 100 == 0){
+			System.out.println("Remapper.getBitmap() called num: " + totalNumCalled);
+		}
 		if (bitmap != null || oldPackIndex == null)
 			return bitmap;
 
 		StoredBitmap stored = convertedBitmaps.get(objectId);
-		if (stored != null)
+		if (stored != null) {
+			numHit ++;
+			System.out.println("Remapper.getBitmap() cache hit: " + numHit);
 			return stored.getBitmap();
+		}
 
 		StoredBitmap oldBitmap = oldPackIndex.getBitmaps().get(objectId);
 		if (oldBitmap == null)
