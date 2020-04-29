@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1779d4a_9807cf49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-29T00:05:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0721bf4d_90e29b66",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "151ee986050e38608cab9cc22b046d7817819e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1763e313_23f97c50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "151ee986050e38608cab9cc22b046d7817819e97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b09eea18_d8ed96af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-29T00:05:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1763e313_23f97c50",
+      "range": {
+        "startLine": 37,
+        "startChar": 23,
+        "endLine": 37,
+        "endChar": 60
+      },
+      "revId": "151ee986050e38608cab9cc22b046d7817819e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "f4ab4212_2b0be74c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-29T00:05:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5234c38c_4ad0f186",
+      "range": {
+        "startLine": 41,
+        "startChar": 57,
+        "endLine": 41,
+        "endChar": 59
+      },
+      "revId": "151ee986050e38608cab9cc22b046d7817819e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c65a248a_e6ed4a08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-29T00:05:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "297755bb_432b56b3",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 28
+      },
+      "revId": "151ee986050e38608cab9cc22b046d7817819e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b6b8554_a349e8c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "151ee986050e38608cab9cc22b046d7817819e97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18809993_34afef2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectReachabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-04-29T00:05:18Z",
+      "side": 1,
+      "message": "Reporting missing/invalid objects as IllegalStateException.\n\nAdded implementation spec.",
+      "parentUuid": "4b6b8554_a349e8c7",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "151ee986050e38608cab9cc22b046d7817819e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
