@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "85e2d3a1_ade308be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-29T22:17:57Z",
+      "side": 1,
+      "message": "As discussed offline, I replaced clearBitmaps() to resetBitmaps(int newSize). Since we can\u0027t specify an initial capacity for LinkedList, I use ArrayList here instead.",
+      "parentUuid": "441cd018_ed79d711",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d52c8fa6_087b1ae3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 3
@@ -442,6 +466,29 @@
         "startChar": 0,
         "endLine": 182,
         "endChar": 67
+      },
+      "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "568cf736_1eb97c60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-29T22:17:57Z",
+      "side": 1,
+      "message": "I found that getEntriesCount() is not necessary and actually we should override getBitmapCount() here.",
+      "range": {
+        "startLine": 324,
+        "startChar": 12,
+        "endLine": 324,
+        "endChar": 29
       },
       "revId": "38bbdb58092ddc2609127e1d998e6d3cdec3d440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
