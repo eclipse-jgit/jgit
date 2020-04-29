@@ -22,6 +22,30 @@
       "revId": "b0c14dcfcd0b498d4921f7901608597116bac604",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f18c9683_2a696e76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-29T22:22:28Z",
+      "side": 0,
+      "message": "I ran experiment on the msm repo and the GC process was terminated by OutOfMemory Exception as expected. Before its termination, the total is around 5100 and cacheHit is only 13. So I believe that we should remove convertedBitmaps here.\n\nFYI, the experiment commit: https://git.eclipse.org/r/c/161774/.",
+      "parentUuid": "ea01f789_76eec44a",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "b0c14dcfcd0b498d4921f7901608597116bac604",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
