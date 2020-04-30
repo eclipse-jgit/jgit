@@ -29,7 +29,7 @@ import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 public class BitmappedObjectReachabilityChecker
 		implements ObjectReachabilityChecker {
 
-	private ObjectWalk walk;
+	private final ObjectWalk walk;
 
 	/**
 	 * New instance of the reachability checker using a existing walk.

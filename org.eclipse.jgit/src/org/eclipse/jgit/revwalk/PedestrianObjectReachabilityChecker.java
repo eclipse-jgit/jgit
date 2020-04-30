@@ -23,7 +23,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * walk.
  */
 class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
-	private ObjectWalk walk;
+	private final ObjectWalk walk;
 
 	/**
 	 * New instance of the reachability checker using a existing walk.
