@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06d8b814_a2ed06eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-04-30T00:32:04Z",
+      "side": 1,
+      "message": "Link to the repository: https://source.codeaurora.org/quic/la/kernel/msm-3.18",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "2e181dd2c3fd34ec21ea4fdf5e3bf0af575afe36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
