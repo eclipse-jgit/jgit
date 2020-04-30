@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073ae87a_c7fade3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "nit: no need for trailing punctuation on subject line",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df7579ae_f995527f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/.../Introduce an IterativeConnectivityChecker which runs a connectivity check with a filtered set of references, and falls back to using the full set of advertised references./",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70ff6483_c95a6dbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/.../references in the filtered set:/",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92a16afd_cf689b6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/.../- References that are ancestors of an incoming commits (e.g., pushing a commit onto an existing branch or pushing a new branch based on another branch)/",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52af76e4_f6ea592b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/sha/references/",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3f1d201_849ba4b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/gerrit/Gerrit/",
+      "range": {
+        "startLine": 18,
+        "startChar": 20,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa7b92d9_098d5d53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s|...|chromium.googlesource.com/chromium/src|",
+      "range": {
+        "startLine": 21,
+        "startChar": 48,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e2abb3_bafd1fac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "This saved 2.5-4 seconds on every push to this repository.",
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc18d938_2a3054be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/try/tries/",
+      "range": {
+        "startLine": 35,
+        "startChar": 48,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1168ba_95f29723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "s/fail/fails/",
+      "range": {
+        "startLine": 36,
+        "startChar": 33,
+        "endLine": 36,
+        "endChar": 37
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195f1cad_719c8747",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "Add:\n// Looking through a chain of ancestors handles the case where a series of commits is sent in a single push.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 32
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
