@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cded2159_8f78a1e1",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-04-30T23:45:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand your objection. Are you saying the error message indicates using Require-Bundle rather than Import-Package? Resolving the error does automatically add this line, but that doesn\u0027t mean it is the right approach, e.g.: http://blog.vogella.com/2009/03/27/required-bundle-import-package/",
+      "parentUuid": "7f1ad850_47f0afdf",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f22e5c6_d537efb7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FakeRevCommit.java",
         "patchSetId": 14
