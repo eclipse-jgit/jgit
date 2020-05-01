@@ -16,6 +16,24 @@
       "revId": "b4a9b5586fa927227bfc17e643c2dd0fcf05c378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b664efd_e059dcb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 283583
+      },
+      "writtenOn": "2020-05-01T14:04:37Z",
+      "side": 1,
+      "message": "Good point, added",
+      "parentUuid": "0d248552_b0a868f8",
+      "revId": "b4a9b5586fa927227bfc17e643c2dd0fcf05c378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
