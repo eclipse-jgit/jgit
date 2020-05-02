@@ -185,20 +185,6 @@
       </plugin>
     </plugins>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${spotbugs-maven-plugin-version}</version>
-          <configuration>
-            <excludeFilterFile>findBugs/FindBugsExcludeFilter.xml</excludeFilterFile>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-
   <reporting>
     <plugins>
       <plugin>
