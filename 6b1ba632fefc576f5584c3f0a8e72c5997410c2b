@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca7ad513_9fb30a3a",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-03T23:09:29Z",
+      "side": 1,
+      "message": "why don\u0027t we wait for this new bazel release ?",
+      "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
