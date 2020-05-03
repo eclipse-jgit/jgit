@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e90fa25_08c0e5f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-03T23:50:39Z",
+      "side": 1,
+      "message": "why does configuring ErrorProne render SpotBugs obsolete ? \n\n[1] found that SpotBugs was slightly more effective to find bugs out of a sample of bugs in open source projects. \n\n[2] suggests to use multiple static code checkers since they tend to catch largely non-overlapping error types\n\n[1] https://src.acm.org/binaries/content/assets/src/2019/david-a.-tomassi.pdf\n[2] https://techbeacon.com/devops/how-google-facebook-do-code-analysis",
+      "revId": "3cd85fbefcece0661dfdc08a43c31515c6fa02c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
