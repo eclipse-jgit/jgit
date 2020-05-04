@@ -25,10 +25,8 @@ import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 /**
  * Checks if all objects are reachable from certain starting points using
  * bitmaps.
- *
- * @since 5.8
  */
-public class BitmappedObjectReachabilityChecker
+class BitmappedObjectReachabilityChecker
 		implements ObjectReachabilityChecker {
 
 	private final ObjectWalk walk;
