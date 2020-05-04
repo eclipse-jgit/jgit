@@ -16,6 +16,98 @@
       "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7292b12_327f4005",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-04T08:58:20Z",
+      "side": 1,
+      "message": "Why is this increased to ERROR?",
+      "range": {
+        "startLine": 53,
+        "startChar": 22,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4507b17b_7195f4a9",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-04T08:58:20Z",
+      "side": 1,
+      "message": "Severity was changed from WARN",
+      "range": {
+        "startLine": 98,
+        "startChar": 32,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef14e73f_87e43ed4",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-04T08:58:20Z",
+      "side": 1,
+      "message": "Severity was changed from WARN",
+      "range": {
+        "startLine": 103,
+        "startChar": 29,
+        "endLine": 103,
+        "endChar": 34
+      },
+      "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c07dc54_8a6086f8",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-04T08:58:20Z",
+      "side": 1,
+      "message": "Looks like this was copied from the gerrit project?",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 33
+      },
+      "revId": "6b1ba632fefc576f5584c3f0a8e72c5997410c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

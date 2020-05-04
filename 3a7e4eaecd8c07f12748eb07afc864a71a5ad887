@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f913626e_5138b3fb",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-04T08:58:20Z",
+      "side": 0,
+      "message": "Can we do the re-ordering in a separate commit?  Mixing it in this commit makes it easier to overlook changes in the severities -- a couple of these were changed, probably unintentionally.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "3a7e4eaecd8c07f12748eb07afc864a71a5ad887",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
