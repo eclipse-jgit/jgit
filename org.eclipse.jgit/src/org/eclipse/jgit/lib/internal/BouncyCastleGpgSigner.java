@@ -25,6 +25,7 @@ import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.eclipse.jgit.annotations.NonNull;
@@ -117,6 +118,11 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 							HashAlgorithmTags.SHA256).setProvider(
 									BouncyCastleProvider.PROVIDER_NAME));
 			signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
+			PGPSignatureSubpacketGenerator subpacketGenerator = new PGPSignatureSubpacketGenerator();
+			subpacketGenerator.setIssuerFingerprint(false,
+					secretKey.getPublicKey());
+			signatureGenerator
+					.setHashedSubpackets(subpacketGenerator.generate());
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			try (BCPGOutputStream out = new BCPGOutputStream(
 					new ArmoredOutputStream(buffer))) {
