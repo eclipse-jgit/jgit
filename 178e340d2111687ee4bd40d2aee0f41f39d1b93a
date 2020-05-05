@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "685d9836_4e0d01a3",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Thanks for this! Figured out how to fix import\\export issue and moved to the import by a package.",
+      "parentUuid": "cded2159_8f78a1e1",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "178e340d2111687ee4bd40d2aee0f41f39d1b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f22e5c6_d537efb7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FakeRevCommit.java",
         "patchSetId": 14
