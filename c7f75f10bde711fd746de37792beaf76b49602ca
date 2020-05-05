@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61a84d10_22e70cda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073ae87a_c7fade3b",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df7579ae_f995527f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 19
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-30T23:45:03Z",
       "side": 1,
       "message": "s/.../Introduce an IterativeConnectivityChecker which runs a connectivity check with a filtered set of references, and falls back to using the full set of advertised references./",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9129c056_6019d0a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df7579ae_f995527f",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "06a591e6_8d3ace00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70ff6483_c95a6dbb",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92a16afd_cf689b6b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 19
@@ -82,6 +154,30 @@
       "writtenOn": "2020-04-30T23:45:03Z",
       "side": 1,
       "message": "s/.../- References that are ancestors of an incoming commits (e.g., pushing a commit onto an existing branch or pushing a new branch based on another branch)/",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1d76ec4_bccbc029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92a16afd_cf689b6b",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -203,6 +299,30 @@
     },
     {
       "key": {
+        "uuid": "c6a060ce_1ea84cee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc18d938_2a3054be",
+      "range": {
+        "startLine": 35,
+        "startChar": 48,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa1168ba_95f29723",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
         "patchSetId": 19
@@ -226,6 +346,30 @@
     },
     {
       "key": {
+        "uuid": "190fffbd_0309125c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa1168ba_95f29723",
+      "range": {
+        "startLine": 36,
+        "startChar": 33,
+        "endLine": 36,
+        "endChar": 37
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "195f1cad_719c8747",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
         "patchSetId": 19
@@ -237,6 +381,30 @@
       "writtenOn": "2020-04-30T23:45:03Z",
       "side": 1,
       "message": "Add:\n// Looking through a chain of ancestors handles the case where a series of commits is sent in a single push.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 32
+      },
+      "revId": "c7f75f10bde711fd746de37792beaf76b49602ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8ce6cda_e974a3e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/internal/IterativeConnectivityChecker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-05T20:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "195f1cad_719c8747",
       "range": {
         "startLine": 126,
         "startChar": 0,
