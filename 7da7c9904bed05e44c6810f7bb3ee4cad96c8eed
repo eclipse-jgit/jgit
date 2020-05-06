@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9aede40_fafdf46b",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-06T17:56:21Z",
+      "side": 1,
+      "message": "This appears to be wrong and should probably be on the export below on line 144.",
+      "revId": "7da7c9904bed05e44c6810f7bb3ee4cad96c8eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
