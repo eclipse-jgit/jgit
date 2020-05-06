@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49839771_f4fef451",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-06T15:50:33Z",
+      "side": 1,
+      "message": "this will break existing applications expecting to use region, how about falling back to the old implementation if region is set to ensure backwards compatibility ?",
+      "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
