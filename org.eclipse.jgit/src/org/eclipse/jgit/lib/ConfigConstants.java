@@ -542,4 +542,124 @@ public final class ConfigConstants {
 	 * @since 5.1.13
 	 */
 	public static final String CONFIG_JMX_SECTION = "jmx";
+
+	/**
+	 * The "pack.bigfilethreshold" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BIGFILE_THRESHOLD = "bigfilethreshold";
+
+	/**
+	 * The "pack.bitmapContiguousCommitCount" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT = "bitmapcontiguouscommitcount";
+
+	/**
+	 * The "pack.bitmapDistantCommitSpan" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN = "bitmapdistantcommitspan";
+
+	/**
+	 * The "pack.bitmapExcessiveBranchCount" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT = "bitmapexcessivebranchcount";
+
+	/**
+	 * The "pack.bitmapInactiveBranchAgeInDays" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS = "bitmapinactivebranchageindays";
+
+	/**
+	 * The "pack.bitmapRecentCommitSpan" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
+
+	/**
+	 * The "pack.buildBitmaps" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_BUILD_BITMAPS = "buildbitmaps";
+
+	/**
+	 * The "pack.cutDeltaChains" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_CUT_DELTACHAINS = "cutdeltachains";
+
+	/**
+	 * The "pack.deltaCacheLimit" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_DELTA_CACHE_LIMIT = "deltacachelimit";
+
+	/**
+	 * The "pack.deltaCacheSize" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_DELTA_CACHE_SIZE = "deltacachesize";
+
+	/**
+	 * The "pack.deltaCompression" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_DELTA_COMPRESSION = "deltacompression";
+
+	/**
+	 * The "pack.depth" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_DEPTH = "depth";
+
+	/**
+	 * The "pack.minSizePreventRacyPack" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK = "minsizepreventracypack";
+
+	/**
+	 * The "pack.reuseDeltas" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_REUSE_DELTAS = "reusedeltas";
+
+	/**
+	 * The "pack.reuseObjects" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_REUSE_OBJECTS = "reuseobjects";
+
+	/**
+	 * The "pack.singlePack" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_SINGLE_PACK = "singlepack";
+
+	/**
+	 * The "pack.threads" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_THREADS = "threads";
+
+	/**
+	 * The "pack.waitPreventRacyPack" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_WAIT_PREVENT_RACYPACK = "waitpreventracypack";
+
+	/**
+	 * The "pack.window" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_WINDOW = "window";
+
+	/**
+	 * The "pack.windowMemory" key
+	 * @since 5.8
+	 */
+	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
 }

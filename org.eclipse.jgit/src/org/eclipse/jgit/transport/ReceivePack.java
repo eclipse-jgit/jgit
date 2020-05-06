@@ -1814,55 +1814,59 @@ public class ReceivePack {
 							.append(" ("); //$NON-NLS-1$
 				}
 
-				switch (cmd.getResult()) {
-				case NOT_ATTEMPTED:
-					r.append("server bug; ref not processed"); //$NON-NLS-1$
-					break;
-
-				case REJECTED_NOCREATE:
-					r.append("creation prohibited"); //$NON-NLS-1$
-					break;
-
-				case REJECTED_NODELETE:
-					r.append("deletion prohibited"); //$NON-NLS-1$
-					break;
-
-				case REJECTED_NONFASTFORWARD:
-					r.append("non-fast forward"); //$NON-NLS-1$
-					break;
-
-				case REJECTED_CURRENT_BRANCH:
-					r.append("branch is currently checked out"); //$NON-NLS-1$
-					break;
-
-				case REJECTED_MISSING_OBJECT:
+				if (cmd.getResult() == Result.REJECTED_MISSING_OBJECT) {
 					if (cmd.getMessage() == null)
 						r.append("missing object(s)"); //$NON-NLS-1$
 					else if (cmd.getMessage()
 							.length() == Constants.OBJECT_ID_STRING_LENGTH) {
+						// TODO: Using get/setMessage to store an OID is a
+						// misuse. The caller should set a full error message.
 						r.append("object "); //$NON-NLS-1$
 						r.append(cmd.getMessage());
 						r.append(" missing"); //$NON-NLS-1$
-					} else
+					} else {
 						r.append(cmd.getMessage());
-					break;
+					}
+				} else if (cmd.getMessage() != null) {
+					r.append(cmd.getMessage());
+				} else {
+					switch (cmd.getResult()) {
+					case NOT_ATTEMPTED:
+						r.append("server bug; ref not processed"); //$NON-NLS-1$
+						break;
 
-				case REJECTED_OTHER_REASON:
-					if (cmd.getMessage() == null)
+					case REJECTED_NOCREATE:
+						r.append("creation prohibited"); //$NON-NLS-1$
+						break;
+
+					case REJECTED_NODELETE:
+						r.append("deletion prohibited"); //$NON-NLS-1$
+						break;
+
+					case REJECTED_NONFASTFORWARD:
+						r.append("non-fast forward"); //$NON-NLS-1$
+						break;
+
+					case REJECTED_CURRENT_BRANCH:
+						r.append("branch is currently checked out"); //$NON-NLS-1$
+						break;
+
+					case REJECTED_OTHER_REASON:
 						r.append("unspecified reason"); //$NON-NLS-1$
-					else
-						r.append(cmd.getMessage());
-					break;
+						break;
 
-				case LOCK_FAILURE:
-					r.append("failed to lock"); //$NON-NLS-1$
-					break;
+					case LOCK_FAILURE:
+						r.append("failed to lock"); //$NON-NLS-1$
+						break;
 
-				case OK:
-					// We shouldn't have reached this case (see 'ok' case
-					// above).
-					continue;
+					case REJECTED_MISSING_OBJECT:
+					case OK:
+						// We shouldn't have reached this case (see 'ok' case
+						// above and if-statement above).
+						throw new AssertionError();
+					}
 				}
+
 				if (!reportStatus) {
 					r.append(")"); //$NON-NLS-1$
 				}

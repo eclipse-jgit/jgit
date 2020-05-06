@@ -79,7 +79,7 @@ CYGWIN*)
 Darwin)
 	if [ -e /System/Library/Frameworks/JavaVM.framework ]
 	then
-		java_args='
+		java_args+='
 			-Dcom.apple.mrj.application.apple.menu.about.name=JGit
 			-Dcom.apple.mrj.application.growbox.intrudes=false
 			-Dapple.laf.useScreenMenuBar=true

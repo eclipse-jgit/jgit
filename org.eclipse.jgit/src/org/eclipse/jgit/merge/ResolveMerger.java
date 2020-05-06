@@ -789,27 +789,37 @@ public class ResolveMerger extends ThreeWayMerger {
 				MergeResult<RawText> result = contentMerge(base, ours, theirs,
 						attributes);
 
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				DirCacheEntry e = add(tw.getRawPath(), theirs,
-						DirCacheEntry.STAGE_3, EPOCH, 0);
+				if (ignoreConflicts) {
+					// In case a conflict is detected the working tree file is
+					// again filled with new content (containing conflict
+					// markers). But also stage 0 of the index is filled with
+					// that content.
+					result.setContainsConflicts(false);
+					updateIndex(base, ours, theirs, result, attributes);
+				} else {
+					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+					DirCacheEntry e = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_3, EPOCH, 0);
 
-				// OURS was deleted checkout THEIRS
-				if (modeO == 0) {
-					// Check worktree before checking out THEIRS
-					if (isWorktreeDirty(work, ourDce))
-						return false;
-					if (nonTree(modeT)) {
-						if (e != null) {
-							addToCheckout(tw.getPathString(), e, attributes);
+					// OURS was deleted checkout THEIRS
+					if (modeO == 0) {
+						// Check worktree before checking out THEIRS
+						if (isWorktreeDirty(work, ourDce)) {
+							return false;
+						}
+						if (nonTree(modeT)) {
+							if (e != null) {
+								addToCheckout(tw.getPathString(), e, attributes);
+							}
 						}
 					}
+
+					unmergedPaths.add(tw.getPathString());
+
+					// generate a MergeResult for the deleted file
+					mergeResults.put(tw.getPathString(), result);
 				}
-
-				unmergedPaths.add(tw.getPathString());
-
-				// generate a MergeResult for the deleted file
-				mergeResults.put(tw.getPathString(), result);
 			}
 		}
 		return true;

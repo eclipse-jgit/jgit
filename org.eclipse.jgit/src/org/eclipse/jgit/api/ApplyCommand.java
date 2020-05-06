@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.Patch;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.IO;
 
 /**
  * Apply a patch to files and/or to the index.
@@ -114,24 +114,21 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					f = getFile(fh.getOldPath(), false);
 					File dest = getFile(fh.getNewPath(), false);
 					try {
+						FileUtils.mkdirs(dest.getParentFile(), true);
 						FileUtils.rename(f, dest,
 								StandardCopyOption.ATOMIC_MOVE);
 					} catch (IOException e) {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().renameFileFailed, f, dest), e);
 					}
+					apply(dest, fh);
 					break;
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
-					byte[] bs = IO.readFully(f);
-					FileOutputStream fos = new FileOutputStream(getFile(
-							fh.getNewPath(),
-							true));
-					try {
-						fos.write(bs);
-					} finally {
-						fos.close();
-					}
+					File target = getFile(fh.getNewPath(), false);
+					FileUtils.mkdirs(target.getParentFile(), true);
+					Files.copy(f.toPath(), target.toPath());
+					apply(target, fh);
 				}
 				r.addUpdatedFile(f);
 			}

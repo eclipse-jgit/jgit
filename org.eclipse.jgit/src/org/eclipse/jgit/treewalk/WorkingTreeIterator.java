@@ -1467,7 +1467,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 		// Read blob from index and check for CR/LF-delimited text.
 		DirCacheEntry entry = dirCache.getDirCacheEntry();
-		if (FileMode.REGULAR_FILE.equals(entry.getFileMode())) {
+		if ((entry.getRawMode() & FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
 			ObjectId blobId = entry.getObjectId();
 			if (entry.getStage() > 0
 					&& entry.getStage() != DirCacheEntry.STAGE_2) {
@@ -1484,7 +1484,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 						break;
 					}
 					if (entry.getStage() == DirCacheEntry.STAGE_2) {
-						blobId = entry.getObjectId();
+						if ((entry.getRawMode()
+								& FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
+							blobId = entry.getObjectId();
+						}
 						break;
 					}
 				}

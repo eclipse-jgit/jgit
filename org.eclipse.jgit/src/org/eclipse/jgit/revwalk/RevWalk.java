@@ -131,8 +131,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int TOPO_DELAY = 1 << 5;
 
+	/**
+	 * Temporary mark for use within {@link TopoNonIntermixSortGenerator}.
+	 * <p>
+	 * This mark indicates the commit has been queued for emission in
+	 * {@link TopoSortGenerator} and can be produced. This mark is removed when
+	 * the commit has been produced.
+	 */
+	static final int TOPO_QUEUED = 1 << 6;
+
 	/** Number of flag bits we keep internal for our own use. See above flags. */
-	static final int RESERVED_FLAGS = 6;
+	static final int RESERVED_FLAGS = 7;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 

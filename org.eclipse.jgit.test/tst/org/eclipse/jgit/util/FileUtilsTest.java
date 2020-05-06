@@ -79,6 +79,15 @@ public class FileUtilsTest {
 	}
 
 	@Test
+	public void testDeleteReadOnlyFile() throws IOException {
+		File f = new File(trash, "f");
+		FileUtils.createNewFile(f);
+		assertTrue(f.setReadOnly());
+		FileUtils.delete(f);
+		assertFalse(f.exists());
+	}
+
+	@Test
 	public void testDeleteRecursive() throws IOException {
 		File f1 = new File(trash, "test/test/a");
 		FileUtils.mkdirs(f1.getParentFile());
@@ -336,6 +345,34 @@ public class FileUtilsTest {
 		assertTrue(t.exists());
 		assertTrue(f.exists());
 		assertFalse(e.exists());
+	}
+
+	@Test
+	public void testDeleteNonRecursiveTreeNotOk() throws IOException {
+		File t = new File(trash, "t");
+		FileUtils.mkdir(t);
+		File f = new File(t, "f");
+		FileUtils.createNewFile(f);
+		try {
+			FileUtils.delete(t, FileUtils.EMPTY_DIRECTORIES_ONLY);
+			fail("expected failure to delete f");
+		} catch (IOException e) {
+			assertTrue(e.getMessage().endsWith(t.getAbsolutePath()));
+		}
+		assertTrue(f.exists());
+		assertTrue(t.exists());
+	}
+
+	@Test
+	public void testDeleteNonRecursiveTreeIgnoreError() throws IOException {
+		File t = new File(trash, "t");
+		FileUtils.mkdir(t);
+		File f = new File(t, "f");
+		FileUtils.createNewFile(f);
+		FileUtils.delete(t,
+				FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.IGNORE_ERRORS);
+		assertTrue(f.exists());
+		assertTrue(t.exists());
 	}
 
 	@Test

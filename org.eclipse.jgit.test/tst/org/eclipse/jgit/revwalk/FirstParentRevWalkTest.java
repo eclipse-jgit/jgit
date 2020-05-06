@@ -164,6 +164,23 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testTopoNonIntermixSort() throws Exception {
+		RevCommit a = commit();
+		RevCommit b1 = commit(a);
+		RevCommit b2 = commit(a);
+		RevCommit c = commit(b1, b2);
+
+		rw.reset();
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);
+		rw.setFirstParent(true);
+		markStart(c);
+		assertCommit(c, rw.next());
+		assertCommit(b1, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testCommitTimeSort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
@@ -422,6 +439,41 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.reset();
 		rw.setFirstParent(true);
 		rw.sort(RevSort.TOPO, true);
+		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testWithTopoNonIntermixSortAndTreeFilter() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(tree(file("0", blob("b"))), a);
+		RevCommit c = commit(tree(file("0", blob("c"))), b, a);
+		RevCommit d = commit(tree(file("0", blob("d"))), c);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
+		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testWithTopoNonIntermixSortAndTreeFilter2() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(tree(file("0", blob("b"))), a);
+		RevCommit c = commit(tree(file("0", blob("c"))), a, b);
+		RevCommit d = commit(tree(file("0", blob("d"))), c);
+
+		rw.reset();
+		rw.setFirstParent(true);
+		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
 		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
 		markStart(d);
 		assertCommit(d, rw.next());

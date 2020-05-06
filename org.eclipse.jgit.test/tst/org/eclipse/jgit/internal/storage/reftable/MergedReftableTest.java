@@ -287,6 +287,123 @@ public class MergedReftableTest {
 	}
 
 	@Test
+	public void nonOverlappedUpdateIndices() throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(2)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/b", 2), 2);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		buf = new ByteArrayOutputStream();
+		writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(3)
+				.setMaxUpdateIndex(4)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 10), 3);
+		writer.writeRef(ref("refs/heads/b", 20), 4);
+		writer.finish();
+		byte[] delta = buf.toByteArray();
+
+		MergedReftable mr = merge(base, delta);
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(4, mr.maxUpdateIndex());
+
+		try (RefCursor rc = mr.allRefs()) {
+			assertTrue(rc.next());
+			assertEquals("refs/heads/a", rc.getRef().getName());
+			assertEquals(id(10), rc.getRef().getObjectId());
+			assertEquals(3, rc.getRef().getUpdateIndex());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/b", rc.getRef().getName());
+			assertEquals(id(20), rc.getRef().getObjectId());
+			assertEquals(4, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void overlappedUpdateIndices() throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(3)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/b", 2), 3);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		buf = new ByteArrayOutputStream();
+		writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(2)
+				.setMaxUpdateIndex(4)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 10), 2);
+		writer.writeRef(ref("refs/heads/b", 20), 4);
+		writer.finish();
+		byte[] delta = buf.toByteArray();
+
+		MergedReftable mr = merge(base, delta);
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(4, mr.maxUpdateIndex());
+
+		try (RefCursor rc = mr.allRefs()) {
+			assertTrue(rc.next());
+			assertEquals("refs/heads/a", rc.getRef().getName());
+			assertEquals(id(10), rc.getRef().getObjectId());
+			assertEquals(2, rc.getRef().getUpdateIndex());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/b", rc.getRef().getName());
+			assertEquals(id(20), rc.getRef().getObjectId());
+			assertEquals(4, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void enclosedUpdateIndices() throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(4)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/b", 20), 4);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		buf = new ByteArrayOutputStream();
+		writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(2)
+				.setMaxUpdateIndex(3)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 10), 2);
+		writer.writeRef(ref("refs/heads/b", 2), 3);
+		writer.finish();
+		byte[] delta = buf.toByteArray();
+
+		MergedReftable mr = merge(base, delta);
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(4, mr.maxUpdateIndex());
+
+		try (RefCursor rc = mr.allRefs()) {
+			assertTrue(rc.next());
+			assertEquals("refs/heads/a", rc.getRef().getName());
+			assertEquals(id(10), rc.getRef().getObjectId());
+			assertEquals(2, rc.getRef().getUpdateIndex());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/b", rc.getRef().getName());
+			assertEquals(id(20), rc.getRef().getObjectId());
+			assertEquals(4, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
 	public void compaction() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/next", 4),
