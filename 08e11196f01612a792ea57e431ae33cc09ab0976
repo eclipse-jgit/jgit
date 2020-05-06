@@ -16,6 +16,24 @@
       "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4d49cdb_5062deff",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 280612
+      },
+      "writtenOn": "2020-05-06T19:00:54Z",
+      "side": 1,
+      "message": "If you init the config without passing hostname, it should use \u0027s3-\u003cregion\u003e.amazonaws.com\u0027 as the hostname, so that should be compatible with the current/old implementation. Also, I think that even with hostname set, you also want to provide region, since it\u0027s consumed by SignerV4.",
+      "parentUuid": "49839771_f4fef451",
+      "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
