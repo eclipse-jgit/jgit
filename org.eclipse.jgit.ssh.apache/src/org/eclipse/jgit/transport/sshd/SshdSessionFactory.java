@@ -29,11 +29,10 @@ import java.util.stream.Collectors;
 
 import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
-import org.apache.sshd.client.auth.UserAuth;
+import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
-import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
@@ -505,7 +504,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @return the non-empty list of factories.
 	 */
 	@NonNull
-	private List<NamedFactory<UserAuth>> getUserAuthFactories() {
+	private List<UserAuthFactory> getUserAuthFactories() {
 		// About the order of password and keyboard-interactive, see upstream
 		// bug https://issues.apache.org/jira/projects/SSHD/issues/SSHD-866 .
 		// Password auth doesn't have this problem.

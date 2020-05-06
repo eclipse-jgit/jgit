@@ -124,7 +124,7 @@ public class MetaFilter implements Filter {
 
 			@Override
 			public boolean contains(Object o) {
-				return m.keySet().contains(o);
+				return m.containsKey(o);
 			}
 
 			@Override

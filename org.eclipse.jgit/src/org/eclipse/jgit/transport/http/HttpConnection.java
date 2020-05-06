@@ -59,12 +59,24 @@ public interface HttpConnection {
 	int HTTP_SEE_OTHER = java.net.HttpURLConnection.HTTP_SEE_OTHER;
 
 	/**
-	 * HTTP 1.1 additional MOVED_TEMP status code; value = 307.
+	 * HTTP 1.1 additional "temporary redirect" status code; value = 307.
 	 *
 	 * @see #HTTP_MOVED_TEMP
+	 * @see <a href="https://tools.ietf.org/html/rfc7231#section-6.4.7">RFC
+	 *      7231, section 6.4.7: 307 Temporary Redirect</a>
 	 * @since 4.9
 	 */
 	int HTTP_11_MOVED_TEMP = 307;
+
+	/**
+	 * HTTP 1.1 additional "permanent redirect" status code; value = 308.
+	 *
+	 * @see #HTTP_MOVED_TEMP
+	 * @see <a href="https://tools.ietf.org/html/rfc7538#section-3">RFC 7538,
+	 *      section 3: 308 Permanent Redirect</a>
+	 * @since 5.8
+	 */
+	int HTTP_11_MOVED_PERM = 308;
 
 	/**
 	 * @see HttpURLConnection#HTTP_NOT_FOUND

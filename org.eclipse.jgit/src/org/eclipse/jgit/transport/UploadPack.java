@@ -66,8 +66,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.transport.parser.FirstWant;
-import org.eclipse.jgit.lib.BitmapIndex;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,15 +75,14 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
-import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.DepthWalk;
+import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
@@ -298,7 +295,7 @@ public class UploadPack {
 
 	private boolean sentReady;
 
-	/** Objects we sent in our advertisement list, clients can ask for these. */
+	/** Objects we sent in our advertisement list. */
 	private Set<ObjectId> advertised;
 
 	/** Marked on objects the client has asked us to give them. */
@@ -381,8 +378,10 @@ public class UploadPack {
 	/**
 	 * Get refs which were advertised to the client.
 	 *
-	 * @return all refs which were advertised to the client, or null if
-	 *         {@link #setAdvertisedRefs(Map)} has not been called yet.
+	 * @return all refs which were advertised to the client. Only valid during
+	 *         the negotiation phase. Will return {@code null} if
+	 *         {@link #setAdvertisedRefs(Map)} has not been called yet or if
+	 *         {@code #sendPack()} has been called.
 	 */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
@@ -1896,48 +1895,6 @@ public class UploadPack {
 		}
 	}
 
-	private static void checkNotAdvertisedWantsUsingBitmap(ObjectReader reader,
-			BitmapIndex bitmapIndex, List<ObjectId> notAdvertisedWants,
-			Set<ObjectId> reachableFrom) throws IOException {
-		BitmapWalker bitmapWalker = new BitmapWalker(new ObjectWalk(reader), bitmapIndex, null);
-		BitmapBuilder reachables = bitmapWalker.findObjects(reachableFrom, null, false);
-		for (ObjectId oid : notAdvertisedWants) {
-			if (!reachables.contains(oid)) {
-				throw new WantNotValidException(oid);
-			}
-		}
-	}
-
-	private static void checkReachabilityByWalkingObjects(ObjectWalk walk,
-			List<RevObject> wants, Set<ObjectId> reachableFrom) throws IOException {
-
-		walk.sort(RevSort.TOPO);
-		for (RevObject want : wants) {
-			walk.markStart(want);
-		}
-		for (ObjectId have : reachableFrom) {
-			RevObject o = walk.parseAny(have);
-			walk.markUninteresting(o);
-
-			RevObject peeled = walk.peel(o);
-			if (peeled instanceof RevCommit) {
-				// By default, for performance reasons, ObjectWalk does not mark a
-				// tree as uninteresting when we mark a commit. Mark it ourselves so
-				// that we can determine reachability exactly.
-				walk.markUninteresting(((RevCommit) peeled).getTree());
-			}
-		}
-
-		RevCommit commit = walk.next();
-		if (commit != null) {
-			throw new WantNotValidException(commit);
-		}
-		RevObject object = walk.nextObject();
-		if (object != null) {
-			throw new WantNotValidException(object);
-		}
-	}
-
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
 			throws IOException {
@@ -1946,7 +1903,6 @@ public class UploadPack {
 
 		try (RevWalk walk = new RevWalk(reader)) {
 			walk.setRetainBody(false);
-			Set<ObjectId> reachableFrom = refIdSet(visibleRefs);
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
 					notAdvertisedWants);
@@ -1959,33 +1915,33 @@ public class UploadPack {
 			boolean repoHasBitmaps = reader.getBitmapIndex() != null;
 
 			if (!allWantsAreCommits) {
-				if (!repoHasBitmaps) {
-					if (up.transferConfig.isAllowFilter()) {
-						// Use allowFilter as an indication that the server
-						// operator is willing to pay the cost of these
-						// reachability checks.
-						try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
-							checkReachabilityByWalkingObjects(objWalk,
-									wantsAsObjs, reachableFrom);
-						}
-						return;
-					}
-
-					// If unadvertized non-commits are requested, use
-					// bitmaps. If there are no bitmaps, instead of
-					// incurring the expense of a manual walk, reject
-					// the request.
+				if (!repoHasBitmaps && !up.transferConfig.isAllowFilter()) {
+					// Checking unadvertised non-commits without bitmaps
+					// requires an expensive manual walk. Use allowFilter as an
+					// indication that the server operator is willing to pay
+					// this cost. Reject the request otherwise.
 					RevObject nonCommit = wantsAsObjs
 							.stream()
 							.filter(obj -> !(obj instanceof RevCommit))
 							.limit(1)
 							.collect(Collectors.toList()).get(0);
 					throw new WantNotValidException(nonCommit);
-
 				}
-				checkNotAdvertisedWantsUsingBitmap(reader,
-						reader.getBitmapIndex(), notAdvertisedWants,
-						reachableFrom);
+
+				try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
+					Stream<RevObject> startersAsObjs = importantRefsFirst(visibleRefs)
+							.map(UploadPack::refToObjectId)
+							.map(objId -> objectIdToRevObject(objWalk, objId))
+							.filter(Objects::nonNull); // Ignore missing tips
+
+					ObjectReachabilityChecker reachabilityChecker = objWalk
+							.createObjectReachabilityChecker();
+					Optional<RevObject> unreachable = reachabilityChecker
+							.areAllReachable(wantsAsObjs, startersAsObjs);
+					if (unreachable.isPresent()) {
+						throw new WantNotValidException(unreachable.get());
+					}
+				}
 				return;
 			}
 
@@ -2048,6 +2004,29 @@ public class UploadPack {
 
 		try {
 			return walk.parseCommit(objectId);
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Translate an object id to a RevObject.
+	 *
+	 * @param walk
+	 *            walk on the relevant object storage
+	 * @param objectId
+	 *            Object Id
+	 * @return RevObject instance or null if the object is missing
+	 */
+	@Nullable
+	private static RevObject objectIdToRevObject(RevWalk walk,
+			ObjectId objectId) {
+		if (objectId == null) {
+			return null;
+		}
+
+		try {
+			return walk.parseAny(objectId);
 		} catch (IOException e) {
 			return null;
 		}
@@ -2204,6 +2183,11 @@ public class UploadPack {
 			preUploadHook.onSendPack(this, wantAll, commonBase);
 		}
 		msgOut.flush();
+
+		// Advertised objects and refs are not used from here on and can be
+		// cleared.
+		advertised = null;
+		refs = null;
 
 		PackConfig cfg = packConfig;
 		if (cfg == null)

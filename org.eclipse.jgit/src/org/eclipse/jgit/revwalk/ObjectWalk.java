@@ -160,6 +160,29 @@ public class ObjectWalk extends RevWalk {
 	}
 
 	/**
+	 * Create an object reachability checker that will use bitmaps if possible.
+	 *
+	 * This reachability checker accepts any object as target. For checks
+	 * exclusively between commits, see
+	 * {@link RevWalk#createReachabilityChecker()}.
+	 *
+	 * @return an object reachability checker, using bitmaps if possible.
+	 *
+	 * @throws IOException
+	 *             when the index fails to load.
+	 *
+	 * @since 5.8
+	 */
+	public ObjectReachabilityChecker createObjectReachabilityChecker()
+			throws IOException {
+		if (reader.getBitmapIndex() != null) {
+			return new BitmappedObjectReachabilityChecker(this);
+		}
+
+		return new PedestrianObjectReachabilityChecker(this);
+	}
+
+	/**
 	 * Mark an object or commit to start graph traversal from.
 	 * <p>
 	 * Callers are encouraged to use

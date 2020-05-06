@@ -95,14 +95,14 @@ maven_jar(
 
 maven_jar(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.2.0",
-    sha1 = "a45d48cb53678e699816e8e054e55fa33f5a4558",
+    artifact = "org.apache.sshd:sshd-osgi:2.4.0",
+    sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.2.0",
-    sha1 = "3d011e00adf38e49bb8711a9dd762fe908a2170c",
+    artifact = "org.apache.sshd:sshd-sftp:2.4.0",
+    sha1 = "92e1b7d1e19c715efb4a8871d34145da8f87cdb2",
 )
 
 maven_jar(
@@ -253,25 +253,25 @@ maven_jar(
     src_sha1 = "c84dc3026cc4aea013dc97b18228756816167745",
 )
 
-BOUNCYCASTLE_VER = "1.64"
+BOUNCYCASTLE_VER = "1.65"
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "56956a8c63ccadf62e7c678571cf86f30bd84441",
-    src_sha1 = "b241337df9516b35637d9be84451e2f03a81d186",
+    sha1 = "f32fc02cc29c9fdcc35c0de4d16964f01777067c",
+    src_sha1 = "35e87838bf9348b25aae07135ceccfbef6827e3c",
 )
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "1467dac1b787b5ad2a18201c0c281df69882259e",
-    src_sha1 = "2881bfaf2c15e9e64b62c2a143db90db7a0d6035",
+    sha1 = "320b989112f00a63a3bcfa5a98f31a4f865a20fa",
+    src_sha1 = "ef2676604015c183bb29f8e17846cb3aa4b80c24",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "3dac163e20110817d850d17e0444852a6d7d0bd7",
-    src_sha1 = "5c87199786c06e1a53adf16b1998386bad52da89",
+    sha1 = "c9507d93e4b453320b57d9ac21bdd67d65a00bbc",
+    src_sha1 = "16c71e83af43927d20ccad19defcbb0babcbdb26",
 )

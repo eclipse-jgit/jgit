@@ -1254,6 +1254,94 @@ public class MergerTest extends RepositoryTestCase {
 		}
 	}
 
+	/**
+	 * Merging two commits with a conflict in the virtual ancestor.
+	 *
+	 * Content conflicts while merging the virtual ancestor must be ignored.
+	 *
+	 * In the following tree, while merging A and B, the recursive algorithm
+	 * finds as base commits X and Y and tries to merge them: X deletes file "a"
+	 * and Y modifies it.
+	 *
+	 * Note: we delete "a" in (master) and (second-branch) to make avoid manual
+	 * merges. The situation is the same without those deletions and fixing
+	 * manually the merge of (merge-both-sides) on both branches.
+	 *
+	 * <pre>
+	 * A  (second-branch) Merge branch 'merge-both-sides' into second-branch
+	 * |\
+	 * o | Delete modified a
+	 * | |
+	 * | | B (master) Merge branch 'merge-both-sides' (into master)
+	 * | |/|
+	 * | X | (merge-both-sides) Delete original a
+	 * | | |
+	 * | | o Delete modified a
+	 * | |/
+	 * |/|
+	 * Y | Modify a
+	 * |/
+	 * o Initial commit
+	 * </pre>
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkMergeConflictInVirtualAncestor(
+			MergeStrategy strategy) throws Exception {
+		if (!strategy.equals(MergeStrategy.RECURSIVE)) {
+			return;
+		}
+
+		Git git = Git.wrap(db);
+
+		// master
+		writeTrashFile("a", "aaaaaaaa");
+		writeTrashFile("b", "bbbbbbbb");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit first = git.commit().setMessage("Initial commit").call();
+
+		writeTrashFile("a", "aaaaaaaaaaaaaaa");
+		git.add().addFilepattern("a").call();
+		RevCommit commitY = git.commit().setMessage("Modify a").call();
+
+		git.rm().addFilepattern("a").call();
+		// Do more in this commits, so it is not identical to the deletion in
+		// second-branch
+		writeTrashFile("c", "cccccccc");
+		git.add().addFilepattern("c").call();
+		git.commit().setMessage("Delete modified a").call();
+
+		// merge-both-sides: starts before "a" is modified and deletes it
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("merge-both-sides").call();
+		git.rm().addFilepattern("a").call();
+		RevCommit commitX = git.commit().setMessage("Delete original a").call();
+
+		// second branch
+		git.checkout().setCreateBranch(true).setStartPoint(commitY)
+				.setName("second-branch").call();
+		git.rm().addFilepattern("a").call();
+		git.commit().setMessage("Delete modified a").call();
+
+		// Merge merge-both-sides into second-branch
+		MergeResult mergeResult = git.merge().include(commitX)
+				.setStrategy(strategy)
+				.call();
+		ObjectId commitB = mergeResult.getNewHead();
+
+		// Merge merge-both-sides into master
+		git.checkout().setName("master").call();
+		mergeResult = git.merge().include(commitX).setStrategy(strategy)
+				.call();
+
+		// Now, merge commit A and B (i.e. "master" and "second-branch").
+		// None of them have the file "a", so there is no conflict, BUT while
+		// building the virtual ancestor it will find a conflict between Y and X
+		git.merge().include(commitB).call();
+	}
+
 	private void writeSubmodule(String path, ObjectId commit)
 			throws IOException, ConfigInvalidException {
 		addSubmoduleToIndex(path, commit);

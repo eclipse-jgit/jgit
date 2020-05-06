@@ -9,8 +9,11 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import java.io.IOException;
+
 import org.apache.sshd.client.auth.AbstractUserAuthFactory;
 import org.apache.sshd.client.auth.UserAuth;
+import org.apache.sshd.client.session.ClientSession;
 
 /**
  * Factory to create {@link GssApiWithMicAuthentication} handlers.
@@ -28,7 +31,8 @@ public class GssApiWithMicAuthFactory extends AbstractUserAuthFactory {
 	}
 
 	@Override
-	public UserAuth create() {
+	public UserAuth createUserAuth(ClientSession session)
+			throws IOException {
 		return new GssApiWithMicAuthentication();
 	}
 

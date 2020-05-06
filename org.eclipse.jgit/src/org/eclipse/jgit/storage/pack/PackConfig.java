@@ -11,6 +11,31 @@
 
 package org.eclipse.jgit.storage.pack;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BIGFILE_THRESHOLD;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_COMPRESSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CUT_DELTACHAINS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_CACHE_LIMIT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_CACHE_SIZE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_COMPRESSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SINGLE_PACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+
 import java.util.concurrent.Executor;
 import java.util.zip.Deflater;
 
@@ -1101,52 +1126,63 @@ public class PackConfig {
 	 *            configuration to read properties from.
 	 */
 	public void fromConfig(Config rc) {
-		setMaxDeltaDepth(rc.getInt("pack", "depth", getMaxDeltaDepth())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaSearchWindowSize(rc.getInt(
-				"pack", "window", getDeltaSearchWindowSize())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaSearchMemoryLimit(rc.getLong(
-				"pack", "windowmemory", getDeltaSearchMemoryLimit())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaCacheSize(rc.getLong(
-				"pack", "deltacachesize", getDeltaCacheSize())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaCacheLimit(rc.getInt(
-				"pack", "deltacachelimit", getDeltaCacheLimit())); //$NON-NLS-1$ //$NON-NLS-2$
-		setCompressionLevel(rc.getInt("pack", "compression", //$NON-NLS-1$ //$NON-NLS-2$
-				rc.getInt("core", "compression", getCompressionLevel()))); //$NON-NLS-1$ //$NON-NLS-2$
-		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion())); //$NON-NLS-1$ //$NON-NLS-2$
-		setBigFileThreshold(rc.getInt(
-				"core", "bigfilethreshold", getBigFileThreshold())); //$NON-NLS-1$ //$NON-NLS-2$
-		setThreads(rc.getInt("pack", "threads", getThreads())); //$NON-NLS-1$ //$NON-NLS-2$
+		setMaxDeltaDepth(rc.getInt(CONFIG_PACK_SECTION, CONFIG_KEY_DEPTH,
+				getMaxDeltaDepth()));
+		setDeltaSearchWindowSize(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_WINDOW, getDeltaSearchWindowSize()));
+		setDeltaSearchMemoryLimit(rc.getLong(CONFIG_PACK_SECTION,
+				CONFIG_KEY_WINDOW_MEMORY, getDeltaSearchMemoryLimit()));
+		setDeltaCacheSize(rc.getLong(CONFIG_PACK_SECTION,
+				CONFIG_KEY_DELTA_CACHE_SIZE, getDeltaCacheSize()));
+		setDeltaCacheLimit(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_DELTA_CACHE_LIMIT, getDeltaCacheLimit()));
+		setCompressionLevel(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_COMPRESSION, rc.getInt(CONFIG_CORE_SECTION,
+						CONFIG_KEY_COMPRESSION, getCompressionLevel())));
+		setIndexVersion(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_INDEXVERSION,
+				getIndexVersion()));
+		setBigFileThreshold(rc.getInt(CONFIG_CORE_SECTION,
+				CONFIG_KEY_BIGFILE_THRESHOLD, getBigFileThreshold()));
+		setThreads(rc.getInt(CONFIG_PACK_SECTION, CONFIG_KEY_THREADS,
+				getThreads()));
 
 		// These variables aren't standardized
-		//
-		setReuseDeltas(rc.getBoolean("pack", "reusedeltas", isReuseDeltas())); //$NON-NLS-1$ //$NON-NLS-2$
-		setReuseObjects(
-				rc.getBoolean("pack", "reuseobjects", isReuseObjects())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaCompress(
-				rc.getBoolean("pack", "deltacompression", isDeltaCompress())); //$NON-NLS-1$ //$NON-NLS-2$
-		setCutDeltaChains(
-				rc.getBoolean("pack", "cutdeltachains", getCutDeltaChains())); //$NON-NLS-1$ //$NON-NLS-2$
-		setSinglePack(
-				rc.getBoolean("pack", "singlepack", getSinglePack())); //$NON-NLS-1$ //$NON-NLS-2$
-		setBuildBitmaps(
-				rc.getBoolean("pack", "buildbitmaps", isBuildBitmaps())); //$NON-NLS-1$ //$NON-NLS-2$
-		setBitmapContiguousCommitCount(
-				rc.getInt("pack", "bitmapcontiguouscommitcount", //$NON-NLS-1$ //$NON-NLS-2$
-						getBitmapContiguousCommitCount()));
-		setBitmapRecentCommitCount(rc.getInt("pack", "bitmaprecentcommitcount", //$NON-NLS-1$ //$NON-NLS-2$
+		setReuseDeltas(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_REUSE_DELTAS, isReuseDeltas()));
+		setReuseObjects(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_REUSE_OBJECTS, isReuseObjects()));
+		setDeltaCompress(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_DELTA_COMPRESSION, isDeltaCompress()));
+		setCutDeltaChains(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_CUT_DELTACHAINS, getCutDeltaChains()));
+		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_SINGLE_PACK,
+				getSinglePack()));
+		setBuildBitmaps(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps()));
+		setBitmapContiguousCommitCount(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT,
+				getBitmapContiguousCommitCount()));
+		setBitmapRecentCommitCount(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT,
 				getBitmapRecentCommitCount()));
-		setBitmapRecentCommitSpan(rc.getInt("pack", "bitmaprecentcommitspan", //$NON-NLS-1$ //$NON-NLS-2$
+		setBitmapRecentCommitSpan(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT,
 				getBitmapRecentCommitSpan()));
-		setBitmapDistantCommitSpan(rc.getInt("pack", "bitmapdistantcommitspan", //$NON-NLS-1$ //$NON-NLS-2$
+		setBitmapDistantCommitSpan(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN,
 				getBitmapDistantCommitSpan()));
-		setBitmapExcessiveBranchCount(rc.getInt("pack", //$NON-NLS-1$
-				"bitmapexcessivebranchcount", getBitmapExcessiveBranchCount())); //$NON-NLS-1$
-		setBitmapInactiveBranchAgeInDays(
-				rc.getInt("pack", "bitmapinactivebranchageindays", //$NON-NLS-1$ //$NON-NLS-2$
-						getBitmapInactiveBranchAgeInDays()));
-		setWaitPreventRacyPack(rc.getBoolean("pack", "waitpreventracypack", //$NON-NLS-1$ //$NON-NLS-2$
-				isWaitPreventRacyPack()));
-		setMinSizePreventRacyPack(rc.getLong("pack", "minsizepreventracypack", //$NON-NLS-1$//$NON-NLS-2$
+		setBitmapExcessiveBranchCount(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT,
+				getBitmapExcessiveBranchCount()));
+		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
+				getBitmapInactiveBranchAgeInDays()));
+		setWaitPreventRacyPack(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_WAIT_PREVENT_RACYPACK, isWaitPreventRacyPack()));
+		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
+				CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK,
 				getMinSizePreventRacyPack()));
 	}
 
