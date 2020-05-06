@@ -16,6 +16,24 @@
       "revId": "7da7c9904bed05e44c6810f7bb3ee4cad96c8eed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95450d75_3821bf23",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-06T20:58:23Z",
+      "side": 1,
+      "message": "Actually, having both o.e.j.internal.transport.* and also o.e.j.transport.internal is confusing.\n\nI suggest to move these connectivity checkers to o.e.j.internal.transport, and the DelegatingSSLSocketFactory to o.e.j.internal.transport.http.\n\nThen export package o.e.j.internal.transport with x-friends for the test.",
+      "parentUuid": "c9aede40_fafdf46b",
+      "revId": "7da7c9904bed05e44c6810f7bb3ee4cad96c8eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
