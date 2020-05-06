@@ -1,7 +1,7 @@
-target "I20200319180910" with source configurePhase
+target "I20200506000552" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/I20200319180910/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/I20200506000552/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -38,12 +38,12 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202003191809
 	org.apache.sshd.sftp.source [2.4.0.v20200319-1547,2.4.0.v20200319-1547]
 	org.assertj [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
 	org.assertj.source [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
-	org.bouncycastle.bcpg [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
-	org.bouncycastle.bcpg.source [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
-	org.bouncycastle.bcpkix [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
-	org.bouncycastle.bcpkix.source [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
-	org.bouncycastle.bcprov [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
-	org.bouncycastle.bcprov.source [1.64.0.v20191109-0815,1.64.0.v20191109-0815]
+	org.bouncycastle.bcpg [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcpg.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcpkix [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcpkix.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcprov [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcprov.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
 	org.hamcrest [1.1.0.v20090501071000,1.1.0.v20090501071000]
 	org.hamcrest.core [1.3.0.v20180420-1519,1.3.0.v20180420-1519]
 	org.hamcrest.core.source [1.3.0.v20180420-1519,1.3.0.v20180420-1519]
