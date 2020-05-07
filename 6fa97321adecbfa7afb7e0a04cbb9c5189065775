@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9b6e353_87bdb313",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-07T06:29:53Z",
+      "side": 1,
+      "message": "This would belong into the parent change, where this package is created.",
+      "revId": "6fa97321adecbfa7afb7e0a04cbb9c5189065775",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
