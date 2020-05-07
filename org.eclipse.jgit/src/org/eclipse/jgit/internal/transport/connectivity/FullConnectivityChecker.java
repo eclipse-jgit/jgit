@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.eclipse.jgit.transport.internal;
+package org.eclipse.jgit.internal.transport.connectivity;
 
 import java.io.IOException;
 import java.util.Set;
