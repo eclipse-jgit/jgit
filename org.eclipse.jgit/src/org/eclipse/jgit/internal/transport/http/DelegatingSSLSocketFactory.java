@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.transport.internal;
+package org.eclipse.jgit.internal.transport.http;
 
 import java.io.IOException;
 import java.net.InetAddress;
