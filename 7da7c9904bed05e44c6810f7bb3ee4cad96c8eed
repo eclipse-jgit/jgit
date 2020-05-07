@@ -34,6 +34,24 @@
       "revId": "7da7c9904bed05e44c6810f7bb3ee4cad96c8eed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b30dab_8712fd7a",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-07T00:58:06Z",
+      "side": 1,
+      "message": "Thank you very much for the suggestion!\nIt definitely confusing, at least I got confused too :-)\n\nI created another change to apply this suggestion first to be able to submit iterative checker into new directory:\nhttps://git.eclipse.org/r/#/c/162609/",
+      "parentUuid": "95450d75_3821bf23",
+      "revId": "7da7c9904bed05e44c6810f7bb3ee4cad96c8eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
