@@ -16,6 +16,24 @@
       "revId": "ebf95903e91eba075b9d79181ccacbc6d223d46a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9111c598_7dcaf0b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-08T22:02:16Z",
+      "side": 1,
+      "message": "I like this idea of adding a \"EWAHCompressedBitmap retrieveCompressed()\" method to the BitmapIndex.Bitmap class. It can be a precursor refactoring to this one.",
+      "parentUuid": "bc5ffd97_ffa66b83",
+      "revId": "ebf95903e91eba075b9d79181ccacbc6d223d46a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
