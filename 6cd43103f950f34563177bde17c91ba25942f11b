@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bb7fd80_c8921251",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-08T23:08:53Z",
+      "side": 1,
+      "message": "s|...|Linux-MSM project: https://source.codeaurora.org/quic/la/kernel/msm.|",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31f79ecc_569785d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-08T23:08:53Z",
+      "side": 1,
+      "message": "s/.../This/",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d610e88_b8a40d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-08T23:08:53Z",
+      "side": 1,
+      "message": "s/And currently/In this commit/",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
