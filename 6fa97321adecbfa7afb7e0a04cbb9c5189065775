@@ -34,6 +34,24 @@
       "revId": "6fa97321adecbfa7afb7e0a04cbb9c5189065775",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08952c62_a50f7091",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-09T21:35:12Z",
+      "side": 1,
+      "message": "Not sure I understand what you mean. If you mean whether it\u0027s OK to add x-friends:\u003d\"org.eclipse.jgit.test\" already in the parent change: I think so. Strictly speaking it could be x-internal:\u003dtrue in the parent change, but x-friends one commit early doesn\u0027t hurt. I see no problem with that.",
+      "parentUuid": "16ed9261_742d486b",
+      "revId": "6fa97321adecbfa7afb7e0a04cbb9c5189065775",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
