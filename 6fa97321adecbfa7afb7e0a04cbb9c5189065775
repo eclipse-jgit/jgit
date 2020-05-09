@@ -16,6 +16,24 @@
       "revId": "6fa97321adecbfa7afb7e0a04cbb9c5189065775",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ed9261_742d486b",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-09T01:02:03Z",
+      "side": 1,
+      "message": "Sure, done. Is it fine to leave test manifest in this change, since it is not using this package until now?",
+      "parentUuid": "e9b6e353_87bdb313",
+      "revId": "6fa97321adecbfa7afb7e0a04cbb9c5189065775",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
