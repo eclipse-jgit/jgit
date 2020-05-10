@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "029699e5_f54cd8bf",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-10T09:29:09Z",
+      "side": 1,
+      "message": "missing @since 5.8 tag for new API method",
+      "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d84c0395_a47386ae",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-10T09:29:09Z",
+      "side": 1,
+      "message": "missing since tag\n\nneeds to be reformatted",
+      "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49839771_f4fef451",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java",
         "patchSetId": 1
@@ -31,6 +65,24 @@
       "side": 1,
       "message": "If you init the config without passing hostname, it should use \u0027s3-\u003cregion\u003e.amazonaws.com\u0027 as the hostname, so that should be compatible with the current/old implementation. Also, I think that even with hostname set, you also want to provide region, since it\u0027s consumed by SignerV4.",
       "parentUuid": "49839771_f4fef451",
+      "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38834921_b8910e58",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-10T09:29:09Z",
+      "side": 1,
+      "message": "you are right and I was wrong",
+      "parentUuid": "b4d49cdb_5062deff",
       "revId": "08e11196f01612a792ea57e431ae33cc09ab0976",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
