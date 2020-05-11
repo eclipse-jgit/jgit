@@ -118,6 +118,30 @@
       "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b6a2545_b2f77ad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-11T07:35:03Z",
+      "side": 1,
+      "message": "If we\u0027re going to merge master into stable-5.8, then fine. I\u0027ve lost track of how we\u0027re managing branches, tbh.\n\nThat said, I think it would be cleaner to do it in a separate commit anyway, regardless of where the branches will be merged.",
+      "parentUuid": "4023bb45_a0c84b3d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
