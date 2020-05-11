@@ -94,6 +94,30 @@
       "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4023bb45_a0c84b3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-11T07:08:54Z",
+      "side": 1,
+      "message": "I don\u0027t understand. That change is in stable-5.8, master, and next. Matthias did it before creating the stable-5.8 branch.\n\nThis change here *using* the new BC version is for now only on master, but if merged before 5.8.0 release, it\u0027ll be merged over to stable-5.8 (and next).",
+      "parentUuid": "44d30f39_1d12c96b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
