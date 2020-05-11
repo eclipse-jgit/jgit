@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50a2f1d2_bd70cee2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-11T11:26:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t work in an OSGi context. The iterator is empty. (Simple test: with a combined workspace containing EGit and JGit for instance as provisioned by Oomph, start a runtime workbench and then try to make a signed commit in the child Eclipse via the staging view.)",
+      "revId": "24731815be3cf8b2a71d822ce5e02070e759bbf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
