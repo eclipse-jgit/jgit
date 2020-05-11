@@ -142,6 +142,30 @@
       "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af4a1076_5d187a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-11T09:39:23Z",
+      "side": 1,
+      "message": "Branches:\n\nWe have released branches (currently up to stable-5.7), and a development branch \"master\". Fixes in old versions are merged up from wherever they were done: stable 5.x, stable-5.(x+1) until the highest released branch (stable-5.7 right now), then to master.\n\nFor the upcoming release, Matthias creates a new stable-5.y (y \u003d 8 currently) branch, usually around M2 of the upcoming Eclipse release. Until release, both stable-5.8 and master build a JGit 5.8.0. Development continues on master. Merging of fixes in old version remains unchanged (i.e., merge up to stable-5.7, then to master.) For M3, RC1, and RC2, master gets merged to stable-5.8, and the release candidates get built from stable-5.8. Until release, stable-5.8 is updated only from master.\n\nOn release, master is merged a last time to stable 5.8, and is then switched to build JGit 5.9.0. The release is built from stable-5.8: stable-5.8 becomes a released branch, and a new cycle starts. From that point on, fixes on old branches get merged up into stable-5.8, then master, and master is never merged into stable-5.8 anymore. For the next release, there will be a new stable-5.9 at some point.\n\nAt any time master may be merged into \"next\", which is the preparatory branch for the next major release (6.0.0). \"next\" is only updated from \"master\".",
+      "parentUuid": "0b6a2545_b2f77ad3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
