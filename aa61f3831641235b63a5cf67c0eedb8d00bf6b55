@@ -46,6 +46,30 @@
       "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8dd6c6c_a6b6fbbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-11T07:00:44Z",
+      "side": 1,
+      "message": "Target platform and pom \u0026 bazel dependencies were already updated in https://git.eclipse.org/r/#/c/162570/ .",
+      "parentUuid": "73242ac8_f3da936b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
