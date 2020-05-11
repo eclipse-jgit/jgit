@@ -45,6 +45,30 @@
       "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db0de777_aab01be0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackedObjectInfo.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-11T23:33:33Z",
+      "side": 1,
+      "message": "Oops, sorry, not a public method. I\u0027ve made too many mistakes missing these so I overcorrected here.",
+      "parentUuid": "f6964d92_32327966",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 41
+      },
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
