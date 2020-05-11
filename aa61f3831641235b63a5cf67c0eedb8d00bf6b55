@@ -70,6 +70,30 @@
       "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d30f39_1d12c96b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-11T07:04:08Z",
+      "side": 1,
+      "message": "That change is in stable-5.8.  Maybe we should do the dependency update as a separate commit on stable-5.8?",
+      "parentUuid": "d8dd6c6c_a6b6fbbb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "aa61f3831641235b63a5cf67c0eedb8d00bf6b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
