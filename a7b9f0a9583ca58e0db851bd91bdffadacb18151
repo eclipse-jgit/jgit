@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "239ee412_5d7ea6b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-11T15:55:43Z",
+      "side": 1,
+      "message": "I think this needs @since",
+      "range": {
+        "startLine": 1794,
+        "startChar": 0,
+        "endLine": 1794,
+        "endChar": 23
+      },
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6964d92_32327966",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackedObjectInfo.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-11T15:55:43Z",
+      "side": 1,
+      "message": "This is a public package so these methods should need @since annotations too. Do you have Eclipse\u0027s API tooling installed? It should warn about this.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 41
+      },
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
