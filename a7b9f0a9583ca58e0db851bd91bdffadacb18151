@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "836165c1_b066df45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-12T00:01:11Z",
+      "side": 1,
+      "message": "This feels fragile. Can readFrom handle the bookkeeping? That is, something like\n\n  long start \u003d streamPosition();\n  int c \u003d ...\n  ...\n\n  record(streamPosition() - start);",
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "639b9cdc_ebfecc14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-12T00:01:11Z",
+      "side": 1,
+      "message": "For example, this forgets to increment headSizeBeforeInflating.",
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "239ee412_5d7ea6b5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 19
