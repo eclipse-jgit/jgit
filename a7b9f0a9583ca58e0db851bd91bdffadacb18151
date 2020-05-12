@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34f5ecdb_e9430fe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-12T19:32:06Z",
+      "side": 1,
+      "message": "Done. Thanks for your thoughtful input! I am curious about if we can also size the body of the object using streamPosition() approach rather than instrumenting the inflater stream?",
+      "parentUuid": "836165c1_b066df45",
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "639b9cdc_ebfecc14",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 19
@@ -33,6 +51,24 @@
       "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de45a24_db118d38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-12T19:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "639b9cdc_ebfecc14",
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
