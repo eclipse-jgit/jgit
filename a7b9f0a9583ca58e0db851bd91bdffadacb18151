@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "eb3e8b93_519c72e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-12T00:56:32Z",
+      "side": 1,
+      "message": "This is also not public, so never mind. :-/",
+      "parentUuid": "239ee412_5d7ea6b5",
+      "range": {
+        "startLine": 1794,
+        "startChar": 0,
+        "endLine": 1794,
+        "endChar": 23
+      },
+      "revId": "a7b9f0a9583ca58e0db851bd91bdffadacb18151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6964d92_32327966",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackedObjectInfo.java",
         "patchSetId": 19
