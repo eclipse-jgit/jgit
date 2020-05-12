@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b839320d_b03c64fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-12T18:57:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bb7fd80_c8921251",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31f79ecc_569785d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a9c33f59_b331b2e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-12T18:57:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31f79ecc_569785d3",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d610e88_b8a40d34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2020-05-08T23:08:53Z",
       "side": 1,
       "message": "s/And currently/In this commit/",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "6cd43103f950f34563177bde17c91ba25942f11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab23a4b0_d2ed25ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-12T18:57:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d610e88_b8a40d34",
       "range": {
         "startLine": 31,
         "startChar": 4,
