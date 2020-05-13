@@ -72,7 +72,6 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 				if (r instanceof EWAHCompressedBitmap) {
 					out = out.xor((EWAHCompressedBitmap) r);
 					out.trim();
-					bitmapContainer = out;
 					return out;
 				}
 				xb = (XorCompressedBitmap) r;
