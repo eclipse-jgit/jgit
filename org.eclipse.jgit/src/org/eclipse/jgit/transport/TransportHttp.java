@@ -39,11 +39,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -573,6 +575,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				}
 			} catch (NotSupportedException | TransportException e) {
 				throw e;
+			} catch (InterruptedIOException e) {
+				// Timeout!? Don't try other authentication methods.
+				throw new TransportException(uri, MessageFormat.format(
+						JGitText.get().connectionTimeOut, u.getHost()), e);
+			} catch (SocketException e) {
+				// Nothing on other end, timeout, connection reset, ...
+				throw new TransportException(uri,
+						JGitText.get().connectionFailed, e);
 			} catch (SSLHandshakeException e) {
 				handleSslFailure(e);
 				continue; // Re-try
@@ -1501,6 +1511,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				} catch (SSLHandshakeException e) {
 					handleSslFailure(e);
 					continue; // Re-try
+				} catch (SocketException | InterruptedIOException e) {
+					// Timeout!? Must propagate; don't try other authentication
+					// methods.
+					throw e;
 				} catch (IOException e) {
 					if (authenticator == null || authMethod
 							.getType() != HttpAuthMethod.Type.NONE) {

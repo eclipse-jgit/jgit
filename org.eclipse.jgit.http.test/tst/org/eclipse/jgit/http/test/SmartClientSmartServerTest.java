@@ -112,6 +112,10 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 
 	private URIish authOnPostURI;
 
+	private URIish slowURI;
+
+	private URIish slowAuthURI;
+
 	private RevBlob A_txt;
 
 	private RevCommit A, B, unreachableCommit;
@@ -152,6 +156,10 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 
 		ServletContextHandler authOnPost = addAuthContext(gs, "pauth", "POST");
 
+		ServletContextHandler slow = addSlowContext(gs, "slow", false);
+
+		ServletContextHandler slowAuth = addSlowContext(gs, "slowAuth", true);
+
 		server.setUp();
 
 		remoteRepository = src.getRepository();
@@ -160,6 +168,8 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		redirectURI = toURIish(redirect, srcName);
 		authURI = toURIish(auth, srcName);
 		authOnPostURI = toURIish(authOnPost, srcName);
+		slowURI = toURIish(slow, srcName);
+		slowAuthURI = toURIish(slowAuth, srcName);
 
 		A_txt = src.blob("A");
 		A = src.commit().add("A_txt", A_txt).create();
@@ -372,6 +382,43 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		return redirect;
 	}
 
+	private ServletContextHandler addSlowContext(GitServlet gs, String path,
+			boolean auth) {
+		ServletContextHandler slow = server.addContext('/' + path);
+		slow.addFilter(new FilterHolder(new Filter() {
+
+			@Override
+			public void init(FilterConfig filterConfig)
+					throws ServletException {
+				// empty
+			}
+
+			// Simply delays the servlet for two seconds. Used for timeout
+			// tests, which use a one-second timeout.
+			@Override
+			public void doFilter(ServletRequest request,
+					ServletResponse response, FilterChain chain)
+					throws IOException, ServletException {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					throw new IOException(e);
+				}
+				chain.doFilter(request, response);
+			}
+
+			@Override
+			public void destroy() {
+				// empty
+			}
+		}), "/*", EnumSet.of(DispatcherType.REQUEST));
+		slow.addServlet(new ServletHolder(gs), "/*");
+		if (auth) {
+			return server.authBasic(slow);
+		}
+		return slow;
+	}
+
 	@Test
 	public void testListRemote() throws IOException {
 		assertEquals("http", remoteURI.getScheme());
@@ -485,6 +532,35 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 							Collections.singletonList(new RefSpec(A.name()))));
 			assertTrue(
 					e.getMessage().contains("want " + A.name() + " not valid"));
+		}
+	}
+
+	@Test
+	public void testTimeoutExpired() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, slowURI)) {
+			t.setTimeout(1);
+			TransportException expected = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							mirror(master)));
+			assertTrue("Unexpected exception message: " + expected.toString(),
+					expected.getMessage().contains("time"));
+		}
+	}
+
+	@Test
+	public void testTimeoutExpiredWithAuth() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, slowAuthURI)) {
+			t.setTimeout(1);
+			t.setCredentialsProvider(testCredentials);
+			TransportException expected = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							mirror(master)));
+			assertTrue("Unexpected exception message: " + expected.toString(),
+					expected.getMessage().contains("time"));
+			assertFalse("Unexpected exception message: " + expected.toString(),
+					expected.getMessage().contains("auth"));
 		}
 	}
 
