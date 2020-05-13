@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786bdc91_225b4c87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BitmapIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-13T20:27:16Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "840e414d0b0b817e7c154664914d19cb2b6d0387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
