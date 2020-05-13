@@ -17,8 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -109,33 +111,33 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_validSubtreeSort() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
-			b.add(createEntry("libelf/c", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("Makefile", FileMode.REGULAR_FILE));
-			o.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
-			o.add(createEntry("libelf/c", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("libelf/c", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
-			t.add(createEntry("libelf/c", FileMode.REGULAR_FILE, "blah"));
+		oTreeBuilder.add(createEntry("Makefile", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("libelf/c", FileMode.REGULAR_FILE));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("libelf-po/a", FileMode.REGULAR_FILE));
+		tTreeBuilder
+				.add(createEntry("libelf/c", FileMode.REGULAR_FILE, "blah"));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -163,32 +165,31 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_concurrentSubtreeChange() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			b.add(createEntry("d/t", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d/o", FileMode.REGULAR_FILE, "o !"));
-			o.add(createEntry("d/t", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			t.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
+		oTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE, "o !"));
+		oTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		tTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -212,32 +213,31 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_conflictSubtreeChange() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			b.add(createEntry("d/t", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			o.add(createEntry("d/t", FileMode.REGULAR_FILE, "o !"));
+		bTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d/o", FileMode.REGULAR_FILE, "t !"));
-			t.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
+		oTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE, "o !"));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE, "t !"));
+		tTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -246,31 +246,30 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_leftDFconflict1() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			b.add(createEntry("d/t", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			t.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
+		oTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		tTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE, "t !"));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -279,31 +278,30 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_rightDFconflict1() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			b.add(createEntry("d/t", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d/o", FileMode.REGULAR_FILE));
-			o.add(createEntry("d/t", FileMode.REGULAR_FILE, "o !"));
+		bTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("d/t", FileMode.REGULAR_FILE, "o !"));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -312,29 +310,28 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_leftDFconflict2() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d", FileMode.REGULAR_FILE, "o !"));
+		bTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		oTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE, "o !"));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -343,29 +340,28 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_rightDFconflict2() throws Exception {
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
-		{
-			final DirCacheBuilder b = treeB.builder();
-			final DirCacheBuilder o = treeO.builder();
-			final DirCacheBuilder t = treeT.builder();
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
 
-			b.add(createEntry("d", FileMode.REGULAR_FILE));
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
 
-			o.add(createEntry("d/o", FileMode.REGULAR_FILE));
+		bTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE));
 
-			t.add(createEntry("d", FileMode.REGULAR_FILE, "t !"));
+		oTreeBuilder.add(createEntry("d/o", FileMode.REGULAR_FILE));
 
-			b.finish();
-			o.finish();
-			t.finish();
-		}
+		tTreeBuilder.add(createEntry("d", FileMode.REGULAR_FILE, "t !"));
 
-		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
-		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
@@ -377,10 +373,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 				.getObjectId(0));
 	}
 
-	private static ObjectId commit(final ObjectInserter odi,
-			final DirCache treeB,
-			final ObjectId[] parentIds) throws Exception {
-		final CommitBuilder c = new CommitBuilder();
+	private static ObjectId commit(ObjectInserter odi, DirCache treeB,
+			ObjectId[] parentIds) throws Exception {
+		CommitBuilder c = new CommitBuilder();
 		c.setTreeId(treeB.writeTree(odi));
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());
@@ -389,5 +384,260 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;
+	}
+
+	private String linkId1 = "DEADBEEFDEADBEEFBABEDEADBEEFDEADBEEFBABE";
+	private String linkId2 = "DEADDEADDEADDEADDEADDEADDEADDEADDEADDEAD";
+	private String linkId3 = "BEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEF";
+
+	private String SUBMODULE_PATH = "submodule";
+
+	@Test
+	public void testGitLinkMerging_AddNew() throws Exception {
+		assertGitLinkValue(testGitLink(null, null, linkId3, true), linkId3);
+	}
+
+
+	@Test
+	public void testGitLinkMerging_Delete() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, linkId1, null, true));
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateDelete() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, linkId2, null, false));
+	}
+
+	@Test
+	public void testGitLinkMerging_DeleteUpdate() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, null, linkId3, false));
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateUpdate() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, linkId2, linkId3, false));
+	}
+
+	@Test
+	public void testGitLinkMerging_bothAddedSameLink() throws Exception {
+		assertGitLinkValue(testGitLink(null, linkId2, linkId2, true), linkId2);
+	}
+
+	@Test
+	public void testGitLinkMerging_bothAddedDifferentLink() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(null, linkId2, linkId3, false));
+	}
+
+	protected Merger testGitLink(@Nullable String baseLink,
+			@Nullable String oursLink, @Nullable String theirsLink,
+			boolean shouldMerge)
+			throws Exception {
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		maybeAddLink(bTreeBuilder, baseLink);
+		maybeAddLink(oTreeBuilder, oursLink);
+		maybeAddLink(tTreeBuilder, theirsLink);
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db, true);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertEquals(shouldMerge, merge);
+
+		return resolveMerger;
+	}
+
+	@Test
+	public void testGitLinkMerging_blobWithLink() throws Exception {
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		bTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob"));
+		oTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+
+		maybeAddLink(tTreeBuilder, linkId3);
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkWithBlob() throws Exception {
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		maybeAddLink(bTreeBuilder, linkId1);
+		maybeAddLink(oTreeBuilder, linkId2);
+		tTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 3"));
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkWithLink() throws Exception {
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		bTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob"));
+		maybeAddLink(oTreeBuilder, linkId2);
+		maybeAddLink(tTreeBuilder, linkId3);
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_blobWithBlobFromLink() throws Exception {
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		maybeAddLink(bTreeBuilder, linkId1);
+		oTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+		tTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 3"));
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkBlobDeleted() throws Exception {
+		// We changed a link to a blob, others has deleted this link.
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		maybeAddLink(bTreeBuilder, linkId1);
+		oTreeBuilder.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	private void maybeAddLink(DirCacheBuilder builder,
+			@Nullable String linkId) {
+		if (linkId == null) {
+			return;
+		}
+		DirCacheEntry newLink = createGitLink(SUBMODULE_PATH,
+				ObjectId.fromString(linkId));
+		builder.add(newLink);
+	}
+
+	private void assertGitLinkValue(Merger resolveMerger, String shouldChoose)
+			throws Exception {
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(resolveMerger.getResultTreeId());
+
+			assertTrue(tw.next());
+			assertEquals(SUBMODULE_PATH, tw.getPathString());
+			assertEquals(ObjectId.fromString(shouldChoose), tw.getObjectId(0));
+
+			assertFalse(tw.next());
+		}
+	}
+
+	private void assertGitLinkDoesntExist(Merger resolveMerger)
+			throws Exception {
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(resolveMerger.getResultTreeId());
+
+			assertFalse(tw.next());
+		}
 	}
 }
