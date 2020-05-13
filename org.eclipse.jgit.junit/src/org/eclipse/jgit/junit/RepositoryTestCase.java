@@ -34,6 +34,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -508,6 +509,23 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
 			entry.setObjectId(formatter.idFor(
 					Constants.OBJ_BLOB, Constants.encode(content)));
+		}
+		return entry;
+	}
+
+	/**
+	 * Create <code>DirCacheEntry</code>
+	 *
+	 * @param path
+	 * @param objectId
+	 * @return the DirCacheEntry
+	 */
+	protected DirCacheEntry createGitLink(String path, AnyObjectId objectId) {
+		final DirCacheEntry entry = new DirCacheEntry(path,
+				DirCacheEntry.STAGE_0);
+		entry.setFileMode(FileMode.GITLINK);
+		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			entry.setObjectId(objectId);
 		}
 		return entry;
 	}

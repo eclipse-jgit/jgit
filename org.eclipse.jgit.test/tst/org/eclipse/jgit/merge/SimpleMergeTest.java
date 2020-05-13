@@ -17,8 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -389,5 +391,250 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;
+	}
+
+	private String linkId1 = "DEADBEEFDEADBEEFBABEDEADBEEFDEADBEEFBABE";
+	private String linkId2 = "DEADDEADDEADDEADDEADDEADDEADDEADDEADDEAD";
+	private String linkId3 = "BEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEF";
+
+	private String SUBMODULE_PATH = "submodule";
+
+	@Test
+	public void testGitLinkMerging_AddNew() throws Exception {
+		testGitLink(null, null, linkId3, true, linkId3);
+	}
+
+
+	@Test
+	public void testGitLinkMerging_Delete() throws Exception {
+		testGitLink(linkId1, linkId1, null, true, null);
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateDelete() throws Exception {
+		testGitLink(linkId1, linkId2, null, false, null);
+	}
+
+	@Test
+	public void testGitLinkMerging_DeleteUpdate() throws Exception {
+		testGitLink(linkId1, null, linkId3, false, null);
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateUpdate() throws Exception {
+		testGitLink(linkId1, linkId2, linkId3, false, null);
+	}
+
+	@Test
+	public void testGitLinkMerging_bothAddedSameLink() throws Exception {
+		testGitLink(null, linkId2, linkId2, true, linkId2);
+	}
+
+	@Test
+	public void testGitLinkMerging_bothAddedDifferentLink() throws Exception {
+		testGitLink(null, linkId2, linkId3, false, null);
+	}
+
+	protected void testGitLink(@Nullable String baseLink,
+			@Nullable String oursLink, @Nullable String theirsLink,
+			boolean shouldMerge, @Nullable String shouldChoose)
+			throws Exception {
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			maybeAddLink(b, baseLink);
+			maybeAddLink(o, oursLink);
+			maybeAddLink(t, theirsLink);
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db, true);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertEquals(shouldMerge, merge);
+
+		if (shouldMerge) {
+			try (TreeWalk tw = new TreeWalk(db)) {
+				tw.setRecursive(true);
+				tw.reset(resolveMerger.getResultTreeId());
+
+				if (shouldChoose != null) {
+					assertTrue(tw.next());
+					assertEquals(SUBMODULE_PATH, tw.getPathString());
+					assertEquals(ObjectId.fromString(shouldChoose),
+							tw.getObjectId(0));
+				}
+
+				assertFalse(tw.next());
+			}
+		}
+	}
+
+	private void maybeAddLink(DirCacheBuilder builder,
+			@Nullable String linkId) {
+		if (linkId == null) {
+			return;
+		}
+		DirCacheEntry newLink = createGitLink(SUBMODULE_PATH,
+				ObjectId.fromString(linkId));
+		builder.add(newLink);
+	}
+
+	@Test
+	public void testGitLinkMerging_blobWithLink() throws Exception {
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			b.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob"));
+			o.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+
+			maybeAddLink(t, linkId3);
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkWithBlob() throws Exception {
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			maybeAddLink(b, linkId1);
+			maybeAddLink(o, linkId2);
+			t.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 3"));
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkWithLink() throws Exception {
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			b.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob"));
+			maybeAddLink(o, linkId2);
+			maybeAddLink(t, linkId3);
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_blobWithBlobFromLink() throws Exception {
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			maybeAddLink(b, linkId1);
+			o.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+			t.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 3"));
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
+	@Test
+	public void testGitLinkMerging_linkBlobDeleted() throws Exception {
+		// We changed link to blob, others was just deleted this blob.
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
+		{
+			final DirCacheBuilder b = treeB.builder();
+			final DirCacheBuilder o = treeO.builder();
+			final DirCacheBuilder t = treeT.builder();
+
+			maybeAddLink(b, linkId1);
+			o.add(createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+
+			b.finish();
+			o.finish();
+			t.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		final ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		final ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
 	}
 }
