@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b820f46_fd3c69ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-14T00:17:41Z",
+      "side": 1,
+      "message": "nit: no need for trailing punctuation on the subject line",
+      "range": {
+        "startLine": 7,
+        "startChar": 66,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "0f95e2919d7dfd29e6e8987604233b34589fdba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "153b1e63_f20766c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-05-14T00:17:41Z",
+      "side": 1,
+      "message": "If your intuition about being able to use streamPosition() interchangeably with inflater.numBytesRead() is correct (which seems reasonable), then you are double counting the non-inflated bytes here. So you should check.",
+      "range": {
+        "startLine": 1012,
+        "startChar": 27,
+        "endLine": 1013,
+        "endChar": 40
+      },
+      "revId": "0f95e2919d7dfd29e6e8987604233b34589fdba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
