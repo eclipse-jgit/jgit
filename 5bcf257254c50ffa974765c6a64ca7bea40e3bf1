@@ -72,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "b1c418a1_ca0be209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-14T05:40:53Z",
+      "side": 1,
+      "message": "this sounds scary as if we will never be able to merge commits with GITLINK\u0027s in it. I hope only conflicting entries for GITLINKS will prohibit a merge.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8acfa843_67c26851",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
         "patchSetId": 1
