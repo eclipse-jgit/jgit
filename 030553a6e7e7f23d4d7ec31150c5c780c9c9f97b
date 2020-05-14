@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "acc4b71a_e97bef89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-14T02:54:14Z",
+      "side": 1,
+      "message": "I rewrote this commit message. I think the new wording is clearer and address these comments.",
+      "parentUuid": "d4566dd7_86ec46b1",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e118a0f3_18cce4cf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff786c37_83e4398d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-14T02:54:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e118a0f3_18cce4cf",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d0a119b5_6cdc2c44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-14T02:54:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "491a38a7_e0e4d0de",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22c45b73_2ddfe3e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c80a5ebf_705fbb98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-14T02:54:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "22c45b73_2ddfe3e2",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 10
+      },
+      "revId": "030553a6e7e7f23d4d7ec31150c5c780c9c9f97b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
