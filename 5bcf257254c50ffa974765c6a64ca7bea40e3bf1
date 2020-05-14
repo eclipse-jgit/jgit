@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a02e1561_e53c159e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "284f683c_66688111",
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce248604_fff5dc9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7980fcdd_cb597692",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce248604_fff5dc9e",
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8acfa843_67c26851",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2020-05-13T20:59:25Z",
       "side": 1,
       "message": "Is this formatter needed?",
+      "range": {
+        "startLine": 527,
+        "startChar": 32,
+        "endLine": 527,
+        "endChar": 41
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81ad471_888699fe",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "No it\u0027s not. Thanks",
+      "parentUuid": "8acfa843_67c26851",
       "range": {
         "startLine": 527,
         "startChar": 32,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "d94ac635_74c4e52e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "746d1e57_3708ac16",
+      "range": {
+        "startLine": 442,
+        "startChar": 2,
+        "endLine": 442,
+        "endChar": 7
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad3e76f4_136fae2b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
         "patchSetId": 1
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "ba81ec30_cd7a7434",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done (across all code in this test)",
+      "parentUuid": "ad3e76f4_136fae2b",
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e715a76_44806cc2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2020-05-13T20:59:25Z",
       "side": 1,
       "message": "In tests is discouraged this nested structure of assertions. \"Flat\" tests make clear what is being tested.\n\nMaybe an assertMergeGitlink(Tree, expectedObjectId) in the tests would make clearer the expectations.",
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b47163_b6a867eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e715a76_44806cc2",
       "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "a280a981_084eb534",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Updated comment and made it possible to ignore conflicts. We still can\u0027t merge it though. (I believe c-git doesn\u0027t allow it either).",
+      "parentUuid": "53305e5e_ea0f3502",
+      "range": {
+        "startLine": 800,
+        "startChar": 8,
+        "endLine": 800,
+        "endChar": 53
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cddda7b8_ec1d5f3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -150,6 +294,30 @@
       "writtenOn": "2020-05-13T20:59:25Z",
       "side": 1,
       "message": "The name is misleading, as there is no merge happening.",
+      "range": {
+        "startLine": 831,
+        "startChar": 40,
+        "endLine": 831,
+        "endChar": 53
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0474c4c1_9987e6c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-14T01:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cddda7b8_ec1d5f3d",
       "range": {
         "startLine": 831,
         "startChar": 40,
