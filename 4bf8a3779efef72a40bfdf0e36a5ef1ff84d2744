@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "006b56d5_c436676c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-15T23:20:50Z",
+      "side": 1,
+      "message": "Could this more simply be\n\n  n.sizeBeforeInflating \u003d streamPosition() - streamPosition;",
+      "revId": "4bf8a3779efef72a40bfdf0e36a5ef1ff84d2744",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b14d122_11b0a454",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-15T23:20:50Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "4bf8a3779efef72a40bfdf0e36a5ef1ff84d2744",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c171a09_9693f02c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-15T23:20:50Z",
+      "side": 1,
+      "message": "Should this get the starting streamPosition passed in? That way, the obj.setSize call could be `obj.setSizeBeforeInflating(streamPosition() - startingPos);`",
+      "revId": "4bf8a3779efef72a40bfdf0e36a5ef1ff84d2744",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
