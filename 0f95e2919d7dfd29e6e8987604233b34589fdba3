@@ -45,6 +45,30 @@
       "revId": "0f95e2919d7dfd29e6e8987604233b34589fdba3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a6473b_f31e2a2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-05-15T22:54:30Z",
+      "side": 1,
+      "message": "Done. Sorry for making it back and forth.",
+      "parentUuid": "153b1e63_f20766c8",
+      "range": {
+        "startLine": 1012,
+        "startChar": 27,
+        "endLine": 1013,
+        "endChar": 40
+      },
+      "revId": "0f95e2919d7dfd29e6e8987604233b34589fdba3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
