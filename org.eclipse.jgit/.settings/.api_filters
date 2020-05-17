@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/BitmapIndex.java" type="org.eclipse.jgit.lib.BitmapIndex$Bitmap">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BitmapIndex.Bitmap"/>
+                <message_argument value="retrieveCompressed()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
         <filter id="403767336">
             <message_arguments>
