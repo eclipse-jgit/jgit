@@ -66,7 +66,7 @@ public final class BitmapWalker {
 	 *
 	 * @param prevCommit
 	 *            the cached commit.
-	 * @since 5.7
+	 * @since 5.8
 	 */
 	public void setPrevCommit(AnyObjectId prevCommit) {
 		this.prevCommit = prevCommit;
@@ -77,7 +77,7 @@ public final class BitmapWalker {
 	 *
 	 * @param prevBitmap
 	 *            the bitmap associated with the cached commit.
-	 * @since 5.7
+	 * @since 5.8
 	 */
 	public void setPrevBitmap(Bitmap prevBitmap) {
 		this.prevBitmap = prevBitmap;
