@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cd41067_f2908f57",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-05-18T01:39:40Z",
+      "side": 1,
+      "message": "I\u0027m getting a different sha1 here.\n\nSee https://git.eclipse.org/r/163159",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 56
+      },
+      "revId": "bcf4879781c4f53b8facd96c9ec7b802c5c5086d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
