@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8b2ca805_62cfd3d7",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-18T08:14:41Z",
+      "side": 1,
+      "message": "This is not a fragment; would need to have\n\n  Fragment-Host: org.eclipse.jgit;bundle-version\u003d\"[5.8.0,5.9.0)\"\n\nWhen made a fragment; the ServiceLocator works in Eclipse (as expected, since then the bundle ClassLoader can find the META-INF/service file). But then the test bundle shows errors.",
+      "revId": "24731815be3cf8b2a71d822ce5e02070e759bbf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50a2f1d2_bd70cee2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
         "patchSetId": 4
