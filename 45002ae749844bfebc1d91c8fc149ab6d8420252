@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec77a0f_1c65e982",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-18T20:46:29Z",
+      "side": 1,
+      "message": "Given how long this file is getting, and that there doesn\u0027t seem to be much overlap with the other tests... would it be worthy to create a GitlinkSimpleMergeTest ?\n\nAlso, the common setup could go to a @Before  or a helper function and initialize member variables.",
+      "range": {
+        "startLine": 396,
+        "startChar": 13,
+        "endLine": 396,
+        "endChar": 38
+      },
+      "revId": "45002ae749844bfebc1d91c8fc149ab6d8420252",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e78c67_e855d9b0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-18T20:46:29Z",
+      "side": 1,
+      "message": "To assert a git link value I would expect to pass a tree, a path and an expectedId.\n\nI guess \"shouldChoose\" means \"expectedValue\"?",
+      "range": {
+        "startLine": 620,
+        "startChar": 14,
+        "endLine": 620,
+        "endChar": 32
+      },
+      "revId": "45002ae749844bfebc1d91c8fc149ab6d8420252",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d003686e_67e2b710",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-18T20:46:29Z",
+      "side": 1,
+      "message": "This seems to check the tree is empty?",
+      "revId": "45002ae749844bfebc1d91c8fc149ab6d8420252",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

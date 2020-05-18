@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deacc466_6f1c1911",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-05-18T20:46:29Z",
+      "side": 0,
+      "message": "The style fix in existing tests should go in a different commit.",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "a379d007dbf5eefbe8c93738755582586eb835b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
