@@ -1232,9 +1232,9 @@ public class AddCommandTest extends RepositoryTestCase {
 			id = newObjectInserter.insert(
 				Constants.OBJ_BLOB, file.length(), inputStream);
 		}
-		DirCacheEntry entry = new DirCacheEntry(path, stage);
+		DirCacheEntry entry = new DirCacheEntry(path, stage,
+				FileMode.REGULAR_FILE);
 		entry.setObjectId(id);
-		entry.setFileMode(FileMode.REGULAR_FILE);
 		entry.setLastModified(FS.DETECTED.lastModifiedInstant(file));
 		entry.setLength((int) file.length());
 

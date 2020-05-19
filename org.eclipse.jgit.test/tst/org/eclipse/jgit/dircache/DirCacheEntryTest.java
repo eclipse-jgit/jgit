@@ -152,10 +152,10 @@ public class DirCacheEntryTest {
 	}
 
 	private static void copyMetaDataHelper(boolean keepStage) {
-		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_2);
+		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_2,
+				FileMode.EXECUTABLE_FILE);
 		e.setAssumeValid(false);
 		e.setCreationTime(2L);
-		e.setFileMode(FileMode.EXECUTABLE_FILE);
 		e.setLastModified(EPOCH.plusMillis(3L));
 		e.setLength(100L);
 		e.setObjectId(ObjectId
@@ -163,10 +163,9 @@ public class DirCacheEntryTest {
 		e.setUpdateNeeded(true);
 
 		DirCacheEntry f = new DirCacheEntry("someother/path",
-				DirCacheEntry.STAGE_1);
+				DirCacheEntry.STAGE_1, FileMode.SYMLINK);
 		f.setAssumeValid(true);
 		f.setCreationTime(10L);
-		f.setFileMode(FileMode.SYMLINK);
 		f.setLastModified(EPOCH.plusMillis(20L));
 		f.setLength(100000000L);
 		f.setObjectId(ObjectId

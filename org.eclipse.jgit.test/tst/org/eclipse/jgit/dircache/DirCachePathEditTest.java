@@ -243,8 +243,8 @@ public class DirCachePathEditTest {
 	}
 
 	private static DirCacheEntry createEntry(String path, int stage) {
-		DirCacheEntry entry = new DirCacheEntry(path, stage);
-		entry.setFileMode(FileMode.REGULAR_FILE);
+		DirCacheEntry entry = new DirCacheEntry(path, stage,
+				FileMode.REGULAR_FILE);
 		return entry;
 	}
 }

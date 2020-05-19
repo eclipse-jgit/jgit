@@ -382,11 +382,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					if (fTree != null) {
 						// create a new DirCacheEntry with data retrieved from
 						// disk
-						final DirCacheEntry dcEntry = new DirCacheEntry(path);
+						final DirCacheEntry dcEntry = new DirCacheEntry(path,
+								fTree.getIndexFileMode(dcTree));
 						long entryLength = fTree.getEntryLength();
 						dcEntry.setLength(entryLength);
 						dcEntry.setLastModified(fTree.getEntryLastModifiedInstant());
-						dcEntry.setFileMode(fTree.getIndexFileMode(dcTree));
 
 						boolean objectExists = (dcTree != null
 								&& fTree.idEqual(dcTree))
@@ -438,9 +438,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					if (hTree != null) {
 						// create a new DirCacheEntry with data retrieved from
 						// HEAD
-						final DirCacheEntry dcEntry = new DirCacheEntry(path);
+						final DirCacheEntry dcEntry = new DirCacheEntry(path,
+								hTree.getEntryFileMode());
 						dcEntry.setObjectId(hTree.getEntryObjectId());
-						dcEntry.setFileMode(hTree.getEntryFileMode());
 
 						// add to temporary in-core index
 						tempBuilder.add(dcEntry);

@@ -142,8 +142,7 @@ public class PackInserterTest extends RepositoryTestCase {
 
 			DirCache dc = DirCache.newInCore();
 			DirCacheBuilder b = dc.builder();
-			DirCacheEntry dce = new DirCacheEntry("foo");
-			dce.setFileMode(FileMode.REGULAR_FILE);
+			DirCacheEntry dce = new DirCacheEntry("foo", FileMode.REGULAR_FILE);
 			dce.setObjectId(blobId);
 			b.add(dce);
 			b.finish();

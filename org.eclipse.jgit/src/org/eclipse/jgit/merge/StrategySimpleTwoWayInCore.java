@@ -162,9 +162,9 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 				} else {
 					final DirCacheEntry e;
 
-					e = new DirCacheEntry(tw.getRawPath(), stage);
+					e = new DirCacheEntry(tw.getRawPath(), stage,
+							tw.getFileMode(tree));
 					e.setObjectIdFromRaw(i.idBuffer(), i.idOffset());
-					e.setFileMode(tw.getFileMode(tree));
 					builder.add(e);
 				}
 			}

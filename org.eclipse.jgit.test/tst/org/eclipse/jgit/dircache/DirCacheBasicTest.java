@@ -167,8 +167,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(FileMode.REGULAR_FILE);
+			ents[i] = new DirCacheEntry(paths[i], FileMode.REGULAR_FILE);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -189,12 +188,9 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final DirCache dc = db.readDirCache();
 		final DirCacheEntry[] ents = new DirCacheEntry[3];
 
-		ents[0] = new DirCacheEntry("a", 1);
-		ents[0].setFileMode(FileMode.REGULAR_FILE);
-		ents[1] = new DirCacheEntry("a", 2);
-		ents[1].setFileMode(FileMode.REGULAR_FILE);
-		ents[2] = new DirCacheEntry("a", 3);
-		ents[2].setFileMode(FileMode.REGULAR_FILE);
+		ents[0] = new DirCacheEntry("a", 1, FileMode.REGULAR_FILE);
+		ents[1] = new DirCacheEntry("a", 2, FileMode.REGULAR_FILE);
+		ents[2] = new DirCacheEntry("a", 3, FileMode.REGULAR_FILE);
 
 		final DirCacheBuilder b = dc.builder();
 		for (DirCacheEntry ent : ents) {
@@ -222,8 +218,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		String path = "src/con.txt";
 		DirCache dc = db.lockDirCache();
 		DirCacheBuilder b = dc.builder();
-		DirCacheEntry e = new DirCacheEntry(path);
-		e.setFileMode(FileMode.REGULAR_FILE);
+		DirCacheEntry e = new DirCacheEntry(path, FileMode.REGULAR_FILE);
 		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
 			e.setObjectId(formatter.idFor(
 					Constants.OBJ_BLOB,

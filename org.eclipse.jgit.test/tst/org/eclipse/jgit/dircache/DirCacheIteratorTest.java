@@ -56,8 +56,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(FileMode.REGULAR_FILE);
+			ents[i] = new DirCacheEntry(paths[i], FileMode.REGULAR_FILE);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -84,8 +83,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final FileMode[] modes = { FileMode.EXECUTABLE_FILE, FileMode.GITLINK };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(modes[i]);
+			ents[i] = new DirCacheEntry(paths[i], modes[i]);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -118,8 +116,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(FileMode.REGULAR_FILE);
+			ents[i] = new DirCacheEntry(paths[i], FileMode.REGULAR_FILE);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -165,8 +162,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(mode);
+			ents[i] = new DirCacheEntry(paths[i], mode);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -202,8 +198,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(mode);
+			ents[i] = new DirCacheEntry(paths[i], mode);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -238,8 +233,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(mode);
+			ents[i] = new DirCacheEntry(paths[i], mode);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -333,8 +327,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 				"git_remote_helpers/git/repo.py" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(mode);
+			ents[i] = new DirCacheEntry(paths[i], mode);
 		}
 
 		final DirCacheBuilder b = dc.builder();
@@ -367,8 +360,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
-			ents[i].setFileMode(mode);
+			ents[i] = new DirCacheEntry(paths[i], mode);
 		}
 
 		final DirCacheBuilder b = dc.builder();

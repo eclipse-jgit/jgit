@@ -251,8 +251,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			while (!treeItr.eof()) {
 				long len = treeItr.getEntryLength();
 
-				dce = new DirCacheEntry(treeItr.getEntryPathString());
-				dce.setFileMode(treeItr.getEntryFileMode());
+				dce = new DirCacheEntry(treeItr.getEntryPathString(),
+						treeItr.getEntryFileMode());
 				dce.setLastModified(treeItr.getEntryLastModifiedInstant());
 				dce.setLength((int) len);
 				try (FileInputStream in = new FileInputStream(
@@ -503,8 +503,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected DirCacheEntry createEntry(final String path, final FileMode mode,
 			final int stage, final String content) {
-		final DirCacheEntry entry = new DirCacheEntry(path, stage);
-		entry.setFileMode(mode);
+		final DirCacheEntry entry = new DirCacheEntry(path, stage, mode);
 		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
 			entry.setObjectId(formatter.idFor(
 					Constants.OBJ_BLOB, Constants.encode(content)));

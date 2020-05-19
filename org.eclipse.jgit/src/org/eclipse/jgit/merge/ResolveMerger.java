@@ -435,8 +435,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
 			Instant lastMod, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
-			DirCacheEntry e = new DirCacheEntry(path, stage);
-			e.setFileMode(p.getEntryFileMode());
+			DirCacheEntry e = new DirCacheEntry(path, stage,
+					p.getEntryFileMode());
 			e.setObjectId(p.getEntryObjectId());
 			e.setLastModified(lastMod);
 			e.setLength(len);
@@ -457,8 +457,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	private DirCacheEntry keep(DirCacheEntry e) {
 		DirCacheEntry newEntry = new DirCacheEntry(e.getRawPath(),
-				e.getStage());
-		newEntry.setFileMode(e.getFileMode());
+				e.getStage(), e.getFileMode());
 		newEntry.setObjectId(e.getObjectId());
 		newEntry.setLastModified(e.getLastModifiedInstant());
 		newEntry.setLength(e.getLength());
@@ -602,9 +601,9 @@ public class ResolveMerger extends ThreeWayMerger {
 			// create a fake DCE, but only if ours is valid. ours is kept only
 			// in case it is valid, so a null ourDce is ok in all other cases.
 			if (nonTree(modeO)) {
-				ourDce = new DirCacheEntry(tw.getRawPath());
+				ourDce = new DirCacheEntry(tw.getRawPath(),
+						tw.getFileMode(T_OURS));
 				ourDce.setObjectId(tw.getObjectId(T_OURS));
-				ourDce.setFileMode(tw.getFileMode(T_OURS));
 			}
 		} else {
 			ourDce = index.getDirCacheEntry();
