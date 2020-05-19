@@ -435,9 +435,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
 			Instant lastMod, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
-			DirCacheEntry e = new DirCacheEntry(path, stage);
-			e.setFileMode(p.getEntryFileMode());
-			e.setObjectId(p.getEntryObjectId());
+			DirCacheEntry e = new DirCacheEntry(path, stage,
+					p.getEntryObjectId(), p.getEntryFileMode());
 			e.setLastModified(lastMod);
 			e.setLength(len);
 			builder.add(e);
@@ -457,9 +456,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	private DirCacheEntry keep(DirCacheEntry e) {
 		DirCacheEntry newEntry = new DirCacheEntry(e.getRawPath(),
-				e.getStage());
-		newEntry.setFileMode(e.getFileMode());
-		newEntry.setObjectId(e.getObjectId());
+				e.getStage(), e.getObjectId(), e.getFileMode());
 		newEntry.setLastModified(e.getLastModifiedInstant());
 		newEntry.setLength(e.getLength());
 		builder.add(newEntry);

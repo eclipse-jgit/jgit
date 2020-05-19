@@ -203,6 +203,26 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Create an empty entry at stage 0 and set file mode.
+	 *
+	 * @param newPath
+	 *            name of the cache entry.
+	 * @param id
+	 *            ObjectId for the entry
+	 * @param fileMode
+	 *            file mode recognized by GIT.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.
+	 */
+	public DirCacheEntry(String newPath, AnyObjectId id, FileMode fileMode) {
+		this(Constants.encode(newPath), STAGE_0);
+		setObjectId(id);
+		setFileMode(fileMode);
+	}
+
+	/**
 	 * Create an empty entry at the specified stage.
 	 *
 	 * @param newPath
@@ -220,6 +240,54 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Create an empty entry at the specified stage.
+	 *
+	 * @param newPath
+	 *            name of the cache entry.
+	 * @param stage
+	 *            the stage index of the new entry.
+	 * @param id
+	 *            ObjectId for the entry
+	 * @param fileMode
+	 *            file mode recognized by GIT.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file. Or if {@code stage} is outside of the range
+	 *             0..3, inclusive.
+	 */
+	public DirCacheEntry(String newPath, int stage, AnyObjectId id,
+			FileMode fileMode) {
+		this(Constants.encode(newPath), stage);
+		setObjectId(id);
+		setFileMode(fileMode);
+	}
+
+	/**
+	 * Create an empty entry at the specified stage.
+	 *
+	 * @param newPath
+	 *            name of the cache entry.
+	 * @param stage
+	 *            the stage index of the new entry.
+	 * @param id
+	 *            ObjectId for the entry
+	 * @param fileMode
+	 *            file mode recognized by GIT.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file. Or if {@code stage} is outside of the range
+	 *             0..3, inclusive.
+	 */
+	public DirCacheEntry(String newPath, int stage, FileMode fileMode,
+			AnyObjectId id) {
+		this(Constants.encode(newPath), stage);
+		setFileMode(fileMode);
+		setObjectId(id);
+	}
+
+	/**
 	 * Create an empty entry at stage 0.
 	 *
 	 * @param newPath
@@ -231,6 +299,24 @@ public class DirCacheEntry {
 	 */
 	public DirCacheEntry(byte[] newPath) {
 		this(newPath, STAGE_0);
+	}
+
+	/**
+	 * Create an empty entry at stage 0.
+	 *
+	 * @param newPath
+	 *            name of the cache entry, in the standard encoding.
+	 * @param id
+	 * @param fileMode
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.
+	 */
+	public DirCacheEntry(byte[] newPath, AnyObjectId id, FileMode fileMode) {
+		this(newPath, STAGE_0);
+		setObjectId(id);
+		setFileMode(fileMode);
 	}
 
 	/**
@@ -264,6 +350,29 @@ public class DirCacheEntry {
 		else
 			flags |= NAME_MASK;
 		NB.encodeInt16(info, infoOffset + P_FLAGS, flags);
+	}
+
+	/**
+	 * Create an empty entry at the specified stage.
+	 *
+	 * @param path
+	 *            name of the cache entry, in the standard encoding.
+	 * @param stage
+	 *            the stage index of the new entry.
+	 * @param id
+	 * @param fileMode
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file. Or if {@code stage} is outside of the range
+	 *             0..3, inclusive.
+	 */
+	@SuppressWarnings("boxing")
+	public DirCacheEntry(byte[] path, int stage, AnyObjectId id,
+			FileMode fileMode) {
+		this(path, stage);
+		setObjectId(id);
+		setFileMode(fileMode);
 	}
 
 	/**

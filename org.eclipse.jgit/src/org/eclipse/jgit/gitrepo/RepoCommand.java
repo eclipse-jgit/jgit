@@ -624,9 +624,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 					// create gitlink
 					if (objectId != null) {
-						DirCacheEntry dcEntry = new DirCacheEntry(path);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.GITLINK);
+						DirCacheEntry dcEntry = new DirCacheEntry(path,
+								objectId, FileMode.GITLINK);
 						builder.add(dcEntry);
 
 						for (CopyFile copyfile : proj.getCopyFiles()) {
@@ -634,9 +633,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 								url, proj.getRevision(), copyfile.src);
 							objectId = inserter.insert(Constants.OBJ_BLOB,
 									rf.getContents());
-							dcEntry = new DirCacheEntry(copyfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(rf.getFileMode());
+							dcEntry = new DirCacheEntry(copyfile.dest, objectId,
+									rf.getFileMode());
 							builder.add(dcEntry);
 						}
 						for (LinkFile linkfile : proj.getLinkFiles()) {
@@ -652,9 +650,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 							objectId = inserter.insert(Constants.OBJ_BLOB,
 									link.getBytes(UTF_8));
-							dcEntry = new DirCacheEntry(linkfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(FileMode.SYMLINK);
+							dcEntry = new DirCacheEntry(linkfile.dest, objectId,
+									FileMode.SYMLINK);
 							builder.add(dcEntry);
 						}
 					}
