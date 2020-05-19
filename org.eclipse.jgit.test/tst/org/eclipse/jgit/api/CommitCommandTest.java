@@ -554,8 +554,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 		DirCacheBuilder builder = index.builder();
 		addUnmergedEntry("unmerged1", builder);
 		addUnmergedEntry("unmerged2", builder);
-		DirCacheEntry other = new DirCacheEntry("other");
-		other.setFileMode(FileMode.REGULAR_FILE);
+		DirCacheEntry other = new DirCacheEntry("other", FileMode.REGULAR_FILE);
 		builder.add(other);
 		builder.commit();
 
@@ -762,12 +761,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	private static void addUnmergedEntry(String file, DirCacheBuilder builder) {
-		DirCacheEntry stage1 = new DirCacheEntry(file, DirCacheEntry.STAGE_1);
-		DirCacheEntry stage2 = new DirCacheEntry(file, DirCacheEntry.STAGE_2);
-		DirCacheEntry stage3 = new DirCacheEntry(file, DirCacheEntry.STAGE_3);
-		stage1.setFileMode(FileMode.REGULAR_FILE);
-		stage2.setFileMode(FileMode.REGULAR_FILE);
-		stage3.setFileMode(FileMode.REGULAR_FILE);
+		DirCacheEntry stage1 = new DirCacheEntry(file, DirCacheEntry.STAGE_1,
+				FileMode.REGULAR_FILE);
+		DirCacheEntry stage2 = new DirCacheEntry(file, DirCacheEntry.STAGE_2,
+				FileMode.REGULAR_FILE);
+		DirCacheEntry stage3 = new DirCacheEntry(file, DirCacheEntry.STAGE_3,
+				FileMode.REGULAR_FILE);
 		builder.add(stage1);
 		builder.add(stage2);
 		builder.add(stage3);

@@ -345,8 +345,8 @@ public class ResetCommand extends GitCommand<Ref> {
 				// only keep file in index if it's in the commit
 				if (tree != null) {
 				    // revert index to commit
-					DirCacheEntry entry = new DirCacheEntry(tw.getRawPath());
-					entry.setFileMode(tree.getEntryFileMode());
+					DirCacheEntry entry = new DirCacheEntry(tw.getRawPath(),
+							tree.getEntryFileMode());
 					entry.setObjectId(tree.getEntryObjectId());
 					builder.add(entry);
 				}
@@ -381,8 +381,8 @@ public class ResetCommand extends GitCommand<Ref> {
 					continue;
 				}
 
-				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
-				entry.setFileMode(cIter.getEntryFileMode());
+				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath(),
+						cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
 
 				DirCacheIterator dcIter = walk.getTree(1,

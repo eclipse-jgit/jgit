@@ -321,8 +321,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					continue;
 				}
 
-				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
-				entry.setFileMode(cIter.getEntryFileMode());
+				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath(),
+						cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
 
 				DirCacheIterator dcIter = walk.getTree(1,
@@ -362,8 +362,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 				final EolStreamType eolStreamType = walk
 						.getEolStreamType(CHECKOUT_OP);
-				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
-				entry.setFileMode(cIter.getEntryFileMode());
+				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath(),
+						cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
 
 				FileTreeIterator fIter = walk

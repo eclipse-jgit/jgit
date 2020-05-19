@@ -265,11 +265,11 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 							continue;
 						treeWalk.getObjectId(id, 0);
 						final DirCacheEntry entry = new DirCacheEntry(
-								treeWalk.getRawPath());
+								treeWalk.getRawPath(),
+								wtIter.getEntryFileMode());
 						entry.setLength(wtIter.getEntryLength());
 						entry.setLastModified(
 								wtIter.getEntryLastModifiedInstant());
-						entry.setFileMode(wtIter.getEntryFileMode());
 						long contentLength = wtIter.getEntryContentLength();
 						try (InputStream in = wtIter.openEntryStream()) {
 							entry.setObjectId(inserter.insert(

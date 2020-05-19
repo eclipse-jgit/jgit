@@ -1198,15 +1198,15 @@ public class DirCacheCheckout {
 		}
 
 		if (h != null && !FileMode.TREE.equals(h.getEntryFileMode())) {
-			entry = new DirCacheEntry(h.getEntryPathString(), DirCacheEntry.STAGE_2);
-			entry.setFileMode(h.getEntryFileMode());
+			entry = new DirCacheEntry(h.getEntryPathString(),
+					DirCacheEntry.STAGE_2, h.getEntryFileMode());
 			entry.setObjectId(h.getEntryObjectId());
 			builder.add(entry);
 		}
 
 		if (m != null && !FileMode.TREE.equals(m.getEntryFileMode())) {
-			entry = new DirCacheEntry(m.getEntryPathString(), DirCacheEntry.STAGE_3);
-			entry.setFileMode(m.getEntryFileMode());
+			entry = new DirCacheEntry(m.getEntryPathString(),
+					DirCacheEntry.STAGE_3, m.getEntryFileMode());
 			entry.setObjectId(m.getEntryObjectId());
 			builder.add(entry);
 		}
@@ -1238,9 +1238,9 @@ public class DirCacheCheckout {
 					walk.getEolStreamType(CHECKOUT_OP),
 					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
 
-			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
+			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0,
+					mode);
 			entry.setObjectId(mId);
-			entry.setFileMode(mode);
 			builder.add(entry);
 		}
 	}

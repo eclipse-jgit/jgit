@@ -180,8 +180,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		byte[] path = new byte[len];
 		System.arraycopy(buf, 0, path, 0, len);
 
-		DirCacheEntry e = new DirCacheEntry(path, stage);
-		e.setFileMode(i.getEntryRawMode());
+		DirCacheEntry e = new DirCacheEntry(path, stage, i.getEntryRawMode());
 		e.setObjectIdFromRaw(i.idBuffer(), i.idOffset());
 		return e;
 	}
