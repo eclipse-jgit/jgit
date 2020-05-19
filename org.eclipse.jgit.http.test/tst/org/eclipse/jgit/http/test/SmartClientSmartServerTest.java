@@ -1333,6 +1333,8 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 					new DfsRepositoryDescription(repoName));
 			final TestRepository<Repository> repo = new TestRepository<>(
 					badRefsRepo);
+			badRefsRepo.getConfig().setInt("protocol", null, "version",
+					enableProtocolV2 ? 2 : 0);
 
 			ServletContextHandler app = noRefServer.addContext("/git");
 			GitServlet gs = new GitServlet();
@@ -1362,7 +1364,8 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 						Collections.<ObjectId> emptySet());
 				fail("Successfully served ref with value " + c.getRef(master));
 			} catch (TransportException err) {
-				assertEquals("Internal server error", err.getMessage());
+				assertTrue("Unexpected exception message " + err.getMessage(),
+						err.getMessage().contains("Internal server error"));
 			}
 		} finally {
 			noRefServer.tearDown();
