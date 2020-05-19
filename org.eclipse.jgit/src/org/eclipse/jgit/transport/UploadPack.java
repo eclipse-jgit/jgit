@@ -720,7 +720,8 @@ public class UploadPack {
 	}
 
 	private boolean useProtocolV2() {
-		return ProtocolVersion.V2.equals(transferConfig.protocolVersion)
+		return (transferConfig.protocolVersion == null
+			|| ProtocolVersion.V2.equals(transferConfig.protocolVersion))
 				&& clientRequestedV2;
 	}
 
