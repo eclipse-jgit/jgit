@@ -267,9 +267,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 */
 	public DirCacheEntry file(String path, RevBlob blob)
 			throws Exception {
-		final DirCacheEntry e = new DirCacheEntry(path);
-		e.setFileMode(FileMode.REGULAR_FILE);
-		e.setObjectId(blob);
+		final DirCacheEntry e = new DirCacheEntry(path, blob,
+				FileMode.REGULAR_FILE);
 		return e;
 	}
 

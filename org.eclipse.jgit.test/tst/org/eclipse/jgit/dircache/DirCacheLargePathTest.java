@@ -59,6 +59,7 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 		longEnt.setFileMode(FileMode.REGULAR_FILE);
 		shortEnt.setFileMode(FileMode.REGULAR_FILE);
 
+
 		assertEquals(longPath, longEnt.getPathString());
 		assertEquals(shortPath, shortEnt.getPathString());
 
