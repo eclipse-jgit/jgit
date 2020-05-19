@@ -624,9 +624,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 					// create gitlink
 					if (objectId != null) {
-						DirCacheEntry dcEntry = new DirCacheEntry(path);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.GITLINK);
+						DirCacheEntry dcEntry = new DirCacheEntry(path,
+								objectId, FileMode.GITLINK);
 						builder.add(dcEntry);
 
 						for (CopyFile copyfile : proj.getCopyFiles()) {
@@ -634,9 +633,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 								url, proj.getRevision(), copyfile.src);
 							objectId = inserter.insert(Constants.OBJ_BLOB,
 									rf.getContents());
-							dcEntry = new DirCacheEntry(copyfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(rf.getFileMode());
+							dcEntry = new DirCacheEntry(copyfile.dest, objectId,
+									rf.getFileMode());
 							builder.add(dcEntry);
 						}
 						for (LinkFile linkfile : proj.getLinkFiles()) {
@@ -652,9 +650,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 							objectId = inserter.insert(Constants.OBJ_BLOB,
 									link.getBytes(UTF_8));
-							dcEntry = new DirCacheEntry(linkfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(FileMode.SYMLINK);
+							dcEntry = new DirCacheEntry(linkfile.dest, objectId,
+									FileMode.SYMLINK);
 							builder.add(dcEntry);
 						}
 					}
@@ -662,7 +659,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				String content = cfg.toText();
 
 				// create a new DirCacheEntry for .gitmodules file.
-				final DirCacheEntry dcEntry = new DirCacheEntry(Constants.DOT_GIT_MODULES);
+				final DirCacheEntry dcEntry = new DirCacheEntry(
+						Constants.DOT_GIT_MODULES);
 				ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
 						content.getBytes(UTF_8));
 				dcEntry.setObjectId(objectId);
@@ -671,7 +669,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 				if (recordSubmoduleLabels) {
 					// create a new DirCacheEntry for .gitattributes file.
-					final DirCacheEntry dcEntryAttr = new DirCacheEntry(Constants.DOT_GIT_ATTRIBUTES);
+					final DirCacheEntry dcEntryAttr = new DirCacheEntry(
+							Constants.DOT_GIT_ATTRIBUTES);
 					ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
 							attributes.toString().getBytes(UTF_8));
 					dcEntryAttr.setObjectId(attrId);

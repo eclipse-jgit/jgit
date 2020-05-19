@@ -346,8 +346,8 @@ public class ResetCommand extends GitCommand<Ref> {
 				if (tree != null) {
 				    // revert index to commit
 					DirCacheEntry entry = new DirCacheEntry(tw.getRawPath());
-					entry.setFileMode(tree.getEntryFileMode());
 					entry.setObjectId(tree.getEntryObjectId());
+					entry.setFileMode(tree.getEntryFileMode());
 					builder.add(entry);
 				}
 			}
@@ -381,9 +381,10 @@ public class ResetCommand extends GitCommand<Ref> {
 					continue;
 				}
 
-				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
-				entry.setFileMode(cIter.getEntryFileMode());
+				final DirCacheEntry entry = new DirCacheEntry(
+						walk.getRawPath());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
+				entry.setFileMode(cIter.getEntryFileMode());
 
 				DirCacheIterator dcIter = walk.getTree(1,
 						DirCacheIterator.class);
