@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.6" sequenceNumber="1588775729">
+<target name="jgit-4.6" sequenceNumber="1589936402">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
@@ -39,8 +39,8 @@
       <unit id="net.bytebuddy.byte-buddy.source" version="1.9.0.v20181107-1410"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
-      <unit id="org.apache.ant" version="1.10.7.v20190926-0324"/>
-      <unit id="org.apache.ant.source" version="1.10.7.v20190926-0324"/>
+      <unit id="org.apache.ant" version="1.10.8.v20200515-1239"/>
+      <unit id="org.apache.ant.source" version="1.10.8.v20200515-1239"/>
       <unit id="org.apache.commons.codec" version="1.13.0.v20200108-0001"/>
       <unit id="org.apache.commons.codec.source" version="1.13.0.v20200108-0001"/>
       <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
@@ -84,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20200506000552/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200519202422/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
