@@ -1,7 +1,7 @@
-target "I20200506000552" with source configurePhase
+target "S20200519202422" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/I20200506000552/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20200519202422/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -18,8 +18,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202005060005
 	net.bytebuddy.byte-buddy.source [1.9.0.v20181107-1410,1.9.0.v20181107-1410]
 	net.i2p.crypto.eddsa [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
 	net.i2p.crypto.eddsa.source [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
-	org.apache.ant [1.10.7.v20190926-0324,1.10.7.v20190926-0324]
-	org.apache.ant.source [1.10.7.v20190926-0324,1.10.7.v20190926-0324]
+	org.apache.ant [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
+	org.apache.ant.source [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
 	org.apache.commons.codec [1.13.0.v20200108-0001,1.13.0.v20200108-0001]
 	org.apache.commons.codec.source [1.13.0.v20200108-0001,1.13.0.v20200108-0001]
 	org.apache.commons.compress [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
