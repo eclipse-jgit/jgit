@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a79176_f5963ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Please follow the guidelines for commit messages.[1] Single title line, shorter than ~70 characters, an empty line, then additional explanations in paragraphs with lines not longer than 70 characters.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d0ae81_38e53a96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheLargePathTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Unrelated changes; please undo.",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d10d99a1_678e043c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Why not call the new constructor here?",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9c830b3_7e1e4384",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Unrelated change, please undo.",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cddbf79_aa03da78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Unrelated changes only, please undo.",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5057d0f9_227859b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Why not call the new constructor here?",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08a91deb_4c8a6ad2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Why not call the new constructor here?",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c7f2241_77e9e3f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Why not call the new constructor here?",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "588f0e33_98b51a54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Why not call this(path, stage); ?",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 321,
+        "endChar": 52
+      },
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c6415fa_b2fb82cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-20T07:02:33Z",
+      "side": 1,
+      "message": "Unrelated formatting change, please undo.",
+      "revId": "6fb7cb43d0abd5bfafcc4cd8eee9100cc9d8750e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
