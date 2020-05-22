@@ -280,7 +280,7 @@ public abstract class ReftableDatabase {
 
 	/**
 	 * Returns all refs that resolve directly to the given {@link ObjectId}.
-	 * Includes peeled {@linkObjectId}s.
+	 * Includes peeled {@link ObjectId}s.
 	 *
 	 * @param id
 	 *            {@link ObjectId} to resolve
