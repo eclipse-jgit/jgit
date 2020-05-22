@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4ceb787_23c75ccd",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T12:00:16Z",
+      "side": 1,
+      "message": "Minimum dependency should be 1.65.",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c47af8_f7b6e118",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
         "patchSetId": 8
