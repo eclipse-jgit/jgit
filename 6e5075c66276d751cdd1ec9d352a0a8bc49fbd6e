@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84be5f33_f225e91e",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-22T00:00:24Z",
+      "side": 1,
+      "message": "these dependencies were moved to the new fragment and aren\u0027t needed here anymore",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 57
+      },
+      "revId": "6e5075c66276d751cdd1ec9d352a0a8bc49fbd6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
