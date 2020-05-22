@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8429fd18_176471ef",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T12:52:28Z",
+      "side": 1,
+      "message": "We don\u0027t seem to hit this bug in the ssh unit tests, and I didn\u0027t hit it testing GPG signing manually in Eclipse. But requiring this version might perhaps cause trouble for users of this fragment. We would have to roll back at least:\n\n* https://git.eclipse.org/r/#/c/161962/ would need to be reverted. (And the bug re-opened.) IssuerFingerprint exists only from 1.65 on.\n* The target platform changes to BC 1.65 in https://git.eclipse.org/r/#/c/162570/ would need to be reverted.\n* Maven and bazel would need build against 1.64 again.\n\nAnd Orbit contains only 1.65 (1.64 got removed).",
+      "parentUuid": "80219744_eccddba9",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c47af8_f7b6e118",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
         "patchSetId": 8
