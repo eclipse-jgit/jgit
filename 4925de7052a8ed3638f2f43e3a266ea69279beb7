@@ -97,6 +97,54 @@
     },
     {
       "key": {
+        "uuid": "867559f9_9e17a6da",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-22T15:40:31Z",
+      "side": 1,
+      "message": "there is a patch release 1.65.01 mentioned in https://github.com/bcgit/bc-java/issues/682\nI asked there if they could publish this release on Maven central.",
+      "parentUuid": "4f89152c_b213c9e9",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b383fd3c_f836cf34",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-22T15:40:31Z",
+      "side": 1,
+      "message": "then we should notify other users in the release train by filing a bug on tools.orbit and also rollback the removal of 1.64 from Orbit",
+      "parentUuid": "8429fd18_176471ef",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c47af8_f7b6e118",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
         "patchSetId": 8
@@ -108,6 +156,24 @@
       "writtenOn": "2020-05-22T11:05:30Z",
       "side": 1,
       "message": "Move this file to resources/META-INF/services/org.eclipse.jgit.lib.GpgSigner\n\nOtherwise it\u0027s missing in the generated JAR in the p2 repository, and then signing doesn\u0027t work after installing, even if the fragment is present.",
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17326217_d399a0bd",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-22T15:40:31Z",
+      "side": 1,
+      "message": "Done\n\nthanks for spotting this",
+      "parentUuid": "e6c47af8_f7b6e118",
       "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
