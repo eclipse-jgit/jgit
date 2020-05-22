@@ -2061,6 +2061,16 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Get the current unpack error handler.
+	 *
+	 * @return the current unpack error handler.
+	 * @since 5.8
+	 */
+	public UnpackErrorHandler getUnpackErrorHandler() {
+		return unpackErrorHandler;
+	}
+
+	/**
 	 * @param unpackErrorHandler
 	 *            the unpackErrorHandler to set
 	 * @since 5.7
