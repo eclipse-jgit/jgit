@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "80219744_eccddba9",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-22T12:29:59Z",
+      "side": 1,
+      "message": "1.65 is broken. See this issue and comment in root pom.xml in Apache MINA SSHD:\n\n    \u003c!-- NOTE: BC 1.65+ seems to have an NPE bug in Key#getAlgorithm()\n                * see https://github.com/bcgit/bc-java/issues/684\n            --\u003e\n        \u003cbouncycastle.version\u003e1.64\u003c/bouncycastle.version\u003e",
+      "parentUuid": "d4ceb787_23c75ccd",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c47af8_f7b6e118",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
         "patchSetId": 8
