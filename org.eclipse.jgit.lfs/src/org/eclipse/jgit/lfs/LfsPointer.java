@@ -168,7 +168,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 			return x;
 		}
 
-		return (int) (getSize() - o.getSize());
+		return Long.compare(getSize(), o.getSize());
 	}
 }
 
