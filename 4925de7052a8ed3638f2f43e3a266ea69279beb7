@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4f89152c_b213c9e9",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T13:05:31Z",
+      "side": 1,
+      "message": "See also https://github.com/bcgit/bc-java/issues/682 . So far no new release appears to have been published.",
+      "parentUuid": "8429fd18_176471ef",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4925de7052a8ed3638f2f43e3a266ea69279beb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c47af8_f7b6e118",
         "filename": "org.eclipse.jgit.gpg.bc/META-INF/services/org.eclipse.jgit.lib.GpgSigner",
         "patchSetId": 8
