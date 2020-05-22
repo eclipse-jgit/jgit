@@ -19,7 +19,7 @@ final class CharacterHead extends AbstractHead {
 	 * @param expectedCharacter
 	 *            expected {@code char}
 	 */
-	protected CharacterHead(char expectedCharacter) {
+	CharacterHead(char expectedCharacter) {
 		super(false);
 		this.expectedCharacter = expectedCharacter;
 	}
