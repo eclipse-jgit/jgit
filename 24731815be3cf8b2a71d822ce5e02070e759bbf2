@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b4fb092b_604ab468",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-22T00:00:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2ca805_62cfd3d7",
+      "revId": "24731815be3cf8b2a71d822ce5e02070e759bbf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50a2f1d2_bd70cee2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
         "patchSetId": 4
