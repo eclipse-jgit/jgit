@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "859c3584_beb7d011",
+        "filename": "org.eclipse.jgit.benchmarks/.classpath",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "I can\u0027t see what\u0027s the difference here. Probably CR/LF vs. LF. Please just revert this file.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fba4d5_ef5bf388",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheLargePathTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "Extra empty line, please remove.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c8d90a8_651f2160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "Please revert this file; the changes are unnecessary.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8300e299_1022494e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "That constructor should go; just swap the last two parameters.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69196328_10594404",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "That constructor should go; just swap the last two parameters.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307d9670_adb5dc50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-22T21:36:20Z",
+      "side": 1,
+      "message": "This one appears to be a duplicate of the one above (except parameter order). Javadoc order of parameters is also wrong.\nPlease remove this one again.",
+      "revId": "7bc2a378a81e9eb22a90b41d18e09307de0ab821",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
