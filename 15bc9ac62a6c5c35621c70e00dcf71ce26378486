@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfe5cd6_6f94fbdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-23T14:32:25Z",
+      "side": 1,
+      "message": "This needs to catch and log java.util.ServiceConfigurationError. We shouldn\u0027t let a misconfiguration or classloader problem here take down the whole commit functionality.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "15bc9ac62a6c5c35621c70e00dcf71ce26378486",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
