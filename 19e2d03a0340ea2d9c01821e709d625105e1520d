@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "69df0e9e_0d34895b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-23T14:14:54Z",
+      "side": 1,
+      "message": "updating",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "19e2d03a0340ea2d9c01821e709d625105e1520d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cef90a20_57da38a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +59,23 @@
         "endLine": 10,
         "endChar": 28
       },
+      "revId": "19e2d03a0340ea2d9c01821e709d625105e1520d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4fa8b66_bf01263c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-23T14:14:54Z",
+      "side": 1,
+      "message": "If you want this in JGit 5.8.0, this would need to be @since 5.8. Otherwise we\u0027ll merge it only once master has switched to 5.9.0.",
       "revId": "19e2d03a0340ea2d9c01821e709d625105e1520d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
