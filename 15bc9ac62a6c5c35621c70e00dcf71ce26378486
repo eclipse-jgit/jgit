@@ -22,6 +22,30 @@
       "revId": "15bc9ac62a6c5c35621c70e00dcf71ce26378486",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14b2166c_0f1bb604",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSigner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-24T18:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfe5cd6_6f94fbdb",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "15bc9ac62a6c5c35621c70e00dcf71ce26378486",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
