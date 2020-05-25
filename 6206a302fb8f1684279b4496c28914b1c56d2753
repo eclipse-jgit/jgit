@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65edd00f_b38e3370",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-25T08:23:10Z",
+      "side": 1,
+      "message": "Here is the question from another change: [1]:\n\n  \"The way that I read Matthias change is that he is\n  moving all SSH related things into an SSH sub package?\n  So by that you could build JGit without any ssh support?\"\n\nIOW, say this series is merged and new JGit release 6.0 is conducted and Gerrit is upgraded to JGit 6.0 release. \n\nWithout adding new dependency on new JGit artifact: org.eclipse.jgit.ssh.jsch, the old SSH Transport layer with JCraft JSch would not work any more. Is this assumption correct?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/263692/19/java/com/google/gerrit/acceptance/SshSession.java#42",
+      "range": {
+        "startLine": 18,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "6206a302fb8f1684279b4496c28914b1c56d2753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
