@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cda4d13d_5346c103",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-25T07:11:55Z",
+      "side": 1,
+      "message": "What to do if signCommit is true, but gpgSigner \u003d\u003d null? An NPE doesn\u0027t seem to be user-friendly... Either ignore signing, or throw a better exception?",
+      "revId": "69660c509637a8ff3b089fdb9b9726664b3df41c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
