@@ -16,6 +16,24 @@
       "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b95e013_90c0e88d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-26T07:36:27Z",
+      "side": 1,
+      "message": "I think this is correct. First, compare with the C code. (Link in the commit message.) Second, see [1]: \"Ignore changes in amount of whitespace. This ignores whitespace at line end, and considers all other sequences of one or more whitespace characters to be equivalent.\" Note that this implies that whitespace at the front !\u003d no whitespace at the front. Third see the (already existing) test at [2] that tests exactly that.\n\n[1] https://git-scm.com/docs/git-diff#Documentation/git-diff.txt--b\n[2] https://git.eclipse.org/r/#/c/163573/1/org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextIgnoreWhitespaceChangeTest.java@70",
+      "parentUuid": "1948668b_36596211",
+      "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
