@@ -75,4 +75,32 @@ public class RawTextIgnoreWhitespaceChangeTest {
 		assertTrue(cmp.equals(a, 5, b, 5));
 		assertTrue(cmp.equals(b, 5, a, 5));
 	}
+
+	@Test
+	public void testEqualsWithTabs() {
+		RawText a = new RawText(
+				Constants.encodeASCII("a\tb\t \na\tb\t c \n  foo\na b\na  b"));
+		RawText b = new RawText(
+				Constants.encodeASCII("a b \na b c\n\tfoo\nab\na \tb"));
+
+		// "a\tb\t \n" == "a b \n"
+		assertTrue(cmp.equals(a, 0, b, 0));
+		assertTrue(cmp.equals(b, 0, a, 0));
+
+		// "a\tb\t c \n" == "a b c\n"
+		assertTrue(cmp.equals(a, 1, b, 1));
+		assertTrue(cmp.equals(b, 1, a, 1));
+
+		// " foo" == "\tfoo"
+		assertTrue(cmp.equals(a, 2, b, 2));
+		assertTrue(cmp.equals(b, 2, a, 2));
+
+		// "a b" != "ab"
+		assertFalse(cmp.equals(a, 3, b, 3));
+		assertFalse(cmp.equals(b, 3, a, 3));
+
+		// "a b" == "a \tb "
+		assertTrue(cmp.equals(a, 4, b, 4));
+		assertTrue(cmp.equals(b, 4, a, 4));
+	}
 }
