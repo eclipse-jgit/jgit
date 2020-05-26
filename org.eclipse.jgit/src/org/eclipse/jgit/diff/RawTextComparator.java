@@ -194,18 +194,16 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 				byte ac = a.content[as];
 				byte bc = b.content[bs];
 
-				if (ac != bc)
-					return false;
-
-				if (isWhitespace(ac))
+				if (isWhitespace(ac) && isWhitespace(bc)) {
 					as = trimLeadingWhitespace(a.content, as, ae);
-				else
-					as++;
-
-				if (isWhitespace(bc))
 					bs = trimLeadingWhitespace(b.content, bs, be);
-				else
+				} else {
+					if (ac != bc) {
+						return false;
+					}
+					as++;
 					bs++;
+				}
 			}
 			return as == ae && bs == be;
 		}
@@ -216,11 +214,13 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			end = trimTrailingWhitespace(raw, ptr, end);
 			while (ptr < end) {
 				byte c = raw[ptr];
-				hash = ((hash << 5) + hash) + (c & 0xff);
-				if (isWhitespace(c))
+				if (isWhitespace(c)) {
 					ptr = trimLeadingWhitespace(raw, ptr, end);
-				else
+					c = ' ';
+				} else {
 					ptr++;
+				}
+				hash = ((hash << 5) + hash) + (c & 0xff);
 			}
 			return hash;
 		}
