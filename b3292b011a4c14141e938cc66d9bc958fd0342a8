@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "224388c6_92f3a683",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-26T16:45:54Z",
+      "side": 1,
+      "message": "s/bouncycastle/BouncyCastle/",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "018deab4_5aa6d544",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-26T16:45:54Z",
+      "side": 1,
+      "message": "Add a new feature xyz feature to ....??? Thats one \u0027feature\u0027 too much, or?",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26ddedbf_fbc3f383",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-26T16:45:54Z",
+      "side": 1,
+      "message": "\u0027GPG support\u0027 would be more consistent with the other occurences of this text.",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
