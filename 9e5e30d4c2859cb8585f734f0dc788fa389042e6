@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1948668b_36596211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-26T07:21:51Z",
+      "side": 1,
+      "message": "Is that correct? What is if \u0027a\u0027 has leading whitespaces and \u0027b\u0027 has no whitespaces at all. If \u0027b\u0027 has no whitespaces at all we will never enter this if block and never trim whitespaces (even not from a). Maybe \u0027||\u0027 instead of \u0027\u0026\u0026\u0027?",
+      "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
