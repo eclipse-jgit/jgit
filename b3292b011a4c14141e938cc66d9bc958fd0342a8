@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd021fe1_cf98fca8",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-27T05:08:20Z",
+      "side": 0,
+      "message": "Wrong conflict resolution? This target is still used in:\n\n  $ bazel build //...\nINFO: Invocation ID: 5005f5f6-50a7-418d-8635-7ed30b42df27\nERROR: /home/davido/projects/jgit/org.eclipse.jgit.gpg.bc.test/BUILD:6:1: no such target \u0027//org.eclipse.jgit.test:sshd-helpers\u0027: target \u0027sshd-helpers\u0027 not declared in package \u0027org.eclipse.jgit.test\u0027 defined by /home/davido/projects/jgit/org.eclipse.jgit.test/BUILD and referenced by \u0027//org.eclipse.jgit.gpg.bc.test:bc\u0027\nERROR: Analysis of target \u0027//org.eclipse.jgit.gpg.bc.test:bc\u0027 failed; build aborted: Analysis failed\nINFO: Elapsed time: 0.552s\nINFO: 0 processes.\nFAILED: Build did NOT complete successfully (9 packages loaded, 2047 targets configured)\n\nBut it turns out that this dependency is actually unused and could be removed in parent change:\n\n  $ bazel test org.eclipse.jgit.gpg.bc.test/...\n  INFO: Build completed successfully, 27 total actions\n  //org.eclipse.jgit.gpg.bc.test:bc                                        \n  PASSED in 0.5s",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 1
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
