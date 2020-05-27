@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "0f7bea24_ee07e507",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-05-27T00:52:26Z",
+      "side": 1,
+      "message": "Ivan,\n\nThanks for this question! I studied recursive merge and I believe we should actually change behavior of jGit in case of GITLINK merge conflicts.\n\nParticularly in cases when GITLINK can\u0027t be merged (if both have updated it) I believe we should add path to unmergedPaths regardless of value of ignoreConflicts parameter. This will make recursive merge fail with NoMergeBaseException, which should be expected, as we\u0027re doing same thing in case file/folder conflicts.\n\nAs far as I know this is what c-git is doing as well.\n\nPlease say if you ok with that change and I\u0027ll proceed with the code.\n\nThank you!",
+      "parentUuid": "972e592a_62cb3506",
+      "range": {
+        "startLine": 800,
+        "startChar": 8,
+        "endLine": 800,
+        "endChar": 53
+      },
+      "revId": "5bcf257254c50ffa974765c6a64ca7bea40e3bf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cddda7b8_ec1d5f3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
