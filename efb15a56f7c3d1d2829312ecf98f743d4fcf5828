@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83ccc2a_d89682b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-05-27T17:36:47Z",
+      "side": 0,
+      "message": "The caching logic was missing, hence performance regression as the bitmap has to be expanded over and over.",
+      "range": {
+        "startLine": 67,
+        "startChar": 28,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "efb15a56f7c3d1d2829312ecf98f743d4fcf5828",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
