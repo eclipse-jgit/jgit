@@ -161,6 +161,30 @@
       "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0be037_85fe1c83",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-27T06:46:45Z",
+      "side": 1,
+      "message": "\u003e  Is unused_deps not smart enough to see that the META_INF declares a service for an interface from org.eclipse.jgit:jgit?\n\nYou mean from \"//org.eclipse.jgit.gpg.bc:gpg-bc\"?\n\nunused_deps has no clue about META_INF and services. However, Bazel differentiate between compiled time and runtime dependency. unused_deps utility telling us, that //org.eclipse.jgit.gpg.bc:gpg-bc\" is not a compiled time but rather runtime dependency of :pgm rule. See line 9 above, so that the correct build definition would be:\n\n  runtime_deps \u003d [\n      \":services\",\n      \"//org.eclipse.jgit.gpg.bc:gpg-bc\",\n  ],",
+      "parentUuid": "fc7503b9_98ade746",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
