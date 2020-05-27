@@ -94,6 +94,23 @@
     },
     {
       "key": {
+        "uuid": "427eda0b_8106f95a",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-27T07:19:48Z",
+      "side": 1,
+      "message": "bcprov 1.65.01 has been published: https://search.maven.org/artifact/org.bouncycastle/bcprov-jdk15on/1.65.01/jar\n\nSo once that\u0027s in Orbit, we could use it.",
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ddedbf_fbc3f383",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
         "patchSetId": 12
