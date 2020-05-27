@@ -185,6 +185,30 @@
       "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "319106a2_35c6dfae",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-27T07:10:37Z",
+      "side": 1,
+      "message": "Thanks for clarifying.",
+      "parentUuid": "5a0be037_85fe1c83",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
