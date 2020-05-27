@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "bd4bfa6c_aac32f1c",
+        "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-27T05:20:16Z",
+      "side": 1,
+      "message": "unused_deps utility is telling me, that this dependency is unused as well.",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f7fd6f0_98e945d8",
+        "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-27T05:20:16Z",
+      "side": 1,
+      "message": "This dependency is not used. In follow-up change it was removed and the build is failing. But this unused dependency should have not been added in the firs place. If I remove it here, the tests are still passing:\n\n  $ bazel test org.eclipse.jgit.gpg.bc.test:bc\n  Target //org.eclipse.jgit.gpg.bc.test:bc up-to-date:\n  bazel-bin/org.eclipse.jgit.gpg.bc.test/bc.jar\n  bazel-bin/org.eclipse.jgit.gpg.bc.test/bc\nINFO: Elapsed time: 20.472s, Critical Path: 20.05s\nINFO: 9 processes: 2 remote cache hit, 4 linux-sandbox, 3 worker.\nINFO: Build completed successfully, 13 total actions\n//org.eclipse.jgit.gpg.bc.test:bc                                        PASSED in 0.5s",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ddedbf_fbc3f383",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
         "patchSetId": 12
@@ -64,6 +110,29 @@
         "startChar": 41,
         "endLine": 11,
         "endChar": 52
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bca9f57_5e02dcaa",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-05-27T05:20:16Z",
+      "side": 1,
+      "message": "Unused_deps is telling me that this dependency is unused.",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 43
       },
       "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
