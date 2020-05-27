@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e6179d_3351fc0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-05-27T17:12:09Z",
+      "side": 1,
+      "message": "Hm. If you hit the \"revert\" button in the UI, then it would produce a message listing the commit id, which is usable even when Gerrit is down.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "9994bfdce1dd9534aa6fb09f05bb20c1027d492d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
