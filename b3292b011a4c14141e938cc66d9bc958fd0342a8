@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "17182367_cbcc5982",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-27T07:24:21Z",
+      "side": 1,
+      "message": "I can look into this later today",
+      "parentUuid": "427eda0b_8106f95a",
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ddedbf_fbc3f383",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
         "patchSetId": 12
