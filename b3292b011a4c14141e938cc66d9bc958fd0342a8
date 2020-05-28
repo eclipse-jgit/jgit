@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05160005_bbaf89c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "224388c6_92f3a683",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "018deab4_5aa6d544",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-26T16:45:54Z",
       "side": 1,
       "message": "Add a new feature xyz feature to ....??? Thats one \u0027feature\u0027 too much, or?",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1bedda_beafde5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "018deab4_5aa6d544",
       "range": {
         "startLine": 20,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b2c82fcc_db7d8565",
+        "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd4bfa6c_aac32f1c",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f7fd6f0_98e945d8",
         "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2020-05-27T05:20:16Z",
       "side": 1,
       "message": "This dependency is not used. In follow-up change it was removed and the build is failing. But this unused dependency should have not been added in the firs place. If I remove it here, the tests are still passing:\n\n  $ bazel test org.eclipse.jgit.gpg.bc.test:bc\n  Target //org.eclipse.jgit.gpg.bc.test:bc up-to-date:\n  bazel-bin/org.eclipse.jgit.gpg.bc.test/bc.jar\n  bazel-bin/org.eclipse.jgit.gpg.bc.test/bc\nINFO: Elapsed time: 20.472s, Critical Path: 20.05s\nINFO: 9 processes: 2 remote cache hit, 4 linux-sandbox, 3 worker.\nINFO: Build completed successfully, 13 total actions\n//org.eclipse.jgit.gpg.bc.test:bc                                        PASSED in 0.5s",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0230344d_259b091b",
+        "filename": "org.eclipse.jgit.gpg.bc.test/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f7fd6f0_98e945d8",
       "range": {
         "startLine": 14,
         "startChar": 8,
@@ -129,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "cac6ce8a_cb3cc083",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17182367_cbcc5982",
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ddedbf_fbc3f383",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
         "patchSetId": 12
@@ -140,6 +254,30 @@
       "writtenOn": "2020-05-26T16:45:54Z",
       "side": 1,
       "message": "\u0027GPG support\u0027 would be more consistent with the other occurences of this text.",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbc5f4e_561c1b3e",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26ddedbf_fbc3f383",
       "range": {
         "startLine": 11,
         "startChar": 41,
@@ -235,6 +373,30 @@
       "side": 1,
       "message": "Thanks for clarifying.",
       "parentUuid": "5a0be037_85fe1c83",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "b3292b011a4c14141e938cc66d9bc958fd0342a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4380257_6e18c5c9",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-28T22:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "319106a2_35c6dfae",
       "range": {
         "startLine": 23,
         "startChar": 8,
