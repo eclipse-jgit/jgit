@@ -191,21 +191,15 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			be = trimTrailingWhitespace(b.content, bs, be);
 
 			while (as < ae && bs < be) {
-				byte ac = a.content[as];
-				byte bc = b.content[bs];
+				byte ac = a.content[as++];
+				byte bc = b.content[bs++];
 
-				if (ac != bc)
-					return false;
-
-				if (isWhitespace(ac))
+				if (isWhitespace(ac) && isWhitespace(bc)) {
 					as = trimLeadingWhitespace(a.content, as, ae);
-				else
-					as++;
-
-				if (isWhitespace(bc))
 					bs = trimLeadingWhitespace(b.content, bs, be);
-				else
-					bs++;
+				} else if (ac != bc) {
+					return false;
+				}
 			}
 			return as == ae && bs == be;
 		}
@@ -215,12 +209,12 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
 			while (ptr < end) {
-				byte c = raw[ptr];
-				hash = ((hash << 5) + hash) + (c & 0xff);
-				if (isWhitespace(c))
+				byte c = raw[ptr++];
+				if (isWhitespace(c)) {
 					ptr = trimLeadingWhitespace(raw, ptr, end);
-				else
-					ptr++;
+					c = ' ';
+				}
+				hash = ((hash << 5) + hash) + (c & 0xff);
 			}
 			return hash;
 		}
