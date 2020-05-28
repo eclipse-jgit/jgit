@@ -69,6 +69,24 @@
       "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "574f476e_02a93165",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-28T08:31:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9ab0b6_eb360aaa",
+      "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
