@@ -13,6 +13,7 @@ package org.eclipse.jgit.diff;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.lib.Constants;
@@ -102,5 +103,48 @@ public class RawTextIgnoreWhitespaceChangeTest {
 		// "a b" == "a \tb "
 		assertTrue(cmp.equals(a, 4, b, 4));
 		assertTrue(cmp.equals(b, 4, a, 4));
+	}
+
+	@Test
+	public void testHashCode() {
+		RawText a = new RawText(Constants
+				.encodeASCII("a b  c\n\nab  c d  \n\ta bc d\nxyz\na  b  c"));
+		RawText b = new RawText(Constants.encodeASCII(
+				"a b  c\na   b c\nab  c d\na bc d\n  \t a bc d\na b c\n"));
+
+		// Same line gives equal hash
+		assertEquals(cmp.hash(a, 0), cmp.hash(a, 0));
+
+		// Empty lines produce the same hash
+		assertEquals(cmp.hash(a, 1), cmp.hash(a, 1));
+
+		// Equal lines from different RawTexts get the same hash (RawText
+		// instance is not part of the hash)
+		assertEquals(cmp.hash(a, 0), cmp.hash(b, 0));
+
+		// A blank produces the same hash as a TAB
+		assertEquals(cmp.hash(new RawText(Constants.encodeASCII(" ")), 0),
+				cmp.hash(new RawText(Constants.encodeASCII("\t")), 0));
+
+		// Lines with only differing whitespace produce same hash
+		assertEquals(cmp.hash(a, 0), cmp.hash(b, 1));
+
+		// Lines with different trailing whitespace produce the same hash
+		assertEquals(cmp.hash(a, 2), cmp.hash(b, 2));
+
+		// A line with leading whitespace produces a hash different from the
+		// same line without leading whitespace
+		assertNotEquals(cmp.hash(a, 3), cmp.hash(b, 3));
+
+		// Lines with different leading whitespace produce equal hashes
+		assertEquals(cmp.hash(a, 3), cmp.hash(b, 4));
+
+		// While different lines _should_ produce different hashes, that may not
+		// always be the case. But for these two lines, it is.
+		assertNotEquals(cmp.hash(a, 4), cmp.hash(b, 4));
+
+		// A line without trailing \n produces the same hash as one without
+		assertEquals(cmp.hash(a, 5), cmp.hash(b, 5));
+
 	}
 }
