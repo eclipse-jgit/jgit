@@ -52,6 +52,23 @@
       "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe9ab0b6_eb360aaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-05-28T07:35:32Z",
+      "side": 1,
+      "message": "As you already know that ac and bc are both whitespaces you could do a minimal optimization by calling trimLeadingWhitespace(a.content, as+1, ae) and trimLeadingWhitespace(b.content, bs+1, be)",
+      "revId": "9e5e30d4c2859cb8585f734f0dc788fa389042e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
