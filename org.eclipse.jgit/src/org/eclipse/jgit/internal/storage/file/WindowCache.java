@@ -470,7 +470,9 @@ public class WindowCache {
 
 		mbean = new StatsRecorderImpl();
 		statsRecorder = mbean;
-		Monitoring.registerMBean(mbean, "block_cache"); //$NON-NLS-1$
+		if (cfg.getExposeStatsViaJmx()) {
+			Monitoring.registerMBean(mbean, "block_cache"); //$NON-NLS-1$
+		}
 
 		if (maxFiles < 1)
 			throw new IllegalArgumentException(JGitText.get().openFilesMustBeAtLeast1);
