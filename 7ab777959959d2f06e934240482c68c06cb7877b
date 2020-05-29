@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa00c165_39bc5259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-29T06:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cac10ec_ee3853e7",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "7ab777959959d2f06e934240482c68c06cb7877b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02ea9e6b_0e7086b4",
         "filename": "org.eclipse.jgit.test/tests.bzl",
         "patchSetId": 25
