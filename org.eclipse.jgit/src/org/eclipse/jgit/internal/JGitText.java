@@ -297,6 +297,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionHookExecutionInterrupted;
 	/***/ public String exceptionOccurredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;
+	/***/ public String exceptionWhileFindingUserHome;
 	/***/ public String exceptionWhileReadingPack;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;
@@ -384,6 +385,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidGitModules;
 	/***/ public String invalidGitType;
 	/***/ public String invalidHexString;
+	/***/ public String invalidHomeDirectory;
 	/***/ public String invalidHooksPath;
 	/***/ public String invalidId;
 	/***/ public String invalidId0;
