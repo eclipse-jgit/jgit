@@ -12,9 +12,9 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.ssh.jsch/resources",
     resources = RESOURCES,
     deps = [
-        "//lib:slf4j-api",
         "//lib:jsch",
         "//lib:jzlib",
+        "//lib:slf4j-api",
         "//org.eclipse.jgit:jgit",
     ],
 )

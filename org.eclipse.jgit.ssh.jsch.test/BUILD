@@ -13,7 +13,7 @@ junit_tests(
         "//lib:junit",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
-        "//org.eclipse.jgit.ssh.jsch:ssh-jsch",
         "//org.eclipse.jgit.junit.ssh:junit-ssh",
+        "//org.eclipse.jgit.ssh.jsch:ssh-jsch",
     ],
 )
