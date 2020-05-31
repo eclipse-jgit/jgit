@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aee40c6_cdbde90a",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-31T15:14:30Z",
+      "side": 1,
+      "message": "Still needs to be changed to 1.65. The maven and bazel builds build against 1.65, and this MANIFEST should require the same minimum version. Minimum 1.65.0 is OK; doesn\u0027t need to be 1.65.1.",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "1e954c8527910cf63dfe4b719236cb3e09218eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
