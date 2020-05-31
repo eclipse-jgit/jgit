@@ -16,6 +16,24 @@
       "revId": "0da88f34e7c1443fcc9e02bf2e91823cf4a3fae7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a02e408_ca205129",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-31T16:40:27Z",
+      "side": 1,
+      "message": "We could. I thought it was highly unlikely to even get here with FS_POSIX, and if we do, trying again happens once and shouldn\u0027t hurt. (Even on Windows getting here is not exactly likely; the forum post at [1] was the first I\u0027ve ever seen that indicates a problem with the environment variables.) It\u0027s also a bit more future-proof (what if FS_POSIX is ever changed to also consider $HOME?).\n\nuserHome() probably also should be final, but that\u0027s an API break.\n\n[1] https://www.eclipse.org/forums/index.php/t/1103963/",
+      "parentUuid": "c648a49a_76f4e332",
+      "revId": "0da88f34e7c1443fcc9e02bf2e91823cf4a3fae7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
