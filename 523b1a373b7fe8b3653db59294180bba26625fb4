@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30227bee_ff2eef82",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 28
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-31T21:55:49Z",
+      "side": 1,
+      "message": "Here again. What is this? Seems to refer to PackStatistics.ObjectType?",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 19
+      },
+      "revId": "523b1a373b7fe8b3653db59294180bba26625fb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
