@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c648a49a_76f4e332",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-31T16:29:33Z",
+      "side": 1,
+      "message": "On POSIX userHomeImpl() and defaultUserHomeImpl() are identical, trying the same implementation twice in case the first call failed seems unnecessary. Can we move this logic to FS_Win32 so that we only try both approaches on Windows ?",
+      "revId": "0da88f34e7c1443fcc9e02bf2e91823cf4a3fae7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
