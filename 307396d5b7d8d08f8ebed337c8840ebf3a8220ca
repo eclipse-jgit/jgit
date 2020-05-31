@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5326eb84_0f31d913",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-05-31T21:46:12Z",
+      "side": 1,
+      "message": "What is this?",
+      "range": {
+        "startLine": 135,
+        "startChar": 54,
+        "endLine": 135,
+        "endChar": 64
+      },
+      "revId": "307396d5b7d8d08f8ebed337c8840ebf3a8220ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
