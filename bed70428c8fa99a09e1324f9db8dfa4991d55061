@@ -22,6 +22,30 @@
       "revId": "bed70428c8fa99a09e1324f9db8dfa4991d55061",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cce66ea_1e9caeeb",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 27
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-05-31T23:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67acadb9_9c2dd72b",
+      "range": {
+        "startLine": 168,
+        "startChar": 3,
+        "endLine": 168,
+        "endChar": 18
+      },
+      "revId": "bed70428c8fa99a09e1324f9db8dfa4991d55061",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
