@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43e70dcc_547ed433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-06-01T00:01:20Z",
+      "side": 1,
+      "message": "Do you intend to update this in a separate commit?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "7a253d43eb9757ae0e25ac38606f34cdabea5aa5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
