@@ -22,6 +22,30 @@
       "revId": "7a253d43eb9757ae0e25ac38606f34cdabea5aa5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16c94e49_c91564dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-06-01T05:31:49Z",
+      "side": 1,
+      "message": "Actually, no, I hadn\u0027t planned to do so. (But I see Matthias has done it in the \"decouple BC\" change now.)\n\nOne could consider including BC 1.65.1 in jgit.pgm. But otherwise I would have left minimum dependencies (and compile-time dependencies) at 1.65 and thus given users the choice whether they want to use 1.65.0 or 1.65.1.\n\nbcprov 1.65.1 in the p2 repo is needed so it\u0027ll be in the EGit repo, so we\u0027ll have the same version as in the Eclipse 2020-06 release and won\u0027t try to install a second, older version when EGit gets installed into Eclipse.\n\nIMO 1.65.1 is at best a preferred run-time dependency, not a build-time dependency. But I\u0027m fine with bumping it in maven and bazel, too.",
+      "parentUuid": "43e70dcc_547ed433",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "7a253d43eb9757ae0e25ac38606f34cdabea5aa5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
