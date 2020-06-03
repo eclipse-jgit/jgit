@@ -23,7 +23,7 @@
    </url>
 
    <requires>
-      <import feature="org.eclipse.jgit" version="5.8.0" match="equivalent"/>
+      <import plugin="org.eclipse.jgit" version="5.8.0" match="equivalent"/>
    </requires>
 
    <plugin
@@ -31,6 +31,7 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
