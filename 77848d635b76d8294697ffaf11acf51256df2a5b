@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f67deeb_e517f019",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.gpg.bc.feature/feature.xml",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-06-03T14:45:50Z",
+      "side": 1,
+      "message": "I get a warning here in Eclipse that the bundle cannot be resolved. Including\n\n  fragment\u003d\"true\"\n\nmakes the warning go away. No idea if that might have something to do with our build problems. (Same for the jsch fragment.)",
+      "revId": "77848d635b76d8294697ffaf11acf51256df2a5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
