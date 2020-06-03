@@ -16,6 +16,24 @@
       "revId": "e9f4cb1cbad3f8e1d6980507688f2ab0a823e08c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e23560f_8dccb27b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-06-03T15:13:52Z",
+      "side": 1,
+      "message": "Is \"desperately trying to get the JGit product build to work again\" good enough? ;-)",
+      "parentUuid": "39761b0f_df9da040",
+      "revId": "e9f4cb1cbad3f8e1d6980507688f2ab0a823e08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
