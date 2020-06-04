@@ -70,6 +70,30 @@
       "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e15bec2f_e85ebb4c",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-06-04T10:57:23Z",
+      "side": 1,
+      "message": "Clients that don\u0027t want to verify the server host key at all are probably only occurring in test setups. Not sure it\u0027s worth adding a default implementation for this. The main intent of ServerKeyDatabase was to accommodate some users who don\u0027t use known_hosts files but their own database back-end to manage host keys. See bug 547619.\n\nClients who really want to completely switch off host key verification can surely write that little no-op implementation of the ServerKeyDatabase interface themselves. For most clients doing so is probably not a good idea.\n\nAn alternative to installing a no-op ServerKeyDatabase might also be to set a ConfigStoreFactory providing an in-memory SshConfigStore that had the \"StrictHostKeyChecking no\" setting.",
+      "parentUuid": "906b9f8f_504c4c02",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
