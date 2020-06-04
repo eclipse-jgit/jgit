@@ -1,4 +1,4 @@
-ssssssssssManifest-Version: 1.0
+Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ssh.jsch.test
