@@ -693,6 +693,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.INSERTED;
 		} catch (AtomicMoveNotSupportedException e) {
 			LOG.error(e.getMessage(), e);
+			FileUtils.delete(tmp, FileUtils.RETRY);
+			return InsertLooseObjectResult.FAILURE;
 		} catch (IOException e) {
 			// ignore
 		}
@@ -708,8 +710,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
 		} catch (IOException e) {
 			LOG.debug(e.getMessage(), e);
 		}
