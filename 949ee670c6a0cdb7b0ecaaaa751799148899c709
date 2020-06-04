@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b58cab_6c0a969f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-04T12:23:59Z",
+      "side": 1,
+      "message": "why is InsertLooseObjectResult.EXISTS_PACKED no longer a possible result of this method ?",
+      "revId": "949ee670c6a0cdb7b0ecaaaa751799148899c709",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
