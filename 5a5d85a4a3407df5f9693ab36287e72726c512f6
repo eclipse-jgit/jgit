@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3397dab_d996fa80",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-06-04T09:44:05Z",
+      "side": 1,
+      "message": "Config is still written here? Also where/how the HostKeyVerifier is disabled in memory only setting? I\u0027m tried to switch to in memory only set up for gerrit, but is still running into this exception:\n\n  org.eclipse.jgit.errors.TransportException: ssh://user@127.0.0.1:33211: Server key did not validate\n  at org.eclipse.jgit.transport.sshd.SshdSessionFactory.getSession(SshdSessionFactory.java:233)\n\nThe whole stack trace is here: [1].\n\n* [1] http://paste.openstack.org/show/794353/",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
