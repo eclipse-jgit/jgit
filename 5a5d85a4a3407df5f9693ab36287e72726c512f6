@@ -94,6 +94,30 @@
       "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b008ee6_8353b188",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-06-04T11:39:40Z",
+      "side": 1,
+      "message": "\u003e An alternative to installing a no-op ServerKeyDatabase might also\n \u003e be to set a ConfigStoreFactory providing an in-memory\n \u003e SshConfigStore that had the \"StrictHostKeyChecking no\" setting.\n\n+1. This would be useful addition. I have just answered your question on the corresponding gerrit change: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/270112",
+      "parentUuid": "e15bec2f_e85ebb4c",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
