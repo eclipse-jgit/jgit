@@ -57,6 +57,24 @@
       "revId": "949ee670c6a0cdb7b0ecaaaa751799148899c709",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5634e0c3_7d6d5968",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-04T14:21:06Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "55222c9a_fb09db67",
+      "revId": "949ee670c6a0cdb7b0ecaaaa751799148899c709",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
