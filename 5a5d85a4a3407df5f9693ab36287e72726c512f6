@@ -22,6 +22,30 @@
       "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12547090_1a60f4c8",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-06-04T10:02:06Z",
+      "side": 1,
+      "message": "\u003e Config is still written here?\n\nYes, but see comment in line 155: if this config were taken into account the test would fail. Config file is switched off completely in line 57 above. Writing the config here is part of the test setup.\n\n \u003e where/how the HostKeyVerifier is disabled\n\nIn this test it isn\u0027t. The test installs its own ServerKeyDatabase (see line 63ff), so the built-in OpenSshServerKeyDAtabase will not be used. This own ServerKeyDatabase contains only exactly one host key (the testServerKey, line 69), and accepts only this testServerKey (line 77). It also never uses the CredentialProvider to ask what to do about unknown/expired/changed keys; it just rejects those.\n\nIf you wanted a ServerKeyDatabase that accepted any key, you\u0027d install something like\n\n  return new ServerKeyDatabase() {\n  \n    @Override\n    public List\u003cPublicKey\u003e lookup(String connectAddress,\n      InetSocketAddress remoteAddress,\n      Configuration config) {\n      return Collections.emptyList();\n    }\n  \n    @Override\n    public boolean accept(String connectAddress,\n      InetSocketAddress remoteAddress,\n      PublicKey serverKey, Configuration config,\n      CredentialsProvider provider) {\n      return true;\n    }\n  \n  };\n\nlookup() is used only in JGitClientSession.resolveAvailableSignaturesProposal() to get all already known host keys for a server to be able to put these key types at the front of the proposal to tell the server to give the client an already known host key in preference over some other one that the server might also have, but that might still be unknown on the client.",
+      "parentUuid": "c3397dab_d996fa80",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
