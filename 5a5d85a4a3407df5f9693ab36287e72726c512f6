@@ -46,6 +46,30 @@
       "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "906b9f8f_504c4c02",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/NoFilesSshTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-06-04T10:41:43Z",
+      "side": 1,
+      "message": "Thanks for claryfing. I think it would be a significant simplification for the in memory only setup: easier waqy to programmatically disable the HostKeyVerifier feature, so that the caller could user the recently added builder method: [1] with one liner:\n\n  builder.setServerKeyDatabase(new DisableHostKeyVerifier())\n\nor similar.\n\n* [1] https://git.eclipse.org/r/#/c/161448/4/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactoryBuilder.java@22",
+      "parentUuid": "12547090_1a60f4c8",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "5a5d85a4a3407df5f9693ab36287e72726c512f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
