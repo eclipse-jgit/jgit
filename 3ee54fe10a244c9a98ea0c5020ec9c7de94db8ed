@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a64af941_66b295c6",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/FileExistsBenchmark.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-06-05T12:26:29Z",
+      "side": 1,
+      "message": "Copyright header is missing",
+      "revId": "3ee54fe10a244c9a98ea0c5020ec9c7de94db8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
