@@ -20,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -687,25 +686,18 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		try {
-			return tryMove(tmp, dst, id);
-		} catch (NoSuchFileException e) {
 			// It's possible the directory doesn't exist yet as the object
-			// directories are always lazily created. Note that we try the
-			// rename/move first as the directory likely does exist.
+			// directories are always lazily created.
 			//
-			// Create the directory.
-			//
-			FileUtils.mkdir(dst.getParentFile(), true);
-		} catch (IOException e) {
-			// Any other IO error is considered a failure.
-			//
-			LOG.error(e.getMessage(), e);
-			FileUtils.delete(tmp, FileUtils.RETRY);
-			return InsertLooseObjectResult.FAILURE;
-		}
-
-		try {
-			return tryMove(tmp, dst, id);
+			File parentDir = dst.getParentFile();
+			if (!parentDir.exists()) {
+				FileUtils.mkdirs(parentDir, true);
+			}
+			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
+					StandardCopyOption.ATOMIC_MOVE);
+			dst.setReadOnly();
+			unpackedObjectCache.add(id);
+			return InsertLooseObjectResult.INSERTED;
 		} catch (IOException e) {
 			// The object failed to be renamed into its proper location and
 			// it doesn't exist in the repository either. We really don't
@@ -715,16 +707,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.FAILURE;
 		}
-	}
-
-	private InsertLooseObjectResult tryMove(File tmp, File dst,
-			ObjectId id)
-			throws IOException {
-		Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
-				StandardCopyOption.ATOMIC_MOVE);
-		dst.setReadOnly();
-		unpackedObjectCache.add(id);
-		return InsertLooseObjectResult.INSERTED;
 	}
 
 	boolean searchPacksAgain(PackList old) {
