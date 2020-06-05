@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
@@ -686,40 +685,46 @@ public class ObjectDirectory extends FileObjectDatabase {
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
+
 		try {
-			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
-					StandardCopyOption.ATOMIC_MOVE);
-			dst.setReadOnly();
-			unpackedObjectCache.add(id);
-			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
-			FileUtils.delete(tmp, FileUtils.RETRY);
-			return InsertLooseObjectResult.FAILURE;
+			return tryMove(tmp, dst, id);
 		} catch (NoSuchFileException e) {
 			// It's possible the directory doesn't exist yet as the object
 			// directories are always lazily created. Note that we try the
 			// rename/move first as the directory likely does exist.
-
-			// Create the directory
+			//
+			// Create the directory.
+			//
 			FileUtils.mkdir(dst.getParentFile(), true);
 		} catch (IOException e) {
+			// Any other IO error is considered a failure.
+			//
 			LOG.error(e.getMessage(), e);
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.FAILURE;
 		}
 
 		try {
-			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
-					StandardCopyOption.ATOMIC_MOVE);
-			dst.setReadOnly();
-			unpackedObjectCache.add(id);
-			return InsertLooseObjectResult.INSERTED;
+			return tryMove(tmp, dst, id);
 		} catch (IOException e) {
+			// The object failed to be renamed into its proper location and
+			// it doesn't exist in the repository either. We really don't
+			// know what went wrong, so fail.
+			//
 			LOG.error(e.getMessage(), e);
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.FAILURE;
 		}
+	}
+
+	private InsertLooseObjectResult tryMove(File tmp, File dst,
+			ObjectId id)
+			throws IOException {
+		Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
+				StandardCopyOption.ATOMIC_MOVE);
+		dst.setReadOnly();
+		unpackedObjectCache.add(id);
+		return InsertLooseObjectResult.INSERTED;
 	}
 
 	boolean searchPacksAgain(PackList old) {
