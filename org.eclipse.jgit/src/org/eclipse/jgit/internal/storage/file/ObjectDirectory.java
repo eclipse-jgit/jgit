@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -693,39 +694,32 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.INSERTED;
 		} catch (AtomicMoveNotSupportedException e) {
 			LOG.error(e.getMessage(), e);
+			FileUtils.delete(tmp, FileUtils.RETRY);
+			return InsertLooseObjectResult.FAILURE;
+		} catch (NoSuchFileException e) {
+			// It's possible the directory doesn't exist yet as the object
+			// directories are always lazily created. Note that we try the
+			// rename/move first as the directory likely does exist.
+
+			// Create the directory
+			FileUtils.mkdir(dst.getParentFile(), true);
 		} catch (IOException e) {
-			// ignore
+			LOG.error(e.getMessage(), e);
+			FileUtils.delete(tmp, FileUtils.RETRY);
+			return InsertLooseObjectResult.FAILURE;
 		}
 
-		// Maybe the directory doesn't exist yet as the object
-		// directories are always lazily created. Note that we
-		// try the rename first as the directory likely does exist.
-		//
-		FileUtils.mkdir(dst.getParentFile(), true);
 		try {
 			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 					StandardCopyOption.ATOMIC_MOVE);
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
 		} catch (IOException e) {
-			LOG.debug(e.getMessage(), e);
-		}
-
-		if (!createDuplicate && has(id)) {
+			LOG.error(e.getMessage(), e);
 			FileUtils.delete(tmp, FileUtils.RETRY);
-			return InsertLooseObjectResult.EXISTS_PACKED;
+			return InsertLooseObjectResult.FAILURE;
 		}
-
-		// The object failed to be renamed into its proper
-		// location and it doesn't exist in the repository
-		// either. We really don't know what went wrong, so
-		// fail.
-		//
-		FileUtils.delete(tmp, FileUtils.RETRY);
-		return InsertLooseObjectResult.FAILURE;
 	}
 
 	boolean searchPacksAgain(PackList old) {
