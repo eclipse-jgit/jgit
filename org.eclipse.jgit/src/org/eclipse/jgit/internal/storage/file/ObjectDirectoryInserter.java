@@ -162,17 +162,16 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		}
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	private File toTemp(final SHA1 md, final int type, long len,
 			final InputStream is) throws IOException {
 		boolean delete = true;
 		File tmp = newTempFile();
-		try {
-			FileOutputStream fOut = new FileOutputStream(tmp);
+		try (FileOutputStream fOut = new FileOutputStream(tmp)) {
 			try {
 				OutputStream out = fOut;
-				if (config.getFSyncObjectFiles())
+				if (config.getFSyncObjectFiles()) {
 					out = Channels.newOutputStream(fOut.getChannel());
+				}
 				DeflaterOutputStream cOut = compress(out);
 				SHA1OutputStream dOut = new SHA1OutputStream(cOut, md);
 				writeHeader(dOut, type, len);
@@ -180,53 +179,54 @@ class ObjectDirectoryInserter extends ObjectInserter {
 				final byte[] buf = buffer();
 				while (len > 0) {
 					int n = is.read(buf, 0, (int) Math.min(len, buf.length));
-					if (n <= 0)
+					if (n <= 0) {
 						throw shortInput(len);
+					}
 					dOut.write(buf, 0, n);
 					len -= n;
 				}
 				dOut.flush();
 				cOut.finish();
 			} finally {
-				if (config.getFSyncObjectFiles())
+				if (config.getFSyncObjectFiles()) {
 					fOut.getChannel().force(true);
-				fOut.close();
+				}
 			}
 
 			delete = false;
 			return tmp;
 		} finally {
-			if (delete)
+			if (delete) {
 				FileUtils.delete(tmp, FileUtils.RETRY);
+			}
 		}
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	private File toTemp(final int type, final byte[] buf, final int pos,
 			final int len) throws IOException {
 		boolean delete = true;
 		File tmp = newTempFile();
-		try {
-			FileOutputStream fOut = new FileOutputStream(tmp);
+		try (FileOutputStream fOut = new FileOutputStream(tmp)) {
 			try {
 				OutputStream out = fOut;
-				if (config.getFSyncObjectFiles())
+				if (config.getFSyncObjectFiles()) {
 					out = Channels.newOutputStream(fOut.getChannel());
+				}
 				DeflaterOutputStream cOut = compress(out);
 				writeHeader(cOut, type, len);
 				cOut.write(buf, pos, len);
 				cOut.finish();
 			} finally {
-				if (config.getFSyncObjectFiles())
+				if (config.getFSyncObjectFiles()) {
 					fOut.getChannel().force(true);
-				fOut.close();
+				}
 			}
-
 			delete = false;
 			return tmp;
 		} finally {
-			if (delete)
+			if (delete) {
 				FileUtils.delete(tmp, FileUtils.RETRY);
+			}
 		}
 	}
 
