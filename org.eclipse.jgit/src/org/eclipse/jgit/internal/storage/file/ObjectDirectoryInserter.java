@@ -14,7 +14,6 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -116,7 +115,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	private ObjectId insertOneObject(
 			File tmp, ObjectId id, boolean createDuplicate)
-			throws IOException, ObjectWritingException {
+			throws IOException {
 		switch (db.insertUnpackedObject(tmp, id, createDuplicate)) {
 		case INSERTED:
 		case EXISTS_PACKED:
@@ -165,8 +164,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	@SuppressWarnings("resource" /* java 7 */)
 	private File toTemp(final SHA1 md, final int type, long len,
-			final InputStream is) throws IOException, FileNotFoundException,
-			Error {
+			final InputStream is) throws IOException {
 		boolean delete = true;
 		File tmp = newTempFile();
 		try {
@@ -205,7 +203,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	@SuppressWarnings("resource" /* java 7 */)
 	private File toTemp(final int type, final byte[] buf, final int pos,
-			final int len) throws IOException, FileNotFoundException {
+			final int len) throws IOException {
 		boolean delete = true;
 		File tmp = newTempFile();
 		try {
