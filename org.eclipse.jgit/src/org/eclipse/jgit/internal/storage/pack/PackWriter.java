@@ -2313,14 +2313,14 @@ public class PackWriter implements AutoCloseable {
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
-		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits = bitmapPreparer
+		Collection<BitmapCommit> selectedCommits = bitmapPreparer
 				.selectCommits(numCommits, excludeFromBitmapSelection);
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
 		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
 		AnyObjectId last = null;
-		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
+		for (BitmapCommit cmit : selectedCommits) {
 			if (!cmit.isReuseWalker()) {
 				walker = bitmapPreparer.newBitmapWalker();
 			}
@@ -2331,8 +2331,14 @@ public class PackWriter implements AutoCloseable {
 				throw new IllegalStateException(MessageFormat.format(
 						JGitText.get().bitmapMissingObject, cmit.name(),
 						last.name()));
-			last = cmit;
-			writeBitmaps.addBitmap(cmit, bitmap.build(), cmit.getFlags());
+			last = BitmapCommit.copyFrom(cmit).build();
+			writeBitmaps.processBitmapForWrite(cmit, bitmap.build(),
+					cmit.getFlags());
+
+			// The bitmap walker should stop when the walk hits the previous
+			// commit, which saves time.
+			walker.setPrevCommit(last);
+			walker.setPrevBitmap(bitmap);
 
 			pm.update(1);
 		}

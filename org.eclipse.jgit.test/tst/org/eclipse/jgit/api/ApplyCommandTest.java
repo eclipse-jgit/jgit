@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2012, IBM Corporation and others. and others
+ * Copyright (C) 2011, 2020 IBM Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -277,6 +277,46 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		assertEquals(new File(db.getWorkTree(), "CopyWithHunks"), result.getUpdatedFiles()
 				.get(0));
 		checkFile(new File(db.getWorkTree(), "CopyResult"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testShiftUp() throws Exception {
+		ApplyResult result = init("ShiftUp");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "ShiftUp"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "ShiftUp"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testShiftUp2() throws Exception {
+		ApplyResult result = init("ShiftUp2");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "ShiftUp2"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "ShiftUp2"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testShiftDown() throws Exception {
+		ApplyResult result = init("ShiftDown");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "ShiftDown"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "ShiftDown"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testShiftDown2() throws Exception {
+		ApplyResult result = init("ShiftDown2");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "ShiftDown2"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "ShiftDown2"),
 				b.getString(0, b.size(), false));
 	}
 

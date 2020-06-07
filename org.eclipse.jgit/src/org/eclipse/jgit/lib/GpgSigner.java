@@ -9,11 +9,16 @@
  */
 package org.eclipse.jgit.lib;
 
+import java.util.Iterator;
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.lib.internal.BouncyCastleGpgSigner;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Creates GPG signatures for Git objects.
@@ -21,8 +26,23 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * @since 5.3
  */
 public abstract class GpgSigner {
+	private static final Logger LOG = LoggerFactory.getLogger(GpgSigner.class);
 
-	private static GpgSigner defaultSigner = new BouncyCastleGpgSigner();
+	private static GpgSigner defaultSigner = loadGpgSigner();
+
+	private static GpgSigner loadGpgSigner() {
+		try {
+			ServiceLoader<GpgSigner> loader = ServiceLoader
+					.load(GpgSigner.class);
+			Iterator<GpgSigner> iter = loader.iterator();
+			if (iter.hasNext()) {
+				return iter.next();
+			}
+		} catch (ServiceConfigurationError e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return null;
+	}
 
 	/**
 	 * Get the default signer, or <code>null</code>.

@@ -58,6 +58,8 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
+	private static final int DISTANCE_THRESHOLD = 2000;
+
 	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = (
 			RevCommit a, RevCommit b) -> Integer
 					.signum(b.getCommitTime() - a.getCommitTime());
@@ -244,6 +246,7 @@ class PackWriterBitmapPreparer {
 					// This commit is selected.
 					// Calculate where to look for the next one.
 					int flags = nextFlg;
+					int currDist = distanceFromTip;
 					nextIn = nextSpan(distanceFromTip);
 					nextFlg = nextIn == distantCommitSpan
 							? PackBitmapIndex.FLAG_REUSE
@@ -279,8 +282,17 @@ class PackWriterBitmapPreparer {
 						longestAncestorChain = new ArrayList<>();
 						chains.add(longestAncestorChain);
 					}
-					longestAncestorChain.add(new BitmapCommit(c,
-							!longestAncestorChain.isEmpty(), flags));
+
+					// The commit bc should reuse bitmap walker from its close
+					// ancestor. And the bitmap of bc should only be added to
+					// PackBitmapIndexBuilder when it's an old enough
+					// commit,i.e. distance from tip should be greater than
+					// DISTANCE_THRESHOLD, to save memory.
+					BitmapCommit bc = BitmapCommit.newBuilder(c).setFlags(flags)
+							.setAddToIndex(currDist >= DISTANCE_THRESHOLD)
+							.setReuseWalker(!longestAncestorChain.isEmpty())
+							.build();
+					longestAncestorChain.add(bc);
 					writeBitmaps.addBitmap(c, bitmap, 0);
 				}
 
@@ -288,12 +300,12 @@ class PackWriterBitmapPreparer {
 					selections.addAll(chain);
 				}
 			}
-			writeBitmaps.clearBitmaps(); // Remove the temporary commit bitmaps.
 
 			// Add the remaining peeledWant
 			for (AnyObjectId remainingWant : selectionHelper.newWants) {
 				selections.add(new BitmapCommit(remainingWant, false, 0));
 			}
+			writeBitmaps.resetBitmaps(selections.size()); // Remove the temporary commit bitmaps.
 
 			pm.endTask();
 			return selections;
@@ -465,28 +477,6 @@ class PackWriterBitmapPreparer {
 	BitmapWalker newBitmapWalker() {
 		return new BitmapWalker(
 				new ObjectWalk(reader), bitmapIndex, null);
-	}
-
-	/**
-	 * A commit object for which a bitmap index should be built.
-	 */
-	static final class BitmapCommit extends ObjectId {
-		private final boolean reuseWalker;
-		private final int flags;
-
-		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
-			super(objectId);
-			this.reuseWalker = reuseWalker;
-			this.flags = flags;
-		}
-
-		boolean isReuseWalker() {
-			return reuseWalker;
-		}
-
-		int getFlags() {
-			return flags;
-		}
 	}
 
 	/**

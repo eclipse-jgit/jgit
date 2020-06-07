@@ -159,6 +159,8 @@ public class S3Repository implements LargeFileRepository {
 				config.getBucket());
 		assertNotEmpty(LfsServerText.get().undefinedS3Region,
 				config.getRegion());
+		assertNotEmpty(LfsServerText.get().undefinedS3Hostname,
+				config.getHostname());
 		assertNotEmpty(LfsServerText.get().undefinedS3SecretKey,
 				config.getSecretKey());
 		assertNotEmpty(LfsServerText.get().undefinedS3StorageClass,
@@ -173,8 +175,8 @@ public class S3Repository implements LargeFileRepository {
 
 	private URL getObjectUrl(AnyLongObjectId oid) {
 		try {
-			return new URL(String.format("https://s3-%s.amazonaws.com/%s/%s", //$NON-NLS-1$
-					s3Config.getRegion(), s3Config.getBucket(),
+			return new URL(String.format("https://%s/%s/%s", //$NON-NLS-1$
+					s3Config.getHostname(), s3Config.getBucket(),
 					getPath(oid)));
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(MessageFormat.format(

@@ -1,0 +1,24 @@
+diff --git a/ShiftDown2 b/ShiftDown2
+index 8b9727b..63353aa 100644
+--- a/ShiftDown2
++++ b/ShiftDown2
+@@ -16,6 +16,9 @@
+ 			something("A.b", "bar");
+ 		}
+ 
++		public void methodC() {
++			something("A.c", "bar");
++		}
+ 	}
+ 
+ 	public class B {
+@@ -28,5 +31,9 @@
+ 			something("B.b", "bar");
+ 		}
+ 
++		public void methodC() {
++			something("B.c", "bar");
++		}
++
+ 	}
+ }

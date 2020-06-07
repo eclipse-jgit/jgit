@@ -6,8 +6,11 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.pgm/resources",
     resources = glob(["resources/**"]),
     visibility = ["//visibility:public"],
-    deps = [
+    runtime_deps = [
         ":services",
+        "//org.eclipse.jgit.gpg.bc:gpg-bc",
+    ],
+    deps = [
         "//lib:args4j",
         "//lib:commons-logging",
         "//lib:httpclient",
@@ -25,6 +28,7 @@ java_library(
         "//org.eclipse.jgit.lfs:jgit-lfs",
         "//org.eclipse.jgit.lfs.server:jgit-lfs-server",
         "//org.eclipse.jgit.ssh.apache:ssh-apache",
+        "//org.eclipse.jgit.ssh.jsch:ssh-jsch",
         "//org.eclipse.jgit.ui:ui",
     ],
 )

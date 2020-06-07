@@ -47,6 +47,8 @@ public class WindowCacheConfig {
 
 	private int streamFileThreshold;
 
+	private boolean exposeStats;
+
 	/**
 	 * Create a default configuration.
 	 */
@@ -58,6 +60,7 @@ public class WindowCacheConfig {
 		packedGitMMAP = false;
 		deltaBaseCacheLimit = 10 * MB;
 		streamFileThreshold = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
+		exposeStats = true;
 	}
 
 	/**
@@ -217,6 +220,39 @@ public class WindowCacheConfig {
 	 */
 	public void setStreamFileThreshold(int newLimit) {
 		streamFileThreshold = newLimit;
+	}
+
+	/**
+	 * Tell whether the statistics JMX bean should be automatically registered.
+	 * <p>
+	 * Registration of that bean via JMX is additionally subject to a boolean
+	 * JGit-specific user config "jmx.WindowCacheStats". The bean will be
+	 * registered only if this user config is {@code true} <em>and</em>
+	 * {@code getExposeStatsViaJmx() == true}.
+	 * </p>
+	 * <p>
+	 * By default, this returns {@code true} unless changed via
+	 * {@link #setExposeStatsViaJmx(boolean)}.
+	 *
+	 * @return whether to expose WindowCacheStats statistics via JMX upon
+	 *         {@link #install()}
+	 * @since 5.8
+	 */
+	public boolean getExposeStatsViaJmx() {
+		return exposeStats;
+	}
+
+	/**
+	 * Defines whether the statistics JMX MBean should be automatically set up.
+	 * (By default {@code true}.) If set to {@code false}, the JMX monitoring
+	 * bean is not registered.
+	 *
+	 * @param expose
+	 *            whether to register the JMX Bean
+	 * @since 5.8
+	 */
+	public void setExposeStatsViaJmx(boolean expose) {
+		exposeStats = expose;
 	}
 
 	/**

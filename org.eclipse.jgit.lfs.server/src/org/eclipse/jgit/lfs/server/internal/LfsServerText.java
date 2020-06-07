@@ -33,6 +33,7 @@ public class LfsServerText extends TranslationBundle {
 	/***/ public String undefinedS3AccessKey;
 	/***/ public String undefinedS3Bucket;
 	/***/ public String undefinedS3Region;
+	/***/ public String undefinedS3Hostname;
 	/***/ public String undefinedS3SecretKey;
 	/***/ public String undefinedS3StorageClass;
 	/***/ public String unparsableEndpoint;

@@ -133,7 +133,8 @@ public class SmudgeFilter extends FilterCommand {
 								.toRequest(Protocol.OPERATION_DOWNLOAD, res))
 						.getBytes(UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
-		if (responseCode != HttpConnection.HTTP_OK) {
+		if (!(responseCode == HttpConnection.HTTP_OK
+				|| responseCode == HttpConnection.HTTP_NOT_AUTHORITATIVE)) {
 			throw new IOException(
 					MessageFormat.format(LfsText.get().serverFailure,
 							lfsServerConn.getURL(),

@@ -1217,7 +1217,7 @@ public class DirCacheCheckout {
 		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
 			builder.add(e);
 		if (force) {
-			if (f.isModified(e, true, walk.getObjectReader())) {
+			if (f == null || f.isModified(e, true, walk.getObjectReader())) {
 				kept.add(path);
 				checkoutEntry(repo, e, walk.getObjectReader(), false,
 						new CheckoutMetadata(walk.getEolStreamType(CHECKOUT_OP),

@@ -1,0 +1,68 @@
+package org.eclipse.jgit.test.apply;
+
+public class TestClass {
+
+	private void something(String prefix, String msg) {
+		System.out.println(prefix + ": " + msg);
+	}
+
+	public class D {
+
+		public void methodA() {
+			something("A.a", "foo");
+		}
+
+		public void methodB() {
+			something("A.b", "bar");
+		}
+
+	}
+
+	public class E {
+
+		public void methodA() {
+			something("A.a", "foo");
+		}
+
+		public void methodB() {
+			something("A.b", "bar");
+		}
+
+	}
+
+	public class F {
+
+		public void methodA() {
+			something("A.a", "foo");
+		}
+
+		public void methodB() {
+			something("A.b", "bar");
+		}
+
+	}
+
+	public class A {
+
+		public void methodA() {
+			something("A.a", "foo");
+		}
+
+		public void methodB() {
+			something("A.b", "bar");
+		}
+
+	}
+
+	public class B {
+
+		public void methodA() {
+			something("B.a", "foo");
+		}
+
+		public void methodB() {
+			something("B.b", "bar");
+		}
+
+	}
+}

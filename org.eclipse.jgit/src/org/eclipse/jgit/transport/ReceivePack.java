@@ -48,6 +48,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
+import org.eclipse.jgit.internal.transport.connectivity.FullConnectivityChecker;
 import org.eclipse.jgit.internal.transport.parser.FirstCommand;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -72,7 +73,6 @@ import org.eclipse.jgit.transport.ConnectivityChecker.ConnectivityCheckInfo;
 import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
-import org.eclipse.jgit.transport.internal.FullConnectivityChecker;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.LimitedInputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -2058,6 +2058,16 @@ public class ReceivePack {
 	 */
 	public void setPostReceiveHook(PostReceiveHook h) {
 		postReceive = h != null ? h : PostReceiveHook.NULL;
+	}
+
+	/**
+	 * Get the current unpack error handler.
+	 *
+	 * @return the current unpack error handler.
+	 * @since 5.8
+	 */
+	public UnpackErrorHandler getUnpackErrorHandler() {
+		return unpackErrorHandler;
 	}
 
 	/**

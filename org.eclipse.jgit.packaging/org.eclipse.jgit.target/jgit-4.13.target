@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.13" sequenceNumber="1588775715">
+<target name="jgit-4.13" sequenceNumber="1590935871">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.client" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.client.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.continuation" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.continuation.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.http" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.http.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.io" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.io.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.security" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.security.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.server" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.server.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.servlet" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.servlet.source" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.util" version="9.4.25.v20191220"/>
-      <unit id="org.eclipse.jetty.util.source" version="9.4.25.v20191220"/>
-      <repository id="jetty-9.4.25" location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.25.v20191220/"/>
+      <unit id="org.eclipse.jetty.client" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.client.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.continuation" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.continuation.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.http" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.http.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.io" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.io.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.security" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.security.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.server" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.server.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.servlet" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.servlet.source" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.util" version="9.4.28.v20200408"/>
+      <unit id="org.eclipse.jetty.util.source" version="9.4.28.v20200408"/>
+      <repository id="jetty-9.4.25" location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.28.v20200408/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.google.gson" version="2.8.2.v20180104-1110"/>
@@ -39,8 +39,8 @@
       <unit id="net.bytebuddy.byte-buddy.source" version="1.9.0.v20181107-1410"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
-      <unit id="org.apache.ant" version="1.10.7.v20190926-0324"/>
-      <unit id="org.apache.ant.source" version="1.10.7.v20190926-0324"/>
+      <unit id="org.apache.ant" version="1.10.8.v20200515-1239"/>
+      <unit id="org.apache.ant.source" version="1.10.8.v20200515-1239"/>
       <unit id="org.apache.commons.codec" version="1.13.0.v20200108-0001"/>
       <unit id="org.apache.commons.codec.source" version="1.13.0.v20200108-0001"/>
       <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
@@ -59,12 +59,12 @@
       <unit id="org.apache.sshd.sftp.source" version="2.4.0.v20200319-1547"/>
       <unit id="org.assertj" version="3.14.0.v20200120-1926"/>
       <unit id="org.assertj.source" version="3.14.0.v20200120-1926"/>
-      <unit id="org.bouncycastle.bcpg" version="1.65.0.v20200502-2229"/>
-      <unit id="org.bouncycastle.bcpg.source" version="1.65.0.v20200502-2229"/>
-      <unit id="org.bouncycastle.bcpkix" version="1.65.0.v20200502-2229"/>
-      <unit id="org.bouncycastle.bcpkix.source" version="1.65.0.v20200502-2229"/>
-      <unit id="org.bouncycastle.bcprov" version="1.65.0.v20200502-2229"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.65.0.v20200502-2229"/>
+      <unit id="org.bouncycastle.bcpg" version="1.65.0.v20200527-1955"/>
+      <unit id="org.bouncycastle.bcpg.source" version="1.65.0.v20200527-1955"/>
+      <unit id="org.bouncycastle.bcpkix" version="1.65.0.v20200527-1955"/>
+      <unit id="org.bouncycastle.bcpkix.source" version="1.65.0.v20200527-1955"/>
+      <unit id="org.bouncycastle.bcprov" version="1.65.1.v20200529-1514"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.65.1.v20200529-1514"/>
       <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
       <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
@@ -84,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20200506000552/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

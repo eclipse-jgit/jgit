@@ -162,7 +162,7 @@
     <commons-compress-version>1.19</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>3.1.0</servlet-api-version>
-    <jetty-version>9.4.25.v20191220</jetty-version>
+    <jetty-version>9.4.28.v20200408</jetty-version>
     <japicmp-version>0.14.3</japicmp-version>
     <httpclient-version>4.5.10</httpclient-version>
     <httpcore-version>4.4.12</httpcore-version>
@@ -173,7 +173,7 @@
     <gson-version>2.8.2</gson-version>
     <bouncycastle-version>1.65</bouncycastle-version>
     <spotbugs-maven-plugin-version>4.0.0</spotbugs-maven-plugin-version>
-    <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
+    <maven-project-info-reports-plugin-version>3.1.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.0.0-M4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
@@ -234,7 +234,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.3</version>
+          <version>3.2.4</version>
         </plugin>
 
         <plugin>
@@ -766,7 +766,7 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk15on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <version>1.65.01</version>
       </dependency>
 
       <dependency>
@@ -988,9 +988,11 @@
     <module>org.eclipse.jgit.ant</module>
     <module>org.eclipse.jgit.archive</module>
     <module>org.eclipse.jgit.ui</module>
+    <module>org.eclipse.jgit.gpg.bc</module>
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.ssh.apache</module>
+    <module>org.eclipse.jgit.ssh.jsch</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.lfs</module>
     <module>org.eclipse.jgit.lfs.server</module>
@@ -1000,11 +1002,13 @@
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
+    <module>org.eclipse.jgit.gpg.bc.test</module>
     <module>org.eclipse.jgit.http.test</module>
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
     <module>org.eclipse.jgit.ssh.apache.test</module>
+    <module>org.eclipse.jgit.ssh.jsch.test</module>
     <module>org.eclipse.jgit.coverage</module>
     <module>org.eclipse.jgit.benchmarks</module>
   </modules>
