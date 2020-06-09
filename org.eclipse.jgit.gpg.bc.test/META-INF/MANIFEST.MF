@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.gpg.bc.test
 Bundle-SymbolicName: org.eclipse.jgit.gpg.bc.test
-Bundle-Version: 5.8.0.202006091008-r
+Bundle-Version: 5.8.1.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.jgit.gpg.bc.internal;version="[5.8.0,5.9.0)",
+Import-Package: org.eclipse.jgit.gpg.bc.internal;version="[5.8.1,5.9.0)",
  org.junit;version="[4.13,5.0.0)"
 Export-Package: org.eclipse.jgit.gpg.bc.internal;x-internal:=true
 Require-Bundle: org.hamcrest.core;bundle-version="[1.1.0,2.0.0)",
