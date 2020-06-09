@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00ac57ab_394ad2cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-09T16:57:24Z",
+      "side": 1,
+      "message": "Nit: imperative mood and no period at the end of the title\n\ne.g. \"SimpleMergeTest: Update coding style\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "1fb1c37d7d1835a8f34881d313f66743d4764ae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
