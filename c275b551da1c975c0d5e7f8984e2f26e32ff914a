@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52cfa07d_0b5f40c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-09T10:21:47Z",
+      "side": 1,
+      "message": "looks like this was copied from somewhere else and needs an update",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 49
+      },
+      "revId": "c275b551da1c975c0d5e7f8984e2f26e32ff914a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
