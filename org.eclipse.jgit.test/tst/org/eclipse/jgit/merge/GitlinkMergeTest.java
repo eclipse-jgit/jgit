@@ -41,6 +41,29 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	private String SUBMODULE_PATH = "submodule";
 
 	@Test
+	public void testGitLinkMerging_AddNew() throws Exception {
+		assertGitLinkValue(
+				testGitLink(null, null, linkId3, NORMAL_MERGE_CASE, true),
+				linkId3);
+	}
+
+	@Test
+	public void testGitLinkMerging_Delete() throws Exception {
+		assertGitLinkDoesntExist(
+				testGitLink(linkId1, linkId1, null, NORMAL_MERGE_CASE, true));
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateDelete() throws Exception {
+		testGitLink(linkId1, linkId2, null, NORMAL_MERGE_CASE, false);
+	}
+
+	@Test
+	public void testGitLinkMerging_DeleteUpdate() throws Exception {
+		testGitLink(linkId1, null, linkId3, NORMAL_MERGE_CASE, false);
+	}
+
+	@Test
 	public void testGitLinkMerging_UpdateUpdate() throws Exception {
 		testGitLink(linkId1, linkId2, linkId3, NORMAL_MERGE_CASE, false);
 	}
@@ -62,6 +85,26 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 		assertGitLinkValue(
 				testGitLink(null, null, linkId3, IGNORE_CONFLICTS_CASE, true),
 				linkId3);
+	}
+
+	@Test
+	public void testGitLinkMerging_Delete_ignoreConflicts() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, linkId1, null,
+				IGNORE_CONFLICTS_CASE, true));
+	}
+
+	@Test
+	public void testGitLinkMerging_UpdateDelete_ignoreConflicts()
+			throws Exception {
+		assertGitLinkValue(testGitLink(linkId1, linkId2, null,
+				IGNORE_CONFLICTS_CASE, true), linkId2);
+	}
+
+	@Test
+	public void testGitLinkMerging_DeleteUpdate_ignoreConflicts()
+			throws Exception {
+		assertGitLinkDoesntExist(testGitLink(linkId1, null, linkId3,
+				IGNORE_CONFLICTS_CASE, true));
 	}
 
 	@Test
@@ -306,6 +349,16 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 			assertTrue(tw.next());
 			assertEquals(SUBMODULE_PATH, tw.getPathString());
 			assertEquals(ObjectId.fromString(shouldChoose), tw.getObjectId(0));
+
+			assertFalse(tw.next());
+		}
+	}
+
+	private void assertGitLinkDoesntExist(Merger resolveMerger)
+			throws Exception {
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(resolveMerger.getResultTreeId());
 
 			assertFalse(tw.next());
 		}
