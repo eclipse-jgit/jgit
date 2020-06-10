@@ -58,32 +58,11 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:assertj-core",
-        "//lib:jsch",
         "//lib:junit",
         "//lib:mockito",
         "//lib:slf4j-simple",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
-    ],
-)
-
-java_library(
-    name = "sshd-helpers",
-    testonly = 1,
-    srcs = glob(["src/org/eclipse/jgit/transport/ssh/*.java"]),
-    resource_strip_prefix = "org.eclipse.jgit.test/resources",
-    resources = RESOURCES,
-    visibility = [
-        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-    ],
-    deps = [
-        "//lib:jsch",
-        "//lib:junit",
-        "//lib:sshd-osgi",
-        "//lib:sshd-sftp",
-        "//org.eclipse.jgit:jgit",
-        "//org.eclipse.jgit.junit:junit",
-        "//org.eclipse.jgit.junit.ssh:junit-ssh",
     ],
 )
 

@@ -125,6 +125,28 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutForced_deleteFileAndRestore() throws Exception {
+		File testFile = new File(db.getWorkTree(), "Test.txt");
+		assertTrue(testFile.exists());
+
+		assertEquals("test", git.getRepository().getBranch());
+		FileUtils.delete(testFile);
+		assertFalse(testFile.exists());
+		// Switch from "test" to "master".
+		assertEquals(initialCommit.getId(), git.checkout().setName("master")
+				.setForced(true).call().getObjectId());
+		assertTrue(testFile.exists());
+
+		assertEquals("master", git.getRepository().getBranch());
+		FileUtils.delete(testFile);
+		assertFalse(testFile.exists());
+		// Stay in current branch.
+		assertEquals(initialCommit.getId(), git.checkout().setName("master")
+				.setForced(true).call().getObjectId());
+		assertTrue(testFile.exists());
+	}
+
+	@Test
 	public void testCreateBranchOnCheckout() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
 		assertNotNull(db.exactRef("refs/heads/test2"));

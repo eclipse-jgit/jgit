@@ -39,6 +39,7 @@ import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
@@ -50,6 +51,7 @@ import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
 import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
@@ -63,6 +65,8 @@ import org.eclipse.jgit.util.FS;
  * @since 5.2
  */
 public class SshdSessionFactory extends SshSessionFactory implements Closeable {
+
+	private static final String MINA_SSHD = "mina-sshd"; //$NON-NLS-1$
 
 	private final AtomicBoolean closing = new AtomicBoolean();
 
@@ -129,6 +133,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		// I consider this limit too low. The time increases linearly with the
 		// number of rounds.
 		BCryptKdfOptions.setMaxAllowedRounds(16384);
+	}
+
+	@Override
+	public String getType() {
+		return MINA_SSHD;
 	}
 
 	/** A simple general map key. */
@@ -327,8 +336,8 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> new JGitSshConfig(homeDir, getSshConfig(sshDir),
-						getLocalUserName()));
+				t -> new JGitSshConfig(createSshConfigStore(homeDir,
+						getSshConfig(sshDir), getLocalUserName())));
 	}
 
 	/**
@@ -347,7 +356,29 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
-	 * Obtain a {@link ServerKeyDatabase} to verify server host keys. The
+	 * Obtains a {@link SshConfigStore}, or {@code null} if not SSH config is to
+	 * be used. The default implementation returns {@code null} if
+	 * {@code configFile == null} and otherwise an OpenSSH-compatible store
+	 * reading host entries from the given file.
+	 *
+	 * @param homeDir
+	 *            may be used for ~-replacements by the returned config store
+	 * @param configFile
+	 *            to use, or {@code null} if none
+	 * @param localUserName
+	 *            user name of the current user on the local OS
+	 * @return A {@link SshConfigStore}, or {@code null} if none is to be used
+	 *
+	 * @since 5.8
+	 */
+	protected SshConfigStore createSshConfigStore(@NonNull File homeDir,
+			File configFile, String localUserName) {
+		return configFile == null ? null
+				: new OpenSshConfigFile(homeDir, configFile, localUserName);
+	}
+
+	/**
+	 * Obtains a {@link ServerKeyDatabase} to verify server host keys. The
 	 * default implementation returns a {@link ServerKeyDatabase} that
 	 * recognizes the two openssh standard files {@code ~/.ssh/known_hosts} and
 	 * {@code ~/.ssh/known_hosts2} as well as any files configured via the
@@ -365,10 +396,31 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File sshDir) {
 		return defaultServerKeyDatabase.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> new OpenSshServerKeyDatabase(true,
-						getDefaultKnownHostsFiles(sshDir)));
+				t -> createServerKeyDatabase(homeDir, sshDir));
 
 	}
+
+	/**
+	 * Creates a {@link ServerKeyDatabase} to verify server host keys. The
+	 * default implementation returns a {@link ServerKeyDatabase} that
+	 * recognizes the two openssh standard files {@code ~/.ssh/known_hosts} and
+	 * {@code ~/.ssh/known_hosts2} as well as any files configured via the
+	 * {@code UserKnownHostsFile} option in the ssh config file.
+	 *
+	 * @param homeDir
+	 *            home directory to use for ~ replacement
+	 * @param sshDir
+	 *            representing ~/.ssh/
+	 * @return the {@link ServerKeyDatabase}
+	 * @since 5.8
+	 */
+	@NonNull
+	protected ServerKeyDatabase createServerKeyDatabase(@NonNull File homeDir,
+			@NonNull File sshDir) {
+		return new OpenSshServerKeyDatabase(true,
+				getDefaultKnownHostsFiles(sshDir));
+	}
+
 	/**
 	 * Gets the list of default user known hosts files. The default returns
 	 * ~/.ssh/known_hosts and ~/.ssh/known_hosts2. The ssh config

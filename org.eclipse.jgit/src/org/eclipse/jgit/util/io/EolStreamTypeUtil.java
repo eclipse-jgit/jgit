@@ -140,17 +140,17 @@ public final class EolStreamTypeUtil {
 		}
 
 		// new git system
-		String eol = attrs.getValue("eol"); //$NON-NLS-1$
-		if (eol != null)
-			// check-in is always normalized to LF
-			return EolStreamType.TEXT_LF;
-
-		if (attrs.isSet("text")) { //$NON-NLS-1$
-			return EolStreamType.TEXT_LF;
-		}
-
 		if ("auto".equals(attrs.getValue("text"))) { //$NON-NLS-1$ //$NON-NLS-2$
 			return EolStreamType.AUTO_LF;
+		}
+
+		String eol = attrs.getValue("eol"); //$NON-NLS-1$
+		if (eol != null) {
+			// check-in is always normalized to LF
+			return EolStreamType.TEXT_LF;
+		}
+		if (attrs.isSet("text")) { //$NON-NLS-1$
+			return EolStreamType.TEXT_LF;
 		}
 
 		switch (options.getAutoCRLF()) {
@@ -168,6 +168,8 @@ public final class EolStreamTypeUtil {
 		switch (options.getAutoCRLF()) {
 		case TRUE:
 			return EolStreamType.TEXT_CRLF;
+		case INPUT:
+			return EolStreamType.DIRECT;
 		default:
 			// no decision
 		}
@@ -205,7 +207,10 @@ public final class EolStreamTypeUtil {
 		// new git system
 		String eol = attrs.getValue("eol"); //$NON-NLS-1$
 		if (eol != null) {
-			if ("crlf".equals(eol)) {//$NON-NLS-1$
+			if ("crlf".equals(eol)) { //$NON-NLS-1$
+				if ("auto".equals(attrs.getValue("text"))) { //$NON-NLS-1$ //$NON-NLS-2$
+					return EolStreamType.AUTO_CRLF;
+				}
 				return EolStreamType.TEXT_CRLF;
 			} else if ("lf".equals(eol)) { //$NON-NLS-1$
 				return EolStreamType.DIRECT;

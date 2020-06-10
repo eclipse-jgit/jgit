@@ -25,8 +25,6 @@ java_library(
     srcs = glob(["src/**/*.java"]),
     deps = [
         "//lib:junit",
-        "//org.eclipse.jgit:jgit",
-        "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.lfs:jgit-lfs",
     ],
 )

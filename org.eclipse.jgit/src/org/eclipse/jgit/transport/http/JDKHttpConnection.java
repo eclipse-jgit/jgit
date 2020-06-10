@@ -32,7 +32,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.transport.internal.DelegatingSSLSocketFactory;
+import org.eclipse.jgit.internal.transport.http.DelegatingSSLSocketFactory;
 import org.eclipse.jgit.util.HttpSupport;
 /**
  * A {@link org.eclipse.jgit.transport.http.HttpConnection} which simply

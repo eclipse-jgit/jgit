@@ -32,6 +32,7 @@ import java.util.TreeSet;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
+import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
@@ -80,7 +81,7 @@ import org.eclipse.jgit.util.SystemReader;
  * @see <a href="http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5">man
  *      ssh-config</a>
  */
-public class OpenSshConfigFile {
+public class OpenSshConfigFile implements SshConfigStore {
 
 	/**
 	 * "Host" name of the HostEntry for the default options before the first
@@ -152,8 +153,9 @@ public class OpenSshConfigFile {
 	 *            the user supplied; <= 0 if none
 	 * @param userName
 	 *            the user supplied, may be {@code null} or empty if none given
-	 * @return r configuration for the requested name.
+	 * @return the configuration for the requested name.
 	 */
+	@Override
 	@NonNull
 	public HostEntry lookup(@NonNull String hostName, int port,
 			String userName) {
@@ -446,7 +448,7 @@ public class OpenSshConfigFile {
 	 * of several matching host entries, %-substitutions, and ~ replacement have
 	 * all been done.
 	 */
-	public static class HostEntry {
+	public static class HostEntry implements SshConfigStore.HostConfig {
 
 		/**
 		 * Keys that can be specified multiple times, building up a list. (I.e.,
@@ -489,7 +491,7 @@ public class OpenSshConfigFile {
 		private Map<String, List<String>> listOptions;
 
 		/**
-		 * Retrieves the value of a single-valued key, or the first is the key
+		 * Retrieves the value of a single-valued key, or the first if the key
 		 * has multiple values. Keys are case-insensitive, so
 		 * {@code getValue("HostName") == getValue("HOSTNAME")}.
 		 *
@@ -497,6 +499,7 @@ public class OpenSshConfigFile {
 		 *            to get the value of
 		 * @return the value, or {@code null} if none
 		 */
+		@Override
 		public String getValue(String key) {
 			String result = options != null ? options.get(key) : null;
 			if (result == null) {
@@ -524,6 +527,7 @@ public class OpenSshConfigFile {
 		 *            to get the values of
 		 * @return a possibly empty list of values
 		 */
+		@Override
 		public List<String> getValues(String key) {
 			List<String> values = listOptions != null ? listOptions.get(key)
 					: null;
@@ -778,6 +782,7 @@ public class OpenSshConfigFile {
 		 *
 		 * @return all single-valued options
 		 */
+		@Override
 		@NonNull
 		public Map<String, String> getOptions() {
 			if (options == null) {
@@ -792,6 +797,7 @@ public class OpenSshConfigFile {
 		 *
 		 * @return all multi-valued options
 		 */
+		@Override
 		@NonNull
 		public Map<String, List<String>> getMultiValuedOptions() {
 			if (listOptions == null && multiOptions == null) {

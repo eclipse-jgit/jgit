@@ -170,7 +170,7 @@ public class CachingKeyPairProvider extends FileKeyPairProvider
 				} catch (CancellationException cancelled) {
 					throw cancelled;
 				} catch (Exception other) {
-					log.warn(other.toString());
+					log.warn(other.getMessage(), other);
 				}
 			}
 			return nextItem != null;

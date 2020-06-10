@@ -1036,10 +1036,34 @@ public abstract class FS {
 	public File userHome() {
 		Holder<File> p = userHome;
 		if (p == null) {
-			p = new Holder<>(userHomeImpl());
+			p = new Holder<>(safeUserHomeImpl());
 			userHome = p;
 		}
 		return p.value;
+	}
+
+	private File safeUserHomeImpl() {
+		File home;
+		try {
+			home = userHomeImpl();
+			if (home != null) {
+				home.toPath();
+				return home;
+			}
+		} catch (RuntimeException e) {
+			LOG.error(JGitText.get().exceptionWhileFindingUserHome, e);
+		}
+		home = defaultUserHomeImpl();
+		if (home != null) {
+			try {
+				home.toPath();
+				return home;
+			} catch (InvalidPathException e) {
+				LOG.error(MessageFormat
+						.format(JGitText.get().invalidHomeDirectory, home), e);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1081,6 +1105,10 @@ public abstract class FS {
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	protected File userHomeImpl() {
+		return defaultUserHomeImpl();
+	}
+
+	private File defaultUserHomeImpl() {
 		final String home = AccessController.doPrivileged(
 				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
 		);

@@ -3,25 +3,31 @@
    <description url="JGit">
       This is a pure Java implementation of the Git version control system. The native Git version is also required in this version.
    </description>
-   <feature url="features/org.eclipse.jgit_0.0.0.qualifier.jar" id="org.eclipse.jgit" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit_0.0.0.qualifier.jar" id="org.eclipse.jgit" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.pgm_0.0.0.qualifier.jar" id="org.eclipse.jgit.pgm" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.pgm_0.0.0.qualifier.jar" id="org.eclipse.jgit.pgm" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.ssh.apache_0.0.0.qualifier.jar" id="org.eclipse.jgit.ssh.apache" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.ssh.apache_0.0.0.qualifier.jar" id="org.eclipse.jgit.ssh.apache" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.source" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.source" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.junit_0.0.0.qualifier.jar" id="org.eclipse.jgit.junit" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.junit_0.0.0.qualifier.jar" id="org.eclipse.jgit.junit" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.http.apache_0.0.0.qualifier.jar" id="org.eclipse.jgit.http.apache" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.http.apache_0.0.0.qualifier.jar" id="org.eclipse.jgit.http.apache" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0" patch="true">
+   <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0">
+      <category name="JGit"/>
+   </feature>
+   <feature url="features/org.eclipse.jgit.ssh.jsch_0.0.0.qualifier.jar" id="org.eclipse.jgit.ssh.jsch" version="0.0.0">
+      <category name="JGit"/>
+   </feature>
+   <feature url="features/org.eclipse.jgit.gpg.bc_0.0.0.qualifier.jar" id="org.eclipse.jgit.gpg.bc" version="0.0.0">
       <category name="JGit"/>
    </feature>
    <bundle id="org.eclipse.jgit.ant" version="0.0.0">

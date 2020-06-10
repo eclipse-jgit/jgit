@@ -41,6 +41,12 @@ public interface HttpConnection {
 	int HTTP_OK = java.net.HttpURLConnection.HTTP_OK;
 
 	/**
+	 * @see HttpURLConnection#HTTP_NOT_AUTHORITATIVE
+	 * @since 5.8
+	 */
+	int HTTP_NOT_AUTHORITATIVE = java.net.HttpURLConnection.HTTP_NOT_AUTHORITATIVE;
+
+	/**
 	 * @see HttpURLConnection#HTTP_MOVED_PERM
 	 * @since 4.7
 	 */

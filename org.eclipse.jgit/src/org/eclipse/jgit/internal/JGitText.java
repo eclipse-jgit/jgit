@@ -297,6 +297,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionHookExecutionInterrupted;
 	/***/ public String exceptionOccurredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;
+	/***/ public String exceptionWhileFindingUserHome;
 	/***/ public String exceptionWhileReadingPack;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;
@@ -332,15 +333,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String funnyRefname;
 	/***/ public String gcFailed;
 	/***/ public String gcTooManyUnpruned;
-	/***/ public String gpgFailedToParseSecretKey;
-	/***/ public String gpgNoCredentialsProvider;
-	/***/ public String gpgNoKeyring;
-	/***/ public String gpgNoKeyInLegacySecring;
-	/***/ public String gpgNoPublicKeyFound;
-	/***/ public String gpgNoSecretKeyForPublicKey;
-	/***/ public String gpgNotASigningKey;
-	/***/ public String gpgKeyInfo;
-	/***/ public String gpgSigningCancelled;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
 	/***/ public String httpConfigCannotNormalizeURL;
@@ -384,6 +376,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidGitModules;
 	/***/ public String invalidGitType;
 	/***/ public String invalidHexString;
+	/***/ public String invalidHomeDirectory;
 	/***/ public String invalidHooksPath;
 	/***/ public String invalidId;
 	/***/ public String invalidId0;
@@ -645,6 +638,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
 	/***/ public String signingNotSupportedOnTag;
+	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String skipMustBeNonNegative;
 	/***/ public String skipNotAccessiblePath;
@@ -655,7 +649,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;
 	/***/ public String sshCommandFailed;
-	/***/ public String sshUserNameError;
 	/***/ public String sslFailureExceptionMessage;
 	/***/ public String sslFailureInfo;
 	/***/ public String sslFailureCause;
@@ -716,7 +709,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportProtoSSH;
 	/***/ public String transportProtoTest;
 	/***/ public String transportProvidedRefWithNoObjectId;
-	/***/ public String transportSSHRetryInterrupt;
 	/***/ public String treeEntryAlreadyExists;
 	/***/ public String treeFilterMarkerTooManyFilters;
 	/***/ public String treeWalkMustHaveExactlyTwoTrees;

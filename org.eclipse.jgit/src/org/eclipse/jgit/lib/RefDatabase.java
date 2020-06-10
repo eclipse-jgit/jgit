@@ -441,7 +441,7 @@ public abstract class RefDatabase {
 
 	/**
 	 * Returns all refs that resolve directly to the given {@link ObjectId}.
-	 * Includes peeled {@linkObjectId}s. This is the inverse lookup of
+	 * Includes peeled {@link ObjectId}s. This is the inverse lookup of
 	 * {@link #exactRef(String...)}.
 	 *
 	 * <p>

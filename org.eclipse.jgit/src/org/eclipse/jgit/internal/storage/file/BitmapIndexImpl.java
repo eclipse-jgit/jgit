@@ -252,6 +252,11 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return bitmapIndex;
 		}
 
+		@Override
+		public EWAHCompressedBitmap retrieveCompressed() {
+			return build().retrieveCompressed();
+		}
+
 		private EWAHCompressedBitmap ewahBitmap(Bitmap other) {
 			if (other instanceof CompressedBitmap) {
 				CompressedBitmap b = (CompressedBitmap) other;
@@ -372,7 +377,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 			};
 		}
 
-		EWAHCompressedBitmap getEwahCompressedBitmap() {
+		@Override
+		public EWAHCompressedBitmap retrieveCompressed() {
 			return bitmap;
 		}
 
