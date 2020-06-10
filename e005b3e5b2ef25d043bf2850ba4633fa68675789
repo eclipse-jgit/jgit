@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa71e643_d3a78dd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-06-10T07:35:09Z",
+      "side": 1,
+      "message": "This statements confuses me a little bit. Do I get it right: with this patch set we are NOT adding code which would add \u0027000..\u0027 values to the index? Only if in the future all parties would accept \u0027000...\u0027 content as a marker for conflicts then we may concider writing such entries? Right?\n\nThat would be fine with me.\n\nI wanted to check native git behaviour, but I am not so sure how this \u0027ignoreConflicts\u0027 functionality is exposed. We use it mainly to have a common parent content to be displayed e.g. in gerrit ui when presenting conflicts, right? I tried with https://gist.github.com/chalstrick/ee18d33988d4751fbd640b2c035f61f9",
+      "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
