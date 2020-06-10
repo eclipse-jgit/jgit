@@ -43,7 +43,7 @@ public abstract class SshSessionFactory {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the currently configured JVM-wide factory.
 	 * <p>
