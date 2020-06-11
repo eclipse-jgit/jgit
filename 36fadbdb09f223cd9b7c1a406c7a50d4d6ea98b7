@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d17adfd9_fe792f94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "A more concrete wording would make more clearer what is changed (and what is the difference with the follow-up commit).\n\nMaybe something like:\nResolveMerger: choose OURS on gitlink conflict in recursive strategy\n\nNext change could be:\nResolveMerger: do not content-merge gitlinks on del/mod conflicts\n\n(I hope that is what they are doing!)",
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f355fc57_f746b021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "clean?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0951aa2_457eef3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "The problem is that gitlink conflicts aren\u0027t \"ignored\" on \"ignoreConflicts\". The contents of the index are just a consequence of it, no?",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f5e9834_3b001b5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "This is implicit. This paragraph is usually written giving orders to the code:\n\n\"Select \u0027ours\u0027 in case of conflicts in ignoreConflicts mode and populate only stage-1 of the index.\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2af8057_3eaa812f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "What do you mean? are you introducing bugs on purpose? :)\n\nDo you mean... \"Choosing \"ours\" is an arbitrary decision and could be wrong in some cases, but it is what git client do in this situation\"?",
+      "range": {
+        "startLine": 16,
+        "startChar": 50,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6d08cf7_39e1ab3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-11T21:49:03Z",
+      "side": 1,
+      "message": "Optional: I would formulate this more like: \"Ideally we could signal the conflict with a special value (like \u00270000...\u0027), but that must be supported by all tooling (git fsck, c-git).\"",
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
