@@ -16,6 +16,24 @@
       "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52902677_53b1b2ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-11T00:09:58Z",
+      "side": 1,
+      "message": "\u003e\u003eDo I get it right\n\nYes, it is correct\n\n\u003e\u003eI wanted to check native git behaviour, but I am not so sure how this \u0027ignoreConflicts\u0027 functionality is exposed. \n\nIgnore conflict option in c-git is used when we want to use result in the next step of merge. jGit actually mimic c-git algorithm for the recursive merge as far as I can see.\n\nParticular case when we will get gitlink conflict is following:\n\nWe have 2 commits which we want to merge and they have ambiguous base parent. In order to merge them together we do it in 2 steps:\n1. Create a virtual parent commit \u003c- this is when ignoreConflict is used\n2. Merge these 2 commit with virtual commit used as `base`.\n\nSo in order to test submodule conflict with ignoreConflicts we should have the following commit tree:\n\nA    B\n|\\  /|\n| \\/ |\n| /\\ |\n|/  \\|\na    b\n|   /\n|  /\n| /\n|/\nz\n\nLet\u0027s assume \u0027A\u0027, \u0027B\u0027, \u0027a\u0027, \u0027b\u0027 and \u0027z\u0027 - are both name of commits and values of gitlink entry.\n\nThen if we do a recursive merge of \u0027A\u0027 and \u0027B\u0027 we will first try to create a virtual parent which is result for merging \u0027a\u0027 and \u0027b\u0027. It would be a simple 3-way merge with \u0027z\u0027 as a base. \n\nDuring this merge we won\u0027t be able to select a proper value for gitlink (both \u0027a\u0027 and \u0027b\u0027 is different from \u0027z\u0027, so both changes has updated a gitlink, we don\u0027t know which is the right one). If we just merged them without recursive merge we would have reported an error on this merge. However during recursive merge we\u0027re not reporting that kind of error, but instead we\u0027re creating a virtual parent, so our tree for the sake of algorithm looks like this:\n\nA     B\n \\   /\n  \\ / \n   v\n  / \\ \n /   \\\na     b\n|    /\n|   /\n|  /\n| /\n|/\nz\n\nwhere v - is the result of merge with ignoreConflicts \u003d true.\n\nWe will use v as a base for the second step of merge (another 3-way, but with ignoreConflicts \u003d false). So in order to inspect result of ignoreConflict \u003d true we have to catch state of v.\n\n\u003e\u003eI tried with \n\nI updated your instructions to trigger this workflow:\nhttps://gist.github.com/DemetrGoogle/c91a1799151e71ad1276775680256a2b\ndepends on state of subproject repos last command would or would not merge submodule.",
+      "parentUuid": "aa71e643_d3a78dd2",
+      "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
