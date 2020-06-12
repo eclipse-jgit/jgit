@@ -52,6 +52,24 @@
       "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f917db2_4de6f6bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-12T21:45:47Z",
+      "side": 1,
+      "message": "\u003e\u003e would be ok for me and tells me to choose between these two commits for conflict resolution.\n\nIt would be ok for me as well, but unfortunately it is not an option. Blob that contain conflict markers is still a correct blob, but gitlink is not a blob, it can contain only one objectId. So we can\u0027t save conflict markers in the same file.\n\nThere are other options considered:\n1. Convert it to a blob and populate merge conflict information\n2. Create another entry for conflicted value (aka gitlink.conflict_ours)\n\nThis 2 options would have provided additional information, but we can\u0027t use them, because it make overall repo inconsistent (gitlinks should match .gitmodules). And it should be consistent between different git implementation as well.\n\nThat is why we can select only one valid objectId at the moment.",
+      "parentUuid": "3f7de991_d29099ac",
+      "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
