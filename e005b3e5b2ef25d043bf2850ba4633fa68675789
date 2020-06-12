@@ -34,6 +34,24 @@
       "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f7de991_d29099ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-06-12T11:02:03Z",
+      "side": 1,
+      "message": "Ok, thanks, I got that.\nI remember having a similar discussion with Shawn when the first revision of RecursiveMerger was implemented. \nImagine the same situation for plain old java files. You are having the same commits as above but the content are blobs with java source code. Also in this case you try to create a intermediate parent z and sometimes you get conflicts when trying to create v. Back then I was asking: which content should we use in this case. a or b? The content in v can\u0027t be taken because it contains conflict markers \u0027\u003e\u003e\u003e\u0027,\u0027\u003c\u003c\u003c\u0027,\u0027\u003d\u003d\u003d\u0027 and is no valid java source code. I was shocked to hear: No, take the content with the conflict markers as base content. Take that invalid java source code as base content. And as we know now from experience is that this strategy works well, although the common base presented for conflicts is not even syntactical correct java code. So nobody can use the common base content as conflict resolution.\nWouldn\u0027t it be the same for gitlinks? Whats so bad if the common base content for a gitlink conflict is not syntactical correct but contains conflict markers? A base content in case of a gitlink conflict reported as: \n\n  \u003c\u003c\u003c\n  0033322344\n  \u003d\u003d\u003d\u003d\n  aacd33355\n  \u003e\u003e\u003e\n\nwould be ok for me and tells me to choose between these two commits for conflict resolution.\n\nOne reason not to got for this would be if the content with the conflict markers for a gitlink entry would cause bugs/exceptions. Is that the case?",
+      "parentUuid": "52902677_53b1b2ec",
+      "revId": "e005b3e5b2ef25d043bf2850ba4633fa68675789",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
