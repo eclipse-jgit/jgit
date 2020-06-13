@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8355238d_d524629f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d17adfd9_fe792f94",
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f355fc57_f746b021",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2020-06-11T21:49:03Z",
       "side": 1,
       "message": "clean?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c5769f_21599552",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f355fc57_f746b021",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "b493c703_31a273ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "reworded it",
+      "parentUuid": "c0951aa2_457eef3f",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5e9834_3b001b5c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -76,6 +142,30 @@
       "writtenOn": "2020-06-11T21:49:03Z",
       "side": 1,
       "message": "This is implicit. This paragraph is usually written giving orders to the code:\n\n\"Select \u0027ours\u0027 in case of conflicts in ignoreConflicts mode and populate only stage-1 of the index.\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d67d6832_d1f82ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f5e9834_3b001b5c",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "7c6df054_d8e1ebcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2af8057_3eaa812f",
+      "range": {
+        "startLine": 16,
+        "startChar": 50,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6d08cf7_39e1ab3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -122,6 +236,24 @@
       "writtenOn": "2020-06-11T21:49:03Z",
       "side": 1,
       "message": "Optional: I would formulate this more like: \"Ideally we could signal the conflict with a special value (like \u00270000...\u0027), but that must be supported by all tooling (git fsck, c-git).\"",
+      "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484c8abd_e38ec97c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-13T03:04:15Z",
+      "side": 1,
+      "message": "Yep, probably this is to wordy, used proposed phrase, thanks",
+      "parentUuid": "a6d08cf7_39e1ab3e",
       "revId": "36fadbdb09f223cd9b7c1a406c7a50d4d6ea98b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
