@@ -38,8 +38,8 @@
   </scm>
 
   <ciManagement>
-    <system>hudson</system>
-    <url>https://hudson.eclipse.org/jgit/</url>
+    <system>Jenkins</system>
+    <url>https://ci.eclipse.org/jgit</url>
   </ciManagement>
 
   <developers>
