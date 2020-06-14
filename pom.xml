@@ -924,12 +924,6 @@
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-pack200a-plugin</artifactId>
-            <!-- TODO remove this configuration when https://git.eclipse.org/r/#/c/16027 is available -->
-            <configuration>
-              <supportedProjectTypes>
-                <supportedProjectType>jar</supportedProjectType>
-              </supportedProjectTypes>
-            </configuration>
             <executions>
               <execution>
                 <id>pack200-normalize</id>
@@ -956,12 +950,6 @@
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-pack200b-plugin</artifactId>
-            <!-- TODO remove this configuration when https://git.eclipse.org/r/#/c/16027 is available -->
-            <configuration>
-              <supportedProjectTypes>
-                <supportedProjectType>jar</supportedProjectType>
-              </supportedProjectTypes>
-            </configuration>
             <executions>
               <execution>
                 <id>pack200-pack</id>
