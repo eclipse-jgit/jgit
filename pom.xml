@@ -140,7 +140,7 @@
   </licenses>
 
   <properties>
-    <jgit-url>http://www.eclipse.org/jgit/</jgit-url>
+    <jgit-url>https://www.eclipse.org/jgit/</jgit-url>
     <jgit-copyright>Copyright (c) 2005, 2009 Shawn Pearce, Robin Rosenberg, et.al.</jgit-copyright>
     <jgit.website.url>scp://build.eclipse.org/home/data/httpd/download.eclipse.org/jgit/site/${project.version}/</jgit.website.url>
 
