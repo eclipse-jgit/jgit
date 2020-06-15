@@ -52,8 +52,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -231,12 +229,9 @@ public abstract class FS {
 		 * SecurityManager's thread group, or use the one of the calling thread,
 		 * as appropriate.
 		 * </p>
-		 *
-		 * @see java.util.concurrent.Executors#newCachedThreadPool()
 		 */
-		private static final Executor FUTURE_RUNNER = new ThreadPoolExecutor(0,
-				5, 30L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
-				runnable -> {
+		private static final Executor FUTURE_RUNNER = Executors
+				.newCachedThreadPool(runnable -> {
 					Thread t = new Thread(runnable, "FileStoreAttributeReader-" //$NON-NLS-1$
 							+ threadNumber.getAndIncrement());
 					// Make sure these threads don't prevent application/JVM
