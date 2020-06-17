@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
+import java.util.Iterator;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
@@ -22,6 +23,7 @@ import org.bouncycastle.bcpg.HashAlgorithmTags;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPrivateKey;
+import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureGenerator;
@@ -38,6 +40,7 @@ import org.eclipse.jgit.lib.GpgSignature;
 import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * GPG Signer using BouncyCastle library
@@ -126,17 +129,32 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 				privateKey = secretKey
 						.extractPrivateKey(decryptorBuilder.build(passphrase));
 			}
+			PGPPublicKey publicKey = secretKey.getPublicKey();
 			PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(
 					new JcaPGPContentSignerBuilder(
-							secretKey.getPublicKey().getAlgorithm(),
+							publicKey.getAlgorithm(),
 							HashAlgorithmTags.SHA256).setProvider(
 									BouncyCastleProvider.PROVIDER_NAME));
 			signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
-			PGPSignatureSubpacketGenerator subpacketGenerator = new PGPSignatureSubpacketGenerator();
-			subpacketGenerator.setIssuerFingerprint(false,
-					secretKey.getPublicKey());
+			PGPSignatureSubpacketGenerator subpackets = new PGPSignatureSubpacketGenerator();
+			subpackets.setIssuerFingerprint(false, publicKey);
+			// Also add the signer's user ID. Note that GPG uses only the e-mail
+			// address part.
+			String userId = committer.getEmailAddress();
+			Iterator<String> userIds = publicKey.getUserIDs();
+			if (userIds.hasNext()) {
+				String keyUserId = userIds.next();
+				if (!StringUtils.isEmptyOrNull(keyUserId)
+						&& (userId == null || !keyUserId.contains(userId))) {
+					// Not the committer's key?
+					userId = extractSignerId(keyUserId);
+				}
+			}
+			if (userId != null) {
+				subpackets.setSignerUserID(false, userId);
+			}
 			signatureGenerator
-					.setHashedSubpackets(subpacketGenerator.generate());
+					.setHashedSubpackets(subpackets.generate());
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			try (BCPGOutputStream out = new BCPGOutputStream(
 					new ArmoredOutputStream(buffer))) {
@@ -148,5 +166,16 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 				| NoSuchProviderException | URISyntaxException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
+	}
+
+	private String extractSignerId(String pgpUserId) {
+		int from = pgpUserId.indexOf('<');
+		if (from >= 0) {
+			int to = pgpUserId.indexOf('>', from + 1);
+			if (to > from + 1) {
+				return pgpUserId.substring(from + 1, to);
+			}
+		}
+		return pgpUserId;
 	}
 }
