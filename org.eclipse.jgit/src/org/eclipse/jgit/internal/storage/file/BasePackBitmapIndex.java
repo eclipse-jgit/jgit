@@ -80,6 +80,34 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 			}
 		}
 
+		/**
+		 * Computes and returns the full bitmap, does NOT cache the expanded
+		 * bitmap, which saves memory and should only be used during bitmap
+		 * creation in garbage collection.
+		 *
+		 * @return the full bitmap
+		 */
+		EWAHCompressedBitmap getBitmapWithoutCaching() {
+			// Fast path to immediately return the expanded result.
+			Object r = bitmapContainer;
+			if (r instanceof EWAHCompressedBitmap)
+				return (EWAHCompressedBitmap) r;
+
+			// Expand the bitmap but not cache the result.
+			XorCompressedBitmap xb = (XorCompressedBitmap) r;
+			EWAHCompressedBitmap out = xb.bitmap;
+			for (;;) {
+				r = xb.xorBitmap.bitmapContainer;
+				if (r instanceof EWAHCompressedBitmap) {
+					out = out.xor((EWAHCompressedBitmap) r);
+					out.trim();
+					return out;
+				}
+				xb = (XorCompressedBitmap) r;
+				out = out.xor(xb.bitmap);
+			}
+		}
+
 		/** @return the flags associated with the bitmap */
 		int getFlags() {
 			return flags;
