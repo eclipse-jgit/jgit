@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db51d95_59f77f51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-18T05:48:57Z",
+      "side": 1,
+      "message": "What do we do to reduce latency at least back to where it was before this rewrite which increased latency ?\nDo we have any numbers from performance tests ?",
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f4b48c_d1d96abe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-18T05:48:57Z",
+      "side": 1,
+      "message": "Can you provide measurements from testing this ? \nHow does memory allocation and fetch latency change by applying this change ?",
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd098bc3_8bc7af6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-18T05:48:57Z",
+      "side": 1,
+      "message": "nit: use active language \n\nCompute and return the full bitmap and do NOT cache the expanded bitmap, ...",
+      "range": {
+        "startLine": 69,
+        "startChar": 5,
+        "endLine": 69,
+        "endChar": 47
+      },
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
