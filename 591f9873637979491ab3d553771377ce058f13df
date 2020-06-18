@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1f09d8f_264d097d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-06-18T19:37:24Z",
+      "side": 1,
+      "message": "In change 161456, which is reverted, I modified the getBitmap() method, which is used in both serving path and GC path. And in this change, I splits the usage in 2 paths, getBitmap() method, which is not changed at all, for serving path and the new method, getBitmapWithoutCaching() method, which is for GC path only and saves memory.\n\nSince I didn\u0027t modify the serving path at all, the serving latency would not change.",
+      "parentUuid": "9db51d95_59f77f51",
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f4b48c_d1d96abe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3bd929b2_59cc08dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-06-18T19:37:24Z",
+      "side": 1,
+      "message": "I tested the change against https://source.codeaurora.org/quic/la/kernel/msm-3.18 repository, and before this change, the bitmap construction phase in GC costs about 16 GB and after this change it costs about 6 GB. Also the GC time didn\u0027t increase and I believe that the time saved by caching is negligible in GC bitmap building.\n\nAlso, as I mentioned in the comment above, the fetch latency would not change because the code in serving path is not changed.",
+      "parentUuid": "e3f4b48c_d1d96abe",
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd098bc3_8bc7af6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2020-06-18T05:48:57Z",
       "side": 1,
       "message": "nit: use active language \n\nCompute and return the full bitmap and do NOT cache the expanded bitmap, ...",
+      "range": {
+        "startLine": 69,
+        "startChar": 5,
+        "endLine": 69,
+        "endChar": 47
+      },
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d44420_4d0d1319",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-06-18T19:37:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd098bc3_8bc7af6f",
       "range": {
         "startLine": 69,
         "startChar": 5,
