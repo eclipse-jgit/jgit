@@ -8,8 +8,7 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-Version: 5.8.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.assertj.core.annotations;version="3.14.0",
- org.bouncycastle.bcpg;version="[1.65.0,2.0.0)",
+Import-Package: org.bouncycastle.bcpg;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg.keybox;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg.keybox.jcajce;version="[1.65.0,2.0.0)",
