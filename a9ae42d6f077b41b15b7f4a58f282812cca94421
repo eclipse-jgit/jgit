@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "907a0159_82121a65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-06-18T10:57:49Z",
+      "side": 1,
+      "message": "The bug reference should go in a footer line. I.e.\n\n Bug: 564410\n Change-Id: ...\n Signed-off-by: ...",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "a9ae42d6f077b41b15b7f4a58f282812cca94421",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
