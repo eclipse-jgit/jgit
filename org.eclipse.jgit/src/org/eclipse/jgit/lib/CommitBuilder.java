@@ -361,7 +361,9 @@ public class CommitBuilder {
 	 * header</a>.
 	 * <p>
 	 * CRLF and CR will be sanitized to LF and signature will have a hanging
-	 * indent of one space starting with line two.
+	 * indent of one space starting with line two. A trailing line break is
+	 * <em>not</em> written; the caller is supposed to terminate the GPG
+	 * signature header by writing a single newline.
 	 * </p>
 	 *
 	 * @param in
@@ -375,22 +377,24 @@ public class CommitBuilder {
 	 */
 	static void writeGpgSignatureString(String in, OutputStream out)
 			throws IOException, IllegalArgumentException {
-		for (int i = 0; i < in.length(); ++i) {
+		int l = in.length();
+		for (int i = 0; i < l; ++i) {
 			char ch = in.charAt(i);
 			switch (ch) {
 			case '\r':
-				if (i + 1 < in.length() && in.charAt(i + 1) == '\n') {
-					out.write('\n');
-					out.write(' ');
+				if (i + 1 < l && in.charAt(i + 1) == '\n') {
 					++i;
-				} else {
+				}
+				if (i + 1 < l) {
 					out.write('\n');
 					out.write(' ');
 				}
 				break;
 			case '\n':
-				out.write('\n');
-				out.write(' ');
+				if (i + 1 < l) {
+					out.write('\n');
+					out.write(' ');
+				}
 				break;
 			default:
 				// sanity check
