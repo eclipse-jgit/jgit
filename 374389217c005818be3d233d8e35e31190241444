@@ -22,6 +22,30 @@
       "revId": "374389217c005818be3d233d8e35e31190241444",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "066ab4e9_38cc6c97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-06-18T05:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03d0e79d_54c8fe11",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "374389217c005818be3d233d8e35e31190241444",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
