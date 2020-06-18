@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dddf35f0_2e496a8c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-18T21:25:25Z",
+      "side": 1,
+      "message": "Could we avoid these two alias for a boolean flag?\n\nMaybe the tests can pass directly the merger and a getter could help to see the intention (e.g. getMergerIgnoringConflicts())",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25026679_6af943f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-18T21:25:25Z",
+      "side": 1,
+      "message": "static, final and in capital letters?",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc6c864_7b748328",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-18T21:25:25Z",
+      "side": 1,
+      "message": "The convention is to call this parameter expectedValue",
+      "range": {
+        "startLine": 272,
+        "startChar": 62,
+        "endLine": 272,
+        "endChar": 74
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
