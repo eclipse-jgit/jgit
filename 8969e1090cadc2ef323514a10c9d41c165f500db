@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "375a0859_8275c357",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-19T02:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3e3281a_eb39b0e4",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dddf35f0_2e496a8c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2020-06-18T21:25:25Z",
       "side": 1,
       "message": "Could we avoid these two alias for a boolean flag?\n\nMaybe the tests can pass directly the merger and a getter could help to see the intention (e.g. getMergerIgnoringConflicts())",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a995d0d_fbfea61b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-19T02:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dddf35f0_2e496a8c",
       "range": {
         "startLine": 33,
         "startChar": 30,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7b2b06e7_a9698eeb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-19T02:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25026679_6af943f8",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc6c864_7b748328",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
         "patchSetId": 11
@@ -82,6 +154,30 @@
       "writtenOn": "2020-06-18T21:25:25Z",
       "side": 1,
       "message": "The convention is to call this parameter expectedValue",
+      "range": {
+        "startLine": 272,
+        "startChar": 62,
+        "endLine": 272,
+        "endChar": 74
+      },
+      "revId": "8969e1090cadc2ef323514a10c9d41c165f500db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f898f065_ab0af903",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-06-19T02:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddc6c864_7b748328",
       "range": {
         "startLine": 272,
         "startChar": 62,
