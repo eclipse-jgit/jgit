@@ -1356,7 +1356,7 @@ public abstract class FS {
 		String v;
 		try {
 			v = readPipe(gitExe.getParentFile(),
-				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
+					new String[] { gitExe.getPath(), "--version" }, //$NON-NLS-1$
 				Charset.defaultCharset().name());
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
@@ -1375,7 +1375,8 @@ public abstract class FS {
 		String w;
 		try {
 			w = readPipe(gitExe.getParentFile(),
-				new String[] { "git", "config", "--system", "--edit" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					new String[] { gitExe.getPath(), "config", "--system", //$NON-NLS-1$ //$NON-NLS-2$
+							"--edit" }, //$NON-NLS-1$
 				Charset.defaultCharset().name(), env);
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
