@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "06c7535c_64296252",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-06-20T01:23:46Z",
+      "side": 1,
+      "message": "When we deployed https://git.eclipse.org/r/c/161456 internally, we didn\u0027t see fetch latency changes at the median, but our p99 latencies went from ~1 minute to ~10 minutes. We captured stack traces that showed the slowness was in the reachability checks that JGit uses to avoid serving content from rewound/deleted branches. Ivan did a bunch of work to make reachability checks do as little work as possible, but the long tail is still long. Dropping the caching made it much worse.\n\nFor the specific \"huge\" repositories that we typically cite we saw mixed results. chromium/chromium/src which has \u003e2M refs showed no fetch latency changes at the p50/p90/p99. An internal Android repo with 2.25M refs saw a 3x increase at the p50/p90 and a 50% increase at the p99. These two repos differ in the number of refs under refs/heads and refs/tags, and in the branches that are fetched from them.\n\nWhen we reverted https://git.eclipse.org/r/c/161456 all of the aggregate and individual latencies went back to normal. The GC times for our largest repositories stayed the same both before and after 161456 was reverted, but the maximum heap usage for GCing the msm-3.18 repository went from ~12GiB up to ~23GiB.\n\nSince the impact of not caching was extremely dependent on both the topology of the repository and the fetches being performed, I\u0027m not sure we would have caught the regression in a performance test. The regression had been deployed in production for us for 3-4 days before we discovered it.\n\nMatthais I think we have cleared things up here but please let us know if you have any further questions. In the interest of gaining back the ~11GiB in next week\u0027s release (so we can complete an unrelated migration that needs the extra memory) I\u0027m going to submit this change. But I am happy to continue discussing.",
+      "parentUuid": "3bd929b2_59cc08dc",
+      "revId": "591f9873637979491ab3d553771377ce058f13df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd098bc3_8bc7af6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
         "patchSetId": 3
