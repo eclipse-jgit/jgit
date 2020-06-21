@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5b449d_a34a77b8",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-21T16:06:40Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "14c43828d471b811e3245631251a3ce77cc4214a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
