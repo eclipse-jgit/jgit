@@ -14,7 +14,7 @@ SRCS = glob(
 RESOURCES = glob(["resources/**"])
 
 java_library(
-    name = "jgit",
+    name = "jgit_non_stamped",
     srcs = SRCS,
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
@@ -23,6 +23,27 @@ java_library(
         "//lib:javaewah",
         "//lib:slf4j-api",
     ],
+)
+
+genrule(
+    name = "jgit",
+    srcs = [":jgit_non_stamped"],
+    outs = ["jgit.jar"],
+    cmd = " && ".join([
+        "ROOT=$$PWD",
+        "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "TZ=UTC",
+        "export TZ",
+        "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_JGIT_LABEL | cut -d ' ' -f 2)",
+        "cd $$TMP",
+        "unzip -q $$ROOT/$<",
+        "echo \"Bundle-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+        "find . -exec touch '{}' ';'",
+        "zip -Xqr $$ROOT/$@ .",
+        "rm -rf $$TMP",
+    ]),
+    stamp = 1,
+    visibility = ["//visibility:public"],
 )
 
 java_library(
