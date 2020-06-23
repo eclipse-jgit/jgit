@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d067c050_4ecff83f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-23T00:07:17Z",
+      "side": 1,
+      "message": "Title line starts usually with the modified component.\n\ne.g. MergedReftable: Include last reftable in determining minUpdateIndex",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "596b21ca39032eabb3c47bd0689f9222ef7fa61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9977c81c_002521fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-06-23T00:07:17Z",
+      "side": 1,
+      "message": "Explain the problem in the first paragraph. e.g. MergedReftable is ignoring the last reftable while calculating the minUpdateIndex.\n\nExplain the solution in the second paragraph e.g.\nUpdate loop indices to include all the reftables in the minUpdateIndex calculation. There is no need to reread position 0 inside the loop either.",
+      "revId": "596b21ca39032eabb3c47bd0689f9222ef7fa61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
