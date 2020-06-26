@@ -46,6 +46,30 @@
       "revId": "c0bb992845e6ba5df9f420739fe9075ed20e9ee2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b87d5bae_fe935077",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2020-06-26T08:20:35Z",
+      "side": 1,
+      "message": "Sorry for the delayed followup. I\u0027ve pushed a fix here: https://git.eclipse.org/r/165500",
+      "parentUuid": "8473d27c_99a0cc22",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 9
+      },
+      "revId": "c0bb992845e6ba5df9f420739fe9075ed20e9ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
