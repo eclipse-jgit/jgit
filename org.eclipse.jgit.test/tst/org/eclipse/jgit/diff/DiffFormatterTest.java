@@ -11,6 +11,8 @@
 package org.eclipse.jgit.diff;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -71,6 +73,17 @@ public class DiffFormatterTest extends RepositoryTestCase {
 			df.close();
 		}
 		super.tearDown();
+	}
+
+	@Test
+	public void testDefaultRenameDetectorSettings() throws Exception {
+		RenameDetector rd = df.getRenameDetector();
+		assertNull(rd);
+		df.setDetectRenames(true);
+		rd = df.getRenameDetector();
+		assertNotNull(rd);
+		assertEquals(400, rd.getRenameLimit());
+		assertEquals(60, rd.getRenameScore());
 	}
 
 	@Test
