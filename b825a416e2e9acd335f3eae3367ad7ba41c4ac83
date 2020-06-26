@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90cfe7d_6161661d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-06-26T13:38:43Z",
+      "side": 1,
+      "message": "maybe we should mention the name of the config option setting this limit receive.maxCommandBytes",
+      "revId": "b825a416e2e9acd335f3eae3367ad7ba41c4ac83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
