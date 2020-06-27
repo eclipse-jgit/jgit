@@ -13,7 +13,6 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
     deps = [
-        "//lib:jsch",
         "//lib:junit",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",
