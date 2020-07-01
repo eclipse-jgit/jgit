@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fecf51a_6aaa7213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-01T22:55:42Z",
+      "side": 1,
+      "message": "Use the imperative when describing what this commit does. E.g. \"Therefore, select the OURS gitlink when we merge in ignoreConflicts mode\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58041c7a_6f125855",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-01T22:55:42Z",
+      "side": 1,
+      "message": "\"satisfy the contract\", I think",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e49cfcf5_d569cfd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-01T22:55:42Z",
+      "side": 1,
+      "message": "Why do we need to consider modeB?",
+      "range": {
+        "startLine": 592,
+        "startChar": 17,
+        "endLine": 592,
+        "endChar": 22
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38231d44_cf4dbb06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-01T22:55:42Z",
+      "side": 1,
+      "message": "From the commit message, I would expect just a new \"if\" block above the existing \"if\" block to handle the conflicting merge part. Is there any reason it cannot be done that way?",
+      "range": {
+        "startLine": 742,
+        "startChar": 3,
+        "endLine": 742,
+        "endChar": 5
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
