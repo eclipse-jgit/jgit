@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
+import org.apache.sshd.server.ServerFactoryManager;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.ssh.SshTestBase;
 import org.eclipse.jgit.lib.Constants;
@@ -174,5 +176,32 @@ public class ApacheSshTest extends SshTestBase {
 						+ "/doesntmatter",
 				defaultCloneDir, null,
 				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	/**
+	 * Test for SSHD-1028. If the server doesn't close sessions, the second
+	 * fetch will fail. Occurs on sshd 2.5.[01].
+	 *
+	 * @throws Exception
+	 *             on errors
+	 * @see <a href=
+	 *      "https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1028">SSHD-1028</a>
+	 */
+	@Test
+	public void testPushWithSessionLimit() throws Exception {
+		server.getProperties().put(ServerFactoryManager.MAX_CONCURRENT_SESSIONS,
+				Integer.valueOf(2));
+		File localClone = cloneWith("ssh://localhost/doesntmatter",
+				defaultCloneDir, null, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
+		// Fetch a couple of times
+		try (Git git = Git.open(localClone)) {
+			git.fetch().call();
+			git.fetch().call();
+		}
 	}
 }

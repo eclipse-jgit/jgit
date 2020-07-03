@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.PropertyResolverUtils;
@@ -295,6 +296,17 @@ public class SshTestGitServer {
 		});
 		server.setKeyboardInteractiveAuthenticator(
 				DefaultKeyboardInteractiveAuthenticator.INSTANCE);
+	}
+
+	/**
+	 * Retrieves the server's property map. This is a live map; changing it
+	 * affects the server.
+	 *
+	 * @return a live map of the server's properties
+	 * @since 5.9
+	 */
+	public Map<String, Object> getProperties() {
+		return server.getProperties();
 	}
 
 	/**
