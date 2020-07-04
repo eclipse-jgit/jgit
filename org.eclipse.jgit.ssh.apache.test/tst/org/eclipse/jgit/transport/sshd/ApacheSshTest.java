@@ -188,7 +188,7 @@ public class ApacheSshTest extends SshTestBase {
 	 *      "https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1028">SSHD-1028</a>
 	 */
 	@Test
-	public void testPushWithSessionLimit() throws Exception {
+	public void testCloneAndFetchWithSessionLimit() throws Exception {
 		server.getProperties().put(ServerFactoryManager.MAX_CONCURRENT_SESSIONS,
 				Integer.valueOf(2));
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
