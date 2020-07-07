@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "6ef84cd0_76a51dde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-07T17:04:11Z",
+      "side": 1,
+      "message": "Hmm...but I thought that in this commit, you\u0027re always choosing OURS? So you shouldn\u0027t be accessing the base at all.",
+      "parentUuid": "9adf1cd2_0062ab61",
+      "range": {
+        "startLine": 592,
+        "startChar": 17,
+        "endLine": 592,
+        "endChar": 22
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38231d44_cf4dbb06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 13
@@ -187,6 +211,30 @@
       "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11850c26_800d6e56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-07-07T17:04:11Z",
+      "side": 1,
+      "message": "If it\u0027s just a refactoring change, can you split it out into its own commit?",
+      "parentUuid": "7575d5ea_fbd32137",
+      "range": {
+        "startLine": 742,
+        "startChar": 3,
+        "endLine": 742,
+        "endChar": 5
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
