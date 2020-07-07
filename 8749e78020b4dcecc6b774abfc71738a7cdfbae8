@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4236f160_6ac99496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-07T01:41:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fecf51a_6aaa7213",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58041c7a_6f125855",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf6e36cf_d927e2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-07T01:41:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58041c7a_6f125855",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9adf1cd2_0062ab61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-07T01:41:40Z",
+      "side": 1,
+      "message": "If we don\u0027t we can try to create a merged file based on the GITLINK base, which will trigger an  exception.",
+      "parentUuid": "e49cfcf5_d569cfd6",
+      "range": {
+        "startLine": 592,
+        "startChar": 17,
+        "endLine": 592,
+        "endChar": 22
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38231d44_cf4dbb06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 13
@@ -91,6 +163,30 @@
       "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7575d5ea_fbd32137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-07T01:41:40Z",
+      "side": 1,
+      "message": "(I assume you mean \"if\" block which had comment \"// Don\u0027t attempt to resolve submodule link conflicts\")\n\nYes, this commit change behavior only for one case (ignore conflicts and git links at the same time). Changes in the next block was made to make it more readable and is used in the next commit.",
+      "parentUuid": "38231d44_cf4dbb06",
+      "range": {
+        "startLine": 742,
+        "startChar": 3,
+        "endLine": 742,
+        "endChar": 5
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
