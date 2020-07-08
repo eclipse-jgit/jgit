@@ -16,6 +16,24 @@
       "revId": "b5406c3ffb7734c20cc81508ac39621389d6ad78",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b58e7b_bde2aa06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-08T07:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15251532_0e8c13e6",
+      "revId": "b5406c3ffb7734c20cc81508ac39621389d6ad78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
