@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15251532_0e8c13e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-07-08T07:12:57Z",
+      "side": 1,
+      "message": "optional: rename l to len ? l and 1 are looking very similar which makes this look confusing",
+      "revId": "b5406c3ffb7734c20cc81508ac39621389d6ad78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
