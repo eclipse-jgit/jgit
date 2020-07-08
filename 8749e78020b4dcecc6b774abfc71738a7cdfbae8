@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "25f23dfd_6bc76178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-08T19:27:34Z",
+      "side": 1,
+      "message": "I\u0027ve illustrated it by test testGitLinkMerging_blobWithBlobFromLink (and several other tests in the next change).\n\nBasically without this check we can assume it should be in-text merge and try to merge with base as well.",
+      "parentUuid": "6ef84cd0_76a51dde",
+      "range": {
+        "startLine": 592,
+        "startChar": 17,
+        "endLine": 592,
+        "endChar": 22
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38231d44_cf4dbb06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 13
@@ -235,6 +259,30 @@
       "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23fdfbe5_5b53f611",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-07-08T19:27:34Z",
+      "side": 1,
+      "message": "It also fixes small case testGitLinkMerging_blobWithBlobFromLink I mentioned above. I can add this to commit message to explain why I touched other case.\n\nPlease say if that doesn\u0027t work for you.",
+      "parentUuid": "11850c26_800d6e56",
+      "range": {
+        "startLine": 742,
+        "startChar": 3,
+        "endLine": 742,
+        "endChar": 5
+      },
+      "revId": "8749e78020b4dcecc6b774abfc71738a7cdfbae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
