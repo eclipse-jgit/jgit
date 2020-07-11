@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc. and others
+ * Copyright (C) 2010, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -123,7 +123,8 @@ public abstract class ContentSource {
 		WorkingTreeIterator ptr;
 
 		WorkingTreeSource(WorkingTreeIterator iterator) {
-			this.tw = new TreeWalk((ObjectReader) null);
+			this.tw = new TreeWalk(iterator.getRepository(),
+					(ObjectReader) null);
 			this.tw.setRecursive(true);
 			this.iterator = iterator;
 		}
@@ -173,6 +174,15 @@ public abstract class ContentSource {
 		private void seek(String path) throws IOException {
 			if (!path.equals(current)) {
 				iterator.reset();
+				// Possibly this iterator had an associated DirCacheIterator,
+				// but we have no access to it and thus don't know about it.
+				// We have to reset this iterator here to work without
+				// DirCacheIterator and to descend always into ignored
+				// directories. Otherwise we might not find tracked files below
+				// ignored folders. Since we're looking only for a single
+				// specific path this is not a performance problem.
+				iterator.setWalkIgnoredDirectories(true);
+				iterator.setDirCacheIterator(null, -1);
 				tw.reset();
 				tw.addTree(iterator);
 				tw.setFilter(PathFilter.create(path));
