@@ -2,7 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2012-2013, Robin Rosenberg and others
+ * Copyright (C) 2012-2020, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -520,6 +520,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	public WorkingTreeOptions getOptions() {
 		return state.options;
+	}
+
+	/**
+	 * Retrieves the {@link Repository} this {@link WorkingTreeIterator}
+	 * operates on.
+	 *
+	 * @return the {@link Repository}
+	 * @since 5.9
+	 */
+	public Repository getRepository() {
+		return repository;
 	}
 
 	/** {@inheritDoc} */
