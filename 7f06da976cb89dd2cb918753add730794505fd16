@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c50737e5_a9239606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-07-17T15:47:48Z",
+      "side": 1,
+      "message": "how about using a fixed thread pool with unbounded LinkedBlockingQueue instead ?\n\n\t\tprivate static final Executor FUTURE_RUNNER \u003d new ThreadPoolExecutor(0,\n\t\t\t\t5, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue\u003cRunnable\u003e(),\n\t\t\t\trunnable -\u003e {\n\t\t\t\t\t...\n\t\t\t\t});\n\n\ndoesn\u0027t spawn unlimited number of additional threads and shows similar performance with the reproducer (in range of 100-1000 threads in reproducer) on my mac:\n\nthreads   time\n\nfixed threadpool up to 5 threads with LinkedBlockingQueue of unlimited queue size\n100       1103 ms\n200       1602 ms\n300       2369 ms\n500       4002 ms\n1000      11071 ms\n\nunbounded cached threadpool\n100       1108 ms\n200       1591 ms\n300       2299 ms\n500       4577 ms\n1000      11196 ms",
+      "revId": "7f06da976cb89dd2cb918753add730794505fd16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
