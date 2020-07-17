@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43dbbdb5_7b812291",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-17T18:08:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is correct. What if the filter is not a path filter, or a path filter combined with some other filters?\n\nPerhaps having a separate filter (and setter) for the submodule walk would be safer?",
+      "revId": "1c5140937db036865a2348dd19598cf69cfef5f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
