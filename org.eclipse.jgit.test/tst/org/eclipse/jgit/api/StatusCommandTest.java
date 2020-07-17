@@ -21,8 +21,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -158,6 +160,33 @@ public class StatusCommandTest extends RepositoryTestCase {
 			config.save();
 			Status status = git.status().call();
 			assertTrue("Expected no differences", status.isClean());
+		}
+	}
+
+	@Test
+	public void testNestedCommittedGitRepoAndPathFilter() throws Exception {
+		commitFile("file.txt", "file", "master");
+		try (Repository inner = new FileRepositoryBuilder()
+				.setWorkTree(new File(db.getWorkTree(), "subgit")).build()) {
+			inner.create();
+			writeTrashFile("subgit/sub.txt", "sub");
+			try (Git outerGit = new Git(db); Git innerGit = new Git(inner)) {
+				innerGit.add().addFilepattern("sub.txt").call();
+				innerGit.commit().setMessage("Inner commit").call();
+				outerGit.add().addFilepattern("subgit").call();
+				outerGit.commit().setMessage("Outer commit").call();
+				assertTrue(innerGit.status().call().isClean());
+				assertTrue(outerGit.status().call().isClean());
+				writeTrashFile("subgit/sub.txt", "sub2");
+				assertFalse(innerGit.status().call().isClean());
+				assertFalse(outerGit.status().call().isClean());
+				assertTrue(
+						outerGit.status().addPath("file.txt").call().isClean());
+				assertTrue(outerGit.status().addPath("doesntexist").call()
+						.isClean());
+				assertFalse(
+						outerGit.status().addPath("subgit").call().isClean());
+			}
 		}
 	}
 }

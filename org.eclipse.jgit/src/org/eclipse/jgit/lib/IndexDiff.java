@@ -568,6 +568,9 @@ public class IndexDiff {
 		if (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL) {
 			try (SubmoduleWalk smw = new SubmoduleWalk(repository)) {
 				smw.setTree(new DirCacheIterator(dirCache));
+				if (filter != null) {
+					smw.setFilter(filter);
+				}
 				smw.setBuilderFactory(factory);
 				while (smw.next()) {
 					IgnoreSubmoduleMode localIgnoreSubmoduleMode = ignoreSubmoduleMode;
