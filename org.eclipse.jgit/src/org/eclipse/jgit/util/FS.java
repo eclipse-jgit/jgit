@@ -52,7 +52,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -235,7 +235,7 @@ public abstract class FS {
 		 * @see java.util.concurrent.Executors#newCachedThreadPool()
 		 */
 		private static final Executor FUTURE_RUNNER = new ThreadPoolExecutor(0,
-				5, 30L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
+				5, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
 				runnable -> {
 					Thread t = new Thread(runnable, "FileStoreAttributeReader-" //$NON-NLS-1$
 							+ threadNumber.getAndIncrement());
