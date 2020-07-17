@@ -16,6 +16,24 @@
       "revId": "7f06da976cb89dd2cb918753add730794505fd16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad3982c_8c6f1cd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-17T17:24:00Z",
+      "side": 1,
+      "message": "Is fine by me. Guess the real problem was the use of a SynchronousQueue.",
+      "parentUuid": "c50737e5_a9239606",
+      "revId": "7f06da976cb89dd2cb918753add730794505fd16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
