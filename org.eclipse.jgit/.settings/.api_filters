@@ -43,6 +43,11 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="337768515">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+            </message_arguments>
+        </filter>
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.1.13"/>
@@ -193,6 +198,13 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/GitProtocolConstants.java" type="org.eclipse.jgit.transport.GitProtocolConstants">
+        <filter id="337768515">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.GitProtocolConstants"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig">
         <filter id="1159725059">
             <message_arguments>
@@ -230,6 +242,13 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="5.1"/>
+                <message_argument value="createNewFileAtomic(File)"/>
+            </message_arguments>
+        </filter>
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="4.5.6"/>
@@ -280,6 +299,15 @@
             <message_arguments>
                 <message_argument value="5.1.9"/>
                 <message_argument value="FileStoreAttributes"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$LockToken">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="5.1"/>
+                <message_argument value="LockToken"/>
             </message_arguments>
         </filter>
     </resource>
