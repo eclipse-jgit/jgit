@@ -120,9 +120,38 @@ import org.eclipse.jgit.util.RefList;
 class PackedBatchRefUpdate extends BatchRefUpdate {
 	private RefDirectory refdb;
 
+	private boolean noLockLooseRefs;
+
 	PackedBatchRefUpdate(RefDirectory refdb) {
 		super(refdb);
 		this.refdb = refdb;
+	}
+
+	/**
+	 * Whether to lock loose refs when updating refs. This must only be used if
+	 * the calling application can guarantee that no other thread or process
+	 * will attempt to update any of the affected refs concurrently.
+	 *
+	 * @param noLockLooseRefs
+	 *            whether to lock loose refs when updating refs
+	 * @return {@code this}
+	 * @since 5.1.14
+	 */
+	public BatchRefUpdate setNoLockLooseRefs(boolean noLockLooseRefs) {
+		this.noLockLooseRefs = noLockLooseRefs;
+		return this;
+	}
+
+	/**
+	 * Whether to lock loose refs when updating refs. This must only be used if
+	 * the calling application can guarantee that no other thread or process
+	 * will attempt to update any of the affected refs concurrently.
+	 *
+	 * @return whether to lock loose refs when updating refs
+	 * @since 5.1.14
+	 */
+	public boolean getNoLockLooseRefs() {
+		return noLockLooseRefs;
 	}
 
 	/** {@inheritDoc} */
@@ -188,17 +217,17 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.inProcessPackedRefsLock.lock();
 		try {
 			PackedRefList oldPackedList;
-			if (!refdb.isInClone()) {
+			if (refdb.isInClone() || noLockLooseRefs) {
+				// During clone locking isn't needed since no refs exist yet.
+				// This also helps to avoid problems with refs only differing in
+				// case on a case insensitive filesystem (bug 528497)
+				oldPackedList = refdb.getPackedRefs();
+			} else {
 				locks = lockLooseRefs(pending);
 				if (locks == null) {
 					return;
 				}
 				oldPackedList = refdb.pack(locks);
-			} else {
-				// During clone locking isn't needed since no refs exist yet.
-				// This also helps to avoid problems with refs only differing in
-				// case on a case insensitive filesystem (bug 528497)
-				oldPackedList = refdb.getPackedRefs();
 			}
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {
