@@ -188,17 +188,17 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.inProcessPackedRefsLock.lock();
 		try {
 			PackedRefList oldPackedList;
-			if (!refdb.isInClone()) {
+			if (refdb.isInClone() || isExclusive()) {
+				// During clone locking isn't needed since no refs exist yet.
+				// This also helps to avoid problems with refs only differing in
+				// case on a case insensitive filesystem (bug 528497)
+				oldPackedList = refdb.getPackedRefs();
+			} else {
 				locks = lockLooseRefs(pending);
 				if (locks == null) {
 					return;
 				}
 				oldPackedList = refdb.pack(locks);
-			} else {
-				// During clone locking isn't needed since no refs exist yet.
-				// This also helps to avoid problems with refs only differing in
-				// case on a case insensitive filesystem (bug 528497)
-				oldPackedList = refdb.getPackedRefs();
 			}
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {

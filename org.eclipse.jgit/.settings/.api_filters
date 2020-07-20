@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="924844039">
-            <message_arguments>
-                <message_argument value="5.1.13"/>
-                <message_argument value="5.1.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/dircache/DirCacheEntry.java" type="org.eclipse.jgit.dircache.DirCacheEntry">
         <filter id="1142947843">
             <message_arguments>
@@ -39,6 +31,20 @@
             <message_arguments>
                 <message_argument value="4.5.7"/>
                 <message_argument value="PackInvalidException(String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/BatchRefUpdate.java" type="org.eclipse.jgit.lib.BatchRefUpdate">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.14"/>
+                <message_argument value="isExclusive()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.14"/>
+                <message_argument value="setExclusive(boolean)"/>
             </message_arguments>
         </filter>
     </resource>
@@ -219,6 +225,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/FileTreeIterator.java" type="org.eclipse.jgit.treewalk.FileTreeIterator$FileEntry">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
         <filter id="1142947843">
             <message_arguments>
@@ -308,6 +322,15 @@
                 <message_argument value="4.7"/>
                 <message_argument value="5.1"/>
                 <message_argument value="LockToken"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS_POSIX.java" type="org.eclipse.jgit.util.FS_POSIX">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="5.0"/>
+                <message_argument value="5.1"/>
+                <message_argument value="createNewFileAtomic(File)"/>
             </message_arguments>
         </filter>
     </resource>

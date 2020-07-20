@@ -124,6 +124,12 @@ public class BatchRefUpdate {
 	private List<ProposedTimestamp> timestamps;
 
 	/**
+	 * whether no other thread or process will attempt to update any of the
+	 * affected refs concurrently
+	 */
+	private boolean exclusive;
+
+	/**
 	 * Initialize a new batch update.
 	 *
 	 * @param refdb
@@ -325,10 +331,38 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Whether this is an offline ref update. Set this if the calling
+	 * application can guarantee that no other thread or process will attempt to
+	 * update any of the affected refs concurrently.
+	 *
+	 * @param exclusive
+	 *            whether no other thread or process will attempt to update any
+	 *            of the affected refs concurrently
+	 * @return {@code this}
+	 * @since 5.1.14
+	 */
+	public BatchRefUpdate setExclusive(boolean exclusive) {
+		this.exclusive = exclusive;
+		return this;
+	}
+
+	/**
+	 * Whether no other thread or process will attempt to update any of the
+	 * affected refs concurrently.
+	 *
+	 * @return whether no other thread or process will attempt to update any of
+	 *         the affected refs concurrently
+	 * @since 5.1.14
+	 */
+	public boolean isExclusive() {
+		return exclusive;
+	}
+
+	/**
 	 * Set a push certificate associated with this update.
 	 * <p>
-	 * This usually includes commands to update the refs in this batch, but is not
-	 * required to.
+	 * This usually includes commands to update the refs in this batch, but is
+	 * not required to.
 	 *
 	 * @param cert
 	 *            push certificate, may be null.
