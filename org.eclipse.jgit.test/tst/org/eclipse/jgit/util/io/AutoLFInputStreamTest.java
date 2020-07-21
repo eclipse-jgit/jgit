@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com> and others
+ * Copyright (C) 2015, 2020 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -17,7 +17,9 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.Function;
 
+import org.eclipse.jgit.util.io.AutoLFInputStream.StreamFlag;
 import org.junit.Test;
 
 public class AutoLFInputStreamTest {
@@ -25,47 +27,65 @@ public class AutoLFInputStreamTest {
 	@Test
 	public void testLF() throws IOException {
 		final byte[] bytes = asBytes("1\n2\n3");
-		test(bytes, bytes, false);
+		test(bytes, bytes);
 	}
 
 	@Test
 	public void testCR() throws IOException {
 		final byte[] bytes = asBytes("1\r2\r3");
-		test(bytes, bytes, false);
+		test(bytes, bytes);
 	}
 
 	@Test
 	public void testCRLF() throws IOException {
-		test(asBytes("1\r\n2\r\n3"), asBytes("1\n2\n3"), false);
+		test(asBytes("1\r\n2\r\n3"), asBytes("1\n2\n3"));
 	}
 
 	@Test
 	public void testLFCR() throws IOException {
 		final byte[] bytes = asBytes("1\n\r2\n\r3");
-		test(bytes, bytes, false);
+		test(bytes, bytes);
 	}
 
 	@Test
 	public void testEmpty() throws IOException {
 		final byte[] bytes = asBytes("");
-		test(bytes, bytes, false);
+		test(bytes, bytes);
 	}
 
 	@Test
 	public void testBinaryDetect() throws IOException {
 		final byte[] bytes = asBytes("1\r\n2\r\n3\0");
-		test(bytes, bytes, true);
+		test(bytes, bytes, StreamFlag.DETECT_BINARY);
 	}
 
 	@Test
 	public void testBinaryDontDetect() throws IOException {
-		test(asBytes("1\r\n2\r\n3\0"), asBytes("1\n2\n3\0"), false);
+		test(asBytes("1\r\n2\r\n3\0"), asBytes("1\n2\n3\0"));
+	}
+
+	@Test
+	public void testCrLf() throws IOException {
+		byte[] bytes = asBytes("1\r\n2\n3\r\n\r");
+		test(bytes, bytes, in -> AutoLFInputStream.create(in,
+				StreamFlag.DETECT_BINARY, StreamFlag.FOR_CHECKOUT));
+	}
+
+	@Test
+	public void testCrLfDontDetect() throws IOException {
+		test(asBytes("1\r\n2\r\n"), asBytes("1\n2\n"),
+				in -> AutoLFInputStream.create(in, StreamFlag.DETECT_BINARY));
+	}
+
+	private static void test(byte[] input, byte[] expected, StreamFlag... flags)
+			throws IOException {
+		test(input, expected, in -> AutoLFInputStream.create(in, flags));
 	}
 
 	private static void test(byte[] input, byte[] expected,
-			boolean detectBinary) throws IOException {
+			Function<InputStream, InputStream> factory) throws IOException {
 		try (InputStream bis1 = new ByteArrayInputStream(input);
-				InputStream cis1 = new AutoLFInputStream(bis1, detectBinary)) {
+				InputStream cis1 = factory.apply(bis1)) {
 			int index1 = 0;
 			for (int b = cis1.read(); b != -1; b = cis1.read()) {
 				assertEquals(expected[index1], (byte) b);
@@ -77,8 +97,7 @@ public class AutoLFInputStreamTest {
 			for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
 				final byte[] buffer = new byte[bufferSize];
 				try (InputStream bis2 = new ByteArrayInputStream(input);
-						InputStream cis2 = new AutoLFInputStream(bis2,
-								detectBinary)) {
+						InputStream cis2 = factory.apply(bis2)) {
 
 					int read = 0;
 					for (int readNow = cis2.read(buffer, 0,
