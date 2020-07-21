@@ -42,7 +42,6 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
@@ -1436,16 +1435,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (eolStreamTypeHolder == null) {
 			EolStreamType type = null;
 			if (state.walk != null) {
-				type = state.walk.getEolStreamType(opType);
-				OperationType operationType = opType != null ? opType
-						: state.walk.getOperationType();
-				if (OperationType.CHECKIN_OP.equals(operationType)
-						&& EolStreamType.AUTO_LF.equals(type)
-						&& hasCrLfInIndex(getDirCacheIterator())) {
-					// If text=auto (or core.autocrlf=true) and the file has
-					// already been committed with CR/LF, then don't convert.
-					type = EolStreamType.DIRECT;
-				}
+				type = state.walk.getEolStreamType(opType,
+						getDirCacheIterator());
 			} else {
 				switch (getOptions().getAutoCRLF()) {
 				case FALSE:
@@ -1460,67 +1451,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			eolStreamTypeHolder = new Holder<>(type);
 		}
 		return eolStreamTypeHolder.get();
-	}
-
-	/**
-	 * Determines whether the file was committed un-normalized. If the iterator
-	 * points to a conflict entry, checks the "ours" version.
-	 *
-	 * @param dirCache
-	 *            iterator pointing to the current entry for the file in the
-	 *            index
-	 * @return {@code true} if the file in the index is not binary and has CR/LF
-	 *         line endings, {@code false} otherwise
-	 */
-	private boolean hasCrLfInIndex(DirCacheIterator dirCache) {
-		if (dirCache == null) {
-			return false;
-		}
-		// Read blob from index and check for CR/LF-delimited text.
-		DirCacheEntry entry = dirCache.getDirCacheEntry();
-		if ((entry.getRawMode() & FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
-			ObjectId blobId = entry.getObjectId();
-			if (entry.getStage() > 0
-					&& entry.getStage() != DirCacheEntry.STAGE_2) {
-				blobId = null;
-				// Merge conflict: check ours (stage 2)
-				byte[] name = entry.getRawPath();
-				int i = 0;
-				while (!dirCache.eof()) {
-					dirCache.next(1);
-					i++;
-					entry = dirCache.getDirCacheEntry();
-					if (entry == null
-							|| !Arrays.equals(name, entry.getRawPath())) {
-						break;
-					}
-					if (entry.getStage() == DirCacheEntry.STAGE_2) {
-						if ((entry.getRawMode()
-								& FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
-							blobId = entry.getObjectId();
-						}
-						break;
-					}
-				}
-				dirCache.back(i);
-			}
-			if (blobId != null) {
-				try (ObjectReader reader = repository.newObjectReader()) {
-					ObjectLoader loader = reader.open(blobId,
-							Constants.OBJ_BLOB);
-					try {
-						return RawText.isCrLfText(loader.getCachedBytes());
-					} catch (LargeObjectException e) {
-						try (InputStream in = loader.openStream()) {
-							return RawText.isCrLfText(in);
-						}
-					}
-				} catch (IOException e) {
-					// Ignore and return false below
-				}
-			}
-		}
-		return false;
 	}
 
 	private boolean isDirectoryIgnored(String pathRel) throws IOException {

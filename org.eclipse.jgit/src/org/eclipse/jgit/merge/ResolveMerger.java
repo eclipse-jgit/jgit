@@ -3,7 +3,7 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
@@ -53,6 +54,7 @@ import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
@@ -477,7 +479,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws IOException
 	 *             if the smudge filter cannot be determined
 	 * @since 5.1
+	 * @deprecated since 5.9; not used by {@link ResolveMerger} anymore. Use
+	 *             {{@link #addCheckoutMetadata(String, ObjectId, Attributes)}
+	 *             instead.
 	 */
+	@Deprecated
 	protected void addCheckoutMetadata(String path, Attributes attributes)
 			throws IOException {
 		if (checkoutMetadata != null) {
@@ -485,6 +491,40 @@ public class ResolveMerger extends ThreeWayMerger {
 					OperationType.CHECKOUT_OP, workingTreeOptions, attributes);
 			CheckoutMetadata data = new CheckoutMetadata(eol,
 					tw.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE));
+			checkoutMetadata.put(path, data);
+		}
+	}
+
+	/**
+	 * Remembers the {@link CheckoutMetadata} for the given path; it may be
+	 * needed in {@link #checkout()} or in {@link #cleanUp()}.
+	 *
+	 * @param path
+	 *            of the current node
+	 * @param blobId
+	 *            for determining correct eol handling
+	 * @param attributes
+	 *            for the current node
+	 * @throws IOException
+	 *             if the smudge filter cannot be determined
+	 * @since 5.9
+	 */
+	protected void addCheckoutMetadata(String path, ObjectId blobId,
+			Attributes attributes) throws IOException {
+		if (checkoutMetadata != null) {
+			EolStreamType eol = EolStreamTypeUtil.detectStreamType(
+					OperationType.CHECKOUT_OP, workingTreeOptions, attributes);
+			if (EolStreamType.AUTO_LF.equals(eol) && isCrLfText(blobId)) {
+				eol = EolStreamType.AUTO_CRLF;
+			}
+			addCheckoutMetadata(path, new CheckoutMetadata(eol,
+					tw.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
+		}
+	}
+
+	private void addCheckoutMetadata(String path,
+			@NonNull CheckoutMetadata data) {
+		if (checkoutMetadata != null) {
 			checkoutMetadata.put(path, data);
 		}
 	}
@@ -506,7 +546,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected void addToCheckout(String path, DirCacheEntry entry,
 			Attributes attributes) throws IOException {
 		toBeCheckedOut.put(path, entry);
-		addCheckoutMetadata(path, attributes);
+		addCheckoutMetadata(path, entry.getObjectId(), attributes);
 	}
 
 	/**
@@ -527,7 +567,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			Attributes attributes) throws IOException {
 		toBeDeleted.add(path);
 		if (isFile) {
-			addCheckoutMetadata(path, attributes);
+			addCheckoutMetadata(path, tw.getObjectId(T_OURS), attributes);
 		}
 	}
 
@@ -597,7 +637,6 @@ public class ResolveMerger extends ThreeWayMerger {
 			return false;
 
 		DirCacheEntry ourDce = null;
-
 		if (index == null || index.getDirCacheEntry() == null) {
 			// create a fake DCE, but only if ours is valid. ours is kept only
 			// in case it is valid, so a null ourDce is ok in all other cases.
@@ -775,13 +814,18 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
-			updateIndex(base, ours, theirs, result, attributes);
+			EolStreamType eol = updateIndex(base, ours, theirs, result, ourDce,
+					attributes);
 			String currentPath = tw.getPathString();
 			if (result.containsConflicts() && !ignoreConflicts) {
 				unmergedPaths.add(currentPath);
 			}
 			modifiedFiles.add(currentPath);
-			addCheckoutMetadata(currentPath, attributes);
+			if (checkoutMetadata != null && eol != null) {
+				CheckoutMetadata data = new CheckoutMetadata(eol,
+						tw.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE));
+				addCheckoutMetadata(currentPath, data);
+			}
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
@@ -795,7 +839,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					// markers). But also stage 0 of the index is filled with
 					// that content.
 					result.setContainsConflicts(false);
-					updateIndex(base, ours, theirs, result, attributes);
+					updateIndex(base, ours, theirs, result, ourDce, attributes);
 				} else {
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
@@ -858,8 +902,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			r.setContainsConflicts(true);
 			return r;
 		}
-		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
-				ourText, theirsText));
+		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
+				ourText, theirsText);
 	}
 
 	private boolean isIndexDirty() {
@@ -916,20 +960,24 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param result
+	 * @param indexEntry
 	 * @param attributes
+	 * @return The {@link EolStreamType} for checking out this file
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void updateIndex(CanonicalTreeParser base,
+	private EolStreamType updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			MergeResult<RawText> result, Attributes attributes)
+			MergeResult<RawText> result, DirCacheEntry indexEntry,
+			Attributes attributes)
 			throws FileNotFoundException,
 			IOException {
 		TemporaryBuffer rawMerged = null;
 		try {
 			rawMerged = doMerge(result);
+			EolStreamType[] eol = { null };
 			File mergedFile = inCore ? null
-					: writeMergedFile(rawMerged, attributes);
+					: writeMergedFile(rawMerged, indexEntry, attributes, eol);
 			if (result.containsConflicts()) {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the
@@ -938,7 +986,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				mergeResults.put(tw.getPathString(), result);
-				return;
+				return eol[0];
 			}
 
 			// No conflict occurred, the file will contain fully merged content.
@@ -958,6 +1006,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 			dce.setObjectId(insertMergeResult(rawMerged, attributes));
 			builder.add(dce);
+			return eol[0];
 		} finally {
 			if (rawMerged != null) {
 				rawMerged.destroy();
@@ -970,15 +1019,20 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @param rawMerged
 	 *            the raw merged content
+	 * @param indexEntry
+	 *            index entry for determining whether the file has CR/LF in the
+	 *            index
 	 * @param attributes
 	 *            the files .gitattributes entries
+	 * @param data
+	 *            returns the {@link EolStreamType} used
 	 * @return the working tree file to which the merged content was written.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private File writeMergedFile(TemporaryBuffer rawMerged,
-			Attributes attributes)
-			throws FileNotFoundException, IOException {
+			DirCacheEntry indexEntry, Attributes attributes,
+			EolStreamType[] data) throws FileNotFoundException, IOException {
 		File workTree = nonNullRepo().getWorkTree();
 		FS fs = nonNullRepo().getFS();
 		File of = new File(workTree, tw.getPathString());
@@ -989,12 +1043,36 @@ public class ResolveMerger extends ThreeWayMerger {
 		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
 				OperationType.CHECKOUT_OP, workingTreeOptions,
 				attributes);
+		if (indexEntry != null && EolStreamType.AUTO_LF.equals(streamType)
+				&& isCrLfText(indexEntry.getObjectId())) {
+			// Don't use DIRECT here, we have to also replace the \n line
+			// endings from the conflict markers.
+			streamType = EolStreamType.AUTO_CRLF;
+		}
+		data[0] = streamType;
 		try (OutputStream os = EolStreamTypeUtil.wrapOutputStream(
 				new BufferedOutputStream(new FileOutputStream(of)),
 				streamType)) {
 			rawMerged.writeTo(os, null);
 		}
 		return of;
+	}
+
+	private boolean isCrLfText(ObjectId blobId) {
+		try {
+			ObjectLoader loader = tw.getObjectReader().open(blobId,
+					Constants.OBJ_BLOB);
+			try {
+				return RawText.isCrLfText(loader.getCachedBytes());
+			} catch (LargeObjectException e) {
+				try (InputStream in = loader.openStream()) {
+					return RawText.isCrLfText(in);
+				}
+			}
+		} catch (IOException e) {
+			// Ignore and return false
+		}
+		return false;
 	}
 
 	private TemporaryBuffer doMerge(MergeResult<RawText> result)

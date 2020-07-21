@@ -4,7 +4,7 @@
  * Copyright (C) 2008, Roger C. Soares <rogersoares@intelinet.com.br>
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Chrisian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2019-2020, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019-2020, Andre Bossert <andre.bossert@siemens.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1214,13 +1214,19 @@ public class DirCacheCheckout {
 
 	private void keep(String path, DirCacheEntry e, WorkingTreeIterator f)
 			throws IOException {
-		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
+		if (e == null) {
+			return;
+		}
+		if (!FileMode.TREE.equals(e.getFileMode())) {
 			builder.add(e);
+		}
 		if (force) {
 			if (f == null || f.isModified(e, true, walk.getObjectReader())) {
 				kept.add(path);
 				checkoutEntry(repo, e, walk.getObjectReader(), false,
-						new CheckoutMetadata(walk.getEolStreamType(CHECKOUT_OP),
+						new CheckoutMetadata(
+								walk.getEolStreamType(CHECKOUT_OP,
+										e.getObjectId()),
 								walk.getFilterCommand(
 										Constants.ATTR_FILTER_TYPE_SMUDGE)));
 			}
@@ -1235,7 +1241,7 @@ public class DirCacheCheckout {
 			throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
 			updated.put(path, new CheckoutMetadata(
-					walk.getEolStreamType(CHECKOUT_OP),
+					walk.getEolStreamType(CHECKOUT_OP, mId),
 					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
 
 			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
