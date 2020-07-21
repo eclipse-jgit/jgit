@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com> and others
+ * Copyright (C) 2015, 2020 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,23 +18,31 @@ import org.eclipse.jgit.diff.RawText;
 
 /**
  * An InputStream that normalizes CRLF to LF.
- *
- * Existing single CR are not changed to LF, but retained as is.
- *
- * Optionally, a binary check on the first 8000 bytes is performed and in case
- * of binary files, canonicalization is turned off (for the complete file).
  * <p>
- * This is the former EolCanonicalizingInputStream with a new name in order to
- * have same naming for all LF / CRLF streams
+ * Existing single CR are not changed to LF but are retained as is.
+ * </p>
+ * <p>
+ * Optionally, a binary check on the first 8000 bytes is performed and in case
+ * of binary files, canonicalization is turned off (for the complete file). If
+ * binary checking determines that the input is CR/LF-delimited text and the
+ * stream has been created for checkout, the stream does <em>not</em> convert
+ * CR/LF to LF but passes them through, and converts lone LF to CR/LF.
+ * </p>
  *
  * @since 4.3
  */
 public class AutoLFInputStream extends InputStream {
+
+	// This is the former EolCanonicalizingInputStream with a new name in order
+	// to have same naming for all LF / CRLF streams.
+
 	private final byte[] single = new byte[1];
 
 	private final byte[] buf = new byte[8096];
 
 	private final InputStream in;
+
+	private final boolean forCheckout;
 
 	private int cnt;
 
@@ -45,6 +53,10 @@ public class AutoLFInputStream extends InputStream {
 	private boolean detectBinary;
 
 	private boolean abortIfBinary;
+
+	private boolean isCrLf;
+
+	private boolean hadCr;
 
 	/**
 	 * A special exception thrown when {@link AutoLFInputStream} is told to
@@ -62,7 +74,7 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
+	 * Creates a new InputStream, wrapping the specified stream.
 	 *
 	 * @param in
 	 *            raw input stream
@@ -75,7 +87,7 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
+	 * Creates a new InputStream, wrapping the specified stream.
 	 *
 	 * @param in
 	 *            raw input stream
@@ -87,9 +99,32 @@ public class AutoLFInputStream extends InputStream {
 	 */
 	public AutoLFInputStream(InputStream in, boolean detectBinary,
 			boolean abortIfBinary) {
+		this(in, detectBinary, abortIfBinary, false);
+	}
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream.
+	 *
+	 * @param forCheckout
+	 *            whether this stream is for Checkout, i.e., reading from a git
+	 *            blob
+	 * @param in
+	 *            raw input stream
+	 * @param detectBinary
+	 *            whether binaries should be detected
+	 * @since 5.9
+	 */
+	public AutoLFInputStream(boolean forCheckout, InputStream in,
+			boolean detectBinary) {
+		this(in, detectBinary, false, forCheckout);
+	}
+
+	private AutoLFInputStream(InputStream in, boolean detectBinary,
+			boolean abortIfBinary, boolean forCheckout) {
 		this.in = in;
 		this.detectBinary = detectBinary;
 		this.abortIfBinary = abortIfBinary;
+		this.forCheckout = forCheckout;
 	}
 
 	/** {@inheritDoc} */
@@ -117,25 +152,63 @@ public class AutoLFInputStream extends InputStream {
 				break;
 			}
 
-			byte b = buf[ptr++];
-			if (isBinary || b != '\r') {
-				// Logic for binary files ends here
-				bs[i++] = b;
-				continue;
-			}
+			if (isBinary) {
+				int toCopy = Math.min(cnt - ptr, end - i);
+				System.arraycopy(buf, ptr, bs, i, toCopy);
+				i += toCopy;
+				ptr += toCopy;
+			} else if (!isCrLf) {
+				// Remove CR from CR/LF, leave lone CR
+				byte b = buf[ptr++];
+				if (b != '\r') {
+					bs[i++] = b;
+					continue;
+				}
 
-			if (ptr == cnt && !fillBuffer()) {
-				bs[i++] = '\r';
-				break;
-			}
+				if (ptr == cnt && !fillBuffer()) {
+					bs[i++] = '\r';
+					break;
+				}
 
-			if (buf[ptr] == '\n') {
-				bs[i++] = '\n';
-				ptr++;
-			} else
-				bs[i++] = '\r';
+				if (buf[ptr] == '\n') {
+					bs[i++] = '\n';
+					ptr++;
+				} else {
+					bs[i++] = '\r';
+				}
+			} else {
+				// Input stream used for checkout, auto-determination discovered
+				// CR/LF in input: pass through CR/LF, insert CR before lone LF
+				byte b = buf[ptr];
+				switch (b) {
+				case '\r':
+					hadCr = true;
+					ptr++;
+					bs[i++] = b;
+					break;
+				case '\n':
+					if (!hadCr) {
+						bs[i++] = '\r';
+						if (i == end) {
+							hadCr = true;
+						} else {
+							ptr++;
+							bs[i++] = b;
+						}
+					} else {
+						hadCr = false;
+						ptr++;
+						bs[i++] = b;
+					}
+					break;
+				default:
+					hadCr = false;
+					ptr++;
+					bs[i++] = b;
+					break;
+				}
+			}
 		}
-
 		return i == off ? -1 : i - off;
 	}
 
@@ -171,8 +244,12 @@ public class AutoLFInputStream extends InputStream {
 		if (detectBinary) {
 			isBinary = RawText.isBinary(buf, cnt);
 			detectBinary = false;
-			if (isBinary && abortIfBinary)
+			if (isBinary && abortIfBinary) {
 				throw new IsBinaryException();
+			}
+			if (!isBinary && forCheckout) {
+				isCrLf = RawText.isCrLfText(buf, cnt);
+			}
 		}
 		ptr = 0;
 		return true;
