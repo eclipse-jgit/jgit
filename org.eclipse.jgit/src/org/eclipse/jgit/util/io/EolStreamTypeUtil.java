@@ -71,7 +71,7 @@ public final class EolStreamTypeUtil {
 
 	/**
 	 * Wrap the input stream depending on
-	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
 	 *
 	 * @param in
 	 *            original stream
@@ -82,6 +82,25 @@ public final class EolStreamTypeUtil {
 	 */
 	public static InputStream wrapInputStream(InputStream in,
 			EolStreamType conversion) {
+				return wrapInputStream(in, conversion, false);
+	}
+
+	/**
+	 * Wrap the input stream depending on
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
+	 *
+	 * @param in
+	 *            original stream
+	 * @param conversion
+	 *            to be performed
+	 * @param forCheckout
+	 *            whether the stream is for checking out from the repository
+	 * @return the converted stream depending on
+	 *         {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * @since 5.9
+	 */
+	public static InputStream wrapInputStream(InputStream in,
+			EolStreamType conversion, boolean forCheckout) {
 		switch (conversion) {
 		case TEXT_CRLF:
 			return new AutoCRLFInputStream(in, false);
@@ -90,7 +109,7 @@ public final class EolStreamTypeUtil {
 		case AUTO_CRLF:
 			return new AutoCRLFInputStream(in, true);
 		case AUTO_LF:
-			return new AutoLFInputStream(in, true);
+			return new AutoLFInputStream(forCheckout, in, true);
 		default:
 			return in;
 		}
@@ -98,7 +117,7 @@ public final class EolStreamTypeUtil {
 
 	/**
 	 * Wrap the output stream depending on
-	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
 	 *
 	 * @param out
 	 *            original stream
