@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2011, 2020 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -455,7 +455,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				continue;
 
 			final EolStreamType eolStreamType = treeWalk
-					.getEolStreamType(CHECKOUT_OP);
+					.getEolStreamType(CHECKOUT_OP, dci);
 			final String filterCommand = treeWalk
 					.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE);
 			editor.add(new PathEdit(path) {
@@ -496,7 +496,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			final ObjectId blobId = treeWalk.getObjectId(0);
 			final FileMode mode = treeWalk.getFileMode(0);
 			final EolStreamType eolStreamType = treeWalk
-					.getEolStreamType(CHECKOUT_OP);
+					.getEolStreamType(CHECKOUT_OP, blobId);
 			final String filterCommand = treeWalk
 					.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE);
 			final String path = treeWalk.getPathString();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2017 GitHub Inc. and others
+ * Copyright (C) 2012, 2020 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -361,7 +361,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					continue;
 
 				final EolStreamType eolStreamType = walk
-						.getEolStreamType(CHECKOUT_OP);
+						.getEolStreamType(CHECKOUT_OP,
+								cIter.getEntryObjectId());
 				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
 				entry.setFileMode(cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
