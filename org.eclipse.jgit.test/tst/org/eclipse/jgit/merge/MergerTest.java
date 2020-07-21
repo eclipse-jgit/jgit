@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, Robin Stocker <robin@nibor.org> and others
+ * Copyright (C) 2012, 2020 Robin Stocker <robin@nibor.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -364,6 +364,48 @@ public class MergerTest extends RepositoryTestCase {
 				.call();
 		assertEquals(MergeResult.MergeStatus.MERGED,
 				mergeResult.getMergeStatus());
+	}
+
+	@Theory
+	public void mergeConflictWithCrLfTextAuto(MergeStrategy strategy)
+			throws IOException, GitAPIException {
+		Git git = Git.wrap(db);
+		writeTrashFile("crlf.txt", "a crlf file\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("base").call();
+		assertEquals("[crlf.txt, mode:100644, content:a crlf file\r\n]",
+				indexState(CONTENT));
+		writeTrashFile(".gitattributes", "crlf.txt text=auto");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("attributes").call();
+
+		git.branchCreate().setName("brancha").call();
+
+		writeTrashFile("crlf.txt", "a crlf file\r\na second line\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("on master").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:crlf.txt text=auto]"
+						+ "[crlf.txt, mode:100644, content:a crlf file\r\na second line\r\n]",
+				indexState(CONTENT));
+
+		git.checkout().setName("brancha").call();
+		File testFile = writeTrashFile("crlf.txt",
+				"a crlf file\r\nanother line\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("on brancha").call();
+
+		MergeResult mergeResult = git.merge().setStrategy(strategy)
+				.include(db.resolve("master")).call();
+		assertEquals(MergeResult.MergeStatus.CONFLICTING,
+				mergeResult.getMergeStatus());
+		checkFile(testFile,
+				"a crlf file\r\n" //
+						+ "<<<<<<< HEAD\n" //
+						+ "another line\r\n" //
+						+ "=======\n" //
+						+ "a second line\r\n" //
+						+ ">>>>>>> 8e9e704742f1bc8a41eac88aac4aeefd338b7384\n");
 	}
 
 	@Theory

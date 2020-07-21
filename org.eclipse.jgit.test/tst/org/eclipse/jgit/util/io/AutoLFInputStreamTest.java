@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com> and others
+ * Copyright (C) 2015, 2020 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.Function;
 
 import org.junit.Test;
 
@@ -62,10 +63,27 @@ public class AutoLFInputStreamTest {
 		test(asBytes("1\r\n2\r\n3\0"), asBytes("1\n2\n3\0"), false);
 	}
 
+	@Test
+	public void testCrLf() throws IOException {
+		byte[] bytes = asBytes("1\r\n2\n3\r\n\r");
+		test(bytes, bytes, in -> new AutoLFInputStream(true, in, true));
+	}
+
+	@Test
+	public void testCrLfDontDetect() throws IOException {
+		test(asBytes("1\r\n2\r\n"), asBytes("1\n2\n"),
+				in -> new AutoLFInputStream(true, in, false));
+	}
+
 	private static void test(byte[] input, byte[] expected,
 			boolean detectBinary) throws IOException {
+		test(input, expected, in -> new AutoLFInputStream(in, detectBinary));
+	}
+
+	private static void test(byte[] input, byte[] expected,
+			Function<InputStream, InputStream> factory) throws IOException {
 		try (InputStream bis1 = new ByteArrayInputStream(input);
-				InputStream cis1 = new AutoLFInputStream(bis1, detectBinary)) {
+				InputStream cis1 = factory.apply(bis1)) {
 			int index1 = 0;
 			for (int b = cis1.read(); b != -1; b = cis1.read()) {
 				assertEquals(expected[index1], (byte) b);
@@ -77,8 +95,7 @@ public class AutoLFInputStreamTest {
 			for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
 				final byte[] buffer = new byte[bufferSize];
 				try (InputStream bis2 = new ByteArrayInputStream(input);
-						InputStream cis2 = new AutoLFInputStream(bis2,
-								detectBinary)) {
+						InputStream cis2 = factory.apply(bis2)) {
 
 					int read = 0;
 					for (int readNow = cis2.read(buffer, 0,
