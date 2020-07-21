@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com> and others
+ * Copyright (C) 2015, 2020 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,32 +13,66 @@ package org.eclipse.jgit.util.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 import org.eclipse.jgit.diff.RawText;
 
 /**
  * An InputStream that normalizes CRLF to LF.
- *
- * Existing single CR are not changed to LF, but retained as is.
- *
- * Optionally, a binary check on the first 8000 bytes is performed and in case
- * of binary files, canonicalization is turned off (for the complete file).
  * <p>
- * This is the former EolCanonicalizingInputStream with a new name in order to
- * have same naming for all LF / CRLF streams
+ * Existing single CR are not changed to LF but are retained as is.
+ * </p>
+ * <p>
+ * Optionally, a binary check on the first 8kB is performed and in case of
+ * binary files, canonicalization is turned off (for the complete file). If
+ * binary checking determines that the input is CR/LF-delimited text and the
+ * stream has been created for checkout, canonicalization is also turned off.
+ * </p>
  *
  * @since 4.3
  */
 public class AutoLFInputStream extends InputStream {
+
+	// This is the former EolCanonicalizingInputStream with a new name in order
+	// to have same naming for all LF / CRLF streams.
+
+	/**
+	 * Flags for controlling auto-detection of binary vs. text content (for
+	 * text=auto).
+	 *
+	 * @since 5.9
+	 */
+	public enum StreamFlag {
+		/**
+		 * Check the first 8kB for binary content and switch off
+		 * canonicalization off for the whole file if so.
+		 */
+		DETECT_BINARY,
+		/**
+		 * If {@link #DETECT_BINARY} is set, throw an {@link IsBinaryException}
+		 * if binary content is detected.
+		 */
+		ABORT_IF_BINARY,
+		/**
+		 * If {@link #DETECT_BINARY} is set and content is found to be CR-LF
+		 * delimited text, switch off canonicalization.
+		 */
+		FOR_CHECKOUT
+	}
+
 	private final byte[] single = new byte[1];
 
-	private final byte[] buf = new byte[8096];
+	private final byte[] buf = new byte[8 * 1024];
 
 	private final InputStream in;
+
+	private final boolean forCheckout;
 
 	private int cnt;
 
 	private int ptr;
+
+	private boolean passAsIs;
 
 	private boolean isBinary;
 
@@ -62,7 +96,7 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
+	 * Creates a new InputStream, wrapping the specified stream.
 	 *
 	 * @param in
 	 *            raw input stream
@@ -75,7 +109,7 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
+	 * Creates a new InputStream, wrapping the specified stream.
 	 *
 	 * @param in
 	 *            raw input stream
@@ -90,6 +124,23 @@ public class AutoLFInputStream extends InputStream {
 		this.in = in;
 		this.detectBinary = detectBinary;
 		this.abortIfBinary = abortIfBinary;
+		this.forCheckout = false;
+	}
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream.
+	 *
+	 * @param in
+	 *            raw input stream
+	 * @param flags
+	 *            {@link StreamFlag}s controlling the stream behavior
+	 * @since 5.9
+	 */
+	public AutoLFInputStream(InputStream in, Set<StreamFlag> flags) {
+		this.in = in;
+		this.detectBinary = flags.contains(StreamFlag.DETECT_BINARY);
+		this.abortIfBinary = flags.contains(StreamFlag.ABORT_IF_BINARY);
+		this.forCheckout = flags.contains(StreamFlag.FOR_CHECKOUT);
 	}
 
 	/** {@inheritDoc} */
@@ -118,7 +169,7 @@ public class AutoLFInputStream extends InputStream {
 			}
 
 			byte b = buf[ptr++];
-			if (isBinary || b != '\r') {
+			if (passAsIs || b != '\r') {
 				// Logic for binary files ends here
 				bs[i++] = b;
 				continue;
@@ -171,8 +222,13 @@ public class AutoLFInputStream extends InputStream {
 		if (detectBinary) {
 			isBinary = RawText.isBinary(buf, cnt);
 			detectBinary = false;
-			if (isBinary && abortIfBinary)
+			if (isBinary && abortIfBinary) {
 				throw new IsBinaryException();
+			}
+			passAsIs = isBinary;
+			if (!passAsIs && forCheckout) {
+				passAsIs = RawText.isCrLfText(buf, cnt);
+			}
 		}
 		ptr = 0;
 		return true;
