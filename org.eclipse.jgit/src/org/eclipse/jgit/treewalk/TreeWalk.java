@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -14,11 +14,14 @@ package org.eclipse.jgit.treewalk;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.Attribute;
@@ -27,10 +30,13 @@ import org.eclipse.jgit.attributes.AttributesHandler;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.attributes.AttributesProvider;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -41,6 +47,7 @@ import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -584,6 +591,19 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	/**
 	 * Get the EOL stream type of the current entry using the config and
 	 * {@link #getAttributes()}.
+	 * <p>
+	 * If the attributes or config result in {@link EolStreamType#AUTO_LF}, this
+	 * version tries to determine whether the file has been committed as a text
+	 * file with CR/LF line endings already by looking at the index or the last
+	 * commit tree of the walk that is at the walk's current head.
+	 * </p>
+	 * <p>
+	 * In general, it is better to use
+	 * {@link #getEolStreamType(OperationType, DirCacheIterator)} if you know
+	 * that the index should be used, or
+	 * {@link #getEolStreamType(OperationType, AnyObjectId)} with the object id
+	 * obtained from the appropriate commit tree.
+	 * </p>
 	 *
 	 * @param opType
 	 *            the operationtype (checkin/checkout) which should be used
@@ -595,11 +615,155 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	@Nullable
 	public EolStreamType getEolStreamType(OperationType opType) {
+		return getEolStreamType(opType, (AnyObjectId) null);
+	}
+
+	/**
+	 * Get the EOL stream type of the current entry using the config and
+	 * {@link #getAttributes()}.
+	 *
+	 * @param opType
+	 *            the operationtype (checkin/checkout) which should be used
+	 * @param objectId
+	 *            of a committed object to determine correct eol handling
+	 * @return the EOL stream type of the current entry using the config and
+	 *         {@link #getAttributes()}. Note that this method may return null
+	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
+	 *         a working tree
+	 * @since 5.9
+	 */
+	@Nullable
+	public EolStreamType getEolStreamType(OperationType opType,
+			AnyObjectId objectId) {
 		if (attributesNodeProvider == null || config == null)
 			return null;
-		return EolStreamTypeUtil.detectStreamType(
-				opType != null ? opType : operationType,
-					config.get(WorkingTreeOptions.KEY), getAttributes());
+		OperationType op = opType != null ? opType : operationType;
+		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(op,
+				config.get(WorkingTreeOptions.KEY), getAttributes());
+		// If the file has been committed with CR/LF and text=auto is set,
+		// no conversion is done. For check-in return DIRECT, for check-out,
+		// use AUTO_CRLF as that will also replace single \n line endings
+		// in merge conflict markers.
+		if (streamType == EolStreamType.AUTO_LF
+				&& isCommittedWithCrLf(objectId)) {
+			return op == OperationType.CHECKIN_OP ? EolStreamType.DIRECT
+					: EolStreamType.AUTO_CRLF;
+		}
+		return streamType;
+	}
+
+	/**
+	 * Get the EOL stream type of the current entry using the config and
+	 * {@link #getAttributes()}.
+	 *
+	 * @param opType
+	 *            the operationtype (checkin/checkout) which should be used
+	 * @param index
+	 *            for determining correct eol handling
+	 * @return the EOL stream type of the current entry using the config and
+	 *         {@link #getAttributes()}. Note that this method may return null
+	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
+	 *         a working tree
+	 * @since 5.9
+	 */
+	@Nullable
+	public EolStreamType getEolStreamType(OperationType opType,
+			DirCacheIterator index) {
+		if (attributesNodeProvider == null || config == null)
+			return null;
+		OperationType op = opType != null ? opType : operationType;
+		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(op,
+				config.get(WorkingTreeOptions.KEY), getAttributes());
+		if (index != null && streamType == EolStreamType.AUTO_LF
+				&& hasCrLf(findBlobId(index))) {
+			return op == OperationType.CHECKIN_OP ? EolStreamType.DIRECT
+					: EolStreamType.AUTO_CRLF;
+		}
+		return streamType;
+	}
+
+	private boolean isCommittedWithCrLf(AnyObjectId objectId) {
+		AnyObjectId blobId = objectId;
+		if (blobId == null) {
+			// If we have a DirCacheIterator, ask that. Otherwise there may be
+			// several CanonicalTreeParsers.
+			DirCacheIterator index = getTree(DirCacheIterator.class);
+			if (index != null) {
+				blobId = findBlobId(index);
+			}
+			if (blobId == null) {
+				CanonicalTreeParser ci = null;
+				for (int i = trees.length - 1; i >= 0; i--) {
+					if ((getRawMode(i)
+							& FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
+						// This iterator is on the walk's current head, and it's
+						// a file.
+						if (trees[i] instanceof CanonicalTreeParser) {
+							ci = (CanonicalTreeParser) trees[i];
+							break;
+						}
+					}
+				}
+				if (ci != null) {
+					blobId = ci.getEntryObjectId();
+				}
+			}
+		}
+		return hasCrLf(blobId);
+	}
+
+	private boolean hasCrLf(AnyObjectId blobId) {
+		if (blobId != null) {
+			try {
+				ObjectLoader loader = reader.open(blobId, Constants.OBJ_BLOB);
+				try {
+					return RawText.isCrLfText(loader.getCachedBytes());
+				} catch (LargeObjectException e) {
+					try (InputStream in = loader.openStream()) {
+						return RawText.isCrLfText(in);
+					}
+				}
+			} catch (IOException e) {
+				// Ignore and return false below
+			}
+		}
+		return false;
+	}
+
+	private AnyObjectId findBlobId(@NonNull DirCacheIterator index) {
+		AnyObjectId blobId = null;
+		if (((AbstractTreeIterator) index).matches == currentHead) {
+			DirCacheEntry entry = index.getDirCacheEntry();
+			if ((entry.getRawMode()
+					& FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
+				blobId = entry.getObjectId();
+				if (entry.getStage() > 0
+						&& entry.getStage() != DirCacheEntry.STAGE_2) {
+					blobId = null;
+					// Merge conflict: check ours (stage 2)
+					byte[] name = entry.getRawPath();
+					int i = 0;
+					while (!index.eof()) {
+						index.next(1);
+						i++;
+						entry = index.getDirCacheEntry();
+						if (entry == null
+								|| !Arrays.equals(name, entry.getRawPath())) {
+							break;
+						}
+						if (entry.getStage() == DirCacheEntry.STAGE_2) {
+							if ((entry.getRawMode()
+									& FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
+								blobId = entry.getObjectId();
+							}
+							break;
+						}
+					}
+					index.back(i);
+				}
+			}
+		}
+		return blobId;
 	}
 
 	/**
