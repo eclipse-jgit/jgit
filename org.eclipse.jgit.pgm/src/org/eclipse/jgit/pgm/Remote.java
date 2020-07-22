@@ -55,7 +55,7 @@ class Remote extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			if (command == null) {
 				RemoteListCommand cmd = git.remoteList();
 				List<RemoteConfig> remotes = cmd.call();
@@ -84,7 +84,7 @@ class Remote extends TextBuiltin {
 				break;
 			case "update": //$NON-NLS-1$
 				Fetch fetch = new Fetch();
-				fetch.init(db, gitdir);
+				fetch.init(repo, gitdir);
 				StringWriter osw = new StringWriter();
 				fetch.outw = new ThrowingPrintWriter(osw);
 				StringWriter esw = new StringWriter();

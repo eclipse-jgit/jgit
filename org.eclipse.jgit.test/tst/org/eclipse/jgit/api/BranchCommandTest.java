@@ -52,7 +52,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		// checkout master
 		git.commit().setMessage("initial commit").call();
 		// commit something
@@ -63,7 +63,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("Test.txt").call();
 		secondCommit = git.commit().setMessage("Second commit").call();
 		// create a master branch
-		RefUpdate rup = db.updateRef("refs/heads/master");
+		RefUpdate rup = repository.updateRef("refs/heads/master");
 		rup.setNewObjectId(initialCommit.getId());
 		rup.setForceUpdate(true);
 		rup.update();
@@ -243,7 +243,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCreateFromLightweightTag() throws Exception {
-		RefUpdate rup = db.updateRef("refs/tags/V10");
+		RefUpdate rup = repository.updateRef("refs/tags/V10");
 		rup.setNewObjectId(initialCommit);
 		rup.setExpectedOldObjectId(ObjectId.zeroId());
 		rup.update();
@@ -454,14 +454,14 @@ public class BranchCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCreationImplicitStart() throws Exception {
 		git.branchCreate().setName("topic").call();
-		assertEquals(db.resolve("HEAD"), db.resolve("topic"));
+		assertEquals(repository.resolve("HEAD"), repository.resolve("topic"));
 	}
 
 	@Test
 	public void testCreationNullStartPoint() throws Exception {
 		String startPoint = null;
 		git.branchCreate().setName("topic").setStartPoint(startPoint).call();
-		assertEquals(db.resolve("HEAD"), db.resolve("topic"));
+		assertEquals(repository.resolve("HEAD"), repository.resolve("topic"));
 	}
 
 	public Ref createBranch(Git actGit, String name, boolean force,

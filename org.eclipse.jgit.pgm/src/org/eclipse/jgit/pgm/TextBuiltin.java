@@ -101,7 +101,7 @@ public abstract class TextBuiltin {
 	protected OutputStream errs;
 
 	/** Git repository the command was invoked within. */
-	protected Repository db;
+	protected Repository repo;
 
 	/** Directory supplied via --git-dir command line option. */
 	protected String gitdir;
@@ -116,7 +116,7 @@ public abstract class TextBuiltin {
 	/**
 	 * If this command requires a repository.
 	 *
-	 * @return true if {@link #db}/{@link #getRepository()} is required
+	 * @return true if {@link #repo}/{@link #getRepository()} is required
 	 */
 	protected boolean requiresRepository() {
 		return true;
@@ -195,10 +195,10 @@ public abstract class TextBuiltin {
 				new OutputStreamWriter(errs, charset)));
 
 		if (repository != null && repository.getDirectory() != null) {
-			db = repository;
+			repo = repository;
 			gitdir = repository.getDirectory().getAbsolutePath();
 		} else {
-			db = repository;
+			repo = repository;
 			gitdir = gitDir;
 		}
 	}
@@ -365,11 +365,11 @@ public abstract class TextBuiltin {
 	 * @return the repository this command accesses.
 	 */
 	public Repository getRepository() {
-		return db;
+		return repo;
 	}
 
 	ObjectId resolve(String s) throws IOException {
-		final ObjectId r = db.resolve(s);
+		final ObjectId r = repo.resolve(s);
 		if (r == null)
 			throw die(MessageFormat.format(CLIText.get().notARevision, s));
 		return r;

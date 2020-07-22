@@ -45,7 +45,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	@Test
 	public void commandWithNullPath() throws GitAPIException {
 		try {
-			new SubmoduleAddCommand(db).setURI("uri").call().close();
+			new SubmoduleAddCommand(repository).setURI("uri").call().close();
 			fail("Exception not thrown");
 		} catch (IllegalArgumentException e) {
 			assertEquals(JGitText.get().pathNotConfigured, e.getMessage());
@@ -55,7 +55,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	@Test
 	public void commandWithEmptyPath() throws GitAPIException {
 		try {
-			new SubmoduleAddCommand(db).setPath("").setURI("uri").call()
+			new SubmoduleAddCommand(repository).setPath("").setURI("uri").call()
 					.close();
 			fail("Exception not thrown");
 		} catch (IllegalArgumentException e) {
@@ -66,7 +66,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	@Test
 	public void commandWithNullUri() throws GitAPIException {
 		try {
-			new SubmoduleAddCommand(db).setPath("sub").call().close();
+			new SubmoduleAddCommand(repository).setPath("sub").call().close();
 			fail("Exception not thrown");
 		} catch (IllegalArgumentException e) {
 			assertEquals(JGitText.get().uriNotConfigured, e.getMessage());
@@ -76,7 +76,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	@Test
 	public void commandWithEmptyUri() throws GitAPIException {
 		try {
-			new SubmoduleAddCommand(db).setPath("sub").setURI("").call()
+			new SubmoduleAddCommand(repository).setPath("sub").setURI("").call()
 					.close();
 			fail("Exception not thrown");
 		} catch (IllegalArgumentException e) {
@@ -86,15 +86,15 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void addSubmodule() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			String path = "sub";
 			command.setPath(path);
-			String uri = db.getDirectory().toURI().toString();
+			String uri = repository.getDirectory().toURI().toString();
 			command.setURI(uri);
 			ObjectId subCommit;
 			try (Repository repo = command.call()) {
@@ -102,7 +102,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				subCommit = repo.resolve(Constants.HEAD);
 			}
 
-			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 				generator.loadModulesConfig();
 				assertTrue(generator.next());
 				assertEquals(path, generator.getModuleName());
@@ -116,7 +116,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 					assertEquals(subCommit, commit);
 				}
 			}
-			Status status = Git.wrap(db).status().call();
+			Status status = Git.wrap(repository).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
 			assertTrue(status.getAdded().contains(path));
 		}
@@ -124,17 +124,17 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void addSubmoduleWithName() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			String name = "testsub";
 			command.setName(name);
 			String path = "sub";
 			command.setPath(path);
-			String uri = db.getDirectory().toURI().toString();
+			String uri = repository.getDirectory().toURI().toString();
 			command.setURI(uri);
 			ObjectId subCommit;
 			try (Repository repo = command.call()) {
@@ -142,7 +142,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				subCommit = repo.resolve(Constants.HEAD);
 			}
 
-			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 				generator.loadModulesConfig();
 				assertTrue(generator.next());
 				assertEquals(name, generator.getModuleName());
@@ -156,7 +156,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 					assertEquals(subCommit, commit);
 				}
 			}
-			Status status = Git.wrap(db).status().call();
+			Status status = Git.wrap(repository).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
 			assertTrue(status.getAdded().contains(path));
 		}
@@ -167,7 +167,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -179,7 +179,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		command.setPath(path);
 		command.setURI("git://server/repo.git");
 		try {
@@ -194,7 +194,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void addSubmoduleWithInvalidPath() throws Exception {
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		command.setPath("-invalid-path");
 		command.setName("sub");
 		command.setURI("http://example.com/repo/x.git");
@@ -209,7 +209,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void addSubmoduleWithInvalidUri() throws Exception {
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		command.setPath("valid-path");
 		command.setURI("-upstream");
 		try {
@@ -222,12 +222,12 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void addSubmoduleWithRelativeUri() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			String path = "sub";
 			String uri = "./.git";
 			command.setPath(path);
@@ -236,13 +236,13 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 				assertTrue(generator.next());
 				assertEquals(path, generator.getPath());
 				assertEquals(commit, generator.getObjectId());
 				assertEquals(uri, generator.getModulesUrl());
 				assertEquals(path, generator.getModulesPath());
-				String fullUri = db.getDirectory().getAbsolutePath();
+				String fullUri = repository.getDirectory().getAbsolutePath();
 				if (File.separatorChar == '\\') {
 					fullUri = fullUri.replace('\\', '/');
 				}
@@ -258,7 +258,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			}
 			assertEquals(commit, repo.resolve(Constants.HEAD));
 
-			Status status = Git.wrap(db).status().call();
+			Status status = Git.wrap(repository).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
 			assertTrue(status.getAdded().contains(path));
 		}
@@ -271,21 +271,21 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		String path2 = "sub2";
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				path1, ConfigConstants.CONFIG_KEY_PATH, path1);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				path1, ConfigConstants.CONFIG_KEY_URL, url1);
 		modulesConfig.save();
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			assertNotNull(git.commit().setMessage("create file").call());
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			command.setPath(path2);
-			String url2 = db.getDirectory().toURI().toString();
+			String url2 = repository.getDirectory().toURI().toString();
 			command.setURI(url2);
 			Repository r = command.call();
 			assertNotNull(r);
@@ -309,10 +309,10 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
 	public void denySubmoduleWithDotDot() throws Exception {
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		command.setName("dir/../");
 		command.setPath("sub");
-		command.setURI(db.getDirectory().toURI().toString());
+		command.setURI(repository.getDirectory().toURI().toString());
 		try {
 			command.call();
 			fail();

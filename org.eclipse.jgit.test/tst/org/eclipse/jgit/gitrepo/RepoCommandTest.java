@@ -186,7 +186,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	@Test
 	public void runTwiceIsNOP() throws Exception {
 		try (Repository child = cloneRepository(groupADb, true);
-				Repository dest = cloneRepository(db, true)) {
+				Repository dest = cloneRepository(repository, true)) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 					.append("<manifest>")
@@ -223,7 +223,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	@Test
 	public void androidSetup() throws Exception {
 		try (Repository child = cloneRepository(groupADb, true);
-				Repository dest = cloneRepository(db, true)) {
+				Repository dest = cloneRepository(repository, true)) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 					.append("<manifest>")
@@ -269,7 +269,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("<project path=\"base\" name=\"platform/base\" />")
 			.append("</manifest>");
 
-		try (Repository dest = cloneRepository(db, true)) {
+		try (Repository dest = cloneRepository(repository, true)) {
 			RevCommit commit = new RepoCommand(dest)
 					.setInputStream(new ByteArrayInputStream(
 							xmlContent.toString().getBytes(UTF_8)))
@@ -296,7 +296,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	@Test
 	public void gerritSetup() throws Exception {
 		try (Repository child = cloneRepository(groupADb, true);
-				Repository dest = cloneRepository(db, true)) {
+				Repository dest = cloneRepository(repository, true)) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 					.append("<manifest>")
@@ -334,7 +334,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	@Test
 	public void absoluteRemoteURL() throws Exception {
 		try (Repository child = cloneRepository(groupADb, true);
-				Repository dest = cloneRepository(db, true)) {
+				Repository dest = cloneRepository(repository, true)) {
 			String abs = "https://chromium.googlesource.com";
 			String repoUrl = "https://chromium.googlesource.com/chromium/src";
 			boolean fetchSlash = false;
@@ -389,7 +389,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	@Test
 	public void absoluteRemoteURLAbsoluteTargetURL() throws Exception {
 		try (Repository child = cloneRepository(groupADb, true);
-				Repository dest = cloneRepository(db, true)) {
+				Repository dest = cloneRepository(repository, true)) {
 			String abs = "https://chromium.googlesource.com";
 			String repoUrl = "https://chromium.googlesource.com/chromium/src";
 			boolean fetchSlash = false;
@@ -452,11 +452,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
 		assertContents(hello.toPath(), "master world");
 	}
@@ -664,11 +664,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
 				UTF_8)) {
 			String content = reader.readLine();
@@ -691,11 +691,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		assertContents(hello.toPath(), "branch world");
 	}
 
@@ -713,11 +713,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		assertContents(hello.toPath(), "branch world");
 	}
 
@@ -1210,11 +1210,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		assertContents(hello.toPath(), "branch world");
 	}
 
@@ -1232,11 +1232,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(db);
-		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+		RepoCommand command = new RepoCommand(repository);
+		command.setPath(repository.getWorkTree().getAbsolutePath() + "/manifest.xml")
 			.setURI(rootUri)
 			.call();
-		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		File hello = new File(repository.getWorkTree(), "foo/hello.txt");
 		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
 				UTF_8)) {
 			String content = reader.readLine();

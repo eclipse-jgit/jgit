@@ -146,26 +146,26 @@ class Diff extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		diffFmt.setRepository(db);
+		diffFmt.setRepository(repo);
 		try {
 			if (cached) {
 				if (oldTree == null) {
-					ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
+					ObjectId head = repo.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
 					if (head == null) {
 						die(MessageFormat.format(CLIText.get().notATree, HEAD));
 					}
 					CanonicalTreeParser p = new CanonicalTreeParser();
-					try (ObjectReader reader = db.newObjectReader()) {
+					try (ObjectReader reader = repo.newObjectReader()) {
 						p.reset(reader, head);
 					}
 					oldTree = p;
 				}
-				newTree = new DirCacheIterator(db.readDirCache());
+				newTree = new DirCacheIterator(repo.readDirCache());
 			} else if (oldTree == null) {
-				oldTree = new DirCacheIterator(db.readDirCache());
-				newTree = new FileTreeIterator(db);
+				oldTree = new DirCacheIterator(repo.readDirCache());
+				newTree = new FileTreeIterator(repo);
 			} else if (newTree == null) {
-				newTree = new FileTreeIterator(db);
+				newTree = new FileTreeIterator(repo);
 			}
 
 			TextProgressMonitor pm = new TextProgressMonitor(errw);

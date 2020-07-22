@@ -144,7 +144,7 @@ class Show extends TextBuiltin {
 	@SuppressWarnings("boxing")
 	@Override
 	protected void run() {
-		diffFmt.setRepository(db);
+		diffFmt.setRepository(repo);
 		try {
 			diffFmt.setPathFilter(pathFilter);
 			if (detectRenames != null) {
@@ -157,12 +157,12 @@ class Show extends TextBuiltin {
 
 			ObjectId objectId;
 			if (objectName == null) {
-				objectId = db.resolve(Constants.HEAD);
+				objectId = repo.resolve(Constants.HEAD);
 			} else {
-				objectId = db.resolve(objectName);
+				objectId = repo.resolve(objectName);
 			}
 
-			try (RevWalk rw = new RevWalk(db)) {
+			try (RevWalk rw = new RevWalk(repo)) {
 				RevObject obj = rw.parseAny(objectId);
 				while (obj instanceof RevTag) {
 					show((RevTag) obj);
@@ -184,7 +184,7 @@ class Show extends TextBuiltin {
 					break;
 
 				case Constants.OBJ_BLOB:
-					db.open(obj, obj.getType()).copyTo(System.out);
+					repo.open(obj, obj.getType()).copyTo(System.out);
 					outw.flush();
 					break;
 
@@ -231,7 +231,7 @@ class Show extends TextBuiltin {
 
 	private void show(RevTree obj) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.reset();
 			walk.addTree(obj);
 

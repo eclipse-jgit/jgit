@@ -32,7 +32,7 @@ class IndexPack extends TextBuiltin {
 	@Override
 	protected void run() {
 		BufferedInputStream in = new BufferedInputStream(ins);
-		try (ObjectInserter inserter = db.newObjectInserter()) {
+		try (ObjectInserter inserter = repo.newObjectInserter()) {
 			PackParser p = inserter.newPackParser(in);
 			p.setAllowThin(fixThin);
 			if (indexVersion != -1 && p instanceof ObjectDirectoryPackParser) {

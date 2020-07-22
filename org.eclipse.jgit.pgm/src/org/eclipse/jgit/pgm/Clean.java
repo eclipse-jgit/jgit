@@ -35,7 +35,7 @@ class Clean extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			boolean requireForce = git.getRepository().getConfig()
 					.getBoolean("clean", "requireForce", true); //$NON-NLS-1$ //$NON-NLS-2$
 			if (requireForce && !(force || dryRun)) {

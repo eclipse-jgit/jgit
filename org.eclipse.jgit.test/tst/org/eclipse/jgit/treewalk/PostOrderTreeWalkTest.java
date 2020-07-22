@@ -27,14 +27,14 @@ import org.junit.Test;
 public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	@Test
 	public void testInitialize_NoPostOrder() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			assertFalse(tw.isPostOrderTraversal());
 		}
 	}
 
 	@Test
 	public void testInitialize_TogglePostOrder() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			assertFalse(tw.isPostOrderTraversal());
 			tw.setPostOrderTraversal(true);
 			assertTrue(tw.isPostOrderTraversal());
@@ -45,7 +45,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testResetDoesNotAffectPostOrder() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setPostOrderTraversal(true);
 			assertTrue(tw.isPostOrderTraversal());
 			tw.reset();
@@ -60,7 +60,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testNoPostOrder() throws Exception {
-		final DirCache tree = db.readDirCache();
+		final DirCache tree = repository.readDirCache();
 		final DirCacheBuilder b = tree.builder();
 
 		b.add(makeFile("a"));
@@ -71,7 +71,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		b.finish();
 		assertEquals(4, tree.getEntryCount());
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setPostOrderTraversal(false);
 			tw.addTree(new DirCacheIterator(tree));
 
@@ -88,7 +88,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testWithPostOrder_EnterSubtree() throws Exception {
-		final DirCache tree = db.readDirCache();
+		final DirCache tree = repository.readDirCache();
 		final DirCacheBuilder b = tree.builder();
 
 		b.add(makeFile("a"));
@@ -99,7 +99,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		b.finish();
 		assertEquals(4, tree.getEntryCount());
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setPostOrderTraversal(true);
 			tw.addTree(new DirCacheIterator(tree));
 
@@ -122,7 +122,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testWithPostOrder_NoEnterSubtree() throws Exception {
-		final DirCache tree = db.readDirCache();
+		final DirCache tree = repository.readDirCache();
 		final DirCacheBuilder b = tree.builder();
 
 		b.add(makeFile("a"));
@@ -133,7 +133,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		b.finish();
 		assertEquals(4, tree.getEntryCount());
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setPostOrderTraversal(true);
 			tw.addTree(new DirCacheIterator(tree));
 

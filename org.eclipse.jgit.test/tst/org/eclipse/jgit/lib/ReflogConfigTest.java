@@ -29,9 +29,9 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// check that there are no entries in the reflog and turn off writing
 		// reflogs
-		assertTrue(db.getReflogReader(Constants.HEAD).getReverseEntries()
+		assertTrue(repository.getReflogReader(Constants.HEAD).getReverseEntries()
 				.isEmpty());
-		final FileBasedConfig cfg = db.getConfig();
+		final FileBasedConfig cfg = repository.getConfig();
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
 
@@ -39,7 +39,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// written
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue("Reflog for HEAD still contain no entry", db
+		assertTrue("Reflog for HEAD still contain no entry", repository
 				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
 
 		// set the logAllRefUpdates parameter to true and check it
@@ -55,7 +55,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		commitTime += 60 * 1000;
 		assertTrue(
 				"Reflog for HEAD should contain one entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
+				repository.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
 
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
@@ -70,7 +70,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		commitTime += 60 * 1000;
 		assertTrue(
 				"Reflog for HEAD should contain two entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
+				repository.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
 
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setEnum("core", null, "logallrefupdates",
@@ -84,7 +84,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// do one commit and check that reflog size is 3
 		commit("A Commit\n", commitTime, tz);
 		assertTrue("Reflog for HEAD should contain three entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries()
+				repository.getReflogReader(Constants.HEAD).getReverseEntries()
 						.size() == 3);
 	}
 
@@ -95,14 +95,14 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		commit.setCommitter(new PersonIdent(committer, commitTime, tz));
 		commit.setMessage(commitMsg);
 		ObjectId id;
-		try (ObjectInserter inserter = db.newObjectInserter()) {
+		try (ObjectInserter inserter = repository.newObjectInserter()) {
 			commit.setTreeId(inserter.insert(new TreeFormatter()));
 			id = inserter.insert(commit);
 			inserter.flush();
 		}
 
 		int nl = commitMsg.indexOf('\n');
-		final RefUpdate ru = db.updateRef(Constants.HEAD);
+		final RefUpdate ru = repository.updateRef(Constants.HEAD);
 		ru.setNewObjectId(id);
 		ru.setRefLogMessage("commit : "
 				+ ((nl == -1) ? commitMsg : commitMsg.substring(0, nl)), false);

@@ -92,7 +92,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 	}
 
 	@Override
@@ -716,14 +716,14 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	private void beginWalk() throws NoWorkTreeException, IOException {
-		walk = new TreeWalk(db);
-		walk.addTree(new FileTreeIterator(db));
-		walk.addTree(new DirCacheIterator(db.readDirCache()));
+		walk = new TreeWalk(repository);
+		walk.addTree(new FileTreeIterator(repository));
+		walk.addTree(new DirCacheIterator(repository.readDirCache()));
 
-		ci_walk = new TreeWalk(db);
+		ci_walk = new TreeWalk(repository);
 		ci_walk.setOperationType(OperationType.CHECKIN_OP);
-		ci_walk.addTree(new FileTreeIterator(db));
-		ci_walk.addTree(new DirCacheIterator(db.readDirCache()));
+		ci_walk.addTree(new FileTreeIterator(repository));
+		ci_walk.addTree(new DirCacheIterator(repository.readDirCache()));
 	}
 
 	/**
@@ -821,7 +821,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 		}
 		JGitTestUtil.write(customAttributeFile,
 				attributesFileContent.toString());
-		db.getConfig().setString("core", null, "attributesfile",
+		repository.getConfig().setString("core", null, "attributesfile",
 				customAttributeFile.getAbsolutePath());
 		return customAttributeFile;
 	}

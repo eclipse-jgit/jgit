@@ -49,7 +49,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		transport = new MockTransport(db, new URIish());
+		transport = new MockTransport(repository, new URIish());
 		refUpdates = new HashSet<>();
 		advertisedRefs = new HashSet<>();
 		connectionUpdateStatus = Status.OK;
@@ -62,7 +62,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateFastForward() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -78,7 +78,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateNonFastForwardUnknownObject() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -94,7 +94,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateNonFastForward() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"ac7e7e44c1885efb472ad54a78327d66bfc4ecef",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -109,7 +109,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateNonFastForwardForced() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"ac7e7e44c1885efb472ad54a78327d66bfc4ecef",
 				"refs/heads/master", true, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -124,7 +124,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateCreateRef() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"ac7e7e44c1885efb472ad54a78327d66bfc4ecef",
 				"refs/heads/master", false, null, null);
 		testOneUpdateStatus(rru, null, Status.OK, Boolean.TRUE);
@@ -137,7 +137,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateDelete() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db, (String) null,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository, (String) null,
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
 				ObjectId.fromString("2c349335b7f797072cf729c4f3bb0914ecb6dec9"));
@@ -152,7 +152,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateDeleteNonExisting() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db, (String) null,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository, (String) null,
 				"refs/heads/master", false, null, null);
 		testOneUpdateStatus(rru, null, Status.NON_EXISTING, null);
 	}
@@ -164,7 +164,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateUpToDate() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -179,7 +179,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateExpectedRemote() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, ObjectId
 						.fromString("ac7e7e44c1885efb472ad54a78327d66bfc4ecef"));
@@ -196,7 +196,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateUnexpectedRemote() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, ObjectId
 						.fromString("0000000000000000000000000000000000000001"));
@@ -214,7 +214,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateUnexpectedRemoteVsForce() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", true, null, ObjectId
 						.fromString("0000000000000000000000000000000000000001"));
@@ -231,7 +231,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testUpdateRejectedByConnection() throws IOException {
 		connectionUpdateStatus = Status.REJECTED_OTHER_REASON;
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -247,11 +247,11 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testUpdateMixedCases() throws IOException {
-		final RemoteRefUpdate rruOk = new RemoteRefUpdate(db, (String) null,
+		final RemoteRefUpdate rruOk = new RemoteRefUpdate(repository, (String) null,
 				"refs/heads/master", false, null, null);
 		final Ref refToChange = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
 				ObjectId.fromString("2c349335b7f797072cf729c4f3bb0914ecb6dec9"));
-		final RemoteRefUpdate rruReject = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rruReject = new RemoteRefUpdate(repository,
 				(String) null, "refs/heads/nonexisting", false, null, null);
 		refUpdates.add(rruOk);
 		refUpdates.add(rruReject);
@@ -269,7 +269,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testTrackingRefUpdateEnabled() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, "refs/remotes/test/master", null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -291,7 +291,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testTrackingRefUpdateDisabled() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -309,7 +309,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testTrackingRefUpdateOnReject() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"ac7e7e44c1885efb472ad54a78327d66bfc4ecef",
 				"refs/heads/master", false, null, null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
@@ -326,7 +326,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testPushResult() throws IOException {
-		final RemoteRefUpdate rru = new RemoteRefUpdate(db,
+		final RemoteRefUpdate rru = new RemoteRefUpdate(repository,
 				"2c349335b7f797072cf729c4f3bb0914ecb6dec9",
 				"refs/heads/master", false, "refs/remotes/test/master", null);
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",

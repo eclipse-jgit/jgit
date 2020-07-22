@@ -27,7 +27,7 @@ class ShowCacheTree extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		final DirCache cache = db.readDirCache();
+		final DirCache cache = repo.readDirCache();
 		final DirCacheTree tree = cache.getCacheTree(false);
 		if (tree == null)
 			throw die(CLIText.get().noTREESectionInIndex);

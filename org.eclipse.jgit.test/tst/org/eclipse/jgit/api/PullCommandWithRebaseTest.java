@@ -321,11 +321,11 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();
-		source = new Git(db);
+		source = new Git(repository);
 		target = new Git(dbTarget);
 
 		// put some file in the source repo
-		sourceFile = new File(db.getWorkTree(), "SomeFile.txt");
+		sourceFile = new File(repository.getWorkTree(), "SomeFile.txt");
 		writeToFile(sourceFile, "Hello world");
 		// and commit it
 		source.add().addFilepattern("SomeFile.txt").call();

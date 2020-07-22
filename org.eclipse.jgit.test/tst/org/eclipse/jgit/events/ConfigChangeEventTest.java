@@ -21,11 +21,11 @@ public class ConfigChangeEventTest extends RepositoryTestCase {
 	@Test
 	public void testFileRepository_ChangeEventsOnlyOnSave() throws Exception {
 		final ConfigChangedEvent[] events = new ConfigChangedEvent[1];
-		db.getListenerList()
+		repository.getListenerList()
 				.addConfigChangedListener((ConfigChangedEvent event) -> {
 					events[0] = event;
 				});
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		assertNull(events[0]);
 
 		// set a value to some arbitrary key
@@ -35,7 +35,7 @@ public class ConfigChangeEventTest extends RepositoryTestCase {
 		config.save();
 		assertNotNull(events[0]);
 		// correct repository?
-		assertEquals(events[0].getRepository(), db);
+		assertEquals(events[0].getRepository(), repository);
 
 		// reset for the next test
 		events[0] = null;
@@ -47,6 +47,6 @@ public class ConfigChangeEventTest extends RepositoryTestCase {
 		config.save();
 		assertNotNull(events[0]);
 		// correct repository?
-		assertEquals(events[0].getRepository(), db);
+		assertEquals(events[0].getRepository(), repository);
 	}
 }

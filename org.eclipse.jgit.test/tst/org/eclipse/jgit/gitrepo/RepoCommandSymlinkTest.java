@@ -31,7 +31,7 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 	}
 
-	private Repository defaultDb;
+	private Repository defaultRepo;
 
 	private String rootUri;
 	private String defaultUri;
@@ -40,15 +40,15 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		defaultDb = createWorkRepository();
-		try (Git git = new Git(defaultDb)) {
-			JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "hello world");
+		defaultRepo = createWorkRepository();
+		try (Git git = new Git(defaultRepo)) {
+			JGitTestUtil.writeTrashFile(defaultRepo, "hello.txt", "hello world");
 			git.add().addFilepattern("hello.txt").call();
 			git.commit().setMessage("Initial commit").call();
-			addRepoToClose(defaultDb);
+			addRepoToClose(defaultRepo);
 		}
 
-		defaultUri = defaultDb.getDirectory().toURI().toString();
+		defaultUri = defaultRepo.getDirectory().toURI().toString();
 		int root = defaultUri.lastIndexOf("/",
 				defaultUri.lastIndexOf("/.git") - 1)
 				+ 1;
@@ -60,8 +60,8 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 	@Test
 	public void testLinkFileBare() throws Exception {
 		try (
-				Repository remoteDb = createBareRepository();
-				Repository tempDb = createWorkRepository()) {
+				Repository remoteRepo = createBareRepository();
+				Repository tempRepo = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent
 					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -78,54 +78,54 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 					.append(defaultUri).append("\" revision=\"master\" >")
 					.append("<linkfile src=\"hello.txt\" dest=\"bar/foo/LinkedHello\" />")
 					.append("</project>").append("</manifest>");
-			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+			JGitTestUtil.writeTrashFile(tempRepo, "manifest.xml",
 					xmlContent.toString());
-			RepoCommand command = new RepoCommand(remoteDb);
+			RepoCommand command = new RepoCommand(remoteRepo);
 			command.setPath(
-					tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+					tempRepo.getWorkTree().getAbsolutePath() + "/manifest.xml")
 					.setURI(rootUri).call();
 			// Clone it
 			File directory = createTempDirectory("testCopyFileBare");
-			try (Repository localDb = Git.cloneRepository()
+			try (Repository localRepo = Git.cloneRepository()
 					.setDirectory(directory)
-					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.setURI(remoteRepo.getDirectory().toURI().toString()).call()
 					.getRepository()) {
 
 				// The LinkedHello symlink should exist.
-				File linkedhello = new File(localDb.getWorkTree(),
+				File linkedhello = new File(localRepo.getWorkTree(),
 						"LinkedHello");
 				assertTrue("The LinkedHello file should exist",
-						localDb.getFS().exists(linkedhello));
+						localRepo.getFS().exists(linkedhello));
 				assertTrue("The LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedhello));
+						localRepo.getFS().isSymLink(linkedhello));
 				assertEquals("foo/hello.txt",
-						localDb.getFS().readSymLink(linkedhello));
+						localRepo.getFS().readSymLink(linkedhello));
 
 				// The foo/LinkedHello file should be skipped.
-				File linkedfoohello = new File(localDb.getWorkTree(),
+				File linkedfoohello = new File(localRepo.getWorkTree(),
 						"foo/LinkedHello");
 				assertFalse("The foo/LinkedHello file should be skipped",
-						localDb.getFS().exists(linkedfoohello));
+						localRepo.getFS().exists(linkedfoohello));
 
 				// The subdir/LinkedHello file should use a relative ../
-				File linkedsubdirhello = new File(localDb.getWorkTree(),
+				File linkedsubdirhello = new File(localRepo.getWorkTree(),
 						"subdir/LinkedHello");
 				assertTrue("The subdir/LinkedHello file should exist",
-						localDb.getFS().exists(linkedsubdirhello));
+						localRepo.getFS().exists(linkedsubdirhello));
 				assertTrue("The subdir/LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedsubdirhello));
+						localRepo.getFS().isSymLink(linkedsubdirhello));
 				assertEquals("../foo/hello.txt",
-						localDb.getFS().readSymLink(linkedsubdirhello));
+						localRepo.getFS().readSymLink(linkedsubdirhello));
 
 				// The bar/foo/LinkedHello file should use a single relative ../
-				File linkedbarfoohello = new File(localDb.getWorkTree(),
+				File linkedbarfoohello = new File(localRepo.getWorkTree(),
 						"bar/foo/LinkedHello");
 				assertTrue("The bar/foo/LinkedHello file should exist",
-						localDb.getFS().exists(linkedbarfoohello));
+						localRepo.getFS().exists(linkedbarfoohello));
 				assertTrue("The bar/foo/LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedbarfoohello));
+						localRepo.getFS().isSymLink(linkedbarfoohello));
 				assertEquals("../baz/hello.txt",
-						localDb.getFS().readSymLink(linkedbarfoohello));
+						localRepo.getFS().readSymLink(linkedbarfoohello));
 			}
 		}
 	}

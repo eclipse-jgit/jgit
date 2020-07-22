@@ -63,7 +63,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 			GitAPIException {
 
 		// create initial commit
-		git = new Git(db);
+		git = new Git(repository);
 		initialCommit = git.commit().setMessage("initial commit").call();
 
 		// create file
@@ -76,7 +76,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a.txt").addFilepattern("dir/b.txt").call();
 		secondCommit = git.commit().setMessage("adding a.txt and dir/b.txt").call();
 
-		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(indexFile.getName());
+		prestage = DirCache.read(repository.getIndexFile(), repository.getFS()).getEntry(indexFile.getName());
 
 		// modify files and add to index
 		writeTrashFile("a.txt", "new content");
@@ -91,13 +91,13 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testHardReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
-		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ObjectId prevHead = repository.resolve(Constants.HEAD);
 		ResetCommand reset = git.reset();
 		assertSameAsHead(reset.setMode(ResetType.HARD)
 				.setRef(initialCommit.getName()).call());
 		assertFalse("reflog should be enabled", reset.isReflogDisabled());
 		// check if HEAD points to initial commit now
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
 		// check if files were removed
 		assertFalse(indexFile.exists());
@@ -108,19 +108,19 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertFalse(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
-		assertEquals(prevHead, db.readOrigHead());
+		assertEquals(prevHead, repository.readOrigHead());
 	}
 
 	@Test
 	public void testHardResetReflogDisabled() throws Exception {
 		setupRepository();
-		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ObjectId prevHead = repository.resolve(Constants.HEAD);
 		ResetCommand reset = git.reset();
 		assertSameAsHead(reset.setMode(ResetType.HARD)
 				.setRef(initialCommit.getName()).disableRefLog(true).call());
 		assertTrue("reflog should be disabled", reset.isReflogDisabled());
 		// check if HEAD points to initial commit now
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
 		// check if files were removed
 		assertFalse(indexFile.exists());
@@ -131,7 +131,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertFalse(inIndex(indexFile.getName()));
 		assertReflogDisabled(head);
-		assertEquals(prevHead, db.readOrigHead());
+		assertEquals(prevHead, repository.readOrigHead());
 	}
 
 	@Test
@@ -139,11 +139,11 @@ public class ResetCommandTest extends RepositoryTestCase {
 		setupRepository();
 
 		git.rm().setCached(true).addFilepattern("a.txt").call();
-		assertTrue(new File(db.getWorkTree(), "a.txt").exists());
+		assertTrue(new File(repository.getWorkTree(), "a.txt").exists());
 
 		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
-		assertTrue(new File(db.getWorkTree(), "a.txt").exists());
-		assertEquals("content", read(new File(db.getWorkTree(), "a.txt")));
+		assertTrue(new File(repository.getWorkTree(), "a.txt").exists());
+		assertEquals("content", read(new File(repository.getWorkTree(), "a.txt")));
 	}
 
 	@Test
@@ -153,11 +153,11 @@ public class ResetCommandTest extends RepositoryTestCase {
 		writeTrashFile("dir-or-file/c.txt", "content");
 		git.add().addFilepattern("dir-or-file/c.txt").call();
 
-		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
+		FileUtils.delete(new File(repository.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
 		writeTrashFile("dir-or-file", "content");
 
 		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
-		assertFalse(new File(db.getWorkTree(), "dir-or-file").exists());
+		assertFalse(new File(repository.getWorkTree(), "dir-or-file").exists());
 	}
 
 	@Test
@@ -168,18 +168,18 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("dir-or-file/c.txt").call();
 		git.commit().setMessage("adding dir-or-file/c.txt").call();
 
-		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
+		FileUtils.delete(new File(repository.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
 		writeTrashFile("dir-or-file", "content");
 
 		// bug 479266: cannot create folder "dir-or-file"
 		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
-		assertTrue(new File(db.getWorkTree(), "dir-or-file/c.txt").exists());
+		assertTrue(new File(repository.getWorkTree(), "dir-or-file/c.txt").exists());
 	}
 
 	@Test
 	public void testHardResetWithConflicts_DeleteFolder_UnstagedChanges() throws Exception {
 		setupRepository();
-		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ObjectId prevHead = repository.resolve(Constants.HEAD);
 
 		writeTrashFile("dir-or-file/c.txt", "content");
 		git.add().addFilepattern("dir-or-file/c.txt").call();
@@ -187,13 +187,13 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		writeTrashFile("dir-or-file-2/d.txt", "content");
 		git.add().addFilepattern("dir-or-file-2/d.txt").call();
-		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file-2"), FileUtils.RECURSIVE);
+		FileUtils.delete(new File(repository.getWorkTree(), "dir-or-file-2"), FileUtils.RECURSIVE);
 		writeTrashFile("dir-or-file-2", "content");
 
 		// bug 479266: cannot delete folder "dir-or-file"
 		git.reset().setMode(ResetType.HARD).setRef(prevHead.getName()).call();
-		assertFalse(new File(db.getWorkTree(), "dir-or-file").exists());
-		assertFalse(new File(db.getWorkTree(), "dir-or-file-2").exists());
+		assertFalse(new File(repository.getWorkTree(), "dir-or-file").exists());
+		assertFalse(new File(repository.getWorkTree(), "dir-or-file-2").exists());
 	}
 
 	@Test
@@ -201,7 +201,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 			AmbiguousObjectException, IOException, GitAPIException {
 
 		// create a file in the working tree of a fresh repo
-		git = new Git(db);
+		git = new Git(repository);
 		writeTrashFile("f", "content");
 
 		try {
@@ -216,11 +216,11 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testSoftReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
-		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ObjectId prevHead = repository.resolve(Constants.HEAD);
 		assertSameAsHead(git.reset().setMode(ResetType.SOFT)
 				.setRef(initialCommit.getName()).call());
 		// check if HEAD points to initial commit now
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
@@ -230,18 +230,18 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertTrue(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
-		assertEquals(prevHead, db.readOrigHead());
+		assertEquals(prevHead, repository.readOrigHead());
 	}
 
 	@Test
 	public void testMixedReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
-		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ObjectId prevHead = repository.resolve(Constants.HEAD);
 		assertSameAsHead(git.reset().setMode(ResetType.MIXED)
 				.setRef(initialCommit.getName()).call());
 		// check if HEAD points to initial commit now
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
@@ -252,12 +252,12 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inIndex(indexFile.getName()));
 
 		assertReflog(prevHead, head);
-		assertEquals(prevHead, db.readOrigHead());
+		assertEquals(prevHead, repository.readOrigHead());
 	}
 
 	@Test
 	public void testMixedResetRetainsSizeAndModifiedTime() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 
 		Files.setLastModifiedTime(writeTrashFile("a.txt", "a").toPath(),
 				FileTime.from(Instant.now().minusSeconds(60)));
@@ -270,7 +270,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		RevCommit commit2 = git.commit().setMessage("b commit").call();
 		assertNotNull(commit2);
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repository.readDirCache();
 
 		DirCacheEntry aEntry = cache.getEntry("a.txt");
 		assertNotNull(aEntry);
@@ -285,7 +285,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertSameAsHead(git.reset().setMode(ResetType.MIXED)
 				.setRef(commit2.getName()).call());
 
-		cache = db.readDirCache();
+		cache = repository.readDirCache();
 
 		DirCacheEntry mixedAEntry = cache.getEntry("a.txt");
 		assertNotNull(mixedAEntry);
@@ -304,7 +304,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMixedResetWithUnmerged() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 
 		String file = "a.txt";
 		writeTrashFile(file, "data");
@@ -314,7 +314,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(file).addFilepattern(file2).call();
 		git.commit().setMessage("commit").call();
 
-		DirCache index = db.lockDirCache();
+		DirCache index = repository.lockDirCache();
 		DirCacheBuilder builder = index.builder();
 		builder.add(createEntry(file, FileMode.REGULAR_FILE, 1, ""));
 		builder.add(createEntry(file, FileMode.REGULAR_FILE, 2, ""));
@@ -336,7 +336,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsReset() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -347,14 +347,14 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertSameAsHead(git.reset().addPath(indexFile.getName())
 				.addPath(untrackedFile.getName()).call());
 
-		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry postReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry(indexFile.getName());
 		assertNotNull(postReset);
 		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
 		Assert.assertEquals(prestage.getObjectId(), postReset.getObjectId());
 
 		// check that HEAD hasn't moved
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
@@ -368,7 +368,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsResetOnDirs() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry("dir/b.txt");
 		assertNotNull(preReset);
 
@@ -377,13 +377,13 @@ public class ResetCommandTest extends RepositoryTestCase {
 		// 'dir/b.txt' has already been modified in setupRepository
 		assertSameAsHead(git.reset().addPath("dir").call());
 
-		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry postReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry("dir/b.txt");
 		assertNotNull(postReset);
 		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
 
 		// check that HEAD hasn't moved
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
@@ -395,7 +395,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsResetWithRef() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -409,7 +409,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 				.call());
 
 		// check that HEAD hasn't moved
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
@@ -429,7 +429,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(file).call();
 		git.commit().setMessage("commit").call();
 
-		DirCache index = db.lockDirCache();
+		DirCache index = repository.lockDirCache();
 		DirCacheBuilder builder = index.builder();
 		builder.add(createEntry(file, FileMode.REGULAR_FILE, 1, ""));
 		builder.add(createEntry(file, FileMode.REGULAR_FILE, 2, ""));
@@ -451,20 +451,20 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testPathsResetOnUnbornBranch() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		// Should assume an empty tree, like in C Git 1.8.2
 		assertSameAsHead(git.reset().addPath("a.txt").call());
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repository.readDirCache();
 		DirCacheEntry aEntry = cache.getEntry("a.txt");
 		assertNull(aEntry);
 	}
 
 	@Test(expected = JGitInternalException.class)
 	public void testPathsResetToNonexistingRef() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		assertSameAsHead(
@@ -473,14 +473,14 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testResetDefaultMode() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		writeTrashFile("a.txt", "modified");
 		// should use default mode MIXED
 		assertSameAsHead(git.reset().call());
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repository.readDirCache();
 		DirCacheEntry aEntry = cache.getEntry("a.txt");
 		assertNull(aEntry);
 		assertEquals("modified", read("a.txt"));
@@ -493,7 +493,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.tag().setName(tagName).setObjectId(secondCommit)
 				.setMessage("message").call();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(repository.getIndexFile(), repository.getFS())
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -501,79 +501,79 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		assertSameAsHead(git.reset().setRef(tagName).setMode(HARD).call());
 
-		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId head = repository.resolve(Constants.HEAD);
 		assertEquals(secondCommit, head);
 	}
 
 	@Test
 	public void testHardResetAfterSquashMerge() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 
 		writeTrashFile("file1", "file1");
 		git.add().addFilepattern("file1").call();
 		RevCommit first = git.commit().setMessage("initial commit").call();
 
-		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(repository.getWorkTree(), "file1").exists());
 		createBranch(first, "refs/heads/branch1");
 		checkoutBranch("refs/heads/branch1");
 
 		writeTrashFile("file2", "file2");
 		git.add().addFilepattern("file2").call();
 		git.commit().setMessage("second commit").call();
-		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 		checkoutBranch("refs/heads/master");
 
 		MergeResult result = git.merge()
-				.include(db.exactRef("refs/heads/branch1"))
+				.include(repository.exactRef("refs/heads/branch1"))
 				.setSquash(true)
 				.call();
 
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
 				result.getMergeStatus());
-		assertNotNull(db.readSquashCommitMsg());
+		assertNotNull(repository.readSquashCommitMsg());
 
 		assertSameAsHead(git.reset().setMode(ResetType.HARD)
 				.setRef(first.getName()).call());
 
-		assertNull(db.readSquashCommitMsg());
+		assertNull(repository.readSquashCommitMsg());
 	}
 
 	@Test
 	public void testHardResetOnUnbornBranch() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 		File fileA = writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		// Should assume an empty tree, like in C Git 1.8.2
 		assertSameAsHead(git.reset().setMode(ResetType.HARD).call());
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repository.readDirCache();
 		DirCacheEntry aEntry = cache.getEntry("a.txt");
 		assertNull(aEntry);
 		assertFalse(fileA.exists());
-		assertNull(db.resolve(Constants.HEAD));
+		assertNull(repository.resolve(Constants.HEAD));
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)
 			throws IOException {
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		String actualHeadMessage = repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = head.getName() + ": updating HEAD";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(prevHead.getName(), repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = repository.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = head.getName() + ": updating HEAD"; // yes!
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db
+		assertEquals(prevHead.getName(), repository
 				.getReflogReader("refs/heads/master").getLastEntry().getOldId()
 				.getName());
 	}
@@ -581,19 +581,19 @@ public class ResetCommandTest extends RepositoryTestCase {
 	private void assertReflogDisabled(ObjectId head)
 			throws IOException {
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		String actualHeadMessage = repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = repository.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), repository.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 	}
 	/**
@@ -604,9 +604,9 @@ public class ResetCommandTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	private boolean inHead(String path) throws IOException {
-		ObjectId headId = db.resolve(Constants.HEAD);
-		try (RevWalk rw = new RevWalk(db);
-				TreeWalk tw = TreeWalk.forPath(db, path,
+		ObjectId headId = repository.resolve(Constants.HEAD);
+		try (RevWalk rw = new RevWalk(repository);
+				TreeWalk tw = TreeWalk.forPath(repository, path,
 						rw.parseTree(headId))) {
 			return tw != null;
 		}
@@ -620,7 +620,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	private boolean inIndex(String path) throws IOException {
-		DirCache dc = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache dc = DirCache.read(repository.getIndexFile(), repository.getFS());
 		return dc.getEntry(path) != null;
 	}
 
@@ -630,7 +630,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	private void assertSameAsHead(Ref ref) throws IOException {
-		Ref headRef = db.exactRef(Constants.HEAD);
+		Ref headRef = repository.exactRef(Constants.HEAD);
 		assertEquals(headRef.getName(), ref.getName());
 		assertEquals(headRef.getObjectId(), ref.getObjectId());
 	}

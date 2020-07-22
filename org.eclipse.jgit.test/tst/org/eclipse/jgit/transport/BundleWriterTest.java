@@ -110,7 +110,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		byte[] bundle;
 
 		// Create a small bundle, an early commit
-		bundle = makeBundle("refs/heads/aa", db.resolve("a").name(), null);
+		bundle = makeBundle("refs/heads/aa", repository.resolve("a").name(), null);
 
 		// Then we clone a new repo from that bundle and do a simple test. This
 		// makes sure
@@ -119,19 +119,19 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		FetchResult fetchResult = fetchFromBundle(newRepo, bundle);
 		Ref advertisedRef = fetchResult.getAdvertisedRef("refs/heads/aa");
 
-		assertEquals(db.resolve("a").name(), advertisedRef.getObjectId().name());
-		assertEquals(db.resolve("a").name(), newRepo.resolve("refs/heads/aa")
+		assertEquals(repository.resolve("a").name(), advertisedRef.getObjectId().name());
+		assertEquals(repository.resolve("a").name(), newRepo.resolve("refs/heads/aa")
 				.name());
 		assertNull(newRepo.resolve("refs/heads/a"));
 
 		// Next an incremental bundle
-		try (RevWalk rw = new RevWalk(db)) {
-			bundle = makeBundle("refs/heads/cc", db.resolve("c").name(),
-					rw.parseCommit(db.resolve("a").toObjectId()));
+		try (RevWalk rw = new RevWalk(repository)) {
+			bundle = makeBundle("refs/heads/cc", repository.resolve("c").name(),
+					rw.parseCommit(repository.resolve("a").toObjectId()));
 			fetchResult = fetchFromBundle(newRepo, bundle);
 			advertisedRef = fetchResult.getAdvertisedRef("refs/heads/cc");
-			assertEquals(db.resolve("c").name(), advertisedRef.getObjectId().name());
-			assertEquals(db.resolve("c").name(), newRepo.resolve("refs/heads/cc")
+			assertEquals(repository.resolve("c").name(), advertisedRef.getObjectId().name());
+			assertEquals(repository.resolve("c").name(), newRepo.resolve("refs/heads/cc")
 					.name());
 			assertNull(newRepo.resolve("refs/heads/c"));
 			assertNull(newRepo.resolve("refs/heads/a")); // still unknown
@@ -143,7 +143,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 				fail("We should not be able to fetch from bundle with prerequisites that are not fulfilled");
 			} catch (MissingBundlePrerequisiteException e) {
 				assertTrue(e.getMessage()
-						.indexOf(db.resolve("refs/heads/a").name()) >= 0);
+						.indexOf(repository.resolve("refs/heads/a").name()) >= 0);
 			}
 		}
 	}
@@ -153,7 +153,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		boolean caught = false;
 		try {
 			makeBundleWithCallback(
-					"refs/heads/aa", db.resolve("a").name(), null, false);
+					"refs/heads/aa", repository.resolve("a").name(), null, false);
 		} catch (WriteAbortedException e) {
 			caught = true;
 		}
@@ -219,7 +219,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 			throws FileNotFoundException, IOException {
 		final BundleWriter bw;
 
-		bw = new BundleWriter(db);
+		bw = new BundleWriter(repository);
 		bw.setObjectCountCallback(new NaiveObjectCountCallback(value));
 		bw.include(name, ObjectId.fromString(anObjectToInclude));
 		if (assume != null)

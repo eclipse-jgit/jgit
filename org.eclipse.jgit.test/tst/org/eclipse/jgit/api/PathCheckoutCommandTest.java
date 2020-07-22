@@ -57,7 +57,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		writeTrashFile(FILE1, "1");
 		writeTrashFile(FILE2, "a");
 		git.add().addFilepattern(FILE1).addFilepattern(FILE2).call();
@@ -137,7 +137,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("", read(written));
 		co.addPath(FILE1).call();
 		assertEquals("3", read(written));
-		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
+		assertEquals("c", read(new File(repository.getWorkTree(), FILE2)));
 	}
 
 	@Test
@@ -146,7 +146,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		File written = writeTrashFile(FILE1, "");
 		co.setStartPoint(initialCommit).addPath(FILE1).call();
 		assertEquals("1", read(written));
-		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
+		assertEquals("c", read(new File(repository.getWorkTree(), FILE2)));
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		File written = writeTrashFile(FILE1, "");
 		co.setStartPoint("HEAD~1").addPath(FILE1).call();
 		assertEquals("2", read(written));
-		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
+		assertEquals("c", read(new File(repository.getWorkTree(), FILE2)));
 	}
 
 	@Test
@@ -177,7 +177,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("", read(written));
 		co.addPath(FILE1).call();
 		assertEquals("3a", read(written));
-		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
+		assertEquals("c", read(new File(repository.getWorkTree(), FILE2)));
 	}
 
 	@Test
@@ -190,7 +190,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("", read(written));
 		co.addPath(FILE1).setStartPoint("HEAD").call();
 		assertEquals("3", read(written));
-		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
+		assertEquals("c", read(new File(repository.getWorkTree(), FILE2)));
 	}
 
 	@Test
@@ -325,9 +325,9 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("Commit on master").call();
 
 		git.merge().include(side).call();
-		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+		assertEquals(RepositoryState.MERGING, repository.getRepositoryState());
 
-		DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 		assertEquals("Expected add/add file to not have base stage",
 				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
 
@@ -337,7 +337,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 
 		assertEquals("Added on master", read(file));
 
-		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 		assertEquals("Expected conflict stages to still exist after checkout",
 				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
 	}
@@ -357,12 +357,12 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setName("master").call();
 
 		git.merge().include(conflict).call();
-		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+		assertEquals(RepositoryState.MERGING, repository.getRepositoryState());
 		assertStageOneToThree(FILE1);
 	}
 
 	private void assertStageOneToThree(String name) throws Exception {
-		DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 		int i = cache.findEntry(name);
 		DirCacheEntry stage1 = cache.getEntry(i);
 		DirCacheEntry stage2 = cache.getEntry(i + 1);

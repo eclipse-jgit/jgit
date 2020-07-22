@@ -34,10 +34,10 @@ public class LogFilterTest extends RepositoryTestCase {
 	@Before
 	public void setup() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 
 		// create first file
-		File file = new File(db.getWorkTree(), "a.txt");
+		File file = new File(repository.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content1");
@@ -48,7 +48,7 @@ public class LogFilterTest extends RepositoryTestCase {
 		git.commit().setMessage("commit1").setCommitter(committer).call();
 
 		// create second file
-		file = new File(db.getWorkTree(), "b.txt");
+		file = new File(repository.getWorkTree(), "b.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content2");
@@ -59,7 +59,7 @@ public class LogFilterTest extends RepositoryTestCase {
 		git.commit().setMessage("commit2").setCommitter(committer).call();
 
 		// create third file
-		Path includeSubdir = Paths.get(db.getWorkTree().toString(),
+		Path includeSubdir = Paths.get(repository.getWorkTree().toString(),
 				"subdir-include");
 		includeSubdir.toFile().mkdirs();
 		file = Paths.get(includeSubdir.toString(), "c.txt").toFile();
@@ -73,7 +73,7 @@ public class LogFilterTest extends RepositoryTestCase {
 		git.commit().setMessage("commit3").setCommitter(committer).call();
 
 		// create fourth file
-		Path excludeSubdir = Paths.get(db.getWorkTree().toString(),
+		Path excludeSubdir = Paths.get(repository.getWorkTree().toString(),
 				"subdir-exclude");
 		excludeSubdir.toFile().mkdirs();
 		file = Paths.get(excludeSubdir.toString(), "d.txt").toFile();

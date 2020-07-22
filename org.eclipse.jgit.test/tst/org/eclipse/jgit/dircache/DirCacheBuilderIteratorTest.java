@@ -27,7 +27,7 @@ import org.junit.Test;
 public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testPathFilterGroup_DoesNotSkipTail() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
 		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
@@ -46,7 +46,7 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 
 		final int expIdx = 2;
 		final DirCacheBuilder b = dc.builder();
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new DirCacheBuildIterator(b));
 			tw.setRecursive(true);
 			tw.setFilter(PathFilterGroup.createFromStrings(Collections

@@ -30,7 +30,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	@Test
 	public void logAllCommits() throws Exception {
 		List<RevCommit> commits = new ArrayList<>();
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -62,7 +62,7 @@ public class LogCommandTest extends RepositoryTestCase {
     @Test
     public void logAllCommitsWithTag() throws Exception {
 		List<RevCommit> commits = new ArrayList<>();
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -71,19 +71,19 @@ public class LogCommandTest extends RepositoryTestCase {
 		TagCommand tagCmd = git.tag();
 		tagCmd.setName("tagcommit");
 		tagCmd.setObjectId(commits.get(0));
-		tagCmd.setTagger(new PersonIdent(db));
+		tagCmd.setTagger(new PersonIdent(repository));
 		Ref tag = tagCmd.call();
 
 		tagCmd = git.tag();
 		tagCmd.setName("tagtree");
 		tagCmd.setObjectId(commits.get(0).getTree());
-		tagCmd.setTagger(new PersonIdent(db));
+		tagCmd.setTagger(new PersonIdent(repository));
 		tagCmd.call();
 
 		Iterator<RevCommit> log = git.log().all().call().iterator();
 		assertTrue(log.hasNext());
 		RevCommit commit = log.next();
-		tag = db.getRefDatabase().peel(tag);
+		tag = repository.getRefDatabase().peel(tag);
 
 		assertEquals(commit.getName(), tag.getPeeledObjectId().getName());
 		assertTrue(commits.contains(commit));
@@ -105,7 +105,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logAllCommitsWithMaxCount() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		List<RevCommit> commits = createCommits(git);
 
 		Iterator<RevCommit> log = git.log().all().setMaxCount(2).call()
@@ -123,7 +123,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logPathWithMaxCount() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		List<RevCommit> commits = createCommits(git);
 
 		Iterator<RevCommit> log = git.log().addPath("Test.txt").setMaxCount(1)
@@ -137,7 +137,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logPathWithSkip() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		List<RevCommit> commits = createCommits(git);
 
 		Iterator<RevCommit> log = git.log().addPath("Test.txt").setSkip(1)
@@ -151,7 +151,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logAllCommitsWithSkip() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		List<RevCommit> commits = createCommits(git);
 
 		Iterator<RevCommit> log = git.log().all().setSkip(1).call().iterator();
@@ -168,7 +168,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logAllCommitsWithSkipAndMaxCount() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		List<RevCommit> commits = createCommits(git);
 
 		Iterator<RevCommit> log = git.log().all().setSkip(1).setMaxCount(1).call()
@@ -183,7 +183,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	@Test
 	public void logOnlyMergeCommits() throws Exception {
 		setCommitsAndMerge();
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		Iterable<RevCommit> commits = git.log().all().call();
 		Iterator<RevCommit> i = commits.iterator();
@@ -207,7 +207,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	@Test
 	public void logNoMergeCommits() throws Exception {
 		setCommitsAndMerge();
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		Iterable<RevCommit> commits = git.log().all().call();
 		Iterator<RevCommit> i = commits.iterator();
@@ -233,7 +233,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	private void setCommitsAndMerge() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		writeTrashFile("file1", "1\n2\n3\n4\n");
 		git.add().addFilepattern("file1").call();
 		RevCommit masterCommit0 = git.commit().setMessage("m0").call();

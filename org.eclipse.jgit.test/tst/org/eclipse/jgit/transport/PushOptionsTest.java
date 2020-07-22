@@ -205,7 +205,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 	@Test
 	public void testPushWithoutOptions() throws Exception {
-		try (Git local = new Git(db);
+		try (Git local = new Git(repository);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
 
@@ -234,7 +234,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 	@Test
 	public void testPushWithEmptyOptions() throws Exception {
-		try (Git local = new Git(db);
+		try (Git local = new Git(repository);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
 
@@ -264,7 +264,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 	@Test
 	public void testAdvertisedButUnusedPushOptions() throws Exception {
-		try (Git local = new Git(db);
+		try (Git local = new Git(repository);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
 
@@ -294,7 +294,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 
 	@Test(expected = TransportException.class)
 	public void testPushOptionsNotSupported() throws Exception {
-		try (Git local = new Git(db);
+		try (Git local = new Git(repository);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
 

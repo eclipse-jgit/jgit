@@ -42,7 +42,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws GitAPIException {
-		SubmoduleSyncCommand command = new SubmoduleSyncCommand(db);
+		SubmoduleSyncCommand command = new SubmoduleSyncCommand(repository);
 		Map<String, String> modules = command.call();
 		assertNotNull(modules);
 		assertTrue(modules.isEmpty());
@@ -51,14 +51,14 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 	@Test
 	public void repositoryWithSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.add().addFilepattern("file.txt").call();
 		git.commit().setMessage("create file").call();
 
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -71,7 +71,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		editor.commit();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "git://server/repo.git";
@@ -80,18 +80,18 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		modulesConfig.save();
 
 		Repository subRepo = Git.cloneRepository()
-				.setURI(db.getDirectory().toURI().toString())
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setURI(repository.getDirectory().toURI().toString())
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository();
 		addRepoToClose(subRepo);
 		assertNotNull(subRepo);
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertEquals(url, generator.getModulesUrl());
 		}
-		SubmoduleSyncCommand command = new SubmoduleSyncCommand(db);
+		SubmoduleSyncCommand command = new SubmoduleSyncCommand(repository);
 		Map<String, String> synced = command.call();
 		assertNotNull(synced);
 		assertEquals(1, synced.size());
@@ -99,7 +99,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		assertEquals(path, module.getKey());
 		assertEquals(url, module.getValue());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals(url, generator.getConfigUrl());
 			try (Repository subModRepository = generator.getRepository()) {
@@ -116,14 +116,14 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 	@Test
 	public void repositoryWithRelativeUriSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.add().addFilepattern("file.txt").call();
 		git.commit().setMessage("create file").call();
 
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -136,14 +136,14 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		editor.commit();
 
 		String base = "git://server/repo.git";
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
 				base);
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String current = "git://server/repo.git";
@@ -152,13 +152,13 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		modulesConfig.save();
 
 		Repository subRepo = Git.cloneRepository()
-				.setURI(db.getDirectory().toURI().toString())
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setURI(repository.getDirectory().toURI().toString())
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository();
 		assertNotNull(subRepo);
 		addRepoToClose(subRepo);
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertEquals(current, generator.getModulesUrl());
@@ -167,7 +167,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_URL, "../sub.git");
 		modulesConfig.save();
 
-		SubmoduleSyncCommand command = new SubmoduleSyncCommand(db);
+		SubmoduleSyncCommand command = new SubmoduleSyncCommand(repository);
 		Map<String, String> synced = command.call();
 		assertNotNull(synced);
 		assertEquals(1, synced.size());
@@ -175,7 +175,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		assertEquals(path, module.getKey());
 		assertEquals("git://server/sub.git", module.getValue());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals("git://server/sub.git", generator.getConfigUrl());
 			try (Repository subModRepository1 = generator.getRepository()) {

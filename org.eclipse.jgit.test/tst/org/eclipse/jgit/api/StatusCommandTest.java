@@ -31,7 +31,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	@Test
 	public void testEmptyStatus() throws NoWorkTreeException,
 			GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Status stat = git.status().call();
 			assertEquals(0, stat.getAdded().size());
 			assertEquals(0, stat.getChanged().size());
@@ -45,7 +45,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	@Test
 	public void testDifferentStates() throws IOException,
 			NoFilepatternException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "content of a");
 			writeTrashFile("b", "content of b");
 			writeTrashFile("c", "content of c");
@@ -105,7 +105,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	@Test
 	public void testDifferentStatesWithPaths() throws IOException,
 			NoFilepatternException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "content of a");
 			writeTrashFile("D/b", "content of b");
 			writeTrashFile("D/c", "content of c");
@@ -142,9 +142,9 @@ public class StatusCommandTest extends RepositoryTestCase {
 	@Test
 	public void testExecutableWithNonNormalizedIndex() throws Exception {
 		assumeTrue(FS.DETECTED.supportsExecute());
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// Commit a file with CR/LF into the index
-			FileBasedConfig config = db.getConfig();
+			FileBasedConfig config = repository.getConfig();
 			config.setString("core", null, "autocrlf", "false");
 			config.save();
 			File testFile = writeTrashFile("file.txt", "line 1\r\nline 2\r\n");

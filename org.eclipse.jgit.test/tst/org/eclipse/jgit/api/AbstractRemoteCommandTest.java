@@ -32,7 +32,7 @@ public class AbstractRemoteCommandTest extends RepositoryTestCase {
 		Repository remoteRepository = createWorkRepository();
 
 		// set it up as a remote to this repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, REMOTE_NAME);
 
 		RefSpec refSpec = new RefSpec();

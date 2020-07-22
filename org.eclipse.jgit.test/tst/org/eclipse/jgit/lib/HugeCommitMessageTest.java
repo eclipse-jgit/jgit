@@ -30,7 +30,7 @@ public class HugeCommitMessageTest extends RepositoryTestCase {
 
 	@Test
 	public void testHugeCommitMessage() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("foo", "foo");
 			git.add().addFilepattern("foo").call();
 			WindowCacheConfig wc = new WindowCacheConfig();
@@ -38,7 +38,7 @@ public class HugeCommitMessageTest extends RepositoryTestCase {
 			wc.install();
 			RevCommit commit = git.commit()
 					.setMessage(insanelyHugeCommitMessage()).call();
-			Ref master = db.findRef("master");
+			Ref master = repository.findRef("master");
 			List<Ref> actual = git.branchList().setContains(commit.getName())
 					.call();
 			assertTrue("Should be contained in branch master",

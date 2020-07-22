@@ -120,17 +120,17 @@ public class RepoTest extends CLIRepositoryTestCase {
 		StringBuilder cmd = new StringBuilder("git repo --base-uri=\"")
 			.append(rootUri)
 			.append("\" --groups=\"all,-a\" \"")
-			.append(db.getWorkTree().getAbsolutePath())
+			.append(repo.getWorkTree().getAbsolutePath())
 			.append("/manifest.xml\"");
 		execute(cmd.toString());
 
-		File file = new File(db.getWorkTree(), "foo/hello.txt");
+		File file = new File(repo.getWorkTree(), "foo/hello.txt");
 		assertFalse("\"all,-a\" doesn't have foo", file.exists());
-		file = new File(db.getWorkTree(), "bar/world.txt");
+		file = new File(repo.getWorkTree(), "bar/world.txt");
 		assertTrue("\"all,-a\" has bar", file.exists());
-		file = new File(db.getWorkTree(), "a/a.txt");
+		file = new File(repo.getWorkTree(), "a/a.txt");
 		assertFalse("\"all,-a\" doesn't have a", file.exists());
-		file = new File(db.getWorkTree(), "b/b.txt");
+		file = new File(repo.getWorkTree(), "b/b.txt");
 		assertTrue("\"all,-a\" has have b", file.exists());
 	}
 

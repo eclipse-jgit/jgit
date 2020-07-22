@@ -43,7 +43,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 		assertEquals(0, dc.getEntryCount());
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(dc));
 			assertFalse(tw.next());
 		}
@@ -95,7 +95,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		b.finish();
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(i);
 			int pathIdx = 0;
 			while (tw.next()) {
@@ -134,7 +134,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final int expPos[] = { 0, -1, 4 };
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(i);
 			tw.setRecursive(false);
 			int pathIdx = 0;
@@ -176,7 +176,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		b.finish();
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(i);
 			tw.setRecursive(true);
 			int pathIdx = 0;
@@ -212,7 +212,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 		b.finish();
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(dc));
 			tw.setRecursive(true);
 			int pathIdx = 0;
@@ -377,7 +377,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 		b.finish();
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			for (int victimIdx = 0; victimIdx < paths.length; victimIdx++) {
 				tw.reset();
 				tw.addTree(new DirCacheIterator(dc));
@@ -405,7 +405,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.read(path, FS.DETECTED);
 		assertEquals(2, dc.getEntryCount());
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
 			tw.addTree(new DirCacheIterator(dc));
 

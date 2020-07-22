@@ -27,7 +27,7 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();

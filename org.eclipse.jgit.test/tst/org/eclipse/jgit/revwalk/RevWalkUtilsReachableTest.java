@@ -70,19 +70,19 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		RevCommit a = commit();
 		Ref branchA = branch("a", a);
 
-		try (RevWalk walk = new RevWalk(db)) {
+		try (RevWalk walk = new RevWalk(repository)) {
 			RevCommit parsedCommit = walk.parseCommit(a.getId());
 			assertContains(parsedCommit, asList(branchA));
 		}
 	}
 
 	private Ref branch(String name, RevCommit dst) throws Exception {
-		return Git.wrap(db).branchCreate().setName(name)
+		return Git.wrap(repository).branchCreate().setName(name)
 				.setStartPoint(dst.name()).call();
 	}
 
 	private void assertContains(RevCommit commit, Collection<Ref> refsThatShouldContainCommit) throws Exception {
-		Collection<Ref> allRefs = db.getRefDatabase().getRefs();
+		Collection<Ref> allRefs = repository.getRefDatabase().getRefs();
 		Collection<Ref> sortedRefs = RefComparator.sort(allRefs);
 		List<Ref> actual = RevWalkUtils.findBranchesReachableFrom(commit,
 				rw, sortedRefs);

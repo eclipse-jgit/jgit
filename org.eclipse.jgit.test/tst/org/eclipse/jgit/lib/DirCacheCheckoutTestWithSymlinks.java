@@ -66,7 +66,7 @@ public class DirCacheCheckoutTestWithSymlinks extends RepositoryTestCase {
 		File testRepo = new File(repos, "repo");
 		testRepo.mkdirs();
 		Git git = Git.init().setDirectory(testRepo).call();
-		db = (FileRepository) git.getRepository();
+		repository = (FileRepository) git.getRepository();
 
 		// Create a situation where a checkout of master whould delete a file in
 		// a subfolder of the root of the worktree. No other files/folders exist

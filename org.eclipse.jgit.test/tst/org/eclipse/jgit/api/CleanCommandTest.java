@@ -37,7 +37,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 
 		// create test files
 		writeTrashFile("File1.txt", "Hello world");
@@ -223,10 +223,10 @@ public class CleanCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCleanDirsWithSubmodule() throws Exception {
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		String path = "sub";
 		command.setPath(path);
-		String uri = db.getDirectory().toURI().toString();
+		String uri = repository.getDirectory().toURI().toString();
 		command.setURI(uri);
 		try (Repository repo = command.call()) {
 			// Unused

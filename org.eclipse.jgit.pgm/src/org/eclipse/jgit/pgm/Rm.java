@@ -30,7 +30,7 @@ class Rm extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			RmCommand command = git.rm();
 			for (String p : paths) {
 				command.addFilepattern(p);

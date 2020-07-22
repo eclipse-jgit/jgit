@@ -58,9 +58,9 @@ public class CloneCommandTest extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		tr = new TestRepository<>(db);
+		tr = new TestRepository<>(repository);
 
-		git = new Git(db);
+		git = new Git(repository);
 		// commit something
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -71,7 +71,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		// create a test branch and switch to it
 		git.checkout().setCreateBranch(true).setName("test").call();
 		// create a non-standard ref
-		RefUpdate ru = db.updateRef("refs/meta/foo/bar");
+		RefUpdate ru = repository.updateRef("refs/meta/foo/bar");
 		ru.setNewObjectId(head.getObjectId());
 		ru.update();
 
@@ -218,7 +218,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 				git2.getRepository()
 					.getConfig()
 					.getString("branch", "test", "remote"));
-		assertEquals(db.resolve("test"),
+		assertEquals(repository.resolve("test"),
 				git2.getRepository().resolve("upstream/test"));
 	}
 
@@ -339,7 +339,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 
 		assertNotNull(git2);
-		ObjectId taggedCommit = db.resolve("tag-initial^{commit}");
+		ObjectId taggedCommit = repository.resolve("tag-initial^{commit}");
 		assertEquals(taggedCommit.name(), git2
 				.getRepository().getFullBranch());
 	}
@@ -440,7 +440,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertNull(git2.getRepository().resolve("tag-for-blob"));
 		assertNull(git2.getRepository().resolve("refs/heads/master"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
-		ObjectId taggedCommit = db.resolve("tag-initial^{commit}");
+		ObjectId taggedCommit = repository.resolve("tag-initial^{commit}");
 		assertEquals(taggedCommit.name(), git2.getRepository().getFullBranch());
 		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
 				Constants.DEFAULT_REMOTE_NAME);
@@ -565,10 +565,10 @@ public class CloneCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(file).call();
 		RevCommit commit = git.commit().setMessage("create file").call();
 
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 		String path = "sub";
 		command.setPath(path);
-		String uri = db.getDirectory().toURI().toString();
+		String uri = repository.getDirectory().toURI().toString();
 		command.setURI(uri);
 		Repository repo = command.call();
 		assertNotNull(repo);

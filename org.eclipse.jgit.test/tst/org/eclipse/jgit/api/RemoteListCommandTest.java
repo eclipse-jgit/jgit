@@ -24,7 +24,7 @@ public class RemoteListCommandTest extends AbstractRemoteCommandTest {
 		RemoteConfig remoteConfig = setupRemote();
 
 		// execute the command to list the remotes
-		List<RemoteConfig> remotes = Git.wrap(db).remoteList().call();
+		List<RemoteConfig> remotes = Git.wrap(repository).remoteList().call();
 
 		// assert that there is only one remote
 		assertEquals(1, remotes.size());

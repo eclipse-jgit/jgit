@@ -39,7 +39,7 @@ class ReceivePack extends TextBuiltin {
 
 		try {
 			FileKey key = FileKey.lenient(dstGitdir, FS.DETECTED);
-			db = key.open(true /* must exist */);
+			repo = key.open(true /* must exist */);
 		} catch (RepositoryNotFoundException notFound) {
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository,
 					dstGitdir.getPath()), notFound);
@@ -47,7 +47,7 @@ class ReceivePack extends TextBuiltin {
 			throw die(e.getMessage(), e);
 		}
 
-		rp = new org.eclipse.jgit.transport.ReceivePack(db);
+		rp = new org.eclipse.jgit.transport.ReceivePack(repo);
 		try {
 			rp.receive(ins, outs, errs);
 		} catch (IOException e) {

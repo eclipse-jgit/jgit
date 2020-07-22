@@ -41,14 +41,14 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSingleRevision() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content = new String[] { "first", "second", "third" };
 
 			writeTrashFile("file.txt", join(content));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 			assertNotNull(lines);
@@ -63,7 +63,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testTwoRevisions() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "first", "second" };
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
@@ -74,7 +74,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit2 = git.commit().setMessage("create file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 			assertEquals(3, lines.getResultContents().size());
@@ -107,7 +107,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	private void testRename(String sourcePath, String destPath)
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "a", "b", "c" };
 			writeTrashFile(sourcePath, join(content1));
 			git.add().addFilepattern(sourcePath).call();
@@ -123,7 +123,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern(destPath).call();
 			RevCommit commit3 = git.commit().setMessage("editing file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFollowFileRenames(true);
 			command.setFilePath(destPath);
 			BlameResult lines = command.call();
@@ -144,7 +144,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testTwoRenames() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// Commit 1: Add file.txt
 			String[] content1 = new String[] { "a" };
 			writeTrashFile("file.txt", join(content1));
@@ -169,7 +169,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.rm().addFilepattern("file1.txt").call();
 			git.commit().setMessage("moving file again").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFollowFileRenames(true);
 			command.setFilePath("file2.txt");
 			BlameResult lines = command.call();
@@ -186,7 +186,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDeleteTrailingLines() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "a", "b", "c", "d" };
 			String[] content2 = new String[] { "a", "b" };
 
@@ -202,7 +202,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("edit file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
@@ -218,7 +218,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDeleteMiddleLines() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "a", "b", "c", "d", "e" };
 			String[] content2 = new String[] { "a", "c", "e" };
 
@@ -234,7 +234,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("edit file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
@@ -253,7 +253,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testEditAllLines() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "a", "1" };
 			String[] content2 = new String[] { "b", "2" };
 
@@ -265,7 +265,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit2 = git.commit().setMessage("create file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
@@ -277,7 +277,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMiddleClearAllLines() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "a", "b", "c" };
 
 			writeTrashFile("file.txt", join(content1));
@@ -292,7 +292,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit3 = git.commit().setMessage("edit file").call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
@@ -330,8 +330,8 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	private void testCoreAutoCrlf(AutoCRLF modeForCommitting,
 			AutoCRLF modeForReset) throws Exception {
-		try (Git git = new Git(db)) {
-			FileBasedConfig config = db.getConfig();
+		try (Git git = new Git(repository)) {
+			FileBasedConfig config = repository.getConfig();
 			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForCommitting);
 			config.save();
@@ -348,7 +348,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			config.save();
 			git.reset().setMode(ResetType.HARD).call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 
@@ -361,7 +361,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingMerge1() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
 					"master");
 
@@ -380,7 +380,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			RevCommit merge = commitFile("file.txt",
 					join("0", "1 side", "2", "3 resolved", "4"), "master");
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 
@@ -397,7 +397,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 	// otherwise identical to testConflictingMerge1
 	@Test
 	public void testConflictingMerge2() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
 					"master");
 
@@ -416,7 +416,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			RevCommit merge = commitFile("file.txt",
 					join("0", "1 side", "2", "3 resolved", "4"), "master");
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 
@@ -431,7 +431,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testUnresolvedMergeConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit base = commitFile("file.txt", "Origin\n", "master");
 
 			RevCommit master = commitFile("file.txt",
@@ -449,7 +449,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			assertTrue("Expected a conflict",
 					result.getConflicts().containsKey("file.txt"));
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt");
 			BlameResult lines = command.call();
 
@@ -464,7 +464,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testWhitespaceMerge() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2"), "master");
 			RevCommit side = commitFile("file.txt", join("0", "1", "   2 side  "),
 					"side");
@@ -479,7 +479,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 					.setAmend(true)
 					.call();
 
-			BlameCommand command = new BlameCommand(db);
+			BlameCommand command = new BlameCommand(repository);
 			command.setFilePath("file.txt")
 					.setTextComparator(RawTextComparator.WS_IGNORE_ALL)
 					.setStartCommit(merge.getId());
@@ -494,7 +494,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testBlameWithNulByteInHistory() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = { "First line", "Another line" };
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
@@ -532,7 +532,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testBlameWithNulByteInTopRevision() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = { "First line", "Another line" };
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();

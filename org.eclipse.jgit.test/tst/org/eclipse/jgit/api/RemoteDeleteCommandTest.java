@@ -22,14 +22,14 @@ public class RemoteDeleteCommandTest extends AbstractRemoteCommandTest {
 		RemoteConfig remoteConfig = setupRemote();
 
 		// execute the command to remove the remote
-		RemoteRemoveCommand cmd = Git.wrap(db).remoteRemove();
+		RemoteRemoveCommand cmd = Git.wrap(repository).remoteRemove();
 		cmd.setRemoteName(REMOTE_NAME);
 		RemoteConfig remote = cmd.call();
 
 		// assert that the removed remote is the initial remote
 		assertRemoteConfigEquals(remoteConfig, remote);
 		// assert that there are no remotes left
-		assertTrue(RemoteConfig.getAllRemoteConfigs(db.getConfig()).isEmpty());
+		assertTrue(RemoteConfig.getAllRemoteConfigs(repository.getConfig()).isEmpty());
 	}
 
 }

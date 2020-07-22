@@ -40,7 +40,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		final Config config = db.getConfig();
+		final Config config = repository.getConfig();
 		remoteConfig = new RemoteConfig(config, "test");
 		remoteConfig.addURI(new URIish("http://everyones.loves.git/u/2"));
 	}
@@ -55,7 +55,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	public void testFindRemoteRefUpdatesNoWildcardNoTracking()
 			throws IOException {
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(Collections.nCopies(1,
 					new RefSpec("refs/heads/master:refs/heads/x")));
 		}
@@ -65,7 +65,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertNull(rru.getExpectedOldObjectId());
 		assertFalse(rru.isForceUpdate());
 		assertEquals("refs/heads/master", rru.getSrcRef());
-		assertEquals(db.resolve("refs/heads/master"), rru.getNewObjectId());
+		assertEquals(repository.resolve("refs/heads/master"), rru.getNewObjectId());
 		assertEquals("refs/heads/x", rru.getRemoteName());
 	}
 
@@ -79,7 +79,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	public void testFindRemoteRefUpdatesNoWildcardNoDestination()
 			throws IOException {
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(
 					Collections.nCopies(1, new RefSpec("+refs/heads/master")));
 		}
@@ -89,7 +89,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertNull(rru.getExpectedOldObjectId());
 		assertTrue(rru.isForceUpdate());
 		assertEquals("refs/heads/master", rru.getSrcRef());
-		assertEquals(db.resolve("refs/heads/master"), rru.getNewObjectId());
+		assertEquals(repository.resolve("refs/heads/master"), rru.getNewObjectId());
 		assertEquals("refs/heads/master", rru.getRemoteName());
 	}
 
@@ -101,7 +101,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testFindRemoteRefUpdatesWildcardNoTracking() throws IOException {
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(Collections.nCopies(1,
 					new RefSpec("+refs/heads/*:refs/heads/test/*")));
 		}
@@ -134,7 +134,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		final Collection<RefSpec> specs = Arrays.asList(specA, specC);
 
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(specs);
 		}
 
@@ -164,7 +164,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				"refs/heads/*:refs/remotes/test/*"));
 
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(Collections.nCopies(1,
 					new RefSpec("+refs/heads/a:refs/heads/a")));
 		}
@@ -174,7 +174,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				.getTrackingRefUpdate();
 		assertEquals("refs/remotes/test/a", tru.getLocalName());
 		assertEquals("refs/heads/a", tru.getRemoteName());
-		assertEquals(db.resolve("refs/heads/a"), tru.getNewObjectId());
+		assertEquals(repository.resolve("refs/heads/a"), tru.getNewObjectId());
 		assertEquals(ObjectId.zeroId(), tru.getOldObjectId());
 	}
 
@@ -193,7 +193,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				new RefLeaseSpec("refs/heads/b", "refs/heads/c"));
 
 		Collection<RemoteRefUpdate> result;
-		try (Transport transport = Transport.open(db, remoteConfig)) {
+		try (Transport transport = Transport.open(repository, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(specs, leases);
 		}
 
@@ -204,7 +204,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 			if ("refs/heads/a".equals(rru.getSrcRef())
 					&& "refs/heads/b".equals(rru.getRemoteName())) {
 				foundA = true;
-				assertEquals(db.exactRef("refs/heads/c").getObjectId(),
+				assertEquals(repository.exactRef("refs/heads/c").getObjectId(),
 						rru.getExpectedOldObjectId());
 			}
 			if ("refs/heads/c".equals(rru.getSrcRef())
@@ -222,17 +222,17 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		Repository other = createWorkRepository();
 		String otherDir = other.getWorkTree().getName();
 
-		RemoteConfig config = new RemoteConfig(db.getConfig(), "other");
+		RemoteConfig config = new RemoteConfig(repository.getConfig(), "other");
 		config.addURI(new URIish("../" + otherDir));
 
 		// Should not throw NoRemoteRepositoryException
-		Transport.open(db, config).close();
+		Transport.open(repository, config).close();
 	}
 
 	@Test
 	public void testLocalTransportFetchWithoutLocalRepository()
 			throws Exception {
-		URIish uri = new URIish("file://" + db.getWorkTree().getAbsolutePath());
+		URIish uri = new URIish("file://" + repository.getWorkTree().getAbsolutePath());
 		try (Transport transport = Transport.open(uri)) {
 			try (FetchConnection fetchConnection = transport.openFetch()) {
 				Ref head = fetchConnection.getRef(Constants.HEAD);

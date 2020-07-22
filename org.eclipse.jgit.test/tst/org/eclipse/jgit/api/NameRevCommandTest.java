@@ -31,8 +31,8 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		tr = new TestRepository<>(db);
-		git = new Git(db);
+		tr = new TestRepository<>(repository);
+		git = new Git(repository);
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class NameRevCommandTest extends RepositoryTestCase {
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag", c);
 		assertOneResult("master",
-				git.nameRev().addRef(db.exactRef("refs/heads/master")), c);
+				git.nameRev().addRef(repository.exactRef("refs/heads/master")), c);
 		assertOneResult("tag",
-				git.nameRev().addRef(db.exactRef("refs/tags/tag")), c);
+				git.nameRev().addRef(repository.exactRef("refs/tags/tag")), c);
 	}
 
 	@Test

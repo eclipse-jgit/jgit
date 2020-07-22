@@ -42,7 +42,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws GitAPIException {
-		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
+		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertTrue(modules.isEmpty());
@@ -51,12 +51,12 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 	@Test
 	public void repositoryWithSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.add().addFilepattern("file.txt").call();
 		final RevCommit commit = git.commit().setMessage("create file").call();
 
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -68,25 +68,25 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_URL, db.getDirectory().toURI()
+				ConfigConstants.CONFIG_KEY_URL, repository.getDirectory().toURI()
 						.toString());
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.save();
 
-		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
+		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(repository);
 		Collection<String> updated = command.call();
 		assertNotNull(updated);
 		assertEquals(1, updated.size());
 		assertEquals(path, updated.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			try (Repository subRepo = generator.getRepository()) {
 				assertNotNull(subRepo);
@@ -101,7 +101,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -114,7 +114,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		editor.commit();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "git://server/repo.git";
@@ -125,7 +125,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
+		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(repository);
 		Collection<String> updated = command.call();
 		assertNotNull(updated);
 		assertTrue(updated.isEmpty());
@@ -137,7 +137,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -150,12 +150,12 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		editor.commit();
 
 		try (Repository subRepo = Git.init().setBare(false)
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository()) {
 			assertNotNull(subRepo);
 		}
 
-		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
+		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(repository);
 		Collection<String> updated = command.call();
 		assertNotNull(updated);
 		assertTrue(updated.isEmpty());

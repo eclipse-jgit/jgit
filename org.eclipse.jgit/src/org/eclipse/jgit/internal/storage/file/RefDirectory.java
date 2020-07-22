@@ -177,10 +177,10 @@ public class RefDirectory extends RefDatabase {
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
-	RefDirectory(FileRepository db) {
-		final FS fs = db.getFS();
-		parent = db;
-		gitDir = db.getDirectory();
+	RefDirectory(FileRepository repo) {
+		final FS fs = repo.getFS();
+		parent = repo;
+		gitDir = repo.getDirectory();
 		refsDir = fs.resolve(gitDir, R_REFS);
 		logsDir = fs.resolve(gitDir, LOGS);
 		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);

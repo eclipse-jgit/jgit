@@ -44,7 +44,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = Git.wrap(db);
+		git = Git.wrap(repository);
 		committedFile = writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
 		head = git.commit().setMessage("add file").call();

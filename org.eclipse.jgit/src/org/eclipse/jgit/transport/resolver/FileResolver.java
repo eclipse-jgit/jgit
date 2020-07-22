@@ -180,19 +180,19 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 *            the current HTTP request.
 	 * @param repositoryName
 	 *            name of the repository, as present in the URL.
-	 * @param db
+	 * @param repo
 	 *            the opened repository instance.
 	 * @return true if the repository is accessible; false if not.
 	 * @throws java.io.IOException
 	 *             the repository could not be accessed, the caller will claim
 	 *             the repository does not exist.
 	 */
-	protected boolean isExportOk(C req, String repositoryName, Repository db)
+	protected boolean isExportOk(C req, String repositoryName, Repository repo)
 			throws IOException {
 		if (isExportAll())
 			return true;
-		else if (db.getDirectory() != null)
-			return new File(db.getDirectory(), "git-daemon-export-ok").exists(); //$NON-NLS-1$
+		else if (repo.getDirectory() != null)
+			return new File(repo.getDirectory(), "git-daemon-export-ok").exists(); //$NON-NLS-1$
 		else
 			return false;
 	}

@@ -33,7 +33,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 		final ObjectLoader or;
 
 		PackFile pr = null;
-		for (PackFile p : db.getObjectDatabase().getPacks()) {
+		for (PackFile p : repository.getObjectDatabase().getPacks()) {
 			if (PACK_NAME.equals(p.getPackName())) {
 				pr = p;
 				break;
@@ -55,7 +55,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 		final ObjectLoader or;
 
 		id = ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259");
-		or = db.open(id);
+		or = repository.open(id);
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_BLOB, or.getType());
 		assertEquals(18009, or.getSize());

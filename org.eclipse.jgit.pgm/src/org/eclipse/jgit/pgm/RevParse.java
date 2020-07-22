@@ -40,7 +40,7 @@ class RevParse extends TextBuiltin {
 	protected void run() {
 		try {
 			if (all) {
-				for (Ref r : db.getRefDatabase().getRefs()) {
+				for (Ref r : repo.getRefDatabase().getRefs()) {
 					ObjectId objectId = r.getObjectId();
 					// getRefs skips dangling symrefs, so objectId should never
 					// be null.

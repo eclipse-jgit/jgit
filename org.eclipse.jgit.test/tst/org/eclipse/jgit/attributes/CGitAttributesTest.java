@@ -47,7 +47,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		// Because we run C-git, we must ensure that global or user exclude
 		// files cannot influence the tests. So we set core.excludesFile to an
 		// empty file inside the repository.
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		File fakeUserGitignore = writeTrashFile(".fake_user_gitignore", "");
 		config.setString("core", null, "excludesFile",
 				fakeUserGitignore.getAbsolutePath());
@@ -84,14 +84,14 @@ public class CGitAttributesTest extends RepositoryTestCase {
 
 	private LinkedHashMap<String, Attributes> cgitAttributes(
 			Set<String> allFiles) throws Exception {
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		StringBuilder input = new StringBuilder();
 		for (String filename : allFiles) {
 			input.append(filename).append('\n');
 		}
 		ProcessBuilder builder = fs.runInShell("git",
 				new String[] { "check-attr", "--stdin", "--all" });
-		builder.directory(db.getWorkTree());
+		builder.directory(repository.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder, new ByteArrayInputStream(
 				input.toString().getBytes(UTF_8)));
@@ -129,8 +129,8 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		// Do a tree walk and return a list of all files and directories with
 		// their attributes
 		LinkedHashMap<String, Attributes> result = new LinkedHashMap<>();
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new FileTreeIterator(db));
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.addTree(new FileTreeIterator(repository));
 			walk.setFilter(new NotIgnoredFilter(0));
 			while (walk.next()) {
 				String path = walk.getPathString();

@@ -243,7 +243,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File indexFile = new File(trash, "idx");
 		File objDir = new File(trash, "../obj");
-		File altObjDir = db.getObjectDatabase().getDirectory();
+		File altObjDir = repository.getObjectDatabase().getDirectory();
 		try (Repository repo1initial = new FileRepository(
 				new File(repo1Parent, Constants.DOT_GIT))) {
 			repo1initial.create();
@@ -275,15 +275,15 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// open when we create it we won't write the object file out as a loose
 		// object (as it already exists in the pack).
 		//
-		try (Repository newdb = createBareRepository()) {
-			try (ObjectInserter oi = newdb.newObjectInserter()) {
+		try (Repository newrepo = createBareRepository()) {
+			try (ObjectInserter oi = newrepo.newObjectInserter()) {
 				final ObjectId treeId = oi.insert(new TreeFormatter());
 				assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
 						treeId.name());
 			}
 
 			final File o = new File(
-					new File(new File(newdb.getDirectory(), Constants.OBJECTS),
+					new File(new File(newrepo.getDirectory(), Constants.OBJECTS),
 							"4b"),
 					"825dc642cb6eb9a060e54bf8d69288fbee4904");
 			assertTrue("Exists " + o, o.isFile());
@@ -298,7 +298,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final ObjectId treeId = insertTree(new TreeFormatter());
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", treeId.name());
 		final File o = new File(new File(
-				new File(db.getDirectory(), Constants.OBJECTS), "4b"),
+				new File(repository.getDirectory(), Constants.OBJECTS), "4b"),
 				"825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertFalse("Exists " + o, o.isFile());
 	}
@@ -317,8 +317,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
-		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
-		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
+		final File cfg = new File(repository.getDirectory(), Constants.CONFIG);
+		final FileBasedConfig c = new FileBasedConfig(cfg, repository.getFS());
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"
 				+ "  email = A U Thor <thor@example.com> # Just an example...\n"
@@ -347,23 +347,23 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void test007_Open() throws IOException {
-		try (FileRepository db2 = new FileRepository(db.getDirectory())) {
-			assertEquals(db.getDirectory(), db2.getDirectory());
-			assertEquals(db.getObjectDatabase().getDirectory(), db2
+		try (FileRepository repo2 = new FileRepository(repository.getDirectory())) {
+			assertEquals(repository.getDirectory(), repo2.getDirectory());
+			assertEquals(repository.getObjectDatabase().getDirectory(), repo2
 					.getObjectDatabase().getDirectory());
-			assertNotSame(db.getConfig(), db2.getConfig());
+			assertNotSame(repository.getConfig(), repo2.getConfig());
 		}
 	}
 
 	@Test
 	public void test008_FailOnWrongVersion() throws IOException {
-		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
+		final File cfg = new File(repository.getDirectory(), Constants.CONFIG);
 		final String badvers = "ihopethisisneveraversion";
 		final String configStr = "[core]\n" + "\trepositoryFormatVersion="
 				+ badvers + "\n";
 		write(cfg, configStr);
 
-		try (FileRepository unused = new FileRepository(db.getDirectory())) {
+		try (FileRepository unused = new FileRepository(repository.getDirectory())) {
 			fail("incorrectly opened a bad repository");
 		} catch (IllegalArgumentException ioe) {
 			assertNotNull(ioe.getMessage());
@@ -387,7 +387,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(cmtid, actid);
 
 		// Verify the commit we just wrote is in the correct format.
-		ObjectDatabase odb = db.getObjectDatabase();
+		ObjectDatabase odb = repository.getObjectDatabase();
 		assertTrue("is ObjectDirectory", odb instanceof ObjectDirectory);
 		try (XInputStream xis = new XInputStream(
 				new FileInputStream(((ObjectDirectory) odb).fileFor(cmtid)))) {
@@ -531,7 +531,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test026_CreateCommitMultipleparents() throws IOException {
 		final ObjectId treeId;
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			final ObjectId blobId = oi.insert(Constants.OBJ_BLOB,
 					"and this is the data in me\n".getBytes(UTF_8
 							.name()));
@@ -628,9 +628,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test027_UnpackedRefHigherPriorityThanPacked()
 			throws IOException {
 		String unpackedId = "7f822839a2fe9760f386cbbbcb3f92c5fe81def7";
-		write(new File(db.getDirectory(), "refs/heads/a"), unpackedId + "\n");
+		write(new File(repository.getDirectory(), "refs/heads/a"), unpackedId + "\n");
 
-		ObjectId resolved = db.resolve("refs/heads/a");
+		ObjectId resolved = repository.resolve("refs/heads/a");
 		assertEquals(unpackedId, resolved.name());
 	}
 
@@ -638,7 +638,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test028_LockPackedRef() throws IOException {
 		ObjectId id1;
 		ObjectId id2;
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = repository.newObjectInserter()) {
 			id1 = ins.insert(
 					Constants.OBJ_BLOB, "contents1".getBytes(UTF_8));
 			id2 = ins.insert(
@@ -652,23 +652,23 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		BUG_WorkAroundRacyGitIssues("packed-refs");
 		BUG_WorkAroundRacyGitIssues("HEAD");
 
-		ObjectId resolve = db.resolve("HEAD");
+		ObjectId resolve = repository.resolve("HEAD");
 		assertEquals(id1, resolve);
 
-		RefUpdate lockRef = db.updateRef("HEAD");
+		RefUpdate lockRef = repository.updateRef("HEAD");
 		lockRef.setNewObjectId(id2);
 		assertEquals(RefUpdate.Result.FORCED, lockRef.forceUpdate());
 
-		assertTrue(new File(db.getDirectory(), "refs/heads/foobar").exists());
-		assertEquals(id2, db.resolve("refs/heads/foobar"));
+		assertTrue(new File(repository.getDirectory(), "refs/heads/foobar").exists());
+		assertEquals(id2, repository.resolve("refs/heads/foobar"));
 
 		// Again. The ref already exists
-		RefUpdate lockRef2 = db.updateRef("HEAD");
+		RefUpdate lockRef2 = repository.updateRef("HEAD");
 		lockRef2.setNewObjectId(id1);
 		assertEquals(RefUpdate.Result.FORCED, lockRef2.forceUpdate());
 
-		assertTrue(new File(db.getDirectory(), "refs/heads/foobar").exists());
-		assertEquals(id1, db.resolve("refs/heads/foobar"));
+		assertTrue(new File(repository.getDirectory(), "refs/heads/foobar").exists());
+		assertEquals(id1, repository.resolve("refs/heads/foobar"));
 	}
 
 	@Test
@@ -695,18 +695,18 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals("", Repository.stripWorkDir(relBase, relNonFile));
 		assertEquals("", Repository.stripWorkDir(absBase, absNonFile));
 
-		assertEquals("", Repository.stripWorkDir(db.getWorkTree(), db
+		assertEquals("", Repository.stripWorkDir(repository.getWorkTree(), repository
 				.getWorkTree()));
 
-		File file = new File(new File(db.getWorkTree(), "subdir"), "File.java");
-		assertEquals("subdir/File.java", Repository.stripWorkDir(db
+		File file = new File(new File(repository.getWorkTree(), "subdir"), "File.java");
+		assertEquals("subdir/File.java", Repository.stripWorkDir(repository
 				.getWorkTree(), file));
 
 	}
 
 	private ObjectId insertEmptyBlob() throws IOException {
 		final ObjectId emptyId;
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			emptyId = oi.insert(Constants.OBJ_BLOB, new byte[] {});
 			oi.flush();
 		}
@@ -714,7 +714,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	}
 
 	private ObjectId insertTree(TreeFormatter tree) throws IOException {
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			ObjectId id = oi.insert(tree);
 			oi.flush();
 			return id;
@@ -723,7 +723,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	private ObjectId insertCommit(CommitBuilder builder)
 			throws IOException, UnsupportedEncodingException {
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			ObjectId id = oi.insert(builder);
 			oi.flush();
 			return id;
@@ -733,14 +733,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	private RevCommit parseCommit(AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		try (RevWalk rw = new RevWalk(db)) {
+		try (RevWalk rw = new RevWalk(repository)) {
 			return rw.parseCommit(id);
 		}
 	}
 
 	private ObjectId insertTag(TagBuilder tag) throws IOException,
 			UnsupportedEncodingException {
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			ObjectId id = oi.insert(tag);
 			oi.flush();
 			return id;
@@ -749,7 +749,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	private RevTag parseTag(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		try (RevWalk rw = new RevWalk(db)) {
+		try (RevWalk rw = new RevWalk(repository)) {
 			return rw.parseTag(id);
 		}
 	}
@@ -767,8 +767,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	private void BUG_WorkAroundRacyGitIssues(String name) throws IOException {
-		File path = new File(db.getDirectory(), name);
-		FS fs = db.getFS();
+		File path = new File(repository.getDirectory(), name);
+		FS fs = repository.getFS();
 		Instant old = fs.lastModifiedInstant(path);
 		long set = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
 		fs.setLastModified(path.toPath(), Instant.ofEpochMilli(set));

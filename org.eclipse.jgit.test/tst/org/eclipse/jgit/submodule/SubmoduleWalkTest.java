@@ -60,12 +60,12 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository<>(db);
+		testDb = new TestRepository<>(repository);
 	}
 
 	@Test
 	public void repositoryWithNoSubmodules() throws IOException {
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertFalse(gen.next());
 			assertNull(gen.getPath());
 			assertEquals(ObjectId.zeroId(), gen.getObjectId());
@@ -85,7 +85,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -97,11 +97,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(gen.next());
 			assertEquals(path, gen.getPath());
 			assertEquals(id, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertNull(gen.getModulesPath());
@@ -110,7 +110,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 			assertNull(gen.getRepository());
 			assertFalse(gen.next());
 		}
-		Status status = Git.wrap(db).status().call();
+		Status status = Git.wrap(repository).status().call();
 		assertFalse(status.isClean());
 	}
 
@@ -120,22 +120,23 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
+		File dotGit = new File(repository.getWorkTree(),
+				path + File.separatorChar
 				+ Constants.DOT_GIT);
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
-		File modulesGitDir = new File(db.getDirectory(),
+		File modulesGitDir = new File(repository.getDirectory(),
 				"modules" + File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
 			fw.append("gitdir: " + modulesGitDir.getAbsolutePath());
 		}
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		builder.setWorkTree(new File(db.getWorkTree(), path));
+		builder.setWorkTree(new File(repository.getWorkTree(), path));
 		builder.build().create();
 
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -147,11 +148,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(gen.next());
 			assertEquals(path, gen.getPath());
 			assertEquals(id, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertNull(gen.getModulesPath());
@@ -161,7 +162,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 				assertNotNull(subRepo);
 				assertEquals(modulesGitDir.getAbsolutePath(),
 						subRepo.getDirectory().getAbsolutePath());
-				assertEquals(new File(db.getWorkTree(), path).getAbsolutePath(),
+				assertEquals(new File(repository.getWorkTree(), path).getAbsolutePath(),
 						subRepo.getWorkTree().getAbsolutePath());
 			}
 			assertFalse(gen.next());
@@ -174,12 +175,14 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
+		File dotGit = new File(repository.getWorkTree(),
+				path + File.separatorChar
 				+ Constants.DOT_GIT);
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
-		File modulesGitDir = new File(db.getDirectory(), "modules"
+		File modulesGitDir = new File(repository.getDirectory(),
+				"modules"
 				+ File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
@@ -187,10 +190,10 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 					+ path);
 		}
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		builder.setWorkTree(new File(db.getWorkTree(), path));
+		builder.setWorkTree(new File(repository.getWorkTree(), path));
 		builder.build().create();
 
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -202,11 +205,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(gen.next());
 			assertEquals(path, gen.getPath());
 			assertEquals(id, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertNull(gen.getModulesPath());
@@ -215,7 +218,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 			try (Repository subRepo = gen.getRepository()) {
 				assertNotNull(subRepo);
 				assertEqualsFile(modulesGitDir, subRepo.getDirectory());
-				assertEqualsFile(new File(db.getWorkTree(), path),
+				assertEqualsFile(new File(repository.getWorkTree(), path),
 						subRepo.getWorkTree());
 				subRepo.close();
 				assertFalse(gen.next());
@@ -229,7 +232,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub/dir/final";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -241,11 +244,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(gen.next());
 			assertEquals(path, gen.getPath());
 			assertEquals(id, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertNull(gen.getModulesPath());
@@ -264,7 +267,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id2 = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1235");
 		final String path2 = "sub2";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path1) {
 
@@ -284,7 +287,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			gen.setFilter(PathFilter.create(path1));
 			assertTrue(gen.next());
 			assertEquals(path1, gen.getPath());
@@ -311,7 +314,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 				"git://example.com/sub");
 		writeTrashFile(DOT_GIT_MODULES, gitmodules.toText());
 
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -331,11 +334,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(gen.next());
 			assertEquals(path, gen.getPath());
 			assertEquals(subId, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertEquals("sub", gen.getModulesPath());
@@ -371,11 +374,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 						})
 				.create());
 
-		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, commit.getTree(),
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(repository, commit.getTree(),
 				"sub")) {
 			assertEquals(path, gen.getPath());
 			assertEquals(subId, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertEquals("sub", gen.getModulesPath());
@@ -413,10 +416,10 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
-		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub")) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(repository, p, "sub")) {
 			assertEquals(path, gen.getPath());
 			assertEquals(subId, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertEquals("sub", gen.getModulesPath());
@@ -454,10 +457,10 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
-		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub")) {
+		try (SubmoduleWalk gen = SubmoduleWalk.forPath(repository, p, "sub")) {
 			assertEquals(path, gen.getPath());
 			assertEquals(subId, gen.getObjectId());
-			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+			assertEquals(new File(repository.getWorkTree(), path), gen.getDirectory());
 			assertNull(gen.getConfigUpdate());
 			assertNull(gen.getConfigUrl());
 			assertEquals("sub", gen.getModulesPath());

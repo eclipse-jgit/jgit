@@ -24,20 +24,20 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiff() throws Exception {
-		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
-		File folder = new File(db.getDirectory().getParent(), "folder");
+		write(new File(repository.getDirectory().getParent(), "test.txt"), "test");
+		File folder = new File(repository.getDirectory().getParent(), "folder");
 		folder.mkdir();
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				PatchIdDiffFormatter df = new PatchIdDiffFormatter()) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
 
-			df.setRepository(db);
+			df.setRepository(repository);
 			df.setPathFilter(PathFilter.create("folder"));
-			DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator newTree = new FileTreeIterator(db);
+			DirCacheIterator oldTree = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator newTree = new FileTreeIterator(repository);
 			df.format(oldTree, newTree);
 			df.flush();
 
@@ -48,20 +48,20 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 
 	@Test
 	public void testSameDiff() throws Exception {
-		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
-		File folder = new File(db.getDirectory().getParent(), "folder");
+		write(new File(repository.getDirectory().getParent(), "test.txt"), "test");
+		File folder = new File(repository.getDirectory().getParent(), "folder");
 		folder.mkdir();
 		write(new File(folder, "folder.txt"), "\n\n\n\nfolder");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "\n\n\n\nfolder change");
 
 			try (PatchIdDiffFormatter df = new PatchIdDiffFormatter()) {
-				df.setRepository(db);
+				df.setRepository(repository);
 				df.setPathFilter(PathFilter.create("folder"));
-				DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
-				FileTreeIterator newTree = new FileTreeIterator(db);
+				DirCacheIterator oldTree = new DirCacheIterator(repository.readDirCache());
+				FileTreeIterator newTree = new FileTreeIterator(repository);
 				df.format(oldTree, newTree);
 				df.flush();
 
@@ -75,10 +75,10 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 			write(new File(folder, "folder.txt"), "a\n\n\n\nfolder change");
 
 			try (PatchIdDiffFormatter df = new PatchIdDiffFormatter()) {
-				df.setRepository(db);
+				df.setRepository(repository);
 				df.setPathFilter(PathFilter.create("folder"));
-				DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
-				FileTreeIterator newTree = new FileTreeIterator(db);
+				DirCacheIterator oldTree = new DirCacheIterator(repository.readDirCache());
+				FileTreeIterator newTree = new FileTreeIterator(repository);
 				df.format(oldTree, newTree);
 				df.flush();
 

@@ -42,7 +42,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws GitAPIException {
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertTrue(modules.isEmpty());
@@ -53,13 +53,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 			ConfigInvalidException, GitAPIException {
 		final String path = addSubmoduleToIndex();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "git://server/repo.git";
@@ -70,13 +70,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertEquals(1, modules.size());
 		assertEquals(path, modules.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals(url, generator.getConfigUrl());
 			assertEquals(update, generator.getConfigUpdate());
@@ -88,19 +88,19 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
 				base);
 		config.save();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "./sub.git";
@@ -111,13 +111,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertEquals(1, modules.size());
 		assertEquals(path, modules.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals("git://server/repo.git/sub.git",
 					generator.getConfigUrl());
@@ -131,19 +131,19 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
 				base);
 		config.save();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "../sub.git";
@@ -154,13 +154,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertEquals(1, modules.size());
 		assertEquals(path, modules.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals("git://server/sub.git", generator.getConfigUrl());
 			assertEquals(update, generator.getConfigUpdate());
@@ -173,19 +173,19 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
 				base);
 		config.save();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "../../server2/sub.git";
@@ -196,13 +196,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertEquals(1, modules.size());
 		assertEquals(path, modules.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals("git://server2/sub.git", generator.getConfigUrl());
 			assertEquals(update, generator.getConfigUpdate());
@@ -214,21 +214,21 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 			GitAPIException, ConfigInvalidException {
 		final String path = addSubmoduleToIndex();
 
-		String base = db.getWorkTree().getAbsolutePath();
+		String base = repository.getWorkTree().getAbsolutePath();
 		if (File.separatorChar == '\\')
 			base = base.replace('\\', '/');
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.unset(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL);
 		config.save();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "./sub.git";
@@ -239,13 +239,13 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_UPDATE, update);
 		modulesConfig.save();
 
-		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		SubmoduleInitCommand command = new SubmoduleInitCommand(repository);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
 		assertEquals(1, modules.size());
 		assertEquals(path, modules.iterator().next());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertEquals(base + "/sub.git", generator.getConfigUrl());
 			assertEquals(update, generator.getConfigUpdate());
@@ -258,19 +258,19 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		final String path = addSubmoduleToIndex();
 
 		String base = "no_slash";
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
 				base);
 		config.save();
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 			assertNull(generator.getConfigUrl());
 			assertNull(generator.getConfigUpdate());
 		}
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		String url = "../sub.git";
@@ -279,7 +279,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		modulesConfig.save();
 
 		try {
-			new SubmoduleInitCommand(db).call();
+			new SubmoduleInitCommand(repository).call();
 			fail("Exception not thrown");
 		} catch (JGitInternalException e) {
 			assertTrue(e.getCause() instanceof IOException);
@@ -290,7 +290,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 

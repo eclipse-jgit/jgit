@@ -706,8 +706,8 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	private void beginWalk() {
-		walk = new TreeWalk(db);
-		FileTreeIterator iter = new FileTreeIterator(db);
+		walk = new TreeWalk(repository);
+		FileTreeIterator iter = new FileTreeIterator(repository);
 		iter.setWalkIgnoredDirectories(true);
 		walk.addTree(iter);
 	}

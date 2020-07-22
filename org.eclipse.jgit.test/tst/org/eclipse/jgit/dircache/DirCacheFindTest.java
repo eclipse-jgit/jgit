@@ -21,7 +21,7 @@ import org.junit.Test;
 public class DirCacheFindTest extends RepositoryTestCase {
 	@Test
 	public void testEntriesWithin() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 
 		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];

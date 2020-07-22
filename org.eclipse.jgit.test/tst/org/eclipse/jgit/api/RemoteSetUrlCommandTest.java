@@ -25,7 +25,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 		setupRemote();
 
 		// execute the command to change the fetch url
-		RemoteSetUrlCommand cmd = Git.wrap(db).remoteSetUrl();
+		RemoteSetUrlCommand cmd = Git.wrap(repository).remoteSetUrl();
 		cmd.setRemoteName(REMOTE_NAME);
 		URIish newUri = new URIish("git://test.com/test");
 		cmd.setRemoteUri(newUri);
@@ -37,7 +37,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 		// assert that the changed remote is available in the git configuration
 		assertRemoteConfigEquals(remote,
-				new RemoteConfig(db.getConfig(), REMOTE_NAME));
+				new RemoteConfig(repository.getConfig(), REMOTE_NAME));
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 		RemoteConfig remoteConfig = setupRemote();
 
 		// execute the command to change the push url
-		RemoteSetUrlCommand cmd = Git.wrap(db).remoteSetUrl();
+		RemoteSetUrlCommand cmd = Git.wrap(repository).remoteSetUrl();
 		cmd.setRemoteName(REMOTE_NAME);
 		URIish newUri = new URIish("git://test.com/test");
 		cmd.setRemoteUri(newUri);
@@ -62,7 +62,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 		// assert that the changed remote is available in the git configuration
 		assertRemoteConfigEquals(remote,
-				new RemoteConfig(db.getConfig(), REMOTE_NAME));
+				new RemoteConfig(repository.getConfig(), REMOTE_NAME));
 	}
 
 }

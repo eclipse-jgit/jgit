@@ -164,7 +164,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		assertEquals(1, packs.size());
 		assertEquals(3, packs.get(0).getObjectCount());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertBlob(reader, blobId, blob);
 
 			CanonicalTreeParser treeParser =
@@ -198,7 +198,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		assertEquals(1, packs.get(0).getObjectCount());
 		assertEquals(1, packs.get(1).getObjectCount());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertBlob(reader, blobId1, blob1);
 			assertBlob(reader, blobId2, blob2);
 		}
@@ -221,7 +221,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		PackFile p = packs.iterator().next();
 		assertEquals(1, p.getObjectCount());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertBlob(reader, blobId, blob);
 		}
 	}
@@ -294,7 +294,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		assertPacksOnly();
 		assertEquals(2, listPacks().size());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertBlob(reader, blobId, blob);
 		}
 	}
@@ -376,7 +376,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		assertEquals(1, packs.size());
 		assertEquals(2, packs.get(0).getObjectCount());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertBlob(reader, blobId1, blob1);
 			assertBlob(reader, blobId2, blob2);
 
@@ -397,7 +397,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		WindowCacheConfig wcc = new WindowCacheConfig();
 		wcc.setStreamFileThreshold(1024);
 		wcc.install();
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertThat(blob.length, greaterThan(reader.getStreamFileThreshold()));
 		}
 
@@ -416,7 +416,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		// ultimately rolled back and deleted.
 		assertEquals(0, listPacks().size());
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			try {
 				reader.open(blobId);
 				fail("Expected MissingObjectException");
@@ -482,7 +482,7 @@ public class PackInserterTest extends RepositoryTestCase {
 			ins.flush();
 		}
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 				assertBlob(reader, blobId1, blob1);
 				assertBlob(reader, blobId2, blob2);
 				assertBlob(reader, largeId, largeBlob);
@@ -490,10 +490,10 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	private List<PackFile> listPacks() throws Exception {
-		List<PackFile> fromOpenDb = listPacks(db);
+		List<PackFile> fromOpenDb = listPacks(repository);
 		List<PackFile> reopened;
-		try (FileRepository db2 = new FileRepository(db.getDirectory())) {
-			reopened = listPacks(db2);
+		try (FileRepository repo2 = new FileRepository(repository.getDirectory())) {
+			reopened = listPacks(repo2);
 		}
 		assertEquals(fromOpenDb.size(), reopened.size());
 		for (int i = 0 ; i < fromOpenDb.size(); i++) {
@@ -514,7 +514,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	private PackInserter newInserter() {
-		return db.getObjectDatabase().newPackInserter();
+		return repository.getObjectDatabase().newPackInserter();
 	}
 
 	private static byte[] newLargeBlob() {
@@ -550,12 +550,12 @@ public class PackInserterTest extends RepositoryTestCase {
 
 	private void assertPacksOnly() throws Exception {
 		new BadFileCollector(f -> !f.endsWith(".pack") && !f.endsWith(".idx"))
-				.assertNoBadFiles(db.getObjectDatabase().getDirectory());
+				.assertNoBadFiles(repository.getObjectDatabase().getDirectory());
 	}
 
 	private void assertNoObjects() throws Exception {
 		new BadFileCollector(f -> true)
-				.assertNoBadFiles(db.getObjectDatabase().getDirectory());
+				.assertNoBadFiles(repository.getObjectDatabase().getDirectory());
 	}
 
 	private static class BadFileCollector extends SimpleFileVisitor<Path> {

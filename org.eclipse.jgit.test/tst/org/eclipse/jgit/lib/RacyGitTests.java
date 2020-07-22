@@ -33,13 +33,13 @@ public class RacyGitTests extends RepositoryTestCase {
 	@Test
 	public void testRacyGitDetection() throws Exception {
 		// Reset to force creation of index file
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.reset().call();
 		}
 
 		// wait to ensure that modtimes of the file doesn't match last index
 		// file modtime
-		fsTick(db.getIndexFile());
+		fsTick(repository.getIndexFile());
 
 		// create two files
 		File a = writeToWorkDir("a", "a");
@@ -52,7 +52,7 @@ public class RacyGitTests extends RepositoryTestCase {
 		fsTick(b);
 
 		// now add both files to the index. No racy git expected
-		resetIndex(new FileTreeIterator(db));
+		resetIndex(new FileTreeIterator(repository));
 
 		assertEquals(
 				"[a, mode:100644, time:t0, length:1, content:a]"
@@ -60,7 +60,7 @@ public class RacyGitTests extends RepositoryTestCase {
 				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT));
 
 		// wait to ensure the file 'a' is updated at t1.
-		fsTick(db.getIndexFile());
+		fsTick(repository.getIndexFile());
 
 		// Create a racy git situation. This is a situation that the index is
 		// updated and then a file is modified within the same tick of the
@@ -69,11 +69,11 @@ public class RacyGitTests extends RepositoryTestCase {
 		File updatedA = writeToWorkDir("a", "a2");
 		Instant newLastModified = TimeUtil
 				.setLastModifiedWithOffset(updatedA.toPath(), 100L);
-		resetIndex(new FileTreeIterator(db));
-		FS.DETECTED.setLastModified(db.getIndexFile().toPath(),
+		resetIndex(new FileTreeIterator(repository));
+		FS.DETECTED.setLastModified(repository.getIndexFile().toPath(),
 				newLastModified);
 
-		DirCache dc = db.readDirCache();
+		DirCache dc = repository.readDirCache();
 		// check index state: although racily clean a should not be reported as
 		// being dirty since we forcefully reset the index to match the working
 		// tree
@@ -84,16 +84,16 @@ public class RacyGitTests extends RepositoryTestCase {
 
 		// compare state of files in working tree with index to check that
 		// FileTreeIterator.isModified() works as expected
-		FileTreeIterator f = new FileTreeIterator(db.getWorkTree(), db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		FileTreeIterator f = new FileTreeIterator(repository.getWorkTree(), repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(f.findFile("a"));
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			assertFalse(f.isModified(dc.getEntry("a"), false, reader));
 		}
 	}
 
 	private File writeToWorkDir(String path, String content) throws IOException {
-		File f = new File(db.getWorkTree(), path);
+		File f = new File(repository.getWorkTree(), path);
 		try (FileOutputStream fos = new FileOutputStream(f)) {
 			fos.write(content.getBytes(UTF_8));
 			return f;

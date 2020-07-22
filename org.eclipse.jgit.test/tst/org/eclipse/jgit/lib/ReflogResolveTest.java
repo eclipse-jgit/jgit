@@ -27,7 +27,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 
 	@Test
 	public void resolveMasterCommits() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
@@ -35,14 +35,14 @@ public class ReflogResolveTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c2 = git.commit().setMessage("edit file").call();
 
-			assertEquals(c2, db.resolve("master@{0}"));
-			assertEquals(c1, db.resolve("master@{1}"));
+			assertEquals(c2, repository.resolve("master@{0}"));
+			assertEquals(c1, repository.resolve("master@{1}"));
 		}
 	}
 
 	@Test
 	public void resolveUnnamedCurrentBranchCommits() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
@@ -50,16 +50,16 @@ public class ReflogResolveTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c2 = git.commit().setMessage("edit file").call();
 
-			assertEquals(c2, db.resolve("master@{0}"));
-			assertEquals(c1, db.resolve("master@{1}"));
+			assertEquals(c2, repository.resolve("master@{0}"));
+			assertEquals(c1, repository.resolve("master@{1}"));
 
 			git.checkout().setCreateBranch(true).setName("newbranch")
 					.setStartPoint(c1).call();
 
 			// same as current branch, e.g. master
-			assertEquals(c1, db.resolve("@{0}"));
+			assertEquals(c1, repository.resolve("@{0}"));
 			try {
-				assertEquals(c1, db.resolve("@{1}"));
+				assertEquals(c1, repository.resolve("@{1}"));
 				fail(); // Looking at wrong ref, e.g HEAD
 			} catch (RevisionSyntaxException e) {
 				assertNotNull(e);
@@ -67,15 +67,15 @@ public class ReflogResolveTest extends RepositoryTestCase {
 
 			// detached head, read HEAD reflog
 			git.checkout().setName(c2.getName()).call();
-			assertEquals(c2, db.resolve("@{0}"));
-			assertEquals(c1, db.resolve("@{1}"));
-			assertEquals(c2, db.resolve("@{2}"));
+			assertEquals(c2, repository.resolve("@{0}"));
+			assertEquals(c1, repository.resolve("@{1}"));
+			assertEquals(c2, repository.resolve("@{2}"));
 		}
 	}
 
 	@Test
 	public void resolveReflogParent() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
@@ -83,23 +83,23 @@ public class ReflogResolveTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("edit file").call();
 
-			assertEquals(c1, db.resolve("master@{0}~1"));
+			assertEquals(c1, repository.resolve("master@{0}~1"));
 		}
 	}
 
 	@Test
 	public void resolveNonExistingBranch() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("create file").call();
-			assertNull(db.resolve("notabranch@{7}"));
+			assertNull(repository.resolve("notabranch@{7}"));
 		}
 	}
 
 	@Test
 	public void resolvePreviousBranch() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
@@ -114,32 +114,32 @@ public class ReflogResolveTest extends RepositoryTestCase {
 
 			git.checkout().setName("master").call();
 
-			assertEquals(c1.getName(), db.simplify("@{-1}"));
-			assertEquals("newbranch", db.simplify("@{-2}"));
-			assertEquals("master", db.simplify("@{-3}"));
+			assertEquals(c1.getName(), repository.simplify("@{-1}"));
+			assertEquals("newbranch", repository.simplify("@{-2}"));
+			assertEquals("master", repository.simplify("@{-3}"));
 
 			// chained expression
 			try {
 				// Cannot refer to reflog of detached head
-				db.resolve("@{-1}@{0}");
+				repository.resolve("@{-1}@{0}");
 				fail();
 			} catch (RevisionSyntaxException e) {
 				// good
 			}
-			assertEquals(c1.getName(), db.resolve("@{-2}@{0}").getName());
+			assertEquals(c1.getName(), repository.resolve("@{-2}@{0}").getName());
 
-			assertEquals(c2.getName(), db.resolve("@{-3}@{0}").getName());
+			assertEquals(c2.getName(), repository.resolve("@{-3}@{0}").getName());
 		}
 	}
 
 	@Test
 	public void resolveDate() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("create file").call();
 			try {
-				db.resolve("master@{yesterday}");
+				repository.resolve("master@{yesterday}");
 				fail("Exception not thrown");
 			} catch (RevisionSyntaxException e) {
 				assertNotNull(e);

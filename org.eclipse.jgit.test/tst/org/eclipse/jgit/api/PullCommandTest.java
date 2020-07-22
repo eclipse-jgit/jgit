@@ -112,7 +112,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		try (RevWalk rw = new RevWalk(dbTarget)) {
 			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
 			String message = "Merge branch 'master' of "
-					+ db.getWorkTree().getAbsolutePath();
+					+ repository.getWorkTree().getAbsolutePath();
 			assertEquals(message, mergeCommit.getShortMessage());
 		}
 	}
@@ -243,7 +243,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	public void testPullMergeProgrammaticConfiguration() throws Exception {
 		// create another commit on another branch in source
 		source.checkout().setCreateBranch(true).setName("other").call();
-		sourceFile = new File(db.getWorkTree(), "file2.txt");
+		sourceFile = new File(repository.getWorkTree(), "file2.txt");
 		writeToFile(sourceFile, "content");
 		source.add().addFilepattern("file2.txt").call();
 		RevCommit sourceCommit = source.commit()
@@ -266,7 +266,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		try (RevWalk rw = new RevWalk(dbTarget)) {
 			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
 			String message = "Merge branch 'other' of "
-					+ db.getWorkTree().getAbsolutePath();
+					+ repository.getWorkTree().getAbsolutePath();
 			assertEquals(message, mergeCommit.getShortMessage());
 		}
 	}
@@ -276,7 +276,7 @@ public class PullCommandTest extends RepositoryTestCase {
 			throws Exception {
 		// create another commit on another branch in source
 		source.checkout().setCreateBranch(true).setName("other").call();
-		sourceFile = new File(db.getWorkTree(), "file2.txt");
+		sourceFile = new File(repository.getWorkTree(), "file2.txt");
 		writeToFile(sourceFile, "content");
 		source.add().addFilepattern("file2.txt").call();
 		RevCommit sourceCommit = source.commit()
@@ -301,7 +301,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		try (RevWalk rw = new RevWalk(dbTarget)) {
 			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
 			String message = "Merge branch 'other' of "
-					+ db.getWorkTree().getAbsolutePath() + " into other";
+					+ repository.getWorkTree().getAbsolutePath() + " into other";
 			assertEquals(message, mergeCommit.getShortMessage());
 		}
 	}
@@ -496,11 +496,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();
-		source = new Git(db);
+		source = new Git(repository);
 		target = new Git(dbTarget);
 
 		// put some file in the source repo
-		sourceFile = new File(db.getWorkTree(), "SomeFile.txt");
+		sourceFile = new File(repository.getWorkTree(), "SomeFile.txt");
 		writeToFile(sourceFile, "Hello world");
 		// and commit it
 		source.add().addFilepattern("SomeFile.txt").call();

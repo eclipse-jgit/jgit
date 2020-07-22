@@ -30,7 +30,7 @@ class Repo extends TextBuiltin {
 	@Override
 	protected void run() {
 		try {
-			new RepoCommand(db)
+			new RepoCommand(repo)
 				.setURI(uri)
 				.setPath(path)
 				.setGroups(groups)

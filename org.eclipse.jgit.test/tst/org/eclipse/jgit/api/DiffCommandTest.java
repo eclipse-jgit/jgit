@@ -33,11 +33,11 @@ import org.junit.Test;
 public class DiffCommandTest extends RepositoryTestCase {
 	@Test
 	public void testDiffModified() throws Exception {
-		write(new File(db.getWorkTree(), "test.txt"), "test");
-		File folder = new File(db.getWorkTree(), "folder");
+		write(new File(repository.getWorkTree(), "test.txt"), "test");
+		File folder = new File(repository.getWorkTree(), "folder");
 		folder.mkdir();
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
@@ -68,10 +68,10 @@ public class DiffCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffCached() throws Exception {
-		write(new File(db.getWorkTree(), "test.txt"), "test");
-		File folder = new File(db.getWorkTree(), "folder");
+		write(new File(repository.getWorkTree(), "test.txt"), "test");
+		File folder = new File(repository.getWorkTree(), "folder");
 		folder.mkdir();
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder");
@@ -103,11 +103,11 @@ public class DiffCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffTwoCommits() throws Exception {
-		write(new File(db.getWorkTree(), "test.txt"), "test");
-		File folder = new File(db.getWorkTree(), "folder");
+		write(new File(repository.getWorkTree(), "test.txt"), "test");
+		File folder = new File(repository.getWorkTree(), "folder");
 		folder.mkdir();
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
@@ -152,11 +152,11 @@ public class DiffCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffWithPrefixes() throws Exception {
-		write(new File(db.getWorkTree(), "test.txt"), "test");
-		try (Git git = new Git(db)) {
+		write(new File(repository.getWorkTree(), "test.txt"), "test");
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
-			write(new File(db.getWorkTree(), "test.txt"), "test change");
+			write(new File(repository.getWorkTree(), "test.txt"), "test change");
 
 			OutputStream out = new ByteArrayOutputStream();
 			git.diff().setOutputStream(out).setSourcePrefix("old/")
@@ -174,12 +174,12 @@ public class DiffCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffWithNegativeLineCount() throws Exception {
-		write(new File(db.getWorkTree(), "test.txt"),
+		write(new File(repository.getWorkTree(), "test.txt"),
 				"0\n1\n2\n3\n4\n5\n6\n7\n8\n9");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
-			write(new File(db.getWorkTree(), "test.txt"),
+			write(new File(repository.getWorkTree(), "test.txt"),
 					"0\n1\n2\n3\n4a\n5\n6\n7\n8\n9");
 
 			OutputStream out = new ByteArrayOutputStream();
@@ -198,7 +198,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	public void testNoOutputStreamSet() throws Exception {
 		File file = writeTrashFile("test.txt", "a");
 		TimeUtil.setLastModifiedWithOffset(file.toPath(), -5000L);
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			write(file, "b");
 
@@ -214,12 +214,12 @@ public class DiffCommandTest extends RepositoryTestCase {
 
 	private AbstractTreeIterator getTreeIterator(String name)
 			throws IOException {
-		final ObjectId id = db.resolve(name);
+		final ObjectId id = repository.resolve(name);
 		if (id == null)
 			throw new IllegalArgumentException(name);
 		final CanonicalTreeParser p = new CanonicalTreeParser();
-		try (ObjectReader or = db.newObjectReader();
-				RevWalk rw = new RevWalk(db)) {
+		try (ObjectReader or = repository.newObjectReader();
+				RevWalk rw = new RevWalk(repository)) {
 			p.reset(or, rw.parseTree(id));
 			return p;
 		}

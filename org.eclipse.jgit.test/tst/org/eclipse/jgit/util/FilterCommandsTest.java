@@ -69,7 +69,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		// commit something
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -77,7 +77,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 
 		// create a master branch and switch to it
 		git.branchCreate().setName("test").call();
-		RefUpdate rup = db.updateRef(Constants.HEAD);
+		RefUpdate rup = repository.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test");
 
 		// commit something on the test branch

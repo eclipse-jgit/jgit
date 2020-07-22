@@ -41,7 +41,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRevert() throws IOException, JGitInternalException,
 			GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "first line\nsec. line\nthird line\n");
 			git.add().addFilepattern("a").call();
 			git.commit().setMessage("create a").call();
@@ -65,10 +65,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			git.revert().include(fixingA).call();
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 
-			assertTrue(new File(db.getWorkTree(), "b").exists());
-			checkFile(new File(db.getWorkTree(), "a"),
+			assertTrue(new File(repository.getWorkTree(), "b").exists());
+			checkFile(new File(repository.getWorkTree(), "a"),
 					"first line\nsec. line\nthird line\nfourth line\n");
 			Iterator<RevCommit> history = git.log().call().iterator();
 			RevCommit revertCommit = history.next();
@@ -82,10 +82,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("create a", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			ReflogReader reader = repository.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = repository.getReflogReader(repository.getBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -95,7 +95,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRevertMultiple() throws IOException, JGitInternalException,
 			GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "first\n");
 			git.add().addFilepattern("a").call();
 			git.commit().setMessage("add first").call();
@@ -110,9 +110,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			git.revert().include(thirdCommit).include(secondCommit).call();
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 
-			checkFile(new File(db.getWorkTree(), "a"), "first\n");
+			checkFile(new File(repository.getWorkTree(), "a"), "first\n");
 			Iterator<RevCommit> history = git.log().call().iterator();
 			RevCommit revertCommit = history.next();
 			String expectedMessage = "Revert \"add second\"\n\n"
@@ -129,10 +129,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("add first", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			ReflogReader reader = repository.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = repository.getReflogReader(repository.getBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -142,7 +142,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRevertMultipleWithFail() throws IOException,
 			JGitInternalException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "first\n");
 			git.add().addFilepattern("a").call();
 			git.commit().setMessage("add first").call();
@@ -162,9 +162,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 			git.revert().include(fourthCommit).include(secondCommit).call();
 
 			// not SAFE because it failed
-			assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
+			assertEquals(RepositoryState.REVERTING, repository.getRepositoryState());
 
-			checkFile(new File(db.getWorkTree(), "a"), "first\n"
+			checkFile(new File(repository.getWorkTree(), "a"), "first\n"
 					+ "<<<<<<< master\n" + "second\n" + "third\n" + "=======\n"
 					+ ">>>>>>> " + secondCommit.getId().abbreviate(7).name()
 					+ " add second\n");
@@ -180,10 +180,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("add first", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			ReflogReader reader = repository.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = repository.getReflogReader(repository.getBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -192,7 +192,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRevertDirtyIndex() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			// modify and add file a
@@ -207,7 +207,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRevertDirtyWorktree() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			// modify file a
@@ -221,7 +221,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRevertConflictResolution() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			RevertCommand revert = git.revert();
@@ -229,32 +229,32 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertNull(newHead);
 			MergeResult result = revert.getFailingResult();
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
-			assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
+			assertTrue(new File(repository.getDirectory(), Constants.MERGE_MSG).exists());
 			assertEquals("Revert \"" + sideCommit.getShortMessage()
 					+ "\"\n\nThis reverts commit " + sideCommit.getId().getName()
 					+ ".\n\nConflicts:\n\ta\n",
-					db.readMergeCommitMsg());
-			assertTrue(new File(db.getDirectory(), Constants.REVERT_HEAD)
+					repository.readMergeCommitMsg());
+			assertTrue(new File(repository.getDirectory(), Constants.REVERT_HEAD)
 					.exists());
-			assertEquals(sideCommit.getId(), db.readRevertHead());
-			assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
+			assertEquals(sideCommit.getId(), repository.readRevertHead());
+			assertEquals(RepositoryState.REVERTING, repository.getRepositoryState());
 
 			// Resolve
 			writeTrashFile("a", "a");
 			git.add().addFilepattern("a").call();
 
 			assertEquals(RepositoryState.REVERTING_RESOLVED,
-					db.getRepositoryState());
+					repository.getRepositoryState());
 
 			git.commit().setOnly("a").setMessage("resolve").call();
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testRevertkConflictReset() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			RevertCommand revert = git.revert();
@@ -263,14 +263,14 @@ public class RevertCommandTest extends RepositoryTestCase {
 			MergeResult result = revert.getFailingResult();
 
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
-			assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
-			assertTrue(new File(db.getDirectory(), Constants.REVERT_HEAD)
+			assertEquals(RepositoryState.REVERTING, repository.getRepositoryState());
+			assertTrue(new File(repository.getDirectory(), Constants.REVERT_HEAD)
 					.exists());
 
 			git.reset().setMode(ResetType.MIXED).setRef("HEAD").call();
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
-			assertFalse(new File(db.getDirectory(), Constants.REVERT_HEAD)
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
+			assertFalse(new File(repository.getDirectory(), Constants.REVERT_HEAD)
 					.exists());
 		}
 	}
@@ -278,7 +278,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRevertOverExecutableChangeOnNonExectuableFileSystem()
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File file = writeTrashFile("test.txt", "a");
 			assertNotNull(git.add().addFilepattern("test.txt").call());
 			assertNotNull(git.commit().setMessage("commit1").call());
@@ -292,7 +292,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			assertNotNull(git.checkout().setName(Constants.MASTER).call());
 
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			cache.getEntry("test.txt").setFileMode(FileMode.EXECUTABLE_FILE);
 			cache.write();
 			assertTrue(cache.commit());
@@ -300,7 +300,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			assertNotNull(git.commit().setMessage("commit3").call());
 
-			db.getFS().setExecute(file, false);
+			repository.getFS().setExecute(file, false);
 			git.getRepository()
 					.getConfig()
 					.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -314,7 +314,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRevertConflictMarkers() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			RevertCommand revert = git.revert();
@@ -325,13 +325,13 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
 			String expected = "<<<<<<< master\na(latest)\n=======\na\n>>>>>>> ca96c31 second master\n";
-			checkFile(new File(db.getWorkTree(), "a"), expected);
+			checkFile(new File(repository.getWorkTree(), "a"), expected);
 		}
 	}
 
 	@Test
 	public void testRevertOurCommitName() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit sideCommit = prepareRevert(git);
 
 			RevertCommand revert = git.revert();
@@ -342,7 +342,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
 			String expected = "<<<<<<< custom name\na(latest)\n=======\na\n>>>>>>> ca96c31 second master\n";
-			checkFile(new File(db.getWorkTree(), "a"), expected);
+			checkFile(new File(repository.getWorkTree(), "a"), expected);
 		}
 	}
 
@@ -382,16 +382,16 @@ public class RevertCommandTest extends RepositoryTestCase {
 		// staged file a causes DIRTY_INDEX
 		assertEquals(1, result.getFailingPaths().size());
 		assertEquals(reason, result.getFailingPaths().get("a"));
-		assertEquals("a(modified)", read(new File(db.getWorkTree(), "a")));
+		assertEquals("a(modified)", read(new File(repository.getWorkTree(), "a")));
 		// index shall be unchanged
 		assertEquals(indexState, indexState(CONTENT));
-		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 
 		if (reason == null) {
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			ReflogReader reader = repository.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: "));
-			reader = db.getReflogReader(db.getBranch());
+			reader = repository.getReflogReader(repository.getBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: "));
 		}

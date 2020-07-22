@@ -44,17 +44,17 @@ class RebuildRefTree extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		try (ObjectReader reader = db.newObjectReader();
+		try (ObjectReader reader = repo.newObjectReader();
 				RevWalk rw = new RevWalk(reader);
-				ObjectInserter inserter = db.newObjectInserter()) {
-			RefDatabase refDb = db.getRefDatabase();
+				ObjectInserter inserter = repo.newObjectInserter()) {
+			RefDatabase refDb = repo.getRefDatabase();
 			if (refDb instanceof RefTreeDatabase) {
 				RefTreeDatabase d = (RefTreeDatabase) refDb;
 				refDb = d.getBootstrap();
 				txnNamespace = d.getTxnNamespace();
 				txnCommitted = d.getTxnCommitted();
 			} else {
-				RefTreeDatabase d = new RefTreeDatabase(db, refDb);
+				RefTreeDatabase d = new RefTreeDatabase(repo, refDb);
 				txnNamespace = d.getTxnNamespace();
 				txnCommitted = d.getTxnCommitted();
 			}
@@ -81,7 +81,7 @@ class RebuildRefTree extends TextBuiltin {
 
 			RefTree tree = rebuild(refDb);
 			b.setTreeId(tree.writeTree(inserter));
-			b.setAuthor(new PersonIdent(db));
+			b.setAuthor(new PersonIdent(repo));
 			b.setCommitter(b.getAuthor());
 			if (b.getTreeId().equals(oldTreeId)) {
 				return;
@@ -99,8 +99,8 @@ class RebuildRefTree extends TextBuiltin {
 				throw die(String.format("%s: %s", update.getName(), result)); //$NON-NLS-1$
 			}
 
-			if (enable && !(db.getRefDatabase() instanceof RefTreeDatabase)) {
-				StoredConfig cfg = db.getConfig();
+			if (enable && !(repo.getRefDatabase() instanceof RefTreeDatabase)) {
+				StoredConfig cfg = repo.getConfig();
 				cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
 				cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
@@ -132,7 +132,7 @@ class RebuildRefTree extends TextBuiltin {
 			}
 			cmds.add(new org.eclipse.jgit.internal.storage.reftree.Command(
 					null,
-					db.getRefDatabase().peel(r)));
+					repo.getRefDatabase().peel(r)));
 		}
 		tree.apply(cmds);
 		return tree;

@@ -54,7 +54,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 	}
 
 	@Test(expected = RefNotFoundException.class)
@@ -410,7 +410,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private ObjectId modify(String content) throws Exception {
-		File a = new File(db.getWorkTree(), "a.txt");
+		File a = new File(repository.getWorkTree(), "a.txt");
 		touch(a, content);
 		return git.commit().setAll(true).setMessage(content).call().getId();
 	}

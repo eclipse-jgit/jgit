@@ -54,7 +54,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testAlternate() throws Exception {
-		setAlternate(db2, db);
+		setAlternate(db2, repository);
 		RevCommit c = createCommit();
 		assertCommit(c);
 		assertAlternateObjects(db2);
@@ -62,8 +62,8 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testAlternateCyclic2() throws Exception {
-		setAlternate(db2, db);
-		setAlternate(db, db2);
+		setAlternate(db2, repository);
+		setAlternate(repository, db2);
 		RevCommit c = createCommit();
 		assertCommit(c);
 		assertAlternateObjects(db2);
@@ -73,8 +73,8 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	public void testAlternateCyclic3() throws Exception {
 		FileRepository db3 = createBareRepository();
 		setAlternate(db2, db3);
-		setAlternate(db3, db);
-		setAlternate(db, db2);
+		setAlternate(db3, repository);
+		setAlternate(repository, db2);
 		RevCommit c = createCommit();
 		assertCommit(c);
 		assertAlternateObjects(db2);
@@ -84,7 +84,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 			NoFilepatternException, NoHeadException, NoMessageException,
 			UnmergedPathsException, ConcurrentRefUpdateException,
 			WrongRepositoryStateException, AbortedByHookException {
-		JGitTestUtil.writeTrashFile(db, "test", "test");
+		JGitTestUtil.writeTrashFile(repository, "test", "test");
 		Git git = Git.wrap(db2);
 		git.add().addFilepattern("test").call();
 		RevCommit c = git.commit().setMessage("adding test").call();

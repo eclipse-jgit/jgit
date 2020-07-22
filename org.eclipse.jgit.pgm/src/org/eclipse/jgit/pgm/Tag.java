@@ -52,7 +52,7 @@ class Tag extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			if (tagName != null) {
 				if (delete) {
 					List<String> deletedTags = git.tagDelete().setTags(tagName)
@@ -66,7 +66,7 @@ class Tag extends TextBuiltin {
 							.setMessage(message).setName(tagName);
 
 					if (object != null) {
-						try (RevWalk walk = new RevWalk(db)) {
+						try (RevWalk walk = new RevWalk(repo)) {
 							command.setObjectId(walk.parseAny(object));
 						}
 					}

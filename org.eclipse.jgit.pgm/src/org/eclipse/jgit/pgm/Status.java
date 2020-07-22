@@ -58,7 +58,7 @@ class Status extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			StatusCommand statusCommand = git.status();
 			if (filterPaths != null) {
 				for (String path : filterPaths) {
@@ -176,7 +176,7 @@ class Status extends TextBuiltin {
 	private void printLongStatus(org.eclipse.jgit.api.Status status)
 			throws IOException {
 		// Print current branch name
-		final Ref head = db.exactRef(Constants.HEAD);
+		final Ref head = repo.exactRef(Constants.HEAD);
 		if (head != null && head.isSymbolic()) {
 			String branch = Repository.shortenRefName(head.getLeaf().getName());
 			outw.println(CLIText.formatLine(MessageFormat.format(

@@ -23,13 +23,13 @@ public class TreeWalkJava7Test extends RepositoryTestCase {
 	@Test
 	public void testSymlinkToDirNotRecursingViaSymlink() throws Exception {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		assertTrue(fs.supportsSymlinks());
 		writeTrashFile("target/data", "targetdata");
 		fs.createSymLink(new File(trash, "link"), "target");
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
-			tw.addTree(new FileTreeIterator(db));
+			tw.addTree(new FileTreeIterator(repository));
 			assertTrue(tw.next());
 			assertEquals("link", tw.getPathString());
 			assertTrue(tw.next());

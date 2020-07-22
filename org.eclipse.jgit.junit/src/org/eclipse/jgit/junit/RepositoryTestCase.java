@@ -83,7 +83,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected File writeTrashFile(String name, String data)
 			throws IOException {
-		return JGitTestUtil.writeTrashFile(db, name, data);
+		return JGitTestUtil.writeTrashFile(repository, name, data);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected Path writeLink(String link, String target)
 			throws Exception {
-		return JGitTestUtil.writeLink(db, link, target);
+		return JGitTestUtil.writeLink(repository, link, target);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected File writeTrashFile(final String subdir, final String name,
 			final String data)
 			throws IOException {
-		return JGitTestUtil.writeTrashFile(db, subdir, name, data);
+		return JGitTestUtil.writeTrashFile(repository, subdir, name, data);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws IOException
 	 */
 	protected String read(String name) throws IOException {
-		return JGitTestUtil.read(db, name);
+		return JGitTestUtil.read(repository, name);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return if the file exists
 	 */
 	protected boolean check(String name) {
-		return JGitTestUtil.check(db, name);
+		return JGitTestUtil.check(repository, name);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws IOException
 	 */
 	protected void deleteTrashFile(String name) throws IOException {
-		JGitTestUtil.deleteTrashFile(db, name);
+		JGitTestUtil.deleteTrashFile(repository, name);
 	}
 
 	/**
@@ -172,9 +172,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/** Test repository, initialized for this test case. */
-	protected FileRepository db;
+	protected FileRepository repository;
 
-	/** Working directory of {@link #db}. */
+	/** Working directory of {@link #repository}. */
 	protected File trash;
 
 	/** {@inheritDoc} */
@@ -182,8 +182,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db = createWorkRepository();
-		trash = db.getWorkTree();
+		repository = createWorkRepository();
+		trash = repository.getWorkTree();
 	}
 
 	/**
@@ -223,7 +223,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	public String indexState(int includedOptions)
 			throws IllegalStateException, IOException {
-		return indexState(db, includedOptions);
+		return indexState(repository, includedOptions);
 	}
 
 	/**
@@ -244,8 +244,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected void resetIndex(FileTreeIterator treeItr)
 			throws FileNotFoundException, IOException {
-		try (ObjectInserter inserter = db.newObjectInserter()) {
-			DirCacheBuilder builder = db.lockDirCache().builder();
+		try (ObjectInserter inserter = repository.newObjectInserter()) {
+			DirCacheBuilder builder = repository.lockDirCache().builder();
 			DirCacheEntry dce;
 
 			while (!treeItr.eof()) {
@@ -371,7 +371,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected void createBranch(ObjectId objectId, String branchName)
 			throws IOException {
-		RefUpdate updateRef = db.updateRef(branchName);
+		RefUpdate updateRef = repository.updateRef(branchName);
 		updateRef.setNewObjectId(objectId);
 		updateRef.update();
 	}
@@ -385,17 +385,17 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected void checkoutBranch(String branchName)
 			throws IllegalStateException, IOException {
-		try (RevWalk walk = new RevWalk(db)) {
-			RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
-			RevCommit branch = walk.parseCommit(db.resolve(branchName));
-			DirCacheCheckout dco = new DirCacheCheckout(db,
-					head.getTree().getId(), db.lockDirCache(),
+		try (RevWalk walk = new RevWalk(repository)) {
+			RevCommit head = walk.parseCommit(repository.resolve(Constants.HEAD));
+			RevCommit branch = walk.parseCommit(repository.resolve(branchName));
+			DirCacheCheckout dco = new DirCacheCheckout(repository,
+					head.getTree().getId(), repository.lockDirCache(),
 					branch.getTree().getId());
 			dco.setFailOnConflict(true);
 			dco.checkout();
 		}
 		// update the HEAD
-		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
+		RefUpdate refUpdate = repository.updateRef(Constants.HEAD);
 		refUpdate.setRefLogMessage("checkout: moving to " + branchName, false);
 		refUpdate.link(branchName);
 	}
@@ -442,7 +442,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the created commit
 	 */
 	protected RevCommit commitFile(String filename, String contents, String branch) {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Repository repo = git.getRepository();
 			String originalBranch = repo.getFullBranch();
 			boolean empty = repo.resolve(Constants.HEAD) == null;

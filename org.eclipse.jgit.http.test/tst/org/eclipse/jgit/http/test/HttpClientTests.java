@@ -124,8 +124,8 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		return ctx;
 	}
 
-	private static String nameOf(Repository db) {
-		return db.getDirectory().getName();
+	private static String nameOf(Repository repo) {
+		return repo.getDirectory().getName();
 	}
 
 	@Test

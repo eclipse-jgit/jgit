@@ -47,8 +47,8 @@ public class DiffEntryTest extends RepositoryTestCase {
 	public void shouldListAddedFileInInitialCommit() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			git.add().addFilepattern("a.txt").call();
 			RevCommit c = git.commit().setMessage("initial commit").call();
 
@@ -71,8 +71,8 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldListAddedFileBetweenTwoCommits() throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			RevCommit c1 = git.commit().setMessage("initial commit").call();
 			writeTrashFile("a.txt", "content");
 			git.add().addFilepattern("a.txt").call();
@@ -97,8 +97,8 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldListModificationBetweenTwoCommits() throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			File file = writeTrashFile("a.txt", "content");
 			git.add().addFilepattern("a.txt").call();
 			RevCommit c1 = git.commit().setMessage("initial commit").call();
@@ -124,8 +124,8 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldListDeletionBetweenTwoCommits() throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			File file = writeTrashFile("a.txt", "content");
 			git.add().addFilepattern("a.txt").call();
 			RevCommit c1 = git.commit().setMessage("initial commit").call();
@@ -153,9 +153,9 @@ public class DiffEntryTest extends RepositoryTestCase {
 	public void shouldListModificationInDirWithoutModifiedTrees()
 			throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
-			File tree = new File(new File(db.getWorkTree(), "a"), "b");
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
+			File tree = new File(new File(repository.getWorkTree(), "a"), "b");
 			FileUtils.mkdirs(tree);
 			File file = new File(tree, "c.txt");
 			FileUtils.createNewFile(file);
@@ -185,9 +185,9 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldListModificationInDirWithModifiedTrees() throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
-			File tree = new File(new File(db.getWorkTree(), "a"), "b");
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
+			File tree = new File(new File(repository.getWorkTree(), "a"), "b");
 			FileUtils.mkdirs(tree);
 			File file = new File(tree, "c.txt");
 			FileUtils.createNewFile(file);
@@ -225,15 +225,15 @@ public class DiffEntryTest extends RepositoryTestCase {
 	public void shouldListChangesInWorkingTree() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			git.add().addFilepattern("a.txt").call();
 			RevCommit c = git.commit().setMessage("initial commit").call();
 			writeTrashFile("b.txt", "new line");
 
 			// when
 			walk.addTree(c.getTree());
-			walk.addTree(new FileTreeIterator(db));
+			walk.addTree(new FileTreeIterator(repository));
 			List<DiffEntry> result = DiffEntry.scan(walk, true);
 
 			// then
@@ -248,10 +248,10 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
 		// given
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			RevCommit c1 = git.commit().setMessage("initial commit").call();
-			FileUtils.mkdir(new File(db.getWorkTree(), "b"));
+			FileUtils.mkdir(new File(repository.getWorkTree(), "b"));
 			writeTrashFile("a.txt", "a");
 			writeTrashFile("b/1.txt", "b1");
 			writeTrashFile("b/2.txt", "b2");
@@ -317,7 +317,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			walk.addTree(new EmptyTreeIterator());
 			DiffEntry.scan(walk);
 		}
@@ -329,7 +329,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			walk.addTree(new EmptyTreeIterator());
 			walk.addTree(new EmptyTreeIterator());
 			walk.addTree(new EmptyTreeIterator());
@@ -343,7 +343,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			walk.addTree(new EmptyTreeIterator());
 			walk.addTree(new EmptyTreeIterator());
 			walk.setRecursive(true);
@@ -354,11 +354,11 @@ public class DiffEntryTest extends RepositoryTestCase {
 	@Test
 	public void shouldReportFileModeChange() throws Exception {
 		writeTrashFile("a.txt", "content");
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			git.add().addFilepattern("a.txt").call();
 			RevCommit c1 = git.commit().setMessage("initial commit").call();
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			walk.addTree(c1.getTree());
 			walk.setRecursive(true);
@@ -399,14 +399,14 @@ public class DiffEntryTest extends RepositoryTestCase {
 		submoduleStandaloneGit.commit().setMessage("add file to submodule")
 				.call();
 
-		Repository submodule_db = Git.wrap(db).submoduleAdd()
+		Repository submodule_db = Git.wrap(repository).submoduleAdd()
 				.setPath("modules/submodule")
 				.setURI(submoduleStandalone.getDirectory().toURI().toString())
 				.call();
 		File submodule_trash = submodule_db.getWorkTree();
 		addRepoToClose(submodule_db);
 		writeTrashFile("fileInRoot", "root");
-		Git rootGit = Git.wrap(db);
+		Git rootGit = Git.wrap(repository);
 		rootGit.add().addFilepattern("fileInRoot").call();
 		rootGit.commit().setMessage("add submodule and root file").call();
 		// Dummy change on fileInRoot
@@ -417,7 +417,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// Remove the submodule again and move fileInRoot into that subfolder
 		rootGit.rm().setCached(true).addFilepattern("modules/submodule").call();
 		recursiveDelete(submodule_trash);
-		JGitTestUtil.deleteTrashFile(db, "fileInRoot");
+		JGitTestUtil.deleteTrashFile(repository, "fileInRoot");
 		// Move the fileInRoot file
 		writeTrashFile("modules/submodule/fileInRoot", "changed");
 		rootGit.rm().addFilepattern("fileInRoot").addFilepattern("modules/")
@@ -428,7 +428,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 				.call();
 		// Diff should report submodule having been deleted and file moved
 		// (deleted and added)
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			walk.addTree(firstCommit.getTree());
 			walk.addTree(secondCommit.getTree());
 			walk.setRecursive(true);

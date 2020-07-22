@@ -124,7 +124,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		if (pathFilter == TreeFilter.ALL) {
 			if (followPath != null)
 				walk.setTreeFilter(FollowFilter.create(followPath,
-						db.getConfig().get(DiffConfig.KEY)));
+						repo.getConfig().get(DiffConfig.KEY)));
 		} else if (pathFilter != TreeFilter.ALL) {
 			walk.setTreeFilter(AndTreeFilter.create(pathFilter,
 					TreeFilter.ANY_DIFF));
@@ -136,7 +136,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
 
 		if (all) {
-			for (Ref a : db.getRefDatabase().getRefs()) {
+			for (Ref a : repo.getRefDatabase().getRefs()) {
 				ObjectId oid = a.getPeeledObjectId();
 				if (oid == null)
 					oid = a.getObjectId();
@@ -149,7 +149,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		}
 
 		if (commits.isEmpty()) {
-			final ObjectId head = db.resolve(Constants.HEAD);
+			final ObjectId head = repo.resolve(Constants.HEAD);
 			if (head == null)
 				throw die(MessageFormat.format(CLIText.get().cannotResolve, Constants.HEAD));
 			commits.add(walk.parseCommit(head));
@@ -182,11 +182,11 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	protected RevWalk createWalk() {
 		RevWalk result;
 		if (objects)
-			result = new ObjectWalk(db);
+			result = new ObjectWalk(repo);
 		else if (argWalk != null)
 			result = argWalk;
 		else
-		  result = argWalk = new RevWalk(db);
+		  result = argWalk = new RevWalk(repo);
 		result.setRewriteParents(false);
 		return result;
 	}

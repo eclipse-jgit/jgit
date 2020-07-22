@@ -27,25 +27,25 @@ public class LsFilesTest extends CLIRepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		try (Git git = new Git(db)) {
-			JGitTestUtil.writeTrashFile(db, "hello", "hello");
-			JGitTestUtil.writeTrashFile(db, "dir", "world", "world");
+		try (Git git = new Git(repo)) {
+			JGitTestUtil.writeTrashFile(repo, "hello", "hello");
+			JGitTestUtil.writeTrashFile(repo, "dir", "world", "world");
 			git.add().addFilepattern("dir").call();
 			git.commit().setMessage("Initial commit").call();
 
-			JGitTestUtil.writeTrashFile(db, "hello2", "hello");
+			JGitTestUtil.writeTrashFile(repo, "hello2", "hello");
 			git.add().addFilepattern("hello2").call();
-			FileUtils.createSymLink(new File(db.getWorkTree(), "link"),
+			FileUtils.createSymLink(new File(repo.getWorkTree(), "link"),
 					"target");
-			FileUtils.mkdir(new File(db.getWorkTree(), "target"));
+			FileUtils.mkdir(new File(repo.getWorkTree(), "target"));
 			writeTrashFile("target/file", "someData");
 			git.add().addFilepattern("target").addFilepattern("link").call();
 			git.commit().setMessage("hello2").call();
 
-			JGitTestUtil.writeTrashFile(db, "staged", "x");
-			JGitTestUtil.deleteTrashFile(db, "hello2");
+			JGitTestUtil.writeTrashFile(repo, "staged", "x");
+			JGitTestUtil.deleteTrashFile(repo, "hello2");
 			git.add().addFilepattern("staged").call();
-			JGitTestUtil.writeTrashFile(db, "untracked", "untracked");
+			JGitTestUtil.writeTrashFile(repo, "untracked", "untracked");
 		}
 	}
 

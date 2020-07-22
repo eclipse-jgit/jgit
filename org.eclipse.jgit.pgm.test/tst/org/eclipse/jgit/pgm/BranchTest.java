@@ -30,7 +30,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 		}
 	}
@@ -53,8 +53,8 @@ public class BranchTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testListDetached() throws Exception {
-		RefUpdate updateRef = db.updateRef(Constants.HEAD, true);
-		updateRef.setNewObjectId(db.resolve("6fd41be"));
+		RefUpdate updateRef = repo.updateRef(Constants.HEAD, true);
+		updateRef.setNewObjectId(repo.resolve("6fd41be"));
 		updateRef.update();
 		assertEquals(
 				toString("* (no branch) 6fd41be initial commit",
@@ -64,7 +64,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testListContains() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.branchCreate().setName("initial").call();
 			RevCommit second = git.commit().setMessage("second commit")
 					.call();

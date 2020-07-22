@@ -48,7 +48,7 @@ public abstract class Merger {
 	 * {@link #nonNullRepo()}.
 	 */
 	@Nullable
-	protected final Repository db;
+	protected final Repository repo;
 
 	/** Reader to support {@link #walk} and other object loading. */
 	protected ObjectReader reader;
@@ -84,7 +84,7 @@ public abstract class Merger {
 		if (local == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
-		db = local;
+		repo = local;
 		inserter = local.newObjectInserter();
 		reader = inserter.newReader();
 		walk = new RevWalk(reader);
@@ -99,7 +99,7 @@ public abstract class Merger {
 	 * @since 4.8
 	 */
 	protected Merger(ObjectInserter oi) {
-		db = null;
+		repo = null;
 		inserter = oi;
 		reader = oi.newReader();
 		walk = new RevWalk(reader);
@@ -112,7 +112,7 @@ public abstract class Merger {
 	 */
 	@Nullable
 	public Repository getRepository() {
-		return db;
+		return repo;
 	}
 
 	/**
@@ -124,10 +124,10 @@ public abstract class Merger {
 	 * @since 4.8
 	 */
 	protected Repository nonNullRepo() {
-		if (db == null) {
+		if (repo == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
-		return db;
+		return repo;
 	}
 
 	/**

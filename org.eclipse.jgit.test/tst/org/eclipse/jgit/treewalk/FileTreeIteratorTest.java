@@ -73,13 +73,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		for (int i = paths.length - 1; i >= 0; i--) {
 			final String s = paths[i];
 			writeTrashFile(s, s);
-			mtime[i] = db.getFS().lastModifiedInstant(new File(trash, s));
+			mtime[i] = repository.getFS().lastModifiedInstant(new File(trash, s));
 		}
 	}
 
 	@Test
 	public void testGetEntryContentLength() throws Exception {
-		final FileTreeIterator fti = new FileTreeIterator(db);
+		final FileTreeIterator fti = new FileTreeIterator(repository);
 		fti.next(1);
 		assertEquals(3, fti.getEntryContentLength());
 		fti.back(1);
@@ -94,8 +94,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testEmptyIfRootIsFile() throws Exception {
 		final File r = new File(trash, paths[0]);
 		assertTrue(r.isFile());
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(r, repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -104,8 +104,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testEmptyIfRootDoesNotExist() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(r, repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -116,8 +116,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(r.exists());
 		FileUtils.mkdir(r);
 
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(r, repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -129,13 +129,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(r.exists());
 		FileUtils.mkdir(r);
 
-		final FileTreeIterator parent = new FileTreeIterator(db);
+		final FileTreeIterator parent = new FileTreeIterator(repository);
 
 		while (!parent.getEntryPathString().equals(nonExistingFileName))
 			parent.next(1);
 
 		final FileTreeIterator childIter = new FileTreeIterator(parent, r,
-				db.getFS());
+				repository.getFS());
 		assertTrue(childIter.first());
 		assertTrue(childIter.eof());
 
@@ -161,8 +161,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testSimpleIterate() throws Exception {
-		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator top = new FileTreeIterator(trash, repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 
 		assertTrue(top.first());
 		assertFalse(top.eof());
@@ -184,7 +184,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(top.eof());
 		assertEquals(FileMode.TREE.getBits(), top.mode);
 
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repository.newObjectReader()) {
 			final AbstractTreeIterator sub = top.createSubtreeIterator(reader);
 			assertTrue(sub instanceof FileTreeIterator);
 			final FileTreeIterator subfti = (FileTreeIterator) sub;
@@ -211,8 +211,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testComputeFileObjectId() throws Exception {
-		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator top = new FileTreeIterator(trash, repository.getFS(),
+				repository.getConfig().get(WorkingTreeOptions.KEY));
 
 		final MessageDigest md = Constants.newMessageDigest();
 		md.update(Constants.encodeASCII(Constants.TYPE_BLOB));
@@ -233,17 +233,17 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testDirCacheMatchingId() throws Exception {
 		File f = writeTrashFile("file", "content");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file", "content");
 			fsTick(f);
 			git.add().addFilepattern("file").call();
 		}
-		DirCacheEntry dce = db.readDirCache().getEntry("file");
-		try (TreeWalk tw = new TreeWalk(db)) {
-			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
-					db.getConfig().get(WorkingTreeOptions.KEY));
+		DirCacheEntry dce = repository.readDirCache().getEntry("file");
+		try (TreeWalk tw = new TreeWalk(repository)) {
+			FileTreeIterator fti = new FileTreeIterator(trash, repository.getFS(),
+					repository.getConfig().get(WorkingTreeOptions.KEY));
 			tw.addTree(fti);
-			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator dci = new DirCacheIterator(repository.readDirCache());
 			tw.addTree(dci);
 			fti.setDirCacheIterator(tw, 1);
 			while (tw.next() && !tw.getPathString().equals("file")) {
@@ -253,7 +253,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			ObjectId fromRaw = ObjectId.fromRaw(fti.idBuffer(), fti.idOffset());
 			assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
 					fromRaw.getName());
-			try (ObjectReader objectReader = db.newObjectReader()) {
+			try (ObjectReader objectReader = repository.newObjectReader()) {
 				assertFalse(fti.isModified(dce, false, objectReader));
 			}
 		}
@@ -261,7 +261,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testTreewalkEnterSubtree() throws Exception {
-		try (Git git = new Git(db); TreeWalk tw = new TreeWalk(db)) {
+		try (Git git = new Git(repository); TreeWalk tw = new TreeWalk(repository)) {
 			writeTrashFile("b/c", "b/c");
 			writeTrashFile("z/.git", "gitdir: /tmp/somewhere");
 			git.add().addFilepattern(".").call();
@@ -269,11 +269,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					.addFilepattern("a0b").call();
 			assertEquals("[a/b, mode:100644][b/c, mode:100644][z, mode:160000]",
 					indexState(0));
-			FileUtils.delete(new File(db.getWorkTree(), "b"),
+			FileUtils.delete(new File(repository.getWorkTree(), "b"),
 					FileUtils.RECURSIVE);
 
-			tw.addTree(new DirCacheIterator(db.readDirCache()));
-			tw.addTree(new FileTreeIterator(db));
+			tw.addTree(new DirCacheIterator(repository.readDirCache()));
+			tw.addTree(new FileTreeIterator(repository));
 			assertTrue(tw.next());
 			assertEquals("a", tw.getPathString());
 			tw.enterSubtree();
@@ -292,21 +292,21 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testIsModifiedSymlinkAsFile() throws Exception {
 		writeTrashFile("symlink", "content");
-		try (Git git = new Git(db)) {
-			db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+		try (Git git = new Git(repository)) {
+			repository.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_SYMLINKS, "false");
 			git.add().addFilepattern("symlink").call();
 			git.commit().setMessage("commit").call();
 		}
 
 		// Modify previously committed DirCacheEntry and write it back to disk
-		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
+		DirCacheEntry dce = repository.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
-		try (ObjectReader objectReader = db.newObjectReader()) {
-			DirCacheCheckout.checkoutEntry(db, dce, objectReader, false, null);
+		try (ObjectReader objectReader = repository.newObjectReader()) {
+			DirCacheCheckout.checkoutEntry(repository, dce, objectReader, false, null);
 
-			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
-					db.getConfig().get(WorkingTreeOptions.KEY));
+			FileTreeIterator fti = new FileTreeIterator(trash, repository.getFS(),
+					repository.getConfig().get(WorkingTreeOptions.KEY));
 			while (!fti.getEntryPathString().equals("symlink"))
 				fti.next(1);
 			assertFalse(fti.isModified(dce, false, objectReader));
@@ -316,8 +316,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testIsModifiedFileSmudged() throws Exception {
 		File f = writeTrashFile("file", "content");
-		FS fs = db.getFS();
-		try (Git git = new Git(db)) {
+		FS fs = repository.getFS();
+		try (Git git = new Git(repository)) {
 			// The idea of this test is to check the smudged handling
 			// Hopefully fsTick will make sure our entry gets smudged
 			fsTick(f);
@@ -330,30 +330,30 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			// a system with less than one-second lastModified
 			// resolution, so we force the index to have the
 			// same timestamp as the file we look at.
-			fs.setLastModified(db.getIndexFile().toPath(), lastModified);
+			fs.setLastModified(repository.getIndexFile().toPath(), lastModified);
 		}
-		DirCacheEntry dce = db.readDirCache().getEntry("file");
-		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
+		DirCacheEntry dce = repository.readDirCache().getEntry("file");
+		FileTreeIterator fti = new FileTreeIterator(trash, repository.getFS(), repository
 				.getConfig().get(WorkingTreeOptions.KEY));
 		while (!fti.getEntryPathString().equals("file"))
 			fti.next(1);
 		// If the rounding trick does not work we could skip the compareMetaData
 		// test and hope that we are usually testing the intended code path.
 		assertEquals(MetadataDiff.SMUDGED, fti.compareMetadata(dce));
-		try (ObjectReader objectReader = db.newObjectReader()) {
+		try (ObjectReader objectReader = repository.newObjectReader()) {
 			assertTrue(fti.isModified(dce, false, objectReader));
 		}
 	}
 
 	@Test
 	public void submoduleHeadMatchesIndex() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
 			final String path = "sub";
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -365,12 +365,12 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
-					.setDirectory(new File(db.getWorkTree(), path)).call()
+			Git.cloneRepository().setURI(repository.getDirectory().toURI().toString())
+					.setDirectory(new File(repository.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db);
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -382,13 +382,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleWithNoGitDirectory() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
 			final String path = "sub";
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -400,12 +400,12 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			File submoduleRoot = new File(db.getWorkTree(), path);
+			File submoduleRoot = new File(repository.getWorkTree(), path);
 			assertTrue(submoduleRoot.mkdir());
 			assertTrue(new File(submoduleRoot, Constants.DOT_GIT).mkdir());
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db);
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -418,13 +418,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleWithNoHead() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
 			final String path = "sub";
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -436,11 +436,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			assertNotNull(Git.init().setDirectory(new File(db.getWorkTree(), path))
+			assertNotNull(Git.init().setDirectory(new File(repository.getWorkTree(), path))
 					.call().getRepository());
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db);
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -453,13 +453,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleDirectoryIterator() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
 			final String path = "sub";
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -471,13 +471,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
-					.setDirectory(new File(db.getWorkTree(), path)).call()
+			Git.cloneRepository().setURI(repository.getDirectory().toURI().toString())
+					.setDirectory(new File(repository.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db.getWorkTree(),
-					db.getFS(), db.getConfig().get(WorkingTreeOptions.KEY));
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository.getWorkTree(),
+					repository.getFS(), repository.getConfig().get(WorkingTreeOptions.KEY));
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -489,13 +489,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleNestedWithHeadMatchingIndex() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk walk = new TreeWalk(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
 			final String path = "sub/dir1/dir2";
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -507,12 +507,12 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
-					.setDirectory(new File(db.getWorkTree(), path)).call()
+			Git.cloneRepository().setURI(repository.getDirectory().toURI().toString())
+					.setDirectory(new File(repository.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db);
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -524,15 +524,15 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void idOffset() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk tw = new TreeWalk(db)) {
+		try (Git git = new Git(repository);
+				TreeWalk tw = new TreeWalk(repository)) {
 			writeTrashFile("fileAinfsonly", "A");
 			File fileBinindex = writeTrashFile("fileBinindex", "B");
 			fsTick(fileBinindex);
 			git.add().addFilepattern("fileBinindex").call();
 			writeTrashFile("fileCinfsonly", "C");
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db);
+			DirCacheIterator indexIter = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(repository);
 			tw.addTree(indexIter);
 			tw.addTree(workTreeIter);
 			workTreeIter.setDirCacheIterator(tw, 0);
@@ -632,7 +632,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	@Test
 	public void testFileModeSymLinkIsNotATree() throws IOException {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		// mål = target in swedish, just to get some unicode in here
 		writeTrashFile("mål/data", "targetdata");
 		File file = new File(trash, "länk");
@@ -650,7 +650,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 
 		fs.createSymLink(file, "mål");
-		FileTreeIterator fti = new FileTreeIterator(db);
+		FileTreeIterator fti = new FileTreeIterator(repository);
 		assertFalse(fti.eof());
 		while (!fti.getEntryPathString().equals("länk")) {
 			fti.next(1);
@@ -667,11 +667,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testSymlinkNotModifiedThoughNormalized() throws Exception {
-		DirCache dc = db.lockDirCache();
+		DirCache dc = repository.lockDirCache();
 		DirCacheEditor dce = dc.editor();
 		final String UNNORMALIZED = "target/";
 		final byte[] UNNORMALIZED_BYTES = Constants.encode(UNNORMALIZED);
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
 					UNNORMALIZED_BYTES, 0, UNNORMALIZED_BYTES.length);
 			dce.add(new DirCacheEditor.PathEdit("link") {
@@ -684,11 +684,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			assertTrue(dce.commit());
 		}
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setMessage("Adding link").call();
 			git.reset().setMode(ResetType.HARD).call();
-			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator fti = new FileTreeIterator(db);
+			DirCacheIterator dci = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(repository);
 
 			// self-check
 			while (!fti.getEntryPathString().equals("link")) {
@@ -699,7 +699,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 			// test
 			assertFalse(fti.isModified(dci.getDirCacheEntry(), true,
-					db.newObjectReader()));
+					repository.newObjectReader()));
 		}
 	}
 
@@ -711,11 +711,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testSymlinkModifiedNotNormalized() throws Exception {
-		DirCache dc = db.lockDirCache();
+		DirCache dc = repository.lockDirCache();
 		DirCacheEditor dce = dc.editor();
 		final String NORMALIZED = "target";
 		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
 					NORMALIZED_BYTES, 0, NORMALIZED_BYTES.length);
 			dce.add(new DirCacheEditor.PathEdit("link") {
@@ -728,11 +728,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			assertTrue(dce.commit());
 		}
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setMessage("Adding link").call();
 			git.reset().setMode(ResetType.HARD).call();
-			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator fti = new FileTreeIterator(db);
+			DirCacheIterator dci = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(repository);
 
 			// self-check
 			while (!fti.getEntryPathString().equals("link")) {
@@ -743,7 +743,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 			// test
 			assertFalse(fti.isModified(dci.getDirCacheEntry(), true,
-					db.newObjectReader()));
+					repository.newObjectReader()));
 		}
 	}
 
@@ -758,10 +758,10 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		final String NORMALIZED = "target";
 		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
 					NORMALIZED_BYTES, 0, NORMALIZED_BYTES.length);
-			DirCache dc = db.lockDirCache();
+			DirCache dc = repository.lockDirCache();
 			DirCacheEditor dce = dc.editor();
 			dce.add(new DirCacheEditor.PathEdit("link") {
 				@Override
@@ -773,14 +773,14 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			assertTrue(dce.commit());
 		}
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setMessage("Adding link").call();
 			git.reset().setMode(ResetType.HARD).call();
 
 			FileUtils.delete(new File(trash, "link"), FileUtils.NONE);
 			FS.DETECTED.createSymLink(new File(trash, "link"), "newtarget");
-			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator fti = new FileTreeIterator(db);
+			DirCacheIterator dci = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(repository);
 
 			// self-check
 			while (!fti.getEntryPathString().equals("link")) {
@@ -791,7 +791,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 			// test
 			assertTrue(fti.isModified(dci.getDirCacheEntry(), true,
-					db.newObjectReader()));
+					repository.newObjectReader()));
 		}
 	}
 

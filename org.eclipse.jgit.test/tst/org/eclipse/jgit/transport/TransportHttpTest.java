@@ -42,7 +42,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 		super.setUp();
 		uri = new URIish("https://everyones.loves.git/u/2");
 
-		final Config config = db.getConfig();
+		final Config config = repository.getConfig();
 		config.setBoolean("http", null, "saveCookies", true);
 		cookieFile = createTempFile();
 		config.setString("http", null, "cookieFile",
@@ -98,7 +98,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 				.thenReturn(Collections
 						.singletonList("cookie2=some value; Max-Age=1234; Path=/"));
 
-		try (TransportHttp transportHttp = new TransportHttp(db, uri)) {
+		try (TransportHttp transportHttp = new TransportHttp(repository, uri)) {
 			Date creationDate = new Date();
 			transportHttp.processResponseCookies(connection);
 
@@ -144,10 +144,10 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 						"cookie2=some value; Max-Age=1234; Path=/"));
 
 		// tweak config
-		final Config config = db.getConfig();
+		final Config config = repository.getConfig();
 		config.setBoolean("http", null, "saveCookies", false);
 
-		try (TransportHttp transportHttp = new TransportHttp(db, uri)) {
+		try (TransportHttp transportHttp = new TransportHttp(repository, uri)) {
 			transportHttp.processResponseCookies(connection);
 
 			// evaluate written cookie file

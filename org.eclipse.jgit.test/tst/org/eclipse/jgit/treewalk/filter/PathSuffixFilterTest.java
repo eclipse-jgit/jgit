@@ -60,8 +60,8 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 	}
 
 	private ObjectId createTree(String... paths) throws IOException {
-		final ObjectInserter odi = db.newObjectInserter();
-		final DirCache dc = db.readDirCache();
+		final ObjectInserter odi = repository.newObjectInserter();
+		final DirCache dc = repository.readDirCache();
 		final DirCacheBuilder builder = dc.builder();
 		for (String path : paths) {
 			DirCacheEntry entry = createEntry(path, FileMode.REGULAR_FILE);
@@ -80,7 +80,7 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 
 	private List<String> getMatchingPaths(String suffixFilter,
 			final ObjectId treeId, boolean recursiveWalk) throws IOException {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setFilter(PathSuffixFilter.create(suffixFilter));
 			tw.setRecursive(recursiveWalk);
 			tw.addTree(treeId);

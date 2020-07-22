@@ -25,7 +25,7 @@ public class FileTreeIteratorPerformanceTest extends RepositoryTestCase {
 
 	@Test
 	public void testPerformance() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			long times[] = new long[N_OF_FILES];
 			long sum = 0;
 			String lastName = null;
@@ -43,8 +43,8 @@ public class FileTreeIteratorPerformanceTest extends RepositoryTestCase {
 				System.out
 						.println("Time " + i + " (µs) = " + times[i] / 1000.0);
 			}
-			FileTreeIterator iter = new FileTreeIterator(db);
-			try (TreeWalk walk = new TreeWalk(db)) {
+			FileTreeIterator iter = new FileTreeIterator(repository);
+			try (TreeWalk walk = new TreeWalk(repository)) {
 				walk.setFilter(PathFilter.create(lastName));
 				walk.addTree(iter);
 				long start = System.nanoTime();

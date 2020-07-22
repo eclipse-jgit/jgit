@@ -38,11 +38,11 @@ public class HookTest extends RepositoryTestCase {
 		assumeSupportedPlatform();
 
 		assertNull("no hook should be installed",
-				FS.DETECTED.findHook(db, PreCommitHook.NAME));
+				FS.DETECTED.findHook(repository, PreCommitHook.NAME));
 		File hookFile = writeHookFile(PreCommitHook.NAME,
 				"#!/bin/bash\necho \"test $1 $2\"");
 		assertEquals("expected to find pre-commit hook", hookFile,
-				FS.DETECTED.findHook(db, PreCommitHook.NAME));
+				FS.DETECTED.findHook(repository, PreCommitHook.NAME));
 	}
 
 	@Test
@@ -50,11 +50,11 @@ public class HookTest extends RepositoryTestCase {
 		assumeSupportedPlatform();
 
 		assertNull("no hook should be installed",
-				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+				FS.DETECTED.findHook(repository, PostCommitHook.NAME));
 		File hookFile = writeHookFile(PostCommitHook.NAME,
 				"#!/bin/bash\necho \"test $1 $2\"");
 		assertEquals("expected to find post-commit hook", hookFile,
-				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+				FS.DETECTED.findHook(repository, PostCommitHook.NAME));
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class HookTest extends RepositoryTestCase {
 
 		writeHookFile(CommitMsgHook.NAME,
 				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
@@ -87,7 +87,7 @@ public class HookTest extends RepositoryTestCase {
 
 		writeHookFile(CommitMsgHook.NAME,
 				"#!/bin/sh\necho $1\n\necho 1>&2 \"stderr\"\nexit 0");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
@@ -104,7 +104,7 @@ public class HookTest extends RepositoryTestCase {
 
 		writeHookFile(CommitMsgHook.NAME,
 				"#!/bin/sh\necho \"new message\" > $1\nexit 0");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
@@ -122,7 +122,7 @@ public class HookTest extends RepositoryTestCase {
 				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\necho 1>&2 \"stderr\"");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayOutputStream err = new ByteArrayOutputStream();
-		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+		ProcessResult res = FS.DETECTED.runHookIfPresent(repository,
 				PostCommitHook.NAME,
 				new String[] {
 				"arg1", "arg2" },
@@ -147,7 +147,7 @@ public class HookTest extends RepositoryTestCase {
 				"#!/bin/sh\necho \"test commit-msg $1\"\n\necho 1>&2 \"stderr commit-msg\"\nexit 0");
 		writeHookFile(PostCommitHook.NAME,
 				"#!/bin/sh\necho \"test post-commit\"\necho 1>&2 \"stderr post-commit\"\nexit 0");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
@@ -172,15 +172,15 @@ public class HookTest extends RepositoryTestCase {
 						+ "echo $GIT_DIR\necho $GIT_WORK_TREE\necho 1>&2 \"stderr\"");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayOutputStream err = new ByteArrayOutputStream();
-		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+		ProcessResult res = FS.DETECTED.runHookIfPresent(repository,
 				PreCommitHook.NAME,
 				new String[] {
 				"arg1", "arg2" },
 				new PrintStream(out), new PrintStream(err), "stdin");
 
 		assertEquals("unexpected hook output",
-				"test arg1 arg2\nstdin\n" + db.getDirectory().getAbsolutePath()
-						+ '\n' + db.getWorkTree().getAbsolutePath() + '\n',
+				"test arg1 arg2\nstdin\n" + repository.getDirectory().getAbsolutePath()
+						+ '\n' + repository.getWorkTree().getAbsolutePath() + '\n',
 				out.toString("UTF-8"));
 		assertEquals("unexpected output on stderr stream", "stderr\n",
 				err.toString("UTF-8"));
@@ -199,21 +199,21 @@ public class HookTest extends RepositoryTestCase {
 		writeHookFile("../../" + PreCommitHook.NAME,
 				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\n"
 						+ "echo $GIT_DIR\necho $GIT_WORK_TREE\necho 1>&2 \"stderr\"");
-		StoredConfig cfg = db.getConfig();
+		StoredConfig cfg = repository.getConfig();
 		cfg.load();
 		cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HOOKS_PATH, ".");
 		cfg.save();
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
-			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+			ProcessResult res = FS.DETECTED.runHookIfPresent(repository,
 					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
 					new PrintStream(out), new PrintStream(err), "stdin");
 
 			assertEquals("unexpected hook output",
 					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
+							+ repository.getDirectory().getAbsolutePath() + '\n'
+							+ repository.getWorkTree().getAbsolutePath() + '\n',
 					out.toString("UTF-8"));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
 					err.toString("UTF-8"));
@@ -233,22 +233,22 @@ public class HookTest extends RepositoryTestCase {
 		writeHookFile("../../" + PreCommitHook.NAME,
 				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\n"
 						+ "echo $GIT_DIR\necho $GIT_WORK_TREE\necho 1>&2 \"stderr\"");
-		StoredConfig cfg = db.getConfig();
+		StoredConfig cfg = repository.getConfig();
 		cfg.load();
 		cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HOOKS_PATH,
-				db.getWorkTree().getAbsolutePath());
+				repository.getWorkTree().getAbsolutePath());
 		cfg.save();
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
-			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+			ProcessResult res = FS.DETECTED.runHookIfPresent(repository,
 					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
 					new PrintStream(out), new PrintStream(err), "stdin");
 
 			assertEquals("unexpected hook output",
 					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
+							+ repository.getDirectory().getAbsolutePath() + '\n'
+							+ repository.getWorkTree().getAbsolutePath() + '\n',
 					out.toString("UTF-8"));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
 					err.toString("UTF-8"));
@@ -265,7 +265,7 @@ public class HookTest extends RepositoryTestCase {
 		File file = writeHookFile("../../a directory/" + PreCommitHook.NAME,
 				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\n"
 						+ "echo $GIT_DIR\necho $GIT_WORK_TREE\necho 1>&2 \"stderr\"");
-		StoredConfig cfg = db.getConfig();
+		StoredConfig cfg = repository.getConfig();
 		cfg.load();
 		cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HOOKS_PATH,
@@ -273,14 +273,14 @@ public class HookTest extends RepositoryTestCase {
 		cfg.save();
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
-			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+			ProcessResult res = FS.DETECTED.runHookIfPresent(repository,
 					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
 					new PrintStream(out), new PrintStream(err), "stdin");
 
 			assertEquals("unexpected hook output",
 					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
+							+ repository.getDirectory().getAbsolutePath() + '\n'
+							+ repository.getWorkTree().getAbsolutePath() + '\n',
 					out.toString("UTF-8"));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
 					err.toString("UTF-8"));
@@ -296,7 +296,7 @@ public class HookTest extends RepositoryTestCase {
 
 		writeHookFile(PreCommitHook.NAME,
 				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
@@ -316,7 +316,7 @@ public class HookTest extends RepositoryTestCase {
 
 	private File writeHookFile(String name, String data)
 			throws IOException {
-		File path = new File(db.getWorkTree() + "/.git/hooks/", name);
+		File path = new File(repository.getWorkTree() + "/.git/hooks/", name);
 		JGitTestUtil.write(path, data);
 		FS.DETECTED.setExecute(path, true);
 		return path;

@@ -41,7 +41,7 @@ class LsTree extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.reset(); // drop the first empty tree, which we do not need here
 			if (!paths.isEmpty()) {
 				walk.setFilter(PathFilterGroup.createFromStrings(paths));

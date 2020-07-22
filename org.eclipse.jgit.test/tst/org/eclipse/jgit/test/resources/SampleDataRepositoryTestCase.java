@@ -26,7 +26,7 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		copyCGitTestPacks(db);
+		copyCGitTestPacks(repository);
 	}
 
 	/**

@@ -65,7 +65,7 @@ public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCas
 
 	@Before
 	public void setUpSubmodules() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 
 		// Create submodule 1
 		File submodule1 = createTempDirectory(

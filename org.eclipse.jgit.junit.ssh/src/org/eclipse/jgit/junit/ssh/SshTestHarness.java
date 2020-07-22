@@ -89,7 +89,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		writeTrashFile("file.txt", "something");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("Initial commit").call();
 		}
@@ -110,7 +110,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		createKeyPair(privateKey2);
 		ByteArrayOutputStream publicHostKey = new ByteArrayOutputStream();
 		// Start a server with our test user and the first key.
-		server = new SshTestGitServer(TEST_USER, publicKey1.toPath(), db,
+		server = new SshTestGitServer(TEST_USER, publicKey1.toPath(), repository,
 				createHostKey(publicHostKey));
 		testPort = server.start();
 		assertTrue(testPort > 0);
@@ -268,7 +268,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		try (Git git = clone.call()) {
 			Repository repo = git.getRepository();
 			assertNotNull(repo.resolve("master"));
-			assertNotEquals(db.getWorkTree(),
+			assertNotEquals(repository.getWorkTree(),
 					git.getRepository().getWorkTree());
 			assertTrue(new File(git.getRepository().getWorkTree(), "file.txt")
 					.exists());
@@ -312,12 +312,12 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			}
 		}
 		// Now check "master" in the remote repo directly:
-		assertEquals("Unexpected remote commit", commit, db.resolve("master"));
+		assertEquals("Unexpected remote commit", commit, repository.resolve("master"));
 		assertEquals("Unexpected remote commit", commit,
-				db.resolve(Constants.HEAD));
-		File remoteFile = new File(db.getWorkTree(), newFile.getName());
+				repository.resolve(Constants.HEAD));
+		File remoteFile = new File(repository.getWorkTree(), newFile.getName());
 		assertFalse("File should not exist on remote", remoteFile.exists());
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
 		}
 		assertTrue("File does not exist on remote", remoteFile.exists());

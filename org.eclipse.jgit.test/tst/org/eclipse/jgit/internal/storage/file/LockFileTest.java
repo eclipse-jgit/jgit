@@ -27,7 +27,7 @@ public class LockFileTest extends RepositoryTestCase {
 
 	@Test
 	public void lockFailedExceptionRecovery() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit1 = git.commit().setMessage("create file").call();
@@ -37,7 +37,7 @@ public class LockFileTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			assertNotNull(git.commit().setMessage("edit file").call());
 
-			LockFile lf = new LockFile(db.getIndexFile());
+			LockFile lf = new LockFile(repository.getIndexFile());
 			assertTrue(lf.lock());
 			try {
 				git.checkout().setName(commit1.name()).call();

@@ -31,7 +31,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void noStashRef() throws Exception {
-		StashListCommand command = Git.wrap(db).stashList();
+		StashListCommand command = Git.wrap(repository).stashList();
 		Collection<RevCommit> stashed = command.call();
 		assertNotNull(stashed);
 		assertTrue(stashed.isEmpty());
@@ -39,17 +39,17 @@ public class StashListCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void emptyStashReflog() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
 		RevCommit commit = git.commit().setMessage("create file").call();
 
-		RefUpdate update = db.updateRef(Constants.R_STASH);
+		RefUpdate update = repository.updateRef(Constants.R_STASH);
 		update.setNewObjectId(commit);
 		update.disableRefLog();
 		assertEquals(Result.NEW, update.update());
 
-		StashListCommand command = Git.wrap(db).stashList();
+		StashListCommand command = Git.wrap(repository).stashList();
 		Collection<RevCommit> stashed = command.call();
 		assertNotNull(stashed);
 		assertTrue(stashed.isEmpty());
@@ -57,7 +57,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void singleStashedCommit() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
 		RevCommit commit = git.commit().setMessage("create file").call();
@@ -73,7 +73,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void multipleStashedCommits() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
@@ -96,7 +96,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 	}
 
 	private RefUpdate newStashUpdate(ObjectId newId) throws Exception {
-		RefUpdate ru = db.updateRef(Constants.R_STASH);
+		RefUpdate ru = repository.updateRef(Constants.R_STASH);
 		ru.setNewObjectId(newId);
 		ru.setForceRefLog(true);
 		return ru;

@@ -24,13 +24,13 @@ public class RevCommitListTest extends RepositoryTestCase {
 	private RevCommitList<RevCommit> list;
 
 	public void setup(int count) throws Exception {
-		try (Git git = new Git(db);
-				RevWalk w = new RevWalk(db);) {
+		try (Git git = new Git(repository);
+				RevWalk w = new RevWalk(repository);) {
 			for (int i = 0; i < count; i++)
 				git.commit().setCommitter(committer).setAuthor(author)
 						.setMessage("commit " + i).call();
 			list = new RevCommitList<>();
-			w.markStart(w.lookupCommit(db.resolve(Constants.HEAD)));
+			w.markStart(w.lookupCommit(repository.resolve(Constants.HEAD)));
 			list.source(w);
 		}
 	}
@@ -75,8 +75,8 @@ public class RevCommitListTest extends RepositoryTestCase {
 	public void testFillToCommit() throws Exception {
 		setup(3);
 
-		try (RevWalk w = new RevWalk(db)) {
-			w.markStart(w.lookupCommit(db.resolve(Constants.HEAD)));
+		try (RevWalk w = new RevWalk(repository)) {
+			w.markStart(w.lookupCommit(repository.resolve(Constants.HEAD)));
 
 			w.next();
 			RevCommit c = w.next();

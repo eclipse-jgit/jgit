@@ -164,7 +164,7 @@ class Branch extends TextBuiltin {
 			if (rename) {
 				String src, dst;
 				if (otherBranch == null) {
-					final Ref head = db.exactRef(Constants.HEAD);
+					final Ref head = repo.exactRef(Constants.HEAD);
 					if (head != null && head.isSymbolic()) {
 						src = head.getLeaf().getName();
 					} else {
@@ -173,7 +173,7 @@ class Branch extends TextBuiltin {
 					dst = branch;
 				} else {
 					src = branch;
-					final Ref old = db.findRef(src);
+					final Ref old = repo.findRef(src);
 					if (old == null) {
 						throw die(MessageFormat.format(CLIText.get().doesNotExist, src));
 					}
@@ -191,7 +191,7 @@ class Branch extends TextBuiltin {
 					throw die(MessageFormat.format(CLIText.get().notAValidRefName, dst));
 				}
 
-				RefRename r = db.renameRef(src, dst);
+				RefRename r = repo.renameRef(src, dst);
 				if (r.rename() != Result.RENAMED) {
 					throw die(MessageFormat.format(CLIText.get().cannotBeRenamed, src));
 				}
@@ -204,8 +204,8 @@ class Branch extends TextBuiltin {
 				} else {
 					startBranch = Constants.HEAD;
 				}
-				Ref startRef = db.findRef(startBranch);
-				ObjectId startAt = db.resolve(startBranch + "^0"); //$NON-NLS-1$
+				Ref startRef = repo.findRef(startBranch);
+				ObjectId startAt = repo.resolve(startBranch + "^0"); //$NON-NLS-1$
 				if (startRef != null) {
 					startBranch = startRef.getName();
 				} else if (startAt != null) {
@@ -222,10 +222,10 @@ class Branch extends TextBuiltin {
 				if (!Repository.isValidRefName(newRefName)) {
 					throw die(MessageFormat.format(CLIText.get().notAValidRefName, newRefName));
 				}
-				if (!createForce && db.resolve(newRefName) != null) {
+				if (!createForce && repo.resolve(newRefName) != null) {
 					throw die(MessageFormat.format(CLIText.get().branchAlreadyExists, newHead));
 				}
-				RefUpdate updateRef = db.updateRef(newRefName);
+				RefUpdate updateRef = repo.updateRef(newRefName);
 				updateRef.setNewObjectId(startAt);
 				updateRef.setForceUpdate(createForce);
 				updateRef.setRefLogMessage(MessageFormat.format(CLIText.get().branchCreatedFrom, startBranch), false);
@@ -235,7 +235,7 @@ class Branch extends TextBuiltin {
 				}
 			} else {
 				if (verbose) {
-					rw = new RevWalk(db);
+					rw = new RevWalk(repo);
 				}
 				list();
 			}
@@ -245,11 +245,11 @@ class Branch extends TextBuiltin {
 	}
 
 	private void list() throws IOException, GitAPIException {
-		Ref head = db.exactRef(Constants.HEAD);
+		Ref head = repo.exactRef(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {
 			String current = head.getLeaf().getName();
-			try (Git git = new Git(db)) {
+			try (Git git = new Git(repo)) {
 				ListBranchCommand command = git.branchList();
 				if (all)
 					command.setListMode(ListMode.ALL);
@@ -268,7 +268,7 @@ class Branch extends TextBuiltin {
 				addRefs(refs, Constants.R_HEADS);
 				addRefs(refs, Constants.R_REMOTES);
 
-				try (ObjectReader reader = db.newObjectReader()) {
+				try (ObjectReader reader = repo.newObjectReader()) {
 					for (Entry<String, Ref> e : printRefs.entrySet()) {
 						final Ref ref = e.getValue();
 						printHead(reader, e.getKey(),
@@ -310,13 +310,13 @@ class Branch extends TextBuiltin {
 
 	private void delete(List<String> branches, boolean force)
 			throws IOException {
-		String current = db.getBranch();
-		ObjectId head = db.resolve(Constants.HEAD);
+		String current = repo.getBranch();
+		ObjectId head = repo.resolve(Constants.HEAD);
 		for (String b : branches) {
 			if (b.equals(current)) {
 				throw die(MessageFormat.format(CLIText.get().cannotDeleteTheBranchWhichYouAreCurrentlyOn, b));
 			}
-			RefUpdate update = db.updateRef((remote ? Constants.R_REMOTES
+			RefUpdate update = repo.updateRef((remote ? Constants.R_REMOTES
 					: Constants.R_HEADS)
 					+ b);
 			update.setNewObjectId(head);

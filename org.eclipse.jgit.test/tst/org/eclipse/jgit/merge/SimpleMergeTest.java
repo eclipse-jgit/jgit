@@ -32,86 +32,86 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testOurs() throws IOException {
-		Merger ourMerger = MergeStrategy.OURS.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
+		Merger ourMerger = MergeStrategy.OURS.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c") });
 		assertTrue(merge);
-		assertEquals(db.resolve("a^{tree}"), ourMerger.getResultTreeId());
+		assertEquals(repository.resolve("a^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test
 	public void testOurs_noRepo() throws IOException {
-		try (ObjectInserter ins = db.newObjectInserter()) {
-			Merger ourMerger = MergeStrategy.OURS.newMerger(ins, db.getConfig());
-			boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
+		try (ObjectInserter ins = repository.newObjectInserter()) {
+			Merger ourMerger = MergeStrategy.OURS.newMerger(ins, repository.getConfig());
+			boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c") });
 			assertTrue(merge);
-			assertEquals(db.resolve("a^{tree}"), ourMerger.getResultTreeId());
+			assertEquals(repository.resolve("a^{tree}"), ourMerger.getResultTreeId());
 		}
 	}
 
 	@Test
 	public void testTheirs() throws IOException {
-		Merger ourMerger = MergeStrategy.THEIRS.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
+		Merger ourMerger = MergeStrategy.THEIRS.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c") });
 		assertTrue(merge);
-		assertEquals(db.resolve("c^{tree}"), ourMerger.getResultTreeId());
+		assertEquals(repository.resolve("c^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test
 	public void testTheirs_noRepo() throws IOException {
-		try (ObjectInserter ins = db.newObjectInserter()) {
-			Merger ourMerger = MergeStrategy.THEIRS.newMerger(db);
-			boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
+		try (ObjectInserter ins = repository.newObjectInserter()) {
+			Merger ourMerger = MergeStrategy.THEIRS.newMerger(repository);
+			boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c") });
 			assertTrue(merge);
-			assertEquals(db.resolve("c^{tree}"), ourMerger.getResultTreeId());
+			assertEquals(repository.resolve("c^{tree}"), ourMerger.getResultTreeId());
 		}
 	}
 
 	@Test
 	public void testTrivialTwoWay() throws IOException {
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c") });
 		assertTrue(merge);
 		assertEquals("02ba32d3649e510002c21651936b7077aa75ffa9",ourMerger.getResultTreeId().name());
 	}
 
 	@Test
 	public void testTrivialTwoWay_disjointhistories() throws IOException {
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c~4") });
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a"), repository.resolve("c~4") });
 		assertTrue(merge);
 		assertEquals("86265c33b19b2be71bdd7b8cb95823f2743d03a8",ourMerger.getResultTreeId().name());
 	}
 
 	@Test
 	public void testTrivialTwoWay_ok() throws IOException {
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a^0^0^0"), db.resolve("a^0^0^1") });
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a^0^0^0"), repository.resolve("a^0^0^1") });
 		assertTrue(merge);
-		assertEquals(db.resolve("a^0^0^{tree}"), ourMerger.getResultTreeId());
+		assertEquals(repository.resolve("a^0^0^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test
 	public void testTrivialTwoWay_noRepo() throws IOException {
-		try (ObjectInserter ins = db.newObjectInserter()) {
-			Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(ins, db.getConfig());
-			boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a^0^0^0"), db.resolve("a^0^0^1") });
+		try (ObjectInserter ins = repository.newObjectInserter()) {
+			Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(ins, repository.getConfig());
+			boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("a^0^0^0"), repository.resolve("a^0^0^1") });
 			assertTrue(merge);
-			assertEquals(db.resolve("a^0^0^{tree}"), ourMerger.getResultTreeId());
+			assertEquals(repository.resolve("a^0^0^{tree}"), ourMerger.getResultTreeId());
 		}
 	}
 
 	@Test
 	public void testTrivialTwoWay_conflict() throws IOException {
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
-		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("f"), db.resolve("g") });
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
+		boolean merge = ourMerger.merge(new ObjectId[] { repository.resolve("f"), repository.resolve("g") });
 		assertFalse(merge);
 	}
 
 	@Test
 	public void testTrivialTwoWay_validSubtreeSort() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -132,16 +132,16 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertTrue(merge);
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
 			tw.reset(ourMerger.getResultTreeId());
 
@@ -163,9 +163,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_concurrentSubtreeChange() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -184,16 +184,16 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertTrue(merge);
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
 			tw.reset(ourMerger.getResultTreeId());
 
@@ -211,9 +211,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTrivialTwoWay_conflictSubtreeChange() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -232,21 +232,21 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertFalse(merge);
 	}
 
 	@Test
 	public void testTrivialTwoWay_leftDFconflict1() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -264,21 +264,21 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertFalse(merge);
 	}
 
 	@Test
 	public void testTrivialTwoWay_rightDFconflict1() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -296,21 +296,21 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertFalse(merge);
 	}
 
 	@Test
 	public void testTrivialTwoWay_leftDFconflict2() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -326,21 +326,21 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertFalse(merge);
 	}
 
 	@Test
 	public void testTrivialTwoWay_rightDFconflict2() throws Exception {
-		DirCache treeB = db.readDirCache();
-		DirCache treeO = db.readDirCache();
-		DirCache treeT = db.readDirCache();
+		DirCache treeB = repository.readDirCache();
+		DirCache treeO = repository.readDirCache();
+		DirCache treeT = repository.readDirCache();
 
 		DirCacheBuilder bTreeBuilder = treeB.builder();
 		DirCacheBuilder oTreeBuilder = treeO.builder();
@@ -356,12 +356,12 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		oTreeBuilder.finish();
 		tTreeBuilder.finish();
 
-		ObjectInserter ow = db.newObjectInserter();
+		ObjectInserter ow = repository.newObjectInserter();
 		ObjectId b = commit(ow, treeB, new ObjectId[] {});
 		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
-		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		boolean merge = ourMerger.merge(new ObjectId[] { o, t });
 		assertFalse(merge);
 	}

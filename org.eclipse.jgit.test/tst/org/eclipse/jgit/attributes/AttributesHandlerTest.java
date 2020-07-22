@@ -574,9 +574,9 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			String globalAttributesContent,
 			String infoAttributesContent, String rootAttributesContent, String subDirAttributesContent)
 					throws Exception {
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		if (globalAttributesContent != null) {
-			File f = new File(db.getDirectory(), "global/attributes");
+			File f = new File(repository.getDirectory(), "global/attributes");
 			write(f, globalAttributesContent);
 			config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE,
@@ -584,7 +584,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 
 		}
 		if (infoAttributesContent != null) {
-			File f = new File(db.getDirectory(), Constants.INFO_ATTRIBUTES);
+			File f = new File(repository.getDirectory(), Constants.INFO_ATTRIBUTES);
 			write(f, infoAttributesContent);
 		}
 		config.save();
@@ -611,8 +611,8 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 	}
 
 	private TreeWalk beginWalk() {
-		TreeWalk newWalk = new TreeWalk(db);
-		newWalk.addTree(new FileTreeIterator(db));
+		TreeWalk newWalk = new TreeWalk(repository);
+		newWalk.addTree(new FileTreeIterator(repository));
 		return newWalk;
 	}
 }

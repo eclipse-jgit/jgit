@@ -32,7 +32,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setMessage("initial commit").call();
 			writeTrashFile("Test.txt", "Hello world");
 			git.add().addFilepattern("Test.txt").call();
@@ -40,7 +40,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 		}
 
 		bareRepo = Git.cloneRepository().setBare(true)
-				.setURI(db.getDirectory().toURI().toString())
+				.setURI(repository.getDirectory().toURI().toString())
 				.setDirectory(createUniqueTestGitDir(true)).call()
 				.getRepository();
 		addRepoToClose(bareRepo);
@@ -48,7 +48,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 
 	@Test
 	public void testWrap() throws JGitInternalException, GitAPIException {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		assertEquals(1, git.branchList().call().size());
 
 		git = Git.wrap(bareRepo);
@@ -66,19 +66,19 @@ public class GitConstructionTest extends RepositoryTestCase {
 	@Test
 	public void testOpen() throws IOException, JGitInternalException,
 			GitAPIException {
-		Git git = Git.open(db.getDirectory());
+		Git git = Git.open(repository.getDirectory());
 		assertEquals(1, git.branchList().call().size());
 
 		git = Git.open(bareRepo.getDirectory());
 		assertEquals(1, git.branchList().setListMode(ListMode.ALL).call()
 				.size());
 
-		git = Git.open(db.getWorkTree());
+		git = Git.open(repository.getWorkTree());
 		assertEquals(1, git.branchList().setListMode(ListMode.ALL).call()
 				.size());
 
 		try {
-			Git.open(db.getObjectsDirectory());
+			Git.open(repository.getObjectsDirectory());
 			fail("Expected exception has not been thrown");
 		} catch (RepositoryNotFoundException e) {
 			// should not get here
@@ -98,7 +98,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 	 */
 	public void testClose() throws IOException, JGitInternalException,
 			GitAPIException {
-		File workTree = db.getWorkTree();
+		File workTree = repository.getWorkTree();
 		Git git = Git.open(workTree);
 		git.gc().setExpire(null).call();
 		git.checkout().setName(git.getRepository().resolve("HEAD^").getName())

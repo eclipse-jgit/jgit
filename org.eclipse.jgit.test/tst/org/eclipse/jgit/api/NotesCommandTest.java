@@ -33,7 +33,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		git = new Git(db);
+		git = new Git(repository);
 		// commit something
 		writeTrashFile(FILE, "Hello world");
 		git.add().addFilepattern(FILE).call();
@@ -54,7 +54,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 	public void testAddAndRemoveNote() throws Exception {
 		git.notesAdd().setObjectId(commit2).setMessage("data").call();
 		Note note = git.notesShow().setObjectId(commit2).call();
-		String content = new String(db.open(note.getData()).getCachedBytes(),
+		String content = new String(repository.open(note.getData()).getCachedBytes(),
 				UTF_8);
 		assertEquals(content, "data");
 

@@ -29,7 +29,7 @@ class Reflog extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			ReflogCommand cmd = git.reflog();
 			if (ref != null)
 				cmd.setRef(ref);

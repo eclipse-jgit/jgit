@@ -57,14 +57,14 @@ public class PushCommandTest extends RepositoryTestCase {
 		config2.save();
 
 		// setup the first repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
 		remoteConfig.update(config);
 		config.save();
 
-		try (Git git1 = new Git(db)) {
+		try (Git git1 = new Git(repository)) {
 			// create some refs via commits and tag
 			RevCommit commit = git1.commit().setMessage("initial commit").call();
 			Ref tagRef = git1.tag().setName("tag").call();
@@ -95,7 +95,7 @@ public class PushCommandTest extends RepositoryTestCase {
 		Repository db2 = createWorkRepository();
 
 		// setup the first repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
@@ -107,7 +107,7 @@ public class PushCommandTest extends RepositoryTestCase {
 				+ hookOutput.toPath() + "\"\ncat - >>\"" + hookOutput.toPath()
 				+ "\"\nexit 0");
 
-		try (Git git1 = new Git(db)) {
+		try (Git git1 = new Git(repository)) {
 			// create some refs via commits and tag
 			RevCommit commit = git1.commit().setMessage("initial commit").call();
 
@@ -121,7 +121,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 	private File writeHookFile(String name, String data)
 			throws IOException {
-		File path = new File(db.getWorkTree() + "/.git/hooks/", name);
+		File path = new File(repository.getWorkTree() + "/.git/hooks/", name);
 		JGitTestUtil.write(path, data);
 		FS.DETECTED.setExecute(path, true);
 		return path;
@@ -136,19 +136,19 @@ public class PushCommandTest extends RepositoryTestCase {
 		String branch = "refs/heads/master";
 		String trackingBranch = "refs/remotes/" + remote + "/master";
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit commit1 = git.commit().setMessage("Initial commit")
 					.call();
 
-			RefUpdate branchRefUpdate = db.updateRef(branch);
+			RefUpdate branchRefUpdate = repository.updateRef(branch);
 			branchRefUpdate.setNewObjectId(commit1.getId());
 			branchRefUpdate.update();
 
-			RefUpdate trackingBranchRefUpdate = db.updateRef(trackingBranch);
+			RefUpdate trackingBranchRefUpdate = repository.updateRef(trackingBranch);
 			trackingBranchRefUpdate.setNewObjectId(commit1.getId());
 			trackingBranchRefUpdate.update();
 
-			final StoredConfig config = db.getConfig();
+			final StoredConfig config = repository.getConfig();
 			RemoteConfig remoteConfig = new RemoteConfig(config, remote);
 			URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 			remoteConfig.addURI(uri);
@@ -172,7 +172,7 @@ public class PushCommandTest extends RepositoryTestCase {
 			assertEquals(trackingBranch, trackingRefUpdate.getLocalName());
 			assertEquals(branch, trackingRefUpdate.getRemoteName());
 			assertEquals(commit2.getId(), trackingRefUpdate.getNewObjectId());
-			assertEquals(commit2.getId(), db.resolve(trackingBranch));
+			assertEquals(commit2.getId(), repository.resolve(trackingBranch));
 			assertEquals(commit2.getId(), db2.resolve(branch));
 		}
 	}
@@ -184,7 +184,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testPushRefUpdate() throws Exception {
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
 			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
@@ -226,7 +226,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testPushWithRefSpecFromConfig() throws Exception {
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
 			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
@@ -255,7 +255,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testPushWithoutPushRefSpec() throws Exception {
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
 			RemoteConfig remoteConfig = new RemoteConfig(config, "test");
@@ -299,14 +299,14 @@ public class PushCommandTest extends RepositoryTestCase {
 		Repository db2 = createWorkRepository();
 
 		// setup the first repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
 		remoteConfig.update(config);
 		config.save();
 
-		try (Git git1 = new Git(db);
+		try (Git git1 = new Git(repository);
 				Git git2 = new Git(db2)) {
 			// push master (with a new commit) to the remote
 			git1.commit().setMessage("initial commit").call();
@@ -342,7 +342,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 			// Remote will have both a and b.  Master will have only b
 			try {
-				db.resolve(commit2.getId().getName() + "^{commit}");
+				repository.resolve(commit2.getId().getName() + "^{commit}");
 				fail("id shouldn't exist locally");
 			} catch (MissingObjectException e) {
 				// we should get here
@@ -362,14 +362,14 @@ public class PushCommandTest extends RepositoryTestCase {
 		Repository db2 = createWorkRepository();
 
 		// setup the first repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
 		remoteConfig.update(config);
 		config.save();
 
-		try (Git git1 = new Git(db)) {
+		try (Git git1 = new Git(repository)) {
 			// create one commit and push it
 			RevCommit commit = git1.commit().setMessage("initial commit").call();
 			git1.branchCreate().setName("initial").call();

@@ -45,7 +45,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws GitAPIException {
-		SubmoduleDeinitCommand command = new SubmoduleDeinitCommand(db);
+		SubmoduleDeinitCommand command = new SubmoduleDeinitCommand(repository);
 		Collection<SubmoduleDeinitResult> modules = command.call();
 		assertNotNull(modules);
 		assertTrue(modules.isEmpty());
@@ -54,11 +54,11 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	@Test
 	public void alreadyClosedSubmodule() throws Exception {
 		final String path = "sub";
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		commitSubmoduleCreation(path, git);
 
-		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
+		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(repository).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.ALREADY_DEINITIALIZED, result.getStatus());
 	}
@@ -66,22 +66,22 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	@Test
 	public void dirtySubmoduleBecauseUntracked() throws Exception {
 		final String path = "sub";
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		commitSubmoduleCreation(path, git);
 
-		Collection<String> updated = new SubmoduleUpdateCommand(db).addPath(path).setFetch(false).call();
+		Collection<String> updated = new SubmoduleUpdateCommand(repository).addPath(path).setFetch(false).call();
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
 
 		write(new File(submoduleDir, "untracked"), "untracked");
 
-		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
+		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(repository).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY, result.getStatus());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 		}
 		assertTrue(submoduleDir.isDirectory());
@@ -91,15 +91,15 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	@Test
 	public void dirtySubmoduleBecauseNewCommit() throws Exception {
 		final String path = "sub";
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		commitSubmoduleCreation(path, git);
 
-		Collection<String> updated = new SubmoduleUpdateCommand(db).addPath(path).setFetch(false).call();
+		Collection<String> updated = new SubmoduleUpdateCommand(repository).addPath(path).setFetch(false).call();
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			generator.next();
 
 			// want to create a commit inside the repo...
@@ -110,11 +110,11 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 						.setMessage("local commit").call();
 			}
 		}
-		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
+		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(repository).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY, result.getStatus());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 		}
 		assertTrue(submoduleDir.isDirectory());
@@ -122,9 +122,9 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	private File assertSubmoduleIsInitialized() throws IOException {
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
-			File submoduleDir = new File(db.getWorkTree(), generator.getPath());
+			File submoduleDir = new File(repository.getWorkTree(), generator.getPath());
 			assertTrue(submoduleDir.isDirectory());
 			assertNotEquals(0, submoduleDir.list().length);
 			return submoduleDir;
@@ -134,23 +134,23 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	@Test
 	public void dirtySubmoduleWithForce() throws Exception {
 		final String path = "sub";
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		commitSubmoduleCreation(path, git);
 
-		Collection<String> updated = new SubmoduleUpdateCommand(db).addPath(path).setFetch(false).call();
+		Collection<String> updated = new SubmoduleUpdateCommand(repository).addPath(path).setFetch(false).call();
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
 
 		write(new File(submoduleDir, "untracked"), "untracked");
 
-		SubmoduleDeinitCommand command = new SubmoduleDeinitCommand(db).addPath("sub").setForce(true);
+		SubmoduleDeinitCommand command = new SubmoduleDeinitCommand(repository).addPath("sub").setForce(true);
 		SubmoduleDeinitResult result = runDeinit(command);
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.FORCED, result.getStatus());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 		}
 		assertTrue(submoduleDir.isDirectory());
@@ -160,20 +160,20 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	@Test
 	public void cleanSubmodule() throws Exception {
 		final String path = "sub";
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		commitSubmoduleCreation(path, git);
 
-		Collection<String> updated = new SubmoduleUpdateCommand(db).addPath(path).setFetch(false).call();
+		Collection<String> updated = new SubmoduleUpdateCommand(repository).addPath(path).setFetch(false).call();
 		assertEquals(1, updated.size());
 
 		File submoduleDir = assertSubmoduleIsInitialized();
 
-		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
+		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(repository).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.SUCCESS, result.getStatus());
 
-		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 			assertTrue(generator.next());
 		}
 		assertTrue(submoduleDir.isDirectory());
@@ -193,7 +193,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		final RevCommit commit = git.commit().setMessage("create file").call();
 
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -205,19 +205,19 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_URL, db.getDirectory().toURI()
+				ConfigConstants.CONFIG_KEY_URL, repository.getDirectory().toURI()
 						.toString());
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.save();
 
-		new File(db.getWorkTree(), "sub").mkdir();
+		new File(repository.getWorkTree(), "sub").mkdir();
 		git.add().addFilepattern(Constants.DOT_GIT_MODULES).call();
 		git.commit().setMessage("create submodule").call();
 		return commit;

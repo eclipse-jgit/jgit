@@ -28,7 +28,7 @@ public class RebaseTodoFileTest extends RepositoryTestCase {
 	private static final String TEST_TODO = "test.todo";
 
 	private void createTodoList(String... lines) throws IOException {
-		Path p = Paths.get(db.getDirectory().getAbsolutePath(), TEST_TODO);
+		Path p = Paths.get(repository.getDirectory().getAbsolutePath(), TEST_TODO);
 		Files.write(p, Arrays.asList(lines));
 	}
 
@@ -42,7 +42,7 @@ public class RebaseTodoFileTest extends RepositoryTestCase {
 				"edit " + ObjectId.zeroId().name() + " f",
 				"edit " + ObjectId.zeroId().name() + ' ' };
 		createTodoList(expected);
-		RebaseTodoFile todo = new RebaseTodoFile(db);
+		RebaseTodoFile todo = new RebaseTodoFile(repository);
 		List<RebaseTodoLine> lines = todo.readRebaseTodo(TEST_TODO, true);
 		assertEquals("Expected 7 lines", 7, lines.size());
 		int i = 0;

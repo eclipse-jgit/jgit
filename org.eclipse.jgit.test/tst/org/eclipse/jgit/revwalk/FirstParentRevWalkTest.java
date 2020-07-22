@@ -364,7 +364,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		RevCommit b2 = commit(a);
 		RevCommit c = commit(b1, b2);
 
-		try (DepthWalk.RevWalk dw = new DepthWalk.RevWalk(db, 1)) {
+		try (DepthWalk.RevWalk dw = new DepthWalk.RevWalk(repository, 1)) {
 			dw.setFirstParent(true);
 			dw.markRoot(dw.parseCommit(c));
 			dw.markStart(dw.parseCommit(c));

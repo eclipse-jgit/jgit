@@ -30,12 +30,12 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		util = new TestRepository<>(db, createRevWalk());
+		util = new TestRepository<>(repository, createRevWalk());
 		rw = util.getRevWalk();
 	}
 
 	protected RevWalk createRevWalk() {
-		return new RevWalk(db);
+		return new RevWalk(repository);
 	}
 
 	protected Date getDate() {

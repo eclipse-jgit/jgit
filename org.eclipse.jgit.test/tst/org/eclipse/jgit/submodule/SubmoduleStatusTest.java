@@ -43,7 +43,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithNoSubmodules() throws GitAPIException {
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertTrue(statuses.isEmpty());
@@ -55,7 +55,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -67,7 +67,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		});
 		editor.commit();
 
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertEquals(1, statuses.size());
@@ -88,7 +88,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -101,14 +101,14 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		editor.commit();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, "git://server/repo.git");
 		modulesConfig.save();
 
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertEquals(1, statuses.size());
@@ -129,7 +129,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -142,13 +142,13 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		editor.commit();
 
 		String url = "git://server/repo.git";
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
@@ -156,11 +156,11 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		modulesConfig.save();
 
 		Repository subRepo = Git.init().setBare(false)
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository();
 		assertNotNull(subRepo);
 
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertEquals(1, statuses.size());
@@ -181,7 +181,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -194,20 +194,20 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		editor.commit();
 
 		String url = "git://server/repo.git";
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		modulesConfig.save();
 
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertEquals(1, statuses.size());
@@ -226,7 +226,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	public void repositoryWithInitializedSubmodule() throws Exception {
 		String path = "sub";
 		Repository subRepo = Git.init().setBare(false)
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository();
 		assertNotNull(subRepo);
 
@@ -235,7 +235,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 			id = subTr.branch(Constants.HEAD).commit().create().copy();
 		}
 
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
@@ -248,20 +248,20 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 		editor.commit();
 
 		String url = "git://server/repo.git";
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
-				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+				repository.getWorkTree(), Constants.DOT_GIT_MODULES), repository.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		modulesConfig.save();
 
-		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+		SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
 		assertEquals(1, statuses.size());
@@ -280,13 +280,13 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	public void repositoryWithDifferentRevCheckedOutSubmodule() throws Exception {
 		String path = "sub";
 		Repository subRepo = Git.init().setBare(false)
-				.setDirectory(new File(db.getWorkTree(), path)).call()
+				.setDirectory(new File(repository.getWorkTree(), path)).call()
 				.getRepository();
 		assertNotNull(subRepo);
 
 		try (TestRepository<?> subTr = new TestRepository<>(subRepo)) {
 			ObjectId id = subTr.branch(Constants.HEAD).commit().create().copy();
-			DirCache cache = db.lockDirCache();
+			DirCache cache = repository.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
@@ -299,14 +299,14 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 			editor.commit();
 
 			String url = "git://server/repo.git";
-			StoredConfig config = db.getConfig();
+			StoredConfig config = repository.getConfig();
 			config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 					ConfigConstants.CONFIG_KEY_URL, url);
 			config.save();
 
 			FileBasedConfig modulesConfig = new FileBasedConfig(
-					new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
-					db.getFS());
+					new File(repository.getWorkTree(), Constants.DOT_GIT_MODULES),
+					repository.getFS());
 			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 					path, ConfigConstants.CONFIG_KEY_PATH, path);
 			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
@@ -316,7 +316,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 			ObjectId newId = subTr.branch(Constants.HEAD).commit().create()
 					.copy();
 
-			SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
+			SubmoduleStatusCommand command = new SubmoduleStatusCommand(repository);
 			Map<String, SubmoduleStatus> statuses = command.call();
 			assertNotNull(statuses);
 			assertEquals(1, statuses.size());

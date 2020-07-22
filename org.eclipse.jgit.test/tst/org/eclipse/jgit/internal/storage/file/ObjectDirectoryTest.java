@@ -103,14 +103,14 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	public void testScanningForPackfiles() throws Exception {
 		ObjectId unknownID = ObjectId
 				.fromString("c0ffee09d0b63d694bf49bc1e6847473f42d4a8c");
-		GC gc = new GC(db);
+		GC gc = new GC(repository);
 		gc.setExpireAgeMillis(0);
 		gc.setPackExpireAgeMillis(0);
 
 		// the default repo db is used to create the objects. The receivingDB
 		// repo is used to trigger gc's
 		try (FileRepository receivingDB = new FileRepository(
-				db.getDirectory())) {
+				repository.getDirectory())) {
 			// set trustfolderstat to true. If set to false the test always
 			// succeeds.
 			FileBasedConfig cfg = receivingDB.getConfig();
@@ -167,7 +167,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			File[] ret = packsFolder.listFiles(
 					(File dir, String name) -> name.endsWith(".pack"));
 			assertTrue(ret != null && ret.length == 1);
-			FS fs = db.getFS();
+			FS fs = repository.getFS();
 			Assume.assumeTrue(fs.lastModifiedInstant(tmpFile)
 					.equals(fs.lastModifiedInstant(ret[0])));
 

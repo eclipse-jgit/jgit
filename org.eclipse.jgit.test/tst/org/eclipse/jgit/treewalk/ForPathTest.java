@@ -35,8 +35,8 @@ public class ForPathTest extends RepositoryTestCase {
 	public void testFindObjects() throws Exception {
 		final DirCache tree0 = DirCache.newInCore();
 		final DirCacheBuilder b0 = tree0.builder();
-		try (ObjectReader or = db.newObjectReader();
-				ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectReader or = repository.newObjectReader();
+				ObjectInserter oi = repository.newObjectInserter()) {
 
 			DirCacheEntry aDotB = createEntry("a.b", EXECUTABLE_FILE);
 			b0.add(aDotB);

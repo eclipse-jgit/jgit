@@ -102,7 +102,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(b);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(c.getId()));
 
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -124,7 +124,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit c = commit(a);
 		final RevCommit d = commit(b, c);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(d.getId()));
 
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -146,7 +146,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(b.getId()));
 			pw.markStart(pw.lookupCommit(c.getId()));
 
@@ -170,7 +170,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit c = commit(a);
 		final RevCommit d = commit(a);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(b.getId()));
 			pw.markStart(pw.lookupCommit(c.getId()));
 			pw.markStart(pw.lookupCommit(d.getId()));
@@ -199,7 +199,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit f = commit(a);
 		final RevCommit g = commit(f);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			// TODO: when we add unnecessary commit's as tips (e.g. a commit
 			// which is a parent of another tip) the walk will return those
 			// commits twice. Find out why!
@@ -242,7 +242,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit h = commit(f);
 		final RevCommit i = commit(h);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(i.getId()));
 			pw.markStart(pw.lookupCommit(g.getId()));
 
@@ -303,7 +303,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit merge_fixed_logged_npe = commit(sort_roots,
 				fix_logged_npe);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(merge_fixed_logged_npe.getId()));
 
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -380,7 +380,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit s1 = commit(m2);
 		final RevCommit s2 = commit(s1);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(m3));
 			pw.markStart(pw.lookupCommit(s2));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -443,7 +443,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a4 = commit(a3);
 		final RevCommit a5 = commit(a3, a4);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(b3.getId()));
 			pw.markStart(pw.lookupCommit(c.getId()));
 			pw.markStart(pw.lookupCommit(e.getId()));
@@ -496,7 +496,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a4 = commit(a3, b2);
 		final RevCommit b3 = commit(b2);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a4));
 			pw.markStart(pw.lookupCommit(b3));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -542,7 +542,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit b3 = commit(b2);
 		final RevCommit a4 = commit(a3);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a4));
 			pw.markStart(pw.lookupCommit(b3));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -592,7 +592,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a4 = commit(a3, b1);
 		final RevCommit b2 = commit(b1);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a4));
 			pw.markStart(pw.lookupCommit(b2));
 			pw.markStart(pw.lookupCommit(c));
@@ -633,7 +633,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a3 = commit(a2);
 		final RevCommit b1 = commit(a1);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a3));
 			pw.markStart(pw.lookupCommit(b1));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -658,7 +658,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit a = commit();
 		final RevCommit b = commit();
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a));
 			pw.markStart(pw.lookupCommit(b));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
@@ -678,7 +678,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		final RevCommit b1 = commit();
 		final RevCommit b2 = commit(b1);
 
-		try (PlotWalk pw = new PlotWalk(db)) {
+		try (PlotWalk pw = new PlotWalk(repository)) {
 			pw.markStart(pw.lookupCommit(a));
 			pw.markStart(pw.lookupCommit(b2));
 			PlotCommitList<PlotLane> pcl = new PlotCommitList<>();

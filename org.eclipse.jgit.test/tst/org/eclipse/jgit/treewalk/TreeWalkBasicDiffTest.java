@@ -29,7 +29,7 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	public void testMissingSubtree_DetectFileAdded_FileModified()
 			throws Exception {
 		final ObjectId oldTree, newTree, bFileId, cFileId1, cFileId2;
-		try (ObjectInserter inserter = db.newObjectInserter()) {
+		try (ObjectInserter inserter = repository.newObjectInserter()) {
 			final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
 			bFileId = inserter.insert(OBJ_BLOB, encode("b"));
 			cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
@@ -74,7 +74,7 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 			inserter.flush();
 		}
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.reset(oldTree, newTree);
 			tw.setRecursive(true);
 			tw.setFilter(TreeFilter.ANY_DIFF);

@@ -115,7 +115,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 	 */
 	private void executeTest(String command, boolean porcelain,
 			boolean untrackedFiles) throws Exception {
-		Git git = new Git(db);
+		Git git = new Git(repo);
 		// Write all files
 		writeAllFiles();
 		// Test untracked
@@ -230,7 +230,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 	}
 
 	private void detachHead(Git git) throws IOException, GitAPIException {
-		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().name();
+		String commitId = repo.exactRef(R_HEADS + MASTER).getObjectId().name();
 		git.checkout().setName(commitId).call();
 	}
 

@@ -84,8 +84,8 @@ class RebuildCommitGraph extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		if (!really && db.getRefDatabase().hasRefs()) {
-			File directory = db.getDirectory();
+		if (!really && repo.getRefDatabase().hasRefs()) {
+			File directory = repo.getDirectory();
 			String absolutePath = directory == null ? "null" //$NON-NLS-1$
 					: directory.getAbsolutePath();
 			errw.println(
@@ -107,7 +107,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	private void recreateCommitGraph() throws IOException {
 		final Map<ObjectId, ToRewrite> toRewrite = new HashMap<>();
 		List<ToRewrite> queue = new ArrayList<>();
-		try (RevWalk rw = new RevWalk(db);
+		try (RevWalk rw = new RevWalk(repo);
 				final BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(graph),
 								UTF_8))) {
@@ -136,7 +136,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		}
 
 		pm.beginTask("Rewriting commits", queue.size()); //$NON-NLS-1$
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repo.newObjectInserter()) {
 			final ObjectId emptyTree = oi.insert(Constants.OBJ_TREE,
 					new byte[] {});
 			final PersonIdent me = new PersonIdent("jgit rebuild-commitgraph", //$NON-NLS-1$
@@ -198,11 +198,11 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private void detachHead() throws IOException {
-		final String head = db.getFullBranch();
-		final ObjectId id = db.resolve(Constants.HEAD);
+		final String head = repo.getFullBranch();
+		final ObjectId id = repo.resolve(Constants.HEAD);
 		if (!ObjectId.isId(head) && id != null) {
 			final LockFile lf;
-			lf = new LockFile(new File(db.getDirectory(), Constants.HEAD));
+			lf = new LockFile(new File(repo.getDirectory(), Constants.HEAD));
 			if (!lf.lock())
 				throw new IOException(MessageFormat.format(CLIText.get().cannotLock, Constants.HEAD));
 			lf.write(id);
@@ -212,11 +212,11 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private void deleteAllRefs() throws Exception {
-		final RevWalk rw = new RevWalk(db);
-		for (Ref r : db.getRefDatabase().getRefs()) {
+		final RevWalk rw = new RevWalk(repo);
+		for (Ref r : repo.getRefDatabase().getRefs()) {
 			if (Constants.HEAD.equals(r.getName()))
 				continue;
-			final RefUpdate u = db.updateRef(r.getName());
+			final RefUpdate u = repo.updateRef(r.getName());
 			u.setForceUpdate(true);
 			u.delete(rw);
 		}
@@ -228,7 +228,7 @@ class RebuildCommitGraph extends TextBuiltin {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
-				final File file = new File(db.getDirectory(), name);
+				final File file = new File(repo.getDirectory(), name);
 				final LockFile lck = new LockFile(file);
 				if (!lck.lock())
 					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
@@ -247,7 +247,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private Map<String, Ref> computeNewRefs() throws IOException {
 		final Map<String, Ref> refs = new HashMap<>();
-		try (RevWalk rw = new RevWalk(db);
+		try (RevWalk rw = new RevWalk(repo);
 				BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(refList),
 								UTF_8))) {

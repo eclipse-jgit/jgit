@@ -297,7 +297,7 @@ public class PathFilterLogicTest extends RepositoryTestCase {
 
 	private List<String> getMatchingPaths(final ObjectId objId,
 			TreeFilter tf, boolean recursive) throws IOException {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setFilter(tf);
 			tw.setRecursive(recursive);
 			tw.addTree(objId);
@@ -311,8 +311,8 @@ public class PathFilterLogicTest extends RepositoryTestCase {
 	}
 
 	private ObjectId createTree(String... paths) throws IOException {
-		final ObjectInserter odi = db.newObjectInserter();
-		final DirCache dc = db.readDirCache();
+		final ObjectInserter odi = repository.newObjectInserter();
+		final DirCache dc = repository.readDirCache();
 		final DirCacheBuilder builder = dc.builder();
 		for (String path : paths) {
 			DirCacheEntry entry = createEntry(path, FileMode.REGULAR_FILE);

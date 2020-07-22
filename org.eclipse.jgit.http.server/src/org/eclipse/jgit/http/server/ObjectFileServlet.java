@@ -143,7 +143,7 @@ abstract class ObjectFileServlet extends HttpServlet {
 	}
 
 	private static File objects(HttpServletRequest req) {
-		final Repository db = getRepository(req);
-		return ((ObjectDirectory) db.getObjectDatabase()).getDirectory();
+		final Repository repo = getRepository(req);
+		return ((ObjectDirectory) repo.getObjectDatabase()).getDirectory();
 	}
 }

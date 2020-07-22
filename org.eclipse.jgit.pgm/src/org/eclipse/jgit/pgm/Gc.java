@@ -29,7 +29,7 @@ class Gc extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repo);
 		try {
 			git.gc().setAggressive(aggressive)
 					.setPreserveOldPacks(preserveOldPacks)

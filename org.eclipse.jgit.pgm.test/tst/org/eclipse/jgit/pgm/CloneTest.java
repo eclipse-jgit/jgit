@@ -42,14 +42,14 @@ public class CloneTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repo);
 	}
 
 	@Test
 	public void testClone() throws Exception {
 		createInitialCommit();
 
-		File gitDir = db.getDirectory();
+		File gitDir = repo.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		File target = createTempDirectory("target");
 		String cmd = "git clone " + sourceURI + " "
@@ -65,14 +65,14 @@ public class CloneTest extends CLIRepositoryTestCase {
 	}
 
 	private RevCommit createInitialCommit() throws Exception {
-		JGitTestUtil.writeTrashFile(db, "hello.txt", "world");
+		JGitTestUtil.writeTrashFile(repo, "hello.txt", "world");
 		git.add().addFilepattern("hello.txt").call();
 		return git.commit().setMessage("Initial commit").call();
 	}
 
 	@Test
 	public void testCloneEmpty() throws Exception {
-		File gitDir = db.getDirectory();
+		File gitDir = repo.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		File target = createTempDirectory("target");
 		String cmd = "git clone " + sourceURI + " "
@@ -96,7 +96,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 		MockSystemReader sr = (MockSystemReader) SystemReader.getInstance();
 		sr.setProperty(Constants.OS_USER_DIR, target.getAbsolutePath());
 
-		File gitDir = db.getDirectory();
+		File gitDir = repo.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		String name = new URIish(sourceURI).getHumanishName();
 		String cmd = "git clone " + sourceURI;
@@ -113,7 +113,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 	public void testCloneBare() throws Exception {
 		createInitialCommit();
 
-		File gitDir = db.getDirectory();
+		File gitDir = repo.getDirectory();
 		String sourcePath = gitDir.getAbsolutePath();
 		String targetPath = (new File(sourcePath)).getParentFile()
 				.getParentFile().getAbsolutePath()
@@ -133,11 +133,11 @@ public class CloneTest extends CLIRepositoryTestCase {
 	public void testCloneMirror() throws Exception {
 		ObjectId head = createInitialCommit();
 		// create a non-standard ref
-		RefUpdate ru = db.updateRef("refs/meta/foo/bar");
+		RefUpdate ru = repo.updateRef("refs/meta/foo/bar");
 		ru.setNewObjectId(head);
 		ru.update();
 
-		File gitDir = db.getDirectory();
+		File gitDir = repo.getDirectory();
 		String sourcePath = gitDir.getAbsolutePath();
 		String targetPath = (new File(sourcePath)).getParentFile()
 				.getParentFile().getAbsolutePath() + File.separator

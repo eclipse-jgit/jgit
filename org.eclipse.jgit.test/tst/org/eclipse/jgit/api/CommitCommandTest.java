@@ -63,7 +63,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testExecutableRetention() throws Exception {
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
 		config.save();
@@ -111,12 +111,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 			}
 		};
 
-		Git git = Git.open(db.getDirectory(), executableFs);
+		Git git = Git.open(repository.getDirectory(), executableFs);
 		String path = "a.txt";
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		RevCommit commit1 = git.commit().setMessage("commit").call();
-		try (TreeWalk walk = TreeWalk.forPath(db, path, commit1.getTree())) {
+		try (TreeWalk walk = TreeWalk.forPath(repository, path, commit1.getTree())) {
 			assertNotNull(walk);
 			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
 		}
@@ -164,16 +164,16 @@ public class CommitCommandTest extends RepositoryTestCase {
 			}
 		};
 
-		config = db.getConfig();
+		config = repository.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, false);
 		config.save();
 
-		Git git2 = Git.open(db.getDirectory(), nonExecutableFs);
+		Git git2 = Git.open(repository.getDirectory(), nonExecutableFs);
 		writeTrashFile(path, "content2");
 		RevCommit commit2 = git2.commit().setOnly(path).setMessage("commit2")
 				.call();
-		try (TreeWalk walk = TreeWalk.forPath(db, path, commit2.getTree())) {
+		try (TreeWalk walk = TreeWalk.forPath(repository, path, commit2.getTree())) {
 			assertNotNull(walk);
 			assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
 		}
@@ -181,21 +181,21 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitNewSubmodule() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			String path = "sub";
 			command.setPath(path);
-			String uri = db.getDirectory().toURI().toString();
+			String uri = repository.getDirectory().toURI().toString();
 			command.setURI(uri);
 			Repository repo = command.call();
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 				assertTrue(generator.next());
 				assertEquals(path, generator.getPath());
 				assertEquals(commit, generator.getObjectId());
@@ -211,7 +211,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit submoduleCommit = git.commit().setMessage("submodule add")
 					.setOnly(path).call();
 			assertNotNull(submoduleCommit);
-			try (TreeWalk walk = new TreeWalk(db)) {
+			try (TreeWalk walk = new TreeWalk(repository)) {
 				walk.addTree(commit.getTree());
 				walk.addTree(submoduleCommit.getTree());
 				walk.setFilter(TreeFilter.ANY_DIFF);
@@ -229,7 +229,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitSubmoduleUpdate() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit = git.commit().setMessage("create file").call();
@@ -237,16 +237,16 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit2 = git.commit().setMessage("edit file").call();
 
-			SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+			SubmoduleAddCommand command = new SubmoduleAddCommand(repository);
 			String path = "sub";
 			command.setPath(path);
-			String uri = db.getDirectory().toURI().toString();
+			String uri = repository.getDirectory().toURI().toString();
 			command.setURI(uri);
 			Repository repo = command.call();
 			assertNotNull(repo);
 			addRepoToClose(repo);
 
-			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repository)) {
 				assertTrue(generator.next());
 				assertEquals(path, generator.getPath());
 				assertEquals(commit2, generator.getObjectId());
@@ -270,7 +270,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit submoduleEditCommit = git.commit()
 					.setMessage("submodule add").setOnly(path).call();
 			assertNotNull(submoduleEditCommit);
-			try (TreeWalk walk = new TreeWalk(db)) {
+			try (TreeWalk walk = new TreeWalk(repository)) {
 				walk.addTree(submoduleAddCommit.getTree());
 				walk.addTree(submoduleEditCommit.getTree());
 				walk.setFilter(TreeFilter.ANY_DIFF);
@@ -290,7 +290,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	@Ignore("very flaky when run with Hudson")
 	@Test
 	public void commitUpdatesSmudgedEntries() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
 			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
 			File file2 = writeTrashFile("file2.txt", "content2");
@@ -303,7 +303,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit commit = git.commit().setMessage("add files").call();
 			assertNotNull(commit);
 
-			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+			DirCache cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 			int file1Size = cache.getEntry("file1.txt").getLength();
 			int file2Size = cache.getEntry("file2.txt").getLength();
 			int file3Size = cache.getEntry("file3.txt").getLength();
@@ -314,7 +314,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertTrue(file3Size > 0);
 
 			// Smudge entries
-			cache = DirCache.lock(db.getIndexFile(), db.getFS());
+			cache = DirCache.lock(repository.getIndexFile(), repository.getFS());
 			cache.getEntry("file1.txt").setLength(0);
 			cache.getEntry("file2.txt").setLength(0);
 			cache.getEntry("file3.txt").setLength(0);
@@ -322,12 +322,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertTrue(cache.commit());
 
 			// Verify entries smudged
-			cache = DirCache.read(db.getIndexFile(), db.getFS());
+			cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 			assertEquals(0, cache.getEntry("file1.txt").getLength());
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 			assertEquals(0, cache.getEntry("file3.txt").getLength());
 
-			TimeUtil.setLastModifiedWithOffset(db.getIndexFile().toPath(),
+			TimeUtil.setLastModifiedWithOffset(repository.getIndexFile().toPath(),
 					-5000L);
 
 			write(file1, "content4");
@@ -336,7 +336,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
 					.call());
 
-			cache = db.readDirCache();
+			cache = repository.readDirCache();
 			assertEquals(file1Size, cache.getEntry("file1.txt").getLength());
 			assertEquals(file2Size, cache.getEntry("file2.txt").getLength());
 			assertEquals(file3Size, cache.getEntry("file3.txt").getLength());
@@ -348,7 +348,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	@Ignore("very flaky when run with Hudson")
 	@Test
 	public void commitIgnoresSmudgedEntryWithDifferentId() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
 			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
 			File file2 = writeTrashFile("file2.txt", "content2");
@@ -359,7 +359,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit commit = git.commit().setMessage("add files").call();
 			assertNotNull(commit);
 
-			DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+			DirCache cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 			int file1Size = cache.getEntry("file1.txt").getLength();
 			int file2Size = cache.getEntry("file2.txt").getLength();
 			assertTrue(file1Size > 0);
@@ -370,18 +370,18 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile("file2.txt", "content4");
 
 			// Smudge entries
-			cache = DirCache.lock(db.getIndexFile(), db.getFS());
+			cache = DirCache.lock(repository.getIndexFile(), repository.getFS());
 			cache.getEntry("file1.txt").setLength(0);
 			cache.getEntry("file2.txt").setLength(0);
 			cache.write();
 			assertTrue(cache.commit());
 
 			// Verify entries smudged
-			cache = db.readDirCache();
+			cache = repository.readDirCache();
 			assertEquals(0, cache.getEntry("file1.txt").getLength());
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 
-			TimeUtil.setLastModifiedWithOffset(db.getIndexFile().toPath(),
+			TimeUtil.setLastModifiedWithOffset(repository.getIndexFile().toPath(),
 					-5000L);
 
 			write(file1, "content5");
@@ -390,7 +390,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
 					.call());
 
-			cache = db.readDirCache();
+			cache = repository.readDirCache();
 			assertEquals(file1Size, cache.getEntry("file1.txt").getLength());
 			assertEquals(0, cache.getEntry("file2.txt").getLength());
 		}
@@ -398,29 +398,29 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitAfterSquashMerge() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
 			createBranch(first, "refs/heads/branch1");
 			checkoutBranch("refs/heads/branch1");
 
 			writeTrashFile("file2", "file2");
 			git.add().addFilepattern("file2").call();
 			git.commit().setMessage("second commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			checkoutBranch("refs/heads/master");
 
 			MergeResult result = git.merge()
-					.include(db.exactRef("refs/heads/branch1"))
+					.include(repository.exactRef("refs/heads/branch1"))
 					.setSquash(true)
 					.call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 			assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
 					result.getMergeStatus());
 
@@ -428,17 +428,17 @@ public class CommitCommandTest extends RepositoryTestCase {
 			RevCommit squashedCommit = git.commit().call();
 
 			assertEquals(1, squashedCommit.getParentCount());
-			assertNull(db.readSquashCommitMsg());
-			assertEquals("commit: Squashed commit of the following:", db
+			assertNull(repository.readSquashCommitMsg());
+			assertEquals("commit: Squashed commit of the following:", repository
 					.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(db.getBranch()).getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:", repository
+					.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 		}
 	}
 
 	@Test
 	public void testReflogs() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("f", "1");
 			git.add().addFilepattern("f").call();
 			git.commit().setMessage("c1").call();
@@ -449,12 +449,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("c3").setAll(true)
 					.setReflogComment("testRl").call();
 
-			db.getReflogReader(Constants.HEAD).getReverseEntries();
+			repository.getReflogReader(Constants.HEAD).getReverseEntries();
 
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(Constants.HEAD).getReverseEntries()));
+					repository.getReflogReader(Constants.HEAD).getReverseEntries()));
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(db.getBranch()).getReverseEntries()));
+					repository.getReflogReader(repository.getBranch()).getReverseEntries()));
 		}
 	}
 
@@ -468,7 +468,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test(expected = WrongRepositoryStateException.class)
 	public void commitAmendOnInitialShouldFail() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setAmend(true).setMessage("initial commit").call();
 		}
 	}
@@ -476,7 +476,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	@Test
 	public void commitAmendWithoutAuthorShouldSetOriginalAuthorAndAuthorTime()
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 
@@ -499,7 +499,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitAmendWithAuthorShouldUseIt() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			git.commit().setMessage("initial commit").call();
@@ -516,7 +516,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitEmptyCommits() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -550,7 +550,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	@Test
 	public void commitOnlyShouldCommitUnmergedPathAndNotAffectOthers()
 			throws Exception {
-		DirCache index = db.lockDirCache();
+		DirCache index = repository.lockDirCache();
 		DirCacheBuilder builder = index.builder();
 		addUnmergedEntry("unmerged1", builder);
 		addUnmergedEntry("unmerged2", builder);
@@ -572,7 +572,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 				+ "[unmerged2, mode:100644, stage:3]",
 				indexState(0));
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit commit = git.commit().setOnly("unmerged1")
 					.setMessage("Only one file").call();
 
@@ -582,7 +582,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 					+ "[unmerged2, mode:100644, stage:3]",
 					indexState(0));
 
-			try (TreeWalk walk = TreeWalk.forPath(db, "unmerged1", commit.getTree())) {
+			try (TreeWalk walk = TreeWalk.forPath(repository, "unmerged1", commit.getTree())) {
 				assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
 			}
 		}
@@ -590,7 +590,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void commitOnlyShouldHandleIgnored() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("subdir/foo", "Hello World");
 			writeTrashFile("subdir/bar", "Hello World");
 			writeTrashFile(".gitignore", "bar");
@@ -603,9 +603,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	private void nonNormalizedIndexTest(boolean executable) throws Exception {
 		String mode = executable ? "100755" : "100644";
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// Commit a file with CR/LF into the index
-			FileBasedConfig config = db.getConfig();
+			FileBasedConfig config = repository.getConfig();
 			config.setString("core", null, "autocrlf", "false");
 			config.save();
 			File testFile = writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
@@ -660,9 +660,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDeletionConflictWithAutoCrlf() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// Commit a file with CR/LF into the index
-			FileBasedConfig config = db.getConfig();
+			FileBasedConfig config = repository.getConfig();
 			config.setString("core", null, "autocrlf", "false");
 			config.save();
 			File file = writeTrashFile("file.txt", "foo\r\n");
@@ -708,9 +708,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	private void testConflictWithAutoCrlf(String baseLf, String lf)
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// Commit a file with CR/LF into the index
-			FileBasedConfig config = db.getConfig();
+			FileBasedConfig config = repository.getConfig();
 			config.setString("core", null, "autocrlf", "false");
 			config.save();
 			writeTrashFile("file.txt", "foo" + baseLf);
@@ -775,7 +775,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void callSignerWithProperSigningKey() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 
@@ -842,7 +842,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void callSignerOnlyWhenSigning() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 

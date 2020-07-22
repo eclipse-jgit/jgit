@@ -88,15 +88,15 @@ class Glog extends RevWalkTextBuiltin {
 	protected RevWalk createWalk() {
 		if (objects)
 			throw die(CLIText.get().cannotUseObjectsWithGlog);
-		final PlotWalk w = new PlotWalk(db);
+		final PlotWalk w = new PlotWalk(repo);
 		w.sort(RevSort.BOUNDARY, true);
 		return w;
 	}
 
 	private String repoName() {
-		final File gitDir = db.getDirectory();
+		final File gitDir = repo.getDirectory();
 		if (gitDir == null)
-			return db.toString();
+			return repo.toString();
 		String n = gitDir.getName();
 		if (Constants.DOT_GIT.equals(n))
 			n = gitDir.getParentFile().getName();

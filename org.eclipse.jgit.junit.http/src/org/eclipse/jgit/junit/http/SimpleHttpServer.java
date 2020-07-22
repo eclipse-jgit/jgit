@@ -30,7 +30,7 @@ public class SimpleHttpServer {
 
 	AppServer server;
 
-	private final Repository db;
+	private final Repository repo;
 
 	private URIish uri;
 
@@ -52,7 +52,7 @@ public class SimpleHttpServer {
 	 * @param withSsl
 	 */
 	public SimpleHttpServer(Repository repository, boolean withSsl) {
-		this.db = repository;
+		this.repo = repository;
 		server = new AppServer(0, withSsl ? 0 : -1);
 	}
 
@@ -64,7 +64,7 @@ public class SimpleHttpServer {
 	public void start() throws Exception {
 		ServletContextHandler sBasic = server.authBasic(smart("/sbasic"));
 		server.setUp();
-		final String srcName = db.getDirectory().getName();
+		final String srcName = repo.getDirectory().getName();
 		uri = toURIish(sBasic, srcName);
 		int sslPort = server.getSecurePort();
 		if (sslPort > 0) {
@@ -102,11 +102,11 @@ public class SimpleHttpServer {
 	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
-			if (!name.equals(nameOf(db))) {
+			if (!name.equals(nameOf(repo))) {
 				throw new RepositoryNotFoundException(name);
 			}
-			db.incrementOpen();
-			return db;
+			repo.incrementOpen();
+			return repo;
 		});
 
 		ServletContextHandler ctx = server.addContext(path);
@@ -114,8 +114,8 @@ public class SimpleHttpServer {
 		return ctx;
 	}
 
-	private static String nameOf(Repository db) {
-		return db.getDirectory().getName();
+	private static String nameOf(Repository repo) {
+		return repo.getDirectory().getName();
 	}
 
 	private URIish toURIish(String path) throws URISyntaxException {

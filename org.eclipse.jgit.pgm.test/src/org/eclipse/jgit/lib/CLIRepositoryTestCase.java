@@ -27,13 +27,13 @@ import org.junit.Before;
 
 public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	/** Test repository, initialized for this test case. */
-	protected Repository db;
+	protected Repository repo;
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db = createWorkRepository();
+		repo = createWorkRepository();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected String[] executeUnchecked(String... cmds) throws Exception {
 		List<String> result = new ArrayList<>(cmds.length);
 		for (String cmd : cmds) {
-			result.addAll(CLIGitCommand.executeUnchecked(cmd, db));
+			result.addAll(CLIGitCommand.executeUnchecked(cmd, repo));
 		}
 		return result.toArray(new String[0]);
 	}
@@ -66,7 +66,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected String[] execute(String... cmds) throws Exception {
 		List<String> result = new ArrayList<>(cmds.length);
 		for (String cmd : cmds) {
-			Result r = CLIGitCommand.executeRaw(cmd, db);
+			Result r = CLIGitCommand.executeRaw(cmd, repo);
 			if (r.ex instanceof TerminatedByHelpException) {
 				result.addAll(r.errLines());
 			} else if (r.ex != null) {
@@ -86,12 +86,12 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 */
 	protected Path writeLink(String link, String target) throws Exception {
-		return JGitTestUtil.writeLink(db, link, target);
+		return JGitTestUtil.writeLink(repo, link, target);
 	}
 
 	protected File writeTrashFile(String name, String data)
 			throws IOException {
-		return JGitTestUtil.writeTrashFile(db, name, data);
+		return JGitTestUtil.writeTrashFile(repo, name, data);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	protected void deleteTrashFile(String name) throws IOException {
-		JGitTestUtil.deleteTrashFile(db, name);
+		JGitTestUtil.deleteTrashFile(repo, name);
 	}
 
 	/**

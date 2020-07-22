@@ -50,8 +50,8 @@ public class CrLfNativeTest extends RepositoryTestCase {
 	private void verifyNativeCheckout(SystemReader systemReader)
 			throws Exception {
 		SystemReader.setInstance(systemReader);
-		Git git = Git.wrap(db);
-		FileBasedConfig config = db.getConfig();
+		Git git = Git.wrap(repository);
+		FileBasedConfig config = repository.getConfig();
 		config.setString("core", null, "autocrlf", "false");
 		config.setString("core", null, "eol", "native");
 		config.save();
@@ -85,7 +85,7 @@ public class CrLfNativeTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testCrLfAttribute() throws Exception {
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString("core", null, "autocrlf", "false");
 		config.setString("core", null, "eol", "crlf");
 		config.save();
@@ -99,8 +99,8 @@ public class CrLfNativeTest extends RepositoryTestCase {
 		writeTrashFile("foo.eol", "");
 		Map<String, EolStreamType> inTypes = new HashMap<>();
 		Map<String, EolStreamType> outTypes = new HashMap<>();
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new FileTreeIterator(db));
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.addTree(new FileTreeIterator(repository));
 			while (walk.next()) {
 				String path = walk.getPathString();
 				if (".gitattributes".equals(path)) {

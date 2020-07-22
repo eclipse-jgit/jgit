@@ -339,7 +339,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 	 */
 	private void testMaliciousPath(boolean good, boolean secondCheckout,
 			String... path) throws GitAPIException, IOException {
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				RevWalk revWalk = new RevWalk(git.getRepository())) {
 			ObjectId blobId;
 			try (ObjectInserter newObjectInserter = git.getRepository()

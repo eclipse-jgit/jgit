@@ -43,7 +43,7 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = Git.wrap(db);
+		git = Git.wrap(repository);
 		writeTrashFile(PATH, "content");
 		git.add().addFilepattern(PATH).call();
 		head = git.commit().setMessage("add file").call();

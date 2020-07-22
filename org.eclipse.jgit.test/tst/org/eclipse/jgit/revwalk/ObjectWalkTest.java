@@ -25,7 +25,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 
 	@Override
 	protected RevWalk createRevWalk() {
-		return objw = new ObjectWalk(db);
+		return objw = new ObjectWalk(repository);
 	}
 
 	@Test
@@ -185,7 +185,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 				.fromString("abbbfafe3129f85747aba7bfac992af77134c607");
 		final RevTree tree_root, tree_A, tree_AB;
 		final RevCommit b;
-		try (ObjectInserter inserter = db.newObjectInserter()) {
+		try (ObjectInserter inserter = repository.newObjectInserter()) {
 			ObjectId empty = inserter.insert(new TreeFormatter());
 
 			TreeFormatter A = new TreeFormatter();

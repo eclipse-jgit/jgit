@@ -96,9 +96,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	private void prescanTwoTrees(ObjectId head, ObjectId merge)
 			throws IllegalStateException, IOException {
-		DirCache dc = db.lockDirCache();
+		DirCache dc = repository.lockDirCache();
 		try {
-			dco = new DirCacheCheckout(db, head, dc, merge);
+			dco = new DirCacheCheckout(repository, head, dc, merge);
 			dco.preScanTwoTrees();
 		} finally {
 			dc.unlock();
@@ -106,9 +106,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	private void checkout() throws IOException {
-		DirCache dc = db.lockDirCache();
+		DirCache dc = repository.lockDirCache();
 		try {
-			dco = new DirCacheCheckout(db, theHead, dc, theMerge);
+			dco = new DirCacheCheckout(repository, theHead, dc, theMerge);
 			dco.checkout();
 		} finally {
 			dc.unlock();
@@ -148,8 +148,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			GitAPIException {
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			writeTrashFile("f", "f()");
 			writeTrashFile("D/g", "g()");
@@ -174,7 +174,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 					new String[] { "E/h" });
 
 			writeTrashFile("f", "f()\nside");
-			assertTrue(new File(db.getWorkTree(), "D/g").delete());
+			assertTrue(new File(repository.getWorkTree(), "D/g").delete());
 			writeTrashFile("G/i", "i()");
 			git.add().addFilepattern(".").call();
 			git.add().addFilepattern(".").setUpdate(true).call();
@@ -232,8 +232,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			throws Exception {
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			writeTrashFile("x", "x");
 			git.add().addFilepattern("x").call();
@@ -267,15 +267,15 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testInitialCheckout() throws Exception {
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db);
-				TestRepository<Repository> db_t = new TestRepository<>(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository);
+				TestRepository<Repository> db_t = new TestRepository<>(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			BranchBuilder master = db_t.branch("master");
 			master.commit().add("f", "1").message("m0").create();
-			assertFalse(new File(db.getWorkTree(), "f").exists());
+			assertFalse(new File(repository.getWorkTree(), "f").exists());
 			git.checkout().setName("master").call();
-			assertTrue(new File(db.getWorkTree(), "f").exists());
+			assertTrue(new File(repository.getWorkTree(), "f").exists());
 			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
 		} finally {
 			if (handle != null) {
@@ -288,7 +288,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			throws NoWorkTreeException,
 			CorruptObjectException, IOException {
 		DirCacheCheckout dc;
-		dc = new DirCacheCheckout(db, null, db.lockDirCache(),
+		dc = new DirCacheCheckout(repository, null, repository.lockDirCache(),
 				commit.getTree());
 		dc.setFailOnConflict(true);
 		assertTrue(dc.checkout());
@@ -299,7 +299,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			throws CorruptObjectException, IOException {
 		String expectedValue;
 		String path;
-		DirCache read = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache read = DirCache.read(repository.getIndexFile(), repository.getFS());
 
 		assertEquals("Index has not the right size.", i.size(),
 				read.getEntryCount());
@@ -310,7 +310,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 					+ " in index", expectedValue);
 			assertTrue("unexpected content for path " + path
 					+ " in index. Expected: <" + expectedValue + ">",
-					Arrays.equals(db.open(read.getEntry(j).getObjectId())
+					Arrays.equals(repository.open(read.getEntry(j).getObjectId())
 							.getCachedBytes(), i.get(path).getBytes(UTF_8)));
 		}
 	}
@@ -318,7 +318,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testRules1thru3_NoIndexEntry() throws IOException {
 		ObjectId head = buildTree(mk("foo"));
-		ObjectId merge = db.newObjectInserter().insert(Constants.OBJ_TREE,
+		ObjectId merge = repository.newObjectInserter().insert(Constants.OBJ_TREE,
 				new byte[0]);
 
 		prescanTwoTrees(head, merge);
@@ -343,14 +343,14 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	private void buildIndex(HashMap<String, String> indexEntries) throws IOException {
-		dirCache = new DirCache(db.getIndexFile(), db.getFS());
+		dirCache = new DirCache(repository.getIndexFile(), repository.getFS());
 		if (indexEntries != null) {
 			assertTrue(dirCache.lock());
 			DirCacheEditor editor = dirCache.editor();
 			for (java.util.Map.Entry<String,String> e : indexEntries.entrySet()) {
 				writeTrashFile(e.getKey(), e.getValue());
 				ObjectId id;
-				try (ObjectInserter inserter = db.newObjectInserter()) {
+				try (ObjectInserter inserter = repository.newObjectInserter()) {
 					id = inserter.insert(Constants.OBJ_BLOB,
 						Constants.encode(e.getValue()));
 				}
@@ -403,11 +403,11 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			}
 		}
 		editor.finish();
-		return lockDirCache.writeTree(db.newObjectInserter());
+		return lockDirCache.writeTree(repository.newObjectInserter());
 	}
 
 	ObjectId genSha1(String data) {
-		try (ObjectInserter w = db.newObjectInserter()) {
+		try (ObjectInserter w = repository.newObjectInserter()) {
 			ObjectId id = w.insert(Constants.OBJ_BLOB, data.getBytes(UTF_8));
 			w.flush();
 			return id;
@@ -470,7 +470,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		setupCase(headMap, null, idxMap);
 		assertTrue(new File(trash, "foo").delete());
 		writeTrashFile("foo", "bar");
-		db.readDirCache().getEntry(0).setUpdateNeeded(true);
+		repository.readDirCache().getEntry(0).setUpdateNeeded(true);
 		go();
 
 		assertTrue(getRemoved().isEmpty());
@@ -508,7 +508,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		setupCase(idxMap, mergeMap, idxMap);
 		assertTrue(new File(trash, "foo").delete());
 		writeTrashFile("foo", "bar");
-		db.readDirCache().getEntry(0).setUpdateNeeded(true);
+		repository.readDirCache().getEntry(0).setUpdateNeeded(true);
 		go();
 		assertTrue(getConflicts().contains("foo"));
 	}
@@ -677,7 +677,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testDirectoryFileConflicts_8() throws Exception {
 		// 8
 		setupCase(mk("DF"), mk("DF"), mk("DF/DF"));
-		recursiveDelete(new File(db.getWorkTree(), "DF"));
+		recursiveDelete(new File(repository.getWorkTree(), "DF"));
 		writeTrashFile("DF", "xy");
 		go();
 		assertConflict("DF/DF");
@@ -982,8 +982,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1030,8 +1030,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1080,8 +1080,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1137,8 +1137,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1193,8 +1193,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			File file = writeTrashFile(fname, "a");
@@ -1227,8 +1227,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			File file = writeTrashFile(fname, "a");
@@ -1263,8 +1263,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			File file = writeTrashFile(fname, "a");
@@ -1312,8 +1312,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "was_file";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			File file = writeTrashFile(fname, "a");
@@ -1364,7 +1364,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutOutChangesAutoCRLFInput() throws IOException {
 		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
-		db.getConfig().setString("core", null, "autocrlf", "input");
+		repository.getConfig().setString("core", null, "autocrlf", "input");
 		checkout();
 		assertIndex(mkmap("foo/bar", "foo\nbar"));
 		assertWorkDir(mkmap("foo/bar", "foo\nbar"));
@@ -1373,7 +1373,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutOutChangesAutoCRLFtrue() throws IOException {
 		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
-		db.getConfig().setString("core", null, "autocrlf", "true");
+		repository.getConfig().setString("core", null, "autocrlf", "true");
 		checkout();
 		assertIndex(mkmap("foo/bar", "foo\nbar"));
 		assertWorkDir(mkmap("foo/bar", "foo\r\nbar"));
@@ -1382,7 +1382,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutOutChangesAutoCRLFtrueBinary() throws IOException {
 		setupCase(mk("foo"), mkmap("foo/bar", "foo\nb\u0000ar"), mk("foo"));
-		db.getConfig().setString("core", null, "autocrlf", "true");
+		repository.getConfig().setString("core", null, "autocrlf", "true");
 		checkout();
 		assertIndex(mkmap("foo/bar", "foo\nb\u0000ar"));
 		assertWorkDir(mkmap("foo/bar", "foo\nb\u0000ar"));
@@ -1416,7 +1416,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testDontOverwriteEmptyFolder() throws IOException {
 		setupCase(mk("foo"), mk("foo"), mk("foo"));
-		FileUtils.mkdir(new File(db.getWorkTree(), "d"));
+		FileUtils.mkdir(new File(repository.getWorkTree(), "d"));
 		checkout();
 		assertWorkDir(mkmap("foo", "foo", "d", "/"));
 	}
@@ -1427,8 +1427,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname="file.txt";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1473,8 +1473,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "file.txt";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			File file = writeTrashFile(fname, "a");
@@ -1529,8 +1529,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		String fname = "file.txt";
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add a file
 			writeTrashFile(fname, "a");
@@ -1591,20 +1591,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add non-executable file
 			File file = writeTrashFile("file.txt", "a");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit1").call();
-			assertFalse(db.getFS().canExecute(file));
+			assertFalse(repository.getFS().canExecute(file));
 
 			// Create branch
 			git.branchCreate().setName("b1").call();
 
 			// Make file executable
-			db.getFS().setExecute(file, true);
+			repository.getFS().setExecute(file, true);
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit2").call();
 			recorder.assertNoEvent();
@@ -1613,7 +1613,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			Status status = git.status().call();
 			assertTrue(status.getModified().isEmpty());
 			assertTrue(status.getChanged().isEmpty());
-			assertTrue(db.getFS().canExecute(file));
+			assertTrue(repository.getFS().canExecute(file));
 
 			// Switch branches
 			git.checkout().setName("b1").call();
@@ -1622,7 +1622,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			status = git.status().call();
 			assertTrue(status.getModified().isEmpty());
 			assertTrue(status.getChanged().isEmpty());
-			assertFalse(db.getFS().canExecute(file));
+			assertFalse(repository.getFS().canExecute(file));
 			recorder.assertEvent(new String[] { "file.txt" },
 					ChangeRecorder.EMPTY);
 		} finally {
@@ -1639,20 +1639,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add non-executable file
 			File file = writeTrashFile("file.txt", "a");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit1").call();
-			assertFalse(db.getFS().canExecute(file));
+			assertFalse(repository.getFS().canExecute(file));
 
 			// Create branch
 			git.branchCreate().setName("b1").call();
 
 			// Make file executable
-			db.getFS().setExecute(file, true);
+			repository.getFS().setExecute(file, true);
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit2").call();
 
@@ -1660,7 +1660,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			Status status = git.status().call();
 			assertTrue(status.getModified().isEmpty());
 			assertTrue(status.getChanged().isEmpty());
-			assertTrue(db.getFS().canExecute(file));
+			assertTrue(repository.getFS().canExecute(file));
 
 			writeTrashFile("file.txt", "b");
 
@@ -1692,14 +1692,14 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add non-executable file
 			File file = writeTrashFile("file.txt", "a");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit1").call();
-			assertFalse(db.getFS().canExecute(file));
+			assertFalse(repository.getFS().canExecute(file));
 
 			// Create branch
 			git.branchCreate().setName("b1").call();
@@ -1711,7 +1711,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 			// stage a mode change
 			writeTrashFile("file.txt", "a");
-			db.getFS().setExecute(file, true);
+			repository.getFS().setExecute(file, true);
 			git.add().addFilepattern("file.txt").call();
 
 			// dirty the file
@@ -1746,32 +1746,32 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add non-executable file
 			File file = writeTrashFile("file.txt", "a");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit1").call();
-			assertFalse(db.getFS().canExecute(file));
+			assertFalse(repository.getFS().canExecute(file));
 
 			// Create branch
 			git.branchCreate().setName("b1").call();
 
 			// Create second commit with executable file
 			file = writeTrashFile("file.txt", "b");
-			db.getFS().setExecute(file, true);
+			repository.getFS().setExecute(file, true);
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("commit2").call();
 
 			// stage the same content as in the branch we want to switch to
 			writeTrashFile("file.txt", "a");
-			db.getFS().setExecute(file, false);
+			repository.getFS().setExecute(file, false);
 			git.add().addFilepattern("file.txt").call();
 
 			// dirty the file
 			writeTrashFile("file.txt", "c");
-			db.getFS().setExecute(file, true);
+			repository.getFS().setExecute(file, true);
 
 			assertEquals("[file.txt, mode:100644, content:a]",
 					indexState(CONTENT));
@@ -1800,20 +1800,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db)) {
-			handle = db.getListenerList()
+		try (Git git = new Git(repository)) {
+			handle = repository.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			// Add first file
 			File file1 = writeTrashFile("file1.txt", "a");
 			git.add().addFilepattern("file1.txt").call();
 			git.commit().setMessage("commit1").call();
-			assertFalse(db.getFS().canExecute(file1));
+			assertFalse(repository.getFS().canExecute(file1));
 
 			// Add second file
 			File file2 = writeTrashFile("file2.txt", "b");
 			git.add().addFilepattern("file2.txt").call();
 			git.commit().setMessage("commit2").call();
-			assertFalse(db.getFS().canExecute(file2));
+			assertFalse(repository.getFS().canExecute(file2));
 			recorder.assertNoEvent();
 
 			// Create branch from first commit
@@ -1824,7 +1824,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 			// Change content and file mode in working directory and index
 			file1 = writeTrashFile("file1.txt", "c");
-			db.getFS().setExecute(file1, true);
+			repository.getFS().setExecute(file1, true);
 			git.add().addFilepattern("file1.txt").call();
 
 			// Switch back to 'master'
@@ -1842,9 +1842,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testFolderFileConflict() throws Exception {
 		RevCommit headCommit = commitFile("f/a", "initial content", "master");
 		RevCommit checkoutCommit = commitFile("f/a", "side content", "side");
-		FileUtils.delete(new File(db.getWorkTree(), "f"), FileUtils.RECURSIVE);
+		FileUtils.delete(new File(repository.getWorkTree(), "f"), FileUtils.RECURSIVE);
 		writeTrashFile("f", "file instead of folder");
-		new DirCacheCheckout(db, headCommit.getTree(), db.lockDirCache(),
+		new DirCacheCheckout(repository, headCommit.getTree(), repository.lockDirCache(),
 				checkoutCommit.getTree()).checkout();
 	}
 
@@ -1858,7 +1858,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		writeTrashFile("b", "changed content");
 
 		try {
-			new DirCacheCheckout(db, headCommit.getTree(), db.lockDirCache(),
+			new DirCacheCheckout(repository, headCommit.getTree(), repository.lockDirCache(),
 					checkoutCommit.getTree()).checkout();
 			fail();
 		} catch (CheckoutConflictException expected) {
@@ -1877,12 +1877,12 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		RevCommit headCommit = commitFile("f/a", "initial content", "master");
 		commitFile("b", "side content", "side");
 		RevCommit checkoutCommit = commitFile("f/a", "side content", "side");
-		FileUtils.delete(new File(db.getWorkTree(), "f"), FileUtils.RECURSIVE);
+		FileUtils.delete(new File(repository.getWorkTree(), "f"), FileUtils.RECURSIVE);
 		writeTrashFile("f", "file instead of a folder");
 		writeTrashFile("b", "changed content");
 
 		try {
-			new DirCacheCheckout(db, headCommit.getTree(), db.lockDirCache(),
+			new DirCacheCheckout(repository, headCommit.getTree(), repository.lockDirCache(),
 					checkoutCommit.getTree()).checkout();
 			fail();
 		} catch (CheckoutConflictException expected) {
@@ -1914,7 +1914,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testIgnoredDirectory() throws Exception {
 		writeTrashFile(".gitignore", "src/ignored");
 		writeTrashFile("src/ignored/sub/foo.txt", "1");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			RevCommit commit = git.commit().setMessage("adding .gitignore")
 					.call();
@@ -1930,7 +1930,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testIgnoredDirectoryWithTrackedContent() throws Exception {
 		writeTrashFile("src/ignored/sub/foo.txt", "1");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("adding foo.txt").call();
 			writeTrashFile(".gitignore", "src/ignored");
@@ -1954,7 +1954,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testResetWithChangeInGitignore() throws Exception {
 		writeTrashFile(".gitignore", "src/ignored");
 		writeTrashFile("src/ignored/sub/foo.txt", "1");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(".").call();
 			RevCommit initial = git.commit().setMessage("initial").call();
 			writeTrashFile("src/newignored/foo.txt", "2");
@@ -1981,8 +1981,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutWithEmptyIndexDoesntOverwrite() throws Exception {
-		try (Git git = new Git(db);
-				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+		try (Git git = new Git(repository);
+				TestRepository<Repository> db_t = new TestRepository<>(repository)) {
 			// prepare the commits
 			BranchBuilder master = db_t.branch("master");
 			RevCommit mergeCommit = master.commit()
@@ -2030,11 +2030,11 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	private int resetHardAndCount(RevCommit commit) throws Exception {
 		int[] callCount = { 0 };
-		DirCache cache = db.lockDirCache();
-		FileTreeIterator workingTreeIterator = new TestFileTreeIterator(db,
+		DirCache cache = repository.lockDirCache();
+		FileTreeIterator workingTreeIterator = new TestFileTreeIterator(repository,
 				callCount);
 		try {
-			DirCacheCheckout checkout = new DirCacheCheckout(db, null, cache,
+			DirCacheCheckout checkout = new DirCacheCheckout(repository, null, cache,
 					commit.getTree().getId(), workingTreeIterator);
 			checkout.setFailOnConflict(false);
 			checkout.checkout();
@@ -2047,9 +2047,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void assertWorkDir(Map<String, String> i)
 			throws CorruptObjectException,
 			IOException {
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			walk.setRecursive(false);
-			walk.addTree(new FileTreeIterator(db));
+			walk.addTree(new FileTreeIterator(repository));
 			String expectedValue;
 			String path;
 			int nrFiles = 0;
@@ -2058,7 +2058,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				ft = walk.getTree(0, FileTreeIterator.class);
 				path = ft.getEntryPathString();
 				expectedValue = i.get(path);
-				File file = new File(db.getWorkTree(), path);
+				File file = new File(repository.getWorkTree(), path);
 				assertTrue(file.exists());
 				if (file.isFile()) {
 					assertNotNull("found unexpected file for path " + path

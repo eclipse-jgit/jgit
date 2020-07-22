@@ -44,7 +44,7 @@ class Reset extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			ResetCommand command = git.reset();
 			command.setRef(commit);
 			if (!paths.isEmpty()) {

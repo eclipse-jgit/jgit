@@ -87,7 +87,7 @@ class Commit extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			CommitCommand commitCmd = git.commit();
 			if (author != null) {
 				commitCmd.setAuthor(RawParseUtils.parsePersonIdent(author));
@@ -116,7 +116,7 @@ class Commit extends TextBuiltin {
 			}
 			commitCmd.setAmend(amend);
 			commitCmd.setAll(all);
-			Ref head = db.exactRef(Constants.HEAD);
+			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null) {
 				throw die(CLIText.get().onBranchToBeBorn);
 			}

@@ -60,14 +60,14 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		submoduleStandaloneGit.commit().setMessage("add file to submodule")
 				.call();
 
-		submodule_db = (FileRepository) Git.wrap(db).submoduleAdd()
+		submodule_db = (FileRepository) Git.wrap(repository).submoduleAdd()
 				.setPath("modules/submodule")
 				.setURI(submoduleStandalone.getDirectory().toURI().toString())
 				.call();
 		submodule_trash = submodule_db.getWorkTree();
 		addRepoToClose(submodule_db);
 		writeTrashFile("fileInRoot", "root");
-		Git rootGit = Git.wrap(db);
+		Git rootGit = Git.wrap(repository);
 		rootGit.add().addFilepattern("fileInRoot").call();
 		rootGit.commit().setMessage("add submodule and root file").call();
 	}
@@ -75,8 +75,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 	@Theory
 	public void testInitiallyClean(IgnoreSubmoduleMode mode)
 			throws IOException {
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertFalse(indexDiff.diff());
 	}
@@ -87,7 +87,7 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		CloneCommand clone = Git.cloneRepository();
 		clone.setDirectory(directory);
 		clone.setCloneSubmodules(false);
-		clone.setURI(db.getDirectory().toURI().toString());
+		clone.setURI(repository.getDirectory().toURI().toString());
 		Git git2 = clone.call();
 		addRepoToClose(git2.getRepository());
 		return git2.getRepository();
@@ -107,8 +107,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 	public void testMissingIfDirectoryGone(IgnoreSubmoduleMode mode)
 			throws Exception {
 		recursiveDelete(submodule_trash);
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		boolean hasChanges = indexDiff.diff();
 		if (mode != IgnoreSubmoduleMode.ALL) {
@@ -125,8 +125,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 			throws Exception {
 		recursiveDelete(submodule_trash);
 		writeTrashFile("modules/submodule", "nonsense");
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertTrue(indexDiff.diff());
 		assertEquals("[]", indexDiff.getMissing().toString());
@@ -139,8 +139,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 			throws IOException {
 		writeTrashFile("fileInRoot", "2");
 
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertTrue(indexDiff.diff());
 	}
@@ -174,8 +174,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 	public void testDirtySubmoduleWorktree(IgnoreSubmoduleMode mode)
 			throws IOException {
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "2");
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL,
 				IgnoreSubmoduleMode.DIRTY);
@@ -189,8 +189,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		submoduleGit.add().addFilepattern("fileInSubmodule").call();
 		submoduleGit.commit().setMessage("Modified fileInSubmodule").call();
 
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL);
 	}
@@ -202,8 +202,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		Git submoduleGit = Git.wrap(submodule_db);
 		submoduleGit.add().addFilepattern("fileInSubmodule").call();
 
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL,
 				IgnoreSubmoduleMode.DIRTY);
@@ -217,8 +217,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		submoduleGit.add().addFilepattern("fileInSubmodule").call();
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "3");
 
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL,
 				IgnoreSubmoduleMode.DIRTY);
@@ -229,8 +229,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 			throws IOException {
 		JGitTestUtil.writeTrashFile(submodule_db, "additionalFileInSubmodule",
 				"2");
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL,
 				IgnoreSubmoduleMode.DIRTY, IgnoreSubmoduleMode.UNTRACKED);
@@ -239,16 +239,16 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 	@Theory
 	public void testSubmoduleReplacedByMovedFile(IgnoreSubmoduleMode mode)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.rm().setCached(true).addFilepattern("modules/submodule").call();
 		recursiveDelete(submodule_trash);
-		JGitTestUtil.deleteTrashFile(db, "fileInRoot");
+		JGitTestUtil.deleteTrashFile(repository, "fileInRoot");
 		// Move the fileInRoot file
 		writeTrashFile("modules/submodule/fileInRoot", "root");
 		git.rm().addFilepattern("fileInRoot").addFilepattern("modules/").call();
 		git.add().addFilepattern("modules/").call();
-		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertTrue(indexDiff.diff());
 		String[] removed = indexDiff.getRemoved().toArray(new String[0]);
@@ -274,12 +274,12 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 			subGit.add().addFilepattern("fileInSubmodule2").call();
 			subGit.commit().setMessage("add file to submodule2").call();
 
-			try (Repository sub2 = Git.wrap(db)
+			try (Repository sub2 = Git.wrap(repository)
 					.submoduleAdd().setPath("modules/submodule2")
 					.setURI(submodule2.getDirectory().toURI().toString())
 					.call()) {
 				writeTrashFile("fileInRoot", "root+");
-				Git rootGit = Git.wrap(db);
+				Git rootGit = Git.wrap(repository);
 				rootGit.add().addFilepattern("fileInRoot").call();
 				rootGit.commit().setMessage("add submodule2 and root file")
 						.call();
@@ -290,8 +290,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 						"submodule2 changed");
 				// Set up .gitmodules
 				FileBasedConfig gitmodules = new FileBasedConfig(
-						new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
-						db.getFS());
+						new File(repository.getWorkTree(), Constants.DOT_GIT_MODULES),
+						repository.getFS());
 				gitmodules.load();
 				gitmodules.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
@@ -300,8 +300,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 						"modules/submodule2", ConfigConstants.CONFIG_KEY_IGNORE,
 						"none");
 				gitmodules.save();
-				IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
-						new FileTreeIterator(db));
+				IndexDiff indexDiff = new IndexDiff(repository, Constants.HEAD,
+						new FileTreeIterator(repository));
 				assertTrue(indexDiff.diff());
 				String[] modified = indexDiff.getModified()
 						.toArray(new String[0]);
@@ -313,15 +313,15 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
 						"dirty");
 				gitmodules.save();
-				indexDiff = new IndexDiff(db, Constants.HEAD,
-						new FileTreeIterator(db));
+				indexDiff = new IndexDiff(repository, Constants.HEAD,
+						new FileTreeIterator(repository));
 				assertTrue(indexDiff.diff());
 				modified = indexDiff.getModified().toArray(new String[0]);
 				Arrays.sort(modified);
 				assertEquals("[.gitmodules, modules/submodule2]",
 						Arrays.toString(modified));
 				// Test the config override
-				StoredConfig cfg = db.getConfig();
+				StoredConfig cfg = repository.getConfig();
 				cfg.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 						"modules/submodule", ConfigConstants.CONFIG_KEY_IGNORE,
 						"none");
@@ -329,8 +329,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 						"modules/submodule2", ConfigConstants.CONFIG_KEY_IGNORE,
 						"all");
 				cfg.save();
-				indexDiff = new IndexDiff(db, Constants.HEAD,
-						new FileTreeIterator(db));
+				indexDiff = new IndexDiff(repository, Constants.HEAD,
+						new FileTreeIterator(repository));
 				assertTrue(indexDiff.diff());
 				modified = indexDiff.getModified().toArray(new String[0]);
 				Arrays.sort(modified);

@@ -27,7 +27,7 @@ class ReadDirCache extends TextBuiltin {
 		final int cnt = 100;
 		final long start = System.currentTimeMillis();
 		for (int i = 0; i < cnt; i++)
-			db.readDirCache();
+			repo.readDirCache();
 		final long end = System.currentTimeMillis();
 		outw.print(" "); //$NON-NLS-1$
 		outw.println(MessageFormat.format(CLIText.get().averageMSPerRead,

@@ -42,8 +42,8 @@ public class RenameDetectorTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository<>(db);
-		rd = new RenameDetector(db);
+		testDb = new TestRepository<>(repository);
+		rd = new RenameDetector(repository);
 	}
 
 	@Test

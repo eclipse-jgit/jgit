@@ -42,12 +42,12 @@ public class AttributeFileTests extends RepositoryTestCase {
 
 	@Test
 	public void testTextAutoCoreEolCoreAutoCrLfInput() throws Exception {
-		FileBasedConfig cfg = db.getConfig();
+		FileBasedConfig cfg = repository.getConfig();
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 		cfg.save();
 		final String content = "Line1\nLine2\n";
-		try (Git git = Git.wrap(db)) {
+		try (Git git = Git.wrap(repository)) {
 			writeTrashFile(".gitattributes", "* text=auto");
 			File dummy = writeTrashFile("dummy.txt", content);
 			git.add().addFilepattern(".").call();
@@ -89,7 +89,7 @@ public class AttributeFileTests extends RepositoryTestCase {
 		assertTrue("Expected some binary data", data.length > 100);
 		File binary = writeTrashFile("add.png", "");
 		Files.write(binary.toPath(), data);
-		try (Git git = Git.wrap(db)) {
+		try (Git git = Git.wrap(repository)) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("test commit").call();
 			// binary should be unchanged, dummy should match "index"
@@ -123,11 +123,11 @@ public class AttributeFileTests extends RepositoryTestCase {
 
 	private void verifyIndexContent(String path, byte[] expectedContent)
 			throws Exception {
-		DirCache dc = db.readDirCache();
+		DirCache dc = repository.readDirCache();
 		for (int i = 0; i < dc.getEntryCount(); ++i) {
 			DirCacheEntry entry = dc.getEntry(i);
 			if (path.equals(entry.getPathString())) {
-				byte[] data = db.open(entry.getObjectId(), Constants.OBJ_BLOB)
+				byte[] data = repository.open(entry.getObjectId(), Constants.OBJ_BLOB)
 						.getCachedBytes();
 				assertArrayEquals("Unexpected index content for " + path,
 						expectedContent, data);

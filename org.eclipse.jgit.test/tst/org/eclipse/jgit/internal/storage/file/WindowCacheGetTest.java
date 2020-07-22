@@ -155,7 +155,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 	private void doCacheTests() throws IOException {
 		for (TestObject o : toLoad) {
-			final ObjectLoader or = db.open(o.id, o.type);
+			final ObjectLoader or = repository.open(o.id, o.type);
 			assertNotNull(or);
 			assertEquals(o.type, or.getType());
 		}

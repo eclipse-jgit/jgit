@@ -161,7 +161,7 @@ class Log extends RevWalkTextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		diffFmt.setRepository(db);
+		diffFmt.setRepository(repo);
 		try {
 			diffFmt.setPathFilter(pathFilter);
 			if (detectRenames != null) {
@@ -201,7 +201,7 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	private void addNoteMap(String notesRef) throws IOException {
-		Ref notes = db.exactRef(notesRef);
+		Ref notes = repo.exactRef(notesRef);
 		if (notes == null)
 			return;
 		RevCommit notesCommit = argWalk.parseCommit(notes.getObjectId());

@@ -145,7 +145,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final File[] out1 = pack(eden, o1);
 		assertEquals(o1.name(), parse(o1).name());
 
-		final ObjectLoader load1 = db.open(o1, Constants.OBJ_BLOB);
+		final ObjectLoader load1 = repository.open(o1, Constants.OBJ_BLOB);
 		assertNotNull(load1);
 
 		final RevObject o2 = writeBlob(eden, "o2");
@@ -160,7 +160,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		// earlier still resolve the object, even though its underlying
 		// pack is gone, but the object still exists.
 		//
-		final ObjectLoader load2 = db.open(o1, Constants.OBJ_BLOB);
+		final ObjectLoader load2 = repository.open(o1, Constants.OBJ_BLOB);
 		assertNotNull(load2);
 		assertNotSame(load1, load2);
 
@@ -181,7 +181,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private RevObject parse(AnyObjectId id)
 			throws MissingObjectException, IOException {
-		try (RevWalk rw = new RevWalk(db)) {
+		try (RevWalk rw = new RevWalk(repository)) {
 			return rw.parseAny(id);
 		}
 	}
@@ -243,7 +243,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	private File fullPackFileName(ObjectId name, String suffix) {
-		final File packdir = db.getObjectDatabase().getPackDirectory();
+		final File packdir = repository.getObjectDatabase().getPackDirectory();
 		return new File(packdir, "pack-" + name.name() + suffix);
 	}
 

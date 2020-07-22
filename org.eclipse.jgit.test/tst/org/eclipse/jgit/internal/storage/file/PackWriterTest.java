@@ -103,12 +103,12 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		os = new ByteArrayOutputStream();
-		config = new PackConfig(db);
+		config = new PackConfig(repository);
 
 		dst = createBareRepository();
 		File alt = new File(dst.getObjectDatabase().getDirectory(), INFO_ALTERNATES);
 		alt.getParentFile().mkdirs();
-		write(alt, db.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
+		write(alt, repository.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testContructor() throws IOException {
-		writer = new PackWriter(config, db.newObjectReader());
+		writer = new PackWriter(config, repository.newObjectReader());
 		assertFalse(writer.isDeltaBaseAsOffset());
 		assertTrue(config.isReuseDeltas());
 		assertTrue(config.isReuseObjects());
@@ -151,7 +151,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		assertFalse(config.isReuseObjects());
 		assertFalse(config.isDeltaBaseAsOffset());
 
-		writer = new PackWriter(config, db.newObjectReader());
+		writer = new PackWriter(config, repository.newObjectReader());
 		writer.setDeltaBaseAsOffset(true);
 		assertTrue(writer.isDeltaBaseAsOffset());
 		assertFalse(config.isDeltaBaseAsOffset());
@@ -231,7 +231,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			ParseException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		new GC(db).gc();
+		new GC(repository).gc();
 		createVerifyOpenPack(NONE, haves(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}
@@ -304,7 +304,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testWritePack2DeltasCRC32Copy() throws IOException {
-		final File packDir = db.getObjectDatabase().getPackDirectory();
+		final File packDir = repository.getObjectDatabase().getPackDirectory();
 		final File crc32Pack = new File(packDir,
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
 		final File crc32Idx = new File(packDir,
@@ -312,7 +312,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		copyFile(JGitTestUtil.getTestResourceFile(
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2"),
 				crc32Idx);
-		db.openPack(crc32Pack);
+		repository.openPack(crc32Pack);
 
 		writeVerifyPack2(true);
 	}
@@ -335,7 +335,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327"),
 				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3") ,
 				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
-		try (RevWalk parser = new RevWalk(db)) {
+		try (RevWalk parser = new RevWalk(repository)) {
 			final RevObject forcedOrderRevs[] = new RevObject[forcedOrder.length];
 			for (int i = 0; i < forcedOrder.length; i++)
 				forcedOrderRevs[i] = parser.parseAny(forcedOrder[i]);
@@ -801,7 +801,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			final boolean ignoreMissingUninteresting, boolean useBitmaps)
 			throws MissingObjectException, IOException {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
-		writer = new PackWriter(config, db.newObjectReader());
+		writer = new PackWriter(config, repository.newObjectReader());
 		writer.setUseBitmaps(useBitmaps);
 		writer.setThin(thin);
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
@@ -814,7 +814,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	private void createVerifyOpenPack(List<RevObject> objectSource)
 			throws MissingObjectException, IOException {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
-		writer = new PackWriter(config, db.newObjectReader());
+		writer = new PackWriter(config, repository.newObjectReader());
 		writer.preparePack(objectSource.iterator());
 		assertEquals(objectSource.size(), writer.getObjectCount());
 		writer.writePack(m, m, os);

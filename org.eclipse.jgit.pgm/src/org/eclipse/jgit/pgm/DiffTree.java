@@ -43,7 +43,7 @@ class DiffTree extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.setRecursive(recursive);
 			for (AbstractTreeIterator i : trees)
 				walk.addTree(i);

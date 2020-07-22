@@ -70,13 +70,13 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("dir/subfile", "dir/subfile");
 		ObjectId tree = insertTree(new TreeFormatter());
 
-		DirCache index = db.lockDirCache();
+		DirCache index = repository.lockDirCache();
 		DirCacheEditor editor = index.editor();
-		editor.add(add(db, trash, "file1"));
-		editor.add(add(db, trash, "dir/subfile"));
+		editor.add(add(repository, trash, "file1"));
+		editor.add(add(repository, trash, "dir/subfile"));
 		editor.commit();
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, tree, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, tree, iterator);
 		diff.diff();
 		assertEquals(2, diff.getAdded().size());
 		assertTrue(diff.getAdded().contains("file1"));
@@ -91,15 +91,15 @@ public class IndexDiffTest extends RepositoryTestCase {
 	public void testMissing() throws Exception {
 		File file2 = writeTrashFile("file2", "file2");
 		File file3 = writeTrashFile("dir/file3", "dir/file3");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern("file2").addFilepattern("dir/file3")
 					.call();
 			git.commit().setMessage("commit").call();
 		}
 		assertTrue(file2.delete());
 		assertTrue(file3.delete());
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		diff.diff();
 		assertEquals(2, diff.getMissing().size());
 		assertTrue(diff.getMissing().contains("file2"));
@@ -124,8 +124,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.append("dir", FileMode.TREE, insertTree(dir));
 		ObjectId treeId = insertTree(tree);
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, treeId, iterator);
 		diff.diff();
 		assertEquals(2, diff.getRemoved().size());
 		assertTrue(diff.getRemoved().contains("file2"));
@@ -142,7 +142,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
 		}
 
@@ -156,8 +156,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.append("file2", FileMode.REGULAR_FILE, ObjectId.fromString("0123456789012345678901234567890123456789"));
 		ObjectId treeId = insertTree(tree);
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, treeId, iterator);
 		diff.diff();
 		assertEquals(2, diff.getChanged().size());
 		assertTrue(diff.getChanged().contains("file2"));
@@ -172,7 +172,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflicting() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -198,8 +198,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 		}
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 		diff.diff();
 
 		assertEquals("[b]",
@@ -216,7 +216,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingDeletedAndModified() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -240,8 +240,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 		}
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 		diff.diff();
 
 		assertEquals("[]", new TreeSet<>(diff.getChanged()).toString());
@@ -257,7 +257,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingFromMultipleCreations() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -280,8 +280,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 		}
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 		diff.diff();
 
 		assertEquals("[]", new TreeSet<>(diff.getChanged()).toString());
@@ -299,7 +299,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("a.c", "a.c");
 		writeTrashFile("a=c", "a=c");
 		writeTrashFile("a=d", "a=d");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern("a.b").call();
 			git.add().addFilepattern("a.c").call();
 			git.add().addFilepattern("a=c").call();
@@ -314,8 +314,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.append("a=d", FileMode.REGULAR_FILE, ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
 		ObjectId treeId = insertTree(tree);
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, treeId, iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
@@ -341,7 +341,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("a/c", "a/c");
 		writeTrashFile("a=c", "a=c");
 		writeTrashFile("a=d", "a=d");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern("a.b").addFilepattern("a.c")
 					.addFilepattern("a/b.b/b").addFilepattern("a/b")
 					.addFilepattern("a/c").addFilepattern("a=c")
@@ -367,8 +367,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.append("a=d", FileMode.REGULAR_FILE, ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
 		ObjectId treeId = insertTree(tree);
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, treeId, iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
@@ -379,7 +379,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	private ObjectId insertTree(TreeFormatter tree) throws IOException {
-		try (ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = repository.newObjectInserter()) {
 			ObjectId id = oi.insert(tree);
 			oi.flush();
 			return id;
@@ -395,14 +395,14 @@ public class IndexDiffTest extends RepositoryTestCase {
 	@Test
 	public void testRemovedUntracked() throws Exception{
 		String path = "file";
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile(path, "content");
 			git.add().addFilepattern(path).call();
 			git.commit().setMessage("commit").call();
 		}
 		removeFromIndex(path);
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		FileTreeIterator iterator = new FileTreeIterator(repository);
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 		diff.diff();
 		assertTrue(diff.getRemoved().contains(path));
 		assertTrue(diff.getUntracked().contains(path));
@@ -415,9 +415,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testUntrackedFolders() throws Exception {
-		try (Git git = new Git(db)) {
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-					new FileTreeIterator(db));
+		try (Git git = new Git(repository)) {
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD,
+					new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 
@@ -434,8 +434,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			git.add().addFilepattern("src").addFilepattern("readme").call();
 			git.commit().setMessage("initial").call();
 
-			diff = new IndexDiff(db, Constants.HEAD,
-					new FileTreeIterator(db));
+			diff = new IndexDiff(repository, Constants.HEAD,
+					new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(new HashSet<>(Arrays.asList("target")),
 					diff.getUntrackedFolders());
@@ -443,7 +443,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			writeTrashFile("src/tst/A.java", "");
 			writeTrashFile("src/tst/B.java", "");
 
-			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff = new IndexDiff(repository, Constants.HEAD, new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(new HashSet<>(Arrays.asList("target", "src/tst")),
 					diff.getUntrackedFolders());
@@ -453,7 +453,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			git.commit().setMessage("second").call();
 			writeTrashFile("src/org/C.java", "");
 
-			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff = new IndexDiff(repository, Constants.HEAD, new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(
 					new HashSet<>(Arrays.asList("src/org", "src/tst",
@@ -470,9 +470,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testUntrackedNotIgnoredFolders() throws Exception {
-		try (Git git = new Git(db)) {
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-					new FileTreeIterator(db));
+		try (Git git = new Git(repository)) {
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD,
+					new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 
@@ -489,7 +489,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 					.addFilepattern("srcs/").call();
 			git.commit().setMessage("initial").call();
 
-			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff = new IndexDiff(repository, Constants.HEAD, new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(new HashSet<>(Arrays.asList("src")),
 					diff.getUntrackedFolders());
@@ -503,7 +503,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			writeTrashFile("srcs/com/Y1.java", "");
 			deleteTrashFile(".gitignore");
 
-			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff = new IndexDiff(repository, Constants.HEAD, new FileTreeIterator(repository));
 			diff.diff();
 			assertEquals(
 					new HashSet<>(Arrays.asList("srcs/com", "sr", "src/tst",
@@ -514,7 +514,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testAssumeUnchanged() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String path = "file";
 			writeTrashFile(path, "content");
 			git.add().addFilepattern(path).call();
@@ -529,8 +529,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			writeTrashFile(path, "more content");
 			deleteTrashFile(path3);
 
-			FileTreeIterator iterator = new FileTreeIterator(db);
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			FileTreeIterator iterator = new FileTreeIterator(repository);
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 			assertEquals(2, diff.getAssumeUnchanged().size());
 			assertEquals(1, diff.getModified().size());
@@ -541,8 +541,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 			git.add().addFilepattern(".").call();
 
-			iterator = new FileTreeIterator(db);
-			diff = new IndexDiff(db, Constants.HEAD, iterator);
+			iterator = new FileTreeIterator(repository);
+			diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 			assertEquals(2, diff.getAssumeUnchanged().size());
 			assertEquals(0, diff.getModified().size());
@@ -577,7 +577,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testStageState_mergeAndReset_bug() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "content");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
@@ -602,8 +602,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			MergeResult result = git.merge().include(branchCommit).call();
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
-			FileTreeIterator iterator = new FileTreeIterator(db);
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			FileTreeIterator iterator = new FileTreeIterator(repository);
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 
 			assertTrue(diff.getChanged().isEmpty());
@@ -621,8 +621,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			writeTrashFile("b", "second file content - master");
 
 			// we should have the same result
-			iterator = new FileTreeIterator(db);
-			diff = new IndexDiff(db, Constants.HEAD, iterator);
+			iterator = new FileTreeIterator(repository);
+			diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 
 			assertTrue(diff.getChanged().isEmpty());
@@ -640,7 +640,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testStageState_simulated_bug() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "content");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
@@ -662,7 +662,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			git.commit().setMessage("master commit").call();
 
 			// Simulate a failed merge of branch into master
-			DirCacheBuilder builder = db.lockDirCache().builder();
+			DirCacheBuilder builder = repository.lockDirCache().builder();
 			DirCacheEntry entry = createEntry("a", FileMode.REGULAR_FILE, 0,
 					"content");
 			builder.add(entry);
@@ -674,8 +674,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			builder.add(entry);
 			builder.commit();
 
-			FileTreeIterator iterator = new FileTreeIterator(db);
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			FileTreeIterator iterator = new FileTreeIterator(repository);
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 
 			assertTrue(diff.getChanged().isEmpty());
@@ -693,8 +693,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testAutoCRLFInput() throws Exception {
-		try (Git git = new Git(db)) {
-			FileBasedConfig config = db.getConfig();
+		try (Git git = new Git(repository)) {
+			FileBasedConfig config = repository.getConfig();
 
 			// Make sure core.autocrlf is false before adding
 			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -711,8 +711,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 					ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.INPUT);
 			config.save();
 
-			FileTreeIterator iterator = new FileTreeIterator(db);
-			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			FileTreeIterator iterator = new FileTreeIterator(repository);
+			IndexDiff diff = new IndexDiff(repository, Constants.HEAD, iterator);
 			diff.diff();
 
 			assertTrue(
@@ -723,7 +723,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	private void verifyStageState(StageState expected, int... stages)
 			throws IOException {
-		DirCacheBuilder builder = db.lockDirCache().builder();
+		DirCacheBuilder builder = repository.lockDirCache().builder();
 		for (int stage : stages) {
 			DirCacheEntry entry = createEntry("a", FileMode.REGULAR_FILE,
 					stage, "content");
@@ -731,8 +731,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		}
 		builder.commit();
 
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
+		IndexDiff diff = new IndexDiff(repository, Constants.HEAD,
+				new FileTreeIterator(repository));
 		diff.diff();
 
 		assertEquals(
@@ -741,7 +741,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	private void removeFromIndex(String path) throws IOException {
-		final DirCache dirc = db.lockDirCache();
+		final DirCache dirc = repository.lockDirCache();
 		final DirCacheEditor edit = dirc.editor();
 		edit.add(new DirCacheEditor.DeletePath(path));
 		if (!edit.commit())
@@ -749,7 +749,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	private void assumeUnchanged(String path) throws IOException {
-		final DirCache dirc = db.lockDirCache();
+		final DirCache dirc = repository.lockDirCache();
 		final DirCacheEntry ent = dirc.getEntry(path);
 		if (ent != null)
 			ent.setAssumeValid(true);

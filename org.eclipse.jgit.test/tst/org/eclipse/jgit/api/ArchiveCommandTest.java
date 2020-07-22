@@ -86,7 +86,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFiles() throws IOException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 
 			git.archive().setOutputStream(new MockOutputStream())
@@ -101,7 +101,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadSpecificPath() throws IOException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file_1.txt", "content_1_1");
 			git.add().addFilepattern("file_1.txt").call();
 			git.commit().setMessage("create file").call();
@@ -125,7 +125,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveByIdSpecificFile() throws IOException, GitAPIException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file_1.txt", "content_1_1");
 			git.add().addFilepattern("file_1.txt").call();
 			RevCommit first = git.commit().setMessage("create file").call();
@@ -154,7 +154,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveByDirectoryPath() throws GitAPIException, IOException {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file_0.txt", "content_0_1");
 			git.add().addFilepattern("file_0.txt").call();
 			git.commit().setMessage("commit_1").call();
@@ -184,7 +184,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesTarTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 			String fmt = "tar";
 			File archive = new File(getTemporaryDirectory(),
@@ -207,7 +207,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 			String fmt = "tgz";
 			File archive = new File(getTemporaryDirectory(),
@@ -231,7 +231,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesTbz2Timestamps() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 			String fmt = "tbz2";
 			File archive = new File(getTemporaryDirectory(),
@@ -255,7 +255,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesTxzTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 			String fmt = "txz";
 			File archive = new File(getTemporaryDirectory(), "archive." + fmt);
@@ -278,7 +278,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesZipTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			createTestContent(git);
 			String fmt = "zip";
 			File archive = new File(getTemporaryDirectory(), "archive." + fmt);

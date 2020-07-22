@@ -42,7 +42,7 @@ class ShowPackDelta extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		ObjectReader reader = db.newObjectReader();
+		ObjectReader reader = repo.newObjectReader();
 		RevObject obj;
 		try (RevWalk rw = new RevWalk(reader)) {
 			obj = rw.parseAny(objectId);

@@ -24,7 +24,7 @@ public class ReflogTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testSingleCommit() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 
 			assertEquals("6fd41be HEAD@{0}: commit (initial): initial commit",
@@ -34,7 +34,7 @@ public class ReflogTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBranch() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("first commit").call();
 			git.checkout().setCreateBranch(true).setName("side").call();
 			writeTrashFile("file", "side content");

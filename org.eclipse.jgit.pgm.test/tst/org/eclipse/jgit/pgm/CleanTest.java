@@ -21,7 +21,7 @@ import org.junit.Test;
 public class CleanTest extends CLIRepositoryTestCase {
 	@Test
 	public void testCleanRequiresForce() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b" },
 					execute("git clean"));
@@ -37,7 +37,7 @@ public class CleanTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testCleanRequiresForceConfig() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.getRepository().getConfig().setBoolean("clean", null,
 					"requireForce", false);
 			assertArrayOfLinesEquals(
@@ -48,7 +48,7 @@ public class CleanTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testCleanLeaveDirs() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 
 			writeTrashFile("dir/file", "someData");
@@ -56,31 +56,31 @@ public class CleanTest extends CLIRepositoryTestCase {
 			writeTrashFile("b", "someData");
 
 			// all these files should be there
-			assertTrue(check(db, "a"));
-			assertTrue(check(db, "b"));
-			assertTrue(check(db, "dir/file"));
+			assertTrue(check(repo, "a"));
+			assertTrue(check(repo, "b"));
+			assertTrue(check(repo, "dir/file"));
 
 			// dry run should make no change
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b" },
 					execute("git clean -n"));
-			assertTrue(check(db, "a"));
-			assertTrue(check(db, "b"));
-			assertTrue(check(db, "dir/file"));
+			assertTrue(check(repo, "a"));
+			assertTrue(check(repo, "b"));
+			assertTrue(check(repo, "dir/file"));
 
 			// force should make a change
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b" },
 					execute("git clean -f"));
-			assertFalse(check(db, "a"));
-			assertFalse(check(db, "b"));
-			assertTrue(check(db, "dir/file"));
+			assertFalse(check(repo, "a"));
+			assertFalse(check(repo, "b"));
+			assertTrue(check(repo, "dir/file"));
 		}
 	}
 
 	@Test
 	public void testCleanDeleteDirs() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 
 			writeTrashFile("dir/file", "someData");
@@ -88,17 +88,17 @@ public class CleanTest extends CLIRepositoryTestCase {
 			writeTrashFile("b", "someData");
 
 			// all these files should be there
-			assertTrue(check(db, "a"));
-			assertTrue(check(db, "b"));
-			assertTrue(check(db, "dir/file"));
+			assertTrue(check(repo, "a"));
+			assertTrue(check(repo, "b"));
+			assertTrue(check(repo, "dir/file"));
 
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b",
 							"Removing dir/" },
 					execute("git clean -d -f"));
-			assertFalse(check(db, "a"));
-			assertFalse(check(db, "b"));
-			assertFalse(check(db, "dir/file"));
+			assertFalse(check(repo, "a"));
+			assertFalse(check(repo, "b"));
+			assertFalse(check(repo, "dir/file"));
 		}
 	}
 }

@@ -42,9 +42,9 @@ public class PushTest extends LfsServerTest {
 
 	Git git;
 
-	private TestRepository localDb;
+	private TestRepository localRepo;
 
-	private Repository remoteDb;
+	private Repository remoteRepo;
 
 	@Override
 	@Before
@@ -54,25 +54,25 @@ public class PushTest extends LfsServerTest {
 		BuiltinLFS.register();
 
 		Path rtmp = Files.createTempDirectory("jgit_test_");
-		remoteDb = FileRepositoryBuilder.create(rtmp.toFile());
-		remoteDb.create(true);
+		remoteRepo = FileRepositoryBuilder.create(rtmp.toFile());
+		remoteRepo.create(true);
 
 		Path tmp = Files.createTempDirectory("jgit_test_");
-		Repository db = FileRepositoryBuilder
+		Repository repo = FileRepositoryBuilder
 				.create(tmp.resolve(".git").toFile());
-		db.create(false);
-		StoredConfig cfg = db.getConfig();
+		repo.create(false);
+		StoredConfig cfg = repo.getConfig();
 		cfg.setString("filter", "lfs", "usejgitbuiltin", "true");
 		cfg.setString("lfs", null, "url", server.getURI().toString() + "/lfs");
 		cfg.save();
 
-		localDb = new TestRepository<>(db);
-		localDb.branch("master").commit().add(".gitattributes",
+		localRepo = new TestRepository<>(repo);
+		localRepo.branch("master").commit().add(".gitattributes",
 				"*.bin filter=lfs diff=lfs merge=lfs -text ").create();
-		git = Git.wrap(db);
+		git = Git.wrap(repo);
 
 		URIish uri = new URIish(
-				"file://" + remoteDb.getDirectory());
+				"file://" + remoteRepo.getDirectory());
 		RemoteAddCommand radd = git.remoteAdd();
 		radd.setUri(uri);
 		radd.setName(Constants.DEFAULT_REMOTE_NAME);
@@ -84,24 +84,24 @@ public class PushTest extends LfsServerTest {
 
 	@After
 	public void cleanup() throws Exception {
-		remoteDb.close();
-		localDb.getRepository().close();
-		FileUtils.delete(localDb.getRepository().getWorkTree(),
+		remoteRepo.close();
+		localRepo.getRepository().close();
+		FileUtils.delete(localRepo.getRepository().getWorkTree(),
 				FileUtils.RECURSIVE);
-		FileUtils.delete(remoteDb.getDirectory(), FileUtils.RECURSIVE);
+		FileUtils.delete(remoteRepo.getDirectory(), FileUtils.RECURSIVE);
 	}
 
 	@Test
 	public void testPushSimple() throws Exception {
-		JGitTestUtil.writeTrashFile(localDb.getRepository(), "a.bin",
+		JGitTestUtil.writeTrashFile(localRepo.getRepository(), "a.bin",
 				"1234567");
 		git.add().addFilepattern("a.bin").call();
 		RevCommit commit = git.commit().setMessage("add lfs blob").call();
 		git.push().call();
 
-		// check object in remote db, should be LFS pointer
+		// check object in remote repository, should be LFS pointer
 		ObjectId id = commit.getId();
-		try (RevWalk walk = new RevWalk(remoteDb)) {
+		try (RevWalk walk = new RevWalk(remoteRepo)) {
 			RevCommit rc = walk.parseCommit(id);
 			try (TreeWalk tw = new TreeWalk(walk.getObjectReader())) {
 				tw.addTree(rc.getTree());

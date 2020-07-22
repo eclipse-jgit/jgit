@@ -62,9 +62,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository<>(db);
+		testDb = new TestRepository<>(repository);
 		df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-		df.setRepository(db);
+		df.setRepository(repository);
 		df.setAbbreviationLength(8);
 	}
 
@@ -359,20 +359,20 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiff() throws Exception {
-		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
-		File folder = new File(db.getDirectory().getParent(), "folder");
+		write(new File(repository.getDirectory().getParent(), "test.txt"), "test");
+		File folder = new File(repository.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
-			dfmt.setRepository(db);
+			dfmt.setRepository(repository);
 			dfmt.setPathFilter(PathFilter.create("folder"));
-			DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator newTree = new FileTreeIterator(db);
+			DirCacheIterator oldTree = new DirCacheIterator(repository.readDirCache());
+			FileTreeIterator newTree = new FileTreeIterator(repository);
 
 			dfmt.format(oldTree, newTree);
 			dfmt.flush();
@@ -392,18 +392,18 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffRootNullToTree() throws Exception {
-		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
-		File folder = new File(db.getDirectory().getParent(), "folder");
+		write(new File(repository.getDirectory().getParent(), "test.txt"), "test");
+		File folder = new File(repository.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			git.add().addFilepattern(".").call();
 			RevCommit commit = git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
 
-			dfmt.setRepository(db);
+			dfmt.setRepository(repository);
 			dfmt.setPathFilter(PathFilter.create("folder"));
 			dfmt.format(null, commit.getTree().getId());
 			dfmt.flush();
@@ -424,18 +424,18 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	@Test
 	public void testDiffRootTreeToNull() throws Exception {
-		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
-		File folder = new File(db.getDirectory().getParent(), "folder");
+		write(new File(repository.getDirectory().getParent(), "test.txt"), "test");
+		File folder = new File(repository.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		try (Git git = new Git(db);
+		try (Git git = new Git(repository);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os));) {
 			git.add().addFilepattern(".").call();
 			RevCommit commit = git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
 
-			dfmt.setRepository(db);
+			dfmt.setRepository(repository);
 			dfmt.setPathFilter(PathFilter.create("folder"));
 			dfmt.format(commit.getTree().getId(), null);
 			dfmt.flush();
@@ -458,7 +458,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testDiffNullToNull() throws Exception {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
-			dfmt.setRepository(db);
+			dfmt.setRepository(repository);
 			dfmt.format((AnyObjectId) null, null);
 			dfmt.flush();
 
@@ -474,15 +474,15 @@ public class DiffFormatterTest extends RepositoryTestCase {
 			throws Exception {
 		commitFile("empty/empty/foo", "", "master");
 		commitFile(".gitignore", "empty/*", "master");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Status status = git.status().call();
 			assertTrue(status.isClean());
 		}
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(os)) {
-			dfmt.setRepository(db);
-			dfmt.format(new DirCacheIterator(db.readDirCache()),
-					new FileTreeIterator(db));
+			dfmt.setRepository(repository);
+			dfmt.format(new DirCacheIterator(repository.readDirCache()),
+					new FileTreeIterator(repository));
 			dfmt.flush();
 
 			String actual = os.toString("UTF-8");
@@ -503,16 +503,16 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 		commitFile("empty/empty/foo", "", "master");
 		commitFile(".gitignore", "empty/*", "master");
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Status status = git.status().call();
 			assertTrue(status.isClean());
 		}
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(os)) {
 			writeTrashFile("empty/empty/foo", "changed\n");
-			dfmt.setRepository(db);
-			dfmt.format(new DirCacheIterator(db.readDirCache()),
-					new FileTreeIterator(db));
+			dfmt.setRepository(repository);
+			dfmt.format(new DirCacheIterator(repository.readDirCache()),
+					new FileTreeIterator(repository));
 			dfmt.flush();
 
 			String actual = os.toString("UTF-8");
@@ -570,7 +570,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private void doAutoCrLfTest(String content, String expectedDiff)
 			throws Exception {
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOCRLF, "true");
 		config.save();
@@ -584,9 +584,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(
 						new BufferedOutputStream(os))) {
-			dfmt.setRepository(db);
-			dfmt.format(new DirCacheIterator(db.readDirCache()),
-					new FileTreeIterator(db));
+			dfmt.setRepository(repository);
+			dfmt.format(new DirCacheIterator(repository.readDirCache()),
+					new FileTreeIterator(repository));
 			dfmt.flush();
 
 			String actual = os.toString("UTF-8");

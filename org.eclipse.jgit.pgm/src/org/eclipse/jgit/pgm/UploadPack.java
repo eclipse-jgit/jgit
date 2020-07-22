@@ -41,9 +41,9 @@ class UploadPack extends TextBuiltin {
 	protected void run() {
 		try {
 			FileKey key = FileKey.lenient(srcGitdir, FS.DETECTED);
-			db = key.open(true /* must exist */);
+			repo = key.open(true /* must exist */);
 			org.eclipse.jgit.transport.UploadPack up = new org.eclipse.jgit.transport.UploadPack(
-					db);
+					repo);
 			if (0 <= timeout) {
 				up.setTimeout(timeout);
 			}

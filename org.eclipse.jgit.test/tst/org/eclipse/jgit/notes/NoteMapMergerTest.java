@@ -64,9 +64,9 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		tr = new TestRepository<>(db);
-		reader = db.newObjectReader();
-		inserter = db.newObjectInserter();
+		tr = new TestRepository<>(repository);
+		reader = repository.newObjectReader();
+		inserter = repository.newObjectInserter();
 
 		noRoot = NoteMap.newMap(null, reader);
 		empty = NoteMap.newEmptyMap();
@@ -101,7 +101,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testNoChange() throws IOException {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		assertEquals(0, countNotes(merger.merge(noRoot, noRoot, noRoot)));
@@ -114,7 +114,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testOursEqualsTheirs() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		assertEquals(0, countNotes(merger.merge(empty, noRoot, noRoot)));
@@ -143,7 +143,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testBaseEqualsOurs() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		assertEquals(0, countNotes(merger.merge(noRoot, noRoot, empty)));
@@ -166,7 +166,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testBaseEqualsTheirs() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		assertEquals(0, countNotes(merger.merge(noRoot, empty, noRoot)));
@@ -189,7 +189,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddDifferentNotes() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		NoteMap map_a_c = NoteMap.read(reader, sampleTree_a);
@@ -207,7 +207,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddSameNoteDifferentContent() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
+		NoteMapMerger merger = new NoteMapMerger(repository, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
 
@@ -225,7 +225,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testEditSameNoteDifferentContent() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
+		NoteMapMerger merger = new NoteMapMerger(repository, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
 
@@ -249,7 +249,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testEditDifferentNotes() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap result;
 
 		NoteMap map_a1_b = NoteMap.read(reader, sampleTree_a_b);
@@ -272,7 +272,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testDeleteDifferentNotes() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 
 		NoteMap map_b = NoteMap.read(reader, sampleTree_a_b);
 		map_b.set(noteAId, null); // delete note a
@@ -283,7 +283,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testEditDeleteConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
+		NoteMapMerger merger = new NoteMapMerger(repository, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
 
@@ -301,7 +301,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testLargeTreesWithoutConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 		NoteMap map1 = createLargeNoteMap("note_1_", "content_1_", 300, 0);
 		NoteMap map2 = createLargeNoteMap("note_2_", "content_2_", 300, 0);
 
@@ -315,7 +315,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testLargeTreesWithConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
+		NoteMapMerger merger = new NoteMapMerger(repository, new DefaultNoteMerger(),
 				null);
 		NoteMap largeTree1 = createLargeNoteMap("note_1_", "content_1_", 300, 0);
 		NoteMap largeTree2 = createLargeNoteMap("note_1_", "content_2_", 300, 0);
@@ -345,7 +345,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testFanoutAndLeafWithoutConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 
 		NoteMap largeTree = createLargeNoteMap("note_1_", "content_1_", 300, 0);
 		NoteMap result = merger.merge(map_a, map_a_b, largeTree);
@@ -354,7 +354,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testFanoutAndLeafWitConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
+		NoteMapMerger merger = new NoteMapMerger(repository, new DefaultNoteMerger(),
 				null);
 
 		NoteMap largeTree_b1 = createLargeNoteMap("note_1_", "content_1_", 300,
@@ -370,7 +370,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testCollapseFanoutAfterMerge() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null, null);
+		NoteMapMerger merger = new NoteMapMerger(repository, null, null);
 
 		NoteMap largeTree = createLargeNoteMap("note_", "content_", 257, 0);
 		assertTrue(largeTree.getRoot() instanceof FanoutBucket);
@@ -386,7 +386,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testNonNotesWithoutNonNoteConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null,
+		NoteMapMerger merger = new NoteMapMerger(repository, null,
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
 			tr.commit()
@@ -420,7 +420,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 	@Test
 	public void testNonNotesWithNonNoteConflict() throws Exception {
-		NoteMapMerger merger = new NoteMapMerger(db, null,
+		NoteMapMerger merger = new NoteMapMerger(repository, null,
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
 			tr.commit()

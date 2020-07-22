@@ -99,13 +99,13 @@ public class RepositoryCache {
 	 * If another repository already is registered in the cache at this
 	 * location, the other instance is closed.
 	 *
-	 * @param db
+	 * @param repo
 	 *            repository to register.
 	 */
-	public static void register(Repository db) {
-		if (db.getDirectory() != null) {
-			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
-			cache.registerRepository(key, db);
+	public static void register(Repository repo) {
+		if (repo.getDirectory() != null) {
+			FileKey key = FileKey.exact(repo.getDirectory(), repo.getFS());
+			cache.registerRepository(key, repo);
 		}
 	}
 
@@ -115,12 +115,12 @@ public class RepositoryCache {
 	 * Removes a repository from the cache, if it is still registered here, and
 	 * close it.
 	 *
-	 * @param db
+	 * @param repo
 	 *            repository to unregister.
 	 */
-	public static void close(@NonNull Repository db) {
-		if (db.getDirectory() != null) {
-			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
+	public static void close(@NonNull Repository repo) {
+		if (repo.getDirectory() != null) {
+			FileKey key = FileKey.exact(repo.getDirectory(), repo.getFS());
 			cache.unregisterAndCloseRepository(key);
 		}
 	}
@@ -133,13 +133,13 @@ public class RepositoryCache {
 	 * {@link org.eclipse.jgit.lib.RepositoryCache#close(Repository)} to remove
 	 * and close the repository.
 	 *
-	 * @param db
+	 * @param repo
 	 *            repository to unregister.
 	 * @since 4.3
 	 */
-	public static void unregister(Repository db) {
-		if (db.getDirectory() != null) {
-			unregister(FileKey.exact(db.getDirectory(), db.getFS()));
+	public static void unregister(Repository repo) {
+		if (repo.getDirectory() != null) {
+			unregister(FileKey.exact(repo.getDirectory(), repo.getFS()));
 		}
 	}
 
@@ -234,25 +234,25 @@ public class RepositoryCache {
 
 	private Repository openRepository(final Key location,
 			final boolean mustExist) throws IOException {
-		Repository db = cacheMap.get(location);
-		if (db == null) {
+		Repository repo = cacheMap.get(location);
+		if (repo == null) {
 			synchronized (lockFor(location)) {
-				db = cacheMap.get(location);
-				if (db == null) {
-					db = location.open(mustExist);
-					cacheMap.put(location, db);
+				repo = cacheMap.get(location);
+				if (repo == null) {
+					repo = location.open(mustExist);
+					cacheMap.put(location, repo);
 				} else {
-					db.incrementOpen();
+					repo.incrementOpen();
 				}
 			}
 		} else {
-			db.incrementOpen();
+			repo.incrementOpen();
 		}
-		return db;
+		return repo;
 	}
 
-	private void registerRepository(Key location, Repository db) {
-		try (Repository oldDb = cacheMap.put(location, db)) {
+	private void registerRepository(Key location, Repository repo) {
+		try (Repository oldDb = cacheMap.put(location, repo)) {
 			// oldDb is auto-closed
 		}
 	}
@@ -261,9 +261,9 @@ public class RepositoryCache {
 		return cacheMap.remove(location);
 	}
 
-	private boolean isExpired(Repository db) {
-		return db != null && db.useCnt.get() <= 0
-			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
+	private boolean isExpired(Repository repo) {
+		return repo != null && repo.useCnt.get() <= 0
+			&& (System.currentTimeMillis() - repo.closedAt.get() > expireAfter);
 	}
 
 	private void unregisterAndCloseRepository(Key location) {
@@ -280,9 +280,9 @@ public class RepositoryCache {
 	}
 
 	private void clearAllExpired() {
-		for (Repository db : cacheMap.values()) {
-			if (isExpired(db)) {
-				RepositoryCache.close(db);
+		for (Repository repo : cacheMap.values()) {
+			if (isExpired(repo)) {
+				RepositoryCache.close(repo);
 			}
 		}
 	}

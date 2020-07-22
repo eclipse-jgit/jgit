@@ -27,7 +27,7 @@ public class BranchTrackingStatusTest extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		util = new TestRepository<>(db);
+		util = new TestRepository<>(repository);
 		StoredConfig config = util.getRepository().getConfig();
 		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "master",
 				ConfigConstants.CONFIG_KEY_REMOTE, "origin");

@@ -45,14 +45,14 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 	@Before
 	public void setupRemoteRepository() throws Exception {
-		git = new Git(db);
+		git = new Git(repository);
 
 		// create other repository
 		Repository remoteRepository = createWorkRepository();
 		remoteGit = new Git(remoteRepository);
 
 		// setup the first repository to fetch from the second repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(remoteRepository.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
@@ -71,9 +71,9 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.setRefSpecs("refs/heads/master:refs/heads/x").call();
 
 		assertEquals(commit.getId(),
-				db.resolve(commit.getId().getName() + "^{commit}"));
+				repository.resolve(commit.getId().getName() + "^{commit}"));
 		assertEquals(tagRef.getObjectId(),
-				db.resolve(tagRef.getObjectId().getName()));
+				repository.resolve(tagRef.getObjectId().getName()));
 	}
 
 	@Test
@@ -108,8 +108,8 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		String spec = "refs/heads/*:refs/remotes/test/*";
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 	}
 
 	@Test
@@ -125,13 +125,13 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		String spec = "refs/heads/*:refs/remotes/test/*";
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 
 		remoteGit.branchDelete().setBranchNames(branch1).call();
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 	}
 
 	@Test
@@ -147,14 +147,14 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		String spec = "refs/heads/*:refs/remotes/test/*";
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 
 		remoteGit.commit().setMessage("commit").call();
 		branchRef2 = remoteGit.branchCreate().setName(branch2).setForce(true).call();
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 	}
 
 	@Test
@@ -170,14 +170,14 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		String spec = "refs/heads/*:refs/remotes/test/*";
 		git.fetch().setRemote("test").setRefSpecs(spec).call();
-		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef1.getObjectId(), repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 
 		remoteGit.branchDelete().setBranchNames(branch1).call();
 		git.fetch().setRemote("test").setRefSpecs(spec)
 				.setRemoveDeletedRefs(true).call();
-		assertNull(db.resolve(remoteBranch1));
-		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertNull(repository.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), repository.resolve(remoteBranch2));
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.setRefSpecs("refs/heads/*:refs/remotes/origin/*")
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
 
-		assertEquals(tagRef.getObjectId(), db.resolve("foo"));
+		assertEquals(tagRef.getObjectId(), repository.resolve("foo"));
 	}
 
 	@Test
@@ -200,7 +200,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		git.fetch().setRemote("test")
 				.setRefSpecs("refs/heads/*:refs/remotes/origin/*")
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
-		assertEquals(tagRef.getObjectId(), db.resolve("foo"));
+		assertEquals(tagRef.getObjectId(), repository.resolve("foo"));
 	}
 
 	@Test
@@ -212,7 +212,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		git.fetch().setRemote("test")
 				.setRefSpecs("refs/heads/master:refs/remotes/origin/master")
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
-		assertNull(db.resolve("foo"));
+		assertNull(repository.resolve("foo"));
 	}
 
 	@Test
@@ -225,7 +225,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		String spec = "refs/heads/*:refs/remotes/origin/*";
 		git.fetch().setRemote("test").setRefSpecs(spec)
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
-		assertEquals(originalId, db.resolve(tagName));
+		assertEquals(originalId, repository.resolve(tagName));
 
 		remoteGit.commit().setMessage("commit 2").call();
 		remoteGit.tag().setName(tagName).setForceUpdate(true).call();
@@ -239,7 +239,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		TrackingRefUpdate update = refUpdates.iterator().next();
 		assertEquals("refs/heads/master", update.getRemoteName());
 
-		assertEquals(originalId, db.resolve(tagName));
+		assertEquals(originalId, repository.resolve(tagName));
 	}
 
 	@Test
@@ -251,7 +251,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		String spec = "refs/heads/*:refs/remotes/origin/*";
 		git.fetch().setRemote("test").setRefSpecs(spec)
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
-		assertEquals(tagRef1.getObjectId(), db.resolve(tagName));
+		assertEquals(tagRef1.getObjectId(), repository.resolve(tagName));
 
 		remoteGit.commit().setMessage("commit 2").call();
 		Ref tagRef2 = remoteGit.tag().setName(tagName).setForceUpdate(true)
@@ -262,7 +262,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		TrackingRefUpdate update = result.getTrackingRefUpdate(Constants.R_TAGS
 				+ tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
-		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
+		assertEquals(tagRef2.getObjectId(), repository.resolve(tagName));
 	}
 
 	@Test
@@ -313,14 +313,14 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
 		final String spec2 = "refs/heads/*:refs/remotes/test/*";
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
 		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
 		remoteConfig.update(config);
 
 		git.fetch().setRemote("test").setRefSpecs(spec1).call();
-		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+		assertEquals(branchRef.getObjectId(), repository.resolve(remoteBranchName));
 	}
 
 	@Test
@@ -333,19 +333,19 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
 		final String spec2 = "refs/heads/*:refs/remotes/test/*";
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repository.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
 		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
 		remoteConfig.update(config);
 
 		git.fetch().setRemote("test").setRefSpecs(spec1).call();
-		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+		assertEquals(branchRef.getObjectId(), repository.resolve(remoteBranchName));
 
 		remoteGit.branchDelete().setBranchNames(branchName).call();
 		git.fetch().setRemote("test").setRefSpecs(spec1)
 				.setRemoveDeletedRefs(true).call();
-		assertNull(db.resolve(remoteBranchName));
+		assertNull(repository.resolve(remoteBranchName));
 	}
 
 	@Test
@@ -361,7 +361,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 		// ref.
 		git.fetch().setRemote("test").setRefSpecs(refSpecs)
 				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
-		assertEquals(tagRef1.getObjectId(), db.resolve(tagName));
+		assertEquals(tagRef1.getObjectId(), repository.resolve(tagName));
 
 		remoteGit.commit().setMessage("commit 2").call();
 		Ref tagRef2 = remoteGit.tag().setName(tagName).setForceUpdate(true)
@@ -372,6 +372,6 @@ public class FetchCommandTest extends RepositoryTestCase {
 		TrackingRefUpdate update = result
 				.getTrackingRefUpdate(Constants.R_TAGS + tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
-		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
+		assertEquals(tagRef2.getObjectId(), repository.resolve(tagName));
 	}
 }

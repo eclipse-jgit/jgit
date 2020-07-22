@@ -59,7 +59,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 	@Test
 	public void testSamePackDifferentCompressionDetectChecksumChanged()
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		File f = writeTrashFile("file", "foobar ");
 		for (int i = 0; i < 10; i++) {
 			appendRandomLine(f);
@@ -67,7 +67,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 			git.commit().setMessage("message" + i).call();
 		}
 
-		FileBasedConfig c = db.getConfig();
+		FileBasedConfig c = repository.getConfig();
 		c.setInt(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOPACKLIMIT, 1);
 		c.save();
@@ -122,7 +122,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// seed for the random number generator is specified we will get
 		// the same set of bytes for every run and for every platform
 		Random r = new Random(testDataSeed);
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		File f = writeTrashFile("file", "foobar ");
 		appendRandomLine(f, testDataLength, r);
 		git.add().addFilepattern("file").call();
@@ -142,7 +142,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 			throws Exception {
 		int testDataSeed = 1;
 		int testDataLength = 100;
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		// don't use mtime of the parent folder to detect pack file
 		// modification.
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -157,7 +157,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		AnyObjectId chk1 = pf.getPackChecksum();
 		String name = pf.getPackName();
 		Long length = Long.valueOf(pf.getPackFile().length());
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		Instant m1 = fs.lastModifiedInstant(packFilePath);
 
 		// Wait for a filesystem timer tick to enhance probability the rest of
@@ -181,8 +181,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// ask for an unknown git object to force jgit to rescan the list of
 		// available packs. If we would ask for a known objectid then JGit would
 		// skip searching for new/modified packfiles
-		db.getObjectDatabase().has(unknownID);
-		assertEquals(chk3, getSinglePack(db.getObjectDatabase().getPacks())
+		repository.getObjectDatabase().has(unknownID);
+		assertEquals(chk3, getSinglePack(repository.getObjectDatabase().getPacks())
 				.getPackChecksum());
 		assumeTrue(m3.equals(m2));
 	}
@@ -198,7 +198,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 			throws Exception {
 		int testDataSeed = 1;
 		int testDataLength = 100;
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, false);
 		config.save();
@@ -223,10 +223,10 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// Repack to create third packfile
 		AnyObjectId chk3 = repackAndCheck(7, name, length, chk2)
 				.getPackChecksum();
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		Instant m3 = fs.lastModifiedInstant(packFilePath);
-		db.getObjectDatabase().has(unknownID);
-		assertEquals(chk3, getSinglePack(db.getObjectDatabase().getPacks())
+		repository.getObjectDatabase().has(unknownID);
+		assertEquals(chk3, getSinglePack(repository.getObjectDatabase().getPacks())
 				.getPackChecksum());
 
 		// Wait for a filesystem timer tick to enhance probability the rest of
@@ -239,8 +239,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		Instant m2 = fs.lastModifiedInstant(packFilePath);
 		assumeFalse(m3.equals(m2));
 
-		db.getObjectDatabase().has(unknownID);
-		assertEquals(chk2, getSinglePack(db.getObjectDatabase().getPacks())
+		repository.getObjectDatabase().has(unknownID);
+		assertEquals(chk2, getSinglePack(repository.getObjectDatabase().getPacks())
 				.getPackChecksum());
 
 		// Copy copy2 to packfile data to force modification of packfile without
@@ -248,8 +248,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		copyPack(packFileBasePath, ".copy1", "");
 		Instant m1 = fs.lastModifiedInstant(packFilePath);
 		assumeTrue(m2.equals(m1));
-		db.getObjectDatabase().has(unknownID);
-		assertEquals(chk1, getSinglePack(db.getObjectDatabase().getPacks())
+		repository.getObjectDatabase().has(unknownID);
+		assertEquals(chk1, getSinglePack(repository.getObjectDatabase().getPacks())
 				.getPackChecksum());
 	}
 
@@ -303,8 +303,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 
 	private Collection<PackFile> gc(int compressionLevel)
 			throws IOException, ParseException {
-		GC gc = new GC(db);
-		PackConfig pc = new PackConfig(db.getConfig());
+		GC gc = new GC(repository);
+		PackConfig pc = new PackConfig(repository.getConfig());
 		pc.setCompressionLevel(compressionLevel);
 
 		pc.setSinglePack(true);

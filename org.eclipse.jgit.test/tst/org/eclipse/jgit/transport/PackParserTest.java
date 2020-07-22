@@ -109,7 +109,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testTinyThinPack() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("a");
 		}
 
@@ -131,8 +131,8 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testPackWithDuplicateBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789abcdefg");
-		try (TestRepository<Repository> d = new TestRepository<>(db)) {
-			assertTrue(db.getObjectDatabase().has(d.blob(data)));
+		try (TestRepository<Repository> d = new TestRepository<>(repository)) {
+			assertTrue(repository.getObjectDatabase().has(d.blob(data)));
 		}
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
@@ -150,7 +150,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testPackWithTrailingGarbage() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("a");
 		}
 
@@ -179,7 +179,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeFullBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			d.blob(data);
 		}
 
@@ -212,7 +212,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeDeltaBlock() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("a");
 		}
 
@@ -245,7 +245,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeDeltaResultSize() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("0123456789");
 		}
 
@@ -277,7 +277,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testNonMarkingInputStream() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("a");
 		}
 
@@ -317,7 +317,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testDataAfterPackFooterSingleRead() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			a = d.blob("a");
 		}
 
@@ -378,7 +378,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testDataAfterPackFooterSplitHeaderRead() throws Exception {
 		final byte[] data = Constants.encode("a");
 		RevBlob b;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
+		try (TestRepository d = new TestRepository<Repository>(repository)) {
 			b = d.blob(data);
 		}
 
@@ -469,7 +469,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 	private PackParser index(InputStream in) throws IOException {
 		if (inserter == null)
-			inserter = db.newObjectInserter();
+			inserter = repository.newObjectInserter();
 		return inserter.newPackParser(in);
 	}
 }

@@ -60,7 +60,7 @@ public class RmTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repo);
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class RmTest extends CLIRepositoryTestCase {
 
 		String[] result = execute("git rm a b");
 		assertArrayEquals(new String[] { "" }, result);
-		DirCache cache = db.readDirCache();
+		DirCache cache = repo.readDirCache();
 		assertNull(cache.getEntry("a"));
 		assertNull(cache.getEntry("b"));
 		assertFalse(a.exists());

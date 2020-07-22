@@ -60,7 +60,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 	}
 
 	@Test
@@ -568,7 +568,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	private void createEmptyFolder() throws Exception {
-		File path = new File(db.getWorkTree(), FOLDER);
+		File path = new File(repository.getWorkTree(), FOLDER);
 		FileUtils.mkdir(path);
 	}
 
@@ -578,12 +578,12 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	private void createEmptyFolderUntracked() throws Exception {
-		File path = new File(db.getWorkTree(), UNTRACKED_FOLDER);
+		File path = new File(repository.getWorkTree(), UNTRACKED_FOLDER);
 		FileUtils.mkdir(path);
 	}
 
 	private void createEmptyFolderIgnored() throws Exception {
-		File path = new File(db.getWorkTree(), IGNORED_FOLDER);
+		File path = new File(repository.getWorkTree(), IGNORED_FOLDER);
 		FileUtils.mkdir(path);
 		writeTrashFile(GITIGNORE, GITIGNORE + "\n" + IGNORED_FOLDER + "/");
 	}
@@ -638,11 +638,11 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 
 	private TreeWalk createTreeWalk(RevCommit commit, boolean isRecursive,
 			boolean honorIgnores) throws Exception {
-		TreeWalk treeWalk = new TreeWalk(db);
+		TreeWalk treeWalk = new TreeWalk(repository);
 		treeWalk.setRecursive(isRecursive);
 		treeWalk.addTree(commit.getTree());
-		treeWalk.addTree(new DirCacheIterator(db.readDirCache()));
-		treeWalk.addTree(new FileTreeIterator(db));
+		treeWalk.addTree(new DirCacheIterator(repository.readDirCache()));
+		treeWalk.addTree(new FileTreeIterator(repository));
 		if (!honorIgnores)
 			treeWalk.setFilter(new IndexDiffFilter(1, 2, honorIgnores));
 		else

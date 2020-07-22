@@ -32,32 +32,32 @@ import org.junit.Test;
 public class DirCacheBasicTest extends RepositoryTestCase {
 	@Test
 	public void testReadMissing_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
+		final File idx = new File(repository.getDirectory(), "index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
 
 	@Test
 	public void testReadMissing_TempIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "tmp_index");
+		final File idx = new File(repository.getDirectory(), "tmp_index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = DirCache.read(idx, db.getFS());
+		final DirCache dc = DirCache.read(idx, repository.getFS());
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
 
 	@Test
 	public void testLockMissing_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(repository.getDirectory(), "index");
+		final File lck = new File(repository.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = repository.lockDirCache();
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());
@@ -70,12 +70,12 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testLockMissing_TempIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "tmp_index");
-		final File lck = new File(db.getDirectory(), "tmp_index.lock");
+		final File idx = new File(repository.getDirectory(), "tmp_index");
+		final File lck = new File(repository.getDirectory(), "tmp_index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = DirCache.lock(idx, db.getFS());
+		final DirCache dc = DirCache.lock(idx, repository.getFS());
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());
@@ -88,12 +88,12 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyUnlock_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(repository.getDirectory(), "index");
+		final File lck = new File(repository.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = repository.lockDirCache();
 		assertEquals(0, lck.length());
 		dc.write();
 		assertEquals(12 + 20, lck.length());
@@ -105,12 +105,12 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyCommit_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(repository.getDirectory(), "index");
+		final File lck = new File(repository.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = repository.lockDirCache();
 		assertEquals(0, lck.length());
 		dc.write();
 		assertEquals(12 + 20, lck.length());
@@ -123,36 +123,36 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyReadEmpty_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(repository.getDirectory(), "index");
+		final File lck = new File(repository.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = repository.lockDirCache();
 			dc.write();
 			assertTrue(dc.commit());
 			assertTrue(idx.exists());
 		}
 		{
-			final DirCache dc = db.readDirCache();
+			final DirCache dc = repository.readDirCache();
 			assertEquals(0, dc.getEntryCount());
 		}
 	}
 
 	@Test
 	public void testWriteEmptyLockEmpty_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(repository.getDirectory(), "index");
+		final File lck = new File(repository.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = repository.lockDirCache();
 			dc.write();
 			assertTrue(dc.commit());
 			assertTrue(idx.exists());
 		}
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = repository.lockDirCache();
 			assertEquals(0, dc.getEntryCount());
 			assertTrue(idx.exists());
 			assertTrue(lck.exists());
@@ -162,7 +162,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testBuildThenClear() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 
 		final String[] paths = { "a-", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -186,7 +186,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testDetectUnmergedPaths() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 		final DirCacheEntry[] ents = new DirCacheEntry[3];
 
 		ents[0] = new DirCacheEntry("a", 1);
@@ -220,7 +220,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		});
 
 		String path = "src/con.txt";
-		DirCache dc = db.lockDirCache();
+		DirCache dc = repository.lockDirCache();
 		DirCacheBuilder b = dc.builder();
 		DirCacheEntry e = new DirCacheEntry(path);
 		e.setFileMode(FileMode.REGULAR_FILE);
@@ -231,7 +231,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		}
 		b.add(e);
 		b.commit();
-		db.readDirCache();
+		repository.readDirCache();
 
 		SystemReader.setInstance(new MockSystemReader() {
 			{
@@ -240,7 +240,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		});
 
 		try {
-			db.readDirCache();
+			repository.readDirCache();
 			fail("should have rejected " + path);
 		} catch (CorruptObjectException err) {
 			assertEquals(MessageFormat.format(JGitText.get().invalidPath, path),

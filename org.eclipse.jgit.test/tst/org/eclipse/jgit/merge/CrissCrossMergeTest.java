@@ -79,7 +79,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db_t = new TestRepository<>(db);
+		db_t = new TestRepository<>(repository);
 	}
 
 	@Theory
@@ -112,17 +112,17 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		RevCommit m2 = master.commit().parent(s1).add("s", "s1")
 				.message("m2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "m", "side");
 		modifyWorktree(worktreeState, "s", "side");
 		modifyIndex(indexState, "m", "side");
 		modifyIndex(indexState, "s", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -135,9 +135,9 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })));
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
 			assertEquals("m1",
-					contentAsString(db, merger.getResultTreeId(), "m"));
+					contentAsString(repository, merger.getResultTreeId(), "m"));
 			assertEquals("s1",
-					contentAsString(db, merger.getResultTreeId(), "s"));
+					contentAsString(repository, merger.getResultTreeId(), "s"));
 		} catch (NoMergeBaseException e) {
 			assertEquals(MergeStrategy.RESOLVE, strategy);
 			assertEquals(e.getReason(),
@@ -175,17 +175,17 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		RevCommit m2 = master.commit().parent(s1).add("s", "s1")
 				.message("m2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "m", "side");
 		modifyWorktree(worktreeState, "s", "side");
 		modifyIndex(indexState, "m", "side");
 		modifyIndex(indexState, "s", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -198,9 +198,9 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })));
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
 			assertEquals("m1",
-					contentAsString(db, merger.getResultTreeId(), "m"));
+					contentAsString(repository, merger.getResultTreeId(), "m"));
 			assertEquals("s1",
-					contentAsString(db, merger.getResultTreeId(), "s"));
+					contentAsString(repository, merger.getResultTreeId(), "s"));
 		} catch (NoMergeBaseException e) {
 			assertEquals(MergeStrategy.RESOLVE, strategy);
 			assertEquals(e.getReason(),
@@ -248,15 +248,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				.add("f", "1-master\n2\n3-res(master)\n4\n5\n6\n7\n8\n9-side\n")
 				.message("m2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -274,7 +274,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				return;
 			assertEquals(
 					"1-master\n2\n3-res(master)\n4\n5\n6\n7-res(side)\n8\n9-side",
-					contentAsString(db, merger.getResultTreeId(), "f"));
+					contentAsString(repository, merger.getResultTreeId(), "f"));
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master\n2\n3-res(master)\n4\n5\n6\n7-res(side)\n8\n9-side\n]",
@@ -332,15 +332,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				.message("m2(merge)")
 				.create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -359,7 +359,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				return;
 			assertEquals(
 					"1-master-r\n2\n3-side-r",
-					contentAsString(db, merger.getResultTreeId(), "f"));
+					contentAsString(repository, merger.getResultTreeId(), "f"));
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master-r\n2\n3-side-r\n]",
@@ -415,15 +415,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				.add("f", "1\nx(side)\n2\n3\ny(side)\n").message("m2(merge)")
 				.create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -444,7 +444,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				// index and workingtree
 				return;
 			assertEquals("1\nx(side)\n2\n3\ny(side-again)",
-					contentAsString(db, merger.getResultTreeId(), "f"));
+					contentAsString(repository, merger.getResultTreeId(), "f"));
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1\nx(side)\n2\n3\ny(side-again)\n]",
@@ -500,15 +500,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				.add("f", "1-master-r\n2\n3-side\n").add("s.m", "1")
 				.add("s.c", "0").rm("s.d").message("m2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -527,7 +527,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				return;
 			assertEquals(
 					"1-master-r\n2\n3-side-r",
-					contentAsString(db, merger.getResultTreeId(), "f"));
+					contentAsString(repository, merger.getResultTreeId(), "f"));
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master-r\n2\n3-side-r\n][m.c, mode:100644, content:0][m.m, mode:100644, content:1][s.c, mode:100644, content:0][s.m, mode:100644, content:1]",
@@ -590,15 +590,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				.add("f", "1-master\n2\n3\n4\n5\n6\n7-conflict\n8\n9-side\n")
 				.message("m2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			assertFalse(merger.merge(new RevCommit[] { m2, s2 }));
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
@@ -674,15 +674,15 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 						"1-master\n2\n3\n4\n5-other\n6\n7-res(side)\n8\n9-side\n")
 				.message("s2(merge)").create();
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		git.checkout().setName("master").call();
 		modifyWorktree(worktreeState, "f", "side");
 		modifyIndex(indexState, "f", "side");
 
-		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository,
 				worktreeState == WorktreeState.Bare);
 		if (worktreeState != WorktreeState.Bare)
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 		try {
 			boolean expectSuccess = true;
 			if (!(indexState == IndexState.Bare
@@ -702,7 +702,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 				return;
 			assertEquals(
 					"1-master\n2\n3-res(master)\n4\n5-other\n6\n7-res(side)\n8\n9-side",
-					contentAsString(db, merger.getResultTreeId(), "f"));
+					contentAsString(repository, merger.getResultTreeId(), "f"));
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master\n2\n3-res(master)\n4\n5-other\n6\n7-res(side)\n8\n9-side\n]",
@@ -741,13 +741,13 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			setIndex(blob, path);
 			break;
 		case Bare:
-			File file = new File(db.getDirectory(), "index");
+			File file = new File(repository.getDirectory(), "index");
 			if (!file.exists())
 				return;
-			db.close();
+			repository.close();
 			file.delete();
-			db = new FileRepository(db.getDirectory());
-			db_t = new TestRepository<>(db);
+			repository = new FileRepository(repository.getDirectory());
+			db_t = new TestRepository<>(repository);
 			break;
 		}
 	}
@@ -757,11 +757,11 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		DirCache lockedDircache;
 		DirCacheEditor dcedit;
 
-		lockedDircache = db.lockDirCache();
+		lockedDircache = repository.lockDirCache();
 		dcedit = lockedDircache.editor();
 		try {
 			if (id != null) {
-				final ObjectLoader contLoader = db.newObjectReader().open(id);
+				final ObjectLoader contLoader = repository.newObjectReader().open(id);
 				dcedit.add(new DirCacheEditor.PathEdit(path) {
 					@Override
 					public void apply(DirCacheEntry ent) {
@@ -779,7 +779,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 
 	private ObjectId contentId(String revName, String path) throws Exception {
 		RevCommit headCommit = db_t.getRevWalk().parseCommit(
-				db.resolve(revName));
+				repository.resolve(revName));
 		db_t.parseBody(headCommit);
 		return db_t.get(headCommit.getTree(), path).getId();
 	}
@@ -788,33 +788,34 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			throws Exception {
 		switch (worktreeState) {
 		case Missing:
-			new File(db.getWorkTree(), path).delete();
+			new File(repository.getWorkTree(), path).delete();
 			break;
 		case DifferentFromHeadAndOther:
-			write(new File(db.getWorkTree(), path),
+			write(new File(repository.getWorkTree(), path),
 					Integer.toString(counter++));
 			break;
 		case SameAsHead:
 			try (FileOutputStream fos = new FileOutputStream(
-					new File(db.getWorkTree(), path))) {
-				db.newObjectReader().open(contentId(Constants.HEAD, path))
+					new File(repository.getWorkTree(), path))) {
+				repository.newObjectReader()
+						.open(contentId(Constants.HEAD, path))
 						.copyTo(fos);
 			}
 			break;
 		case SameAsOther:
 			try (FileOutputStream fos = new FileOutputStream(
-					new File(db.getWorkTree(), path))) {
-				db.newObjectReader().open(contentId(other, path)).copyTo(fos);
+					new File(repository.getWorkTree(), path))) {
+				repository.newObjectReader().open(contentId(other, path)).copyTo(fos);
 			}
 			break;
 		case Bare:
-			if (db.isBare())
+			if (repository.isBare())
 				return;
-			File workTreeFile = db.getWorkTree();
-			db.getConfig().setBoolean("core", null, "bare", true);
-			db.getDirectory().renameTo(new File(workTreeFile, "test.git"));
-			db = new FileRepository(new File(workTreeFile, "test.git"));
-			db_t = new TestRepository<>(db);
+			File workTreeFile = repository.getWorkTree();
+			repository.getConfig().setBoolean("core", null, "bare", true);
+			repository.getDirectory().renameTo(new File(workTreeFile, "test.git"));
+			repository = new FileRepository(new File(workTreeFile, "test.git"));
+			db_t = new TestRepository<>(repository);
 		}
 	}
 

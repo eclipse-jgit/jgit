@@ -27,13 +27,13 @@ import org.junit.Test;
 public class DirCacheTreeTest extends RepositoryTestCase {
 	@Test
 	public void testEmptyCache_NoCacheTree() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 		assertNull(dc.getCacheTree(false));
 	}
 
 	@Test
 	public void testEmptyCache_CreateEmptyCacheTree() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 		final DirCacheTree tree = dc.getCacheTree(true);
 		assertNotNull(tree);
 		assertSame(tree, dc.getCacheTree(false));
@@ -47,7 +47,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 
 	@Test
 	public void testEmptyCache_Clear_NoCacheTree() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 		final DirCacheTree tree = dc.getCacheTree(true);
 		assertNotNull(tree);
 		dc.clear();
@@ -57,7 +57,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 
 	@Test
 	public void testSingleSubtree() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 
 		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -96,7 +96,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 
 	@Test
 	public void testTwoLevelSubtree() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = repository.readDirCache();
 
 		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -155,7 +155,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testWriteReadTree() throws CorruptObjectException, IOException {
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = repository.lockDirCache();
 
 		final String A = String.format("a%2000s", "a");
 		final String B = String.format("b%2000s", "b");
@@ -172,7 +172,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		}
 
 		b.commit();
-		DirCache read = db.readDirCache();
+		DirCache read = repository.readDirCache();
 
 		assertEquals(paths.length, read.getEntryCount());
 		assertEquals(1, read.getCacheTree(true).getChildCount());

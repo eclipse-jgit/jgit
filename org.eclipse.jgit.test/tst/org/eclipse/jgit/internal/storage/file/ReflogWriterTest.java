@@ -30,7 +30,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void shouldFilterLineFeedFromMessage() throws Exception {
 		ReflogWriter writer =
-				new ReflogWriter((RefDirectory) db.getRefDatabase());
+				new ReflogWriter((RefDirectory) repository.getRefDatabase());
 		PersonIdent ident = new PersonIdent("John Doe", "john@doe.com",
 				1243028200000L, 120);
 		ObjectId oldId = ObjectId
@@ -48,7 +48,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 
 	private void readReflog(byte[] buffer)
 			throws FileNotFoundException, IOException {
-		File logfile = new File(db.getDirectory(), "logs/refs/heads/master");
+		File logfile = new File(repository.getDirectory(), "logs/refs/heads/master");
 		if (!logfile.getParentFile().mkdirs()
 				&& !logfile.getParentFile().isDirectory()) {
 			throw new IOException(

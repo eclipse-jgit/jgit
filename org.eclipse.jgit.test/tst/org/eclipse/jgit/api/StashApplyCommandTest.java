@@ -55,9 +55,9 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = Git.wrap(db);
+		git = Git.wrap(repository);
 		recorder = new ChangeRecorder();
-		handle = db.getListenerList().addWorkingTreeModifiedListener(recorder);
+		handle = repository.getListenerList().addWorkingTreeModifiedListener(recorder);
 		committedFile = writeTrashFile(PATH, "content");
 		git.add().addFilepattern(PATH).call();
 		head = git.commit().setMessage("add file").call();
@@ -419,7 +419,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 			// expected
 		}
 		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
-		Status status = new StatusCommand(db).call();
+		Status status = new StatusCommand(repository).call();
 		assertEquals(1, status.getConflicting().size());
 		assertEquals(
 				"content\n<<<<<<< HEAD\n=======\nstashed change\n>>>>>>> stash\nmore content\ncommitted change\n",

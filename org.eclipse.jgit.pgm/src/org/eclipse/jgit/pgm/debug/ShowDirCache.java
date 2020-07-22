@@ -41,7 +41,7 @@ class ShowDirCache extends TextBuiltin {
 				.withLocale(Locale.getDefault())
 				.withZone(ZoneId.systemDefault());
 
-		final DirCache cache = db.readDirCache();
+		final DirCache cache = repo.readDirCache();
 		for (int i = 0; i < cache.getEntryCount(); i++) {
 			final DirCacheEntry ent = cache.getEntry(i);
 			final FileMode mode = FileMode.fromBits(ent.getRawMode());

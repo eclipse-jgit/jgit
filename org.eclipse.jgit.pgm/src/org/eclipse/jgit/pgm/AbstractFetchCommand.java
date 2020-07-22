@@ -42,7 +42,7 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 	 *             if any.
 	 */
 	protected void showFetchResult(FetchResult r) throws IOException {
-		try (ObjectReader reader = db.newObjectReader()) {
+		try (ObjectReader reader = repo.newObjectReader()) {
 			boolean shownURI = false;
 			for (TrackingRefUpdate u : r.getTrackingRefUpdates()) {
 				if (!verbose && u.getResult() == RefUpdate.Result.NO_CHANGE)

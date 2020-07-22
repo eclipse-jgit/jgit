@@ -37,10 +37,10 @@ public class ApplyCommandTest extends RepositoryTestCase {
 
 	private ApplyResult init(final String name, final boolean preExists,
 			final boolean postExists) throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			if (preExists) {
 				a = new RawText(readFile(name + "_PreImage"));
-				write(new File(db.getDirectory().getParent(), name),
+				write(new File(repository.getDirectory().getParent(), name),
 						a.getString(0, a.size(), false));
 
 				git.add().addFilepattern(name).call();
@@ -61,9 +61,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testAddA1() throws Exception {
 		ApplyResult result = init("A1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "A1"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "A1"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "A1"),
+		checkFile(new File(repository.getWorkTree(), "A1"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -71,9 +71,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testAddA2() throws Exception {
 		ApplyResult result = init("A2", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "A2"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "A2"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "A2"),
+		checkFile(new File(repository.getWorkTree(), "A2"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -81,9 +81,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testAddA3() throws Exception {
 		ApplyResult result = init("A3", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "A3"),
+		assertEquals(new File(repository.getWorkTree(), "A3"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "A3"),
+		checkFile(new File(repository.getWorkTree(), "A3"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -91,7 +91,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testAddA1Sub() throws Exception {
 		ApplyResult result = init("A1_sub", false, false);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "sub/A1"), result
+		assertEquals(new File(repository.getWorkTree(), "sub/A1"), result
 				.getUpdatedFiles().get(0));
 	}
 
@@ -99,9 +99,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testDeleteD() throws Exception {
 		ApplyResult result = init("D", true, false);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "D"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "D"), result.getUpdatedFiles()
 				.get(0));
-		assertFalse(new File(db.getWorkTree(), "D").exists());
+		assertFalse(new File(repository.getWorkTree(), "D").exists());
 	}
 
 	@Test(expected = PatchFormatException.class)
@@ -118,9 +118,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyE() throws Exception {
 		ApplyResult result = init("E");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "E"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "E"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "E"),
+		checkFile(new File(repository.getWorkTree(), "E"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -128,9 +128,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyW() throws Exception {
 		ApplyResult result = init("W");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "W"),
+		assertEquals(new File(repository.getWorkTree(), "W"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "W"),
+		checkFile(new File(repository.getWorkTree(), "W"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -139,7 +139,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		ApplyResult result = init("M1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertTrue(result.getUpdatedFiles().get(0).canExecute());
-		checkFile(new File(db.getWorkTree(), "M1"),
+		checkFile(new File(repository.getWorkTree(), "M1"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -148,7 +148,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		ApplyResult result = init("M2", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertTrue(result.getUpdatedFiles().get(0).canExecute());
-		checkFile(new File(db.getWorkTree(), "M2"),
+		checkFile(new File(repository.getWorkTree(), "M2"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -157,7 +157,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		ApplyResult result = init("M3", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertFalse(result.getUpdatedFiles().get(0).canExecute());
-		checkFile(new File(db.getWorkTree(), "M3"),
+		checkFile(new File(repository.getWorkTree(), "M3"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -165,9 +165,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyX() throws Exception {
 		ApplyResult result = init("X");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "X"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "X"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "X"),
+		checkFile(new File(repository.getWorkTree(), "X"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -175,9 +175,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyY() throws Exception {
 		ApplyResult result = init("Y");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "Y"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "Y"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "Y"),
+		checkFile(new File(repository.getWorkTree(), "Y"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -185,9 +185,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyZ() throws Exception {
 		ApplyResult result = init("Z");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "Z"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "Z"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "Z"),
+		checkFile(new File(repository.getWorkTree(), "Z"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -195,9 +195,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyNL1() throws Exception {
 		ApplyResult result = init("NL1");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NL1"), result
+		assertEquals(new File(repository.getWorkTree(), "NL1"), result
 				.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "NL1"),
+		checkFile(new File(repository.getWorkTree(), "NL1"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -205,9 +205,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testNonASCII() throws Exception {
 		ApplyResult result = init("NonASCII");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NonASCII"),
+		assertEquals(new File(repository.getWorkTree(), "NonASCII"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "NonASCII"),
+		checkFile(new File(repository.getWorkTree(), "NonASCII"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -215,9 +215,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testNonASCII2() throws Exception {
 		ApplyResult result = init("NonASCII2");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NonASCII2"),
+		assertEquals(new File(repository.getWorkTree(), "NonASCII2"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "NonASCII2"),
+		checkFile(new File(repository.getWorkTree(), "NonASCII2"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -225,9 +225,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testNonASCIIAdd() throws Exception {
 		ApplyResult result = init("NonASCIIAdd");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NonASCIIAdd"),
+		assertEquals(new File(repository.getWorkTree(), "NonASCIIAdd"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "NonASCIIAdd"),
+		checkFile(new File(repository.getWorkTree(), "NonASCIIAdd"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -235,9 +235,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testNonASCIIAdd2() throws Exception {
 		ApplyResult result = init("NonASCIIAdd2", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NonASCIIAdd2"),
+		assertEquals(new File(repository.getWorkTree(), "NonASCIIAdd2"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "NonASCIIAdd2"),
+		checkFile(new File(repository.getWorkTree(), "NonASCIIAdd2"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -245,18 +245,18 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testNonASCIIDel() throws Exception {
 		ApplyResult result = init("NonASCIIDel", true, false);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "NonASCIIDel"),
+		assertEquals(new File(repository.getWorkTree(), "NonASCIIDel"),
 				result.getUpdatedFiles().get(0));
-		assertFalse(new File(db.getWorkTree(), "NonASCIIDel").exists());
+		assertFalse(new File(repository.getWorkTree(), "NonASCIIDel").exists());
 	}
 
 	@Test
 	public void testRenameNoHunks() throws Exception {
 		ApplyResult result = init("RenameNoHunks", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "RenameNoHunks"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "RenameNoHunks"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
+		checkFile(new File(repository.getWorkTree(), "nested/subdir/Renamed"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -264,9 +264,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testRenameWithHunks() throws Exception {
 		ApplyResult result = init("RenameWithHunks", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "RenameWithHunks"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "RenameWithHunks"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
+		checkFile(new File(repository.getWorkTree(), "nested/subdir/Renamed"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -274,9 +274,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testCopyWithHunks() throws Exception {
 		ApplyResult result = init("CopyWithHunks", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "CopyWithHunks"), result.getUpdatedFiles()
+		assertEquals(new File(repository.getWorkTree(), "CopyWithHunks"), result.getUpdatedFiles()
 				.get(0));
-		checkFile(new File(db.getWorkTree(), "CopyResult"),
+		checkFile(new File(repository.getWorkTree(), "CopyResult"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -284,9 +284,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testShiftUp() throws Exception {
 		ApplyResult result = init("ShiftUp");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "ShiftUp"),
+		assertEquals(new File(repository.getWorkTree(), "ShiftUp"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "ShiftUp"),
+		checkFile(new File(repository.getWorkTree(), "ShiftUp"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -294,9 +294,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testShiftUp2() throws Exception {
 		ApplyResult result = init("ShiftUp2");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "ShiftUp2"),
+		assertEquals(new File(repository.getWorkTree(), "ShiftUp2"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "ShiftUp2"),
+		checkFile(new File(repository.getWorkTree(), "ShiftUp2"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -304,9 +304,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testShiftDown() throws Exception {
 		ApplyResult result = init("ShiftDown");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "ShiftDown"),
+		assertEquals(new File(repository.getWorkTree(), "ShiftDown"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "ShiftDown"),
+		checkFile(new File(repository.getWorkTree(), "ShiftDown"),
 				b.getString(0, b.size(), false));
 	}
 
@@ -314,9 +314,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testShiftDown2() throws Exception {
 		ApplyResult result = init("ShiftDown2");
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "ShiftDown2"),
+		assertEquals(new File(repository.getWorkTree(), "ShiftDown2"),
 				result.getUpdatedFiles().get(0));
-		checkFile(new File(db.getWorkTree(), "ShiftDown2"),
+		checkFile(new File(repository.getWorkTree(), "ShiftDown2"),
 				b.getString(0, b.size(), false));
 	}
 

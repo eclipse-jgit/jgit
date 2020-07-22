@@ -86,8 +86,8 @@ class Merge extends TextBuiltin {
 
 		try {
 			// determine the other revision we want to merge with HEAD
-			final Ref srcRef = db.findRef(ref);
-			final ObjectId src = db.resolve(ref + "^{commit}"); //$NON-NLS-1$
+			final Ref srcRef = repo.findRef(ref);
+			final ObjectId src = repo.resolve(ref + "^{commit}"); //$NON-NLS-1$
 			if (src == null) {
 				throw die(MessageFormat
 						.format(CLIText.get().refDoesNotExistOrNoCommit, ref));
@@ -95,7 +95,7 @@ class Merge extends TextBuiltin {
 
 			Ref oldHead = getOldHead();
 			MergeResult result;
-			try (Git git = new Git(db)) {
+			try (Git git = new Git(repo)) {
 				MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
 						.setSquash(squash).setFastForward(ff)
 						.setCommit(!noCommit);
@@ -192,7 +192,7 @@ class Merge extends TextBuiltin {
 	}
 
 	private Ref getOldHead() throws IOException {
-		Ref oldHead = db.exactRef(Constants.HEAD);
+		Ref oldHead = repo.exactRef(Constants.HEAD);
 		if (oldHead == null) {
 			throw die(CLIText.get().onBranchToBeBorn);
 		}
@@ -201,7 +201,7 @@ class Merge extends TextBuiltin {
 
 	private boolean isMergedInto(Ref oldHead, AnyObjectId src)
 			throws IOException {
-		try (RevWalk revWalk = new RevWalk(db)) {
+		try (RevWalk revWalk = new RevWalk(repo)) {
 			ObjectId oldHeadObjectId = oldHead.getPeeledObjectId();
 			if (oldHeadObjectId == null)
 				oldHeadObjectId = oldHead.getObjectId();

@@ -42,9 +42,9 @@ class LsFiles extends TextBuiltin {
 
 	@Override
 	protected void run() {
-		try (RevWalk rw = new RevWalk(db);
-				TreeWalk tw = new TreeWalk(db)) {
-			final ObjectId head = db.resolve(Constants.HEAD);
+		try (RevWalk rw = new RevWalk(repo);
+				TreeWalk tw = new TreeWalk(repo)) {
+			final ObjectId head = repo.resolve(Constants.HEAD);
 			if (head == null) {
 				return;
 			}
@@ -56,7 +56,7 @@ class LsFiles extends TextBuiltin {
 				tw.setFilter(PathFilterGroup.createFromStrings(paths));
 			}
 			tw.addTree(p);
-			tw.addTree(new DirCacheIterator(db.readDirCache()));
+			tw.addTree(new DirCacheIterator(repo.readDirCache()));
 			tw.setRecursive(true);
 			while (tw.next()) {
 				if (filterFileMode(tw, EXECUTABLE_FILE, GITLINK, REGULAR_FILE,

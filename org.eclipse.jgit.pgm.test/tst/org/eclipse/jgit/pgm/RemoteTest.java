@@ -41,7 +41,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 		Repository remoteRepository = createWorkRepository();
 
 		// set it up as a remote to this repository
-		config = db.getConfig();
+		config = repo.getConfig();
 		remote = new RemoteConfig(config, "test");
 		remote.addFetchRefSpec(
 				new RefSpec("+refs/heads/*:refs/remotes/test/*"));

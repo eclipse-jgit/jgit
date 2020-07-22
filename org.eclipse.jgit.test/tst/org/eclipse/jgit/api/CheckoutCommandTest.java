@@ -77,7 +77,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		BuiltinLFS.register();
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		// commit something
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -85,7 +85,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 		// create a test branch and switch to it
 		git.branchCreate().setName("test").call();
-		RefUpdate rup = db.updateRef(Constants.HEAD);
+		RefUpdate rup = repository.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test");
 
 		// commit something on the test branch
@@ -126,7 +126,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutForced_deleteFileAndRestore() throws Exception {
-		File testFile = new File(db.getWorkTree(), "Test.txt");
+		File testFile = new File(repository.getWorkTree(), "Test.txt");
 		assertTrue(testFile.exists());
 
 		assertEquals("test", git.getRepository().getBranch());
@@ -149,7 +149,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCreateBranchOnCheckout() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
-		assertNotNull(db.exactRef("refs/heads/test2"));
+		assertNotNull(repository.exactRef("refs/heads/test2"));
 	}
 
 	@Test
@@ -191,7 +191,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		FileUtils.delete(testFile);
 		CheckoutCommand co = git.checkout();
 		// delete Test.txt in branch test
-		testFile = new File(db.getWorkTree(), "Test.txt");
+		testFile = new File(repository.getWorkTree(), "Test.txt");
 		assertTrue(testFile.exists());
 		FileUtils.delete(testFile);
 		assertFalse(testFile.exists());
@@ -225,7 +225,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		Ref result = git.checkout().setName("test-tag").call();
 
 		assertNull(result);
-		assertEquals(initialCommit.getId(), db.resolve(Constants.HEAD));
+		assertEquals(initialCommit.getId(), repository.resolve(Constants.HEAD));
 		assertHeadDetached();
 	}
 
@@ -236,7 +236,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		Ref result = git.checkout().setName("test-tag").call();
 
 		assertNull(result);
-		assertEquals(initialCommit.getId(), db.resolve(Constants.HEAD));
+		assertEquals(initialCommit.getId(), repository.resolve(Constants.HEAD));
 		assertHeadDetached();
 	}
 
@@ -280,7 +280,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 				.call();
 		git.commit().setMessage("Added dir").call();
 
-		File dir = new File(db.getWorkTree(), "dir");
+		File dir = new File(repository.getWorkTree(), "dir");
 		FileUtils.delete(dir, FileUtils.RECURSIVE);
 
 		git.checkout().addPath("dir/a.txt").call();
@@ -356,7 +356,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		CheckoutCommand co = git.checkout();
 		co.setName("master").call();
 
-		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().name();
+		String commitId = repository.exactRef(R_HEADS + MASTER).getObjectId().name();
 		co = git.checkout();
 		co.setName(commitId).call();
 
@@ -366,15 +366,15 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testUpdateSmudgedEntries() throws Exception {
 		git.branchCreate().setName("test2").call();
-		RefUpdate rup = db.updateRef(Constants.HEAD);
+		RefUpdate rup = repository.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test2");
 
-		File file = new File(db.getWorkTree(), "Test.txt");
+		File file = new File(repository.getWorkTree(), "Test.txt");
 		long size = file.length();
 		Instant mTime = TimeUtil.setLastModifiedWithOffset(file.toPath(),
 				-5000L);
 
-		DirCache cache = DirCache.lock(db.getIndexFile(), db.getFS());
+		DirCache cache = DirCache.lock(repository.getIndexFile(), repository.getFS());
 		DirCacheEntry entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		entry.setLength(0);
@@ -382,20 +382,20 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		cache.write();
 		assertTrue(cache.commit());
 
-		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 		entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		assertEquals(0, entry.getLength());
 		assertEquals(EPOCH, entry.getLastModifiedInstant());
 
-		Files.setLastModifiedTime(db.getIndexFile().toPath(),
+		Files.setLastModifiedTime(repository.getIndexFile().toPath(),
 				FileTime.from(FS.DETECTED
-						.lastModifiedInstant(db.getIndexFile())
+						.lastModifiedInstant(repository.getIndexFile())
 						.minusMillis(5000L)));
 
 		assertNotNull(git.checkout().setName("test").call());
 
-		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		cache = DirCache.read(repository.getIndexFile(), repository.getFS());
 		entry = cache.getEntry("Test.txt");
 		assertNotNull(entry);
 		assertEquals(size, entry.getLength());
@@ -429,7 +429,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			// setup the second repository to fetch from the first repository
 			final StoredConfig config = db2.getConfig();
 			RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
-			URIish uri = new URIish(db.getDirectory().toURI().toURL());
+			URIish uri = new URIish(repository.getDirectory().toURI().toURL());
 			remoteConfig.addURI(uri);
 			remoteConfig.update(config);
 			config.save();
@@ -452,11 +452,11 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	private void assertNoHead() throws IOException {
-		assertNull(db.resolve("HEAD"));
+		assertNull(repository.resolve("HEAD"));
 	}
 
 	private void assertHeadDetached() throws IOException {
-		Ref head = db.exactRef(Constants.HEAD);
+		Ref head = repository.exactRef(Constants.HEAD);
 		assertFalse(head.isSymbolic());
 		assertSame(head, head.getTarget());
 	}
@@ -528,7 +528,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	public void testCheckoutAutoCrlfTrue() throws Exception {
 		int nrOfAutoCrlfTestFiles = 200;
 
-		FileBasedConfig c = db.getConfig();
+		FileBasedConfig c = repository.getConfig();
 		c.setString("core", null, "autocrlf", "true");
 		c.save();
 
@@ -555,7 +555,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setName(c1.getName()).call();
 
 		boolean foundUnsmudged = false;
-		DirCache dc = db.readDirCache();
+		DirCache dc = repository.readDirCache();
 		for (int i = 100; i < 100 + nrOfAutoCrlfTestFiles; i++) {
 			DirCacheEntry entry = dc.getEntry(
 					"Test_" + i + ".txt");
@@ -752,7 +752,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		File clean_filter = writeTempFile("sed s/V1/@version/g");
 		File smudge_filter = writeTempFile("sed s/@version/V1/g");
 
-		try (Git git2 = new Git(db)) {
+		try (Git git2 = new Git(repository)) {
 			StoredConfig config = git.getRepository().getConfig();
 			config.setString("filter", "lfs", "smudge",
 					"sh " + slashify(smudge_filter.getPath()));
@@ -814,7 +814,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		RevCommit crudCommit = git.commit().setMessage("delete, modify, add")
 				.call();
 		git.checkout().setName(addFiles.getName()).call();
-		try ( FileInputStream fis=new FileInputStream(new File(db.getWorkTree(), "Test.txt")) ) {
+		try ( FileInputStream fis=new FileInputStream(new File(repository.getWorkTree(), "Test.txt")) ) {
 			CheckoutCommand coCommand = git.checkout();
 			coCommand.setName(crudCommit.getName()).call();
 			CheckoutResult result = coCommand.getResult();

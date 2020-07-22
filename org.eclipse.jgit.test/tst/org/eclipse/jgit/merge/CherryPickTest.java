@@ -35,10 +35,10 @@ public class CherryPickTest extends RepositoryTestCase {
 		// Cherry-pick "T" onto "O". This shouldn't introduce "p-fail", which
 		// was created by "P", nor should it modify "a", which was done by "P".
 		//
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeP = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
+		final DirCache treeB = repository.readDirCache();
+		final DirCache treeO = repository.readDirCache();
+		final DirCache treeP = repository.readDirCache();
+		final DirCache treeT = repository.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -62,18 +62,18 @@ public class CherryPickTest extends RepositoryTestCase {
 			t.finish();
 		}
 
-		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectInserter ow = repository.newObjectInserter();
 		final ObjectId B = commit(ow, treeB, new ObjectId[] {});
 		final ObjectId O = commit(ow, treeO, new ObjectId[] { B });
 		final ObjectId P = commit(ow, treeP, new ObjectId[] { B });
 		final ObjectId T = commit(ow, treeT, new ObjectId[] { P });
 
-		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		twm.setBase(P);
 		boolean merge = twm.merge(new ObjectId[] { O, T });
 		assertTrue(merge);
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
 			tw.reset(twm.getResultTreeId());
 
@@ -104,9 +104,9 @@ public class CherryPickTest extends RepositoryTestCase {
 		// We use the standard merge, but change the order
 		// of the sources.
 		//
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeP = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
+		final DirCache treeB = repository.readDirCache();
+		final DirCache treeP = repository.readDirCache();
+		final DirCache treeT = repository.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder p = treeP.builder();
@@ -126,17 +126,17 @@ public class CherryPickTest extends RepositoryTestCase {
 			t.finish();
 		}
 
-		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectInserter ow = repository.newObjectInserter();
 		final ObjectId B = commit(ow, treeB, new ObjectId[] {});
 		final ObjectId P = commit(ow, treeP, new ObjectId[] { B });
 		final ObjectId T = commit(ow, treeT, new ObjectId[] { P });
 
-		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repository);
 		twm.setBase(P);
 		boolean merge = twm.merge(new ObjectId[] { B, T });
 		assertTrue(merge);
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.setRecursive(true);
 			tw.reset(twm.getResultTreeId());
 

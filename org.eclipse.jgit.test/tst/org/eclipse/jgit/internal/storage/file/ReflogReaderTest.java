@@ -65,7 +65,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testReadOneLine() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLine);
 
-		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
+		ReflogReader reader = new ReflogReaderImpl(repository, "refs/heads/master");
 		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
@@ -92,7 +92,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testReadTwoLine() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLine);
 
-		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
+		ReflogReader reader = new ReflogReaderImpl(repository, "refs/heads/master");
 		List<ReflogEntry> reverseEntries = reader.getReverseEntries();
 		assertEquals(2, reverseEntries.size());
 		ReflogEntry e = reverseEntries.get(0);
@@ -127,7 +127,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testReadWhileAppendIsInProgress() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLineWithAppendInProgress);
-		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
+		ReflogReader reader = new ReflogReaderImpl(repository, "refs/heads/master");
 		List<ReflogEntry> reverseEntries = reader.getReverseEntries();
 		assertEquals(2, reverseEntries.size());
 		ReflogEntry e = reverseEntries.get(0);
@@ -154,18 +154,18 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 		setupReflog("logs/refs/heads/a", aLine);
 		setupReflog("logs/refs/heads/master", masterLine);
 		setupReflog("logs/HEAD", headLine);
-		assertEquals("branch: change to master", db.getReflogReader("master")
+		assertEquals("branch: change to master", repository.getReflogReader("master")
 				.getLastEntry().getComment());
-		assertEquals("branch: change to a", db.getReflogReader("a")
+		assertEquals("branch: change to a", repository.getReflogReader("a")
 				.getLastEntry().getComment());
-		assertEquals("branch: change to HEAD", db.getReflogReader("HEAD")
+		assertEquals("branch: change to HEAD", repository.getReflogReader("HEAD")
 				.getLastEntry().getComment());
 	}
 
 	@Test
 	public void testReadLineWithMissingComment() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
-		final ReflogReader reader = db.getReflogReader("master");
+		final ReflogReader reader = repository.getReflogReader("master");
 		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
@@ -183,14 +183,14 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testNoLog() throws Exception {
-		assertEquals(0, db.getReflogReader("master").getReverseEntries().size());
-		assertNull(db.getReflogReader("master").getLastEntry());
+		assertEquals(0, repository.getReflogReader("master").getReverseEntries().size());
+		assertNull(repository.getReflogReader("master").getLastEntry());
 	}
 
 	@Test
 	public void testCheckout() throws Exception {
 		setupReflog("logs/HEAD", switchBranch);
-		List<ReflogEntry> entries = db.getReflogReader(Constants.HEAD)
+		List<ReflogEntry> entries = repository.getReflogReader(Constants.HEAD)
 				.getReverseEntries();
 		assertEquals(1, entries.size());
 		ReflogEntry entry = entries.get(0);
@@ -204,7 +204,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testSpecificEntryNumber() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLine);
 
-		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
+		ReflogReader reader = new ReflogReaderImpl(repository, "refs/heads/master");
 		ReflogEntry e = reader.getReverseEntry(0);
 		assertEquals(
 				ObjectId.fromString("c6734895958052a9dbc396cff4459dc1a25029ab"),
@@ -238,7 +238,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 	private void setupReflog(String logName, byte[] data)
 			throws FileNotFoundException, IOException {
-		File logfile = new File(db.getDirectory(), logName);
+		File logfile = new File(repository.getDirectory(), logName);
 		if (!logfile.getParentFile().mkdirs()
 				&& !logfile.getParentFile().isDirectory()) {
 			throw new IOException(

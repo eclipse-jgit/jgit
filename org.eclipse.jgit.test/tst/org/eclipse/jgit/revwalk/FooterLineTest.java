@@ -328,7 +328,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		buf.append("\n");
 		buf.append(msg);
 
-		try (RevWalk walk = new RevWalk(db)) {
+		try (RevWalk walk = new RevWalk(repository)) {
 			RevCommit c = new RevCommit(ObjectId.zeroId());
 			c.parseCanonical(walk, Constants.encode(buf.toString()));
 			return c;

@@ -65,42 +65,42 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeInItself() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.commit().setMessage("initial commit").call();
 
-			MergeResult result = git.merge().include(db.exactRef(Constants.HEAD)).call();
+			MergeResult result = git.merge().include(repository.exactRef(Constants.HEAD)).call();
 			assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 		}
 		// no reflog entry written by merge
 		assertEquals("commit (initial): initial commit",
-				db
+				repository
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit (initial): initial commit",
-				db
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				repository
+				.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testAlreadyUpToDate() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
 
 			RevCommit second = git.commit().setMessage("second commit").call();
-			MergeResult result = git.merge().include(db.exactRef("refs/heads/branch1")).call();
+			MergeResult result = git.merge().include(repository.exactRef("refs/heads/branch1")).call();
 			assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 			assertEquals(second, result.getNewHead());
 		}
 		// no reflog entry written by merge
-		assertEquals("commit: second commit", db
+		assertEquals("commit: second commit", repository
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-		assertEquals("commit: second commit", db
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+		assertEquals("commit: second commit", repository
+				.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testFastForward() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
 
@@ -108,20 +108,20 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			checkoutBranch("refs/heads/branch1");
 
-			MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER)).call();
+			MergeResult result = git.merge().include(repository.exactRef(R_HEADS + MASTER)).call();
 
 			assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
 			assertEquals(second, result.getNewHead());
 		}
 		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+				repository.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				repository.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testFastForwardNoCommit() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
 
@@ -129,53 +129,53 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			checkoutBranch("refs/heads/branch1");
 
-			MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER))
+			MergeResult result = git.merge().include(repository.exactRef(R_HEADS + MASTER))
 					.setCommit(false).call();
 
 			assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
 					result.getMergeStatus());
 			assertEquals(second, result.getNewHead());
 		}
-		assertEquals("merge refs/heads/master: Fast-forward", db
+		assertEquals("merge refs/heads/master: Fast-forward", repository
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-		assertEquals("merge refs/heads/master: Fast-forward", db
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+		assertEquals("merge refs/heads/master: Fast-forward", repository
+				.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testFastForwardWithFiles() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
 			createBranch(first, "refs/heads/branch1");
 
 			writeTrashFile("file2", "file2");
 			git.add().addFilepattern("file2").call();
 			RevCommit second = git.commit().setMessage("second commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			checkoutBranch("refs/heads/branch1");
-			assertFalse(new File(db.getWorkTree(), "file2").exists());
+			assertFalse(new File(repository.getWorkTree(), "file2").exists());
 
-			MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER)).call();
+			MergeResult result = git.merge().include(repository.exactRef(R_HEADS + MASTER)).call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 			assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
 			assertEquals(second, result.getNewHead());
 		}
 		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+				repository.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				repository.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testMultipleHeads() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
@@ -190,12 +190,12 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("third commit").call();
 
 			checkoutBranch("refs/heads/branch1");
-			assertFalse(new File(db.getWorkTree(), "file2").exists());
-			assertFalse(new File(db.getWorkTree(), "file3").exists());
+			assertFalse(new File(repository.getWorkTree(), "file2").exists());
+			assertFalse(new File(repository.getWorkTree(), "file3").exists());
 
 			MergeCommand merge = git.merge();
 			merge.include(second.getId());
-			merge.include(db.exactRef(R_HEADS + MASTER));
+			merge.include(repository.exactRef(R_HEADS + MASTER));
 			try {
 				merge.call();
 				fail("Expected exception not thrown when merging multiple heads");
@@ -208,7 +208,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	@Theory
 	public void testMergeSuccessAllStrategies(MergeStrategy mergeStrategy)
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit first = git.commit().setMessage("first").call();
 			createBranch(first, "refs/heads/side");
 
@@ -222,23 +222,23 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("third").call();
 
 			MergeResult result = git.merge().setStrategy(mergeStrategy)
-					.include(db.exactRef(R_HEADS + MASTER)).call();
+					.include(repository.exactRef(R_HEADS + MASTER)).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 		}
 		assertEquals(
 				"merge refs/heads/master: Merge made by "
 						+ mergeStrategy.getName() + ".",
-				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+				repository.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals(
 				"merge refs/heads/master: Merge made by "
 						+ mergeStrategy.getName() + ".",
-				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				repository.getReflogReader(repository.getBranch()).getLastEntry().getComment());
 	}
 
 	@Theory
 	public void testMergeSuccessAllStrategiesNoCommit(
 			MergeStrategy mergeStrategy) throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit first = git.commit().setMessage("first").call();
 			createBranch(first, "refs/heads/side");
 
@@ -253,16 +253,16 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			MergeResult result = git.merge().setStrategy(mergeStrategy)
 					.setCommit(false)
-					.include(db.exactRef(R_HEADS + MASTER)).call();
+					.include(repository.exactRef(R_HEADS + MASTER)).call();
 			assertEquals(MergeStatus.MERGED_NOT_COMMITTED, result.getMergeStatus());
-			assertEquals(db.exactRef(Constants.HEAD).getTarget().getObjectId(),
+			assertEquals(repository.exactRef(Constants.HEAD).getTarget().getObjectId(),
 					thirdCommit.getId());
 		}
 	}
 
 	@Test
 	public void testContentMerge() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("c/c/c", "1\nc\n3\n");
@@ -278,9 +278,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na(main)\n3\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -293,21 +293,21 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"1\n<<<<<<< HEAD\na(main)\n=======\na(side)\n>>>>>>> 86503e7e397465588cc267b65d778538bffccb83\n3\n",
-					read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+					read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
+					read(new File(repository.getWorkTree(), "c/c/c")));
 
 			assertEquals(1, result.getConflicts().size());
 			assertEquals(3, result.getConflicts().get("a")[0].length);
 
-			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+			assertEquals(RepositoryState.MERGING, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testMergeTag() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "a");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -334,7 +334,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeMessage() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -352,20 +352,20 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").call();
 			git.commit().setMessage("main").call();
 
-			Ref sideBranch = db.exactRef("refs/heads/side");
+			Ref sideBranch = repository.exactRef("refs/heads/side");
 
 			git.merge().include(sideBranch)
 					.setStrategy(MergeStrategy.RESOLVE).call();
 
 			assertEquals("Merge branch 'side'\n\nConflicts:\n\ta\n",
-					db.readMergeCommitMsg());
+					repository.readMergeCommitMsg());
 		}
 
 	}
 
 	@Test
 	public void testMergeNonVersionedPaths() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("c/c/c", "1\nc\n3\n");
@@ -381,9 +381,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na(main)\n3\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -391,7 +391,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("main").call();
 
 			writeTrashFile("d", "1\nd\n3\n");
-			assertTrue(new File(db.getWorkTree(), "e").mkdir());
+			assertTrue(new File(repository.getWorkTree(), "e").mkdir());
 
 			MergeResult result = git.merge().include(secondCommit.getId())
 					.setStrategy(MergeStrategy.RESOLVE).call();
@@ -399,24 +399,24 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"1\n<<<<<<< HEAD\na(main)\n=======\na(side)\n>>>>>>> 86503e7e397465588cc267b65d778538bffccb83\n3\n",
-					read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+					read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
-			assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
-			File dir = new File(db.getWorkTree(), "e");
+					read(new File(repository.getWorkTree(), "c/c/c")));
+			assertEquals("1\nd\n3\n", read(new File(repository.getWorkTree(), "d")));
+			File dir = new File(repository.getWorkTree(), "e");
 			assertTrue(dir.isDirectory());
 
 			assertEquals(1, result.getConflicts().size());
 			assertEquals(3, result.getConflicts().get("a")[0].length);
 
-			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+			assertEquals(RepositoryState.MERGING, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testMultipleCreations() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -442,7 +442,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMultipleCreationsSameContent() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -463,21 +463,21 @@ public class MergeCommandTest extends RepositoryTestCase {
 			MergeResult result = git.merge().include(secondCommit.getId())
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
-			assertEquals("1\nb(1)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(1)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			assertEquals("merge " + secondCommit.getId().getName()
-					+ ": Merge made by resolve.", db
+					+ ": Merge made by resolve.", repository
 					.getReflogReader(Constants.HEAD)
 					.getLastEntry().getComment());
 			assertEquals("merge " + secondCommit.getId().getName()
-					+ ": Merge made by resolve.", db
-					.getReflogReader(db.getBranch())
+					+ ": Merge made by resolve.", repository
+					.getReflogReader(repository.getBranch())
 					.getLastEntry().getComment());
 		}
 	}
 
 	@Test
 	public void testSuccessfulContentMerge() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("c/c/c", "1\nc\n3\n");
@@ -493,9 +493,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -506,10 +506,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
-			assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
+			assertEquals("1(side)\na\n3(main)\n", read(new File(repository.getWorkTree(),
 					"a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
-			assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
+			assertEquals("1\nc(main)\n3\n", read(new File(repository.getWorkTree(),
 					"c/c/c")));
 
 			assertEquals(null, result.getConflicts());
@@ -528,14 +528,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 					"Merge commit '3fa334456d236a92db020289fe0bf481d91777b4'",
 					newHead.getFullMessage());
 			// @TODO fix me
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 			// test index state
 		}
 	}
 
 	@Test
 	public void testSuccessfulContentMergeNoCommit() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("c/c/c", "1\nc\n3\n");
@@ -551,9 +551,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -564,14 +564,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setCommit(false)
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED_NOT_COMMITTED, result.getMergeStatus());
-			assertEquals(db.exactRef(Constants.HEAD).getTarget().getObjectId(),
+			assertEquals(repository.exactRef(Constants.HEAD).getTarget().getObjectId(),
 					thirdCommit.getId());
 
-			assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
+			assertEquals("1(side)\na\n3(main)\n", read(new File(repository.getWorkTree(),
 					"a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
+					read(new File(repository.getWorkTree(), "c/c/c")));
 
 			assertEquals(null, result.getConflicts());
 
@@ -579,14 +579,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(thirdCommit, result.getMergedCommits()[0]);
 			assertEquals(secondCommit, result.getMergedCommits()[1]);
 			assertNull(result.getNewHead());
-			assertEquals(RepositoryState.MERGING_RESOLVED, db.getRepositoryState());
+			assertEquals(RepositoryState.MERGING_RESOLVED, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testSuccessfulContentMergeAndDirtyworkingTree()
 			throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("d", "1\nd\n3\n");
@@ -603,9 +603,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -617,12 +617,12 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
-			assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
+			assertEquals("1(side)\na\n3(main)\n", read(new File(repository.getWorkTree(),
 					"a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
-			assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
+			assertEquals("1\nc(main)\n3\n", read(new File(repository.getWorkTree(),
 					"c/c/c")));
-			assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "d")));
+			assertEquals("--- dirty ---", read(new File(repository.getWorkTree(), "d")));
 
 			assertEquals(null, result.getConflicts());
 
@@ -640,13 +640,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 					"Merge commit '064d54d98a4cdb0fed1802a21c656bfda67fe879'",
 					newHead.getFullMessage());
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testSingleDeletion() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("d", "1\nd\n3\n");
@@ -658,13 +658,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 			createBranch(initialCommit, "refs/heads/side");
 			checkoutBranch("refs/heads/side");
 
-			assertTrue(new File(db.getWorkTree(), "b").delete());
+			assertTrue(new File(repository.getWorkTree(), "b").delete());
 			git.add().addFilepattern("b").setUpdate(true).call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "b").exists());
+			assertTrue(new File(repository.getWorkTree(), "b").exists());
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -676,32 +676,32 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
-			assertEquals("1\na\n3(main)\n", read(new File(db.getWorkTree(), "a")));
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+			assertEquals("1\na\n3(main)\n", read(new File(repository.getWorkTree(), "a")));
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
-			assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
+					read(new File(repository.getWorkTree(), "c/c/c")));
+			assertEquals("1\nd\n3\n", read(new File(repository.getWorkTree(), "d")));
 
 			// Do the opposite, be on a branch where we have deleted a file and
 			// merge in a old commit where this file was not deleted
 			checkoutBranch("refs/heads/side");
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 
 			result = git.merge().include(thirdCommit.getId())
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
-			assertEquals("1\na\n3(main)\n", read(new File(db.getWorkTree(), "a")));
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+			assertEquals("1\na\n3(main)\n", read(new File(repository.getWorkTree(), "a")));
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
-			assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
+					read(new File(repository.getWorkTree(), "c/c/c")));
+			assertEquals("1\nd\n3\n", read(new File(repository.getWorkTree(), "d")));
 		}
 	}
 
 	@Test
 	public void testMultipleDeletions() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -709,15 +709,15 @@ public class MergeCommandTest extends RepositoryTestCase {
 			createBranch(initialCommit, "refs/heads/side");
 			checkoutBranch("refs/heads/side");
 
-			assertTrue(new File(db.getWorkTree(), "a").delete());
+			assertTrue(new File(repository.getWorkTree(), "a").delete());
 			git.add().addFilepattern("a").setUpdate(true).call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertFalse(new File(db.getWorkTree(), "a").exists());
+			assertFalse(new File(repository.getWorkTree(), "a").exists());
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "a").exists());
+			assertTrue(new File(repository.getWorkTree(), "a").exists());
 
-			assertTrue(new File(db.getWorkTree(), "a").delete());
+			assertTrue(new File(repository.getWorkTree(), "a").delete());
 			git.add().addFilepattern("a").setUpdate(true).call();
 			git.commit().setMessage("main").call();
 
@@ -730,7 +730,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDeletionAndConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			writeTrashFile("d", "1\nd\n3\n");
@@ -742,15 +742,15 @@ public class MergeCommandTest extends RepositoryTestCase {
 			createBranch(initialCommit, "refs/heads/side");
 			checkoutBranch("refs/heads/side");
 
-			assertTrue(new File(db.getWorkTree(), "b").delete());
+			assertTrue(new File(repository.getWorkTree(), "b").delete());
 			writeTrashFile("a", "1\na\n3(side)\n");
 			git.add().addFilepattern("b").setUpdate(true).call();
 			git.add().addFilepattern("a").setUpdate(true).call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "b").exists());
+			assertTrue(new File(repository.getWorkTree(), "b").exists());
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
@@ -764,17 +764,17 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"1\na\n<<<<<<< HEAD\n3(main)\n=======\n3(side)\n>>>>>>> 54ffed45d62d252715fc20e41da92d44c48fb0ff\n",
-					read(new File(db.getWorkTree(), "a")));
-			assertFalse(new File(db.getWorkTree(), "b").exists());
+					read(new File(repository.getWorkTree(), "a")));
+			assertFalse(new File(repository.getWorkTree(), "b").exists());
 			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
-			assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
+					read(new File(repository.getWorkTree(), "c/c/c")));
+			assertEquals("1\nd\n3\n", read(new File(repository.getWorkTree(), "d")));
 		}
 	}
 
 	@Test
 	public void testDeletionOnMasterConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -798,15 +798,15 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
 			// result should be 'a' conflicting with workspace content from side
-			assertTrue(new File(db.getWorkTree(), "a").exists());
-			assertEquals("1\na(side)\n3\n", read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertTrue(new File(repository.getWorkTree(), "a").exists());
+			assertEquals("1\na(side)\n3\n", read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 		}
 	}
 
 	@Test
 	public void testDeletionOnSideConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -829,9 +829,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
-			assertTrue(new File(db.getWorkTree(), "a").exists());
-			assertEquals("1\na(main)\n3\n", read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertTrue(new File(repository.getWorkTree(), "a").exists());
+			assertEquals("1\na(main)\n3\n", read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			assertEquals(1, result.getConflicts().size());
 			assertEquals(3, result.getConflicts().get("a")[0].length);
@@ -843,7 +843,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		// this test is essentially the same as testDeletionOnSideConflict,
 		// however if once rename support is added this test should result in a
 		// successful merge instead of a conflict
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("x", "add x");
 			git.add().addFilepattern("x").call();
 			RevCommit initial = git.commit().setMessage("add x").call();
@@ -853,8 +853,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			// rename x to y on d1
 			checkoutBranch("refs/heads/d1");
-			new File(db.getWorkTree(), "x")
-					.renameTo(new File(db.getWorkTree(), "y"));
+			new File(repository.getWorkTree(), "x")
+					.renameTo(new File(repository.getWorkTree(), "y"));
 			git.rm().addFilepattern("x").call();
 			git.add().addFilepattern("y").call();
 			RevCommit d1Commit = git.commit().setMessage("d1 rename x -> y").call();
@@ -879,7 +879,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeFailingWithDirtyWorkingTree() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -893,9 +893,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("b").call();
 			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb(side)\n3\n", read(new File(repository.getWorkTree(), "b")));
 			checkoutBranch("refs/heads/master");
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			writeTrashFile("a", "1\na\n3(main)\n");
 			git.add().addFilepattern("a").call();
@@ -907,18 +907,18 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals(MergeStatus.FAILED, result.getMergeStatus());
 
-			assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertEquals("--- dirty ---", read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
 
 			assertEquals(null, result.getConflicts());
 
-			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testMergeConflictFileFolder() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
 			git.add().addFilepattern("a").addFilepattern("b").call();
@@ -944,20 +944,20 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
-			assertEquals("1\na\n3\n", read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
-			assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(), "c")));
-			assertEquals("1\nd(main)\n3\n", read(new File(db.getWorkTree(), "d/d/d")));
+			assertEquals("1\na\n3\n", read(new File(repository.getWorkTree(), "a")));
+			assertEquals("1\nb\n3\n", read(new File(repository.getWorkTree(), "b")));
+			assertEquals("1\nc(main)\n3\n", read(new File(repository.getWorkTree(), "c")));
+			assertEquals("1\nd(main)\n3\n", read(new File(repository.getWorkTree(), "d/d/d")));
 
 			assertEquals(null, result.getConflicts());
 
-			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+			assertEquals(RepositoryState.MERGING, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testSuccessfulMergeFailsDueToDirtyIndex() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
 
@@ -993,7 +993,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingMergeFailsDueToDirtyIndex() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
 
@@ -1031,7 +1031,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSuccessfulMergeFailsDueToDirtyWorktree() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
 
@@ -1066,7 +1066,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingMergeFailsDueToDirtyWorktree() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
 
@@ -1103,8 +1103,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeRemovingFolders() throws Exception {
-		File folder1 = new File(db.getWorkTree(), "folder1");
-		File folder2 = new File(db.getWorkTree(), "folder2");
+		File folder1 = new File(repository.getWorkTree(), "folder1");
+		File folder2 = new File(repository.getWorkTree(), "folder2");
 		FileUtils.mkdir(folder1);
 		FileUtils.mkdir(folder2);
 		File file = new File(folder1, "file1.txt");
@@ -1116,7 +1116,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		file = new File(folder2, "file2.txt");
 		write(file, "folder2--file2.txt");
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(folder1.getName())
 					.addFilepattern(folder2.getName()).call();
 			RevCommit commit1 = git.commit().setMessage("adding folders").call();
@@ -1144,8 +1144,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeRemovingFoldersWithoutFastForward() throws Exception {
-		File folder1 = new File(db.getWorkTree(), "folder1");
-		File folder2 = new File(db.getWorkTree(), "folder2");
+		File folder1 = new File(repository.getWorkTree(), "folder1");
+		File folder2 = new File(repository.getWorkTree(), "folder2");
 		FileUtils.mkdir(folder1);
 		FileUtils.mkdir(folder2);
 		File file = new File(folder1, "file1.txt");
@@ -1157,7 +1157,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		file = new File(folder2, "file2.txt");
 		write(file, "folder2--file2.txt");
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(folder1.getName())
 					.addFilepattern(folder2.getName()).call();
 			RevCommit base = git.commit().setMessage("adding folders").call();
@@ -1192,7 +1192,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	public void testFileModeMerge() throws Exception {
 		// Only Java6
 		assumeTrue(FS.DETECTED.supportsExecute());
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("mergeableMode", "a");
 			setExecutable(git, "mergeableMode", false);
 			writeTrashFile("conflictingModeWithBase", "a");
@@ -1231,7 +1231,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		// Only Java6 (or set x bit in index)
 		assumeTrue(FS.DETECTED.supportsExecute());
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("mergeableButDirty", "a");
 			setExecutable(git, "mergeableButDirty", false);
 			RevCommit initialCommit = addAllAndCommit(git);
@@ -1260,42 +1260,42 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSquashFastForward() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
 			createBranch(first, "refs/heads/branch1");
 			checkoutBranch("refs/heads/branch1");
 
 			writeTrashFile("file2", "file2");
 			git.add().addFilepattern("file2").call();
 			RevCommit second = git.commit().setMessage("second commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			writeTrashFile("file3", "file3");
 			git.add().addFilepattern("file3").call();
 			RevCommit third = git.commit().setMessage("third commit").call();
-			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file3").exists());
 
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertFalse(new File(db.getWorkTree(), "file2").exists());
-			assertFalse(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertFalse(new File(repository.getWorkTree(), "file2").exists());
+			assertFalse(new File(repository.getWorkTree(), "file3").exists());
 
 			MergeResult result = git.merge()
-					.include(db.exactRef("refs/heads/branch1"))
+					.include(repository.exactRef("refs/heads/branch1"))
 					.setSquash(true)
 					.call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
-			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file3").exists());
 			assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
 					result.getMergeStatus());
 			assertEquals(first, result.getNewHead()); // HEAD didn't move
-			assertEquals(first, db.resolve(Constants.HEAD + "^{commit}"));
+			assertEquals(first, repository.resolve(Constants.HEAD + "^{commit}"));
 
 			assertEquals(
 					"Squashed commit of the following:\n\ncommit "
@@ -1316,8 +1316,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(second
 									.getAuthorIdent()) + "\n\n\tsecond commit\n",
-					db.readSquashCommitMsg());
-			assertNull(db.readMergeCommitMsg());
+					repository.readSquashCommitMsg());
+			assertNull(repository.readMergeCommitMsg());
 
 			Status stat = git.status().call();
 			assertEquals(Sets.of("file2", "file3"), stat.getAdded());
@@ -1326,43 +1326,43 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSquashMerge() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
 			createBranch(first, "refs/heads/branch1");
 
 			writeTrashFile("file2", "file2");
 			git.add().addFilepattern("file2").call();
 			RevCommit second = git.commit().setMessage("second commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			checkoutBranch("refs/heads/branch1");
 
 			writeTrashFile("file3", "file3");
 			git.add().addFilepattern("file3").call();
 			RevCommit third = git.commit().setMessage("third commit").call();
-			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file3").exists());
 
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
-			assertFalse(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
+			assertFalse(new File(repository.getWorkTree(), "file3").exists());
 
 			MergeResult result = git.merge()
-					.include(db.exactRef("refs/heads/branch1"))
+					.include(repository.exactRef("refs/heads/branch1"))
 					.setSquash(true)
 					.call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
-			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file3").exists());
 			assertEquals(MergeResult.MergeStatus.MERGED_SQUASHED,
 					result.getMergeStatus());
 			assertEquals(second, result.getNewHead()); // HEAD didn't move
-			assertEquals(second, db.resolve(Constants.HEAD + "^{commit}"));
+			assertEquals(second, repository.resolve(Constants.HEAD + "^{commit}"));
 
 			assertEquals(
 					"Squashed commit of the following:\n\ncommit "
@@ -1374,8 +1374,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(third
 									.getAuthorIdent()) + "\n\n\tthird commit\n",
-					db.readSquashCommitMsg());
-			assertNull(db.readMergeCommitMsg());
+					repository.readSquashCommitMsg());
+			assertNull(repository.readMergeCommitMsg());
 
 			Status stat = git.status().call();
 			assertEquals(Sets.of("file3"), stat.getAdded());
@@ -1384,41 +1384,41 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSquashMergeConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 			RevCommit first = git.commit().setMessage("initial commit").call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
 			createBranch(first, "refs/heads/branch1");
 
 			writeTrashFile("file2", "master");
 			git.add().addFilepattern("file2").call();
 			RevCommit second = git.commit().setMessage("second commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			checkoutBranch("refs/heads/branch1");
 
 			writeTrashFile("file2", "branch");
 			git.add().addFilepattern("file2").call();
 			RevCommit third = git.commit().setMessage("third commit").call();
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			checkoutBranch("refs/heads/master");
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 
 			MergeResult result = git.merge()
-					.include(db.exactRef("refs/heads/branch1"))
+					.include(repository.exactRef("refs/heads/branch1"))
 					.setSquash(true)
 					.call();
 
-			assertTrue(new File(db.getWorkTree(), "file1").exists());
-			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(repository.getWorkTree(), "file1").exists());
+			assertTrue(new File(repository.getWorkTree(), "file2").exists());
 			assertEquals(MergeResult.MergeStatus.CONFLICTING,
 					result.getMergeStatus());
 			assertNull(result.getNewHead());
-			assertEquals(second, db.resolve(Constants.HEAD + "^{commit}"));
+			assertEquals(second, repository.resolve(Constants.HEAD + "^{commit}"));
 
 			assertEquals(
 					"Squashed commit of the following:\n\ncommit "
@@ -1430,8 +1430,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(third
 									.getAuthorIdent()) + "\n\n\tthird commit\n",
-					db.readSquashCommitMsg());
-			assertEquals("\nConflicts:\n\tfile2\n", db.readMergeCommitMsg());
+					repository.readSquashCommitMsg());
+			assertEquals("\nConflicts:\n\tfile2\n", repository.readMergeCommitMsg());
 
 			Status stat = git.status().call();
 			assertEquals(Sets.of("file2"), stat.getConflicting());
@@ -1440,7 +1440,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testFastForwardOnly() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
 			createBranch(initialCommit, "refs/heads/branch1");
@@ -1449,7 +1449,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			MergeCommand merge = git.merge();
 			merge.setFastForward(FastForwardMode.FF_ONLY);
-			merge.include(db.exactRef(R_HEADS + MASTER));
+			merge.include(repository.exactRef(R_HEADS + MASTER));
 			MergeResult result = merge.call();
 
 			assertEquals(MergeStatus.FAST_FORWARD, result.getMergeStatus());
@@ -1458,7 +1458,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testNoFastForward() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
 			createBranch(initialCommit, "refs/heads/branch1");
@@ -1467,7 +1467,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			MergeCommand merge = git.merge();
 			merge.setFastForward(FastForwardMode.NO_FF);
-			merge.include(db.exactRef(R_HEADS + MASTER));
+			merge.include(repository.exactRef(R_HEADS + MASTER));
 			MergeResult result = merge.call();
 
 			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
@@ -1477,7 +1477,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	@Test
 	public void testNoFastForwardNoCommit() throws Exception {
 		// given
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
 			createBranch(initialCommit, "refs/heads/branch1");
@@ -1488,7 +1488,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			// when
 			MergeCommand merge = git.merge();
 			merge.setFastForward(FastForwardMode.NO_FF);
-			merge.include(db.exactRef(R_HEADS + MASTER));
+			merge.include(repository.exactRef(R_HEADS + MASTER));
 			merge.setCommit(false);
 			MergeResult result = merge.call();
 
@@ -1498,13 +1498,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(initialCommit, result.getMergedCommits()[0]);
 			assertEquals(secondCommit, result.getMergedCommits()[1]);
 			assertNull(result.getNewHead());
-			assertEquals(RepositoryState.MERGING_RESOLVED, db.getRepositoryState());
+			assertEquals(RepositoryState.MERGING_RESOLVED, repository.getRepositoryState());
 		}
 	}
 
 	@Test
 	public void testFastForwardOnlyNotPossible() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
 			createBranch(initialCommit, "refs/heads/branch1");
@@ -1515,7 +1515,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("second commit on branch1").call();
 			MergeCommand merge = git.merge();
 			merge.setFastForward(FastForwardMode.FF_ONLY);
-			merge.include(db.exactRef(R_HEADS + MASTER));
+			merge.include(repository.exactRef(R_HEADS + MASTER));
 			MergeResult result = merge.call();
 
 			assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
@@ -1524,7 +1524,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRecursiveMergeWithConflict() throws Exception {
-		try (TestRepository<Repository> db_t = new TestRepository<>(db)) {
+		try (TestRepository<Repository> db_t = new TestRepository<>(repository)) {
 			BranchBuilder master = db_t.branch("master");
 			RevCommit m0 = master.commit()
 					.add("f", "1\n2\n3\n4\n5\n6\n7\n8\n9\n").message("m0")
@@ -1547,7 +1547,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							"1-master\n2\n3\n4\n5\n6\n7-conflict\n8\n9-side\n")
 					.message("m2(merge)").create();
 
-			Git git = Git.wrap(db);
+			Git git = Git.wrap(repository);
 			git.checkout().setName("master").call();
 
 			MergeResult result = git.merge()
@@ -1575,18 +1575,18 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("c").call();
 		git.commit().setMessage("main").call();
 
-		return db.exactRef("refs/heads/side");
+		return repository.exactRef("refs/heads/side");
 	}
 
 	@Test
 	public void testMergeWithMessageOption() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
 			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 					.setMessage("user message").call();
 
-			assertNull(db.readMergeCommitMsg());
+			assertNull(repository.readMergeCommitMsg());
 
 			Iterator<RevCommit> it = git.log().call().iterator();
 			RevCommit newHead = it.next();
@@ -1596,13 +1596,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeWithChangeId() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
 			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 					.setInsertChangeId(true).call();
 
-			assertNull(db.readMergeCommitMsg());
+			assertNull(repository.readMergeCommitMsg());
 
 			Iterator<RevCommit> it = git.log().call().iterator();
 			RevCommit newHead = it.next();
@@ -1614,13 +1614,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeWithMessageAndChangeId() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
 			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 					.setMessage("user message").setInsertChangeId(true).call();
 
-			assertNull(db.readMergeCommitMsg());
+			assertNull(repository.readMergeCommitMsg());
 
 			Iterator<RevCommit> it = git.log().call().iterator();
 			RevCommit newHead = it.next();
@@ -1633,7 +1633,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testMergeConflictWithMessageOption() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
 			RevCommit initialCommit = git.commit().setMessage("initial").call();
@@ -1651,13 +1651,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").call();
 			git.commit().setMessage("main").call();
 
-			Ref sideBranch = db.exactRef("refs/heads/side");
+			Ref sideBranch = repository.exactRef("refs/heads/side");
 
 			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 					.setMessage("user message").call();
 
 			assertEquals("user message\n\nConflicts:\n\ta\n",
-					db.readMergeCommitMsg());
+					repository.readMergeCommitMsg());
 		}
 	}
 
@@ -1682,10 +1682,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
 		assertEquals(reason, result.getFailingPaths().get("a"));
 		assertEquals("a(modified)", read(fileA));
-		assertFalse(new File(db.getWorkTree(), "b").exists());
-		assertEquals("c", read(new File(db.getWorkTree(), "c")));
+		assertFalse(new File(repository.getWorkTree(), "b").exists());
+		assertEquals("c", read(new File(repository.getWorkTree(), "c")));
 		assertEquals(indexState, indexState(CONTENT));
 		assertEquals(null, result.getConflicts());
-		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 	}
 }

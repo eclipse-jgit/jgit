@@ -406,13 +406,13 @@ public abstract class LocalDiskRepositoryTestCase {
 	public FileRepository createRepository(boolean bare, boolean autoClose)
 			throws IOException {
 		File gitdir = createUniqueTestGitDir(bare);
-		FileRepository db = new FileRepository(gitdir);
+		FileRepository repo = new FileRepository(gitdir);
 		assertFalse(gitdir.exists());
-		db.create(bare);
+		repo.create(bare);
 		if (autoClose) {
-			addRepoToClose(db);
+			addRepoToClose(repo);
 		}
-		return db;
+		return repo;
 	}
 
 	/**
@@ -480,7 +480,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	/**
 	 * Run a hook script in the repository, returning the exit status.
 	 *
-	 * @param db
+	 * @param repo
 	 *            repository the script should see in GIT_DIR environment
 	 * @param hook
 	 *            path of the hook script to execute, must be executable file
@@ -493,18 +493,18 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws InterruptedException
 	 *             the caller was interrupted before the hook completed
 	 */
-	protected int runHook(final Repository db, final File hook,
+	protected int runHook(final Repository repo, final File hook,
 			final String... args) throws IOException, InterruptedException {
 		final String[] argv = new String[1 + args.length];
 		argv[0] = hook.getAbsolutePath();
 		System.arraycopy(args, 0, argv, 1, args.length);
 
 		final Map<String, String> env = cloneEnv();
-		env.put("GIT_DIR", db.getDirectory().getAbsolutePath());
+		env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
 		putPersonIdent(env, "AUTHOR", author);
 		putPersonIdent(env, "COMMITTER", committer);
 
-		final File cwd = db.getWorkTree();
+		final File cwd = repo.getWorkTree();
 		final Process p = Runtime.getRuntime().exec(argv, toEnvArray(env), cwd);
 		p.getOutputStream().close();
 		p.getErrorStream().close();

@@ -41,7 +41,7 @@ public class TextBuiltinTest extends CLIRepositoryTestCase {
 		clp.parseArgument(args);
 
 		final TextBuiltin cmd = bean.subcommand;
-		cmd.initRaw(db, null, null, result.out, result.err);
+		cmd.initRaw(repo, null, null, result.out, result.err);
 		cmd.execute(bean.arguments.toArray(new String[bean.arguments.size()]));
 		if (cmd.getOutputWriter() != null) {
 			cmd.getOutputWriter().flush();
@@ -54,7 +54,7 @@ public class TextBuiltinTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testCleanDeleteDirs() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 
 			writeTrashFile("dir/file", "someData");
@@ -62,16 +62,16 @@ public class TextBuiltinTest extends CLIRepositoryTestCase {
 			writeTrashFile("b", "someData");
 
 			// all these files should be there
-			assertTrue(check(db, "a"));
-			assertTrue(check(db, "b"));
-			assertTrue(check(db, "dir/file"));
+			assertTrue(check(repo, "a"));
+			assertTrue(check(repo, "b"));
+			assertTrue(check(repo, "dir/file"));
 
 			assertArrayOfLinesEquals(new String[] { "Removing a", "Removing b",
 					"Removing dir/" },
 					runAndCaptureUsingInitRaw("clean", "-d", "-f"));
-			assertFalse(check(db, "a"));
-			assertFalse(check(db, "b"));
-			assertFalse(check(db, "dir/file"));
+			assertFalse(check(repo, "a"));
+			assertFalse(check(repo, "b"));
+			assertFalse(check(repo, "dir/file"));
 		}
 	}
 }

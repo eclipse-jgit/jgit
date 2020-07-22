@@ -24,7 +24,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameNoHead() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			writeTrashFile("inIndex.txt", "index");
 			git.add().addFilepattern("inIndex.txt").call();
 		}
@@ -34,7 +34,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameCommitted() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 			writeTrashFile("committed.txt", "committed");
 			git.add().addFilepattern("committed.txt").call();
@@ -47,7 +47,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameStaged() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 			writeTrashFile("inIndex.txt", "index");
 			git.add().addFilepattern("inIndex.txt").call();
@@ -59,7 +59,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameUnstaged() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 		}
 		writeTrashFile("onlyInWorkingTree.txt", "not in repo");
@@ -69,7 +69,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameNonExisting() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 		}
 		assertThrows("no such path 'does_not_exist.txt' in HEAD", Die.class,
@@ -78,7 +78,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameNonExistingInSubdir() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			git.commit().setMessage("initial commit").call();
 		}
 		assertThrows("no such path 'sub/does_not_exist.txt' in HEAD", Die.class,
@@ -87,7 +87,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testBlameMergeConflict() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			writeTrashFile("file", "Origin\n");
 			git.add().addFilepattern("file").call();
 			git.commit().setMessage("initial commit").call();

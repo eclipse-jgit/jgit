@@ -1014,7 +1014,7 @@ public class WalkEncryptionTest {
 			String uri = amazonURI();
 
 			// Local repositories.
-			File dirOne = db.getWorkTree(); // Provided by setup.
+			File dirOne = repository.getWorkTree(); // Provided by setup.
 			File dirTwo = new File(JGIT_LOCAL_DIR);
 
 			// Local verification files.
@@ -1026,7 +1026,7 @@ public class WalkEncryptionTest {
 
 			{ // Push into remote from local one.
 
-				StoredConfig config = db.getConfig();
+				StoredConfig config = repository.getConfig();
 				RemoteConfig remoteConfig = new RemoteConfig(config, remote);
 				remoteConfig.addURI(new URIish(uri));
 				remoteConfig.update(config);

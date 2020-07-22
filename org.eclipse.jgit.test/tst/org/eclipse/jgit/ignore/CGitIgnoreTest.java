@@ -49,7 +49,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		// influence the tests. So we set core.excludesFile to an empty file
 		// inside the repository.
 		File fakeUserGitignore = writeTrashFile(".fake_user_gitignore", "");
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString("core", null, "excludesFile",
 				fakeUserGitignore.getAbsolutePath());
 		// Disable case-insensitivity -- JGit doesn't handle that yet.
@@ -68,10 +68,10 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	private String[] cgitIgnored() throws Exception {
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		ProcessBuilder builder = fs.runInShell("git", new String[] { "ls-files",
 				"--ignored", "--exclude-standard", "-o" });
-		builder.directory(db.getWorkTree());
+		builder.directory(repository.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder,
 				new ByteArrayInputStream(new byte[0]));
@@ -86,10 +86,10 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	private String[] cgitUntracked() throws Exception {
-		FS fs = db.getFS();
+		FS fs = repository.getFS();
 		ProcessBuilder builder = fs.runInShell("git",
 				new String[] { "ls-files", "--exclude-standard", "-o" });
-		builder.directory(db.getWorkTree());
+		builder.directory(repository.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder,
 				new ByteArrayInputStream(new byte[0]));
@@ -107,8 +107,8 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 			LinkedHashSet<String> untracked) throws IOException {
 		// Do a tree walk that does descend into ignored directories and return
 		// a list of all ignored files
-		try (TreeWalk walk = new TreeWalk(db)) {
-			FileTreeIterator iter = new FileTreeIterator(db);
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			FileTreeIterator iter = new FileTreeIterator(repository);
 			iter.setWalkIgnoredDirectories(true);
 			walk.addTree(iter);
 			walk.setRecursive(true);
@@ -127,8 +127,8 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	private void assertNoIgnoredVisited(Set<String> ignored) throws Exception {
 		// Do a recursive tree walk with a NotIgnoredFilter and verify that none
 		// of the files visited is in the ignored set
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new FileTreeIterator(db));
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.addTree(new FileTreeIterator(repository));
 			walk.setFilter(new NotIgnoredFilter(0));
 			walk.setRecursive(true);
 			while (walk.next()) {

@@ -25,19 +25,19 @@ public class SquashCommitMsgTest extends RepositoryTestCase {
 
 	@Test
 	public void testReadWriteMergeMsg() throws IOException {
-		assertEquals(db.readSquashCommitMsg(), null);
-		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
-		db.writeSquashCommitMsg(squashMsg);
-		assertEquals(squashMsg, db.readSquashCommitMsg());
-		assertEquals(read(new File(db.getDirectory(), Constants.SQUASH_MSG)),
+		assertEquals(repository.readSquashCommitMsg(), null);
+		assertFalse(new File(repository.getDirectory(), Constants.SQUASH_MSG).exists());
+		repository.writeSquashCommitMsg(squashMsg);
+		assertEquals(squashMsg, repository.readSquashCommitMsg());
+		assertEquals(read(new File(repository.getDirectory(), Constants.SQUASH_MSG)),
 				squashMsg);
-		db.writeSquashCommitMsg(null);
-		assertEquals(db.readSquashCommitMsg(), null);
-		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
+		repository.writeSquashCommitMsg(null);
+		assertEquals(repository.readSquashCommitMsg(), null);
+		assertFalse(new File(repository.getDirectory(), Constants.SQUASH_MSG).exists());
 		try (FileOutputStream fos = new FileOutputStream(
-				new File(db.getDirectory(), Constants.SQUASH_MSG))) {
+				new File(repository.getDirectory(), Constants.SQUASH_MSG))) {
 			fos.write(squashMsg.getBytes(UTF_8));
 		}
-		assertEquals(db.readSquashCommitMsg(), squashMsg);
+		assertEquals(repository.readSquashCommitMsg(), squashMsg);
 	}
 }

@@ -24,7 +24,7 @@ import org.junit.Test;
 public class NotTreeFilterTest extends RepositoryTestCase {
 	@Test
 	public void testWrap() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			final TreeFilter a = TreeFilter.ALL;
 			final TreeFilter n = NotTreeFilter.create(a);
 			assertNotNull(n);

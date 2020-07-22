@@ -29,14 +29,14 @@ public class FetchTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repo);
 		git.commit().setMessage("initial commit").call();
 
 		Repository remoteRepository = createWorkRepository();
 		remoteGit = new Git(remoteRepository);
 
 		// setup the first repository to fetch from the second repository
-		final StoredConfig config = db.getConfig();
+		final StoredConfig config = repo.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(remoteRepository.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);

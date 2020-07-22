@@ -116,13 +116,13 @@ class Blame extends TextBuiltin {
 
 		boolean autoAbbrev = abbrev == 0;
 		if (abbrev == 0) {
-			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
+			abbrev = repo.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!showBlankBoundary) {
-			root = db.getConfig().getBoolean("blame", "blankboundary", false); //$NON-NLS-1$ //$NON-NLS-2$
+			root = repo.getConfig().getBoolean("blame", "blankboundary", false); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!root) {
-			root = db.getConfig().getBoolean("blame", "showroot", false); //$NON-NLS-1$ //$NON-NLS-2$
+			root = repo.getConfig().getBoolean("blame", "showroot", false); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		if (showRawTimestamp) {
@@ -131,8 +131,8 @@ class Blame extends TextBuiltin {
 			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
 		}
 
-		try (ObjectReader reader = db.newObjectReader();
-				BlameGenerator generator = new BlameGenerator(db, file)) {
+		try (ObjectReader reader = repo.newObjectReader();
+				BlameGenerator generator = new BlameGenerator(repo, file)) {
 			RevFlag scanned = generator.newFlag("SCANNED"); //$NON-NLS-1$
 			generator.setTextComparator(comparator);
 
@@ -148,7 +148,7 @@ class Blame extends TextBuiltin {
 				}
 				generator.reverse(rangeStart, rangeEnd);
 			} else if (revision != null) {
-				ObjectId rev = db.resolve(revision + "^{commit}"); //$NON-NLS-1$
+				ObjectId rev = repo.resolve(revision + "^{commit}"); //$NON-NLS-1$
 				if (rev == null) {
 					throw die(MessageFormat.format(CLIText.get().noSuchRef,
 							revision));

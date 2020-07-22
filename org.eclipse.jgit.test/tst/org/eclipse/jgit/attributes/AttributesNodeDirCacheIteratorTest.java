@@ -49,7 +49,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 
 	}
 
@@ -213,7 +213,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 		DirCacheIterator itr = walk.getTree(0, DirCacheIterator.class);
 		assertNotNull("has tree", itr);
 
-		AttributesNode attributesNode = itr.getEntryAttributesNode(db
+		AttributesNode attributesNode = itr.getEntryAttributesNode(repository
 				.newObjectReader());
 		assertAttributesNode(walk, pathName, attributesNode, nodeAttrs);
 
@@ -260,8 +260,8 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	}
 
 	private TreeWalk beginWalk() throws Exception {
-		TreeWalk newWalk = new TreeWalk(db);
-		newWalk.addTree(new DirCacheIterator(db.readDirCache()));
+		TreeWalk newWalk = new TreeWalk(repository);
+		newWalk.addTree(new DirCacheIterator(repository.readDirCache()));
 		return newWalk;
 	}
 }

@@ -31,7 +31,7 @@ public class DescribeTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repo);
 	}
 
 	private void initialCommitAndTag() throws Exception {

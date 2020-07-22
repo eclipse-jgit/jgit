@@ -34,13 +34,13 @@ public class Lfs {
 	/**
 	 * Constructor for Lfs.
 	 *
-	 * @param db
+	 * @param repo
 	 *            the associated repo
 	 *
 	 * @since 4.11
 	 */
-	public Lfs(Repository db) {
-		this.root = db.getDirectory().toPath().resolve(Constants.LFS);
+	public Lfs(Repository repo) {
+		this.root = repo.getDirectory().toPath().resolve(Constants.LFS);
 	}
 
 	/**

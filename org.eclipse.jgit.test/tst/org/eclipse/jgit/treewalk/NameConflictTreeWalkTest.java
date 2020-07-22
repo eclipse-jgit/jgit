@@ -34,8 +34,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testNoDF_NoGap() throws Exception {
-		final DirCache tree0 = db.readDirCache();
-		final DirCache tree1 = db.readDirCache();
+		final DirCache tree0 = repository.readDirCache();
+		final DirCache tree1 = repository.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -51,7 +51,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(1, tree1.getEntryCount());
 		}
 
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(tree0));
 			tw.addTree(new DirCacheIterator(tree1));
 
@@ -66,8 +66,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testDF_NoGap() throws Exception {
-		final DirCache tree0 = db.readDirCache();
-		final DirCache tree1 = db.readDirCache();
+		final DirCache tree0 = repository.readDirCache();
+		final DirCache tree1 = repository.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -83,7 +83,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(1, tree1.getEntryCount());
 		}
 
-		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(tree0));
 			tw.addTree(new DirCacheIterator(tree1));
 
@@ -102,8 +102,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testDF_GapByOne() throws Exception {
-		final DirCache tree0 = db.readDirCache();
-		final DirCache tree1 = db.readDirCache();
+		final DirCache tree0 = repository.readDirCache();
+		final DirCache tree1 = repository.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -120,7 +120,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(2, tree1.getEntryCount());
 		}
 
-		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(tree0));
 			tw.addTree(new DirCacheIterator(tree1));
 
@@ -139,8 +139,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testDF_SkipsSeenSubtree() throws Exception {
-		final DirCache tree0 = db.readDirCache();
-		final DirCache tree1 = db.readDirCache();
+		final DirCache tree0 = repository.readDirCache();
+		final DirCache tree1 = repository.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -157,7 +157,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(3, tree1.getEntryCount());
 		}
 
-		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(tree0));
 			tw.addTree(new DirCacheIterator(tree1));
 
@@ -176,8 +176,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void testDF_DetectConflict() throws Exception {
-		final DirCache tree0 = db.readDirCache();
-		final DirCache tree1 = db.readDirCache();
+		final DirCache tree0 = repository.readDirCache();
+		final DirCache tree1 = repository.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -195,7 +195,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertEquals(4, tree1.getEntryCount());
 		}
 
-		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repository)) {
 			tw.addTree(new DirCacheIterator(tree0));
 			tw.addTree(new DirCacheIterator(tree1));
 

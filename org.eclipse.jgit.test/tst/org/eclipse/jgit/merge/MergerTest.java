@@ -76,14 +76,14 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void failingDeleteOfDirectoryWithUntrackedContent(
 			MergeStrategy strategy) throws Exception {
-		File folder1 = new File(db.getWorkTree(), "folder1");
+		File folder1 = new File(repository.getWorkTree(), "folder1");
 		FileUtils.mkdir(folder1);
 		File file = new File(folder1, "file1.txt");
 		write(file, "folder1--file1.txt");
 		file = new File(folder1, "file2.txt");
 		write(file, "folder1--file2.txt");
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			git.add().addFilepattern(folder1.getName()).call();
 			RevCommit base = git.commit().setMessage("adding folder").call();
 
@@ -95,7 +95,7 @@ public class MergerTest extends RepositoryTestCase {
 
 			git.checkout().setName(base.name()).call();
 
-			file = new File(db.getWorkTree(), "unrelated.txt");
+			file = new File(repository.getWorkTree(), "unrelated.txt");
 			write(file, "unrelated");
 
 			git.add().addFilepattern("unrelated.txt").call();
@@ -106,9 +106,9 @@ public class MergerTest extends RepositoryTestCase {
 			file = new File(folder1, "file3.txt");
 			write(file, "folder1--file3.txt");
 
-			ResolveMerger merger = (ResolveMerger) strategy.newMerger(db, false);
+			ResolveMerger merger = (ResolveMerger) strategy.newMerger(repository, false);
 			merger.setCommitNames(new String[] { "BASE", "HEAD", "other" });
-			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+			merger.setWorkingTreeIterator(new FileTreeIterator(repository));
 			boolean ok = merger.merge(head.getId(), other.getId());
 			assertTrue(ok);
 			assertTrue(file.exists());
@@ -125,7 +125,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeConflictingTreesWithoutIndex(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "orig");
 		git.add().addFilepattern("d/1").call();
@@ -160,7 +160,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeMergeableTreesWithoutIndex(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "1\n2\n3");
 		git.add().addFilepattern("d/1").call();
@@ -194,7 +194,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkUntrackedFolderIsNotAConflict(
 			MergeStrategy strategy) throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "1");
 		git.add().addFilepattern("d/1").call();
@@ -231,7 +231,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkFileReplacedByFolderInTheirs(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("sub", "file");
 		git.add().addFilepattern("sub").call();
@@ -268,7 +268,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkFileReplacedByFolderInOurs(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("sub", "file");
 		git.add().addFilepattern("sub").call();
@@ -307,7 +307,7 @@ public class MergerTest extends RepositoryTestCase {
 	public void checkUntrackedEmpytFolderIsNotAConflictWithFile(
 			MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "1");
 		git.add().addFilepattern("d/1").call();
@@ -338,9 +338,9 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void mergeWithCrlfInWT(MergeStrategy strategy) throws IOException,
 			GitAPIException {
-		Git git = Git.wrap(db);
-		db.getConfig().setString("core", null, "autocrlf", "false");
-		db.getConfig().save();
+		Git git = Git.wrap(repository);
+		repository.getConfig().setString("core", null, "autocrlf", "false");
+		repository.getConfig().save();
 		writeTrashFile("crlf.txt", "some\r\ndata\r\n");
 		git.add().addFilepattern("crlf.txt").call();
 		git.commit().setMessage("base").call();
@@ -356,11 +356,11 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("crlf.txt").call();
 		git.commit().setMessage("on brancha").call();
 
-		db.getConfig().setString("core", null, "autocrlf", "input");
-		db.getConfig().save();
+		repository.getConfig().setString("core", null, "autocrlf", "input");
+		repository.getConfig().save();
 
 		MergeResult mergeResult = git.merge().setStrategy(strategy)
-				.include(db.resolve("master"))
+				.include(repository.resolve("master"))
 				.call();
 		assertEquals(MergeResult.MergeStatus.MERGED,
 				mergeResult.getMergeStatus());
@@ -369,9 +369,9 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void mergeWithCrlfAutoCrlfTrue(MergeStrategy strategy)
 			throws IOException, GitAPIException {
-		Git git = Git.wrap(db);
-		db.getConfig().setString("core", null, "autocrlf", "true");
-		db.getConfig().save();
+		Git git = Git.wrap(repository);
+		repository.getConfig().setString("core", null, "autocrlf", "true");
+		repository.getConfig().save();
 		writeTrashFile("crlf.txt", "a crlf file\r\n");
 		git.add().addFilepattern("crlf.txt").call();
 		git.commit().setMessage("base").call();
@@ -389,7 +389,7 @@ public class MergerTest extends RepositoryTestCase {
 		git.commit().setMessage("on brancha").call();
 
 		MergeResult mergeResult = git.merge().setStrategy(strategy)
-				.include(db.resolve("master")).call();
+				.include(repository.resolve("master")).call();
 		assertEquals(MergeResult.MergeStatus.MERGED,
 				mergeResult.getMergeStatus());
 		checkFile(testFile, "a first line\r\na crlf file\r\na second line\r\n");
@@ -401,9 +401,9 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void rebaseWithCrlfAutoCrlfTrue(MergeStrategy strategy)
 			throws IOException, GitAPIException {
-		Git git = Git.wrap(db);
-		db.getConfig().setString("core", null, "autocrlf", "true");
-		db.getConfig().save();
+		Git git = Git.wrap(repository);
+		repository.getConfig().setString("core", null, "autocrlf", "true");
+		repository.getConfig().save();
 		writeTrashFile("crlf.txt", "line 1\r\nline 2\r\nline 3\r\n");
 		git.add().addFilepattern("crlf.txt").call();
 		RevCommit first = git.commit().setMessage("base").call();
@@ -426,7 +426,7 @@ public class MergerTest extends RepositoryTestCase {
 		assertFalse(otherFile.exists());
 
 		RebaseResult rebaseResult = git.rebase().setStrategy(strategy)
-				.setUpstream(db.resolve("master")).call();
+				.setUpstream(repository.resolve("master")).call();
 		assertEquals(RebaseResult.Status.OK, rebaseResult.getStatus());
 		checkFile(testFile, "line 1\r\nmodified line\r\nline 3\r\n");
 		checkFile(otherFile, "a line\r\n");
@@ -446,7 +446,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeEqualTreesWithoutIndex(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "orig");
 		git.add().addFilepattern("d/1").call();
@@ -480,7 +480,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeEqualTreesInCore(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "orig");
 		git.add().addFilepattern("d/1").call();
@@ -499,7 +499,7 @@ public class MergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 
-		ThreeWayMerger resolveMerger = (ThreeWayMerger) strategy.newMerger(db,
+		ThreeWayMerger resolveMerger = (ThreeWayMerger) strategy.newMerger(repository,
 				true);
 		boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
 		assertTrue(noProblems);
@@ -515,7 +515,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeEqualTreesInCore_noRepo(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("d/1", "orig");
 		git.add().addFilepattern("d/1").call();
@@ -534,9 +534,9 @@ public class MergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = repository.newObjectInserter()) {
 			ThreeWayMerger resolveMerger =
-					(ThreeWayMerger) strategy.newMerger(ins, db.getConfig());
+					(ThreeWayMerger) strategy.newMerger(ins, repository.getConfig());
 			boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
 			assertTrue(noProblems);
 		}
@@ -552,7 +552,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeEqualNewTrees(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("2", "orig");
 		git.add().addFilepattern("2").call();
@@ -589,7 +589,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeConflictingNewTrees(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("2", "orig");
 		git.add().addFilepattern("2").call();
@@ -626,7 +626,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeConflictingFilesWithTreeInIndex(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("0", "orig");
 		git.add().addFilepattern("0").call();
@@ -659,7 +659,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeMergeableFilesWithTreeInIndex(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("0", "orig");
 		writeTrashFile("1", "1\n2\n3");
@@ -690,7 +690,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkContentMergeNoConflict(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("file", "1\n2\n3");
 		git.add().addFilepattern("file").call();
@@ -716,7 +716,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkContentMergeNoConflict_noRepo(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("file", "1\n2\n3");
 		git.add().addFilepattern("file").call();
@@ -732,9 +732,9 @@ public class MergerTest extends RepositoryTestCase {
 		RevCommit sideCommit = git.commit().setAll(true)
 				.setMessage("modified file on side").call();
 
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = repository.newObjectInserter()) {
 			ResolveMerger merger =
-					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+					(ResolveMerger) strategy.newMerger(ins, repository.getConfig());
 			boolean noProblems = merger.merge(masterCommit, sideCommit);
 			assertTrue(noProblems);
 			assertEquals("1master\n2\n3side",
@@ -751,7 +751,7 @@ public class MergerTest extends RepositoryTestCase {
 	 */
 	@Theory
 	public void checkContentMergeLargeBinaries(MergeStrategy strategy) throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		final int LINELEN = 72;
 
 		// setup a merge that would work correctly if we disconsider the stray '\0'
@@ -784,7 +784,7 @@ public class MergerTest extends RepositoryTestCase {
 		RevCommit sideCommit = git.commit().setAll(true)
 			.setMessage("modified file l 1500").call();
 
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = repository.newObjectInserter()) {
 			// Check that we don't read the large blobs.
 			ObjectInserter forbidInserter = new ObjectInserter.Filter() {
 				@Override
@@ -799,7 +799,7 @@ public class MergerTest extends RepositoryTestCase {
 			};
 
 			ResolveMerger merger =
-				(ResolveMerger) strategy.newMerger(forbidInserter, db.getConfig());
+				(ResolveMerger) strategy.newMerger(forbidInserter, repository.getConfig());
 			boolean noProblems = merger.merge(masterCommit, sideCommit);
 			assertFalse(noProblems);
 		}
@@ -882,7 +882,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkContentMergeConflict(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("file", "1\n2\n3");
 		git.add().addFilepattern("file").call();
@@ -914,7 +914,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkContentMergeConflict_noTree(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("file", "1\n2\n3");
 		git.add().addFilepattern("file").call();
@@ -930,9 +930,9 @@ public class MergerTest extends RepositoryTestCase {
 		RevCommit sideCommit = git.commit().setAll(true)
 				.setMessage("modified file on side").call();
 
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = repository.newObjectInserter()) {
 			ResolveMerger merger =
-					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+					(ResolveMerger) strategy.newMerger(ins, repository.getConfig());
 			boolean noProblems = merger.merge(masterCommit, sideCommit);
 			assertFalse(noProblems);
 			assertEquals(Arrays.asList("file"), merger.getUnmergedPaths());
@@ -963,7 +963,7 @@ public class MergerTest extends RepositoryTestCase {
 	 */
 	@Theory
 	public void checkMergeCrissCross(MergeStrategy strategy) throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("1", "1\n2\n3");
 		git.add().addFilepattern("1").call();
@@ -1017,7 +1017,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkLockedFilesToBeDeleted(MergeStrategy strategy)
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		writeTrashFile("a.txt", "orig");
 		writeTrashFile("b.txt", "orig");
@@ -1040,7 +1040,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Get a handle to the file so on windows it can't be deleted.
 		try (FileInputStream fis = new FileInputStream(
-				new File(db.getWorkTree(), "b.txt"))) {
+				new File(repository.getWorkTree(), "b.txt"))) {
 			MergeResult mergeRes = git.merge().setStrategy(strategy)
 					.include(masterCommit).call();
 			if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {
@@ -1060,8 +1060,8 @@ public class MergerTest extends RepositoryTestCase {
 	public void checkForCorrectIndex(MergeStrategy strategy) throws Exception {
 		File f;
 		Instant lastTs4, lastTsIndex;
-		Git git = Git.wrap(db);
-		File indexFile = db.getIndexFile();
+		Git git = Git.wrap(repository);
+		File indexFile = repository.getIndexFile();
 
 		// Create initial content and remember when the last file was written.
 		f = writeTrashFiles(false, "orig", "orig", "1\n2\n3", "orig", "orig");
@@ -1079,7 +1079,7 @@ public class MergerTest extends RepositoryTestCase {
 		checkModificationTimeStampOrder("1", "2", "3", "4", "<.git/index");
 		assertEquals("Commit should not touch working tree file 4", lastTs4,
 				FS.DETECTED
-						.lastModifiedInstant(new File(db.getWorkTree(), "4")));
+						.lastModifiedInstant(new File(repository.getWorkTree(), "4")));
 		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// Do modifications on the master branch. Then add and commit. This
@@ -1160,7 +1160,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeConflictingSubmodulesWithoutIndex(
 			MergeStrategy strategy) throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		writeTrashFile("initial", "initial");
 		git.add().addFilepattern("initial").call();
 		RevCommit initial = git.commit().setMessage("initial").call();
@@ -1199,7 +1199,7 @@ public class MergerTest extends RepositoryTestCase {
 	@Theory
 	public void checkMergeNonConflictingSubmodulesWithoutIndex(
 			MergeStrategy strategy) throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 		writeTrashFile("initial", "initial");
 		git.add().addFilepattern("initial").call();
 
@@ -1214,7 +1214,7 @@ public class MergerTest extends RepositoryTestCase {
 		// add/add submodule merges
 		String existing = read(Constants.DOT_GIT_MODULES);
 		String context = "\n# context\n# more context\n# yet more context\n";
-		write(new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
+		write(new File(repository.getWorkTree(), Constants.DOT_GIT_MODULES),
 				existing + context + context + context);
 
 		git.add().addFilepattern(Constants.DOT_GIT_MODULES).call();
@@ -1233,12 +1233,12 @@ public class MergerTest extends RepositoryTestCase {
 		// .gitmodules hackery
 		addSubmoduleToIndex("three", ObjectId
 				.fromString("1000000000000000000000000000000000000000"));
-		new File(db.getWorkTree(), "three").mkdir();
+		new File(repository.getWorkTree(), "three").mkdir();
 
 		existing = read(Constants.DOT_GIT_MODULES);
 		String three = "[submodule \"three\"]\n\tpath = three\n\turl = "
-				+ db.getDirectory().toURI() + "\n";
-		write(new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
+				+ repository.getDirectory().toURI() + "\n";
+		write(new File(repository.getWorkTree(), Constants.DOT_GIT_MODULES),
 				three + existing);
 
 		git.add().addFilepattern(Constants.DOT_GIT_MODULES).call();
@@ -1250,7 +1250,7 @@ public class MergerTest extends RepositoryTestCase {
 		assertNull(result.getCheckoutConflicts());
 		assertNull(result.getFailingPaths());
 		for (String dir : Arrays.asList("one", "two", "three")) {
-			assertTrue(new File(db.getWorkTree(), dir).isDirectory());
+			assertTrue(new File(repository.getWorkTree(), dir).isDirectory());
 		}
 	}
 
@@ -1294,7 +1294,7 @@ public class MergerTest extends RepositoryTestCase {
 			return;
 		}
 
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		// master
 		writeTrashFile("a", "aaaaaaaa");
@@ -1345,17 +1345,17 @@ public class MergerTest extends RepositoryTestCase {
 	private void writeSubmodule(String path, ObjectId commit)
 			throws IOException, ConfigInvalidException {
 		addSubmoduleToIndex(path, commit);
-		new File(db.getWorkTree(), path).mkdir();
+		new File(repository.getWorkTree(), path).mkdir();
 
-		StoredConfig config = db.getConfig();
+		StoredConfig config = repository.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL,
-				db.getDirectory().toURI().toString());
+				repository.getDirectory().toURI().toString());
 		config.save();
 
 		FileBasedConfig modulesConfig = new FileBasedConfig(
-				new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
-				db.getFS());
+				new File(repository.getWorkTree(), Constants.DOT_GIT_MODULES),
+				repository.getFS());
 		modulesConfig.load();
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
@@ -1365,7 +1365,7 @@ public class MergerTest extends RepositoryTestCase {
 
 	private void addSubmoduleToIndex(String path, ObjectId commit)
 			throws IOException {
-		DirCache cache = db.lockDirCache();
+		DirCache cache = repository.lockDirCache();
 		DirCacheEditor editor = cache.editor();
 		editor.add(new DirCacheEditor.PathEdit(path) {
 
@@ -1382,8 +1382,8 @@ public class MergerTest extends RepositoryTestCase {
 	// timestamp as the associated file
 	private void checkConsistentLastModified(String... pathes)
 			throws IOException {
-		DirCache dc = db.readDirCache();
-		File workTree = db.getWorkTree();
+		DirCache dc = repository.readDirCache();
+		File workTree = repository.getWorkTree();
 		for (String path : pathes)
 			assertEquals(
 					"IndexEntry with path "
@@ -1408,7 +1408,7 @@ public class MergerTest extends RepositoryTestCase {
 			p = p.substring((strong ? 1 : 0) + (fixed ? 1 : 0));
 			Instant curMod = fixed ? Instant.parse(p)
 					: FS.DETECTED
-							.lastModifiedInstant(new File(db.getWorkTree(), p));
+							.lastModifiedInstant(new File(repository.getWorkTree(), p));
 			if (strong) {
 				assertTrue("path " + p + " is not younger than predecesssor",
 						curMod.compareTo(lastMod) > 0);
@@ -1420,7 +1420,7 @@ public class MergerTest extends RepositoryTestCase {
 	}
 
 	private String readBlob(ObjectId treeish, String path) throws Exception {
-		try (TestRepository<?> tr = new TestRepository<>(db);
+		try (TestRepository<?> tr = new TestRepository<>(repository);
 				RevWalk rw = tr.getRevWalk()) {
 			RevTree tree = rw.parseTree(treeish);
 			RevObject obj = tr.get(tree, path);

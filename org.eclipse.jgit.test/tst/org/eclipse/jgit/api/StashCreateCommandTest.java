@@ -53,7 +53,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = Git.wrap(db);
+		git = Git.wrap(repository);
 		committedFile = writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
 		head = git.commit().setMessage("add file").call();
@@ -78,7 +78,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 			int parentCount)
 			throws IOException {
 		assertNotNull(commit);
-		Ref stashRef = db.exactRef(Constants.R_STASH);
+		Ref stashRef = repository.exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(commit, stashRef.getObjectId());
 		assertNotNull(commit.getAuthorIdent());
@@ -86,7 +86,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(parentCount, commit.getParentCount());
 
 		// Load parents
-		try (RevWalk walk = new RevWalk(db)) {
+		try (RevWalk walk = new RevWalk(repository)) {
 			for (RevCommit parent : commit.getParents())
 				walk.parseBody(parent);
 		}
@@ -101,7 +101,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	private TreeWalk createTreeWalk() {
-		TreeWalk walk = new TreeWalk(db);
+		TreeWalk walk = new TreeWalk(repository);
 		walk.setRecursive(true);
 		walk.setFilter(TreeFilter.ANY_DIFF);
 		return walk;
@@ -160,7 +160,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		File addedFile = writeTrashFile("file2.txt", "content2");
 		git.add().addFilepattern("file2.txt").call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(addedFile.exists());
 		validateStashedCommit(stashed);
@@ -178,9 +178,9 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		writeTrashFile("file", "content");
 		git.add().addFilepattern("file").call();
 		writeTrashFile("file", "content2");
-		RevCommit stashedWorkTree = Git.wrap(db).stashCreate().call();
+		RevCommit stashedWorkTree = Git.wrap(repository).stashCreate().call();
 		validateStashedCommit(stashedWorkTree);
-		try (RevWalk walk = new RevWalk(db)) {
+		try (RevWalk walk = new RevWalk(repository)) {
 			RevCommit stashedIndex = stashedWorkTree.getParent(1);
 			walk.parseBody(stashedIndex);
 			walk.parseBody(stashedIndex.getTree());
@@ -198,7 +198,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	public void indexDelete() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
@@ -215,7 +215,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	public void workingDirectoryModify() throws Exception {
 		writeTrashFile("file.txt", "content2");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
@@ -237,7 +237,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 		writeTrashFile(path, "content2");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(subfolderFile));
 		validateStashedCommit(stashed);
@@ -256,7 +256,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		writeTrashFile("file.txt", "content3");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
@@ -287,7 +287,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		writeTrashFile("file.txt", "content");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
@@ -321,7 +321,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		FileUtils.delete(added);
 		assertFalse(added.exists());
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(added.exists());
 
@@ -354,7 +354,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		FileUtils.delete(edited);
 		assertFalse(edited.exists());
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
@@ -385,7 +385,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		File addedFile = writeTrashFile("file2.txt", "content2");
 		git.add().addFilepattern("file2.txt").call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = Git.wrap(repository).stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(addedFile.exists());
 		validateStashedCommit(stashed);

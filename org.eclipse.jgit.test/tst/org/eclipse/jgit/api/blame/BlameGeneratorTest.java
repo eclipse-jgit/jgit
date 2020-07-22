@@ -25,7 +25,7 @@ import org.junit.Test;
 public class BlameGeneratorTest extends RepositoryTestCase {
 	@Test
 	public void testBoundLineDelete() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "first", "second" };
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
@@ -36,8 +36,8 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c2 = git.commit().setMessage("create file").call();
 
-			try (BlameGenerator generator = new BlameGenerator(db, "file.txt")) {
-				generator.push(null, db.resolve(Constants.HEAD));
+			try (BlameGenerator generator = new BlameGenerator(repository, "file.txt")) {
+				generator.push(null, repository.resolve(Constants.HEAD));
 				assertEquals(3, generator.getResultContents().size());
 
 				assertTrue(generator.next());
@@ -65,7 +65,7 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testRenamedBoundLineDelete() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			final String FILENAME_1 = "subdir/file1.txt";
 			final String FILENAME_2 = "subdir/file2.txt";
 
@@ -87,8 +87,8 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			git.add().addFilepattern(FILENAME_2).call();
 			RevCommit c2 = git.commit().setMessage("change file2").call();
 
-			try (BlameGenerator generator = new BlameGenerator(db, FILENAME_2)) {
-				generator.push(null, db.resolve(Constants.HEAD));
+			try (BlameGenerator generator = new BlameGenerator(repository, FILENAME_2)) {
+				generator.push(null, repository.resolve(Constants.HEAD));
 				assertEquals(3, generator.getResultContents().size());
 
 				assertTrue(generator.next());
@@ -113,8 +113,8 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			}
 
 			// and test again with other BlameGenerator API:
-			try (BlameGenerator generator = new BlameGenerator(db, FILENAME_2)) {
-				generator.push(null, db.resolve(Constants.HEAD));
+			try (BlameGenerator generator = new BlameGenerator(repository, FILENAME_2)) {
+				generator.push(null, repository.resolve(Constants.HEAD));
 				BlameResult result = generator.computeBlameResult();
 
 				assertEquals(3, result.getResultContents().size());
@@ -133,7 +133,7 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testLinesAllDeletedShortenedWalk() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			String[] content1 = new String[] { "first", "second", "third" };
 
 			writeTrashFile("file.txt", join(content1));
@@ -150,8 +150,8 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c3 = git.commit().setMessage("create file").call();
 
-			try (BlameGenerator generator = new BlameGenerator(db, "file.txt")) {
-				generator.push(null, db.resolve(Constants.HEAD));
+			try (BlameGenerator generator = new BlameGenerator(repository, "file.txt")) {
+				generator.push(null, repository.resolve(Constants.HEAD));
 				assertEquals(3, generator.getResultContents().size());
 
 				assertTrue(generator.next());

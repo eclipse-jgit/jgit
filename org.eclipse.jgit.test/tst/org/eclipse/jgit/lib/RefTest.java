@@ -44,7 +44,7 @@ import org.junit.Test;
 public class RefTest extends SampleDataRepositoryTestCase {
 
 	private void writeSymref(String src, String dst) throws IOException {
-		RefUpdate u = db.updateRef(src);
+		RefUpdate u = repository.updateRef(src);
 		switch (u.link(dst)) {
 		case NEW:
 		case FORCED:
@@ -56,69 +56,69 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	private void writeNewRef(String name, ObjectId value) throws IOException {
-		RefUpdate updateRef = db.updateRef(name);
+		RefUpdate updateRef = repository.updateRef(name);
 		updateRef.setNewObjectId(value);
 		assertEquals(RefUpdate.Result.NEW, updateRef.update());
 	}
 
 	@Test
 	public void testRemoteNames() throws Exception {
-		FileBasedConfig config = db.getConfig();
+		FileBasedConfig config = repository.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION,
 				"origin", "dummy", true);
 		config.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION,
 				"ab/c", "dummy", true);
 		config.save();
 		assertEquals("[ab/c, origin]",
-				new TreeSet<>(db.getRemoteNames()).toString());
+				new TreeSet<>(repository.getRemoteNames()).toString());
 
 		// one-level deep remote branch
 		assertEquals("master",
-				db.shortenRemoteBranchName("refs/remotes/origin/master"));
-		assertEquals("origin", db.getRemoteName("refs/remotes/origin/master"));
+				repository.shortenRemoteBranchName("refs/remotes/origin/master"));
+		assertEquals("origin", repository.getRemoteName("refs/remotes/origin/master"));
 
 		// two-level deep remote branch
 		assertEquals("masta/r",
-				db.shortenRemoteBranchName("refs/remotes/origin/masta/r"));
-		assertEquals("origin", db.getRemoteName("refs/remotes/origin/masta/r"));
+				repository.shortenRemoteBranchName("refs/remotes/origin/masta/r"));
+		assertEquals("origin", repository.getRemoteName("refs/remotes/origin/masta/r"));
 
 		// Remote with slash and one-level deep branch name
 		assertEquals("xmaster",
-				db.shortenRemoteBranchName("refs/remotes/ab/c/xmaster"));
-		assertEquals("ab/c", db.getRemoteName("refs/remotes/ab/c/xmaster"));
+				repository.shortenRemoteBranchName("refs/remotes/ab/c/xmaster"));
+		assertEquals("ab/c", repository.getRemoteName("refs/remotes/ab/c/xmaster"));
 
 		// Remote with slash and two-level deep branch name
 		assertEquals("xmasta/r",
-				db.shortenRemoteBranchName("refs/remotes/ab/c/xmasta/r"));
-		assertEquals("ab/c", db.getRemoteName("refs/remotes/ab/c/xmasta/r"));
+				repository.shortenRemoteBranchName("refs/remotes/ab/c/xmasta/r"));
+		assertEquals("ab/c", repository.getRemoteName("refs/remotes/ab/c/xmasta/r"));
 
 		// no such remote
-		assertNull(db.getRemoteName("refs/remotes/nosuchremote/x"));
-		assertNull(db.shortenRemoteBranchName("refs/remotes/nosuchremote/x"));
+		assertNull(repository.getRemoteName("refs/remotes/nosuchremote/x"));
+		assertNull(repository.shortenRemoteBranchName("refs/remotes/nosuchremote/x"));
 
 		// no such remote too, no branch name either
-		assertNull(db.getRemoteName("refs/remotes/abranch"));
-		assertNull(db.shortenRemoteBranchName("refs/remotes/abranch"));
+		assertNull(repository.getRemoteName("refs/remotes/abranch"));
+		assertNull(repository.shortenRemoteBranchName("refs/remotes/abranch"));
 
 		// // local branch
-		assertNull(db.getRemoteName("refs/heads/abranch"));
-		assertNull(db.shortenRemoteBranchName("refs/heads/abranch"));
+		assertNull(repository.getRemoteName("refs/heads/abranch"));
+		assertNull(repository.shortenRemoteBranchName("refs/heads/abranch"));
 	}
 
 	@Test
 	public void testReadAllIncludingSymrefs() throws Exception {
-		ObjectId masterId = db.resolve("refs/heads/master");
-		RefUpdate updateRef = db.updateRef("refs/remotes/origin/master");
+		ObjectId masterId = repository.resolve("refs/heads/master");
+		RefUpdate updateRef = repository.updateRef("refs/remotes/origin/master");
 		updateRef.setNewObjectId(masterId);
 		updateRef.setForceUpdate(true);
 		updateRef.update();
 		writeSymref("refs/remotes/origin/HEAD",
 					"refs/remotes/origin/master");
 
-		ObjectId r = db.resolve("refs/remotes/origin/HEAD");
+		ObjectId r = repository.resolve("refs/remotes/origin/HEAD");
 		assertEquals(masterId, r);
 
-		List<Ref> allRefs = db.getRefDatabase().getRefs();
+		List<Ref> allRefs = repository.getRefDatabase().getRefs();
 		Optional<Ref> refHEAD = allRefs.stream()
 				.filter(ref -> ref.getName().equals("refs/remotes/origin/HEAD"))
 				.findAny();
@@ -139,7 +139,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testReadSymRefToPacked() throws IOException {
 		writeSymref("HEAD", "refs/heads/b");
-		Ref ref = db.exactRef("HEAD");
+		Ref ref = repository.exactRef("HEAD");
 		assertEquals(Ref.Storage.LOOSE, ref.getStorage());
 		assertTrue("is symref", ref.isSymbolic());
 		ref = ref.getTarget();
@@ -149,15 +149,15 @@ public class RefTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testReadSymRefToLoosePacked() throws IOException {
-		ObjectId pid = db.resolve("refs/heads/master^");
-		RefUpdate updateRef = db.updateRef("refs/heads/master");
+		ObjectId pid = repository.resolve("refs/heads/master^");
+		RefUpdate updateRef = repository.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
 		updateRef.setForceUpdate(true);
 		Result update = updateRef.update();
 		assertEquals(Result.FORCED, update); // internal
 
 		writeSymref("HEAD", "refs/heads/master");
-		Ref ref = db.exactRef("HEAD");
+		Ref ref = repository.exactRef("HEAD");
 		assertEquals(Ref.Storage.LOOSE, ref.getStorage());
 		ref = ref.getTarget();
 		assertEquals("refs/heads/master", ref.getName());
@@ -166,54 +166,54 @@ public class RefTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testReadLooseRef() throws IOException {
-		RefUpdate updateRef = db.updateRef("ref/heads/new");
-		updateRef.setNewObjectId(db.resolve("refs/heads/master"));
+		RefUpdate updateRef = repository.updateRef("ref/heads/new");
+		updateRef.setNewObjectId(repository.resolve("refs/heads/master"));
 		Result update = updateRef.update();
 		assertEquals(Result.NEW, update);
-		Ref ref = db.exactRef("ref/heads/new");
+		Ref ref = repository.exactRef("ref/heads/new");
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
 	@Test
 	public void testGetShortRef() throws IOException {
-		Ref ref = db.exactRef("refs/heads/master");
+		Ref ref = repository.exactRef("refs/heads/master");
 		assertEquals("refs/heads/master", ref.getName());
-		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+		assertEquals(repository.resolve("refs/heads/master"), ref.getObjectId());
 	}
 
 	@Test
 	public void testGetShortExactRef() throws IOException {
-		assertNull(db.getRefDatabase().exactRef("master"));
+		assertNull(repository.getRefDatabase().exactRef("master"));
 
-		Ref ref = db.getRefDatabase().exactRef("HEAD");
+		Ref ref = repository.getRefDatabase().exactRef("HEAD");
 		assertEquals("HEAD", ref.getName());
 		assertEquals("refs/heads/master", ref.getTarget().getName());
-		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+		assertEquals(repository.resolve("refs/heads/master"), ref.getObjectId());
 	}
 
 	@Test
 	public void testRefsUnderRefs() throws IOException {
-		ObjectId masterId = db.resolve("refs/heads/master");
+		ObjectId masterId = repository.resolve("refs/heads/master");
 		writeNewRef("refs/heads/refs/foo/bar", masterId);
 
-		assertNull(db.getRefDatabase().exactRef("refs/foo/bar"));
+		assertNull(repository.getRefDatabase().exactRef("refs/foo/bar"));
 
-		Ref ref = db.findRef("refs/foo/bar");
+		Ref ref = repository.findRef("refs/foo/bar");
 		assertEquals("refs/heads/refs/foo/bar", ref.getName());
-		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+		assertEquals(repository.resolve("refs/heads/master"), ref.getObjectId());
 	}
 
 	@Test
 	public void testAmbiguousRefsUnderRefs() throws IOException {
-		ObjectId masterId = db.resolve("refs/heads/master");
+		ObjectId masterId = repository.resolve("refs/heads/master");
 		writeNewRef("refs/foo/bar", masterId);
 		writeNewRef("refs/heads/refs/foo/bar", masterId);
 
-		Ref exactRef = db.getRefDatabase().exactRef("refs/foo/bar");
+		Ref exactRef = repository.getRefDatabase().exactRef("refs/foo/bar");
 		assertEquals("refs/foo/bar", exactRef.getName());
 		assertEquals(masterId, exactRef.getObjectId());
 
-		Ref ref = db.findRef("refs/foo/bar");
+		Ref ref = repository.findRef("refs/foo/bar");
 		assertEquals("refs/foo/bar", ref.getName());
 		assertEquals(masterId, ref.getObjectId());
 	}
@@ -227,15 +227,15 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testReadLoosePackedRef() throws IOException,
 			InterruptedException {
-		Ref ref = db.exactRef("refs/heads/master");
+		Ref ref = repository.exactRef("refs/heads/master");
 		assertEquals(Storage.PACKED, ref.getStorage());
 		try (FileOutputStream os = new FileOutputStream(
-				new File(db.getDirectory(), "refs/heads/master"))) {
+				new File(repository.getDirectory(), "refs/heads/master"))) {
 			os.write(ref.getObjectId().name().getBytes(UTF_8));
 			os.write('\n');
 		}
 
-		ref = db.exactRef("refs/heads/master");
+		ref = repository.exactRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
@@ -247,28 +247,28 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testReadSimplePackedRefSameRepo() throws IOException {
-		Ref ref = db.exactRef("refs/heads/master");
-		ObjectId pid = db.resolve("refs/heads/master^");
+		Ref ref = repository.exactRef("refs/heads/master");
+		ObjectId pid = repository.resolve("refs/heads/master^");
 		assertEquals(Storage.PACKED, ref.getStorage());
-		RefUpdate updateRef = db.updateRef("refs/heads/master");
+		RefUpdate updateRef = repository.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
 		updateRef.setForceUpdate(true);
 		Result update = updateRef.update();
 		assertEquals(Result.FORCED, update);
 
-		ref = db.exactRef("refs/heads/master");
+		ref = repository.exactRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
 	@Test
 	public void testResolvedNamesBranch() throws IOException {
-		Ref ref = db.findRef("a");
+		Ref ref = repository.findRef("a");
 		assertEquals("refs/heads/a", ref.getName());
 	}
 
 	@Test
 	public void testResolvedSymRef() throws IOException {
-		Ref ref = db.exactRef(Constants.HEAD);
+		Ref ref = repository.exactRef(Constants.HEAD);
 		assertEquals(Constants.HEAD, ref.getName());
 		assertTrue("is symbolic ref", ref.isSymbolic());
 		assertSame(Ref.Storage.LOOSE, ref.getStorage());
@@ -294,39 +294,39 @@ public class RefTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testGetRefsByPrefix() throws IOException {
-		List<Ref> refs = db.getRefDatabase().getRefsByPrefix("refs/heads/g");
+		List<Ref> refs = repository.getRefDatabase().getRefsByPrefix("refs/heads/g");
 		assertEquals(2, refs.size());
-		checkContainsRef(refs, db.exactRef("refs/heads/g"));
-		checkContainsRef(refs, db.exactRef("refs/heads/gitlink"));
+		checkContainsRef(refs, repository.exactRef("refs/heads/g"));
+		checkContainsRef(refs, repository.exactRef("refs/heads/gitlink"));
 
-		refs = db.getRefDatabase().getRefsByPrefix("refs/heads/prefix/");
+		refs = repository.getRefDatabase().getRefsByPrefix("refs/heads/prefix/");
 		assertEquals(1, refs.size());
-		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
+		checkContainsRef(refs, repository.exactRef("refs/heads/prefix/a"));
 	}
 
 	@Test
 	public void testGetRefsByPrefixes() throws IOException {
-		List<Ref> refs = db.getRefDatabase().getRefsByPrefix();
+		List<Ref> refs = repository.getRefDatabase().getRefsByPrefix();
 		assertEquals(0, refs.size());
 
-		refs = db.getRefDatabase().getRefsByPrefix("refs/heads/p",
+		refs = repository.getRefDatabase().getRefsByPrefix("refs/heads/p",
 				"refs/tags/A");
 		assertEquals(3, refs.size());
-		checkContainsRef(refs, db.exactRef("refs/heads/pa"));
-		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
-		checkContainsRef(refs, db.exactRef("refs/tags/A"));
+		checkContainsRef(refs, repository.exactRef("refs/heads/pa"));
+		checkContainsRef(refs, repository.exactRef("refs/heads/prefix/a"));
+		checkContainsRef(refs, repository.exactRef("refs/tags/A"));
 	}
 
 	@Test
 	public void testResolveTipSha1() throws IOException {
-		ObjectId masterId = db.resolve("refs/heads/master");
-		Set<Ref> resolved = db.getRefDatabase().getTipsWithSha1(masterId);
+		ObjectId masterId = repository.resolve("refs/heads/master");
+		Set<Ref> resolved = repository.getRefDatabase().getTipsWithSha1(masterId);
 
 		assertEquals(2, resolved.size());
-		checkContainsRef(resolved, db.exactRef("refs/heads/master"));
-		checkContainsRef(resolved, db.exactRef("HEAD"));
+		checkContainsRef(resolved, repository.exactRef("refs/heads/master"));
+		checkContainsRef(resolved, repository.exactRef("HEAD"));
 
-		assertEquals(db.getRefDatabase()
+		assertEquals(repository.getRefDatabase()
 				.getTipsWithSha1(ObjectId.zeroId()).size(), 0);
 	}
 }

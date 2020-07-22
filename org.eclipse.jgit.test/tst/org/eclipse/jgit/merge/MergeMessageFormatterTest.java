@@ -36,14 +36,14 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		RefUpdate createRemoteRefA = db
+		RefUpdate createRemoteRefA = repository
 				.updateRef("refs/remotes/origin/remote-a");
-		createRemoteRefA.setNewObjectId(db.resolve("refs/heads/a"));
+		createRemoteRefA.setNewObjectId(repository.resolve("refs/heads/a"));
 		createRemoteRefA.update();
 
-		RefUpdate createRemoteRefB = db
+		RefUpdate createRemoteRefB = repository
 				.updateRef("refs/remotes/origin/remote-b");
-		createRemoteRefB.setNewObjectId(db.resolve("refs/heads/b"));
+		createRemoteRefB.setNewObjectId(repository.resolve("refs/heads/b"));
 		createRemoteRefB.update();
 
 		formatter = new MergeMessageFormatter();
@@ -51,44 +51,44 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testOneBranch() throws IOException {
-		Ref a = db.exactRef("refs/heads/a");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(a), master);
 		assertEquals("Merge branch 'a'", message);
 	}
 
 	@Test
 	public void testTwoBranches() throws IOException {
-		Ref a = db.exactRef("refs/heads/a");
-		Ref b = db.exactRef("refs/heads/b");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref b = repository.exactRef("refs/heads/b");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(a, b), master);
 		assertEquals("Merge branches 'a' and 'b'", message);
 	}
 
 	@Test
 	public void testThreeBranches() throws IOException {
-		Ref c = db.exactRef("refs/heads/c");
-		Ref b = db.exactRef("refs/heads/b");
-		Ref a = db.exactRef("refs/heads/a");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref c = repository.exactRef("refs/heads/c");
+		Ref b = repository.exactRef("refs/heads/b");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(c, b, a), master);
 		assertEquals("Merge branches 'c', 'b' and 'a'", message);
 	}
 
 	@Test
 	public void testRemoteBranch() throws Exception {
-		Ref remoteA = db.exactRef("refs/remotes/origin/remote-a");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref remoteA = repository.exactRef("refs/remotes/origin/remote-a");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(remoteA), master);
 		assertEquals("Merge remote-tracking branch 'origin/remote-a'", message);
 	}
 
 	@Test
 	public void testMixed() throws IOException {
-		Ref c = db.exactRef("refs/heads/c");
-		Ref remoteA = db.exactRef("refs/remotes/origin/remote-a");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref c = repository.exactRef("refs/heads/c");
+		Ref remoteA = repository.exactRef("refs/remotes/origin/remote-a");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(c, remoteA), master);
 		assertEquals("Merge branch 'c', remote-tracking branch 'origin/remote-a'",
 				message);
@@ -96,8 +96,8 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTag() throws IOException {
-		Ref tagA = db.exactRef("refs/tags/A");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref tagA = repository.exactRef("refs/tags/A");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(tagA), master);
 		assertEquals("Merge tag 'A'", message);
 	}
@@ -108,7 +108,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 				.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4");
 		Ref commit = new ObjectIdRef.Unpeeled(Storage.LOOSE,
 				objectId.getName(), objectId);
-		Ref master = db.exactRef("refs/heads/master");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(commit), master);
 		assertEquals("Merge commit '6db9c2ebf75590eef973081736730a9ea169a0c4'",
 				message);
@@ -121,7 +121,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 				.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4");
 		Ref remoteBranch = new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				objectId);
-		Ref master = db.exactRef("refs/heads/master");
+		Ref master = repository.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(remoteBranch), master);
 		assertEquals("Merge branch 'test' of http://egit.eclipse.org/jgit.git",
 				message);
@@ -129,16 +129,16 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testIntoOtherThanMaster() throws IOException {
-		Ref a = db.exactRef("refs/heads/a");
-		Ref b = db.exactRef("refs/heads/b");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref b = repository.exactRef("refs/heads/b");
 		String message = formatter.format(Arrays.asList(a), b);
 		assertEquals("Merge branch 'a' into b", message);
 	}
 
 	@Test
 	public void testIntoHeadOtherThanMaster() throws IOException {
-		Ref a = db.exactRef("refs/heads/a");
-		Ref b = db.exactRef("refs/heads/b");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref b = repository.exactRef("refs/heads/b");
 		SymbolicRef head = new SymbolicRef("HEAD", b);
 		String message = formatter.format(Arrays.asList(a), head);
 		assertEquals("Merge branch 'a' into b", message);
@@ -146,8 +146,8 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testIntoSymbolicRefHeadPointingToMaster() throws IOException {
-		Ref a = db.exactRef("refs/heads/a");
-		Ref master = db.exactRef("refs/heads/master");
+		Ref a = repository.exactRef("refs/heads/a");
+		Ref master = repository.exactRef("refs/heads/master");
 		SymbolicRef head = new SymbolicRef("HEAD", master);
 		String message = formatter.format(Arrays.asList(a), head);
 		assertEquals("Merge branch 'a'", message);

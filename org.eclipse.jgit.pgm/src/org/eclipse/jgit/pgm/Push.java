@@ -84,7 +84,7 @@ class Push extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			PushCommand push = git.push();
 			push.setDryRun(dryRun);
 			push.setForce(force);
@@ -106,7 +106,7 @@ class Push extends TextBuiltin {
 			}
 			Iterable<PushResult> results = push.call();
 			for (PushResult result : results) {
-				try (ObjectReader reader = db.newObjectReader()) {
+				try (ObjectReader reader = repo.newObjectReader()) {
 					printPushResult(reader, result.getURI(), result);
 				}
 			}

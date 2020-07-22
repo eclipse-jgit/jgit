@@ -27,7 +27,7 @@ public class RemoteAddCommandTest extends AbstractRemoteCommandTest {
 				remoteRepository.getDirectory().toURI().toURL());
 
 		// execute the command to add a new remote
-		RemoteAddCommand cmd = Git.wrap(db).remoteAdd();
+		RemoteAddCommand cmd = Git.wrap(repository).remoteAdd();
 		cmd.setName(REMOTE_NAME);
 		cmd.setUri(uri);
 		RemoteConfig remote = cmd.call();
@@ -42,7 +42,7 @@ public class RemoteAddCommandTest extends AbstractRemoteCommandTest {
 
 		// assert that the added remote is available in the git configuration
 		assertRemoteConfigEquals(remote,
-				new RemoteConfig(db.getConfig(), REMOTE_NAME));
+				new RemoteConfig(repository.getConfig(), REMOTE_NAME));
 	}
 
 }

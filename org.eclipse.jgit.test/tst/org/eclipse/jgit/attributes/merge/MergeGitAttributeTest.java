@@ -64,7 +64,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			throws NoFilepatternException, GitAPIException, NoWorkTreeException,
 			IOException {
 		// Set up a git whith conflict commits on images
-		Git git = new Git(db);
+		Git git = new Git(repository);
 
 		// First commit
 		initialCommit.accept(git);
@@ -281,9 +281,9 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 		RevCommit disableCheckedCommit;
 		// Set up a git with conflict commits on images
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// First commit
-			write(new File(db.getWorkTree(), ".gitattributes"), "");
+			write(new File(repository.getWorkTree(), ".gitattributes"), "");
 			git.add().addFilepattern(".gitattributes").call();
 			RevCommit firstCommit = git.commit()
 					.setMessage("initial commit adding git attribute file")
@@ -319,7 +319,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 			// Check that the image was not modified (no conflict marker added)
 			try (FileInputStream mergeResultFile = new FileInputStream(
-					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
+					repository.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
 							.toFile())) {
 				assertTrue(contentEquals(
 						getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
@@ -337,9 +337,9 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 		RevCommit disableCheckedCommit;
 		// Set up a git whith conflict commits on images
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// First commit
-			write(new File(db.getWorkTree(), ".gitattributes"), "*.gif -merge");
+			write(new File(repository.getWorkTree(), ".gitattributes"), "*.gif -merge");
 			git.add().addFilepattern(".gitattributes").call();
 			RevCommit firstCommit = git.commit()
 					.setMessage("initial commit adding git attribute file")
@@ -375,7 +375,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 			// Check that the image was not modified (not conflict marker added)
 			try (FileInputStream mergeResultFile = new FileInputStream(
-					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
+					repository.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
 							.toFile())) {
 				assertTrue(contentEquals(
 						getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
@@ -393,9 +393,9 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 		RevCommit disableCheckedCommit;
 		// Set up a git whith conflict commits on images
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repository)) {
 			// First commit
-			write(new File(db.getWorkTree(), ".gitattributes"), "*.gif merge");
+			write(new File(repository.getWorkTree(), ".gitattributes"), "*.gif merge");
 			git.add().addFilepattern(".gitattributes").call();
 			RevCommit firstCommit = git.commit()
 					.setMessage("initial commit adding git attribute file")
@@ -431,7 +431,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 
 			// Check that the image was not modified (not conflict marker added)
 			try (FileInputStream mergeResultFile = new FileInputStream(
-					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
+					repository.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
 							.toFile())) {
 				assertFalse(contentEquals(
 						getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
@@ -472,8 +472,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			throws IllegalStateException, IOException {
 		checkoutBranch(branch);
 
-		try (TreeWalk treeWaklEnableChecked = new TreeWalk(db)) {
-			treeWaklEnableChecked.addTree(new FileTreeIterator(db));
+		try (TreeWalk treeWaklEnableChecked = new TreeWalk(repository)) {
+			treeWaklEnableChecked.addTree(new FileTreeIterator(repository));
 			treeWaklEnableChecked.setFilter(PathFilter.create(fileName));
 
 			assertTrue(treeWaklEnableChecked.next());
@@ -488,8 +488,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			throws IllegalStateException, IOException {
 		checkoutBranch(branch);
 
-		try (TreeWalk treeWaklEnableChecked = new TreeWalk(db)) {
-			treeWaklEnableChecked.addTree(new FileTreeIterator(db));
+		try (TreeWalk treeWaklEnableChecked = new TreeWalk(repository)) {
+			treeWaklEnableChecked.addTree(new FileTreeIterator(repository));
 			treeWaklEnableChecked.setFilter(PathFilter.create(fileName));
 
 			assertTrue(treeWaklEnableChecked.next());
@@ -504,8 +504,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			String fileName) throws IllegalStateException, IOException {
 		checkoutBranch(branch);
 
-		try (TreeWalk treeWaklEnableChecked = new TreeWalk(db)) {
-			treeWaklEnableChecked.addTree(new FileTreeIterator(db));
+		try (TreeWalk treeWaklEnableChecked = new TreeWalk(repository)) {
+			treeWaklEnableChecked.addTree(new FileTreeIterator(repository));
 			treeWaklEnableChecked.setFilter(PathFilter.create(fileName));
 
 			assertTrue(treeWaklEnableChecked.next());
@@ -519,8 +519,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			String value) throws IllegalStateException, IOException {
 		checkoutBranch(branch);
 
-		try (TreeWalk treeWaklEnableChecked = new TreeWalk(db)) {
-			treeWaklEnableChecked.addTree(new FileTreeIterator(db));
+		try (TreeWalk treeWaklEnableChecked = new TreeWalk(repository)) {
+			treeWaklEnableChecked.addTree(new FileTreeIterator(repository));
 			treeWaklEnableChecked.setFilter(PathFilter.create(fileName));
 
 			assertTrue(treeWaklEnableChecked.next());
@@ -535,7 +535,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	private void copy(String resourcePath, String resourceNewName,
 			String pathInRepo) throws IOException {
 		InputStream input = getClass().getResourceAsStream(resourcePath);
-		Files.copy(input, db.getWorkTree().toPath().resolve(pathInRepo)
+		Files.copy(input, repository.getWorkTree().toPath().resolve(pathInRepo)
 				.resolve(resourceNewName));
 	}
 

@@ -44,7 +44,7 @@ class Describe extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			DescribeCommand cmd = git.describe();
 			if (tree != null) {
 				cmd.setTarget(tree);

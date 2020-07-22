@@ -31,7 +31,7 @@ public class RmCommandTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		// commit something
 		writeTrashFile(FILE, "Hello world");
 		git.add().addFilepattern(FILE).call();

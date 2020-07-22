@@ -22,7 +22,7 @@ import org.junit.Test;
 public class TreeFilterTest extends RepositoryTestCase {
 	@Test
 	public void testALL_IncludesAnything() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new EmptyTreeIterator());
 			assertTrue(TreeFilter.ALL.include(tw));
 		}
@@ -40,7 +40,7 @@ public class TreeFilterTest extends RepositoryTestCase {
 
 	@Test
 	public void testNotALL_IncludesNothing() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new EmptyTreeIterator());
 			assertFalse(TreeFilter.ALL.negate().include(tw));
 		}
@@ -48,7 +48,7 @@ public class TreeFilterTest extends RepositoryTestCase {
 
 	@Test
 	public void testANY_DIFF_IncludesSingleTreeCase() throws Exception {
-		try (TreeWalk tw = new TreeWalk(db)) {
+		try (TreeWalk tw = new TreeWalk(repository)) {
 			tw.addTree(new EmptyTreeIterator());
 			assertTrue(TreeFilter.ANY_DIFF.include(tw));
 		}

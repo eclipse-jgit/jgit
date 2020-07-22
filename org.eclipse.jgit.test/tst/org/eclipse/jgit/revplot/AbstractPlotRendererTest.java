@@ -33,7 +33,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repository);
 		plotRenderer = new TestPlotRenderer();
 	}
 
@@ -46,9 +46,9 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 		git.commit().setMessage("commit 2 on topic").call();
 		git.checkout().setName("master").call();
 		git.commit().setMessage("commit on master").call();
-		MergeResult mergeCall = merge(db.resolve("topic"));
+		MergeResult mergeCall = merge(repository.resolve("topic"));
 		ObjectId start = mergeCall.getNewHead();
-		try (PlotWalk walk = new PlotWalk(db)) {
+		try (PlotWalk walk = new PlotWalk(repository)) {
 			walk.markStart(walk.parseCommit(start));
 			PlotCommitList<PlotLane> commitList = new PlotCommitList<>();
 			commitList.source(walk);

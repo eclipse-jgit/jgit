@@ -21,7 +21,7 @@ class WriteDirCache extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		final DirCache cache = db.readDirCache();
+		final DirCache cache = repo.readDirCache();
 		if (!cache.lock())
 			throw die(CLIText.get().failedToLockIndex);
 		cache.read();

@@ -105,7 +105,7 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			FetchCommand fetch = git.fetch();
 			if (fsck != null) {
 				fetch.setCheckFetchedObjects(fsck.booleanValue());

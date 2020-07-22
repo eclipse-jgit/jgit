@@ -383,7 +383,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (cacheEntry.getFileMode() == FileMode.GITLINK) {
 				new File(nonNullRepo().getWorkTree(), entry.getKey()).mkdirs();
 			} else {
-				DirCacheCheckout.checkoutEntry(db, cacheEntry, reader, false,
+				DirCacheCheckout.checkoutEntry(repo, cacheEntry, reader, false,
 						checkoutMetadata.get(entry.getKey()));
 				modifiedFiles.add(entry.getKey());
 			}
@@ -415,7 +415,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			String mpath = mpathsIt.next();
 			DirCacheEntry entry = dc.getEntry(mpath);
 			if (entry != null) {
-				DirCacheCheckout.checkoutEntry(db, entry, reader, false,
+				DirCacheCheckout.checkoutEntry(repo, entry, reader, false,
 						checkoutMetadata.get(mpath));
 			}
 			mpathsIt.remove();
@@ -1000,7 +1000,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	private TemporaryBuffer doMerge(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
+				repo != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
 		boolean success = false;
 		try {
 			new MergeFormatter().formatMerge(buf, result,
@@ -1244,7 +1244,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
-		tw = new NameConflictTreeWalk(db, reader);
+		tw = new NameConflictTreeWalk(repo, reader);
 		tw.addTree(baseTree);
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);

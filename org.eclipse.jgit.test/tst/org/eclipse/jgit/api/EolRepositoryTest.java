@@ -316,7 +316,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	@Test
 	public void test_switchToBranchWithTextAttributes()
 			throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.CRLF, null, null,
@@ -352,7 +352,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	@Test
 	public void test_switchToBranchWithBinaryAttributes() throws Exception {
-		Git git = Git.wrap(db);
+		Git git = Git.wrap(repository);
 
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.LF, null, null,
@@ -566,8 +566,8 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	private void setupGitAndDoHardReset(AutoCRLF autoCRLF, EOL eol,
 			String globalAttributesContent, String infoAttributesContent,
 			String workDirRootAttributesContent) throws Exception {
-		Git git = new Git(db);
-		FileBasedConfig config = db.getConfig();
+		Git git = new Git(repository);
+		FileBasedConfig config = repository.getConfig();
 		if (autoCRLF != null) {
 			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_AUTOCRLF, autoCRLF);
@@ -577,7 +577,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 					ConfigConstants.CONFIG_KEY_EOL, eol);
 		}
 		if (globalAttributesContent != null) {
-			File f = new File(db.getDirectory(), "global/attrs");
+			File f = new File(repository.getDirectory(), "global/attrs");
 			write(f, globalAttributesContent);
 			config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE,
@@ -585,7 +585,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 		}
 		if (infoAttributesContent != null) {
-			File f = new File(db.getDirectory(), Constants.INFO_ATTRIBUTES);
+			File f = new File(repository.getDirectory(), Constants.INFO_ATTRIBUTES);
 			write(f, infoAttributesContent);
 		}
 		config.save();
@@ -648,7 +648,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			Assert.assertFalse(f.exists());
 		}
 		gitResetHard(git);
-		fsTick(db.getIndexFile());
+		fsTick(repository.getIndexFile());
 		gitAdd(git, ".");
 	}
 
@@ -666,7 +666,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	protected void gitCheckout(Git git, String revstr)
 			throws GitAPIException, RevisionSyntaxException, IOException {
-		git.checkout().setName(db.resolve(revstr).getName()).call();
+		git.checkout().setName(repository.resolve(revstr).getName()).call();
 	}
 
 	// create a file and add it to the repo
@@ -686,10 +686,10 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	private void collectRepositoryState() throws Exception {
-		dirCache = db.readDirCache();
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new FileTreeIterator(db));
-			walk.addTree(new DirCacheIterator(db.readDirCache()));
+		dirCache = repository.readDirCache();
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.addTree(new FileTreeIterator(repository));
+			walk.addTree(new DirCacheIterator(repository.readDirCache()));
 			if (dotGitattributes != null) {
 				collectEntryContentAndAttributes(walk, F, ".gitattributes",
 						null);
@@ -719,7 +719,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			}
 			e.attrs = e.attrs.trim();
 			e.file = new String(
-					IO.readFully(new File(db.getWorkTree(), pathName)), UTF_8);
+					IO.readFully(new File(repository.getWorkTree(), pathName)), UTF_8);
 			DirCacheEntry dce = dirCache.getEntry(pathName);
 			ObjectLoader open = walk.getObjectReader().open(dce.getObjectId());
 			e.index = new String(open.getBytes(), UTF_8);

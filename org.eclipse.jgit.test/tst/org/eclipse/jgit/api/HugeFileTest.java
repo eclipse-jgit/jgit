@@ -39,7 +39,7 @@ public class HugeFileTest extends RepositoryTestCase {
 
 	@Before
 	public void before() {
-		git = new Git(db);
+		git = new Git(repository);
 	}
 
 	@After
@@ -53,7 +53,7 @@ public class HugeFileTest extends RepositoryTestCase {
 	@Test
 	public void testAddHugeFile() throws Exception {
 		measure("Commencing test");
-		File file = new File(db.getWorkTree(), "a.txt");
+		File file = new File(repository.getWorkTree(), "a.txt");
 		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
 			rf.setLength(4429185024L);
 		}

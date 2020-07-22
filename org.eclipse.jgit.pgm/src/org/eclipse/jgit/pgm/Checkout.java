@@ -55,12 +55,12 @@ class Checkout extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (createBranch) {
-			final ObjectId head = db.resolve(Constants.HEAD);
+			final ObjectId head = repo.resolve(Constants.HEAD);
 			if (head == null)
 				throw die(CLIText.get().onBranchToBeBorn);
 		}
 
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			CheckoutCommand command = git.checkout()
 					.setProgressMonitor(new TextProgressMonitor(errw));
 			if (!paths.isEmpty()) {
@@ -78,7 +78,7 @@ class Checkout extends TextBuiltin {
 				command.setOrphan(orphan);
 			}
 			try {
-				String oldBranch = db.getBranch();
+				String oldBranch = repo.getBranch();
 				Ref ref = command.call();
 				if (ref == null)
 					return;

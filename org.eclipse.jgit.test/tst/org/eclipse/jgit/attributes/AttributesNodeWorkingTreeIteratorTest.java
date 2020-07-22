@@ -52,7 +52,7 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		customAttributeFile.deleteOnExit();
 
 		JGitTestUtil.write(customAttributeFile, "*.txt custom=value");
-		db.getConfig().setString("core", null, "attributesfile",
+		repository.getConfig().setString("core", null, "attributesfile",
 				customAttributeFile.getAbsolutePath());
 		writeAttributesFile(".git/info/attributes", "windows* eol=crlf");
 
@@ -223,8 +223,8 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	private TreeWalk beginWalk() {
-		TreeWalk newWalk = new TreeWalk(db);
-		newWalk.addTree(new FileTreeIterator(db));
+		TreeWalk newWalk = new TreeWalk(repository);
+		newWalk.addTree(new FileTreeIterator(repository));
 		return newWalk;
 	}
 }

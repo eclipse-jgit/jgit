@@ -27,7 +27,7 @@ public class AddTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
+		git = new Git(repo);
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class AddTest extends CLIRepositoryTestCase {
 		assertArrayEquals(new String[] { "" }, //
 				execute("git add greeting"));
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repo.readDirCache();
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
 	}
@@ -62,7 +62,7 @@ public class AddTest extends CLIRepositoryTestCase {
 		assertArrayEquals(new String[] { "" }, //
 				execute("git add greeting greeting"));
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repo.readDirCache();
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
 	}
@@ -74,7 +74,7 @@ public class AddTest extends CLIRepositoryTestCase {
 		assertArrayEquals(new String[] { "" }, //
 				execute("git add greeting"));
 
-		DirCache cache = db.readDirCache();
+		DirCache cache = repo.readDirCache();
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
 	}

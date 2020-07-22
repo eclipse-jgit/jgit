@@ -31,7 +31,7 @@ class Add extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(repo)) {
 			AddCommand addCmd = git.add();
 			addCmd.setUpdate(update);
 			for (String p : filepatterns)
