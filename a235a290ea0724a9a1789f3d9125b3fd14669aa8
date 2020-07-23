@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e766d012_039b4b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-07-23T20:21:18Z",
+      "side": 1,
+      "message": "In the 11 years I am maintaining this library you are the first one who raises this as an issue\n\nThe repository is a content addressable object database which stores:\n- objects addressable by the hash of their content in objects/ implemented in class ObjectDatabase and its hierarchy of subclasses\n- pointers referring to objects or other refs (aka symbolic refs) stored in refs/ implemented in RefDatabase and its subclasses\n- logs of ref changes stored in logs/ (reflogs)\n\nIn JGit db is used as a synonym for repository.\nI think that\u0027s no justification for such a mass renaming\n\nIf this change would be submitted it would cause tons of pointless merge conflicts e.g. when we cherry-pick fixes between branches, rebase stale changes which are in review since a while etc.",
+      "revId": "a235a290ea0724a9a1789f3d9125b3fd14669aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e97e09_04171d87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-07-23T20:21:18Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence and I don\u0027t see how this change is related to implementing support for git worktree which has nothing to do with the inner workings on how objects are stored in the repository but how versions are checked out to one or multiple working trees.",
+      "revId": "a235a290ea0724a9a1789f3d9125b3fd14669aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
