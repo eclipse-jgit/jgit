@@ -90,6 +90,8 @@ public class BatchRefUpdate {
 	/** Associated timestamps that should be blocked on before update. */
 	private List<ProposedTimestamp> timestamps;
 
+  private SubmissionInfo submissionInfo;
+
 	/**
 	 * Initialize a new batch update.
 	 *
@@ -303,6 +305,17 @@ public class BatchRefUpdate {
 	 */
 	public void setPushCertificate(PushCertificate cert) {
 		pushCert = cert;
+	}
+
+	/**
+	 * Add description of the submission this batch ref update is part of.
+	 *
+	 * @param submissionInfo description of the submission.
+	 *
+	 * @since 5.9
+	 */
+	public void setSubmission(SubmissionInfo submissionInfo) {
+		this.submissionInfo = submissionInfo;
 	}
 
 	/**
