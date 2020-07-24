@@ -46,6 +46,30 @@
       "revId": "36d452e5edf6f647cc3abf9bffb0f31a5828b377",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "661c9532_651979e7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-24T18:51:59Z",
+      "side": 1,
+      "message": "Re-did my test again with 2.23.0, and now I also get \\r\\n there. I\u0027ll have to revisit this in a follow-up commit.",
+      "parentUuid": "9ca8b1b7_d5b9cf10",
+      "range": {
+        "startLine": 404,
+        "startChar": 21,
+        "endLine": 404,
+        "endChar": 23
+      },
+      "revId": "36d452e5edf6f647cc3abf9bffb0f31a5828b377",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
