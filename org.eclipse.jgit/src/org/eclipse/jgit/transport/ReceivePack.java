@@ -62,10 +62,12 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.OpenSubmission;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SingleRepoSubmissionFactory;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -253,6 +255,8 @@ public class ReceivePack {
 	private PushCertificate pushCert;
 
 	private ReceivedPackStatistics stats;
+
+	private SingleRepoSubmissionFactory submissionFactory;
 
 	/**
 	 * Connectivity checker to use.
@@ -1006,6 +1010,17 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set a submission factory to wrap the request in a submission.
+	 *
+	 * @param submissionFactory creator of submission for this request.
+	 *
+	 * @since 5.9
+	 */
+	public void setSubmissionBuilder(SingleRepoSubmissionFactory submissionFactory) {
+		this.submissionFactory = submissionFactory;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1747,12 +1762,17 @@ public class ReceivePack {
 			updating = pm;
 		}
 
+		OpenSubmission submission = submissionFactory != null ?
+				submissionFactory.createSubmission(toApply) :
+					OpenSubmission.NOOP;
+
 		BatchRefUpdate batch = db.getRefDatabase().newBatchUpdate();
 		batch.setAllowNonFastForwards(isAllowNonFastForwards());
 		batch.setAtomic(isAtomic());
 		batch.setRefLogIdent(getRefLogIdent());
 		batch.setRefLogMessage("push", true); //$NON-NLS-1$
 		batch.addCommand(toApply);
+		batch.setSubmission(submission.getSubmissionInfo());
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
@@ -1760,6 +1780,7 @@ public class ReceivePack {
 			receiveCommandErrorHandler.handleBatchRefUpdateException(toApply,
 					e);
 		}
+		submission.completed();
 	}
 
 	/**
