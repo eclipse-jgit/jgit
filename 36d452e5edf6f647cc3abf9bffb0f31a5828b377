@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c9fcdb_cbfa45d6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-24T16:11:49Z",
+      "side": 1,
+      "message": "I\u0027ll have to double-check this. git 2.23.0 on Mac also produces this, but I thought when I ran this test on another Mac, I saw \\r\\n. I do have code for making the MergeFormatter use CRLF in such cases, but I suggest we deal with that separately. I\u0027ll first have to check git versions and also what git-for-windows does. If git-for-window uses CRLF to terminate the conflict markers, MergeFormatter would need more changes.\n\nBut all this is only tangentially related to checking out files that were committed with CRLF.",
+      "range": {
+        "startLine": 404,
+        "startChar": 21,
+        "endLine": 404,
+        "endChar": 23
+      },
+      "revId": "36d452e5edf6f647cc3abf9bffb0f31a5828b377",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
