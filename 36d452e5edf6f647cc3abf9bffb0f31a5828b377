@@ -70,6 +70,30 @@
       "revId": "36d452e5edf6f647cc3abf9bffb0f31a5828b377",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a76090b_68ee365d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-24T19:12:46Z",
+      "side": 1,
+      "message": "All right... C git does this in its default merge implementation in a fairly ad-hoc way[1] and prefers LF over CR/LF. I did my original test on 2.23.0 with a file with mixed CR/LF and LF line endings; which can explain why I got LF only at the end of the conflict markers.\n\nIf we should be able to match that behavior it\u0027s in any case unrelated to auto_lf handling.\n\n[1] https://github.com/git/git/blob/master/xdiff/xmerge.c#L152",
+      "parentUuid": "661c9532_651979e7",
+      "range": {
+        "startLine": 404,
+        "startChar": 21,
+        "endLine": 404,
+        "endChar": 23
+      },
+      "revId": "36d452e5edf6f647cc3abf9bffb0f31a5828b377",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
