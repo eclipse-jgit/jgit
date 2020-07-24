@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SubmissionInfo;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -253,6 +254,8 @@ public class ReceivePack {
 	private PushCertificate pushCert;
 
 	private ReceivedPackStatistics stats;
+
+	private SubmissionInfo submissionInfo;
 
 	/**
 	 * Connectivity checker to use.
@@ -1006,6 +1009,18 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set submission info for this request
+	 *
+	 * @param submissionInfo
+	 *            description of the submission
+	 *
+	 * @since 5.9
+	 */
+	public void setSubmissionInfo(SubmissionInfo submissionInfo) {
+		this.submissionInfo = submissionInfo;
+	}
+
+	/**
 	 * Send an error message to the client.
 	 * <p>
 	 * If any error messages are sent before the references are advertised to
@@ -1753,6 +1768,7 @@ public class ReceivePack {
 		batch.setRefLogIdent(getRefLogIdent());
 		batch.setRefLogMessage("push", true); //$NON-NLS-1$
 		batch.addCommand(toApply);
+		batch.setSubmission(submissionInfo);
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
