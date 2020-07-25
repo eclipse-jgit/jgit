@@ -15,6 +15,7 @@ java_library(
     deps = [
         "//lib:jsch",
         "//lib:junit",
+        "//lib:slf4j-api",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         # We want these deps to be provided_deps

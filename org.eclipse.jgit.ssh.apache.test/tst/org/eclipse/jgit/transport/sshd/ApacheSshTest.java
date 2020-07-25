@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
+import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -189,8 +190,7 @@ public class ApacheSshTest extends SshTestBase {
 	 */
 	@Test
 	public void testCloneAndFetchWithSessionLimit() throws Exception {
-		server.getProperties().put(ServerFactoryManager.MAX_CONCURRENT_SESSIONS,
-				Integer.valueOf(2));
+		MAX_CONCURRENT_SESSIONS.set(server.getPropertyResolver(), 2);
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
 				defaultCloneDir, null, //
 				"Host localhost", //
