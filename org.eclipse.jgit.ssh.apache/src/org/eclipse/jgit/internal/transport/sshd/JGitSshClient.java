@@ -10,6 +10,8 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+import static org.apache.sshd.core.CoreModuleProperties.PREFERRED_AUTHS;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;
 
 import java.io.IOException;
@@ -32,7 +34,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.apache.sshd.client.ClientAuthenticationManager;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.future.ConnectFuture;
@@ -169,12 +170,15 @@ public class JGitSshClient extends SshClient {
 		Map<AttributeKey<?>, Object> data = new HashMap<>();
 		data.put(HOST_CONFIG_ENTRY, hostConfig);
 		data.put(ORIGINAL_REMOTE_ADDRESS, originalAddress);
+		data.put(TARGET_SERVER, new SshdSocketAddress(originalAddress));
 		String preferredAuths = hostConfig.getProperty(
 				SshConstants.PREFERRED_AUTHENTICATIONS,
 				resolveAttribute(PREFERRED_AUTHENTICATIONS));
 		if (!StringUtils.isEmptyOrNull(preferredAuths)) {
 			data.put(SessionAttributes.PROPERTIES,
-					Collections.singletonMap(PREFERRED_AUTHS, preferredAuths));
+					Collections.singletonMap(
+							PREFERRED_AUTHS.getName(),
+							preferredAuths));
 		}
 		return new SessionAttributes(
 				AttributeRepository.ofAttributesMap(data),
@@ -267,8 +271,7 @@ public class JGitSshClient extends SshClient {
 			session.setCredentialsProvider(getCredentialsProvider());
 		}
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
-		session.getProperties().put(PASSWORD_PROMPTS,
-				Integer.valueOf(numberOfPasswordPrompts));
+		PASSWORD_PROMPTS.set(session, Integer.valueOf(numberOfPasswordPrompts));
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -311,7 +314,7 @@ public class JGitSshClient extends SshClient {
 			log.warn(format(SshdText.get().configInvalidPositive,
 					SshConstants.NUMBER_OF_PASSWORD_PROMPTS, prompts));
 		}
-		return ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS;
+		return PASSWORD_PROMPTS.getRequiredDefault().intValue();
 	}
 
 	/**
