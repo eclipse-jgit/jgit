@@ -235,7 +235,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		buffer.putByte((byte) authenticationProposals.length);
 		buffer.putRawBytes(authenticationProposals);
 		state = ProtocolState.INIT;
-		session.writePacket(buffer).verify(getTimeout());
+		session.writeBuffer(buffer).verify(getTimeout());
 	}
 
 	private byte[] getAuthenticationProposals() {
@@ -298,7 +298,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		buffer.putByte((byte) ((port >> 8) & 0xFF));
 		buffer.putByte((byte) (port & 0xFF));
 		state = ProtocolState.CONNECTING;
-		session.writePacket(buffer).verify(getTimeout());
+		session.writeBuffer(buffer).verify(getTimeout());
 	}
 
 	private void doPasswordAuth(IoSession session) throws Exception {
@@ -335,7 +335,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 						"No data for proxy authentication with " //$NON-NLS-1$
 								+ proxyAddress);
 			}
-			session.writePacket(buffer).verify(getTimeout());
+			session.writeBuffer(buffer).verify(getTimeout());
 		} finally {
 			if (buffer != null) {
 				buffer.clear(true);
@@ -350,7 +350,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 			authenticator.process();
 			buffer = authenticator.getToken();
 			if (buffer != null) {
-				session.writePacket(buffer).verify(getTimeout());
+				session.writeBuffer(buffer).verify(getTimeout());
 			}
 		} finally {
 			if (buffer != null) {
