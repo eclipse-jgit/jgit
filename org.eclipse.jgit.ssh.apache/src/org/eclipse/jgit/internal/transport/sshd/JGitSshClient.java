@@ -10,6 +10,8 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+import static org.apache.sshd.core.CoreModuleProperties.PREFERRED_AUTHS;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;
 
 import java.io.IOException;
@@ -36,6 +38,7 @@ import org.apache.sshd.client.future.DefaultConnectFuture;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.client.session.SessionFactory;
 import org.apache.sshd.common.AttributeRepository;
+import org.apache.sshd.common.Property;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoConnectFuture;
@@ -125,9 +128,9 @@ public class JGitSshClient extends SshClient {
 		return connectFuture;
 	}
 
-	private void copyProperty(String value, String key) {
+	private void copyProperty(String value, Property<String> key) {
 		if (value != null && !value.isEmpty()) {
-			getProperties().put(key, value);
+			key.set(this, value);
 		}
 	}
 
@@ -217,8 +220,7 @@ public class JGitSshClient extends SshClient {
 			session.setCredentialsProvider(getCredentialsProvider());
 		}
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
-		session.getProperties().put(PASSWORD_PROMPTS,
-				Integer.valueOf(numberOfPasswordPrompts));
+		PASSWORD_PROMPTS.set(session, Integer.valueOf(numberOfPasswordPrompts));
 		FilePasswordProvider passwordProvider = getFilePasswordProvider();
 		if (passwordProvider instanceof RepeatingFilePasswordProvider) {
 			((RepeatingFilePasswordProvider) passwordProvider)
