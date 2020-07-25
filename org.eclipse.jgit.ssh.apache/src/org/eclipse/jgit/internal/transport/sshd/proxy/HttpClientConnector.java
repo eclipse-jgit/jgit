@@ -135,7 +135,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		byte[] data = eol(msg).toString().getBytes(US_ASCII);
 		Buffer buffer = new ByteArrayBuffer(data.length, false);
 		buffer.putRawBytes(data);
-		session.writePacket(buffer).verify(getTimeout());
+		session.writeBuffer(buffer).verify(getTimeout());
 	}
 
 	private StringBuilder connect() {

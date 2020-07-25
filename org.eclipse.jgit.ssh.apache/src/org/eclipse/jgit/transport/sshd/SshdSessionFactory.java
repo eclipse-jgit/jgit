@@ -35,10 +35,13 @@ import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
+import org.apache.sshd.common.signature.BuiltinSignatures;
+import org.apache.sshd.common.signature.Signature;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
@@ -205,6 +208,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
+						.signatureFactories(getSignatureFactories())
 						.compressionFactories(
 								new ArrayList<>(BuiltinCompressions.VALUES))
 						.build();
@@ -589,5 +593,36 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 */
 	protected String getDefaultPreferredAuthentications() {
 		return null;
+	}
+
+	/**
+	 * Apache MINA sshd 2.6.0 has removed DSA, DSA_CERT and RSA_CERT. We have to
+	 * set it up explicitly to still allow users to connect with DSA keys.
+	 *
+	 * @return a list of supported signature factories
+	 */
+	@SuppressWarnings("deprecation")
+	private static List<NamedFactory<Signature>> getSignatureFactories() {
+		// @formatter:off
+		return Arrays.asList(
+				BuiltinSignatures.nistp256_cert,
+				BuiltinSignatures.nistp384_cert,
+				BuiltinSignatures.nistp521_cert,
+				BuiltinSignatures.ed25519_cert,
+				BuiltinSignatures.rsaSHA512_cert,
+				BuiltinSignatures.rsaSHA256_cert,
+				BuiltinSignatures.rsa_cert,
+				BuiltinSignatures.nistp256,
+				BuiltinSignatures.nistp384,
+				BuiltinSignatures.nistp521,
+				BuiltinSignatures.ed25519,
+				BuiltinSignatures.sk_ecdsa_sha2_nistp256,
+				BuiltinSignatures.sk_ssh_ed25519,
+				BuiltinSignatures.rsaSHA512,
+				BuiltinSignatures.rsaSHA256,
+				BuiltinSignatures.rsa,
+				BuiltinSignatures.dsa_cert,
+				BuiltinSignatures.dsa);
+		// @formatter:on
 	}
 }

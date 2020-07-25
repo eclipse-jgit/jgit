@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
+import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +34,6 @@ import java.util.stream.Collectors;
 
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
-import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
@@ -41,7 +41,6 @@ import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.server.ServerAuthenticationManager;
-import org.apache.sshd.server.ServerFactoryManager;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.forward.StaticDecisionForwardingFilter;
 import org.eclipse.jgit.api.Git;
@@ -216,8 +215,8 @@ public class ApacheSshTest extends SshTestBase {
 	 */
 	@Test
 	public void testCloneAndFetchWithSessionLimit() throws Exception {
-		PropertyResolverUtils.updateProperty(server.getPropertyResolver(),
-				ServerFactoryManager.MAX_CONCURRENT_SESSIONS, 2);
+		MAX_CONCURRENT_SESSIONS
+				.set(server.getPropertyResolver(), Integer.valueOf(2));
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
 				defaultCloneDir, null, //
 				"Host localhost", //
