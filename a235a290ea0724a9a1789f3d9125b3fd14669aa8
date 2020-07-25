@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa7fe41b_b9e3b686",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-07-25T12:51:42Z",
+      "side": 1,
+      "message": "Yes, i hear this lot of times in my projects \"you are the first complaining\", but this time some other devs had same issue with this names and they know git internals better then me ;)\n\nStill i see the value for new contributors and it looks the two classes are not synonyms, but yes this why clear names are difficult to manage in big projects. If simple renamings in the hidden code (no API change etc.) produces lot of problems the name is legacy until the end of the project. The drawbacks you have described are clear for me.",
+      "parentUuid": "e766d012_039b4b3e",
+      "revId": "a235a290ea0724a9a1789f3d9125b3fd14669aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15e97e09_04171d87",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-23T20:21:18Z",
       "side": 1,
       "message": "I don\u0027t understand this sentence and I don\u0027t see how this change is related to implementing support for git worktree which has nothing to do with the inner workings on how objects are stored in the repository but how versions are checked out to one or multiple working trees.",
+      "revId": "a235a290ea0724a9a1789f3d9125b3fd14669aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec3f9c3_8d0565f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-07-25T12:51:42Z",
+      "side": 1,
+      "message": "If i read the code and have always to stop and look if \"db.getDirectory()\" is the directory of object-database (.git/objects) folder that is same for all worktree\u0027s reposotories or may be the common repository folder (GIT_COMMON_DIR\u003d.git) or worktree\u0027s related repository folder (GIT_DIR\u003d.git/worktrees/my-worktree1), than it looks like it\u0027s better to rename for the second use-case to \"repo[sitory].getDirectory()\". Later it makes manual review of the changes related to worktree\u0027s handling of repo[sitory].getDirectory() easier from our point of view.",
+      "parentUuid": "15e97e09_04171d87",
       "revId": "a235a290ea0724a9a1789f3d9125b3fd14669aa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
