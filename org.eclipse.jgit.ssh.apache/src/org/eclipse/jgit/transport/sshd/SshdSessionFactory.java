@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.sshd.client.ClientBuilder;
@@ -194,12 +195,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
-				KeyPasswordProvider passphrases = createKeyPasswordProvider(
-						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
-						.filePasswordProvider(
-								createFilePasswordProvider(passphrases))
+						.filePasswordProvider(createFilePasswordProvider(
+								() -> createKeyPasswordProvider(
+										credentialsProvider)))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
@@ -536,14 +536,14 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	/**
 	 * Creates a {@link FilePasswordProvider} for a new session.
 	 *
-	 * @param provider
-	 *            the {@link KeyPasswordProvider} to delegate to
+	 * @param providerFactory
+	 *            providing the {@link KeyPasswordProvider} to delegate to
 	 * @return a new {@link FilePasswordProvider}
 	 */
 	@NonNull
 	private FilePasswordProvider createFilePasswordProvider(
-			KeyPasswordProvider provider) {
-		return new PasswordProviderWrapper(provider);
+			Supplier<KeyPasswordProvider> providerFactory) {
+		return new PasswordProviderWrapper(providerFactory);
 	}
 
 	/**
