@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.MAX_IDENTIFICATION_SIZE;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -199,7 +200,7 @@ public class JGitClientSession extends ClientSessionImpl {
 		// getIoSession().getRemoteAddress(). In case of a proxy connection,
 		// that would be the address of the proxy!
 		SocketAddress remoteAddress = getConnectAddress();
-		PublicKey serverKey = getKex().getServerKey();
+		PublicKey serverKey = getServerKey();
 		if (!serverKeyVerifier.verifyServerKey(this, remoteAddress,
 				serverKey)) {
 			throw new SshException(
@@ -338,9 +339,13 @@ public class JGitClientSession extends ClientSessionImpl {
 			throw new IllegalStateException(
 					"doReadIdentification of client called with server=true"); //$NON-NLS-1$
 		}
-		int maxIdentSize = PropertyResolverUtils.getIntProperty(this,
-				FactoryManager.MAX_IDENTIFICATION_SIZE,
-				DEFAULT_MAX_IDENTIFICATION_SIZE);
+		// TODO(davido): This could be done easier, see this request:
+		// https://issues.apache.org/jira/browse/SSHD-1043.
+		int maxIdentSize;
+		Integer maxIdentSizeCustom = MAX_IDENTIFICATION_SIZE.getOrNull(this);
+		if (maxIdentSizeCustom == null) maxIdentSize = DEFAULT_MAX_IDENTIFICATION_SIZE;
+		else maxIdentSize = maxIdentSizeCustom.intValue();
+		
 		int current = buffer.rpos();
 		int end = current + buffer.available();
 		if (current >= end) {
