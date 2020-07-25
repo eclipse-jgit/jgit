@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.13" sequenceNumber="1610487371">
+<target name="jgit-4.13" sequenceNumber="1612392517">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.35.v20201120"/>
@@ -49,16 +49,16 @@
       <unit id="org.apache.commons.compress.source" version="1.19.0.v20200106-2343"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.10.v20200830-2311"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.10.v20200830-2311"/>
-      <unit id="org.apache.httpcomponents.httpcore" version="4.4.12.v20200108-1212"/>
-      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.12.v20200108-1212"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20210128-2225"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20210128-2225"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="4.4.14.v20210128-2225"/>
+      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.14.v20210128-2225"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
-      <unit id="org.apache.sshd.osgi" version="2.4.0.v20200318-1614"/>
-      <unit id="org.apache.sshd.osgi.source" version="2.4.0.v20200318-1614"/>
-      <unit id="org.apache.sshd.sftp" version="2.4.0.v20200319-1547"/>
-      <unit id="org.apache.sshd.sftp.source" version="2.4.0.v20200319-1547"/>
+      <unit id="org.apache.sshd.osgi" version="2.6.0.v20210201-2003"/>
+      <unit id="org.apache.sshd.osgi.source" version="2.6.0.v20210201-2003"/>
+      <unit id="org.apache.sshd.sftp" version="2.6.0.v20210201-2003"/>
+      <unit id="org.apache.sshd.sftp.source" version="2.6.0.v20210201-2003"/>
       <unit id="org.assertj" version="3.14.0.v20200120-1926"/>
       <unit id="org.assertj.source" version="3.14.0.v20200120-1926"/>
       <unit id="org.bouncycastle.bcpg" version="1.65.0.v20200527-1955"/>
@@ -86,7 +86,7 @@
       <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201108-2042"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20210105214148/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20210203173513/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
