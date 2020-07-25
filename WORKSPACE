@@ -111,26 +111,26 @@ maven_jar(
 
 maven_jar(
     name = "httpclient",
-    artifact = "org.apache.httpcomponents:httpclient:4.5.10",
-    sha1 = "7ca2e4276f4ef95e4db725a8cd4a1d1e7585b9e5",
+    artifact = "org.apache.httpcomponents:httpclient:4.5.13",
+    sha1 = "e5f6cae5ca7ecaac1ec2827a9e2d65ae2869cada",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.4.12",
-    sha1 = "21ebaf6d532bc350ba95bd81938fa5f0e511c132",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.14",
+    sha1 = "9dd1a631c082d92ecd4bd8fd4cf55026c720a8c1",
 )
 
 maven_jar(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.4.0",
-    sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+    artifact = "org.apache.sshd:sshd-osgi:2.6.0",
+    sha1 = "40e365bb799e1bff3d31dc858b1e59a93c123f29",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.4.0",
-    sha1 = "92e1b7d1e19c715efb4a8871d34145da8f87cdb2",
+    artifact = "org.apache.sshd:sshd-sftp:2.6.0",
+    sha1 = "6eddfe8fdf59a3d9a49151e4177f8c1bebeb30c9",
 )
 
 maven_jar(
