@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.junit.ssh;
 
+import static org.apache.sshd.core.CoreModuleProperties.SERVER_EXTRA_IDENTIFICATION_LINES;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.PropertyResolver;
 import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
@@ -32,6 +35,7 @@ import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.common.util.threads.CloseableExecutorService;
@@ -47,9 +51,9 @@ import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.keyboard.DefaultKeyboardInteractiveAuthenticator;
 import org.apache.sshd.server.command.AbstractCommandSupport;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.sftp.server.SftpSubsystemFactory;
 import org.apache.sshd.server.shell.UnknownCommand;
 import org.apache.sshd.server.subsystem.SubsystemFactory;
-import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -66,7 +70,6 @@ import org.eclipse.jgit.transport.UploadPack;
  * @since 5.2
  */
 public class SshTestGitServer {
-
 	@NonNull
 	protected final String testUser;
 
@@ -215,7 +218,7 @@ public class SshTestGitServer {
 		server.setFileSystemFactory(new VirtualFileSystemFactory() {
 
 			@Override
-			protected Path computeRootDir(Session session) throws IOException {
+			public Path getUserHomeDir(SessionContext session) throws IOException {
 				return SshTestGitServer.this.repository.getDirectory()
 						.getParentFile().getAbsoluteFile().toPath();
 			}
@@ -299,14 +302,13 @@ public class SshTestGitServer {
 	}
 
 	/**
-	 * Retrieves the server's property map. This is a live map; changing it
-	 * affects the server.
+	 * Retrieves the server's property resolver.
 	 *
-	 * @return a live map of the server's properties
+	 * @return a property resolver
 	 * @since 5.9
 	 */
-	public Map<String, Object> getProperties() {
-		return server.getProperties();
+	public PropertyResolver getPropertyResolver() {
+		return server;
 	}
 
 	/**
@@ -369,8 +371,7 @@ public class SshTestGitServer {
 	 */
 	public void setPreamble(String... lines) {
 		if (lines != null && lines.length > 0) {
-			PropertyResolverUtils.updateProperty(this.server,
-					ServerFactoryManager.SERVER_EXTRA_IDENTIFICATION_LINES,
+			SERVER_EXTRA_IDENTIFICATION_LINES.set(this.server,
 					String.join("|", lines));
 		}
 	}

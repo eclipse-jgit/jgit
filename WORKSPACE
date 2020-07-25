@@ -1,6 +1,7 @@
 workspace(name = "jgit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 http_archive(
     name = "bazel_skylib",
@@ -93,16 +94,22 @@ maven_jar(
     sha1 = "21ebaf6d532bc350ba95bd81938fa5f0e511c132",
 )
 
-maven_jar(
+java_import_external(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.4.0",
-    sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+    jar_sha256 = "184460f53eeebf8dc96210330ad887935af86f322f3d368798283428736e58fe",
+    jar_urls = [
+        "https://github.com/davido/mina-sshd/releases/download/v2.6.0-alpha/sshd-osgi-2.6.0.jar",
+    ],
+    licenses = ["unencumbered"],  # public domain
 )
 
-maven_jar(
+java_import_external(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.4.0",
-    sha1 = "92e1b7d1e19c715efb4a8871d34145da8f87cdb2",
+    jar_sha256 = "c7313ca1ec15e4a0f65822f2e5d34cf2a22c7bc1bb76ec0daead3c3221779f14",
+    jar_urls = [
+        "https://github.com/davido/mina-sshd/releases/download/v2.6.0-alpha/sshd-sftp-2.6.0.jar",
+    ],
+    licenses = ["unencumbered"],  # public domain
 )
 
 maven_jar(
