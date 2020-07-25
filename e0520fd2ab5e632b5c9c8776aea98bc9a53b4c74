@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f46e0fe_0482bea2",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-25T16:28:48Z",
+      "side": 1,
+      "message": "Can be removed.",
+      "range": {
+        "startLine": 286,
+        "startChar": 25,
+        "endLine": 286,
+        "endChar": 37
+      },
+      "revId": "e0520fd2ab5e632b5c9c8776aea98bc9a53b4c74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "836ffcf6_6420a085",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-25T16:28:48Z",
+      "side": 1,
+      "message": "ofSeconds, toMillis? Looks wrong. Also, Long.valueOf() not needed.",
+      "range": {
+        "startLine": 289,
+        "startChar": 6,
+        "endLine": 289,
+        "endChar": 63
+      },
+      "revId": "e0520fd2ab5e632b5c9c8776aea98bc9a53b4c74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

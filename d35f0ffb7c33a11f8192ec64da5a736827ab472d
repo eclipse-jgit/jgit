@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7a14537_666d26b1",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-25T16:28:48Z",
+      "side": 0,
+      "message": "This change should make at least one test fail. We do test with a preamble of nearly 60kB and expect the test to succeed. I chose 64kB to be more OpenSSH compliant. What was your reason to use the Apache sshd default of 16kB?",
+      "revId": "d35f0ffb7c33a11f8192ec64da5a736827ab472d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
