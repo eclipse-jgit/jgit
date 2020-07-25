@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.junit.ssh;
 
+import static org.apache.sshd.core.CoreModuleProperties.SERVER_EXTRA_IDENTIFICATION_LINES;
+import static org.apache.sshd.core.CoreModuleProperties.SERVER_EXTRA_IDENT_LINES_SEPARATOR;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,26 +24,28 @@ import java.security.KeyPair;
 import java.security.PublicKey;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.PropertyResolver;
-import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
-import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.signature.BuiltinSignatures;
+import org.apache.sshd.common.signature.Signature;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.common.util.threads.CloseableExecutorService;
 import org.apache.sshd.common.util.threads.ThreadUtils;
 import org.apache.sshd.server.ServerAuthenticationManager;
-import org.apache.sshd.server.ServerFactoryManager;
+import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
 import org.apache.sshd.server.auth.UserAuthFactory;
@@ -52,7 +57,7 @@ import org.apache.sshd.server.command.AbstractCommandSupport;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.UnknownCommand;
 import org.apache.sshd.server.subsystem.SubsystemFactory;
-import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
+import org.apache.sshd.sftp.server.SftpSubsystemFactory;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Repository;
@@ -162,7 +167,9 @@ public class SshTestGitServer {
 		this.testUser = testUser;
 		setTestUserPublicKey(testKey);
 		this.repository = repository;
-		server = SshServer.setUpDefaultServer();
+		ServerBuilder builder = ServerBuilder.builder()
+				.signatureFactories(getSignatureFactories());
+		server = builder.build();
 		hostKeys.add(hostKey);
 		server.setKeyPairProvider((session) -> hostKeys);
 
@@ -185,6 +192,37 @@ public class SshTestGitServer {
 			}
 			return new UnknownCommand(command);
 		});
+	}
+
+	/**
+	 * Apache MINA sshd 2.6.0 has removed DSA, DSA_CERT and RSA_CERT. We have to
+	 * set it up explicitly to still allow users to connect with DSA keys.
+	 *
+	 * @return a list of supported signature factories
+	 */
+	@SuppressWarnings("deprecation")
+	private static List<NamedFactory<Signature>> getSignatureFactories() {
+		// @formatter:off
+		return Arrays.asList(
+                BuiltinSignatures.nistp256_cert,
+                BuiltinSignatures.nistp384_cert,
+                BuiltinSignatures.nistp521_cert,
+                BuiltinSignatures.ed25519_cert,
+                BuiltinSignatures.rsaSHA512_cert,
+                BuiltinSignatures.rsaSHA256_cert,
+                BuiltinSignatures.rsa_cert,
+                BuiltinSignatures.nistp256,
+                BuiltinSignatures.nistp384,
+                BuiltinSignatures.nistp521,
+                BuiltinSignatures.ed25519,
+                BuiltinSignatures.sk_ecdsa_sha2_nistp256,
+                BuiltinSignatures.sk_ssh_ed25519,
+                BuiltinSignatures.rsaSHA512,
+                BuiltinSignatures.rsaSHA256,
+                BuiltinSignatures.rsa,
+                BuiltinSignatures.dsa_cert,
+                BuiltinSignatures.dsa);
+		// @formatter:on
 	}
 
 	private static PublicKey readPublicKey(Path key)
@@ -278,14 +316,8 @@ public class SshTestGitServer {
 	@NonNull
 	protected List<SubsystemFactory> configureSubsystems() {
 		// SFTP.
-		server.setFileSystemFactory(new VirtualFileSystemFactory() {
-
-			@Override
-			protected Path computeRootDir(Session session) throws IOException {
-				return SshTestGitServer.this.repository.getDirectory()
-						.getParentFile().getAbsoluteFile().toPath();
-			}
-		});
+		server.setFileSystemFactory(new VirtualFileSystemFactory(repository
+				.getDirectory().getParentFile().getAbsoluteFile().toPath()));
 		return Collections
 				.singletonList((new SftpSubsystemFactory.Builder()).build());
 	}
@@ -434,9 +466,8 @@ public class SshTestGitServer {
 	 */
 	public void setPreamble(String... lines) {
 		if (lines != null && lines.length > 0) {
-			PropertyResolverUtils.updateProperty(this.server,
-					ServerFactoryManager.SERVER_EXTRA_IDENTIFICATION_LINES,
-					String.join("|", lines));
+			SERVER_EXTRA_IDENTIFICATION_LINES.set(server, String.join(
+					String.valueOf(SERVER_EXTRA_IDENT_LINES_SEPARATOR), lines));
 		}
 	}
 
