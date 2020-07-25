@@ -47,7 +47,8 @@ public class JGitSshConfig implements HostConfigEntryResolver {
 	@Override
 	public HostConfigEntry resolveEffectiveHost(String host, int port,
 			SocketAddress localAddress, String username,
-			AttributeRepository attributes) throws IOException {
+			String proxyJump, AttributeRepository attributes)
+			throws IOException {
 		SshConfigStore.HostConfig entry = configFile == null
 				? SshConfigStore.EMPTY_CONFIG
 				: configFile.lookup(host, port, username);

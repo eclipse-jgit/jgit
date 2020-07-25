@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.MAX_IDENTIFICATION_SIZE;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -150,30 +151,8 @@ public class JGitClientSession extends ClientSessionImpl {
 		return future;
 	}
 
-	@Override
 	protected void signalAuthFailure(AuthFuture future, Throwable t) {
 		signalAuthFailure(t);
-	}
-
-	private void signalAuthFailure(Throwable t) {
-		AuthFuture future = authFuture;
-		if (future == null) {
-			synchronized (errorLock) {
-				if (earlyErrors != null) {
-					earlyErrors.add(t);
-				}
-				future = authFuture;
-			}
-		}
-		if (future != null) {
-			future.setException(t);
-		}
-		if (log.isDebugEnabled()) {
-			boolean signalled = future != null && t == future.getException();
-			log.debug("signalAuthFailure({}) type={}, signalled={}: {}", this, //$NON-NLS-1$
-					t.getClass().getSimpleName(), Boolean.valueOf(signalled),
-					t.getMessage());
-		}
 	}
 
 	@Override
@@ -338,7 +317,7 @@ public class JGitClientSession extends ClientSessionImpl {
 		// getIoSession().getRemoteAddress(). In case of a proxy connection,
 		// that would be the address of the proxy!
 		SocketAddress remoteAddress = getConnectAddress();
-		PublicKey serverKey = getKex().getServerKey();
+		PublicKey serverKey = getServerKey();
 		if (!serverKeyVerifier.verifyServerKey(this, remoteAddress,
 				serverKey)) {
 			throw new SshException(
@@ -477,8 +456,7 @@ public class JGitClientSession extends ClientSessionImpl {
 			throw new IllegalStateException(
 					"doReadIdentification of client called with server=true"); //$NON-NLS-1$
 		}
-		int maxIdentSize = PropertyResolverUtils.getIntProperty(this,
-				FactoryManager.MAX_IDENTIFICATION_SIZE,
+		int maxIdentSize = MAX_IDENTIFICATION_SIZE.getOrCustomDefault(this,
 				DEFAULT_MAX_IDENTIFICATION_SIZE);
 		int current = buffer.rpos();
 		int end = current + buffer.available();

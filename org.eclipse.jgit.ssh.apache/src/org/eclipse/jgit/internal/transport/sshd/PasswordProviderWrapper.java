@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
@@ -62,15 +64,8 @@ public class PasswordProviderWrapper implements FilePasswordProvider {
 		if (state == null) {
 			state = new PerSessionState();
 			state.delegate = factory.get();
-			Integer maxNumberOfAttempts = context
-					.getInteger(ClientAuthenticationManager.PASSWORD_PROMPTS);
-			if (maxNumberOfAttempts != null
-					&& maxNumberOfAttempts.intValue() > 0) {
-				state.delegate.setAttempts(maxNumberOfAttempts.intValue());
-			} else {
-				state.delegate.setAttempts(
-						ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS);
-			}
+			state.delegate.setAttempts(
+					PASSWORD_PROMPTS.getRequiredDefault().intValue());
 			context.setAttribute(STATE, state);
 		}
 		return state;

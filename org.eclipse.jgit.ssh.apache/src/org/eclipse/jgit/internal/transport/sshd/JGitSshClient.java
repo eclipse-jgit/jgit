@@ -10,6 +10,8 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+import static org.apache.sshd.core.CoreModuleProperties.PREFERRED_AUTHS;
 import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;
 
 import java.io.IOException;
@@ -40,6 +42,7 @@ import org.apache.sshd.client.future.DefaultConnectFuture;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.client.session.SessionFactory;
 import org.apache.sshd.common.AttributeRepository;
+//import org.apache.sshd.common.Property;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoConnectFuture;
@@ -267,8 +270,7 @@ public class JGitSshClient extends SshClient {
 			session.setCredentialsProvider(getCredentialsProvider());
 		}
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
-		session.getProperties().put(PASSWORD_PROMPTS,
-				Integer.valueOf(numberOfPasswordPrompts));
+		PASSWORD_PROMPTS.set(session, Integer.valueOf(numberOfPasswordPrompts));
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -311,7 +313,7 @@ public class JGitSshClient extends SshClient {
 			log.warn(format(SshdText.get().configInvalidPositive,
 					SshConstants.NUMBER_OF_PASSWORD_PROMPTS, prompts));
 		}
-		return ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS;
+		return PASSWORD_PROMPTS.getRequiredDefault().intValue();
 	}
 
 	/**
