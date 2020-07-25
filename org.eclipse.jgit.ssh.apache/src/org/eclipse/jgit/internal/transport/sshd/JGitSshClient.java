@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -23,12 +23,16 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.sshd.client.ClientAuthenticationManager;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.future.ConnectFuture;
@@ -45,6 +49,8 @@ import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.ValidateUtils;
+import org.eclipse.jgit.internal.transport.sshd.JGitClientSession.ChainingAttributes;
+import org.eclipse.jgit.internal.transport.sshd.JGitClientSession.SessionAttributes;
 import org.eclipse.jgit.internal.transport.sshd.proxy.HttpClientConnector;
 import org.eclipse.jgit.internal.transport.sshd.proxy.Socks5ClientConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -52,6 +58,7 @@ import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
 import org.eclipse.jgit.transport.sshd.ProxyData;
 import org.eclipse.jgit.transport.sshd.ProxyDataFactory;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Customized {@link SshClient} for JGit. It creates specialized
@@ -100,35 +107,55 @@ public class JGitSshClient extends SshClient {
 		int port = hostConfig.getPort();
 		ValidateUtils.checkTrue(port > 0, "Invalid port: %d", port); //$NON-NLS-1$
 		String userName = hostConfig.getUsername();
+		AttributeRepository attributes = chain(context, this);
 		InetSocketAddress address = new InetSocketAddress(host, port);
 		ConnectFuture connectFuture = new DefaultConnectFuture(
 				userName + '@' + address, null);
 		SshFutureListener<IoConnectFuture> listener = createConnectCompletionListener(
 				connectFuture, userName, address, hostConfig);
-		// sshd needs some entries from the host config already in the
-		// constructor of the session. Put those as properties on this client,
-		// where it will find them. We can set the host config only once the
-		// session object has been created.
-		copyProperty(
-				hostConfig.getProperty(SshConstants.PREFERRED_AUTHENTICATIONS,
-						getAttribute(PREFERRED_AUTHENTICATIONS)),
-				PREFERRED_AUTHS);
-		setAttribute(HOST_CONFIG_ENTRY, hostConfig);
-		setAttribute(ORIGINAL_REMOTE_ADDRESS, address);
+		attributes = sessionAttributes(attributes, hostConfig, address);
 		// Proxy support
 		ProxyData proxy = getProxyData(address);
 		if (proxy != null) {
 			address = configureProxy(proxy, address);
 			proxy.clearPassword();
 		}
-		connector.connect(address, this, localAddress).addListener(listener);
+		connector.connect(address, attributes, localAddress)
+				.addListener(listener);
 		return connectFuture;
 	}
 
-	private void copyProperty(String value, String key) {
-		if (value != null && !value.isEmpty()) {
-			getProperties().put(key, value);
+	private AttributeRepository chain(AttributeRepository self,
+			AttributeRepository parent) {
+		if (self == null) {
+			return Objects.requireNonNull(parent);
 		}
+		if (parent == null || parent == self) {
+			return self;
+		}
+		return new ChainingAttributes(self, parent);
+	}
+
+	private AttributeRepository sessionAttributes(AttributeRepository parent,
+			HostConfigEntry hostConfig, InetSocketAddress originalAddress) {
+		// sshd needs some entries from the host config already in the
+		// constructor of the session. Put those into a dedicated
+		// AttributeRepository for the new session where it will find them.
+		// We can set the host config only once the session object has been
+		// created.
+		Map<AttributeKey<?>, Object> data = new HashMap<>();
+		data.put(HOST_CONFIG_ENTRY, hostConfig);
+		data.put(ORIGINAL_REMOTE_ADDRESS, originalAddress);
+		String preferredAuths = hostConfig.getProperty(
+				SshConstants.PREFERRED_AUTHENTICATIONS,
+				resolveAttribute(PREFERRED_AUTHENTICATIONS));
+		if (!StringUtils.isEmptyOrNull(preferredAuths)) {
+			data.put(SessionAttributes.PROPERTIES,
+					Collections.singletonMap(PREFERRED_AUTHS, preferredAuths));
+		}
+		return new SessionAttributes(
+				AttributeRepository.ofAttributesMap(data),
+				parent, this);
 	}
 
 	private ProxyData getProxyData(InetSocketAddress remoteAddress) {
@@ -219,11 +246,6 @@ public class JGitSshClient extends SshClient {
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
 		session.getProperties().put(PASSWORD_PROMPTS,
 				Integer.valueOf(numberOfPasswordPrompts));
-		FilePasswordProvider passwordProvider = getFilePasswordProvider();
-		if (passwordProvider instanceof RepeatingFilePasswordProvider) {
-			((RepeatingFilePasswordProvider) passwordProvider)
-					.setAttempts(numberOfPasswordPrompts);
-		}
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -237,6 +259,7 @@ public class JGitSshClient extends SshClient {
 				.collect(Collectors.toList());
 		CachingKeyPairProvider ourConfiguredKeysProvider = new CachingKeyPairProvider(
 				identities, keyCache);
+		FilePasswordProvider passwordProvider = getFilePasswordProvider();
 		ourConfiguredKeysProvider.setPasswordFinder(passwordProvider);
 		if (hostConfig.isIdentitiesOnly()) {
 			session.setKeyIdentityProvider(ourConfiguredKeysProvider);
@@ -265,9 +288,7 @@ public class JGitSshClient extends SshClient {
 			log.warn(format(SshdText.get().configInvalidPositive,
 					SshConstants.NUMBER_OF_PASSWORD_PROMPTS, prompts));
 		}
-		// Default for NumberOfPasswordPrompts according to
-		// https://man.openbsd.org/ssh_config
-		return 3;
+		return ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS;
 	}
 
 	/**
@@ -408,6 +429,5 @@ public class JGitSshClient extends SshClient {
 
 			};
 		}
-
 	}
 }

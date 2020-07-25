@@ -18,16 +18,22 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.sshd.client.ClientFactoryManager;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
+import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.PropertyResolver;
 import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
@@ -419,4 +425,122 @@ public class JGitClientSession extends ClientSessionImpl {
 		return b.toString();
 	}
 
+	@Override
+	public <T> T getAttribute(AttributeKey<T> key) {
+		T value = super.getAttribute(key);
+		if (value == null) {
+			IoSession ioSession = getIoSession();
+			if (ioSession != null) {
+				Object obj = ioSession.getAttribute(AttributeRepository.class);
+				if (obj instanceof AttributeRepository) {
+					AttributeRepository sessionAttributes = (AttributeRepository) obj;
+					value = sessionAttributes.resolveAttribute(key);
+				}
+			}
+		}
+		return value;
+	}
+
+	@Override
+	public PropertyResolver getParentPropertyResolver() {
+		IoSession ioSession = getIoSession();
+		if (ioSession != null) {
+			Object obj = ioSession.getAttribute(AttributeRepository.class);
+			if (obj instanceof PropertyResolver) {
+				return (PropertyResolver) obj;
+			}
+		}
+		return super.getParentPropertyResolver();
+	}
+
+	/**
+	 * An {@link AttributeRepository} that chains together two other attribute
+	 * sources in a hierarchy.
+	 */
+	public static class ChainingAttributes implements AttributeRepository {
+
+		private final AttributeRepository delegate;
+
+		private final AttributeRepository parent;
+
+		/**
+		 * Create a new {@link ChainingAttributes} attribute source.
+		 *
+		 * @param self
+		 *            to search for attributes first
+		 * @param parent
+		 *            to search for attributes if not found in {@code self}
+		 */
+		public ChainingAttributes(AttributeRepository self,
+				AttributeRepository parent) {
+			this.delegate = self;
+			this.parent = parent;
+		}
+
+		@Override
+		public int getAttributesCount() {
+			return delegate.getAttributesCount();
+		}
+
+		@Override
+		public <T> T getAttribute(AttributeKey<T> key) {
+			return delegate.getAttribute(Objects.requireNonNull(key));
+		}
+
+		@Override
+		public Collection<AttributeKey<?>> attributeKeys() {
+			return delegate.attributeKeys();
+		}
+
+		@Override
+		public <T> T resolveAttribute(AttributeKey<T> key) {
+			T value = getAttribute(Objects.requireNonNull(key));
+			if (value == null) {
+				return parent.getAttribute(key);
+			}
+			return value;
+		}
+	}
+
+	/**
+	 * A {@link ChainingAttributes} repository that doubles as a
+	 * {@link PropertyResolver}. The property map can be set via the attribute
+	 * key {@link SessionAttributes#PROPERTIES}.
+	 */
+	public static class SessionAttributes extends ChainingAttributes
+			implements PropertyResolver {
+
+		/** Key for storing a map of properties in the attributes. */
+		public static final AttributeKey<Map<String, Object>> PROPERTIES = new AttributeKey<>();
+
+		private final PropertyResolver parentProperties;
+
+		/**
+		 * Creates a new {@link SessionAttributes} attribute and property
+		 * source.
+		 *
+		 * @param self
+		 *            to search for attributes first
+		 * @param parent
+		 *            to search for attributes if not found in {@code self}
+		 * @param parentProperties
+		 *            to search for properties if not found in {@code self}
+		 */
+		public SessionAttributes(AttributeRepository self,
+				AttributeRepository parent, PropertyResolver parentProperties) {
+			super(self, parent);
+			this.parentProperties = parentProperties;
+		}
+
+		@Override
+		public PropertyResolver getParentPropertyResolver() {
+			return parentProperties;
+		}
+
+		@Override
+		public Map<String, Object> getProperties() {
+			Map<String, Object> props = getAttribute(PROPERTIES);
+			return props == null ? Collections.emptyMap() : props;
+		}
+	}
 }
