@@ -9,7 +9,8 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
-import org.apache.sshd.client.ClientAuthenticationManager;
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+
 import org.apache.sshd.client.auth.keyboard.UserInteraction;
 import org.apache.sshd.client.auth.password.UserAuthPassword;
 import org.apache.sshd.client.session.ClientSession;
@@ -29,9 +30,7 @@ public class JGitPasswordAuthentication extends UserAuthPassword {
 	public void init(ClientSession session, String service) throws Exception {
 		super.init(session, service);
 		maxAttempts = Math.max(1,
-				session.getIntProperty(
-						ClientAuthenticationManager.PASSWORD_PROMPTS,
-						ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS));
+				PASSWORD_PROMPTS.getRequired(session).intValue());
 		attempts = 0;
 	}
 
