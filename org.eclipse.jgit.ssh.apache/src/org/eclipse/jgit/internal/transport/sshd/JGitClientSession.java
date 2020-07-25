@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.core.CoreModuleProperties.MAX_IDENTIFICATION_SIZE;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -51,16 +52,6 @@ import org.eclipse.jgit.transport.SshConstants;
  * </p>
  */
 public class JGitClientSession extends ClientSessionImpl {
-
-	/**
-	 * Default setting for the maximum number of bytes to read in the initial
-	 * protocol version exchange. 64kb is what OpenSSH < 8.0 read; OpenSSH 8.0
-	 * changed it to 8Mb, but that seems excessive for the purpose stated in RFC
-	 * 4253. The Apache MINA sshd default in
-	 * {@link FactoryManager#DEFAULT_MAX_IDENTIFICATION_SIZE} is 16kb.
-	 */
-	private static final int DEFAULT_MAX_IDENTIFICATION_SIZE = 64 * 1024;
-
 	private HostConfigEntry hostConfig;
 
 	private CredentialsProvider credentialsProvider;
@@ -199,7 +190,7 @@ public class JGitClientSession extends ClientSessionImpl {
 		// getIoSession().getRemoteAddress(). In case of a proxy connection,
 		// that would be the address of the proxy!
 		SocketAddress remoteAddress = getConnectAddress();
-		PublicKey serverKey = getKex().getServerKey();
+		PublicKey serverKey = getServerKey();
 		if (!serverKeyVerifier.verifyServerKey(this, remoteAddress,
 				serverKey)) {
 			throw new SshException(
@@ -338,9 +329,7 @@ public class JGitClientSession extends ClientSessionImpl {
 			throw new IllegalStateException(
 					"doReadIdentification of client called with server=true"); //$NON-NLS-1$
 		}
-		int maxIdentSize = PropertyResolverUtils.getIntProperty(this,
-				FactoryManager.MAX_IDENTIFICATION_SIZE,
-				DEFAULT_MAX_IDENTIFICATION_SIZE);
+		int maxIdentSize = MAX_IDENTIFICATION_SIZE.getRequired(this);
 		int current = buffer.rpos();
 		int end = current + buffer.available();
 		if (current >= end) {

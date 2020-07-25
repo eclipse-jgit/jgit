@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
+
 import java.util.concurrent.CancellationException;
 
 import org.apache.sshd.client.ClientAuthenticationManager;
@@ -30,10 +32,7 @@ public class JGitPasswordAuthentication extends UserAuthPassword {
 	@Override
 	public void init(ClientSession session, String service) throws Exception {
 		super.init(session, service);
-		maxAttempts = Math.max(1,
-				session.getIntProperty(
-						ClientAuthenticationManager.PASSWORD_PROMPTS,
-						ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS));
+		maxAttempts = Math.max(1, PASSWORD_PROMPTS.getRequired(session));
 		attempts = 0;
 	}
 

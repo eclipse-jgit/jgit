@@ -10,6 +10,7 @@
 package org.eclipse.jgit.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.sftp.SftpModuleProperties.SFTP_CHANNEL_OPEN_TIMEOUT;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +30,13 @@ import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.apache.sshd.client.session.ClientSession;
-import org.apache.sshd.client.subsystem.sftp.SftpClient;
-import org.apache.sshd.client.subsystem.sftp.SftpClient.CloseableHandle;
-import org.apache.sshd.client.subsystem.sftp.SftpClient.CopyMode;
-import org.apache.sshd.client.subsystem.sftp.SftpClientFactory;
+import org.apache.sshd.sftp.client.SftpClient;
+import org.apache.sshd.sftp.client.SftpClient.CloseableHandle;
+import org.apache.sshd.sftp.client.SftpClient.CopyMode;
+import org.apache.sshd.sftp.client.SftpClientFactory;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.session.SessionListener;
-import org.apache.sshd.common.subsystem.sftp.SftpException;
+import org.apache.sshd.sftp.common.SftpException;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.FtpChannel;
@@ -281,13 +282,11 @@ public class SshdSession implements RemoteSession {
 		@Override
 		public void connect(int timeout, TimeUnit unit) throws IOException {
 			if (timeout <= 0) {
-				session.getProperties().put(
-						SftpClient.SFTP_CHANNEL_OPEN_TIMEOUT,
-						Long.valueOf(Long.MAX_VALUE));
+				SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
+						Duration.ofSeconds(Long.valueOf(Long.MAX_VALUE)));
 			} else {
-				session.getProperties().put(
-						SftpClient.SFTP_CHANNEL_OPEN_TIMEOUT,
-						Long.valueOf(unit.toMillis(timeout)));
+			    SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
+						Duration.ofSeconds(Long.valueOf(unit.toMillis(timeout))));
 			}
 			ftp = SftpClientFactory.instance().createSftpClient(session);
 			try {
