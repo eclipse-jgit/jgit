@@ -230,6 +230,9 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			return session;
 		} catch (Exception e) {
 			unregister(session);
+			if (e instanceof TransportException) {
+				throw (TransportException) e;
+			}
 			throw new TransportException(uri, e.getMessage(), e);
 		}
 	}
