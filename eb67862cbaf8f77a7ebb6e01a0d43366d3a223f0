@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dfd1da6_69e598b7",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestHarness.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-26T21:52:19Z",
+      "side": 1,
+      "message": "Could be simplified if you could depend on bouncy castle? See: [1]. Or we don\u0027t ant to depend on bc here?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/269851/9/java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java#152",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 3
+      },
+      "revId": "eb67862cbaf8f77a7ebb6e01a0d43366d3a223f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
