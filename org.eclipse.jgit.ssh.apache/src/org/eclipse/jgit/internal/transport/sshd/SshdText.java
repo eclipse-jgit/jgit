@@ -23,6 +23,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String configInvalidPath;
 	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
+	/***/ public String configInvalidProxyJump;
 	/***/ public String configNoKnownHostKeyAlgorithms;
 	/***/ public String configNoRemainingHostKeyAlgorithms;
 	/***/ public String ftpCloseFailed;
@@ -90,6 +91,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;
+	/***/ public String sshProxySessionCloseFailed;
 	/***/ public String unknownProxyProtocol;
 
 }
