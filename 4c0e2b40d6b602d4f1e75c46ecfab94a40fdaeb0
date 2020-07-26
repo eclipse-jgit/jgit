@@ -22,6 +22,30 @@
       "revId": "4c0e2b40d6b602d4f1e75c46ecfab94a40fdaeb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d19ac18_fe6c96f0",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-26T21:41:53Z",
+      "side": 1,
+      "message": "It\u0027s fixed now in context of: [1]. Done.\n\n* [1] https://issues.apache.org/jira/browse/SSHD-1043",
+      "parentUuid": "17674e25_630a9d88",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 347,
+        "endChar": 52
+      },
+      "revId": "4c0e2b40d6b602d4f1e75c46ecfab94a40fdaeb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
