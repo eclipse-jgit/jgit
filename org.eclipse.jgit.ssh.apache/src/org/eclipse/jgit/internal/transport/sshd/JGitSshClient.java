@@ -49,6 +49,7 @@ import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.ValidateUtils;
+import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.eclipse.jgit.internal.transport.sshd.JGitClientSession.ChainingAttributes;
 import org.eclipse.jgit.internal.transport.sshd.JGitClientSession.SessionAttributes;
 import org.eclipse.jgit.internal.transport.sshd.proxy.HttpClientConnector;
@@ -82,6 +83,16 @@ public class JGitSshClient extends SshClient {
 	 */
 	public static final AttributeKey<String> PREFERRED_AUTHENTICATIONS = new AttributeKey<>();
 
+	/**
+	 * An attribute key for storing an alternate local address to connect to if
+	 * a local forward from a ProxyJump ssh config is present. If set,
+	 * {@link #connect(HostConfigEntry, AttributeRepository, SocketAddress)}
+	 * will not connect to the address obtained from the {@link HostConfigEntry}
+	 * but to the address stored in this key (which is assumed to forward the
+	 * {@code HostConfigEntry} address).
+	 */
+	public static final AttributeKey<SshdSocketAddress> LOCAL_FORWARD_ADDRESS = new AttributeKey<>();
+
 	private KeyCache keyCache;
 
 	private CredentialsProvider credentialsProvider;
@@ -102,25 +113,37 @@ public class JGitSshClient extends SshClient {
 			throw new IllegalStateException("SshClient not started."); //$NON-NLS-1$
 		}
 		Objects.requireNonNull(hostConfig, "No host configuration"); //$NON-NLS-1$
-		String host = ValidateUtils.checkNotNullAndNotEmpty(
+		String originalHost = ValidateUtils.checkNotNullAndNotEmpty(
 				hostConfig.getHostName(), "No target host"); //$NON-NLS-1$
-		int port = hostConfig.getPort();
-		ValidateUtils.checkTrue(port > 0, "Invalid port: %d", port); //$NON-NLS-1$
+		int originalPort = hostConfig.getPort();
+		ValidateUtils.checkTrue(originalPort > 0, "Invalid port: %d", //$NON-NLS-1$
+				originalPort);
+		InetSocketAddress originalAddress = new InetSocketAddress(originalHost,
+				originalPort);
+		InetSocketAddress targetAddress = originalAddress;
 		String userName = hostConfig.getUsername();
+		String id = userName + '@' + originalAddress;
 		AttributeRepository attributes = chain(context, this);
-		InetSocketAddress address = new InetSocketAddress(host, port);
-		ConnectFuture connectFuture = new DefaultConnectFuture(
-				userName + '@' + address, null);
-		SshFutureListener<IoConnectFuture> listener = createConnectCompletionListener(
-				connectFuture, userName, address, hostConfig);
-		attributes = sessionAttributes(attributes, hostConfig, address);
-		// Proxy support
-		ProxyData proxy = getProxyData(address);
-		if (proxy != null) {
-			address = configureProxy(proxy, address);
-			proxy.clearPassword();
+		SshdSocketAddress localForward = attributes
+				.resolveAttribute(LOCAL_FORWARD_ADDRESS);
+		if (localForward != null) {
+			targetAddress = new InetSocketAddress(localForward.getHostName(),
+					localForward.getPort());
+			id += '/' + targetAddress.toString();
 		}
-		connector.connect(address, attributes, localAddress)
+		ConnectFuture connectFuture = new DefaultConnectFuture(id, null);
+		SshFutureListener<IoConnectFuture> listener = createConnectCompletionListener(
+				connectFuture, userName, originalAddress, hostConfig);
+		attributes = sessionAttributes(attributes, hostConfig, originalAddress);
+		// Proxy support
+		if (localForward == null) {
+			ProxyData proxy = getProxyData(targetAddress);
+			if (proxy != null) {
+				targetAddress = configureProxy(proxy, targetAddress);
+				proxy.clearPassword();
+			}
+		}
+		connector.connect(targetAddress, attributes, localAddress)
 				.addListener(listener);
 		return connectFuture;
 	}
