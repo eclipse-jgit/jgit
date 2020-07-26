@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17674e25_630a9d88",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-26T14:05:28Z",
+      "side": 1,
+      "message": "Something is still wrong here, the test is still failing: [1].\n\n[1] http://paste.openstack.org/show/796308",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 347,
+        "endChar": 52
+      },
+      "revId": "4c0e2b40d6b602d4f1e75c46ecfab94a40fdaeb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
