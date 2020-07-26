@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b57cdb6_7a3b0f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-26T19:01:47Z",
+      "side": 1,
+      "message": "Additionally tested by cloning a real production repository that lives in a Gerrit behind a bastion.",
+      "range": {
+        "startLine": 13,
+        "startChar": 63,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "25d6fadbd76e0d554e5e2b822f5312b1d9271841",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
