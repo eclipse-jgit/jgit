@@ -76,6 +76,8 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 
 	protected File publicKey1;
 
+	protected File publicKey2;
+
 	protected SshTestGitServer server;
 
 	private SshSessionFactory factory;
@@ -110,7 +112,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		privateKey1 = new File(sshDir, "first_key");
 		privateKey2 = new File(sshDir, "second_key");
 		publicKey1 = createKeyPair(generator.generateKeyPair(), privateKey1);
-		createKeyPair(generator.generateKeyPair(), privateKey2);
+		publicKey2 = createKeyPair(generator.generateKeyPair(), privateKey2);
 		// Create a host key
 		KeyPair hostKey = generator.generateKeyPair();
 		// Start a server with our test user and the first key.

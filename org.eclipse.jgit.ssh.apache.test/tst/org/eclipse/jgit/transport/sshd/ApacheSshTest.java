@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,17 +11,36 @@ package org.eclipse.jgit.transport.sshd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
+import org.apache.sshd.client.config.hosts.KnownHostHashValue;
+import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
+import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.config.keys.PublicKeyEntry;
+import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
+import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.apache.sshd.server.ServerAuthenticationManager;
 import org.apache.sshd.server.ServerFactoryManager;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.forward.StaticDecisionForwardingFilter;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.ssh.SshTestBase;
@@ -202,6 +221,170 @@ public class ApacheSshTest extends SshTestBase {
 		try (Git git = Git.open(localClone)) {
 			git.fetch().call();
 			git.fetch().call();
+		}
+	}
+
+	/**
+	 * Creates a simple proxy server. Accepts only publickey authentication from
+	 * the given user with the given key, allows all forwardings. Adds the
+	 * proxy's host key to {@link #knownHosts}.
+	 *
+	 * @param user
+	 *            to accept
+	 * @param userKey
+	 *            public key of that user at this server
+	 * @param report
+	 *            single-element array to report back the forwarded address.
+	 * @return the started server
+	 * @throws Exception
+	 */
+	private SshServer createProxy(String user, File userKey,
+			SshdSocketAddress[] report) throws Exception {
+		SshServer proxy = SshServer.setUpDefaultServer();
+		// Give the server its own host key
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
+		KeyPair proxyHostKey = generator.generateKeyPair();
+		proxy.setKeyPairProvider(
+				session -> Collections.singletonList(proxyHostKey));
+		// Allow (only) publickey authentication
+		proxy.setUserAuthFactories(Collections.singletonList(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY));
+		// Install the user's public key
+		PublicKey userProxyKey = AuthorizedKeyEntry
+				.readAuthorizedKeys(userKey.toPath()).get(0)
+				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+		proxy.setPublickeyAuthenticator(
+				(userName, publicKey, session) -> user.equals(userName)
+						&& KeyUtils.compareKeys(userProxyKey, publicKey));
+		// Allow forwarding
+		proxy.setForwardingFilter(new StaticDecisionForwardingFilter(true) {
+
+			@Override
+			protected boolean checkAcceptance(String request, Session session,
+					SshdSocketAddress target) {
+				report[0] = target;
+				return super.checkAcceptance(request, session, target);
+			}
+		});
+		proxy.start();
+		// Add the proxy's host key to knownhosts
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				knownHosts.toPath(), StandardCharsets.US_ASCII,
+				StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
+			writer.append('\n');
+			KnownHostHashValue.appendHostPattern(writer, "localhost",
+					proxy.getPort());
+			writer.append(',');
+			KnownHostHashValue.appendHostPattern(writer, "127.0.0.1",
+					proxy.getPort());
+			writer.append(' ');
+			PublicKeyEntry.appendPublicKeyEntry(writer,
+					proxyHostKey.getPublic());
+			writer.append('\n');
+		}
+		return proxy;
+	}
+
+	@Test
+	public void testJumpHost() throws Exception {
+		SshdSocketAddress[] forwarded = { null };
+		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
+				forwarded)) {
+			try {
+				// Now try to clone via the proxy
+				cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
+						"Host server", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"IdentityFile " + privateKey1.getAbsolutePath(), //
+						"ProxyJump " + TEST_USER + "X@proxy:" + proxy.getPort(), //
+						"", //
+						"Host proxy", //
+						"Hostname localhost", //
+						"IdentityFile " + privateKey2.getAbsolutePath());
+				assertNotNull(forwarded[0]);
+				assertEquals(testPort, forwarded[0].getPort());
+			} finally {
+				proxy.stop();
+			}
+		}
+	}
+
+	@Test
+	public void testJumpHostChain() throws Exception {
+		SshdSocketAddress[] forwarded1 = { null };
+		SshdSocketAddress[] forwarded2 = { null };
+		try (SshServer proxy1 = createProxy(TEST_USER + 'X', publicKey2,
+				forwarded1);
+				SshServer proxy2 = createProxy("foo", publicKey1, forwarded2)) {
+			try {
+				// Now try to clone via the proxy
+				cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
+						"Host server", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"IdentityFile " + privateKey1.getAbsolutePath(), //
+						"ProxyJump proxy2," + TEST_USER + "X@proxy:"
+								+ proxy1.getPort(), //
+						"", //
+						"Host proxy", //
+						"Hostname localhost", //
+						"IdentityFile " + privateKey2.getAbsolutePath(), //
+						"", //
+						"Host proxy2", //
+						"Hostname localhost", //
+						"User foo", //
+						"Port " + proxy2.getPort(), //
+						"IdentityFile " + privateKey1.getAbsolutePath());
+				assertNotNull(forwarded1[0]);
+				assertEquals(proxy2.getPort(), forwarded1[0].getPort());
+				assertNotNull(forwarded2[0]);
+				assertEquals(testPort, forwarded2[0].getPort());
+			} finally {
+				proxy1.stop();
+				proxy2.stop();
+			}
+		}
+	}
+
+	@Test
+	public void testJumpHostCascade() throws Exception {
+		SshdSocketAddress[] forwarded1 = { null };
+		SshdSocketAddress[] forwarded2 = { null };
+		try (SshServer proxy1 = createProxy(TEST_USER + 'X', publicKey2,
+				forwarded1);
+				SshServer proxy2 = createProxy("foo", publicKey1, forwarded2)) {
+			try {
+				// Now try to clone via the proxy
+				cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
+						"Host server", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"IdentityFile " + privateKey1.getAbsolutePath(), //
+						"ProxyJump " + TEST_USER + "X@proxy:"
+								+ proxy1.getPort(), //
+						"", //
+						"Host proxy", //
+						"Hostname localhost", //
+						"ProxyJump ssh://proxy2:" + proxy2.getPort(), //
+						"IdentityFile " + privateKey2.getAbsolutePath(), //
+						"", //
+						"Host proxy2", //
+						"Hostname localhost", //
+						"User foo", //
+						"IdentityFile " + privateKey1.getAbsolutePath());
+				assertNotNull(forwarded1[0]);
+				assertEquals(testPort, forwarded1[0].getPort());
+				assertNotNull(forwarded2[0]);
+				assertEquals(proxy1.getPort(), forwarded2[0].getPort());
+			} finally {
+				proxy1.stop();
+				proxy2.stop();
+			}
 		}
 	}
 }
