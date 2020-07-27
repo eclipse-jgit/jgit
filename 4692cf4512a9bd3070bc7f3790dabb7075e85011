@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6be40ed_ca9f216f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-27T20:15:12Z",
+      "side": 1,
+      "message": "Mention what the improvement for the above use case of 250k would be?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "4692cf4512a9bd3070bc7f3790dabb7075e85011",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78b1e57d_a08f74ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-27T20:15:12Z",
+      "side": 1,
+      "message": "Nit: Start statement with capital letter.",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 11
+      },
+      "revId": "4692cf4512a9bd3070bc7f3790dabb7075e85011",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f651a1_b802da61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-27T20:15:12Z",
+      "side": 1,
+      "message": "Nit: Point at the end of the statement.",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 30
+      },
+      "revId": "4692cf4512a9bd3070bc7f3790dabb7075e85011",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17712adc_8d68f23c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-07-27T20:15:12Z",
+      "side": 1,
+      "message": "Nit: Not related white space change.",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 7
+      },
+      "revId": "4692cf4512a9bd3070bc7f3790dabb7075e85011",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
