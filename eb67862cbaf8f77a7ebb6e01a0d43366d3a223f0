@@ -22,6 +22,30 @@
       "revId": "eb67862cbaf8f77a7ebb6e01a0d43366d3a223f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b93a042b_b8254e36",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestHarness.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-27T07:36:33Z",
+      "side": 1,
+      "message": "\u003e Or we don\u0027t ant to depend on bc here?\n\nExactly. Didn\u0027t want to include the large BC libraries just for this.",
+      "parentUuid": "6dfd1da6_69e598b7",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 3
+      },
+      "revId": "eb67862cbaf8f77a7ebb6e01a0d43366d3a223f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
