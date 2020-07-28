@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "3a868df0_61789df7",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestGitServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-07-28T07:51:20Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/c/jgit/jgit/+/166917 .",
+      "parentUuid": "3287a7bd_33604f48",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49ca884c_f6a8fd35",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
         "patchSetId": 8
