@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
+import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.server.ServerFactoryManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -189,8 +190,8 @@ public class ApacheSshTest extends SshTestBase {
 	 */
 	@Test
 	public void testCloneAndFetchWithSessionLimit() throws Exception {
-		server.getProperties().put(ServerFactoryManager.MAX_CONCURRENT_SESSIONS,
-				Integer.valueOf(2));
+		PropertyResolverUtils.updateProperty(server.getPropertyResolver(),
+				ServerFactoryManager.MAX_CONCURRENT_SESSIONS, 2);
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
 				defaultCloneDir, null, //
 				"Host localhost", //

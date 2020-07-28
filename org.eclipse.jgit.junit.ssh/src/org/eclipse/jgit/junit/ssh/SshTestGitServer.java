@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.PropertyResolver;
 import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
@@ -349,14 +349,14 @@ public class SshTestGitServer {
 	}
 
 	/**
-	 * Retrieves the server's property map. This is a live map; changing it
-	 * affects the server.
+	 * Retrieves the server's {@link PropertyResolver}, giving access to server
+	 * properties.
 	 *
-	 * @return a live map of the server's properties
+	 * @return the {@link PropertyResolver}
 	 * @since 5.9
 	 */
-	public Map<String, Object> getProperties() {
-		return server.getProperties();
+	public PropertyResolver getPropertyResolver() {
+		return server;
 	}
 
 	/**
