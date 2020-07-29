@@ -288,6 +288,31 @@ public class FileUtilsTest {
 	}
 
 	@Test
+	public void testMkdirsWithSymlink() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		File subdir = new File(trash, "subdir");
+		assertTrue(subdir.mkdir());
+		File symlink = new File(trash, "symlink");
+		Files.createSymbolicLink(symlink.toPath(), subdir.toPath());
+		File newDir = new File(symlink, "below");
+		File lowerDir = new File(newDir, "deeper");
+		FileUtils.mkdirs(lowerDir);
+		assertTrue(lowerDir.isDirectory());
+		assertTrue(new File(new File(subdir, "below"), "deeper").isDirectory());
+	}
+
+	@Test
+	public void testMkdirsEndsInSymlink() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		File subdir = new File(trash, "subdir");
+		assertTrue(subdir.mkdir());
+		File symlink = new File(trash, "symlink");
+		Files.createSymbolicLink(symlink.toPath(), subdir.toPath());
+		FileUtils.mkdirs(symlink, true);
+		assertTrue(symlink.isDirectory());
+	}
+
+	@Test
 	public void testCreateNewFile() throws IOException {
 		File f = new File(trash, "x");
 		FileUtils.createNewFile(f);
