@@ -17,10 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
@@ -109,16 +106,18 @@ public abstract class SystemReader {
 					fs);
 		}
 
-		private Path getXDGConfigHome(FS fs) {
+		private File getXDGConfigHome(FS fs) {
 			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
+			File configHome;
 			if (StringUtils.isEmptyOrNull(configHomePath)) {
-				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
-						.getAbsolutePath();
+				configHome = new File(fs.userHome(), ".config"); //$NON-NLS-1$
+			} else {
+				configHome = new File(configHomePath);
 			}
 			try {
-				Path xdgHomePath = Paths.get(configHomePath);
-				Files.createDirectories(xdgHomePath);
-				return xdgHomePath;
+				configHome.toPath(); // Validate -- Path checks more than File
+				FileUtils.mkdirs(configHome, true);
+				return configHome;
 			} catch (IOException | InvalidPathException e) {
 				LOG.error(JGitText.get().createXDGConfigHomeFailed,
 						configHomePath, e);
@@ -128,16 +127,15 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-			Path xdgPath = getXDGConfigHome(fs);
-			if (xdgPath != null) {
-				Path configPath = null;
+			File xdgHome = getXDGConfigHome(fs);
+			if (xdgHome != null) {
+				File configFile = new File(xdgHome, "jgit"); //$NON-NLS-1$
 				try {
-					configPath = xdgPath.resolve("jgit"); //$NON-NLS-1$
-					Files.createDirectories(configPath);
-					configPath = configPath.resolve(Constants.CONFIG);
-					return new FileBasedConfig(parent, configPath.toFile(), fs);
+					FileUtils.mkdir(configFile, true);
+					configFile = new File(configFile, Constants.CONFIG);
+					return new FileBasedConfig(parent, configFile, fs);
 				} catch (IOException e) {
-					LOG.error(JGitText.get().createJGitConfigFailed, configPath,
+					LOG.error(JGitText.get().createJGitConfigFailed, configFile,
 							e);
 				}
 			}
