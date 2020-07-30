@@ -280,6 +280,25 @@ public class ReceivePack {
 	private List<String> pushOptions;
 
 	/**
+	 * Hook invoked in the execution of a batch ref update.
+	 *
+	 * @since 4.9
+	 */
+	public interface RefsUpdateHook {
+		/**
+		 * This is invoked only once, before anything else in .execute(). It is
+		 * called always, even if later the BatchRefUpdate decides that there is
+		 * nothing to do.
+		 *
+		 * @param bru
+		 *            the BatchRefUpdate about to execute
+		 */
+		void preExecute(BatchRefUpdate bru);
+	}
+
+	private RefsUpdateHook refsUpdateHook;
+
+	/**
 	 * Create a new pack receive for an open repository.
 	 *
 	 * @param into
@@ -1755,6 +1774,9 @@ public class ReceivePack {
 		batch.addCommand(toApply);
 		try {
 			batch.setPushCertificate(getPushCertificate());
+			if (refsUpdateHook != null) {
+				refsUpdateHook.preExecute(batch);
+			}
 			batch.execute(walk, updating);
 		} catch (IOException e) {
 			receiveCommandErrorHandler.handleBatchRefUpdateException(toApply,
@@ -2068,6 +2090,28 @@ public class ReceivePack {
 	 */
 	public UnpackErrorHandler getUnpackErrorHandler() {
 		return unpackErrorHandler;
+	}
+
+	/**
+	 * Get the ref update execution hook.
+	 *
+	 * @return the ref update execution hook. Null if not set.
+	 * @since 4.9
+	 */
+	public RefsUpdateHook getRefsUpdateHook() {
+		return refsUpdateHook;
+	}
+
+	/**
+	 * Set the hook to run around the ref update execution.
+	 *
+	 * @param refUpdateHook
+	 *            a hook
+	 * @since 4.9
+	 */
+	public void setRefsUpdateHook(
+			RefsUpdateHook refUpdateHook) {
+		this.refsUpdateHook = refUpdateHook;
 	}
 
 	/**
