@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
+
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -146,14 +148,16 @@ public final class FilterSpec {
 	 */
 	@Nullable
 	public String filterLine() {
-		if (blobLimit == 0) {
-			return GitProtocolConstants.OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+		if (isNoOp()) {
+			return null;
+		} else if (blobLimit == 0 && treeDepthLimit == -1) {
+			return OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+		} else if (blobLimit > 0 && treeDepthLimit == -1) {
+			return OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
+		} else if (blobLimit == -1 && treeDepthLimit >= 0) {
+			return OPTION_FILTER + " tree:" + treeDepthLimit; //$NON-NLS-1$
+		} else {
+			throw new IllegalStateException();
 		}
-
-		if (blobLimit > 0) {
-			return GitProtocolConstants.OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
-		}
-
-		return null;
 	}
 }
