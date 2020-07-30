@@ -9,6 +9,10 @@
  */
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
@@ -195,7 +199,11 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
-		assertEquals(0, request.getFilterSpec().getBlobLimit());
+		assertFalse(request.getFilterSpec().allowsType(OBJ_BLOB));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TREE));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_COMMIT));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TAG));
+		assertEquals(-1, request.getFilterSpec().getBlobLimit());
 		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
 	}
 
@@ -207,6 +215,10 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
+		assertTrue(request.getFilterSpec().allowsType(OBJ_BLOB));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TREE));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_COMMIT));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TAG));
 		assertEquals(15, request.getFilterSpec().getBlobLimit());
 		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
 	}
@@ -219,6 +231,10 @@ public class ProtocolV2ParserTest {
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
 		FetchV2Request request = parser.parseFetchRequest(pckIn);
+		assertTrue(request.getFilterSpec().allowsType(OBJ_BLOB));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TREE));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_COMMIT));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TAG));
 		assertEquals(-1, request.getFilterSpec().getBlobLimit());
 		assertEquals(3, request.getFilterSpec().getTreeDepthLimit());
 	}

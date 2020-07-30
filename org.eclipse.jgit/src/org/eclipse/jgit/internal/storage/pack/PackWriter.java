@@ -2182,10 +2182,12 @@ public class PackWriter implements AutoCloseable {
 
 		// Check if this object needs to be rejected, doing the cheaper
 		// checks first.
-		boolean reject = filterSpec.getBlobLimit() >= 0 &&
-			type == OBJ_BLOB &&
-			!want.contains(src) &&
-			reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit();
+		boolean reject =
+			(!filterSpec.allowsType(type) && !want.contains(src)) ||
+			(filterSpec.getBlobLimit() >= 0 &&
+				type == OBJ_BLOB &&
+				!want.contains(src) &&
+				reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit());
 		if (!reject) {
 			addObject(src, type, pathHashCode);
 		}
