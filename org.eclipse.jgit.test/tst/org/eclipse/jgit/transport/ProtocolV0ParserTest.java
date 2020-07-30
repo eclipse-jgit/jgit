@@ -9,6 +9,10 @@
  */
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -160,6 +164,10 @@ public class ProtocolV0ParserTest {
 		assertThat(request.getWantIds(),
 				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_BLOB));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TREE));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_COMMIT));
+		assertTrue(request.getFilterSpec().allowsType(OBJ_TAG));
 		assertEquals(13000, request.getFilterSpec().getBlobLimit());
 		assertEquals(-1, request.getFilterSpec().getTreeDepthLimit());
 	}
