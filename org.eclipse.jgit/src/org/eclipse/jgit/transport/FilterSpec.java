@@ -10,6 +10,13 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Objects.requireNonNull;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+
+import java.math.BigInteger;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -24,11 +31,37 @@ import org.eclipse.jgit.internal.JGitText;
  */
 public final class FilterSpec {
 
+	/** Immutable bit-set representation of a set of Git object types. */
+	static class ObjectTypes {
+		static ObjectTypes ALL = allow(OBJ_BLOB, OBJ_TREE, OBJ_COMMIT, OBJ_TAG);
+
+		private final BigInteger val;
+
+		private ObjectTypes(BigInteger val) {
+			this.val = val;
+		}
+
+		static ObjectTypes allow(int... types) {
+			BigInteger bits = BigInteger.valueOf(0);
+			for (int type : types) {
+				bits = bits.setBit(type);
+			}
+			return new ObjectTypes(bits);
+		}
+
+		boolean contains(int type) {
+			return val.testBit(type);
+		}
+	}
+
+	private final ObjectTypes types;
+
 	private final long blobLimit;
 
 	private final long treeDepthLimit;
 
-	private FilterSpec(long blobLimit, long treeDepthLimit) {
+	private FilterSpec(ObjectTypes types, long blobLimit, long treeDepthLimit) {
+		this.types = requireNonNull(types);
 		this.blobLimit = blobLimit;
 		this.treeDepthLimit = treeDepthLimit;
 	}
@@ -53,7 +86,8 @@ public final class FilterSpec {
 	public static FilterSpec fromFilterLine(String filterLine)
 			throws PackProtocolException {
 		if (filterLine.equals("blob:none")) { //$NON-NLS-1$
-			return FilterSpec.withBlobLimit(0);
+			return FilterSpec.withTypes(
+					ObjectTypes.allow(OBJ_TREE, OBJ_COMMIT, OBJ_TAG));
 		} else if (filterLine.startsWith("blob:limit=")) { //$NON-NLS-1$
 			long blobLimit = -1;
 			try {
@@ -86,8 +120,18 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * @param types
+	 *            set of permitted object types, for use in "blob:none" and
+	 *            "object:none" filters
+	 * @return a filter spec which restricts to objects of the specified types
+	 */
+	static FilterSpec withTypes(ObjectTypes types) {
+		return new FilterSpec(types, -1, -1);
+	}
+
+	/**
 	 * @param blobLimit
-	 *            the blob limit in a "blob:[limit]" or "blob:none" filter line
+	 *            the blob limit in a "blob:[limit]" filter line
 	 * @return a filter spec which filters blobs above a certain size
 	 */
 	static FilterSpec withBlobLimit(long blobLimit) {
@@ -95,7 +139,7 @@ public final class FilterSpec {
 			throw new IllegalArgumentException(
 					"blobLimit cannot be negative: " + blobLimit); //$NON-NLS-1$
 		}
-		return new FilterSpec(blobLimit, -1);
+		return new FilterSpec(ObjectTypes.ALL, blobLimit, -1);
 	}
 
 	/**
@@ -109,13 +153,25 @@ public final class FilterSpec {
 			throw new IllegalArgumentException(
 					"treeDepthLimit cannot be negative: " + treeDepthLimit); //$NON-NLS-1$
 		}
-		return new FilterSpec(-1, treeDepthLimit);
+		return new FilterSpec(ObjectTypes.ALL, -1, treeDepthLimit);
 	}
 
 	/**
 	 * A placeholder that indicates no filtering.
 	 */
-	public static final FilterSpec NO_FILTER = new FilterSpec(-1, -1);
+	public static final FilterSpec NO_FILTER = new FilterSpec(ObjectTypes.ALL, -1, -1);
+
+	/**
+	 * @param type
+	 *            a Git object type, such as
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB}
+	 * @return whether this filter allows objects of the specified type
+	 *
+	 * @since 5.9
+	 */
+	public boolean allowsType(int type) {
+		return types.contains(type);
+	}
 
 	/**
 	 * @return -1 if this filter does not filter blobs based on size, or a
@@ -138,7 +194,7 @@ public final class FilterSpec {
 	 * @return true if this filter doesn't filter out anything
 	 */
 	public boolean isNoOp() {
-		return blobLimit == -1 && treeDepthLimit == -1;
+		return types.equals(ObjectTypes.ALL) && blobLimit == -1 && treeDepthLimit == -1;
 	}
 
 	/**
