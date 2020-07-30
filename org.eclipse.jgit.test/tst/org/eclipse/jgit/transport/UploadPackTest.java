@@ -127,7 +127,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithBlobNoneFilter() throws Exception {
+	public void testFetchWithBlobZeroFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
