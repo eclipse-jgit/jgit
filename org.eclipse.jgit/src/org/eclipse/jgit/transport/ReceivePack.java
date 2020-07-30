@@ -279,6 +279,8 @@ public class ReceivePack {
 	private boolean usePushOptions;
 	private List<String> pushOptions;
 
+	private BatchRefUpdate.RefsUpdateHook refsUpdateHook;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -1753,6 +1755,7 @@ public class ReceivePack {
 		batch.setRefLogIdent(getRefLogIdent());
 		batch.setRefLogMessage("push", true); //$NON-NLS-1$
 		batch.addCommand(toApply);
+		batch.setRefsUpdateHook(refsUpdateHook);
 		try {
 			batch.setPushCertificate(getPushCertificate());
 			batch.execute(walk, updating);
@@ -2068,6 +2071,29 @@ public class ReceivePack {
 	 */
 	public UnpackErrorHandler getUnpackErrorHandler() {
 		return unpackErrorHandler;
+	}
+
+	/**
+	 * Get the current ref update execution hook.
+	 *
+	 * @return the ref update execution hook. Null if not set.
+	 * @since 4.9
+	 */
+	public BatchRefUpdate.RefsUpdateHook getRefsUpdateHook() {
+		return refsUpdateHook;
+	}
+
+	/**
+	 * This hook is passed to the {@link BatchRefUpdate} instance created to
+	 * update refs.
+	 *
+	 * @param refUpdateExecutionHook
+	 *            a hook
+	 * @since 4.9
+	 */
+	public void setRefsUpdateHook(
+			BatchRefUpdate.RefsUpdateHook refUpdateExecutionHook) {
+		this.refsUpdateHook = refUpdateExecutionHook;
 	}
 
 	/**

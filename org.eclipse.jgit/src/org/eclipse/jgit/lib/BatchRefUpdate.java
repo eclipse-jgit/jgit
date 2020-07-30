@@ -91,6 +91,25 @@ public class BatchRefUpdate {
 	private List<ProposedTimestamp> timestamps;
 
 	/**
+	 * Hook invoked in the execution of a batch ref update.
+	 *
+	 * @since 4.9
+	 */
+	public interface RefsUpdateHook {
+		/**
+		 * This is invoked only once, before anything else in .execute(). It is
+		 * called always, even if later the BatchRefUpdate decides that there is
+		 * nothing to do.
+		 *
+		 * @param bru
+		 *            the BatchRefUpdate about to execute
+		 */
+		void preExecute(BatchRefUpdate bru);
+	}
+
+	private RefsUpdateHook refsUpdateHook;
+
+	/**
 	 * Initialize a new batch update.
 	 *
 	 * @param refdb
@@ -319,6 +338,29 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Set the refs update hook. See {@link RefsUpdateHook}.
+	 *
+	 * @param refsUpdateHook
+	 *            hook to invoke during the update.
+	 * @since 4.9
+	 */
+	public void setRefsUpdateHook(RefsUpdateHook refsUpdateHook) {
+		this.refsUpdateHook = refsUpdateHook;
+	}
+
+	/**
+	 * Get the refs update hook.
+	 *
+	 * @return the refs update hook if set (null otherwise)
+	 *
+	 * @since 4.9
+	 */
+	@Nullable
+	protected RefsUpdateHook getRefsUpdateHook() {
+		return refsUpdateHook;
+	}
+
+	/**
 	 * Get commands this update will process.
 	 *
 	 * @return commands this update will process.
@@ -441,6 +483,9 @@ public class BatchRefUpdate {
 	 */
 	public void execute(RevWalk walk, ProgressMonitor monitor,
 			List<String> options) throws IOException {
+		if (refsUpdateHook != null) {
+			refsUpdateHook.preExecute(this);
+		}
 
 		if (atomic && !refdb.performsAtomicTransactions()) {
 			for (ReceiveCommand c : commands) {
