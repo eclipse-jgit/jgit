@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "104f100d_2b44853f",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-01T14:03:39Z",
+      "side": 1,
+      "message": "It\u0027s unclear whether this connection timeout is to apply globally across all hops or per hop. This implementation makes it apply globally for the whole chain of hops.",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 30
+      },
+      "revId": "1f66c7e45eaf95b557ade879ce7782a49aa8db05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
