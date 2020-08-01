@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.math.BigInteger.ZERO;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
@@ -43,7 +44,7 @@ public final class FilterSpec {
 		}
 
 		static ObjectTypes allow(int... types) {
-			BigInteger bits = BigInteger.valueOf(0);
+			BigInteger bits = ZERO;
 			for (int type : types) {
 				bits = bits.setBit(type);
 			}
