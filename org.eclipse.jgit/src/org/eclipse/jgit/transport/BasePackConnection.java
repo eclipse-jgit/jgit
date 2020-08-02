@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008, 2010 Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,7 +13,12 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.REF_ATTR_PEELED;
+import static org.eclipse.jgit.transport.GitProtocolConstants.REF_ATTR_SYMREF_TARGET;
+import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_1;
+import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -22,23 +27,29 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -92,15 +103,25 @@ abstract class BasePackConnection extends BaseConnection {
 	protected boolean statelessRPC;
 
 	/** Capability tokens advertised by the remote side. */
-	private final Set<String> remoteCapablities = new HashSet<>();
+	private final Map<String, String> remoteCapabilities = new HashMap<>();
 
 	/** Extra objects the remote has, but which aren't offered as refs. */
 	protected final Set<ObjectId> additionalHaves = new HashSet<>();
+
+	private TransferConfig.ProtocolVersion protocol = TransferConfig.ProtocolVersion.V0;
 
 	BasePackConnection(PackTransport packTransport) {
 		transport = (Transport) packTransport;
 		local = transport.local;
 		uri = transport.uri;
+	}
+
+	TransferConfig.ProtocolVersion getProtocolVersion() {
+		return protocol;
+	}
+
+	void setProtocolVersion(@NonNull TransferConfig.ProtocolVersion protocol) {
+		this.protocol = protocol;
 	}
 
 	/**
@@ -147,12 +168,15 @@ abstract class BasePackConnection extends BaseConnection {
 	 * {@link #close()} and the exception is wrapped (if necessary) and thrown
 	 * as a {@link org.eclipse.jgit.errors.TransportException}.
 	 *
+	 * @return {@code true} if the refs were read; {@code false} otherwise
+	 *         indicating that {@link #lsRefs} must be called
+	 *
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the reference list could not be scanned.
 	 */
-	protected void readAdvertisedRefs() throws TransportException {
+	protected boolean readAdvertisedRefs() throws TransportException {
 		try {
-			readAdvertisedRefsImpl();
+			return readAdvertisedRefsImpl();
 		} catch (TransportException err) {
 			close();
 			throw err;
@@ -162,35 +186,79 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	private void readAdvertisedRefsImpl() throws IOException {
-		final LinkedHashMap<String, Ref> avail = new LinkedHashMap<>();
-		for (;;) {
+	private String readLine() throws IOException {
+		String line = pckIn.readString();
+		if (PacketLineIn.isEnd(line)) {
+			return null;
+		}
+		if (line.startsWith("ERR ")) { //$NON-NLS-1$
+			// This is a customized remote service error.
+			// Users should be informed about it.
+			throw new RemoteRepositoryException(uri, line.substring(4));
+		}
+		return line;
+	}
+
+	private boolean readAdvertisedRefsImpl() throws IOException {
+		final Map<String, Ref> avail = new LinkedHashMap<>();
+		final Map<String, String> symRefs = new LinkedHashMap<>();
+		for (boolean first = true;; first = false) {
 			String line;
 
-			try {
-				line = pckIn.readString();
-			} catch (EOFException eof) {
-				if (avail.isEmpty())
-					throw noRepository();
-				throw eof;
-			}
-			if (PacketLineIn.isEnd(line))
-				break;
-
-			if (line.startsWith("ERR ")) { //$NON-NLS-1$
-				// This is a customized remote service error.
-				// Users should be informed about it.
-				throw new RemoteRepositoryException(uri, line.substring(4));
-			}
-
-			if (avail.isEmpty()) {
+			if (first) {
+				boolean isV1 = false;
+				try {
+					line = readLine();
+				} catch (EOFException e) {
+					TransportException noRepo = noRepository();
+					noRepo.initCause(e);
+					throw noRepo;
+				}
+				if (line != null && VERSION_1.equals(line)) {
+					// Same as V0, except for this extra line. We shouldn't get
+					// it since we never request V1.
+					setProtocolVersion(TransferConfig.ProtocolVersion.V0);
+					isV1 = true;
+					line = readLine();
+				}
+				if (line == null) {
+					break;
+				}
 				final int nul = line.indexOf('\0');
 				if (nul >= 0) {
-					// The first line (if any) may contain "hidden"
-					// capability values after a NUL byte.
-					remoteCapablities.addAll(
-							Arrays.asList(line.substring(nul + 1).split(" "))); //$NON-NLS-1$
+					// Protocol V0: The first line (if any) may contain
+					// "hidden" capability values after a NUL byte.
+					for (String capability : line.substring(nul + 1)
+							.split(" ")) { //$NON-NLS-1$
+						if (capability.startsWith(CAPABILITY_SYMREF_PREFIX)) {
+							String[] parts = capability
+									.substring(
+											CAPABILITY_SYMREF_PREFIX.length())
+									.split(":", 2); //$NON-NLS-1$
+							if (parts.length == 2) {
+								symRefs.put(parts[0], parts[1]);
+							}
+						} else {
+							addCapability(capability);
+						}
+					}
 					line = line.substring(0, nul);
+					setProtocolVersion(TransferConfig.ProtocolVersion.V0);
+				} else if (!isV1 && VERSION_2.equals(line)) {
+					// Protocol V2: remaining lines are capabilities as
+					// key=value pairs
+					setProtocolVersion(TransferConfig.ProtocolVersion.V2);
+					readCapabilitiesV2();
+					// Break out here so that stateless RPC transports get a
+					// chance to set up the output stream.
+					return false;
+				} else {
+					setProtocolVersion(TransferConfig.ProtocolVersion.V0);
+				}
+			} else {
+				line = readLine();
+				if (line == null) {
+					break;
 				}
 			}
 
@@ -199,73 +267,214 @@ abstract class BasePackConnection extends BaseConnection {
 				throw invalidRefAdvertisementLine(line);
 			}
 			String name = line.substring(41, line.length());
-			if (avail.isEmpty() && name.equals("capabilities^{}")) { //$NON-NLS-1$
-				// special line from git-receive-pack to show
+			if (first && name.equals("capabilities^{}")) { //$NON-NLS-1$
+				// special line from git-receive-pack (protocol V0) to show
 				// capabilities when there are no refs to advertise
 				continue;
 			}
 
-			final ObjectId id;
-			try {
-				id  = ObjectId.fromString(line.substring(0, 40));
-			} catch (InvalidObjectIdException e) {
-				PackProtocolException ppe = invalidRefAdvertisementLine(line);
-				ppe.initCause(e);
-				throw ppe;
-			}
+			final ObjectId id = toId(line, line.substring(0, 40));
 			if (name.equals(".have")) { //$NON-NLS-1$
 				additionalHaves.add(id);
-			} else if (name.endsWith("^{}")) { //$NON-NLS-1$
-				name = name.substring(0, name.length() - 3);
-				final Ref prior = avail.get(name);
-				if (prior == null)
-					throw new PackProtocolException(uri, MessageFormat.format(
-							JGitText.get().advertisementCameBefore, name, name));
-
-				if (prior.getPeeledObjectId() != null)
-					throw duplicateAdvertisement(name + "^{}"); //$NON-NLS-1$
-
-				avail.put(name, new ObjectIdRef.PeeledTag(
-						Ref.Storage.NETWORK, name, prior.getObjectId(), id));
 			} else {
-				final Ref prior = avail.put(name, new ObjectIdRef.PeeledNonTag(
-						Ref.Storage.NETWORK, name, id));
-				if (prior != null)
-					throw duplicateAdvertisement(name);
+				processLineV1(name, id, avail);
 			}
 		}
-		updateWithSymRefs(avail, extractSymRefsFromCapabilities(remoteCapablities));
+		updateWithSymRefs(avail, symRefs);
 		available(avail);
+		return true;
 	}
 
 	/**
-	 * Finds values in the given capabilities of the form:
+	 * Issue a protocol V2 ls-refs command and read its response.
 	 *
-	 * <pre>
-	 * symref=<em>source</em>:<em>target</em>
-	 * </pre>
-	 *
-	 * And returns a Map of source->target entries.
-	 *
-	 * @param capabilities
-	 *            the capabilities lines
-	 * @return a Map of the symref entries from capabilities
-	 * @throws NullPointerException
-	 *             if capabilities, or any entry in it, is null
+	 * @param refSpecs
+	 *            to produce ref prefixes from if the server supports git
+	 *            protocol V2
+	 * @param additionalPatterns
+	 *            to use for ref prefixes if the server supports git protocol V2
+	 * @throws TransportException
+	 *             if the command could not be run or its output not be read
 	 */
-	static Map<String, String> extractSymRefsFromCapabilities(Collection<String> capabilities) {
+	protected void lsRefs(Collection<RefSpec> refSpecs,
+			String... additionalPatterns) throws TransportException {
+		try {
+			lsRefsImpl(refSpecs, additionalPatterns);
+		} catch (TransportException err) {
+			close();
+			throw err;
+		} catch (IOException | RuntimeException err) {
+			close();
+			throw new TransportException(err.getMessage(), err);
+		}
+	}
+
+	private void lsRefsImpl(Collection<RefSpec> refSpecs,
+			String... additionalPatterns) throws IOException {
+		pckOut.writeString("command=" + COMMAND_LS_REFS); //$NON-NLS-1$
+		// Add the user-agent
+		String agent = UserAgent.get();
+		if (agent != null && isCapableOf(OPTION_AGENT)) {
+			pckOut.writeString(OPTION_AGENT + '=' + agent);
+		}
+		pckOut.writeDelim();
+		pckOut.writeString("peel"); //$NON-NLS-1$
+		pckOut.writeString("symrefs"); //$NON-NLS-1$
+		for (String refPrefix : getRefPrefixes(refSpecs, additionalPatterns)) {
+			pckOut.writeString("ref-prefix " + refPrefix); //$NON-NLS-1$
+		}
+		pckOut.end();
+		final Map<String, Ref> avail = new LinkedHashMap<>();
 		final Map<String, String> symRefs = new LinkedHashMap<>();
-		for (String option : capabilities) {
-			if (option.startsWith(CAPABILITY_SYMREF_PREFIX)) {
-				String[] symRef = option
-						.substring(CAPABILITY_SYMREF_PREFIX.length())
-						.split(":", 2); //$NON-NLS-1$
-				if (symRef.length == 2) {
-					symRefs.put(symRef[0], symRef[1]);
-				}
+		for (;;) {
+			String line = readLine();
+			if (line == null) {
+				break;
+			}
+			// Expecting to get a line in the form "sha1 refname"
+			if (line.length() < 41 || line.charAt(40) != ' ') {
+				throw invalidRefAdvertisementLine(line);
+			}
+			String name = line.substring(41, line.length());
+			final ObjectId id = toId(line, line.substring(0, 40));
+			if (name.equals(".have")) { //$NON-NLS-1$
+				additionalHaves.add(id);
+			} else {
+				processLineV2(line, id, name, avail, symRefs);
 			}
 		}
-		return symRefs;
+		updateWithSymRefs(avail, symRefs);
+		available(avail);
+	}
+
+	private Collection<String> getRefPrefixes(Collection<RefSpec> refSpecs,
+			String... additionalPatterns) {
+		if (refSpecs.isEmpty() && (additionalPatterns == null
+				|| additionalPatterns.length == 0)) {
+			return Collections.emptyList();
+		}
+		Set<String> patterns = new HashSet<>();
+		if (additionalPatterns != null) {
+			Arrays.stream(additionalPatterns).filter(Objects::nonNull)
+					.forEach(patterns::add);
+		}
+		for (RefSpec spec : refSpecs) {
+			// TODO: for now we only do protocol V2 for fetch. For push
+			// RefSpecs, the logic would need to be different. (At the
+			// minimum, take spec.getDestination().)
+			String src = spec.getSource();
+			if (ObjectId.isId(src)) {
+				continue;
+			}
+			if (spec.isWildcard()) {
+				patterns.add(src.substring(0, src.indexOf('*')));
+			} else {
+				patterns.add(src);
+				patterns.add(Constants.R_REFS + src);
+				patterns.add(Constants.R_HEADS + src);
+				patterns.add(Constants.R_TAGS + src);
+			}
+		}
+		return patterns;
+	}
+
+	private void readCapabilitiesV2() throws IOException {
+		// In git protocol V2, capabilities are different. If it's a key-value
+		// pair, the key may be a command name, and the value a space-separated
+		// list of capabilities for that command. We still store it in the same
+		// map as for protocol v0/v1. Protocol v2 code has to account for this.
+		for (;;) {
+			String line = readLine();
+			if (line == null) {
+				break;
+			}
+			addCapability(line);
+		}
+	}
+
+	private void addCapability(String capability) {
+		String parts[] = capability.split("=", 2); //$NON-NLS-1$
+		if (parts.length == 2) {
+			remoteCapabilities.put(parts[0], parts[1]);
+		}
+		remoteCapabilities.put(capability, null);
+	}
+
+	private ObjectId toId(String line, String value)
+			throws PackProtocolException {
+		try {
+			return ObjectId.fromString(value);
+		} catch (InvalidObjectIdException e) {
+			PackProtocolException ppe = invalidRefAdvertisementLine(line);
+			ppe.initCause(e);
+			throw ppe;
+		}
+	}
+
+	private void processLineV1(String name, ObjectId id, Map<String, Ref> avail)
+			throws IOException {
+		if (name.endsWith("^{}")) { //$NON-NLS-1$
+			name = name.substring(0, name.length() - 3);
+			final Ref prior = avail.get(name);
+			if (prior == null) {
+				throw new PackProtocolException(uri, MessageFormat.format(
+						JGitText.get().advertisementCameBefore, name, name));
+			}
+			if (prior.getPeeledObjectId() != null) {
+				throw duplicateAdvertisement(name + "^{}"); //$NON-NLS-1$
+			}
+			avail.put(name, new ObjectIdRef.PeeledTag(Ref.Storage.NETWORK, name,
+					prior.getObjectId(), id));
+		} else {
+			final Ref prior = avail.put(name, new ObjectIdRef.PeeledNonTag(
+					Ref.Storage.NETWORK, name, id));
+			if (prior != null) {
+				throw duplicateAdvertisement(name);
+			}
+		}
+	}
+
+	private void processLineV2(String line, ObjectId id, String rest,
+			Map<String, Ref> avail, Map<String, String> symRefs)
+			throws IOException {
+		String[] parts = rest.split(" "); //$NON-NLS-1$
+		String name = parts[0];
+		// Two attributes possible, symref-target or peeled
+		String symRefTarget = null;
+		String peeled = null;
+		for (int i = 1; i < parts.length; i++) {
+			if (parts[i].startsWith(REF_ATTR_SYMREF_TARGET)) {
+				if (symRefTarget != null) {
+					throw new PackProtocolException(uri, MessageFormat.format(
+							JGitText.get().duplicateRefAttribute, line));
+				}
+				symRefTarget = parts[i]
+						.substring(REF_ATTR_SYMREF_TARGET.length());
+			} else if (parts[i].startsWith(REF_ATTR_PEELED)) {
+				if (peeled != null) {
+					throw new PackProtocolException(uri, MessageFormat.format(
+							JGitText.get().duplicateRefAttribute, line));
+				}
+				peeled = parts[i].substring(REF_ATTR_PEELED.length());
+			}
+			if (peeled != null && symRefTarget != null) {
+				break;
+			}
+		}
+		Ref idRef;
+		if (peeled != null) {
+			idRef = new ObjectIdRef.PeeledTag(Ref.Storage.NETWORK, name, id,
+					toId(line, peeled));
+		} else {
+			idRef = new ObjectIdRef.PeeledNonTag(Ref.Storage.NETWORK, name, id);
+		}
+		Ref prior = avail.put(name, idRef);
+		if (prior != null) {
+			throw duplicateAdvertisement(name);
+		}
+		if (!StringUtils.isEmptyOrNull(symRefTarget)) {
+			symRefs.put(name, symRefTarget);
+		}
 	}
 
 	/**
@@ -334,6 +543,22 @@ abstract class BasePackConnection extends BaseConnection {
 				}
 			}
 		}
+		// If HEAD is still in the symRefs map here, the real ref was not
+		// reported, but we know it must point to the object reported for HEAD.
+		// So fill it in in the refMap.
+		String headRefName = symRefs.get(Constants.HEAD);
+		if (headRefName != null && !refMap.containsKey(headRefName)) {
+			Ref headRef = refMap.get(Constants.HEAD);
+			if (headRef != null) {
+				ObjectId headObj = headRef.getObjectId();
+				headRef = new ObjectIdRef.PeeledNonTag(Ref.Storage.NETWORK,
+						headRefName, headObj);
+				refMap.put(headRefName, headRef);
+				headRef = new SymbolicRef(Constants.HEAD, headRef);
+				refMap.put(Constants.HEAD, headRef);
+				symRefs.remove(Constants.HEAD);
+			}
+		}
 	}
 
 	/**
@@ -357,7 +582,7 @@ abstract class BasePackConnection extends BaseConnection {
 	 * @return whether this option is supported
 	 */
 	protected boolean isCapableOf(String option) {
-		return remoteCapablities.contains(option);
+		return remoteCapabilities.containsKey(option);
 	}
 
 	/**
@@ -378,6 +603,17 @@ abstract class BasePackConnection extends BaseConnection {
 	}
 
 	/**
+	 * Return a capability value.
+	 *
+	 * @param option
+	 *            to get
+	 * @return the value stored, if any.
+	 */
+	protected String getCapability(String option) {
+		return remoteCapabilities.get(option);
+	}
+
+	/**
 	 * Add user agent capability
 	 *
 	 * @param b
@@ -385,7 +621,7 @@ abstract class BasePackConnection extends BaseConnection {
 	 */
 	protected void addUserAgentCapability(StringBuilder b) {
 		String a = UserAgent.get();
-		if (a != null && UserAgent.hasAgent(remoteCapablities)) {
+		if (a != null && remoteCapabilities.get(OPTION_AGENT) != null) {
 			b.append(' ').append(OPTION_AGENT).append('=').append(a);
 		}
 	}
@@ -393,7 +629,8 @@ abstract class BasePackConnection extends BaseConnection {
 	/** {@inheritDoc} */
 	@Override
 	public String getPeerUserAgent() {
-		return UserAgent.getAgent(remoteCapablities, super.getPeerUserAgent());
+		String agent = remoteCapabilities.get(OPTION_AGENT);
+		return agent != null ? agent : super.getPeerUserAgent();
 	}
 
 	private PackProtocolException duplicateAdvertisement(String name) {

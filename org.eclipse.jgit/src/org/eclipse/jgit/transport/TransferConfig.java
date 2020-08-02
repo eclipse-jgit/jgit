@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc. and others
+ * Copyright (C) 2008, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -100,6 +100,9 @@ public class TransferConfig {
 				if (v.name.equals(name)) {
 					return v;
 				}
+			}
+			if ("1".equals(name)) { //$NON-NLS-1$
+				return V0;
 			}
 			return null;
 		}

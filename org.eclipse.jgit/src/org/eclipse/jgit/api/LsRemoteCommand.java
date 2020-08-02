@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Christoph Brill <egore911@egore911.de> and others
+ * Copyright (C) 2011, 2020 Christoph Brill <egore911@egore911.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -164,7 +164,7 @@ public class LsRemoteCommand extends
 				refSpecs.add(new RefSpec("refs/heads/*:refs/remotes/origin/*")); //$NON-NLS-1$
 			Collection<Ref> refs;
 			Map<String, Ref> refmap = new HashMap<>();
-			try (FetchConnection fc = transport.openFetch()) {
+			try (FetchConnection fc = transport.openFetch(refSpecs)) {
 				refs = fc.getRefs();
 				if (refSpecs.isEmpty())
 					for (Ref r : refs)
