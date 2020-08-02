@@ -18,8 +18,10 @@ import java.io.OutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -39,17 +41,18 @@ import org.apache.sshd.common.subsystem.sftp.SftpException;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.FtpChannel;
-import org.eclipse.jgit.transport.RemoteSession;
+import org.eclipse.jgit.transport.RemoteSession2;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An implementation of {@link RemoteSession} based on Apache MINA sshd.
+ * An implementation of {@link org.eclipse.jgit.transport.RemoteSession
+ * RemoteSession} based on Apache MINA sshd.
  *
  * @since 5.2
  */
-public class SshdSession implements RemoteSession {
+public class SshdSession implements RemoteSession2 {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SshdSession.class);
@@ -132,8 +135,15 @@ public class SshdSession implements RemoteSession {
 
 	@Override
 	public Process exec(String commandName, int timeout) throws IOException {
+		return exec(commandName, Collections.emptyMap(), timeout);
+	}
+
+	@Override
+	public Process exec(String commandName, Map<String, String> environment,
+			int timeout) throws IOException {
 		@SuppressWarnings("resource")
-		ChannelExec exec = session.createExecChannel(commandName);
+		ChannelExec exec = session.createExecChannel(commandName, null,
+				environment);
 		long timeoutMillis = TimeUnit.SECONDS.toMillis(timeout);
 		try {
 			if (timeout <= 0) {

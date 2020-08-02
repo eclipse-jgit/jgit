@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
@@ -144,6 +145,18 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return new SshFetchConnection();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.9
+	 */
+	@Override
+	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
+			String... additionalPatterns)
+			throws NotSupportedException, TransportException {
+		return new SshFetchConnection(refSpecs, additionalPatterns);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
@@ -249,10 +262,31 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		private StreamCopyThread errorThread;
 
 		SshFetchConnection() throws TransportException {
+			this(Collections.emptyList());
+		}
+
+		SshFetchConnection(Collection<RefSpec> refSpecs,
+				String... additionalPatterns) throws TransportException {
 			super(TransportGitSsh.this);
 			try {
-				process = getSession().exec(commandFor(getOptionUploadPack()),
-						getTimeout());
+				RemoteSession session = getSession();
+				TransferConfig.ProtocolVersion gitProtocol = protocol;
+				if (gitProtocol == null) {
+					gitProtocol = TransferConfig.ProtocolVersion.V2;
+				}
+				if (session instanceof RemoteSession2
+						&& TransferConfig.ProtocolVersion.V2
+								.equals(gitProtocol)) {
+					process = ((RemoteSession2) session).exec(
+							commandFor(getOptionUploadPack()), Collections
+									.singletonMap(
+											GitProtocolConstants.PROTOCOL_ENVIRONMENT_VARIABLE,
+											GitProtocolConstants.VERSION_2_REQUEST),
+							getTimeout());
+				} else {
+					process = session.exec(commandFor(getOptionUploadPack()),
+							getTimeout());
+				}
 				final MessageWriter msg = new MessageWriter();
 				setMessageWriter(msg);
 
@@ -272,7 +306,9 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			try {
-				readAdvertisedRefs();
+				if (!readAdvertisedRefs()) {
+					lsRefs(refSpecs, additionalPatterns);
+				}
 			} catch (NoRemoteRepositoryException notFound) {
 				final String msgs = getMessages();
 				checkExecFailure(process.exitValue(), getOptionUploadPack(),
