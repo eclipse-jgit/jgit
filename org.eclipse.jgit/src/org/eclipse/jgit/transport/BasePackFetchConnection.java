@@ -16,9 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -212,6 +215,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private PacketLineOut pckState;
 
+	private Set<String> fetchCapabilities = new HashSet<>();
+
 	/**
 	 * Either FilterSpec.NO_FILTER for a filter that doesn't filter
 	 * anything, or a filter that indicates what and what not to send to the
@@ -354,6 +359,28 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				pckState = new PacketLineOut(state);
 			}
 
+			if (TransferConfig.ProtocolVersion.V2
+					.equals(getProtocolVersion())) {
+				sideband = true;
+				noDone = true;
+				multiAck = MultiAck.DETAILED;
+				setFetchOptions();
+				PacketLineOut output = statelessRPC ? pckState : pckOut;
+				output.writeString(
+						"command=" + GitProtocolConstants.COMMAND_FETCH); //$NON-NLS-1$
+				// Capabilities are sent as command arguments in protocol V2
+				String agent = UserAgent.get();
+				if (agent != null
+						&& isCapableOf(GitProtocolConstants.OPTION_AGENT)) {
+					output.writeString(
+							GitProtocolConstants.OPTION_AGENT + '=' + agent);
+				}
+				output.writeDelim();
+				// Arguments
+				for (String capability : getCapabilitiesV2()) {
+					output.writeString(capability);
+				}
+			}
 			if (sendWants(want)) {
 				negotiate(monitor);
 
@@ -362,6 +389,25 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				state = null;
 				pckState = null;
 
+				if (TransferConfig.ProtocolVersion.V2
+						.equals(getProtocolVersion())) {
+					String header = pckIn.readString();
+					if (PacketLineIn.isEnd(header)) {
+						// No packfile following.
+						return;
+					}
+
+					if (header.startsWith("ERR ")) { //$NON-NLS-1$
+						// Protocol V2 may give us an error here (for instance,
+						// invalid want)
+						throw new PackProtocolException(header.substring(4));
+					}
+					if (!GitProtocolConstants.SECTION_PACKFILE.equals(header)) {
+						throw new PackProtocolException(MessageFormat.format(
+								JGitText.get().expectedGot,
+								GitProtocolConstants.SECTION_PACKFILE, header));
+					}
+				}
 				receivePack(monitor, outputStream);
 			}
 		} catch (CancelledException ce) {
@@ -379,6 +425,14 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (walk != null)
 			walk.close();
 		super.close();
+	}
+
+	private void setFetchOptions() {
+		String advertised = getCapability(GitProtocolConstants.COMMAND_FETCH);
+		if (advertised == null) {
+			return;
+		}
+		fetchCapabilities.addAll(Arrays.asList(advertised.split(" "))); //$NON-NLS-1$
 	}
 
 	FetchConfig getFetchConfig() {
@@ -479,10 +533,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			final StringBuilder line = new StringBuilder(46);
 			line.append("want "); //$NON-NLS-1$
 			line.append(objectId.name());
-			if (first) {
+			if (first && TransferConfig.ProtocolVersion.V0
+					.equals(getProtocolVersion())) {
 				line.append(enableCapabilities());
-				first = false;
 			}
+			first = false;
 			line.append('\n');
 			p.writeString(line.toString());
 		}
@@ -492,9 +547,33 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (!filterSpec.isNoOp()) {
 			p.writeString(filterSpec.filterLine());
 		}
-		p.end();
-		outNeedsEnd = false;
+		if (TransferConfig.ProtocolVersion.V0.equals(getProtocolVersion())) {
+			p.end();
+			outNeedsEnd = false;
+		}
 		return true;
+	}
+
+	private Set<String> getCapabilitiesV2() throws TransportException {
+		Set<String> capabilities = new LinkedHashSet<>();
+		if (noProgress) {
+			capabilities.add(OPTION_NO_PROGRESS);
+		}
+		if (includeTags) {
+			capabilities.add(OPTION_INCLUDE_TAG);
+		}
+		if (allowOfsDelta) {
+			capabilities.add(OPTION_OFS_DELTA);
+		}
+		if (thinPack) {
+			capabilities.add(OPTION_THIN_PACK);
+		}
+		if (!filterSpec.isNoOp()
+				&& !fetchCapabilities.contains(OPTION_FILTER)) {
+			throw new PackProtocolException(uri,
+					JGitText.get().filterRequiresCapability);
+		}
+		return capabilities;
 	}
 
 	private String enableCapabilities() throws TransportException {
@@ -550,6 +629,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		boolean receivedContinue = false;
 		boolean receivedAck = false;
 		boolean receivedReady = false;
+		boolean needsAcknowledgementV2 = true;
 
 		if (statelessRPC) {
 			state.writeTo(out, null);
@@ -563,7 +643,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			ObjectId o = c.getId();
-			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			pckOut.writeString("have " + o.name() + '\n'); //$NON-NLS-1$
 			havesSent++;
 			havesSinceLastContinue++;
 
@@ -580,6 +660,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			pckOut.end();
+			outNeedsEnd = false;
 			resultsPending++; // Each end will cause a result to come back.
 
 			if (havesSent == 32 && !statelessRPC) {
@@ -591,9 +672,32 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				continue;
 			}
 
+			// Read the section header
+			if (needsAcknowledgementV2 && TransferConfig.ProtocolVersion.V2
+					.equals(getProtocolVersion())) {
+				String header = pckIn.readString();
+				if (!GitProtocolConstants.SECTION_ACKNOWLEDGMENTS
+						.equals(header)) {
+					throw new PackProtocolException(MessageFormat.format(
+							JGitText.get().expectedGot,
+							GitProtocolConstants.SECTION_ACKNOWLEDGMENTS,
+							header));
+				}
+				needsAcknowledgementV2 = false;
+			}
 			READ_RESULT: for (;;) {
-				final AckNackResult anr = pckIn.readACK(ackId);
+				AckNackResult anr = pckIn.readACKorEOF(ackId);
 				switch (anr) {
+				case ACK_EOF:
+					if (TransferConfig.ProtocolVersion.V0
+							.equals(getProtocolVersion())) {
+						throw new PackProtocolException(
+								JGitText.get().expectedACKNAKFoundEOF);
+					}
+					// More lines needed
+					resultsPending--;
+					break READ_RESULT;
+
 				case NAK:
 					// More have lines are necessary to compute the
 					// pack on the remote side. Keep doing that.
@@ -602,17 +706,24 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					break READ_RESULT;
 
 				case ACK:
-					// The remote side is happy and knows exactly what
-					// to send us. There is no further negotiation and
-					// we can break out immediately.
-					//
-					multiAck = MultiAck.OFF;
-					resultsPending = 0;
-					receivedAck = true;
-					if (statelessRPC) {
-						state.writeTo(out, null);
+					if (TransferConfig.ProtocolVersion.V0
+							.equals(getProtocolVersion())) {
+						// The remote side is happy and knows exactly what
+						// to send us. There is no further negotiation and
+						// we can break out immediately.
+						//
+						multiAck = MultiAck.OFF;
+						resultsPending = 0;
+						receivedAck = true;
+						if (statelessRPC) {
+							state.writeTo(out, null);
+						}
+						break SEND_HAVES;
 					}
-					break SEND_HAVES;
+					// Keep on reading ACKs until we get the ACK_READY
+					markCommon(walk.parseAny(ackId), AckNackResult.ACK_COMMON);
+					receivedAck = true;
+					break;
 
 				case ACK_CONTINUE:
 				case ACK_COMMON:
@@ -628,6 +739,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					havesSinceLastContinue = 0;
 					if (anr == AckNackResult.ACK_READY) {
 						receivedReady = true;
+						if (TransferConfig.ProtocolVersion.V2
+								.equals(getProtocolVersion())) {
+							multiAck = MultiAck.OFF;
+							resultsPending = 0;
+							break SEND_HAVES;
+						}
 					}
 					break;
 				}
@@ -661,14 +778,35 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			throw new CancelledException();
 		}
 
+		if (receivedReady && TransferConfig.ProtocolVersion.V2
+				.equals(getProtocolVersion())) {
+			// We'll get the packfile right away. Skip the delimiter.
+			String delim = pckIn.readString();
+			if (!PacketLineIn.isDelimiter(delim)) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().expectedGot, "0001", delim)); //$NON-NLS-1$
+			}
+			return;
+		}
 		if (!receivedReady || !noDone) {
 			// When statelessRPC is true we should always leave SEND_HAVES
 			// loop above while in the middle of a request. This allows us
 			// to just write done immediately.
 			//
 			pckOut.writeString("done\n"); //$NON-NLS-1$
+			if (TransferConfig.ProtocolVersion.V2
+					.equals(getProtocolVersion())) {
+				pckOut.end();
+				outNeedsEnd = false;
+				pckOut.flush();
+				// Protocol V2 will skip acknowledgments completely if we send
+				// a done.
+				return;
+			}
 			pckOut.flush();
 		}
+
+		// Below is protocol V0 only.
 
 		if (!receivedAck) {
 			// Apparently if we have never received an ACK earlier
@@ -697,7 +835,15 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 			case ACK_CONTINUE:
 			case ACK_COMMON:
+				// We will expect a normal ACK to break out of the loop.
+				//
+				multiAck = MultiAck.CONTINUE;
+				break;
 			case ACK_READY:
+				if (TransferConfig.ProtocolVersion.V2
+						.equals(getProtocolVersion())) {
+					break READ_RESULT;
+				}
 				// We will expect a normal ACK to break out of the loop.
 				//
 				multiAck = MultiAck.CONTINUE;
