@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
- * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2010 Google Inc.
+ * Copyright (C) 2008, 2009 Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -140,8 +140,14 @@ public class PacketLineOut {
 		}
 		out.write(buf, pos, len);
 		if (log.isDebugEnabled()) {
-			String s = RawParseUtils.decode(UTF_8, buf, pos, len);
-			log.debug("git> " + s); //$NON-NLS-1$
+			// Escape a trailing \n to avoid empty lines in the log.
+			if (len > 0 && buf[pos + len - 1] == '\n') {
+				log.debug(
+						"git> " + RawParseUtils.decode(UTF_8, buf, pos, len - 1) //$NON-NLS-1$
+								+ "\\n"); //$NON-NLS-1$
+			} else {
+				log.debug("git> " + RawParseUtils.decode(UTF_8, buf, pos, len)); //$NON-NLS-1$
+			}
 		}
 	}
 

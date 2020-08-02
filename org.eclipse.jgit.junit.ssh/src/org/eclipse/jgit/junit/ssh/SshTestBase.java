@@ -40,7 +40,7 @@ import org.junit.experimental.theories.Theory;
  * abstract operations from {@link SshTestHarness}. This gives a way to test
  * different ssh clients against a unified test suite.
  */
-public abstract class SshTestBase extends SshTestHarness {
+public abstract class SshTestBase extends SshBasicTestBase {
 
 	@DataPoints
 	public static String[] KEY_RESOURCES = { //
@@ -64,14 +64,6 @@ public abstract class SshTestBase extends SshTestHarness {
 			"id_ecdsa_521_testpass", //
 			"id_ed25519_testpass", //
 			"id_ed25519_expensive_testpass" };
-
-	protected File defaultCloneDir;
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		defaultCloneDir = new File(getTemporaryDirectory(), "cloned");
-	}
 
 	@Test
 	public void testSshWithoutConfig() throws Exception {
@@ -130,16 +122,6 @@ public abstract class SshTestBase extends SshTestHarness {
 		// We expect the session factory to pick up these keys...
 		cloneWith("ssh://" + TEST_USER + "@localhost:" + testPort
 				+ "/doesntmatter", defaultCloneDir, null);
-	}
-
-	@Test
-	public void testSshWithConfig() throws Exception {
-		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
-				"Host localhost", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
 	@Test
