@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc. and others
+ * Copyright (C) 2008, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,6 +13,8 @@ package org.eclipse.jgit.transport;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SYMREF;
+import static org.eclipse.jgit.transport.GitProtocolConstants.REF_ATTR_PEELED;
+import static org.eclipse.jgit.transport.GitProtocolConstants.REF_ATTR_SYMREF_TARGET;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -287,7 +289,8 @@ public abstract class RefAdvertiser {
 
 			if (useProtocolV2) {
 				String symrefPart = symrefs.containsKey(ref.getName())
-						? (" symref-target:" + symrefs.get(ref.getName())) //$NON-NLS-1$
+						? (' ' + REF_ATTR_SYMREF_TARGET
+								+ symrefs.get(ref.getName()))
 						: ""; //$NON-NLS-1$
 				String peelPart = ""; //$NON-NLS-1$
 				if (derefTags) {
@@ -296,7 +299,8 @@ public abstract class RefAdvertiser {
 					}
 					ObjectId peeledObjectId = ref.getPeeledObjectId();
 					if (peeledObjectId != null) {
-						peelPart = " peeled:" + peeledObjectId.getName(); //$NON-NLS-1$
+						peelPart = ' ' + REF_ATTR_PEELED
+								+ peeledObjectId.getName();
 					}
 				}
 				writeOne(objectId.getName() + " " + ref.getName() + symrefPart //$NON-NLS-1$
