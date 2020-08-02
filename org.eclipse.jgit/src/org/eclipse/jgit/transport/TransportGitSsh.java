@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008, 2010 Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -19,11 +19,13 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -144,6 +146,13 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return new SshFetchConnection();
 	}
 
+	@Override
+	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
+			String... additionalPatterns)
+			throws NotSupportedException, TransportException {
+		return new SshFetchConnection(refSpecs, additionalPatterns);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
@@ -196,29 +205,38 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return SystemReader.getInstance().getenv("GIT_SSH") != null; //$NON-NLS-1$
 	}
 
-	private class ExtSession implements RemoteSession {
+	private class ExtSession implements RemoteSession2 {
+
 		@Override
 		public Process exec(String command, int timeout)
 				throws TransportException {
+			return exec(command, null, timeout);
+		}
+
+		@Override
+		public Process exec(String command, Map<String, String> environment,
+				int timeout) throws TransportException {
 			String ssh = SystemReader.getInstance().getenv("GIT_SSH"); //$NON-NLS-1$
 			boolean putty = ssh.toLowerCase(Locale.ROOT).contains("plink"); //$NON-NLS-1$
 
 			List<String> args = new ArrayList<>();
 			args.add(ssh);
-			if (putty
-					&& !ssh.toLowerCase(Locale.ROOT).contains("tortoiseplink")) //$NON-NLS-1$
+			if (putty && !ssh.toLowerCase(Locale.ROOT)
+					.contains("tortoiseplink")) {//$NON-NLS-1$
 				args.add("-batch"); //$NON-NLS-1$
+			}
 			if (0 < getURI().getPort()) {
 				args.add(putty ? "-P" : "-p"); //$NON-NLS-1$ //$NON-NLS-2$
 				args.add(String.valueOf(getURI().getPort()));
 			}
-			if (getURI().getUser() != null)
+			if (getURI().getUser() != null) {
 				args.add(getURI().getUser() + "@" + getURI().getHost()); //$NON-NLS-1$
-			else
+			} else {
 				args.add(getURI().getHost());
+			}
 			args.add(command);
 
-			ProcessBuilder pb = createProcess(args);
+			ProcessBuilder pb = createProcess(args, environment);
 			try {
 				return pb.start();
 			} catch (IOException err) {
@@ -226,9 +244,13 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 		}
 
-		private ProcessBuilder createProcess(List<String> args) {
+		private ProcessBuilder createProcess(List<String> args,
+				Map<String, String> environment) {
 			ProcessBuilder pb = new ProcessBuilder();
 			pb.command(args);
+			if (environment != null) {
+				pb.environment().putAll(environment);
+			}
 			File directory = local != null ? local.getDirectory() : null;
 			if (directory != null) {
 				pb.environment().put(Constants.GIT_DIR_KEY,
@@ -249,10 +271,31 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		private StreamCopyThread errorThread;
 
 		SshFetchConnection() throws TransportException {
+			this(Collections.emptyList());
+		}
+
+		SshFetchConnection(Collection<RefSpec> refSpecs,
+				String... additionalPatterns) throws TransportException {
 			super(TransportGitSsh.this);
 			try {
-				process = getSession().exec(commandFor(getOptionUploadPack()),
-						getTimeout());
+				RemoteSession session = getSession();
+				TransferConfig.ProtocolVersion gitProtocol = protocol;
+				if (gitProtocol == null) {
+					gitProtocol = TransferConfig.ProtocolVersion.V2;
+				}
+				if (session instanceof RemoteSession2
+						&& TransferConfig.ProtocolVersion.V2
+								.equals(gitProtocol)) {
+					process = ((RemoteSession2) session).exec(
+							commandFor(getOptionUploadPack()), Collections
+									.singletonMap(
+											GitProtocolConstants.PROTOCOL_ENVIRONMENT_VARIABLE,
+											GitProtocolConstants.VERSION_2_REQUEST),
+							getTimeout());
+				} else {
+					process = session.exec(commandFor(getOptionUploadPack()),
+							getTimeout());
+				}
 				final MessageWriter msg = new MessageWriter();
 				setMessageWriter(msg);
 
@@ -272,7 +315,9 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			try {
-				readAdvertisedRefs();
+				if (!readAdvertisedRefs()) {
+					lsRefs(refSpecs, additionalPatterns);
+				}
 			} catch (NoRemoteRepositoryException notFound) {
 				final String msgs = getMessages();
 				checkExecFailure(process.exitValue(), getOptionUploadPack(),

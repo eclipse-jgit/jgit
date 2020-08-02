@@ -16,11 +16,11 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -28,18 +28,6 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
 public class BasePackConnectionTest {
-
-	@Test
-	public void testExtractSymRefsFromCapabilities() {
-		final Map<String, String> symRefs = BasePackConnection
-				.extractSymRefsFromCapabilities(
-						Arrays.asList("symref=HEAD:refs/heads/main",
-								"symref=refs/heads/sym:refs/heads/other"));
-
-		assertEquals(2, symRefs.size());
-		assertEquals("refs/heads/main", symRefs.get("HEAD"));
-		assertEquals("refs/heads/other", symRefs.get("refs/heads/sym"));
-	}
 
 	@Test
 	public void testUpdateWithSymRefsAdds() {
@@ -229,5 +217,31 @@ public class BasePackConnectionTest {
 		assertEquals(2, refMap.size());
 		assertThat(refMap, not(hasKey("refs/heads/sym1")));
 		assertThat(refMap, not(hasKey("refs/heads/sym2")));
+	}
+
+	@Test
+	public void testUpdateWithSymRefsFillInHead() {
+		final String oidName = "0000000000000000000000000000000000000001";
+		final Ref advertised = new ObjectIdRef.PeeledNonTag(Ref.Storage.NETWORK,
+				Constants.HEAD, ObjectId.fromString(oidName));
+
+		final Map<String, Ref> refMap = new HashMap<>();
+		refMap.put(advertised.getName(), advertised);
+
+		final Map<String, String> symRefs = new HashMap<>();
+		symRefs.put("HEAD", "refs/heads/main");
+
+		BasePackConnection.updateWithSymRefs(refMap, symRefs);
+
+		assertThat(refMap, hasKey("HEAD"));
+		assertThat(refMap, hasKey("refs/heads/main"));
+		final Ref headRef = refMap.get("HEAD");
+		final Ref mainRef = refMap.get("refs/heads/main");
+		assertThat(headRef, instanceOf(SymbolicRef.class));
+		final SymbolicRef headSymRef = (SymbolicRef) headRef;
+		assertEquals(Constants.HEAD, headSymRef.getName());
+		assertSame(mainRef, headSymRef.getTarget());
+		assertEquals(oidName, headRef.getObjectId().name());
+		assertEquals(oidName, mainRef.getObjectId().name());
 	}
 }
