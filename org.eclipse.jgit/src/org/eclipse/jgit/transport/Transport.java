@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008, 2009 Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -39,6 +39,7 @@ import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
@@ -774,6 +775,10 @@ public abstract class Transport implements AutoCloseable {
 	private PrintStream hookOutRedirect;
 
 	private PrePushHook prePush;
+
+	@Nullable
+	TransferConfig.ProtocolVersion protocol;
+
 	/**
 	 * Create a new transport instance.
 	 *
@@ -789,6 +794,7 @@ public abstract class Transport implements AutoCloseable {
 		final TransferConfig tc = local.getConfig().get(TransferConfig.KEY);
 		this.local = local;
 		this.uri = uri;
+		this.protocol = tc.protocolVersion;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
 		prePush = Hooks.prePush(local, hookOutRedirect);
@@ -1451,6 +1457,43 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public abstract FetchConnection openFetch() throws NotSupportedException,
 			TransportException;
+
+	/**
+	 * Begins a new connection for fetching from the remote repository.
+	 * <p>
+	 * If the transport has no local repository, the fetch connection can only
+	 * be used for reading remote refs.
+	 * </p>
+	 * <p>
+	 * If the server supports git protocol V2, the {@link RefSpec}s and the
+	 * additional patterns, if any, are used to restrict the server's ref
+	 * advertisement to matching refs only.
+	 * </p>
+	 * <p>
+	 * Transports that want to support git protocol V2 <em>must</em> override
+	 * this; the default implementation ignores its arguments and calls
+	 * {@link #openFetch()}.
+	 * </p>
+	 *
+	 * @param refSpecs
+	 *            that will be fetched via
+	 *            {@link FetchConnection#fetch(ProgressMonitor, Collection, java.util.Set, OutputStream)} later
+	 * @param additionalPatterns
+	 *            that will be set as ref prefixes if the server supports git
+	 *            protocol V2; {@code null} values are ignored
+	 *
+	 * @return a fresh connection to fetch from the remote repository.
+	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             the implementation does not support fetching.
+	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             the remote connection could not be established.
+	 * @since 5.11
+	 */
+	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
+			String... additionalPatterns)
+			throws NotSupportedException, TransportException {
+		return openFetch();
+	}
 
 	/**
 	 * Begins a new connection for pushing into the remote repository.

@@ -35,6 +35,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchConnection;
@@ -77,6 +78,9 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 
 		remoteRepository = src.getRepository();
 		remoteURI = toURIish(app, srcGit.getName());
+		StoredConfig cfg = remoteRepository.getConfig();
+		cfg.setInt("protocol", null, "version", 0);
+		cfg.save();
 
 		A_txt = src.blob("A");
 		A = src.commit().add("A_txt", A_txt).create();

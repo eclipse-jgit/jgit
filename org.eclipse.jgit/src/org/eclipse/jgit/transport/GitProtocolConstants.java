@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008-2013, Google Inc.
+ * Copyright (C) 2008, 2013 Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -246,6 +246,74 @@ public final class GitProtocolConstants {
 	 * @since 5.0
 	 */
 	public static final String COMMAND_FETCH = "fetch"; //$NON-NLS-1$
+
+	/**
+	 * HTTP header to set by clients to request a specific git protocol version
+	 * in the HTTP transport.
+	 *
+	 * @since 5.11
+	 */
+	public static final String PROTOCOL_HEADER = "Git-Protocol"; //$NON-NLS-1$
+
+	/**
+	 * Environment variable to set by clients to request a specific git protocol
+	 * in the file:// and ssh:// transports.
+	 *
+	 * @since 5.11
+	 */
+	public static final String PROTOCOL_ENVIRONMENT_VARIABLE = "GIT_PROTOCOL"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 ref advertisement attribute containing the peeled object id
+	 * for annotated tags.
+	 *
+	 * @since 5.11
+	 */
+	public static final String REF_ATTR_PEELED = "peeled:"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 ref advertisement attribute containing the name of the ref
+	 * for symbolic refs.
+	 *
+	 * @since 5.11
+	 */
+	public static final String REF_ATTR_SYMREF_TARGET = "symref-target:"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 acknowledgments section header.
+	 *
+	 * @since 5.11
+	 */
+	public static final String SECTION_ACKNOWLEDGMENTS = "acknowledgments"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 packfile section header.
+	 *
+	 * @since 5.11
+	 */
+	public static final String SECTION_PACKFILE = "packfile"; //$NON-NLS-1$
+
+	/**
+	 * Protocol announcement for protocol version 1. This is the same as V0,
+	 * except for this initial line.
+	 *
+	 * @since 5.11
+	 */
+	public static final String VERSION_1 = "version 1"; //$NON-NLS-1$
+
+	/**
+	 * Protocol announcement for protocol version 2.
+	 *
+	 * @since 5.11
+	 */
+	public static final String VERSION_2 = "version 2"; //$NON-NLS-1$
+
+	/**
+	 * Protocol request for protocol version 2.
+	 *
+	 * @since 5.11
+	 */
+	public static final String VERSION_2_REQUEST = "version=2"; //$NON-NLS-1$
 
 	enum MultiAck {
 		OFF, CONTINUE, DETAILED;
