@@ -33,8 +33,8 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -339,11 +339,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	@SuppressWarnings("resource") // Closed by caller
 	private FetchConnection getConnection(HttpConnection c, InputStream in,
-			String service) throws IOException {
+			String service, Collection<RefSpec> refSpecs,
+			String... additionalPatterns) throws IOException {
 		BaseConnection f;
 		if (isSmartHttp(c, service)) {
-			readSmartHeaders(in, service);
-			f = new SmartHttpFetchConnection(in);
+			InputStream withMark = in.markSupported() ? in
+					: new BufferedInputStream(in);
+			readSmartHeaders(withMark, service);
+			f = new SmartHttpFetchConnection(withMark, refSpecs,
+					additionalPatterns);
 		} else {
 			// Assume this server doesn't support smart HTTP fetch
 			// and fall back on dumb object walking.
@@ -357,11 +361,23 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	@Override
 	public FetchConnection openFetch() throws TransportException,
 			NotSupportedException {
+		return openFetch(Collections.emptyList());
+	}
+
+	@Override
+	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
+			String... additionalPatterns)
+			throws NotSupportedException, TransportException {
 		final String service = SVC_UPLOAD_PACK;
 		try {
-			final HttpConnection c = connect(service);
+			TransferConfig.ProtocolVersion gitProtocol = protocol;
+			if (gitProtocol == null) {
+				gitProtocol = TransferConfig.ProtocolVersion.V2;
+			}
+			HttpConnection c = connect(service, gitProtocol);
 			try (InputStream in = openInputStream(c)) {
-				return getConnection(c, in, service);
+				return getConnection(c, in, service, refSpecs,
+						additionalPatterns);
 			}
 		} catch (NotSupportedException | TransportException err) {
 			throw err;
@@ -456,8 +472,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private PushConnection smartPush(String service, HttpConnection c,
 			InputStream in) throws IOException, TransportException {
-		readSmartHeaders(in, service);
-		SmartHttpPushConnection p = new SmartHttpPushConnection(in);
+		BufferedInputStream inBuf = new BufferedInputStream(in);
+		readSmartHeaders(inBuf, service);
+		SmartHttpPushConnection p = new SmartHttpPushConnection(inBuf);
 		p.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
 		return p;
 	}
@@ -494,6 +511,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private HttpConnection connect(String service)
 			throws TransportException, NotSupportedException {
+		return connect(service, null);
+	}
+
+	private HttpConnection connect(String service,
+			TransferConfig.ProtocolVersion protocolVersion)
+			throws TransportException, NotSupportedException {
 		URL u = getServiceURL(service);
 		int authAttempts = 1;
 		int redirects = 0;
@@ -506,6 +529,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*"); //$NON-NLS-1$
 				} else {
 					conn.setRequestProperty(HDR_ACCEPT, "*/*"); //$NON-NLS-1$
+				}
+				if (TransferConfig.ProtocolVersion.V2.equals(protocolVersion)) {
+					conn.setRequestProperty(
+							GitProtocolConstants.PROTOCOL_HEADER,
+							GitProtocolConstants.VERSION_2_REQUEST);
 				}
 				final int status = HttpSupport.response(conn);
 				processResponseCookies(conn);
@@ -1148,20 +1176,37 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private void readSmartHeaders(InputStream in, String service)
 			throws IOException {
-		// A smart reply will have a '#' after the first 4 bytes, but
-		// a dumb reply cannot contain a '#' until after byte 41. Do a
+		// A smart protocol V0 reply will have a '#' after the first 4 bytes,
+		// but a dumb reply cannot contain a '#' until after byte 41. Do a
 		// quick check to make sure its a smart reply before we parse
 		// as a pkt-line stream.
 		//
-		final byte[] magic = new byte[5];
+		// There appears to be a confusion about this in protocol V2. Github
+		// sends the # service line as a git (not http) header also when
+		// protocol V2 is used. Gitlab also does so. JGit's UploadPack doesn't,
+		// and thus Gerrit also does not.
+		final byte[] magic = new byte[14];
+		if (!in.markSupported()) {
+			throw new TransportException(uri,
+					JGitText.get().inputStreamMustSupportMark);
+		}
+		in.mark(14);
 		IO.readFully(in, magic, 0, magic.length);
+		// Did we get 000dversion 2 or similar? (Canonical is 000eversion 2\n,
+		// but JGit and thus Gerrit omits the \n.)
+		if (Arrays.equals(Arrays.copyOfRange(magic, 4, 11),
+				"version".getBytes()) && magic[12] >= '1' && magic[12] <= '9') { //$NON-NLS-1$
+			// It's a smart server doing version 1 or greater, but not sending
+			// the # service line header. Don't consume the version line.
+			in.reset();
+			return;
+		}
 		if (magic[4] != '#') {
 			throw new TransportException(uri, MessageFormat.format(
 					JGitText.get().expectedPktLineWithService, RawParseUtils.decode(magic)));
 		}
-
-		final PacketLineIn pckIn = new PacketLineIn(new UnionInputStream(
-				new ByteArrayInputStream(magic), in));
+		in.reset();
+		final PacketLineIn pckIn = new PacketLineIn(in);
 		final String exp = "# service=" + service; //$NON-NLS-1$
 		final String act = pckIn.readString();
 		if (!exp.equals(act)) {
@@ -1327,12 +1372,24 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		SmartHttpFetchConnection(InputStream advertisement)
 				throws TransportException {
+			this(advertisement, Collections.emptyList());
+		}
+
+		SmartHttpFetchConnection(InputStream advertisement,
+				Collection<RefSpec> refSpecs, String... additionalPatterns)
+				throws TransportException {
 			super(TransportHttp.this);
 			statelessRPC = true;
 
 			init(advertisement, DisabledOutputStream.INSTANCE);
 			outNeedsEnd = false;
-			readAdvertisedRefs();
+			if (!readAdvertisedRefs()) {
+				// Must be protocol V2
+				LongPollService service = new LongPollService(SVC_UPLOAD_PACK,
+						getProtocolVersion());
+				init(service.getInputStream(), service.getOutputStream());
+				lsRefs(refSpecs, additionalPatterns);
+			}
 		}
 
 		@Override
@@ -1340,7 +1397,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				final Collection<Ref> want, final Set<ObjectId> have,
 				final OutputStream outputStream) throws TransportException {
 			try {
-				svc = new MultiRequestService(SVC_UPLOAD_PACK);
+				svc = new MultiRequestService(SVC_UPLOAD_PACK,
+						getProtocolVersion());
 				init(svc.getInputStream(), svc.getOutputStream());
 				super.doFetch(monitor, want, have, outputStream);
 			} finally {
@@ -1369,7 +1427,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		protected void doPush(final ProgressMonitor monitor,
 				final Map<String, RemoteRefUpdate> refUpdates,
 				OutputStream outputStream) throws TransportException {
-			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
+			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK,
+					getProtocolVersion());
 			init(svc.getInputStream(), svc.getOutputStream());
 			super.doPush(monitor, refUpdates, outputStream);
 		}
@@ -1389,10 +1448,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		protected final HttpExecuteStream execute;
 
+		protected final TransferConfig.ProtocolVersion protocolVersion;
+
 		final UnionInputStream in;
 
-		Service(String serviceName) {
+		Service(String serviceName,
+				TransferConfig.ProtocolVersion protocolVersion) {
 			this.serviceName = serviceName;
+			this.protocolVersion = protocolVersion;
 			this.requestType = "application/x-" + serviceName + "-request"; //$NON-NLS-1$ //$NON-NLS-2$
 			this.responseType = "application/x-" + serviceName + "-result"; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -1408,6 +1471,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setDoOutput(true);
 			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
 			conn.setRequestProperty(HDR_ACCEPT, responseType);
+			if (TransferConfig.ProtocolVersion.V2.equals(protocolVersion)) {
+				conn.setRequestProperty(GitProtocolConstants.PROTOCOL_HEADER,
+						GitProtocolConstants.VERSION_2_REQUEST);
+			}
 		}
 
 		void sendRequest() throws IOException {
@@ -1663,8 +1730,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	class MultiRequestService extends Service {
 		boolean finalRequest;
 
-		MultiRequestService(String serviceName) {
-			super(serviceName);
+		MultiRequestService(String serviceName,
+				TransferConfig.ProtocolVersion protocolVersion) {
+			super(serviceName, protocolVersion);
 		}
 
 		/** Keep opening send-receive pairs to the given URI. */
@@ -1701,11 +1769,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	/** Service for maintaining a single long-poll connection. */
 	class LongPollService extends Service {
-		/**
-		 * @param serviceName
-		 */
-		LongPollService(String serviceName) {
-			super(serviceName);
+
+		LongPollService(String serviceName,
+				TransferConfig.ProtocolVersion protocolVersion) {
+			super(serviceName, protocolVersion);
 		}
 
 		/** Only open one send-receive request. */
