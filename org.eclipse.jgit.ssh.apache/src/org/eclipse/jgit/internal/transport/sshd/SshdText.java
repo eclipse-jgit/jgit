@@ -19,6 +19,7 @@ public final class SshdText extends TranslationBundle {
 
 	// @formatter:off
 	/***/ public String authenticationCanceled;
+	/***/ public String authenticationOnClosedSession;
 	/***/ public String closeListenerFailed;
 	/***/ public String configInvalidPath;
 	/***/ public String configInvalidPattern;
@@ -87,6 +88,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String serverIdTooLong;
 	/***/ public String serverIdWithNul;
 	/***/ public String sessionCloseFailed;
+	/***/ public String sessionWithoutUsername;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;

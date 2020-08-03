@@ -11,6 +11,7 @@ package org.eclipse.jgit.transport.sshd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -159,7 +160,7 @@ public class ApacheSshTest extends SshTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
-	@Test (expected = TransportException.class)
+	@Test
 	public void testHugePreamble() throws Exception {
 		// Test that the connection fails when the preamble is longer than 64k.
 		StringBuilder b = new StringBuilder();
@@ -172,11 +173,15 @@ public class ApacheSshTest extends SshTestBase {
 			lines[i] = line;
 		}
 		server.setPreamble(lines);
-		cloneWith(
+		TransportException e = assertThrows(TransportException.class,
+				() -> cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",
 				defaultCloneDir, null,
-				"IdentityFile " + privateKey1.getAbsolutePath());
+						"IdentityFile " + privateKey1.getAbsolutePath()));
+		assertFalse(e.getMessage().contains("timeout"));
+		assertTrue(e.getMessage().contains("65536")
+				|| e.getMessage().contains("closed"));
 	}
 
 	/**
