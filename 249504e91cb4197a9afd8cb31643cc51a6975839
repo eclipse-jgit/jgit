@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbc2b122_5a368840",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-03T19:40:56Z",
+      "side": 1,
+      "message": "Describing some anticipated examples would be nice: \"e.g., handling push options, or automating the updating of superprojects upon submodules updates.\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "249504e91cb4197a9afd8cb31643cc51a6975839",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee3fa376_baf473fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-03T19:40:56Z",
+      "side": 1,
+      "message": "Add a default (no-op) method here?",
+      "range": {
+        "startLine": 296,
+        "startChar": 2,
+        "endLine": 296,
+        "endChar": 38
+      },
+      "revId": "249504e91cb4197a9afd8cb31643cc51a6975839",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
