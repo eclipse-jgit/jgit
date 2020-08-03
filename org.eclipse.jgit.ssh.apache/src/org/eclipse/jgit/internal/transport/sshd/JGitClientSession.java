@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.sshd.client.ClientFactoryManager;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
+import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.FactoryManager;
@@ -66,6 +67,27 @@ public class JGitClientSession extends ClientSessionImpl {
 	private CredentialsProvider credentialsProvider;
 
 	private volatile StatefulProxyConnector proxyHandler;
+
+	/**
+	 * Work-around for a race condition in sshd 2.4.0: if something goes wrong
+	 * very early in the setup of the SSH connection before the
+	 * {@link AuthFuture} is gotten, then it's possible that the exception is
+	 * swallowed and actually never reported, and the
+	 * {@link AuthFuture#verify()} will wait either indefinitely or until its
+	 * timeout (by default 120 seconds) expires.
+	 *
+	 * We handle this by making sure the result of the AuthFuture is set to this
+	 * stored exception right away if we have such a stored exception.
+	 *
+	 * So far this problem has been observed only with exceptions from
+	 * {@link #doReadIdentification(Buffer, boolean)} but for good measure we
+	 * also check in {@link #auth()} whether the session might already be
+	 * closing, and cancel the future in that case, too.
+	 *
+	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=565394">bug
+	 *      565394</a>
+	 */
+	private volatile Throwable earlyError;
 
 	/**
 	 * @param manager
@@ -310,6 +332,37 @@ public class JGitClientSession extends ClientSessionImpl {
 		return newNames;
 	}
 
+	@Override
+	public AuthFuture auth() throws IOException {
+		AuthFuture future = super.auth();
+		if (earlyError != null) {
+			if (log.isDebugEnabled()) {
+				log.debug("Canceling authentication due to early error " //$NON-NLS-1$
+						+ earlyError);
+			}
+			future.setException(earlyError);
+		} else if (isClosing() || isClosed()) {
+			if (log.isDebugEnabled()) {
+				log.debug(
+						"Canceling authentication because session is already closing or closed"); //$NON-NLS-1$
+			}
+			future.setException(new SshException(
+					SshdText.get().authenticationOnClosedSession));
+		}
+		return future;
+	}
+
+	@Override
+	protected List<String> doReadIdentification(Buffer buffer, boolean server)
+			throws IOException {
+		try {
+			return doReadIdentificationImpl(buffer, server);
+		} catch (StreamCorruptedException | RuntimeException e) {
+			log.warn(e.getLocalizedMessage(), e);
+			earlyError = e;
+			throw e;
+		}
+	}
 	/**
 	 * Reads the RFC 4253, section 4.2 protocol version identification. The
 	 * Apache MINA sshd default implementation checks for NUL bytes also in any
@@ -330,8 +383,7 @@ public class JGitClientSession extends ClientSessionImpl {
 	 * @see <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253,
 	 *      section 4.2</a>
 	 */
-	@Override
-	protected List<String> doReadIdentification(Buffer buffer, boolean server)
+	private List<String> doReadIdentificationImpl(Buffer buffer, boolean server)
 			throws StreamCorruptedException {
 		if (server) {
 			// Should never happen. No translation; internal bug.

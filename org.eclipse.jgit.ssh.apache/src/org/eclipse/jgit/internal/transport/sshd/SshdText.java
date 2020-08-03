@@ -19,6 +19,7 @@ public final class SshdText extends TranslationBundle {
 
 	// @formatter:off
 	/***/ public String authenticationCanceled;
+	/***/ public String authenticationOnClosedSession;
 	/***/ public String closeListenerFailed;
 	/***/ public String configInvalidPath;
 	/***/ public String configInvalidPattern;
