@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47d37752_1d880732",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-08-03T22:20:09Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this need more fields (for example, the number of repositories to be updated)?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "21d5e40e9e0513e4376c2defd30f5007485a6a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd484ffa_7de6342a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-08-03T22:20:09Z",
+      "side": 1,
+      "message": "Should this field be final?",
+      "revId": "21d5e40e9e0513e4376c2defd30f5007485a6a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f447a7_56c5c794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-08-03T22:20:09Z",
+      "side": 1,
+      "message": "Making this a mutable field with a setter makes it something that wouldn\u0027t need to be a field on BatchRefUpdate in the first place: instead, a caller could make a Map\u003cBatchRefUpdate, SubmissionInfo\u003e and store it some other place.\n\nCan we flesh out the use case for this field a bit? If it\u0027s about the \"why\" behind a BatchRefUpdate, shouldn\u0027t it be supplied at construction time (for example through a new overload to RefDatabase#newBatchUpdate, or even better, through the MultipleRepositoryUpdate being responsible for creating the BatchRefUpdate)?",
+      "revId": "21d5e40e9e0513e4376c2defd30f5007485a6a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c603a02b_aa81a1b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmissionInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-08-03T22:20:09Z",
+      "side": 1,
+      "message": "nit: the Info part of this name doesn\u0027t make it clear to me what this is about.\n\nMaybe BatchRefUpdateContext or something? In other words, is this about providing context in the form of the \"why\" behind a BatchRefUpdate?",
+      "revId": "21d5e40e9e0513e4376c2defd30f5007485a6a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
