@@ -45,6 +45,29 @@
       "revId": "249504e91cb4197a9afd8cb31643cc51a6975839",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df23b30c_9a436ca5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-08-03T21:33:23Z",
+      "side": 1,
+      "message": "Can we do it by extending BatchRefUpdate class (using RefDatabase implementation for example) instead of using a new hook?\n\nWhy adding a hook by decoration is better than adding it in this class?\n1. Single responsibility principle. This method will have responsibility of correctly setting up batch, but no more than that. As an illustration of it - method preExecute can\u0027t throw IOException, but adds 3 lines to try block, which makes reading code harder.\n2. It is no-op API, so you have to support it if you\u0027re going to add it there.\n3. There are many different hooks which might be helpful for some usage. For example: postUpdate, onPushCertificateSet. Adding only one which help one particular purpose makes API confusing.",
+      "range": {
+        "startLine": 1777,
+        "startChar": 0,
+        "endLine": 1779,
+        "endChar": 4
+      },
+      "revId": "249504e91cb4197a9afd8cb31643cc51a6975839",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
