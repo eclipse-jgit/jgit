@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2009 Google Inc.
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.LongAdder;
@@ -376,14 +377,14 @@ public class WindowCache {
 	 * @return the cached instance.
 	 */
 	public static WindowCache getInstance() {
-		return cache;
+		return cache.publishMBeanIfNeeded();
 	}
 
 	static final ByteWindow get(PackFile pack, long offset)
 			throws IOException {
 		final WindowCache c = cache;
 		final ByteWindow r = c.getOrLoad(pack, c.toStart(offset));
-		if (c != cache) {
+		if (c != cache.publishMBeanIfNeeded()) {
 			// The cache was reconfigured while we were using the old one
 			// to load this window. The window is still valid, but our
 			// cache may think its still live. Ensure the window is removed
@@ -433,6 +434,8 @@ public class WindowCache {
 
 	private final StatsRecorderImpl mbean;
 
+	private final AtomicBoolean publishMBean = new AtomicBoolean();
+
 	private boolean useStrongRefs;
 
 	private WindowCache(WindowCacheConfig cfg) {
@@ -470,14 +473,19 @@ public class WindowCache {
 
 		mbean = new StatsRecorderImpl();
 		statsRecorder = mbean;
-		if (cfg.getExposeStatsViaJmx()) {
-			Monitoring.registerMBean(mbean, "block_cache"); //$NON-NLS-1$
-		}
+		publishMBean.set(cfg.getExposeStatsViaJmx());
 
 		if (maxFiles < 1)
 			throw new IllegalArgumentException(JGitText.get().openFilesMustBeAtLeast1);
 		if (maxBytes < windowSize)
 			throw new IllegalArgumentException(JGitText.get().windowSizeMustBeLesserThanLimit);
+	}
+
+	private WindowCache publishMBeanIfNeeded() {
+		if (publishMBean.getAndSet(false)) {
+			Monitoring.registerMBean(mbean, "block_cache"); //$NON-NLS-1$
+		}
+		return this;
 	}
 
 	/**
