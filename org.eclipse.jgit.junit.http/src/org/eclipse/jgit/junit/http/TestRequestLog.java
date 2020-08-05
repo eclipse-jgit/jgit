@@ -26,29 +26,26 @@ import org.eclipse.jetty.server.handler.HandlerWrapper;
 
 /** Logs request made through {@link AppServer}. */
 class TestRequestLog extends HandlerWrapper {
-	private static final int MAX = 16;
 
 	private final List<AccessEvent> events = new ArrayList<>();
 
-	private final Semaphore active = new Semaphore(MAX, true);
+	private final Semaphore active = new Semaphore(1, true);
 
 	/** Reset the log back to its original empty state. */
 	void clear() {
 		try {
 			for (;;) {
 				try {
-					active.acquire(MAX);
+					active.acquire();
 					break;
 				} catch (InterruptedException e) {
 					continue;
 				}
 			}
 
-			synchronized (events) {
-				events.clear();
-			}
+			events.clear();
 		} finally {
-			active.release(MAX);
+			active.release();
 		}
 	}
 
@@ -57,18 +54,16 @@ class TestRequestLog extends HandlerWrapper {
 		try {
 			for (;;) {
 				try {
-					active.acquire(MAX);
+					active.acquire();
 					break;
 				} catch (InterruptedException e) {
 					continue;
 				}
 			}
 
-			synchronized (events) {
-				return events;
-			}
+			return events;
 		} finally {
-			active.release(MAX);
+			active.release();
 		}
 	}
 
@@ -98,8 +93,6 @@ class TestRequestLog extends HandlerWrapper {
 	}
 
 	private void log(Request request, Response response) {
-		synchronized (events) {
-			events.add(new AccessEvent(request, response));
-		}
+		events.add(new AccessEvent(request, response));
 	}
 }
