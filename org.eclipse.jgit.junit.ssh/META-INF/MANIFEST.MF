@@ -8,8 +8,7 @@ Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.jcraft.jsch;version="0.1.55",
- org.apache.sshd.common;version="[2.4.0,2.5.0)",
+Import-Package: org.apache.sshd.common;version="[2.4.0,2.5.0)",
  org.apache.sshd.common.config.keys;version="[2.4.0,2.5.0)",
  org.apache.sshd.common.file.virtualfs;version="[2.4.0,2.5.0)",
  org.apache.sshd.common.helpers;version="[2.4.0,2.5.0)",

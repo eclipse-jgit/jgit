@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,27 +9,31 @@
  */
 package org.eclipse.jgit.junit.ssh;
 
-import static java.nio.charset.StandardCharsets.US_ASCII;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
@@ -47,9 +51,6 @@ import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.junit.After;
-
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.KeyPair;
 
 /**
  * Root class for ssh tests. Sets up the ssh test server. A set of pre-computed
@@ -104,50 +105,71 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 		File serverDir = new File(getTemporaryDirectory(), "srv");
 		assertTrue(serverDir.mkdir());
 		// Create two key pairs. Let's not call them "id_rsa".
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
 		privateKey1 = new File(sshDir, "first_key");
 		privateKey2 = new File(sshDir, "second_key");
-		publicKey1 = createKeyPair(privateKey1);
-		createKeyPair(privateKey2);
-		ByteArrayOutputStream publicHostKey = new ByteArrayOutputStream();
+		publicKey1 = createKeyPair(generator.generateKeyPair(), privateKey1);
+		createKeyPair(generator.generateKeyPair(), privateKey2);
+		// Create a host key
+		KeyPair hostKey = generator.generateKeyPair();
 		// Start a server with our test user and the first key.
 		server = new SshTestGitServer(TEST_USER, publicKey1.toPath(), db,
-				createHostKey(publicHostKey));
+				hostKey);
 		testPort = server.start();
 		assertTrue(testPort > 0);
 		knownHosts = new File(sshDir, "known_hosts");
-		Files.write(knownHosts.toPath(), Collections.singleton("[localhost]:"
-				+ testPort + ' '
-				+ publicHostKey.toString(US_ASCII.name())));
+		StringBuilder knownHostsLine = new StringBuilder();
+		knownHostsLine.append("[localhost]:").append(testPort).append(' ');
+		PublicKeyEntry.appendPublicKeyEntry(knownHostsLine,
+				hostKey.getPublic());
+		Files.write(knownHosts.toPath(),
+				Collections.singleton(knownHostsLine.toString()));
 		factory = createSessionFactory();
 		SshSessionFactory.setInstance(factory);
 	}
 
-	private static File createKeyPair(File privateKeyFile) throws Exception {
-		// Found no way to do this with MINA sshd except rolling it all
-		// ourselves...
-		JSch jsch = new JSch();
-		KeyPair pair = KeyPair.genKeyPair(jsch, KeyPair.RSA, 2048);
-		try (OutputStream out = new FileOutputStream(privateKeyFile)) {
-			pair.writePrivateKey(out);
+	private static File createKeyPair(KeyPair newKey, File privateKeyFile)
+			throws Exception {
+		// Write PKCS#8 PEM unencrypted. Both JSch and sshd can read that.
+		PrivateKey privateKey = newKey.getPrivate();
+		String format = privateKey.getFormat();
+		if (!"PKCS#8".equalsIgnoreCase(format)) {
+			throw new IOException("Cannot write " + privateKey.getAlgorithm()
+					+ " key in " + format + " format");
+		}
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				privateKeyFile.toPath(), StandardCharsets.US_ASCII)) {
+			writer.write("-----BEGIN PRIVATE KEY-----");
+			writer.newLine();
+			write(writer, privateKey.getEncoded(), 64);
+			writer.write("-----END PRIVATE KEY-----");
+			writer.newLine();
 		}
 		File publicKeyFile = new File(privateKeyFile.getParentFile(),
 				privateKeyFile.getName() + ".pub");
+		StringBuilder builder = new StringBuilder();
+		PublicKeyEntry.appendPublicKeyEntry(builder, newKey.getPublic());
+		builder.append(' ').append(TEST_USER);
 		try (OutputStream out = new FileOutputStream(publicKeyFile)) {
-			pair.writePublicKey(out, TEST_USER);
+			out.write(builder.toString().getBytes(StandardCharsets.US_ASCII));
 		}
 		return publicKeyFile;
 	}
 
-	private static byte[] createHostKey(OutputStream publicKey)
-			throws Exception {
-		JSch jsch = new JSch();
-		KeyPair pair = KeyPair.genKeyPair(jsch, KeyPair.RSA, 2048);
-		pair.writePublicKey(publicKey, "");
-		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-			pair.writePrivateKey(out);
-			out.flush();
-			return out.toByteArray();
+	private static void write(BufferedWriter out, byte[] bytes, int lineLength)
+			throws IOException {
+		String data = Base64.getEncoder().encodeToString(bytes);
+		int last = data.length();
+		for (int i = 0; i < last; i += lineLength) {
+			if (i + lineLength <= last) {
+				out.write(data.substring(i, i + lineLength));
+			} else {
+				out.write(data.substring(i));
+			}
+			out.newLine();
 		}
+		Arrays.fill(bytes, (byte) 0);
 	}
 
 	/**
@@ -167,7 +189,8 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 	 */
 	protected static String createKnownHostsFile(File file, String host,
 			int port, File publicKey) throws IOException {
-		List<String> lines = Files.readAllLines(publicKey.toPath(), UTF_8);
+		List<String> lines = Files.readAllLines(publicKey.toPath(),
+				StandardCharsets.UTF_8);
 		assertEquals("Public key has too many lines", 1, lines.size());
 		String pubKey = lines.get(0);
 		// Strip off the comment.
