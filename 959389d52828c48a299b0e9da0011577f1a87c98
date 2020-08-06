@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e22a67d3_f7c618b7",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T10:21:46Z",
+      "side": 1,
+      "message": "Do we even have to wait here? As I see it, the internals of sshd make sure that the channel doesn\u0027t go into Closed state until the reply has been received, so channel and session should remain open until that point.",
+      "revId": "959389d52828c48a299b0e9da0011577f1a87c98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
