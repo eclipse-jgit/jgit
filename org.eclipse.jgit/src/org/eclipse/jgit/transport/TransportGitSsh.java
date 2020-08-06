@@ -25,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -286,6 +287,15 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			endOut();
 
 			if (process != null) {
+				try {
+					long timeout = getTimeout();
+					if (timeout <= 0) {
+						timeout = 10;
+					}
+					process.waitFor(timeout, TimeUnit.SECONDS);
+				} catch (InterruptedException e) {
+					// ignore
+				}
 				process.destroy();
 			}
 			if (errorThread != null) {
@@ -353,6 +363,15 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			endOut();
 
 			if (process != null) {
+				try {
+					long timeout = getTimeout();
+					if (timeout <= 0) {
+						timeout = 10;
+					}
+					process.waitFor(timeout, TimeUnit.SECONDS);
+				} catch (InterruptedException e) {
+					// ignore
+				}
 				process.destroy();
 			}
 			if (errorThread != null) {
