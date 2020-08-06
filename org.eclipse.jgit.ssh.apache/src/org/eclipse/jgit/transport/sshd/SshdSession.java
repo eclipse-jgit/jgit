@@ -222,7 +222,7 @@ public class SshdSession implements RemoteSession {
 		}
 
 		@Override
-		public int waitFor() throws InterruptedException {
+		public int waitFor() {
 			if (waitFor(timeoutMillis, TimeUnit.MILLISECONDS)) {
 				return exitValue();
 			}
@@ -230,12 +230,9 @@ public class SshdSession implements RemoteSession {
 		}
 
 		@Override
-		public boolean waitFor(long timeout, TimeUnit unit)
-				throws InterruptedException {
+		public boolean waitFor(long timeout, TimeUnit unit) {
 			long millis = timeout >= 0 ? unit.toMillis(timeout) : -1L;
-			return channel
-					.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), millis)
-					.contains(ClientChannelEvent.CLOSED);
+			return waitForEvent(ClientChannelEvent.CLOSED, millis);
 		}
 
 		@Override
@@ -252,8 +249,17 @@ public class SshdSession implements RemoteSession {
 		@Override
 		public void destroy() {
 			if (channel.isOpen()) {
-				channel.close(true);
+				if (waitForEvent(ClientChannelEvent.EXIT_STATUS, timeoutMillis)) {
+					channel.close(false);
+					waitFor();
+				} else {
+					channel.close(true);
+				}
 			}
+		}
+
+		private boolean waitForEvent(ClientChannelEvent event, long millis) {
+			return channel.waitFor(EnumSet.of(event), millis).contains(event);
 		}
 	}
 
