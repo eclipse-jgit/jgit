@@ -286,6 +286,11 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			endOut();
 
 			if (process != null) {
+				try {
+					process.waitFor();
+				} catch (InterruptedException e) {
+					// ignore
+				}
 				process.destroy();
 			}
 			if (errorThread != null) {
@@ -353,6 +358,11 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			endOut();
 
 			if (process != null) {
+				try {
+					process.waitFor();
+				} catch (InterruptedException e) {
+					// ignore
+				}
 				process.destroy();
 			}
 			if (errorThread != null) {
