@@ -11,6 +11,7 @@ package org.eclipse.jgit.util;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CommandFailedException;
@@ -61,11 +62,21 @@ public class SshSupport {
 		CommandFailedException failure = null;
 		@SuppressWarnings("resource")
 		MessageWriter stderr = new MessageWriter();
+		@SuppressWarnings("resource")
+		MessageWriter stdout = new MessageWriter();
 		String out;
-		try (MessageWriter stdout = new MessageWriter()) {
+		try {
+			long start = System.nanoTime();
 			session = SshSessionFactory.getInstance().getSession(sshUri,
 					provider, fs, 1000 * timeout);
-			process = session.exec(command, 0);
+			int commandTimeout = timeout;
+			if (timeout > 0) {
+				commandTimeout = checkTimeout(command, timeout, start);
+			}
+			process = session.exec(command, commandTimeout);
+			if (timeout > 0) {
+				commandTimeout = checkTimeout(command, timeout, start);
+			}
 			errorThread = new StreamCopyThread(process.getErrorStream(),
 					stderr.getRawStream());
 			errorThread.start();
@@ -73,9 +84,15 @@ public class SshSupport {
 					stdout.getRawStream());
 			outThread.start();
 			try {
-				// waitFor with timeout has a bug - JSch' exitValue() throws the
-				// wrong exception type :(
-				if (process.waitFor() == 0) {
+				boolean finished = false;
+				if (timeout <= 0) {
+					process.waitFor();
+					finished = true;
+				} else {
+					finished = process.waitFor(commandTimeout,
+							TimeUnit.SECONDS);
+				}
+				if (finished) {
 					out = stdout.toString();
 				} else {
 					out = null; // still running after timeout
@@ -103,15 +120,26 @@ public class SshSupport {
 				}
 			}
 			if (process != null) {
-				if (process.exitValue() != 0) {
-					failure = new CommandFailedException(process.exitValue(),
+				try {
+					if (process.exitValue() != 0) {
+						failure = new CommandFailedException(
+								process.exitValue(),
+								MessageFormat.format(
+										JGitText.get().sshCommandFailed,
+										command, stderr.toString()));
+					}
+					// It was successful after all
+					out = stdout.toString();
+				} catch (IllegalThreadStateException e) {
+					failure = new CommandFailedException(0,
 							MessageFormat.format(
-							JGitText.get().sshCommandFailed, command,
-							stderr.toString()));
+									JGitText.get().sshCommandTimeout, command,
+									Integer.valueOf(timeout)));
 				}
 				process.destroy();
 			}
 			stderr.close();
+			stdout.close();
 			if (session != null) {
 				SshSessionFactory.getInstance().releaseSession(session);
 			}
@@ -122,4 +150,17 @@ public class SshSupport {
 		return out;
 	}
 
+	private static int checkTimeout(String command, int timeout, long since)
+			throws CommandFailedException {
+		long elapsed = System.nanoTime() - since;
+		int newTimeout = timeout
+				- (int) TimeUnit.NANOSECONDS.toSeconds(elapsed);
+		if (newTimeout <= 0) {
+			// All time used up for connecting the session
+			throw new CommandFailedException(0,
+					MessageFormat.format(JGitText.get().sshCommandTimeout,
+							command, Integer.valueOf(timeout)));
+		}
+		return newTimeout;
+	}
 }
