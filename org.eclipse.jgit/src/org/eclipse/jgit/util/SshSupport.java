@@ -11,6 +11,7 @@ package org.eclipse.jgit.util;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CommandFailedException;
@@ -63,9 +64,18 @@ public class SshSupport {
 		MessageWriter stderr = new MessageWriter();
 		String out;
 		try (MessageWriter stdout = new MessageWriter()) {
+			long timeoutMillis = TimeUnit.SECONDS.toMillis(timeout);
+			long start = System.nanoTime();
 			session = SshSessionFactory.getInstance().getSession(sshUri,
-					provider, fs, 1000 * timeout);
-			process = session.exec(command, 0);
+					provider, fs, (int) timeoutMillis);
+			timeoutMillis -= TimeUnit.NANOSECONDS
+					.toMillis(System.nanoTime() - start);
+			int commandTimeout = (int) TimeUnit.MILLISECONDS
+					.toSeconds(timeoutMillis);
+			if (commandTimeout <= 0) {
+				commandTimeout = 1;
+			}
+			process = session.exec(command, commandTimeout);
 			errorThread = new StreamCopyThread(process.getErrorStream(),
 					stderr.getRawStream());
 			errorThread.start();
@@ -73,9 +83,7 @@ public class SshSupport {
 					stdout.getRawStream());
 			outThread.start();
 			try {
-				// waitFor with timeout has a bug - JSch' exitValue() throws the
-				// wrong exception type :(
-				if (process.waitFor() == 0) {
+				if (process.waitFor(commandTimeout, TimeUnit.SECONDS)) {
 					out = stdout.toString();
 				} else {
 					out = null; // still running after timeout
@@ -103,11 +111,19 @@ public class SshSupport {
 				}
 			}
 			if (process != null) {
-				if (process.exitValue() != 0) {
-					failure = new CommandFailedException(process.exitValue(),
+				try {
+					if (process.exitValue() != 0) {
+						failure = new CommandFailedException(
+								process.exitValue(),
+								MessageFormat.format(
+										JGitText.get().sshCommandFailed,
+										command, stderr.toString()));
+					}
+				} catch (IllegalThreadStateException e) {
+					failure = new CommandFailedException(0,
 							MessageFormat.format(
-							JGitText.get().sshCommandFailed, command,
-							stderr.toString()));
+									JGitText.get().sshCommandTimeout, command,
+									Integer.valueOf(timeout)));
 				}
 				process.destroy();
 			}
