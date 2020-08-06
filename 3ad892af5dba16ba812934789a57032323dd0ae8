@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61f7aead_59c66b99",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T10:51:09Z",
+      "side": 1,
+      "message": "This one should probably also shut down gracefully?",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 153,
+        "endChar": 20
+      },
+      "revId": "3ad892af5dba16ba812934789a57032323dd0ae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06bb90a_19c909f6",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T10:51:09Z",
+      "side": 1,
+      "message": "So timeoutMillis is no longer the timeout for the command... timeoutMillis can be \u003c\u003d 0, indicating to wait indefinitely. Which might be a problem if keep_alive is set but the server never replies on the close, or never sends back the exit value. \n\nI do wonder if we can\u0027t just replace the two channel.close(true) calls with channel.close(false).",
+      "range": {
+        "startLine": 252,
+        "startChar": 53,
+        "endLine": 252,
+        "endChar": 66
+      },
+      "revId": "3ad892af5dba16ba812934789a57032323dd0ae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
