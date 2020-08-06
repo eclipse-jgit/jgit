@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "353af09f_18d66ee1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T22:24:04Z",
+      "side": 1,
+      "message": "Again no timeout. If we fix the JSchProcess then waitFor(long, TimeUnit) could be used. See https://git.eclipse.org/r/c/jgit/jgit/+/167370 .\n\n  long timeout \u003d getTimeout();\n  if (timeout \u003c\u003d 0) {\n    timeout \u003d 10; // Or some other reasonably small value\n  }\n  process.waitFor(timeout, TimeUnit.SECONDS);\n\nwould at least not wait indefinitely if a server is mis-behaved. Or perhaps just always use a timeout of a few seconds.",
+      "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
