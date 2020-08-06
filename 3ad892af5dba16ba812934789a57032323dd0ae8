@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c2b36875_9c0d3538",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T12:50:14Z",
+      "side": 1,
+      "message": "But here the channel _has_ opened. In the exception handler above it didn\u0027t open.",
+      "parentUuid": "e5fe6983_40de895d",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 153,
+        "endChar": 20
+      },
+      "revId": "3ad892af5dba16ba812934789a57032323dd0ae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c06bb90a_19c909f6",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "\u003e I do wonder if we can\u0027t just replace the two channel.close(true) calls with channel.close(false).\n\nNo we can\u0027t. In such case the exceptions still happen. We have to at least wait for ClientChannelEvent.CLOSED. I have changed the logic between patchset 1 and 2 because exitValue() was throwing exception due to closed channel (inited by us) before server was able to send command exit status.\n\nI was aware of the indefinite wait problem with this change. However I assume the caller always sets the timeout in production use.\n\nThe change assumes proper ssh server behavior - when the command terminates it should send it\u0027s exit code and close the channel. I wonder if this assumption is too strong.",
       "parentUuid": "c06bb90a_19c909f6",
+      "range": {
+        "startLine": 252,
+        "startChar": 53,
+        "endLine": 252,
+        "endChar": 66
+      },
+      "revId": "3ad892af5dba16ba812934789a57032323dd0ae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "531bd6df_cc6cd618",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-06T12:50:14Z",
+      "side": 1,
+      "message": "\u003e \u003e I do wonder if we can\u0027t just replace the two channel.close(true) calls with channel.close(false).\n\u003e \n\u003e No we can\u0027t. In such case the exceptions still happen. We have to at least wait for ClientChannelEvent.CLOSED. I have changed the logic between patchset 1 and 2 because exitValue() was throwing exception due to closed channel (inited by us) before server was able to send command exit status.\n\nThat sounds like a problem of the server. Either the server should return its corresponding CLOSE only after it has sent the EXIT_CODE, or deal with a client not interested in the exit code. I guess it\u0027s the latter. A client may close a connection anytime, and the server may need to reap started commands anyway. I don\u0027t think fetch/push ever wait for an exit code from git-upload-pack/git-receive-pack -- the git protocol already indicates success or failure. The only other place where JGit client-side uses SSH is SshSupport, and that also looks as if it doesn\u0027t need to wait for an exit code when calling destroy().\n\n\u003e I was aware of the indefinite wait problem with this change. However I assume the caller always sets the timeout in production use.\n\nNot really. See SshSupport. That should therefore be changed...",
+      "parentUuid": "32727beb_cb0fcd32",
       "range": {
         "startLine": 252,
         "startChar": 53,
