@@ -198,7 +198,7 @@ public class JschSession implements RemoteSession {
 		@Override
 		public int exitValue() {
 			if (isRunning())
-				throw new IllegalStateException();
+				throw new IllegalThreadStateException();
 			return channel.getExitStatus();
 		}
 
