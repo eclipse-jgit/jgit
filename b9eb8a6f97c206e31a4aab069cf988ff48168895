@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "74fdd83a_e221e51e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-07T07:57:13Z",
+      "side": 1,
+      "message": "Good catch, bug due to several refactorings in several patch sets.",
+      "parentUuid": "598ab797_b88b438c",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "b9eb8a6f97c206e31a4aab069cf988ff48168895",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f542fbc0_7b9ebad1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "b9eb8a6f97c206e31a4aab069cf988ff48168895",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b09bd36_4685e5a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-07T07:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f542fbc0_7b9ebad1",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "b9eb8a6f97c206e31a4aab069cf988ff48168895",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
