@@ -52,6 +52,24 @@
       "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f889625_9a03f8cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-07T07:34:14Z",
+      "side": 1,
+      "message": "I know where the confusion comes from. Javadoc on RemoteSession.exec says the timeout was for command execution. But that is not entirely correct. SshdExecProcess implements it that way (because of that comment), by making waitFor() use that timeout, but JschProcess doesn\u0027t and never did.\n\nThe timeout on exec is a connection timeout. A timeout on overall command execution would then be whatever is used by process.waitFor(). Which is normally indefinite, unless one uses waitFor(long, TimeUnit).",
+      "parentUuid": "1317ff37_b499c061",
+      "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
