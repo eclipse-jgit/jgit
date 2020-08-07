@@ -16,6 +16,24 @@
       "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc23c2d2_c04d0406",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 298284
+      },
+      "writtenOn": "2020-08-07T07:12:23Z",
+      "side": 1,
+      "message": "My code uses timeout from Transport. I don\u0027t think setting a small value here is good logic. The timeout applies to whole fetch and push operation which is likely not to finish in this small amount of time.\n\nI don\u0027t understand why you want to protect users. If they do not set the timeout then anything can happen. They will have to fix their usage.",
+      "parentUuid": "353af09f_18d66ee1",
+      "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
