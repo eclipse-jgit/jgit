@@ -34,6 +34,24 @@
       "revId": "bfeda53b420b6a81fe54013740fb0fb3e14d052a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7283562_b90168bf",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestBase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-07T13:38:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bd94357a_da921373",
+      "revId": "bfeda53b420b6a81fe54013740fb0fb3e14d052a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
