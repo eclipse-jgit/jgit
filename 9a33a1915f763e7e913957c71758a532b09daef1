@@ -34,6 +34,24 @@
       "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1317ff37_b499c061",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-07T07:29:37Z",
+      "side": 1,
+      "message": "\u003e My code uses timeout from Transport. I don\u0027t think setting a small value here is good logic. The timeout applies to whole fetch and push operation which is likely not to finish in this small amount of time.\n\nThat\u0027s wrong. This waitFor() here does not cover the whole push/fetch. We\u0027re at the end of push/fetch; we already know whether the push/fetch was successful or not, and we just want to close the SSH connection. As fast as possible. If for some reason, such as a server logging too much, we have to wait for some exit codes/SSH close messages, we must not wait indefinitely.\n\n\u003e I don\u0027t understand why you want to protect users. If they do not set the timeout then anything can happen. They will have to fix their usage.\n\nHere even if they set a timeout they may still end up in an indefinite wait. If they set a timeout, we should do our best to honor that timeout.",
+      "parentUuid": "dc23c2d2_c04d0406",
+      "revId": "9a33a1915f763e7e913957c71758a532b09daef1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
