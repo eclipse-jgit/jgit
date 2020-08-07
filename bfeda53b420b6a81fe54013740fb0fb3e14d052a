@@ -16,6 +16,24 @@
       "revId": "bfeda53b420b6a81fe54013740fb0fb3e14d052a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd94357a_da921373",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestBase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 298284
+      },
+      "writtenOn": "2020-08-07T13:30:24Z",
+      "side": 1,
+      "message": "I only meant to create a relation chain between commits. Mine can not be merged without yours. I based my branch on patchset number 7 from your change and didn\u0027t see there is one newer.",
+      "parentUuid": "2a268e2c_026cb7d0",
+      "revId": "bfeda53b420b6a81fe54013740fb0fb3e14d052a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
