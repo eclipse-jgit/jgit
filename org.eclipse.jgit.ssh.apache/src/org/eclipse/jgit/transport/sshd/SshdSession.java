@@ -13,7 +13,6 @@ import static java.text.MessageFormat.format;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -134,28 +133,23 @@ public class SshdSession implements RemoteSession {
 	public Process exec(String commandName, int timeout) throws IOException {
 		@SuppressWarnings("resource")
 		ChannelExec exec = session.createExecChannel(commandName);
-		long timeoutMillis = TimeUnit.SECONDS.toMillis(timeout);
-		try {
-			if (timeout <= 0) {
+		if (timeout <= 0) {
+			try {
 				exec.open().verify();
-			} else {
-				long start = System.nanoTime();
-				exec.open().verify(timeoutMillis);
-				timeoutMillis -= TimeUnit.NANOSECONDS
-						.toMillis(System.nanoTime() - start);
+			} catch (IOException | RuntimeException e) {
+				exec.close(true);
+				throw e;
 			}
-		} catch (IOException | RuntimeException e) {
-			exec.close(true);
-			throw e;
+		} else {
+			try {
+				exec.open().verify(TimeUnit.SECONDS.toMillis(timeout));
+			} catch (IOException | RuntimeException e) {
+				exec.close(true);
+				throw new IOException(format(SshdText.get().sshCommandTimeout,
+						commandName, Integer.valueOf(timeout)), e);
+			}
 		}
-		if (timeout > 0 && timeoutMillis <= 0) {
-			// We have used up the whole timeout for opening the channel
-			exec.close(true);
-			throw new InterruptedIOException(
-					format(SshdText.get().sshCommandTimeout, commandName,
-							Integer.valueOf(timeout)));
-		}
-		return new SshdExecProcess(exec, commandName, timeoutMillis);
+		return new SshdExecProcess(exec, commandName);
 	}
 
 	/**
@@ -195,14 +189,10 @@ public class SshdSession implements RemoteSession {
 
 		private final ChannelExec channel;
 
-		private final long timeoutMillis;
-
 		private final String commandName;
 
-		public SshdExecProcess(ChannelExec channel, String commandName,
-				long timeoutMillis) {
+		public SshdExecProcess(ChannelExec channel, String commandName) {
 			this.channel = channel;
-			this.timeoutMillis = timeoutMillis > 0 ? timeoutMillis : -1L;
 			this.commandName = commandName;
 		}
 
@@ -223,7 +213,7 @@ public class SshdSession implements RemoteSession {
 
 		@Override
 		public int waitFor() throws InterruptedException {
-			if (waitFor(timeoutMillis, TimeUnit.MILLISECONDS)) {
+			if (waitFor(-1L, TimeUnit.MILLISECONDS)) {
 				return exitValue();
 			}
 			return -1;
