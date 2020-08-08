@@ -4,7 +4,7 @@
  * Copyright (C) 2009, Google, Inc.
  * Copyright (C) 2009, JetBrains s.r.o.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,26 +18,20 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 
 /**
- * Create a remote "session" for executing remote commands.
- * <p>
- * Clients should subclass RemoteSession to create an alternate way for JGit to
- * execute remote commands. (The client application may already have this
- * functionality available.) Note that this class is just a factory for creating
- * remote processes. If the application already has a persistent connection to
- * the remote machine, RemoteSession may do nothing more than return a new
- * RemoteProcess when exec is called.
+ * An abstraction of a remote "session" for executing remote commands.
  */
 public interface RemoteSession {
+
 	/**
-	 * Generate a new remote process to execute the given command. This function
-	 * should also start execution and may need to create the streams prior to
-	 * execution.
+	 * Creates a new remote {@link Process} to execute the given command. The
+	 * returned process's streams exist and are connected, and execution of the
+	 * process is already started.
 	 *
 	 * @param commandName
 	 *            command to execute
 	 * @param timeout
-	 *            timeout value, in seconds, for command execution
-	 * @return a new remote process
+	 *            timeout value, in seconds, for creating the remote process
+	 * @return a new remote process, already started
 	 * @throws java.io.IOException
 	 *             may be thrown in several cases. For example, on problems
 	 *             opening input or output streams or on problems connecting or
@@ -48,7 +42,7 @@ public interface RemoteSession {
 	Process exec(String commandName, int timeout) throws IOException;
 
 	/**
-	 * Obtain an {@link FtpChannel} for performing FTP operations over this
+	 * Obtains an {@link FtpChannel} for performing FTP operations over this
 	 * {@link RemoteSession}. The default implementation returns {@code null}.
 	 *
 	 * @return the {@link FtpChannel}
@@ -59,7 +53,7 @@ public interface RemoteSession {
 	}
 
 	/**
-	 * Disconnect the remote session
+	 * Disconnects the remote session.
 	 */
 	void disconnect();
 }
