@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc. and others
+ * Copyright (C) 2008, 2020, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.dircache.DirCache.DirCacheVersion;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -188,12 +189,41 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertArrayEquals(expectedBytes, indexBytes);
 	}
 
+	@Test
+	public void testReadWriteV4() throws Exception {
+		final File file = pathOf("gitgit.index.v4");
+		final DirCache dc = new DirCache(file, FS.DETECTED);
+		dc.read();
+		assertEquals(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS,
+				dc.getVersion());
+		assertEquals(5, dc.getEntryCount());
+		assertV4TreeEntry(0, "src/org/eclipse/jgit/atest/foo.txt", false, dc);
+		assertV4TreeEntry(1, "src/org/eclipse/jgit/atest/foobar.txt", false,
+				dc);
+		assertV4TreeEntry(2, "src/org/eclipse/jgit/other/bar.txt", true, dc);
+		assertV4TreeEntry(3, "test.txt", false, dc);
+		assertV4TreeEntry(4, "test.txt2", false, dc);
+
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		dc.writeTo(null, bos);
+		final byte[] indexBytes = bos.toByteArray();
+		final byte[] expectedBytes = IO.readFully(file);
+		assertArrayEquals(expectedBytes, indexBytes);
+	}
+
 	private static void assertV3TreeEntry(int indexPosition, String path,
 			boolean skipWorkTree, boolean intentToAdd, DirCache dc) {
 		final DirCacheEntry entry = dc.getEntry(indexPosition);
 		assertEquals(path, entry.getPathString());
 		assertEquals(skipWorkTree, entry.isSkipWorkTree());
 		assertEquals(intentToAdd, entry.isIntentToAdd());
+	}
+
+	private static void assertV4TreeEntry(int indexPosition, String path,
+			boolean skipWorkTree, DirCache dc) {
+		final DirCacheEntry entry = dc.getEntry(indexPosition);
+		assertEquals(path, entry.getPathString());
+		assertEquals(skipWorkTree, entry.isSkipWorkTree());
 	}
 
 	private static File pathOf(String name) {
