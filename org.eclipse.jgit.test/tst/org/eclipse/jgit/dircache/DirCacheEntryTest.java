@@ -11,14 +11,24 @@
 package org.eclipse.jgit.dircache;
 
 import static java.time.Instant.EPOCH;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.dircache.DirCache.DirCacheVersion;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class DirCacheEntryTest {
@@ -44,6 +54,166 @@ public class DirCacheEntryTest {
 			return true;
 		} catch (InvalidPathException e) {
 			return false;
+		}
+	}
+
+	@Test
+	public void testLongPath() throws Exception {
+		StringBuilder name = new StringBuilder(4094 + 16);
+		for (int i = 0; i < 4094; i++) {
+			name.append('a');
+		}
+		for (int j = 0; j < 16; j++) {
+			DirCacheEntry dce = new DirCacheEntry(name.toString());
+			long now = System.currentTimeMillis();
+			long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+			dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			dce.write(out, DirCacheVersion.DIRC_VERSION_EXTENDED, null);
+			byte[] raw = out.toByteArray();
+			MessageDigest md0 = Constants.newMessageDigest();
+			md0.update(raw);
+			ByteArrayInputStream in = new ByteArrayInputStream(raw);
+			MutableInteger infoAt = new MutableInteger();
+			byte[] sharedInfo = new byte[raw.length];
+			MessageDigest md = Constants.newMessageDigest();
+			DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+					Instant.ofEpochMilli(now),
+					DirCacheVersion.DIRC_VERSION_EXTENDED, null);
+			assertEquals("Paths of length " + name.length() + " should match",
+					name.toString(), read.getPathString());
+			assertEquals("Should have been fully read", -1, in.read());
+			assertArrayEquals("Digests should match", md0.digest(),
+					md.digest());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testLongPathV4() throws Exception {
+		StringBuilder name = new StringBuilder(4094 + 16);
+		for (int i = 0; i < 4094; i++) {
+			name.append('a');
+		}
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 16; j++) {
+			DirCacheEntry dce = new DirCacheEntry(name.toString());
+			long now = System.currentTimeMillis();
+			long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+			dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			dce.write(out, DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			byte[] raw = out.toByteArray();
+			MessageDigest md0 = Constants.newMessageDigest();
+			md0.update(raw);
+			ByteArrayInputStream in = new ByteArrayInputStream(raw);
+			MutableInteger infoAt = new MutableInteger();
+			byte[] sharedInfo = new byte[raw.length];
+			MessageDigest md = Constants.newMessageDigest();
+			DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+					Instant.ofEpochMilli(now),
+					DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			assertEquals("Paths of length " + name.length() + " should match",
+					name.toString(), read.getPathString());
+			assertEquals("Should have been fully read", -1, in.read());
+			assertArrayEquals("Digests should match", md0.digest(),
+					md.digest());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testShortPath() throws Exception {
+		StringBuilder name = new StringBuilder(1 + 16);
+		name.append('a');
+		for (int j = 0; j < 16; j++) {
+			DirCacheEntry dce = new DirCacheEntry(name.toString());
+			long now = System.currentTimeMillis();
+			long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+			dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			dce.write(out, DirCacheVersion.DIRC_VERSION_EXTENDED, null);
+			byte[] raw = out.toByteArray();
+			MessageDigest md0 = Constants.newMessageDigest();
+			md0.update(raw);
+			ByteArrayInputStream in = new ByteArrayInputStream(raw);
+			MutableInteger infoAt = new MutableInteger();
+			byte[] sharedInfo = new byte[raw.length];
+			MessageDigest md = Constants.newMessageDigest();
+			DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+					Instant.ofEpochMilli(now),
+					DirCacheVersion.DIRC_VERSION_EXTENDED, null);
+			assertEquals("Paths of length " + name.length() + " should match",
+					name.toString(), read.getPathString());
+			assertEquals("Should have been fully read", -1, in.read());
+			assertArrayEquals("Digests should match", md0.digest(),
+					md.digest());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testShortPathV4() throws Exception {
+		StringBuilder name = new StringBuilder(1 + 16);
+		name.append('a');
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 16; j++) {
+			DirCacheEntry dce = new DirCacheEntry(name.toString());
+			long now = System.currentTimeMillis();
+			long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+			dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			dce.write(out, DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			byte[] raw = out.toByteArray();
+			MessageDigest md0 = Constants.newMessageDigest();
+			md0.update(raw);
+			ByteArrayInputStream in = new ByteArrayInputStream(raw);
+			MutableInteger infoAt = new MutableInteger();
+			byte[] sharedInfo = new byte[raw.length];
+			MessageDigest md = Constants.newMessageDigest();
+			DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+					Instant.ofEpochMilli(now),
+					DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			assertEquals("Paths of length " + name.length() + " should match",
+					name.toString(), read.getPathString());
+			assertEquals("Should have been fully read", -1, in.read());
+			assertArrayEquals("Digests should match", md0.digest(),
+					md.digest());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testPathV4() throws Exception {
+		StringBuilder name = new StringBuilder();
+		for (int i = 0; i < 20; i++) {
+			name.append('a');
+		}
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 20; j++) {
+			name.setLength(name.length() - 1);
+			String newName = name.toString() + "bbb";
+			DirCacheEntry dce = new DirCacheEntry(newName);
+			long now = System.currentTimeMillis();
+			long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+			dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			dce.write(out, DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			byte[] raw = out.toByteArray();
+			MessageDigest md0 = Constants.newMessageDigest();
+			md0.update(raw);
+			ByteArrayInputStream in = new ByteArrayInputStream(raw);
+			MutableInteger infoAt = new MutableInteger();
+			byte[] sharedInfo = new byte[raw.length];
+			MessageDigest md = Constants.newMessageDigest();
+			DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+					Instant.ofEpochMilli(now),
+					DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous);
+			assertEquals("Paths of length " + name.length() + " should match",
+					newName, read.getPathString());
+			assertEquals("Should have been fully read", -1, in.read());
+			assertArrayEquals("Digests should match", md0.digest(),
+					md.digest());
 		}
 	}
 

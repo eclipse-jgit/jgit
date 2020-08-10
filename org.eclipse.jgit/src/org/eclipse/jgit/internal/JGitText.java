@@ -252,6 +252,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
 	/***/ public String DIRCChecksumMismatch;
+	/***/ public String DIRCCorruptLength;
+	/***/ public String DIRCCorruptLengthFirst;
 	/***/ public String DIRCExtensionIsTooLargeAt;
 	/***/ public String DIRCExtensionNotSupportedByThisVersion;
 	/***/ public String DIRCHasTooManyEntries;

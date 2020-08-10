@@ -662,4 +662,33 @@ public final class ConfigConstants {
 	 * @since 5.8
 	 */
 	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
+
+	/**
+	 * The "feature" section
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_FEATURE_SECTION = "feature";
+
+	/**
+	 * The "feature.manyFiles" key
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_KEY_MANYFILES = "manyFiles";
+
+	/**
+	 * The "index" section
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_INDEX_SECTION = "index";
+
+	/**
+	 * The "index.version" key
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_KEY_VERSION = "version";
+
 }
