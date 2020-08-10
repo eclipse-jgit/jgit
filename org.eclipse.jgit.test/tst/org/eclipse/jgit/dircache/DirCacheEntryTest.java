@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc. and others
+ * Copyright (C) 2009, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,14 +11,25 @@
 package org.eclipse.jgit.dircache;
 
 import static java.time.Instant.EPOCH;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.dircache.DirCache.DirCacheVersion;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class DirCacheEntryTest {
@@ -44,6 +55,95 @@ public class DirCacheEntryTest {
 			return true;
 		} catch (InvalidPathException e) {
 			return false;
+		}
+	}
+
+	private static void checkPath(DirCacheVersion indexVersion,
+			DirCacheEntry previous, String name) throws IOException {
+		DirCacheEntry dce = new DirCacheEntry(name);
+		long now = System.currentTimeMillis();
+		long anHourAgo = now - TimeUnit.HOURS.toMillis(1);
+		dce.setLastModified(Instant.ofEpochMilli(anHourAgo));
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		dce.write(out, indexVersion, previous);
+		byte[] raw = out.toByteArray();
+		MessageDigest md0 = Constants.newMessageDigest();
+		md0.update(raw);
+		ByteArrayInputStream in = new ByteArrayInputStream(raw);
+		MutableInteger infoAt = new MutableInteger();
+		byte[] sharedInfo = new byte[raw.length];
+		MessageDigest md = Constants.newMessageDigest();
+		DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
+				Instant.ofEpochMilli(now), indexVersion, previous);
+		assertEquals("Paths of length " + name.length() + " should match", name,
+				read.getPathString());
+		assertEquals("Should have been fully read", -1, in.read());
+		assertArrayEquals("Digests should match", md0.digest(),
+				md.digest());
+	}
+
+	@Test
+	public void testLongPath() throws Exception {
+		StringBuilder name = new StringBuilder(4094 + 16);
+		for (int i = 0; i < 4094; i++) {
+			name.append('a');
+		}
+		for (int j = 0; j < 16; j++) {
+			checkPath(DirCacheVersion.DIRC_VERSION_EXTENDED, null,
+					name.toString());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testLongPathV4() throws Exception {
+		StringBuilder name = new StringBuilder(4094 + 16);
+		for (int i = 0; i < 4094; i++) {
+			name.append('a');
+		}
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 16; j++) {
+			checkPath(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous,
+					name.toString());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testShortPath() throws Exception {
+		StringBuilder name = new StringBuilder(1 + 16);
+		name.append('a');
+		for (int j = 0; j < 16; j++) {
+			checkPath(DirCacheVersion.DIRC_VERSION_EXTENDED, null,
+					name.toString());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testShortPathV4() throws Exception {
+		StringBuilder name = new StringBuilder(1 + 16);
+		name.append('a');
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 16; j++) {
+			checkPath(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous,
+					name.toString());
+			name.append('b');
+		}
+	}
+
+	@Test
+	public void testPathV4() throws Exception {
+		StringBuilder name = new StringBuilder();
+		for (int i = 0; i < 20; i++) {
+			name.append('a');
+		}
+		DirCacheEntry previous = new DirCacheEntry(name.toString());
+		for (int j = 0; j < 20; j++) {
+			name.setLength(name.length() - 1);
+			String newName = name.toString() + "bbb";
+			checkPath(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS, previous,
+					newName);
 		}
 	}
 

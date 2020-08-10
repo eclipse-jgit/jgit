@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008, 2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2011, 2020, Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -41,6 +41,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config.ConfigEnum;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -321,6 +324,9 @@ public class DirCache {
 	/** Repository containing this index */
 	private Repository repository;
 
+	/** If we read this index from disk, the original format. */
+	private DirCacheVersion version;
+
 	/**
 	 * Create a new in-core index representation.
 	 * <p>
@@ -362,6 +368,10 @@ public class DirCache {
 	 */
 	public DirCacheEditor editor() {
 		return new DirCacheEditor(this, entryCnt + 16);
+	}
+
+	DirCacheVersion getVersion() {
+		return version;
 	}
 
 	void replace(DirCacheEntry[] e, int cnt) {
@@ -445,13 +455,26 @@ public class DirCache {
 		md.update(hdr, 0, 12);
 		if (!is_DIRC(hdr))
 			throw new CorruptObjectException(JGitText.get().notADIRCFile);
-		final int ver = NB.decodeInt32(hdr, 4);
+		int versionCode = NB.decodeInt32(hdr, 4);
+		DirCacheVersion ver = DirCacheVersion.fromInt(versionCode);
+		if (ver == null) {
+			throw new CorruptObjectException(
+					MessageFormat.format(JGitText.get().unknownDIRCVersion,
+							Integer.valueOf(versionCode)));
+		}
 		boolean extended = false;
-		if (ver == 3)
+		switch (ver) {
+		case DIRC_VERSION_MINIMUM:
+			break;
+		case DIRC_VERSION_EXTENDED:
+		case DIRC_VERSION_PATHCOMPRESS:
 			extended = true;
-		else if (ver != 2)
-			throw new CorruptObjectException(MessageFormat.format(
-					JGitText.get().unknownDIRCVersion, Integer.valueOf(ver)));
+			break;
+		default:
+			throw new CorruptObjectException(MessageFormat
+					.format(JGitText.get().unknownDIRCVersion, ver));
+		}
+		version = ver;
 		entryCnt = NB.decodeInt32(hdr, 8);
 		if (entryCnt < 0)
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
@@ -467,7 +490,8 @@ public class DirCache {
 
 		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++) {
-			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge);
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge,
+					version, i == 0 ? null : sortedEntries[i - 1]);
 		}
 
 		// After the file entries are index extensions, and then a footer.
@@ -606,11 +630,20 @@ public class DirCache {
 		final MessageDigest foot = Constants.newMessageDigest();
 		final DigestOutputStream dos = new DigestOutputStream(os, foot);
 
-		boolean extended = false;
-		for (int i = 0; i < entryCnt; i++) {
-			if (sortedEntries[i].isExtended()) {
-				extended = true;
-				break;
+		if (version == null && this.repository != null) {
+			// A new DirCache is being written.
+			DirCacheConfig config = repository.getConfig()
+					.get(DirCacheConfig::new);
+			version = config.getIndexVersion();
+		}
+		if (version == null
+				|| version == DirCacheVersion.DIRC_VERSION_MINIMUM) {
+			version = DirCacheVersion.DIRC_VERSION_MINIMUM;
+			for (int i = 0; i < entryCnt; i++) {
+				if (sortedEntries[i].isExtended()) {
+					version = DirCacheVersion.DIRC_VERSION_EXTENDED;
+					break;
+				}
 			}
 		}
 
@@ -618,7 +651,7 @@ public class DirCache {
 		//
 		final byte[] tmp = new byte[128];
 		System.arraycopy(SIG_DIRC, 0, tmp, 0, SIG_DIRC.length);
-		NB.encodeInt32(tmp, 4, extended ? 3 : 2);
+		NB.encodeInt32(tmp, 4, version.getVersionCode());
 		NB.encodeInt32(tmp, 8, entryCnt);
 		dos.write(tmp, 0, 12);
 
@@ -650,7 +683,7 @@ public class DirCache {
 			if (e.mightBeRacilyClean(smudge)) {
 				e.smudgeRacilyClean();
 			}
-			e.write(dos);
+			e.write(dos, version, i == 0 ? null : sortedEntries[i - 1]);
 		}
 
 		if (writeTree) {
@@ -981,5 +1014,77 @@ public class DirCache {
 				}
 			}
 		}
+	}
+
+	enum DirCacheVersion implements ConfigEnum {
+
+		/** Minimum index version on-disk format that we support. */
+		DIRC_VERSION_MINIMUM(2),
+		/** Version 3 supports extended flags. */
+		DIRC_VERSION_EXTENDED(3),
+		/**
+		 * Version 4 adds very simple "path compression": it strips out the
+		 * common prefix between the last entry written and the current entry.
+		 * Instead of writing two entries with paths "foo/bar/baz/a.txt" and
+		 * "foo/bar/baz/b.txt" it only writes "b.txt" for the second entry.
+		 * <p>
+		 * It is also <em>not</em> padded.
+		 * </p>
+		 */
+		DIRC_VERSION_PATHCOMPRESS(4);
+
+		private int version;
+
+		private DirCacheVersion(int versionCode) {
+			this.version = versionCode;
+		}
+
+		public int getVersionCode() {
+			return version;
+		}
+
+		@Override
+		public String toConfigValue() {
+			return Integer.toString(version);
+		}
+
+		@Override
+		public boolean matchConfigValue(String in) {
+			try {
+				return version == Integer.parseInt(in);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+
+		public static DirCacheVersion fromInt(int val) {
+			for (DirCacheVersion v : DirCacheVersion.values()) {
+				if (val == v.getVersionCode()) {
+					return v;
+				}
+			}
+			return null;
+		}
+	}
+
+	private static class DirCacheConfig {
+
+		private final DirCacheVersion indexVersion;
+
+		public DirCacheConfig(Config cfg) {
+			boolean manyFiles = cfg.getBoolean(
+					ConfigConstants.CONFIG_FEATURE_SECTION,
+					ConfigConstants.CONFIG_KEY_MANYFILES, false);
+			indexVersion = cfg.getEnum(DirCacheVersion.values(),
+					ConfigConstants.CONFIG_INDEX_SECTION, null,
+					ConfigConstants.CONFIG_KEY_VERSION,
+					manyFiles ? DirCacheVersion.DIRC_VERSION_PATHCOMPRESS
+							: DirCacheVersion.DIRC_VERSION_EXTENDED);
+		}
+
+		public DirCacheVersion getIndexVersion() {
+			return indexVersion;
+		}
+
 	}
 }

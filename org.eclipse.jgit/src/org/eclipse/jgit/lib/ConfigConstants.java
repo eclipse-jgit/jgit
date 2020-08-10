@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2012-2013, Robin Rosenberg and others
+ * Copyright (C) 2012, 2020, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -662,4 +662,33 @@ public final class ConfigConstants {
 	 * @since 5.8
 	 */
 	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
+
+	/**
+	 * The "feature" section
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_FEATURE_SECTION = "feature";
+
+	/**
+	 * The "feature.manyFiles" key
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_KEY_MANYFILES = "manyFiles";
+
+	/**
+	 * The "index" section
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_INDEX_SECTION = "index";
+
+	/**
+	 * The "index.version" key
+	 *
+	 * @since 5.9
+	 */
+	public static final String CONFIG_KEY_VERSION = "version";
+
 }
