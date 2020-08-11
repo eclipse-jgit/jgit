@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7501876_1a68e3ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBundleWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2020-08-11T19:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bd4f3e7_51b8b862",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 26
+      },
+      "revId": "c7ef88eb0314da02e5c92678b284e24139317f7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c868410c_65f65820",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ca97b200_191adb41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2020-08-11T19:09:16Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s better to copy this class. This basically configures how a PackWriter should be configured, and I don\u0027t think we should create variants per all PackWriter configuration variants.",
+      "parentUuid": "c868410c_65f65820",
+      "range": {
+        "startLine": 162,
+        "startChar": 50,
+        "endLine": 162,
+        "endChar": 58
+      },
+      "revId": "c7ef88eb0314da02e5c92678b284e24139317f7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffce07c4_fc1199dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "c7ef88eb0314da02e5c92678b284e24139317f7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caea2d9a_70cc7ed6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2020-08-11T19:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffce07c4_fc1199dc",
+      "range": {
+        "startLine": 230,
+        "startChar": 15,
+        "endLine": 230,
+        "endChar": 26
+      },
+      "revId": "c7ef88eb0314da02e5c92678b284e24139317f7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
