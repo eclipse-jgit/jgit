@@ -27,7 +27,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
@@ -38,7 +37,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	private static final String SUBMODULE_PATH = "submodule.link";
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_AddNew() throws Exception {
 		assertGitLinkValue(
 				testGitLink(null, null, LINK_ID3, newResolveMerger(), true),
@@ -46,20 +44,17 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_Delete() throws Exception {
 		assertGitLinkDoesntExist(testGitLink(LINK_ID1, LINK_ID1, null,
 				newResolveMerger(), true));
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_UpdateDelete() throws Exception {
 		testGitLink(LINK_ID1, LINK_ID2, null, newResolveMerger(), false);
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_DeleteUpdate() throws Exception {
 		testGitLink(LINK_ID1, null, LINK_ID3, newResolveMerger(), false);
 	}
@@ -90,14 +85,12 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_Delete_ignoreConflicts() throws Exception {
 		assertGitLinkDoesntExist(testGitLink(LINK_ID1, LINK_ID1, null,
 				newIgnoreConflictMerger(), true));
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_UpdateDelete_ignoreConflicts()
 			throws Exception {
 		assertGitLinkValue(testGitLink(LINK_ID1, LINK_ID2, null,
@@ -105,7 +98,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_DeleteUpdate_ignoreConflicts()
 			throws Exception {
 		assertGitLinkDoesntExist(testGitLink(LINK_ID1, null, LINK_ID3,
@@ -299,7 +291,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testGitLinkMerging_linkBlobDeleted() throws Exception {
 		// We changed a link to a blob, others has deleted this link.
 		DirCache treeB = db.readDirCache();
