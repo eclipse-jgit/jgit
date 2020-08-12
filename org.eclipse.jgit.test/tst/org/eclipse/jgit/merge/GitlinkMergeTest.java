@@ -27,7 +27,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
@@ -62,7 +61,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("broken - doesn't ignore conflicts")
 	public void testGitLinkMerging_UpdateUpdate_ignoreConflicts()
 			throws Exception {
 		assertGitLinkValue(testGitLink(LINK_ID1, LINK_ID2, LINK_ID3,
@@ -70,7 +68,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("broken - doesn't ignore conflicts")
 	public void testGitLinkMerging_bothAddedSameLink_ignoreConflicts()
 			throws Exception {
 		assertGitLinkValue(testGitLink(null, LINK_ID2, LINK_ID2,
@@ -78,7 +75,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("broken - doesn't ignore conflicts")
 	public void testGitLinkMerging_bothAddedDifferentLink_ignoreConflicts()
 			throws Exception {
 		assertGitLinkValue(testGitLink(null, LINK_ID2, LINK_ID3,
@@ -230,7 +226,6 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("broken - try to do content-merge with GITLINK")
 	public void testGitLinkMerging_blobWithBlobFromLink() throws Exception {
 		DirCache treeB = db.readDirCache();
 		DirCache treeO = db.readDirCache();
