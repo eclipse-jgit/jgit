@@ -745,14 +745,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 
 				if (gitlinkConflict) {
-					MergeResult<SubmoduleConflict> result = new MergeResult<>(
-							Arrays.asList(
-									new SubmoduleConflict(base == null ? null
-											: base.getEntryObjectId()),
-									new SubmoduleConflict(ours == null ? null
-											: ours.getEntryObjectId()),
-									new SubmoduleConflict(theirs == null ? null
-											: theirs.getEntryObjectId())));
+					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
+							base, ours, theirs);
 					result.setContainsConflicts(true);
 					mergeResults.put(tw.getPathString(), result);
 					if (!ignoreConflicts) {
@@ -823,6 +817,18 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 		}
 		return true;
+	}
+
+	private MergeResult<SubmoduleConflict> createGitLinksMergeResult(
+			CanonicalTreeParser base, CanonicalTreeParser ours,
+			CanonicalTreeParser theirs) {
+		return new MergeResult<>(Arrays.asList(
+				new SubmoduleConflict(
+						base == null ? null : base.getEntryObjectId()),
+				new SubmoduleConflict(
+						ours == null ? null : ours.getEntryObjectId()),
+				new SubmoduleConflict(
+						theirs == null ? null : theirs.getEntryObjectId())));
 	}
 
 	/**
