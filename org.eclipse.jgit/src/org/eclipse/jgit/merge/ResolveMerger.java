@@ -739,23 +739,25 @@ public class ResolveMerger extends ThreeWayMerger {
 
 			boolean gitlinkConflict = isGitLink(modeO) || isGitLink(modeT);
 			// Don't attempt to resolve submodule link conflicts
-			if (gitlinkConflict || !attributes.canBeContentMerged()) {
+			if (gitlinkConflict) {
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 
-				if (gitlinkConflict) {
-					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
-							base, ours, theirs);
-					result.setContainsConflicts(true);
-					mergeResults.put(tw.getPathString(), result);
-					if (!ignoreConflicts) {
-						unmergedPaths.add(tw.getPathString());
-					}
-				} else {
-					// attribute merge issues are conflicts but not failures
+				MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
+						base, ours, theirs);
+				result.setContainsConflicts(true);
+				mergeResults.put(tw.getPathString(), result);
+				if (!ignoreConflicts) {
 					unmergedPaths.add(tw.getPathString());
 				}
+				return true;
+			} else if (!attributes.canBeContentMerged()) {
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				// attribute merge issues are conflicts but not failures
+				unmergedPaths.add(tw.getPathString());
 				return true;
 			}
 
@@ -819,7 +821,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		return true;
 	}
 
-	private MergeResult<SubmoduleConflict> createGitLinksMergeResult(
+	private static MergeResult<SubmoduleConflict> createGitLinksMergeResult(
 			CanonicalTreeParser base, CanonicalTreeParser ours,
 			CanonicalTreeParser theirs) {
 		return new MergeResult<>(Arrays.asList(
