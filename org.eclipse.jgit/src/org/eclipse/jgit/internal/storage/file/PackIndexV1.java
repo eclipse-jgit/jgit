@@ -49,11 +49,11 @@ class PackIndexV1 extends PackIndex {
 			idxHeader[k] = NB.decodeUInt32(fanoutTable, k * 4);
 		idxdata = new byte[idxHeader.length][];
 		for (int k = 0; k < idxHeader.length; k++) {
-			int n;
+			long n;
 			if (k == 0) {
-				n = (int) (idxHeader[k]);
+				n = idxHeader[k];
 			} else {
-				n = (int) (idxHeader[k] - idxHeader[k - 1]);
+				n = idxHeader[k] - idxHeader[k - 1];
 			}
 			if (n > 0) {
 				final long len = n * (Constants.OBJECT_ID_LENGTH + 4);
