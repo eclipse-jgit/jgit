@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79688067_61582583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-08-12T17:09:24Z",
+      "side": 1,
+      "message": "Swap title and body contents, so the title indicates what has changed.\n\ne.g. a title like \"...: Split gitlink/attribute-merge handling\"\n\nand in the description: Split the nested conditions for a flatter structure with better readability.",
+      "revId": "e1e9adcc6dce7ceaeec52e646cbde2afd2da6f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd13a9d1_5e423a24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-08-12T17:09:24Z",
+      "side": 1,
+      "message": "This can be done already in the previous change (I did same comment there).",
+      "revId": "e1e9adcc6dce7ceaeec52e646cbde2afd2da6f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
