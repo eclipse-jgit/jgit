@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba19264_16307f0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-08-12T17:01:53Z",
+      "side": 1,
+      "message": "Imperative here, capital letter. \n\"Extract...\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "cd8db503011d470df3498604516c35a7de936058",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b03dedc_b8c2fa26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2020-08-12T17:01:53Z",
+      "side": 1,
+      "message": "This method can be static here (instead of changing it again in the following change).",
+      "revId": "cd8db503011d470df3498604516c35a7de936058",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
