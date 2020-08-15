@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73a1bfc4_129da477",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheEntryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-15T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26936bd9_d6baeece",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86cb502_fdf7c9f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b5547df_a824b3e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-15T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86cb502_fdf7c9f5",
+      "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "37a47037_2964836a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-15T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3050e0c1_0c28b106",
+      "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c546857c_83fb2888",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cedde97d_7d84b61b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-15T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c546857c_83fb2888",
+      "revId": "981fc49dd7eda87adc88cfe868bccab53d93b315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
