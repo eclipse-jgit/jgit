@@ -34,6 +34,24 @@
       "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e64fbeb_d44c2854",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-16T21:07:07Z",
+      "side": 1,
+      "message": "yes, I agree, flags would be also easier to read and require less code than a builder",
+      "parentUuid": "3f5f566e_b69e7597",
+      "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
