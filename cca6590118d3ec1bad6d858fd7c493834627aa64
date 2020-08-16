@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7f9d3e_c750d85c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-16T20:32:56Z",
+      "side": 1,
+      "message": "3 constructors with different combinations of boolean attributes is ugly and make calls hard to read. Maybe deprecate the existing constructor in favour of a builder ?\n\n\n\tpublic static class Builder {\n\t\tInputStream in;\n\t\tboolean forCheckout;\n\t\tboolean detectBinary;\n\t\tboolean abortIfBinary;\n\n\t\tprivate Builder(InputStream in) {\n\t\t\tthis.in \u003d in;\n\t\t}\n\n\t\tpublic Builder forCheckout() {\n\t\t\tthis.forCheckout \u003d true;\n\t\t\treturn this;\n\t\t}\n\n\t\tpublic Builder detectBinary() {\n\t\t\tthis.detectBinary \u003d true;\n\t\t\treturn this;\n\t\t}\n\n\t\tpublic Builder abortIfBinary() {\n\t\t\tthis.abortIfBinary \u003d true;\n\t\t\treturn this;\n\t\t}\n\n\t\tpublic AutoLFInputStream build() {\n\t\t\treturn new AutoLFInputStream(this);\n\t\t}\n\n\t}\n\n        public static Builder builder(InputStream in) {\n                return new Builder(in);\n        }\n\n        private AutoLFInputStream(Builder b) {\n                this.in \u003d b.in;\n                this.forCheckout \u003d b.forCheckout;\n                this.detectBinary \u003d b.detectBinary;\n                this.abortIfBinary \u003d b.abortIfBinary;\n        }",
+      "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
