@@ -34,6 +34,24 @@
       "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2b92539_381eba41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-16T22:05:53Z",
+      "side": 1,
+      "message": "1. yep, also don\u0027t know, I have no access to these platforms\n2. ok\n3. I think that\u0027s used in RefDirectory.commitPackedRefs to ensure a newly written packed-refs file doesn\u0027t look racily clean compared to its former state\n4. FileUtils doesn\u0027t have a method setLastModifiedTime(), it has setLastModified(Instant) which delegates to Files.setLastModifiedTime(). I tried and found that both Files.setLastModifiedTime() and File.setLastModified() when called on a symlink set the timestamp of the link target:\n\npackage test;\n\nimport java.io.IOException;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.nio.file.attribute.FileTime;\nimport java.time.Instant;\n\npublic class FileTimestamps {\n\n\tpublic static void main(String[] args) throws IOException {\n\t\tPath testdir \u003d Files.createTempDirectory(\"test\");\n\n\t\tPath f1 \u003d Files.createTempFile(testdir, \"file1_\", \"test\");\n\t\tPath linkPath1 \u003d testdir.resolve(\"link1\");\n\t\tPath l1 \u003d Files.createSymbolicLink(linkPath1, f1);\n\t\tl1.toFile().setLastModified(0);\n\n\t\tPath f2 \u003d Files.createTempFile(testdir, \"file2_\", \"test\");\n\t\tPath linkPath2 \u003d testdir.resolve(\"link2\");\n\t\tPath l2 \u003d Files.createSymbolicLink(linkPath2, f2);\n\t\tFiles.setLastModifiedTime(l2, FileTime.from(Instant.EPOCH));\n\t\tSystem.out.println(\"done\");\n\t}\n\n}\n\nI debugged this on Mac, stopped on a breakpoint in the last line and checked in the file system:\n\ntest779924900212705200]$ ls -al\ntotal 0\ndrwx------   6 user staff  192 Aug 16 23:57 .\ndrwx------ 142 user staff 4544 Aug 16 23:57 ..\n-rw-------   1 user staff    0 Jan  1  1970 file1_97777409364211114test\n-rw-------   1 user staff    0 Jan  1  1970 file2_2274823892018540160test\nlrwxr-xr-x   1 user staff   99 Aug 16 23:57 link1 -\u003e /var/folders/16/nqvdxf5s45309nxkv4k4r20r0000gq/T/test779924900212705200/file1_97777409364211114test\nlrwxr-xr-x   1 user staff  101 Aug 16 23:57 link2 -\u003e /var/folders/16/nqvdxf5s45309nxkv4k4r20r0000gq/T/test779924900212705200/file2_2274823892018540160test",
+      "parentUuid": "d99d2c40_21e04f63",
+      "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
