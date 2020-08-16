@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-at: Sun, 16 Aug 2020 11:55:34 -0400
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/167263
+Project: jgit/jgit
+Branch: refs/heads/master
