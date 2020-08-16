@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "038261cd_bb34b021",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolStreamTypeUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-16T22:32:19Z",
+      "side": 1,
+      "message": "or deprecate the old constructor and do this uniformly always using the enum ?\n\n EnumSet\u003cStreamFlag\u003e flags \u003d forCheckout ? \n                                 EnumSet.of(StreamFlag.DETECT_BINARY,StreamFlag.FOR_CHECKOUT):\n                                 EnumSet.of(StreamFlag.DETECT_BINARY);\n return new AutoLFInputStream(in, flags);",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 42
+      },
+      "revId": "8cbd7be9b7c2519c4e76b67bfe10d0b9ae86dec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
