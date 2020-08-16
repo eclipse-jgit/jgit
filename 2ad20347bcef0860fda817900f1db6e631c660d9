@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34e57b85_5d1b2f7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-16T12:38:51Z",
+      "side": 1,
+      "message": "Can we extract this logic working around bug 565707 which seems to be caused by bugs in z/OS and NonStop JVM ports to a helper method which is only used on these platforms ?",
+      "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
