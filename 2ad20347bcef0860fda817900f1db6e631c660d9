@@ -16,6 +16,24 @@
       "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d99d2c40_21e04f63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-16T15:52:46Z",
+      "side": 1,
+      "message": "1. I don\u0027t know how to detect these platforms.\n2. The code here is correct in general on all platforms. I don\u0027t see a problem with using it on all platforms.\n3. The other critical place would be LockFile.waitForStatChange(). That uses Files.setLastModifiedTime(Instant.now()), which _may_ have sub-milli resolution, but probably doesn\u0027t on these platforms.\n4. FileUtils.setLastModifiedTime() is specified to modify the time of the link if the path is a symlink. I don\u0027t know for sure, but I suspect File.setLastModified() might change the timestamp of the link target?",
+      "parentUuid": "34e57b85_5d1b2f7c",
+      "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
