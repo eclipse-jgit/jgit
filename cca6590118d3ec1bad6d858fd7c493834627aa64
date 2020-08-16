@@ -16,6 +16,24 @@
       "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f5f566e_b69e7597",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-16T20:56:54Z",
+      "side": 1,
+      "message": "You\u0027re right, it\u0027s not nice. Not sure if a Builder is overkill, though. Since it\u0027s all booleans, flags would work, too.\n\n  enum StreamFlag {\n    DETECT_BINARY,\n    ABORT_IF_BINARY,\n    FOR_CHECKOUT\n  }\n\n  public AutoLFInputStream(InputStream in, StreamFlags... flags);\n\nor\n\n  public AutoLFInputStream(InputStream in, Set\u003cStreamFlag\u003e flags);\n\nor even old-style\n\n  public static final int DETECT_BINARY \u003d 1;\n  public static final int ABORT_IF_BINARY \u003d 2;\n  public static final int FOR_CHECKOUT \u003d 4;\n\n  public AutoLFInputStream(InputStream in, int flags);\n\nBut if you have the builder code already, feel free to add that.",
+      "parentUuid": "5f7f9d3e_c750d85c",
+      "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
