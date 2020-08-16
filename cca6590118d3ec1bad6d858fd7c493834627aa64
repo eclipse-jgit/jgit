@@ -52,6 +52,24 @@
       "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c202b6a3_ee98965b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-16T22:12:02Z",
+      "side": 1,
+      "message": "Done. Went for the enum implementation.",
+      "parentUuid": "4e64fbeb_d44c2854",
+      "revId": "cca6590118d3ec1bad6d858fd7c493834627aa64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
