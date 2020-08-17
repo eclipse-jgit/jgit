@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deac9b45_31cb78da",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-17T20:27:55Z",
+      "side": 1,
+      "message": "Splitting out the test cases into a precursor commit (with @Ignore where appropriate) would be helpful in reviewing this change.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 59
+      },
+      "revId": "be8217c6607cb697219075b380a9e849167f28d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0c9b4e7_97f8aa7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-17T20:27:55Z",
+      "side": 1,
+      "message": "This is inconsistent with the style above of being explicit about \"(gitLinkMerging \u0026\u0026 !ignoreConflicts)\". Efficiency-wise this is slightly better but being explicit is a tiny bit more readable. I guess I\u0027d go for efficiency and fix the one above.",
+      "range": {
+        "startLine": 790,
+        "startChar": 14,
+        "endLine": 790,
+        "endChar": 30
+      },
+      "revId": "be8217c6607cb697219075b380a9e849167f28d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
