@@ -124,6 +124,24 @@
       "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38f7384_8de6bdaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-17T12:07:02Z",
+      "side": 1,
+      "message": "https://bugs.openjdk.java.net/browse/JDK-8220793",
+      "parentUuid": "c82ad02c_20dcbccb",
+      "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
