@@ -1080,8 +1080,9 @@ public abstract class FS {
 	}
 
 	/**
-	 * Set the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the link is modified, not the target,
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target.
 	 *
 	 * @param f
 	 *            a {@link java.io.File} object.
@@ -1097,8 +1098,9 @@ public abstract class FS {
 	}
 
 	/**
-	 * Set the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the link is modified, not the target,
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target.
 	 *
 	 * @param p
 	 *            a {@link Path} object.
