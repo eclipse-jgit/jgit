@@ -710,6 +710,8 @@ public class FileUtils {
 	}
 
 	/**
+	 * Set the last modified time of a file system object.
+	 *
 	 * @param file
 	 * @param time
 	 * @throws IOException
@@ -720,6 +722,8 @@ public class FileUtils {
 	}
 
 	/**
+	 * Set the last modified time of a file system object.
+	 *
 	 * @param path
 	 * @param time
 	 * @throws IOException
