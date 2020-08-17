@@ -106,6 +106,24 @@
       "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c82ad02c_20dcbccb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-08-17T12:00:04Z",
+      "side": 1,
+      "message": "looks like that\u0027s the only thing we can do\n\nI don\u0027t understand why the read attributes methods allow to distinguish between attributes of the link and the link target using LinkOption.NOFOLLOW_LINKS but the write methods don\u0027t allow to change the attributes of the link itself. This asymmetry seems strange. Will ask our JVM experts if they can explain that.",
+      "parentUuid": "e4130c7e_b1717ebf",
+      "revId": "2ad20347bcef0860fda817900f1db6e631c660d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
