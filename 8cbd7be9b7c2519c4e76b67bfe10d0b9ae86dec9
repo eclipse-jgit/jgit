@@ -22,6 +22,30 @@
       "revId": "8cbd7be9b7c2519c4e76b67bfe10d0b9ae86dec9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fbb60f5_c2b055c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolStreamTypeUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-17T08:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "038261cd_bb34b021",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 42
+      },
+      "revId": "8cbd7be9b7c2519c4e76b67bfe10d0b9ae86dec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
