@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56040ae5_c27e76de",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-17T20:13:43Z",
+      "side": 1,
+      "message": "Since 3 lines above this ResolveMerger(db, true) sets inCore to true, implicitDirCache is always false. Simplify this to just return the mergeTrees() call.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "22527e888ddb73a8d579a0202d8346d5cb9d8f32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "226a5dda_c313f7a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-08-17T20:13:43Z",
+      "side": 1,
+      "message": "I don\u0027t see this ever being null, so I think the method can be simplified and renamed \"addLink\".",
+      "range": {
+        "startLine": 264,
+        "startChar": 3,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "22527e888ddb73a8d579a0202d8346d5cb9d8f32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
