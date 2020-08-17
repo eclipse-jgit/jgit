@@ -939,8 +939,11 @@ public abstract class FS {
 	}
 
 	/**
-	 * Set the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the link is modified, not the target,
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target since Java up
+	 * to version 13 doesn't support setting timestamps of the symlink ifself.
+	 * {@See https://bugs.openjdk.java.net/browse/JDK-8220793}
 	 *
 	 * @param f
 	 *            a {@link java.io.File} object.
@@ -956,8 +959,11 @@ public abstract class FS {
 	}
 
 	/**
-	 * Set the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the link is modified, not the target,
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target since Java up
+	 * to version 13 doesn't support setting timestamps of the symlink ifself.
+	 * {@See https://bugs.openjdk.java.net/browse/JDK-8220793}
 	 *
 	 * @param p
 	 *            a {@link Path} object.
@@ -966,6 +972,8 @@ public abstract class FS {
 	 * @throws java.io.IOException
 	 * @since 5.1.9
 	 */
+	// TODO(ms): fix behavior for symlinks to set last modified timestamp of
+	// symlink as soon as minimum Java version is 13 or higher
 	public void setLastModified(Path p, Instant time) throws IOException {
 		FileUtils.setLastModified(p, time);
 	}

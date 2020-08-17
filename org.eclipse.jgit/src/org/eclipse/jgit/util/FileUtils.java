@@ -710,6 +710,12 @@ public class FileUtils {
 	}
 
 	/**
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target since Java up
+	 * to version 13 doesn't support setting timestamp of the symlink ifself.
+	 * {@See https://bugs.openjdk.java.net/browse/JDK-8220793}
+	 *
 	 * @param file
 	 * @param time
 	 * @throws IOException
@@ -720,10 +726,18 @@ public class FileUtils {
 	}
 
 	/**
+	 * Set the last modified time of a file system object.
+	 * <p>
+	 * For symlinks it sets the modified time of the link target since Java up
+	 * to version 13 doesn't support setting timestamp of the symlink ifself.
+	 * {@See https://bugs.openjdk.java.net/browse/JDK-8220793}
+	 *
 	 * @param path
 	 * @param time
 	 * @throws IOException
 	 */
+	// TODO(ms): fix behavior for symlinks to set last modified timestamp of
+	// symlink as soon as minimum Java version is 13 or higher
 	static void setLastModified(Path path, Instant time)
 			throws IOException {
 		Files.setLastModifiedTime(path, FileTime.from(time));
