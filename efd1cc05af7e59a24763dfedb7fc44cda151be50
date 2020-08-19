@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac329114_90d491d9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-08-19T08:17:28Z",
+      "side": 1,
+      "message": "funny branch name \"brancha\". I was expecting to see also a \"branchb\". But of course, no problem",
+      "range": {
+        "startLine": 382,
+        "startChar": 35,
+        "endLine": 382,
+        "endChar": 36
+      },
+      "revId": "efd1cc05af7e59a24763dfedb7fc44cda151be50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
