@@ -146,6 +146,8 @@ public class UploadPack {
 		 *            {@link UploadPack} instance.
 		 * @param wants
 		 *            objects the client requested that were not advertised.
+		 * @param accumulator
+		 * 			  where to write statistics about the content of the pack.
 		 *
 		 * @throws PackProtocolException
 		 *            if one or more wants is not valid.
@@ -153,7 +155,7 @@ public class UploadPack {
 		 *            if a low-level exception occurred.
 		 * @since 3.1
 		 */
-		void checkWants(UploadPack up, List<ObjectId> wants)
+		void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException;
 	}
 
@@ -1137,6 +1139,7 @@ public class UploadPack {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
 
+		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -1186,7 +1189,7 @@ public class UploadPack {
 
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE), accumulator);
 		} else {
 			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
 			for (ObjectId id : req.getPeerHas()) {
@@ -1195,7 +1198,7 @@ public class UploadPack {
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE), accumulator);
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
 			} else if (commonBase.isEmpty()) {
@@ -1481,7 +1484,7 @@ public class UploadPack {
 			for (String s : getV2CapabilityAdvertisement()) {
 				adv.writeOne(s);
 			}
-			adv.end();
+			adv.end();t
 			return;
 		}
 
@@ -1641,7 +1644,7 @@ public class UploadPack {
 			}
 
 			if (PacketLineIn.isEnd(line)) {
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, accumulator);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1656,7 +1659,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, accumulator);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1672,11 +1675,11 @@ public class UploadPack {
 		}
 	}
 
-	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out)
+	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out, PackStatistics.Accumulator accumulator)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
-			parseWants();
+			parseWants(accumulator);
 		if (peerHas.isEmpty())
 			return last;
 
@@ -1773,7 +1776,7 @@ public class UploadPack {
 		return last;
 	}
 
-	private void parseWants() throws IOException {
+	private void parseWants(PackStatistics.Accumulator accumulator) throws IOException {
 		List<ObjectId> notAdvertisedWants = null;
 		for (ObjectId obj : wantIds) {
 			if (!advertised.contains(obj)) {
@@ -1783,7 +1786,7 @@ public class UploadPack {
 			}
 		}
 		if (notAdvertisedWants != null)
-			requestValidator.checkWants(this, notAdvertisedWants);
+			requestValidator.checkWants(this, notAdvertisedWants, accumulator);
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {
@@ -1822,10 +1825,10 @@ public class UploadPack {
 	public static final class AdvertisedRequestValidator
 			implements RequestValidator {
 		@Override
-		public void checkWants(UploadPack up, List<ObjectId> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
-				new ReachableCommitRequestValidator().checkWants(up, wants);
+				new ReachableCommitRequestValidator().checkWants(up, wants, accumulator);
 			else if (!wants.isEmpty())
 				throw new WantNotValidException(wants.iterator().next());
 		}
@@ -1839,9 +1842,13 @@ public class UploadPack {
 	public static final class ReachableCommitRequestValidator
 			implements RequestValidator {
 		@Override
-		public void checkWants(UploadPack up, List<ObjectId> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException {
+			long startReachabilityCheck = System.currentTimeMillis();
+
 			checkNotAdvertisedWants(up, wants, up.getAdvertisedRefs().values());
+
+			accumulator.timeReachabilityCheck = System.currentTimeMillis() - startReachabilityCheck;
 		}
 	}
 
@@ -1852,10 +1859,10 @@ public class UploadPack {
 	 */
 	public static final class TipRequestValidator implements RequestValidator {
 		@Override
-		public void checkWants(UploadPack up, List<ObjectId> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
-				new ReachableCommitTipRequestValidator().checkWants(up, wants);
+				new ReachableCommitTipRequestValidator().checkWants(up, wants, accumulator);
 			else if (!wants.isEmpty()) {
 				Set<ObjectId> refIds =
 						refIdSet(up.getRepository().getRefDatabase().getRefs());
@@ -1875,10 +1882,15 @@ public class UploadPack {
 	public static final class ReachableCommitTipRequestValidator
 			implements RequestValidator {
 		@Override
-		public void checkWants(UploadPack up, List<ObjectId> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException {
+
+			long reachabilityCheckStart = System.currentTimeMillis();
+
 			checkNotAdvertisedWants(up, wants,
 					up.getRepository().getRefDatabase().getRefs());
+
+			accumulator.timeReachabilityCheck = System.currentTimeMillis() - reachabilityCheckStart;
 		}
 	}
 
@@ -1889,7 +1901,7 @@ public class UploadPack {
 	 */
 	public static final class AnyRequestValidator implements RequestValidator {
 		@Override
-		public void checkWants(UploadPack up, List<ObjectId> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants, PackStatistics.Accumulator accumulator)
 				throws PackProtocolException, IOException {
 			// All requests are valid.
 		}

@@ -284,6 +284,9 @@ public class PackStatistics {
 		 */
 		public long offloadedPackfileSize;
 
+		/** Time in ms spent checking reachability. */
+		public long timeReachabilityCheck;
+
 		/**
 		 * Statistics about each object type in the pack (commits, tags, trees
 		 * and blobs.)
@@ -627,6 +630,14 @@ public class PackStatistics {
 		return statistics.offloadedPackfileSize;
 	}
 
+	/**
+	 * Get time in milliseconds spent checking reachability, f.
+	 *
+	 * @return time in milliseconds spent writing the pack output, from start of
+	 *         header until end of trailer. The transfer speed can be
+	 *         approximated by dividing {@link #getTotalBytes()} by this value.
+	 */
+	public long getTimeReachabilityCheck() { return statistics.timeReachabilityCheck; }
 	/**
 	 * Get total time spent processing this pack.
 	 *
