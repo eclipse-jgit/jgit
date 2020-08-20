@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "161639bb_cef1a362",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-08-20T10:22:31Z",
+      "side": 1,
+      "message": "This should go into a separate commit, it\u0027s unrelated to the change you\u0027re doing.\n\nReason why this change is needed:\n\nFor building with Bazel JGit uses the bazlets repository: https://gerrit.googlesource.com/bazlets. Bazel downloads the dependencies needed for\nthis project from Maven central repository (handled by the bazlets repo, which is\nwhere all the URLs are defined).\n\nNow the problem: Maven started enforcing HTTPS protocol from January 2020. \nAnnouncement: https://blog.sonatype.com/central-repository-moving-to-https.\nBazlets switched to using HTTPS in https://gerrit.googlesource.com/bazlets/+/b07aa8462f2618a83f3b52d6150faa831b24d3e3%5E%21/#F0,\nso for taking advantage of that we need to move to a newer version of bazlets.\n\n6d2b8f41ed34dad925b767399d1e4be378abb029 is the commit number of the tip of stable-3.0 version of bazlets.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 65
+      },
+      "revId": "f2d58870f27ebd7130f8a5dc32cfe0106bac4f9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba63d137_d4eca226",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 1
