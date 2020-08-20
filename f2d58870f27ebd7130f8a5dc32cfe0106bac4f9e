@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2407458d_12a926a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-08-20T08:38:20Z",
+      "side": 1,
+      "message": "Why two ChangeID fields?\nThe changeID fields must be in the last paragraph. Means: there should not be an empty line (starting a new paragraph) between these \"\u003ckey\u003e: \u003cvalue\u003e\" lines. I would remove the first ChangeID line.",
+      "revId": "f2d58870f27ebd7130f8a5dc32cfe0106bac4f9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba63d137_d4eca226",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-08-20T08:38:20Z",
+      "side": 1,
+      "message": "maybe \"reachabilityCheckDuration\" or \"lastReachabiltiyCheckDuration\".",
+      "revId": "f2d58870f27ebd7130f8a5dc32cfe0106bac4f9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a492da4_2542ba13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-08-20T08:38:20Z",
+      "side": 1,
+      "message": "just calling this \u0027accumulator\u0027 doesn\u0027t tell much to the occasional reader of the code. I would make clearer this is parameter is about statistics by calling it \u0027stat\u0027 or \u0027statisticsAcc\u0027 or something like that.",
+      "range": {
+        "startLine": 158,
+        "startChar": 82,
+        "endLine": 158,
+        "endChar": 93
+      },
+      "revId": "f2d58870f27ebd7130f8a5dc32cfe0106bac4f9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
