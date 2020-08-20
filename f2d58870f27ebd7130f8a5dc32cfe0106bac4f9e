@@ -59,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "9177fc18_33fdb955",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-08-20T10:55:55Z",
+      "side": 1,
+      "message": "This is a public method, so adding a new parameter here it\u0027s harmless. This change would break everyone who implements the RequestValidator interface (or uses any of the RequestValidators declared in this class).\n\nBetter to try to find some other way to pass the accumulator. For example, you can (I think) create a variable in the UploadPack class, and access it via up.accumulator (Or use the existing statistics variable? I\u0027m not sure how the accumulator and statistics relate to each other.)",
+      "range": {
+        "startLine": 149,
+        "startChar": 3,
+        "endLine": 149,
+        "endChar": 23
+      },
+      "revId": "f2d58870f27ebd7130f8a5dc32cfe0106bac4f9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a492da4_2542ba13",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
