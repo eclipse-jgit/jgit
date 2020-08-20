@@ -1484,7 +1484,7 @@ public class UploadPack {
 			for (String s : getV2CapabilityAdvertisement()) {
 				adv.writeOne(s);
 			}
-			adv.end();t
+			adv.end();
 			return;
 		}
 
