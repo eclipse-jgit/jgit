@@ -237,7 +237,8 @@ public abstract class FS {
 		private static final Executor FUTURE_RUNNER = new ThreadPoolExecutor(0,
 				5, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
 				runnable -> {
-					Thread t = new Thread(runnable, "FileStoreAttributeReader-" //$NON-NLS-1$
+					Thread t = new Thread(runnable,
+							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
 							+ threadNumber.getAndIncrement());
 					// Make sure these threads don't prevent application/JVM
 					// shutdown.
@@ -246,12 +247,34 @@ public abstract class FS {
 				});
 
 		/**
+		 * Use a separate executor with at most one thread to synchronize
+		 * writing to the config. We write asynchronously since the config
+		 * itself might be on a different file system, which might otherwise
+		 * lead to locking problems.
+		 * <p>
+		 * Writing the config must not use a daemon thread, otherwise we may
+		 * leave an inconsistent state on disk when the JVM shuts down. Use a
+		 * small keep-alive time to avoid delays on shut-down.
+		 * </p>
+		 */
+		private static final Executor SAVE_RUNNER = new ThreadPoolExecutor(0, 1,
+				1L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
+				runnable -> {
+					Thread t = new Thread(runnable,
+							"JGit-FileStoreAttributeWriter-" //$NON-NLS-1$
+							+ threadNumber.getAndIncrement());
+					// Make sure these threads do finish
+					t.setDaemon(false);
+					return t;
+				});
+
+		/**
 		 * Whether FileStore attributes should be determined asynchronously
 		 *
 		 * @param async
 		 *            whether FileStore attributes should be determined
-		 *            asynchronously. If false access to cached attributes may block
-		 *            for some seconds for the first call per FileStore
+		 *            asynchronously. If false access to cached attributes may
+		 *            block for some seconds for the first call per FileStore
 		 * @since 5.6.2
 		 */
 		public static void setBackground(boolean async) {
@@ -371,7 +394,9 @@ public abstract class FS {
 									if (LOG.isDebugEnabled()) {
 										LOG.debug(c.toString());
 									}
-									saveToConfig(s, c);
+									FileStoreAttributes newAttrs = c;
+									SAVE_RUNNER.execute(
+											() -> saveToConfig(s, newAttrs));
 								}
 								attributes = Optional.of(c);
 							} finally {
