@@ -294,6 +294,10 @@ public abstract class FS {
 					return cached;
 				}
 				FileStoreAttributes attrs = getFileStoreAttributes(dir);
+				if (attrs == null) {
+					// Don't cache, result might be late
+					return FALLBACK_FILESTORE_ATTRIBUTES;
+				}
 				attrCacheByPath.put(dir, attrs);
 				return attrs;
 			} catch (SecurityException e) {
@@ -382,12 +386,16 @@ public abstract class FS {
 				});
 				// even if measuring in background wait a little - if the result
 				// arrives, it's better than returning the large fallback
-				Optional<FileStoreAttributes> d = background.get() ? f.get(
+				boolean runInBackground = background.get();
+				Optional<FileStoreAttributes> d = runInBackground ? f.get(
 						100, TimeUnit.MILLISECONDS) : f.get();
 				if (d.isPresent()) {
 					return d.get();
+				} else if (runInBackground) {
+					// return null until measurement is finished
+					return null;
 				}
-				// return fallback until measurement is finished
+				// fall through and return fallback
 			} catch (IOException | InterruptedException
 					| ExecutionException | CancellationException e) {
 				LOG.error(e.getMessage(), e);
