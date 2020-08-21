@@ -320,6 +320,8 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
+	private PackStatistics.Accumulator statAccumulator = new PackStatistics.Accumulator();
+
 	/**
 	 * Request this instance is handling.
 	 *
@@ -997,7 +999,6 @@ public class UploadPack {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
-		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 		FetchRequest req;
 		try {
@@ -1009,7 +1010,7 @@ public class UploadPack {
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
 			long negotiateStart = System.currentTimeMillis();
-			accumulator.advertised = advertised.size();
+			statAccumulator.advertised = advertised.size();
 
 			ProtocolV0Parser parser = new ProtocolV0Parser(transferConfig);
 			req = parser.recvWants(pckIn);
@@ -1023,7 +1024,7 @@ public class UploadPack {
 						false);
 				return;
 			}
-			accumulator.wants = req.getWantIds().size();
+			statAccumulator.wants = req.getWantIds().size();
 
 			if (req.getClientCapabilities().contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
@@ -1049,8 +1050,8 @@ public class UploadPack {
 
 			if (!req.getClientShallowCommits().isEmpty())
 				walk.assumeShallow(req.getClientShallowCommits());
-			sendPack = negotiate(req, accumulator, pckOut);
-			accumulator.timeNegotiating += System.currentTimeMillis()
+			sendPack = negotiate(req, pckOut);
+			statAccumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
 
 			if (sendPack && !biDirectionalPipe) {
@@ -1074,7 +1075,7 @@ public class UploadPack {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, req, refs == null ? null : refs.values(),
+			sendPack(statAccumulator, req, refs == null ? null : refs.values(),
 					unshallowCommits, Collections.emptyList(), pckOut);
 		}
 	}
@@ -1238,7 +1239,8 @@ public class UploadPack {
 				// But sideband-all is not used, so we have to write it ourselves.
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
-			sendPack(new PackStatistics.Accumulator(),
+
+			sendPack(statAccumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
@@ -1618,7 +1620,6 @@ public class UploadPack {
 	}
 
 	private boolean negotiate(FetchRequest req,
-			PackStatistics.Accumulator accumulator,
 			PacketLineOut pckOut)
 			throws IOException {
 		okToGiveUp = Boolean.FALSE;
@@ -1654,7 +1655,7 @@ public class UploadPack {
 
 			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
-				accumulator.haves++;
+				statAccumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
 				last = processHaveLines(peerHas, last, pckOut);
 
@@ -1782,8 +1783,14 @@ public class UploadPack {
 				notAdvertisedWants.add(obj);
 			}
 		}
-		if (notAdvertisedWants != null)
+		if (notAdvertisedWants != null) {
+			long startReachabilityChecking = System.currentTimeMillis();
+
 			requestValidator.checkWants(this, notAdvertisedWants);
+
+			statAccumulator.reachabilityCheckDuration = System.currentTimeMillis() -
+					startReachabilityChecking;
+		}
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {
@@ -1841,6 +1848,7 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
+
 			checkNotAdvertisedWants(up, wants, up.getAdvertisedRefs().values());
 		}
 	}
@@ -1877,6 +1885,7 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
+
 			checkNotAdvertisedWants(up, wants,
 					up.getRepository().getRefDatabase().getRefs());
 		}
