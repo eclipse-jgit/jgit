@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "882f4cd9_f15b54b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-21T08:01:06Z",
+      "side": 1,
+      "message": "Please don\u0027t tell me this was an unrelated change. Seems to come from auto-format on save.",
+      "revId": "b6ca1993b089fc35128009b39996ebd2ec9d79db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
