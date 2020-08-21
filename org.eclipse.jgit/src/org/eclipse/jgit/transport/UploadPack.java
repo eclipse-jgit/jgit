@@ -320,6 +320,8 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
+	private PackStatistics.Accumulator statAccumulator = new PackStatistics.Accumulator();
+
 	/**
 	 * Request this instance is handling.
 	 *
@@ -1841,7 +1843,11 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
+			long startReachabilityChecking = System.currentTimeMillis();
+
 			checkNotAdvertisedWants(up, wants, up.getAdvertisedRefs().values());
+
+			up.statAccumulator.reachabilityCheckDuration = System.currentTimeMillis() - startReachabilityChecking;
 		}
 	}
 
@@ -1877,8 +1883,12 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
+			long startReachabilityChecking = System.currentTimeMillis();
+
 			checkNotAdvertisedWants(up, wants,
 					up.getRepository().getRefDatabase().getRefs());
+
+			up.statAccumulator.reachabilityCheckDuration = System.currentTimeMillis() - startReachabilityChecking;
 		}
 	}
 
