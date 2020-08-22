@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa50f3fe_46f8e4b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-22T19:32:43Z",
+      "side": 0,
+      "message": "This is now unused; please remove from JGitText.",
+      "range": {
+        "startLine": 140,
+        "startChar": 30,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "b6ca1993b089fc35128009b39996ebd2ec9d79db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

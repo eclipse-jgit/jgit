@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d54788c8_b639c26c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-22T19:32:43Z",
+      "side": 1,
+      "message": "Please rename and change the message. Something like \"Environment variable XDG_CONFIG_HOME contains an invalid path {}\".",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 54
+      },
+      "revId": "fb11a35561cdec433a7241b72bbbe20039fa1cad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a7c0008_7f9f7a3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-08-22T19:32:43Z",
+      "side": 1,
+      "message": "Looks strange now. Just\n\n  Path configPath \u003d xdgPath.resolve(\"jgit\").resolve(Constants.CONFIG);\n\n?",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "fb11a35561cdec433a7241b72bbbe20039fa1cad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
