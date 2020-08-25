@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fd989b6_44e2601a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-25T15:57:18Z",
+      "side": 1,
+      "message": "Why do you need this? Shouldn\u0027t you be just updating `statistics.reachabilityCheckDuration`?",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 87
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db72dd2e_14dc1440",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-25T15:57:18Z",
+      "side": 1,
+      "message": "Why not updating the accumulator here instead? https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1788",
+      "range": {
+        "startLine": 1850,
+        "startChar": 6,
+        "endLine": 1850,
+        "endChar": 47
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcdde6fb_a9eb3636",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1891,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-25T15:57:18Z",
+      "side": 1,
+      "message": "Same thing here.",
+      "range": {
+        "startLine": 1891,
+        "startChar": 6,
+        "endLine": 1891,
+        "endChar": 47
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
