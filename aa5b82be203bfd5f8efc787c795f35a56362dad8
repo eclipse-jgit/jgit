@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "0aa290ef_d7113db3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-26T08:17:37Z",
+      "side": 1,
+      "message": "See my other comment. You don\u0027t need this variable if you reuse the accumulator coming from https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1002.",
+      "parentUuid": "8a8a8add_81b631c6",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 87
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db72dd2e_14dc1440",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -165,6 +189,30 @@
       "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aca5d6ea_8b656268",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-26T08:17:37Z",
+      "side": 1,
+      "message": "Indeed, you shouldn\u0027t update the accumulator from this function, but from the caller (which is not static): https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1788\n\nYou can pass the accumulator down from https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#998 all the way down to where you need it:\n- `negotiate` already has it (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1622)\n- you can add it to `processHaveLines` (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1677)\n- add it to `parseWants` (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1778)\n- and measure the time before and after this line: https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1788.\n\nI\u0027m not sure about the best place to measure reachability within that chain of calls, but you should keep it to the callers of this function.\n\nNote that similar approaches have been taken for other fields of `statistics` (example https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1055).",
+      "parentUuid": "bb5fea37_8880def0",
+      "range": {
+        "startLine": 1850,
+        "startChar": 6,
+        "endLine": 1850,
+        "endChar": 47
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     },
     {
       "key": {
