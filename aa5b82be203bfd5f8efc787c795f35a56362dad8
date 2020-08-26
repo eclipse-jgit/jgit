@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "91c144b8_6b2b2150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-26T07:51:44Z",
+      "side": 1,
+      "message": "Sure, in any case, when `statistics` is created, its `reachabilityCheckDuration` should contain the value of the new metric.",
+      "parentUuid": "1cc3be31_253d1242",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 87
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db72dd2e_14dc1440",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
