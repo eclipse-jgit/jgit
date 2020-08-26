@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "a8239d0e_b3461717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-08-26T10:00:21Z",
+      "side": 1,
+      "message": "This is a very good idea, but \u0027processHaveLines\u0027 is also called by \u0027fetchV2\u0027:\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1199\n\nand \u0027fetchV2 \u0027 is also called by \u0027serveOneCommandV2\u0027:\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/79/168079/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1280\n\nand so on. It would be better to measure reachability check inside \u0027parseWants\u0027 as you pointed out, but to call the global accumulator instead. Will change this.",
+      "parentUuid": "aca5d6ea_8b656268",
+      "range": {
+        "startLine": 1850,
+        "startChar": 6,
+        "endLine": 1850,
+        "endChar": 47
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcdde6fb_a9eb3636",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
