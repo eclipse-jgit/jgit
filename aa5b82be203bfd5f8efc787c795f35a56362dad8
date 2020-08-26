@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1cc3be31_253d1242",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-08-26T07:48:01Z",
+      "side": 1,
+      "message": "No, PackStatistics is immutable, so I have to create the accumulator with the metrics first and then pass it to the statistics.",
+      "parentUuid": "7fd989b6_44e2601a",
+      "range": {
+        "startLine": 323,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 87
+      },
+      "revId": "aa5b82be203bfd5f8efc787c795f35a56362dad8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db72dd2e_14dc1440",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
