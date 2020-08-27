@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
@@ -35,6 +36,33 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 	private static final String LINK_ID3 = "BEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEFBEEF";
 
 	private static final String SUBMODULE_PATH = "submodule.link";
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_AddNew() throws Exception {
+		assertGitLinkValue(
+				testGitLink(null, null, LINK_ID3, newResolveMerger(), true),
+				LINK_ID3);
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_Delete() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(LINK_ID1, LINK_ID1, null,
+				newResolveMerger(), true));
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_UpdateDelete() throws Exception {
+		testGitLink(LINK_ID1, LINK_ID2, null, newResolveMerger(), false);
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_DeleteUpdate() throws Exception {
+		testGitLink(LINK_ID1, null, LINK_ID3, newResolveMerger(), false);
+	}
 
 	@Test
 	public void testGitLinkMerging_UpdateUpdate() throws Exception {
@@ -59,6 +87,29 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 				testGitLink(null, null, LINK_ID3, newIgnoreConflictMerger(),
 						true),
 				LINK_ID3);
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_Delete_ignoreConflicts() throws Exception {
+		assertGitLinkDoesntExist(testGitLink(LINK_ID1, LINK_ID1, null,
+				newIgnoreConflictMerger(), true));
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_UpdateDelete_ignoreConflicts()
+			throws Exception {
+		assertGitLinkValue(testGitLink(LINK_ID1, LINK_ID2, null,
+				newIgnoreConflictMerger(), true), LINK_ID2);
+	}
+
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_DeleteUpdate_ignoreConflicts()
+			throws Exception {
+		assertGitLinkDoesntExist(testGitLink(LINK_ID1, null, LINK_ID3,
+				newIgnoreConflictMerger(), true));
 	}
 
 	@Test
@@ -247,6 +298,36 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 		assertFalse(merge);
 	}
 
+	@Test
+	@Ignore("Broken")
+	public void testGitLinkMerging_linkBlobDeleted() throws Exception {
+		// We changed a link to a blob, others has deleted this link.
+		DirCache treeB = db.readDirCache();
+		DirCache treeO = db.readDirCache();
+		DirCache treeT = db.readDirCache();
+
+		DirCacheBuilder bTreeBuilder = treeB.builder();
+		DirCacheBuilder oTreeBuilder = treeO.builder();
+		DirCacheBuilder tTreeBuilder = treeT.builder();
+
+		maybeAddLink(bTreeBuilder, LINK_ID1);
+		oTreeBuilder.add(
+				createEntry(SUBMODULE_PATH, FileMode.REGULAR_FILE, "blob 2"));
+
+		bTreeBuilder.finish();
+		oTreeBuilder.finish();
+		tTreeBuilder.finish();
+
+		ObjectInserter ow = db.newObjectInserter();
+		ObjectId b = commit(ow, treeB, new ObjectId[] {});
+		ObjectId o = commit(ow, treeO, new ObjectId[] { b });
+		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
+
+		Merger resolveMerger = MergeStrategy.RESOLVE.newMerger(db);
+		boolean merge = resolveMerger.merge(new ObjectId[] { o, t });
+		assertFalse(merge);
+	}
+
 	private void maybeAddLink(DirCacheBuilder builder,
 			@Nullable String linkId) {
 		if (linkId == null) {
@@ -266,6 +347,16 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 			assertTrue(tw.next());
 			assertEquals(SUBMODULE_PATH, tw.getPathString());
 			assertEquals(ObjectId.fromString(expectedValue), tw.getObjectId(0));
+
+			assertFalse(tw.next());
+		}
+	}
+
+	private void assertGitLinkDoesntExist(Merger resolveMerger)
+			throws Exception {
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(resolveMerger.getResultTreeId());
 
 			assertFalse(tw.next());
 		}
