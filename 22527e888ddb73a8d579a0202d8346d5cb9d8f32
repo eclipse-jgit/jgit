@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a92cac9_722a4050",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-08-27T01:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56040ae5_c27e76de",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "22527e888ddb73a8d579a0202d8346d5cb9d8f32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "226a5dda_c313f7a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "22527e888ddb73a8d579a0202d8346d5cb9d8f32",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28880da9_bdb4e446",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/GitlinkMergeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2020-08-27T01:19:23Z",
+      "side": 1,
+      "message": "it can be called with null from the method testGitLink(), which has 2 nullable parameters",
+      "parentUuid": "226a5dda_c313f7a8",
+      "range": {
+        "startLine": 264,
+        "startChar": 3,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "22527e888ddb73a8d579a0202d8346d5cb9d8f32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
