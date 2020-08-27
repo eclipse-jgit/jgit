@@ -186,12 +186,18 @@ public abstract class FS {
 	 */
 	public static final class FileStoreAttributes {
 
+		/**
+		 * Marker to detect undefined values when reading from the config file.
+		 */
 		private static final Duration UNDEFINED_DURATION = Duration
 				.ofNanos(Long.MAX_VALUE);
 
 		/**
 		 * Fallback filesystem timestamp resolution. The worst case timestamp
 		 * resolution on FAT filesystems is 2 seconds.
+		 * <p>
+		 * Must be at least 1 second.
+		 * </p>
 		 */
 		public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
 				.ofMillis(2000);
@@ -203,6 +209,25 @@ public abstract class FS {
 		 */
 		public static final FileStoreAttributes FALLBACK_FILESTORE_ATTRIBUTES = new FileStoreAttributes(
 				FALLBACK_TIMESTAMP_RESOLUTION);
+
+		private static final long ONE_MICROSECOND = TimeUnit.MICROSECONDS
+				.toNanos(1);
+
+		private static final long ONE_MILLISECOND = TimeUnit.MILLISECONDS
+				.toNanos(1);
+
+		private static final long ONE_SECOND = TimeUnit.SECONDS.toNanos(1);
+
+		/**
+		 * Minimum file system timestamp resolution granularity to check, in
+		 * nanoseconds. Should be a positive power of ten smaller than
+		 * {@link #ONE_SECOND}. Must be strictly greater than zero, i.e.,
+		 * minimum value is 1 nanosecond.
+		 * <p>
+		 * Currently set to 1 microsecond, but could also be lower still.
+		 * </p>
+		 */
+		private static final long MINIMUM_RESOLUTION_NANOS = ONE_MICROSECOND;
 
 		private static final String JAVA_VERSION_PREFIX = System
 				.getProperty("java.vendor") + '|' //$NON-NLS-1$
@@ -237,7 +262,8 @@ public abstract class FS {
 		private static final Executor FUTURE_RUNNER = new ThreadPoolExecutor(0,
 				5, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
 				runnable -> {
-					Thread t = new Thread(runnable, "FileStoreAttributeReader-" //$NON-NLS-1$
+					Thread t = new Thread(runnable,
+							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
 							+ threadNumber.getAndIncrement());
 					// Make sure these threads don't prevent application/JVM
 					// shutdown.
@@ -246,12 +272,34 @@ public abstract class FS {
 				});
 
 		/**
+		 * Use a separate executor with at most one thread to synchronize
+		 * writing to the config. We write asynchronously since the config
+		 * itself might be on a different file system, which might otherwise
+		 * lead to locking problems.
+		 * <p>
+		 * Writing the config must not use a daemon thread, otherwise we may
+		 * leave an inconsistent state on disk when the JVM shuts down. Use a
+		 * small keep-alive time to avoid delays on shut-down.
+		 * </p>
+		 */
+		private static final Executor SAVE_RUNNER = new ThreadPoolExecutor(0, 1,
+				1L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
+				runnable -> {
+					Thread t = new Thread(runnable,
+							"JGit-FileStoreAttributeWriter-" //$NON-NLS-1$
+							+ threadNumber.getAndIncrement());
+					// Make sure these threads do finish
+					t.setDaemon(false);
+					return t;
+				});
+
+		/**
 		 * Whether FileStore attributes should be determined asynchronously
 		 *
 		 * @param async
 		 *            whether FileStore attributes should be determined
-		 *            asynchronously. If false access to cached attributes may block
-		 *            for some seconds for the first call per FileStore
+		 *            asynchronously. If false access to cached attributes may
+		 *            block for some seconds for the first call per FileStore
 		 * @since 5.6.2
 		 */
 		public static void setBackground(boolean async) {
@@ -294,6 +342,10 @@ public abstract class FS {
 					return cached;
 				}
 				FileStoreAttributes attrs = getFileStoreAttributes(dir);
+				if (attrs == null) {
+					// Don't cache, result might be late
+					return FALLBACK_FILESTORE_ATTRIBUTES;
+				}
 				attrCacheByPath.put(dir, attrs);
 				return attrs;
 			} catch (SecurityException e) {
@@ -367,7 +419,9 @@ public abstract class FS {
 									if (LOG.isDebugEnabled()) {
 										LOG.debug(c.toString());
 									}
-									saveToConfig(s, c);
+									FileStoreAttributes newAttrs = c;
+									SAVE_RUNNER.execute(
+											() -> saveToConfig(s, newAttrs));
 								}
 								attributes = Optional.of(c);
 							} finally {
@@ -382,12 +436,16 @@ public abstract class FS {
 				});
 				// even if measuring in background wait a little - if the result
 				// arrives, it's better than returning the large fallback
-				Optional<FileStoreAttributes> d = background.get() ? f.get(
+				boolean runInBackground = background.get();
+				Optional<FileStoreAttributes> d = runInBackground ? f.get(
 						100, TimeUnit.MILLISECONDS) : f.get();
 				if (d.isPresent()) {
 					return d.get();
+				} else if (runInBackground) {
+					// return null until measurement is finished
+					return null;
 				}
-				// return fallback until measurement is finished
+				// fall through and return fallback
 			} catch (IOException | InterruptedException
 					| ExecutionException | CancellationException e) {
 				LOG.error(e.getMessage(), e);
@@ -467,24 +525,21 @@ public abstract class FS {
 
 		private static Optional<Duration> measureFsTimestampResolution(
 			FileStore s, Path dir) {
-			LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
-					Thread.currentThread(), s, dir);
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("{}: start measure timestamp resolution {} in {}", //$NON-NLS-1$
+						Thread.currentThread(), s, dir);
+			}
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
 				Files.createFile(probe);
-				FileTime t1 = Files.getLastModifiedTime(probe);
-				FileTime t2 = t1;
-				Instant t1i = t1.toInstant();
-				for (long i = 1; t2.compareTo(t1) <= 0; i += 1 + i / 20) {
-					Files.setLastModifiedTime(probe,
-							FileTime.from(t1i.plusNanos(i * 1000)));
-					t2 = Files.getLastModifiedTime(probe);
-				}
-				Duration fsResolution = Duration.between(t1.toInstant(), t2.toInstant());
+				Duration fsResolution = getFsResolution(s, dir, probe);
 				Duration clockResolution = measureClockResolution();
 				fsResolution = fsResolution.plus(clockResolution);
-				LOG.debug("{}: end measure timestamp resolution {} in {}", //$NON-NLS-1$
-						Thread.currentThread(), s, dir);
+				if (LOG.isDebugEnabled()) {
+					LOG.debug(
+							"{}: end measure timestamp resolution {} in {}; got {}", //$NON-NLS-1$
+							Thread.currentThread(), s, dir, fsResolution);
+				}
 				return Optional.of(fsResolution);
 			} catch (SecurityException e) {
 				// Log it here; most likely deleteProbe() below will also run
@@ -499,6 +554,92 @@ public abstract class FS {
 				deleteProbe(probe);
 			}
 			return Optional.empty();
+		}
+
+		private static Duration getFsResolution(FileStore s, Path dir,
+				Path probe) throws IOException {
+			File probeFile = probe.toFile();
+			FileTime t1 = Files.getLastModifiedTime(probe);
+			Instant t1i = t1.toInstant();
+			FileTime t2;
+			Duration last = FALLBACK_TIMESTAMP_RESOLUTION;
+			long minScale = MINIMUM_RESOLUTION_NANOS;
+			long scale = ONE_SECOND;
+			long high = TimeUnit.MILLISECONDS.toSeconds(last.toMillis());
+			long low = 0;
+			// Try up-front at microsecond and millisecond
+			long[] tries = { ONE_MICROSECOND, ONE_MILLISECOND };
+			for (long interval : tries) {
+				if (interval >= ONE_MILLISECOND) {
+					probeFile.setLastModified(
+							t1i.plusNanos(interval).toEpochMilli());
+				} else {
+					Files.setLastModifiedTime(probe,
+							FileTime.from(t1i.plusNanos(interval)));
+				}
+				t2 = Files.getLastModifiedTime(probe);
+				if (t2.compareTo(t1) > 0) {
+					Duration diff = Duration.between(t1i, t2.toInstant());
+					if (!diff.isZero() && !diff.isNegative()
+							&& diff.compareTo(last) < 0) {
+						scale = interval;
+						high = 1;
+						last = diff;
+						break;
+					}
+				} else {
+					// Makes no sense going below
+					minScale = Math.max(minScale, interval);
+				}
+			}
+			// Binary search loop
+			while (high > low) {
+				long mid = (high + low) / 2;
+				if (mid == 0) {
+					// Smaller than current scale. Adjust scale.
+					long newScale = scale / 10;
+					if (newScale < minScale) {
+						break;
+					}
+					high *= scale / newScale;
+					low *= scale / newScale;
+					scale = newScale;
+					mid = (high + low) / 2;
+				}
+				long delta = mid * scale;
+				if (scale >= ONE_MILLISECOND) {
+					probeFile.setLastModified(
+							t1i.plusNanos(delta).toEpochMilli());
+				} else {
+					Files.setLastModifiedTime(probe,
+							FileTime.from(t1i.plusNanos(delta)));
+				}
+				t2 = Files.getLastModifiedTime(probe);
+				int cmp = t2.compareTo(t1);
+				if (cmp > 0) {
+					high = mid;
+					Duration diff = Duration.between(t1i, t2.toInstant());
+					if (diff.isZero() || diff.isNegative()) {
+						LOG.warn(JGitText.get().logInconsistentFiletimeDiff,
+								Thread.currentThread(), s, dir, t2, t1, diff,
+								last);
+						break;
+					} else if (diff.compareTo(last) > 0) {
+						LOG.warn(JGitText.get().logLargerFiletimeDiff,
+								Thread.currentThread(), s, dir, diff, last);
+						break;
+					}
+					last = diff;
+				} else if (cmp < 0) {
+					LOG.warn(JGitText.get().logSmallerFiletime,
+							Thread.currentThread(), s, dir, t2, t1, last);
+					break;
+				} else {
+					// No discernible difference
+					low = mid + 1;
+				}
+			}
+			return last;
 		}
 
 		private static Duration measureClockResolution() {

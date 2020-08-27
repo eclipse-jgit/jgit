@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -116,11 +115,9 @@ public abstract class SystemReader {
 						.getAbsolutePath();
 			}
 			try {
-				Path xdgHomePath = Paths.get(configHomePath);
-				Files.createDirectories(xdgHomePath);
-				return xdgHomePath;
-			} catch (IOException | InvalidPathException e) {
-				LOG.error(JGitText.get().createXDGConfigHomeFailed,
+				return Paths.get(configHomePath);
+			} catch (InvalidPathException e) {
+				LOG.error(JGitText.get().logXDGConfigHomeInvalid,
 						configHomePath, e);
 			}
 			return null;
@@ -130,16 +127,9 @@ public abstract class SystemReader {
 		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
 			Path xdgPath = getXDGConfigHome(fs);
 			if (xdgPath != null) {
-				Path configPath = null;
-				try {
-					configPath = xdgPath.resolve("jgit"); //$NON-NLS-1$
-					Files.createDirectories(configPath);
-					configPath = configPath.resolve(Constants.CONFIG);
-					return new FileBasedConfig(parent, configPath.toFile(), fs);
-				} catch (IOException e) {
-					LOG.error(JGitText.get().createJGitConfigFailed, configPath,
-							e);
-				}
+				Path configPath = xdgPath.resolve("jgit") //$NON-NLS-1$
+						.resolve(Constants.CONFIG);
+				return new FileBasedConfig(parent, configPath.toFile(), fs);
 			}
 			return new FileBasedConfig(parent,
 					new File(fs.userHome(), ".jgitconfig"), fs); //$NON-NLS-1$
