@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00494002_35dfad14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-28T07:18:29Z",
+      "side": 0,
+      "message": "This line makes me think that `lsRefsV2` can be called multiple times with the same UploadPack object, which means that your change would be incorrect, as it reuses the same accumulator for all the calls.\n\nI think it\u0027s better to keep the logic as it was before (so, create the accumulator here) and pass it down where it\u0027s needed. If `parseWants` is called from different paths and you don\u0027t want to update the accumulator from all of them, simply pass a `null` for it:\n\nparseWants(accumulator);  // from the good path.\n\nparseWants(null);  // from the bad path.\n\nIn the function you can then update `reachabilityCheck` only if the accumulator is not null:\n\nif (accumulator !\u003d null) {\n  statAccumulator.reachabilityCheckDuration \u003d System.currentTimeMillis() -\n      startReachabilityChecking;\n}",
+      "revId": "efd1cc05af7e59a24763dfedb7fc44cda151be50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

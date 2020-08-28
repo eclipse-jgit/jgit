@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f3d741b_22498d06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1851,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-28T07:18:29Z",
+      "side": 1,
+      "message": "nit: Drop the newline here, as it\u0027s not a meaningful change.",
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "649b1adc_b247659c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1888,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-08-28T07:18:29Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
