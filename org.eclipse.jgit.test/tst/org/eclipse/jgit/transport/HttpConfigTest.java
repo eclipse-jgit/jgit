@@ -174,4 +174,59 @@ public class HttpConfigTest {
 				new URIish("http://user@example.com/path"));
 		assertEquals(1024, http.getPostBuffer());
 	}
+
+	@Test
+	public void testExtraHeaders() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testExtraHeadersMultiple() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(2, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+		assertEquals("bar: foo", http.getExtraHeaders().get(1));
+	}
+
+	@Test
+	public void testExtraHeadersReset() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertTrue(http.getExtraHeaders().isEmpty());
+	}
+
+	@Test
+	public void testExtraHeadersResetAndMore() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n" //
+				+ "\textraHeader=baz: something\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("baz: something", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testUserAgent() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent=DummyAgent/4.0\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("DummyAgent/4.0", http.getUserAgent());
+	}
 }
