@@ -25,6 +25,7 @@ public class HttpConfigTest {
 
 	private static final String DEFAULT = "[http]\n" + "\tpostBuffer = 1\n"
 			+ "\tsslVerify= true\n" + "\tfollowRedirects = true\n"
+			+ "\textraHeader = x: y\n" + "\tuserAgent = Test/0.1\n"
 			+ "\tmaxRedirects = 5\n\n";
 
 	private Config config;
@@ -173,5 +174,69 @@ public class HttpConfigTest {
 		http = new HttpConfig(config,
 				new URIish("http://user@example.com/path"));
 		assertEquals(1024, http.getPostBuffer());
+	}
+
+	@Test
+	public void testExtraHeaders() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testExtraHeadersMultiple() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(2, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+		assertEquals("bar: foo", http.getExtraHeaders().get(1));
+	}
+
+	@Test
+	public void testExtraHeadersReset() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertTrue(http.getExtraHeaders().isEmpty());
+	}
+
+	@Test
+	public void testExtraHeadersResetAndMore() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n" //
+				+ "\textraHeader=baz: something\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("baz: something", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testUserAgent() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent=DummyAgent/4.0\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("DummyAgent/4.0", http.getUserAgent());
+	}
+
+	@Test
+	public void testUserAgentNonAscii() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent= d ümmy Agent -5.10\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("d.mmy.Agent.-5.10", http.getUserAgent());
 	}
 }
