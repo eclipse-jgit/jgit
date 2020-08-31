@@ -49,6 +49,7 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -900,7 +901,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		}
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
-		if (UserAgent.get() != null) {
+		if (http.getUserAgent() != null) {
+			conn.setRequestProperty(HDR_USER_AGENT, http.getUserAgent());
+		} else if (UserAgent.get() != null) {
 			conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
 		}
 		int timeOut = getTimeout();
@@ -909,6 +912,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
 		}
+		addHeaders(conn, http.getExtraHeaders());
 		// set cookie header if necessary
 		if (!relevantCookies.isEmpty()) {
 			setCookieHeader(conn);
@@ -921,6 +925,44 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		authMethod.configureRequest(conn);
 		return conn;
+	}
+
+	/**
+	 * Adds a list of header strings to the connection. Headers are expected to
+	 * separate keys from values, i.e. "Key: Value". Headers without colon or
+	 * key are ignored (and logged), as are headers with keys that are not RFC
+	 * 7230 tokens or with non-ASCII values.
+	 *
+	 * @param conn
+	 *            The target HttpConnection
+	 * @param headersToAdd
+	 *            A list of header strings
+	 */
+	static void addHeaders(HttpConnection conn, List<String> headersToAdd) {
+		for (String header : headersToAdd) {
+			// Empty values are allowed according to
+			// https://tools.ietf.org/html/rfc7230
+			int colon = header.indexOf(':');
+			String key = null;
+			if (colon > 0) {
+				key = header.substring(0, colon).trim();
+			}
+			if (key == null || key.isEmpty()) {
+				LOG.warn(MessageFormat.format(
+						JGitText.get().invalidHeaderFormat, header));
+			} else if (HttpSupport.scanToken(key, 0) != key.length()) {
+				LOG.warn(MessageFormat.format(JGitText.get().invalidHeaderKey,
+						header));
+			} else {
+				String value = header.substring(colon + 1).trim();
+				if (!StandardCharsets.US_ASCII.newEncoder().canEncode(value)) {
+					LOG.warn(MessageFormat
+							.format(JGitText.get().invalidHeaderValue, header));
+				} else {
+					conn.setRequestProperty(key, value);
+				}
+			}
+		}
 	}
 
 	private void setCookieHeader(HttpConnection conn) {

@@ -22,4 +22,18 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/HttpConfig.java" type="org.eclipse.jgit.transport.HttpConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="EXTRA_HEADER"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="USER_AGENT"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>

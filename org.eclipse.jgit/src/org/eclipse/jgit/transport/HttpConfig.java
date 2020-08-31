@@ -14,9 +14,13 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
@@ -54,6 +58,20 @@ public class HttpConfig {
 
 	/** git config key for the "sslVerify" setting. */
 	public static final String SSL_VERIFY_KEY = "sslVerify"; //$NON-NLS-1$
+
+	/**
+	 * git config key for the "userAgent" setting.
+	 *
+	 * @since 5.10
+	 */
+	public static final String USER_AGENT = "userAgent"; //$NON-NLS-1$
+
+	/**
+	 * git config key for the "extraHeader" setting.
+	 *
+	 * @since 5.10
+	 */
+	public static final String EXTRA_HEADER = "extraHeader"; //$NON-NLS-1$
 
 	/**
 	 * git config key for the "cookieFile" setting.
@@ -143,6 +161,10 @@ public class HttpConfig {
 
 	private int maxRedirects;
 
+	private String userAgent;
+
+	private List<String> extraHeaders;
+
 	private String cookieFile;
 
 	private boolean saveCookies;
@@ -183,6 +205,27 @@ public class HttpConfig {
 	 */
 	public int getMaxRedirects() {
 		return maxRedirects;
+	}
+
+	/**
+	 * Get the "http.userAgent" setting
+	 *
+	 * @return the value of the "http.userAgent" setting
+	 * @since 5.10
+	 */
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	/**
+	 * Get the "http.extraHeader" setting
+	 *
+	 * @return the value of the "http.extraHeader" setting
+	 * @since 5.10
+	 */
+	@NonNull
+	public List<String> getExtraHeaders() {
+		return extraHeaders == null ? Collections.emptyList() : extraHeaders;
 	}
 
 	/**
@@ -265,11 +308,25 @@ public class HttpConfig {
 		if (redirectLimit < 0) {
 			redirectLimit = MAX_REDIRECTS;
 		}
+		String agent = config.getString(HTTP, null, USER_AGENT);
+		if (agent != null) {
+			agent = UserAgent.clean(agent);
+		}
+		userAgent = agent;
+		String[] headers = config.getStringList(HTTP, null, EXTRA_HEADER);
+		// https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpextraHeader
+		// "an empty value will reset the extra headers to the empty list."
+		int start = findLastEmpty(headers) + 1;
+		if (start > 0) {
+			headers = Arrays.copyOfRange(headers, start, headers.length);
+		}
+		extraHeaders = Arrays.asList(headers);
 		cookieFile = config.getString(HTTP, null, COOKIE_FILE_KEY);
 		saveCookies = config.getBoolean(HTTP, SAVE_COOKIES_KEY, false);
 		cookieFileCacheLimit = config.getInt(HTTP, COOKIE_FILE_CACHE_LIMIT_KEY,
 				DEFAULT_COOKIE_FILE_CACHE_LIMIT);
 		String match = findMatch(config.getSubsections(HTTP), uri);
+
 		if (match != null) {
 			// Override with more specific items
 			postBufferSize = config.getInt(HTTP, match, POST_BUFFER_KEY,
@@ -283,6 +340,22 @@ public class HttpConfig {
 			if (newMaxRedirects >= 0) {
 				redirectLimit = newMaxRedirects;
 			}
+			String uriSpecificUserAgent = config.getString(HTTP, match,
+					USER_AGENT);
+			if (uriSpecificUserAgent != null) {
+				userAgent = UserAgent.clean(uriSpecificUserAgent);
+			}
+			String[] uriSpecificExtraHeaders = config.getStringList(HTTP, match,
+					EXTRA_HEADER);
+			if (uriSpecificExtraHeaders.length > 0) {
+				start = findLastEmpty(uriSpecificExtraHeaders) + 1;
+				if (start > 0) {
+					uriSpecificExtraHeaders = Arrays.copyOfRange(
+							uriSpecificExtraHeaders, start,
+							uriSpecificExtraHeaders.length);
+				}
+				extraHeaders = Arrays.asList(uriSpecificExtraHeaders);
+			}
 			String urlSpecificCookieFile = config.getString(HTTP, match,
 					COOKIE_FILE_KEY);
 			if (urlSpecificCookieFile != null) {
@@ -295,6 +368,15 @@ public class HttpConfig {
 		sslVerify = sslVerifyFlag;
 		followRedirects = followRedirectsMode;
 		maxRedirects = redirectLimit;
+	}
+
+	private int findLastEmpty(String[] values) {
+		for (int i = values.length - 1; i >= 0; i--) {
+			if (values[i] == null) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
