@@ -174,4 +174,23 @@ public class HttpConfigTest {
 				new URIish("http://user@example.com/path"));
 		assertEquals(1024, http.getPostBuffer());
 	}
+
+	@Test
+	public void testExtraHeaders() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeader().size());
+		assertEquals("foo: bar", http.getExtraHeader().get(0));
+	}
+
+	@Test
+	public void testUserAgent() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent=DummyAgent/4.0\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("DummyAgent/4.0", http.getUserAgent());
+	}
 }
