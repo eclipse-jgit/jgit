@@ -900,7 +900,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		}
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
-		if (UserAgent.get() != null) {
+		if (http.getUserAgent() != null) {
+			conn.setRequestProperty(HDR_USER_AGENT, http.getUserAgent());
+		} else if (UserAgent.get() != null) {
 			conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
 		}
 		int timeOut = getTimeout();
@@ -908,6 +910,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			int effTimeOut = timeOut * 1000;
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
+		}
+		if (http.getExtraHeader() != null && http.getExtraHeader().size() > 0) {
+			addHeaders(conn, http.getExtraHeader());
 		}
 		// set cookie header if necessary
 		if (!relevantCookies.isEmpty()) {
@@ -921,6 +926,24 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		authMethod.configureRequest(conn);
 		return conn;
+	}
+
+	/**
+	 * Adds a list of header strings to the connection. Headers are expected to separate
+	 * keys from values, i.e. "Key: Value".
+	 *
+	 * @param conn The target HttpConnection
+	 * @param headers A list of header strings
+	 */
+	protected final void addHeaders(HttpConnection conn, List<String> headers) {
+		for (String header : headers) {
+			String[] headerParts = header.split(":", 2); //$NON-NLS-1$
+			if (headerParts.length != 2) {
+				LOG.warn(MessageFormat.format(JGitText.get().invalidHeaderFormatFound, header));
+			} else {
+				conn.setRequestProperty(headerParts[0], headerParts[1]);
+			}
+		}
 	}
 
 	private void setCookieHeader(HttpConnection conn) {
