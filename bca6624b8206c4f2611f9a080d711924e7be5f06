@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d4833a4_87fba5c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-08-31T20:19:09Z",
+      "side": 1,
+      "message": "couldn\u0027t it be that e1 is null? According to javadoc an NPE will be thrown in this case. If runTasks() executed successfully e1 is not filled but we still reach this finally block.",
+      "revId": "bca6624b8206c4f2611f9a080d711924e7be5f06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
