@@ -1548,6 +1548,7 @@ public class PackWriter implements AutoCloseable {
 		endPhase(monitor);
 	}
 
+	@SuppressWarnings("Finally")
 	private void parallelDeltaSearch(ProgressMonitor monitor,
 			ObjectToPack[] list, int cnt, int threads) throws IOException {
 		DeltaCache dc = new ThreadSafeDeltaCache(config);
@@ -1569,17 +1570,23 @@ public class PackWriter implements AutoCloseable {
 			// Caller didn't give us a way to run the tasks, spawn up a
 			// temporary thread pool and make sure it tears down cleanly.
 			ExecutorService pool = Executors.newFixedThreadPool(threads);
+			Throwable e1 = null;
 			try {
 				runTasks(pool, pm, taskBlock, errors);
+			} catch (Exception e) {
+				e1 = e;
 			} finally {
 				pool.shutdown();
 				for (;;) {
 					try {
-						if (pool.awaitTermination(60, TimeUnit.SECONDS))
+						if (pool.awaitTermination(60, TimeUnit.SECONDS)) {
 							break;
+						}
 					} catch (InterruptedException e) {
+						e.addSuppressed(e1);
 						throw new IOException(JGitText
-								.get().packingCancelledDuringObjectsWriting, e);
+								.get().packingCancelledDuringObjectsWriting,
+								e);
 					}
 				}
 			}
