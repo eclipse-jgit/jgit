@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ee5cef0_d178e3f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-09-01T13:05:43Z",
+      "side": 1,
+      "message": "not yet: it\u0027s DirCache#version. There is no class DirCacheVersion.",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "5f5a52479475d1bd2b3664f7c31df6796bf8cd4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
