@@ -455,6 +455,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
 		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub")) {
+			assertEquals(arbitraryName, gen.getModuleName());
 			assertEquals(path, gen.getPath());
 			assertEquals(subId, gen.getObjectId());
 			assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
