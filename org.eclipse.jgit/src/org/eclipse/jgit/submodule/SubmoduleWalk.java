@@ -657,8 +657,11 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @since 4.10
 	 * @return name
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 * @throws java.io.IOException
 	 */
-	public String getModuleName() {
+	public String getModuleName() throws IOException, ConfigInvalidException {
+		lazyLoadModulesConfig();
 		return getModuleName(path);
 	}
 
