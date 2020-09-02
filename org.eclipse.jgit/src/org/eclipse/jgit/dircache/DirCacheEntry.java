@@ -149,7 +149,7 @@ public class DirCacheEntry {
 				toRemove = (toRemove << 7) | (b & 0x7F);
 			}
 			if (toRemove < 0
-					|| previous != null && toRemove > previous.path.length) {
+					|| (previous != null && toRemove > previous.path.length)) {
 				if (previous == null) {
 					throw new IOException(MessageFormat.format(
 							JGitText.get().DIRCCorruptLengthFirst,
