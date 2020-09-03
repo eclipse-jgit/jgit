@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0013963c_1ba98cc2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-03T22:19:26Z",
+      "side": 1,
+      "message": "nit: Reformat. These lines are the same as above and should all fit on a single line.",
+      "range": {
+        "startLine": 1091,
+        "startChar": 0,
+        "endLine": 1096,
+        "endChar": 0
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb08bcdd_426de43a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-03T22:19:26Z",
+      "side": 1,
+      "message": "Why is the order of \"done\" and \"ofs-delta\" different here than in the test above?\nAlso (nit) the formatting differs a bit from above.",
+      "range": {
+        "startLine": 1110,
+        "startChar": 50,
+        "endLine": 1111,
+        "endChar": 17
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
