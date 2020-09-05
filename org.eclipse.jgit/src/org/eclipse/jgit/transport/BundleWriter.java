@@ -17,12 +17,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -61,6 +65,8 @@ public class BundleWriter {
 	private final Set<RevCommit> assume;
 
 	private final Set<ObjectId> tagTargets;
+
+	private final List<CachedPack> cachedPacks = new ArrayList<>();
 
 	private PackConfig packConfig;
 
@@ -150,6 +156,25 @@ public class BundleWriter {
 	}
 
 	/**
+	 * Add objects to the bundle file.
+	 *
+	 * <p>
+	 * When this method is used, object traversal is disabled and specified pack
+	 * files are directly saved to the Git bundle file.
+	 *
+	 * <p>
+	 * Unlike {@link #include}, this doesn't affect the refs. Even if the
+	 * objects are not reachable from any ref, they will be included in the
+	 * bundle file.
+	 *
+	 * @param c
+	 *            pack to include
+	 */
+	public void addObjectsAsIs(Collection<? extends CachedPack> c) {
+		cachedPacks.addAll(c);
+	}
+
+	/**
 	 * Assume a commit is available on the recipient's side.
 	 * <p>
 	 * In order to fetch from a bundle the recipient must have any assumed
@@ -187,19 +212,24 @@ public class BundleWriter {
 		try (PackWriter packWriter = newPackWriter()) {
 			packWriter.setObjectCountCallback(callback);
 
-			final HashSet<ObjectId> inc = new HashSet<>();
-			final HashSet<ObjectId> exc = new HashSet<>();
-			inc.addAll(include.values());
-			for (RevCommit r : assume)
-				exc.add(r.getId());
 			packWriter.setIndexDisabled(true);
 			packWriter.setDeltaBaseAsOffset(true);
-			packWriter.setThin(!exc.isEmpty());
 			packWriter.setReuseValidatingObjects(false);
-			if (exc.isEmpty()) {
-				packWriter.setTagTargets(tagTargets);
+			if (cachedPacks.isEmpty()) {
+				HashSet<ObjectId> inc = new HashSet<>();
+				HashSet<ObjectId> exc = new HashSet<>();
+				inc.addAll(include.values());
+				for (RevCommit r : assume) {
+					exc.add(r.getId());
+				}
+				if (exc.isEmpty()) {
+					packWriter.setTagTargets(tagTargets);
+				}
+				packWriter.setThin(!exc.isEmpty());
+				packWriter.preparePack(monitor, inc, exc);
+			} else {
+				packWriter.preparePack(cachedPacks);
 			}
-			packWriter.preparePack(monitor, inc, exc);
 
 			final Writer w = new OutputStreamWriter(os, UTF_8);
 			w.write(TransportBundle.V2_BUNDLE_SIGNATURE);

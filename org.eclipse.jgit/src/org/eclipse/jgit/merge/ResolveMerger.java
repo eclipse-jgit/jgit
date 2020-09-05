@@ -588,7 +588,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		final int modeO = tw.getRawMode(T_OURS);
 		final int modeT = tw.getRawMode(T_THEIRS);
 		final int modeB = tw.getRawMode(T_BASE);
-
+		boolean gitLinkMerging = isGitLink(modeO) || isGitLink(modeT)
+				|| isGitLink(modeB);
 		if (modeO == 0 && modeT == 0 && modeB == 0)
 			// File is either untracked or new, staged but uncommitted
 			return true;
@@ -737,31 +738,28 @@ public class ResolveMerger extends ThreeWayMerger {
 				return false;
 			}
 
-			boolean gitlinkConflict = isGitLink(modeO) || isGitLink(modeT);
-			// Don't attempt to resolve submodule link conflicts
-			if (gitlinkConflict || !attributes.canBeContentMerged()) {
+			if (gitLinkMerging && ignoreConflicts) {
+				// Always select 'ours' in case of GITLINK merge failures so
+				// a caller can use virtual commit.
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
+				return true;
+			} else if (gitLinkMerging) {
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
+						base, ours, theirs);
+				result.setContainsConflicts(true);
+				mergeResults.put(tw.getPathString(), result);
+				unmergedPaths.add(tw.getPathString());
+				return true;
+			} else if (!attributes.canBeContentMerged()) {
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 
-				if (gitlinkConflict) {
-					MergeResult<SubmoduleConflict> result = new MergeResult<>(
-							Arrays.asList(
-									new SubmoduleConflict(base == null ? null
-											: base.getEntryObjectId()),
-									new SubmoduleConflict(ours == null ? null
-											: ours.getEntryObjectId()),
-									new SubmoduleConflict(theirs == null ? null
-											: theirs.getEntryObjectId())));
-					result.setContainsConflicts(true);
-					mergeResults.put(tw.getPathString(), result);
-					if (!ignoreConflicts) {
-						unmergedPaths.add(tw.getPathString());
-					}
-				} else {
-					// attribute merge issues are conflicts but not failures
-					unmergedPaths.add(tw.getPathString());
-				}
+				// attribute merge issues are conflicts but not failures
+				unmergedPaths.add(tw.getPathString());
 				return true;
 			}
 
@@ -786,43 +784,71 @@ public class ResolveMerger extends ThreeWayMerger {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
 					.idEqual(T_BASE, T_THEIRS)))) {
-				MergeResult<RawText> result = contentMerge(base, ours, theirs,
-						attributes);
-
-				if (ignoreConflicts) {
-					// In case a conflict is detected the working tree file is
-					// again filled with new content (containing conflict
-					// markers). But also stage 0 of the index is filled with
-					// that content.
-					result.setContainsConflicts(false);
-					updateIndex(base, ours, theirs, result, attributes);
-				} else {
+				if (gitLinkMerging && ignoreConflicts) {
+					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
+				} else if (gitLinkMerging) {
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-					DirCacheEntry e = add(tw.getRawPath(), theirs,
-							DirCacheEntry.STAGE_3, EPOCH, 0);
+					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
+							base, ours, theirs);
+					result.setContainsConflicts(true);
+					mergeResults.put(tw.getPathString(), result);
+					unmergedPaths.add(tw.getPathString());
+				} else {
+					MergeResult<RawText> result = contentMerge(base, ours,
+							theirs, attributes);
 
-					// OURS was deleted checkout THEIRS
-					if (modeO == 0) {
-						// Check worktree before checking out THEIRS
-						if (isWorktreeDirty(work, ourDce)) {
-							return false;
-						}
-						if (nonTree(modeT)) {
-							if (e != null) {
-								addToCheckout(tw.getPathString(), e, attributes);
+					if (ignoreConflicts) {
+						// In case a conflict is detected the working tree file
+						// is again filled with new content (containing conflict
+						// markers). But also stage 0 of the index is filled
+						// with that content.
+						result.setContainsConflicts(false);
+						updateIndex(base, ours, theirs, result, attributes);
+					} else {
+						add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH,
+								0);
+						add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH,
+								0);
+						DirCacheEntry e = add(tw.getRawPath(), theirs,
+								DirCacheEntry.STAGE_3, EPOCH, 0);
+
+						// OURS was deleted checkout THEIRS
+						if (modeO == 0) {
+							// Check worktree before checking out THEIRS
+							if (isWorktreeDirty(work, ourDce)) {
+								return false;
+							}
+							if (nonTree(modeT)) {
+								if (e != null) {
+									addToCheckout(tw.getPathString(), e,
+											attributes);
+								}
 							}
 						}
+
+						unmergedPaths.add(tw.getPathString());
+
+						// generate a MergeResult for the deleted file
+						mergeResults.put(tw.getPathString(), result);
 					}
-
-					unmergedPaths.add(tw.getPathString());
-
-					// generate a MergeResult for the deleted file
-					mergeResults.put(tw.getPathString(), result);
 				}
 			}
 		}
 		return true;
+	}
+
+	private static MergeResult<SubmoduleConflict> createGitLinksMergeResult(
+			CanonicalTreeParser base, CanonicalTreeParser ours,
+			CanonicalTreeParser theirs) {
+		return new MergeResult<>(Arrays.asList(
+				new SubmoduleConflict(
+						base == null ? null : base.getEntryObjectId()),
+				new SubmoduleConflict(
+						ours == null ? null : ours.getEntryObjectId()),
+				new SubmoduleConflict(
+						theirs == null ? null : theirs.getEntryObjectId())));
 	}
 
 	/**
