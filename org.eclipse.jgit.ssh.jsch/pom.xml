@@ -123,7 +123,6 @@
         </configuration>
       </plugin>
 
-      <!-- No previous version to compare to
       <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
@@ -165,13 +164,11 @@
           </execution>
         </executions>
       </plugin>
-      -->
     </plugins>
   </build>
 
   <reporting>
     <plugins>
-      <!-- No previous version to compare to
       <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
@@ -212,7 +209,6 @@
               <skip>false</skip>
           </configuration>
       </plugin>
-      -->
     </plugins>
   </reporting>
 </project>
