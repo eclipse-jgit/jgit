@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42b0465e_e644b216",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-09-07T22:08:13Z",
+      "side": 1,
+      "message": "That\u0027s a breaking API change. I guess this needs to become a new method with an @since 5.10, while the old one should be deprecated? Or is throwing new exceptions acceptable for an api filter in this case? (Off-hand, I don\u0027t see a good alternate name for the new method...)",
+      "range": {
+        "startLine": 663,
+        "startChar": 31,
+        "endLine": 663,
+        "endChar": 73
+      },
+      "revId": "60c257af228fd93923f25720e2428394efc6fe4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
