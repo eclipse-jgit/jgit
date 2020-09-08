@@ -45,6 +45,138 @@
       "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4ccfbf_117c36e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackedObjectInfo.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "sizeBeforeInflating like in UnresolvedDelta ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 18
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6fa71d5_1ab282f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "5.10, I just tagged 5.9",
+      "range": {
+        "startLine": 52,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0897c307_ae9fd227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "5.10",
+      "range": {
+        "startLine": 118,
+        "startChar": 11,
+        "endLine": 118,
+        "endChar": 14
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6965dee6_6ea132ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "5.10",
+      "range": {
+        "startLine": 191,
+        "startChar": 12,
+        "endLine": 191,
+        "endChar": 15
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b62d8f01_3a32acc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "- use the same verb \"increment\" like in line 243 ?\n- it seems this method doesn\u0027t need to be public since callers are in the same package",
+      "range": {
+        "startLine": 193,
+        "startChar": 17,
+        "endLine": 193,
+        "endChar": 25
+      },
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d6bfb3_29cd268a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-08T17:47:20Z",
+      "side": 1,
+      "message": "it seems this method doesn\u0027t need to be public since callers are in the same package",
+      "revId": "d6e454994119e9e6095617896c04e4135379f4a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
