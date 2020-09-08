@@ -11,8 +11,40 @@
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
-| `core.bigFileThreshold` | `52428800` (50 MiB) | &#x2705; | Maximum file size that will be delta compressed. Files larger than this size are stored deflated, without attempting delta compression. |
-| `core.compression` | `-1` (default compression) | &#x2705; | An integer -1..9, indicating a default compression level. -1 is the zlib default. 0 means no compression, and 1..9 are various speed/size tradeoffs, 9 being slowest.|
+| `core.attributesFile` | | &#x2705; | In addition to `.gitattributes` (per-directory) and `.git/info/attributes`, Git looks into this file for attributes . Path expansions are made the same way as for `core.excludesFile`. |
+| `core.autocrlf` | `false` | &#x2705; | Setting this variable to `true` is the same as setting the text attribute to `auto` on all files and `core.eol` to `crlf`. Set to `true` if you want to have CRLF line endings in your working directory and the repository has LF line endings. This variable can be set to `input`, in which case no output conversion is performed. |
+| `core.bare` | set automatically on init or clone | &#x2705; | If true this repository is assumed to be bare and has no working directory associated with it. If this is the case a number of commands that require a working directory will be disabled |
+| `core.bigFileThreshold` | `50 MiB` | &#x2705; | Files larger than this size are stored deflated, without attempting delta compression. Storing large files without delta compression avoids excessive memory usage, at the slight expense of increased disk usage. Additionally files larger than this size are always treated as binary. |
+| `core.checkstat` |  | &#x2705; | When missing or is set to `default`, many fields in the stat structure are checked to detect if a file has been modified since Git looked at it. Checks as much of the dircache stat info as possible (in JGit limited by Java filesystem API). When set to `minimum` only checks the size and whole second part of time stamp when comparing the stat info in the dircache with actual file stat info. |
+| `core.compression` | `-1` (zlib default) | &#x2705; | An integer `-1..9`, indicating a default compression level. `-1` is the zlib default. `0` means no compression, and `1..9` are various speed/size tradeoffs, `9` being slowest.|
+| `core.deltaBaseCacheLimit` | `10 MiB` | &#x2705; | Maximum number of bytes to reserve for caching base objects that multiple deltafied objects reference. By storing the entire decompressed base object in a cache Git is able to avoid unpacking and decompressing frequently used base objects multiple times. |
+| `core.dfs.blockLimit` | `30 MiB` | &#x20DE; | Maximum number bytes of heap memory to dedicate to caching pack file data in DFS block cache. |
+| `core.dfs.blockSize` | `64 kiB` | &#x20DE; | Size in bytes of a single window read in from the pack file into the DFS block cache. |
+| `core.dfs.concurrencyLevel` | `32` | &#x20DE; | The estimated number of threads concurrently accessing the DFS block cache. |
+| `core.dfs.deltaBaseCacheLimit` | `10 MiB` | &#x20DE; | Maximum number of bytes to hold in per-reader DFS delta base cache. |
+| `core.dfs.streamFileThreshold` | `50 MiB` | &#x20DE; | The size threshold beyond which objects must be streamed. |
+| `core.dfs.streamBuffer` | Block size of the pack | &#x20DE; | Number of bytes to use for buffering when streaming a pack file during copying. If 0 the block size of the pack is used|
+| `core.dfs.streamRatio` | `0.30` | &#x20DE; | Ratio of DFS block cache to occupy with a copied pack. Values between `0` and `1.0`. |
+| `core.dirNoGitLinks` | `false` | &#x20DE; | If set to `true` avoid checking for submodules. See [bug 436200](https://bugs.eclipse.org/bugs/show_bug.cgi?id=436200). |
+| `core.eol` | `native` | &#x2705; | Sets the line ending type to use in the working directory for files that are marked as text (either by having the text attribute set, or by having `text=auto` and Git auto-detecting the contents as text). Alternatives are `lf`, `crlf` and `native`, which uses the platform’s native line ending. |
+| `core.excludesFile` | | &#x2705; | Specifies the pathname to the file that contains patterns to describe paths that are not meant to be tracked, in addition to `.gitignore` (per-directory) and `.git/info/exclude`. |
+| `core.fileMode` | Auto detects if file modes are supported | &#x2705; | Tells Git if the executable bit of files in the working tree is to be honored. |
+| `core.hideDotFiles` | `dotGitOnly` | &#x2705; | Windows only. If `true`, mark newly-created directories and files whose name starts with a dot as hidden. If `dotGitOnly`, only the `.git/` directory is hidden, but no other files starting with a dot. |
+| `core.hooksPath` | `$GIT_DIR/hooks` | &#x2705; | Path to look for hooks. |
+| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | &#x2705; | Enable the reflog. |
+| `core.packedGitLimit` | `10 MiB` | &#x2705; | Maximum number of bytes to cache in memory from pack files. |
+| `core.packedGitMmap` | `false` | &#x2705; | Whether to use Java NIO virtual memory mapping for JGit buffer cache. When set to `true` enables use of Java NIO virtual memory mapping for cache windows, `false` reads entire window into a `byte[]` with standard read calls. `true` is experimental and may cause instabilities and crashes since Java doesn't support explicit unmapping of file regions mapped to virtual memory. |
+| `core.packedGitOpenFiles` | `128` | &#x20DE; | Maximum number of streams to open at a time. Open packs count against the process limits. |
+| `core.packedGitUseStrongRefs` | `false` | &#x20DE; | Whether the window cache should use strong references (`true`) or SoftReferences (`false`). When `false` the JVM will drop data cached in the JGit block cache when heap usage comes close to the maximum heap size. |
+| `core.packedGitWindowSize` | `8 kiB` | &#x2705; | Number of bytes of a pack file to load into memory in a single read operation. This is the "page size" of the JGit buffer cache, used for all pack access operations. All disk IO occurs as single window reads. Setting this too large may cause the process to load more data than is required; setting this too small may increase the frequency of read() system calls. |
+| `core.precomposeUnicode` | `true` on Mac OS | &#x2705; | MacOS only. When `true`, JGit reverts the unicode decomposition of filenames done by Mac OS. |
+| `core.quotePath` | `true` | &#x2705; | Commands that output paths (e.g. ls-files, diff), will quote "unusual" characters in the pathname by enclosing the pathname in double-quotes and escaping those characters with backslashes in the same way C escapes control characters (e.g. `\t` for TAB, `\n` for LF, `\\` for backslash) or bytes with values larger than `0x80` (e.g. octal `\302\265` for "micro" in UTF-8). |
+| `core.repositoryFormatVersion` | `1` | &#x20DE; | Internal version identifying the repository format and layout version. Don't set manually. |
+| `core.streamFileThreshold` | `50 MiB` | &#x20DE; | The size threshold beyond which objects must be streamed. |
+| `core.supportsAtomicFileCreation` | `true` | &#x20DE; | Whether the filesystem supports atomic file creation. |
+| `core.symlinks` | Auto detect if filesystem supports symlinks| &#x2705; | If false, symbolic links are checked out as small plain files that contain the link text. |
+| `core.trustFolderStat` | `true` | &#x20DE; | Whether to trust the pack folder's modification time. If `false` JGit will always scan the `.git/objects/pack` folder to check for new pack files. This can help to workaround caching issues on NFS, but reduces performance. If set to `true` it uses the `lastmodified` attribute of the folder and assumes that no new pack files can be in this folder if its modification time has not changed. |
+| `core.worktree` | Root directory of the working tree if it is not the parent directory of the `.git` directory | &#x2705; | The path to the root of the working tree. |
 
 ## __gc__ options
 
