@@ -169,6 +169,7 @@ public class BundleWriter {
 	 *
 	 * @param c
 	 *            pack to include
+	 * @since 5.9
 	 */
 	public void addObjectsAsIs(Collection<? extends CachedPack> c) {
 		cachedPacks.addAll(c);

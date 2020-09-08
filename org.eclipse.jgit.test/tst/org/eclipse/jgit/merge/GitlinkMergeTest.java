@@ -151,7 +151,7 @@ public class GitlinkMergeTest extends SampleDataRepositoryTestCase {
 		ObjectId t = commit(ow, treeT, new ObjectId[] { b });
 
 		boolean merge = merger.merge(new ObjectId[] { o, t });
-		assertEquals(shouldMerge, merge);
+		assertEquals(Boolean.valueOf(shouldMerge), Boolean.valueOf(merge));
 
 		return merger;
 	}
