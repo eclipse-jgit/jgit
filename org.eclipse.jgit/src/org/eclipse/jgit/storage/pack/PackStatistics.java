@@ -266,6 +266,9 @@ public class PackStatistics {
 		/** Time in ms spent writing the pack. */
 		public long timeWriting;
 
+		/** Time in ms spent checking reachability. */
+		public long reachabilityCheckDuration;
+
 		/** Number of trees traversed in the walk when writing the pack.
 		 * @since 5.4*/
 		public long treesTraversed;
@@ -601,6 +604,17 @@ public class PackStatistics {
 	 */
 	public long getTimeWriting() {
 		return statistics.timeWriting;
+	}
+
+	/**
+	 * Get time in milliseconds spent checking if the client has access to the
+	 * commits they are requesting or to the files using Gitiles.
+	 *
+	 * @return time in milliseconds spent checking if the client has access to the
+	 * commits they are requesting or to the files they try to access using Gitiles.
+	 */
+	public long getReachabilityCheckDuration() {
+		return statistics.reachabilityCheckDuration;
 	}
 
 	/**
