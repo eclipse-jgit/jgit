@@ -2373,7 +2373,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testReachabilityCheckDurationV2FetchThinPack() throws Exception {
+	public void testTimeNegotiatingV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2394,11 +2394,11 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("packfile"));
 
-		assertTrue(stats.getTimeNegotiating() >= 0);
+		assertTrue(stats.getTimeNegotiating() > 0);
 	}
 
 	@Test
-	public void testTimeNegotiationV2FetchRequestPolicyReachableCommit() throws Exception {
+	public void testTimeNegotiatingV2FetchRequestPolicyReachableCommit() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2417,7 +2417,7 @@ public class UploadPackTest {
 				"want " + parent.toObjectId().getName() + "\n", "thin-pack\n",
 				"done\n", PacketLineIn.end());
 
-		assertTrue(stats.getTimeNegotiating() >= 0);
+		assertTrue(stats.getTimeNegotiating() > 0);
 	}
 
 	private class RefCallsCountingRepository extends InMemoryRepository {
