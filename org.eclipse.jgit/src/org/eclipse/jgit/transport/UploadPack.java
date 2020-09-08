@@ -1256,6 +1256,7 @@ public class UploadPack {
 		} else {
 			statAccumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
+
 			// Invoke pckOut.end() by ourselves.
 			pckOut.end();
 		}

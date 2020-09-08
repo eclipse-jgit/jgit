@@ -2373,7 +2373,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testReachabilityCheckDurationV2FetchThinPack() throws Exception {
+	public void testTimeNegotiatingV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2398,7 +2398,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testTimeNegotiationV2FetchRequestPolicyReachableCommit() throws Exception {
+	public void testTimeNegotiatingV2FetchRequestPolicyReachableCommit() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
